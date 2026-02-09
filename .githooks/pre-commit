@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+FORMAT_CONFIG="$REPO_ROOT/.swift-format"
+MAX_FILE_BYTES=$((5 * 1024 * 1024))
+failed=0
+
+while IFS= read -r -d '' path; do
+  case "$path" in
+    .DS_Store|*/.DS_Store|*.xcuserstate|*/xcuserdata/*|*/.build/*|*/.swiftpm/*|.build/*|.swiftpm/*)
+      echo "Blocked commit: remove generated/local file from index -> $path"
+      failed=1
+      ;;
+  esac
+done < <(git diff --cached --name-only -z)
+
+while IFS= read -r -d '' path; do
+  if [[ -f "$path" ]]; then
+    size_bytes=$(wc -c < "$path")
+    if (( size_bytes > MAX_FILE_BYTES )); then
+      echo "Blocked commit: '$path' is ${size_bytes} bytes (> ${MAX_FILE_BYTES})."
+      echo "Keep large binaries out of git to protect the WWDC size budget."
+      failed=1
+    fi
+  fi
+done < <(git diff --cached --name-only --diff-filter=AM -z)
+
+if swift format --help >/dev/null 2>&1; then
+  swift_files=()
+  while IFS= read -r -d '' path; do
+    swift_files+=("$path")
+  done < <(git diff --cached --name-only --diff-filter=AM -z -- '*.swift')
+
+  if (( ${#swift_files[@]} > 0 )); then
+    swift format --in-place --configuration "$FORMAT_CONFIG" "${swift_files[@]}"
+    git add -- "${swift_files[@]}"
+
+    if ! swift format lint --strict --configuration "$FORMAT_CONFIG" "${swift_files[@]}"; then
+      echo "Blocked commit: Swift formatting/lint violations detected."
+      echo "Run: swift format --in-place --configuration \"$FORMAT_CONFIG\" <files>"
+      failed=1
+    fi
+  fi
+else
+  echo "Warning: 'swift format' not available; skipping Swift format check."
+fi
+
+if (( failed )); then
+  echo "pre-commit failed. Update .gitignore or unstage local/build files, then retry."
+  exit 1
+fi

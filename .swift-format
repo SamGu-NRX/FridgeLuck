@@ -1,0 +1,11 @@
+{
+  "version" : 1,
+  "indentation" : {
+    "spaces" : 2
+  },
+  "lineLength" : 100,
+  "maximumBlankLines" : 1,
+  "respectsExistingLineBreaks" : true,
+  "spacesBeforeEndOfLineComments" : 2,
+  "tabWidth" : 8
+}
