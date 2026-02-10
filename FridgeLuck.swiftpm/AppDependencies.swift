@@ -59,4 +59,12 @@ final class AppDependencies: ObservableObject {
       recipeRepository: recipeRepository
     )
   }
+
+  func makeRecommendationEngine() -> RecommendationEngine {
+    RecommendationEngine(
+      recipeRepository: recipeRepository,
+      healthScoringService: healthScoringService,
+      recipeGenerator: recipeGenerator
+    )
+  }
 }

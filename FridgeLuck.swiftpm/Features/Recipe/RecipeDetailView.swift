@@ -7,6 +7,7 @@ struct RecipeDetailView: View {
 
   @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
   @State private var showCookedConfirmation = false
+  @State private var selectedIngredientForDetail: Ingredient?
 
   private var recipe: Recipe { scoredRecipe.recipe }
   private var macros: RecipeMacros { scoredRecipe.macros }
@@ -33,6 +34,9 @@ struct RecipeDetailView: View {
     }
     .task {
       await loadIngredients()
+    }
+    .sheet(item: $selectedIngredientForDetail) { ingredient in
+      IngredientDetailSheet(ingredient: ingredient)
     }
   }
 
@@ -205,17 +209,22 @@ struct RecipeDetailView: View {
   private func ingredientRow(_ ingredient: Ingredient, quantity: RecipeIngredient, isRequired: Bool)
     -> some View
   {
-    HStack {
-      Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
-        .foregroundStyle(isRequired ? .green : .secondary)
-        .font(.caption)
-      Text(ingredient.name.replacingOccurrences(of: "_", with: " ").capitalized)
-      Spacer()
-      Text(quantity.displayQuantity)
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
+    Button {
+      selectedIngredientForDetail = ingredient
+    } label: {
+      HStack {
+        Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
+          .foregroundStyle(isRequired ? .green : .secondary)
+          .font(.caption)
+        Text(ingredient.name.replacingOccurrences(of: "_", with: " ").capitalized)
+        Spacer()
+        Text(quantity.displayQuantity)
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+      }
+      .padding(.vertical, 2)
     }
-    .padding(.vertical, 2)
+    .buttonStyle(.plain)
   }
 
   // MARK: - Instructions

@@ -13,6 +13,8 @@ struct Ingredient: Identifiable, Sendable, Codable {
   var sodium: Double  // grams per 100g
   var typicalUnit: String?  // e.g. "1 large (50g)"
   var storageTip: String?
+  var pairsWith: String?
+  var notes: String?
 }
 
 extension Ingredient: FetchableRecord, PersistableRecord, TableRecord {
@@ -23,5 +25,7 @@ extension Ingredient: FetchableRecord, PersistableRecord, TableRecord {
     case fiber, sugar, sodium
     case typicalUnit = "typical_unit"
     case storageTip = "storage_tip"
+    case pairsWith = "pairs_with"
+    case notes
   }
 }

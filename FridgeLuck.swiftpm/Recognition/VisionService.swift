@@ -31,6 +31,12 @@ final class VisionService: Sendable {
     let ocrText: [String]
   }
 
+  private struct ResolvedClassification {
+    let ingredientId: Int64
+    let confidence: Float
+    let originalLabel: String
+  }
+
   init(learningService: LearningService) {
     self.learningService = learningService
   }
@@ -67,31 +73,73 @@ final class VisionService: Sendable {
     }
 
     var detections: [Detection] = []
+    var resolvedClassifications: [ResolvedClassification] = []
 
-    // Process classifications: filter to food-related labels
+    // Process classifications: filter to food-related labels and keep alternatives context.
     for obs in classifications where obs.confidence > 0.1 {
       let originalLabel = obs.identifier
-
-      // 1. Check user corrections (highest priority — continual learning)
-      var resolvedId: Int64?
-      if let correctedId = learningService.correctedIngredientId(for: originalLabel) {
-        resolvedId = correctedId
-      }
-
-      // 2. Fall back to lexicon normalization
+      var resolvedId = learningService.correctedIngredientId(for: originalLabel)
       if resolvedId == nil {
         resolvedId = IngredientLexicon.resolve(originalLabel)
       }
-
       guard let ingredientId = resolvedId else { continue }
+      resolvedClassifications.append(
+        ResolvedClassification(
+          ingredientId: ingredientId,
+          confidence: obs.confidence,
+          originalLabel: originalLabel
+        )
+      )
+    }
+
+    // Keep one best detection per ingredient from classification.
+    var bestByIngredient: [Int64: ResolvedClassification] = [:]
+    for candidate in resolvedClassifications {
+      guard
+        let existing = bestByIngredient[candidate.ingredientId]
+      else {
+        bestByIngredient[candidate.ingredientId] = candidate
+        continue
+      }
+      if candidate.confidence > existing.confidence {
+        bestByIngredient[candidate.ingredientId] = candidate
+      }
+    }
+
+    let topResolved = resolvedClassifications.sorted { $0.confidence > $1.confidence }
+
+    // Build classification detections with top alternatives + learned suggestion.
+    for best in bestByIngredient.values {
+      var alternativeIds: [Int64] = []
+      if let suggested = learningService.suggestedCorrection(for: best.originalLabel),
+        suggested != best.ingredientId
+      {
+        alternativeIds.append(suggested)
+      }
+
+      for candidate in topResolved where candidate.ingredientId != best.ingredientId {
+        if !alternativeIds.contains(candidate.ingredientId) {
+          alternativeIds.append(candidate.ingredientId)
+        }
+        if alternativeIds.count >= 3 { break }
+      }
+
+      let alternatives = alternativeIds.map {
+        DetectionAlternative(
+          ingredientId: $0,
+          label: IngredientLexicon.displayName(for: $0),
+          confidence: nil
+        )
+      }
 
       detections.append(
         Detection(
-          ingredientId: ingredientId,
-          label: IngredientLexicon.displayName(for: ingredientId),
-          confidence: obs.confidence,
+          ingredientId: best.ingredientId,
+          label: IngredientLexicon.displayName(for: best.ingredientId),
+          confidence: best.confidence,
           source: .vision,
-          originalVisionLabel: originalLabel
+          originalVisionLabel: best.originalLabel,
+          alternatives: alternatives
         ))
     }
 
@@ -110,7 +158,8 @@ final class VisionService: Sendable {
             label: IngredientLexicon.displayName(for: ingredientId),
             confidence: 0.85,
             source: .ocr,
-            originalVisionLabel: text
+            originalVisionLabel: text,
+            alternatives: []
           ))
       }
     }

@@ -193,7 +193,9 @@ final class RecipeRepository: Sendable {
           sugar: row["sugar"],
           sodium: row["sodium"],
           typicalUnit: row["typical_unit"],
-          storageTip: row["storage_tip"]
+          storageTip: row["storage_tip"],
+          pairsWith: row["pairs_with"],
+          notes: row["notes"]
         )
         let ri = RecipeIngredient(
           recipeId: row["recipe_id"],

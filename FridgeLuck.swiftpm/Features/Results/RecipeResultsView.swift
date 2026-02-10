@@ -2,23 +2,24 @@ import SwiftUI
 
 /// Shows recipe recommendations based on the user's available ingredients.
 struct RecipeResultsView: View {
-  @EnvironmentObject var deps: AppDependencies
   let ingredientIds: Set<Int64>
 
-  @State private var scoredRecipes: [ScoredRecipe] = []
-  @State private var quickPick: ScoredRecipe?
-  @State private var isLoading = true
-  @State private var errorMessage: String?
+  @StateObject private var engine: RecommendationEngine
+
+  init(ingredientIds: Set<Int64>, engine: RecommendationEngine) {
+    self.ingredientIds = ingredientIds
+    _engine = StateObject(wrappedValue: engine)
+  }
 
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 20) {
-        if isLoading {
+        if engine.isLoading {
           loadingView
-        } else if scoredRecipes.isEmpty {
+        } else if engine.recommendations.isEmpty {
           emptyView
         } else {
-          if let pick = quickPick {
+          if let pick = engine.quickSuggestion {
             quickPickSection(pick)
           }
           allResultsSection
@@ -29,7 +30,7 @@ struct RecipeResultsView: View {
     .navigationTitle("Recipes")
     .navigationBarTitleDisplayMode(.large)
     .task {
-      await loadRecipes()
+      await engine.findRecipes(for: ingredientIds)
     }
   }
 
@@ -58,10 +59,17 @@ struct RecipeResultsView: View {
         .foregroundStyle(.secondary)
       Text("No recipes found")
         .font(.title3.bold())
-      Text("Try adding more ingredients\nor scan another photo.")
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
+      if let error = engine.error {
+        Text(error.localizedDescription)
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+          .multilineTextAlignment(.center)
+      } else {
+        Text("Try adding more ingredients\nor scan another photo.")
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+          .multilineTextAlignment(.center)
+      }
       Spacer()
     }
     .frame(maxWidth: .infinity)
@@ -86,37 +94,16 @@ struct RecipeResultsView: View {
 
   private var allResultsSection: some View {
     VStack(alignment: .leading, spacing: 12) {
-      Text("All Matches (\(scoredRecipes.count))")
+      Text("All Matches (\(engine.recommendations.count))")
         .font(.headline)
 
-      ForEach(scoredRecipes, id: \.recipe.id) { scored in
+      ForEach(engine.recommendations, id: \.recipe.id) { scored in
         NavigationLink(destination: RecipeDetailView(scoredRecipe: scored)) {
           RecipeCard(scoredRecipe: scored, isHighlighted: false)
         }
         .buttonStyle(.plain)
       }
     }
-  }
-
-  // MARK: - Data Loading
-
-  private func loadRecipes() async {
-    isLoading = true
-    do {
-      let profile = try deps.healthScoringService.fetchHealthProfile()
-      scoredRecipes = try deps.recipeRepository.findMakeable(
-        with: ingredientIds,
-        profile: profile,
-        limit: 20
-      )
-      quickPick = try deps.recipeRepository.quickSuggestion(
-        with: ingredientIds,
-        profile: profile
-      )
-    } catch {
-      errorMessage = error.localizedDescription
-    }
-    isLoading = false
   }
 }
 

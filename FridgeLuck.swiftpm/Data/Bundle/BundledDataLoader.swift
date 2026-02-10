@@ -22,6 +22,8 @@ private struct IngredientArray: Decodable {
   let sodium: Double
   let typicalUnit: String
   let storageTip: String
+  let pairsWith: String?
+  let notes: String?
 
   init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
@@ -35,6 +37,8 @@ private struct IngredientArray: Decodable {
     sodium = try container.decode(Double.self)
     typicalUnit = try container.decode(String.self)
     storageTip = try container.decode(String.self)
+    pairsWith = try? container.decode(String.self)
+    notes = try? container.decode(String.self)
   }
 }
 

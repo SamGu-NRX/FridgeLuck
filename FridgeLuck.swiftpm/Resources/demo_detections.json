@@ -1,0 +1,78 @@
+[
+  {
+    "ingredientId": 1,
+    "label": "Egg",
+    "confidence": 0.92,
+    "source": "vision",
+    "originalVisionLabel": "egg",
+    "alternatives": [
+      { "ingredientId": 13, "label": "Milk" },
+      { "ingredientId": 12, "label": "Cheese" }
+    ]
+  },
+  {
+    "ingredientId": 2,
+    "label": "Rice",
+    "confidence": 0.88,
+    "source": "vision",
+    "originalVisionLabel": "rice",
+    "alternatives": [
+      { "ingredientId": 9, "label": "Pasta" },
+      { "ingredientId": 31, "label": "Oats" }
+    ]
+  },
+  {
+    "ingredientId": 3,
+    "label": "Soy Sauce",
+    "confidence": 0.85,
+    "source": "ocr",
+    "originalVisionLabel": "soy sauce"
+  },
+  {
+    "ingredientId": 4,
+    "label": "Chicken Breast",
+    "confidence": 0.58,
+    "source": "vision",
+    "originalVisionLabel": "chicken",
+    "alternatives": [
+      { "ingredientId": 23, "label": "Tofu" },
+      { "ingredientId": 38, "label": "Ground Beef" }
+    ]
+  },
+  {
+    "ingredientId": 5,
+    "label": "Onion",
+    "confidence": 0.95,
+    "source": "vision",
+    "originalVisionLabel": "onion"
+  },
+  {
+    "ingredientId": 6,
+    "label": "Garlic",
+    "confidence": 0.55,
+    "source": "vision",
+    "originalVisionLabel": "garlic",
+    "alternatives": [
+      { "ingredientId": 21, "label": "Green Onion" },
+      { "ingredientId": 30, "label": "Ginger" }
+    ]
+  },
+  {
+    "ingredientId": 8,
+    "label": "Bell Pepper",
+    "confidence": 0.42,
+    "source": "vision",
+    "originalVisionLabel": "bell_pepper",
+    "alternatives": [
+      { "ingredientId": 7, "label": "Tomato" },
+      { "ingredientId": 11, "label": "Carrot" }
+    ]
+  },
+  {
+    "ingredientId": 21,
+    "label": "Green Onion",
+    "confidence": 0.30,
+    "source": "vision",
+    "originalVisionLabel": "chives"
+  }
+]
