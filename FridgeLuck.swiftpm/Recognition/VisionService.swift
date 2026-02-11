@@ -207,6 +207,12 @@ final class VisionService: Sendable {
     try await Task.detached(priority: .userInitiated) {
       let request = VNRecognizeTextRequest()
       request.recognitionLevel = .accurate
+      request.usesLanguageCorrection = true
+      request.recognitionLanguages = ["en-US"]
+      request.customWords = [
+        "Calories", "Serving Size", "Servings per container", "kcal",
+      ]
+      request.minimumTextHeight = 0.01
       let handler = VNImageRequestHandler(cgImage: image, options: [:])
       try handler.perform([request])
 
