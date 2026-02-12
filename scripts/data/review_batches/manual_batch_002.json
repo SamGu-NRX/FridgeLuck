@@ -1,0 +1,356 @@
+{
+  "batch_id": 2,
+  "batch_size": 10,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cauliflower",
+          "raw cauliflower",
+          "fresh cauliflower",
+          "cauliflower florets",
+          "whole cauliflower"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw cauliflower is a cruciferous vegetable used for roasting, steaming, stir-fries, and raw salads. This USDA row reflects raw cauliflower values per 100 g.",
+        "display_name": "Cauliflower (Raw)",
+        "fdc_id": 169986,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 4.97,
+          "fat_g": 0.28,
+          "fiber_g": 2.0,
+          "protein_g": 1.92,
+          "sodium_g": 0.03,
+          "sugar_g": 1.91
+        },
+        "source_description": "Cauliflower, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "celeriac",
+          "celery root",
+          "raw celeriac",
+          "celery-root bulb",
+          "knob celery"
+        ],
+        "category_label": "vegetable",
+        "description": "Celeriac (celery root) is a firm aromatic root vegetable used in mash, slaw, soups, and roasting. This USDA row reflects raw celeriac values per 100 g.",
+        "display_name": "Celeriac (Raw)",
+        "fdc_id": 170400,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 9.2,
+          "fat_g": 0.3,
+          "fiber_g": 1.8,
+          "protein_g": 1.5,
+          "sodium_g": 0.1,
+          "sugar_g": 1.6
+        },
+        "source_description": "Celeriac, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "celery",
+          "raw celery",
+          "celery stalks",
+          "fresh celery stalk",
+          "pascal celery"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw celery is a crunchy aromatic vegetable used in mirepoix, salads, snacks, and soups. This USDA row reflects raw celery values per 100 g.",
+        "display_name": "Celery (Raw)",
+        "fdc_id": 169988,
+        "macros": {
+          "calories": 14.0,
+          "carbs_g": 2.97,
+          "fat_g": 0.17,
+          "fiber_g": 1.6,
+          "protein_g": 0.69,
+          "sodium_g": 0.08,
+          "sugar_g": 1.34
+        },
+        "source_description": "Celery, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "celery"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "celtuce",
+          "stem lettuce",
+          "asparagus lettuce",
+          "raw celtuce",
+          "chinese stem lettuce"
+        ],
+        "category_label": "vegetable",
+        "description": "Celtuce is a stem lettuce vegetable used in stir-fries and lightly cooked preparations for its crisp texture. This USDA row reflects raw celtuce values per 100 g.",
+        "display_name": "Celtuce (Raw)",
+        "fdc_id": 169990,
+        "macros": {
+          "calories": 18.0,
+          "carbs_g": 3.65,
+          "fat_g": 0.3,
+          "fiber_g": 1.7,
+          "protein_g": 0.85,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Celtuce, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chives",
+          "raw chives",
+          "fresh chives",
+          "chive herb",
+          "chive leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw chives are a mild allium herb used for garnish, eggs, dips, and compound butters. This USDA row reflects raw chive values per 100 g.",
+        "display_name": "Chives (Raw)",
+        "fdc_id": 169994,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 4.35,
+          "fat_g": 0.73,
+          "fiber_g": 2.5,
+          "protein_g": 3.27,
+          "sodium_g": 0.003,
+          "sugar_g": 1.85
+        },
+        "source_description": "Chives, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "clementines",
+          "clementine",
+          "mandarin clementine",
+          "fresh clementines",
+          "seedless mandarin"
+        ],
+        "category_label": "fruit",
+        "description": "Clementines are sweet easy-peel citrus fruits used for snacks, salads, and juice. This USDA row reflects raw clementine values per 100 g.",
+        "display_name": "Clementines (Raw)",
+        "fdc_id": 168195,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 12.02,
+          "fat_g": 0.15,
+          "fiber_g": 1.7,
+          "protein_g": 0.85,
+          "sodium_g": 0.001,
+          "sugar_g": 9.18
+        },
+        "source_description": "Clementines, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "collard greens",
+          "collards",
+          "raw collards",
+          "fresh collard greens",
+          "collard leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw collards are hearty leafy greens commonly braised, sauteed, or added to soups and stews. This USDA row reflects raw collard values per 100 g.",
+        "display_name": "Collards (Raw)",
+        "fdc_id": 170406,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 5.42,
+          "fat_g": 0.61,
+          "fiber_g": 4.0,
+          "protein_g": 3.02,
+          "sodium_g": 0.017,
+          "sugar_g": 0.46
+        },
+        "source_description": "Collards, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cornsalad",
+          "mache",
+          "lambs lettuce",
+          "lamb lettuce",
+          "field salad greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Cornsalad (mache) is a tender salad green used in fresh salads and light vinaigrette dishes. This USDA row reflects raw cornsalad values per 100 g.",
+        "display_name": "Cornsalad (Raw)",
+        "fdc_id": 169219,
+        "macros": {
+          "calories": 21.0,
+          "carbs_g": 3.6,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 2.0,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cornsalad, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "couscous",
+          "cooked couscous",
+          "prepared couscous",
+          "hydrated couscous",
+          "couscous cooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked couscous is a hydrated semolina grain product used in side dishes, grain bowls, and salads. This USDA row reflects cooked couscous values per 100 g.",
+        "display_name": "Couscous (Cooked)",
+        "fdc_id": 169700,
+        "macros": {
+          "calories": 112.0,
+          "carbs_g": 23.22,
+          "fat_g": 0.16,
+          "fiber_g": 1.4,
+          "protein_g": 3.79,
+          "sodium_g": 0.005,
+          "sugar_g": 0.1
+        },
+        "source_description": "Couscous, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 002: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dock leaves",
+          "dock greens",
+          "raw dock",
+          "wild dock greens",
+          "dock herb greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Dock leaves are tangy wild greens used in soups, braised greens, and mixed vegetable dishes. This USDA row reflects raw dock leaf values per 100 g.",
+        "display_name": "Dock Leaves (Raw)",
+        "fdc_id": 170076,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 3.2,
+          "fat_g": 0.7,
+          "fiber_g": 2.9,
+          "protein_g": 2.0,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Dock, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

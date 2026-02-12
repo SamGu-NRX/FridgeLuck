@@ -1,0 +1,1756 @@
+{
+  "batch_id": 12,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rice noodles",
+          "dried rice noodles",
+          "rice vermicelli",
+          "rice sticks",
+          "asian rice noodles"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dried rice noodles are used in stir-fries, soups, and noodle salads after soaking or boiling. This USDA row reflects dry noodle values per 100 g.",
+        "display_name": "Rice Noodles (Dry)",
+        "fdc_id": 169742,
+        "macros": {
+          "calories": 364.0,
+          "carbs_g": 80.18,
+          "fat_g": 0.56,
+          "fiber_g": 1.6,
+          "protein_g": 5.95,
+          "sodium_g": 0.182,
+          "sugar_g": 0.12
+        },
+        "source_description": "Rice noodles, dry",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "rice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white rice cooked",
+          "cooked rice",
+          "steamed white rice",
+          "boiled white rice",
+          "plain cooked rice"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked white rice is a staple grain side used in bowls, stir-fries, and curries. This USDA row reflects cooked rice values per 100 g.",
+        "display_name": "White Rice (Cooked)",
+        "fdc_id": 168883,
+        "macros": {
+          "calories": 370.0,
+          "carbs_g": 81.68,
+          "fat_g": 0.55,
+          "fiber_g": 2.8,
+          "protein_g": 6.81,
+          "sodium_g": 0.007,
+          "sugar_g": 0.0
+        },
+        "source_description": "Rice, white, glutinous, unenriched, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "rice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white rice raw",
+          "uncooked white rice",
+          "long-grain white rice",
+          "dry white rice",
+          "rice uncooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw white rice is the dry pantry grain used before boiling or steaming. This USDA row reflects uncooked rice values per 100 g.",
+        "display_name": "White Rice (Raw)",
+        "fdc_id": 168877,
+        "macros": {
+          "calories": 365.0,
+          "carbs_g": 79.95,
+          "fat_g": 0.66,
+          "fiber_g": 1.3,
+          "protein_g": 7.13,
+          "sodium_g": 0.005,
+          "sugar_g": 0.12
+        },
+        "source_description": "Rice, white, long-grain, regular, raw, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "rice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned ripe olives",
+          "black olives canned",
+          "sliced ripe olives",
+          "table olives canned",
+          "pitted black olives"
+        ],
+        "category_label": "condiment",
+        "description": "Canned ripe olives are used in salads, pizzas, tapenades, and pasta dishes. This USDA row reflects drained canned olive values per 100 g.",
+        "display_name": "Ripe Olives (Canned)",
+        "fdc_id": 169094,
+        "macros": {
+          "calories": 116.0,
+          "carbs_g": 6.04,
+          "fat_g": 10.9,
+          "fiber_g": 1.6,
+          "protein_g": 0.84,
+          "sodium_g": 0.735,
+          "sugar_g": 0.0
+        },
+        "source_description": "Olives, ripe, canned (small-extra large)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "olive"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rose apple",
+          "wax apple",
+          "java apple",
+          "water apple",
+          "jambu fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Rose apple is a crisp tropical fruit eaten fresh and used in fruit salads. This USDA row reflects raw rose apple values per 100 g.",
+        "display_name": "Rose Apple (Raw)",
+        "fdc_id": 168171,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 5.7,
+          "fat_g": 0.3,
+          "fiber_g": 0.0,
+          "protein_g": 0.6,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Rose-apples, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dark rye flour",
+          "whole rye flour",
+          "rye meal dark",
+          "rye baking flour",
+          "rye flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dark rye flour is used in dense breads, crackers, and sourdough baking. This USDA row reflects flour values per 100 g.",
+        "display_name": "Rye Flour (Dark)",
+        "fdc_id": 168885,
+        "macros": {
+          "calories": 325.0,
+          "carbs_g": 68.63,
+          "fat_g": 2.22,
+          "fiber_g": 23.8,
+          "protein_g": 15.91,
+          "sodium_g": 0.002,
+          "sugar_g": 2.31
+        },
+        "source_description": "Rye flour, dark",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "light rye flour",
+          "white rye flour",
+          "refined rye flour",
+          "rye baking flour",
+          "rye flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Light rye flour is a milder rye flour used in breads, pancakes, and baked goods. This USDA row reflects flour values per 100 g.",
+        "display_name": "Rye Flour (Light)",
+        "fdc_id": 168887,
+        "macros": {
+          "calories": 357.0,
+          "carbs_g": 76.68,
+          "fat_g": 1.33,
+          "fiber_g": 8.0,
+          "protein_g": 9.82,
+          "sodium_g": 0.002,
+          "sugar_g": 0.93
+        },
+        "source_description": "Rye flour, light",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "medium rye flour",
+          "traditional rye flour",
+          "rye bread flour",
+          "rye baking flour",
+          "rye flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Medium rye flour is commonly used for sandwich rye bread and mixed-grain baking. This USDA row reflects flour values per 100 g.",
+        "display_name": "Rye Flour (Medium)",
+        "fdc_id": 168886,
+        "macros": {
+          "calories": 349.0,
+          "carbs_g": 75.43,
+          "fat_g": 1.52,
+          "fiber_g": 11.8,
+          "protein_g": 10.88,
+          "sodium_g": 0.002,
+          "sugar_g": 1.1
+        },
+        "source_description": "Rye flour, medium",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "safflower oil",
+          "high-linoleic safflower oil",
+          "neutral cooking oil",
+          "salad oil",
+          "cooking safflower oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "High-linoleic safflower oil is a neutral oil used for sauteing, baking, and dressings. This USDA row reflects oil values per 100 g.",
+        "display_name": "Safflower Oil (High-Linoleic)",
+        "fdc_id": 171026,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, safflower, salad or cooking, linoleic, (over 70%)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bacon tomato dressing",
+          "bacon dressing",
+          "tomato dressing",
+          "creamy bacon tomato dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Bacon And Tomato dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Bacon And Tomato Dressing",
+        "fdc_id": 167704,
+        "macros": {
+          "calories": 326.0,
+          "carbs_g": 2.0,
+          "fat_g": 35.0,
+          "fiber_g": 0.2,
+          "protein_g": 1.8,
+          "sodium_g": 0.905,
+          "sugar_g": 2.0
+        },
+        "source_description": "Salad dressing, bacon and tomato",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "blue cheese dressing",
+          "roquefort dressing",
+          "blue cheese salad dressing",
+          "creamy blue cheese dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Blue Or Roquefort Cheese dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Blue Or Roquefort Cheese Dressing",
+        "fdc_id": 169876,
+        "macros": {
+          "calories": 99.0,
+          "carbs_g": 2.9,
+          "fat_g": 7.2,
+          "fiber_g": 0.0,
+          "protein_g": 5.1,
+          "sodium_g": 0.939,
+          "sugar_g": 2.82
+        },
+        "source_description": "Salad dressing, blue or roquefort cheese, low calorie",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "blue cheese dressing",
+          "roquefort cheese dressing",
+          "chunky blue cheese dressing",
+          "blue cheese salad dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Blue Or Roquefort Cheese Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Blue Or Roquefort Cheese Dressing Dressing",
+        "fdc_id": 167692,
+        "macros": {
+          "calories": 86.0,
+          "carbs_g": 13.2,
+          "fat_g": 2.7,
+          "fiber_g": 0.0,
+          "protein_g": 2.1,
+          "sodium_g": 0.939,
+          "sugar_g": 3.6
+        },
+        "source_description": "Salad dressing, blue or roquefort cheese dressing, light",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "buttermilk dressing",
+          "creamy buttermilk dressing",
+          "salad dressing buttermilk",
+          "ranch-style buttermilk dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Buttermilk dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Buttermilk Dressing",
+        "fdc_id": 169895,
+        "macros": {
+          "calories": 202.0,
+          "carbs_g": 21.33,
+          "fat_g": 12.42,
+          "fiber_g": 1.1,
+          "protein_g": 1.25,
+          "sodium_g": 1.12,
+          "sugar_g": 3.77
+        },
+        "source_description": "Salad dressing, buttermilk, lite",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "caesar dressing",
+          "creamy caesar dressing",
+          "romaine dressing",
+          "salad dressing caesar",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Caesar dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Caesar Dressing",
+        "fdc_id": 169877,
+        "macros": {
+          "calories": 110.0,
+          "carbs_g": 18.6,
+          "fat_g": 4.4,
+          "fiber_g": 0.1,
+          "protein_g": 0.3,
+          "sodium_g": 1.148,
+          "sugar_g": 16.32
+        },
+        "source_description": "Salad dressing, caesar, low calorie",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "caesar dressing",
+          "creamy caesar dressing",
+          "parmesan caesar dressing",
+          "salad dressing caesar",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Caesar Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Caesar Dressing Dressing",
+        "fdc_id": 169055,
+        "macros": {
+          "calories": 542.0,
+          "carbs_g": 3.3,
+          "fat_g": 57.85,
+          "fiber_g": 0.5,
+          "protein_g": 2.17,
+          "sodium_g": 1.209,
+          "sugar_g": 2.81
+        },
+        "source_description": "Salad dressing, caesar dressing, regular",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "coleslaw dressing",
+          "slaw dressing",
+          "creamy coleslaw dressing",
+          "cabbage salad dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Coleslaw dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Coleslaw Dressing",
+        "fdc_id": 169056,
+        "macros": {
+          "calories": 404.0,
+          "carbs_g": 22.4,
+          "fat_g": 34.53,
+          "fiber_g": 0.0,
+          "protein_g": 0.85,
+          "sodium_g": 0.85,
+          "sugar_g": 21.23
+        },
+        "source_description": "Salad dressing, coleslaw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "french dressing",
+          "sweet french dressing",
+          "orange french dressing",
+          "salad dressing french",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "French Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "French Dressing Dressing",
+        "fdc_id": 171021,
+        "macros": {
+          "calories": 233.0,
+          "carbs_g": 29.28,
+          "fat_g": 13.46,
+          "fiber_g": 1.1,
+          "protein_g": 0.58,
+          "sodium_g": 0.03,
+          "sugar_g": 28.45
+        },
+        "source_description": "Salad dressing, french dressing, reduced fat, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green goddess dressing",
+          "herb dressing",
+          "avocado herb dressing",
+          "creamy herb dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Green Goddess dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Green Goddess Dressing",
+        "fdc_id": 169057,
+        "macros": {
+          "calories": 427.0,
+          "carbs_g": 7.36,
+          "fat_g": 43.33,
+          "fiber_g": 0.1,
+          "protein_g": 1.9,
+          "sodium_g": 0.867,
+          "sugar_g": 6.67
+        },
+        "source_description": "Salad dressing, green goddess, regular",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "honey mustard dressing",
+          "mustard dressing",
+          "sweet mustard dressing",
+          "salad dressing honey mustard",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Honey Mustard dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Honey Mustard Dressing",
+        "fdc_id": 171043,
+        "macros": {
+          "calories": 464.0,
+          "carbs_g": 23.33,
+          "fat_g": 40.83,
+          "fiber_g": 0.4,
+          "protein_g": 0.87,
+          "sodium_g": 0.512,
+          "sugar_g": 15.84
+        },
+        "source_description": "Salad dressing, honey mustard, regular",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "italian dressing",
+          "vinaigrette italian",
+          "zesty italian dressing",
+          "herb vinaigrette",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Italian Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Italian Dressing Dressing",
+        "fdc_id": 171019,
+        "macros": {
+          "calories": 240.0,
+          "carbs_g": 12.12,
+          "fat_g": 21.12,
+          "fiber_g": 0.0,
+          "protein_g": 0.41,
+          "sodium_g": 0.993,
+          "sugar_g": 10.77
+        },
+        "source_description": "Salad dressing, italian dressing, commercial, regular",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mayonnaise",
+          "mayo",
+          "sandwich mayo",
+          "salad dressing mayonnaise",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Mayonnaise dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Mayonnaise Dressing",
+        "fdc_id": 171009,
+        "macros": {
+          "calories": 680.0,
+          "carbs_g": 0.57,
+          "fat_g": 74.85,
+          "fiber_g": 0.0,
+          "protein_g": 0.96,
+          "sodium_g": 0.635,
+          "sugar_g": 0.57
+        },
+        "source_description": "Salad dressing, mayonnaise, regular",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mayonnaise-style dressing",
+          "mayo-type dressing",
+          "imitation mayonnaise",
+          "spread dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Mayonnaise And Mayonnaise-type dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Mayonnaise And Mayonnaise-type Dressing",
+        "fdc_id": 168112,
+        "macros": {
+          "calories": 263.0,
+          "carbs_g": 23.9,
+          "fat_g": 19.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.9,
+          "sodium_g": 0.837,
+          "sugar_g": 4.34
+        },
+        "source_description": "Salad dressing, mayonnaise and mayonnaise-type, low calorie",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "peppercorn dressing",
+          "creamy peppercorn dressing",
+          "black pepper dressing",
+          "salad dressing peppercorn",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Peppercorn Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Peppercorn Dressing Dressing",
+        "fdc_id": 168093,
+        "macros": {
+          "calories": 564.0,
+          "carbs_g": 3.5,
+          "fat_g": 61.4,
+          "fiber_g": 0.0,
+          "protein_g": 1.2,
+          "sodium_g": 1.103,
+          "sugar_g": 2.45
+        },
+        "source_description": "Salad dressing, peppercorn dressing, commercial, regular",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "poppyseed dressing",
+          "poppy seed dressing",
+          "sweet poppyseed dressing",
+          "fruit salad dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Poppyseed dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Poppyseed Dressing",
+        "fdc_id": 171044,
+        "macros": {
+          "calories": 399.0,
+          "carbs_g": 23.73,
+          "fat_g": 33.33,
+          "fiber_g": 0.3,
+          "protein_g": 0.92,
+          "sodium_g": 0.933,
+          "sugar_g": 23.39
+        },
+        "source_description": "Salad dressing, poppyseed, creamy",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "russian dressing",
+          "tomato mayo dressing",
+          "deli russian dressing",
+          "salad dressing russian",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Russian Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Russian Dressing Dressing",
+        "fdc_id": 171005,
+        "macros": {
+          "calories": 355.0,
+          "carbs_g": 31.9,
+          "fat_g": 26.18,
+          "fiber_g": 0.7,
+          "protein_g": 0.69,
+          "sodium_g": 1.133,
+          "sugar_g": 17.68
+        },
+        "source_description": "Salad dressing, russian dressing",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesame dressing",
+          "sesame seed dressing",
+          "asian sesame dressing",
+          "toasted sesame dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Sesame Seed Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Sesame Seed Dressing Dressing",
+        "fdc_id": 171006,
+        "macros": {
+          "calories": 443.0,
+          "carbs_g": 8.6,
+          "fat_g": 45.2,
+          "fiber_g": 1.0,
+          "protein_g": 3.1,
+          "sodium_g": 1.0,
+          "sugar_g": 8.32
+        },
+        "source_description": "Salad dressing, sesame seed dressing, regular",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spray dressing",
+          "spray salad dressing",
+          "low-calorie spray dressing",
+          "aerosol dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Spray-style Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Spray-style Dressing Dressing",
+        "fdc_id": 171036,
+        "macros": {
+          "calories": 165.0,
+          "carbs_g": 16.6,
+          "fat_g": 10.75,
+          "fiber_g": 0.3,
+          "protein_g": 0.16,
+          "sodium_g": 1.102,
+          "sugar_g": 14.29
+        },
+        "source_description": "Salad dressing, spray-style dressing, assorted flavors",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet and sour dressing",
+          "sweet sour dressing",
+          "tangy sweet dressing",
+          "salad dressing sweet and sour",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Sweet And Sour dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Sweet And Sour Dressing",
+        "fdc_id": 169875,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 3.7,
+          "fat_g": 0.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.1,
+          "sodium_g": 0.208,
+          "sugar_g": 3.7
+        },
+        "source_description": "Salad dressing, sweet and sour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "thousand island dressing",
+          "1000 island dressing",
+          "burger sauce dressing",
+          "creamy thousand island",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Thousand Island Dressing dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Thousand Island Dressing Dressing",
+        "fdc_id": 171008,
+        "macros": {
+          "calories": 195.0,
+          "carbs_g": 24.06,
+          "fat_g": 11.32,
+          "fiber_g": 1.2,
+          "protein_g": 0.83,
+          "sodium_g": 0.955,
+          "sugar_g": 17.31
+        },
+        "source_description": "Salad dressing, thousand island dressing, reduced fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "atlantic salmon raw",
+          "farmed salmon",
+          "raw salmon fillet",
+          "fresh salmon",
+          "salmon fish"
+        ],
+        "category_label": "protein",
+        "description": "Raw farmed Atlantic salmon is a fatty fish protein used for roasting, grilling, pan-searing, and curing. This USDA row reflects raw fish values per 100 g.",
+        "display_name": "Salmon (Atlantic, Farmed, Raw)",
+        "fdc_id": 2684441,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 0.0,
+          "fat_g": 13.11,
+          "fiber_g": 0.0,
+          "protein_g": 20.3188,
+          "sodium_g": 0.0495,
+          "sugar_g": 0.0
+        },
+        "source_description": "Fish, salmon, Atlantic, farm raised, raw",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "salmon"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "salsify",
+          "vegetable oyster",
+          "oyster plant root",
+          "salsify root",
+          "raw salsify"
+        ],
+        "category_label": "vegetable",
+        "description": "Salsify is a root vegetable with a mild oyster-like flavor used in soups, purees, and roasts. This USDA row reflects raw salsify values per 100 g.",
+        "display_name": "Salsify (Raw)",
+        "fdc_id": 169277,
+        "macros": {
+          "calories": 82.0,
+          "carbs_g": 18.6,
+          "fat_g": 0.2,
+          "fiber_g": 3.3,
+          "protein_g": 3.3,
+          "sodium_g": 0.02,
+          "sugar_g": 0.0
+        },
+        "source_description": "Salsify, (vegetable oyster), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "salt pork",
+          "cured pork belly",
+          "salt-cured pork",
+          "fatback cured",
+          "seasoning pork"
+        ],
+        "category_label": "protein",
+        "description": "Salt pork is a cured fatty pork cut used to season beans, stews, greens, and chowders. This USDA row reflects raw cured pork values per 100 g.",
+        "display_name": "Salt Pork (Raw, Cured)",
+        "fdc_id": 168287,
+        "macros": {
+          "calories": 748.0,
+          "carbs_g": 0.0,
+          "fat_g": 80.5,
+          "fiber_g": 0.0,
+          "protein_g": 5.05,
+          "sodium_g": 2.684,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, cured, salt pork, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried jellyfish",
+          "salted jellyfish",
+          "preserved jellyfish",
+          "jellyfish strips",
+          "asian jellyfish"
+        ],
+        "category_label": "protein",
+        "description": "Salted dried jellyfish is a preserved seafood ingredient rehydrated for cold salads and appetizers. This USDA row reflects dried product values per 100 g.",
+        "display_name": "Jellyfish (Salted, Dried)",
+        "fdc_id": 168129,
+        "macros": {
+          "calories": 36.0,
+          "carbs_g": 0.0,
+          "fat_g": 1.4,
+          "fiber_g": 0.0,
+          "protein_g": 5.5,
+          "sodium_g": 9.69,
+          "sugar_g": 0.0
+        },
+        "source_description": "Jellyfish, dried, salted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "seafood"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "salted mackerel",
+          "cured mackerel",
+          "salt fish mackerel",
+          "preserved mackerel",
+          "mackerel fish"
+        ],
+        "category_label": "protein",
+        "description": "Salted mackerel is a preserved fish used in braises, grilled preparations, and stews after soaking or rinsing. This USDA row reflects product values per 100 g.",
+        "display_name": "Mackerel (Salted)",
+        "fdc_id": 168149,
+        "macros": {
+          "calories": 305.0,
+          "carbs_g": 0.0,
+          "fat_g": 25.1,
+          "fiber_g": 0.0,
+          "protein_g": 18.5,
+          "sodium_g": 4.45,
+          "sugar_g": 0.0
+        },
+        "source_description": "Fish, mackerel, salted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "fish"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mamey sapote",
+          "sapote fruit",
+          "mamey",
+          "pouteria sapota",
+          "raw mamey"
+        ],
+        "category_label": "fruit",
+        "description": "Mamey sapote is a sweet tropical fruit used fresh, in smoothies, and dessert fillings. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Mamey Sapote (Raw)",
+        "fdc_id": 167760,
+        "macros": {
+          "calories": 124.0,
+          "carbs_g": 32.1,
+          "fat_g": 0.46,
+          "fiber_g": 5.4,
+          "protein_g": 1.45,
+          "sodium_g": 0.007,
+          "sugar_g": 20.14
+        },
+        "source_description": "Sapote, mamey, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sauerkraut",
+          "canned sauerkraut",
+          "fermented cabbage",
+          "pickled cabbage",
+          "kraut"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned sauerkraut is fermented cabbage used in sandwiches, sausages, and braised dishes. This USDA row reflects canned product values per 100 g.",
+        "display_name": "Sauerkraut (Canned)",
+        "fdc_id": 169279,
+        "macros": {
+          "calories": 19.0,
+          "carbs_g": 4.28,
+          "fat_g": 0.14,
+          "fiber_g": 2.9,
+          "protein_g": 0.91,
+          "sodium_g": 0.661,
+          "sugar_g": 1.78
+        },
+        "source_description": "Sauerkraut, canned, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "cabbage"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "steamed scallops",
+          "cooked scallops",
+          "sea scallops cooked",
+          "bay scallops cooked",
+          "scallop meat"
+        ],
+        "category_label": "protein",
+        "description": "Steamed scallops are a cooked shellfish protein used in seafood pastas, stir-fries, and composed dishes. This USDA row reflects cooked scallop values per 100 g.",
+        "display_name": "Scallops (Steamed)",
+        "fdc_id": 167742,
+        "macros": {
+          "calories": 111.0,
+          "carbs_g": 5.41,
+          "fat_g": 0.84,
+          "fiber_g": 0.0,
+          "protein_g": 20.54,
+          "sodium_g": 0.667,
+          "sugar_g": 0.0
+        },
+        "source_description": "Mollusks, scallop, (bay and sea), cooked, steamed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "scallop"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "agar seaweed",
+          "agar-agar seaweed",
+          "red seaweed agar",
+          "gelidium seaweed",
+          "agar weed"
+        ],
+        "category_label": "vegetable",
+        "description": "Agar-type seaweed is used as a gelling ingredient for desserts, jellies, and thickened preparations. This USDA row reflects raw seaweed values per 100 g.",
+        "display_name": "Agar Seaweed (Raw)",
+        "fdc_id": 169280,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 6.75,
+          "fat_g": 0.03,
+          "fiber_g": 0.5,
+          "protein_g": 0.54,
+          "sodium_g": 0.009,
+          "sugar_g": 0.28
+        },
+        "source_description": "Seaweed, agar, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "seaweed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "irish moss",
+          "sea moss",
+          "chondrus crispus",
+          "irish moss seaweed",
+          "raw sea moss"
+        ],
+        "category_label": "vegetable",
+        "description": "Irish moss is a red seaweed used as a thickener in soups, broths, and dessert preparations. This USDA row reflects raw seaweed values per 100 g.",
+        "display_name": "Irish Moss Seaweed (Raw)",
+        "fdc_id": 168456,
+        "macros": {
+          "calories": 49.0,
+          "carbs_g": 12.29,
+          "fat_g": 0.16,
+          "fiber_g": 1.3,
+          "protein_g": 1.51,
+          "sodium_g": 0.067,
+          "sugar_g": 0.61
+        },
+        "source_description": "Seaweed, irishmoss, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "seaweed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "kelp",
+          "kombu",
+          "kelp seaweed",
+          "raw kelp",
+          "dashi kelp"
+        ],
+        "category_label": "vegetable",
+        "description": "Kelp is a marine vegetable used for broths, stocks, and seaweed salads. This USDA row reflects raw kelp values per 100 g.",
+        "display_name": "Kelp (Raw)",
+        "fdc_id": 168457,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 9.57,
+          "fat_g": 0.56,
+          "fiber_g": 1.3,
+          "protein_g": 1.68,
+          "sodium_g": 0.233,
+          "sugar_g": 0.6
+        },
+        "source_description": "Seaweed, kelp, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "seaweed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "laver",
+          "nori seaweed",
+          "laver seaweed",
+          "raw laver",
+          "porphyra seaweed"
+        ],
+        "category_label": "vegetable",
+        "description": "Laver is an edible seaweed used in soups, rice wraps, and dried seaweed preparations. This USDA row reflects raw laver values per 100 g.",
+        "display_name": "Laver Seaweed (Raw)",
+        "fdc_id": 168458,
+        "macros": {
+          "calories": 35.0,
+          "carbs_g": 5.11,
+          "fat_g": 0.28,
+          "fiber_g": 0.3,
+          "protein_g": 5.81,
+          "sodium_g": 0.048,
+          "sugar_g": 0.49
+        },
+        "source_description": "Seaweed, laver, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "seaweed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spirulina",
+          "spirulina powder",
+          "blue-green algae",
+          "dried spirulina",
+          "spirulina algae"
+        ],
+        "category_label": "nut_seed",
+        "description": "Spirulina is a dried algae ingredient added to smoothies, powders, and nutrition blends. This USDA row reflects dried spirulina values per 100 g.",
+        "display_name": "Spirulina (Dried)",
+        "fdc_id": 170091,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 2.42,
+          "fat_g": 0.39,
+          "fiber_g": 0.4,
+          "protein_g": 5.92,
+          "sodium_g": 0.098,
+          "sugar_g": 0.3
+        },
+        "source_description": "Seaweed, spirulina, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wakame",
+          "wakame seaweed",
+          "raw wakame",
+          "sea mustard",
+          "edible wakame"
+        ],
+        "category_label": "vegetable",
+        "description": "Wakame is an edible seaweed used in miso soup, salads, and seaweed sides. This USDA row reflects raw wakame values per 100 g.",
+        "display_name": "Wakame Seaweed (Raw)",
+        "fdc_id": 170496,
+        "macros": {
+          "calories": 45.0,
+          "carbs_g": 9.14,
+          "fat_g": 0.64,
+          "fiber_g": 0.5,
+          "protein_g": 3.03,
+          "sodium_g": 0.872,
+          "sugar_g": 0.65
+        },
+        "source_description": "Seaweed, wakame, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "seaweed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "breadfruit seeds",
+          "raw breadfruit seeds",
+          "breadfruit kernel",
+          "ulu seeds",
+          "breadfruit nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Breadfruit seeds are starchy edible seeds that can be boiled, roasted, or ground into flour. This USDA row reflects raw seed values per 100 g.",
+        "display_name": "Breadfruit Seeds (Raw)",
+        "fdc_id": 170144,
+        "macros": {
+          "calories": 191.0,
+          "carbs_g": 29.24,
+          "fat_g": 5.59,
+          "fiber_g": 5.2,
+          "protein_g": 7.4,
+          "sodium_g": 0.025,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, breadfruit seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "breadnut seeds",
+          "ramon seeds",
+          "breadnut tree seeds",
+          "raw breadnut seeds",
+          "brosimum seeds"
+        ],
+        "category_label": "nut_seed",
+        "description": "Breadnut tree seeds are edible seeds used roasted, boiled, or ground for traditional preparations. This USDA row reflects raw seed values per 100 g.",
+        "display_name": "Breadnut Seeds (Raw)",
+        "fdc_id": 170552,
+        "macros": {
+          "calories": 217.0,
+          "carbs_g": 46.28,
+          "fat_g": 0.99,
+          "fiber_g": 0.0,
+          "protein_g": 5.97,
+          "sodium_g": 0.031,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, breadnut tree seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried breadnut seeds",
+          "breadnut seeds dried",
+          "ramon seeds dried",
+          "breadnut kernel dried",
+          "breadnut tree seeds"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried breadnut seeds are preserved edible seeds used after soaking, roasting, or milling. This USDA row reflects dried seed values per 100 g.",
+        "display_name": "Breadnut Seeds (Dried)",
+        "fdc_id": 170553,
+        "macros": {
+          "calories": 367.0,
+          "carbs_g": 79.39,
+          "fat_g": 1.68,
+          "fiber_g": 14.9,
+          "protein_g": 8.62,
+          "sodium_g": 0.053,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, breadnut tree seeds, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chia seeds",
+          "dried chia seeds",
+          "salvia hispanica seeds",
+          "chia",
+          "black chia seeds"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried chia seeds are used in puddings, baking, smoothies, and hydration gels. This USDA row reflects dried chia values per 100 g.",
+        "display_name": "Chia Seeds (Dried)",
+        "fdc_id": 170554,
+        "macros": {
+          "calories": 486.0,
+          "carbs_g": 42.12,
+          "fat_g": 30.74,
+          "fiber_g": 34.4,
+          "protein_g": 16.54,
+          "sodium_g": 0.016,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, chia seeds, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "chia"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cottonseed flour",
+          "glandless cottonseed flour",
+          "cottonseed meal flour",
+          "protein flour cottonseed",
+          "defatted cottonseed flour"
+        ],
+        "category_label": "nut_seed",
+        "description": "Cottonseed flour is a specialty seed flour used in blended baking and feed-grade formulations; culinary use is limited. This USDA row reflects flour values per 100 g.",
+        "display_name": "Cottonseed Flour",
+        "fdc_id": 170146,
+        "macros": {
+          "calories": 332.0,
+          "carbs_g": 36.1,
+          "fat_g": 1.41,
+          "fiber_g": 0.0,
+          "protein_g": 49.83,
+          "sodium_g": 0.035,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, cottonseed flour, low fat (glandless)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cottonseed kernels",
+          "glandless cottonseed kernels",
+          "cottonseed meats",
+          "seed kernels cottonseed",
+          "dehulled cottonseed"
+        ],
+        "category_label": "nut_seed",
+        "description": "Cottonseed kernels are the inner seed meats used in specialty processing and oil production. This USDA row reflects kernel values per 100 g.",
+        "display_name": "Cottonseed Kernels",
+        "fdc_id": 170596,
+        "macros": {
+          "calories": 506.0,
+          "carbs_g": 21.9,
+          "fat_g": 36.29,
+          "fiber_g": 5.5,
+          "protein_g": 32.59,
+          "sodium_g": 0.025,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, cottonseed kernels, roasted (glandless)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 012: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cottonseed meal",
+          "partially defatted cottonseed meal",
+          "cottonseed protein meal",
+          "glandless cottonseed meal",
+          "seed meal cottonseed"
+        ],
+        "category_label": "nut_seed",
+        "description": "Partially defatted cottonseed meal is a processed seed meal used in specialty formulations; culinary use is uncommon. This USDA row reflects meal values per 100 g.",
+        "display_name": "Cottonseed Meal",
+        "fdc_id": 170147,
+        "macros": {
+          "calories": 367.0,
+          "carbs_g": 38.43,
+          "fat_g": 4.77,
+          "fiber_g": 0.0,
+          "protein_g": 49.1,
+          "sodium_g": 0.037,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, cottonseed meal, partially defatted (glandless)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    }
+  ]
+}

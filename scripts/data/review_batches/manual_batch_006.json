@@ -1,0 +1,1756 @@
+{
+  "batch_id": 6,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "low-fat swiss cheese",
+          "reduced-fat swiss cheese",
+          "light swiss cheese",
+          "swiss cheese low fat",
+          "swiss slices low fat"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Low-fat Swiss cheese is used for sandwiches and melts when a lighter dairy option is preferred. This USDA row reflects low-fat Swiss cheese values per 100 g.",
+        "display_name": "Cheese (Swiss, Low Fat)",
+        "fdc_id": 168141,
+        "macros": {
+          "calories": 179.0,
+          "carbs_g": 3.4,
+          "fat_g": 5.1,
+          "fiber_g": 0.0,
+          "protein_g": 28.4,
+          "sodium_g": 0.199,
+          "sugar_g": 1.33
+        },
+        "source_description": "Cheese, swiss, low fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tilsit cheese",
+          "tilsit",
+          "german tilsit cheese",
+          "semi-soft tilsit",
+          "tilsit cheese block"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Tilsit is a semi-soft cheese used for slicing, sandwiches, and cheese boards. This USDA row reflects Tilsit cheese values per 100 g.",
+        "display_name": "Cheese (Tilsit)",
+        "fdc_id": 170852,
+        "macros": {
+          "calories": 340.0,
+          "carbs_g": 1.88,
+          "fat_g": 25.98,
+          "fiber_g": 0.0,
+          "protein_g": 24.41,
+          "sodium_g": 0.753,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cheese, tilsit",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sour cherries canned water pack",
+          "canned sour cherries drained",
+          "water-pack sour cherries",
+          "drained sour cherries",
+          "tart cherries canned in water"
+        ],
+        "category_label": "fruit",
+        "description": "These are sour cherries canned in water pack and drained, commonly used for pies and compotes. This USDA row reflects drained canned fruit values per 100 g.",
+        "display_name": "Cherries (Sour, Water Pack, Drained)",
+        "fdc_id": 167769,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 10.45,
+          "fat_g": 0.21,
+          "fiber_g": 1.2,
+          "protein_g": 0.69,
+          "sodium_g": 0.004,
+          "sugar_g": 6.99
+        },
+        "source_description": "Cherries, sour, canned, water pack, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet cherries canned heavy syrup",
+          "canned sweet cherries drained",
+          "heavy syrup sweet cherries",
+          "drained sweet cherries",
+          "pitted sweet cherries canned"
+        ],
+        "category_label": "fruit",
+        "description": "These are pitted sweet cherries canned in heavy syrup and drained, used for desserts and toppings. This USDA row reflects drained fruit values per 100 g.",
+        "display_name": "Cherries (Sweet, Heavy Syrup, Drained)",
+        "fdc_id": 167770,
+        "macros": {
+          "calories": 83.0,
+          "carbs_g": 21.07,
+          "fat_g": 0.21,
+          "fiber_g": 2.3,
+          "protein_g": 0.73,
+          "sodium_g": 0.003,
+          "sugar_g": 16.18
+        },
+        "source_description": "Cherries, sweet, canned, pitted, heavy syrup, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tart cherry juice",
+          "sour cherry juice",
+          "cherry juice tart",
+          "unsweetened tart cherry juice",
+          "montmorency cherry juice"
+        ],
+        "category_label": "fruit",
+        "description": "Tart cherry juice is used as a beverage and in sauces or reductions. This USDA row reflects tart cherry juice values per 100 g.",
+        "display_name": "Cherry Juice (Tart)",
+        "fdc_id": 167807,
+        "macros": {
+          "calories": 59.0,
+          "carbs_g": 13.7,
+          "fat_g": 0.54,
+          "fiber_g": 0.0,
+          "protein_g": 0.31,
+          "sodium_g": 0.004,
+          "sugar_g": 12.21
+        },
+        "source_description": "Cherry juice, tart",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chicken back meat raw",
+          "raw chicken back meat",
+          "chicken back",
+          "back chicken meat",
+          "broiler chicken back meat"
+        ],
+        "category_label": "protein",
+        "description": "Raw chicken back meat is typically used for stocks, soups, and shredded poultry preparations. This USDA row reflects meat-only raw values per 100 g.",
+        "display_name": "Chicken Back (Meat Only, Raw)",
+        "fdc_id": 171073,
+        "macros": {
+          "calories": 137.0,
+          "carbs_g": 0.0,
+          "fat_g": 5.92,
+          "fiber_g": 0.0,
+          "protein_g": 19.56,
+          "sodium_g": 0.082,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, back, meat only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw boneless skinless chicken breast",
+          "chicken breast raw",
+          "skinless chicken breast",
+          "boneless chicken breast",
+          "chicken breast fillet raw"
+        ],
+        "category_label": "protein",
+        "description": "Boneless skinless chicken breast is a lean staple protein for roasting, grilling, and sauteing. This USDA row reflects raw breast meat values per 100 g.",
+        "display_name": "Chicken Breast (Boneless, Skinless, Raw)",
+        "fdc_id": 171077,
+        "macros": {
+          "calories": 120.0,
+          "carbs_g": 0.0,
+          "fat_g": 2.62,
+          "fiber_g": 0.0,
+          "protein_g": 22.5,
+          "sodium_g": 0.045,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rotisserie chicken breast",
+          "cooked rotisserie chicken breast",
+          "seasoned rotisserie chicken breast",
+          "chicken breast rotisserie",
+          "ready-to-eat rotisserie breast"
+        ],
+        "category_label": "protein",
+        "description": "Rotisserie chicken breast is ready-cooked meat used for salads, wraps, and quick meal prep. This USDA row reflects cooked rotisserie breast values per 100 g.",
+        "display_name": "Chicken Breast (Rotisserie, Cooked)",
+        "fdc_id": 171123,
+        "macros": {
+          "calories": 184.0,
+          "carbs_g": 0.02,
+          "fat_g": 8.18,
+          "fiber_g": 0.0,
+          "protein_g": 27.48,
+          "sodium_g": 0.347,
+          "sugar_g": 0.02
+        },
+        "source_description": "Chicken, broilers or fryers, rotisserie, original seasoning, breast, meat and skin, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw chicken dark meat",
+          "chicken dark meat raw",
+          "dark meat chicken",
+          "chicken leg-thigh meat raw",
+          "broiler dark meat"
+        ],
+        "category_label": "protein",
+        "description": "Raw chicken dark meat is used for braises, roasting, and stews where richer poultry flavor is desired. This USDA row reflects raw dark-meat-only values per 100 g.",
+        "display_name": "Chicken Dark Meat (Raw, Meat Only)",
+        "fdc_id": 171067,
+        "macros": {
+          "calories": 125.0,
+          "carbs_g": 0.0,
+          "fat_g": 4.31,
+          "fiber_g": 0.0,
+          "protein_g": 20.08,
+          "sodium_g": 0.085,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, dark meat, meat only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "boiled chicken feet",
+          "chicken feet cooked",
+          "cooked chicken feet",
+          "chicken paws boiled",
+          "chicken feet for stock"
+        ],
+        "category_label": "protein",
+        "description": "Boiled chicken feet are often used for broths, gelatin-rich stocks, and braised dishes. This USDA row reflects boiled chicken feet values per 100 g.",
+        "display_name": "Chicken Feet (Boiled)",
+        "fdc_id": 171119,
+        "macros": {
+          "calories": 215.0,
+          "carbs_g": 0.2,
+          "fat_g": 14.6,
+          "fiber_g": 0.0,
+          "protein_g": 19.4,
+          "sodium_g": 0.067,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, feet, boiled",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "fried chicken battered",
+          "battered fried chicken",
+          "fried chicken with batter",
+          "deep-fried chicken battered",
+          "crispy battered chicken"
+        ],
+        "category_label": "protein",
+        "description": "This entry represents fried chicken with batter coating, used as a prepared protein item. This USDA row reflects cooked battered fried chicken values per 100 g.",
+        "display_name": "Chicken (Fried, Battered)",
+        "fdc_id": 171048,
+        "macros": {
+          "calories": 291.0,
+          "carbs_g": 9.03,
+          "fat_g": 17.53,
+          "fiber_g": 0.0,
+          "protein_g": 22.84,
+          "sodium_g": 0.284,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, meat and skin and giblets and neck, cooked, fried, batter",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "fried chicken floured",
+          "flour-fried chicken",
+          "fried chicken with flour coating",
+          "southern fried chicken",
+          "pan-fried floured chicken"
+        ],
+        "category_label": "protein",
+        "description": "This entry represents fried chicken with a flour coating, used as a prepared protein item. This USDA row reflects cooked floured fried chicken values per 100 g.",
+        "display_name": "Chicken (Fried, Floured)",
+        "fdc_id": 171049,
+        "macros": {
+          "calories": 272.0,
+          "carbs_g": 3.27,
+          "fat_g": 15.27,
+          "fiber_g": 0.0,
+          "protein_g": 28.57,
+          "sodium_g": 0.086,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, meat and skin and giblets and neck, cooked, fried, flour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw chicken giblets",
+          "chicken giblets raw",
+          "giblets chicken",
+          "chicken organ mix raw",
+          "broiler giblets"
+        ],
+        "category_label": "protein",
+        "description": "Raw chicken giblets are used for gravy, stock, and traditional stuffing preparations. This USDA row reflects raw giblet values per 100 g.",
+        "display_name": "Chicken Giblets (Raw)",
+        "fdc_id": 171057,
+        "macros": {
+          "calories": 124.0,
+          "carbs_g": 1.8,
+          "fat_g": 4.47,
+          "fiber_g": 0.0,
+          "protein_g": 17.88,
+          "sodium_g": 0.077,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, giblets, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked chicken heart",
+          "simmered chicken heart",
+          "chicken hearts cooked",
+          "chicken heart meat",
+          "chicken heart simmered"
+        ],
+        "category_label": "protein",
+        "description": "Simmered chicken heart is used in braises, skewers, and offal-focused preparations. This USDA row reflects cooked chicken heart values per 100 g.",
+        "display_name": "Chicken Heart (Cooked, Simmered)",
+        "fdc_id": 171059,
+        "macros": {
+          "calories": 185.0,
+          "carbs_g": 0.1,
+          "fat_g": 7.92,
+          "fiber_g": 0.0,
+          "protein_g": 26.41,
+          "sodium_g": 0.048,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, heart, all classes, cooked, simmered",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw chicken light meat with skin",
+          "chicken light meat raw",
+          "skin-on chicken light meat",
+          "chicken breast and wing meat raw",
+          "light meat chicken skin on"
+        ],
+        "category_label": "protein",
+        "description": "Raw light chicken meat with skin is used for roasting and pan cooking where skin adds fat and flavor. This USDA row reflects raw meat-and-skin values per 100 g.",
+        "display_name": "Chicken Light Meat (Raw, With Skin)",
+        "fdc_id": 171062,
+        "macros": {
+          "calories": 186.0,
+          "carbs_g": 0.0,
+          "fat_g": 11.07,
+          "fiber_g": 0.0,
+          "protein_g": 20.27,
+          "sodium_g": 0.065,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, light meat, meat and skin, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw chicken liver",
+          "chicken liver raw",
+          "fresh chicken liver",
+          "chicken livers",
+          "broiler liver"
+        ],
+        "category_label": "protein",
+        "description": "Raw chicken liver is commonly used for pates, gravies, stir-fries, and sauteed offal dishes. This USDA row reflects raw liver values per 100 g.",
+        "display_name": "Chicken Liver (Raw)",
+        "fdc_id": 171060,
+        "macros": {
+          "calories": 119.0,
+          "carbs_g": 0.73,
+          "fat_g": 4.83,
+          "fiber_g": 0.0,
+          "protein_g": 16.92,
+          "sodium_g": 0.071,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, liver, all classes, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw chicken meat only",
+          "chicken meat raw",
+          "boneless chicken meat raw",
+          "broiler chicken meat",
+          "plain raw chicken meat"
+        ],
+        "category_label": "protein",
+        "description": "Raw chicken meat only is a general poultry protein entry used across many cooking methods. This USDA row reflects raw meat-only values per 100 g.",
+        "display_name": "Chicken (Meat Only, Raw)",
+        "fdc_id": 171052,
+        "macros": {
+          "calories": 119.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.08,
+          "fiber_g": 0.0,
+          "protein_g": 21.39,
+          "sodium_g": 0.077,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, meat only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted chicken skin",
+          "chicken skin roasted",
+          "crispy chicken skin",
+          "cooked chicken skin",
+          "rendered chicken skin"
+        ],
+        "category_label": "protein",
+        "description": "Roasted chicken skin is a fat-rich poultry component used for crisp garnish or flavor contribution. This USDA row reflects roasted skin values per 100 g.",
+        "display_name": "Chicken Skin (Roasted)",
+        "fdc_id": 171055,
+        "macros": {
+          "calories": 454.0,
+          "carbs_g": 0.0,
+          "fat_g": 40.68,
+          "fiber_g": 0.0,
+          "protein_g": 20.36,
+          "sodium_g": 0.065,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, skin only, cooked, roasted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rotisserie chicken back",
+          "cooked rotisserie chicken back",
+          "seasoned rotisserie back meat",
+          "chicken back rotisserie",
+          "ready-to-eat chicken back"
+        ],
+        "category_label": "protein",
+        "description": "Rotisserie chicken back meat is cooked seasoned poultry used for quick soups, bowls, and mixed dishes. This USDA row reflects cooked rotisserie back values per 100 g.",
+        "display_name": "Chicken Back (Rotisserie, Cooked)",
+        "fdc_id": 171122,
+        "macros": {
+          "calories": 260.0,
+          "carbs_g": 0.03,
+          "fat_g": 18.59,
+          "fiber_g": 0.0,
+          "protein_g": 23.23,
+          "sodium_g": 0.584,
+          "sugar_g": 0.03
+        },
+        "source_description": "Chicken, broilers or fryers, rotisserie, original seasoning, back, meat and skin, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chicken tenders",
+          "fast food chicken tenders",
+          "fried chicken tenders",
+          "breaded chicken tenders",
+          "chicken strips"
+        ],
+        "category_label": "protein",
+        "description": "Chicken tenders here represent a prepared fast-food style item, useful for mixed dish estimates and convenience-food tracking. This USDA row reflects cooked product values per 100 g.",
+        "display_name": "Chicken Tenders (Fast Food)",
+        "fdc_id": 173321,
+        "macros": {
+          "calories": 271.0,
+          "carbs_g": 17.25,
+          "fat_g": 13.95,
+          "fiber_g": 1.2,
+          "protein_g": 19.22,
+          "sodium_g": 0.769,
+          "sugar_g": 0.4
+        },
+        "source_description": "Fast foods, chicken tenders",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fast Foods",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw boneless skinless chicken thigh",
+          "chicken thigh raw",
+          "skinless chicken thigh",
+          "boneless chicken thigh",
+          "chicken thigh fillet raw"
+        ],
+        "category_label": "protein",
+        "description": "Boneless skinless chicken thigh is a versatile poultry cut for braising, grilling, and roasting. This USDA row reflects raw thigh values per 100 g.",
+        "display_name": "Chicken Thigh (Boneless, Skinless, Raw)",
+        "fdc_id": 2646171,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 0.0,
+          "fat_g": 7.916,
+          "fiber_g": 0.0,
+          "protein_g": 18.6125,
+          "sodium_g": 0.0623,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, thigh, boneless, skinless, raw",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rotisserie chicken thigh",
+          "cooked rotisserie thigh",
+          "seasoned rotisserie thigh meat",
+          "chicken thigh rotisserie",
+          "ready-to-eat chicken thigh"
+        ],
+        "category_label": "protein",
+        "description": "Rotisserie chicken thigh is cooked seasoned dark meat used for quick meals and leftovers. This USDA row reflects cooked rotisserie thigh values per 100 g.",
+        "display_name": "Chicken Thigh (Rotisserie, Cooked)",
+        "fdc_id": 171120,
+        "macros": {
+          "calories": 196.0,
+          "carbs_g": 0.0,
+          "fat_g": 11.09,
+          "fiber_g": 0.0,
+          "protein_g": 24.06,
+          "sodium_g": 0.337,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, rotisserie, original seasoning, thigh, meat only, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rotisserie chicken wing",
+          "cooked rotisserie wing",
+          "seasoned rotisserie wing meat",
+          "chicken wing rotisserie",
+          "ready-to-eat chicken wing"
+        ],
+        "category_label": "protein",
+        "description": "Rotisserie chicken wing is cooked seasoned poultry commonly used in mixed dishes and leftover prep. This USDA row reflects cooked rotisserie wing values per 100 g.",
+        "display_name": "Chicken Wing (Rotisserie, Cooked)",
+        "fdc_id": 171121,
+        "macros": {
+          "calories": 197.0,
+          "carbs_g": 0.0,
+          "fat_g": 9.53,
+          "fiber_g": 0.0,
+          "protein_g": 27.69,
+          "sodium_g": 0.725,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, broilers or fryers, rotisserie, original seasoning, wing, meat only, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dry chickpeas",
+          "garbanzo beans dry",
+          "bengal gram",
+          "dried chickpeas",
+          "uncooked chickpeas"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry chickpeas (garbanzo beans) are pantry legumes used for curries, stews, hummus, and salads after cooking. This USDA row reflects dry legume values per 100 g.",
+        "display_name": "Chickpeas (Dry)",
+        "fdc_id": 2644282,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 60.358,
+          "fat_g": 6.274,
+          "fiber_g": 0.0,
+          "protein_g": 21.275,
+          "sodium_g": 0.0088,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chickpeas, (garbanzo beans, bengal gram), dry",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "witloof chicory",
+          "belgian endive",
+          "chicory witloof",
+          "white chicory",
+          "endive witloof"
+        ],
+        "category_label": "vegetable",
+        "description": "Witloof chicory (Belgian endive) is a slightly bitter leafy vegetable for salads, braising, or roasting. This USDA row reflects raw witloof values per 100 g.",
+        "display_name": "Chicory (Witloof)",
+        "fdc_id": 170404,
+        "macros": {
+          "calories": 17.0,
+          "carbs_g": 4.0,
+          "fat_g": 0.1,
+          "fiber_g": 3.1,
+          "protein_g": 0.9,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicory, witloof, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "freeze-dried chives",
+          "dried chives",
+          "chives dried",
+          "chive flakes",
+          "dehydrated chives"
+        ],
+        "category_label": "vegetable",
+        "description": "Freeze-dried chives are a dried herb ingredient used for seasoning soups, dips, and savory finishes. This USDA row reflects dry herb values per 100 g.",
+        "display_name": "Chives (Freeze-dried)",
+        "fdc_id": 170075,
+        "macros": {
+          "calories": 311.0,
+          "carbs_g": 64.29,
+          "fat_g": 3.5,
+          "fiber_g": 26.2,
+          "protein_g": 21.2,
+          "sodium_g": 0.07,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chives, freeze-dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "garland chrysanthemum greens",
+          "chrysanthemum greens",
+          "tong ho",
+          "edible chrysanthemum leaves",
+          "garland greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Garland chrysanthemum greens are aromatic leafy vegetables used in hot pots, stir-fries, and soups. This USDA row reflects raw greens values per 100 g.",
+        "display_name": "Chrysanthemum Greens (Garland)",
+        "fdc_id": 169995,
+        "macros": {
+          "calories": 24.0,
+          "carbs_g": 3.02,
+          "fat_g": 0.56,
+          "fiber_g": 3.0,
+          "protein_g": 3.36,
+          "sodium_g": 0.118,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chrysanthemum, garland, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen collards cooked",
+          "cooked frozen collard greens",
+          "boiled collards frozen",
+          "salted frozen collards",
+          "collard greens frozen chopped"
+        ],
+        "category_label": "vegetable",
+        "description": "This entry represents frozen chopped collards that are cooked and salted, useful as a prepared side ingredient. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Collards (Frozen, Cooked)",
+        "fdc_id": 168524,
+        "macros": {
+          "calories": 36.0,
+          "carbs_g": 7.1,
+          "fat_g": 0.41,
+          "fiber_g": 2.8,
+          "protein_g": 2.97,
+          "sodium_g": 0.286,
+          "sugar_g": 0.57
+        },
+        "source_description": "Collards, frozen, chopped, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cilantro leaves",
+          "coriander leaves",
+          "fresh cilantro",
+          "coriander cilantro",
+          "cilantro herb"
+        ],
+        "category_label": "vegetable",
+        "description": "Coriander leaves (cilantro) are fresh herbs used for finishing, sauces, and aromatic flavor in many cuisines. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Coriander Leaves (Cilantro)",
+        "fdc_id": 169997,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 3.67,
+          "fat_g": 0.52,
+          "fiber_g": 2.8,
+          "protein_g": 2.13,
+          "sodium_g": 0.046,
+          "sugar_g": 0.87
+        },
+        "source_description": "Coriander (cilantro) leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "corn bran",
+          "crude corn bran",
+          "maize bran",
+          "corn fiber bran",
+          "bran from corn"
+        ],
+        "category_label": "grain_legume",
+        "description": "Crude corn bran is a high-fiber milling byproduct used in cereal blends and baking formulations. This USDA row reflects dry bran values per 100 g.",
+        "display_name": "Corn Bran (Crude)",
+        "fdc_id": 170289,
+        "macros": {
+          "calories": 224.0,
+          "carbs_g": 85.64,
+          "fat_g": 0.92,
+          "fiber_g": 79.0,
+          "protein_g": 8.36,
+          "sodium_g": 0.007,
+          "sugar_g": 0.0
+        },
+        "source_description": "Corn bran, crude",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white masa flour",
+          "masa harina white",
+          "corn flour white masa",
+          "enriched masa flour",
+          "masa flour for tortillas"
+        ],
+        "category_label": "grain_legume",
+        "description": "White masa corn flour is nixtamalized flour used for tortillas, tamales, and regional dough preparations. This USDA row reflects enriched white masa flour per 100 g.",
+        "display_name": "Corn Flour (White Masa)",
+        "fdc_id": 169694,
+        "macros": {
+          "calories": 363.0,
+          "carbs_g": 76.59,
+          "fat_g": 3.69,
+          "fiber_g": 6.4,
+          "protein_g": 8.46,
+          "sodium_g": 0.005,
+          "sugar_g": 1.61
+        },
+        "source_description": "Corn flour, masa, enriched, white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "blue corn flour",
+          "whole-grain blue corn flour",
+          "harina de maiz morado",
+          "blue masa flour",
+          "purple corn flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-grain blue corn flour is used for tortillas, baked goods, and specialty maize dishes. This USDA row reflects dry whole-grain blue flour values per 100 g.",
+        "display_name": "Corn Flour (Whole-grain Blue)",
+        "fdc_id": 168921,
+        "macros": {
+          "calories": 364.0,
+          "carbs_g": 73.89,
+          "fat_g": 5.09,
+          "fiber_g": 8.4,
+          "protein_g": 8.75,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Corn flour, whole-grain, blue (harina de maiz morado)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow corn flour",
+          "degermed yellow corn flour",
+          "yellow maize flour",
+          "corn flour yellow",
+          "unenriched yellow corn flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Degermed yellow corn flour is used for baking and thickening where finer maize texture is needed. This USDA row reflects dry degermed flour values per 100 g.",
+        "display_name": "Corn Flour (Yellow, Degermed)",
+        "fdc_id": 169695,
+        "macros": {
+          "calories": 375.0,
+          "carbs_g": 82.75,
+          "fat_g": 1.39,
+          "fiber_g": 1.9,
+          "protein_g": 5.59,
+          "sodium_g": 0.001,
+          "sugar_g": 0.64
+        },
+        "source_description": "Corn flour, yellow, degermed, unenriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow masa flour",
+          "masa harina yellow",
+          "yellow corn masa flour",
+          "enriched yellow masa",
+          "yellow tortilla flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Yellow masa flour is nixtamalized corn flour for tortillas and masa-based dishes. This USDA row reflects enriched yellow masa flour values per 100 g.",
+        "display_name": "Corn Flour (Yellow Masa)",
+        "fdc_id": 169749,
+        "macros": {
+          "calories": 363.0,
+          "carbs_g": 76.59,
+          "fat_g": 3.69,
+          "fiber_g": 6.4,
+          "protein_g": 8.46,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Corn flour, yellow, masa, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white corn grain",
+          "white maize grain",
+          "corn kernels white dry",
+          "whole white corn",
+          "maize grain white"
+        ],
+        "category_label": "grain_legume",
+        "description": "White corn grain is a dry maize ingredient used for milling, grits, and long-cook grain preparations. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Corn Grain (White)",
+        "fdc_id": 168920,
+        "macros": {
+          "calories": 365.0,
+          "carbs_g": 74.26,
+          "fat_g": 4.74,
+          "fiber_g": 0.0,
+          "protein_g": 9.42,
+          "sodium_g": 0.035,
+          "sugar_g": 0.0
+        },
+        "source_description": "Corn grain, white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow corn grain",
+          "yellow maize grain",
+          "corn kernels yellow dry",
+          "whole yellow corn",
+          "maize grain yellow"
+        ],
+        "category_label": "grain_legume",
+        "description": "Yellow corn grain is a dry maize ingredient used for milling, grits, and long-cook grain preparations. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Corn Grain (Yellow)",
+        "fdc_id": 170288,
+        "macros": {
+          "calories": 365.0,
+          "carbs_g": 74.26,
+          "fat_g": 4.74,
+          "fiber_g": 7.3,
+          "protein_g": 9.42,
+          "sodium_g": 0.035,
+          "sugar_g": 0.64
+        },
+        "source_description": "Corn grain, yellow",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet white corn",
+          "white sweet corn raw",
+          "raw white corn kernels",
+          "fresh sweet corn white",
+          "sweetcorn white"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw sweet white corn is used for grilling, boiling, sauteing, and fresh salads. This USDA row reflects raw sweet corn values per 100 g.",
+        "display_name": "Corn (Sweet White, Raw)",
+        "fdc_id": 168538,
+        "macros": {
+          "calories": 86.0,
+          "carbs_g": 19.02,
+          "fat_g": 1.18,
+          "fiber_g": 2.7,
+          "protein_g": 3.22,
+          "sodium_g": 0.015,
+          "sugar_g": 3.22
+        },
+        "source_description": "Corn, sweet, white, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned corn with peppers",
+          "corn and peppers canned",
+          "corn with red and green peppers",
+          "mixed pepper corn canned",
+          "seasoned canned corn"
+        ],
+        "category_label": "vegetable",
+        "description": "This canned vegetable mix combines corn with red and green peppers and is used in sides and quick skillet dishes. This USDA row reflects canned solids and liquids per 100 g.",
+        "display_name": "Corn With Red And Green Peppers (Canned)",
+        "fdc_id": 169218,
+        "macros": {
+          "calories": 75.0,
+          "carbs_g": 18.17,
+          "fat_g": 0.55,
+          "fiber_g": 0.0,
+          "protein_g": 2.33,
+          "sodium_g": 0.347,
+          "sugar_g": 0.0
+        },
+        "source_description": "Corn with red and green peppers, canned, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow corn frozen microwaved",
+          "frozen yellow corn",
+          "microwaved corn kernels",
+          "yellow sweet corn frozen",
+          "cooked frozen yellow corn"
+        ],
+        "category_label": "vegetable",
+        "description": "This entry represents yellow whole-kernel corn after freezing and microwave cooking. It is useful for ready-cooked side and mix-in nutrition references per 100 g.",
+        "display_name": "Corn (Yellow, Frozen, Microwaved)",
+        "fdc_id": 169217,
+        "macros": {
+          "calories": 113.0,
+          "carbs_g": 25.87,
+          "fat_g": 1.42,
+          "fiber_g": 2.6,
+          "protein_g": 3.62,
+          "sodium_g": 0.004,
+          "sugar_g": 3.36
+        },
+        "source_description": "Corn, yellow, whole kernel, frozen, microwaved",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw corned beef brisket",
+          "corned brisket raw",
+          "cured beef brisket",
+          "corned beef uncooked",
+          "salt-cured beef brisket"
+        ],
+        "category_label": "protein",
+        "description": "Raw corned beef brisket is a cured beef cut used for braising, boiling, and deli-style preparations. This USDA row reflects raw cured meat values per 100 g.",
+        "display_name": "Corned Beef Brisket (Raw)",
+        "fdc_id": 170199,
+        "macros": {
+          "calories": 198.0,
+          "carbs_g": 0.14,
+          "fat_g": 14.9,
+          "fiber_g": 0.0,
+          "protein_g": 14.68,
+          "sodium_g": 1.217,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, cured, corned beef, brisket, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw cornish hen meat",
+          "cornish game hen meat",
+          "cornish hen meat only",
+          "game hen raw meat",
+          "cornish chicken meat"
+        ],
+        "category_label": "protein",
+        "description": "Raw Cornish hen meat is used similarly to chicken for roasting and portioned poultry dishes. This USDA row reflects meat-only raw values per 100 g.",
+        "display_name": "Cornish Hen Meat (Raw)",
+        "fdc_id": 171108,
+        "macros": {
+          "calories": 116.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.33,
+          "fiber_g": 0.0,
+          "protein_g": 20.04,
+          "sodium_g": 0.068,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, cornish game hens, meat only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "degermed white cornmeal",
+          "white cornmeal enriched",
+          "cornmeal white degermed",
+          "enriched white meal",
+          "white maize meal"
+        ],
+        "category_label": "grain_legume",
+        "description": "Degermed white cornmeal is a milled maize ingredient used in breads, porridges, and coatings. This USDA row reflects enriched dry cornmeal values per 100 g.",
+        "display_name": "Cornmeal (Degermed White)",
+        "fdc_id": 168922,
+        "macros": {
+          "calories": 370.0,
+          "carbs_g": 79.45,
+          "fat_g": 1.75,
+          "fiber_g": 3.9,
+          "protein_g": 7.11,
+          "sodium_g": 0.007,
+          "sugar_g": 1.61
+        },
+        "source_description": "Cornmeal, degermed, enriched, white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white self-rising cornmeal",
+          "self-rising white cornmeal",
+          "cornmeal white self-rising",
+          "leavened white cornmeal",
+          "self-raising cornmeal white"
+        ],
+        "category_label": "grain_legume",
+        "description": "Self-rising white cornmeal includes leavening and is used in quick breads and batters. This USDA row reflects dry self-rising meal values per 100 g.",
+        "display_name": "Cornmeal (White, Self-rising)",
+        "fdc_id": 168925,
+        "macros": {
+          "calories": 355.0,
+          "carbs_g": 74.79,
+          "fat_g": 1.72,
+          "fiber_g": 7.1,
+          "protein_g": 8.41,
+          "sodium_g": 1.348,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cornmeal, white, self-rising, degermed, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "whole-grain white cornmeal",
+          "white whole cornmeal",
+          "whole white maize meal",
+          "stone-ground white cornmeal",
+          "cornmeal wholegrain white"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-grain white cornmeal retains more bran and germ and is used in traditional maize preparations. This USDA row reflects dry whole-grain meal values per 100 g.",
+        "display_name": "Cornmeal (Whole-grain White)",
+        "fdc_id": 169750,
+        "macros": {
+          "calories": 362.0,
+          "carbs_g": 76.89,
+          "fat_g": 3.59,
+          "fiber_g": 7.3,
+          "protein_g": 8.12,
+          "sodium_g": 0.035,
+          "sugar_g": 0.64
+        },
+        "source_description": "Cornmeal, whole-grain, white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow self-rising cornmeal",
+          "self-rising yellow cornmeal",
+          "cornmeal yellow self-rising",
+          "leavened yellow cornmeal",
+          "self-raising cornmeal yellow"
+        ],
+        "category_label": "grain_legume",
+        "description": "Self-rising yellow cornmeal includes leavening and is used in cornbreads and batter mixes. This USDA row reflects dry self-rising meal values per 100 g.",
+        "display_name": "Cornmeal (Yellow, Self-rising)",
+        "fdc_id": 168870,
+        "macros": {
+          "calories": 355.0,
+          "carbs_g": 74.79,
+          "fat_g": 1.72,
+          "fiber_g": 7.1,
+          "protein_g": 8.41,
+          "sodium_g": 1.348,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cornmeal, yellow, self-rising, degermed, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dry couscous",
+          "uncooked couscous",
+          "semolina couscous dry",
+          "instant couscous dry",
+          "couscous grains"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry couscous is a semolina pasta grain used for quick side dishes, salads, and grain bowls after hydration. This USDA row reflects dry couscous values per 100 g.",
+        "display_name": "Couscous (Dry)",
+        "fdc_id": 169699,
+        "macros": {
+          "calories": 376.0,
+          "carbs_g": 77.43,
+          "fat_g": 0.64,
+          "fiber_g": 5.0,
+          "protein_g": 12.76,
+          "sodium_g": 0.01,
+          "sugar_g": 0.0
+        },
+        "source_description": "Couscous, dry",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "black-eyed peas immature",
+          "immature blackeye cowpeas",
+          "young black-eyed peas",
+          "cowpeas blackeyes raw",
+          "fresh black-eyed peas"
+        ],
+        "category_label": "vegetable",
+        "description": "Immature blackeye cowpea seeds are young legumes used in stews and vegetable dishes. This USDA row reflects raw immature seed values per 100 g.",
+        "display_name": "Cowpeas Blackeyes (Immature Seeds)",
+        "fdc_id": 169220,
+        "macros": {
+          "calories": 90.0,
+          "carbs_g": 18.83,
+          "fat_g": 0.35,
+          "fiber_g": 5.0,
+          "protein_g": 2.95,
+          "sodium_g": 0.004,
+          "sugar_g": 3.0
+        },
+        "source_description": "Cowpeas (blackeyes), immature seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cowpea leafy tips",
+          "cowpea leaves",
+          "young cowpea leaves",
+          "cowpea greens",
+          "leafy cowpeas"
+        ],
+        "category_label": "vegetable",
+        "description": "Cowpea leafy tips are edible greens used similarly to other braising greens in soups and stir-fries. This USDA row reflects raw leafy-tip values per 100 g.",
+        "display_name": "Cowpeas (Leafy Tips)",
+        "fdc_id": 169224,
+        "macros": {
+          "calories": 29.0,
+          "carbs_g": 4.82,
+          "fat_g": 0.25,
+          "fiber_g": 0.0,
+          "protein_g": 4.1,
+          "sodium_g": 0.007,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cowpeas, leafy tips, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cowpeas young pods",
+          "young cowpea pods with seeds",
+          "cowpea pods raw",
+          "fresh cowpea pods",
+          "green cowpea pods"
+        ],
+        "category_label": "vegetable",
+        "description": "Young cowpea pods with seeds are a tender legume vegetable for stir-fries and simmered dishes. This USDA row reflects raw pod values per 100 g.",
+        "display_name": "Cowpeas (Young Pods With Seeds)",
+        "fdc_id": 168405,
+        "macros": {
+          "calories": 44.0,
+          "carbs_g": 9.5,
+          "fat_g": 0.3,
+          "fiber_g": 3.3,
+          "protein_g": 3.3,
+          "sodium_g": 0.004,
+          "sugar_g": 5.04
+        },
+        "source_description": "Cowpeas, young pods with seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 006: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "100% cranberry juice blend",
+          "cranberry juice blend bottled",
+          "cranberry blend with vitamin c and calcium",
+          "cranberry mixed juice",
+          "fortified cranberry juice blend"
+        ],
+        "category_label": "fruit",
+        "description": "This bottled 100% cranberry juice blend is a fortified beverage ingredient used directly or in mixed drinks. This USDA row reflects juice values per 100 g.",
+        "display_name": "Cranberry Juice Blend (100% Juice)",
+        "fdc_id": 168212,
+        "macros": {
+          "calories": 45.0,
+          "carbs_g": 10.91,
+          "fat_g": 0.12,
+          "fiber_g": 0.1,
+          "protein_g": 0.27,
+          "sodium_g": 0.006,
+          "sugar_g": 9.8
+        },
+        "source_description": "Cranberry juice blend, 100% juice, bottled, with added vitamin C and calcium",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

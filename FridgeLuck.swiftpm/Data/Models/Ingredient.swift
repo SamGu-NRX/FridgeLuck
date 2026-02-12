@@ -15,6 +15,10 @@ struct Ingredient: Identifiable, Sendable, Codable {
   var storageTip: String?
   var pairsWith: String?
   var notes: String?
+  var description: String?
+  var categoryLabel: String?
+  var spriteGroup: String?
+  var spriteKey: String?
 }
 
 extension Ingredient: FetchableRecord, PersistableRecord, TableRecord {
@@ -27,5 +31,25 @@ extension Ingredient: FetchableRecord, PersistableRecord, TableRecord {
     case storageTip = "storage_tip"
     case pairsWith = "pairs_with"
     case notes
+    case description
+    case categoryLabel = "category_label"
+    case spriteGroup = "sprite_group"
+    case spriteKey = "sprite_key"
+  }
+}
+
+extension Ingredient {
+  var displayName: String {
+    if name.contains("_") {
+      return name.replacingOccurrences(of: "_", with: " ").capitalized
+    }
+    return name
+  }
+
+  func matchesSearch(_ query: String) -> Bool {
+    let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+    if trimmed.isEmpty { return true }
+    let corpus = "\(name) \(description ?? "") \(notes ?? "")".lowercased()
+    return corpus.contains(trimmed)
   }
 }

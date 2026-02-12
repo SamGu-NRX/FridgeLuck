@@ -1,0 +1,1756 @@
+{
+  "batch_id": 11,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork loin backribs lean raw",
+          "raw pork loin back ribs",
+          "back rib pork loin lean",
+          "pork backribs lean only",
+          "loin back ribs pork"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean pork loin backribs are used for roasting and grilling when trimmed to lean portions. This USDA row reflects lean raw values per 100 g.",
+        "display_name": "Pork Loin Backribs (Raw, Lean)",
+        "fdc_id": 168376,
+        "macros": {
+          "calories": 172.0,
+          "carbs_g": 0.0,
+          "fat_g": 9.84,
+          "fiber_g": 0.0,
+          "protein_g": 20.85,
+          "sodium_g": 0.095,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork loin, fresh, backribs, bone-in, raw, lean only",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork backribs raw",
+          "raw pork ribs",
+          "back ribs pork",
+          "pork rib raw",
+          "fresh pork back ribs"
+        ],
+        "category_label": "protein",
+        "description": "Raw pork backribs are commonly roasted, smoked, or braised. This USDA row reflects separable lean-and-fat raw values per 100 g.",
+        "display_name": "Pork Backribs (Raw)",
+        "fdc_id": 168299,
+        "macros": {
+          "calories": 224.0,
+          "carbs_g": 0.0,
+          "fat_g": 16.33,
+          "fiber_g": 0.0,
+          "protein_g": 19.07,
+          "sodium_g": 0.087,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, backribs, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pork spareribs",
+          "pork spare ribs",
+          "spareribs pork raw",
+          "fresh spareribs",
+          "pork rib spare cut"
+        ],
+        "category_label": "protein",
+        "description": "Raw pork spareribs are a rich rib cut for slow cooking, smoking, and roasting. This USDA row reflects separable lean-and-fat raw values per 100 g.",
+        "display_name": "Pork Spareribs (Raw)",
+        "fdc_id": 167853,
+        "macros": {
+          "calories": 277.0,
+          "carbs_g": 0.0,
+          "fat_g": 23.4,
+          "fiber_g": 0.0,
+          "protein_g": 15.47,
+          "sodium_g": 0.081,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, spareribs, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "boneless pork shoulder breast",
+          "raw pork shoulder breast",
+          "pork shoulder boneless",
+          "pork shoulder breast cut",
+          "pork shoulder raw"
+        ],
+        "category_label": "protein",
+        "description": "Raw boneless pork shoulder-breast cut is used for slow-cooking and roasting. This USDA row reflects separable lean-and-fat values per 100 g.",
+        "display_name": "Pork Shoulder Breast (Boneless, Raw)",
+        "fdc_id": 169187,
+        "macros": {
+          "calories": 127.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.4,
+          "fiber_g": 0.0,
+          "protein_g": 22.54,
+          "sodium_g": 0.054,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, Shoulder breast, boneless, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pork shoulder lean",
+          "lean pork shoulder",
+          "pork shoulder lean only",
+          "fresh pork shoulder lean",
+          "whole shoulder pork lean"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean pork shoulder is used for braises, stews, and roasting. This USDA row reflects separable lean-only values per 100 g.",
+        "display_name": "Pork Shoulder (Raw, Lean)",
+        "fdc_id": 167845,
+        "macros": {
+          "calories": 148.0,
+          "carbs_g": 0.0,
+          "fat_g": 7.14,
+          "fiber_g": 0.0,
+          "protein_g": 19.55,
+          "sodium_g": 0.076,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, shoulder, whole, separable lean only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "boneless pork leg cap steak",
+          "raw pork cap steak",
+          "pork steak boneless raw",
+          "leg cap pork steak",
+          "pork cap steak"
+        ],
+        "category_label": "protein",
+        "description": "Raw boneless pork leg-cap steak is used for pan searing and grilling. This USDA row reflects separable lean-and-fat raw values per 100 g.",
+        "display_name": "Pork Leg Cap Steak (Boneless, Raw)",
+        "fdc_id": 169186,
+        "macros": {
+          "calories": 123.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.39,
+          "fiber_g": 0.0,
+          "protein_g": 21.64,
+          "sodium_g": 0.073,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, Leg Cap Steak, boneless, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pork tenderloin lean",
+          "lean pork tenderloin",
+          "pork loin tenderloin raw",
+          "enhanced pork tenderloin",
+          "pork tender cut raw"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean pork tenderloin is a tender cut used for quick roasting and pan cooking. This USDA row reflects lean raw values per 100 g.",
+        "display_name": "Pork Tenderloin (Raw, Lean)",
+        "fdc_id": 168361,
+        "macros": {
+          "calories": 106.0,
+          "carbs_g": 0.0,
+          "fat_g": 2.09,
+          "fiber_g": 0.0,
+          "protein_g": 20.39,
+          "sodium_g": 0.243,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, enhanced, loin, tenderloin, separable lean only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork petite tender raw",
+          "boneless pork shoulder tender",
+          "raw pork shoulder petite tender",
+          "pork tender shoulder cut",
+          "petite tender pork"
+        ],
+        "category_label": "protein",
+        "description": "Raw boneless shoulder petite tender is a small tender pork cut for quick cooking. This USDA row reflects separable lean-and-fat raw values per 100 g.",
+        "display_name": "Pork Shoulder Petite Tender (Boneless, Raw)",
+        "fdc_id": 168369,
+        "macros": {
+          "calories": 128.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.91,
+          "fiber_g": 0.0,
+          "protein_g": 21.65,
+          "sodium_g": 0.05,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, Shoulder petite tender, boneless, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen potato puffs",
+          "oven-heated potato puffs",
+          "tater puffs",
+          "potato tots baked",
+          "potato puffs prepared"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen potato puffs are prepared potato bites used as side dishes and snacks. This USDA row reflects oven-heated values per 100 g.",
+        "display_name": "Potato Puffs (Frozen, Oven-Heated)",
+        "fdc_id": 170048,
+        "macros": {
+          "calories": 192.0,
+          "carbs_g": 27.29,
+          "fat_g": 9.05,
+          "fiber_g": 2.0,
+          "protein_g": 2.13,
+          "sodium_g": 0.463,
+          "sugar_g": 0.27
+        },
+        "source_description": "Potato puffs, frozen, oven-heated",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned potatoes drained",
+          "drained canned potatoes",
+          "potatoes canned solids",
+          "jarred potatoes drained",
+          "preserved potatoes canned"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned drained potatoes are ready-to-use potatoes for sides and mixed dishes. This USDA row reflects drained solids per 100 g.",
+        "display_name": "Potatoes (Canned, Drained)",
+        "fdc_id": 170444,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 13.61,
+          "fat_g": 0.21,
+          "fiber_g": 2.3,
+          "protein_g": 1.41,
+          "sodium_g": 0.219,
+          "sugar_g": 0.0
+        },
+        "source_description": "Potatoes, canned, drained solids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "baked potato flesh",
+          "potato flesh cooked",
+          "salted baked potato flesh",
+          "potato interior baked",
+          "baked potato inside"
+        ],
+        "category_label": "vegetable",
+        "description": "Baked potato flesh with salt is the interior cooked portion used for mash and fillings. This USDA row reflects baked flesh values per 100 g.",
+        "display_name": "Potato Flesh (Baked, Salted)",
+        "fdc_id": 170112,
+        "macros": {
+          "calories": 93.0,
+          "carbs_g": 21.55,
+          "fat_g": 0.1,
+          "fiber_g": 1.5,
+          "protein_g": 1.96,
+          "sodium_g": 0.241,
+          "sugar_g": 1.7
+        },
+        "source_description": "Potatoes, baked, flesh, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw potatoes with skin",
+          "potato flesh and skin raw",
+          "whole raw potatoes",
+          "fresh potatoes raw",
+          "skin-on raw potato"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw potatoes with flesh and skin are used across roasting, boiling, and frying preparations. This USDA row reflects raw values per 100 g.",
+        "display_name": "Potatoes (Raw, Flesh and Skin)",
+        "fdc_id": 170026,
+        "macros": {
+          "calories": 77.0,
+          "carbs_g": 17.49,
+          "fat_g": 0.09,
+          "fiber_g": 2.1,
+          "protein_g": 2.05,
+          "sodium_g": 0.006,
+          "sugar_g": 0.82
+        },
+        "source_description": "Potatoes, flesh and skin, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen french fries baked",
+          "oven-heated frozen fries",
+          "prepared frozen fries",
+          "french fries frozen",
+          "baked frozen potato fries"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen oven-heated french fries are prepared potato products used as sides. This USDA row reflects cooked product values per 100 g.",
+        "display_name": "French Fries (Frozen, Oven-Heated)",
+        "fdc_id": 170118,
+        "macros": {
+          "calories": 168.0,
+          "carbs_g": 28.71,
+          "fat_g": 5.22,
+          "fiber_g": 2.6,
+          "protein_g": 2.66,
+          "sodium_g": 0.032,
+          "sugar_g": 0.28
+        },
+        "source_description": "Potatoes, french fried, all types, salt not added in processing, frozen, oven-heated",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cottage-cut frozen fries",
+          "frozen cottage fries",
+          "oven-heated cottage fries",
+          "cottage-cut potato fries",
+          "prepared cottage fries"
+        ],
+        "category_label": "vegetable",
+        "description": "Cottage-cut frozen fries are thick-cut prepared potato fries for oven heating. This USDA row reflects prepared product values per 100 g.",
+        "display_name": "French Fries (Cottage-Cut, Frozen)",
+        "fdc_id": 169266,
+        "macros": {
+          "calories": 218.0,
+          "carbs_g": 34.03,
+          "fat_g": 8.2,
+          "fiber_g": 3.2,
+          "protein_g": 3.44,
+          "sodium_g": 0.045,
+          "sugar_g": 0.0
+        },
+        "source_description": "Potatoes, french fried, cottage-cut, salt not added in processing, frozen, oven-heated",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "steak fries frozen",
+          "frozen steak fries",
+          "oven-heated steak fries",
+          "thick-cut frozen fries",
+          "prepared steak fries"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen steak fries are thick-cut potato fries used as a hearty side. This USDA row reflects prepared product values per 100 g.",
+        "display_name": "French Fries (Steak Fries, Frozen)",
+        "fdc_id": 168445,
+        "macros": {
+          "calories": 148.0,
+          "carbs_g": 26.98,
+          "fat_g": 3.76,
+          "fiber_g": 2.6,
+          "protein_g": 2.57,
+          "sodium_g": 0.373,
+          "sugar_g": 0.25
+        },
+        "source_description": "Potatoes, french fried, steak fries, salt added in processing, frozen, oven-heated",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen whole potatoes cooked",
+          "cooked frozen whole potatoes",
+          "boiled frozen potatoes salted",
+          "prepared whole frozen potatoes",
+          "frozen potatoes whole"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen whole potatoes cooked and salted are prepared potatoes used in side dishes. This USDA row reflects prepared values per 100 g.",
+        "display_name": "Potatoes (Frozen Whole, Cooked)",
+        "fdc_id": 170116,
+        "macros": {
+          "calories": 63.0,
+          "carbs_g": 13.93,
+          "fat_g": 0.13,
+          "fiber_g": 1.4,
+          "protein_g": 1.98,
+          "sodium_g": 0.256,
+          "sugar_g": 0.0
+        },
+        "source_description": "Potatoes, frozen, whole, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "microwaved potatoes in skin",
+          "skin-on microwaved potatoes",
+          "cooked potato skin on",
+          "potatoes microwaved",
+          "prepared potatoes in skin"
+        ],
+        "category_label": "vegetable",
+        "description": "Microwaved skin-on potatoes are ready-cooked potatoes used for quick meal sides. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Potatoes (Microwaved, In Skin)",
+        "fdc_id": 170115,
+        "macros": {
+          "calories": 132.0,
+          "carbs_g": 29.63,
+          "fat_g": 0.1,
+          "fiber_g": 5.5,
+          "protein_g": 4.39,
+          "sodium_g": 0.252,
+          "sugar_g": 0.0
+        },
+        "source_description": "Potatoes, microwaved, cooked, in skin, skin with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ready-to-eat mashed potatoes",
+          "prepared mashed potatoes",
+          "mashed potato ready",
+          "instant-style mashed potatoes",
+          "cooked mashed potatoes"
+        ],
+        "category_label": "vegetable",
+        "description": "Ready-to-eat mashed potatoes are prepared potato puree used as a side dish. This USDA row reflects prepared values per 100 g.",
+        "display_name": "Mashed Potatoes (Ready-to-Eat)",
+        "fdc_id": 169768,
+        "macros": {
+          "calories": 106.0,
+          "carbs_g": 13.29,
+          "fat_g": 5.01,
+          "fiber_g": 1.9,
+          "protein_g": 1.97,
+          "sodium_g": 0.298,
+          "sugar_g": 1.76
+        },
+        "source_description": "Potatoes, mashed, ready-to-eat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw red potatoes",
+          "red potato raw",
+          "fresh red potatoes",
+          "red skin potato raw",
+          "whole red potatoes"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw red potatoes are waxy potatoes used for roasting, boiling, and salads. This USDA row reflects raw values per 100 g.",
+        "display_name": "Red Potatoes (Raw)",
+        "fdc_id": 170029,
+        "macros": {
+          "calories": 70.0,
+          "carbs_g": 15.9,
+          "fat_g": 0.14,
+          "fiber_g": 1.7,
+          "protein_g": 1.89,
+          "sodium_g": 0.018,
+          "sugar_g": 1.29
+        },
+        "source_description": "Potatoes, red, flesh and skin, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "baked russet potato",
+          "russet potato baked",
+          "russet flesh and skin baked",
+          "baked idaho potato",
+          "cooked russet potato"
+        ],
+        "category_label": "vegetable",
+        "description": "Baked russet potatoes with flesh and skin are used as side dishes and mash base. This USDA row reflects baked values per 100 g.",
+        "display_name": "Russet Potatoes (Baked, Flesh and Skin)",
+        "fdc_id": 170030,
+        "macros": {
+          "calories": 95.0,
+          "carbs_g": 21.44,
+          "fat_g": 0.13,
+          "fiber_g": 2.3,
+          "protein_g": 2.63,
+          "sodium_g": 0.014,
+          "sugar_g": 1.08
+        },
+        "source_description": "Potatoes, Russet, flesh and skin, baked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw potato skin",
+          "potato peels raw",
+          "uncooked potato peel",
+          "potato skin raw",
+          "fresh potato peel"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw potato skin is represented separately for ingredient and waste-stream calculations. This USDA row reflects raw skin values per 100 g.",
+        "display_name": "Potato Skin (Raw)",
+        "fdc_id": 170032,
+        "macros": {
+          "calories": 58.0,
+          "carbs_g": 12.44,
+          "fat_g": 0.1,
+          "fiber_g": 2.5,
+          "protein_g": 2.57,
+          "sodium_g": 0.01,
+          "sugar_g": 0.0
+        },
+        "source_description": "Potatoes, raw, skin",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "baked potato skin",
+          "salted baked potato skin",
+          "potato skin cooked",
+          "baked potato peel",
+          "crisp baked potato skin"
+        ],
+        "category_label": "vegetable",
+        "description": "Baked salted potato skin is used in stuffed-skin dishes and snacks. This USDA row reflects cooked skin values per 100 g.",
+        "display_name": "Potato Skin (Baked, Salted)",
+        "fdc_id": 170113,
+        "macros": {
+          "calories": 198.0,
+          "carbs_g": 46.06,
+          "fat_g": 0.1,
+          "fiber_g": 7.9,
+          "protein_g": 4.29,
+          "sodium_g": 0.257,
+          "sugar_g": 1.4
+        },
+        "source_description": "Potatoes, baked, skin only, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw white potatoes",
+          "white potato raw",
+          "fresh white potatoes",
+          "white skin potato raw",
+          "whole white potatoes"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw white potatoes are versatile cooking potatoes for boiling, mashing, and roasting. This USDA row reflects raw values per 100 g.",
+        "display_name": "White Potatoes (Raw)",
+        "fdc_id": 170028,
+        "macros": {
+          "calories": 69.0,
+          "carbs_g": 15.71,
+          "fat_g": 0.1,
+          "fiber_g": 2.4,
+          "protein_g": 1.68,
+          "sodium_g": 0.016,
+          "sugar_g": 1.15
+        },
+        "source_description": "Potatoes, white, flesh and skin, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "prickly pear",
+          "prickly pears",
+          "cactus pear",
+          "tuna fruit",
+          "raw prickly pear"
+        ],
+        "category_label": "fruit",
+        "description": "Prickly pears are cactus fruits used fresh, in juices, and in syrups. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Prickly Pears (Raw)",
+        "fdc_id": 167750,
+        "macros": {
+          "calories": 41.0,
+          "carbs_g": 9.57,
+          "fat_g": 0.51,
+          "fiber_g": 3.6,
+          "protein_g": 0.73,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Prickly pears, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned prune juice",
+          "prune juice",
+          "plum prune juice",
+          "bottled prune juice",
+          "juice from prunes"
+        ],
+        "category_label": "fruit",
+        "description": "Canned prune juice is a fruit beverage used directly or in blended drinks. This USDA row reflects juice values per 100 g.",
+        "display_name": "Prune Juice (Canned)",
+        "fdc_id": 167753,
+        "macros": {
+          "calories": 71.0,
+          "carbs_g": 17.45,
+          "fat_g": 0.03,
+          "fiber_g": 1.0,
+          "protein_g": 0.61,
+          "sodium_g": 0.004,
+          "sugar_g": 16.45
+        },
+        "source_description": "Prune juice, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned prunes heavy syrup",
+          "prunes canned syrup",
+          "sweetened canned prunes",
+          "canned dried plums syrup",
+          "prunes solids and liquids"
+        ],
+        "category_label": "fruit",
+        "description": "Prunes canned in heavy syrup are sweet preserved fruit used in desserts and compotes. This USDA row reflects solids-and-liquids values per 100 g.",
+        "display_name": "Prunes (Canned, Heavy Syrup)",
+        "fdc_id": 168159,
+        "macros": {
+          "calories": 105.0,
+          "carbs_g": 27.8,
+          "fat_g": 0.2,
+          "fiber_g": 3.8,
+          "protein_g": 0.87,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Prunes, canned, heavy syrup pack, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "low-moisture dehydrated prunes",
+          "dehydrated prunes",
+          "semi-dry prunes",
+          "prunes dehydrated uncooked",
+          "dried plum low moisture"
+        ],
+        "category_label": "fruit",
+        "description": "Low-moisture dehydrated prunes are preserved fruit for snacking and baking. This USDA row reflects uncooked dehydrated values per 100 g.",
+        "display_name": "Prunes (Dehydrated, Low-Moisture)",
+        "fdc_id": 168160,
+        "macros": {
+          "calories": 339.0,
+          "carbs_g": 89.07,
+          "fat_g": 0.73,
+          "fiber_g": 0.0,
+          "protein_g": 3.7,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Prunes, dehydrated (low-moisture), uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried prunes",
+          "dried plums",
+          "prunes uncooked",
+          "sulfured prunes",
+          "dehydrated plums"
+        ],
+        "category_label": "fruit",
+        "description": "Prunes are dried plums used in snacks, baking, and high-fiber applications. This USDA row reflects uncooked dried fruit values per 100 g.",
+        "display_name": "Prunes (Dried Plums, Uncooked)",
+        "fdc_id": 168162,
+        "macros": {
+          "calories": 240.0,
+          "carbs_g": 63.88,
+          "fat_g": 0.38,
+          "fiber_g": 7.1,
+          "protein_g": 2.18,
+          "sodium_g": 0.002,
+          "sugar_g": 38.13
+        },
+        "source_description": "Plums, dried (prunes), uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pumpkin flowers",
+          "squash blossoms",
+          "pumpkin blossoms",
+          "zucchini flowers",
+          "raw pumpkin flowers"
+        ],
+        "category_label": "vegetable",
+        "description": "Pumpkin flowers are edible blossoms used stuffed, fried, or sautéed in seasonal dishes. This USDA row reflects raw flower values per 100 g.",
+        "display_name": "Pumpkin Flowers (Raw)",
+        "fdc_id": 169270,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 3.28,
+          "fat_g": 0.07,
+          "fiber_g": 0.0,
+          "protein_g": 1.03,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pumpkin flowers, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pumpkin leaves",
+          "squash leaves",
+          "raw pumpkin leaves",
+          "pumpkin greens",
+          "young pumpkin leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Pumpkin leaves are leafy greens used in soups and braised vegetable dishes. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Pumpkin Leaves (Raw)",
+        "fdc_id": 169272,
+        "macros": {
+          "calories": 19.0,
+          "carbs_g": 2.33,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 3.15,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pumpkin leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned pumpkin pie mix",
+          "pumpkin pie filling canned",
+          "sweet pumpkin mix",
+          "prepared pumpkin pie base",
+          "pumpkin dessert mix"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned pumpkin pie mix is a sweetened spiced pumpkin base used for pie and dessert fillings. This USDA row reflects prepared mix values per 100 g.",
+        "display_name": "Pumpkin Pie Mix (Canned)",
+        "fdc_id": 169273,
+        "macros": {
+          "calories": 104.0,
+          "carbs_g": 26.39,
+          "fat_g": 0.13,
+          "fiber_g": 8.3,
+          "protein_g": 1.09,
+          "sodium_g": 0.208,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pumpkin pie mix, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted pumpkin seeds",
+          "unsalted pumpkin seeds",
+          "pepitas roasted",
+          "roasted squash seeds",
+          "pumpkin seed kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Roasted unsalted pumpkin seed kernels are used as snacks, toppings, and in granola. This USDA row reflects roasted seed values per 100 g.",
+        "display_name": "Pumpkin Seeds (Roasted, Unsalted)",
+        "fdc_id": 170557,
+        "macros": {
+          "calories": 574.0,
+          "carbs_g": 14.71,
+          "fat_g": 49.05,
+          "fiber_g": 6.5,
+          "protein_g": 29.84,
+          "sodium_g": 0.018,
+          "sugar_g": 1.29
+        },
+        "source_description": "Seeds, pumpkin and squash seed kernels, roasted, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked quail",
+          "quail meat cooked",
+          "roasted quail",
+          "whole quail cooked",
+          "game bird quail"
+        ],
+        "category_label": "protein",
+        "description": "Cooked quail is a small game-bird protein used in plated entrees. This USDA row reflects cooked edible-portion values per 100 g.",
+        "display_name": "Quail (Cooked)",
+        "fdc_id": 169902,
+        "macros": {
+          "calories": 227.0,
+          "carbs_g": 0.0,
+          "fat_g": 14.1,
+          "fiber_g": 0.0,
+          "protein_g": 25.1,
+          "sodium_g": 0.052,
+          "sugar_g": 0.0
+        },
+        "source_description": "Quail, cooked, total edible",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw quinoa",
+          "dry quinoa",
+          "uncooked quinoa",
+          "quinoa grain",
+          "white quinoa dry"
+        ],
+        "category_label": "grain_legume",
+        "description": "Uncooked quinoa is a pseudocereal grain used for pilafs, bowls, and salads after cooking. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Quinoa (Uncooked)",
+        "fdc_id": 168874,
+        "macros": {
+          "calories": 368.0,
+          "carbs_g": 64.16,
+          "fat_g": 6.07,
+          "fiber_g": 7.0,
+          "protein_g": 14.12,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Quinoa, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "radish sprouts",
+          "sprouted radish seeds",
+          "raw radish sprouts",
+          "radish microgreens",
+          "radish seed sprouts"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw radish sprouts are peppery greens used in salads, sandwiches, and garnishes. This USDA row reflects raw sprout values per 100 g.",
+        "display_name": "Radish Sprouts (Raw)",
+        "fdc_id": 170095,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 3.6,
+          "fat_g": 2.53,
+          "fiber_g": 0.0,
+          "protein_g": 3.81,
+          "sodium_g": 0.006,
+          "sugar_g": 0.0
+        },
+        "source_description": "Radish seeds, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "hawaiian pickled radishes",
+          "pickled radishes hawaiian",
+          "radish pickle hawaiian style",
+          "sweet pickled radish",
+          "pickled radish slices"
+        ],
+        "category_label": "vegetable",
+        "description": "Hawaiian-style pickled radishes are preserved vegetables used as relish or side condiments. This USDA row reflects pickled values per 100 g.",
+        "display_name": "Radishes (Hawaiian Style, Pickled)",
+        "fdc_id": 169889,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 5.2,
+          "fat_g": 0.3,
+          "fiber_g": 2.2,
+          "protein_g": 1.1,
+          "sodium_g": 0.789,
+          "sugar_g": 2.0
+        },
+        "source_description": "Radishes, hawaiian style, pickled",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "oriental radish",
+          "daikon radish raw",
+          "raw oriental radish",
+          "white radish oriental",
+          "long white radish"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw oriental radish (daikon-type) is used in salads, pickles, and cooked dishes. This USDA row reflects raw values per 100 g.",
+        "display_name": "Radishes (Oriental, Raw)",
+        "fdc_id": 168451,
+        "macros": {
+          "calories": 18.0,
+          "carbs_g": 4.1,
+          "fat_g": 0.1,
+          "fiber_g": 1.6,
+          "protein_g": 0.6,
+          "sodium_g": 0.021,
+          "sugar_g": 2.5
+        },
+        "source_description": "Radishes, oriental, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white icicle radish",
+          "icicle radish raw",
+          "raw white icicle radish",
+          "long white icicle radish",
+          "icicle radishes"
+        ],
+        "category_label": "vegetable",
+        "description": "White icicle radishes are crisp mild radishes used fresh in salads and pickles. This USDA row reflects raw values per 100 g.",
+        "display_name": "Radishes (White Icicle, Raw)",
+        "fdc_id": 170081,
+        "macros": {
+          "calories": 14.0,
+          "carbs_g": 2.63,
+          "fat_g": 0.1,
+          "fiber_g": 1.4,
+          "protein_g": 1.1,
+          "sodium_g": 0.016,
+          "sugar_g": 0.0
+        },
+        "source_description": "Radishes, white icicle, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "golden raisins",
+          "seedless golden raisins",
+          "sultana raisins golden",
+          "dried golden grapes",
+          "gold raisins"
+        ],
+        "category_label": "fruit",
+        "description": "Golden seedless raisins are dried grapes used in baking, cereals, and savory dishes. This USDA row reflects dried fruit values per 100 g.",
+        "display_name": "Raisins (Golden, Seedless)",
+        "fdc_id": 168164,
+        "macros": {
+          "calories": 301.0,
+          "carbs_g": 80.02,
+          "fat_g": 0.2,
+          "fiber_g": 3.3,
+          "protein_g": 3.28,
+          "sodium_g": 0.024,
+          "sugar_g": 65.7
+        },
+        "source_description": "Raisins, golden, seedless",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "seeded raisins",
+          "raisins with seeds",
+          "dried seeded grapes",
+          "traditional seeded raisins",
+          "dark seeded raisins"
+        ],
+        "category_label": "fruit",
+        "description": "Seeded raisins are dried grapes used in baking and fruit mixes. This USDA row reflects dried fruit values per 100 g.",
+        "display_name": "Raisins (Seeded)",
+        "fdc_id": 168166,
+        "macros": {
+          "calories": 296.0,
+          "carbs_g": 78.47,
+          "fat_g": 0.54,
+          "fiber_g": 6.8,
+          "protein_g": 2.52,
+          "sodium_g": 0.028,
+          "sugar_g": 0.0
+        },
+        "source_description": "Raisins, seeded",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned rambutan",
+          "rambutan in syrup",
+          "syrup-pack rambutan",
+          "rambutan canned fruit",
+          "sweet rambutan canned"
+        ],
+        "category_label": "fruit",
+        "description": "Canned rambutan in syrup is a preserved tropical fruit for desserts and fruit mixes. This USDA row reflects syrup-pack values per 100 g.",
+        "display_name": "Rambutan (Canned, Syrup Pack)",
+        "fdc_id": 168167,
+        "macros": {
+          "calories": 82.0,
+          "carbs_g": 20.87,
+          "fat_g": 0.21,
+          "fiber_g": 0.9,
+          "protein_g": 0.65,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Rambutan, canned, syrup pack",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen sweetened raspberries",
+          "raspberries frozen red sweetened",
+          "sweetened frozen raspberries",
+          "frozen raspberry fruit",
+          "prepared frozen raspberries"
+        ],
+        "category_label": "fruit",
+        "description": "Sweetened frozen raspberries are used in desserts, sauces, and smoothies. This USDA row reflects frozen fruit values per 100 g.",
+        "display_name": "Raspberries (Frozen, Sweetened)",
+        "fdc_id": 167757,
+        "macros": {
+          "calories": 103.0,
+          "carbs_g": 26.16,
+          "fat_g": 0.16,
+          "fiber_g": 4.4,
+          "protein_g": 0.7,
+          "sodium_g": 0.001,
+          "sugar_g": 21.76
+        },
+        "source_description": "Raspberries, frozen, red, sweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "seedless raspberry puree",
+          "raspberry puree",
+          "pureed raspberries seedless",
+          "raspberry sauce base",
+          "raspberry fruit puree"
+        ],
+        "category_label": "fruit",
+        "description": "Seedless raspberry puree is used in desserts, fillings, and beverage flavoring. This USDA row reflects puree values per 100 g.",
+        "display_name": "Raspberry Puree (Seedless)",
+        "fdc_id": 167808,
+        "macros": {
+          "calories": 41.0,
+          "carbs_g": 7.99,
+          "fat_g": 0.87,
+          "fiber_g": 0.9,
+          "protein_g": 1.02,
+          "sodium_g": 0.004,
+          "sugar_g": 6.04
+        },
+        "source_description": "Raspberries, puree, seedless",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cayenne pepper",
+          "red pepper flakes",
+          "crushed red pepper",
+          "ground cayenne",
+          "hot red pepper spice"
+        ],
+        "category_label": "herb_spice",
+        "description": "Red pepper (cayenne/flakes) is a hot spice used for heat in sauces, rubs, and seasoning blends. This USDA row reflects spice values per 100 g.",
+        "display_name": "Red Pepper (Cayenne/Flakes)",
+        "fdc_id": 170932,
+        "macros": {
+          "calories": 318.0,
+          "carbs_g": 56.63,
+          "fat_g": 17.27,
+          "fiber_g": 27.2,
+          "protein_g": 12.01,
+          "sodium_g": 0.03,
+          "sugar_g": 10.34
+        },
+        "source_description": "Spices, pepper, red or cayenne",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bacon grease",
+          "rendered bacon fat",
+          "cooked bacon fat",
+          "bacon drippings",
+          "pork bacon rendered fat"
+        ],
+        "category_label": "protein",
+        "description": "Rendered bacon fat is used as a cooking fat and flavor base in savory dishes. This USDA row reflects cooked rendered fat values per 100 g.",
+        "display_name": "Rendered Bacon Fat",
+        "fdc_id": 168324,
+        "macros": {
+          "calories": 898.0,
+          "carbs_g": 0.0,
+          "fat_g": 99.5,
+          "fiber_g": 0.0,
+          "protein_g": 0.07,
+          "sodium_g": 0.027,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, bacon, rendered fat, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen cooked rhubarb",
+          "sweetened cooked rhubarb",
+          "rhubarb frozen with sugar",
+          "prepared rhubarb frozen",
+          "cooked rhubarb sweetened"
+        ],
+        "category_label": "fruit",
+        "description": "Frozen cooked rhubarb with sugar is used in desserts, compotes, and pie fillings. This USDA row reflects prepared values per 100 g.",
+        "display_name": "Rhubarb (Frozen, Cooked, Sugared)",
+        "fdc_id": 168169,
+        "macros": {
+          "calories": 116.0,
+          "carbs_g": 31.2,
+          "fat_g": 0.05,
+          "fiber_g": 2.0,
+          "protein_g": 0.39,
+          "sodium_g": 0.001,
+          "sugar_g": 28.7
+        },
+        "source_description": "Rhubarb, frozen, cooked, with sugar",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "crude rice bran",
+          "rice bran raw",
+          "bran from rice",
+          "rice milling bran",
+          "rice bran fiber"
+        ],
+        "category_label": "grain_legume",
+        "description": "Crude rice bran is a milling byproduct used in feed, functional foods, and high-fiber blends. This USDA row reflects dry bran values per 100 g.",
+        "display_name": "Rice Bran (Crude)",
+        "fdc_id": 169713,
+        "macros": {
+          "calories": 316.0,
+          "carbs_g": 49.69,
+          "fat_g": 20.85,
+          "fiber_g": 21.0,
+          "protein_g": 13.35,
+          "sodium_g": 0.005,
+          "sugar_g": 0.9
+        },
+        "source_description": "Rice bran, crude",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "brown rice flour",
+          "whole grain rice flour",
+          "brown rice powder flour",
+          "gluten-free brown rice flour",
+          "milled brown rice flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Brown rice flour is a gluten-free flour used in baking and batters. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Rice Flour (Brown)",
+        "fdc_id": 168898,
+        "macros": {
+          "calories": 363.0,
+          "carbs_g": 76.48,
+          "fat_g": 2.78,
+          "fiber_g": 4.6,
+          "protein_g": 7.23,
+          "sodium_g": 0.008,
+          "sugar_g": 0.66
+        },
+        "source_description": "Rice flour, brown",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white rice flour",
+          "unenriched white rice flour",
+          "milled white rice flour",
+          "gluten-free white rice flour",
+          "rice powder white"
+        ],
+        "category_label": "grain_legume",
+        "description": "White rice flour is a fine gluten-free flour used in baking, coatings, and noodles. This USDA row reflects dry unenriched flour values per 100 g.",
+        "display_name": "Rice Flour (White)",
+        "fdc_id": 169714,
+        "macros": {
+          "calories": 366.0,
+          "carbs_g": 80.13,
+          "fat_g": 1.42,
+          "fiber_g": 2.4,
+          "protein_g": 5.95,
+          "sodium_g": 0.0,
+          "sugar_g": 0.12
+        },
+        "source_description": "Rice flour, white, unenriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 011: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rice noodles cooked",
+          "cooked rice noodles",
+          "prepared rice noodles",
+          "boiled rice noodles",
+          "rice vermicelli cooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked rice noodles are used in stir-fries, soups, and noodle salads. This USDA row reflects cooked noodle values per 100 g.",
+        "display_name": "Rice Noodles (Cooked)",
+        "fdc_id": 168914,
+        "macros": {
+          "calories": 108.0,
+          "carbs_g": 24.01,
+          "fat_g": 0.2,
+          "fiber_g": 1.0,
+          "protein_g": 1.79,
+          "sodium_g": 0.019,
+          "sugar_g": 0.03
+        },
+        "source_description": "Rice noodles, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

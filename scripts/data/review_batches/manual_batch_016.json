@@ -1,0 +1,1756 @@
+{
+  "batch_id": 16,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "acid whey",
+          "liquid whey",
+          "cultured whey",
+          "fermented whey",
+          "whey fluid"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Fluid acid whey is a tangy dairy byproduct used in baking, fermentation, and savory preparations. This USDA row reflects fluid whey values per 100 g.",
+        "display_name": "Acid Whey (Fluid)",
+        "fdc_id": 170885,
+        "macros": {
+          "calories": 24.0,
+          "carbs_g": 5.12,
+          "fat_g": 0.09,
+          "fiber_g": 0.0,
+          "protein_g": 0.76,
+          "sodium_g": 0.048,
+          "sugar_g": 5.12
+        },
+        "source_description": "Whey, acid, fluid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "whey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen whipped topping",
+          "low-fat whipped topping",
+          "non-dairy whipped topping",
+          "frozen topping",
+          "whipped dessert topping"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Frozen low-fat whipped topping is a prepared dairy-style topping used for desserts and beverages. This USDA row reflects product values per 100 g.",
+        "display_name": "Whipped Topping (Frozen, Low-Fat)",
+        "fdc_id": 167687,
+        "macros": {
+          "calories": 224.0,
+          "carbs_g": 23.6,
+          "fat_g": 13.1,
+          "fiber_g": 0.0,
+          "protein_g": 3.0,
+          "sodium_g": 0.072,
+          "sugar_g": 23.6
+        },
+        "source_description": "Whipped topping, frozen, low fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "cream"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white pepper",
+          "ground white pepper",
+          "white pepper powder",
+          "pepper white spice",
+          "muntok pepper"
+        ],
+        "category_label": "herb_spice",
+        "description": "Ground white pepper is a pungent spice used in light-colored sauces, soups, and seasoning blends. This USDA row reflects spice values per 100 g.",
+        "display_name": "White Pepper (Ground)",
+        "fdc_id": 170933,
+        "macros": {
+          "calories": 296.0,
+          "carbs_g": 68.61,
+          "fat_g": 2.12,
+          "fiber_g": 26.2,
+          "protein_g": 10.4,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, pepper, white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "pepper"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white rice cooked",
+          "cooked rice",
+          "steamed white rice",
+          "boiled white rice",
+          "plain cooked rice"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked white rice is a staple grain side used in bowls, stir-fries, and curries. This USDA row reflects cooked rice values per 100 g.",
+        "display_name": "White Rice (Cooked)",
+        "fdc_id": 168883,
+        "macros": {
+          "calories": 370.0,
+          "carbs_g": 81.68,
+          "fat_g": 0.55,
+          "fiber_g": 2.8,
+          "protein_g": 6.81,
+          "sodium_g": 0.007,
+          "sugar_g": 0.0
+        },
+        "source_description": "Rice, white, glutinous, unenriched, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "rice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "medium-grain white rice",
+          "raw medium white rice",
+          "enriched white rice",
+          "white rice uncooked",
+          "short-medium rice"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw enriched medium-grain white rice is a pantry staple used for pilafs, sides, and rice bowls. This USDA row reflects uncooked rice values per 100 g.",
+        "display_name": "White Rice (Medium Grain, Raw)",
+        "fdc_id": 168879,
+        "macros": {
+          "calories": 360.0,
+          "carbs_g": 79.34,
+          "fat_g": 0.58,
+          "fiber_g": 1.4,
+          "protein_g": 6.61,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Rice, white, medium-grain, raw, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "rice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white rice raw",
+          "uncooked white rice",
+          "long-grain white rice",
+          "dry white rice",
+          "rice uncooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw white rice is the dry pantry grain used before boiling or steaming. This USDA row reflects uncooked rice values per 100 g.",
+        "display_name": "White Rice (Raw)",
+        "fdc_id": 168877,
+        "macros": {
+          "calories": 365.0,
+          "carbs_g": 79.95,
+          "fat_g": 0.66,
+          "fiber_g": 1.3,
+          "protein_g": 7.13,
+          "sodium_g": 0.005,
+          "sugar_g": 0.12
+        },
+        "source_description": "Rice, white, long-grain, regular, raw, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "rice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "short-grain white rice",
+          "raw short grain rice",
+          "sushi rice raw",
+          "white rice short grain",
+          "uncooked short rice"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw short-grain white rice is commonly used for sushi, risotto-style dishes, and sticky rice sides. This USDA row reflects uncooked rice values per 100 g.",
+        "display_name": "White Rice (Short Grain, Raw)",
+        "fdc_id": 168931,
+        "macros": {
+          "calories": 358.0,
+          "carbs_g": 79.15,
+          "fat_g": 0.52,
+          "fiber_g": 0.0,
+          "protein_g": 6.5,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Rice, white, short-grain, raw, unenriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "rice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white whole-grain corn flour",
+          "white corn flour",
+          "whole white cornmeal flour",
+          "masa-style white corn flour",
+          "corn flour white"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-grain white corn flour is used in tortillas, breads, batters, and traditional corn dishes. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Corn Flour (Whole-Grain, White)",
+        "fdc_id": 169748,
+        "macros": {
+          "calories": 361.0,
+          "carbs_g": 76.85,
+          "fat_g": 3.86,
+          "fiber_g": 7.3,
+          "protein_g": 6.93,
+          "sodium_g": 0.005,
+          "sugar_g": 0.64
+        },
+        "source_description": "Corn flour, whole-grain, white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow whole-grain cornmeal",
+          "yellow cornmeal",
+          "whole yellow corn meal",
+          "stone-ground yellow cornmeal",
+          "cornmeal yellow"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-grain yellow cornmeal is used for cornbread, polenta, batters, and crusts. This USDA row reflects dry cornmeal values per 100 g.",
+        "display_name": "Cornmeal (Whole-Grain, Yellow)",
+        "fdc_id": 169697,
+        "macros": {
+          "calories": 362.0,
+          "carbs_g": 76.89,
+          "fat_g": 3.59,
+          "fiber_g": 7.3,
+          "protein_g": 8.12,
+          "sodium_g": 0.035,
+          "sugar_g": 0.64
+        },
+        "source_description": "Cornmeal, whole-grain, yellow",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "cornmeal"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wild rice",
+          "raw wild rice",
+          "uncooked wild rice",
+          "wild rice grain",
+          "whole wild rice"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw wild rice is a whole grain used in pilafs, soups, and mixed-grain dishes after cooking. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Wild Rice (Raw)",
+        "fdc_id": 169726,
+        "macros": {
+          "calories": 357.0,
+          "carbs_g": 74.9,
+          "fat_g": 1.08,
+          "fiber_g": 6.2,
+          "protein_g": 14.73,
+          "sodium_g": 0.007,
+          "sugar_g": 2.5
+        },
+        "source_description": "Wild rice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked winged bean seeds",
+          "winged bean immature seeds",
+          "boiled winged beans",
+          "cooked goa bean seeds",
+          "asparagus pea seeds cooked"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked immature winged bean seeds are used as a vegetable side and in stir-fries. This USDA row reflects boiled, drained values per 100 g.",
+        "display_name": "Winged Bean Seeds (Immature, Cooked)",
+        "fdc_id": 170550,
+        "macros": {
+          "calories": 37.0,
+          "carbs_g": 3.21,
+          "fat_g": 0.66,
+          "fiber_g": 0.0,
+          "protein_g": 5.31,
+          "sodium_g": 0.24,
+          "sugar_g": 0.0
+        },
+        "source_description": "Winged bean, immature seeds, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "bean"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "winged bean leaves",
+          "raw winged bean leaves",
+          "winged bean greens",
+          "goa bean leaves",
+          "asparagus pea leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Winged bean leaves are edible greens used in soups and stir-fries. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Winged Bean Leaves (Raw)",
+        "fdc_id": 170478,
+        "macros": {
+          "calories": 74.0,
+          "carbs_g": 14.1,
+          "fat_g": 1.1,
+          "fiber_g": 0.0,
+          "protein_g": 5.85,
+          "sodium_g": 0.009,
+          "sugar_g": 0.0
+        },
+        "source_description": "Winged bean leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "winged bean tuber",
+          "raw winged bean tuber",
+          "goa bean tuber",
+          "asparagus pea tuber",
+          "winged bean root"
+        ],
+        "category_label": "vegetable",
+        "description": "Winged bean tuber is a starchy root-like vegetable used in cooked preparations. This USDA row reflects raw tuber values per 100 g.",
+        "display_name": "Winged Bean Tuber (Raw)",
+        "fdc_id": 170070,
+        "macros": {
+          "calories": 148.0,
+          "carbs_g": 28.1,
+          "fat_g": 0.9,
+          "fiber_g": 0.0,
+          "protein_g": 11.6,
+          "sodium_g": 0.035,
+          "sugar_g": 0.0
+        },
+        "source_description": "Winged bean tuber, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw winged bean seeds",
+          "immature winged beans",
+          "goa bean seeds",
+          "asparagus pea seeds",
+          "winged beans raw"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw immature winged bean seeds are used in stir-fries, soups, and steamed vegetable dishes. This USDA row reflects raw seed values per 100 g.",
+        "display_name": "Winged Bean Seeds (Immature, Raw)",
+        "fdc_id": 170476,
+        "macros": {
+          "calories": 49.0,
+          "carbs_g": 4.31,
+          "fat_g": 0.87,
+          "fiber_g": 0.0,
+          "protein_g": 6.95,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Winged beans, immature seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "bean"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "acorn squash raw",
+          "winter squash acorn",
+          "raw acorn squash",
+          "acorn squash",
+          "winter squash"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw acorn squash is a winter squash used for roasting, stuffing, and soups. This USDA row reflects raw squash values per 100 g.",
+        "display_name": "Winter Squash (Acorn, Raw)",
+        "fdc_id": 168472,
+        "macros": {
+          "calories": 40.0,
+          "carbs_g": 10.42,
+          "fat_g": 0.1,
+          "fiber_g": 1.5,
+          "protein_g": 0.8,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Squash, winter, acorn, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "squash"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "jicama",
+          "yambean",
+          "mexican turnip",
+          "raw jicama",
+          "jicama root"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw jicama is a crisp root vegetable used in slaws, salads, and fresh snack preparations. This USDA row reflects raw jicama values per 100 g.",
+        "display_name": "Jicama (Raw)",
+        "fdc_id": 170073,
+        "macros": {
+          "calories": 38.0,
+          "carbs_g": 8.82,
+          "fat_g": 0.09,
+          "fiber_g": 4.9,
+          "protein_g": 0.72,
+          "sodium_g": 0.004,
+          "sugar_g": 1.8
+        },
+        "source_description": "Yambean (jicama), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "jicama"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yardlong bean",
+          "long bean",
+          "chinese long bean",
+          "snake bean",
+          "raw yardlong beans"
+        ],
+        "category_label": "vegetable",
+        "description": "Yardlong beans are long tender pods used in stir-fries, curries, and sauteed vegetable dishes. This USDA row reflects raw pod values per 100 g.",
+        "display_name": "Yardlong Bean (Raw)",
+        "fdc_id": 169222,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 8.35,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 2.8,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Yardlong bean, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yautia",
+          "tannier",
+          "malanga blanca",
+          "cocoyam tannier",
+          "raw yautia root"
+        ],
+        "category_label": "vegetable",
+        "description": "Yautia (tannier) is a starchy tropical root used boiled, mashed, and in soups or fritters. This USDA row reflects raw root values per 100 g.",
+        "display_name": "Yautia (Tannier, Raw)",
+        "fdc_id": 169401,
+        "macros": {
+          "calories": 98.0,
+          "carbs_g": 23.63,
+          "fat_g": 0.4,
+          "fiber_g": 1.5,
+          "protein_g": 1.46,
+          "sodium_g": 0.021,
+          "sugar_g": 0.0
+        },
+        "source_description": "Yautia (tannier), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "taro"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sauteed yellow onions",
+          "yellow onions cooked",
+          "cooked yellow onions",
+          "onions yellow sauteed",
+          "pan-cooked yellow onions"
+        ],
+        "category_label": "vegetable",
+        "description": "Sauteed yellow onions are a cooked aromatic base used in countless savory dishes. This USDA row reflects sauteed onion values per 100 g.",
+        "display_name": "Yellow Onions (Sauteed)",
+        "fdc_id": 170004,
+        "macros": {
+          "calories": 123.0,
+          "carbs_g": 7.86,
+          "fat_g": 10.8,
+          "fiber_g": 1.7,
+          "protein_g": 0.95,
+          "sodium_g": 0.012,
+          "sugar_g": 0.0
+        },
+        "source_description": "Onions, yellow, sauteed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow tomatoes",
+          "raw yellow tomato",
+          "gold tomato",
+          "yellow heirloom tomato",
+          "fresh yellow tomato"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw yellow tomatoes are used in salads, salsas, and fresh sauces with milder acidity than red varieties. This USDA row reflects raw tomato values per 100 g.",
+        "display_name": "Yellow Tomatoes (Raw)",
+        "fdc_id": 170096,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 2.98,
+          "fat_g": 0.26,
+          "fiber_g": 0.7,
+          "protein_g": 0.98,
+          "sodium_g": 0.023,
+          "sugar_g": 0.0
+        },
+        "source_description": "Tomatoes, yellow, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow whole-grain corn flour",
+          "yellow corn flour",
+          "whole yellow corn flour",
+          "corn flour yellow",
+          "stone-ground yellow corn flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-grain yellow corn flour is used in breads, tortillas, batters, and thickened dishes. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Corn Flour (Whole-Grain, Yellow)",
+        "fdc_id": 170290,
+        "macros": {
+          "calories": 361.0,
+          "carbs_g": 76.85,
+          "fat_g": 3.86,
+          "fiber_g": 7.3,
+          "protein_g": 6.93,
+          "sodium_g": 0.005,
+          "sugar_g": 0.64
+        },
+        "source_description": "Corn flour, whole-grain, yellow",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen yogurt",
+          "low-fat froyo",
+          "frozen yogurt non-chocolate",
+          "frozen cultured dessert",
+          "froyo"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Low-fat frozen yogurt is a cultured dairy dessert used as a topping base or frozen treat ingredient. This USDA row reflects product values per 100 g.",
+        "display_name": "Frozen Yogurt (Low-Fat)",
+        "fdc_id": 170908,
+        "macros": {
+          "calories": 139.0,
+          "carbs_g": 21.0,
+          "fat_g": 2.5,
+          "fiber_g": 0.0,
+          "protein_g": 8.0,
+          "sodium_g": 0.045,
+          "sugar_g": 21.0
+        },
+        "source_description": "Yogurt, frozen, flavors other than chocolate, lowfat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "yogurt"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "low-fat fruit yogurt",
+          "fruit yogurt",
+          "flavored yogurt fruit",
+          "cultured fruit yogurt",
+          "yogurt fruit"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Low-fat fruit yogurt is a cultured dairy ingredient used in breakfasts, smoothies, and parfaits. This USDA row reflects product values per 100 g.",
+        "display_name": "Fruit Yogurt (Low-Fat)",
+        "fdc_id": 170889,
+        "macros": {
+          "calories": 99.0,
+          "carbs_g": 18.64,
+          "fat_g": 1.15,
+          "fiber_g": 0.0,
+          "protein_g": 3.98,
+          "sodium_g": 0.053,
+          "sugar_g": 18.64
+        },
+        "source_description": "Yogurt, fruit, low fat,9 g protein/8 oz",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "yogurt"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "nonfat fruit yogurt",
+          "fat-free fruit yogurt",
+          "fruit variety yogurt",
+          "yogurt nonfat fruit",
+          "cultured fruit yogurt nonfat"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Nonfat fruit yogurt is a fat-free cultured dairy ingredient for breakfasts and snacks. This USDA row reflects product values per 100 g.",
+        "display_name": "Fruit Yogurt (Nonfat)",
+        "fdc_id": 169898,
+        "macros": {
+          "calories": 95.0,
+          "carbs_g": 19.0,
+          "fat_g": 0.2,
+          "fiber_g": 0.0,
+          "protein_g": 4.4,
+          "sodium_g": 0.058,
+          "sugar_g": 19.0
+        },
+        "source_description": "Yogurt, fruit variety, nonfat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "yogurt"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "plain greek yogurt",
+          "low-fat greek yogurt",
+          "strained yogurt",
+          "greek style yogurt plain",
+          "cultured greek yogurt"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Plain low-fat Greek yogurt is a high-protein cultured dairy ingredient used in sauces, marinades, dips, and breakfasts. This USDA row reflects product values per 100 g.",
+        "display_name": "Greek Yogurt (Plain, Low-Fat)",
+        "fdc_id": 170903,
+        "macros": {
+          "calories": 73.0,
+          "carbs_g": 3.94,
+          "fat_g": 1.92,
+          "fiber_g": 0.0,
+          "protein_g": 9.95,
+          "sodium_g": 0.034,
+          "sugar_g": 3.56
+        },
+        "source_description": "Yogurt, Greek, plain, lowfat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "yogurt"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "low-fat yogurt parfait",
+          "yogurt parfait with granola",
+          "fruit yogurt parfait",
+          "prepared yogurt parfait",
+          "granola yogurt cup"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Low-fat yogurt parfait with fruit and granola is a prepared dairy breakfast item. This USDA row reflects assembled parfait values per 100 g.",
+        "display_name": "Yogurt Parfait (Low-Fat, Fruit and Granola)",
+        "fdc_id": 170355,
+        "macros": {
+          "calories": 84.0,
+          "carbs_g": 15.86,
+          "fat_g": 1.01,
+          "fiber_g": 1.1,
+          "protein_g": 3.36,
+          "sodium_g": 0.049,
+          "sugar_g": 11.68
+        },
+        "source_description": "Yogurt parfait, lowfat, with fruit and granola",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fast Foods",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "yogurt"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "plain yogurt",
+          "low-fat plain yogurt",
+          "cultured plain yogurt",
+          "natural yogurt",
+          "yogurt plain"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Plain low-fat yogurt is a cultured dairy ingredient used in marinades, baking, sauces, and breakfasts. This USDA row reflects product values per 100 g.",
+        "display_name": "Yogurt (Plain, Low-Fat)",
+        "fdc_id": 170886,
+        "macros": {
+          "calories": 63.0,
+          "carbs_g": 7.04,
+          "fat_g": 1.55,
+          "fiber_g": 0.0,
+          "protein_g": 5.25,
+          "sodium_g": 0.07,
+          "sugar_g": 7.04
+        },
+        "source_description": "Yogurt, plain, low fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "yogurt"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "nonfat vanilla yogurt",
+          "vanilla yogurt",
+          "fat-free vanilla yogurt",
+          "vanilla cultured yogurt",
+          "yogurt vanilla"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Nonfat vanilla yogurt is a flavored cultured dairy ingredient for breakfast bowls, smoothies, and desserts. This USDA row reflects product values per 100 g.",
+        "display_name": "Yogurt (Vanilla, Nonfat)",
+        "fdc_id": 170906,
+        "macros": {
+          "calories": 78.0,
+          "carbs_g": 17.04,
+          "fat_g": 0.0,
+          "fiber_g": 0.0,
+          "protein_g": 2.94,
+          "sodium_g": 0.047,
+          "sugar_g": 5.88
+        },
+        "source_description": "Yogurt, vanilla, non-fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "yogurt"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green onion tops",
+          "young green onion tops",
+          "scallion tops",
+          "spring onion tops",
+          "onion greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Young green onion tops are used as aromatic garnish and flavoring in soups, salads, and stir-fries. This USDA row reflects raw tops per 100 g.",
+        "display_name": "Young Green Onions (Tops)",
+        "fdc_id": 170006,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 5.74,
+          "fat_g": 0.47,
+          "fiber_g": 1.8,
+          "protein_g": 0.97,
+          "sodium_g": 0.015,
+          "sugar_g": 3.91
+        },
+        "source_description": "Onions, young green, tops only",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "baby zucchini",
+          "zucchini raw",
+          "courgette baby",
+          "young zucchini",
+          "raw zucchini"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw baby zucchini is used in sautees, grilling, pasta dishes, and salads. This USDA row reflects raw zucchini values per 100 g.",
+        "display_name": "Zucchini (Baby, Raw)",
+        "fdc_id": 168565,
+        "macros": {
+          "calories": 21.0,
+          "carbs_g": 3.11,
+          "fat_g": 0.4,
+          "fiber_g": 1.1,
+          "protein_g": 2.71,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Squash, zucchini, baby, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "zucchini"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "arrowroot flour",
+          "arrowroot starch",
+          "arrowroot powder",
+          "maranta starch",
+          "arrowroot thickener"
+        ],
+        "category_label": "grain_legume",
+        "description": "Arrowroot flour is a neutral starch used to thicken sauces, gravies, desserts, and gluten-free baking mixes. This USDA row reflects dry powder values per 100 g.",
+        "display_name": "Arrowroot Flour",
+        "fdc_id": 170684,
+        "macros": {
+          "calories": 357.0,
+          "carbs_g": 88.15,
+          "fat_g": 0.1,
+          "fiber_g": 3.4,
+          "protein_g": 0.3,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Arrowroot flour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "starch"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "baobab powder",
+          "baobab fruit powder",
+          "dried baobab pulp",
+          "baobab pulp powder",
+          "superfruit baobab"
+        ],
+        "category_label": "fruit",
+        "description": "Baobab powder is a tart fruit powder used in smoothies, drinks, and nutrition blends. This USDA row reflects dry powder values per 100 g.",
+        "display_name": "Baobab Powder",
+        "fdc_id": 167806,
+        "macros": {
+          "calories": 250.0,
+          "carbs_g": 79.65,
+          "fat_g": 0.47,
+          "fiber_g": 44.5,
+          "protein_g": 3.69,
+          "sodium_g": 0.01,
+          "sugar_g": 0.0
+        },
+        "source_description": "Baobab powder",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "powder"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "barley flour",
+          "barley meal",
+          "whole barley flour",
+          "ground barley",
+          "barley baking flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Barley flour is used in breads, muffins, pancakes, and blended grain baking. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Barley Flour",
+        "fdc_id": 169739,
+        "macros": {
+          "calories": 345.0,
+          "carbs_g": 74.52,
+          "fat_g": 1.6,
+          "fiber_g": 10.1,
+          "protein_g": 10.5,
+          "sodium_g": 0.004,
+          "sugar_g": 0.8
+        },
+        "source_description": "Barley flour or meal",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "barley malt flour",
+          "malted barley flour",
+          "diastatic malt flour",
+          "barley malt powder flour",
+          "malt flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Barley malt flour is used in baking to add malt flavor and fermentation support in doughs. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Barley Malt Flour",
+        "fdc_id": 169740,
+        "macros": {
+          "calories": 361.0,
+          "carbs_g": 78.3,
+          "fat_g": 1.84,
+          "fiber_g": 7.1,
+          "protein_g": 10.28,
+          "sodium_g": 0.011,
+          "sugar_g": 0.8
+        },
+        "source_description": "Barley malt flour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "kiwano",
+          "horned melon",
+          "african horned cucumber",
+          "jelly melon",
+          "cucumis metuliferus"
+        ],
+        "category_label": "fruit",
+        "description": "Horned melon (kiwano) is a tropical fruit with jelly-like pulp used fresh in salads and desserts. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Horned Melon (Kiwano)",
+        "fdc_id": 167791,
+        "macros": {
+          "calories": 44.0,
+          "carbs_g": 7.56,
+          "fat_g": 1.26,
+          "fiber_g": 0.0,
+          "protein_g": 1.78,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Horned melon (Kiwano)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ketchup",
+          "catsup",
+          "tomato ketchup",
+          "table ketchup",
+          "bottled ketchup"
+        ],
+        "category_label": "vegetable",
+        "description": "Ketchup (catsup) is a tomato-based condiment used in sauces, marinades, and table service. This USDA row reflects condiment values per 100 g.",
+        "display_name": "Ketchup (Catsup)",
+        "fdc_id": 168556,
+        "macros": {
+          "calories": 101.0,
+          "carbs_g": 27.4,
+          "fat_g": 0.1,
+          "fiber_g": 0.3,
+          "protein_g": 1.04,
+          "sodium_g": 0.907,
+          "sugar_g": 21.27
+        },
+        "source_description": "Catsup",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "orange pineapple juice",
+          "orange-pineapple blend",
+          "tropical citrus juice blend",
+          "orange pineapple drink",
+          "blended fruit juice orange pineapple"
+        ],
+        "category_label": "fruit",
+        "description": "Orange pineapple juice blend is a mixed fruit juice beverage used directly or in smoothies. This USDA row reflects blend values per 100 g.",
+        "display_name": "Orange Pineapple Juice Blend",
+        "fdc_id": 167792,
+        "macros": {
+          "calories": 51.0,
+          "carbs_g": 12.2,
+          "fat_g": 0.08,
+          "fiber_g": 0.2,
+          "protein_g": 0.41,
+          "sodium_g": 0.004,
+          "sugar_g": 10.57
+        },
+        "source_description": "Orange Pineapple Juice Blend",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "potato flour",
+          "dehydrated potato flour",
+          "potato powder flour",
+          "dry potato flour",
+          "potato starch flour"
+        ],
+        "category_label": "vegetable",
+        "description": "Potato flour is a dried potato ingredient used for thickening and gluten-free baking blends. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Potato Flour",
+        "fdc_id": 168446,
+        "macros": {
+          "calories": 357.0,
+          "carbs_g": 83.1,
+          "fat_g": 0.34,
+          "fiber_g": 5.9,
+          "protein_g": 6.9,
+          "sodium_g": 0.055,
+          "sugar_g": 3.52
+        },
+        "source_description": "Potato flour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "prune puree",
+          "pureed prunes",
+          "prune paste",
+          "plum puree dried fruit",
+          "prune concentrate puree"
+        ],
+        "category_label": "fruit",
+        "description": "Prune puree is used in baking, sauces, and moisture retention applications. This USDA row reflects puree values per 100 g.",
+        "display_name": "Prune Puree",
+        "fdc_id": 167780,
+        "macros": {
+          "calories": 257.0,
+          "carbs_g": 65.1,
+          "fat_g": 0.2,
+          "fiber_g": 3.3,
+          "protein_g": 2.1,
+          "sodium_g": 0.023,
+          "sugar_g": 39.0
+        },
+        "source_description": "Prune puree",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raspberry concentrate",
+          "raspberry juice concentrate",
+          "concentrated raspberry juice",
+          "raspberry syrup base",
+          "fruit concentrate raspberry"
+        ],
+        "category_label": "fruit",
+        "description": "Raspberry juice concentrate is used for beverages, desserts, and flavoring formulations. This USDA row reflects concentrate values per 100 g.",
+        "display_name": "Raspberry Juice Concentrate",
+        "fdc_id": 168217,
+        "macros": {
+          "calories": 221.0,
+          "carbs_g": 53.19,
+          "fat_g": 1.34,
+          "fiber_g": 1.1,
+          "protein_g": 3.04,
+          "sodium_g": 0.01,
+          "sugar_g": 38.21
+        },
+        "source_description": "Raspberry juice concentrate",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rye grain",
+          "raw rye grain",
+          "whole rye berries",
+          "rye kernels",
+          "uncooked rye grain"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw rye grain is a whole cereal grain used in breads, porridges, and grain salads after cooking. This USDA row reflects dry rye grain values per 100 g.",
+        "display_name": "Rye Grain (Raw)",
+        "fdc_id": 168884,
+        "macros": {
+          "calories": 338.0,
+          "carbs_g": 75.86,
+          "fat_g": 1.63,
+          "fiber_g": 15.1,
+          "protein_g": 10.34,
+          "sodium_g": 0.002,
+          "sugar_g": 0.98
+        },
+        "source_description": "Rye grain",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sorghum grain",
+          "raw sorghum grain",
+          "whole sorghum",
+          "milo grain",
+          "uncooked sorghum"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw sorghum grain is a gluten-free cereal grain used for porridges, side dishes, and milling. This USDA row reflects dry sorghum values per 100 g.",
+        "display_name": "Sorghum Grain (Raw)",
+        "fdc_id": 169716,
+        "macros": {
+          "calories": 329.0,
+          "carbs_g": 72.09,
+          "fat_g": 3.46,
+          "fiber_g": 6.7,
+          "protein_g": 10.62,
+          "sodium_g": 0.002,
+          "sugar_g": 2.53
+        },
+        "source_description": "Sorghum grain",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tamari",
+          "soy sauce",
+          "gluten-free soy sauce",
+          "tamari soy sauce",
+          "fermented soy seasoning"
+        ],
+        "category_label": "condiment",
+        "description": "Tamari-style soy sauce is a fermented savory condiment used in marinades, stir-fries, and dipping sauces. This USDA row reflects sauce values per 100 g.",
+        "display_name": "Soy Sauce (Tamari)",
+        "fdc_id": 174278,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 5.57,
+          "fat_g": 0.1,
+          "fiber_g": 0.8,
+          "protein_g": 10.51,
+          "sodium_g": 5.586,
+          "sugar_g": 1.7
+        },
+        "source_description": "Soy sauce made from soy (tamari)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "soy_sauce"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spinach souffle",
+          "prepared spinach souffle",
+          "baked spinach souffle",
+          "spinach egg casserole",
+          "spinach savory souffle"
+        ],
+        "category_label": "vegetable",
+        "description": "Spinach souffle is a prepared mixed dish used as a side or casserole-style entree component. This USDA row reflects prepared dish values per 100 g.",
+        "display_name": "Spinach Souffle",
+        "fdc_id": 170494,
+        "macros": {
+          "calories": 172.0,
+          "carbs_g": 5.9,
+          "fat_g": 12.95,
+          "fiber_g": 0.7,
+          "protein_g": 7.89,
+          "sodium_g": 0.566,
+          "sugar_g": 1.85
+        },
+        "source_description": "Spinach souffle",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tofu yogurt",
+          "soy yogurt tofu",
+          "non-dairy tofu yogurt",
+          "plant-based yogurt tofu",
+          "soy cultured tofu"
+        ],
+        "category_label": "grain_legume",
+        "description": "Tofu yogurt is a plant-based cultured product used as a dairy alternative in snacks and smoothies. This USDA row reflects prepared tofu yogurt values per 100 g.",
+        "display_name": "Tofu Yogurt",
+        "fdc_id": 167722,
+        "macros": {
+          "calories": 94.0,
+          "carbs_g": 15.96,
+          "fat_g": 1.8,
+          "fiber_g": 0.2,
+          "protein_g": 3.5,
+          "sodium_g": 0.035,
+          "sugar_g": 1.24
+        },
+        "source_description": "Tofu yogurt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tomato powder",
+          "dehydrated tomato powder",
+          "dry tomato powder",
+          "tomato seasoning powder",
+          "powdered tomato"
+        ],
+        "category_label": "vegetable",
+        "description": "Tomato powder is a dehydrated tomato ingredient used for seasoning blends, sauces, and dry mixes. This USDA row reflects dry powder values per 100 g.",
+        "display_name": "Tomato Powder",
+        "fdc_id": 170461,
+        "macros": {
+          "calories": 302.0,
+          "carbs_g": 74.68,
+          "fat_g": 0.44,
+          "fiber_g": 16.5,
+          "protein_g": 12.91,
+          "sodium_g": 0.134,
+          "sugar_g": 43.9
+        },
+        "source_description": "Tomato powder",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vegetarian fillets",
+          "plant-based fillets",
+          "meatless fillets",
+          "soy protein fillets",
+          "vegetarian cutlets"
+        ],
+        "category_label": "grain_legume",
+        "description": "Vegetarian fillets are prepared plant-protein products used as meat alternatives in cooked meals. This USDA row reflects product values per 100 g.",
+        "display_name": "Vegetarian Fillets",
+        "fdc_id": 169068,
+        "macros": {
+          "calories": 290.0,
+          "carbs_g": 9.0,
+          "fat_g": 18.0,
+          "fiber_g": 6.1,
+          "protein_g": 23.0,
+          "sodium_g": 0.49,
+          "sugar_g": 0.8
+        },
+        "source_description": "Vegetarian fillets",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vegetarian meatloaf",
+          "veggie patties",
+          "plant-based meatloaf",
+          "vegetarian loaf",
+          "meatless patties"
+        ],
+        "category_label": "protein",
+        "description": "Vegetarian meatloaf or patties are prepared plant-based protein items used as entrees or sandwich fillings. This USDA row reflects prepared product values per 100 g.",
+        "display_name": "Vegetarian Meatloaf or Patties",
+        "fdc_id": 169888,
+        "macros": {
+          "calories": 197.0,
+          "carbs_g": 8.0,
+          "fat_g": 9.0,
+          "fiber_g": 4.6,
+          "protein_g": 21.0,
+          "sodium_g": 0.55,
+          "sugar_g": 1.2
+        },
+        "source_description": "Vegetarian meatloaf or patties",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "plant_protein"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vital wheat gluten",
+          "wheat gluten flour",
+          "seitan base",
+          "gluten powder",
+          "wheat protein isolate"
+        ],
+        "category_label": "grain_legume",
+        "description": "Vital wheat gluten is a concentrated wheat protein ingredient used in bread dough and seitan preparation. This USDA row reflects dry ingredient values per 100 g.",
+        "display_name": "Vital Wheat Gluten",
+        "fdc_id": 168147,
+        "macros": {
+          "calories": 370.0,
+          "carbs_g": 13.79,
+          "fat_g": 1.85,
+          "fiber_g": 0.6,
+          "protein_g": 75.16,
+          "sodium_g": 0.029,
+          "sugar_g": 0.0
+        },
+        "source_description": "Vital wheat gluten",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 016: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yeast extract spread",
+          "marmite-style spread",
+          "savory yeast spread",
+          "umami yeast spread",
+          "yeast paste spread"
+        ],
+        "category_label": "vegetable",
+        "description": "Yeast extract spread is a savory concentrated spread used as a condiment and flavor booster. This USDA row reflects spread values per 100 g.",
+        "display_name": "Yeast Extract Spread",
+        "fdc_id": 167717,
+        "macros": {
+          "calories": 185.0,
+          "carbs_g": 20.42,
+          "fat_g": 0.9,
+          "fiber_g": 6.5,
+          "protein_g": 23.88,
+          "sodium_g": 3.38,
+          "sugar_g": 1.6
+        },
+        "source_description": "Yeast extract spread",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

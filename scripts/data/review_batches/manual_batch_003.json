@@ -1,0 +1,1756 @@
+{
+  "batch_id": 3,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "strawberry kefir",
+          "low-fat kefir",
+          "cultured milk kefir",
+          "drinkable kefir",
+          "kefir yogurt drink"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Low-fat strawberry kefir is a cultured dairy drink used as a beverage or smoothie base. This USDA row reflects prepared kefir values per 100 g.",
+        "display_name": "Kefir (Lowfat Strawberry)",
+        "fdc_id": 171301,
+        "macros": {
+          "calories": 62.0,
+          "carbs_g": 10.2,
+          "fat_g": 0.9,
+          "fiber_g": 0.0,
+          "protein_g": 3.39,
+          "sodium_g": 0.037,
+          "sugar_g": 9.21
+        },
+        "source_description": "Kefir, lowfat, strawberry, LIFEWAY",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:59Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lemon juice",
+          "fresh lemon juice",
+          "raw lemon juice",
+          "squeezed lemon juice",
+          "lemon juice unsweetened"
+        ],
+        "category_label": "fruit",
+        "description": "Raw lemon juice is used for acidity in dressings, marinades, baking, and beverages. This USDA row reflects raw lemon juice values per 100 g.",
+        "display_name": "Lemon Juice (Raw)",
+        "fdc_id": 167747,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 6.9,
+          "fat_g": 0.24,
+          "fiber_g": 0.3,
+          "protein_g": 0.35,
+          "sodium_g": 0.001,
+          "sugar_g": 2.52
+        },
+        "source_description": "Lemon juice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lemon peel",
+          "lemon zest",
+          "raw lemon peel",
+          "fresh lemon zest",
+          "grated lemon peel"
+        ],
+        "category_label": "fruit",
+        "description": "Raw lemon peel (zest) is used for citrus aroma in baking, sauces, and marinades. This USDA row reflects raw peel values per 100 g.",
+        "display_name": "Lemon Peel (Raw)",
+        "fdc_id": 167749,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 16.0,
+          "fat_g": 0.3,
+          "fiber_g": 10.6,
+          "protein_g": 1.5,
+          "sodium_g": 0.006,
+          "sugar_g": 4.17
+        },
+        "source_description": "Lemon peel, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "butterhead lettuce",
+          "bibb lettuce",
+          "boston lettuce",
+          "butter lettuce",
+          "soft leaf lettuce"
+        ],
+        "category_label": "vegetable",
+        "description": "Butterhead lettuce (including Boston and Bibb types) is a tender salad green used in fresh salads and wraps. This USDA row reflects raw lettuce values per 100 g.",
+        "display_name": "Lettuce (Butterhead)",
+        "fdc_id": 168429,
+        "macros": {
+          "calories": 13.0,
+          "carbs_g": 2.23,
+          "fat_g": 0.22,
+          "fiber_g": 1.1,
+          "protein_g": 1.35,
+          "sodium_g": 0.005,
+          "sugar_g": 0.94
+        },
+        "source_description": "Lettuce, butterhead (includes boston and bibb types), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "lettuce"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lime juice",
+          "fresh lime juice",
+          "raw lime juice",
+          "squeezed lime juice",
+          "lime juice unsweetened"
+        ],
+        "category_label": "fruit",
+        "description": "Raw lime juice is used for acidity in marinades, dressings, and beverages. This USDA row reflects raw lime juice values per 100 g.",
+        "display_name": "Lime Juice (Raw)",
+        "fdc_id": 168156,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 8.42,
+          "fat_g": 0.07,
+          "fiber_g": 0.4,
+          "protein_g": 0.42,
+          "sodium_g": 0.002,
+          "sugar_g": 1.69
+        },
+        "source_description": "Lime juice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lotus root",
+          "raw lotus root",
+          "lotus stem",
+          "renkon",
+          "fresh lotus root"
+        ],
+        "category_label": "vegetable",
+        "description": "Lotus root is a crisp aquatic vegetable used in stir-fries, soups, braises, and pickles. This USDA row reflects raw lotus root values per 100 g.",
+        "display_name": "Lotus Root (Raw)",
+        "fdc_id": 169250,
+        "macros": {
+          "calories": 74.0,
+          "carbs_g": 17.23,
+          "fat_g": 0.1,
+          "fiber_g": 4.9,
+          "protein_g": 2.6,
+          "sodium_g": 0.04,
+          "sugar_g": 0.0
+        },
+        "source_description": "Lotus root, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "malabar spinach",
+          "cooked malabar spinach",
+          "basella",
+          "vine spinach",
+          "ceylon spinach"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked Malabar spinach is a mucilaginous leafy green used in soups, stews, and sautés. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Malabar Spinach (Cooked)",
+        "fdc_id": 169400,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 2.71,
+          "fat_g": 0.78,
+          "fiber_g": 2.1,
+          "protein_g": 2.98,
+          "sodium_g": 0.055,
+          "sugar_g": 0.0
+        },
+        "source_description": "Malabar spinach, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "steamed scallops",
+          "cooked scallops",
+          "bay scallops steamed",
+          "sea scallops steamed",
+          "scallop meat cooked"
+        ],
+        "category_label": "protein",
+        "description": "Steamed scallops are a cooked shellfish protein used in seafood entrees and mixed dishes. This USDA row reflects cooked scallop values per 100 g.",
+        "display_name": "Scallops (Steamed)",
+        "fdc_id": 167742,
+        "macros": {
+          "calories": 111.0,
+          "carbs_g": 5.41,
+          "fat_g": 0.84,
+          "fiber_g": 0.0,
+          "protein_g": 20.54,
+          "sodium_g": 0.667,
+          "sugar_g": 0.0
+        },
+        "source_description": "Mollusks, scallop, (bay and sea), cooked, steamed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mustard greens",
+          "raw mustard greens",
+          "mustard leaves",
+          "fresh mustard greens",
+          "leaf mustard"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw mustard greens are peppery leafy greens used in sautés, braises, soups, and salads. This USDA row reflects raw mustard green values per 100 g.",
+        "display_name": "Mustard Greens (Raw)",
+        "fdc_id": 169256,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 4.67,
+          "fat_g": 0.42,
+          "fiber_g": 3.2,
+          "protein_g": 2.86,
+          "sodium_g": 0.02,
+          "sugar_g": 1.32
+        },
+        "source_description": "Mustard greens, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "new zealand spinach",
+          "raw new zealand spinach",
+          "tetragonia",
+          "warrigal greens",
+          "nz spinach"
+        ],
+        "category_label": "vegetable",
+        "description": "New Zealand spinach is a leafy green used similarly to spinach in sautés and soups. This USDA row reflects raw leaves per 100 g.",
+        "display_name": "New Zealand Spinach (Raw)",
+        "fdc_id": 168440,
+        "macros": {
+          "calories": 14.0,
+          "carbs_g": 2.5,
+          "fat_g": 0.2,
+          "fiber_g": 1.5,
+          "protein_g": 1.5,
+          "sodium_g": 0.13,
+          "sugar_g": 0.29
+        },
+        "source_description": "New Zealand spinach, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "coconut water",
+          "coconut liquid",
+          "young coconut water",
+          "coconut juice",
+          "liquid from coconuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Coconut water is the natural liquid from coconuts and is used as a beverage or smoothie liquid base. This USDA row reflects coconut water values per 100 g.",
+        "display_name": "Coconut Water",
+        "fdc_id": 170174,
+        "macros": {
+          "calories": 19.0,
+          "carbs_g": 3.71,
+          "fat_g": 0.2,
+          "fiber_g": 1.1,
+          "protein_g": 0.72,
+          "sodium_g": 0.105,
+          "sugar_g": 2.61
+        },
+        "source_description": "Nuts, coconut water (liquid from coconuts)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "oat bran",
+          "raw oat bran",
+          "oat fiber bran",
+          "bran from oats",
+          "oat bran uncooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw oat bran is a high-fiber grain fraction used in cereal, baking, and porridge blends. This USDA row reflects raw oat bran values per 100 g.",
+        "display_name": "Oat Bran (Raw)",
+        "fdc_id": 168872,
+        "macros": {
+          "calories": 246.0,
+          "carbs_g": 66.22,
+          "fat_g": 7.03,
+          "fiber_g": 15.4,
+          "protein_g": 17.3,
+          "sodium_g": 0.004,
+          "sugar_g": 1.45
+        },
+        "source_description": "Oat bran, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "orange peel",
+          "orange zest",
+          "raw orange peel",
+          "fresh orange zest",
+          "grated orange peel"
+        ],
+        "category_label": "fruit",
+        "description": "Raw orange peel (zest) is used for citrus flavor in baking, sauces, and preserves. This USDA row reflects raw peel values per 100 g.",
+        "display_name": "Orange Peel (Raw)",
+        "fdc_id": 169103,
+        "macros": {
+          "calories": 97.0,
+          "carbs_g": 25.0,
+          "fat_g": 0.2,
+          "fiber_g": 10.6,
+          "protein_g": 1.5,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Orange peel, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "foie gras pate",
+          "goose liver pate",
+          "smoked pate",
+          "canned foie gras",
+          "liver pate canned"
+        ],
+        "category_label": "protein",
+        "description": "Smoked canned foie gras pate is a prepared spread used in appetizer service and charcuterie-style dishes. This USDA row reflects ready-to-eat pate values per 100 g.",
+        "display_name": "Foie Gras Pate (Smoked, Canned)",
+        "fdc_id": 171100,
+        "macros": {
+          "calories": 462.0,
+          "carbs_g": 4.67,
+          "fat_g": 43.84,
+          "fiber_g": 0.0,
+          "protein_g": 11.4,
+          "sodium_g": 0.697,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pate de foie gras, canned (goose liver pate), smoked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked pheasant",
+          "pheasant meat cooked",
+          "roasted pheasant meat",
+          "pheasant poultry cooked",
+          "game bird pheasant"
+        ],
+        "category_label": "protein",
+        "description": "Cooked pheasant is a lean game bird protein used in roasts and composed dishes. This USDA row reflects cooked edible-portion values per 100 g.",
+        "display_name": "Pheasant (Cooked)",
+        "fdc_id": 169903,
+        "macros": {
+          "calories": 239.0,
+          "carbs_g": 0.0,
+          "fat_g": 12.1,
+          "fiber_g": 0.0,
+          "protein_g": 32.4,
+          "sodium_g": 0.043,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pheasant, cooked, total edible",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ground pork",
+          "raw ground pork",
+          "pork mince",
+          "minced pork",
+          "fresh ground pork"
+        ],
+        "category_label": "protein",
+        "description": "Raw ground pork is a versatile protein used in meatballs, dumplings, stir-fries, and sauces. This USDA row reflects raw ground pork values per 100 g.",
+        "display_name": "Pork Ground (Raw)",
+        "fdc_id": 167902,
+        "macros": {
+          "calories": 263.0,
+          "carbs_g": 0.0,
+          "fat_g": 21.19,
+          "fiber_g": 0.0,
+          "protein_g": 16.88,
+          "sodium_g": 0.056,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, ground, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork loin lean",
+          "raw pork loin",
+          "lean pork loin",
+          "pork loin meat",
+          "fresh pork loin"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean pork loin is used for roasting, slicing, and pan-cooking applications. This USDA row reflects separable lean raw values per 100 g.",
+        "display_name": "Pork Loin (Lean, Raw)",
+        "fdc_id": 168230,
+        "macros": {
+          "calories": 143.0,
+          "carbs_g": 0.0,
+          "fat_g": 5.66,
+          "fiber_g": 0.0,
+          "protein_g": 21.43,
+          "sodium_g": 0.052,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, loin, whole, separable lean only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mechanically deboned poultry",
+          "mdm poultry",
+          "mechanically separated chicken",
+          "deboned poultry paste",
+          "poultry mdm raw"
+        ],
+        "category_label": "protein",
+        "description": "Mechanically deboned poultry is a processed raw poultry ingredient used in formulated meat products. This USDA row reflects raw mature-hen material per 100 g.",
+        "display_name": "Mechanically Deboned Poultry (Raw)",
+        "fdc_id": 171106,
+        "macros": {
+          "calories": 243.0,
+          "carbs_g": 0.0,
+          "fat_g": 19.98,
+          "fiber_g": 0.0,
+          "protein_g": 14.72,
+          "sodium_g": 0.04,
+          "sugar_g": 0.0
+        },
+        "source_description": "Poultry, mechanically deboned, from mature hens, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "prickly pear",
+          "prickly pears",
+          "cactus pear",
+          "tuna fruit",
+          "raw prickly pear"
+        ],
+        "category_label": "fruit",
+        "description": "Prickly pears are cactus fruits used fresh, in juices, and in syrups. This USDA row reflects raw prickly pear values per 100 g.",
+        "display_name": "Prickly Pears (Raw)",
+        "fdc_id": 167750,
+        "macros": {
+          "calories": 41.0,
+          "carbs_g": 9.57,
+          "fat_g": 0.51,
+          "fiber_g": 3.6,
+          "protein_g": 0.73,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Prickly pears, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pumpkin flowers",
+          "squash blossoms",
+          "pumpkin blossoms",
+          "zucchini flowers",
+          "raw pumpkin flowers"
+        ],
+        "category_label": "vegetable",
+        "description": "Pumpkin flowers are edible blossoms used stuffed, fried, or sautéed in seasonal dishes. This USDA row reflects raw flower values per 100 g.",
+        "display_name": "Pumpkin Flowers (Raw)",
+        "fdc_id": 169270,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 3.28,
+          "fat_g": 0.07,
+          "fiber_g": 0.0,
+          "protein_g": 1.03,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pumpkin flowers, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pumpkin leaves",
+          "squash leaves",
+          "raw pumpkin leaves",
+          "pumpkin greens",
+          "young pumpkin leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Pumpkin leaves are leafy greens used in soups and braised vegetable dishes. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Pumpkin Leaves (Raw)",
+        "fdc_id": 169272,
+        "macros": {
+          "calories": 19.0,
+          "carbs_g": 2.33,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 3.15,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pumpkin leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked quail",
+          "quail meat cooked",
+          "roasted quail",
+          "whole quail cooked",
+          "game bird quail"
+        ],
+        "category_label": "protein",
+        "description": "Cooked quail is a small game bird protein used for plated entrees and specialty dishes. This USDA row reflects cooked edible-portion values per 100 g.",
+        "display_name": "Quail (Cooked)",
+        "fdc_id": 169902,
+        "macros": {
+          "calories": 227.0,
+          "carbs_g": 0.0,
+          "fat_g": 14.1,
+          "fiber_g": 0.0,
+          "protein_g": 25.1,
+          "sodium_g": 0.052,
+          "sugar_g": 0.0
+        },
+        "source_description": "Quail, cooked, total edible",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rice noodles cooked",
+          "cooked rice noodles",
+          "prepared rice noodles",
+          "boiled rice noodles",
+          "rice vermicelli cooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked rice noodles are used in stir-fries, soups, and noodle salads. This USDA row reflects cooked noodle values per 100 g.",
+        "display_name": "Rice Noodles (Cooked)",
+        "fdc_id": 168914,
+        "macros": {
+          "calories": 108.0,
+          "carbs_g": 24.01,
+          "fat_g": 0.2,
+          "fiber_g": 1.0,
+          "protein_g": 1.79,
+          "sodium_g": 0.019,
+          "sugar_g": 0.03
+        },
+        "source_description": "Rice noodles, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rose apples",
+          "rose apple",
+          "wax apple",
+          "java apple",
+          "raw rose apple"
+        ],
+        "category_label": "fruit",
+        "description": "Rose apples are crisp tropical fruits eaten fresh or in fruit salads. This USDA row reflects raw rose apple values per 100 g.",
+        "display_name": "Rose Apples (Raw)",
+        "fdc_id": 168171,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 5.7,
+          "fat_g": 0.3,
+          "fiber_g": 0.0,
+          "protein_g": 0.6,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Rose-apples, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "atlantic salmon raw",
+          "farmed atlantic salmon",
+          "raw salmon fillet",
+          "salmon farm raised",
+          "fresh atlantic salmon"
+        ],
+        "category_label": "protein",
+        "description": "Raw farmed Atlantic salmon is a fatty fish protein used for roasting, pan-searing, and curing preparations. This USDA row reflects raw fish values per 100 g.",
+        "display_name": "Salmon (Atlantic, Farmed, Raw)",
+        "fdc_id": 2684441,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 0.0,
+          "fat_g": 13.11,
+          "fiber_g": 0.0,
+          "protein_g": 20.3188,
+          "sodium_g": 0.0495,
+          "sugar_g": 0.0
+        },
+        "source_description": "Fish, salmon, Atlantic, farm raised, raw",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted pumpkin seeds",
+          "unsalted pumpkin seeds",
+          "pepitas roasted",
+          "roasted squash seeds",
+          "pumpkin seed kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Roasted unsalted pumpkin seed kernels (pepitas) are used as snacks, toppings, and in granola or baking. This USDA row reflects roasted seed values per 100 g.",
+        "display_name": "Pumpkin Seeds (Roasted, Unsalted)",
+        "fdc_id": 170557,
+        "macros": {
+          "calories": 574.0,
+          "carbs_g": 14.71,
+          "fat_g": 49.05,
+          "fiber_g": 6.5,
+          "protein_g": 29.84,
+          "sodium_g": 0.018,
+          "sugar_g": 1.29
+        },
+        "source_description": "Seeds, pumpkin and squash seed kernels, roasted, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "semolina",
+          "enriched semolina",
+          "durum semolina",
+          "semolina flour",
+          "semolina meal"
+        ],
+        "category_label": "grain_legume",
+        "description": "Enriched semolina is a durum wheat ingredient used in pasta, porridge, and baking formulations. This USDA row reflects dry semolina values per 100 g.",
+        "display_name": "Semolina (Enriched)",
+        "fdc_id": 169715,
+        "macros": {
+          "calories": 360.0,
+          "carbs_g": 72.83,
+          "fat_g": 1.05,
+          "fiber_g": 3.9,
+          "protein_g": 12.68,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Semolina, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesbania flower",
+          "agathi flower",
+          "hummingbird tree flower",
+          "raw sesbania flower",
+          "edible sesbania blossoms"
+        ],
+        "category_label": "vegetable",
+        "description": "Sesbania flowers are edible blossoms used in regional stir-fries and soups. This USDA row reflects raw flower values per 100 g.",
+        "display_name": "Sesbania Flower (Raw)",
+        "fdc_id": 168459,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 6.73,
+          "fat_g": 0.04,
+          "fiber_g": 0.0,
+          "protein_g": 1.28,
+          "sodium_g": 0.015,
+          "sugar_g": 0.0
+        },
+        "source_description": "Sesbania flower, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "squab",
+          "pigeon meat raw",
+          "raw squab meat",
+          "young pigeon meat",
+          "squab pigeon"
+        ],
+        "category_label": "protein",
+        "description": "Squab is young pigeon meat used in specialty roasts and braised dishes. This USDA row reflects raw meat-only values per 100 g.",
+        "display_name": "Squab (Pigeon, Raw)",
+        "fdc_id": 171079,
+        "macros": {
+          "calories": 142.0,
+          "carbs_g": 0.0,
+          "fat_g": 7.5,
+          "fiber_g": 0.0,
+          "protein_g": 17.5,
+          "sodium_g": 0.051,
+          "sugar_g": 0.0
+        },
+        "source_description": "Squab, (pigeon), meat only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet potato leaves",
+          "sweet potato greens",
+          "raw sweet potato leaves",
+          "camote tops",
+          "sweet potato vine leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Sweet potato leaves are leafy greens used in stir-fries, soups, and braised dishes. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Sweet Potato Leaves (Raw)",
+        "fdc_id": 169303,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 8.82,
+          "fat_g": 0.51,
+          "fiber_g": 5.3,
+          "protein_g": 2.49,
+          "sodium_g": 0.006,
+          "sugar_g": 0.0
+        },
+        "source_description": "Sweet potato leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tangerine juice",
+          "fresh tangerine juice",
+          "raw tangerine juice",
+          "mandarin juice",
+          "citrus tangerine juice"
+        ],
+        "category_label": "fruit",
+        "description": "Raw tangerine juice is a citrus juice used as a beverage or flavoring component. This USDA row reflects raw juice values per 100 g.",
+        "display_name": "Tangerine Juice (Raw)",
+        "fdc_id": 169925,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 10.1,
+          "fat_g": 0.2,
+          "fiber_g": 0.2,
+          "protein_g": 0.5,
+          "sodium_g": 0.001,
+          "sugar_g": 9.9
+        },
+        "source_description": "Tangerine juice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "taro leaves",
+          "raw taro leaves",
+          "luau leaves",
+          "colocasia leaves",
+          "taro greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Taro leaves are cooked leafy greens used in stews, curries, and wrapped preparations. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Taro Leaves (Raw)",
+        "fdc_id": 168487,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 6.7,
+          "fat_g": 0.74,
+          "fiber_g": 3.7,
+          "protein_g": 4.98,
+          "sodium_g": 0.003,
+          "sugar_g": 3.01
+        },
+        "source_description": "Taro leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "taro shoots",
+          "raw taro shoots",
+          "young taro stems",
+          "taro sprouts",
+          "colocasia shoots"
+        ],
+        "category_label": "vegetable",
+        "description": "Taro shoots are tender plant stems used in stir-fries and stewed dishes after proper preparation. This USDA row reflects raw shoot values per 100 g.",
+        "display_name": "Taro Shoots (Raw)",
+        "fdc_id": 168489,
+        "macros": {
+          "calories": 11.0,
+          "carbs_g": 2.32,
+          "fat_g": 0.09,
+          "fiber_g": 0.0,
+          "protein_g": 0.92,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Taro shoots, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked tree fern",
+          "tree fern shoots cooked",
+          "salted tree fern",
+          "fiddlehead tree fern cooked",
+          "fern shoots cooked"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked salted tree fern shoots are used as a specialty vegetable in soups and stir-fries. This USDA row reflects cooked salted values per 100 g.",
+        "display_name": "Tree Fern (Cooked, Salted)",
+        "fdc_id": 168553,
+        "macros": {
+          "calories": 40.0,
+          "carbs_g": 10.78,
+          "fat_g": 0.07,
+          "fiber_g": 3.7,
+          "protein_g": 0.29,
+          "sodium_g": 0.241,
+          "sugar_g": 0.0
+        },
+        "source_description": "Tree fern, cooked, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw turkey back",
+          "turkey back meat and skin",
+          "turkey back with added solution",
+          "turkey back raw",
+          "whole-bird turkey back"
+        ],
+        "category_label": "protein",
+        "description": "Raw turkey back with meat and skin is used for stock, roasting, and mixed poultry preparations. This USDA row reflects raw values per 100 g.",
+        "display_name": "Turkey Back (Raw, Meat and Skin)",
+        "fdc_id": 171138,
+        "macros": {
+          "calories": 206.0,
+          "carbs_g": 0.15,
+          "fat_g": 15.41,
+          "fiber_g": 0.0,
+          "protein_g": 16.86,
+          "sodium_g": 0.157,
+          "sugar_g": 0.1
+        },
+        "source_description": "Turkey, back, from whole bird, meat and skin, with added solution, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw turkey thigh",
+          "turkey thigh meat raw",
+          "turkey thigh no skin",
+          "fresh turkey thigh meat",
+          "whole-bird turkey thigh"
+        ],
+        "category_label": "protein",
+        "description": "Raw turkey thigh meat is a flavorful dark poultry cut used for roasting, braising, and ground mixes. This USDA row reflects raw meat-only values per 100 g.",
+        "display_name": "Turkey Thigh (Raw, Meat Only)",
+        "fdc_id": 171129,
+        "macros": {
+          "calories": 115.0,
+          "carbs_g": 0.15,
+          "fat_g": 4.12,
+          "fiber_g": 0.0,
+          "protein_g": 19.27,
+          "sodium_g": 0.167,
+          "sugar_g": 0.1
+        },
+        "source_description": "Turkey, thigh, from whole bird, meat only, with added solution, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "smoked turkey wing",
+          "cooked turkey wing",
+          "turkey wing smoked",
+          "turkey wing meat cooked",
+          "smoked turkey wings"
+        ],
+        "category_label": "protein",
+        "description": "Smoked cooked turkey wing is used for hearty soups, beans, and braised dishes. This USDA row reflects cooked smoked wing values per 100 g.",
+        "display_name": "Turkey Wing (Smoked, Cooked)",
+        "fdc_id": 167709,
+        "macros": {
+          "calories": 221.0,
+          "carbs_g": 0.0,
+          "fat_g": 12.41,
+          "fiber_g": 0.0,
+          "protein_g": 27.4,
+          "sodium_g": 0.996,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey, wing, smoked, cooked, with skin, bone removed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "turnip greens",
+          "raw turnip greens",
+          "turnip leaves",
+          "fresh turnip tops",
+          "turnip top greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw turnip greens are leafy brassica greens used in sautés, braises, and soups. This USDA row reflects raw greens values per 100 g.",
+        "display_name": "Turnip Greens (Raw)",
+        "fdc_id": 170061,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 7.13,
+          "fat_g": 0.3,
+          "fiber_g": 3.2,
+          "protein_g": 1.5,
+          "sodium_g": 0.04,
+          "sugar_g": 0.81
+        },
+        "source_description": "Turnip greens, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green turtle meat",
+          "raw turtle meat",
+          "turtle green raw",
+          "turtle protein",
+          "green turtle"
+        ],
+        "category_label": "protein",
+        "description": "Green turtle meat appears here as a niche raw protein reference in USDA legacy data. This row reflects raw values per 100 g.",
+        "display_name": "Turtle (Green, Raw)",
+        "fdc_id": 167745,
+        "macros": {
+          "calories": 89.0,
+          "carbs_g": 0.0,
+          "fat_g": 0.5,
+          "fiber_g": 0.0,
+          "protein_g": 19.8,
+          "sodium_g": 0.068,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turtle, green, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "water spinach cooked",
+          "kangkong cooked",
+          "morning glory greens cooked",
+          "cooked water convolvulus",
+          "boiled water spinach"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked salted water convolvulus (water spinach/kangkong) is a leafy vegetable used in stir-fries and soups. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Water Convolvulus (Cooked, Salted)",
+        "fdc_id": 170132,
+        "macros": {
+          "calories": 20.0,
+          "carbs_g": 3.7,
+          "fat_g": 0.24,
+          "fiber_g": 1.9,
+          "protein_g": 2.08,
+          "sodium_g": 0.358,
+          "sugar_g": 0.0
+        },
+        "source_description": "Water convolvulus, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wild rice",
+          "raw wild rice",
+          "uncooked wild rice",
+          "wild rice grain",
+          "whole wild rice"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw wild rice is a whole grain used in pilafs, soups, and mixed-grain dishes after cooking. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Wild Rice (Raw)",
+        "fdc_id": 169726,
+        "macros": {
+          "calories": 357.0,
+          "carbs_g": 74.9,
+          "fat_g": 1.08,
+          "fiber_g": 6.2,
+          "protein_g": 14.73,
+          "sodium_g": 0.007,
+          "sugar_g": 2.5
+        },
+        "source_description": "Wild rice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "winged bean leaves",
+          "raw winged bean leaves",
+          "winged bean greens",
+          "goa bean leaves",
+          "asparagus pea leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Winged bean leaves are edible greens used in soups and stir-fries. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Winged Bean Leaves (Raw)",
+        "fdc_id": 170478,
+        "macros": {
+          "calories": 74.0,
+          "carbs_g": 14.1,
+          "fat_g": 1.1,
+          "fiber_g": 0.0,
+          "protein_g": 5.85,
+          "sodium_g": 0.009,
+          "sugar_g": 0.0
+        },
+        "source_description": "Winged bean leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "winged bean tuber",
+          "raw winged bean tuber",
+          "goa bean tuber",
+          "asparagus pea tuber",
+          "winged bean root"
+        ],
+        "category_label": "vegetable",
+        "description": "Winged bean tuber is a starchy root-like vegetable used in cooked preparations. This USDA row reflects raw tuber values per 100 g.",
+        "display_name": "Winged Bean Tuber (Raw)",
+        "fdc_id": 170070,
+        "macros": {
+          "calories": 148.0,
+          "carbs_g": 28.1,
+          "fat_g": 0.9,
+          "fiber_g": 0.0,
+          "protein_g": 11.6,
+          "sodium_g": 0.035,
+          "sugar_g": 0.0
+        },
+        "source_description": "Winged bean tuber, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yardlong bean",
+          "long bean",
+          "chinese long bean",
+          "snake bean",
+          "raw yardlong beans"
+        ],
+        "category_label": "vegetable",
+        "description": "Yardlong beans are long tender pods used in stir-fries, curries, and sauteed vegetable dishes. This USDA row reflects raw pod values per 100 g.",
+        "display_name": "Yardlong Bean (Raw)",
+        "fdc_id": 169222,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 8.35,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 2.8,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Yardlong bean, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "barley malt flour",
+          "malted barley flour",
+          "diastatic malt flour",
+          "barley malt powder flour",
+          "malt flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Barley malt flour is used in baking to add malt flavor and fermentation support in doughs. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Barley Malt Flour",
+        "fdc_id": 169740,
+        "macros": {
+          "calories": 361.0,
+          "carbs_g": 78.3,
+          "fat_g": 1.84,
+          "fiber_g": 7.1,
+          "protein_g": 10.28,
+          "sodium_g": 0.011,
+          "sugar_g": 0.8
+        },
+        "source_description": "Barley malt flour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ketchup",
+          "catsup",
+          "tomato ketchup",
+          "table ketchup",
+          "bottled ketchup"
+        ],
+        "category_label": "vegetable",
+        "description": "Ketchup (catsup) is a tomato-based condiment used in sauces, marinades, and table service. This USDA row reflects condiment values per 100 g.",
+        "display_name": "Ketchup (Catsup)",
+        "fdc_id": 168556,
+        "macros": {
+          "calories": 101.0,
+          "carbs_g": 27.4,
+          "fat_g": 0.1,
+          "fiber_g": 0.3,
+          "protein_g": 1.04,
+          "sodium_g": 0.907,
+          "sugar_g": 21.27
+        },
+        "source_description": "Catsup",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "orange pineapple juice",
+          "orange-pineapple blend",
+          "tropical citrus juice blend",
+          "orange pineapple drink",
+          "blended fruit juice orange pineapple"
+        ],
+        "category_label": "fruit",
+        "description": "Orange pineapple juice blend is a mixed fruit juice beverage used directly or in smoothies. This USDA row reflects blend values per 100 g.",
+        "display_name": "Orange Pineapple Juice Blend",
+        "fdc_id": 167792,
+        "macros": {
+          "calories": 51.0,
+          "carbs_g": 12.2,
+          "fat_g": 0.08,
+          "fiber_g": 0.2,
+          "protein_g": 0.41,
+          "sodium_g": 0.004,
+          "sugar_g": 10.57
+        },
+        "source_description": "Orange Pineapple Juice Blend",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "potato flour",
+          "dehydrated potato flour",
+          "potato powder flour",
+          "dry potato flour",
+          "potato starch flour"
+        ],
+        "category_label": "vegetable",
+        "description": "Potato flour is a dried potato ingredient used for thickening and gluten-free baking blends. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Potato Flour",
+        "fdc_id": 168446,
+        "macros": {
+          "calories": 357.0,
+          "carbs_g": 83.1,
+          "fat_g": 0.34,
+          "fiber_g": 5.9,
+          "protein_g": 6.9,
+          "sodium_g": 0.055,
+          "sugar_g": 3.52
+        },
+        "source_description": "Potato flour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "prune puree",
+          "pureed prunes",
+          "prune paste",
+          "plum puree dried fruit",
+          "prune concentrate puree"
+        ],
+        "category_label": "fruit",
+        "description": "Prune puree is used in baking, sauces, and moisture retention applications. This USDA row reflects puree values per 100 g.",
+        "display_name": "Prune Puree",
+        "fdc_id": 167780,
+        "macros": {
+          "calories": 257.0,
+          "carbs_g": 65.1,
+          "fat_g": 0.2,
+          "fiber_g": 3.3,
+          "protein_g": 2.1,
+          "sodium_g": 0.023,
+          "sugar_g": 39.0
+        },
+        "source_description": "Prune puree",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 003: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raspberry concentrate",
+          "raspberry juice concentrate",
+          "concentrated raspberry juice",
+          "raspberry syrup base",
+          "fruit concentrate raspberry"
+        ],
+        "category_label": "fruit",
+        "description": "Raspberry juice concentrate is used for beverages, desserts, and flavoring formulations. This USDA row reflects concentrate values per 100 g.",
+        "display_name": "Raspberry Juice Concentrate",
+        "fdc_id": 168217,
+        "macros": {
+          "calories": 221.0,
+          "carbs_g": 53.19,
+          "fat_g": 1.34,
+          "fiber_g": 1.1,
+          "protein_g": 3.04,
+          "sodium_g": 0.01,
+          "sugar_g": 38.21
+        },
+        "source_description": "Raspberry juice concentrate",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

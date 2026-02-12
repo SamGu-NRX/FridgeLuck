@@ -25,11 +25,31 @@ final class IngredientRepository: Sendable {
 
   /// Search ingredients by name (for manual add).
   func search(query: String, limit: Int = 20) throws -> [Ingredient] {
+    let lowered = query.lowercased()
+    let like = "%\(lowered)%"
+    let prefix = "\(lowered)%"
     try db.read { db in
-      try Ingredient
-        .filter(Ingredient.Columns.name.like("%\(query)%"))
-        .limit(limit)
-        .fetchAll(db)
+      try Ingredient.fetchAll(
+        db,
+        sql: """
+            SELECT DISTINCT i.*
+            FROM ingredients i
+            LEFT JOIN ingredient_aliases a ON a.ingredient_id = i.id
+            WHERE lower(i.name) LIKE ?
+               OR lower(COALESCE(i.description, '')) LIKE ?
+               OR lower(COALESCE(i.notes, '')) LIKE ?
+               OR lower(COALESCE(a.alias, '')) LIKE ?
+            ORDER BY
+              CASE
+                WHEN lower(i.name) = ? THEN 0
+                WHEN lower(i.name) LIKE ? THEN 1
+                ELSE 2
+              END,
+              i.name
+            LIMIT ?
+          """,
+        arguments: [like, like, like, like, lowered, prefix, limit]
+      )
     }
   }
 

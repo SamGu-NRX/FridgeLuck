@@ -207,9 +207,8 @@ private struct AllergenSelectionView: View {
     if searchText.isEmpty {
       return allIngredients
     }
-    let lowered = searchText.lowercased()
     return allIngredients.filter { ingredient in
-      ingredient.name.lowercased().contains(lowered)
+      ingredient.matchesSearch(searchText)
     }
   }
 
@@ -224,7 +223,7 @@ private struct AllergenSelectionView: View {
           }
         } label: {
           HStack {
-            Text(ingredient.name.replacingOccurrences(of: "_", with: " ").capitalized)
+            Text(ingredient.displayName)
             Spacer()
             if selectedAllergens.contains(id) {
               Image(systemName: "checkmark.circle.fill")

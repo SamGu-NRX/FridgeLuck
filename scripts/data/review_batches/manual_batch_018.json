@@ -1,0 +1,1756 @@
+{
+  "batch_id": 18,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lean pork ham",
+          "raw ham lean",
+          "pork leg lean",
+          "fresh ham lean",
+          "pork ham raw"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean pork ham (leg) is used for roasting, braising, and sliced pork preparations. This USDA row reflects separable lean values per 100 g.",
+        "display_name": "Pork Ham (Lean, Raw)",
+        "fdc_id": 168224,
+        "macros": {
+          "calories": 136.0,
+          "carbs_g": 0.0,
+          "fat_g": 5.41,
+          "fiber_g": 0.0,
+          "protein_g": 20.48,
+          "sodium_g": 0.055,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, leg (ham), whole, separable lean only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork back ribs",
+          "raw pork ribs",
+          "pork rib rack",
+          "backribs pork",
+          "pork ribs meat and fat"
+        ],
+        "category_label": "protein",
+        "description": "Raw pork back ribs are used for smoking, grilling, roasting, and braised dishes. This USDA row reflects lean-and-fat values per 100 g.",
+        "display_name": "Pork Back Ribs (Raw)",
+        "fdc_id": 168299,
+        "macros": {
+          "calories": 224.0,
+          "carbs_g": 0.0,
+          "fat_g": 16.33,
+          "fiber_g": 0.0,
+          "protein_g": 19.07,
+          "sodium_g": 0.087,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, backribs, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bacon fat",
+          "rendered bacon grease",
+          "cooked bacon drippings",
+          "bacon grease",
+          "pork bacon fat"
+        ],
+        "category_label": "oil_fat",
+        "description": "Rendered bacon fat is used as a cooking fat for sauteing, roasting, and flavoring savory dishes. This USDA row reflects cooked rendered fat values per 100 g.",
+        "display_name": "Rendered Bacon Fat",
+        "fdc_id": 168324,
+        "macros": {
+          "calories": 898.0,
+          "carbs_g": 0.0,
+          "fat_g": 99.5,
+          "fiber_g": 0.0,
+          "protein_g": 0.07,
+          "sodium_g": 0.027,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, bacon, rendered fat, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "fat"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork tenderloin lean",
+          "raw pork tenderloin",
+          "lean pork tender",
+          "pork loin tenderloin",
+          "fresh tenderloin pork"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean pork tenderloin is a quick-cooking cut used for roasting, medallions, and stir-fries. This USDA row reflects separable lean values per 100 g.",
+        "display_name": "Pork Tenderloin (Lean, Raw)",
+        "fdc_id": 168361,
+        "macros": {
+          "calories": 106.0,
+          "carbs_g": 0.0,
+          "fat_g": 2.09,
+          "fiber_g": 0.0,
+          "protein_g": 20.39,
+          "sodium_g": 0.243,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, enhanced, loin, tenderloin, separable lean only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork petite tender",
+          "boneless pork shoulder tender",
+          "raw pork shoulder tender",
+          "shoulder petite tender pork",
+          "pork tender cut"
+        ],
+        "category_label": "protein",
+        "description": "Raw boneless pork shoulder petite tender is used for roasting, slicing, and skillet cooking. This USDA row reflects lean-and-fat values per 100 g.",
+        "display_name": "Pork Shoulder Petite Tender (Boneless, Raw)",
+        "fdc_id": 168369,
+        "macros": {
+          "calories": 128.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.91,
+          "fiber_g": 0.0,
+          "protein_g": 21.65,
+          "sodium_g": 0.05,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, Shoulder petite tender, boneless, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork sirloin tip roast",
+          "boneless pork leg roast",
+          "raw pork sirloin tip",
+          "pork loin boneless roast",
+          "pork leg tip roast"
+        ],
+        "category_label": "protein",
+        "description": "Raw boneless pork leg sirloin tip roast is used for oven roasting and braised dishes. This USDA row reflects lean-and-fat values per 100 g.",
+        "display_name": "Pork Leg Sirloin Tip Roast (Boneless, Raw)",
+        "fdc_id": 168371,
+        "macros": {
+          "calories": 113.0,
+          "carbs_g": 0.0,
+          "fat_g": 1.71,
+          "fiber_g": 0.0,
+          "protein_g": 22.88,
+          "sodium_g": 0.05,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, Leg sirloin tip roast, boneless, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork loin backribs lean",
+          "raw pork loin ribs",
+          "lean pork back ribs",
+          "bone-in pork loin ribs",
+          "pork rib lean"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean pork loin backribs are used for grilling, roasting, and smoked preparations. This USDA row reflects separable lean values per 100 g.",
+        "display_name": "Pork Loin Backribs (Lean, Raw)",
+        "fdc_id": 168376,
+        "macros": {
+          "calories": 172.0,
+          "carbs_g": 0.0,
+          "fat_g": 9.84,
+          "fiber_g": 0.0,
+          "protein_g": 20.85,
+          "sodium_g": 0.095,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork loin, fresh, backribs, bone-in, raw, lean only",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "asparagus",
+          "raw asparagus",
+          "fresh asparagus spears",
+          "green asparagus",
+          "asparagus spears"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw asparagus is used for roasting, grilling, sauteing, and salads. This USDA row reflects raw spear values per 100 g.",
+        "display_name": "Asparagus (Raw)",
+        "fdc_id": 168389,
+        "macros": {
+          "calories": 20.0,
+          "carbs_g": 3.88,
+          "fat_g": 0.12,
+          "fiber_g": 2.1,
+          "protein_g": 2.2,
+          "sodium_g": 0.002,
+          "sugar_g": 1.88
+        },
+        "source_description": "Asparagus, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "asparagus"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "garden cress",
+          "cress",
+          "pepper cress",
+          "raw cress",
+          "cress leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw garden cress is a peppery leafy herb used in salads, sandwiches, and garnishes. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Garden Cress (Raw)",
+        "fdc_id": 168407,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 5.5,
+          "fat_g": 0.7,
+          "fiber_g": 1.1,
+          "protein_g": 2.6,
+          "sodium_g": 0.014,
+          "sugar_g": 4.4
+        },
+        "source_description": "Cress, garden, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "greens"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cucumber with peel",
+          "raw cucumber",
+          "whole cucumber",
+          "unpeeled cucumber",
+          "fresh cucumber"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw cucumber with peel is used in salads, pickles, and chilled dishes. This USDA row reflects raw unpeeled cucumber values per 100 g.",
+        "display_name": "Cucumber (With Peel, Raw)",
+        "fdc_id": 168409,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 3.63,
+          "fat_g": 0.11,
+          "fiber_g": 0.5,
+          "protein_g": 0.65,
+          "sodium_g": 0.002,
+          "sugar_g": 1.67
+        },
+        "source_description": "Cucumber, with peel, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "cucumber"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "endive",
+          "raw endive",
+          "belgian endive",
+          "endive leaves",
+          "fresh endive"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw endive is a crisp leafy vegetable used in salads, appetizers, and braised preparations. This USDA row reflects raw endive values per 100 g.",
+        "display_name": "Endive (Raw)",
+        "fdc_id": 168412,
+        "macros": {
+          "calories": 17.0,
+          "carbs_g": 3.35,
+          "fat_g": 0.2,
+          "fiber_g": 3.1,
+          "protein_g": 1.25,
+          "sodium_g": 0.022,
+          "sugar_g": 0.25
+        },
+        "source_description": "Endive, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "leafy_greens"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "escarole",
+          "cooked escarole",
+          "boiled escarole",
+          "escarole greens",
+          "broad-leaf endive"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked escarole is used in soups, sauteed greens, and braised dishes. This USDA row reflects boiled drained values per 100 g.",
+        "display_name": "Escarole (Cooked, No Salt)",
+        "fdc_id": 168413,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 3.07,
+          "fat_g": 0.18,
+          "fiber_g": 2.8,
+          "protein_g": 1.15,
+          "sodium_g": 0.019,
+          "sugar_g": 0.23
+        },
+        "source_description": "Escarole, cooked, boiled, drained, no salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "leafy_greens"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "jute leaves",
+          "jute potherb",
+          "molokhia leaves",
+          "raw jute greens",
+          "saluyot"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw jute leaves are mucilaginous greens used in soups, stews, and sauteed dishes. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Jute Leaves (Raw)",
+        "fdc_id": 168419,
+        "macros": {
+          "calories": 34.0,
+          "carbs_g": 5.8,
+          "fat_g": 0.25,
+          "fiber_g": 0.0,
+          "protein_g": 4.65,
+          "sodium_g": 0.008,
+          "sugar_g": 0.0
+        },
+        "source_description": "Jute, potherb, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "leafy_greens"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "kale",
+          "raw kale",
+          "curly kale",
+          "fresh kale leaves",
+          "leaf kale"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw kale is a leafy green used in salads, sautees, soups, and smoothies. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Kale (Raw)",
+        "fdc_id": 168421,
+        "macros": {
+          "calories": 35.0,
+          "carbs_g": 4.42,
+          "fat_g": 1.49,
+          "fiber_g": 4.1,
+          "protein_g": 2.92,
+          "sodium_g": 0.053,
+          "sugar_g": 0.99
+        },
+        "source_description": "Kale, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "kale"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "morel mushrooms",
+          "raw morels",
+          "fresh morel mushrooms",
+          "wild morels",
+          "morel fungi"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw morel mushrooms are prized mushrooms used in sautees, cream sauces, and spring dishes. This USDA row reflects raw mushroom values per 100 g.",
+        "display_name": "Morel Mushrooms (Raw)",
+        "fdc_id": 168423,
+        "macros": {
+          "calories": 31.0,
+          "carbs_g": 5.1,
+          "fat_g": 0.57,
+          "fiber_g": 2.8,
+          "protein_g": 3.12,
+          "sodium_g": 0.021,
+          "sugar_g": 0.6
+        },
+        "source_description": "Mushrooms, morel, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "mushroom"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "kohlrabi",
+          "raw kohlrabi",
+          "german turnip",
+          "kohlrabi bulb",
+          "fresh kohlrabi"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw kohlrabi is a crisp brassica used in slaws, salads, and roasted vegetable dishes. This USDA row reflects raw bulb values per 100 g.",
+        "display_name": "Kohlrabi (Raw)",
+        "fdc_id": 168424,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 6.2,
+          "fat_g": 0.1,
+          "fiber_g": 3.6,
+          "protein_g": 1.7,
+          "sodium_g": 0.02,
+          "sugar_g": 2.6
+        },
+        "source_description": "Kohlrabi, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "kohlrabi"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen steak fries",
+          "oven-heated steak fries",
+          "french fries steak cut",
+          "thick-cut frozen fries",
+          "processed potato fries"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen steak fries with salt added are prepared potato pieces used for oven baking or frying. This USDA row reflects prepared frozen values per 100 g.",
+        "display_name": "Steak Fries (Frozen, Oven-Heated)",
+        "fdc_id": 168445,
+        "macros": {
+          "calories": 148.0,
+          "carbs_g": 26.98,
+          "fat_g": 3.76,
+          "fiber_g": 2.6,
+          "protein_g": 2.57,
+          "sodium_g": 0.373,
+          "sugar_g": 0.25
+        },
+        "source_description": "Potatoes, french fried, steak fries, salt added in processing, frozen, oven-heated",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pumpkin",
+          "raw pumpkin",
+          "fresh pumpkin flesh",
+          "cooking pumpkin",
+          "pumpkin squash"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw pumpkin is used for roasting, purees, soups, pies, and stews. This USDA row reflects raw pumpkin values per 100 g.",
+        "display_name": "Pumpkin (Raw)",
+        "fdc_id": 168448,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 6.5,
+          "fat_g": 0.1,
+          "fiber_g": 0.5,
+          "protein_g": 1.0,
+          "sodium_g": 0.001,
+          "sugar_g": 2.76
+        },
+        "source_description": "Pumpkin, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "pumpkin"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "oriental radish",
+          "daikon",
+          "raw daikon",
+          "japanese radish",
+          "white radish"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw oriental radish (daikon) is used in salads, pickles, soups, and braised dishes. This USDA row reflects raw radish values per 100 g.",
+        "display_name": "Oriental Radish (Raw)",
+        "fdc_id": 168451,
+        "macros": {
+          "calories": 18.0,
+          "carbs_g": 4.1,
+          "fat_g": 0.1,
+          "fiber_g": 1.6,
+          "protein_g": 0.6,
+          "sodium_g": 0.021,
+          "sugar_g": 2.5
+        },
+        "source_description": "Radishes, oriental, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "radish"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rutabaga",
+          "raw rutabaga",
+          "swede",
+          "yellow turnip",
+          "rutabaga root"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw rutabaga is a root vegetable used in mashes, soups, roasts, and stews. This USDA row reflects raw rutabaga values per 100 g.",
+        "display_name": "Rutabaga (Raw)",
+        "fdc_id": 168454,
+        "macros": {
+          "calories": 37.0,
+          "carbs_g": 8.62,
+          "fat_g": 0.16,
+          "fiber_g": 2.3,
+          "protein_g": 1.08,
+          "sodium_g": 0.012,
+          "sugar_g": 4.46
+        },
+        "source_description": "Rutabagas, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "rutabaga"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spinach",
+          "raw spinach",
+          "fresh spinach leaves",
+          "baby spinach",
+          "leaf spinach"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw spinach is a leafy green used in salads, sautees, smoothies, soups, and omelets. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Spinach (Raw)",
+        "fdc_id": 168462,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 3.63,
+          "fat_g": 0.39,
+          "fiber_g": 2.2,
+          "protein_g": 2.86,
+          "sodium_g": 0.079,
+          "sugar_g": 0.42
+        },
+        "source_description": "Spinach, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "arrowroot root",
+          "raw arrowroot",
+          "arrowroot rhizome",
+          "maranta root",
+          "arrowroot tuber"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw arrowroot is a starchy root used for starch extraction and thickening preparations. This USDA row reflects raw root values per 100 g.",
+        "display_name": "Arrowroot (Raw)",
+        "fdc_id": 168490,
+        "macros": {
+          "calories": 65.0,
+          "carbs_g": 13.39,
+          "fat_g": 0.2,
+          "fiber_g": 1.3,
+          "protein_g": 4.24,
+          "sodium_g": 0.026,
+          "sugar_g": 0.0
+        },
+        "source_description": "Arrowroot, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "root"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chrysanthemum leaves",
+          "garland chrysanthemum",
+          "tong ho",
+          "raw chrysanthemum greens",
+          "edible chrysanthemum leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw chrysanthemum leaves are aromatic greens used in stir-fries, hot pots, and soups. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Chrysanthemum Leaves (Raw)",
+        "fdc_id": 168491,
+        "macros": {
+          "calories": 24.0,
+          "carbs_g": 3.01,
+          "fat_g": 0.56,
+          "fiber_g": 3.0,
+          "protein_g": 3.36,
+          "sodium_g": 0.118,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chrysanthemum leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "leafy_greens"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "radicchio",
+          "raw radicchio",
+          "italian chicory",
+          "red chicory",
+          "radicchio leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw radicchio is a bitter leafy chicory used in salads, grilling, and braises. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Radicchio (Raw)",
+        "fdc_id": 168564,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 4.48,
+          "fat_g": 0.25,
+          "fiber_g": 0.9,
+          "protein_g": 1.43,
+          "sodium_g": 0.022,
+          "sugar_g": 0.6
+        },
+        "source_description": "Radicchio, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "leafy_greens"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tomatillos",
+          "raw tomatillo",
+          "husk tomato",
+          "mexican husk tomato",
+          "green tomatillo"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw tomatillos are tart fruits used in salsa verde, sauces, and braised dishes. This USDA row reflects raw tomatillo values per 100 g.",
+        "display_name": "Tomatillos (Raw)",
+        "fdc_id": 168566,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 5.84,
+          "fat_g": 1.02,
+          "fiber_g": 1.9,
+          "protein_g": 0.96,
+          "sodium_g": 0.001,
+          "sugar_g": 3.93
+        },
+        "source_description": "Tomatillos, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomatillo"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "nopales",
+          "cactus paddles",
+          "prickly pear pads",
+          "raw nopal",
+          "cactus leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw nopales are edible cactus pads used in salads, sautees, stews, and tacos. This USDA row reflects raw cactus values per 100 g.",
+        "display_name": "Nopales (Raw)",
+        "fdc_id": 168571,
+        "macros": {
+          "calories": 16.0,
+          "carbs_g": 3.33,
+          "fat_g": 0.09,
+          "fiber_g": 2.2,
+          "protein_g": 1.32,
+          "sodium_g": 0.021,
+          "sugar_g": 1.15
+        },
+        "source_description": "Nopales, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "cactus"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lemongrass",
+          "lemon grass",
+          "citronella grass",
+          "raw lemongrass",
+          "serai"
+        ],
+        "category_label": "herb_spice",
+        "description": "Raw lemongrass is an aromatic stalk used to flavor soups, curries, marinades, and teas. This USDA row reflects raw stalk values per 100 g.",
+        "display_name": "Lemongrass (Raw)",
+        "fdc_id": 168573,
+        "macros": {
+          "calories": 99.0,
+          "carbs_g": 25.31,
+          "fat_g": 0.49,
+          "fiber_g": 0.0,
+          "protein_g": 1.82,
+          "sodium_g": 0.006,
+          "sugar_g": 0.0
+        },
+        "source_description": "Lemon grass (citronella), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "lemongrass"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "fava beans",
+          "broad beans",
+          "raw fava beans",
+          "fresh fava pods",
+          "fava beans in pod"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw fava beans in pod are used shelled in stews, salads, purees, and braises. This USDA row reflects in-pod values per 100 g.",
+        "display_name": "Fava Beans (In Pod, Raw)",
+        "fdc_id": 168574,
+        "macros": {
+          "calories": 88.0,
+          "carbs_g": 17.63,
+          "fat_g": 0.73,
+          "fiber_g": 7.5,
+          "protein_g": 7.92,
+          "sodium_g": 0.025,
+          "sugar_g": 9.21
+        },
+        "source_description": "Beans, fava, in pod, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "bean"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "grape leaves",
+          "raw grape leaves",
+          "vine leaves",
+          "dolma leaves",
+          "fresh grape leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw grape leaves are used for stuffing, pickling, and Mediterranean wraps. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Grape Leaves (Raw)",
+        "fdc_id": 168575,
+        "macros": {
+          "calories": 93.0,
+          "carbs_g": 17.31,
+          "fat_g": 2.12,
+          "fiber_g": 11.0,
+          "protein_g": 5.6,
+          "sodium_g": 0.009,
+          "sugar_g": 6.3
+        },
+        "source_description": "Grape leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "leafy_greens"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "oyster mushrooms",
+          "raw oyster mushrooms",
+          "pleurotus mushrooms",
+          "fresh oyster mushroom",
+          "oyster fungi"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw oyster mushrooms are used in stir-fries, soups, saut\u00e9s, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
+        "display_name": "Oyster Mushrooms (Raw)",
+        "fdc_id": 168580,
+        "macros": {
+          "calories": 33.0,
+          "carbs_g": 6.09,
+          "fat_g": 0.41,
+          "fiber_g": 2.3,
+          "protein_g": 3.31,
+          "sodium_g": 0.018,
+          "sugar_g": 1.11
+        },
+        "source_description": "Mushrooms, oyster, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "mushroom"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cloud ear fungus",
+          "wood ear mushrooms",
+          "black fungus dried",
+          "mu er",
+          "tree ear fungus"
+        ],
+        "category_label": "vegetable",
+        "description": "Dried cloud ear fungus is rehydrated for stir-fries, soups, and salads. This USDA row reflects dried fungus values per 100 g.",
+        "display_name": "Cloud Ear Fungus (Dried)",
+        "fdc_id": 168581,
+        "macros": {
+          "calories": 284.0,
+          "carbs_g": 73.01,
+          "fat_g": 0.73,
+          "fiber_g": 70.1,
+          "protein_g": 9.25,
+          "sodium_g": 0.035,
+          "sugar_g": 0.0
+        },
+        "source_description": "Fungi, Cloud ears, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "mushroom"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lotus seeds",
+          "raw lotus seeds",
+          "fox nuts lotus",
+          "lotus kernels",
+          "dried lotus seeds"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw lotus seeds are used in soups, desserts, porridges, and seed pastes. This USDA row reflects seed values per 100 g.",
+        "display_name": "Lotus Seeds (Raw)",
+        "fdc_id": 168591,
+        "macros": {
+          "calories": 89.0,
+          "carbs_g": 17.28,
+          "fat_g": 0.53,
+          "fiber_g": 0.0,
+          "protein_g": 4.13,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, lotus seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef fat trimmings",
+          "raw beef fat",
+          "beef suet",
+          "separable beef fat",
+          "beef tallow fat"
+        ],
+        "category_label": "oil_fat",
+        "description": "Raw beef fat trimmings are used for rendering tallow and adding fat to ground meat blends. This USDA row reflects raw fat values per 100 g.",
+        "display_name": "Beef Fat Trimmings (Raw)",
+        "fdc_id": 168605,
+        "macros": {
+          "calories": 674.0,
+          "carbs_g": 0.0,
+          "fat_g": 70.89,
+          "fiber_g": 0.0,
+          "protein_g": 8.21,
+          "sodium_g": 0.026,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, retail cuts, separable fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "fat"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "grass-fed ground beef",
+          "raw ground beef grass fed",
+          "ground beef pasture raised",
+          "minced beef grass-fed",
+          "ground beef"
+        ],
+        "category_label": "protein",
+        "description": "Raw grass-fed ground beef is used for burgers, meatballs, sauces, and casseroles. This USDA row reflects raw ground beef values per 100 g.",
+        "display_name": "Ground Beef (Grass-Fed, Raw)",
+        "fdc_id": 168608,
+        "macros": {
+          "calories": 198.0,
+          "carbs_g": 0.0,
+          "fat_g": 12.73,
+          "fiber_g": 0.0,
+          "protein_g": 19.42,
+          "sodium_g": 0.068,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, grass-fed, ground, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "beef"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "70/30 ground beef",
+          "ground beef 70 lean",
+          "raw ground beef high fat",
+          "minced beef 70 30",
+          "ground chuck fatty"
+        ],
+        "category_label": "protein",
+        "description": "Raw 70/30 ground beef is a high-fat beef blend used in burgers and rich meat sauces. This USDA row reflects raw values per 100 g.",
+        "display_name": "Ground Beef (70/30, Raw)",
+        "fdc_id": 168652,
+        "macros": {
+          "calories": 332.0,
+          "carbs_g": 0.0,
+          "fat_g": 30.0,
+          "fiber_g": 0.0,
+          "protein_g": 14.35,
+          "sodium_g": 0.066,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, ground, 70% lean meat / 30% fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "beef"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "quinoa",
+          "uncooked quinoa",
+          "raw quinoa seeds",
+          "white quinoa dry",
+          "quinoa grain"
+        ],
+        "category_label": "grain_legume",
+        "description": "Uncooked quinoa is a seed-grain used in pilafs, salads, bowls, and porridge. This USDA row reflects dry quinoa values per 100 g.",
+        "display_name": "Quinoa (Uncooked)",
+        "fdc_id": 168874,
+        "macros": {
+          "calories": 368.0,
+          "carbs_g": 64.16,
+          "fat_g": 6.07,
+          "fiber_g": 7.0,
+          "protein_g": 14.12,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Quinoa, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "quinoa"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "brown rice flour",
+          "whole rice flour",
+          "rice flour brown",
+          "gluten-free rice flour",
+          "brown rice powder"
+        ],
+        "category_label": "grain_legume",
+        "description": "Brown rice flour is used in gluten-free baking, noodles, and thickened batters. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Brown Rice Flour",
+        "fdc_id": 168898,
+        "macros": {
+          "calories": 363.0,
+          "carbs_g": 76.48,
+          "fat_g": 2.78,
+          "fiber_g": 4.6,
+          "protein_g": 7.23,
+          "sodium_g": 0.008,
+          "sugar_g": 0.66
+        },
+        "source_description": "Rice flour, brown",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dry spinach spaghetti",
+          "spinach pasta dry",
+          "green spaghetti dry",
+          "spinach noodles dry",
+          "spaghetti spinach dry"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry spinach spaghetti is a flavored pasta used after boiling for pasta dishes and soups. This USDA row reflects dry pasta values per 100 g.",
+        "display_name": "Spinach Spaghetti (Dry)",
+        "fdc_id": 168911,
+        "macros": {
+          "calories": 372.0,
+          "carbs_g": 74.81,
+          "fat_g": 1.57,
+          "fiber_g": 10.6,
+          "protein_g": 13.35,
+          "sodium_g": 0.036,
+          "sugar_g": 2.72
+        },
+        "source_description": "Spaghetti, spinach, dry",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "pasta"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dry pasta",
+          "unenriched pasta",
+          "white pasta dry",
+          "plain pasta",
+          "dry macaroni pasta"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry unenriched pasta is a pantry staple used in boiled pasta dishes, casseroles, and soups. This USDA row reflects dry pasta values per 100 g.",
+        "display_name": "Pasta (Dry, Unenriched)",
+        "fdc_id": 168927,
+        "macros": {
+          "calories": 371.0,
+          "carbs_g": 74.67,
+          "fat_g": 1.51,
+          "fiber_g": 3.2,
+          "protein_g": 13.04,
+          "sodium_g": 0.006,
+          "sugar_g": 2.67
+        },
+        "source_description": "Pasta, dry, unenriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "pasta"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "degermed yellow cornmeal",
+          "yellow cornmeal unenriched",
+          "cornmeal fine yellow",
+          "dry yellow corn meal",
+          "degermed corn meal"
+        ],
+        "category_label": "grain_legume",
+        "description": "Degermed unenriched yellow cornmeal is used in cornbread, batters, porridges, and coatings. This USDA row reflects dry cornmeal values per 100 g.",
+        "display_name": "Degermed Yellow Cornmeal (Unenriched)",
+        "fdc_id": 168929,
+        "macros": {
+          "calories": 370.0,
+          "carbs_g": 79.45,
+          "fat_g": 1.75,
+          "fiber_g": 3.9,
+          "protein_g": 7.11,
+          "sodium_g": 0.007,
+          "sugar_g": 1.61
+        },
+        "source_description": "Cornmeal, degermed, unenriched, yellow",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "cornmeal"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lychee",
+          "litchi",
+          "raw lychee",
+          "fresh lychee fruit",
+          "lychee fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw lychee is a sweet aromatic tropical fruit used in desserts, drinks, and fruit salads. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Lychee (Raw)",
+        "fdc_id": 169086,
+        "macros": {
+          "calories": 66.0,
+          "carbs_g": 16.53,
+          "fat_g": 0.44,
+          "fiber_g": 1.3,
+          "protein_g": 0.83,
+          "sodium_g": 0.001,
+          "sugar_g": 15.23
+        },
+        "source_description": "Litchis, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "lychee"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "longan",
+          "raw longan",
+          "fresh longan fruit",
+          "dragon eye fruit",
+          "longan fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw longan is a sweet tropical fruit used fresh, in beverages, and in desserts. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Longan (Raw)",
+        "fdc_id": 169089,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 15.14,
+          "fat_g": 0.1,
+          "fiber_g": 1.1,
+          "protein_g": 1.31,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Longans, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "longan"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pear",
+          "raw pear",
+          "fresh pears",
+          "whole pear",
+          "pear fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw pears are used fresh, poached, baked, and in salads. This USDA row reflects raw pear values per 100 g.",
+        "display_name": "Pear (Raw)",
+        "fdc_id": 169118,
+        "macros": {
+          "calories": 57.0,
+          "carbs_g": 15.23,
+          "fat_g": 0.14,
+          "fiber_g": 3.1,
+          "protein_g": 0.36,
+          "sodium_g": 0.001,
+          "sugar_g": 9.75
+        },
+        "source_description": "Pears, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "pear"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried pears",
+          "sulfured dried pears",
+          "dehydrated pears",
+          "pear chips dried",
+          "uncooked dried pear"
+        ],
+        "category_label": "fruit",
+        "description": "Dried sulfured pears are preserved fruit used in snacks, baking, and compotes. This USDA row reflects dried fruit values per 100 g.",
+        "display_name": "Pears (Dried, Sulfured)",
+        "fdc_id": 169121,
+        "macros": {
+          "calories": 262.0,
+          "carbs_g": 69.7,
+          "fat_g": 0.63,
+          "fiber_g": 7.5,
+          "protein_g": 1.87,
+          "sodium_g": 0.006,
+          "sugar_g": 62.2
+        },
+        "source_description": "Pears, dried, sulfured, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "pear"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pomegranate",
+          "raw pomegranate",
+          "pomegranate arils",
+          "fresh pomegranate",
+          "pomegranate fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw pomegranate is used for fresh arils, juices, salads, and sauces. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Pomegranate (Raw)",
+        "fdc_id": 169134,
+        "macros": {
+          "calories": 83.0,
+          "carbs_g": 18.7,
+          "fat_g": 1.17,
+          "fiber_g": 4.0,
+          "protein_g": 1.67,
+          "sodium_g": 0.003,
+          "sugar_g": 13.67
+        },
+        "source_description": "Pomegranates, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "pomegranate"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beets",
+          "beetroot",
+          "raw beet",
+          "fresh beets",
+          "red beet"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw beets are used for roasting, boiling, pickling, salads, and juices. This USDA row reflects raw beet values per 100 g.",
+        "display_name": "Beetroot (Raw)",
+        "fdc_id": 169145,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 9.56,
+          "fat_g": 0.17,
+          "fiber_g": 2.8,
+          "protein_g": 1.61,
+          "sodium_g": 0.078,
+          "sugar_g": 6.76
+        },
+        "source_description": "Beets, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "beet"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "boneless pork steak",
+          "pork leg cap steak",
+          "raw pork cap steak",
+          "pork steak lean and fat",
+          "fresh pork steak"
+        ],
+        "category_label": "protein",
+        "description": "Raw boneless pork leg cap steak is used for pan-searing, grilling, and braising. This USDA row reflects lean-and-fat values per 100 g.",
+        "display_name": "Pork Leg Cap Steak (Boneless, Raw)",
+        "fdc_id": 169186,
+        "macros": {
+          "calories": 123.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.39,
+          "fiber_g": 0.0,
+          "protein_g": 21.64,
+          "sodium_g": 0.073,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, Leg Cap Steak, boneless, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "globe artichoke",
+          "raw artichoke",
+          "fresh artichoke hearts",
+          "french artichoke",
+          "whole artichoke"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw globe artichoke is used steamed, braised, grilled, and in dips or salads. This USDA row reflects raw artichoke values per 100 g.",
+        "display_name": "Artichoke (Globe, Raw)",
+        "fdc_id": 169205,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 10.51,
+          "fat_g": 0.15,
+          "fiber_g": 5.4,
+          "protein_g": 3.27,
+          "sodium_g": 0.094,
+          "sugar_g": 0.99
+        },
+        "source_description": "Artichokes, (globe or french), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "artichoke"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "peeled cucumber",
+          "raw peeled cucumber",
+          "cucumber without peel",
+          "fresh peeled cucumber",
+          "seedless peeled cucumber"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw peeled cucumber is used in salads, chilled soups, pickles, and sauces. This USDA row reflects raw peeled cucumber values per 100 g.",
+        "display_name": "Cucumber (Peeled, Raw)",
+        "fdc_id": 169225,
+        "macros": {
+          "calories": 10.0,
+          "carbs_g": 2.16,
+          "fat_g": 0.16,
+          "fiber_g": 0.7,
+          "protein_g": 0.59,
+          "sodium_g": 0.002,
+          "sugar_g": 1.38
+        },
+        "source_description": "Cucumber, peeled, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "cucumber"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 018: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dandelion greens",
+          "raw dandelion leaves",
+          "dandelion leaves",
+          "wild dandelion greens",
+          "taraxacum greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw dandelion greens are bitter leaves used in salads, sauteed greens, and soups. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Dandelion Greens (Raw)",
+        "fdc_id": 169226,
+        "macros": {
+          "calories": 45.0,
+          "carbs_g": 9.2,
+          "fat_g": 0.7,
+          "fiber_g": 3.5,
+          "protein_g": 2.7,
+          "sodium_g": 0.076,
+          "sugar_g": 0.71
+        },
+        "source_description": "Dandelion greens, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "leafy_greens"
+      }
+    }
+  ]
+}

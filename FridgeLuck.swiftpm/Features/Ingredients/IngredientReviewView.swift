@@ -131,7 +131,7 @@ struct IngredientReviewView: View {
   }
 
   private func displayName(for id: Int64) -> String {
-    ingredient(for: id)?.name.replacingOccurrences(of: "_", with: " ").capitalized
+    ingredient(for: id)?.displayName
       ?? IngredientLexicon.displayName(for: id)
   }
 
@@ -408,7 +408,7 @@ struct IngredientReviewView: View {
 
     let detection = Detection(
       ingredientId: id,
-      label: ingredient.name.replacingOccurrences(of: "_", with: " ").capitalized,
+      label: ingredient.displayName,
       confidence: 1.0,
       source: .manual,
       originalVisionLabel: ingredient.name,
@@ -423,7 +423,7 @@ struct IngredientReviewView: View {
     choose(
       option: DetectionAlternative(
         ingredientId: id,
-        label: ingredient.name.replacingOccurrences(of: "_", with: " ").capitalized,
+        label: ingredient.displayName,
         confidence: nil
       ),
       for: detection
@@ -617,9 +617,8 @@ struct IngredientSearchSheet: View {
 
   private var filtered: [Ingredient] {
     if searchText.isEmpty { return allIngredients }
-    let query = searchText.lowercased()
     return allIngredients.filter {
-      $0.name.lowercased().contains(query)
+      $0.matchesSearch(searchText)
     }
   }
 
@@ -631,7 +630,7 @@ struct IngredientSearchSheet: View {
           dismiss()
         } label: {
           HStack {
-            Text(ingredient.name.replacingOccurrences(of: "_", with: " ").capitalized)
+            Text(ingredient.displayName)
             Spacer()
             Text("\(Int(ingredient.calories)) kcal/100g")
               .font(.caption)

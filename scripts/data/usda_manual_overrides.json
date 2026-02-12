@@ -1,0 +1,907 @@
+{
+  "language": "en",
+  "notes": "Manual curation batches 1-2 + targeted missing staples and alias cleanup",
+  "overrides": {
+    "167782": {
+      "display_name": "Abiyuch Fruit",
+      "alt_names": [
+        "abiu",
+        "abiyuch fruit"
+      ],
+      "clarification": "Tropical fruit entry; uncommon in U.S. grocery retail."
+    },
+    "167806": {
+      "display_name": "Baobab Powder",
+      "alt_names": [
+        "baobab fruit powder"
+      ]
+    },
+    "167811": {
+      "display_name": "Pork Backfat (Raw)",
+      "alt_names": [
+        "pork backfat",
+        "fatback"
+      ]
+    },
+    "167812": {
+      "display_name": "Pork Belly (Raw)",
+      "alt_names": [
+        "raw pork belly"
+      ]
+    },
+    "167813": {
+      "display_name": "Pork Fat (Raw)",
+      "alt_names": [
+        "pork fat",
+        "raw pork fat"
+      ],
+      "clarification": "Raw pork fat for rendering/lard use."
+    },
+    "167845": {
+      "display_name": "Pork Shoulder (Lean, Raw)",
+      "alt_names": [
+        "raw pork shoulder lean"
+      ]
+    },
+    "167859": {
+      "display_name": "Pork Feet (Raw)",
+      "alt_names": [
+        "pig feet",
+        "pork trotters"
+      ]
+    },
+    "168128": {
+      "display_name": "Baked Beans (No Salt Added)",
+      "alt_names": [
+        "canned baked beans"
+      ]
+    },
+    "168129": {
+      "display_name": "Salted Dried Jellyfish",
+      "alt_names": [
+        "jellyfish dried salted"
+      ]
+    },
+    "168149": {
+      "display_name": "Salted Mackerel",
+      "alt_names": [
+        "mackerel salted",
+        "salt fish mackerel"
+      ]
+    },
+    "168218": {
+      "keep": false,
+      "clarification": "Composite pork-fat row with added solution is low-value for ingredient-first search."
+    },
+    "168219": {
+      "keep": false,
+      "clarification": "Pork carcass aggregate entry is too broad for ingredient search."
+    },
+    "168224": {
+      "display_name": "Pork Ham (Lean, Raw)",
+      "alt_names": [
+        "raw pork ham lean"
+      ]
+    },
+    "168324": {
+      "display_name": "Rendered Bacon Fat",
+      "alt_names": [
+        "bacon fat",
+        "rendered bacon grease"
+      ]
+    },
+    "168384": {
+      "display_name": "Alfalfa Sprouts",
+      "alt_names": [
+        "alfalfa sprout",
+        "sprouted alfalfa"
+      ]
+    },
+    "168385": {
+      "display_name": "Amaranth Leaves",
+      "alt_names": [
+        "amaranth greens"
+      ]
+    },
+    "168391": {
+      "display_name": "Bitter Melon Leaves",
+      "alt_names": [
+        "bitter gourd leaves",
+        "ampalaya leaves"
+      ]
+    },
+    "168393": {
+      "display_name": "Bitter Melon",
+      "alt_names": [
+        "bitter gourd",
+        "ampalaya"
+      ]
+    },
+    "168414": {
+      "display_name": "Luffa Gourd",
+      "alt_names": [
+        "luffa",
+        "luffa gourd",
+        "sponge gourd",
+        "dishcloth gourd",
+        "towel gourd"
+      ],
+      "clarification": "Young luffa squash used as a vegetable before fibers mature."
+    },
+    "168479": {
+      "keep": false,
+      "clarification": "Succotash canned mixture is a prepared mixed dish, not a single ingredient."
+    },
+    "168490": {
+      "display_name": "Arrowroot",
+      "alt_names": [
+        "arrowroot root"
+      ]
+    },
+    "168556": {
+      "display_name": "Ketchup",
+      "alt_names": [
+        "catsup",
+        "tomato ketchup"
+      ]
+    },
+    "168574": {
+      "display_name": "Fava Beans",
+      "alt_names": [
+        "broad beans",
+        "faba beans"
+      ]
+    },
+    "168605": {
+      "display_name": "Beef Fat Trim",
+      "alt_names": [
+        "beef fat",
+        "tallow trim"
+      ]
+    },
+    "168607": {
+      "display_name": "Beef Brisket",
+      "alt_names": [
+        "brisket"
+      ]
+    },
+    "168608": {
+      "display_name": "Ground Beef (Grass-Fed)",
+      "alt_names": [
+        "grass fed ground beef"
+      ]
+    },
+    "168609": {
+      "display_name": "Beef Flank Steak",
+      "alt_names": [
+        "flank steak"
+      ]
+    },
+    "168614": {
+      "display_name": "Beef Short Ribs",
+      "alt_names": [
+        "short ribs"
+      ]
+    },
+    "168621": {
+      "display_name": "Beef Ribeye Steak",
+      "alt_names": [
+        "rib eye steak",
+        "ribeye"
+      ]
+    },
+    "168652": {
+      "display_name": "Ground Beef (70/30)",
+      "alt_names": [
+        "70 30 ground beef",
+        "regular ground beef"
+      ]
+    },
+    "168655": {
+      "display_name": "Beef Top Blade Steak",
+      "alt_names": [
+        "flat iron steak",
+        "top blade"
+      ]
+    },
+    "168663": {
+      "keep": false,
+      "clarification": "Composite beef aggregate row is too broad for ingredient search."
+    },
+    "168672": {
+      "display_name": "Beef Chuck Roast",
+      "alt_names": [
+        "chuck roast"
+      ]
+    },
+    "168694": {
+      "display_name": "Beef Round Steak",
+      "alt_names": [
+        "round steak"
+      ]
+    },
+    "168717": {
+      "display_name": "Beef T-Bone (Short Loin)",
+      "alt_names": [
+        "t-bone steak"
+      ]
+    },
+    "168719": {
+      "display_name": "Beef Loin Steak",
+      "alt_names": [
+        "top loin steak",
+        "strip steak"
+      ]
+    },
+    "168728": {
+      "display_name": "Beef Top Sirloin",
+      "alt_names": [
+        "sirloin steak"
+      ]
+    },
+    "168731": {
+      "display_name": "Beef Shoulder Steak",
+      "alt_names": [
+        "shoulder clod steak"
+      ]
+    },
+    "168736": {
+      "display_name": "Beef Tri-Tip",
+      "alt_names": [
+        "tri tip",
+        "bottom sirloin tri-tip"
+      ]
+    },
+    "168742": {
+      "display_name": "Beef Chuck Eye Roast",
+      "alt_names": [
+        "chuck eye roast"
+      ]
+    },
+    "168879": {
+      "display_name": "White Rice (Medium Grain, Raw)",
+      "alt_names": [
+        "medium grain white rice"
+      ]
+    },
+    "168911": {
+      "display_name": "Dry Spinach Spaghetti",
+      "alt_names": [
+        "spinach spaghetti",
+        "spinach pasta dry"
+      ]
+    },
+    "168926": {
+      "keep": false,
+      "clarification": "Cooked noodle row is dish-state data; keep dry/as-purchased noodle entries instead."
+    },
+    "168927": {
+      "display_name": "Dry Pasta",
+      "alt_names": [
+        "dried pasta"
+      ]
+    },
+    "168929": {
+      "display_name": "Degermed Yellow Cornmeal",
+      "alt_names": [
+        "yellow cornmeal",
+        "degermed cornmeal"
+      ]
+    },
+    "168931": {
+      "display_name": "White Rice (Short Grain, Raw)",
+      "alt_names": [
+        "short grain white rice"
+      ]
+    },
+    "168933": {
+      "display_name": "Semolina Flour",
+      "alt_names": [
+        "semolina"
+      ]
+    },
+    "169082": {
+      "keep": false,
+      "clarification": "Dehydrated oriental-style pork is processed specialty product, low relevance for core ingredient search."
+    },
+    "169139": {
+      "display_name": "Sprouted Navy Beans",
+      "alt_names": [
+        "navy bean sprouts"
+      ]
+    },
+    "169157": {
+      "display_name": "Pickled Pork Hocks",
+      "alt_names": [
+        "pickled pork hock",
+        "pork hocks"
+      ]
+    },
+    "169179": {
+      "keep": false,
+      "clarification": "Composite pork fat with added solution is low-value for ingredient-first search."
+    },
+    "169203": {
+      "display_name": "Arrowhead Root",
+      "alt_names": [
+        "wapato",
+        "duck potato"
+      ]
+    },
+    "169205": {
+      "display_name": "Artichoke",
+      "alt_names": [
+        "globe artichoke",
+        "french artichoke"
+      ]
+    },
+    "169210": {
+      "display_name": "Bamboo Shoots",
+      "alt_names": [
+        "bamboo shoot"
+      ]
+    },
+    "169213": {
+      "display_name": "Sprouted Kidney Beans",
+      "alt_names": [
+        "kidney bean sprouts"
+      ]
+    },
+    "169232": {
+      "display_name": "Calabash Gourd",
+      "alt_names": [
+        "bottle gourd",
+        "opo squash",
+        "white-flowered gourd"
+      ]
+    },
+    "169413": {
+      "display_name": "Japanese Chestnuts",
+      "alt_names": [
+        "japanese chestnut"
+      ]
+    },
+    "169416": {
+      "keep": false,
+      "clarification": "Salt-added toasted sesame kernel row is redundant with unsalted sesame seed entries."
+    },
+    "169430": {
+      "keep": false,
+      "clarification": "Carcass aggregate entry is not specific enough for ingredient search."
+    },
+    "169441": {
+      "display_name": "Beef Shank",
+      "alt_names": [
+        "cross-cut shank",
+        "osso buco cut"
+      ]
+    },
+    "169481": {
+      "display_name": "Beef Shoulder Pot Roast",
+      "alt_names": [
+        "shoulder roast",
+        "pot roast"
+      ]
+    },
+    "169483": {
+      "keep": false,
+      "clarification": "Composite retail-cut aggregate is too broad for ingredient search."
+    },
+    "169485": {
+      "keep": false,
+      "clarification": "Composite carcass blend is too broad for home-cooking ingredient search."
+    },
+    "169487": {
+      "keep": false,
+      "clarification": "Composite retail-cut aggregate is too broad for ingredient search."
+    },
+    "169547": {
+      "display_name": "Beef Tenderloin",
+      "alt_names": [
+        "filet mignon"
+      ]
+    },
+    "169696": {
+      "display_name": "Masa Harina (White Corn Flour)",
+      "alt_names": [
+        "masa harina",
+        "white masa flour",
+        "corn flour masa"
+      ],
+      "clarification": "Nixtamalized white corn flour used for tortillas and tamales."
+    },
+    "169697": {
+      "display_name": "Whole-Grain Yellow Cornmeal",
+      "alt_names": [
+        "whole grain cornmeal"
+      ]
+    },
+    "169727": {
+      "display_name": "Fresh Refrigerated Pasta",
+      "alt_names": [
+        "fresh pasta",
+        "refrigerated pasta"
+      ]
+    },
+    "169729": {
+      "display_name": "Fresh Refrigerated Spinach Pasta",
+      "alt_names": [
+        "spinach pasta fresh",
+        "fresh spinach pasta"
+      ]
+    },
+    "169733": {
+      "display_name": "Dry Spinach Egg Noodles",
+      "alt_names": [
+        "spinach egg noodles dry"
+      ]
+    },
+    "169734": {
+      "keep": false,
+      "clarification": "Cooked noodle row is dish-state data; keep dry/as-purchased noodle entries instead."
+    },
+    "169739": {
+      "display_name": "Barley Flour",
+      "alt_names": [
+        "barley meal"
+      ]
+    },
+    "169748": {
+      "display_name": "White Whole-Grain Corn Flour",
+      "alt_names": [
+        "whole grain white corn flour"
+      ]
+    },
+    "169761": {
+      "display_name": "All-Purpose Wheat Flour",
+      "alt_names": [
+        "all-purpose flour",
+        "all purpose flour",
+        "ap flour",
+        "plain flour"
+      ],
+      "clarification": "General-purpose wheat flour used for baking and thickening."
+    },
+    "169762": {
+      "keep": false,
+      "clarification": "Cooked noodle row is dish-state data; keep dry/as-purchased entries."
+    },
+    "169960": {
+      "display_name": "Shell Beans (Canned)",
+      "alt_names": [
+        "shelled beans"
+      ]
+    },
+    "169961": {
+      "display_name": "Green Beans",
+      "alt_names": [
+        "snap beans",
+        "string beans"
+      ]
+    },
+    "170005": {
+      "display_name": "Green Onions (Scallions)",
+      "alt_names": [
+        "green onion",
+        "green onions",
+        "scallion",
+        "spring onion"
+      ]
+    },
+    "170017": {
+      "display_name": "Frozen Green Peas",
+      "alt_names": [
+        "frozen peas",
+        "green peas frozen"
+      ]
+    },
+    "170079": {
+      "display_name": "Sprouted Mung Beans (Canned)",
+      "alt_names": [
+        "mung bean sprouts",
+        "bean sprouts"
+      ]
+    },
+    "170086": {
+      "display_name": "Sprouted Pinto Beans",
+      "alt_names": [
+        "pinto bean sprouts"
+      ]
+    },
+    "170152": {
+      "display_name": "Toasted Hulled Sesame Seeds",
+      "alt_names": [
+        "toasted sesame seeds",
+        "hulled sesame seeds"
+      ]
+    },
+    "170153": {
+      "display_name": "Defatted Sesame Flour",
+      "alt_names": [
+        "sesame flour",
+        "sesame meal"
+      ]
+    },
+    "170154": {
+      "display_name": "Toasted Sunflower Kernels",
+      "alt_names": [
+        "toasted sunflower seeds",
+        "sunflower kernels toasted"
+      ]
+    },
+    "170187": {
+      "display_name": "English Walnuts",
+      "alt_names": [
+        "walnuts english"
+      ]
+    },
+    "170193": {
+      "display_name": "Beef Suet",
+      "alt_names": [
+        "suet",
+        "beef suet",
+        "beef fat trim"
+      ],
+      "clarification": "Raw beef fat used for rendering or pastry applications."
+    },
+    "170199": {
+      "display_name": "Corned Beef Brisket (Raw)",
+      "alt_names": [
+        "corned beef"
+      ]
+    },
+    "170206": {
+      "keep": false,
+      "clarification": "Composite beef aggregate row is too broad for ingredient search."
+    },
+    "170207": {
+      "keep": false,
+      "clarification": "Composite beef aggregate row is too broad for ingredient search."
+    },
+    "170208": {
+      "keep": false,
+      "clarification": "Composite beef aggregate row is too broad for ingredient search."
+    },
+    "170209": {
+      "keep": false,
+      "clarification": "Composite beef aggregate row is too broad for ingredient search."
+    },
+    "170283": {
+      "display_name": "Hulled Barley",
+      "alt_names": [
+        "whole barley"
+      ]
+    },
+    "170284": {
+      "display_name": "Pearled Barley",
+      "alt_names": [
+        "pearl barley"
+      ]
+    },
+    "170290": {
+      "display_name": "Yellow Whole-Grain Corn Flour",
+      "alt_names": [
+        "whole grain yellow corn flour"
+      ]
+    },
+    "170436": {
+      "keep": false,
+      "clarification": "Frozen french fries are prepared side products, not base ingredients."
+    },
+    "170437": {
+      "keep": false,
+      "clarification": "Oven-heated frozen fries are prepared side dish entries, not base ingredients."
+    },
+    "170451": {
+      "keep": false,
+      "clarification": "Frozen french fries are prepared side products, not base ingredients."
+    },
+    "170452": {
+      "keep": false,
+      "clarification": "Oven-heated frozen fries are prepared side dish entries, not base ingredients."
+    },
+    "170555": {
+      "keep": false,
+      "clarification": "Cottonseed flour entry is low-relevance/industrial for home-cooking recipes."
+    },
+    "170568": {
+      "display_name": "Blanched Almonds",
+      "alt_names": [
+        "almonds blanched",
+        "skinless almonds"
+      ]
+    },
+    "170582": {
+      "display_name": "Blanched Hazelnuts",
+      "alt_names": [
+        "hazelnuts blanched",
+        "filberts blanched"
+      ]
+    },
+    "170593": {
+      "keep": false,
+      "clarification": "Glazed walnuts are sweetened prepared nuts, not base pantry ingredient."
+    },
+    "170610": {
+      "keep": false,
+      "clarification": "Composite beef aggregate row is too broad for ingredient search."
+    },
+    "170682": {
+      "display_name": "Amaranth (Dry Grain)",
+      "alt_names": [
+        "dry amaranth",
+        "amaranth seeds"
+      ]
+    },
+    "170684": {
+      "display_name": "Arrowroot Flour",
+      "alt_names": [
+        "arrowroot starch"
+      ]
+    },
+    "170794": {
+      "keep": false,
+      "clarification": "School-lunch breaded chicken patty is prepared cafeteria food, not an ingredient."
+    },
+    "170795": {
+      "keep": false,
+      "clarification": "Breaded school-lunch chicken nuggets are prepared food, not a base ingredient."
+    },
+    "170800": {
+      "display_name": "Beef Chuck Country-Style Ribs",
+      "alt_names": [
+        "country style beef ribs",
+        "chuck eye ribs"
+      ]
+    },
+    "170802": {
+      "display_name": "Beef Chuck Eye Steak",
+      "alt_names": [
+        "chuck eye steak"
+      ]
+    },
+    "170837": {
+      "display_name": "Beef Ribeye Roast (Cooked)",
+      "alt_names": [
+        "prime rib cooked"
+      ]
+    },
+    "170838": {
+      "display_name": "Beef Ribeye Roast (Raw)",
+      "alt_names": [
+        "prime rib roast",
+        "rib roast"
+      ]
+    },
+    "170860": {
+      "keep": false,
+      "clarification": "Pressurized whipped cream topping is a prepared topping, not a base ingredient."
+    },
+    "170861": {
+      "keep": false,
+      "clarification": "Filled milk (hydrogenated-oil blend) is an imitation milk product, low relevance for recipe ingredients."
+    },
+    "170862": {
+      "keep": false,
+      "clarification": "Filled milk (oil-substituted) is an imitation milk product, low relevance for recipe ingredients."
+    },
+    "170871": {
+      "alt_names": [
+        "2% milk",
+        "2 percent milk",
+        "reduced fat milk"
+      ]
+    },
+    "170872": {
+      "alt_names": [
+        "1% milk",
+        "1 percent milk",
+        "low fat milk"
+      ]
+    },
+    "170874": {
+      "display_name": "Low-Fat Buttermilk",
+      "alt_names": [
+        "buttermilk",
+        "cultured buttermilk"
+      ],
+      "clarification": "Cultured low-fat buttermilk for baking and marinades."
+    },
+    "170877": {
+      "display_name": "Nonfat Dry Milk Powder",
+      "alt_names": [
+        "dry milk powder",
+        "nonfat milk powder",
+        "skim milk powder"
+      ]
+    },
+    "170878": {
+      "display_name": "Nonfat Evaporated Milk",
+      "alt_names": [
+        "evaporated skim milk",
+        "nonfat evaporated milk"
+      ]
+    },
+    "170879": {
+      "keep": false,
+      "clarification": "Chocolate whole milk beverage row is not a core cooking ingredient."
+    },
+    "170880": {
+      "keep": false,
+      "clarification": "Chocolate milk beverage row is not a core cooking ingredient."
+    },
+    "170881": {
+      "keep": false,
+      "clarification": "Chocolate milk beverage row is not a core cooking ingredient."
+    },
+    "170882": {
+      "display_name": "Sheep Milk",
+      "alt_names": [
+        "ewe milk"
+      ]
+    },
+    "170883": {
+      "keep": false,
+      "clarification": "Milkshake entry is finished beverage, not ingredient-first."
+    },
+    "170884": {
+      "keep": false,
+      "clarification": "Milkshake entry is finished beverage, not ingredient-first."
+    },
+    "170890": {
+      "keep": false,
+      "clarification": "Frozen milk dessert bar is a finished dessert product, not a base ingredient."
+    },
+    "170910": {
+      "keep": false,
+      "clarification": "Reduced-sugar chocolate milk is beverage-focused, not a core cooking ingredient."
+    },
+    "170931": {
+      "display_name": "Black Pepper",
+      "alt_names": [
+        "black pepper",
+        "ground black pepper",
+        "pepper"
+      ]
+    },
+    "170932": {
+      "display_name": "Red Pepper (Cayenne/Flakes)",
+      "alt_names": [
+        "red pepper flakes",
+        "crushed red pepper",
+        "cayenne pepper"
+      ]
+    },
+    "171052": {
+      "display_name": "Chicken (Meat Only)",
+      "alt_names": [
+        "raw chicken meat",
+        "chicken meat"
+      ]
+    },
+    "171056": {
+      "keep": false,
+      "clarification": "Skin-only cooked entry is low-value for ingredient-first recipe search."
+    },
+    "171057": {
+      "display_name": "Chicken Giblets (Raw)",
+      "alt_names": [
+        "chicken giblets",
+        "giblets"
+      ],
+      "clarification": "Organ-meat blend (typically heart, liver, gizzard) for stock/gravy use."
+    },
+    "171059": {
+      "display_name": "Chicken Heart (Cooked)",
+      "alt_names": [
+        "chicken hearts"
+      ],
+      "clarification": "Cooked chicken heart entry for organ-meat recipes."
+    },
+    "171060": {
+      "display_name": "Chicken Liver (Raw)",
+      "alt_names": [
+        "chicken liver"
+      ],
+      "clarification": "Raw liver entry for pate, stir-fry, or stock enrichment."
+    },
+    "171062": {
+      "display_name": "Chicken Light Meat (Raw, With Skin)",
+      "alt_names": [
+        "raw chicken light meat"
+      ],
+      "clarification": "Raw light-meat blend with skin included."
+    },
+    "171067": {
+      "display_name": "Chicken Dark Meat (Raw)",
+      "alt_names": [
+        "raw chicken dark meat"
+      ],
+      "clarification": "Raw dark-meat blend; useful when recipes call for dark meat without a specific cut."
+    },
+    "171073": {
+      "display_name": "Chicken Back",
+      "alt_names": [
+        "chicken back",
+        "back of chicken"
+      ],
+      "clarification": "Common stock/broth cut; meat-only back section."
+    },
+    "171083": {
+      "display_name": "Turkey Giblets (Raw)",
+      "alt_names": [
+        "turkey giblets"
+      ]
+    },
+    "171102": {
+      "keep": false,
+      "clarification": "Seasoned diced turkey row is prepared-food leaning and too specific."
+    },
+    "171108": {
+      "display_name": "Cornish Hen Meat (Raw)",
+      "alt_names": [
+        "cornish game hen",
+        "cornish hen meat"
+      ]
+    },
+    "171110": {
+      "display_name": "Canned Chicken (No Broth)",
+      "alt_names": [
+        "canned chicken"
+      ],
+      "clarification": "Shelf-stable canned chicken meat without broth."
+    },
+    "171118": {
+      "display_name": "Rotisserie Chicken Thigh (Meat Only)",
+      "alt_names": [
+        "rotisserie chicken thigh",
+        "rotisserie chicken meat"
+      ]
+    },
+    "171119": {
+      "display_name": "Chicken Feet (Cooked)",
+      "alt_names": [
+        "chicken feet",
+        "chicken paws"
+      ],
+      "clarification": "Cooked feet entry; commonly used for rich broths and stocks."
+    },
+    "171269": {
+      "display_name": "Skim Milk (Nonfat)",
+      "alt_names": [
+        "skim milk",
+        "nonfat milk",
+        "fat free milk"
+      ]
+    },
+    "171413": {
+      "display_name": "Olive Oil",
+      "alt_names": [
+        "extra virgin olive oil",
+        "olive oil cooking"
+      ]
+    },
+    "171445": {
+      "display_name": "Rotisserie Chicken Breast (Meat Only)",
+      "alt_names": [
+        "rotisserie chicken breast",
+        "rotisserie chicken meat"
+      ]
+    },
+    "171986": {
+      "display_name": "Canned Light Tuna (Water-Packed)",
+      "alt_names": [
+        "canned tuna",
+        "tuna canned in water",
+        "light tuna"
+      ]
+    },
+    "173735": {
+      "display_name": "Black Beans (Cooked, No Salt)",
+      "alt_names": [
+        "black beans",
+        "cooked black beans"
+      ]
+    }
+  }
+}
