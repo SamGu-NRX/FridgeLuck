@@ -28,7 +28,7 @@ The dataset is **not** intended to be a catalog of branded ready-to-eat products
 
 ## Current Data Pipeline (as of this compaction)
 - Raw USDA cache: `scripts/data/.cache/usda_common_food_catalog.json`
-- Curation builder: `scripts/data/build_usda_catalog_sqlite.py`
+- Curation CLI: `scripts/data/usda.py` (`uv run usda ...`)
 - Manual overrides: `scripts/data/usda_manual_overrides.json`
 - Chunked review outputs: `scripts/data/.cache/review_chunks/`
 - Final clean JSON: `scripts/data/.cache/usda_cooking_ingredient_catalog_clean.json`
