@@ -3,7 +3,7 @@ import SwiftUI
 /// Scan flow: take a photo → run Vision pipeline → navigate to ingredient review.
 struct ScanView: View {
   @EnvironmentObject var deps: AppDependencies
-  @Environment(\.dismiss) private var dismiss
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   @State private var capturedImage: UIImage?
   @State private var showCamera = false
@@ -14,18 +14,45 @@ struct ScanView: View {
   @State private var navigateToReview = false
   @State private var errorMessage: String?
 
+  private enum ScanStage: Int {
+    case capture = 1
+    case analyze = 2
+    case review = 3
+  }
+
+  private var stage: ScanStage {
+    if isProcessing { return .analyze }
+    if errorMessage != nil { return .review }
+    return .capture
+  }
+
+  private var stageProgress: Double {
+    Double(stage.rawValue) / 3.0
+  }
+
   var body: some View {
-    VStack(spacing: 24) {
-      if isProcessing {
-        processingView
-      } else if capturedImage != nil, errorMessage != nil {
-        errorView
-      } else {
-        promptView
+    VStack(spacing: AppTheme.Space.md) {
+      stageIndicator
+      ZStack {
+        Group {
+          if isProcessing {
+            analyzingView
+          } else if capturedImage != nil, errorMessage != nil {
+            errorView
+          } else {
+            capturePromptView
+          }
+        }
+        .transition(.opacity.combined(with: .move(edge: .bottom)))
       }
+      .animation(reduceMotion ? nil : AppMotion.gentle, value: stage)
+      Spacer(minLength: 0)
     }
+    .padding(.horizontal, AppTheme.Space.md)
+    .padding(.top, AppTheme.Space.md)
     .navigationTitle("Scan Ingredients")
     .navigationBarTitleDisplayMode(.inline)
+    .flPageBackground()
     .sheet(isPresented: $showCamera) {
       CameraPicker(image: $capturedImage)
         .ignoresSafeArea()
@@ -47,157 +74,168 @@ struct ScanView: View {
     }
   }
 
-  // MARK: - Prompt View
-
-  private var promptView: some View {
-    VStack(spacing: 20) {
-      Spacer()
-
-      Image(systemName: "camera.viewfinder")
-        .font(.system(size: 80))
-        .foregroundStyle(.yellow)
-
-      Text("Take a photo of your ingredients")
-        .font(.title3.bold())
-
-      Text("For best results, take close-up photos\nof a few ingredients at a time.")
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-
-      Spacer()
-
-      VStack(spacing: 12) {
-        Button {
-          showCamera = true
-        } label: {
-          Label("Open Camera", systemImage: "camera.fill")
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(.yellow)
-            .foregroundStyle(.black)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .font(.headline)
-        }
-
-        Button {
-          showPhotoLibrary = true
-        } label: {
-          Label("Choose from Library", systemImage: "photo.on.rectangle")
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(.gray.opacity(0.15))
-            .foregroundStyle(.primary)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .font(.headline)
+  private var stageIndicator: some View {
+    FLCard(tone: .warm) {
+      HStack(spacing: AppTheme.Space.sm) {
+        stageDot(.capture, title: "Capture")
+        stageConnector(active: stage.rawValue > ScanStage.capture.rawValue)
+        stageDot(.analyze, title: "Analyze")
+        stageConnector(active: stage.rawValue > ScanStage.analyze.rawValue)
+        stageDot(.review, title: "Review")
+      }
+      .overlay(alignment: .bottomLeading) {
+        GeometryReader { geo in
+          Capsule()
+            .fill(AppTheme.accent.opacity(0.22))
+            .frame(width: geo.size.width * stageProgress, height: 3)
+            .offset(y: 12)
         }
       }
-      .padding(.bottom, 32)
-    }
-    .padding(.horizontal)
-  }
-
-  // MARK: - Processing View
-
-  private var processingView: some View {
-    VStack(spacing: 20) {
-      Spacer()
-      ProgressView()
-        .controlSize(.large)
-      Text("Analyzing your ingredients...")
-        .font(.headline)
-      Text("Running Vision AI")
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-      Spacer()
     }
   }
 
-  // MARK: - Error / Empty Results View
+  @ViewBuilder
+  private func stageDot(_ dotStage: ScanStage, title: String) -> some View {
+    let active = stage.rawValue >= dotStage.rawValue
+    VStack(spacing: AppTheme.Space.xs) {
+      Circle()
+        .fill(active ? AppTheme.accent : AppTheme.neutral.opacity(0.3))
+        .frame(width: active ? 12 : 10, height: active ? 12 : 10)
+        .animation(reduceMotion ? nil : AppMotion.quick, value: active)
+      Text(title)
+        .font(.caption2)
+        .foregroundStyle(active ? AppTheme.textPrimary : AppTheme.textSecondary)
+    }
+  }
+
+  private func stageConnector(active: Bool) -> some View {
+    Rectangle()
+      .fill(active ? AppTheme.accent.opacity(0.5) : AppTheme.neutral.opacity(0.25))
+      .frame(height: 1)
+      .frame(maxWidth: .infinity)
+      .padding(.top, -10)
+  }
+
+  private var capturePromptView: some View {
+    VStack(spacing: AppTheme.Space.md) {
+      FLCard(tone: .warm) {
+        VStack(spacing: AppTheme.Space.md) {
+          Image(systemName: "camera.viewfinder")
+            .font(.system(size: 54, weight: .semibold))
+            .foregroundStyle(AppTheme.accent)
+
+          Text("Take close-up photos of a few ingredients at a time")
+            .font(.title3.weight(.semibold))
+            .multilineTextAlignment(.center)
+            .foregroundStyle(AppTheme.textPrimary)
+
+          Text("Close framing improves confidence and reduces manual corrections.")
+            .font(.subheadline)
+            .foregroundStyle(AppTheme.textSecondary)
+            .multilineTextAlignment(.center)
+        }
+      }
+
+      FLPrimaryButton("Open Camera", systemImage: "camera.fill") {
+        showCamera = true
+      }
+
+      FLSecondaryButton("Choose from Library", systemImage: "photo.on.rectangle") {
+        showPhotoLibrary = true
+      }
+
+      FLSecondaryButton(
+        "Add Ingredients Manually", systemImage: "plus.circle", isEnabled: !isProcessing
+      ) {
+        detections = []
+        nutritionLabelOutcome = nil
+        navigateToReview = true
+      }
+    }
+  }
+
+  private var analyzingView: some View {
+    FLCard {
+      VStack(spacing: AppTheme.Space.md) {
+        ProgressView()
+          .controlSize(.large)
+        Text("Analyzing your ingredients")
+          .font(.headline)
+          .foregroundStyle(AppTheme.textPrimary)
+        Text("Running image classification and OCR locally.")
+          .font(.subheadline)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
+      }
+      .frame(maxWidth: .infinity)
+      .padding(.vertical, AppTheme.Space.xl)
+    }
+  }
 
   private var errorView: some View {
-    VStack(spacing: 16) {
-      Spacer()
+    VStack(spacing: AppTheme.Space.md) {
+      FLCard(tone: .warning) {
+        VStack(spacing: AppTheme.Space.md) {
+          if let image = capturedImage {
+            Image(uiImage: image)
+              .resizable()
+              .scaledToFit()
+              .frame(maxHeight: 190)
+              .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous))
+          }
 
-      if let image = capturedImage {
-        Image(uiImage: image)
-          .resizable()
-          .scaledToFit()
-          .frame(maxHeight: 200)
-          .clipShape(RoundedRectangle(cornerRadius: 12))
-          .padding(.horizontal)
-      }
+          FLSectionHeader(
+            "Couldn’t build a confident ingredient set", subtitle: errorMessage,
+            icon: "exclamationmark.triangle.fill")
 
-      Image(systemName: "exclamationmark.triangle")
-        .font(.system(size: 36))
-        .foregroundStyle(.orange)
-
-      Text(errorMessage ?? "Something went wrong")
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-        .padding(.horizontal)
-
-      Spacer()
-
-      VStack(spacing: 12) {
-        // Allow user to add ingredients manually even if Vision failed
-        Button {
-          detections = []
-          nutritionLabelOutcome = nil
-          navigateToReview = true
-        } label: {
-          Label("Add Ingredients Manually", systemImage: "plus.circle.fill")
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(.yellow)
-            .foregroundStyle(.black)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .font(.headline)
-        }
-
-        Button {
-          capturedImage = nil
-          errorMessage = nil
-        } label: {
-          Text("Try Again")
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(.gray.opacity(0.15))
-            .foregroundStyle(.primary)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .font(.headline)
+          Text("You can retry capture or continue by manually selecting ingredients.")
+            .font(.subheadline)
+            .foregroundStyle(AppTheme.textSecondary)
+            .multilineTextAlignment(.center)
         }
       }
-      .padding(.bottom, 32)
+
+      FLPrimaryButton("Add Ingredients Manually", systemImage: "plus.circle.fill") {
+        detections = []
+        nutritionLabelOutcome = nil
+        navigateToReview = true
+      }
+
+      FLSecondaryButton("Retry Capture", systemImage: "arrow.clockwise") {
+        capturedImage = nil
+        errorMessage = nil
+      }
     }
-    .padding(.horizontal)
   }
 
-  // MARK: - Processing
-
   private func processImage() async {
-    guard let uiImage = capturedImage,
-      let cgImage = uiImage.cgImage
-    else { return }
+    guard let uiImage = capturedImage, let cgImage = uiImage.cgImage else { return }
 
-    isProcessing = true
-    errorMessage = nil
+    withAnimation(reduceMotion ? nil : AppMotion.standard) {
+      isProcessing = true
+      errorMessage = nil
+    }
 
     do {
       let result = try await deps.visionService.scan(image: cgImage)
       detections = result.detections
       nutritionLabelOutcome = NutritionLabelParser.parse(ocrText: result.ocrText)
-      isProcessing = false
+      withAnimation(reduceMotion ? nil : AppMotion.standard) {
+        isProcessing = false
+      }
 
       if detections.isEmpty {
-        errorMessage = "No ingredients detected. Try a closer photo, or add manually."
+        withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+          errorMessage = "No ingredients detected. Try a tighter crop or better lighting."
+        }
       } else {
         navigateToReview = true
       }
     } catch {
-      isProcessing = false
-      errorMessage = "Vision scan failed. You can add ingredients manually instead."
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        isProcessing = false
+        errorMessage = "Vision scan failed. Continue manually if needed."
+      }
     }
   }
 }

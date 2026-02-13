@@ -2,18 +2,28 @@ import SwiftUI
 
 /// Educational ingredient card with per-100g nutrition and storage guidance.
 struct IngredientDetailSheet: View {
-  let ingredient: Ingredient
+  @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  let ingredient: Ingredient
+
+  @State private var aliases: [String] = []
 
   var body: some View {
     NavigationStack {
       ScrollView {
-        VStack(alignment: .leading, spacing: 20) {
-          titleSection
+        VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+          heroSection
           macroSection
-          detailsSection
+          secondaryNutrients
+          contextSection
+          if !aliases.isEmpty {
+            aliasSection
+          }
         }
-        .padding()
+        .padding(.horizontal, AppTheme.Space.md)
+        .padding(.vertical, AppTheme.Space.md)
       }
       .navigationTitle("Ingredient")
       .navigationBarTitleDisplayMode(.inline)
@@ -22,87 +32,166 @@ struct IngredientDetailSheet: View {
           Button("Done") { dismiss() }
         }
       }
+      .task {
+        loadAliases()
+      }
     }
+    .flPageBackground()
   }
 
-  private var titleSection: some View {
-    VStack(alignment: .leading, spacing: 6) {
-      HStack(alignment: .center, spacing: 10) {
-        Image(systemName: spriteSymbolName())
-          .font(.title3)
-          .foregroundStyle(.secondary)
-          .frame(width: 28, height: 28)
-          .background(.gray.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))
-        Text(ingredient.displayName)
-          .font(.title2.bold())
-      }
-      Text("\(Int(ingredient.calories)) kcal per 100g")
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-      if let description = ingredient.description, !description.isEmpty {
-        Text(description)
-          .font(.subheadline)
-          .foregroundStyle(.secondary)
-          .padding(.top, 2)
+  private var heroSection: some View {
+    FLCard(tone: .warm) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack(alignment: .top, spacing: AppTheme.Space.sm) {
+          Image(systemName: spriteSymbolName())
+            .font(.title3.weight(.semibold))
+            .foregroundStyle(AppTheme.textPrimary)
+            .frame(width: 36, height: 36)
+            .background(
+              AppTheme.accent.opacity(0.22), in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm))
+
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+            Text(ingredient.displayName)
+              .font(.title2.weight(.bold))
+              .foregroundStyle(AppTheme.textPrimary)
+            if let categoryLabel = ingredient.categoryLabel, !categoryLabel.isEmpty {
+              Text(categoryLabel.replacingOccurrences(of: "_", with: " ").capitalized)
+                .font(.caption)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+          }
+          Spacer()
+        }
+
+        Text("\(Int(ingredient.calories)) kcal per 100g")
+          .font(.subheadline.weight(.semibold))
+          .foregroundStyle(AppTheme.textPrimary)
+          .padding(.horizontal, AppTheme.Space.sm)
+          .padding(.vertical, AppTheme.Space.xs)
+          .background(AppTheme.surface, in: Capsule())
+
+        if let description = ingredient.description, !description.isEmpty {
+          Text(description)
+            .font(.subheadline)
+            .foregroundStyle(AppTheme.textSecondary)
+        } else {
+          Text("USDA reference ingredient. Nutrition values are standardized per 100g.")
+            .font(.subheadline)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
       }
     }
   }
 
   private var macroSection: some View {
-    HStack(spacing: 12) {
-      macroCard("Protein", value: "\(Int(ingredient.protein))g", color: .blue)
-      macroCard("Carbs", value: "\(Int(ingredient.carbs))g", color: .green)
-      macroCard("Fat", value: "\(Int(ingredient.fat))g", color: .red)
+    HStack(spacing: AppTheme.Space.sm) {
+      macroCard(
+        "Protein", value: String(format: "%.1f", ingredient.protein), unit: "g", color: .blue)
+      macroCard("Carbs", value: String(format: "%.1f", ingredient.carbs), unit: "g", color: .green)
+      macroCard("Fat", value: String(format: "%.1f", ingredient.fat), unit: "g", color: .red)
     }
   }
 
-  private func macroCard(_ label: String, value: String, color: Color) -> some View {
-    VStack(spacing: 4) {
-      Circle()
-        .fill(color)
-        .frame(width: 8, height: 8)
+  private func macroCard(_ title: String, value: String, unit: String, color: Color) -> some View {
+    FLCard {
+      VStack(spacing: AppTheme.Space.xs) {
+        Circle()
+          .fill(color)
+          .frame(width: 8, height: 8)
+        Text(value)
+          .font(.title3.bold())
+          .foregroundStyle(AppTheme.textPrimary)
+        Text(unit)
+          .font(.caption2)
+          .foregroundStyle(AppTheme.textSecondary)
+        Text(title)
+          .font(.caption)
+          .foregroundStyle(AppTheme.textSecondary)
+      }
+      .frame(maxWidth: .infinity)
+    }
+  }
+
+  private var secondaryNutrients: some View {
+    FLCard {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader("Secondary Nutrition", icon: "chart.bar.doc.horizontal")
+        HStack(spacing: AppTheme.Space.md) {
+          metric(label: "Fiber", value: String(format: "%.1fg", ingredient.fiber))
+          metric(label: "Sugar", value: String(format: "%.1fg", ingredient.sugar))
+          metric(label: "Sodium", value: "\(Int((ingredient.sodium * 1000).rounded()))mg")
+          Spacer()
+        }
+      }
+    }
+  }
+
+  private func metric(label: String, value: String) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
       Text(value)
-        .font(.headline)
+        .font(.subheadline.bold())
+        .foregroundStyle(AppTheme.textPrimary)
       Text(label)
         .font(.caption)
-        .foregroundStyle(.secondary)
+        .foregroundStyle(AppTheme.textSecondary)
     }
-    .frame(maxWidth: .infinity)
-    .padding(.vertical, 12)
-    .background(.gray.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
   }
 
-  private var detailsSection: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      if let typicalUnit = ingredient.typicalUnit, !typicalUnit.isEmpty {
-        detailRow(label: "Typical Unit", value: typicalUnit)
+  private var contextSection: some View {
+    FLCard {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader("How to Use", icon: "text.book.closed")
+
+        if let typicalUnit = ingredient.typicalUnit, !typicalUnit.isEmpty {
+          detailRow(label: "Typical Unit", value: typicalUnit)
+        }
+        if let storageTip = ingredient.storageTip, !storageTip.isEmpty {
+          detailRow(label: "Storage Tip", value: storageTip)
+        }
+        if let pairsWith = ingredient.pairsWith, !pairsWith.isEmpty {
+          detailRow(label: "Pairs Well With", value: pairsWith)
+        }
+        if let notes = ingredient.notes, !notes.isEmpty {
+          detailRow(label: "Notes", value: notes)
+        }
       }
-      if let storageTip = ingredient.storageTip, !storageTip.isEmpty {
-        detailRow(label: "Storage Tip", value: storageTip)
+    }
+  }
+
+  private var aliasSection: some View {
+    FLCard {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader(
+          "Also Known As", subtitle: "Search supports these terms", icon: "magnifyingglass")
+        FlowLayout(spacing: AppTheme.Space.xs) {
+          ForEach(aliases, id: \.self) { alias in
+            Text(alias)
+              .font(.caption)
+              .padding(.horizontal, AppTheme.Space.sm)
+              .padding(.vertical, AppTheme.Space.xs)
+              .background(AppTheme.accent.opacity(0.16), in: Capsule())
+          }
+        }
       }
-      if let pairsWith = ingredient.pairsWith, !pairsWith.isEmpty {
-        detailRow(label: "Pairs Well With", value: pairsWith)
-      }
-      if let notes = ingredient.notes, !notes.isEmpty {
-        detailRow(label: "Notes", value: notes)
-      }
-      detailRow(label: "Fiber", value: "\(String(format: "%.1f", ingredient.fiber))g")
-      detailRow(label: "Sugar", value: "\(String(format: "%.1f", ingredient.sugar))g")
-      detailRow(label: "Sodium", value: "\(Int((ingredient.sodium * 1000).rounded()))mg")
     }
   }
 
   private func detailRow(label: String, value: String) -> some View {
-    VStack(alignment: .leading, spacing: 2) {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
       Text(label)
         .font(.caption)
-        .foregroundStyle(.secondary)
+        .foregroundStyle(AppTheme.textSecondary)
       Text(value)
-        .font(.body)
+        .font(.subheadline)
+        .foregroundStyle(AppTheme.textPrimary)
     }
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(10)
-    .background(.gray.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+  }
+
+  private func loadAliases() {
+    guard let id = ingredient.id else { return }
+    withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+      aliases = (try? deps.ingredientRepository.aliases(for: id)) ?? []
+    }
   }
 
   private func spriteSymbolName() -> String {
@@ -110,7 +199,7 @@ struct IngredientDetailSheet: View {
     switch explicit {
     case "celery": return "leaf"
     case "lettuce": return "leaf.fill"
-    case "carrot": return "leaf.arrow.circlepath"
+    case "carrot": return "carrot.fill"
     case "broccoli": return "tree.fill"
     case "tomato": return "circle.fill"
     case "cucumber", "zucchini": return "capsule.portrait.fill"

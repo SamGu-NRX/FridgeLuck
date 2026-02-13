@@ -4,6 +4,7 @@ import SwiftUI
 /// Then proceed to recipe recommendations.
 struct IngredientReviewView: View {
   @EnvironmentObject var deps: AppDependencies
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State var detections: [Detection]
   let nutritionLabelOutcome: NutritionLabelParseOutcome?
 
@@ -25,7 +26,7 @@ struct IngredientReviewView: View {
     self.nutritionLabelOutcome = nutritionLabelOutcome
   }
 
-  private enum IngredientSheetMode: Identifiable {
+  enum IngredientSheetMode: Identifiable {
     case addManual
     case correct(Detection)
 
@@ -37,46 +38,69 @@ struct IngredientReviewView: View {
         return "correct-\(detection.id.uuidString)"
       }
     }
+
+    var title: String {
+      switch self {
+      case .addManual:
+        return "Add Ingredient"
+      case .correct(let detection):
+        return "Correct \(detection.label)"
+      }
+    }
   }
 
   var body: some View {
     VStack(spacing: 0) {
       ScrollView {
-        VStack(alignment: .leading, spacing: 16) {
-          headerSection
+        VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+          summarySection
           nutritionLabelSection
+          bulkActionSection
           confirmedSection
           needsConfirmationSection
           possibleSection
         }
-        .padding()
+        .padding(.horizontal, AppTheme.Space.md)
+        .padding(.top, AppTheme.Space.md)
+        .padding(.bottom, AppTheme.Space.lg)
       }
 
       bottomBar
     }
-    .navigationTitle("Your Ingredients")
+    .navigationTitle("Review Ingredients")
     .navigationBarTitleDisplayMode(.inline)
+    .flPageBackground()
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
         Button {
           showSheetMode = .addManual
         } label: {
-          Image(systemName: "plus")
+          Label("Add", systemImage: "plus")
+            .labelStyle(.iconOnly)
         }
       }
     }
     .sheet(item: $showSheetMode) { mode in
-      IngredientSearchSheet(
-        allIngredients: allIngredients,
-        onSelect: { ingredient in
-          switch mode {
-          case .addManual:
+      switch mode {
+      case .addManual:
+        IngredientPickerView(
+          title: mode.title,
+          seedIngredients: allIngredients,
+          onPickSingle: { ingredient in
             addManualIngredient(ingredient)
-          case .correct(let detection):
+          }
+        )
+        .environmentObject(deps)
+      case .correct(let detection):
+        IngredientPickerView(
+          title: mode.title,
+          seedIngredients: candidateSeedIngredients(for: detection),
+          onPickSingle: { ingredient in
             applyManualCorrection(ingredient: ingredient, detection: detection)
           }
-        }
-      )
+        )
+        .environmentObject(deps)
+      }
     }
     .sheet(item: $selectedIngredientForDetail) { ingredient in
       IngredientDetailSheet(ingredient: ingredient)
@@ -101,10 +125,19 @@ struct IngredientReviewView: View {
     ConfidenceRouter.categorize(detections)
   }
 
+  private var unresolvedCount: Int {
+    categorized.needsConfirmation.filter { selectedIngredient(for: $0) == nil }.count
+  }
+
+  private var confirmationCompletion: Double {
+    let total = max(1, categorized.needsConfirmation.count)
+    return Double(total - unresolvedCount) / Double(total)
+  }
+
   private func categorizeDetections() {
     let results = categorized
 
-    // Auto-confirm high-confidence detections
+    // Auto-confirm high-confidence detections.
     for detection in results.confirmed {
       confirmedIds.insert(detection.ingredientId)
     }
@@ -135,115 +168,197 @@ struct IngredientReviewView: View {
       ?? IngredientLexicon.displayName(for: id)
   }
 
-  // MARK: - Header
+  private func confidenceHealthPill() -> (text: String, kind: FLStatusPill.Kind) {
+    if categorized.needsConfirmation.isEmpty {
+      return ("All clear", .positive)
+    }
+    if unresolvedCount == 0 {
+      return ("Confirmation complete", .positive)
+    }
+    return ("\(unresolvedCount) need review", .warning)
+  }
 
-  private var headerSection: some View {
-    VStack(alignment: .leading, spacing: 4) {
-      Text("\(confirmedIds.count) ingredient\(confirmedIds.count == 1 ? "" : "s") selected")
-        .font(.headline)
-      Text("Tap to add or remove items")
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
+  // MARK: - Sections
 
-      let telemetry = deps.learningService.telemetry()
-      if telemetry.suggestionsShown > 0 {
-        Text("Learning hit rate: \(Int((telemetry.hitRate * 100).rounded()))%")
-          .font(.caption)
-          .foregroundStyle(.secondary)
+  private var summarySection: some View {
+    let telemetry = deps.learningService.telemetry()
+    let pill = confidenceHealthPill()
+
+    return FLCard(tone: .warm) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack(alignment: .top) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+            Text("\(confirmedIds.count) ingredient\(confirmedIds.count == 1 ? "" : "s") selected")
+              .font(.title3.bold())
+              .foregroundStyle(AppTheme.textPrimary)
+            Text("Confirm uncertain detections, then continue to recipe results.")
+              .font(.subheadline)
+              .foregroundStyle(AppTheme.textSecondary)
+          }
+          Spacer()
+          FLStatusPill(text: pill.text, kind: pill.kind)
+        }
+
+        HStack(spacing: AppTheme.Space.sm) {
+          summaryCounter(
+            label: "Auto", value: categorized.confirmed.count, icon: "checkmark.circle.fill")
+          summaryCounter(
+            label: "Confirm", value: categorized.needsConfirmation.count,
+            icon: "questionmark.circle.fill")
+          summaryCounter(label: "Maybe", value: categorized.possible.count, icon: "sparkles")
+        }
+
+        if telemetry.suggestionsShown > 0 {
+          Text("Learning hit rate: \(Int((telemetry.hitRate * 100).rounded()))%")
+            .font(.caption)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+
+        if !categorized.needsConfirmation.isEmpty {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+            HStack {
+              Text("Confirmation progress")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(AppTheme.textSecondary)
+              Spacer()
+              Text("\(Int((confirmationCompletion * 100).rounded()))%")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+
+            GeometryReader { geo in
+              ZStack(alignment: .leading) {
+                Capsule()
+                  .fill(AppTheme.textSecondary.opacity(0.16))
+                Capsule()
+                  .fill(AppTheme.accent)
+                  .frame(width: geo.size.width * confirmationCompletion)
+              }
+              .animation(reduceMotion ? nil : AppMotion.quick, value: confirmationCompletion)
+            }
+            .frame(height: 7)
+          }
+        }
       }
     }
+  }
+
+  private func summaryCounter(label: String, value: Int, icon: String) -> some View {
+    HStack(spacing: AppTheme.Space.xs) {
+      Image(systemName: icon)
+      Text("\(label): \(value)")
+    }
+    .font(.caption.weight(.semibold))
+    .foregroundStyle(AppTheme.textSecondary)
+    .padding(.horizontal, AppTheme.Space.sm)
+    .padding(.vertical, AppTheme.Space.xs)
+    .background(AppTheme.surface, in: Capsule())
   }
 
   private var nutritionLabelSection: some View {
     Group {
       if let parsed = nutritionLabelOutcome?.parsed {
-        VStack(alignment: .leading, spacing: 8) {
-          Label("Packaged Food Nutrition (OCR)", systemImage: "doc.text.magnifyingglass")
-            .font(.subheadline.bold())
-            .foregroundStyle(.blue)
+        FLCard(tone: .normal) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            FLSectionHeader(
+              "Packaged Nutrition Parsed",
+              subtitle: "OCR detected label values for this scan.",
+              icon: "doc.text.magnifyingglass"
+            )
 
-          HStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 2) {
-              Text("\(Int(parsed.caloriesPerServing.rounded())) kcal")
-                .font(.headline)
-              Text("Per serving")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            }
-            Spacer()
-            if let servingSize = parsed.servingSize {
-              VStack(alignment: .trailing, spacing: 2) {
-                Text(servingSize)
-                  .font(.subheadline)
-                Text("Serving size")
+            HStack(spacing: AppTheme.Space.md) {
+              VStack(alignment: .leading, spacing: 2) {
+                Text("\(Int(parsed.caloriesPerServing.rounded())) kcal")
+                  .font(.headline)
+                Text("Per serving")
                   .font(.caption)
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(AppTheme.textSecondary)
+              }
+              Spacer()
+              if let servingSize = parsed.servingSize {
+                VStack(alignment: .trailing, spacing: 2) {
+                  Text(servingSize)
+                    .font(.subheadline)
+                  Text("Serving size")
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.textSecondary)
+                }
               }
             }
+
+            if let servings = parsed.servingsPerContainer {
+              Text("Servings per container: \(String(format: "%.1f", servings))")
+                .font(.caption)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+
+            Text("Source: \(parsed.source) · Confidence: \(parsed.confidence.rawValue.capitalized)")
+              .font(.caption2)
+              .foregroundStyle(AppTheme.textSecondary)
           }
-
-          if let servings = parsed.servingsPerContainer {
-            Text("Servings per container: \(String(format: "%.1f", servings))")
-              .font(.caption)
-              .foregroundStyle(.secondary)
-          }
-
-          Text("Use this as the packaged-food nutrition source override for this scan.")
-            .font(.caption)
-            .foregroundStyle(.secondary)
-
-          Text("Source: \(parsed.source) · Confidence: \(parsed.confidence.rawValue.capitalized)")
-            .font(.caption2)
-            .foregroundStyle(.secondary)
         }
-        .padding(12)
-        .background(.blue.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
-        .overlay(
-          RoundedRectangle(cornerRadius: 12)
-            .stroke(.blue.opacity(0.25), lineWidth: 1)
-        )
       } else if nutritionLabelOutcome?.hadNutritionKeywords == true {
-        VStack(alignment: .leading, spacing: 6) {
-          Label("Nutrition Label Detected", systemImage: "exclamationmark.circle")
-            .font(.subheadline.bold())
-            .foregroundStyle(.orange)
-          Text("Couldn’t confidently parse calories/serving. Try a closer label photo.")
-            .font(.caption)
-            .foregroundStyle(.secondary)
+        FLCard(tone: .warning) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            FLSectionHeader(
+              "Nutrition Label Detected",
+              subtitle: "Couldn’t confidently parse calories/serving.",
+              icon: "exclamationmark.triangle.fill"
+            )
+            Text("Try a closer image of the nutrition panel if you want packaged values.")
+              .font(.caption)
+              .foregroundStyle(AppTheme.textSecondary)
+          }
         }
-        .padding(12)
-        .background(.orange.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
-        .overlay(
-          RoundedRectangle(cornerRadius: 12)
-            .stroke(.orange.opacity(0.25), lineWidth: 1)
-        )
       }
     }
   }
 
-  // MARK: - Sections
+  private var bulkActionSection: some View {
+    FLCard {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader(
+          "Quick Actions", subtitle: "Speed up confirmation", icon: "slider.horizontal.3")
+
+        HStack(spacing: AppTheme.Space.sm) {
+          FLSecondaryButton("Select Auto", systemImage: "checkmark.seal.fill") {
+            selectAllAutoDetected()
+          }
+
+          FLSecondaryButton("Clear Uncertain", systemImage: "xmark.circle") {
+            clearUncertainSelections()
+          }
+        }
+
+        FLSecondaryButton("Open Ingredient Picker", systemImage: "plus.circle") {
+          showSheetMode = .addManual
+        }
+      }
+    }
+  }
 
   private var confirmedSection: some View {
     Group {
       if !categorized.confirmed.isEmpty {
-        VStack(alignment: .leading, spacing: 8) {
-          Label("Auto-detected", systemImage: "checkmark.circle.fill")
-            .font(.subheadline.bold())
-            .foregroundStyle(.green)
+        FLCard {
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            FLSectionHeader(
+              "Auto-detected", subtitle: "High-confidence items", icon: "checkmark.circle.fill")
 
-          FlowLayout(spacing: 8) {
-            ForEach(categorized.confirmed) { detection in
-              IngredientChip(
-                label: detection.label,
-                isSelected: confirmedIds.contains(detection.ingredientId),
-                confidence: detection.confidence,
-                onInfo: {
-                  if let ingredient = ingredient(for: detection.ingredientId) {
-                    selectedIngredientForDetail = ingredient
+            FlowLayout(spacing: AppTheme.Space.xs) {
+              ForEach(categorized.confirmed) { detection in
+                IngredientChip(
+                  label: detection.label,
+                  isSelected: confirmedIds.contains(detection.ingredientId),
+                  confidence: detection.confidence,
+                  onInfo: {
+                    if let ingredient = ingredient(for: detection.ingredientId) {
+                      selectedIngredientForDetail = ingredient
+                    }
                   }
+                ) {
+                  toggleIngredient(detection.ingredientId)
                 }
-              ) {
-                toggleIngredient(detection.ingredientId)
               }
             }
           }
@@ -255,10 +370,12 @@ struct IngredientReviewView: View {
   private var needsConfirmationSection: some View {
     Group {
       if !categorized.needsConfirmation.isEmpty {
-        VStack(alignment: .leading, spacing: 12) {
-          Label("Please confirm", systemImage: "questionmark.circle.fill")
-            .font(.subheadline.bold())
-            .foregroundStyle(.orange)
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          FLSectionHeader(
+            "Needs Confirmation",
+            subtitle: "Medium-confidence predictions requiring your decision",
+            icon: "questionmark.circle.fill"
+          )
 
           ForEach(categorized.needsConfirmation) { detection in
             confidenceCard(for: detection)
@@ -271,97 +388,110 @@ struct IngredientReviewView: View {
   private func confidenceCard(for detection: Detection) -> some View {
     let options = candidateOptions(for: detection)
 
-    return VStack(alignment: .leading, spacing: 10) {
-      HStack(alignment: .top) {
-        VStack(alignment: .leading, spacing: 2) {
-          Text(detection.label)
-            .font(.headline)
-          Text("Detected with \(Int((detection.confidence * 100).rounded()))% confidence")
-            .font(.caption)
-            .foregroundStyle(.secondary)
-        }
-        Spacer()
-        Button {
-          if let ingredient = ingredient(
-            for: selectedIngredient(for: detection) ?? detection.ingredientId)
-          {
-            selectedIngredientForDetail = ingredient
+    return FLCard(tone: .warning) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack(alignment: .top) {
+          VStack(alignment: .leading, spacing: 2) {
+            Text(detection.label)
+              .font(.headline)
+              .foregroundStyle(AppTheme.textPrimary)
+            Text("Detected at \(Int((detection.confidence * 100).rounded()))% confidence")
+              .font(.caption)
+              .foregroundStyle(AppTheme.textSecondary)
           }
-        } label: {
-          Image(systemName: "info.circle")
-        }
-        .buttonStyle(.plain)
-      }
-
-      FlowLayout(spacing: 8) {
-        ForEach(options) { option in
+          Spacer()
           Button {
-            choose(option: option, for: detection)
+            if let ingredient = ingredient(
+              for: selectedIngredient(for: detection) ?? detection.ingredientId)
+            {
+              selectedIngredientForDetail = ingredient
+            }
           } label: {
-            Text(option.label)
-              .font(.subheadline)
-              .padding(.horizontal, 10)
-              .padding(.vertical, 7)
+            Image(systemName: "info.circle")
+              .foregroundStyle(AppTheme.textSecondary)
+          }
+          .buttonStyle(.plain)
+        }
+
+        FlowLayout(spacing: AppTheme.Space.xs) {
+          ForEach(options) { option in
+            let isSelected = selectedIngredient(for: detection) == option.ingredientId
+
+            Button {
+              choose(option: option, for: detection)
+            } label: {
+              HStack(spacing: AppTheme.Space.xs) {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                  .font(.caption)
+                  .foregroundStyle(isSelected ? AppTheme.positive : AppTheme.textSecondary)
+                Text(option.label)
+                  .font(.subheadline.weight(.semibold))
+                  .lineLimit(1)
+                if let confidence = option.confidence {
+                  Text("\(Int((confidence * 100).rounded()))%")
+                    .font(.caption2)
+                    .foregroundStyle(AppTheme.textSecondary)
+                }
+              }
+              .padding(.horizontal, AppTheme.Space.sm)
+              .padding(.vertical, AppTheme.Space.xs)
               .background(
-                selectedIngredient(for: detection) == option.ingredientId
-                  ? .yellow.opacity(0.25) : .gray.opacity(0.12)
+                isSelected
+                  ? AppTheme.accent.opacity(0.3) : AppTheme.surface
               )
               .clipShape(Capsule())
               .overlay(
                 Capsule().stroke(
-                  selectedIngredient(for: detection) == option.ingredientId ? .yellow : .clear,
-                  lineWidth: 1.5
+                  isSelected
+                    ? AppTheme.accent : AppTheme.textSecondary.opacity(0.15),
+                  lineWidth: 1
                 )
               )
+            }
+            .buttonStyle(.plain)
           }
-          .buttonStyle(.plain)
         }
-      }
 
-      HStack {
-        Button("Choose another") {
-          showSheetMode = .correct(detection)
+        HStack {
+          Button("Choose another") {
+            showSheetMode = .correct(detection)
+          }
+          .font(.caption.weight(.semibold))
+          .foregroundStyle(AppTheme.textPrimary)
+
+          Spacer()
+
+          Button("Not this item") {
+            clearSelection(for: detection)
+          }
+          .font(.caption)
+          .foregroundStyle(AppTheme.textSecondary)
         }
-        .font(.caption)
-
-        Spacer()
-
-        Button("Not this item") {
-          clearSelection(for: detection)
-        }
-        .font(.caption)
-        .foregroundStyle(.secondary)
       }
     }
-    .padding(12)
-    .background(.orange.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
-    .overlay(
-      RoundedRectangle(cornerRadius: 12)
-        .stroke(.orange.opacity(0.2), lineWidth: 1)
-    )
   }
 
   private var possibleSection: some View {
     Group {
       if !categorized.possible.isEmpty {
-        VStack(alignment: .leading, spacing: 8) {
-          Label("Maybe?", systemImage: "sparkles")
-            .font(.subheadline.bold())
-            .foregroundStyle(.secondary)
+        FLCard {
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            FLSectionHeader("Maybe", subtitle: "Lower-confidence suggestions", icon: "sparkles")
 
-          FlowLayout(spacing: 8) {
-            ForEach(categorized.possible) { detection in
-              IngredientChip(
-                label: detection.label,
-                isSelected: confirmedIds.contains(detection.ingredientId),
-                confidence: detection.confidence,
-                onInfo: {
-                  if let ingredient = ingredient(for: detection.ingredientId) {
-                    selectedIngredientForDetail = ingredient
+            FlowLayout(spacing: AppTheme.Space.xs) {
+              ForEach(categorized.possible) { detection in
+                IngredientChip(
+                  label: detection.label,
+                  isSelected: confirmedIds.contains(detection.ingredientId),
+                  confidence: detection.confidence,
+                  onInfo: {
+                    if let ingredient = ingredient(for: detection.ingredientId) {
+                      selectedIngredientForDetail = ingredient
+                    }
                   }
+                ) {
+                  toggleIngredient(detection.ingredientId)
                 }
-              ) {
-                toggleIngredient(detection.ingredientId)
               }
             }
           }
@@ -373,48 +503,90 @@ struct IngredientReviewView: View {
   // MARK: - Bottom Bar
 
   private var bottomBar: some View {
-    VStack(spacing: 0) {
-      Divider()
-      Button {
+    FLActionBar {
+      if confirmedIds.isEmpty {
+        Text("Pick at least one ingredient to continue to recipe matching.")
+          .font(.caption)
+          .foregroundStyle(AppTheme.textSecondary)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.horizontal, AppTheme.Space.md)
+      }
+
+      if unresolvedCount > 0 {
+        Text(
+          "\(unresolvedCount) uncertain item\(unresolvedCount == 1 ? "" : "s") remain. You can continue, but quality may improve after confirmation."
+        )
+        .font(.caption)
+        .foregroundStyle(AppTheme.textSecondary)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, AppTheme.Space.md)
+      }
+
+      FLPrimaryButton(
+        "Find Recipes (\(confirmedIds.count))",
+        systemImage: "fork.knife",
+        isEnabled: !confirmedIds.isEmpty
+      ) {
         flushLearningTelemetry()
         navigateToResults = true
-      } label: {
-        Text("Find Recipes (\(confirmedIds.count) ingredients)")
-          .frame(maxWidth: .infinity)
-          .padding()
-          .background(confirmedIds.isEmpty ? .gray.opacity(0.3) : .yellow)
-          .foregroundStyle(confirmedIds.isEmpty ? AnyShapeStyle(.secondary) : AnyShapeStyle(.black))
-          .clipShape(RoundedRectangle(cornerRadius: 12))
-          .font(.headline)
       }
-      .disabled(confirmedIds.isEmpty)
-      .padding()
+      .padding(.horizontal, AppTheme.Space.md)
+      .padding(.bottom, AppTheme.Space.md)
     }
-    .background(.ultraThinMaterial)
+    .animation(reduceMotion ? nil : AppMotion.gentle, value: unresolvedCount)
   }
 
   // MARK: - Actions
 
   private func toggleIngredient(_ id: Int64) {
-    if confirmedIds.contains(id) {
-      confirmedIds.remove(id)
-    } else {
-      confirmedIds.insert(id)
+    withAnimation(reduceMotion ? nil : AppMotion.quick) {
+      if confirmedIds.contains(id) {
+        confirmedIds.remove(id)
+      } else {
+        confirmedIds.insert(id)
+      }
+    }
+  }
+
+  private func selectAllAutoDetected() {
+    withAnimation(reduceMotion ? nil : AppMotion.quick) {
+      for detection in categorized.confirmed {
+        confirmedIds.insert(detection.ingredientId)
+      }
+    }
+  }
+
+  private func clearUncertainSelections() {
+    withAnimation(reduceMotion ? nil : AppMotion.quick) {
+      for detection in categorized.needsConfirmation {
+        if let chosen = selectedIngredient(for: detection) {
+          confirmedIds.remove(chosen)
+        }
+        selectedIngredientForDetection.removeValue(forKey: detection.id)
+        suggestedOutcomeByDetection.removeValue(forKey: detection.id)
+      }
+
+      for detection in categorized.possible {
+        confirmedIds.remove(detection.ingredientId)
+      }
     }
   }
 
   private func addManualIngredient(_ ingredient: Ingredient) {
     guard let id = ingredient.id else { return }
 
-    let detection = Detection(
-      ingredientId: id,
-      label: ingredient.displayName,
-      confidence: 1.0,
-      source: .manual,
-      originalVisionLabel: ingredient.name,
-      alternatives: []
-    )
-    detections.append(detection)
+    if !detections.contains(where: { $0.ingredientId == id }) {
+      let detection = Detection(
+        ingredientId: id,
+        label: ingredient.displayName,
+        confidence: 1.0,
+        source: .manual,
+        originalVisionLabel: ingredient.name,
+        alternatives: []
+      )
+      detections.append(detection)
+    }
+
     confirmedIds.insert(id)
   }
 
@@ -435,10 +607,12 @@ struct IngredientReviewView: View {
   }
 
   private func clearSelection(for detection: Detection) {
-    if let previous = selectedIngredient(for: detection) {
-      confirmedIds.remove(previous)
+    withAnimation(reduceMotion ? nil : AppMotion.quick) {
+      if let previous = selectedIngredient(for: detection) {
+        confirmedIds.remove(previous)
+      }
+      selectedIngredientForDetection.removeValue(forKey: detection.id)
     }
-    selectedIngredientForDetection.removeValue(forKey: detection.id)
 
     if let suggestion = deps.learningService.suggestedCorrection(for: detection.originalVisionLabel)
     {
@@ -447,12 +621,14 @@ struct IngredientReviewView: View {
   }
 
   private func choose(option: DetectionAlternative, for detection: Detection) {
-    if let previous = selectedIngredient(for: detection) {
-      confirmedIds.remove(previous)
-    }
+    withAnimation(reduceMotion ? nil : AppMotion.quick) {
+      if let previous = selectedIngredient(for: detection) {
+        confirmedIds.remove(previous)
+      }
 
-    selectedIngredientForDetection[detection.id] = option.ingredientId
-    confirmedIds.insert(option.ingredientId)
+      selectedIngredientForDetection[detection.id] = option.ingredientId
+      confirmedIds.insert(option.ingredientId)
+    }
 
     if option.ingredientId != detection.ingredientId {
       deps.learningService.recordCorrection(
@@ -475,32 +651,59 @@ struct IngredientReviewView: View {
   }
 
   private func candidateOptions(for detection: Detection) -> [DetectionAlternative] {
-    var ids: [Int64] = []
+    var options: [DetectionAlternative] = []
 
     if let suggested = deps.learningService.suggestedCorrection(for: detection.originalVisionLabel)
     {
-      ids.append(suggested)
-    }
-
-    ids.append(detection.ingredientId)
-
-    for alternative in detection.alternatives {
-      ids.append(alternative.ingredientId)
-    }
-
-    var unique: [Int64] = []
-    for id in ids where !unique.contains(id) {
-      unique.append(id)
-      if unique.count >= 4 { break }
-    }
-
-    return unique.map {
-      DetectionAlternative(
-        ingredientId: $0,
-        label: displayName(for: $0),
-        confidence: nil
+      options.append(
+        DetectionAlternative(
+          ingredientId: suggested,
+          label: displayName(for: suggested),
+          confidence: nil
+        )
       )
     }
+
+    options.append(
+      DetectionAlternative(
+        ingredientId: detection.ingredientId,
+        label: displayName(for: detection.ingredientId),
+        confidence: detection.confidence
+      )
+    )
+
+    options.append(contentsOf: detection.alternatives)
+
+    var deduped: [DetectionAlternative] = []
+    var seen = Set<Int64>()
+
+    for option in options {
+      if seen.insert(option.ingredientId).inserted {
+        let normalized = DetectionAlternative(
+          ingredientId: option.ingredientId,
+          label: displayName(for: option.ingredientId),
+          confidence: option.confidence
+        )
+        deduped.append(normalized)
+      }
+      if deduped.count >= 5 {
+        break
+      }
+    }
+
+    return deduped
+  }
+
+  private func candidateSeedIngredients(for detection: Detection) -> [Ingredient] {
+    let ids = candidateOptions(for: detection).map(\.ingredientId)
+    let pairs: [(Int64, Ingredient)] = allIngredients.compactMap { ingredient in
+      guard let id = ingredient.id else { return nil }
+      return (id, ingredient)
+    }
+    let lookup = Dictionary(uniqueKeysWithValues: pairs)
+
+    let seeded = ids.compactMap { lookup[$0] }
+    return seeded.isEmpty ? allIngredients : seeded
   }
 }
 
@@ -514,25 +717,26 @@ struct IngredientChip: View {
   let action: () -> Void
 
   var body: some View {
-    HStack(spacing: 6) {
+    HStack(spacing: AppTheme.Space.xs) {
       Button(action: action) {
-        HStack(spacing: 4) {
+        HStack(spacing: AppTheme.Space.xs) {
           Text(label)
             .font(.subheadline)
           if confidence < 0.65 {
             Text("\(Int(confidence * 100))%")
               .font(.caption2)
-              .foregroundStyle(.secondary)
+              .foregroundStyle(AppTheme.textSecondary)
           }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .background(isSelected ? .yellow.opacity(0.2) : .gray.opacity(0.1))
-        .foregroundStyle(isSelected ? .primary : .secondary)
+        .padding(.horizontal, AppTheme.Space.sm)
+        .padding(.vertical, AppTheme.Space.xs)
+        .background(isSelected ? AppTheme.accent.opacity(0.26) : AppTheme.surface)
+        .foregroundStyle(isSelected ? AppTheme.textPrimary : AppTheme.textSecondary)
         .clipShape(Capsule())
         .overlay(
           Capsule()
-            .stroke(isSelected ? .yellow : .clear, lineWidth: 1.5)
+            .stroke(
+              isSelected ? AppTheme.accent : AppTheme.textSecondary.opacity(0.16), lineWidth: 1)
         )
       }
       .buttonStyle(.plain)
@@ -540,7 +744,7 @@ struct IngredientChip: View {
       if let onInfo {
         Button(action: onInfo) {
           Image(systemName: "info.circle")
-            .foregroundStyle(.secondary)
+            .foregroundStyle(AppTheme.textSecondary)
         }
         .buttonStyle(.plain)
       }
@@ -604,49 +808,5 @@ struct FlowLayout: Layout {
       positions: positions,
       sizes: sizes
     )
-  }
-}
-
-// MARK: - Ingredient Search Sheet
-
-struct IngredientSearchSheet: View {
-  let allIngredients: [Ingredient]
-  let onSelect: (Ingredient) -> Void
-  @Environment(\.dismiss) private var dismiss
-  @State private var searchText = ""
-
-  private var filtered: [Ingredient] {
-    if searchText.isEmpty { return allIngredients }
-    return allIngredients.filter {
-      $0.matchesSearch(searchText)
-    }
-  }
-
-  var body: some View {
-    NavigationStack {
-      List(filtered, id: \.id) { ingredient in
-        Button {
-          onSelect(ingredient)
-          dismiss()
-        } label: {
-          HStack {
-            Text(ingredient.displayName)
-            Spacer()
-            Text("\(Int(ingredient.calories)) kcal/100g")
-              .font(.caption)
-              .foregroundStyle(.secondary)
-          }
-        }
-        .foregroundStyle(.primary)
-      }
-      .searchable(text: $searchText, prompt: "Search ingredients")
-      .navigationTitle("Select Ingredient")
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .cancellationAction) {
-          Button("Cancel") { dismiss() }
-        }
-      }
-    }
   }
 }

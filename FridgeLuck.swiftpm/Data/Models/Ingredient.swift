@@ -40,10 +40,13 @@ extension Ingredient: FetchableRecord, PersistableRecord, TableRecord {
 
 extension Ingredient {
   var displayName: String {
-    if name.contains("_") {
-      return name.replacingOccurrences(of: "_", with: " ").capitalized
+    let normalized = name.replacingOccurrences(of: "_", with: " ")
+
+    if normalized == normalized.lowercased() {
+      return normalized.localizedCapitalized
     }
-    return name
+
+    return normalized
   }
 
   func matchesSearch(_ query: String) -> Bool {
