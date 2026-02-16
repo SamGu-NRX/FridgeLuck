@@ -1,0 +1,132 @@
+import Foundation
+import GRDB
+
+/// All database schema migrations in one place.
+enum DatabaseMigrations {
+  static func migrate(_ db: DatabaseQueue) throws {
+    var migrator = DatabaseMigrator()
+
+    // MARK: - V1: Initial Schema
+
+    migrator.registerMigration("v1_initial") { db in
+      // Recipes
+      try db.create(table: "recipes") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("title", .text).notNull()
+        t.column("time_minutes", .integer).notNull()
+        t.column("servings", .integer).notNull().defaults(to: 1)
+        t.column("instructions", .text).notNull()
+        t.column("tags", .integer).defaults(to: 0)
+        t.column("source", .text).defaults(to: "bundled")
+        t.column("created_at", .datetime).defaults(sql: "CURRENT_TIMESTAMP")
+      }
+
+      // Ingredients with full nutrition data per 100g
+      try db.create(table: "ingredients") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("name", .text).notNull().unique()
+        t.column("calories", .double).notNull()
+        t.column("protein", .double).notNull()
+        t.column("carbs", .double).notNull()
+        t.column("fat", .double).notNull()
+        t.column("fiber", .double).notNull().defaults(to: 0)
+        t.column("sugar", .double).notNull().defaults(to: 0)
+        t.column("sodium", .double).notNull().defaults(to: 0)
+        t.column("typical_unit", .text)
+        t.column("storage_tip", .text)
+      }
+
+      // Recipe-Ingredient join table WITH quantities
+      try db.create(table: "recipe_ingredients") { t in
+        t.column("recipe_id", .integer)
+          .notNull()
+          .references("recipes", onDelete: .cascade)
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients")
+        t.column("is_required", .boolean).notNull().defaults(to: true)
+        t.column("quantity_grams", .double).notNull()
+        t.column("display_quantity", .text).notNull()
+        t.primaryKey(["recipe_id", "ingredient_id"])
+      }
+
+      // User corrections for continual learning
+      try db.create(table: "user_corrections") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("vision_label", .text).notNull()
+        t.column("corrected_ingredient_id", .integer)
+          .notNull()
+          .references("ingredients")
+        t.column("correction_count", .integer).defaults(to: 1)
+        t.column("last_used_at", .datetime).defaults(sql: "CURRENT_TIMESTAMP")
+        t.uniqueKey(["vision_label", "corrected_ingredient_id"])
+      }
+
+      // Health profile (single row, set during onboarding)
+      try db.create(table: "health_profile") { t in
+        t.primaryKey("id", .integer, onConflict: .replace)
+          .check { $0 == 1 }
+        t.column("goal", .text).defaults(to: "general")
+        t.column("daily_calories", .integer)
+        t.column("protein_pct", .double).defaults(to: 0.25)
+        t.column("carbs_pct", .double).defaults(to: 0.45)
+        t.column("fat_pct", .double).defaults(to: 0.30)
+        t.column("dietary_restrictions", .text).defaults(to: "[]")
+        t.column("allergen_ingredient_ids", .text).defaults(to: "[]")
+        t.column("updated_at", .datetime).defaults(sql: "CURRENT_TIMESTAMP")
+      }
+
+      // Cooking history for personalization + streaks
+      try db.create(table: "cooking_history") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("recipe_id", .integer)
+          .notNull()
+          .references("recipes")
+        t.column("cooked_at", .datetime).defaults(sql: "CURRENT_TIMESTAMP")
+        t.column("rating", .integer)
+          .check { $0 >= 1 && $0 <= 5 }
+      }
+
+      // Badges
+      try db.create(table: "badges") { t in
+        t.primaryKey("id", .text)
+        t.column("earned_at", .datetime).defaults(sql: "CURRENT_TIMESTAMP")
+      }
+
+      // Streaks
+      try db.create(table: "streaks") { t in
+        t.primaryKey("date", .text)
+        t.column("meals_cooked", .integer).defaults(to: 0)
+      }
+
+      // Indexes for query performance
+      try db.create(
+        index: "idx_ri_ingredient",
+        on: "recipe_ingredients",
+        columns: ["ingredient_id"]
+      )
+      try db.create(
+        index: "idx_ri_recipe",
+        on: "recipe_ingredients",
+        columns: ["recipe_id"]
+      )
+      try db.create(
+        index: "idx_corrections_label",
+        on: "user_corrections",
+        columns: ["vision_label"]
+      )
+      try db.create(
+        index: "idx_history_recipe",
+        on: "cooking_history",
+        columns: ["recipe_id"]
+      )
+      try db.create(
+        index: "idx_history_date",
+        on: "cooking_history",
+        columns: ["cooked_at"]
+      )
+    }
+
+    try migrator.migrate(db)
+  }
+}

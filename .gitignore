@@ -1,0 +1,40 @@
+# macOS filesystem noise
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# SwiftPM and Xcode build artifacts
+.build/
+DerivedData/
+.swiftpm/
+Packages/
+Package.pins
+*.xcresult
+*.profraw
+*.profdata
+
+# Xcode user-specific state
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# iOS/macOS build outputs
+*.ipa
+*.dSYM
+*.dSYM.zip
+*.moved-aside
+*.hmap
+
+# Local runtime database files
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Local editor/agent metadata
+.cursor/
+.specstory/
+.idea/
+.vscode/

@@ -1,0 +1,174 @@
+import Foundation
+import GRDB
+
+// MARK: - Raw JSON Structures (for decoding positional arrays)
+
+/// Top-level structure of data.json
+private struct BundledData: Decodable {
+  let tags: [String]
+  let ingredients: [String: IngredientArray]
+  let recipes: [RecipeArray]
+}
+
+/// Ingredient: [name, cal, protein, carbs, fat, fiber, sugar, sodium, unit, tip]
+private struct IngredientArray: Decodable {
+  let name: String
+  let calories: Double
+  let protein: Double
+  let carbs: Double
+  let fat: Double
+  let fiber: Double
+  let sugar: Double
+  let sodium: Double
+  let typicalUnit: String
+  let storageTip: String
+
+  init(from decoder: Decoder) throws {
+    var container = try decoder.unkeyedContainer()
+    name = try container.decode(String.self)
+    calories = try container.decode(Double.self)
+    protein = try container.decode(Double.self)
+    carbs = try container.decode(Double.self)
+    fat = try container.decode(Double.self)
+    fiber = try container.decode(Double.self)
+    sugar = try container.decode(Double.self)
+    sodium = try container.decode(Double.self)
+    typicalUnit = try container.decode(String.self)
+    storageTip = try container.decode(String.self)
+  }
+}
+
+/// Recipe: [id, title, time, servings, required, optional, instructions, tags]
+/// required/optional: [[ingredientId, grams], ...]
+private struct RecipeArray: Decodable {
+  let id: Int
+  let title: String
+  let timeMinutes: Int
+  let servings: Int
+  let requiredIngredients: [(id: Int, grams: Double)]
+  let optionalIngredients: [(id: Int, grams: Double)]
+  let instructions: String
+  let tagBitmask: Int
+
+  init(from decoder: Decoder) throws {
+    var container = try decoder.unkeyedContainer()
+    id = try container.decode(Int.self)
+    title = try container.decode(String.self)
+    timeMinutes = try container.decode(Int.self)
+    servings = try container.decode(Int.self)
+
+    // Decode ingredient pairs: [[id, grams], ...]
+    requiredIngredients = try Self.decodeIngredientPairs(from: &container)
+    optionalIngredients = try Self.decodeIngredientPairs(from: &container)
+
+    instructions = try container.decode(String.self)
+    tagBitmask = try container.decode(Int.self)
+  }
+
+  private static func decodeIngredientPairs(
+    from container: inout UnkeyedDecodingContainer
+  ) throws -> [(id: Int, grams: Double)] {
+    var nested = try container.nestedUnkeyedContainer()
+    var pairs: [(id: Int, grams: Double)] = []
+    while !nested.isAtEnd {
+      var pair = try nested.nestedUnkeyedContainer()
+      let ingredientId = try pair.decode(Int.self)
+      let grams = try pair.decode(Double.self)
+      pairs.append((id: ingredientId, grams: grams))
+    }
+    return pairs
+  }
+}
+
+// MARK: - Loader
+
+enum BundledDataLoader {
+  /// Load bundled data.json into the SQLite database.
+  /// Called once on first launch.
+  static func loadInto(_ appDB: AppDatabase) async throws {
+    guard let url = Bundle.main.url(forResource: "data", withExtension: "json") else {
+      assertionFailure("data.json not found in bundle")
+      return
+    }
+
+    let jsonData = try Data(contentsOf: url)
+    let bundled = try JSONDecoder().decode(BundledData.self, from: jsonData)
+
+    try await appDB.dbQueue.write { db in
+      // Insert ingredients
+      for (idString, raw) in bundled.ingredients {
+        guard let id = Int64(idString) else { continue }
+        try db.execute(
+          sql: """
+            INSERT INTO ingredients
+                (id, name, calories, protein, carbs, fat, fiber, sugar, sodium, typical_unit, storage_tip)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+          arguments: [
+            id, raw.name, raw.calories, raw.protein, raw.carbs, raw.fat,
+            raw.fiber, raw.sugar, raw.sodium, raw.typicalUnit, raw.storageTip,
+          ]
+        )
+      }
+
+      // Insert recipes + ingredient relationships
+      for raw in bundled.recipes {
+        try db.execute(
+          sql: """
+            INSERT INTO recipes
+                (id, title, time_minutes, servings, instructions, tags, source)
+            VALUES (?, ?, ?, ?, ?, ?, 'bundled')
+            """,
+          arguments: [
+            raw.id, raw.title, raw.timeMinutes, raw.servings,
+            raw.instructions, raw.tagBitmask,
+          ]
+        )
+
+        // Required ingredients
+        for (ingId, grams) in raw.requiredIngredients {
+          let displayQty = Self.formatDisplayQuantity(
+            grams: grams, ingredientId: ingId, ingredients: bundled.ingredients)
+          try db.execute(
+            sql: """
+              INSERT INTO recipe_ingredients
+                  (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+              VALUES (?, ?, 1, ?, ?)
+              """,
+            arguments: [raw.id, ingId, grams, displayQty]
+          )
+        }
+
+        // Optional ingredients
+        for (ingId, grams) in raw.optionalIngredients {
+          let displayQty = Self.formatDisplayQuantity(
+            grams: grams, ingredientId: ingId, ingredients: bundled.ingredients)
+          try db.execute(
+            sql: """
+              INSERT INTO recipe_ingredients
+                  (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+              VALUES (?, ?, 0, ?, ?)
+              """,
+            arguments: [raw.id, ingId, grams, displayQty]
+          )
+        }
+      }
+    }
+  }
+
+  /// Build a human-readable quantity string from grams + ingredient info.
+  private static func formatDisplayQuantity(
+    grams: Double,
+    ingredientId: Int,
+    ingredients: [String: IngredientArray]
+  ) -> String {
+    guard let raw = ingredients[String(ingredientId)] else {
+      return "\(Int(grams))g"
+    }
+
+    // Use the typical_unit info to build a readable quantity
+    // For now, just show grams — a future pass can map to cups/tbsp/etc.
+    let name = raw.name.replacingOccurrences(of: "_", with: " ")
+    return "\(Int(grams))g \(name)"
+  }
+}
