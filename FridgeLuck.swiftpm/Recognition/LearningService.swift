@@ -12,10 +12,26 @@ final class LearningService: @unchecked Sendable {
   private let db: DatabaseQueue
   private var cache: [String: CachedCorrection] = [:]
   private let lock = NSLock()
+  private let defaults = UserDefaults.standard
+
+  private enum TelemetryKeys {
+    static let suggestionsShown = "learning_suggestions_shown"
+    static let suggestionsAccepted = "learning_suggestions_accepted"
+  }
 
   private struct CachedCorrection {
     let ingredientId: Int64
     let count: Int
+  }
+
+  struct CorrectionTelemetry: Sendable {
+    let suggestionsShown: Int
+    let suggestionsAccepted: Int
+
+    var hitRate: Double {
+      guard suggestionsShown > 0 else { return 0 }
+      return Double(suggestionsAccepted) / Double(suggestionsShown)
+    }
   }
 
   init(db: DatabaseQueue) {
@@ -138,5 +154,35 @@ final class LearningService: @unchecked Sendable {
     lock.lock()
     defer { lock.unlock() }
     return cache[key]?.ingredientId
+  }
+
+  // MARK: - Telemetry
+
+  func recordSuggestionShown() {
+    lock.lock()
+    defaults.set(
+      defaults.integer(forKey: TelemetryKeys.suggestionsShown) + 1,
+      forKey: TelemetryKeys.suggestionsShown
+    )
+    lock.unlock()
+  }
+
+  func recordSuggestionOutcome(accepted: Bool) {
+    guard accepted else { return }
+    lock.lock()
+    defaults.set(
+      defaults.integer(forKey: TelemetryKeys.suggestionsAccepted) + 1,
+      forKey: TelemetryKeys.suggestionsAccepted
+    )
+    lock.unlock()
+  }
+
+  func telemetry() -> CorrectionTelemetry {
+    lock.lock()
+    defer { lock.unlock() }
+    return CorrectionTelemetry(
+      suggestionsShown: defaults.integer(forKey: TelemetryKeys.suggestionsShown),
+      suggestionsAccepted: defaults.integer(forKey: TelemetryKeys.suggestionsAccepted)
+    )
   }
 }

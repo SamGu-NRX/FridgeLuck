@@ -1,11 +1,11 @@
 # FridgeLuck Stage 2 Feature Build Plan
 
-Date: 2026-02-08  
+Date: 2026-02-08
 Source of truth reviewed:
 - `planning/stage_1-technical/context.md`
 - `planning/stage_1-technical/plan.md`
 
-This document is a feature-completeness audit and build backlog.  
+This document is a feature-completeness audit and build backlog.
 Goal: move from "builds and launches" to "Stage 1 plan is functionally delivered."
 
 ## Audit Summary
@@ -13,6 +13,14 @@ Goal: move from "builds and launches" to "Stage 1 plan is functionally delivered
 - App compiles in Xcode (per your note), launches, and has a working baseline flow.
 - Significant portions of the Stage 1 planned functionality are still partial or missing.
 - Core architecture exists (GRDB, schema, scan flow, recommendations), but key user-facing and product-defining features are not fully wired.
+
+<!--
+Reviewer comments (non-blocking, no scope change):
+- Keep this document execution-focused: deliver P0 end-to-end before deep architecture workstreams.
+- Treat P0-7 as an explicit decision checkpoint (Option A vs Option B), not a parallel implementation branch.
+- Add one hard requirement in implementation: partial-match recipe fallback to avoid dead-end "no recipes" states.
+- Keep RecommendationEngine decision binary in Stage 2: fully adopt it or delete it (no hybrid).
+-->
 
 ## What Is Already Implemented
 
@@ -165,6 +173,7 @@ Build tasks:
 
 Acceptance:
 - Decision is explicit and reflected in architecture docs and code.
+<!-- Comment: default to Option A for Stage 2 unless iOS 26 toolchain and timeline are both stable. -->
 
 ### P0-8: Recommendation engine object exists but is unused in UI flow
 
@@ -257,6 +266,7 @@ Stage 2 is complete when:
 - Ingredient-level nutrition cards are available in the scan-to-results path.
 - Data coverage is broad enough to avoid frequent "no useful match" outcomes.
 - Feature ownership is centralized (orchestrated) and testable.
+<!-- Comment: include one observable fallback path for sparse pantry input (near-match suggestions). -->
 
 ## Deep Technical Workstreams
 
@@ -438,3 +448,230 @@ Acceptance:
 4. Recommendation orchestration is dead code in UI flow
    - File: `FridgeLuck.swiftpm/Services/RecommendationEngine.swift:6`
    - Issue: service exists but views bypass it.
+
+## Top-Down Product Logic Audit (Additional Gaping Holes)
+
+This section starts from the high-level app behavior and then maps down to system logic.
+These are gaps that can block product behavior even if individual planned features are "implemented."
+
+### 1) Operating Model the App Actually Needs
+
+For FridgeLuck to work as intended offline, the runtime loop must be:
+
+1. Capture input
+   - user takes 1..N photos or uses demo flow
+2. Produce candidate ingredient graph
+   - each candidate has: source, confidence, alternatives, evidence
+3. Resolve uncertainty with user
+   - confirm/override/reject
+4. Build a trusted pantry snapshot
+   - normalized ingredient IDs, optional quantities, optional freshness
+5. Rank actions
+   - quick suggestion, alternatives, health context
+6. Observe outcomes
+   - cooked/not-cooked, rating, corrections
+7. Update user model
+   - deterministic personalization + correction memory
+
+Current implementation covers parts of (1), (2), (5), and pieces of (6), but not as one coherent state machine.
+
+### 2) High-Level Holes That Break End-to-End Behavior
+
+### H1: Objective arbitration is undefined
+
+Problem:
+- The app is simultaneously optimizing makeability, health alignment, speed, and personalization.
+- There is no explicit policy for tie-breaking across these objectives.
+
+Impact:
+- Ranking can feel random or inconsistent between quick pick vs full list.
+
+Required fix:
+- Create one canonical scoring policy with explicit component weights and tie-break order.
+- Reuse the same scoring core in all recommendation entry points.
+
+### H2: Recognition output is not rich enough for downstream decisions
+
+Problem:
+- Current detection model is too minimal for confidence UX and learning loops (no alternatives/evidence payload).
+
+Impact:
+- Medium-confidence flow cannot actually disambiguate well.
+- Learning captures are low-fidelity.
+
+Required fix:
+- Expand detection contract to include:
+  - `alternatives`
+  - `confidenceSource` (`vision`, `ocr`, `fusion`)
+  - `evidenceTokens` / raw label
+  - optional bounding-region/crop ID when available
+
+### H3: Personalization without LLM is underspecified (but absolutely feasible)
+
+Problem:
+- Personalization currently behaves as scattered heuristics, not a stable non-LLM policy engine.
+
+Impact:
+- Hard to tune and explain.
+- Cold start and sparse-history behavior are weak.
+
+Required deterministic approach:
+1. User bucket model (goal + dietary + time + sodium sensitivity)
+2. Behavior features (recently cooked, rating mean, tag affinity, novelty pressure)
+3. Score decomposition (`availability`, `goal_fit`, `restriction`, `variety`, `time_fit`)
+4. Versioned weight profiles per bucket
+5. Explainability payload ("why this recipe")
+
+### H4: Cold-start logic is not treated as a first-class mode
+
+Problem:
+- New users have no cooking history and possibly no profile.
+
+Impact:
+- Personalization and health logic become unstable defaults.
+
+Required fix:
+- Add explicit cold-start profile:
+  - default weights biased toward high makeability + short time
+  - defer personalization bonuses until minimum history threshold
+
+### H5: Input strategy assumes high-quality recognition from broad photos
+
+Problem:
+- Product intent implies "fridge photo to ingredients", but whole-image classification is weak on cluttered scenes.
+
+Impact:
+- Low recall in real usage causes recommendation dead-ends.
+
+Required fix:
+- Promote multi-shot guided capture as the primary path, not a hint.
+- Add fallback "missing one ingredient" and manual pantry editing as core path.
+
+### H6: Pantry state is session-local, not a persistent product object
+
+Problem:
+- Confirmed ingredients are currently treated as temporary selection state.
+
+Impact:
+- No continuity across sessions; learning and recommendation context reset too often.
+
+Required fix:
+- Add persisted pantry/session model:
+  - confirmed ingredient set
+  - optional recency timestamp
+  - optional user-marked quantities/freshness flags
+
+### H7: Feedback loop throughput is too low for reliable learning
+
+Problem:
+- Continual learning requires frequent high-signal corrections, but UX currently doesn't encourage structured correction events.
+
+Impact:
+- Correction DB grows slowly and noisily; adaptation appears ineffective.
+
+Required fix:
+- Build high-signal correction touchpoints:
+  - explicit "wrong label?" action
+  - one-tap alternative choice
+  - lightweight post-scan correction prompt
+
+### H8: Data architecture has no explicit "source of truth policy"
+
+Problem:
+- Runtime DB exists, but bootstrap content is still static bundle JSON and ingestion provenance policy is incomplete.
+
+Impact:
+- Hard to maintain trust and evolve data from official sources.
+
+Required fix:
+- Adopt explicit policy:
+  - Official-source ETL -> validated seed dataset -> bundled DB bootstrap
+  - IDs/names provenance and migration strategy documented
+
+### H9: Missing production state machine for failure handling
+
+Problem:
+- No formal state model from capture to recommendation.
+
+Impact:
+- Error paths can collapse to generic empty states; behavior varies by screen.
+
+Required fix:
+- Define `ScanFlowState` / `RecommendationState` with allowed transitions and consistent failure handling.
+
+### 3) Additional Workstream (High-Level System Coherence)
+
+### Workstream F: End-to-End Runtime State and Policy Engine
+
+Goal:
+- Make app behavior deterministic, explainable, and maintainable at product level.
+
+Build tasks:
+1. Define runtime state machine
+   - capture -> analyze -> review -> pantry snapshot -> recommend -> feedback.
+2. Define a canonical decision policy
+   - one scoring core used by quick pick and full list.
+3. Define non-LLM personalization policy
+   - bucketed user profiles + versioned weights + explainability output.
+4. Define cold-start strategy
+   - explicit mode with simple deterministic defaults.
+5. Persist pantry/session object
+   - stabilize recommendations across scans and sessions.
+6. Add policy-level tests
+   - snapshot tests for ranking behavior under controlled inputs.
+
+Acceptance:
+- The same inputs produce consistent ranking decisions across app entry points.
+- Users can understand why a recipe is shown.
+- New users and experienced users both get stable, sensible results.
+
+## Reanalysis (Direct, Non-Sycophantic)
+
+The previous severity-ordered list is directionally correct.
+Most of those holes are still open. A few tactical bugs were patched, but the product-level architecture is still not coherent.
+
+### Status check of the 12-item list
+
+1. Scene-level classification vs ingredient-level behavior: **OPEN**
+2. Confidence treated as truth, no calibration framework: **OPEN**
+3. Continual learning not wired end-to-end in UI: **OPEN**
+4. Hardcoded ID coupling in lexicon: **OPEN**
+5. Detection contract under-modeled: **OPEN**
+6. Orientation/preprocessing gap in inference pipeline: **OPEN**
+7. Hard dead-end recommendation logic ("all required only"): **OPEN**
+8. Fragmented scoring paths (`combinedScore` vs `quickSuggestion`): **OPEN**
+9. Health profile JSON-string schema limitations: **OPEN**
+10. DB is mostly bootstrap cache for static bundle data: **OPEN**
+11. Orchestration layer bypassed by screens: **OPEN**
+12. No core policy test target: **OPEN**
+
+Patched tactical bugs (already handled):
+- Correction cache top-choice overwrite bug
+- Wrong lexicon mapping (`olive oil` -> `butter`)
+- Dual-pass scan total-failure no-signal case
+
+### Additional high-level blockers still missing from many bug lists
+
+1. No explicit product objective hierarchy
+   - The app has no declared priority order between makeability, health, speed, and personalization.
+   - Without this, ranking behavior cannot be made stable.
+
+2. No true cold-start mode
+   - New-user behavior is not intentionally designed.
+   - Current fallback defaults silently stand in for product decisions.
+
+3. No persistent pantry object
+   - Ingredient confirmation is mostly session-local state.
+   - This undermines continuity and makes personalization weaker than intended.
+
+4. Feedback throughput is too low for learning to matter
+   - Correction architecture exists, but user flows do not generate enough high-signal correction events.
+
+5. Official data-source policy is still not operationalized
+   - ETL/provenance strategy is planned but not implemented.
+   - Current runtime behavior still depends on small static bundled data.
+
+### Blunt conclusion
+
+The app currently behaves like a functional demo, not a robust offline decision system.
+The core risk is not "missing one feature"; it is that the state model and ranking policy are not yet unified.

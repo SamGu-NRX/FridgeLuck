@@ -8,6 +8,16 @@ enum DetectionSource: String, Sendable {
   case manual
 }
 
+// MARK: - Detection Alternative
+
+struct DetectionAlternative: Identifiable, Sendable, Hashable {
+  let ingredientId: Int64
+  let label: String
+  let confidence: Float?
+
+  var id: Int64 { ingredientId }
+}
+
 // MARK: - Detection
 
 struct Detection: Identifiable, Sendable {
@@ -17,6 +27,7 @@ struct Detection: Identifiable, Sendable {
   let confidence: Float
   let source: DetectionSource
   let originalVisionLabel: String
+  var alternatives: [DetectionAlternative] = []
 
   var isHighConfidence: Bool { confidence >= 0.65 }
   var isMediumConfidence: Bool { confidence >= 0.35 && confidence < 0.65 }

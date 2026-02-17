@@ -127,6 +127,15 @@ enum DatabaseMigrations {
       )
     }
 
+    // MARK: - V2: Ingredient educational fields
+
+    migrator.registerMigration("v2_ingredient_education_fields") { db in
+      try db.alter(table: "ingredients") { t in
+        t.add(column: "pairs_with", .text)
+        t.add(column: "notes", .text)
+      }
+    }
+
     try migrator.migrate(db)
   }
 }
