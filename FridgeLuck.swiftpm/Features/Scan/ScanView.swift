@@ -10,6 +10,7 @@ struct ScanView: View {
   @State private var showPhotoLibrary = false
   @State private var isProcessing = false
   @State private var detections: [Detection] = []
+  @State private var nutritionLabelOutcome: NutritionLabelParseOutcome?
   @State private var navigateToReview = false
   @State private var errorMessage: String?
 
@@ -34,7 +35,10 @@ struct ScanView: View {
         .ignoresSafeArea()
     }
     .navigationDestination(isPresented: $navigateToReview) {
-      IngredientReviewView(detections: detections)
+      IngredientReviewView(
+        detections: detections,
+        nutritionLabelOutcome: nutritionLabelOutcome
+      )
     }
     .onChange(of: capturedImage) { _, newValue in
       if newValue != nil {
@@ -140,6 +144,7 @@ struct ScanView: View {
         // Allow user to add ingredients manually even if Vision failed
         Button {
           detections = []
+          nutritionLabelOutcome = nil
           navigateToReview = true
         } label: {
           Label("Add Ingredients Manually", systemImage: "plus.circle.fill")
@@ -182,6 +187,7 @@ struct ScanView: View {
     do {
       let result = try await deps.visionService.scan(image: cgImage)
       detections = result.detections
+      nutritionLabelOutcome = NutritionLabelParser.parse(ocrText: result.ocrText)
       isProcessing = false
 
       if detections.isEmpty {

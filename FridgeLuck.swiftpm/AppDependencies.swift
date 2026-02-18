@@ -21,6 +21,7 @@ final class AppDependencies: ObservableObject {
   let nutritionService: NutritionService
   let healthScoringService: HealthScoringService
   let personalizationService: PersonalizationService
+  let dishEstimateService: DishEstimateService
 
   // Intelligence
   let recipeGenerator: RecipeGenerating
@@ -39,6 +40,7 @@ final class AppDependencies: ObservableObject {
       nutritionService: nutritionService,
       db: db
     )
+    self.dishEstimateService = DishEstimateService(db: db)
 
     // Repositories
     self.ingredientRepository = IngredientRepository(db: db)

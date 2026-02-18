@@ -32,9 +32,17 @@ xcuserdata/
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
+!FridgeLuck.swiftpm/Resources/usda_ingredient_catalog.sqlite
 
 # Local editor/agent metadata
 .cursor/
 .specstory/
 .idea/
 .vscode/
+
+# Generated USDA processing cache
+scripts/data/.cache/
+
+# local env files
+.env*
+!.env*.example

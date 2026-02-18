@@ -5,6 +5,7 @@ import SwiftUI
 struct IngredientReviewView: View {
   @EnvironmentObject var deps: AppDependencies
   @State var detections: [Detection]
+  let nutritionLabelOutcome: NutritionLabelParseOutcome?
 
   @State private var confirmedIds: Set<Int64> = []
   @State private var showSheetMode: IngredientSheetMode?
@@ -15,6 +16,14 @@ struct IngredientReviewView: View {
   @State private var selectedIngredientForDetection: [UUID: Int64] = [:]
   @State private var suggestedOutcomeByDetection: [UUID: Bool] = [:]
   @State private var didInitialize = false
+
+  init(
+    detections: [Detection],
+    nutritionLabelOutcome: NutritionLabelParseOutcome? = nil
+  ) {
+    self._detections = State(initialValue: detections)
+    self.nutritionLabelOutcome = nutritionLabelOutcome
+  }
 
   private enum IngredientSheetMode: Identifiable {
     case addManual
@@ -35,6 +44,7 @@ struct IngredientReviewView: View {
       ScrollView {
         VStack(alignment: .leading, spacing: 16) {
           headerSection
+          nutritionLabelSection
           confirmedSection
           needsConfirmationSection
           possibleSection
@@ -140,6 +150,73 @@ struct IngredientReviewView: View {
         Text("Learning hit rate: \(Int((telemetry.hitRate * 100).rounded()))%")
           .font(.caption)
           .foregroundStyle(.secondary)
+      }
+    }
+  }
+
+  private var nutritionLabelSection: some View {
+    Group {
+      if let parsed = nutritionLabelOutcome?.parsed {
+        VStack(alignment: .leading, spacing: 8) {
+          Label("Packaged Food Nutrition (OCR)", systemImage: "doc.text.magnifyingglass")
+            .font(.subheadline.bold())
+            .foregroundStyle(.blue)
+
+          HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+              Text("\(Int(parsed.caloriesPerServing.rounded())) kcal")
+                .font(.headline)
+              Text("Per serving")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+            Spacer()
+            if let servingSize = parsed.servingSize {
+              VStack(alignment: .trailing, spacing: 2) {
+                Text(servingSize)
+                  .font(.subheadline)
+                Text("Serving size")
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+              }
+            }
+          }
+
+          if let servings = parsed.servingsPerContainer {
+            Text("Servings per container: \(String(format: "%.1f", servings))")
+              .font(.caption)
+              .foregroundStyle(.secondary)
+          }
+
+          Text("Use this as the packaged-food nutrition source override for this scan.")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+
+          Text("Source: \(parsed.source) · Confidence: \(parsed.confidence.rawValue.capitalized)")
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+        }
+        .padding(12)
+        .background(.blue.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
+        .overlay(
+          RoundedRectangle(cornerRadius: 12)
+            .stroke(.blue.opacity(0.25), lineWidth: 1)
+        )
+      } else if nutritionLabelOutcome?.hadNutritionKeywords == true {
+        VStack(alignment: .leading, spacing: 6) {
+          Label("Nutrition Label Detected", systemImage: "exclamationmark.circle")
+            .font(.subheadline.bold())
+            .foregroundStyle(.orange)
+          Text("Couldn’t confidently parse calories/serving. Try a closer label photo.")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+        .padding(12)
+        .background(.orange.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
+        .overlay(
+          RoundedRectangle(cornerRadius: 12)
+            .stroke(.orange.opacity(0.25), lineWidth: 1)
+        )
       }
     }
   }

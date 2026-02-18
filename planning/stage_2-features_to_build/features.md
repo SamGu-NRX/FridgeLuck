@@ -193,15 +193,22 @@ Acceptance:
 
 ## Important P1 Gaps
 
-### P1-1: OCR-based packaged calories parsing not implemented
+P1 scope guard:
+- Stage 2 P1 data and OCR work is ingredient-first for fridge cooking recommendations.
+- Beer/alcohol-specific nutrition ingestion is out of scope unless required as part of a broader, generic food dataset.
+
+### P1-1: OCR-based packaged nutrition parsing + ingredient nutrition mapping not implemented
 
 Current state:
-- OCR exists, but there is no nutrition-label parser for calories/serving-size extraction.
+- OCR exists, but there is no production parser for packaged nutrition labels.
+- Ingredient nutrition coverage is too shallow for reliable ingredient-level education and scoring.
 
 Build tasks:
 1. Add parser for common label patterns (Calories, Serving Size, Servings per container).
-2. Show parsed values as override/source for packaged foods.
-3. Add confidence + fallback messaging when parse fails.
+2. Parse core macros (protein, carbs, fat) and map to normalized units.
+3. Show parsed values as override/source for packaged foods.
+4. Add ingredient-focused USDA/FDC nutrition ingestion for common pantry ingredients (produce, proteins, grains, dairy, staples).
+5. Add confidence + fallback messaging when parse fails.
 
 ### P1-2: Prepared dish estimation workflow not implemented
 

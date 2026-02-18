@@ -136,6 +136,40 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V3: Prepared dish templates
+
+    migrator.registerMigration("v3_dish_templates") { db in
+      try db.create(table: "dish_templates") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("name", .text).notNull().unique()
+        t.column("base_calories", .double).notNull()
+        t.column("base_protein", .double).notNull()
+        t.column("base_carbs", .double).notNull()
+        t.column("base_fat", .double).notNull()
+        t.column("notes", .text)
+      }
+
+      let templates: [(String, Double, Double, Double, Double, String)] = [
+        ("Fried Rice", 520, 14, 68, 20, "Includes oil variance and mixed veg."),
+        ("Curry", 460, 18, 35, 26, "Assumes coconut or cream-based sauce."),
+        ("Pasta Bowl", 610, 20, 88, 18, "Cooked pasta with sauce and toppings."),
+        ("Soup Bowl", 280, 14, 30, 10, "Broth-heavy home serving."),
+        ("Stir Fry", 430, 24, 35, 20, "Protein + vegetables + sauce."),
+        ("Sandwich", 390, 18, 42, 16, "Two-slice default sandwich."),
+      ]
+
+      for (name, cal, protein, carbs, fat, notes) in templates {
+        try db.execute(
+          sql: """
+            INSERT INTO dish_templates
+                (name, base_calories, base_protein, base_carbs, base_fat, notes)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+          arguments: [name, cal, protein, carbs, fat, notes]
+        )
+      }
+    }
+
     try migrator.migrate(db)
   }
 }

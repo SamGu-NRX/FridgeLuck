@@ -11,6 +11,7 @@ struct ContentView: View {
 
   @State private var navigateToScan = false
   @State private var navigateToDemo = false
+  @State private var navigateToDishEstimate = false
   @State private var showOnboarding = false
   @State private var showEditProfile = false
 
@@ -79,6 +80,18 @@ struct ContentView: View {
             .font(.headline)
           }
           .disabled(isRunningDemo)
+
+          Button {
+            navigateToDishEstimate = true
+          } label: {
+            Label("Estimate Prepared Dish", systemImage: "fork.knife")
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(.gray.opacity(0.15))
+              .foregroundStyle(.primary)
+              .clipShape(RoundedRectangle(cornerRadius: 12))
+              .font(.headline)
+          }
         }
         .padding(.horizontal)
         .padding(.bottom, 32)
@@ -99,6 +112,9 @@ struct ContentView: View {
       }
       .navigationDestination(isPresented: $navigateToDemo) {
         IngredientReviewView(detections: demoDetections)
+      }
+      .navigationDestination(isPresented: $navigateToDishEstimate) {
+        PreparedDishEstimateView()
       }
     }
     .task {

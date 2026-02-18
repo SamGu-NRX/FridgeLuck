@@ -1,0 +1,30 @@
+{
+  "source": "USDA FoodData Central API (catalog bootstrap + targeted fallback)",
+  "generated_at_utc": "2026-02-11T04:16:59Z",
+  "ingredient_count": 1,
+  "matched_count": 1,
+  "catalog_record_count": 3000,
+  "catalog_file": "scripts/data/.cache/usda_common_food_catalog.json",
+  "records": [
+    {
+      "ingredient_id": 1,
+      "ingredient_key": "1",
+      "ingredient_name": "egg",
+      "query_used": "egg",
+      "matched_fdc_id": 170893,
+      "matched_description": "Egg, whole, raw, frozen, salted, pasteurized",
+      "matched_data_type": "SR Legacy",
+      "matched_food_category": "Dairy and Egg Products",
+      "match_score": 0.7152,
+      "calories": 138.0,
+      "protein_g": 10.97,
+      "carbs_g": 0.83,
+      "fat_g": 10.07,
+      "fiber_g": 0.0,
+      "sugar_g": 0.07,
+      "sodium_g": 3.663,
+      "source": "USDA FoodData Central API (catalog bootstrap)",
+      "error": null
+    }
+  ]
+}

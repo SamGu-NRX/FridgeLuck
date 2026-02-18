@@ -115,6 +115,10 @@ enum BundledDataLoader {
         )
       }
 
+      // Optionally augment bundled base ingredients with curated USDA catalog rows.
+      // This keeps the hand-authored core IDs stable while expanding searchable coverage.
+      try loadUSDACatalogIngredientsIfAvailable(into: db)
+
       // Insert recipes + ingredient relationships
       for raw in bundled.recipes {
         try db.execute(
@@ -157,6 +161,50 @@ enum BundledDataLoader {
           )
         }
       }
+    }
+  }
+
+  /// Import curated USDA ingredient rows from bundled SQLite resource if present.
+  /// Uses INSERT OR IGNORE to avoid clobbering the base curated ingredient set.
+  private static func loadUSDACatalogIngredientsIfAvailable(into db: Database) throws {
+    guard let url = Bundle.main.url(forResource: "usda_ingredient_catalog", withExtension: "sqlite")
+    else {
+      return
+    }
+
+    var readConfig = Configuration()
+    readConfig.readonly = true
+    let sourceDB = try DatabaseQueue(path: url.path, configuration: readConfig)
+    let sourceRows: [Row] = try sourceDB.read { src in
+      try Row.fetchAll(
+        src,
+        sql: """
+          SELECT name, calories, protein, carbs, fat, fiber, sugar, sodium, notes
+          FROM ingredients
+          """
+      )
+    }
+
+    for row in sourceRows {
+      try db.execute(
+        sql: """
+          INSERT OR IGNORE INTO ingredients
+              (name, calories, protein, carbs, fat, fiber, sugar, sodium,
+               typical_unit, storage_tip, pairs_with, notes)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?)
+          """,
+        arguments: [
+          row["name"],
+          row["calories"],
+          row["protein"],
+          row["carbs"],
+          row["fat"],
+          row["fiber"],
+          row["sugar"],
+          row["sodium"],
+          row["notes"],
+        ]
+      )
     }
   }
 
