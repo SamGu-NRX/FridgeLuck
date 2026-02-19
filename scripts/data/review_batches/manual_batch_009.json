@@ -1,0 +1,1756 @@
+{
+  "batch_id": 9,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "safflower oil",
+          "high-linoleic safflower oil",
+          "cooking safflower oil",
+          "salad safflower oil",
+          "linoleic safflower oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "High-linoleic safflower oil is a neutral cooking oil used for sauteing, dressings, and general cooking. This USDA row reflects oil values per 100 g.",
+        "display_name": "Safflower Oil (High Linoleic)",
+        "fdc_id": 171026,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, safflower, salad or cooking, linoleic, (over 70%)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesame oil",
+          "toasted sesame oil",
+          "cooking sesame oil",
+          "salad sesame oil",
+          "sesame seed oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Sesame oil is an aromatic seed oil used for dressings, stir-fries, and finishing. This USDA row reflects oil values per 100 g.",
+        "display_name": "Sesame Oil",
+        "fdc_id": 171016,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, sesame, salad or cooking",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "soybean oil",
+          "partially hydrogenated soybean oil",
+          "cooking soybean oil",
+          "salad soybean oil",
+          "soy oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Partially hydrogenated soybean oil is a processed vegetable oil used in cooking and food formulations. This USDA row reflects oil values per 100 g.",
+        "display_name": "Soybean Oil (Partially Hydrogenated)",
+        "fdc_id": 171012,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, soybean, salad or cooking, (partially hydrogenated)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sunflower oil",
+          "linoleic sunflower oil",
+          "cooking sunflower oil",
+          "salad sunflower oil",
+          "sunflower seed oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Linoleic sunflower oil is a vegetable oil used for sauteing, frying, and dressing preparation. This USDA row reflects oil values per 100 g.",
+        "display_name": "Sunflower Oil (Linoleic)",
+        "fdc_id": 171025,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, sunflower, linoleic, (approx. 65%)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "high-oleic canola oil",
+          "vegetable oil canola",
+          "natreon canola oil",
+          "high-stability canola oil",
+          "non-trans canola oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "High-oleic canola vegetable oil is a stable cooking oil used for frying and high-heat applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Vegetable Oil (High-Oleic Canola)",
+        "fdc_id": 171033,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, vegetable, Natreon canola, high stability, non trans, high oleic (70%)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "walnut oil",
+          "cold-pressed walnut oil",
+          "cooking walnut oil",
+          "nut oil walnut",
+          "salad walnut oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Walnut oil is a flavorful nut oil often used in dressings and finishing applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Walnut Oil",
+        "fdc_id": 171030,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, walnut",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wheat germ oil",
+          "wheat oil germ",
+          "vitamin e wheat germ oil",
+          "cooking wheat germ oil",
+          "nutty wheat germ oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Wheat germ oil is a nutrient-dense oil used in dressings and low-heat culinary applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Wheat Germ Oil",
+        "fdc_id": 171014,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, wheat germ",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "olive oil",
+          "cooking olive oil",
+          "salad olive oil",
+          "pure olive oil",
+          "olive oil general"
+        ],
+        "category_label": "oil_fat",
+        "description": "Olive oil is a staple culinary oil used for sauteing, roasting, and dressings. This USDA row reflects oil values per 100 g.",
+        "display_name": "Olive Oil",
+        "fdc_id": 171413,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, olive, salad or cooking",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pickled green olives",
+          "green olives",
+          "bottled green olives",
+          "canned green olives",
+          "brined green olives"
+        ],
+        "category_label": "fruit",
+        "description": "Pickled green olives are brined fruits used in salads, tapas, and savory dishes. This USDA row reflects pickled olive values per 100 g.",
+        "display_name": "Green Olives (Pickled)",
+        "fdc_id": 169096,
+        "macros": {
+          "calories": 145.0,
+          "carbs_g": 3.84,
+          "fat_g": 15.32,
+          "fiber_g": 3.3,
+          "protein_g": 1.03,
+          "sodium_g": 1.556,
+          "sugar_g": 0.54
+        },
+        "source_description": "Olives, pickled, canned or bottled, green",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ripe olives canned",
+          "black olives canned",
+          "canned ripe olives",
+          "ripe olive slices canned",
+          "table ripe olives"
+        ],
+        "category_label": "fruit",
+        "description": "Canned ripe olives are used in salads, pizzas, and Mediterranean-style dishes. This USDA row reflects canned olive values per 100 g.",
+        "display_name": "Ripe Olives (Canned)",
+        "fdc_id": 169094,
+        "macros": {
+          "calories": 116.0,
+          "carbs_g": 6.04,
+          "fat_g": 10.9,
+          "fiber_g": 1.6,
+          "protein_g": 0.84,
+          "sodium_g": 0.735,
+          "sugar_g": 0.0
+        },
+        "source_description": "Olives, ripe, canned (small-extra large)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dehydrated onion flakes",
+          "dried onion flakes",
+          "onion flakes",
+          "onion dehydrated",
+          "dry onion flakes"
+        ],
+        "category_label": "vegetable",
+        "description": "Dehydrated onion flakes are used in seasoning blends, soups, and dry rubs. This USDA row reflects dry onion values per 100 g.",
+        "display_name": "Onion Flakes (Dehydrated)",
+        "fdc_id": 170002,
+        "macros": {
+          "calories": 349.0,
+          "carbs_g": 83.28,
+          "fat_g": 0.46,
+          "fiber_g": 9.2,
+          "protein_g": 8.95,
+          "sodium_g": 0.021,
+          "sugar_g": 37.41
+        },
+        "source_description": "Onions, dehydrated flakes",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen chopped onions cooked",
+          "cooked frozen onions",
+          "boiled frozen chopped onions",
+          "salted frozen onions chopped",
+          "prepared frozen onions"
+        ],
+        "category_label": "vegetable",
+        "description": "This entry represents frozen chopped onions that are cooked, drained, and salted. This USDA row reflects prepared values per 100 g.",
+        "display_name": "Onions (Frozen Chopped, Cooked)",
+        "fdc_id": 170101,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 6.0,
+          "fat_g": 0.1,
+          "fiber_g": 1.7,
+          "protein_g": 0.77,
+          "sodium_g": 0.248,
+          "sugar_g": 2.9
+        },
+        "source_description": "Onions, frozen, chopped, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen whole onions cooked",
+          "cooked frozen whole onions",
+          "boiled whole frozen onions",
+          "salted frozen whole onions",
+          "prepared whole onions frozen"
+        ],
+        "category_label": "vegetable",
+        "description": "This entry represents frozen whole onions that are cooked, drained, and salted. This USDA row reflects prepared values per 100 g.",
+        "display_name": "Onions (Frozen Whole, Cooked)",
+        "fdc_id": 170507,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 6.11,
+          "fat_g": 0.05,
+          "fiber_g": 1.4,
+          "protein_g": 0.71,
+          "sodium_g": 0.244,
+          "sugar_g": 2.9
+        },
+        "source_description": "Onions, frozen, whole, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet onions",
+          "raw sweet onions",
+          "vidalia-style onions",
+          "mild onions raw",
+          "sweet onion bulbs"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw sweet onions are mild onions used in salads, caramelizing, and grilling. This USDA row reflects raw onion values per 100 g.",
+        "display_name": "Sweet Onions (Raw)",
+        "fdc_id": 170008,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 7.55,
+          "fat_g": 0.08,
+          "fiber_g": 0.9,
+          "protein_g": 0.8,
+          "sodium_g": 0.008,
+          "sugar_g": 5.02
+        },
+        "source_description": "Onions, sweet, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "welsh onions",
+          "raw welsh onions",
+          "bunching onions",
+          "welsh onion greens",
+          "allium fistulosum"
+        ],
+        "category_label": "vegetable",
+        "description": "Welsh onions are bunching onions used like scallions in soups and stir-fries. This USDA row reflects raw values per 100 g.",
+        "display_name": "Welsh Onions (Raw)",
+        "fdc_id": 170007,
+        "macros": {
+          "calories": 34.0,
+          "carbs_g": 6.5,
+          "fat_g": 0.4,
+          "fiber_g": 2.4,
+          "protein_g": 1.9,
+          "sodium_g": 0.017,
+          "sugar_g": 2.18
+        },
+        "source_description": "Onions, welsh, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sauteed yellow onions",
+          "yellow onions cooked",
+          "cooked yellow onions",
+          "onions yellow sauteed",
+          "pan-cooked yellow onions"
+        ],
+        "category_label": "vegetable",
+        "description": "Sauteed yellow onions are a cooked aromatic base used in countless savory dishes. This USDA row reflects sauteed onion values per 100 g.",
+        "display_name": "Yellow Onions (Sauteed)",
+        "fdc_id": 170004,
+        "macros": {
+          "calories": 123.0,
+          "carbs_g": 7.86,
+          "fat_g": 10.8,
+          "fiber_g": 1.7,
+          "protein_g": 0.95,
+          "sodium_g": 0.012,
+          "sugar_g": 0.0
+        },
+        "source_description": "Onions, yellow, sauteed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green onion tops",
+          "young green onion tops",
+          "scallion tops",
+          "spring onion tops",
+          "onion greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Young green onion tops are used as aromatic garnish and flavoring in soups, salads, and stir-fries. This USDA row reflects raw tops per 100 g.",
+        "display_name": "Young Green Onions (Tops)",
+        "fdc_id": 170006,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 5.74,
+          "fat_g": 0.47,
+          "fiber_g": 1.8,
+          "protein_g": 0.97,
+          "sodium_g": 0.015,
+          "sugar_g": 3.91
+        },
+        "source_description": "Onions, young green, tops only",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned orange juice",
+          "unsweetened orange juice canned",
+          "orange juice canned",
+          "orange juice no sugar added",
+          "orange juice shelf-stable"
+        ],
+        "category_label": "fruit",
+        "description": "Unsweetened canned orange juice is a prepared citrus beverage used directly or in recipes. This USDA row reflects juice values per 100 g.",
+        "display_name": "Orange Juice (Canned, Unsweetened)",
+        "fdc_id": 169099,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 11.01,
+          "fat_g": 0.15,
+          "fiber_g": 0.3,
+          "protein_g": 0.68,
+          "sodium_g": 0.004,
+          "sugar_g": 8.76
+        },
+        "source_description": "Orange juice, canned, unsweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chilled orange juice",
+          "refrigerated orange juice",
+          "orange juice from concentrate chilled",
+          "cold orange juice",
+          "orange juice ready to drink"
+        ],
+        "category_label": "fruit",
+        "description": "Chilled orange juice includes refrigerated juice products, often from concentrate. This USDA row reflects beverage values per 100 g.",
+        "display_name": "Orange Juice (Chilled)",
+        "fdc_id": 169100,
+        "macros": {
+          "calories": 49.0,
+          "carbs_g": 11.54,
+          "fat_g": 0.12,
+          "fiber_g": 0.3,
+          "protein_g": 0.68,
+          "sodium_g": 0.002,
+          "sugar_g": 8.31
+        },
+        "source_description": "Orange juice, chilled, includes from concentrate",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "diluted orange juice concentrate",
+          "prepared orange concentrate juice",
+          "reconstituted orange juice",
+          "frozen concentrate orange juice prepared",
+          "orange juice from concentrate"
+        ],
+        "category_label": "fruit",
+        "description": "This row represents frozen orange juice concentrate diluted with water for drinking use. Nutrition values are for prepared juice per 100 g.",
+        "display_name": "Orange Juice Concentrate (Diluted)",
+        "fdc_id": 169102,
+        "macros": {
+          "calories": 37.0,
+          "carbs_g": 8.8,
+          "fat_g": 0.06,
+          "fiber_g": 0.2,
+          "protein_g": 0.6,
+          "sodium_g": 0.004,
+          "sugar_g": 7.42
+        },
+        "source_description": "Orange juice, frozen concentrate, unsweetened, diluted with 3 volume water",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen orange juice concentrate",
+          "undiluted orange concentrate",
+          "orange concentrate frozen",
+          "orange juice concentrate undiluted",
+          "citrus concentrate orange"
+        ],
+        "category_label": "fruit",
+        "description": "Undiluted frozen orange juice concentrate is a dense juice base used for beverage preparation. This USDA row reflects concentrate values per 100 g.",
+        "display_name": "Orange Juice Concentrate (Undiluted, Frozen)",
+        "fdc_id": 169923,
+        "macros": {
+          "calories": 148.0,
+          "carbs_g": 35.19,
+          "fat_g": 0.25,
+          "fiber_g": 1.0,
+          "protein_g": 2.4,
+          "sodium_g": 0.007,
+          "sugar_g": 29.68
+        },
+        "source_description": "Orange juice, frozen concentrate, unsweetened, undiluted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "orange peel",
+          "orange zest",
+          "raw orange peel",
+          "fresh orange zest",
+          "grated orange peel"
+        ],
+        "category_label": "fruit",
+        "description": "Raw orange peel is used for citrus aroma in baking, sauces, and preserves. This USDA row reflects peel values per 100 g.",
+        "display_name": "Orange Peel (Raw)",
+        "fdc_id": 169103,
+        "macros": {
+          "calories": 97.0,
+          "carbs_g": 25.0,
+          "fat_g": 0.2,
+          "fiber_g": 10.6,
+          "protein_g": 1.5,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Orange peel, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "orange grapefruit juice",
+          "unsweetened orange grapefruit juice",
+          "citrus blend juice",
+          "orange grapefruit blend",
+          "mixed citrus juice orange grapefruit"
+        ],
+        "category_label": "fruit",
+        "description": "Orange-grapefruit juice blend is an unsweetened citrus beverage used directly or in mixed drinks. This USDA row reflects juice values per 100 g.",
+        "display_name": "Orange-Grapefruit Juice (Unsweetened)",
+        "fdc_id": 169104,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 10.28,
+          "fat_g": 0.1,
+          "fiber_g": 0.1,
+          "protein_g": 0.6,
+          "sodium_g": 0.003,
+          "sugar_g": 10.18
+        },
+        "source_description": "Orange-grapefruit juice, canned or bottled, unsweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "oranges raw",
+          "commercial oranges",
+          "fresh oranges",
+          "table oranges",
+          "orange fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw oranges from commercial varieties are used for fresh eating and juicing. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Oranges (Commercial Varieties, Raw)",
+        "fdc_id": 169097,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 11.75,
+          "fat_g": 0.12,
+          "fiber_g": 2.4,
+          "protein_g": 0.94,
+          "sodium_g": 0.0,
+          "sugar_g": 9.35
+        },
+        "source_description": "Oranges, raw, all commercial varieties",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "california valencia oranges",
+          "valencia oranges raw",
+          "raw california oranges",
+          "valencia orange fruit",
+          "juice oranges valencia"
+        ],
+        "category_label": "fruit",
+        "description": "Raw California Valencia oranges are commonly used for juicing and fresh consumption. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Oranges (California Valencia, Raw)",
+        "fdc_id": 169916,
+        "macros": {
+          "calories": 49.0,
+          "carbs_g": 11.89,
+          "fat_g": 0.3,
+          "fiber_g": 2.5,
+          "protein_g": 1.04,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oranges, raw, California, valencias",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "florida oranges raw",
+          "raw florida oranges",
+          "florida orange fruit",
+          "fresh florida oranges",
+          "juice oranges florida"
+        ],
+        "category_label": "fruit",
+        "description": "Raw Florida oranges are citrus fruits used for juice and fresh eating. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Oranges (Florida, Raw)",
+        "fdc_id": 169918,
+        "macros": {
+          "calories": 46.0,
+          "carbs_g": 11.54,
+          "fat_g": 0.21,
+          "fiber_g": 2.4,
+          "protein_g": 0.7,
+          "sodium_g": 0.0,
+          "sugar_g": 9.14
+        },
+        "source_description": "Oranges, raw, Florida",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "whole oranges with peel",
+          "raw orange with peel",
+          "orange peel-on fruit",
+          "entire orange raw",
+          "zested whole orange"
+        ],
+        "category_label": "fruit",
+        "description": "Raw oranges with peel are represented here for whole-fruit culinary uses and processing references. This USDA row reflects peel-on fruit values per 100 g.",
+        "display_name": "Oranges (With Peel, Raw)",
+        "fdc_id": 169919,
+        "macros": {
+          "calories": 63.0,
+          "carbs_g": 15.5,
+          "fat_g": 0.3,
+          "fiber_g": 4.5,
+          "protein_g": 1.3,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oranges, raw, with peel",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned papaya heavy syrup",
+          "drained canned papaya",
+          "papaya in heavy syrup",
+          "sweetened canned papaya",
+          "papaya canned drained"
+        ],
+        "category_label": "fruit",
+        "description": "Papaya canned in heavy syrup and drained is used in desserts and fruit mixes. This USDA row reflects drained fruit values per 100 g.",
+        "display_name": "Papaya (Canned, Heavy Syrup, Drained)",
+        "fdc_id": 169927,
+        "macros": {
+          "calories": 206.0,
+          "carbs_g": 55.83,
+          "fat_g": 0.55,
+          "fiber_g": 1.5,
+          "protein_g": 0.14,
+          "sodium_g": 0.009,
+          "sugar_g": 52.2
+        },
+        "source_description": "Papaya, canned, heavy syrup, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "papaya nectar",
+          "canned papaya nectar",
+          "papaya juice nectar",
+          "papaya beverage nectar",
+          "bottled papaya nectar"
+        ],
+        "category_label": "fruit",
+        "description": "Canned papaya nectar is a prepared tropical fruit beverage. This USDA row reflects nectar values per 100 g.",
+        "display_name": "Papaya Nectar (Canned)",
+        "fdc_id": 169107,
+        "macros": {
+          "calories": 57.0,
+          "carbs_g": 14.51,
+          "fat_g": 0.15,
+          "fiber_g": 0.6,
+          "protein_g": 0.17,
+          "sodium_g": 0.005,
+          "sugar_g": 13.91
+        },
+        "source_description": "Papaya nectar, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "freeze-dried parsley",
+          "dried parsley flakes",
+          "parsley dried",
+          "parsley herb dried",
+          "dehydrated parsley"
+        ],
+        "category_label": "vegetable",
+        "description": "Freeze-dried parsley is an herb seasoning used in soups, sauces, and finishing blends. This USDA row reflects dry herb values per 100 g.",
+        "display_name": "Parsley (Freeze-dried)",
+        "fdc_id": 170486,
+        "macros": {
+          "calories": 271.0,
+          "carbs_g": 42.38,
+          "fat_g": 5.2,
+          "fiber_g": 32.7,
+          "protein_g": 31.3,
+          "sodium_g": 0.391,
+          "sugar_g": 0.0
+        },
+        "source_description": "Parsley, freeze-dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "fresh parsley",
+          "raw parsley",
+          "flat leaf parsley",
+          "curly parsley",
+          "parsley leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Fresh parsley is an aromatic herb used for garnish, sauces, and flavoring in savory dishes. This USDA row reflects fresh herb values per 100 g.",
+        "display_name": "Parsley (Fresh)",
+        "fdc_id": 170416,
+        "macros": {
+          "calories": 36.0,
+          "carbs_g": 6.33,
+          "fat_g": 0.79,
+          "fiber_g": 3.3,
+          "protein_g": 2.97,
+          "sodium_g": 0.056,
+          "sugar_g": 0.85
+        },
+        "source_description": "Parsley, fresh",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "purple passion fruit",
+          "granadilla purple",
+          "raw passion fruit",
+          "passionfruit purple",
+          "fresh passion fruit purple"
+        ],
+        "category_label": "fruit",
+        "description": "Purple passion fruit is an aromatic tropical fruit used in desserts, juices, and sauces. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Passion Fruit (Purple, Raw)",
+        "fdc_id": 169108,
+        "macros": {
+          "calories": 97.0,
+          "carbs_g": 23.38,
+          "fat_g": 0.7,
+          "fiber_g": 10.4,
+          "protein_g": 2.2,
+          "sodium_g": 0.028,
+          "sugar_g": 11.2
+        },
+        "source_description": "Passion-fruit, (granadilla), purple, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "purple passion fruit juice",
+          "raw passionfruit juice purple",
+          "passion juice purple",
+          "granadilla juice purple",
+          "fresh passionfruit juice"
+        ],
+        "category_label": "fruit",
+        "description": "Raw purple passion-fruit juice is used in beverages and tropical sauce preparations. This USDA row reflects raw juice values per 100 g.",
+        "display_name": "Passion Fruit Juice (Purple, Raw)",
+        "fdc_id": 169109,
+        "macros": {
+          "calories": 51.0,
+          "carbs_g": 13.6,
+          "fat_g": 0.05,
+          "fiber_g": 0.2,
+          "protein_g": 0.39,
+          "sodium_g": 0.006,
+          "sugar_g": 13.4
+        },
+        "source_description": "Passion-fruit juice, purple, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow passion fruit juice",
+          "raw passionfruit juice yellow",
+          "passion juice yellow",
+          "yellow granadilla juice",
+          "fresh yellow passionfruit juice"
+        ],
+        "category_label": "fruit",
+        "description": "Raw yellow passion-fruit juice is used in beverages and desserts for tart aroma. This USDA row reflects raw juice values per 100 g.",
+        "display_name": "Passion Fruit Juice (Yellow, Raw)",
+        "fdc_id": 169110,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 14.45,
+          "fat_g": 0.18,
+          "fiber_g": 0.2,
+          "protein_g": 0.67,
+          "sodium_g": 0.006,
+          "sugar_g": 14.25
+        },
+        "source_description": "Passion-fruit juice, yellow, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dry pasta enriched",
+          "uncooked enriched pasta",
+          "enriched semolina pasta dry",
+          "dry macaroni pasta enriched",
+          "pasta dry"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry enriched pasta is a pantry staple cooked for mains, sides, and soups. This USDA row reflects dry pasta values per 100 g.",
+        "display_name": "Pasta (Dry, Enriched)",
+        "fdc_id": 169736,
+        "macros": {
+          "calories": 371.0,
+          "carbs_g": 74.67,
+          "fat_g": 1.51,
+          "fiber_g": 3.2,
+          "protein_g": 13.04,
+          "sodium_g": 0.006,
+          "sugar_g": 2.67
+        },
+        "source_description": "Pasta, dry, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "fresh refrigerated pasta cooked",
+          "cooked fresh pasta plain",
+          "prepared refrigerated pasta",
+          "fresh pasta cooked",
+          "plain fresh pasta"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked plain fresh-refrigerated pasta is a prepared pasta product used in quick meals. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Pasta (Fresh-Refrigerated, Plain, Cooked)",
+        "fdc_id": 169728,
+        "macros": {
+          "calories": 131.0,
+          "carbs_g": 24.93,
+          "fat_g": 1.05,
+          "fiber_g": 0.0,
+          "protein_g": 5.15,
+          "sodium_g": 0.006,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pasta, fresh-refrigerated, plain, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spinach fresh pasta cooked",
+          "cooked spinach refrigerated pasta",
+          "prepared spinach pasta fresh",
+          "fresh spinach pasta",
+          "refrigerated spinach pasta"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked spinach fresh-refrigerated pasta is a prepared flavored pasta product. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Pasta (Fresh-Refrigerated, Spinach, Cooked)",
+        "fdc_id": 169730,
+        "macros": {
+          "calories": 130.0,
+          "carbs_g": 25.04,
+          "fat_g": 0.94,
+          "fiber_g": 0.0,
+          "protein_g": 5.06,
+          "sodium_g": 0.006,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pasta, fresh-refrigerated, spinach, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "gluten-free corn pasta cooked",
+          "cooked gluten free pasta",
+          "corn pasta cooked",
+          "gf pasta cooked",
+          "prepared corn gluten-free pasta"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked gluten-free corn pasta is used in pasta dishes for gluten-free diets. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Pasta (Gluten-Free Corn, Cooked)",
+        "fdc_id": 168900,
+        "macros": {
+          "calories": 126.0,
+          "carbs_g": 27.91,
+          "fat_g": 0.73,
+          "fiber_g": 4.8,
+          "protein_g": 2.63,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pasta, gluten-free, corn, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "homemade egg pasta cooked",
+          "cooked homemade pasta with egg",
+          "fresh egg pasta cooked",
+          "egg noodle pasta homemade",
+          "prepared homemade egg pasta"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked homemade egg pasta is a prepared noodle product used in traditional pasta dishes. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Pasta (Homemade Egg, Cooked)",
+        "fdc_id": 168901,
+        "macros": {
+          "calories": 130.0,
+          "carbs_g": 23.54,
+          "fat_g": 1.74,
+          "fiber_g": 0.0,
+          "protein_g": 5.28,
+          "sodium_g": 0.083,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pasta, homemade, made with egg, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "whole grain pasta cooked",
+          "51% whole wheat pasta",
+          "cooked whole wheat blend pasta",
+          "wholegrain pasta cooked",
+          "semolina whole wheat pasta cooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked whole grain pasta with 51% whole wheat is used for higher-fiber pasta dishes. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Pasta (Whole Grain 51% Wheat, Cooked)",
+        "fdc_id": 168916,
+        "macros": {
+          "calories": 159.0,
+          "carbs_g": 31.51,
+          "fat_g": 1.5,
+          "fiber_g": 4.6,
+          "protein_g": 5.82,
+          "sodium_g": 0.006,
+          "sugar_g": 0.85
+        },
+        "source_description": "Pasta, whole grain, 51% whole wheat, remaining unenriched semolina, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked pasta with salt",
+          "enriched pasta cooked salted",
+          "boiled pasta salted",
+          "pasta cooked salted water",
+          "prepared enriched pasta with salt"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked enriched pasta with added salt represents salted-boiling preparation. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Pasta (Cooked Enriched, Added Salt)",
+        "fdc_id": 169751,
+        "macros": {
+          "calories": 157.0,
+          "carbs_g": 30.59,
+          "fat_g": 0.93,
+          "fiber_g": 1.8,
+          "protein_g": 5.8,
+          "sodium_g": 0.131,
+          "sugar_g": 0.56
+        },
+        "source_description": "Pasta, cooked, enriched, with added salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked pasta no salt",
+          "unenriched pasta cooked unsalted",
+          "boiled pasta unsalted",
+          "pasta cooked without added salt",
+          "prepared unsalted pasta"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked unenriched pasta without added salt represents unsalted-boiling preparation. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Pasta (Cooked Unenriched, No Added Salt)",
+        "fdc_id": 168928,
+        "macros": {
+          "calories": 158.0,
+          "carbs_g": 30.86,
+          "fat_g": 0.93,
+          "fiber_g": 1.8,
+          "protein_g": 5.8,
+          "sodium_g": 0.001,
+          "sugar_g": 0.56
+        },
+        "source_description": "Pasta, cooked, unenriched, without added salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned peach nectar",
+          "peach nectar with ascorbic acid",
+          "fortified peach nectar",
+          "peach juice nectar canned",
+          "peach beverage nectar"
+        ],
+        "category_label": "fruit",
+        "description": "Canned peach nectar with added ascorbic acid is a prepared fruit beverage. This USDA row reflects nectar values per 100 g.",
+        "display_name": "Peach Nectar (Canned, Ascorbic Acid)",
+        "fdc_id": 168185,
+        "macros": {
+          "calories": 50.0,
+          "carbs_g": 11.93,
+          "fat_g": 0.51,
+          "fiber_g": 0.1,
+          "protein_g": 0.21,
+          "sodium_g": 0.008,
+          "sugar_g": 11.16
+        },
+        "source_description": "Peach nectar, canned, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sucralose peach nectar",
+          "diet peach nectar canned",
+          "low-sugar peach nectar",
+          "peach nectar with sucralose",
+          "canned peach drink sucralose"
+        ],
+        "category_label": "fruit",
+        "description": "Canned peach nectar sweetened with sucralose is a reduced-sugar fruit beverage. This USDA row reflects nectar values per 100 g.",
+        "display_name": "Peach Nectar (Canned, Sucralose)",
+        "fdc_id": 169117,
+        "macros": {
+          "calories": 49.0,
+          "carbs_g": 11.61,
+          "fat_g": 0.57,
+          "fiber_g": 0.1,
+          "protein_g": 0.1,
+          "sodium_g": 0.011,
+          "sugar_g": 12.08
+        },
+        "source_description": "Peach nectar, canned, with sucralose, without added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned peaches heavy syrup",
+          "drained canned peaches",
+          "peaches in heavy syrup",
+          "sweetened canned peaches",
+          "peaches canned drained"
+        ],
+        "category_label": "fruit",
+        "description": "Peaches canned in heavy syrup and drained are used in desserts and fruit dishes. This USDA row reflects drained fruit values per 100 g.",
+        "display_name": "Peaches (Canned, Heavy Syrup, Drained)",
+        "fdc_id": 168181,
+        "macros": {
+          "calories": 72.0,
+          "carbs_g": 18.43,
+          "fat_g": 0.18,
+          "fiber_g": 1.2,
+          "protein_g": 0.52,
+          "sodium_g": 0.006,
+          "sugar_g": 14.66
+        },
+        "source_description": "Peaches, canned, heavy syrup, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned peaches juice pack",
+          "peaches in juice pack",
+          "peaches canned solids and liquids",
+          "juice-packed peaches",
+          "canned peaches in juice"
+        ],
+        "category_label": "fruit",
+        "description": "Peaches canned in juice pack are a lighter preserved fruit option used in desserts and salads. This USDA row reflects solids-and-liquids values per 100 g.",
+        "display_name": "Peaches (Canned, Juice Pack)",
+        "fdc_id": 169930,
+        "macros": {
+          "calories": 44.0,
+          "carbs_g": 11.57,
+          "fat_g": 0.03,
+          "fiber_g": 1.3,
+          "protein_g": 0.63,
+          "sodium_g": 0.004,
+          "sugar_g": 10.27
+        },
+        "source_description": "Peaches, canned, juice pack, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "low-moisture dehydrated peaches",
+          "dehydrated peaches sulfured",
+          "semi-dry peaches",
+          "dehydrated peach slices",
+          "peaches dehydrated"
+        ],
+        "category_label": "fruit",
+        "description": "Low-moisture dehydrated peaches are preserved fruit slices used in snacks and baking. This USDA row reflects uncooked dehydrated values per 100 g.",
+        "display_name": "Peaches (Dehydrated, Low-Moisture)",
+        "fdc_id": 169932,
+        "macros": {
+          "calories": 325.0,
+          "carbs_g": 83.18,
+          "fat_g": 1.03,
+          "fiber_g": 0.0,
+          "protein_g": 4.89,
+          "sodium_g": 0.01,
+          "sugar_g": 0.0
+        },
+        "source_description": "Peaches, dehydrated (low-moisture), sulfured, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried peaches sulfured",
+          "sulfured dried peaches",
+          "dehydrated peaches dried",
+          "dry peach slices",
+          "preserved dried peaches"
+        ],
+        "category_label": "fruit",
+        "description": "Sulfured dried peaches are preserved fruit used for snacking and baking. This USDA row reflects uncooked dried values per 100 g.",
+        "display_name": "Peaches (Dried, Sulfured)",
+        "fdc_id": 169934,
+        "macros": {
+          "calories": 239.0,
+          "carbs_g": 61.33,
+          "fat_g": 0.76,
+          "fiber_g": 8.2,
+          "protein_g": 3.61,
+          "sodium_g": 0.007,
+          "sugar_g": 41.74
+        },
+        "source_description": "Peaches, dried, sulfured, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweetened frozen peaches",
+          "frozen sliced peaches",
+          "peaches frozen sweetened",
+          "prepared frozen peach slices",
+          "frozen peach fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Sweetened frozen sliced peaches are used in smoothies, desserts, and baked fruit dishes. This USDA row reflects frozen fruit values per 100 g.",
+        "display_name": "Peaches (Frozen, Sliced, Sweetened)",
+        "fdc_id": 169116,
+        "macros": {
+          "calories": 94.0,
+          "carbs_g": 23.98,
+          "fat_g": 0.13,
+          "fiber_g": 1.8,
+          "protein_g": 0.63,
+          "sodium_g": 0.006,
+          "sugar_g": 22.18
+        },
+        "source_description": "Peaches, frozen, sliced, sweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 009: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spiced canned peaches",
+          "peaches spiced heavy syrup",
+          "canned spiced peach slices",
+          "spiced peach pack canned",
+          "peaches in spiced syrup"
+        ],
+        "category_label": "fruit",
+        "description": "Spiced peaches canned in heavy syrup are a sweet prepared fruit product used in desserts and sides. This USDA row reflects solids-and-liquids values per 100 g.",
+        "display_name": "Peaches (Spiced, Canned, Heavy Syrup)",
+        "fdc_id": 169114,
+        "macros": {
+          "calories": 75.0,
+          "carbs_g": 20.08,
+          "fat_g": 0.1,
+          "fiber_g": 1.3,
+          "protein_g": 0.41,
+          "sodium_g": 0.004,
+          "sugar_g": 18.78
+        },
+        "source_description": "Peaches, spiced, canned, heavy syrup pack, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

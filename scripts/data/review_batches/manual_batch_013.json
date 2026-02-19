@@ -1,0 +1,1756 @@
+{
+  "batch_id": 13,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "safflower seed meal",
+          "defatted safflower meal",
+          "safflower meal",
+          "safflower seed flour meal",
+          "safflower protein meal"
+        ],
+        "category_label": "nut_seed",
+        "description": "Partially defatted safflower seed meal is used in specialty flour blends and processing applications. This USDA row reflects meal values per 100 g.",
+        "display_name": "Safflower Seed Meal",
+        "fdc_id": 170559,
+        "macros": {
+          "calories": 342.0,
+          "carbs_g": 48.73,
+          "fat_g": 2.39,
+          "fiber_g": 0.0,
+          "protein_g": 35.62,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, safflower seed meal, partially defatted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tahini",
+          "sesame butter",
+          "sesame paste",
+          "ground sesame paste",
+          "sesame tahini"
+        ],
+        "category_label": "nut_seed",
+        "description": "Sesame butter (tahini) is a ground sesame paste used in hummus, sauces, dressings, and baking. This USDA row reflects paste values per 100 g.",
+        "display_name": "Sesame Butter (Tahini)",
+        "fdc_id": 170191,
+        "macros": {
+          "calories": 586.0,
+          "carbs_g": 24.05,
+          "fat_g": 50.87,
+          "fiber_g": 5.5,
+          "protein_g": 18.08,
+          "sodium_g": 0.012,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sesame butter, paste",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sesame"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw tahini",
+          "stone-ground tahini",
+          "sesame tahini",
+          "sesame paste raw",
+          "ground sesame kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw stone-ground tahini is sesame seed paste used for dips, dressings, and sauces. This USDA row reflects raw tahini values per 100 g.",
+        "display_name": "Tahini (Raw Stone-Ground)",
+        "fdc_id": 169410,
+        "macros": {
+          "calories": 570.0,
+          "carbs_g": 26.19,
+          "fat_g": 48.0,
+          "fiber_g": 9.3,
+          "protein_g": 17.81,
+          "sodium_g": 0.074,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sesame butter, tahini, from raw and stone ground kernels",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sesame"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesame flour",
+          "low-fat sesame flour",
+          "defatted sesame flour",
+          "sesame seed flour",
+          "sesame protein flour"
+        ],
+        "category_label": "nut_seed",
+        "description": "Low-fat sesame flour is a partially defatted flour used in specialty baking and grain blends. This USDA row reflects flour values per 100 g.",
+        "display_name": "Sesame Flour (Low-Fat)",
+        "fdc_id": 170560,
+        "macros": {
+          "calories": 333.0,
+          "carbs_g": 35.51,
+          "fat_g": 1.75,
+          "fiber_g": 0.0,
+          "protein_g": 50.14,
+          "sodium_g": 0.039,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sesame flour, low-fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesame meal",
+          "defatted sesame meal",
+          "sesame seed meal",
+          "sesame press cake meal",
+          "sesame protein meal"
+        ],
+        "category_label": "nut_seed",
+        "description": "Partially defatted sesame meal is a byproduct of oil extraction used in blended flours and processed formulations. This USDA row reflects meal values per 100 g.",
+        "display_name": "Sesame Meal (Partially Defatted)",
+        "fdc_id": 170561,
+        "macros": {
+          "calories": 567.0,
+          "carbs_g": 26.04,
+          "fat_g": 48.0,
+          "fiber_g": 0.0,
+          "protein_g": 16.96,
+          "sodium_g": 0.039,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sesame meal, partially defatted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesame kernels",
+          "hulled sesame seeds",
+          "decorticated sesame seeds",
+          "dried sesame kernels",
+          "white sesame seeds"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried decorticated sesame kernels are hulled sesame seeds used in baking, toppings, and tahini production. This USDA row reflects dried seed values per 100 g.",
+        "display_name": "Sesame Seed Kernels (Dried)",
+        "fdc_id": 169412,
+        "macros": {
+          "calories": 631.0,
+          "carbs_g": 11.73,
+          "fat_g": 61.21,
+          "fiber_g": 11.6,
+          "protein_g": 20.45,
+          "sodium_g": 0.047,
+          "sugar_g": 0.48
+        },
+        "source_description": "Seeds, sesame seed kernels, dried (decorticated)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sesame"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesame seeds",
+          "whole sesame seeds",
+          "dried sesame seeds",
+          "raw sesame seeds",
+          "unhulled sesame seeds"
+        ],
+        "category_label": "nut_seed",
+        "description": "Whole dried sesame seeds are used in baking, spice blends, stir-fries, and seed toppings. This USDA row reflects dried seed values per 100 g.",
+        "display_name": "Sesame Seeds (Whole, Dried)",
+        "fdc_id": 170150,
+        "macros": {
+          "calories": 573.0,
+          "carbs_g": 23.45,
+          "fat_g": 49.67,
+          "fiber_g": 11.8,
+          "protein_g": 17.73,
+          "sodium_g": 0.011,
+          "sugar_g": 0.3
+        },
+        "source_description": "Seeds, sesame seeds, whole, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sesame"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sisymbrium seeds",
+          "hedge mustard seeds",
+          "dried sisymbrium seeds",
+          "whole sisymbrium seeds",
+          "mustard-family seeds"
+        ],
+        "category_label": "herb_spice",
+        "description": "Sisymbrium seeds are mustard-family seeds used in regional spice and seed preparations. This USDA row reflects dried whole seed values per 100 g.",
+        "display_name": "Sisymbrium Seeds (Dried)",
+        "fdc_id": 168587,
+        "macros": {
+          "calories": 318.0,
+          "carbs_g": 58.26,
+          "fat_g": 4.6,
+          "fiber_g": 0.0,
+          "protein_g": 12.14,
+          "sodium_g": 0.092,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sisymbrium sp. seeds, whole, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "seed_spice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sunflower butter",
+          "sunbutter",
+          "sunflower seed spread",
+          "sunflower seed paste",
+          "seed butter sunflower"
+        ],
+        "category_label": "nut_seed",
+        "description": "Sunflower seed butter is a nut-free spread used in sandwiches, sauces, and baking. This USDA row reflects unsalted seed-butter values per 100 g.",
+        "display_name": "Sunflower Seed Butter",
+        "fdc_id": 170155,
+        "macros": {
+          "calories": 617.0,
+          "carbs_g": 23.32,
+          "fat_g": 55.2,
+          "fiber_g": 5.7,
+          "protein_g": 17.28,
+          "sodium_g": 0.003,
+          "sugar_g": 10.54
+        },
+        "source_description": "Seeds, sunflower seed butter, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sunflower"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sunflower seed flour",
+          "defatted sunflower flour",
+          "sunflower meal flour",
+          "sunflower protein flour",
+          "partially defatted sunflower flour"
+        ],
+        "category_label": "nut_seed",
+        "description": "Sunflower seed flour is used in gluten-free baking and blended flour mixes. This USDA row reflects partially defatted flour values per 100 g.",
+        "display_name": "Sunflower Seed Flour",
+        "fdc_id": 170156,
+        "macros": {
+          "calories": 326.0,
+          "carbs_g": 35.83,
+          "fat_g": 1.61,
+          "fiber_g": 5.2,
+          "protein_g": 48.06,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sunflower seed flour, partially defatted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted sunflower kernels",
+          "sunflower seed kernels",
+          "dry roasted sunflower seeds",
+          "shelled sunflower seeds",
+          "unsalted sunflower kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry-roasted sunflower kernels are used in salads, trail mixes, toppings, and baking. This USDA row reflects roasted kernel values per 100 g.",
+        "display_name": "Sunflower Kernels (Dry Roasted)",
+        "fdc_id": 170563,
+        "macros": {
+          "calories": 582.0,
+          "carbs_g": 24.07,
+          "fat_g": 49.8,
+          "fiber_g": 11.1,
+          "protein_g": 19.33,
+          "sodium_g": 0.003,
+          "sugar_g": 2.73
+        },
+        "source_description": "Seeds, sunflower seed kernels, dry roasted, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sunflower"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried sunflower kernels",
+          "raw sunflower kernels",
+          "sunflower seed kernels dried",
+          "shelled sunflower seeds",
+          "sunflower kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried sunflower seed kernels are used in baking, granola, and seed mixes. This USDA row reflects dried kernel values per 100 g.",
+        "display_name": "Sunflower Kernels (Dried)",
+        "fdc_id": 170562,
+        "macros": {
+          "calories": 584.0,
+          "carbs_g": 20.0,
+          "fat_g": 51.46,
+          "fiber_g": 8.6,
+          "protein_g": 20.78,
+          "sodium_g": 0.009,
+          "sugar_g": 2.62
+        },
+        "source_description": "Seeds, sunflower seed kernels, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sunflower"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "watermelon seed kernels",
+          "shelled watermelon seeds",
+          "dried watermelon seeds",
+          "egusi-style watermelon seeds",
+          "watermelon seed meats"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried watermelon seed kernels are edible seeds used roasted, ground, or in regional sauces and stews. This USDA row reflects dried kernel values per 100 g.",
+        "display_name": "Watermelon Seed Kernels (Dried)",
+        "fdc_id": 169407,
+        "macros": {
+          "calories": 557.0,
+          "carbs_g": 15.31,
+          "fat_g": 47.37,
+          "fiber_g": 0.0,
+          "protein_g": 28.33,
+          "sodium_g": 0.099,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, watermelon seed kernels, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "enriched semolina",
+          "durum semolina enriched",
+          "semolina flour enriched",
+          "semolina wheat",
+          "enriched durum flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Enriched semolina is coarse durum wheat flour used for pasta, breads, and puddings. This USDA row reflects dry semolina values per 100 g.",
+        "display_name": "Semolina (Enriched)",
+        "fdc_id": 169715,
+        "macros": {
+          "calories": 360.0,
+          "carbs_g": 72.83,
+          "fat_g": 1.05,
+          "fiber_g": 3.9,
+          "protein_g": 12.68,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Semolina, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "semolina",
+          "durum semolina",
+          "semolina flour",
+          "unenriched semolina",
+          "coarse durum flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Unenriched semolina is coarse durum wheat flour used for pasta dough, breads, and porridges. This USDA row reflects dry semolina values per 100 g.",
+        "display_name": "Semolina (Unenriched)",
+        "fdc_id": 168933,
+        "macros": {
+          "calories": 360.0,
+          "carbs_g": 72.83,
+          "fat_g": 1.05,
+          "fiber_g": 3.9,
+          "protein_g": 12.68,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Semolina, unenriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "serrano pepper",
+          "serrano chile",
+          "fresh serrano",
+          "green serrano pepper",
+          "raw serrano pepper"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw serrano pepper is a hot chili used in salsas, sauces, pickles, and chopped garnishes. This USDA row reflects raw pepper values per 100 g.",
+        "display_name": "Serrano Pepper (Raw)",
+        "fdc_id": 169395,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 6.7,
+          "fat_g": 0.44,
+          "fiber_g": 3.7,
+          "protein_g": 1.74,
+          "sodium_g": 0.01,
+          "sugar_g": 3.83
+        },
+        "source_description": "Peppers, serrano, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "pepper"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesame oil",
+          "toasted sesame oil",
+          "cooking sesame oil",
+          "salad sesame oil",
+          "gingelly oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Sesame oil is used for stir-frying, finishing, marinades, and dressings. This USDA row reflects oil values per 100 g.",
+        "display_name": "Sesame Oil",
+        "fdc_id": 171016,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, sesame, salad or cooking",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesame dressing",
+          "sesame seed dressing",
+          "asian sesame dressing",
+          "toasted sesame dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Sesame seed dressing is a prepared condiment used for salads, slaws, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Sesame Seed Dressing",
+        "fdc_id": 171006,
+        "macros": {
+          "calories": 443.0,
+          "carbs_g": 8.6,
+          "fat_g": 45.2,
+          "fiber_g": 1.0,
+          "protein_g": 3.1,
+          "sodium_g": 1.0,
+          "sugar_g": 8.32
+        },
+        "source_description": "Salad dressing, sesame seed dressing, regular",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sesbania flower",
+          "vegetable hummingbird flower",
+          "agati flower",
+          "sesban flower",
+          "raw sesbania blossoms"
+        ],
+        "category_label": "vegetable",
+        "description": "Sesbania flowers are edible blossoms used in regional stir-fries, soups, and egg dishes. This USDA row reflects raw flower values per 100 g.",
+        "display_name": "Sesbania Flower (Raw)",
+        "fdc_id": 168459,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 6.73,
+          "fat_g": 0.04,
+          "fiber_g": 0.0,
+          "protein_g": 1.28,
+          "sodium_g": 0.015,
+          "sugar_g": 0.0
+        },
+        "source_description": "Sesbania flower, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "flower"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "freeze-dried shallots",
+          "dried shallot flakes",
+          "shallot flakes",
+          "dehydrated shallots",
+          "shallot seasoning"
+        ],
+        "category_label": "vegetable",
+        "description": "Freeze-dried shallots are a concentrated allium ingredient used in seasonings, sauces, and soups. This USDA row reflects dried shallot values per 100 g.",
+        "display_name": "Shallots (Freeze-Dried)",
+        "fdc_id": 170082,
+        "macros": {
+          "calories": 348.0,
+          "carbs_g": 80.7,
+          "fat_g": 0.5,
+          "fiber_g": 15.7,
+          "protein_g": 12.3,
+          "sodium_g": 0.059,
+          "sugar_g": 38.16
+        },
+        "source_description": "Shallots, freeze-dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sheep milk",
+          "ewe milk",
+          "raw sheep milk",
+          "fluid sheep milk",
+          "milk sheep"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Fluid sheep milk is a rich dairy ingredient used in cheeses, yogurt, and desserts. This USDA row reflects milk values per 100 g.",
+        "display_name": "Sheep Milk (Fluid)",
+        "fdc_id": 170882,
+        "macros": {
+          "calories": 108.0,
+          "carbs_g": 5.36,
+          "fat_g": 7.0,
+          "fiber_g": 0.0,
+          "protein_g": 5.98,
+          "sodium_g": 0.044,
+          "sugar_g": 0.0
+        },
+        "source_description": "Milk, sheep, fluid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "milk"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "shellie beans canned",
+          "shelled beans canned",
+          "canned shell beans",
+          "canned shellie beans",
+          "beans canned"
+        ],
+        "category_label": "grain_legume",
+        "description": "Canned shellie beans are cooked beans packed with liquid, used in soups, stews, and side dishes. This USDA row reflects solids-and-liquids values per 100 g.",
+        "display_name": "Shellie Beans (Canned)",
+        "fdc_id": 169960,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 6.19,
+          "fat_g": 0.19,
+          "fiber_g": 3.4,
+          "protein_g": 1.76,
+          "sodium_g": 0.334,
+          "sugar_g": 0.63
+        },
+        "source_description": "Beans, shellie, canned, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "bean"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vegetable shortening",
+          "household shortening",
+          "solid shortening",
+          "baking shortening",
+          "hydrogenated shortening"
+        ],
+        "category_label": "oil_fat",
+        "description": "Household shortening is a solid fat used in pie crusts, biscuits, and frying. This USDA row reflects shortening values per 100 g.",
+        "display_name": "Shortening (Household)",
+        "fdc_id": 171011,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Shortening, household, soybean (partially hydrogenated)-cottonseed (partially hydrogenated)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "shortening"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "snail meat",
+          "raw snail",
+          "escargot raw",
+          "edible snail",
+          "mollusk snail"
+        ],
+        "category_label": "protein",
+        "description": "Raw snail is a mollusk protein used in stews, garlic-butter preparations, and regional dishes. This USDA row reflects raw snail values per 100 g.",
+        "display_name": "Snail (Raw)",
+        "fdc_id": 167744,
+        "macros": {
+          "calories": 90.0,
+          "carbs_g": 2.0,
+          "fat_g": 1.4,
+          "fiber_g": 0.0,
+          "protein_g": 16.1,
+          "sodium_g": 0.07,
+          "sugar_g": 0.0
+        },
+        "source_description": "Mollusks, snail, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "shellfish"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "soba noodles",
+          "cooked soba",
+          "buckwheat noodles cooked",
+          "japanese soba",
+          "boiled soba noodles"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked soba noodles are Japanese buckwheat noodles used in soups, chilled noodle dishes, and stir-fries. This USDA row reflects cooked noodle values per 100 g.",
+        "display_name": "Soba Noodles (Cooked)",
+        "fdc_id": 168907,
+        "macros": {
+          "calories": 99.0,
+          "carbs_g": 21.44,
+          "fat_g": 0.1,
+          "fiber_g": 0.0,
+          "protein_g": 5.06,
+          "sodium_g": 0.06,
+          "sugar_g": 0.0
+        },
+        "source_description": "Noodles, japanese, soba, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "noodle"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "somen noodles",
+          "cooked somen",
+          "japanese wheat noodles",
+          "thin wheat noodles",
+          "boiled somen"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked somen noodles are thin Japanese wheat noodles used chilled, in broths, and stir-fried dishes. This USDA row reflects cooked noodle values per 100 g.",
+        "display_name": "Somen Noodles (Cooked)",
+        "fdc_id": 168909,
+        "macros": {
+          "calories": 131.0,
+          "carbs_g": 27.54,
+          "fat_g": 0.18,
+          "fiber_g": 0.0,
+          "protein_g": 4.0,
+          "sodium_g": 0.161,
+          "sugar_g": 0.0
+        },
+        "source_description": "Noodles, japanese, somen, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "noodle"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "whole-grain sorghum flour",
+          "sorghum flour",
+          "milo flour",
+          "gluten-free sorghum flour",
+          "whole sorghum meal"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-grain sorghum flour is used in gluten-free baking and flatbreads. This USDA row reflects flour values per 100 g.",
+        "display_name": "Sorghum Flour (Whole-Grain)",
+        "fdc_id": 168943,
+        "macros": {
+          "calories": 359.0,
+          "carbs_g": 76.64,
+          "fat_g": 3.34,
+          "fiber_g": 6.6,
+          "protein_g": 8.43,
+          "sodium_g": 0.003,
+          "sugar_g": 1.94
+        },
+        "source_description": "Sorghum flour, whole-grain",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "black bean soup condensed",
+          "canned black bean soup",
+          "condensed bean soup",
+          "black bean soup base",
+          "prepared bean soup"
+        ],
+        "category_label": "condiment",
+        "description": "Condensed canned black bean soup can be used as a cooking base for stews, casseroles, and sauces. This USDA row reflects condensed soup values per 100 g.",
+        "display_name": "Black Bean Soup (Condensed, Canned)",
+        "fdc_id": 171141,
+        "macros": {
+          "calories": 91.0,
+          "carbs_g": 15.42,
+          "fat_g": 1.32,
+          "fiber_g": 6.8,
+          "protein_g": 4.83,
+          "sodium_g": 0.97,
+          "sugar_g": 2.49
+        },
+        "source_description": "Soup, black bean, canned, condensed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Soups, Sauces, and Gravies",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "soup"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "light sour cream",
+          "reduced-fat sour cream",
+          "low-fat sour cream",
+          "sour cream",
+          "cultured cream light"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Light sour cream is a cultured dairy ingredient used for toppings, sauces, dips, and baking. This USDA row reflects product values per 100 g.",
+        "display_name": "Sour Cream (Light)",
+        "fdc_id": 173443,
+        "macros": {
+          "calories": 136.0,
+          "carbs_g": 7.1,
+          "fat_g": 10.6,
+          "fiber_g": 0.0,
+          "protein_g": 3.5,
+          "sodium_g": 0.083,
+          "sugar_g": 0.22
+        },
+        "source_description": "Sour cream, light",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "sour_cream"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "soy curd cheese",
+          "tofu cheese",
+          "bean curd cheese",
+          "soybean curd",
+          "soy curd"
+        ],
+        "category_label": "protein",
+        "description": "Soy curd cheese is a tofu-like soybean curd product used in stir-fries, soups, and braises. This USDA row reflects product values per 100 g.",
+        "display_name": "Soy Curd Cheese",
+        "fdc_id": 169083,
+        "macros": {
+          "calories": 151.0,
+          "carbs_g": 6.9,
+          "fat_g": 8.1,
+          "fiber_g": 0.0,
+          "protein_g": 12.5,
+          "sodium_g": 0.02,
+          "sugar_g": 1.6
+        },
+        "source_description": "Soybean, curd cheese",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "tofu"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "partially hydrogenated soybean oil",
+          "soy shortening oil",
+          "soybean oil",
+          "salad soybean oil",
+          "cooking soybean oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Partially hydrogenated soybean oil is a processed cooking fat used in commercial baking and frying. This USDA row reflects oil values per 100 g.",
+        "display_name": "Soybean Oil (Partially Hydrogenated)",
+        "fdc_id": 171012,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, soybean, salad or cooking, (partially hydrogenated)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green soybeans",
+          "edamame raw",
+          "raw edamame",
+          "young soybeans",
+          "soybeans green"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw green soybeans (edamame) are used boiled, steamed, stir-fried, and in grain bowls. This USDA row reflects raw soybean values per 100 g.",
+        "display_name": "Green Soybeans (Raw)",
+        "fdc_id": 169282,
+        "macros": {
+          "calories": 147.0,
+          "carbs_g": 11.05,
+          "fat_g": 6.8,
+          "fiber_g": 4.2,
+          "protein_g": 12.95,
+          "sodium_g": 0.015,
+          "sugar_g": 0.0
+        },
+        "source_description": "Soybeans, green, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "edamame"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "soybean sprouts",
+          "sprouted soybeans",
+          "raw soybean sprouts",
+          "soy sprouts",
+          "bean sprouts soybean"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw soybean sprouts are used in salads, stir-fries, soups, and side dishes. This USDA row reflects raw sprout values per 100 g.",
+        "display_name": "Soybean Sprouts (Raw)",
+        "fdc_id": 169284,
+        "macros": {
+          "calories": 122.0,
+          "carbs_g": 9.57,
+          "fat_g": 6.7,
+          "fiber_g": 1.1,
+          "protein_g": 13.09,
+          "sodium_g": 0.014,
+          "sugar_g": 0.0
+        },
+        "source_description": "Soybeans, mature seeds, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sprout"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "protein-fortified spaghetti",
+          "high-protein spaghetti dry",
+          "dry fortified spaghetti",
+          "enriched spaghetti dry",
+          "spaghetti dry"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry protein-fortified spaghetti is a pasta ingredient used before boiling for pasta dishes. This USDA row reflects dry pasta values per 100 g.",
+        "display_name": "Spaghetti (Protein-Fortified, Dry)",
+        "fdc_id": 168937,
+        "macros": {
+          "calories": 374.0,
+          "carbs_g": 65.65,
+          "fat_g": 2.23,
+          "fiber_g": 2.4,
+          "protein_g": 21.78,
+          "sodium_g": 0.008,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spaghetti, protein-fortified, dry, enriched (n x 6.25)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "pasta"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "protein-fortified spaghetti cooked",
+          "cooked fortified spaghetti",
+          "boiled spaghetti fortified",
+          "high-protein spaghetti cooked",
+          "spaghetti cooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked protein-fortified spaghetti is prepared pasta used in sauced and baked dishes. This USDA row reflects cooked pasta values per 100 g.",
+        "display_name": "Spaghetti (Protein-Fortified, Cooked)",
+        "fdc_id": 168934,
+        "macros": {
+          "calories": 164.0,
+          "carbs_g": 30.88,
+          "fat_g": 0.21,
+          "fiber_g": 2.0,
+          "protein_g": 8.86,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spaghetti, protein-fortified, cooked, enriched (n x 6.25)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "pasta"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spinach spaghetti cooked",
+          "green spaghetti",
+          "cooked spinach pasta",
+          "spinach noodles cooked",
+          "spaghetti spinach"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked spinach spaghetti is a flavored pasta used with light sauces and vegetable-forward dishes. This USDA row reflects cooked pasta values per 100 g.",
+        "display_name": "Spaghetti (Spinach, Cooked)",
+        "fdc_id": 168912,
+        "macros": {
+          "calories": 130.0,
+          "carbs_g": 26.15,
+          "fat_g": 0.63,
+          "fiber_g": 0.0,
+          "protein_g": 4.58,
+          "sodium_g": 0.014,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spaghetti, spinach, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "pasta"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spelt grain",
+          "uncooked spelt",
+          "whole spelt berries",
+          "hulled spelt",
+          "spelt wheat"
+        ],
+        "category_label": "grain_legume",
+        "description": "Uncooked spelt is an ancient wheat grain used in pilafs, soups, and grain salads after simmering. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Spelt (Uncooked)",
+        "fdc_id": 169745,
+        "macros": {
+          "calories": 338.0,
+          "carbs_g": 70.19,
+          "fat_g": 2.43,
+          "fiber_g": 10.7,
+          "protein_g": 14.57,
+          "sodium_g": 0.008,
+          "sugar_g": 6.82
+        },
+        "source_description": "Spelt, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bay leaf",
+          "dried bay leaves",
+          "laurel leaf",
+          "bay leaves spice",
+          "whole bay leaf"
+        ],
+        "category_label": "herb_spice",
+        "description": "Dried bay leaf is an aromatic spice used to flavor stocks, soups, stews, and braises. This USDA row reflects dried spice values per 100 g.",
+        "display_name": "Bay Leaf (Dried)",
+        "fdc_id": 170917,
+        "macros": {
+          "calories": 313.0,
+          "carbs_g": 74.97,
+          "fat_g": 8.36,
+          "fiber_g": 26.3,
+          "protein_g": 7.61,
+          "sodium_g": 0.023,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, bay leaf",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "bay_leaf"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "caraway seed",
+          "caraway seeds",
+          "whole caraway",
+          "caraway spice",
+          "carum carvi seed"
+        ],
+        "category_label": "herb_spice",
+        "description": "Caraway seed is a warm aromatic spice used in rye bread, pickling, and braised dishes. This USDA row reflects spice values per 100 g.",
+        "display_name": "Caraway Seed",
+        "fdc_id": 170918,
+        "macros": {
+          "calories": 333.0,
+          "carbs_g": 49.9,
+          "fat_g": 14.59,
+          "fiber_g": 38.0,
+          "protein_g": 19.77,
+          "sodium_g": 0.017,
+          "sugar_g": 0.64
+        },
+        "source_description": "Spices, caraway seed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "seed_spice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cardamom",
+          "ground cardamom",
+          "cardamom spice",
+          "elaichi",
+          "green cardamom"
+        ],
+        "category_label": "herb_spice",
+        "description": "Cardamom is a fragrant spice used in curries, baked goods, tea, and rice dishes. This USDA row reflects spice values per 100 g.",
+        "display_name": "Cardamom",
+        "fdc_id": 170919,
+        "macros": {
+          "calories": 311.0,
+          "carbs_g": 68.47,
+          "fat_g": 6.7,
+          "fiber_g": 28.0,
+          "protein_g": 10.76,
+          "sodium_g": 0.018,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, cardamom",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "cardamom"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "celery seed",
+          "celery seeds spice",
+          "ground celery seed",
+          "celery seed seasoning",
+          "wild celery seed"
+        ],
+        "category_label": "herb_spice",
+        "description": "Celery seed is a savory spice used in pickling blends, dressings, and dry rubs. This USDA row reflects spice values per 100 g.",
+        "display_name": "Celery Seed",
+        "fdc_id": 170920,
+        "macros": {
+          "calories": 392.0,
+          "carbs_g": 41.35,
+          "fat_g": 25.27,
+          "fiber_g": 11.8,
+          "protein_g": 18.07,
+          "sodium_g": 0.16,
+          "sugar_g": 0.67
+        },
+        "source_description": "Spices, celery seed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "seed_spice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried coriander leaf",
+          "dried cilantro",
+          "coriander leaf spice",
+          "cilantro dried",
+          "coriander herb"
+        ],
+        "category_label": "herb_spice",
+        "description": "Dried coriander leaf (cilantro) is used to season soups, stews, and spice blends. This USDA row reflects dried herb values per 100 g.",
+        "display_name": "Coriander Leaf (Dried)",
+        "fdc_id": 170921,
+        "macros": {
+          "calories": 279.0,
+          "carbs_g": 52.1,
+          "fat_g": 4.78,
+          "fiber_g": 10.4,
+          "protein_g": 21.93,
+          "sodium_g": 0.211,
+          "sugar_g": 7.27
+        },
+        "source_description": "Spices, coriander leaf, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "cilantro"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "coriander seed",
+          "coriander seeds",
+          "ground coriander",
+          "dhania seed",
+          "coriander spice"
+        ],
+        "category_label": "herb_spice",
+        "description": "Coriander seed is a citrusy spice used in curries, pickles, marinades, and rubs. This USDA row reflects spice values per 100 g.",
+        "display_name": "Coriander Seed",
+        "fdc_id": 170922,
+        "macros": {
+          "calories": 298.0,
+          "carbs_g": 54.99,
+          "fat_g": 17.77,
+          "fiber_g": 41.9,
+          "protein_g": 12.37,
+          "sodium_g": 0.035,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, coriander seed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "seed_spice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cumin seed",
+          "cumin seeds",
+          "ground cumin",
+          "jeera",
+          "cumin spice"
+        ],
+        "category_label": "herb_spice",
+        "description": "Cumin seed is an earthy spice used in chili, curries, taco seasoning, and bean dishes. This USDA row reflects spice values per 100 g.",
+        "display_name": "Cumin Seed",
+        "fdc_id": 170923,
+        "macros": {
+          "calories": 375.0,
+          "carbs_g": 44.24,
+          "fat_g": 22.27,
+          "fiber_g": 10.5,
+          "protein_g": 17.81,
+          "sodium_g": 0.168,
+          "sugar_g": 2.25
+        },
+        "source_description": "Spices, cumin seed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "cumin"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "curry powder",
+          "yellow curry powder",
+          "curry spice blend",
+          "ground curry mix",
+          "curry seasoning"
+        ],
+        "category_label": "herb_spice",
+        "description": "Curry powder is a blended spice mix used for curries, soups, marinades, and roasted vegetables. This USDA row reflects spice blend values per 100 g.",
+        "display_name": "Curry Powder",
+        "fdc_id": 170924,
+        "macros": {
+          "calories": 325.0,
+          "carbs_g": 55.83,
+          "fat_g": 14.01,
+          "fiber_g": 53.2,
+          "protein_g": 14.29,
+          "sodium_g": 0.052,
+          "sugar_g": 2.76
+        },
+        "source_description": "Spices, curry powder",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "curry_powder"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dill seed",
+          "dill seeds spice",
+          "whole dill seed",
+          "dill spice",
+          "anethum seed"
+        ],
+        "category_label": "herb_spice",
+        "description": "Dill seed is an aromatic spice used in pickling, breads, and savory seasoning blends. This USDA row reflects spice values per 100 g.",
+        "display_name": "Dill Seed",
+        "fdc_id": 170925,
+        "macros": {
+          "calories": 305.0,
+          "carbs_g": 55.17,
+          "fat_g": 14.54,
+          "fiber_g": 21.1,
+          "protein_g": 15.98,
+          "sodium_g": 0.02,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, dill seed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "seed_spice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ground ginger",
+          "ginger powder",
+          "dry ginger powder",
+          "powdered ginger spice",
+          "ginger spice"
+        ],
+        "category_label": "herb_spice",
+        "description": "Ground ginger is a pungent spice used in baking, curries, marinades, and tea blends. This USDA row reflects ground spice values per 100 g.",
+        "display_name": "Ginger (Ground)",
+        "fdc_id": 170926,
+        "macros": {
+          "calories": 335.0,
+          "carbs_g": 71.62,
+          "fat_g": 4.24,
+          "fiber_g": 14.1,
+          "protein_g": 8.98,
+          "sodium_g": 0.027,
+          "sugar_g": 3.39
+        },
+        "source_description": "Spices, ginger, ground",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "ginger"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ground mace",
+          "mace spice",
+          "javitri powder",
+          "mace powder",
+          "mace seasoning"
+        ],
+        "category_label": "herb_spice",
+        "description": "Ground mace is a warm aromatic spice used in baking, sauces, sausages, and cream dishes. This USDA row reflects ground spice values per 100 g.",
+        "display_name": "Mace (Ground)",
+        "fdc_id": 170927,
+        "macros": {
+          "calories": 475.0,
+          "carbs_g": 50.5,
+          "fat_g": 32.38,
+          "fiber_g": 20.2,
+          "protein_g": 6.71,
+          "sodium_g": 0.08,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, mace, ground",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "spice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried marjoram",
+          "marjoram herb",
+          "marjoram leaves dried",
+          "sweet marjoram",
+          "marjoram spice"
+        ],
+        "category_label": "herb_spice",
+        "description": "Dried marjoram is an herb used in soups, sauces, dressings, and Mediterranean seasoning blends. This USDA row reflects dried herb values per 100 g.",
+        "display_name": "Marjoram (Dried)",
+        "fdc_id": 170928,
+        "macros": {
+          "calories": 271.0,
+          "carbs_g": 60.56,
+          "fat_g": 7.04,
+          "fiber_g": 40.3,
+          "protein_g": 12.66,
+          "sodium_g": 0.077,
+          "sugar_g": 4.09
+        },
+        "source_description": "Spices, marjoram, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "herb"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 013: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ground mustard seed",
+          "mustard powder",
+          "mustard seed spice",
+          "yellow mustard powder",
+          "dry mustard"
+        ],
+        "category_label": "herb_spice",
+        "description": "Ground mustard seed is a pungent spice used in rubs, dressings, pickles, and sauces. This USDA row reflects ground spice values per 100 g.",
+        "display_name": "Mustard Seed (Ground)",
+        "fdc_id": 170929,
+        "macros": {
+          "calories": 508.0,
+          "carbs_g": 28.09,
+          "fat_g": 36.24,
+          "fiber_g": 12.2,
+          "protein_g": 26.08,
+          "sodium_g": 0.013,
+          "sugar_g": 6.79
+        },
+        "source_description": "Spices, mustard seed, ground",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "mustard"
+      }
+    }
+  ]
+}

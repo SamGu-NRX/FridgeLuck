@@ -1,0 +1,1756 @@
+{
+  "batch_id": 4,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rye grain",
+          "raw rye grain",
+          "whole rye berries",
+          "rye kernels",
+          "uncooked rye grain"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw rye grain is a whole cereal grain used in breads, porridges, and grain salads after cooking. This USDA row reflects dry rye grain values per 100 g.",
+        "display_name": "Rye Grain (Raw)",
+        "fdc_id": 168884,
+        "macros": {
+          "calories": 338.0,
+          "carbs_g": 75.86,
+          "fat_g": 1.63,
+          "fiber_g": 15.1,
+          "protein_g": 10.34,
+          "sodium_g": 0.002,
+          "sugar_g": 0.98
+        },
+        "source_description": "Rye grain",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sorghum grain",
+          "raw sorghum grain",
+          "whole sorghum",
+          "milo grain",
+          "uncooked sorghum"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw sorghum grain is a gluten-free cereal grain used for porridges, side dishes, and milling. This USDA row reflects dry sorghum values per 100 g.",
+        "display_name": "Sorghum Grain (Raw)",
+        "fdc_id": 169716,
+        "macros": {
+          "calories": 329.0,
+          "carbs_g": 72.09,
+          "fat_g": 3.46,
+          "fiber_g": 6.7,
+          "protein_g": 10.62,
+          "sodium_g": 0.002,
+          "sugar_g": 2.53
+        },
+        "source_description": "Sorghum grain",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spinach souffle",
+          "prepared spinach souffle",
+          "baked spinach souffle",
+          "spinach egg casserole",
+          "spinach savory souffle"
+        ],
+        "category_label": "vegetable",
+        "description": "Spinach souffle is a prepared mixed dish used as a side or casserole-style entree component. This USDA row reflects prepared dish values per 100 g.",
+        "display_name": "Spinach Souffle",
+        "fdc_id": 170494,
+        "macros": {
+          "calories": 172.0,
+          "carbs_g": 5.9,
+          "fat_g": 12.95,
+          "fiber_g": 0.7,
+          "protein_g": 7.89,
+          "sodium_g": 0.566,
+          "sugar_g": 1.85
+        },
+        "source_description": "Spinach souffle",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tofu yogurt",
+          "soy yogurt tofu",
+          "non-dairy tofu yogurt",
+          "plant-based yogurt tofu",
+          "soy cultured tofu"
+        ],
+        "category_label": "grain_legume",
+        "description": "Tofu yogurt is a plant-based cultured product used as a dairy alternative in snacks and smoothies. This USDA row reflects prepared tofu yogurt values per 100 g.",
+        "display_name": "Tofu Yogurt",
+        "fdc_id": 167722,
+        "macros": {
+          "calories": 94.0,
+          "carbs_g": 15.96,
+          "fat_g": 1.8,
+          "fiber_g": 0.2,
+          "protein_g": 3.5,
+          "sodium_g": 0.035,
+          "sugar_g": 1.24
+        },
+        "source_description": "Tofu yogurt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tomato powder",
+          "dehydrated tomato powder",
+          "dry tomato powder",
+          "tomato seasoning powder",
+          "powdered tomato"
+        ],
+        "category_label": "vegetable",
+        "description": "Tomato powder is a dehydrated tomato ingredient used for seasoning blends, sauces, and dry mixes. This USDA row reflects dry powder values per 100 g.",
+        "display_name": "Tomato Powder",
+        "fdc_id": 170461,
+        "macros": {
+          "calories": 302.0,
+          "carbs_g": 74.68,
+          "fat_g": 0.44,
+          "fiber_g": 16.5,
+          "protein_g": 12.91,
+          "sodium_g": 0.134,
+          "sugar_g": 43.9
+        },
+        "source_description": "Tomato powder",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vegetarian fillets",
+          "plant-based fillets",
+          "meatless fillets",
+          "soy protein fillets",
+          "vegetarian cutlets"
+        ],
+        "category_label": "grain_legume",
+        "description": "Vegetarian fillets are prepared plant-protein products used as meat alternatives in cooked meals. This USDA row reflects product values per 100 g.",
+        "display_name": "Vegetarian Fillets",
+        "fdc_id": 169068,
+        "macros": {
+          "calories": 290.0,
+          "carbs_g": 9.0,
+          "fat_g": 18.0,
+          "fiber_g": 6.1,
+          "protein_g": 23.0,
+          "sodium_g": 0.49,
+          "sugar_g": 0.8
+        },
+        "source_description": "Vegetarian fillets",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vital wheat gluten",
+          "wheat gluten flour",
+          "seitan base",
+          "gluten powder",
+          "wheat protein isolate"
+        ],
+        "category_label": "grain_legume",
+        "description": "Vital wheat gluten is a concentrated wheat protein ingredient used in bread dough and seitan preparation. This USDA row reflects dry ingredient values per 100 g.",
+        "display_name": "Vital Wheat Gluten",
+        "fdc_id": 168147,
+        "macros": {
+          "calories": 370.0,
+          "carbs_g": 13.79,
+          "fat_g": 1.85,
+          "fiber_g": 0.6,
+          "protein_g": 75.16,
+          "sodium_g": 0.029,
+          "sugar_g": 0.0
+        },
+        "source_description": "Vital wheat gluten",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yeast extract spread",
+          "marmite-style spread",
+          "savory yeast spread",
+          "umami yeast spread",
+          "yeast paste spread"
+        ],
+        "category_label": "vegetable",
+        "description": "Yeast extract spread is a savory concentrated spread used as a condiment and flavor booster. This USDA row reflects spread values per 100 g.",
+        "display_name": "Yeast Extract Spread",
+        "fdc_id": 167717,
+        "macros": {
+          "calories": 185.0,
+          "carbs_g": 20.42,
+          "fat_g": 0.9,
+          "fiber_g": 6.5,
+          "protein_g": 23.88,
+          "sodium_g": 3.38,
+          "sugar_g": 1.6
+        },
+        "source_description": "Yeast extract spread",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "abiyuch fruit",
+          "abiyuch",
+          "raw abiyuch",
+          "tropical abiyuch fruit",
+          "abiyuch fresh"
+        ],
+        "category_label": "fruit",
+        "description": "Abiyuch is a tropical fruit ingredient represented in USDA legacy data. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Abiyuch Fruit (Raw)",
+        "fdc_id": 167782,
+        "macros": {
+          "calories": 69.0,
+          "carbs_g": 17.6,
+          "fat_g": 0.1,
+          "fiber_g": 5.3,
+          "protein_g": 1.5,
+          "sodium_g": 0.02,
+          "sugar_g": 8.55
+        },
+        "source_description": "Abiyuch, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "alfalfa sprouts",
+          "raw alfalfa sprouts",
+          "sprouted alfalfa",
+          "alfalfa microgreens",
+          "fresh alfalfa sprouts"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw alfalfa sprouts are used in salads, sandwiches, and wraps for texture and freshness. This USDA row reflects raw sprout values per 100 g.",
+        "display_name": "Alfalfa Sprouts (Raw)",
+        "fdc_id": 168384,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 2.1,
+          "fat_g": 0.69,
+          "fiber_g": 1.9,
+          "protein_g": 3.99,
+          "sodium_g": 0.006,
+          "sugar_g": 0.2
+        },
+        "source_description": "Alfalfa seeds, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "all-purpose flour",
+          "all purpose flour",
+          "ap flour",
+          "plain flour",
+          "white wheat flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "All-purpose wheat flour is a staple baking ingredient for breads, cakes, sauces, and batters. This USDA row reflects unenriched white flour values per 100 g.",
+        "display_name": "All-Purpose Wheat Flour",
+        "fdc_id": 169761,
+        "macros": {
+          "calories": 364.0,
+          "carbs_g": 76.31,
+          "fat_g": 0.98,
+          "fiber_g": 2.7,
+          "protein_g": 10.33,
+          "sodium_g": 0.002,
+          "sugar_g": 0.27
+        },
+        "source_description": "Wheat flour, white, all-purpose, unenriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dry amaranth grain",
+          "raw amaranth",
+          "whole amaranth",
+          "uncooked amaranth",
+          "amaranth seed grain"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry amaranth grain is a gluten-free pseudocereal used for porridge, pilafs, and grain blends after cooking. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Amaranth Grain (Dry)",
+        "fdc_id": 170682,
+        "macros": {
+          "calories": 371.0,
+          "carbs_g": 65.25,
+          "fat_g": 7.02,
+          "fiber_g": 6.7,
+          "protein_g": 13.56,
+          "sodium_g": 0.004,
+          "sugar_g": 1.69
+        },
+        "source_description": "Amaranth grain, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "amaranth leaves",
+          "raw amaranth greens",
+          "callaloo leaves",
+          "amaranth greens",
+          "fresh amaranth leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Amaranth leaves are edible greens used in sautés, soups, and braised vegetable dishes. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Amaranth Leaves (Raw)",
+        "fdc_id": 168385,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 4.02,
+          "fat_g": 0.33,
+          "fiber_g": 0.0,
+          "protein_g": 2.46,
+          "sodium_g": 0.02,
+          "sugar_g": 0.0
+        },
+        "source_description": "Amaranth leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "apple juice",
+          "canned apple juice",
+          "bottled apple juice",
+          "unsweetened apple juice",
+          "apple juice fortified"
+        ],
+        "category_label": "fruit",
+        "description": "Canned or bottled apple juice is a prepared fruit juice beverage used directly or in recipes. This USDA row reflects juice values per 100 g.",
+        "display_name": "Apple Juice (Canned/Bottled)",
+        "fdc_id": 167771,
+        "macros": {
+          "calories": 46.0,
+          "carbs_g": 11.3,
+          "fat_g": 0.13,
+          "fiber_g": 0.2,
+          "protein_g": 0.1,
+          "sodium_g": 0.004,
+          "sugar_g": 9.62
+        },
+        "source_description": "Apple juice, canned or bottled, unsweetened, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "reconstituted apple juice concentrate",
+          "diluted apple concentrate juice",
+          "frozen concentrate apple juice prepared",
+          "prepared apple concentrate juice",
+          "apple juice from concentrate"
+        ],
+        "category_label": "fruit",
+        "description": "This row represents frozen apple juice concentrate diluted with water for drinking use. Nutrition values are for the reconstituted beverage per 100 g.",
+        "display_name": "Apple Juice (Frozen Concentrate, Reconstituted)",
+        "fdc_id": 167775,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 11.54,
+          "fat_g": 0.1,
+          "fiber_g": 0.1,
+          "protein_g": 0.14,
+          "sodium_g": 0.007,
+          "sugar_g": 0.0
+        },
+        "source_description": "Apple juice, frozen concentrate, unsweetened, diluted with 3 volume water, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen apple juice concentrate",
+          "undiluted apple concentrate",
+          "apple concentrate frozen",
+          "apple juice concentrate undiluted",
+          "apple concentrate syrup"
+        ],
+        "category_label": "fruit",
+        "description": "Undiluted frozen apple juice concentrate is a dense juice base used for beverage preparation. This USDA row reflects concentrate values per 100 g.",
+        "display_name": "Apple Juice Concentrate (Frozen, Undiluted)",
+        "fdc_id": 168188,
+        "macros": {
+          "calories": 166.0,
+          "carbs_g": 41.0,
+          "fat_g": 0.37,
+          "fiber_g": 0.0,
+          "protein_g": 0.51,
+          "sodium_g": 0.025,
+          "sugar_g": 38.83
+        },
+        "source_description": "Apple juice, frozen concentrate, unsweetened, undiluted, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "golden delicious apples",
+          "golden delicious apple",
+          "raw golden delicious apple",
+          "apple golden delicious",
+          "fresh golden delicious"
+        ],
+        "category_label": "fruit",
+        "description": "Golden Delicious apples are sweet mild apples used for snacking, baking, and salads. This USDA row reflects raw apple with skin values per 100 g.",
+        "display_name": "Apples (Golden Delicious, Raw)",
+        "fdc_id": 168202,
+        "macros": {
+          "calories": 57.0,
+          "carbs_g": 13.6,
+          "fat_g": 0.15,
+          "fiber_g": 2.4,
+          "protein_g": 0.28,
+          "sodium_g": 0.002,
+          "sugar_g": 10.04
+        },
+        "source_description": "Apples, raw, golden delicious, with skin",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweetened canned applesauce",
+          "canned applesauce",
+          "applesauce sweetened",
+          "apple puree sweetened",
+          "jarred applesauce sweetened"
+        ],
+        "category_label": "fruit",
+        "description": "Sweetened canned applesauce is used as a side, snack, and baking moisture ingredient. This USDA row reflects prepared product values per 100 g.",
+        "display_name": "Applesauce (Canned, Sweetened)",
+        "fdc_id": 167773,
+        "macros": {
+          "calories": 76.0,
+          "carbs_g": 19.91,
+          "fat_g": 0.18,
+          "fiber_g": 1.2,
+          "protein_g": 0.18,
+          "sodium_g": 0.028,
+          "sugar_g": 0.0
+        },
+        "source_description": "Applesauce, canned, sweetened, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "unsweetened canned applesauce",
+          "applesauce unsweetened",
+          "canned unsweetened applesauce",
+          "apple puree unsweetened",
+          "plain applesauce canned"
+        ],
+        "category_label": "fruit",
+        "description": "Unsweetened canned applesauce is used for snacks and reduced-sugar baking substitutions. This USDA row reflects prepared product values per 100 g.",
+        "display_name": "Applesauce (Canned, Unsweetened)",
+        "fdc_id": 167772,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 11.27,
+          "fat_g": 0.1,
+          "fiber_g": 1.1,
+          "protein_g": 0.17,
+          "sodium_g": 0.002,
+          "sugar_g": 9.39
+        },
+        "source_description": "Applesauce, canned, unsweetened, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned apricots heavy syrup",
+          "drained canned apricots",
+          "heavy syrup apricots",
+          "apricots canned drained",
+          "sweetened canned apricots"
+        ],
+        "category_label": "fruit",
+        "description": "These apricots are canned in heavy syrup and drained, typically used in desserts and fruit fillings. This USDA row reflects drained fruit values per 100 g.",
+        "display_name": "Apricots (Canned, Heavy Syrup, Drained)",
+        "fdc_id": 167768,
+        "macros": {
+          "calories": 83.0,
+          "carbs_g": 21.31,
+          "fat_g": 0.11,
+          "fiber_g": 2.7,
+          "protein_g": 0.64,
+          "sodium_g": 0.004,
+          "sugar_g": 18.65
+        },
+        "source_description": "Apricots, canned, heavy syrup, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "arrowhead root",
+          "sagittaria root",
+          "chinese arrowhead",
+          "raw arrowhead tuber",
+          "arrowhead tuber"
+        ],
+        "category_label": "vegetable",
+        "description": "Arrowhead root is a starchy aquatic tuber used in stir-fries and braised dishes. This USDA row reflects raw root values per 100 g.",
+        "display_name": "Arrowhead Root (Raw)",
+        "fdc_id": 169203,
+        "macros": {
+          "calories": 99.0,
+          "carbs_g": 20.23,
+          "fat_g": 0.29,
+          "fiber_g": 0.0,
+          "protein_g": 5.33,
+          "sodium_g": 0.022,
+          "sugar_g": 0.0
+        },
+        "source_description": "Arrowhead, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "hass avocado",
+          "raw hass avocado",
+          "avocado hass peeled",
+          "fresh hass avocado",
+          "ripe hass avocado"
+        ],
+        "category_label": "fruit",
+        "description": "Hass avocado is a creamy fruit used in salads, spreads, and sauces like guacamole. This USDA row reflects peeled raw Hass values per 100 g.",
+        "display_name": "Avocado (Hass, Raw)",
+        "fdc_id": 2710824,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 8.3235,
+          "fat_g": 20.31,
+          "fiber_g": 0.0,
+          "protein_g": 1.8125,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Avocado, Hass, peeled, raw",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "avocado"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "no-salt baked beans",
+          "baked beans unsalted",
+          "canned baked beans no salt",
+          "salt-free baked beans",
+          "baked beans low sodium"
+        ],
+        "category_label": "grain_legume",
+        "description": "No-salt-added baked beans are a prepared legume side used in breakfast and savory dishes. This USDA row reflects canned product values per 100 g.",
+        "display_name": "Baked Beans (No Salt Added)",
+        "fdc_id": 168128,
+        "macros": {
+          "calories": 105.0,
+          "carbs_g": 20.49,
+          "fat_g": 0.4,
+          "fiber_g": 5.5,
+          "protein_g": 4.8,
+          "sodium_g": 0.001,
+          "sugar_g": 7.78
+        },
+        "source_description": "Beans, baked, canned, no salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bamboo shoots",
+          "raw bamboo shoots",
+          "fresh bamboo shoots",
+          "bamboo shoot tips",
+          "young bamboo shoots"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw bamboo shoots are used in stir-fries, curries, and soups after proper cooking. This USDA row reflects raw shoot values per 100 g.",
+        "display_name": "Bamboo Shoots (Raw)",
+        "fdc_id": 169210,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 5.2,
+          "fat_g": 0.3,
+          "fiber_g": 2.2,
+          "protein_g": 2.6,
+          "sodium_g": 0.004,
+          "sugar_g": 3.0
+        },
+        "source_description": "Bamboo shoots, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw beef brisket lean",
+          "beef brisket lean",
+          "brisket lean raw",
+          "beef brisket trimmed",
+          "beef brisket cut"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean beef brisket is used for braising, smoking, and slow cooking. This USDA row reflects separable lean raw values per 100 g.",
+        "display_name": "Beef Brisket (Raw, Lean Only)",
+        "fdc_id": 168607,
+        "macros": {
+          "calories": 157.0,
+          "carbs_g": 0.6,
+          "fat_g": 7.37,
+          "fiber_g": 0.0,
+          "protein_g": 20.72,
+          "sodium_g": 0.079,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, brisket, whole, separable lean only, all grades, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef chuck country-style ribs",
+          "country style beef ribs",
+          "chuck ribs boneless",
+          "beef country ribs lean",
+          "raw country-style chuck ribs"
+        ],
+        "category_label": "protein",
+        "description": "Raw boneless chuck country-style ribs are used for braising and slow-cook roasting. This USDA row reflects trimmed lean values per 100 g.",
+        "display_name": "Beef Chuck Country-Style Ribs (Raw, Lean)",
+        "fdc_id": 170800,
+        "macros": {
+          "calories": 152.0,
+          "carbs_g": 0.0,
+          "fat_g": 7.67,
+          "fiber_g": 0.0,
+          "protein_g": 20.87,
+          "sodium_g": 0.081,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, chuck eye Country-Style ribs, boneless, separable lean only, trimmed to 0\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef chuck eye roast",
+          "raw chuck eye roast",
+          "chuck eye beef roast",
+          "chuck roast eye cut",
+          "lean chuck eye roast"
+        ],
+        "category_label": "protein",
+        "description": "Raw chuck eye roast is a flavorful beef roast used for slow roasting and braising. This USDA row reflects trimmed lean values per 100 g.",
+        "display_name": "Beef Chuck Eye Roast (Raw, Lean)",
+        "fdc_id": 168742,
+        "macros": {
+          "calories": 133.0,
+          "carbs_g": 0.0,
+          "fat_g": 5.71,
+          "fiber_g": 0.0,
+          "protein_g": 20.52,
+          "sodium_g": 0.086,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, chuck eye roast, boneless, America's Beef Roast, separable lean only, trimmed to 0\" fat, select, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef chuck eye steak",
+          "raw chuck eye steak",
+          "chuck eye beef steak",
+          "lean chuck eye steak",
+          "boneless chuck eye steak"
+        ],
+        "category_label": "protein",
+        "description": "Raw chuck eye steak is a budget-friendly beef steak for grilling or pan-searing. This USDA row reflects trimmed lean values per 100 g.",
+        "display_name": "Beef Chuck Eye Steak (Raw, Lean)",
+        "fdc_id": 170802,
+        "macros": {
+          "calories": 160.0,
+          "carbs_g": 0.0,
+          "fat_g": 8.29,
+          "fiber_g": 0.0,
+          "protein_g": 21.31,
+          "sodium_g": 0.07,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, chuck eye steak, boneless, separable lean only, trimmed to 0\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef chuck roast",
+          "raw chuck roast",
+          "chuck pot roast",
+          "beef shoulder chuck roast",
+          "trimmed chuck roast"
+        ],
+        "category_label": "protein",
+        "description": "Raw chuck roast is a classic braising cut used for pot roast and slow-cook dishes. This USDA row reflects raw values per 100 g.",
+        "display_name": "Beef Chuck Roast (Raw)",
+        "fdc_id": 168672,
+        "macros": {
+          "calories": 230.0,
+          "carbs_g": 0.0,
+          "fat_g": 17.33,
+          "fiber_g": 0.0,
+          "protein_g": 17.37,
+          "sodium_g": 0.069,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, chuck, blade roast, separable lean and fat, trimmed to 1/8\" fat, select, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef flank steak",
+          "raw flank steak",
+          "lean flank steak",
+          "flank beef cut",
+          "trimmed flank steak"
+        ],
+        "category_label": "protein",
+        "description": "Raw flank steak is a lean long-grain cut used for grilling, slicing, and stir-fry. This USDA row reflects trimmed lean values per 100 g.",
+        "display_name": "Beef Flank Steak (Raw, Lean)",
+        "fdc_id": 168609,
+        "macros": {
+          "calories": 149.0,
+          "carbs_g": 0.0,
+          "fat_g": 6.29,
+          "fiber_g": 0.0,
+          "protein_g": 21.72,
+          "sodium_g": 0.057,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, flank, steak, separable lean only, trimmed to 0\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef loin steak",
+          "raw loin steak",
+          "top loin beef steak",
+          "loin strip steak",
+          "beef loin cut"
+        ],
+        "category_label": "protein",
+        "description": "Raw beef loin steak is a tender grilling cut used for steaks and pan-seared dishes. This USDA row reflects raw values per 100 g.",
+        "display_name": "Beef Loin Steak (Raw)",
+        "fdc_id": 168719,
+        "macros": {
+          "calories": 224.0,
+          "carbs_g": 0.0,
+          "fat_g": 15.04,
+          "fiber_g": 0.0,
+          "protein_g": 20.59,
+          "sodium_g": 0.052,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, loin, top loin, separable lean and fat, trimmed to 1/8\" fat, select, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked ribeye roast",
+          "roasted beef ribeye",
+          "ribeye roast cooked",
+          "beef ribeye roast lean cooked",
+          "cooked rib eye roast"
+        ],
+        "category_label": "protein",
+        "description": "Cooked ribeye roast is a rich beef roast used for sliced entrees and leftovers. This USDA row reflects cooked roasted lean values per 100 g.",
+        "display_name": "Beef Ribeye Roast (Cooked, Lean)",
+        "fdc_id": 170837,
+        "macros": {
+          "calories": 219.0,
+          "carbs_g": 0.0,
+          "fat_g": 12.29,
+          "fiber_g": 0.0,
+          "protein_g": 27.03,
+          "sodium_g": 0.07,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, rib eye roast, bone-in, lip-on, separable lean only, trimmed to 1/8\" fat, select, cooked, roasted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw ribeye roast",
+          "beef ribeye roast raw",
+          "rib eye roast raw",
+          "raw ribeye cut",
+          "beef rib roast lean raw"
+        ],
+        "category_label": "protein",
+        "description": "Raw ribeye roast is a high-flavor beef roast used for oven roasting and carving. This USDA row reflects raw lean values per 100 g.",
+        "display_name": "Beef Ribeye Roast (Raw, Lean)",
+        "fdc_id": 170838,
+        "macros": {
+          "calories": 155.0,
+          "carbs_g": 0.0,
+          "fat_g": 7.64,
+          "fiber_g": 0.0,
+          "protein_g": 21.65,
+          "sodium_g": 0.063,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, rib eye steak/roast, bone-in, lip-on, separable lean only, trimmed to 1/8\" fat, select, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef ribeye steak",
+          "raw ribeye steak",
+          "rib eye steak",
+          "lean ribeye steak",
+          "beef steak ribeye"
+        ],
+        "category_label": "protein",
+        "description": "Raw ribeye steak is a marbled beef steak commonly grilled or pan-seared. This USDA row reflects trimmed lean values per 100 g.",
+        "display_name": "Beef Ribeye Steak (Raw, Lean)",
+        "fdc_id": 168621,
+        "macros": {
+          "calories": 149.0,
+          "carbs_g": 0.0,
+          "fat_g": 6.57,
+          "fiber_g": 0.0,
+          "protein_g": 21.17,
+          "sodium_g": 0.052,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, rib eye, small end (ribs 10-12), separable lean only, trimmed to 0\" fat, select, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef round steak",
+          "raw round steak",
+          "top round steak",
+          "round beef cut",
+          "lean round steak"
+        ],
+        "category_label": "protein",
+        "description": "Raw round steak is a lean beef cut used for braising, roasting, or thin slicing. This USDA row reflects raw values per 100 g.",
+        "display_name": "Beef Round Steak (Raw)",
+        "fdc_id": 168694,
+        "macros": {
+          "calories": 195.0,
+          "carbs_g": 0.0,
+          "fat_g": 11.92,
+          "fiber_g": 0.0,
+          "protein_g": 20.56,
+          "sodium_g": 0.054,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, round, full cut, separable lean and fat, trimmed to 1/8\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef shank",
+          "raw beef shank",
+          "shank crosscuts beef",
+          "osso buco beef shank",
+          "lean beef shank"
+        ],
+        "category_label": "protein",
+        "description": "Raw beef shank is a collagen-rich cut used for braises, soups, and stews. This USDA row reflects trimmed lean values per 100 g.",
+        "display_name": "Beef Shank (Raw, Lean)",
+        "fdc_id": 169441,
+        "macros": {
+          "calories": 128.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.85,
+          "fiber_g": 0.0,
+          "protein_g": 21.75,
+          "sodium_g": 0.063,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, shank crosscuts, separable lean only, trimmed to 1/4\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef short ribs",
+          "raw short ribs beef",
+          "beef shortribs",
+          "short rib cut beef",
+          "lean beef short ribs"
+        ],
+        "category_label": "protein",
+        "description": "Raw beef short ribs are used for braising and slow-cooking preparations. This USDA row reflects raw lean short-rib values per 100 g.",
+        "display_name": "Beef Short Ribs (Raw, Lean)",
+        "fdc_id": 168614,
+        "macros": {
+          "calories": 175.0,
+          "carbs_g": 0.4,
+          "fat_g": 10.19,
+          "fiber_g": 0.0,
+          "protein_g": 19.05,
+          "sodium_g": 0.065,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, rib, shortribs, separable lean only, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef shoulder pot roast",
+          "raw shoulder pot roast",
+          "shoulder roast beef",
+          "beef shoulder steak roast",
+          "lean shoulder pot roast"
+        ],
+        "category_label": "protein",
+        "description": "Raw shoulder pot roast is a braising cut used for tender slow-cooked beef dishes. This USDA row reflects trimmed lean values per 100 g.",
+        "display_name": "Beef Shoulder Pot Roast (Raw, Lean)",
+        "fdc_id": 169481,
+        "macros": {
+          "calories": 125.0,
+          "carbs_g": 0.11,
+          "fat_g": 4.35,
+          "fiber_g": 0.0,
+          "protein_g": 21.45,
+          "sodium_g": 0.074,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, shoulder pot roast or steak, boneless, separable lean only, trimmed to 0\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "grilled shoulder steak beef",
+          "beef shoulder steak cooked",
+          "cooked beef shoulder steak",
+          "shoulder steak grilled",
+          "beef chuck shoulder steak"
+        ],
+        "category_label": "protein",
+        "description": "Cooked grilled shoulder steak is a prepared beef protein used in sliced steak dishes. This USDA row reflects cooked lean values per 100 g.",
+        "display_name": "Beef Shoulder Steak (Cooked, Grilled)",
+        "fdc_id": 168731,
+        "macros": {
+          "calories": 178.0,
+          "carbs_g": 0.0,
+          "fat_g": 6.25,
+          "fiber_g": 0.0,
+          "protein_g": 28.54,
+          "sodium_g": 0.068,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, shoulder steak, boneless, separable lean only, trimmed to 0\" fat, choice, cooked, grilled",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "t-bone steak",
+          "beef t-bone",
+          "raw t-bone steak",
+          "short loin t-bone",
+          "t-bone beef steak"
+        ],
+        "category_label": "protein",
+        "description": "Raw T-bone steak is a premium short-loin cut used for grilling and broiling. This USDA row reflects raw values per 100 g.",
+        "display_name": "Beef T-Bone Steak (Raw)",
+        "fdc_id": 168717,
+        "macros": {
+          "calories": 228.0,
+          "carbs_g": 0.0,
+          "fat_g": 15.83,
+          "fiber_g": 0.0,
+          "protein_g": 20.0,
+          "sodium_g": 0.035,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, short loin, t-bone steak, separable lean and fat, trimmed to 1/8\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef tenderloin",
+          "raw tenderloin",
+          "beef filet cut",
+          "tenderloin beef raw",
+          "whole tenderloin"
+        ],
+        "category_label": "protein",
+        "description": "Raw beef tenderloin is a tender premium cut used for roasting and filet-style preparations. This USDA row reflects raw values per 100 g.",
+        "display_name": "Beef Tenderloin (Raw)",
+        "fdc_id": 169547,
+        "macros": {
+          "calories": 274.0,
+          "carbs_g": 0.0,
+          "fat_g": 21.83,
+          "fiber_g": 0.0,
+          "protein_g": 18.15,
+          "sodium_g": 0.049,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, tenderloin, separable lean and fat, trimmed to 1/8\" fat, prime, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "top blade steak",
+          "beef top blade",
+          "raw top blade steak",
+          "flat iron style beef",
+          "lean top blade steak"
+        ],
+        "category_label": "protein",
+        "description": "Raw top blade steak is a shoulder cut often used for grilling and pan-searing. This USDA row reflects trimmed lean values per 100 g.",
+        "display_name": "Beef Top Blade Steak (Raw, Lean)",
+        "fdc_id": 168655,
+        "macros": {
+          "calories": 133.0,
+          "carbs_g": 0.0,
+          "fat_g": 5.73,
+          "fiber_g": 0.0,
+          "protein_g": 20.39,
+          "sodium_g": 0.087,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, shoulder top blade steak, boneless, separable lean only, trimmed to 0\" fat, select, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "top sirloin steak",
+          "beef top sirloin",
+          "raw top sirloin",
+          "sirloin steak beef",
+          "top sirloin cut"
+        ],
+        "category_label": "protein",
+        "description": "Raw top sirloin steak is a versatile beef cut used for grilling and skillet cooking. This USDA row reflects raw values per 100 g.",
+        "display_name": "Beef Top Sirloin Steak (Raw)",
+        "fdc_id": 168728,
+        "macros": {
+          "calories": 214.0,
+          "carbs_g": 0.0,
+          "fat_g": 14.28,
+          "fiber_g": 0.0,
+          "protein_g": 19.92,
+          "sodium_g": 0.051,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, top sirloin, steak, separable lean and fat, trimmed to 1/8\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "beef tri-tip",
+          "tri tip roast",
+          "raw tri-tip",
+          "bottom sirloin tri-tip",
+          "tri-tip beef cut"
+        ],
+        "category_label": "protein",
+        "description": "Raw tri-tip is a bottom sirloin cut used for roasting, smoking, and grilling. This USDA row reflects raw values per 100 g.",
+        "display_name": "Beef Tri-Tip (Raw)",
+        "fdc_id": 168736,
+        "macros": {
+          "calories": 174.0,
+          "carbs_g": 0.0,
+          "fat_g": 9.51,
+          "fiber_g": 0.0,
+          "protein_g": 20.64,
+          "sodium_g": 0.051,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beef, bottom sirloin, tri-tip roast, separable lean and fat, trimmed to 0\" fat, choice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Beef Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "harvard beets",
+          "canned harvard beets",
+          "sweet-sour beets canned",
+          "beets in harvard sauce",
+          "prepared harvard beets"
+        ],
+        "category_label": "vegetable",
+        "description": "Harvard beets are seasoned cooked beets in sauce, commonly used as a prepared side dish. This USDA row reflects canned solids and liquids per 100 g.",
+        "display_name": "Beets (Harvard, Canned)",
+        "fdc_id": 170479,
+        "macros": {
+          "calories": 73.0,
+          "carbs_g": 18.18,
+          "fat_g": 0.06,
+          "fiber_g": 2.5,
+          "protein_g": 0.84,
+          "sodium_g": 0.162,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beets, harvard, canned, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pickled beets canned",
+          "canned pickled beets",
+          "beets pickled",
+          "sweet pickled beets",
+          "vinegar beets canned"
+        ],
+        "category_label": "vegetable",
+        "description": "Pickled canned beets are preserved beets used in salads, sides, and relishes. This USDA row reflects canned solids and liquids per 100 g.",
+        "display_name": "Beets (Pickled, Canned)",
+        "fdc_id": 170480,
+        "macros": {
+          "calories": 65.0,
+          "carbs_g": 16.28,
+          "fat_g": 0.08,
+          "fiber_g": 0.8,
+          "protein_g": 0.8,
+          "sodium_g": 0.149,
+          "sugar_g": 11.05
+        },
+        "source_description": "Beets, pickled, canned, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bitter melon",
+          "bitter gourd",
+          "balsam pear",
+          "raw bitter melon",
+          "karela"
+        ],
+        "category_label": "vegetable",
+        "description": "Bitter melon is a bitter gourd vegetable used in stir-fries, curries, and stuffed dishes. This USDA row reflects raw pod values per 100 g.",
+        "display_name": "Bitter Melon (Raw)",
+        "fdc_id": 168393,
+        "macros": {
+          "calories": 17.0,
+          "carbs_g": 3.7,
+          "fat_g": 0.17,
+          "fiber_g": 2.8,
+          "protein_g": 1.0,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Balsam-pear (bitter gourd), pods, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bitter melon leaves",
+          "bitter gourd leaves",
+          "balsam pear leafy tips",
+          "raw bitter melon leaves",
+          "karela leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Bitter melon leaves are leafy greens used in soups and herbal-style vegetable preparations. This USDA row reflects raw leafy-tip values per 100 g.",
+        "display_name": "Bitter Melon Leaves (Raw)",
+        "fdc_id": 168391,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 3.29,
+          "fat_g": 0.69,
+          "fiber_g": 0.0,
+          "protein_g": 5.3,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Balsam-pear (bitter gourd), leafy tips, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "black beans cooked",
+          "cooked black beans no salt",
+          "unsalted black beans",
+          "boiled black beans",
+          "prepared black beans"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked black beans without salt are a staple legume used in bowls, soups, tacos, and salads. This USDA row reflects cooked bean values per 100 g.",
+        "display_name": "Black Beans (Cooked, No Salt)",
+        "fdc_id": 173735,
+        "macros": {
+          "calories": 132.0,
+          "carbs_g": 23.71,
+          "fat_g": 0.54,
+          "fiber_g": 8.7,
+          "protein_g": 8.86,
+          "sodium_g": 0.001,
+          "sugar_g": 0.32
+        },
+        "source_description": "Beans, black, mature seeds, cooked, boiled, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 004: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "black pepper",
+          "ground black pepper",
+          "pepper black spice",
+          "black pepper spice",
+          "peppercorn black ground"
+        ],
+        "category_label": "herb_spice",
+        "description": "Black pepper is a foundational spice used across savory cooking for heat and aroma. This USDA row reflects spice values per 100 g.",
+        "display_name": "Black Pepper",
+        "fdc_id": 170931,
+        "macros": {
+          "calories": 251.0,
+          "carbs_g": 63.95,
+          "fat_g": 3.26,
+          "fiber_g": 25.3,
+          "protein_g": 10.39,
+          "sodium_g": 0.02,
+          "sugar_g": 0.64
+        },
+        "source_description": "Spices, pepper, black",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

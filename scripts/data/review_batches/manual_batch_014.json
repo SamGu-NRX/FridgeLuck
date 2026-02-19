@@ -1,0 +1,1756 @@
+{
+  "batch_id": 14,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen spinach",
+          "cooked frozen spinach",
+          "boiled spinach frozen",
+          "chopped spinach frozen",
+          "leaf spinach frozen"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen cooked spinach is used in soups, casseroles, dips, and pasta fillings. This USDA row reflects cooked, drained spinach values per 100 g.",
+        "display_name": "Spinach (Frozen, Cooked)",
+        "fdc_id": 170124,
+        "macros": {
+          "calories": 34.0,
+          "carbs_g": 4.8,
+          "fat_g": 0.87,
+          "fiber_g": 3.7,
+          "protein_g": 4.01,
+          "sodium_g": 0.322,
+          "sugar_g": 0.51
+        },
+        "source_description": "Spinach, frozen, chopped or leaf, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spirulina",
+          "spirulina powder",
+          "blue-green algae",
+          "dried spirulina",
+          "spirulina algae"
+        ],
+        "category_label": "nut_seed",
+        "description": "Spirulina is a dried algae ingredient added to smoothies, powders, and nutrition blends. This USDA row reflects dried spirulina values per 100 g.",
+        "display_name": "Spirulina (Dried)",
+        "fdc_id": 170091,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 2.42,
+          "fat_g": 0.39,
+          "fiber_g": 0.4,
+          "protein_g": 5.92,
+          "sodium_g": 0.098,
+          "sugar_g": 0.3
+        },
+        "source_description": "Seaweed, spirulina, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "spray dressing",
+          "spray salad dressing",
+          "aerosol dressing",
+          "low-calorie spray dressing",
+          "salad dressing spray"
+        ],
+        "category_label": "condiment",
+        "description": "Spray-style dressing is a prepared condiment used to lightly coat salads and vegetables. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Spray-Style Dressing",
+        "fdc_id": 171036,
+        "macros": {
+          "calories": 165.0,
+          "carbs_g": 16.6,
+          "fat_g": 10.75,
+          "fiber_g": 0.3,
+          "protein_g": 0.16,
+          "sodium_g": 1.102,
+          "sugar_g": 14.29
+        },
+        "source_description": "Salad dressing, spray-style dressing, assorted flavors",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "kidney bean sprouts",
+          "sprouted kidney beans",
+          "raw kidney sprouts",
+          "kidney bean shoots",
+          "bean sprouts kidney"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw kidney bean sprouts are used in salads, stir-fries, and crunchy toppings after safe preparation. This USDA row reflects raw sprout values per 100 g.",
+        "display_name": "Kidney Bean Sprouts (Raw)",
+        "fdc_id": 169213,
+        "macros": {
+          "calories": 29.0,
+          "carbs_g": 4.1,
+          "fat_g": 0.5,
+          "fiber_g": 0.0,
+          "protein_g": 4.2,
+          "sodium_g": 0.006,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beans, kidney, mature seeds, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sprout"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned mung bean sprouts",
+          "mung sprouts canned",
+          "drained mung bean sprouts",
+          "bean sprouts canned",
+          "mung bean shoots"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned mung bean sprouts are used in stir-fries, noodle dishes, and salads. This USDA row reflects drained canned sprout values per 100 g.",
+        "display_name": "Mung Bean Sprouts (Canned)",
+        "fdc_id": 170079,
+        "macros": {
+          "calories": 12.0,
+          "carbs_g": 2.14,
+          "fat_g": 0.06,
+          "fiber_g": 0.8,
+          "protein_g": 1.4,
+          "sodium_g": 0.042,
+          "sugar_g": 0.7
+        },
+        "source_description": "Beans, mung, mature seeds, sprouted, canned, drained solids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sprout"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "navy bean sprouts",
+          "sprouted navy beans",
+          "raw navy sprouts",
+          "navy bean shoots",
+          "bean sprouts navy"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw navy bean sprouts are used in salads, stir-fries, and grain bowls. This USDA row reflects raw sprout values per 100 g.",
+        "display_name": "Navy Bean Sprouts (Raw)",
+        "fdc_id": 169139,
+        "macros": {
+          "calories": 67.0,
+          "carbs_g": 13.05,
+          "fat_g": 0.7,
+          "fiber_g": 0.0,
+          "protein_g": 6.15,
+          "sodium_g": 0.013,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beans, navy, mature seeds, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sprout"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pinto bean sprouts",
+          "sprouted pinto beans",
+          "raw pinto sprouts",
+          "pinto bean shoots",
+          "bean sprouts pinto"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw pinto bean sprouts are used as a crunchy vegetable in salads and cooked dishes. This USDA row reflects raw sprout values per 100 g.",
+        "display_name": "Pinto Bean Sprouts (Raw)",
+        "fdc_id": 170086,
+        "macros": {
+          "calories": 62.0,
+          "carbs_g": 11.6,
+          "fat_g": 0.9,
+          "fiber_g": 0.0,
+          "protein_g": 5.25,
+          "sodium_g": 0.153,
+          "sugar_g": 0.0
+        },
+        "source_description": "Beans, pinto, mature seeds, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sprout"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "squab",
+          "pigeon meat raw",
+          "raw squab meat",
+          "young pigeon meat",
+          "squab pigeon"
+        ],
+        "category_label": "protein",
+        "description": "Squab is young pigeon meat used in specialty roasts and braised dishes. This USDA row reflects raw meat-only values per 100 g.",
+        "display_name": "Squab (Pigeon, Raw)",
+        "fdc_id": 171079,
+        "macros": {
+          "calories": 142.0,
+          "carbs_g": 0.0,
+          "fat_g": 7.5,
+          "fiber_g": 0.0,
+          "protein_g": 17.5,
+          "sodium_g": 0.051,
+          "sugar_g": 0.0
+        },
+        "source_description": "Squab, (pigeon), meat only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "squab raw",
+          "pigeon light meat",
+          "raw squab meat",
+          "young pigeon meat",
+          "squab without skin"
+        ],
+        "category_label": "protein",
+        "description": "Raw squab light meat is a poultry protein used in roasting and braised preparations. This USDA row reflects skinless light-meat values per 100 g.",
+        "display_name": "Squab (Light Meat, Raw)",
+        "fdc_id": 171080,
+        "macros": {
+          "calories": 134.0,
+          "carbs_g": 0.0,
+          "fat_g": 4.52,
+          "fiber_g": 0.0,
+          "protein_g": 21.76,
+          "sodium_g": 0.055,
+          "sugar_g": 0.0
+        },
+        "source_description": "Squab, (pigeon), light meat without skin, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "poultry"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "summer squash",
+          "scallop squash",
+          "pattypan squash",
+          "raw summer squash",
+          "patty pan squash"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw scallop (pattypan) summer squash is used in sautees, roasting, and mixed vegetable dishes. This USDA row reflects raw squash values per 100 g.",
+        "display_name": "Summer Squash (Scallop, Raw)",
+        "fdc_id": 169289,
+        "macros": {
+          "calories": 18.0,
+          "carbs_g": 3.84,
+          "fat_g": 0.2,
+          "fiber_g": 1.2,
+          "protein_g": 1.2,
+          "sodium_g": 0.001,
+          "sugar_g": 2.39
+        },
+        "source_description": "Squash, summer, scallop, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "squash"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "acorn squash raw",
+          "winter squash acorn",
+          "raw acorn squash",
+          "acorn squash",
+          "winter squash"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw acorn squash is a winter squash used for roasting, stuffing, and soups. This USDA row reflects raw squash values per 100 g.",
+        "display_name": "Winter Squash (Acorn, Raw)",
+        "fdc_id": 168472,
+        "macros": {
+          "calories": 40.0,
+          "carbs_g": 10.42,
+          "fat_g": 0.1,
+          "fiber_g": 1.5,
+          "protein_g": 0.8,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Squash, winter, acorn, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "squash"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "baby zucchini",
+          "zucchini raw",
+          "courgette baby",
+          "young zucchini",
+          "raw zucchini"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw baby zucchini is used in sautees, grilling, pasta dishes, and salads. This USDA row reflects raw zucchini values per 100 g.",
+        "display_name": "Zucchini (Baby, Raw)",
+        "fdc_id": 168565,
+        "macros": {
+          "calories": 21.0,
+          "carbs_g": 3.11,
+          "fat_g": 0.4,
+          "fiber_g": 1.1,
+          "protein_g": 2.71,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Squash, zucchini, baby, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "zucchini"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen strawberries",
+          "sweetened frozen strawberries",
+          "sliced frozen strawberries",
+          "frozen berry slices",
+          "strawberries frozen"
+        ],
+        "category_label": "fruit",
+        "description": "Sweetened frozen strawberries are used in desserts, smoothies, sauces, and compotes. This USDA row reflects frozen sliced fruit values per 100 g.",
+        "display_name": "Strawberries (Frozen, Sweetened)",
+        "fdc_id": 168174,
+        "macros": {
+          "calories": 96.0,
+          "carbs_g": 25.92,
+          "fat_g": 0.13,
+          "fiber_g": 1.9,
+          "protein_g": 0.53,
+          "sodium_g": 0.003,
+          "sugar_g": 24.01
+        },
+        "source_description": "Strawberries, frozen, sweetened, sliced",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "strawberry"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "succotash",
+          "corn and lima mix",
+          "raw succotash",
+          "corn lima beans",
+          "mixed corn limas"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw succotash is a vegetable mix of corn and lima beans used in skillet sides, soups, and casseroles. This USDA row reflects raw mix values per 100 g.",
+        "display_name": "Succotash (Raw)",
+        "fdc_id": 169300,
+        "macros": {
+          "calories": 99.0,
+          "carbs_g": 19.59,
+          "fat_g": 1.02,
+          "fiber_g": 3.8,
+          "protein_g": 5.03,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Succotash, (corn and limas), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "corn"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned succotash",
+          "corn and lima succotash",
+          "cream-style succotash",
+          "canned corn lima mix",
+          "succotash with cream corn"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned succotash with cream-style corn is used as a quick vegetable side or casserole ingredient. This USDA row reflects canned product values per 100 g.",
+        "display_name": "Succotash (Canned, Cream-Style)",
+        "fdc_id": 168478,
+        "macros": {
+          "calories": 77.0,
+          "carbs_g": 17.61,
+          "fat_g": 0.54,
+          "fiber_g": 3.0,
+          "protein_g": 2.64,
+          "sodium_g": 0.245,
+          "sugar_g": 0.0
+        },
+        "source_description": "Succotash, (corn and limas), canned, with cream style corn",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "corn"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sugar apple",
+          "sweetsop",
+          "custard apple",
+          "annona squamosa",
+          "raw sugar apple"
+        ],
+        "category_label": "fruit",
+        "description": "Sugar apple (sweetsop) is a sweet tropical fruit eaten fresh and used in desserts. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Sugar Apple (Sweetsop, Raw)",
+        "fdc_id": 168175,
+        "macros": {
+          "calories": 94.0,
+          "carbs_g": 23.64,
+          "fat_g": 0.29,
+          "fiber_g": 4.4,
+          "protein_g": 2.06,
+          "sodium_g": 0.009,
+          "sugar_g": 0.0
+        },
+        "source_description": "Sugar-apples, (sweetsop), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried sunflower kernels",
+          "raw sunflower kernels",
+          "sunflower seed kernels dried",
+          "shelled sunflower seeds",
+          "sunflower kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried sunflower seed kernels are used in baking, granola, and seed mixes. This USDA row reflects dried kernel values per 100 g.",
+        "display_name": "Sunflower Kernels (Dried)",
+        "fdc_id": 170562,
+        "macros": {
+          "calories": 584.0,
+          "carbs_g": 20.0,
+          "fat_g": 51.46,
+          "fiber_g": 8.6,
+          "protein_g": 20.78,
+          "sodium_g": 0.009,
+          "sugar_g": 2.62
+        },
+        "source_description": "Seeds, sunflower seed kernels, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sunflower"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted sunflower kernels",
+          "sunflower seed kernels",
+          "dry roasted sunflower seeds",
+          "shelled sunflower seeds",
+          "unsalted sunflower kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry-roasted sunflower kernels are used in salads, trail mixes, toppings, and baking. This USDA row reflects roasted kernel values per 100 g.",
+        "display_name": "Sunflower Kernels (Dry Roasted)",
+        "fdc_id": 170563,
+        "macros": {
+          "calories": 582.0,
+          "carbs_g": 24.07,
+          "fat_g": 49.8,
+          "fiber_g": 11.1,
+          "protein_g": 19.33,
+          "sodium_g": 0.003,
+          "sugar_g": 2.73
+        },
+        "source_description": "Seeds, sunflower seed kernels, dry roasted, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sunflower"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sunflower oil",
+          "linoleic sunflower oil",
+          "cooking sunflower oil",
+          "salad sunflower oil",
+          "sunflower seed oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Linoleic sunflower oil is a vegetable oil used for sauteing, frying, and dressing preparation. This USDA row reflects oil values per 100 g.",
+        "display_name": "Sunflower Oil (Linoleic)",
+        "fdc_id": 171025,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, sunflower, linoleic, (approx. 65%)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sunflower butter",
+          "sunbutter",
+          "sunflower seed spread",
+          "sunflower seed paste",
+          "seed butter sunflower"
+        ],
+        "category_label": "nut_seed",
+        "description": "Sunflower seed butter is a nut-free spread used in sandwiches, sauces, and baking. This USDA row reflects unsalted seed-butter values per 100 g.",
+        "display_name": "Sunflower Seed Butter",
+        "fdc_id": 170155,
+        "macros": {
+          "calories": 617.0,
+          "carbs_g": 23.32,
+          "fat_g": 55.2,
+          "fiber_g": 5.7,
+          "protein_g": 17.28,
+          "sodium_g": 0.003,
+          "sugar_g": 10.54
+        },
+        "source_description": "Seeds, sunflower seed butter, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sunflower"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sunflower seed flour",
+          "defatted sunflower flour",
+          "sunflower meal flour",
+          "sunflower protein flour",
+          "partially defatted sunflower flour"
+        ],
+        "category_label": "nut_seed",
+        "description": "Sunflower seed flour is used in gluten-free baking and blended flour mixes. This USDA row reflects partially defatted flour values per 100 g.",
+        "display_name": "Sunflower Seed Flour",
+        "fdc_id": 170156,
+        "macros": {
+          "calories": 326.0,
+          "carbs_g": 35.83,
+          "fat_g": 1.61,
+          "fiber_g": 5.2,
+          "protein_g": 48.06,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sunflower seed flour, partially defatted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet and sour dressing",
+          "sweet sour dressing",
+          "tangy sweet dressing",
+          "salad dressing sweet and sour",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Sweet And Sour dressing is a prepared condiment used on salads, sandwiches, and marinades. This USDA row reflects prepared dressing values per 100 g.",
+        "display_name": "Sweet And Sour Dressing",
+        "fdc_id": 169875,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 3.7,
+          "fat_g": 0.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.1,
+          "sodium_g": 0.208,
+          "sugar_g": 3.7
+        },
+        "source_description": "Salad dressing, sweet and sour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet onions",
+          "raw sweet onions",
+          "vidalia-style onions",
+          "mild onions raw",
+          "sweet onion bulbs"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw sweet onions are mild onions used in salads, caramelizing, and grilling. This USDA row reflects raw onion values per 100 g.",
+        "display_name": "Sweet Onions (Raw)",
+        "fdc_id": 170008,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 7.55,
+          "fat_g": 0.08,
+          "fiber_g": 0.9,
+          "protein_g": 0.8,
+          "sodium_g": 0.008,
+          "sugar_g": 5.02
+        },
+        "source_description": "Onions, sweet, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "baked sweet potato",
+          "sweet potato baked in skin",
+          "baked yam flesh",
+          "cooked sweet potato",
+          "sweet potato with salt"
+        ],
+        "category_label": "vegetable",
+        "description": "Baked sweet potato flesh is used in bowls, mashes, casseroles, and side dishes. This USDA row reflects baked flesh values per 100 g.",
+        "display_name": "Sweet Potato (Baked, Flesh with Salt)",
+        "fdc_id": 170134,
+        "macros": {
+          "calories": 90.0,
+          "carbs_g": 20.71,
+          "fat_g": 0.15,
+          "fiber_g": 3.3,
+          "protein_g": 2.01,
+          "sodium_g": 0.246,
+          "sugar_g": 6.48
+        },
+        "source_description": "Sweet potato, cooked, baked in skin, flesh, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sweet_potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned mashed sweet potato",
+          "mashed sweet potatoes canned",
+          "canned yams mashed",
+          "sweet potato puree canned",
+          "sweet potato mash"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned mashed sweet potato is used for casseroles, pies, and quick side dishes. This USDA row reflects canned mashed values per 100 g.",
+        "display_name": "Sweet Potato (Canned, Mashed)",
+        "fdc_id": 169305,
+        "macros": {
+          "calories": 101.0,
+          "carbs_g": 23.19,
+          "fat_g": 0.2,
+          "fiber_g": 1.7,
+          "protein_g": 1.98,
+          "sodium_g": 0.075,
+          "sugar_g": 5.45
+        },
+        "source_description": "Sweet potato, canned, mashed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sweet_potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned sweet potato in syrup",
+          "syrup-pack sweet potatoes",
+          "canned yams syrup",
+          "sweet potato canned drained",
+          "canned candied yams"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned sweet potato in syrup pack is a sweet preserved ingredient used in casseroles and holiday sides. This USDA row reflects drained solids values per 100 g.",
+        "display_name": "Sweet Potato (Canned, Syrup Pack)",
+        "fdc_id": 170084,
+        "macros": {
+          "calories": 108.0,
+          "carbs_g": 25.36,
+          "fat_g": 0.32,
+          "fiber_g": 3.0,
+          "protein_g": 1.28,
+          "sodium_g": 0.039,
+          "sugar_g": 5.74
+        },
+        "source_description": "Sweet potato, canned, syrup pack, drained solids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sweet_potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen sweet potato",
+          "cooked frozen sweet potato",
+          "baked frozen sweet potato",
+          "frozen yam",
+          "sweet potato frozen cooked"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen cooked sweet potato is used in mashes, casseroles, and side dishes. This USDA row reflects cooked frozen values per 100 g.",
+        "display_name": "Sweet Potato (Frozen, Cooked)",
+        "fdc_id": 170542,
+        "macros": {
+          "calories": 100.0,
+          "carbs_g": 23.4,
+          "fat_g": 0.12,
+          "fiber_g": 1.8,
+          "protein_g": 1.71,
+          "sodium_g": 0.244,
+          "sugar_g": 0.0
+        },
+        "source_description": "Sweet potato, frozen, cooked, baked, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sweet_potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet potato leaves",
+          "sweet potato greens",
+          "raw sweet potato leaves",
+          "camote tops",
+          "sweet potato vine leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Sweet potato leaves are leafy greens used in stir-fries, soups, and braised dishes. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Sweet Potato Leaves (Raw)",
+        "fdc_id": 169303,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 8.82,
+          "fat_g": 0.51,
+          "fiber_g": 5.3,
+          "protein_g": 2.49,
+          "sodium_g": 0.006,
+          "sugar_g": 0.0
+        },
+        "source_description": "Sweet potato leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "boiled sweet potato",
+          "sweet potato without skin",
+          "cooked sweet potato",
+          "boiled yam",
+          "peeled sweet potato cooked"
+        ],
+        "category_label": "vegetable",
+        "description": "Boiled sweet potato without skin is used in mashes, salads, and bowl-style dishes. This USDA row reflects cooked peeled values per 100 g.",
+        "display_name": "Sweet Potato (Boiled, No Skin)",
+        "fdc_id": 168484,
+        "macros": {
+          "calories": 76.0,
+          "carbs_g": 17.72,
+          "fat_g": 0.14,
+          "fiber_g": 2.5,
+          "protein_g": 1.37,
+          "sodium_g": 0.027,
+          "sugar_g": 5.74
+        },
+        "source_description": "Sweet potato, cooked, boiled, without skin",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sweet_potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet potato fries",
+          "frozen sweet potato fries",
+          "french-fried sweet potatoes",
+          "sweet potato french fries",
+          "seasoned sweet potato fries"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen sweet potato fries are a prepared potato product used for baking or frying as a side ingredient. This USDA row reflects as-packaged values per 100 g.",
+        "display_name": "Sweet Potato Fries (Frozen)",
+        "fdc_id": 167606,
+        "macros": {
+          "calories": 182.0,
+          "carbs_g": 35.58,
+          "fat_g": 8.92,
+          "fiber_g": 5.7,
+          "protein_g": 2.16,
+          "sodium_g": 0.146,
+          "sugar_g": 12.9
+        },
+        "source_description": "Sweet Potatoes, french fried, frozen as packaged, salt added in processing",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "sweet_potato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet red peppers",
+          "raw sweet red pepper",
+          "red sweet pepper",
+          "bell-type sweet red pepper",
+          "fresh sweet pepper red"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw sweet red peppers are used for salads, roasting, and saut\u00e9s. This USDA row reflects raw pepper values per 100 g.",
+        "display_name": "Sweet Red Peppers (Raw)",
+        "fdc_id": 170108,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 6.03,
+          "fat_g": 0.3,
+          "fiber_g": 2.1,
+          "protein_g": 0.99,
+          "sodium_g": 0.004,
+          "sugar_g": 4.2
+        },
+        "source_description": "Peppers, sweet, red, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw tahini",
+          "stone-ground tahini",
+          "sesame tahini",
+          "sesame paste raw",
+          "ground sesame kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw stone-ground tahini is sesame seed paste used for dips, dressings, and sauces. This USDA row reflects raw tahini values per 100 g.",
+        "display_name": "Tahini (Raw Stone-Ground)",
+        "fdc_id": 169410,
+        "macros": {
+          "calories": 570.0,
+          "carbs_g": 26.19,
+          "fat_g": 48.0,
+          "fiber_g": 9.3,
+          "protein_g": 17.81,
+          "sodium_g": 0.074,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sesame butter, tahini, from raw and stone ground kernels",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sesame"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tamarind nectar",
+          "canned tamarind drink",
+          "tamarind juice nectar",
+          "sweet tamarind beverage",
+          "tamarind concentrate drink"
+        ],
+        "category_label": "fruit",
+        "description": "Canned tamarind nectar is a sweet-tart fruit beverage base used in drinks, marinades, and sauces. This USDA row reflects canned nectar values per 100 g.",
+        "display_name": "Tamarind Nectar (Canned)",
+        "fdc_id": 167786,
+        "macros": {
+          "calories": 57.0,
+          "carbs_g": 14.73,
+          "fat_g": 0.12,
+          "fiber_g": 0.5,
+          "protein_g": 0.09,
+          "sodium_g": 0.007,
+          "sugar_g": 12.7
+        },
+        "source_description": "Tamarind nectar, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "tamarind"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tangerine juice",
+          "fresh tangerine juice",
+          "raw tangerine juice",
+          "mandarin juice",
+          "citrus tangerine juice"
+        ],
+        "category_label": "fruit",
+        "description": "Raw tangerine juice is a citrus juice used as a beverage or flavoring component. This USDA row reflects raw juice values per 100 g.",
+        "display_name": "Tangerine Juice (Raw)",
+        "fdc_id": 169925,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 10.1,
+          "fat_g": 0.2,
+          "fiber_g": 0.2,
+          "protein_g": 0.5,
+          "sodium_g": 0.001,
+          "sugar_g": 9.9
+        },
+        "source_description": "Tangerine juice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mandarin orange",
+          "tangerine",
+          "raw mandarin",
+          "fresh tangerine",
+          "mandarin citrus"
+        ],
+        "category_label": "fruit",
+        "description": "Raw mandarin oranges are sweet citrus fruit used for snacking, salads, and dessert components. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Mandarin Orange (Raw)",
+        "fdc_id": 169105,
+        "macros": {
+          "calories": 53.0,
+          "carbs_g": 13.34,
+          "fat_g": 0.31,
+          "fiber_g": 1.8,
+          "protein_g": 0.81,
+          "sodium_g": 0.002,
+          "sugar_g": 10.58
+        },
+        "source_description": "Tangerines, (mandarin oranges), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "orange"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned mandarin oranges",
+          "tangerines in juice",
+          "mandarin segments canned",
+          "juice-pack mandarins",
+          "canned tangerines"
+        ],
+        "category_label": "fruit",
+        "description": "Canned mandarin oranges in juice pack are used in salads, desserts, and fruit cups. This USDA row reflects canned fruit values per 100 g.",
+        "display_name": "Mandarin Oranges (Canned in Juice)",
+        "fdc_id": 169106,
+        "macros": {
+          "calories": 37.0,
+          "carbs_g": 9.57,
+          "fat_g": 0.03,
+          "fiber_g": 0.7,
+          "protein_g": 0.62,
+          "sodium_g": 0.005,
+          "sugar_g": 8.87
+        },
+        "source_description": "Tangerines, (mandarin oranges), canned, juice pack",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "orange"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tapioca pearls",
+          "dry tapioca",
+          "pearl tapioca",
+          "sago pearls",
+          "tapioca granules"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry tapioca pearls are starch granules used for puddings, bubble drinks, and dessert thickeners. This USDA row reflects dry pearls values per 100 g.",
+        "display_name": "Tapioca Pearls (Dry)",
+        "fdc_id": 169717,
+        "macros": {
+          "calories": 358.0,
+          "carbs_g": 88.69,
+          "fat_g": 0.02,
+          "fiber_g": 0.9,
+          "protein_g": 0.19,
+          "sodium_g": 0.001,
+          "sugar_g": 3.35
+        },
+        "source_description": "Tapioca, pearl, dry",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "tapioca"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "taro leaves",
+          "raw taro leaves",
+          "luau leaves",
+          "colocasia leaves",
+          "taro greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Taro leaves are cooked leafy greens used in stews, curries, and wrapped preparations. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Taro Leaves (Raw)",
+        "fdc_id": 168487,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 6.7,
+          "fat_g": 0.74,
+          "fiber_g": 3.7,
+          "protein_g": 4.98,
+          "sodium_g": 0.003,
+          "sugar_g": 3.01
+        },
+        "source_description": "Taro leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "taro shoots",
+          "raw taro shoots",
+          "young taro stems",
+          "taro sprouts",
+          "colocasia shoots"
+        ],
+        "category_label": "vegetable",
+        "description": "Taro shoots are tender plant stems used in stir-fries and stewed dishes after proper preparation. This USDA row reflects raw shoot values per 100 g.",
+        "display_name": "Taro Shoots (Raw)",
+        "fdc_id": 168489,
+        "macros": {
+          "calories": 11.0,
+          "carbs_g": 2.32,
+          "fat_g": 0.09,
+          "fiber_g": 0.0,
+          "protein_g": 0.92,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Taro shoots, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tahitian taro",
+          "raw taro root",
+          "taro corm",
+          "kalo root",
+          "taro"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw Tahitian taro is a starchy root used boiled, mashed, or in stews and fritters. This USDA row reflects raw taro values per 100 g.",
+        "display_name": "Tahitian Taro (Raw)",
+        "fdc_id": 169310,
+        "macros": {
+          "calories": 44.0,
+          "carbs_g": 6.91,
+          "fat_g": 0.97,
+          "fiber_g": 0.0,
+          "protein_g": 2.79,
+          "sodium_g": 0.05,
+          "sugar_g": 0.0
+        },
+        "source_description": "Taro, tahitian, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "taro"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "teff grain",
+          "uncooked teff",
+          "whole teff",
+          "ethiopian teff",
+          "teff seeds"
+        ],
+        "category_label": "grain_legume",
+        "description": "Uncooked teff is a tiny ancient grain used for porridge, injera batter, and grain bowls. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Teff (Uncooked)",
+        "fdc_id": 169747,
+        "macros": {
+          "calories": 367.0,
+          "carbs_g": 73.13,
+          "fat_g": 2.38,
+          "fiber_g": 8.0,
+          "protein_g": 13.3,
+          "sodium_g": 0.012,
+          "sugar_g": 1.84
+        },
+        "source_description": "Teff, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "thousand island dressing",
+          "1000 island dressing",
+          "burger dressing",
+          "creamy island dressing",
+          "salad dressing"
+        ],
+        "category_label": "condiment",
+        "description": "Thousand Island dressing is a creamy condiment used for salads, sandwiches, and marinades. This USDA row reflects reduced-fat prepared dressing values per 100 g.",
+        "display_name": "Thousand Island Dressing",
+        "fdc_id": 171008,
+        "macros": {
+          "calories": 195.0,
+          "carbs_g": 24.06,
+          "fat_g": 11.32,
+          "fiber_g": 1.2,
+          "protein_g": 0.83,
+          "sodium_g": 0.955,
+          "sugar_g": 17.31
+        },
+        "source_description": "Salad dressing, thousand island dressing, reduced fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "condiment",
+        "sprite_key": "dressing"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "toasted sesame kernels",
+          "hulled toasted sesame seeds",
+          "toasted sesame seeds",
+          "decorticated sesame toasted",
+          "sesame seed kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Toasted hulled sesame kernels are used as toppings, in spice mixes, and in savory dishes. This USDA row reflects toasted seed values per 100 g.",
+        "display_name": "Sesame Kernels (Toasted, Hulled)",
+        "fdc_id": 170152,
+        "macros": {
+          "calories": 567.0,
+          "carbs_g": 26.04,
+          "fat_g": 48.0,
+          "fiber_g": 16.9,
+          "protein_g": 16.96,
+          "sodium_g": 0.039,
+          "sugar_g": 0.48
+        },
+        "source_description": "Seeds, sesame seed kernels, toasted, without salt added (decorticated)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sesame"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "toasted sunflower kernels",
+          "toasted sunflower seeds",
+          "shelled toasted sunflower seeds",
+          "sunflower seed kernels toasted",
+          "unsalted toasted sunflower"
+        ],
+        "category_label": "nut_seed",
+        "description": "Toasted sunflower kernels are used in salads, snack mixes, and baked goods. This USDA row reflects toasted kernel values per 100 g.",
+        "display_name": "Sunflower Kernels (Toasted)",
+        "fdc_id": 170154,
+        "macros": {
+          "calories": 619.0,
+          "carbs_g": 20.59,
+          "fat_g": 56.8,
+          "fiber_g": 11.5,
+          "protein_g": 17.21,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, sunflower seed kernels, toasted, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "sunflower"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned tomato juice",
+          "salted tomato juice",
+          "tomato juice with salt",
+          "bottled tomato juice",
+          "vegetable tomato juice"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned tomato juice with salt is used as a drink base and in soups, stews, and braising liquids. This USDA row reflects canned juice values per 100 g.",
+        "display_name": "Tomato Juice (Canned, Salted)",
+        "fdc_id": 170458,
+        "macros": {
+          "calories": 17.0,
+          "carbs_g": 3.53,
+          "fat_g": 0.29,
+          "fiber_g": 0.4,
+          "protein_g": 0.85,
+          "sodium_g": 0.253,
+          "sugar_g": 2.58
+        },
+        "source_description": "Tomato juice, canned, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned tomato puree",
+          "tomato puree with salt",
+          "tomato products puree",
+          "tomato puree canned",
+          "thick tomato puree"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned tomato puree with salt is used for sauces, soups, braises, and simmered dishes. This USDA row reflects puree values per 100 g.",
+        "display_name": "Tomato Puree (Canned, Salted)",
+        "fdc_id": 170546,
+        "macros": {
+          "calories": 38.0,
+          "carbs_g": 8.98,
+          "fat_g": 0.21,
+          "fiber_g": 1.9,
+          "protein_g": 1.65,
+          "sodium_g": 0.202,
+          "sugar_g": 4.83
+        },
+        "source_description": "Tomato products, canned, puree, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned tomato sauce",
+          "tomato products canned sauce",
+          "plain tomato sauce",
+          "cooking tomato sauce",
+          "tomato sauce base"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned tomato sauce is a pantry base for pasta sauces, soups, stews, and braises. This USDA row reflects canned sauce values per 100 g.",
+        "display_name": "Tomato Sauce (Canned)",
+        "fdc_id": 170054,
+        "macros": {
+          "calories": 24.0,
+          "carbs_g": 5.31,
+          "fat_g": 0.3,
+          "fiber_g": 1.5,
+          "protein_g": 1.2,
+          "sodium_g": 0.474,
+          "sugar_g": 3.56
+        },
+        "source_description": "Tomato products, canned, sauce",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "no-salt tomato sauce",
+          "unsalted tomato sauce",
+          "canned tomato sauce no salt",
+          "tomato sauce low sodium",
+          "tomato sauce plain"
+        ],
+        "category_label": "vegetable",
+        "description": "No-salt-added canned tomato sauce is used for low-sodium soups, sauces, and braises. This USDA row reflects canned sauce values per 100 g.",
+        "display_name": "Tomato Sauce (No Salt Added, Canned)",
+        "fdc_id": 169074,
+        "macros": {
+          "calories": 24.0,
+          "carbs_g": 5.31,
+          "fat_g": 0.3,
+          "fiber_g": 1.5,
+          "protein_g": 1.2,
+          "sodium_g": 0.011,
+          "sugar_g": 3.56
+        },
+        "source_description": "Tomato sauce, canned, no salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "crushed tomatoes",
+          "canned crushed tomatoes",
+          "tomato crush",
+          "tomatoes crushed canned",
+          "chunky tomato base"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned crushed tomatoes are used for pasta sauce, chili, soups, and braised dishes. This USDA row reflects canned crushed tomato values per 100 g.",
+        "display_name": "Tomatoes (Crushed, Canned)",
+        "fdc_id": 170501,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 7.29,
+          "fat_g": 0.28,
+          "fiber_g": 1.9,
+          "protein_g": 1.64,
+          "sodium_g": 0.186,
+          "sugar_g": 4.4
+        },
+        "source_description": "Tomatoes, crushed, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 014: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green tomatoes",
+          "raw green tomato",
+          "unripe tomato",
+          "firm green tomato",
+          "green tomato fruit"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw green tomatoes are used for frying, pickling, chutneys, and relishes. This USDA row reflects raw tomato values per 100 g.",
+        "display_name": "Green Tomatoes (Raw)",
+        "fdc_id": 170456,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 5.1,
+          "fat_g": 0.2,
+          "fiber_g": 1.1,
+          "protein_g": 1.2,
+          "sodium_g": 0.013,
+          "sugar_g": 4.0
+        },
+        "source_description": "Tomatoes, green, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    }
+  ]
+}

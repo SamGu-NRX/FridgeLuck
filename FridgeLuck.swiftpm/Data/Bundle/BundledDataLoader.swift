@@ -105,8 +105,9 @@ enum BundledDataLoader {
         try db.execute(
           sql: """
             INSERT INTO ingredients
-                (id, name, calories, protein, carbs, fat, fiber, sugar, sodium, typical_unit, storage_tip)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (id, name, calories, protein, carbs, fat, fiber, sugar, sodium,
+                 typical_unit, storage_tip, description, category_label, sprite_group, sprite_key)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL)
             """,
           arguments: [
             id, raw.name, raw.calories, raw.protein, raw.carbs, raw.fat,
@@ -176,22 +177,74 @@ enum BundledDataLoader {
     readConfig.readonly = true
     let sourceDB = try DatabaseQueue(path: url.path, configuration: readConfig)
     let sourceRows: [Row] = try sourceDB.read { src in
-      try Row.fetchAll(
-        src,
-        sql: """
-          SELECT name, calories, protein, carbs, fat, fiber, sugar, sodium, notes
-          FROM ingredients
-          """
-      )
+      do {
+        return try Row.fetchAll(
+          src,
+          sql: """
+            SELECT
+              name,
+              calories,
+              protein,
+              carbs,
+              fat,
+              fiber,
+              sugar,
+              sodium,
+              notes,
+              COALESCE(description, '') AS description,
+              COALESCE(category_label, '') AS category_label,
+              COALESCE(sprite_group, '') AS sprite_group,
+              COALESCE(sprite_key, '') AS sprite_key
+            FROM ingredients
+            """
+        )
+      } catch {
+        // Backward compatibility for older USDA SQLite resources without display metadata columns.
+        return try Row.fetchAll(
+          src,
+          sql: """
+            SELECT
+              name,
+              calories,
+              protein,
+              carbs,
+              fat,
+              fiber,
+              sugar,
+              sodium,
+              notes,
+              '' AS description,
+              '' AS category_label,
+              '' AS sprite_group,
+              '' AS sprite_key
+            FROM ingredients
+            """
+        )
+      }
+    }
+    let aliasRows: [Row] = try sourceDB.read { src in
+      do {
+        return try Row.fetchAll(
+          src,
+          sql: """
+            SELECT i.name AS ingredient_name, a.alias AS alias
+            FROM ingredient_aliases a
+            JOIN ingredients i ON i.id = a.ingredient_id
+            """
+        )
+      } catch {
+        return []
+      }
     }
 
+    var ingredientIdByName: [String: Int64] = [:]
     for row in sourceRows {
       try db.execute(
         sql: """
           INSERT OR IGNORE INTO ingredients
               (name, calories, protein, carbs, fat, fiber, sugar, sodium,
-               typical_unit, storage_tip, pairs_with, notes)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?)
+               typical_unit, storage_tip, pairs_with, notes, description, category_label, sprite_group, sprite_key)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?, ?, ?, ?, ?)
           """,
         arguments: [
           row["name"],
@@ -203,7 +256,34 @@ enum BundledDataLoader {
           row["sugar"],
           row["sodium"],
           row["notes"],
+          row["description"],
+          row["category_label"],
+          row["sprite_group"],
+          row["sprite_key"],
         ]
+      )
+      if let name: String = row["name"],
+        let id = try Int64.fetchOne(
+          db, sql: "SELECT id FROM ingredients WHERE name = ?", arguments: [name])
+      {
+        ingredientIdByName[name] = id
+      }
+    }
+
+    for row in aliasRows {
+      guard let ingredientName: String = row["ingredient_name"],
+        let alias: String = row["alias"],
+        !alias.isEmpty,
+        let ingredientId = ingredientIdByName[ingredientName]
+      else {
+        continue
+      }
+      try? db.execute(
+        sql: """
+          INSERT OR IGNORE INTO ingredient_aliases (ingredient_id, alias)
+          VALUES (?, ?)
+          """,
+        arguments: [ingredientId, alias.lowercased()]
       )
     }
   }

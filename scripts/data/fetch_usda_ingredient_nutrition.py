@@ -803,6 +803,11 @@ def build_common_food_catalog(
             ):
                 continue
             macros = extract_macros(row)
+            category_obj = get_field(row, "foodCategory", "food_category", default="")
+            if isinstance(category_obj, dict):
+                food_category = str(get_field(category_obj, "description", "name", default="") or "")
+            else:
+                food_category = str(category_obj or "")
             seen_ids.add(fdc_id)
             summaries.append(
                 {
@@ -810,7 +815,12 @@ def build_common_food_catalog(
                     "description": description,
                     "description_norm": description_norm,
                     "data_type": data_type,
+                    "food_category": food_category,
                     "food_code": str(get_field(row, "foodCode", "food_code", default="") or ""),
+                    "food_class": str(get_field(row, "foodClass", "food_class", default="") or ""),
+                    "brand_owner": str(get_field(row, "brandOwner", "brand_owner", default="") or ""),
+                    "brand_name": str(get_field(row, "brandName", "brand_name", default="") or ""),
+                    "ingredients_text": str(get_field(row, "ingredients", default="") or ""),
                     **macros,
                 }
             )
@@ -822,7 +832,27 @@ def build_common_food_catalog(
     if not summaries:
         return []
 
-    detail_map = client.get_foods([row["fdc_id"] for row in summaries], format="full")
+    detail_needed: List[int] = []
+    for row in summaries:
+        macro_signal = (
+            float(row.get("calories", 0.0) or 0.0)
+            + float(row.get("protein_g", 0.0) or 0.0)
+            + float(row.get("carbs_g", 0.0) or 0.0)
+            + float(row.get("fat_g", 0.0) or 0.0)
+            + float(row.get("fiber_g", 0.0) or 0.0)
+            + float(row.get("sugar_g", 0.0) or 0.0)
+            + float(row.get("sodium_g", 0.0) or 0.0)
+        )
+        food_category_obj = get_field(row, "foodCategory", "food_category", default="")
+        has_category = False
+        if isinstance(food_category_obj, dict):
+            has_category = bool(get_field(food_category_obj, "description", "name", default=""))
+        else:
+            has_category = bool(str(food_category_obj or "").strip())
+        if macro_signal <= 0.0 or not has_category:
+            detail_needed.append(int(row["fdc_id"]))
+
+    detail_map = client.get_foods(detail_needed, format="full") if detail_needed else {}
     catalog: List[Dict[str, Any]] = []
     for summary in summaries:
         fdc_id = summary["fdc_id"]
@@ -834,6 +864,25 @@ def build_common_food_catalog(
             food_category = str(category_obj or "")
 
         macros = extract_macros(detail)
+        macro_signal = (
+            macros["calories"]
+            + macros["protein_g"]
+            + macros["carbs_g"]
+            + macros["fat_g"]
+            + macros["fiber_g"]
+            + macros["sugar_g"]
+            + macros["sodium_g"]
+        )
+        if macro_signal <= 0.0:
+            macros = {
+                "calories": round(float(summary.get("calories", 0.0) or 0.0), 4),
+                "protein_g": round(float(summary.get("protein_g", 0.0) or 0.0), 4),
+                "carbs_g": round(float(summary.get("carbs_g", 0.0) or 0.0), 4),
+                "fat_g": round(float(summary.get("fat_g", 0.0) or 0.0), 4),
+                "fiber_g": round(float(summary.get("fiber_g", 0.0) or 0.0), 4),
+                "sugar_g": round(float(summary.get("sugar_g", 0.0) or 0.0), 4),
+                "sodium_g": round(float(summary.get("sodium_g", 0.0) or 0.0), 4),
+            }
         catalog.append(
             {
                 "fdc_id": fdc_id,
@@ -844,10 +893,10 @@ def build_common_food_catalog(
                 "data_type": str(get_field(detail, "dataType", "data_type", default=summary["data_type"]) or summary["data_type"]),
                 "food_category": food_category,
                 "food_code": summary["food_code"],
-                "food_class": str(get_field(detail, "foodClass", "food_class", default="") or ""),
-                "brand_owner": str(get_field(detail, "brandOwner", "brand_owner", default="") or ""),
-                "brand_name": str(get_field(detail, "brandName", "brand_name", default="") or ""),
-                "ingredients_text": str(get_field(detail, "ingredients", default="") or ""),
+                "food_class": str(get_field(detail, "foodClass", "food_class", default=summary.get("food_class", "")) or ""),
+                "brand_owner": str(get_field(detail, "brandOwner", "brand_owner", default=summary.get("brand_owner", "")) or ""),
+                "brand_name": str(get_field(detail, "brandName", "brand_name", default=summary.get("brand_name", "")) or ""),
+                "ingredients_text": str(get_field(detail, "ingredients", default=summary.get("ingredients_text", "")) or ""),
                 **macros,
             }
         )
@@ -1298,7 +1347,7 @@ def main() -> int:
         default=DEFAULT_CATALOG,
         help="Common USDA food catalog cache path",
     )
-    parser.add_argument("--catalog-target", type=int, default=1500, help="Target number of common USDA catalog rows to bootstrap")
+    parser.add_argument("--catalog-target", type=int, default=5000, help="Target number of common USDA catalog rows to bootstrap")
     parser.add_argument("--catalog-page-size", type=int, default=200, help="USDA foods/list page size (1-200)")
     parser.add_argument("--catalog-max-pages", type=int, default=25, help="Maximum USDA foods/list pages to scan for catalog bootstrap")
     parser.add_argument("--catalog-refresh", action="store_true", help="Force refresh USDA catalog instead of reusing cached catalog file")

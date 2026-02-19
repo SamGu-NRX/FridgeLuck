@@ -1,0 +1,1756 @@
+{
+  "batch_id": 10,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green peas",
+          "raw green peas",
+          "fresh green peas",
+          "sweet peas raw",
+          "pea kernels green"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw green peas are sweet legumes used in soups, stir-fries, and side dishes after cooking. This USDA row reflects raw pea values per 100 g.",
+        "display_name": "Green Peas (Raw)",
+        "fdc_id": 170419,
+        "macros": {
+          "calories": 81.0,
+          "carbs_g": 14.45,
+          "fat_g": 0.4,
+          "fiber_g": 5.7,
+          "protein_g": 5.42,
+          "sodium_g": 0.005,
+          "sugar_g": 5.67
+        },
+        "source_description": "Peas, green, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pea sprouts",
+          "sprouted peas raw",
+          "mature pea sprouts",
+          "raw pea shoots sprouted",
+          "sprouted green peas"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw sprouted peas from mature seeds are used in salads and lightly cooked dishes. This USDA row reflects sprouted raw values per 100 g.",
+        "display_name": "Pea Sprouts (From Mature Seeds, Raw)",
+        "fdc_id": 170422,
+        "macros": {
+          "calories": 124.0,
+          "carbs_g": 27.11,
+          "fat_g": 0.68,
+          "fiber_g": 0.0,
+          "protein_g": 8.8,
+          "sodium_g": 0.02,
+          "sugar_g": 0.0
+        },
+        "source_description": "Peas, mature seeds, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted pecans salted",
+          "dry roasted pecans",
+          "pecans with salt",
+          "salted pecan nuts",
+          "pecans roasted"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry roasted salted pecans are used for snacking, baking, and salad toppings. This USDA row reflects roasted nut values per 100 g.",
+        "display_name": "Pecans (Dry Roasted, Salted)",
+        "fdc_id": 169424,
+        "macros": {
+          "calories": 710.0,
+          "carbs_g": 13.55,
+          "fat_g": 74.27,
+          "fiber_g": 9.4,
+          "protein_g": 9.5,
+          "sodium_g": 0.383,
+          "sugar_g": 4.06
+        },
+        "source_description": "Nuts, pecans, dry roasted, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pepeao dried",
+          "dried pepeao",
+          "pepeao fruit dried",
+          "dehydrated pepeao",
+          "pepeao"
+        ],
+        "category_label": "vegetable",
+        "description": "Pepeao (dried) is a niche dried fruit ingredient represented in USDA legacy data. This row reflects dried product values per 100 g.",
+        "display_name": "Pepeao (Dried)",
+        "fdc_id": 168418,
+        "macros": {
+          "calories": 298.0,
+          "carbs_g": 81.03,
+          "fat_g": 0.44,
+          "fiber_g": 0.0,
+          "protein_g": 4.82,
+          "sodium_g": 0.07,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pepeao, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "banana pepper",
+          "raw banana pepper",
+          "sweet banana pepper",
+          "yellow banana pepper",
+          "wax banana pepper"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw banana peppers are mild peppers used for salads, pickling, and sandwich toppings. This USDA row reflects raw pepper values per 100 g.",
+        "display_name": "Banana Pepper (Raw)",
+        "fdc_id": 169394,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 5.35,
+          "fat_g": 0.45,
+          "fiber_g": 3.4,
+          "protein_g": 1.66,
+          "sodium_g": 0.013,
+          "sugar_g": 1.95
+        },
+        "source_description": "Pepper, banana, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ancho chile dried",
+          "dried ancho peppers",
+          "ancho chiles",
+          "ancho pepper pods",
+          "dry ancho chili"
+        ],
+        "category_label": "vegetable",
+        "description": "Dried ancho peppers are mild dried chiles used in sauces, adobos, and spice blends. This USDA row reflects dried chile values per 100 g.",
+        "display_name": "Ancho Peppers (Dried)",
+        "fdc_id": 169396,
+        "macros": {
+          "calories": 281.0,
+          "carbs_g": 51.42,
+          "fat_g": 8.2,
+          "fiber_g": 21.6,
+          "protein_g": 11.86,
+          "sodium_g": 0.043,
+          "sugar_g": 0.0
+        },
+        "source_description": "Peppers, ancho, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "red bell pepper",
+          "bell pepper red",
+          "raw red bell pepper",
+          "sweet red pepper",
+          "capsicum red"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw red bell pepper is a sweet crunchy vegetable used in salads, stir-fries, and roasting. This USDA row reflects raw pepper values per 100 g.",
+        "display_name": "Bell Pepper (Red, Raw)",
+        "fdc_id": 2258590,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 6.6532,
+          "fat_g": 0.1256,
+          "fiber_g": 1.158,
+          "protein_g": 0.8956,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Peppers, bell, red, raw",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "bell pepper"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sun-dried hot chiles",
+          "dried hot chile peppers",
+          "hot chili dried",
+          "dry hot peppers",
+          "dried chile pods"
+        ],
+        "category_label": "vegetable",
+        "description": "Sun-dried hot chile peppers are used for spice pastes, sauces, and seasoning blends. This USDA row reflects dried chile values per 100 g.",
+        "display_name": "Hot Chile Peppers (Sun-Dried)",
+        "fdc_id": 168570,
+        "macros": {
+          "calories": 324.0,
+          "carbs_g": 69.86,
+          "fat_g": 5.81,
+          "fiber_g": 28.7,
+          "protein_g": 10.58,
+          "sodium_g": 0.091,
+          "sugar_g": 41.06
+        },
+        "source_description": "Peppers, hot chile, sun-dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pickled hot peppers",
+          "canned hot pickled peppers",
+          "hot pepper slices pickled",
+          "pickled chili peppers",
+          "jarred hot peppers"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned hot pickled peppers are condiments used in sandwiches, pizzas, and relish applications. This USDA row reflects canned product values per 100 g.",
+        "display_name": "Hot Pickled Peppers (Canned)",
+        "fdc_id": 169766,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 4.56,
+          "fat_g": 0.4,
+          "fiber_g": 2.6,
+          "protein_g": 0.8,
+          "sodium_g": 1.43,
+          "sugar_g": 1.6
+        },
+        "source_description": "Peppers, hot pickled, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "hungarian pepper",
+          "raw hungarian pepper",
+          "hungarian wax pepper",
+          "yellow hot pepper",
+          "hungarian chile"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw Hungarian peppers are used in sautés, pickling, and fresh pepper applications. This USDA row reflects raw pepper values per 100 g.",
+        "display_name": "Hungarian Peppers (Raw)",
+        "fdc_id": 168578,
+        "macros": {
+          "calories": 29.0,
+          "carbs_g": 6.7,
+          "fat_g": 0.41,
+          "fiber_g": 1.0,
+          "protein_g": 0.8,
+          "sodium_g": 0.001,
+          "sugar_g": 3.53
+        },
+        "source_description": "Peppers, hungarian, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "jalapeno peppers",
+          "raw jalapenos",
+          "fresh jalapeno",
+          "green jalapeno pepper",
+          "jalapeno chile"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw jalapenos are medium-heat chiles used in salsas, pickles, and cooked dishes. This USDA row reflects raw pepper values per 100 g.",
+        "display_name": "Jalapeno Peppers (Raw)",
+        "fdc_id": 168576,
+        "macros": {
+          "calories": 29.0,
+          "carbs_g": 6.5,
+          "fat_g": 0.37,
+          "fiber_g": 2.8,
+          "protein_g": 0.91,
+          "sodium_g": 0.003,
+          "sugar_g": 4.12
+        },
+        "source_description": "Peppers, jalapeno, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pasilla chile dried",
+          "dried pasilla peppers",
+          "pasilla chiles",
+          "dry pasilla pods",
+          "pasilla negro dried"
+        ],
+        "category_label": "vegetable",
+        "description": "Dried pasilla peppers are used in moles and chile sauces for deep mild heat. This USDA row reflects dried chile values per 100 g.",
+        "display_name": "Pasilla Peppers (Dried)",
+        "fdc_id": 168579,
+        "macros": {
+          "calories": 345.0,
+          "carbs_g": 51.13,
+          "fat_g": 15.85,
+          "fiber_g": 26.8,
+          "protein_g": 12.35,
+          "sodium_g": 0.089,
+          "sugar_g": 0.0
+        },
+        "source_description": "Peppers, pasilla, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "serrano peppers",
+          "raw serrano chile",
+          "fresh serrano",
+          "serrano chili pepper",
+          "green serrano"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw serrano peppers are hot chiles used in salsas and cooked dishes. This USDA row reflects raw pepper values per 100 g.",
+        "display_name": "Serrano Peppers (Raw)",
+        "fdc_id": 169395,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 6.7,
+          "fat_g": 0.44,
+          "fiber_g": 3.7,
+          "protein_g": 1.74,
+          "sodium_g": 0.01,
+          "sugar_g": 3.83
+        },
+        "source_description": "Peppers, serrano, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet red peppers",
+          "raw sweet red pepper",
+          "red sweet pepper",
+          "bell-type sweet red pepper",
+          "fresh sweet pepper red"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw sweet red peppers are used for salads, roasting, and sautés. This USDA row reflects raw pepper values per 100 g.",
+        "display_name": "Sweet Red Peppers (Raw)",
+        "fdc_id": 170108,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 6.03,
+          "fat_g": 0.3,
+          "fiber_g": 2.1,
+          "protein_g": 0.99,
+          "sodium_g": 0.004,
+          "sugar_g": 4.2
+        },
+        "source_description": "Peppers, sweet, red, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "japanese persimmon",
+          "fuyu persimmon",
+          "raw japanese persimmon",
+          "persimmon japanese",
+          "fresh persimmon"
+        ],
+        "category_label": "fruit",
+        "description": "Japanese persimmons are sweet fruits eaten fresh when firm or soft depending on variety. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Persimmons (Japanese, Raw)",
+        "fdc_id": 169941,
+        "macros": {
+          "calories": 70.0,
+          "carbs_g": 18.59,
+          "fat_g": 0.19,
+          "fiber_g": 3.6,
+          "protein_g": 0.58,
+          "sodium_g": 0.001,
+          "sugar_g": 12.53
+        },
+        "source_description": "Persimmons, japanese, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "native persimmon",
+          "american persimmon",
+          "raw native persimmon",
+          "wild persimmon",
+          "persimmon native"
+        ],
+        "category_label": "fruit",
+        "description": "Native persimmons are wild-type persimmon fruits used fresh or in preserves. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Persimmons (Native, Raw)",
+        "fdc_id": 169943,
+        "macros": {
+          "calories": 127.0,
+          "carbs_g": 33.5,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 0.8,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Persimmons, native, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked pheasant",
+          "pheasant meat cooked",
+          "roasted pheasant meat",
+          "pheasant poultry cooked",
+          "game bird pheasant"
+        ],
+        "category_label": "protein",
+        "description": "Cooked pheasant is a lean game-bird protein for roasted and composed dishes. This USDA row reflects cooked edible-portion values per 100 g.",
+        "display_name": "Pheasant (Cooked)",
+        "fdc_id": 169903,
+        "macros": {
+          "calories": 239.0,
+          "carbs_g": 0.0,
+          "fat_g": 12.1,
+          "fiber_g": 0.0,
+          "protein_g": 32.4,
+          "sodium_g": 0.043,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pheasant, cooked, total edible",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "hot dog relish",
+          "pickle relish hot dog",
+          "sweet hot dog relish",
+          "cucumber relish hot dog style",
+          "prepared hot dog relish"
+        ],
+        "category_label": "vegetable",
+        "description": "Hot dog pickle relish is a condiment used on sandwiches and grilled items. This USDA row reflects relish values per 100 g.",
+        "display_name": "Pickle Relish (Hot Dog)",
+        "fdc_id": 168560,
+        "macros": {
+          "calories": 91.0,
+          "carbs_g": 23.35,
+          "fat_g": 0.46,
+          "fiber_g": 1.5,
+          "protein_g": 1.5,
+          "sodium_g": 1.091,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pickle relish, hot dog",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweet pickle relish",
+          "pickle relish sweet",
+          "sweet cucumber relish",
+          "prepared sweet relish",
+          "jarred sweet relish"
+        ],
+        "category_label": "vegetable",
+        "description": "Sweet pickle relish is a condiment used in sandwiches, salads, and dressings. This USDA row reflects relish values per 100 g.",
+        "display_name": "Pickle Relish (Sweet)",
+        "fdc_id": 168561,
+        "macros": {
+          "calories": 130.0,
+          "carbs_g": 35.06,
+          "fat_g": 0.47,
+          "fiber_g": 1.1,
+          "protein_g": 0.37,
+          "sodium_g": 0.811,
+          "sugar_g": 29.13
+        },
+        "source_description": "Pickle relish, sweet",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pickled pork hocks",
+          "pork hocks pickled",
+          "cured pickled pork hock",
+          "brined pork hocks",
+          "pickled pork knuckles"
+        ],
+        "category_label": "protein",
+        "description": "Pickled pork hocks are cured pork cuts used in stews, beans, and slow-cooked dishes. This USDA row reflects product values per 100 g.",
+        "display_name": "Pickled Pork Hocks",
+        "fdc_id": 169157,
+        "macros": {
+          "calories": 171.0,
+          "carbs_g": 0.0,
+          "fat_g": 10.54,
+          "fiber_g": 0.0,
+          "protein_g": 19.11,
+          "sodium_g": 1.05,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, pickled pork hocks",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chow chow pickles",
+          "sweet chow chow relish",
+          "pickled chow-chow",
+          "cauliflower onion mustard relish",
+          "southern chowchow"
+        ],
+        "category_label": "vegetable",
+        "description": "Sweet chow-chow pickles are mixed pickled vegetables used as a relish condiment. This USDA row reflects prepared product values per 100 g.",
+        "display_name": "Pickles (Chow-Chow Sweet)",
+        "fdc_id": 169397,
+        "macros": {
+          "calories": 121.0,
+          "carbs_g": 26.64,
+          "fat_g": 0.9,
+          "fiber_g": 1.5,
+          "protein_g": 1.5,
+          "sodium_g": 0.527,
+          "sugar_g": 23.88
+        },
+        "source_description": "Pickles, chowchow, with cauliflower onion mustard, sweet",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sour cucumber pickles",
+          "sour pickles",
+          "cucumber pickles sour",
+          "fermented sour pickles",
+          "dill-style sour pickles"
+        ],
+        "category_label": "vegetable",
+        "description": "Sour cucumber pickles are brined pickles used as condiments and sides. This USDA row reflects pickle values per 100 g.",
+        "display_name": "Pickles (Cucumber, Sour)",
+        "fdc_id": 169379,
+        "macros": {
+          "calories": 11.0,
+          "carbs_g": 2.26,
+          "fat_g": 0.2,
+          "fiber_g": 1.2,
+          "protein_g": 0.33,
+          "sodium_g": 1.208,
+          "sugar_g": 1.06
+        },
+        "source_description": "Pickles, cucumber, sour",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "cucumber"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "immature pigeon peas",
+          "raw pigeonpea seeds",
+          "green pigeon peas",
+          "fresh pigeonpeas",
+          "young pigeon pea seeds"
+        ],
+        "category_label": "vegetable",
+        "description": "Immature pigeonpea seeds are young legumes used in stews and curries. This USDA row reflects raw seed values per 100 g.",
+        "display_name": "Pigeonpeas (Immature Seeds, Raw)",
+        "fdc_id": 170025,
+        "macros": {
+          "calories": 136.0,
+          "carbs_g": 23.88,
+          "fat_g": 1.64,
+          "fiber_g": 5.1,
+          "protein_g": 7.2,
+          "sodium_g": 0.005,
+          "sugar_g": 3.0
+        },
+        "source_description": "Pigeonpeas, immature seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried pili nuts",
+          "pilinuts",
+          "pili nut kernels",
+          "dry pili nuts",
+          "philippine pili nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried pili nuts are rich tropical nuts used in snacks and confectionery. This USDA row reflects dried nut values per 100 g.",
+        "display_name": "Pilinuts (Dried)",
+        "fdc_id": 170590,
+        "macros": {
+          "calories": 719.0,
+          "carbs_g": 3.98,
+          "fat_g": 79.55,
+          "fiber_g": 0.0,
+          "protein_g": 10.8,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, pilinuts, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned pimento",
+          "pimento peppers canned",
+          "red pimento strips",
+          "jarred pimentos",
+          "pimiento canned"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned pimento is a mild red pepper ingredient used in spreads, salads, and stuffing olives. This USDA row reflects canned values per 100 g.",
+        "display_name": "Pimento (Canned)",
+        "fdc_id": 168559,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 5.1,
+          "fat_g": 0.3,
+          "fiber_g": 1.9,
+          "protein_g": 1.1,
+          "sodium_g": 0.014,
+          "sugar_g": 2.71
+        },
+        "source_description": "Pimento, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried pine nuts",
+          "pine nut kernels",
+          "pignoli",
+          "pinon nuts dried",
+          "dry pine nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried pine nuts are oily seeds used in pesto, salads, and baking. This USDA row reflects dried seed values per 100 g.",
+        "display_name": "Pine Nuts (Dried)",
+        "fdc_id": 170591,
+        "macros": {
+          "calories": 673.0,
+          "carbs_g": 13.08,
+          "fat_g": 68.37,
+          "fiber_g": 3.7,
+          "protein_g": 13.69,
+          "sodium_g": 0.002,
+          "sugar_g": 3.59
+        },
+        "source_description": "Nuts, pine nuts, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pineapple",
+          "pineapple fruit",
+          "fresh pineapple",
+          "all-variety pineapple",
+          "pineapple chunks fresh"
+        ],
+        "category_label": "fruit",
+        "description": "Raw pineapple from all varieties is used fresh, in juices, and in cooked sweet-savory dishes. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Pineapple (Raw, All Varieties)",
+        "fdc_id": 169124,
+        "macros": {
+          "calories": 50.0,
+          "carbs_g": 13.12,
+          "fat_g": 0.12,
+          "fiber_g": 1.4,
+          "protein_g": 0.54,
+          "sodium_g": 0.001,
+          "sugar_g": 9.85
+        },
+        "source_description": "Pineapple, raw, all varieties",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned pineapple in juice",
+          "drained canned pineapple",
+          "pineapple juice-pack canned",
+          "canned pineapple drained",
+          "pineapple chunks canned juice"
+        ],
+        "category_label": "fruit",
+        "description": "Canned pineapple in juice pack, drained, is used for desserts and savory mixed dishes. This USDA row reflects drained fruit values per 100 g.",
+        "display_name": "Pineapple (Canned, Juice Pack, Drained)",
+        "fdc_id": 167767,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 15.56,
+          "fat_g": 0.11,
+          "fiber_g": 1.3,
+          "protein_g": 0.51,
+          "sodium_g": 0.001,
+          "sugar_g": 14.26
+        },
+        "source_description": "Pineapple, canned, juice pack, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned pineapple water pack",
+          "pineapple in water pack",
+          "canned pineapple solids and liquids",
+          "water-packed pineapple",
+          "pineapple canned in water"
+        ],
+        "category_label": "fruit",
+        "description": "Water-pack canned pineapple is a lower-sugar preserved fruit option. This USDA row reflects solids-and-liquids values per 100 g.",
+        "display_name": "Pineapple (Canned, Water Pack)",
+        "fdc_id": 169125,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 8.3,
+          "fat_g": 0.09,
+          "fiber_g": 0.8,
+          "protein_g": 0.43,
+          "sodium_g": 0.001,
+          "sugar_g": 7.5
+        },
+        "source_description": "Pineapple, canned, water pack, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "extra sweet pineapple",
+          "raw extra sweet pineapple",
+          "sweet variety pineapple",
+          "fresh sweet pineapple",
+          "pineapple premium sweet"
+        ],
+        "category_label": "fruit",
+        "description": "Extra-sweet pineapple variety is used for fresh fruit and dessert applications. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Pineapple (Extra Sweet Variety, Raw)",
+        "fdc_id": 168194,
+        "macros": {
+          "calories": 51.0,
+          "carbs_g": 13.5,
+          "fat_g": 0.11,
+          "fiber_g": 1.4,
+          "protein_g": 0.53,
+          "sodium_g": 0.001,
+          "sugar_g": 10.32
+        },
+        "source_description": "Pineapple, raw, extra sweet variety",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweetened frozen pineapple",
+          "frozen pineapple chunks",
+          "pineapple frozen sweetened",
+          "frozen pineapple fruit",
+          "prepared frozen pineapple"
+        ],
+        "category_label": "fruit",
+        "description": "Sweetened frozen pineapple chunks are used in smoothies and desserts. This USDA row reflects frozen fruit values per 100 g.",
+        "display_name": "Pineapple (Frozen Chunks, Sweetened)",
+        "fdc_id": 169946,
+        "macros": {
+          "calories": 86.0,
+          "carbs_g": 22.2,
+          "fat_g": 0.1,
+          "fiber_g": 1.1,
+          "protein_g": 0.4,
+          "sodium_g": 0.002,
+          "sugar_g": 21.1
+        },
+        "source_description": "Pineapple, frozen, chunks, sweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned pineapple juice",
+          "pineapple juice fortified",
+          "unsweetened pineapple juice canned",
+          "pineapple juice not from concentrate",
+          "pineapple juice with vitamins"
+        ],
+        "category_label": "fruit",
+        "description": "Fortified canned pineapple juice is a prepared beverage used directly or in mixed drinks. This USDA row reflects juice values per 100 g.",
+        "display_name": "Pineapple Juice (Canned, Fortified)",
+        "fdc_id": 168205,
+        "macros": {
+          "calories": 50.0,
+          "carbs_g": 12.18,
+          "fat_g": 0.14,
+          "fiber_g": 0.2,
+          "protein_g": 0.36,
+          "sodium_g": 0.003,
+          "sugar_g": 9.98
+        },
+        "source_description": "Pineapple juice, canned, not from concentrate, unsweetened, with added vitamins A, C and E",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pineapple juice canned or bottled",
+          "bottled pineapple juice",
+          "unsweetened pineapple juice",
+          "pineapple juice with ascorbic acid",
+          "pineapple beverage juice"
+        ],
+        "category_label": "fruit",
+        "description": "Canned or bottled pineapple juice is a shelf-stable fruit beverage. This USDA row reflects juice values per 100 g.",
+        "display_name": "Pineapple Juice (Canned/Bottled)",
+        "fdc_id": 168187,
+        "macros": {
+          "calories": 53.0,
+          "carbs_g": 12.87,
+          "fat_g": 0.12,
+          "fiber_g": 0.2,
+          "protein_g": 0.36,
+          "sodium_g": 0.002,
+          "sugar_g": 9.98
+        },
+        "source_description": "Pineapple juice, canned or bottled, unsweetened, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "diluted pineapple concentrate juice",
+          "prepared pineapple juice from concentrate",
+          "reconstituted pineapple juice",
+          "frozen concentrate pineapple juice prepared",
+          "pineapple concentrate diluted"
+        ],
+        "category_label": "fruit",
+        "description": "This row represents frozen pineapple juice concentrate diluted with water for drinking use. Nutrition values are for prepared juice per 100 g.",
+        "display_name": "Pineapple Juice Concentrate (Diluted)",
+        "fdc_id": 169128,
+        "macros": {
+          "calories": 51.0,
+          "carbs_g": 12.67,
+          "fat_g": 0.03,
+          "fiber_g": 0.2,
+          "protein_g": 0.4,
+          "sodium_g": 0.001,
+          "sugar_g": 12.47
+        },
+        "source_description": "Pineapple juice, frozen concentrate, unsweetened, diluted with 3 volume water",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen pineapple juice concentrate",
+          "undiluted pineapple concentrate",
+          "pineapple concentrate frozen",
+          "pineapple juice concentrate undiluted",
+          "concentrated pineapple juice"
+        ],
+        "category_label": "fruit",
+        "description": "Undiluted frozen pineapple juice concentrate is a dense juice base for beverage preparation. This USDA row reflects concentrate values per 100 g.",
+        "display_name": "Pineapple Juice Concentrate (Undiluted, Frozen)",
+        "fdc_id": 169948,
+        "macros": {
+          "calories": 179.0,
+          "carbs_g": 44.3,
+          "fat_g": 0.1,
+          "fiber_g": 0.7,
+          "protein_g": 1.3,
+          "sodium_g": 0.003,
+          "sugar_g": 43.6
+        },
+        "source_description": "Pineapple juice, frozen concentrate, unsweetened, undiluted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "traditional variety pineapple",
+          "raw traditional pineapple",
+          "pineapple standard varieties",
+          "fresh pineapple traditional",
+          "pineapple classic variety"
+        ],
+        "category_label": "fruit",
+        "description": "Raw pineapple from traditional varieties is used in fresh and cooked fruit preparations. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Pineapple (Traditional Varieties, Raw)",
+        "fdc_id": 168193,
+        "macros": {
+          "calories": 45.0,
+          "carbs_g": 11.82,
+          "fat_g": 0.13,
+          "fiber_g": 0.0,
+          "protein_g": 0.55,
+          "sodium_g": 0.001,
+          "sugar_g": 8.29
+        },
+        "source_description": "Pineapple, raw, traditional varieties",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pinyon pine nuts",
+          "dried pinyon nuts",
+          "pinon nuts",
+          "pinyon kernels dried",
+          "southwestern pine nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried pinyon pine nuts are region-specific seeds used in traditional savory dishes. This USDA row reflects dried seed values per 100 g.",
+        "display_name": "Pinyon Pine Nuts (Dried)",
+        "fdc_id": 170592,
+        "macros": {
+          "calories": 629.0,
+          "carbs_g": 19.3,
+          "fat_g": 60.98,
+          "fiber_g": 10.7,
+          "protein_g": 11.57,
+          "sodium_g": 0.072,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, pine nuts, pinyon, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pistachios",
+          "pistachio kernels raw",
+          "unsalted raw pistachios",
+          "pistachio nuts",
+          "green pistachio kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw pistachios are used as snacks, toppings, and ingredients in sweets and sauces. This USDA row reflects raw nut values per 100 g.",
+        "display_name": "Pistachio Nuts (Raw)",
+        "fdc_id": 170184,
+        "macros": {
+          "calories": 560.0,
+          "carbs_g": 27.17,
+          "fat_g": 45.32,
+          "fiber_g": 10.6,
+          "protein_g": 20.16,
+          "sodium_g": 0.001,
+          "sugar_g": 7.66
+        },
+        "source_description": "Nuts, pistachio nuts, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pitanga",
+          "surinam cherry",
+          "raw surinam cherry",
+          "pitanga fruit",
+          "fresh pitanga"
+        ],
+        "category_label": "fruit",
+        "description": "Pitanga (Surinam cherry) is a tart aromatic fruit used fresh and in preserves. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Pitanga (Surinam Cherry, Raw)",
+        "fdc_id": 169129,
+        "macros": {
+          "calories": 33.0,
+          "carbs_g": 7.49,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 0.8,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pitanga, (surinam-cherry), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green plantains",
+          "raw green plantain",
+          "unripe plantain",
+          "cooking plantain green",
+          "plantain raw green"
+        ],
+        "category_label": "fruit",
+        "description": "Raw green plantains are starchy fruits used for frying, boiling, and savory preparations. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Plantains (Green, Raw)",
+        "fdc_id": 168215,
+        "macros": {
+          "calories": 152.0,
+          "carbs_g": 36.66,
+          "fat_g": 0.07,
+          "fiber_g": 2.2,
+          "protein_g": 1.25,
+          "sodium_g": 0.002,
+          "sugar_g": 2.29
+        },
+        "source_description": "Plantains, green, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow plantains",
+          "ripe plantain raw",
+          "plantain yellow raw",
+          "sweet plantain",
+          "raw ripe plantain"
+        ],
+        "category_label": "fruit",
+        "description": "Raw yellow plantains are sweeter than green plantains and used in frying and baking. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Plantains (Yellow, Raw)",
+        "fdc_id": 169130,
+        "macros": {
+          "calories": 122.0,
+          "carbs_g": 31.89,
+          "fat_g": 0.35,
+          "fiber_g": 1.7,
+          "protein_g": 1.3,
+          "sodium_g": 0.004,
+          "sugar_g": 17.51
+        },
+        "source_description": "Plantains, yellow, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned plums water pack",
+          "purple plums canned",
+          "plums canned solids and liquids",
+          "water-packed plums",
+          "canned plum fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Water-pack canned purple plums are preserved fruits used in desserts and mixed fruit dishes. This USDA row reflects solids-and-liquids values per 100 g.",
+        "display_name": "Plums (Canned, Water Pack)",
+        "fdc_id": 169950,
+        "macros": {
+          "calories": 41.0,
+          "carbs_g": 11.03,
+          "fat_g": 0.01,
+          "fiber_g": 0.9,
+          "protein_g": 0.39,
+          "sodium_g": 0.001,
+          "sugar_g": 10.1
+        },
+        "source_description": "Plums, canned, purple, water pack, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried prunes",
+          "dried plums",
+          "prunes uncooked",
+          "sulfured prunes",
+          "dehydrated plums"
+        ],
+        "category_label": "fruit",
+        "description": "Prunes are dried plums used for snacks, baking, and digestive-fiber formulations. This USDA row reflects uncooked dried fruit values per 100 g.",
+        "display_name": "Prunes (Dried Plums, Uncooked)",
+        "fdc_id": 168162,
+        "macros": {
+          "calories": 240.0,
+          "carbs_g": 63.88,
+          "fat_g": 0.38,
+          "fiber_g": 7.1,
+          "protein_g": 2.18,
+          "sodium_g": 0.002,
+          "sugar_g": 38.13
+        },
+        "source_description": "Plums, dried (prunes), uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "poke shoots",
+          "pokeberry shoots",
+          "raw poke greens shoots",
+          "poke salad greens",
+          "young poke shoots"
+        ],
+        "category_label": "vegetable",
+        "description": "Pokeberry shoots (poke) are traditional wild greens that require proper preparation before consumption. This USDA row reflects raw shoots per 100 g.",
+        "display_name": "Pokeberry Shoots (Poke, Raw)",
+        "fdc_id": 170432,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 3.7,
+          "fat_g": 0.4,
+          "fiber_g": 1.7,
+          "protein_g": 2.6,
+          "sodium_g": 0.023,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pokeberry shoots, (poke), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bottled pomegranate juice",
+          "pomegranate juice",
+          "pom juice bottled",
+          "pomegranate beverage juice",
+          "fruit juice pomegranate"
+        ],
+        "category_label": "fruit",
+        "description": "Bottled pomegranate juice is used as a beverage and in sauces or marinades. This USDA row reflects juice values per 100 g.",
+        "display_name": "Pomegranate Juice (Bottled)",
+        "fdc_id": 167787,
+        "macros": {
+          "calories": 54.0,
+          "carbs_g": 13.13,
+          "fat_g": 0.29,
+          "fiber_g": 0.1,
+          "protein_g": 0.15,
+          "sodium_g": 0.009,
+          "sugar_g": 12.65
+        },
+        "source_description": "Pomegranate juice, bottled",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pork backfat",
+          "pork fatback",
+          "back fat pork raw",
+          "fresh pork fatback",
+          "pork back fat"
+        ],
+        "category_label": "protein",
+        "description": "Raw pork backfat is used in charcuterie, sausage making, and rendered fat preparations. This USDA row reflects raw fat values per 100 g.",
+        "display_name": "Pork Backfat (Raw)",
+        "fdc_id": 167811,
+        "macros": {
+          "calories": 812.0,
+          "carbs_g": 0.0,
+          "fat_g": 88.69,
+          "fiber_g": 0.0,
+          "protein_g": 2.92,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, backfat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pork belly",
+          "fresh pork belly",
+          "pork belly slab",
+          "uncooked pork belly",
+          "skin-on pork belly"
+        ],
+        "category_label": "protein",
+        "description": "Raw pork belly is a rich cut used for braising, roasting, and curing preparations. This USDA row reflects raw pork belly values per 100 g.",
+        "display_name": "Pork Belly (Raw)",
+        "fdc_id": 167812,
+        "macros": {
+          "calories": 518.0,
+          "carbs_g": 0.0,
+          "fat_g": 53.01,
+          "fiber_g": 0.0,
+          "protein_g": 9.34,
+          "sodium_g": 0.032,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, belly, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "boneless pork shoulder breast",
+          "raw pork shoulder breast",
+          "pork shoulder boneless",
+          "pork shoulder breast cut",
+          "pork shoulder raw"
+        ],
+        "category_label": "protein",
+        "description": "Raw boneless pork shoulder-breast cut is used for slow-cooking and roasting. This USDA row reflects separable lean-and-fat values per 100 g.",
+        "display_name": "Pork Shoulder Breast (Boneless, Raw)",
+        "fdc_id": 169187,
+        "macros": {
+          "calories": 127.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.4,
+          "fiber_g": 0.0,
+          "protein_g": 22.54,
+          "sodium_g": 0.054,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, Shoulder breast, boneless, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "broiled boneless pork blade chops",
+          "cooked pork blade chops",
+          "boneless pork chops broiled",
+          "pork blade chop cooked",
+          "broiled pork chops boneless"
+        ],
+        "category_label": "protein",
+        "description": "Broiled boneless pork blade chops are cooked pork portions used as an entree protein. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Pork Blade Chops (Boneless, Broiled)",
+        "fdc_id": 168380,
+        "macros": {
+          "calories": 202.0,
+          "carbs_g": 0.83,
+          "fat_g": 11.13,
+          "fiber_g": 0.0,
+          "protein_g": 24.73,
+          "sodium_g": 0.058,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, blade, (chops), boneless, separable lean and fat, cooked, broiled",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 010: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "salt pork raw",
+          "cured salt pork",
+          "raw cured pork",
+          "salted pork belly",
+          "salt pork fat meat"
+        ],
+        "category_label": "protein",
+        "description": "Raw cured salt pork is a salty preserved pork ingredient used for flavoring beans, stews, and braises. This USDA row reflects raw cured values per 100 g.",
+        "display_name": "Salt Pork (Raw, Cured)",
+        "fdc_id": 168287,
+        "macros": {
+          "calories": 748.0,
+          "carbs_g": 0.0,
+          "fat_g": 80.5,
+          "fiber_g": 0.0,
+          "protein_g": 5.05,
+          "sodium_g": 2.684,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, cured, salt pork, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

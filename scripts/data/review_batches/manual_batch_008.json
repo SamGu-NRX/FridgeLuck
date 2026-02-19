@@ -1,0 +1,1756 @@
+{
+  "batch_id": 8,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "straw mushrooms canned",
+          "canned straw mushrooms drained",
+          "drained canned straw mushrooms",
+          "straw mushroom canned",
+          "straw mushrooms preserved"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned drained straw mushrooms are ready-to-use mushrooms for stir-fries, soups, and mixed dishes. This USDA row reflects drained solids per 100 g.",
+        "display_name": "Mushrooms (Straw, Canned, Drained)",
+        "fdc_id": 168582,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 4.64,
+          "fat_g": 0.68,
+          "fiber_g": 2.5,
+          "protein_g": 3.83,
+          "sodium_g": 0.384,
+          "sugar_g": 0.0
+        },
+        "source_description": "Mushrooms, straw, canned, drained solids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white mushrooms",
+          "button mushrooms",
+          "raw white mushrooms",
+          "fresh white mushrooms",
+          "button mushroom raw"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw white button mushrooms are versatile mushrooms used in sautés, soups, and salads. This USDA row reflects raw mushroom values per 100 g.",
+        "display_name": "Mushrooms (White, Raw)",
+        "fdc_id": 169251,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 3.26,
+          "fat_g": 0.34,
+          "fiber_g": 1.0,
+          "protein_g": 3.09,
+          "sodium_g": 0.005,
+          "sugar_g": 1.98
+        },
+        "source_description": "Mushrooms, white, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "uv-exposed white mushrooms",
+          "uv-treated button mushrooms",
+          "white mushrooms high vitamin d",
+          "raw uv white mushrooms",
+          "button mushrooms uv"
+        ],
+        "category_label": "vegetable",
+        "description": "UV-exposed white mushrooms are raw button mushrooms treated to raise vitamin D content. This USDA row reflects raw values per 100 g.",
+        "display_name": "Mushrooms (White, UV-Exposed)",
+        "fdc_id": 169376,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 3.26,
+          "fat_g": 0.34,
+          "fiber_g": 1.0,
+          "protein_g": 3.09,
+          "sodium_g": 0.005,
+          "sugar_g": 1.98
+        },
+        "source_description": "Mushroom, white, exposed to ultraviolet light, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mustard greens",
+          "raw mustard greens",
+          "mustard leaves",
+          "fresh mustard greens",
+          "leaf mustard"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw mustard greens are peppery leafy vegetables used in sautés, braises, soups, and salads. This USDA row reflects raw greens per 100 g.",
+        "display_name": "Mustard Greens (Raw)",
+        "fdc_id": 169256,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 4.67,
+          "fat_g": 0.42,
+          "fiber_g": 3.2,
+          "protein_g": 2.86,
+          "sodium_g": 0.02,
+          "sugar_g": 1.32
+        },
+        "source_description": "Mustard greens, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mustard spinach",
+          "tendergreen mustard",
+          "raw mustard spinach",
+          "mustard spinach greens",
+          "tendergreen leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Mustard spinach (tendergreen) is a mild mustard-like leafy green used in quick sautés and soups. This USDA row reflects raw leaves per 100 g.",
+        "display_name": "Mustard Spinach (Tendergreen, Raw)",
+        "fdc_id": 168438,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 3.9,
+          "fat_g": 0.3,
+          "fiber_g": 2.8,
+          "protein_g": 2.2,
+          "sodium_g": 0.021,
+          "sugar_g": 0.0
+        },
+        "source_description": "Mustard spinach, (tendergreen), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned nance fruit",
+          "nance in syrup",
+          "drained canned nance",
+          "nance fruit canned",
+          "sweet nance canned"
+        ],
+        "category_label": "fruit",
+        "description": "Nance fruit canned in syrup is a preserved tropical fruit used in desserts and sweet applications. This USDA row reflects drained fruit values per 100 g.",
+        "display_name": "Nance (Canned, Syrup, Drained)",
+        "fdc_id": 167788,
+        "macros": {
+          "calories": 95.0,
+          "carbs_g": 22.79,
+          "fat_g": 1.28,
+          "fiber_g": 7.0,
+          "protein_g": 0.56,
+          "sodium_g": 0.008,
+          "sugar_g": 15.66
+        },
+        "source_description": "Nance, canned, syrup, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen nance fruit",
+          "unsweetened frozen nance",
+          "nance fruit frozen",
+          "nance pulp frozen",
+          "nance berry frozen"
+        ],
+        "category_label": "fruit",
+        "description": "Frozen unsweetened nance is used for beverages and fruit preparations. This USDA row reflects frozen fruit values per 100 g.",
+        "display_name": "Nance (Frozen, Unsweetened)",
+        "fdc_id": 167789,
+        "macros": {
+          "calories": 73.0,
+          "carbs_g": 16.97,
+          "fat_g": 1.16,
+          "fiber_g": 7.5,
+          "protein_g": 0.66,
+          "sodium_g": 0.003,
+          "sugar_g": 8.31
+        },
+        "source_description": "Nance, frozen, unsweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "naranjilla pulp frozen",
+          "lulo pulp frozen",
+          "frozen naranjilla pulp",
+          "unsweetened lulo pulp",
+          "naranjilla puree frozen"
+        ],
+        "category_label": "fruit",
+        "description": "Frozen unsweetened naranjilla (lulo) pulp is used for juices and dessert flavoring. This USDA row reflects frozen pulp values per 100 g.",
+        "display_name": "Naranjilla Lulo Pulp (Frozen)",
+        "fdc_id": 167790,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 5.9,
+          "fat_g": 0.22,
+          "fiber_g": 1.1,
+          "protein_g": 0.44,
+          "sodium_g": 0.004,
+          "sugar_g": 3.74
+        },
+        "source_description": "Naranjilla (lulo) pulp, frozen, unsweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "new zealand spinach",
+          "raw new zealand spinach",
+          "tetragonia",
+          "warrigal greens",
+          "nz spinach"
+        ],
+        "category_label": "vegetable",
+        "description": "New Zealand spinach is a leafy green used similarly to spinach in sautés and soups. This USDA row reflects raw leaves per 100 g.",
+        "display_name": "New Zealand Spinach (Raw)",
+        "fdc_id": 168440,
+        "macros": {
+          "calories": 14.0,
+          "carbs_g": 2.5,
+          "fat_g": 0.2,
+          "fiber_g": 1.5,
+          "protein_g": 1.5,
+          "sodium_g": 0.13,
+          "sugar_g": 0.29
+        },
+        "source_description": "New Zealand spinach, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "nonfat evaporated milk",
+          "fat-free evaporated milk",
+          "canned skim evaporated milk",
+          "evaporated milk nonfat",
+          "fortified evaporated skim milk"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Nonfat evaporated milk is concentrated shelf-stable dairy used in sauces, soups, and baking. This USDA row reflects fortified canned milk values per 100 g.",
+        "display_name": "Evaporated Milk (Nonfat, Fortified)",
+        "fdc_id": 170878,
+        "macros": {
+          "calories": 78.0,
+          "carbs_g": 11.35,
+          "fat_g": 0.2,
+          "fiber_g": 0.0,
+          "protein_g": 7.55,
+          "sodium_g": 0.115,
+          "sugar_g": 11.35
+        },
+        "source_description": "Milk, canned, evaporated, nonfat, with added vitamin A and vitamin D",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chow mein noodles",
+          "chinese chow mein noodles",
+          "fried chow mein noodles",
+          "chinese egg noodles chow mein",
+          "chow mein noodle strands"
+        ],
+        "category_label": "grain_legume",
+        "description": "Chinese chow mein noodles are used for stir-fried noodle dishes and crunchy toppings. This USDA row reflects chow mein noodle values per 100 g.",
+        "display_name": "Noodles (Chinese Chow Mein)",
+        "fdc_id": 168905,
+        "macros": {
+          "calories": 471.0,
+          "carbs_g": 63.64,
+          "fat_g": 21.24,
+          "fiber_g": 6.7,
+          "protein_g": 10.88,
+          "sodium_g": 0.866,
+          "sugar_g": 0.0
+        },
+        "source_description": "Noodles, chinese, chow mein",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dry egg noodles",
+          "enriched egg noodles dry",
+          "uncooked egg noodles",
+          "egg pasta dry",
+          "egg noodle dry"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry enriched egg noodles are pasta ingredients used for soups, casseroles, and side dishes after cooking. This USDA row reflects dry values per 100 g.",
+        "display_name": "Egg Noodles (Dry, Enriched)",
+        "fdc_id": 169731,
+        "macros": {
+          "calories": 384.0,
+          "carbs_g": 71.27,
+          "fat_g": 4.44,
+          "fiber_g": 3.3,
+          "protein_g": 14.16,
+          "sodium_g": 0.021,
+          "sugar_g": 1.88
+        },
+        "source_description": "Noodles, egg, dry, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked egg noodles",
+          "enriched egg noodles cooked",
+          "prepared egg noodles",
+          "boiled egg noodles",
+          "egg pasta cooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked enriched egg noodles are prepared pasta for sides, soups, and mixed dishes. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Egg Noodles (Cooked, Enriched)",
+        "fdc_id": 169732,
+        "macros": {
+          "calories": 138.0,
+          "carbs_g": 25.16,
+          "fat_g": 2.07,
+          "fiber_g": 1.2,
+          "protein_g": 4.54,
+          "sodium_g": 0.005,
+          "sugar_g": 0.4
+        },
+        "source_description": "Noodles, egg, enriched, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked soba noodles",
+          "japanese soba cooked",
+          "buckwheat soba cooked",
+          "prepared soba noodles",
+          "soba noodle cooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked soba noodles are Japanese-style noodles used in hot and cold noodle dishes. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Soba Noodles (Cooked)",
+        "fdc_id": 168907,
+        "macros": {
+          "calories": 99.0,
+          "carbs_g": 21.44,
+          "fat_g": 0.1,
+          "fiber_g": 0.0,
+          "protein_g": 5.06,
+          "sodium_g": 0.06,
+          "sugar_g": 0.0
+        },
+        "source_description": "Noodles, japanese, soba, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked somen noodles",
+          "japanese somen cooked",
+          "thin wheat noodles cooked",
+          "prepared somen noodles",
+          "somen noodle cooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked somen noodles are thin Japanese noodles used in chilled broths and light noodle dishes. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Somen Noodles (Cooked)",
+        "fdc_id": 168909,
+        "macros": {
+          "calories": 131.0,
+          "carbs_g": 27.54,
+          "fat_g": 0.18,
+          "fiber_g": 0.0,
+          "protein_g": 4.0,
+          "sodium_g": 0.161,
+          "sugar_g": 0.0
+        },
+        "source_description": "Noodles, japanese, somen, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "diabetes nutrition shake",
+          "liquid diabetic supplement",
+          "medical nutrition diabetic drink",
+          "glucose-control supplement drink",
+          "diabetes formula liquid"
+        ],
+        "category_label": "dairy_egg",
+        "description": "This is a specialized liquid nutritional supplement formulated for people with diabetes. This USDA row reflects ready-to-drink product values per 100 g.",
+        "display_name": "Diabetes Nutritional Supplement (Liquid)",
+        "fdc_id": 170892,
+        "macros": {
+          "calories": 88.0,
+          "carbs_g": 11.88,
+          "fat_g": 3.08,
+          "fiber_g": 2.2,
+          "protein_g": 4.4,
+          "sodium_g": 0.092,
+          "sugar_g": 2.64
+        },
+        "source_description": "Nutritional supplement for people with diabetes, liquid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "acorn flour",
+          "full-fat acorn flour",
+          "ground acorn flour",
+          "acorn meal",
+          "acorn powder flour"
+        ],
+        "category_label": "nut_seed",
+        "description": "Acorn flour is a niche nut-based flour used in specialty baking and traditional preparations. This USDA row reflects full-fat flour values per 100 g.",
+        "display_name": "Acorn Flour (Full Fat)",
+        "fdc_id": 170566,
+        "macros": {
+          "calories": 501.0,
+          "carbs_g": 54.65,
+          "fat_g": 30.17,
+          "fiber_g": 0.0,
+          "protein_g": 7.49,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, acorn flour, full fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw acorns",
+          "acorn nuts raw",
+          "fresh acorns",
+          "whole acorns",
+          "acorn kernels raw"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw acorns are starchy nuts used after processing/leaching in traditional foods. This USDA row reflects raw acorn values per 100 g.",
+        "display_name": "Acorns (Raw)",
+        "fdc_id": 170157,
+        "macros": {
+          "calories": 387.0,
+          "carbs_g": 40.75,
+          "fat_g": 23.86,
+          "fiber_g": 0.0,
+          "protein_g": 6.15,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, acorns, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried acorns",
+          "acorn nuts dried",
+          "dehydrated acorns",
+          "dry acorns",
+          "acorn kernels dried"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried acorns are preserved nut kernels used in traditional flours and cooked preparations after processing. This USDA row reflects dried values per 100 g.",
+        "display_name": "Acorns (Dried)",
+        "fdc_id": 170565,
+        "macros": {
+          "calories": 509.0,
+          "carbs_g": 53.66,
+          "fat_g": 31.41,
+          "fiber_g": 0.0,
+          "protein_g": 8.1,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, acorns, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "almond butter",
+          "salted almond butter",
+          "plain almond butter with salt",
+          "almond spread",
+          "ground almond butter"
+        ],
+        "category_label": "nut_seed",
+        "description": "Salted almond butter is a nut spread used on toast, in sauces, and in baking. This USDA row reflects prepared spread values per 100 g.",
+        "display_name": "Almond Butter (Salted)",
+        "fdc_id": 168603,
+        "macros": {
+          "calories": 614.0,
+          "carbs_g": 18.82,
+          "fat_g": 55.5,
+          "fiber_g": 10.3,
+          "protein_g": 20.96,
+          "sodium_g": 0.227,
+          "sugar_g": 6.27
+        },
+        "source_description": "Nuts, almond butter, plain, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "almond paste",
+          "sweet almond paste",
+          "baking almond paste",
+          "marzipan base almond paste",
+          "ground almond paste"
+        ],
+        "category_label": "nut_seed",
+        "description": "Almond paste is a sweet dense almond product used in pastries and confections. This USDA row reflects paste values per 100 g.",
+        "display_name": "Almond Paste",
+        "fdc_id": 170160,
+        "macros": {
+          "calories": 458.0,
+          "carbs_g": 47.81,
+          "fat_g": 27.74,
+          "fiber_g": 4.8,
+          "protein_g": 9.0,
+          "sodium_g": 0.009,
+          "sugar_g": 36.25
+        },
+        "source_description": "Nuts, almond paste",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dry roasted almonds",
+          "salted roasted almonds",
+          "roasted almonds with salt",
+          "almonds roasted salted",
+          "snack almonds salted"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry roasted salted almonds are ready-to-eat nuts used as snacks and toppings. This USDA row reflects roasted nut values per 100 g.",
+        "display_name": "Almonds (Dry Roasted, Salted)",
+        "fdc_id": 168596,
+        "macros": {
+          "calories": 598.0,
+          "carbs_g": 21.01,
+          "fat_g": 52.54,
+          "fiber_g": 10.9,
+          "protein_g": 20.96,
+          "sodium_g": 0.234,
+          "sugar_g": 4.86
+        },
+        "source_description": "Nuts, almonds, dry roasted, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried beechnuts",
+          "beechnut kernels dried",
+          "beech nuts dried",
+          "beechnuts",
+          "dry beechnut"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried beechnuts are niche tree nuts used in traditional nut preparations. This USDA row reflects dried nut values per 100 g.",
+        "display_name": "Beechnuts (Dried)",
+        "fdc_id": 170161,
+        "macros": {
+          "calories": 576.0,
+          "carbs_g": 33.5,
+          "fat_g": 50.0,
+          "fiber_g": 0.0,
+          "protein_g": 6.2,
+          "sodium_g": 0.038,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, beechnuts, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "brazil nuts",
+          "dried brazil nuts",
+          "unblanched brazil nuts",
+          "brazil nut kernels",
+          "raw brazil nuts dried"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried unblanched Brazil nuts are energy-dense nuts used for snacks and baking. This USDA row reflects dried nut values per 100 g.",
+        "display_name": "Brazil Nuts (Dried, Unblanched)",
+        "fdc_id": 170569,
+        "macros": {
+          "calories": 659.0,
+          "carbs_g": 11.74,
+          "fat_g": 67.1,
+          "fiber_g": 7.5,
+          "protein_g": 14.32,
+          "sodium_g": 0.003,
+          "sugar_g": 2.33
+        },
+        "source_description": "Nuts, brazilnuts, dried, unblanched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried butternuts",
+          "butternut nuts dried",
+          "white walnut dried",
+          "butternut kernels",
+          "dry butternut nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried butternuts are tree nuts used similarly to walnuts in baking and nut blends. This USDA row reflects dried nut values per 100 g.",
+        "display_name": "Butternuts (Dried)",
+        "fdc_id": 170570,
+        "macros": {
+          "calories": 612.0,
+          "carbs_g": 12.05,
+          "fat_g": 56.98,
+          "fiber_g": 4.7,
+          "protein_g": 24.9,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, butternuts, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cashew butter",
+          "salted cashew butter",
+          "plain cashew butter with salt",
+          "cashew spread",
+          "ground cashew butter"
+        ],
+        "category_label": "nut_seed",
+        "description": "Salted cashew butter is a creamy nut spread used in sauces, sandwiches, and baking. This USDA row reflects prepared spread values per 100 g.",
+        "display_name": "Cashew Butter (Salted)",
+        "fdc_id": 168597,
+        "macros": {
+          "calories": 609.0,
+          "carbs_g": 30.3,
+          "fat_g": 53.03,
+          "fiber_g": 3.0,
+          "protein_g": 12.12,
+          "sodium_g": 0.295,
+          "sugar_g": 9.09
+        },
+        "source_description": "Nuts, cashew butter, plain, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw cashews",
+          "cashew nuts raw",
+          "cashew kernels raw",
+          "unsalted raw cashews",
+          "whole cashews raw"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw cashew nuts are used in snacks, sauces, and blended creams. This USDA row reflects raw nut values per 100 g.",
+        "display_name": "Cashew Nuts (Raw)",
+        "fdc_id": 170162,
+        "macros": {
+          "calories": 553.0,
+          "carbs_g": 30.19,
+          "fat_g": 43.85,
+          "fiber_g": 3.3,
+          "protein_g": 18.22,
+          "sodium_g": 0.012,
+          "sugar_g": 5.91
+        },
+        "source_description": "Nuts, cashew nuts, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chinese chestnuts",
+          "raw chinese chestnuts",
+          "fresh chinese chestnuts",
+          "chestnut chinese",
+          "chinese chestnut kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw Chinese chestnuts are starchy nuts used roasted, boiled, and in sweet or savory dishes. This USDA row reflects raw nut values per 100 g.",
+        "display_name": "Chestnuts (Chinese, Raw)",
+        "fdc_id": 170164,
+        "macros": {
+          "calories": 224.0,
+          "carbs_g": 49.07,
+          "fat_g": 1.11,
+          "fiber_g": 0.0,
+          "protein_g": 4.2,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, chestnuts, chinese, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "european chestnuts peeled",
+          "raw peeled chestnuts",
+          "peeled chestnuts raw",
+          "european chestnut kernels",
+          "chestnuts peeled raw"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw peeled European chestnuts are used in roasting, stuffing, and puree preparations. This USDA row reflects peeled raw nut values per 100 g.",
+        "display_name": "Chestnuts (European, Raw, Peeled)",
+        "fdc_id": 170575,
+        "macros": {
+          "calories": 196.0,
+          "carbs_g": 44.17,
+          "fat_g": 1.25,
+          "fiber_g": 0.0,
+          "protein_g": 1.63,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, chestnuts, european, raw, peeled",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw coconut cream",
+          "coconut cream",
+          "coconut cream liquid",
+          "thick coconut extract",
+          "coconut cream from grated meat"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw coconut cream is a rich coconut extract used in curries, desserts, and sauces. This USDA row reflects expressed liquid values per 100 g.",
+        "display_name": "Coconut Cream (Raw)",
+        "fdc_id": 170580,
+        "macros": {
+          "calories": 330.0,
+          "carbs_g": 6.65,
+          "fat_g": 34.68,
+          "fiber_g": 2.2,
+          "protein_g": 3.63,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, coconut cream, raw (liquid expressed from grated meat)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw coconut meat",
+          "fresh coconut flesh",
+          "coconut kernel raw",
+          "young coconut meat",
+          "coconut pulp raw"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw coconut meat is used in desserts, curries, and blended preparations. This USDA row reflects raw coconut flesh values per 100 g.",
+        "display_name": "Coconut Meat (Raw)",
+        "fdc_id": 170169,
+        "macros": {
+          "calories": 354.0,
+          "carbs_g": 15.23,
+          "fat_g": 33.49,
+          "fiber_g": 9.0,
+          "protein_g": 3.33,
+          "sodium_g": 0.02,
+          "sugar_g": 6.23
+        },
+        "source_description": "Nuts, coconut meat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried coconut meat",
+          "desiccated coconut creamed",
+          "creamed dried coconut",
+          "coconut flakes creamed",
+          "dry coconut meat"
+        ],
+        "category_label": "nut_seed",
+        "description": "Creamed desiccated coconut is a dried coconut ingredient used in baking and confectionery. This USDA row reflects dried product values per 100 g.",
+        "display_name": "Coconut Meat (Dried, Creamed)",
+        "fdc_id": 168585,
+        "macros": {
+          "calories": 684.0,
+          "carbs_g": 21.52,
+          "fat_g": 69.08,
+          "fiber_g": 0.0,
+          "protein_g": 5.3,
+          "sodium_g": 0.037,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, coconut meat, dried (desiccated), creamed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw coconut milk",
+          "coconut milk",
+          "coconut extract with water",
+          "fresh coconut milk",
+          "coconut milk from grated meat"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw coconut milk is extracted from grated coconut and water for curries, soups, and desserts. This USDA row reflects liquid values per 100 g.",
+        "display_name": "Coconut Milk (Raw)",
+        "fdc_id": 170172,
+        "macros": {
+          "calories": 230.0,
+          "carbs_g": 5.54,
+          "fat_g": 23.84,
+          "fiber_g": 2.2,
+          "protein_g": 2.29,
+          "sodium_g": 0.015,
+          "sugar_g": 3.34
+        },
+        "source_description": "Nuts, coconut milk, raw (liquid expressed from grated meat and water)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wheat-based formulated nuts",
+          "imitation nut snack wheat based",
+          "formulated nut product salted",
+          "wheat nut analog",
+          "processed wheat-based nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Formulated wheat-based nuts are processed nut-analog snacks made from wheat ingredients. This USDA row reflects prepared product values per 100 g.",
+        "display_name": "Formulated Wheat-Based Nuts (Salted)",
+        "fdc_id": 170180,
+        "macros": {
+          "calories": 622.0,
+          "carbs_g": 23.68,
+          "fat_g": 57.7,
+          "fiber_g": 5.2,
+          "protein_g": 13.82,
+          "sodium_g": 0.505,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, formulated, wheat-based, unflavored, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw ginkgo nuts",
+          "ginkgo kernels raw",
+          "ginkgo seeds raw",
+          "white ginkgo nuts",
+          "ginkgo nut kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw ginkgo nuts are niche edible seeds used in East Asian soups and stir-fries after cooking. This USDA row reflects raw seed values per 100 g.",
+        "display_name": "Ginkgo Nuts (Raw)",
+        "fdc_id": 170584,
+        "macros": {
+          "calories": 182.0,
+          "carbs_g": 37.6,
+          "fat_g": 1.68,
+          "fiber_g": 0.0,
+          "protein_g": 4.32,
+          "sodium_g": 0.007,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, ginkgo nuts, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried ginkgo nuts",
+          "ginkgo kernels dried",
+          "ginkgo seeds dried",
+          "dry ginkgo nuts",
+          "dehydrated ginkgo nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried ginkgo nuts are preserved seeds used in specialty savory and sweet dishes. This USDA row reflects dried seed values per 100 g.",
+        "display_name": "Ginkgo Nuts (Dried)",
+        "fdc_id": 170175,
+        "macros": {
+          "calories": 348.0,
+          "carbs_g": 72.45,
+          "fat_g": 2.0,
+          "fiber_g": 0.0,
+          "protein_g": 10.35,
+          "sodium_g": 0.013,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, ginkgo nuts, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted hazelnuts",
+          "dry roasted hazelnuts unsalted",
+          "filberts roasted",
+          "hazelnuts without salt",
+          "roasted filberts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry roasted unsalted hazelnuts (filberts) are used for snacks, pralines, and baking. This USDA row reflects roasted nut values per 100 g.",
+        "display_name": "Hazelnuts (Dry Roasted, Unsalted)",
+        "fdc_id": 170583,
+        "macros": {
+          "calories": 646.0,
+          "carbs_g": 17.6,
+          "fat_g": 62.4,
+          "fiber_g": 9.4,
+          "protein_g": 15.03,
+          "sodium_g": 0.0,
+          "sugar_g": 4.89
+        },
+        "source_description": "Nuts, hazelnuts or filberts, dry roasted, without salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried hickory nuts",
+          "hickorynut kernels",
+          "hickory nuts dried",
+          "dry hickorynuts",
+          "hickory nut meat"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried hickorynuts are rich tree nuts used in baking and nut mixes. This USDA row reflects dried nut values per 100 g.",
+        "display_name": "Hickorynuts (Dried)",
+        "fdc_id": 170177,
+        "macros": {
+          "calories": 657.0,
+          "carbs_g": 18.25,
+          "fat_g": 64.37,
+          "fiber_g": 6.4,
+          "protein_g": 12.72,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, hickorynuts, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw macadamia nuts",
+          "macadamias raw",
+          "macadamia kernels raw",
+          "whole macadamia nuts",
+          "unsalted raw macadamias"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw macadamia nuts are high-fat nuts used for snacks, baking, and nut butters. This USDA row reflects raw nut values per 100 g.",
+        "display_name": "Macadamia Nuts (Raw)",
+        "fdc_id": 170178,
+        "macros": {
+          "calories": 718.0,
+          "carbs_g": 13.82,
+          "fat_g": 75.77,
+          "fiber_g": 8.6,
+          "protein_g": 7.91,
+          "sodium_g": 0.005,
+          "sugar_g": 4.57
+        },
+        "source_description": "Nuts, macadamia nuts, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mixed nuts salted",
+          "dry roasted mixed nuts",
+          "mixed nuts with peanuts",
+          "roasted nut mix salted",
+          "snack mixed nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry roasted salted mixed nuts (with peanuts) are ready-to-eat snack nuts. This USDA row reflects mixed nut values per 100 g.",
+        "display_name": "Mixed Nuts (Dry Roasted, Salted)",
+        "fdc_id": 168599,
+        "macros": {
+          "calories": 594.0,
+          "carbs_g": 25.35,
+          "fat_g": 51.45,
+          "fiber_g": 9.0,
+          "protein_g": 17.3,
+          "sodium_g": 0.345,
+          "sugar_g": 4.8
+        },
+        "source_description": "Nuts, mixed nuts, dry roasted, with peanuts, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted pecans salted",
+          "dry roasted pecans",
+          "pecans with salt",
+          "salted pecan nuts",
+          "pecans roasted"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry roasted salted pecans are used for snacks, salads, and dessert toppings. This USDA row reflects roasted nut values per 100 g.",
+        "display_name": "Pecans (Dry Roasted, Salted)",
+        "fdc_id": 169424,
+        "macros": {
+          "calories": 710.0,
+          "carbs_g": 13.55,
+          "fat_g": 74.27,
+          "fiber_g": 9.4,
+          "protein_g": 9.5,
+          "sodium_g": 0.383,
+          "sugar_g": 4.06
+        },
+        "source_description": "Nuts, pecans, dry roasted, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried pili nuts",
+          "pilinuts",
+          "pili nut kernels",
+          "dry pili nuts",
+          "philippine pili nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried pili nuts are rich tropical tree nuts used for snacking and confectionery. This USDA row reflects dried nut values per 100 g.",
+        "display_name": "Pilinuts (Dried)",
+        "fdc_id": 170590,
+        "macros": {
+          "calories": 719.0,
+          "carbs_g": 3.98,
+          "fat_g": 79.55,
+          "fiber_g": 0.0,
+          "protein_g": 10.8,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, pilinuts, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried pine nuts",
+          "pine nut kernels",
+          "pinon nuts dried",
+          "pignoli",
+          "dry pine nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried pine nuts are soft oily seeds used in pesto, salads, and baking. This USDA row reflects dried seed values per 100 g.",
+        "display_name": "Pine Nuts (Dried)",
+        "fdc_id": 170591,
+        "macros": {
+          "calories": 673.0,
+          "carbs_g": 13.08,
+          "fat_g": 68.37,
+          "fiber_g": 3.7,
+          "protein_g": 13.69,
+          "sodium_g": 0.002,
+          "sugar_g": 3.59
+        },
+        "source_description": "Nuts, pine nuts, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pinyon pine nuts",
+          "dried pinyon nuts",
+          "pinon nuts",
+          "pinyon kernels dried",
+          "southwestern pine nuts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried pinyon pine nuts are region-specific edible seeds used in savory and traditional dishes. This USDA row reflects dried seed values per 100 g.",
+        "display_name": "Pinyon Pine Nuts (Dried)",
+        "fdc_id": 170592,
+        "macros": {
+          "calories": 629.0,
+          "carbs_g": 19.3,
+          "fat_g": 60.98,
+          "fiber_g": 10.7,
+          "protein_g": 11.57,
+          "sodium_g": 0.072,
+          "sugar_g": 0.0
+        },
+        "source_description": "Nuts, pine nuts, pinyon, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pistachios",
+          "pistachio kernels raw",
+          "unsalted raw pistachios",
+          "pistachio nuts",
+          "green pistachio kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Raw pistachios are used as snacks, toppings, and ingredients in sweets and sauces. This USDA row reflects raw nut values per 100 g.",
+        "display_name": "Pistachio Nuts (Raw)",
+        "fdc_id": 170184,
+        "macros": {
+          "calories": 560.0,
+          "carbs_g": 27.17,
+          "fat_g": 45.32,
+          "fiber_g": 10.6,
+          "protein_g": 20.16,
+          "sodium_g": 0.001,
+          "sugar_g": 7.66
+        },
+        "source_description": "Nuts, pistachio nuts, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted walnuts salted",
+          "dry roasted walnuts",
+          "walnuts with salt",
+          "salted walnut halves",
+          "walnuts roasted"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry roasted salted walnuts are used in snacks, salads, and baking. This USDA row reflects roasted nut values per 100 g.",
+        "display_name": "Walnuts (Dry Roasted, Salted)",
+        "fdc_id": 170594,
+        "macros": {
+          "calories": 643.0,
+          "carbs_g": 17.86,
+          "fat_g": 60.71,
+          "fiber_g": 7.1,
+          "protein_g": 14.29,
+          "sodium_g": 0.643,
+          "sugar_g": 3.57
+        },
+        "source_description": "Nuts, walnuts, dry roasted, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "black walnuts dried",
+          "dried black walnuts",
+          "black walnut kernels",
+          "wild black walnuts",
+          "black walnut nutmeat"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried black walnuts are strongly flavored nuts used in baked goods and specialty recipes. This USDA row reflects dried nut values per 100 g.",
+        "display_name": "Walnuts (Black, Dried)",
+        "fdc_id": 170186,
+        "macros": {
+          "calories": 619.0,
+          "carbs_g": 9.58,
+          "fat_g": 59.33,
+          "fiber_g": 6.8,
+          "protein_g": 24.06,
+          "sodium_g": 0.002,
+          "sugar_g": 1.1
+        },
+        "source_description": "Nuts, walnuts, black, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "oat bran",
+          "raw oat bran",
+          "oat fiber bran",
+          "bran from oats",
+          "oat bran uncooked"
+        ],
+        "category_label": "grain_legume",
+        "description": "Raw oat bran is a high-fiber grain fraction used in cereals and baking. This USDA row reflects raw oat bran values per 100 g.",
+        "display_name": "Oat Bran (Raw)",
+        "fdc_id": 168872,
+        "macros": {
+          "calories": 246.0,
+          "carbs_g": 66.22,
+          "fat_g": 7.03,
+          "fiber_g": 15.4,
+          "protein_g": 17.3,
+          "sodium_g": 0.004,
+          "sugar_g": 1.45
+        },
+        "source_description": "Oat bran, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "partially debranned oat flour",
+          "oat flour",
+          "oat flour refined bran reduced",
+          "oat powder flour",
+          "milled oat flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Partially debranned oat flour is milled oat ingredient used in baking and thickening. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Oat Flour (Partially Debranned)",
+        "fdc_id": 169741,
+        "macros": {
+          "calories": 404.0,
+          "carbs_g": 65.7,
+          "fat_g": 9.12,
+          "fiber_g": 6.5,
+          "protein_g": 14.66,
+          "sodium_g": 0.019,
+          "sugar_g": 0.8
+        },
+        "source_description": "Oat flour, partially debranned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 008: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "almond oil",
+          "sweet almond oil",
+          "almond cooking oil",
+          "pressed almond oil",
+          "almond seed oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Almond oil is a nut-derived oil used in dressings, finishing, and specialty baking applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Almond Oil",
+        "fdc_id": 171031,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, almond",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

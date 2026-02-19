@@ -1,0 +1,1560 @@
+{
+  "batch_id": 1,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "new candidate from USDA",
+      "row": {
+        "alt_names": [
+          "kefir",
+          "milk kefir",
+          "plain kefir"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Fermented cultured milk ingredient used in dressings, marinades, and baking; nutrition is per 100g from USDA.",
+        "display_name": "Kefir",
+        "fdc_id": 171301,
+        "macros": {
+          "calories": 62.0,
+          "carbs_g": 10.2,
+          "fat_g": 0.9,
+          "fiber_g": 0.0,
+          "protein_g": 3.39,
+          "sodium_g": 0.037,
+          "sugar_g": 9.21
+        },
+        "source_description": "Kefir, lowfat, strawberry, LIFEWAY",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:59Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "anchovies"
+        ],
+        "category_label": "protein",
+        "description": "Protein ingredient entry in canned form; nutrition values are per 100g.",
+        "display_name": "Anchovies",
+        "fdc_id": 2747652,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 2.4095,
+          "fat_g": 9.853,
+          "fiber_g": 0.0,
+          "protein_g": 26.9375,
+          "sodium_g": 5.403,
+          "sugar_g": 0.0
+        },
+        "source_description": "Anchovies, canned in olive oil, with salt, drained",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "arugula",
+          "rocket",
+          "rocket leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Peppery leafy green used raw in salads or lightly wilted for warm dishes.",
+        "display_name": "Arugula",
+        "fdc_id": 169387,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 3.65,
+          "fat_g": 0.66,
+          "fiber_g": 1.6,
+          "protein_g": 2.58,
+          "sodium_g": 0.027,
+          "sugar_g": 2.05
+        },
+        "source_description": "Arugula, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "asparagus"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Asparagus",
+        "fdc_id": 168389,
+        "macros": {
+          "calories": 20.0,
+          "carbs_g": 3.88,
+          "fat_g": 0.12,
+          "fiber_g": 2.1,
+          "protein_g": 2.2,
+          "sodium_g": 0.002,
+          "sugar_g": 1.88
+        },
+        "source_description": "Asparagus, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "beets"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Beets",
+        "fdc_id": 169145,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 9.56,
+          "fat_g": 0.17,
+          "fiber_g": 2.8,
+          "protein_g": 1.61,
+          "sodium_g": 0.078,
+          "sugar_g": 6.76
+        },
+        "source_description": "Beets, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "borage"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Borage",
+        "fdc_id": 170481,
+        "macros": {
+          "calories": 21.0,
+          "carbs_g": 3.06,
+          "fat_g": 0.7,
+          "fiber_g": 0.0,
+          "protein_g": 1.8,
+          "sodium_g": 0.08,
+          "sugar_g": 0.0
+        },
+        "source_description": "Borage, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "broccoli"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Broccoli",
+        "fdc_id": 170379,
+        "macros": {
+          "calories": 34.0,
+          "carbs_g": 6.64,
+          "fat_g": 0.37,
+          "fiber_g": 2.6,
+          "protein_g": 2.82,
+          "sodium_g": 0.033,
+          "sugar_g": 1.7
+        },
+        "source_description": "Broccoli, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "broccoli"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "bulgur"
+        ],
+        "category_label": "grain_legume",
+        "description": "Grain/legume pantry entry in cooked form; nutrition values are per 100g.",
+        "display_name": "Bulgur",
+        "fdc_id": 170287,
+        "macros": {
+          "calories": 83.0,
+          "carbs_g": 18.58,
+          "fat_g": 0.24,
+          "fiber_g": 4.5,
+          "protein_g": 3.08,
+          "sodium_g": 0.005,
+          "sugar_g": 0.1
+        },
+        "source_description": "Bulgur, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "cabbage"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Cabbage",
+        "fdc_id": 169975,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 5.8,
+          "fat_g": 0.1,
+          "fiber_g": 2.5,
+          "protein_g": 1.28,
+          "sodium_g": 0.018,
+          "sugar_g": 3.2
+        },
+        "source_description": "Cabbage, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "cardoon"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Cardoon",
+        "fdc_id": 169981,
+        "macros": {
+          "calories": 17.0,
+          "carbs_g": 4.07,
+          "fat_g": 0.1,
+          "fiber_g": 1.6,
+          "protein_g": 0.7,
+          "sodium_g": 0.17,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cardoon, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "carrots"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Carrots",
+        "fdc_id": 170393,
+        "macros": {
+          "calories": 41.0,
+          "carbs_g": 9.58,
+          "fat_g": 0.24,
+          "fiber_g": 2.8,
+          "protein_g": 0.93,
+          "sodium_g": 0.069,
+          "sugar_g": 4.74
+        },
+        "source_description": "Carrots, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "carrot"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "cassava"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Cassava",
+        "fdc_id": 169985,
+        "macros": {
+          "calories": 160.0,
+          "carbs_g": 38.06,
+          "fat_g": 0.28,
+          "fiber_g": 1.8,
+          "protein_g": 1.36,
+          "sodium_g": 0.014,
+          "sugar_g": 1.7
+        },
+        "source_description": "Cassava, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "cauliflower"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Cauliflower",
+        "fdc_id": 169986,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 4.97,
+          "fat_g": 0.28,
+          "fiber_g": 2.0,
+          "protein_g": 1.92,
+          "sodium_g": 0.03,
+          "sugar_g": 1.91
+        },
+        "source_description": "Cauliflower, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "celeriac"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Celeriac",
+        "fdc_id": 170400,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 9.2,
+          "fat_g": 0.3,
+          "fiber_g": 1.8,
+          "protein_g": 1.5,
+          "sodium_g": 0.1,
+          "sugar_g": 1.6
+        },
+        "source_description": "Celeriac, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "celery"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Celery",
+        "fdc_id": 169988,
+        "macros": {
+          "calories": 14.0,
+          "carbs_g": 2.97,
+          "fat_g": 0.17,
+          "fiber_g": 1.6,
+          "protein_g": 0.69,
+          "sodium_g": 0.08,
+          "sugar_g": 1.34
+        },
+        "source_description": "Celery, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "celery"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "celtuce"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Celtuce",
+        "fdc_id": 169990,
+        "macros": {
+          "calories": 18.0,
+          "carbs_g": 3.65,
+          "fat_g": 0.3,
+          "fiber_g": 1.7,
+          "protein_g": 0.85,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Celtuce, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "chives"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Chives",
+        "fdc_id": 169994,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 4.35,
+          "fat_g": 0.73,
+          "fiber_g": 2.5,
+          "protein_g": 3.27,
+          "sodium_g": 0.003,
+          "sugar_g": 1.85
+        },
+        "source_description": "Chives, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "clementines"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Clementines",
+        "fdc_id": 168195,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 12.02,
+          "fat_g": 0.15,
+          "fiber_g": 1.7,
+          "protein_g": 0.85,
+          "sodium_g": 0.001,
+          "sugar_g": 9.18
+        },
+        "source_description": "Clementines, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "collards"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Collards",
+        "fdc_id": 170406,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 5.42,
+          "fat_g": 0.61,
+          "fiber_g": 4.0,
+          "protein_g": 3.02,
+          "sodium_g": 0.017,
+          "sugar_g": 0.46
+        },
+        "source_description": "Collards, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "cornsalad"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Cornsalad",
+        "fdc_id": 169219,
+        "macros": {
+          "calories": 21.0,
+          "carbs_g": 3.6,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 2.0,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cornsalad, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "couscous"
+        ],
+        "category_label": "grain_legume",
+        "description": "Grain/legume pantry entry in cooked form; nutrition values are per 100g.",
+        "display_name": "Couscous",
+        "fdc_id": 169700,
+        "macros": {
+          "calories": 112.0,
+          "carbs_g": 23.22,
+          "fat_g": 0.16,
+          "fiber_g": 1.4,
+          "protein_g": 3.79,
+          "sodium_g": 0.005,
+          "sugar_g": 0.1
+        },
+        "source_description": "Couscous, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "dock"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Dock",
+        "fdc_id": 170076,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 3.2,
+          "fat_g": 0.7,
+          "fiber_g": 2.9,
+          "protein_g": 2.0,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Dock, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "eggplant"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Eggplant",
+        "fdc_id": 169228,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 5.88,
+          "fat_g": 0.18,
+          "fiber_g": 3.0,
+          "protein_g": 0.98,
+          "sodium_g": 0.002,
+          "sugar_g": 3.53
+        },
+        "source_description": "Eggplant, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "endive"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Endive",
+        "fdc_id": 168412,
+        "macros": {
+          "calories": 17.0,
+          "carbs_g": 3.35,
+          "fat_g": 0.2,
+          "fiber_g": 3.1,
+          "protein_g": 1.25,
+          "sodium_g": 0.022,
+          "sugar_g": 0.25
+        },
+        "source_description": "Endive, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "epazote"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Epazote",
+        "fdc_id": 169398,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 7.44,
+          "fat_g": 0.52,
+          "fiber_g": 3.8,
+          "protein_g": 0.33,
+          "sodium_g": 0.043,
+          "sugar_g": 0.0
+        },
+        "source_description": "Epazote, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "eppaw"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Eppaw",
+        "fdc_id": 170078,
+        "macros": {
+          "calories": 150.0,
+          "carbs_g": 31.68,
+          "fat_g": 1.8,
+          "fiber_g": 0.0,
+          "protein_g": 4.6,
+          "sodium_g": 0.012,
+          "sugar_g": 0.0
+        },
+        "source_description": "Eppaw, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "escarole"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in cooked form; nutrition values are per 100g.",
+        "display_name": "Escarole",
+        "fdc_id": 168413,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 3.07,
+          "fat_g": 0.18,
+          "fiber_g": 2.8,
+          "protein_g": 1.15,
+          "sodium_g": 0.019,
+          "sugar_g": 0.23
+        },
+        "source_description": "Escarole, cooked, boiled, drained, no salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "feijoa"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Feijoa",
+        "fdc_id": 168176,
+        "macros": {
+          "calories": 61.0,
+          "carbs_g": 15.21,
+          "fat_g": 0.42,
+          "fiber_g": 6.4,
+          "protein_g": 0.71,
+          "sodium_g": 0.003,
+          "sugar_g": 8.2
+        },
+        "source_description": "Feijoa, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "garlic"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Garlic",
+        "fdc_id": 169230,
+        "macros": {
+          "calories": 149.0,
+          "carbs_g": 33.06,
+          "fat_g": 0.5,
+          "fiber_g": 2.1,
+          "protein_g": 6.36,
+          "sodium_g": 0.017,
+          "sugar_g": 1.0
+        },
+        "source_description": "Garlic, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "garlic"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "jujube"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Jujube",
+        "fdc_id": 168151,
+        "macros": {
+          "calories": 79.0,
+          "carbs_g": 20.23,
+          "fat_g": 0.2,
+          "fiber_g": 0.0,
+          "protein_g": 1.2,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Jujube, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "kale"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Kale",
+        "fdc_id": 168421,
+        "macros": {
+          "calories": 35.0,
+          "carbs_g": 4.42,
+          "fat_g": 1.49,
+          "fiber_g": 4.1,
+          "protein_g": 2.92,
+          "sodium_g": 0.053,
+          "sugar_g": 0.99
+        },
+        "source_description": "Kale, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "kohlrabi"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Kohlrabi",
+        "fdc_id": 168424,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 6.2,
+          "fat_g": 0.1,
+          "fiber_g": 3.6,
+          "protein_g": 1.7,
+          "sodium_g": 0.02,
+          "sugar_g": 2.6
+        },
+        "source_description": "Kohlrabi, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "kumquats"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Kumquats",
+        "fdc_id": 168154,
+        "macros": {
+          "calories": 71.0,
+          "carbs_g": 15.9,
+          "fat_g": 0.86,
+          "fiber_g": 6.5,
+          "protein_g": 1.88,
+          "sodium_g": 0.01,
+          "sugar_g": 9.36
+        },
+        "source_description": "Kumquats, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "lambsquarters"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Lambsquarters",
+        "fdc_id": 169244,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 7.3,
+          "fat_g": 0.8,
+          "fiber_g": 4.0,
+          "protein_g": 4.2,
+          "sodium_g": 0.043,
+          "sugar_g": 0.0
+        },
+        "source_description": "Lambsquarters, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "limes"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Limes",
+        "fdc_id": 168155,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 10.54,
+          "fat_g": 0.2,
+          "fiber_g": 2.8,
+          "protein_g": 0.7,
+          "sodium_g": 0.002,
+          "sugar_g": 1.69
+        },
+        "source_description": "Limes, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "litchis"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Litchis",
+        "fdc_id": 169086,
+        "macros": {
+          "calories": 66.0,
+          "carbs_g": 16.53,
+          "fat_g": 0.44,
+          "fiber_g": 1.3,
+          "protein_g": 0.83,
+          "sodium_g": 0.001,
+          "sugar_g": 15.23
+        },
+        "source_description": "Litchis, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "longans"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Longans",
+        "fdc_id": 169089,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 15.14,
+          "fat_g": 0.1,
+          "fiber_g": 1.1,
+          "protein_g": 1.31,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Longans, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "loquats"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Loquats",
+        "fdc_id": 169908,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 12.14,
+          "fat_g": 0.2,
+          "fiber_g": 1.7,
+          "protein_g": 0.43,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Loquats, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "mangos"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Mangos",
+        "fdc_id": 169910,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 14.98,
+          "fat_g": 0.38,
+          "fiber_g": 1.6,
+          "protein_g": 0.82,
+          "sodium_g": 0.001,
+          "sugar_g": 13.66
+        },
+        "source_description": "Mangos, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "millet"
+        ],
+        "category_label": "grain_legume",
+        "description": "Grain/legume pantry entry in raw form; nutrition values are per 100g.",
+        "display_name": "Millet",
+        "fdc_id": 169702,
+        "macros": {
+          "calories": 378.0,
+          "carbs_g": 72.85,
+          "fat_g": 4.22,
+          "fiber_g": 8.5,
+          "protein_g": 11.02,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Millet, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "mulberries"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Mulberries",
+        "fdc_id": 169913,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 9.8,
+          "fat_g": 0.39,
+          "fiber_g": 1.7,
+          "protein_g": 1.44,
+          "sodium_g": 0.01,
+          "sugar_g": 8.1
+        },
+        "source_description": "Mulberries, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "nectarines"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Nectarines",
+        "fdc_id": 169914,
+        "macros": {
+          "calories": 44.0,
+          "carbs_g": 10.55,
+          "fat_g": 0.32,
+          "fiber_g": 1.7,
+          "protein_g": 1.06,
+          "sodium_g": 0.0,
+          "sugar_g": 7.89
+        },
+        "source_description": "Nectarines, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "nopales"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Nopales",
+        "fdc_id": 168571,
+        "macros": {
+          "calories": 16.0,
+          "carbs_g": 3.33,
+          "fat_g": 0.09,
+          "fiber_g": 2.2,
+          "protein_g": 1.32,
+          "sodium_g": 0.021,
+          "sugar_g": 1.15
+        },
+        "source_description": "Nopales, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "oheloberries"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Oheloberries",
+        "fdc_id": 169915,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 6.84,
+          "fat_g": 0.22,
+          "fiber_g": 0.0,
+          "protein_g": 0.38,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oheloberries, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "okra"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Okra",
+        "fdc_id": 169260,
+        "macros": {
+          "calories": 33.0,
+          "carbs_g": 7.45,
+          "fat_g": 0.19,
+          "fiber_g": 3.2,
+          "protein_g": 1.93,
+          "sodium_g": 0.007,
+          "sugar_g": 1.48
+        },
+        "source_description": "Okra, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "onions"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Onions",
+        "fdc_id": 170000,
+        "macros": {
+          "calories": 40.0,
+          "carbs_g": 9.34,
+          "fat_g": 0.1,
+          "fiber_g": 1.7,
+          "protein_g": 1.1,
+          "sodium_g": 0.004,
+          "sugar_g": 4.24
+        },
+        "source_description": "Onions, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "papayas"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Papayas",
+        "fdc_id": 169926,
+        "macros": {
+          "calories": 43.0,
+          "carbs_g": 10.82,
+          "fat_g": 0.26,
+          "fiber_g": 1.7,
+          "protein_g": 0.47,
+          "sodium_g": 0.008,
+          "sugar_g": 7.82
+        },
+        "source_description": "Papayas, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "parsnips"
+        ],
+        "category_label": "vegetable",
+        "description": "Vegetable ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Parsnips",
+        "fdc_id": 170417,
+        "macros": {
+          "calories": 75.0,
+          "carbs_g": 17.99,
+          "fat_g": 0.3,
+          "fiber_g": 4.9,
+          "protein_g": 1.2,
+          "sodium_g": 0.01,
+          "sugar_g": 4.8
+        },
+        "source_description": "Parsnips, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "pears"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Pears",
+        "fdc_id": 169118,
+        "macros": {
+          "calories": 57.0,
+          "carbs_g": 15.23,
+          "fat_g": 0.14,
+          "fiber_g": 3.1,
+          "protein_g": 0.36,
+          "sodium_g": 0.001,
+          "sugar_g": 9.75
+        },
+        "source_description": "Pears, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "review metadata quality",
+      "row": {
+        "alt_names": [
+          "plums"
+        ],
+        "category_label": "fruit",
+        "description": "Fruit ingredient entry in raw form; nutrition values are per 100g.",
+        "display_name": "Plums",
+        "fdc_id": 169949,
+        "macros": {
+          "calories": 46.0,
+          "carbs_g": 11.42,
+          "fat_g": 0.28,
+          "fiber_g": 1.4,
+          "protein_g": 0.7,
+          "sodium_g": 0.0,
+          "sugar_g": 9.92
+        },
+        "source_description": "Plums, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

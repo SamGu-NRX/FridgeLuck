@@ -170,6 +170,45 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V4: Ingredient aliases for fuzzy search
+
+    migrator.registerMigration("v4_ingredient_aliases") { db in
+      try db.create(table: "ingredient_aliases") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        t.column("alias", .text).notNull()
+        t.uniqueKey(["ingredient_id", "alias"])
+      }
+
+      try db.create(
+        index: "idx_ingredient_alias_lookup",
+        on: "ingredient_aliases",
+        columns: ["alias"]
+      )
+    }
+
+    // MARK: - V5: Ingredient display metadata
+
+    migrator.registerMigration("v5_ingredient_display_metadata") { db in
+      try db.alter(table: "ingredients") { t in
+        t.add(column: "description", .text)
+        t.add(column: "category_label", .text)
+        t.add(column: "sprite_group", .text)
+        t.add(column: "sprite_key", .text)
+      }
+
+      // Backfill description from existing notes for older rows.
+      try db.execute(
+        sql: """
+          UPDATE ingredients
+          SET description = COALESCE(description, notes, '')
+          WHERE description IS NULL OR description = ''
+          """
+      )
+    }
+
     try migrator.migrate(db)
   }
 }

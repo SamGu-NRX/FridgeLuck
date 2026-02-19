@@ -1,0 +1,1758 @@
+{
+  "batch_id": 5,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "blanched almonds",
+          "skinless almonds",
+          "peeled almonds",
+          "almonds blanched",
+          "almond kernels"
+        ],
+        "category_label": "nut_seed",
+        "description": "Blanched almonds are skin-off almonds commonly used in baking, sauces, and nut blends. This USDA row represents blanched almond kernels with nutrition values per 100 g.",
+        "display_name": "Blanched Almonds",
+        "fdc_id": 170568,
+        "macros": {
+          "calories": 590.0,
+          "carbs_g": 18.67,
+          "fat_g": 52.52,
+          "fiber_g": 9.9,
+          "protein_g": 21.4,
+          "sodium_g": 0.019,
+          "sugar_g": 4.63
+        },
+        "source_description": "Nuts, almonds, blanched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "blanched hazelnuts",
+          "blanched filberts",
+          "skinless hazelnuts",
+          "peeled hazelnuts",
+          "filberts"
+        ],
+        "category_label": "nut_seed",
+        "description": "Blanched hazelnuts (filberts) are peeled nuts used in desserts, praline, and nut pastes. This USDA row represents blanched hazelnuts with nutrition values per 100 g.",
+        "display_name": "Blanched Hazelnuts",
+        "fdc_id": 170582,
+        "macros": {
+          "calories": 629.0,
+          "carbs_g": 17.0,
+          "fat_g": 61.15,
+          "fiber_g": 11.0,
+          "protein_g": 13.7,
+          "sodium_g": 0.0,
+          "sugar_g": 3.49
+        },
+        "source_description": "Nuts, hazelnuts or filberts, blanched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned blueberries",
+          "blueberries in light syrup",
+          "blueberries canned light syrup",
+          "light syrup blueberries",
+          "drained canned blueberries"
+        ],
+        "category_label": "fruit",
+        "description": "These are canned blueberries packed in light syrup and drained, useful for fillings and dessert toppings. This USDA row reflects drained canned fruit values per 100 g.",
+        "display_name": "Blueberries (Canned, Light Syrup)",
+        "fdc_id": 168179,
+        "macros": {
+          "calories": 88.0,
+          "carbs_g": 22.66,
+          "fat_g": 0.4,
+          "fiber_g": 2.6,
+          "protein_g": 1.04,
+          "sodium_g": 0.003,
+          "sugar_g": 17.45
+        },
+        "source_description": "Blueberries, canned, light syrup, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried blueberries",
+          "sweetened dried blueberries",
+          "dehydrated blueberries",
+          "blueberry dried fruit",
+          "blueberry pieces"
+        ],
+        "category_label": "fruit",
+        "description": "Dried sweetened blueberries are concentrated fruit used in baking, cereals, and trail mixes. This USDA row reflects dried product values per 100 g.",
+        "display_name": "Blueberries (Dried)",
+        "fdc_id": 168158,
+        "macros": {
+          "calories": 317.0,
+          "carbs_g": 80.0,
+          "fat_g": 2.5,
+          "fiber_g": 7.5,
+          "protein_g": 2.5,
+          "sodium_g": 0.003,
+          "sugar_g": 67.5
+        },
+        "source_description": "Blueberries, dried, sweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wild blueberries canned",
+          "wild blueberries in heavy syrup",
+          "canned wild blueberries",
+          "heavy syrup blueberries",
+          "drained wild blueberries"
+        ],
+        "category_label": "fruit",
+        "description": "These are wild blueberries canned in heavy syrup and drained, typically used for desserts and toppings. This USDA row reflects drained fruit values per 100 g.",
+        "display_name": "Blueberries (Wild, Heavy Syrup)",
+        "fdc_id": 168180,
+        "macros": {
+          "calories": 107.0,
+          "carbs_g": 28.32,
+          "fat_g": 0.34,
+          "fiber_g": 4.9,
+          "protein_g": 0.56,
+          "sodium_g": 0.001,
+          "sugar_g": 19.28
+        },
+        "source_description": "Blueberries, wild, canned, heavy syrup, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "fava beans",
+          "young fava beans",
+          "broad beans",
+          "immature broad beans",
+          "fresh fava beans"
+        ],
+        "category_label": "vegetable",
+        "description": "Broadbeans here refer to immature fava bean seeds used in sautés, stews, and spring dishes. This USDA row reflects raw seeds per 100 g.",
+        "display_name": "Broadbeans (Immature Seeds)",
+        "fdc_id": 170377,
+        "macros": {
+          "calories": 72.0,
+          "carbs_g": 11.7,
+          "fat_g": 0.6,
+          "fiber_g": 4.2,
+          "protein_g": 5.6,
+          "sodium_g": 0.05,
+          "sugar_g": 0.0
+        },
+        "source_description": "Broadbeans, immature seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chinese broccoli",
+          "gai lan",
+          "chinese kale",
+          "kai lan",
+          "broccoli chinese"
+        ],
+        "category_label": "vegetable",
+        "description": "Chinese broccoli (gai lan) is a leafy-stem vegetable used in stir-fries and quick blanching. This USDA row reflects raw Chinese broccoli per 100 g.",
+        "display_name": "Broccoli (Chinese)",
+        "fdc_id": 169404,
+        "macros": {
+          "calories": 26.0,
+          "carbs_g": 4.67,
+          "fat_g": 0.76,
+          "fiber_g": 2.6,
+          "protein_g": 1.2,
+          "sodium_g": 0.007,
+          "sugar_g": 0.88
+        },
+        "source_description": "Broccoli, chinese, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "broccoli"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "broccoli florets",
+          "broccoli flower clusters",
+          "fresh broccoli florets",
+          "broccoli crowns",
+          "broccoli tops"
+        ],
+        "category_label": "vegetable",
+        "description": "Broccoli flower clusters are the floret portion commonly used for roasting, steaming, and stir-frying. This USDA row reflects raw floret values per 100 g.",
+        "display_name": "Broccoli (Flower Clusters)",
+        "fdc_id": 169330,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 5.06,
+          "fat_g": 0.35,
+          "fiber_g": 2.3,
+          "protein_g": 2.98,
+          "sodium_g": 0.027,
+          "sugar_g": 1.48
+        },
+        "source_description": "Broccoli, flower clusters, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "broccoli"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen chopped broccoli",
+          "chopped frozen broccoli cooked",
+          "boiled frozen broccoli",
+          "salted frozen broccoli",
+          "broccoli frozen chopped"
+        ],
+        "category_label": "vegetable",
+        "description": "This entry represents frozen chopped broccoli that has been cooked and drained with salt. Useful for prepared sides and casseroles; nutrition values are per 100 g.",
+        "display_name": "Broccoli (Frozen, Chopped, Cooked)",
+        "fdc_id": 168511,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 5.35,
+          "fat_g": 0.12,
+          "fiber_g": 3.0,
+          "protein_g": 3.1,
+          "sodium_g": 0.26,
+          "sugar_g": 1.47
+        },
+        "source_description": "Broccoli, frozen, chopped, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "broccoli"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen broccoli spears",
+          "broccoli spears cooked",
+          "boiled broccoli spears",
+          "salted broccoli spears",
+          "broccoli frozen spears"
+        ],
+        "category_label": "vegetable",
+        "description": "This entry represents frozen broccoli spears that are cooked and drained with salt. Useful for side dishes and meal prep; nutrition values are per 100 g.",
+        "display_name": "Broccoli (Frozen Spears, Cooked)",
+        "fdc_id": 168512,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 5.35,
+          "fat_g": 0.11,
+          "fiber_g": 3.0,
+          "protein_g": 3.1,
+          "sodium_g": 0.26,
+          "sugar_g": 1.44
+        },
+        "source_description": "Broccoli, frozen, spears, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "broccoli"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "broccoli leaves",
+          "broccoli greens",
+          "leafy broccoli",
+          "broccoli leaf",
+          "broccoli tops leaves"
+        ],
+        "category_label": "vegetable",
+        "description": "Broccoli leaves are edible greens used similarly to collards or kale in sautés and soups. This USDA row reflects raw broccoli leaf values per 100 g.",
+        "display_name": "Broccoli (Leaves)",
+        "fdc_id": 169329,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 5.06,
+          "fat_g": 0.35,
+          "fiber_g": 2.3,
+          "protein_g": 2.98,
+          "sodium_g": 0.027,
+          "sugar_g": 1.48
+        },
+        "source_description": "Broccoli, leaves, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "broccoli"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "broccoli stalks",
+          "broccoli stems",
+          "broccoli stem",
+          "broccoli stalk",
+          "broccoli trunks"
+        ],
+        "category_label": "vegetable",
+        "description": "Broccoli stalks are the stem portion often sliced for stir-fries, soups, and slaws. This USDA row reflects raw stalk values per 100 g.",
+        "display_name": "Broccoli (Stalks)",
+        "fdc_id": 169331,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 5.24,
+          "fat_g": 0.35,
+          "fiber_g": 0.0,
+          "protein_g": 2.98,
+          "sodium_g": 0.027,
+          "sugar_g": 0.0
+        },
+        "source_description": "Broccoli, stalks, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "broccoli"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "buckwheat flour",
+          "whole groat buckwheat flour",
+          "whole buckwheat flour",
+          "kasha flour",
+          "buckwheat meal"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-groat buckwheat flour is a gluten-free flour used for pancakes, soba blends, and rustic baking. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Buckwheat Flour (Whole Groat)",
+        "fdc_id": 170687,
+        "macros": {
+          "calories": 335.0,
+          "carbs_g": 70.59,
+          "fat_g": 3.1,
+          "fiber_g": 10.0,
+          "protein_g": 12.62,
+          "sodium_g": 0.011,
+          "sugar_g": 2.6
+        },
+        "source_description": "Buckwheat flour, whole-groat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted buckwheat groats",
+          "buckwheat groats dry",
+          "kasha",
+          "dry buckwheat",
+          "toasted buckwheat groats"
+        ],
+        "category_label": "grain_legume",
+        "description": "Roasted buckwheat groats (kasha) are dry grains used for pilafs, porridge, and side dishes. This USDA row reflects dry groat values per 100 g.",
+        "display_name": "Buckwheat Groats (Roasted, Dry)",
+        "fdc_id": 170685,
+        "macros": {
+          "calories": 346.0,
+          "carbs_g": 74.95,
+          "fat_g": 2.71,
+          "fiber_g": 10.3,
+          "protein_g": 11.73,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Buckwheat groats, roasted, dry",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bulgur",
+          "dry bulgur",
+          "uncooked bulgur",
+          "bulgur wheat",
+          "cracked wheat"
+        ],
+        "category_label": "grain_legume",
+        "description": "Dry bulgur is a par-cooked cracked wheat ingredient used in tabbouleh, pilafs, and stuffings. This USDA row reflects dry bulgur values per 100 g.",
+        "display_name": "Bulgur (Dry)",
+        "fdc_id": 170688,
+        "macros": {
+          "calories": 342.0,
+          "carbs_g": 75.87,
+          "fat_g": 1.33,
+          "fiber_g": 12.5,
+          "protein_g": 12.29,
+          "sodium_g": 0.017,
+          "sugar_g": 0.41
+        },
+        "source_description": "Bulgur, dry",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "butterbur",
+          "fuki",
+          "fuki stalk",
+          "butterbur stalk",
+          "japanese butterbur"
+        ],
+        "category_label": "vegetable",
+        "description": "Butterbur (fuki) is a Japanese vegetable ingredient often simmered or pickled after prep to reduce bitterness. This USDA row reflects raw fuki values per 100 g.",
+        "display_name": "Butterbur (Fuki)",
+        "fdc_id": 170385,
+        "macros": {
+          "calories": 14.0,
+          "carbs_g": 3.61,
+          "fat_g": 0.04,
+          "fiber_g": 0.0,
+          "protein_g": 0.39,
+          "sodium_g": 0.007,
+          "sugar_g": 0.0
+        },
+        "source_description": "Butterbur, (fuki), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chinese cabbage",
+          "pe-tsai",
+          "pe tsai cabbage",
+          "petsai",
+          "napa cabbage raw"
+        ],
+        "category_label": "vegetable",
+        "description": "Chinese pe-tsai cabbage is a napa-type cabbage used in stir-fries, soups, and pickles. This USDA row reflects raw pe-tsai values per 100 g.",
+        "display_name": "Cabbage (Chinese Pe-tsai)",
+        "fdc_id": 169979,
+        "macros": {
+          "calories": 16.0,
+          "carbs_g": 3.23,
+          "fat_g": 0.2,
+          "fiber_g": 1.2,
+          "protein_g": 1.2,
+          "sodium_g": 0.009,
+          "sugar_g": 1.41
+        },
+        "source_description": "Cabbage, chinese (pe-tsai), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green cabbage",
+          "stored green cabbage",
+          "common cabbage",
+          "danish cabbage",
+          "domestic cabbage"
+        ],
+        "category_label": "vegetable",
+        "description": "This entry is common green cabbage after storage, still raw, for slaws, braises, and soups. This USDA row reflects stored raw cabbage values per 100 g.",
+        "display_name": "Cabbage (Green, Stored Raw)",
+        "fdc_id": 169336,
+        "macros": {
+          "calories": 24.0,
+          "carbs_g": 5.37,
+          "fat_g": 0.18,
+          "fiber_g": 2.3,
+          "protein_g": 1.21,
+          "sodium_g": 0.018,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cabbage, common (danish, domestic, and pointed types), stored, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "japanese pickled cabbage",
+          "pickled cabbage",
+          "tsukemono cabbage",
+          "fresh pickled cabbage",
+          "cabbage japanese style"
+        ],
+        "category_label": "vegetable",
+        "description": "Japanese-style pickled cabbage is a prepared fermented or brined cabbage side used as a condiment. This USDA row reflects pickled cabbage values per 100 g.",
+        "display_name": "Cabbage (Japanese Style, Pickled)",
+        "fdc_id": 169890,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 5.67,
+          "fat_g": 0.1,
+          "fiber_g": 3.1,
+          "protein_g": 1.6,
+          "sodium_g": 0.277,
+          "sugar_g": 1.3
+        },
+        "source_description": "Cabbage, japanese style, fresh, pickled",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "kimchi",
+          "kimchi cabbage",
+          "fermented cabbage",
+          "napa kimchi",
+          "korean kimchi"
+        ],
+        "category_label": "vegetable",
+        "description": "Kimchi is fermented seasoned cabbage used as a side, topping, or flavor base in cooked dishes. This USDA row reflects kimchi values per 100 g.",
+        "display_name": "Cabbage (Kimchi)",
+        "fdc_id": 170392,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 2.4,
+          "fat_g": 0.5,
+          "fiber_g": 1.6,
+          "protein_g": 1.1,
+          "sodium_g": 0.498,
+          "sugar_g": 1.06
+        },
+        "source_description": "Cabbage, kimchi",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "salted mustard cabbage",
+          "mustard cabbage",
+          "pickled mustard cabbage",
+          "salted cabbage mustard",
+          "mustard greens cabbage"
+        ],
+        "category_label": "vegetable",
+        "description": "Salted mustard cabbage is a preserved cabbage ingredient used in soups, stir-fries, and condiments. This USDA row reflects salted product values per 100 g.",
+        "display_name": "Cabbage (Mustard, Salted)",
+        "fdc_id": 169891,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 5.63,
+          "fat_g": 0.1,
+          "fiber_g": 3.1,
+          "protein_g": 1.1,
+          "sodium_g": 0.717,
+          "sugar_g": 1.4
+        },
+        "source_description": "Cabbage, mustard, salted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked napa cabbage",
+          "napa cabbage cooked",
+          "chinese cabbage cooked",
+          "cooked chinese cabbage",
+          "napa cabbage"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked napa cabbage is a softened leafy cabbage used in soups, braises, and stir-fries. This USDA row reflects cooked napa cabbage values per 100 g.",
+        "display_name": "Cabbage (Napa, Cooked)",
+        "fdc_id": 168572,
+        "macros": {
+          "calories": 12.0,
+          "carbs_g": 2.23,
+          "fat_g": 0.17,
+          "fiber_g": 0.0,
+          "protein_g": 1.1,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cabbage, napa, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "red cabbage",
+          "purple cabbage",
+          "raw red cabbage",
+          "fresh red cabbage",
+          "cabbage red"
+        ],
+        "category_label": "vegetable",
+        "description": "Red cabbage is a crisp cabbage used for slaws, pickling, and braised side dishes. This USDA row reflects raw red cabbage values per 100 g.",
+        "display_name": "Cabbage (Red)",
+        "fdc_id": 169977,
+        "macros": {
+          "calories": 31.0,
+          "carbs_g": 7.37,
+          "fat_g": 0.16,
+          "fiber_g": 2.1,
+          "protein_g": 1.43,
+          "sodium_g": 0.027,
+          "sugar_g": 3.83
+        },
+        "source_description": "Cabbage, red, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "savoy cabbage",
+          "raw savoy cabbage",
+          "curly cabbage",
+          "savoy cabbage leaves",
+          "cabbage savoy"
+        ],
+        "category_label": "vegetable",
+        "description": "Savoy cabbage has crinkled leaves and a tender texture for soups, wraps, and sautés. This USDA row reflects raw savoy cabbage values per 100 g.",
+        "display_name": "Cabbage (Savoy)",
+        "fdc_id": 170388,
+        "macros": {
+          "calories": 27.0,
+          "carbs_g": 6.1,
+          "fat_g": 0.1,
+          "fiber_g": 3.1,
+          "protein_g": 2.0,
+          "sodium_g": 0.028,
+          "sugar_g": 2.27
+        },
+        "source_description": "Cabbage, savoy, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "calabash gourd",
+          "bottle gourd",
+          "opo squash",
+          "lauki",
+          "white flowered gourd",
+          "long melon"
+        ],
+        "category_label": "vegetable",
+        "description": "Calabash (bottle gourd) is a mild squash used in stews, curries, and soups across many cuisines. This USDA row reflects raw gourd values per 100 g.",
+        "display_name": "Calabash Gourd",
+        "fdc_id": 169232,
+        "macros": {
+          "calories": 14.0,
+          "carbs_g": 3.39,
+          "fat_g": 0.02,
+          "fiber_g": 0.5,
+          "protein_g": 0.62,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Gourd, white-flowered (calabash), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canadian bacon",
+          "pan-fried canadian bacon",
+          "back bacon fried",
+          "fried canadian bacon",
+          "canadian style bacon"
+        ],
+        "category_label": "protein",
+        "description": "Canadian bacon here is pan-fried and typically used in breakfast dishes, sandwiches, and toppings. This USDA row reflects cooked pan-fried values per 100 g.",
+        "display_name": "Canadian Bacon (Pan-Fried)",
+        "fdc_id": 168383,
+        "macros": {
+          "calories": 146.0,
+          "carbs_g": 1.8,
+          "fat_g": 2.78,
+          "fiber_g": 0.0,
+          "protein_g": 28.31,
+          "sodium_g": 0.993,
+          "sugar_g": 1.2
+        },
+        "source_description": "Canadian bacon, cooked, pan-fried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned chicken",
+          "chicken canned",
+          "no-broth canned chicken",
+          "drained canned chicken",
+          "cooked canned chicken"
+        ],
+        "category_label": "protein",
+        "description": "Canned chicken without broth is a shelf-stable protein used for salads, casseroles, and quick fillings. This USDA row reflects canned drained meat values per 100 g.",
+        "display_name": "Canned Chicken (No Broth)",
+        "fdc_id": 171110,
+        "macros": {
+          "calories": 185.0,
+          "carbs_g": 0.9,
+          "fat_g": 8.1,
+          "fiber_g": 0.0,
+          "protein_g": 25.3,
+          "sodium_g": 0.482,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, canned, no broth",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned light tuna",
+          "light tuna in water",
+          "water-packed tuna",
+          "tuna canned in water",
+          "drained canned tuna",
+          "salt-free canned tuna"
+        ],
+        "category_label": "protein",
+        "description": "Water-packed canned light tuna is a staple protein for salads, sandwiches, and casseroles. This USDA row reflects drained solids without salt added, per 100 g.",
+        "display_name": "Canned Light Tuna (Water-Packed)",
+        "fdc_id": 171986,
+        "macros": {
+          "calories": 116.0,
+          "carbs_g": 0.0,
+          "fat_g": 0.82,
+          "fiber_g": 0.0,
+          "protein_g": 25.51,
+          "sodium_g": 0.05,
+          "sugar_g": 0.0
+        },
+        "source_description": "Fish, tuna, light, canned in water, without salt, drained solids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dehydrated carrots",
+          "dried carrots",
+          "carrot flakes",
+          "carrot dehydrated",
+          "carrot dry"
+        ],
+        "category_label": "vegetable",
+        "description": "Dehydrated carrots are dried carrot pieces used in soup blends, seasoning mixes, and rehydrated cooking. This USDA row reflects dry product values per 100 g.",
+        "display_name": "Carrot (Dehydrated)",
+        "fdc_id": 170500,
+        "macros": {
+          "calories": 341.0,
+          "carbs_g": 79.57,
+          "fat_g": 1.49,
+          "fiber_g": 23.6,
+          "protein_g": 8.1,
+          "sodium_g": 0.275,
+          "sugar_g": 38.82
+        },
+        "source_description": "Carrot, dehydrated",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "carrot"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "carrot juice",
+          "canned carrot juice",
+          "carrot juice canned",
+          "vegetable carrot juice",
+          "carrot drink"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned carrot juice is a prepared vegetable juice used for beverages and blended drinks. This USDA row reflects canned juice values per 100 g.",
+        "display_name": "Carrot Juice (Canned)",
+        "fdc_id": 170491,
+        "macros": {
+          "calories": 40.0,
+          "carbs_g": 9.28,
+          "fat_g": 0.15,
+          "fiber_g": 0.8,
+          "protein_g": 0.95,
+          "sodium_g": 0.066,
+          "sugar_g": 3.91
+        },
+        "source_description": "Carrot juice, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "carrot"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "baby carrots",
+          "raw baby carrots",
+          "mini carrots",
+          "fresh baby carrots",
+          "snack carrots"
+        ],
+        "category_label": "vegetable",
+        "description": "Baby carrots are small tender carrots commonly used for snacking, roasting, and side dishes. This USDA row reflects raw baby carrot values per 100 g.",
+        "display_name": "Carrots (Baby)",
+        "fdc_id": 168568,
+        "macros": {
+          "calories": 35.0,
+          "carbs_g": 8.24,
+          "fat_g": 0.13,
+          "fiber_g": 2.9,
+          "protein_g": 0.64,
+          "sodium_g": 0.078,
+          "sugar_g": 4.76
+        },
+        "source_description": "Carrots, baby, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "carrot"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green cauliflower",
+          "broccoflower",
+          "cauliflower green",
+          "raw green cauliflower",
+          "green cauliflower florets"
+        ],
+        "category_label": "vegetable",
+        "description": "Green cauliflower is a cauliflower variant used similarly to white cauliflower in roasting and steaming. This USDA row reflects raw green cauliflower values per 100 g.",
+        "display_name": "Cauliflower (Green)",
+        "fdc_id": 169389,
+        "macros": {
+          "calories": 31.0,
+          "carbs_g": 6.09,
+          "fat_g": 0.3,
+          "fiber_g": 3.2,
+          "protein_g": 2.95,
+          "sodium_g": 0.023,
+          "sugar_g": 3.03
+        },
+        "source_description": "Cauliflower, green, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "swiss chard",
+          "chard",
+          "silverbeet",
+          "rainbow chard",
+          "leaf chard"
+        ],
+        "category_label": "vegetable",
+        "description": "Swiss chard is a leafy green used in sautés, soups, and braises. This USDA row reflects raw chard values per 100 g.",
+        "display_name": "Chard (Swiss)",
+        "fdc_id": 169991,
+        "macros": {
+          "calories": 19.0,
+          "carbs_g": 3.74,
+          "fat_g": 0.2,
+          "fiber_g": 1.6,
+          "protein_g": 1.8,
+          "sodium_g": 0.213,
+          "sugar_g": 1.1
+        },
+        "source_description": "Chard, swiss, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chayote",
+          "chayote squash",
+          "mirliton",
+          "choko",
+          "vegetable pear"
+        ],
+        "category_label": "vegetable",
+        "description": "Chayote is a mild squash fruit used in stir-fries, soups, and stewed dishes. This USDA row reflects raw chayote fruit values per 100 g.",
+        "display_name": "Chayote (Fruit)",
+        "fdc_id": 170402,
+        "macros": {
+          "calories": 19.0,
+          "carbs_g": 4.51,
+          "fat_g": 0.13,
+          "fiber_g": 1.7,
+          "protein_g": 0.82,
+          "sodium_g": 0.002,
+          "sugar_g": 1.66
+        },
+        "source_description": "Chayote, fruit, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sharp cheddar",
+          "cheddar cheese slices",
+          "sliced cheddar",
+          "cheddar sliced",
+          "aged cheddar slices"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Sharp sliced cheddar is used in sandwiches, melts, and baked dishes where pronounced cheddar flavor is desired. This USDA row reflects sliced sharp cheddar values per 100 g.",
+        "display_name": "Cheese (Cheddar, Sharp, Sliced)",
+        "fdc_id": 170899,
+        "macros": {
+          "calories": 410.0,
+          "carbs_g": 2.13,
+          "fat_g": 33.82,
+          "fiber_g": 0.0,
+          "protein_g": 24.25,
+          "sodium_g": 0.644,
+          "sugar_g": 0.27
+        },
+        "source_description": "Cheese, cheddar, sharp, sliced",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cottage cheese with vegetables",
+          "vegetable cottage cheese",
+          "savory cottage cheese",
+          "cottage cheese mix",
+          "cottage cheese blend"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Cottage cheese with vegetables is a savory dairy ingredient for spreads, bowls, and quick snacks. This USDA row reflects prepared cottage cheese blend values per 100 g.",
+        "display_name": "Cheese (Cottage, With Vegetables)",
+        "fdc_id": 169078,
+        "macros": {
+          "calories": 95.0,
+          "carbs_g": 3.0,
+          "fat_g": 4.2,
+          "fiber_g": 0.1,
+          "protein_g": 10.9,
+          "sodium_g": 0.403,
+          "sugar_g": 0.37
+        },
+        "source_description": "Cheese, cottage, with vegetables",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "low-fat cream cheese",
+          "reduced-fat cream cheese",
+          "light cream cheese",
+          "cream cheese low fat",
+          "soft cream cheese light"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Low-fat cream cheese is used for spreads, dips, and lighter creamy sauces. This USDA row reflects low-fat cream cheese values per 100 g.",
+        "display_name": "Cheese (Cream, Low Fat)",
+        "fdc_id": 169079,
+        "macros": {
+          "calories": 208.0,
+          "carbs_g": 6.73,
+          "fat_g": 16.67,
+          "fiber_g": 0.0,
+          "protein_g": 7.85,
+          "sodium_g": 0.317,
+          "sugar_g": 3.3
+        },
+        "source_description": "Cheese, cream, low fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "fontina cheese",
+          "fontina",
+          "italian fontina",
+          "semi-soft fontina",
+          "fontina wedge"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Fontina is a semi-soft melting cheese used in gratins, sandwiches, and cheese sauces. This USDA row reflects fontina values per 100 g.",
+        "display_name": "Cheese (Fontina)",
+        "fdc_id": 170843,
+        "macros": {
+          "calories": 389.0,
+          "carbs_g": 1.55,
+          "fat_g": 31.14,
+          "fiber_g": 0.0,
+          "protein_g": 25.6,
+          "sodium_g": 0.8,
+          "sugar_g": 1.55
+        },
+        "source_description": "Cheese, fontina",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cold pack american cheese food",
+          "american cold pack cheese",
+          "processed american cheese food",
+          "cold pack cheese spread",
+          "american cheese food"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Cold-pack American cheese food is a processed cheese product used in spreads and sandwich applications. This USDA row reflects the prepared product per 100 g.",
+        "display_name": "Cheese Food (Cold Pack, American)",
+        "fdc_id": 170856,
+        "macros": {
+          "calories": 331.0,
+          "carbs_g": 8.32,
+          "fat_g": 24.46,
+          "fiber_g": 0.0,
+          "protein_g": 19.66,
+          "sodium_g": 0.966,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cheese food, cold pack, American",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cotija cheese",
+          "queso cotija",
+          "mexican cotija",
+          "salty cotija cheese",
+          "crumbly cotija"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Cotija is a salty crumbly Mexican cheese commonly used as a finishing cheese for tacos, beans, and salads. This USDA row reflects cotija values per 100 g.",
+        "display_name": "Cheese (Queso Cotija)",
+        "fdc_id": 170898,
+        "macros": {
+          "calories": 366.0,
+          "carbs_g": 3.97,
+          "fat_g": 30.0,
+          "fiber_g": 0.0,
+          "protein_g": 20.0,
+          "sodium_g": 1.4,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cheese, mexican, queso cotija",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "monterey cheese",
+          "monterey jack",
+          "jack cheese",
+          "monterey cheese block",
+          "semi-hard monterey cheese"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Monterey-style cheese is a mild melting cheese used in sandwiches, quesadillas, and casseroles. This USDA row reflects cheese values per 100 g.",
+        "display_name": "Cheese (Monterey)",
+        "fdc_id": 170844,
+        "macros": {
+          "calories": 373.0,
+          "carbs_g": 0.68,
+          "fat_g": 30.28,
+          "fiber_g": 0.0,
+          "protein_g": 24.48,
+          "sodium_g": 0.6,
+          "sugar_g": 0.5
+        },
+        "source_description": "Cheese, monterey",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "nonfat mozzarella",
+          "fat-free mozzarella",
+          "skim mozzarella",
+          "mozzarella nonfat",
+          "low-fat mozzarella substitute"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Nonfat mozzarella is used where melt is needed with lower fat content, such as pizza and baked dishes. This USDA row reflects nonfat mozzarella values per 100 g.",
+        "display_name": "Cheese (Mozzarella, Nonfat)",
+        "fdc_id": 169051,
+        "macros": {
+          "calories": 141.0,
+          "carbs_g": 3.5,
+          "fat_g": 0.0,
+          "fiber_g": 1.8,
+          "protein_g": 31.7,
+          "sodium_g": 0.743,
+          "sugar_g": 1.48
+        },
+        "source_description": "Cheese, mozzarella, nonfat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "low-fat muenster",
+          "muenster cheese",
+          "muenster low fat",
+          "reduced-fat muenster",
+          "semi-soft muenster"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Low-fat Muenster is a mild semi-soft cheese used for sandwiches and melting. This USDA row reflects reduced-fat Muenster values per 100 g.",
+        "display_name": "Cheese (Muenster, Low Fat)",
+        "fdc_id": 169050,
+        "macros": {
+          "calories": 271.0,
+          "carbs_g": 3.5,
+          "fat_g": 17.6,
+          "fiber_g": 0.0,
+          "protein_g": 24.7,
+          "sodium_g": 0.6,
+          "sugar_g": 3.5
+        },
+        "source_description": "Cheese, muenster, low fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "parmesan cheese",
+          "hard parmesan",
+          "parmigiano style cheese",
+          "grating parmesan",
+          "aged parmesan"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Hard Parmesan-style cheese is used grated for pasta, soups, and finishing. This USDA row reflects hard Parmesan cheese values per 100 g.",
+        "display_name": "Cheese (Parmesan, Hard)",
+        "fdc_id": 170848,
+        "macros": {
+          "calories": 392.0,
+          "carbs_g": 3.22,
+          "fat_g": 25.0,
+          "fiber_g": 0.0,
+          "protein_g": 35.75,
+          "sodium_g": 1.175,
+          "sugar_g": 0.11
+        },
+        "source_description": "Cheese, parmesan, hard",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "processed swiss cheese",
+          "pasteurized process swiss",
+          "american swiss process cheese",
+          "swiss cheese product",
+          "processed swiss slices"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Pasteurized process Swiss cheese is a processed cheese product used for sandwiches and melts. This USDA row reflects processed Swiss cheese values per 100 g.",
+        "display_name": "Cheese (Pasteurized Process, Swiss)",
+        "fdc_id": 170855,
+        "macros": {
+          "calories": 334.0,
+          "carbs_g": 2.1,
+          "fat_g": 25.01,
+          "fiber_g": 0.0,
+          "protein_g": 24.73,
+          "sodium_g": 1.37,
+          "sugar_g": 1.23
+        },
+        "source_description": "Cheese, pasteurized process, swiss",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "port-salut cheese",
+          "port salut cheese",
+          "semi-soft port-salut",
+          "french port-salut",
+          "port salut"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Port-Salut is a semi-soft washed-rind cheese used for cheese boards and melting applications. This USDA row reflects Port-Salut values per 100 g.",
+        "display_name": "Cheese (Port-Salut)",
+        "fdc_id": 170849,
+        "macros": {
+          "calories": 352.0,
+          "carbs_g": 0.57,
+          "fat_g": 28.2,
+          "fiber_g": 0.0,
+          "protein_g": 23.78,
+          "sodium_g": 0.534,
+          "sugar_g": 0.57
+        },
+        "source_description": "Cheese, port de salut",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "provolone cheese",
+          "provolone",
+          "italian provolone",
+          "provolone slices",
+          "semi-hard provolone"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Provolone is a semi-hard Italian cheese used in sandwiches, baked pasta, and melted applications. This USDA row reflects provolone values per 100 g.",
+        "display_name": "Cheese (Provolone)",
+        "fdc_id": 170850,
+        "macros": {
+          "calories": 351.0,
+          "carbs_g": 2.14,
+          "fat_g": 26.62,
+          "fiber_g": 0.0,
+          "protein_g": 25.58,
+          "sodium_g": 0.727,
+          "sugar_g": 0.56
+        },
+        "source_description": "Cheese, provolone",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "whole milk ricotta",
+          "ricotta cheese",
+          "ricotta whole milk",
+          "fresh ricotta",
+          "italian ricotta"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Whole milk ricotta is a soft whey cheese used in lasagna, fillings, and desserts. This USDA row reflects whole milk ricotta values per 100 g.",
+        "display_name": "Cheese (Ricotta, Whole Milk)",
+        "fdc_id": 170851,
+        "macros": {
+          "calories": 150.0,
+          "carbs_g": 7.27,
+          "fat_g": 10.18,
+          "fiber_g": 0.0,
+          "protein_g": 7.54,
+          "sodium_g": 0.11,
+          "sugar_g": 0.27
+        },
+        "source_description": "Cheese, ricotta, whole milk",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cream cheese spread",
+          "cheese spread cream cheese base",
+          "soft cheese spread",
+          "cream-cheese-based spread",
+          "savory cream cheese spread"
+        ],
+        "category_label": "dairy_egg",
+        "description": "This cream-cheese-based spread is a prepared dairy spread used for crackers, sandwiches, and dips. This USDA row reflects spread values per 100 g.",
+        "display_name": "Cheese Spread (Cream Cheese Base)",
+        "fdc_id": 169081,
+        "macros": {
+          "calories": 295.0,
+          "carbs_g": 3.5,
+          "fat_g": 28.6,
+          "fiber_g": 0.0,
+          "protein_g": 7.1,
+          "sodium_g": 0.436,
+          "sugar_g": 3.5
+        },
+        "source_description": "Cheese spread, cream cheese base",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 005: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "reduced-fat cheese spread",
+          "american cheese spread reduced fat",
+          "cheddar cheese spread reduced fat",
+          "light cheese spread",
+          "processed cheese spread reduced fat"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Reduced-fat cheese spread (American or Cheddar base) is used as a lower-fat spread or melt component. This USDA row reflects prepared spread values per 100 g.",
+        "display_name": "Cheese Spread (Reduced Fat)",
+        "fdc_id": 170896,
+        "macros": {
+          "calories": 176.0,
+          "carbs_g": 10.71,
+          "fat_g": 8.88,
+          "fiber_g": 0.0,
+          "protein_g": 13.41,
+          "sodium_g": 1.102,
+          "sugar_g": 7.06
+        },
+        "source_description": "Cheese spread, American or Cheddar cheese base, reduced fat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

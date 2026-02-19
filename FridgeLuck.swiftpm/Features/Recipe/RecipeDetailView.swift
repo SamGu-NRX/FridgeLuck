@@ -216,7 +216,7 @@ struct RecipeDetailView: View {
         Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
           .foregroundStyle(isRequired ? .green : .secondary)
           .font(.caption)
-        Text(ingredient.name.replacingOccurrences(of: "_", with: " ").capitalized)
+        Text(ingredient.displayName)
         Spacer()
         Text(quantity.displayQuantity)
           .font(.subheadline)

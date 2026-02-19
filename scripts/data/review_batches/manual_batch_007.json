@@ -1,0 +1,1756 @@
+{
+  "batch_id": 7,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lemon juice from concentrate",
+          "bottled lemon juice",
+          "canned lemon juice concentrate",
+          "reconstituted lemon juice",
+          "prepared lemon concentrate juice"
+        ],
+        "category_label": "fruit",
+        "description": "Lemon juice from concentrate is a shelf-stable acidic juice used in dressings, marinades, and beverages. This USDA row reflects prepared juice values per 100 g.",
+        "display_name": "Lemon Juice (From Concentrate)",
+        "fdc_id": 167748,
+        "macros": {
+          "calories": 17.0,
+          "carbs_g": 5.62,
+          "fat_g": 0.07,
+          "fiber_g": 0.7,
+          "protein_g": 0.45,
+          "sodium_g": 0.024,
+          "sugar_g": 1.53
+        },
+        "source_description": "Lemon juice from concentrate, canned or bottled",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lemon juice",
+          "fresh lemon juice",
+          "raw lemon juice",
+          "squeezed lemon juice",
+          "lemon juice unsweetened"
+        ],
+        "category_label": "fruit",
+        "description": "Raw lemon juice is used for acidity in sauces, dressings, and drinks. This USDA row reflects raw lemon juice values per 100 g.",
+        "display_name": "Lemon Juice (Raw)",
+        "fdc_id": 167747,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 6.9,
+          "fat_g": 0.24,
+          "fiber_g": 0.3,
+          "protein_g": 0.35,
+          "sodium_g": 0.001,
+          "sugar_g": 2.52
+        },
+        "source_description": "Lemon juice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lemon peel",
+          "lemon zest",
+          "raw lemon peel",
+          "fresh lemon zest",
+          "grated lemon peel"
+        ],
+        "category_label": "fruit",
+        "description": "Raw lemon peel (zest) provides citrus aroma in baking, sauces, and marinades. This USDA row reflects raw peel values per 100 g.",
+        "display_name": "Lemon Peel (Raw)",
+        "fdc_id": 167749,
+        "macros": {
+          "calories": 47.0,
+          "carbs_g": 16.0,
+          "fat_g": 0.3,
+          "fiber_g": 10.6,
+          "protein_g": 1.5,
+          "sodium_g": 0.006,
+          "sugar_g": 4.17
+        },
+        "source_description": "Lemon peel, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "peeled lemon",
+          "lemon flesh",
+          "lemons without peel",
+          "raw peeled lemon",
+          "fresh lemon segments"
+        ],
+        "category_label": "fruit",
+        "description": "Peeled raw lemon flesh is used for juice extraction and citrus-forward recipes without zest oils. This USDA row reflects edible peeled fruit values per 100 g.",
+        "display_name": "Lemons (Without Peel, Raw)",
+        "fdc_id": 167746,
+        "macros": {
+          "calories": 29.0,
+          "carbs_g": 9.32,
+          "fat_g": 0.3,
+          "fiber_g": 2.8,
+          "protein_g": 1.1,
+          "sodium_g": 0.002,
+          "sugar_g": 2.5
+        },
+        "source_description": "Lemons, raw, without peel",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lentil sprouts",
+          "sprouted lentils",
+          "raw lentil sprouts",
+          "fresh lentil sprouts",
+          "lentils sprouted"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw lentil sprouts are used in salads, wraps, and lightly cooked dishes for texture and protein. This USDA row reflects raw sprout values per 100 g.",
+        "display_name": "Lentil Sprouts (Raw)",
+        "fdc_id": 168427,
+        "macros": {
+          "calories": 106.0,
+          "carbs_g": 22.14,
+          "fat_g": 0.55,
+          "fiber_g": 0.0,
+          "protein_g": 8.96,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Lentils, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "butterhead lettuce",
+          "bibb lettuce",
+          "boston lettuce",
+          "butter lettuce",
+          "soft leaf lettuce"
+        ],
+        "category_label": "vegetable",
+        "description": "Butterhead lettuce is a tender leafy green used in salads and lettuce cups. This USDA row reflects raw butterhead values per 100 g.",
+        "display_name": "Lettuce (Butterhead)",
+        "fdc_id": 168429,
+        "macros": {
+          "calories": 13.0,
+          "carbs_g": 2.23,
+          "fat_g": 0.22,
+          "fiber_g": 1.1,
+          "protein_g": 1.35,
+          "sodium_g": 0.005,
+          "sugar_g": 0.94
+        },
+        "source_description": "Lettuce, butterhead (includes boston and bibb types), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "lettuce"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "romaine lettuce",
+          "cos lettuce",
+          "romaine hearts",
+          "raw romaine",
+          "lettuce romaine"
+        ],
+        "category_label": "vegetable",
+        "description": "Romaine (cos) lettuce is a crisp leafy green used in salads and wraps. This USDA row reflects raw romaine values per 100 g.",
+        "display_name": "Lettuce (Romaine)",
+        "fdc_id": 169247,
+        "macros": {
+          "calories": 17.0,
+          "carbs_g": 3.29,
+          "fat_g": 0.3,
+          "fiber_g": 2.1,
+          "protein_g": 1.23,
+          "sodium_g": 0.008,
+          "sugar_g": 1.19
+        },
+        "source_description": "Lettuce, cos or romaine, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "lettuce"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green leaf lettuce",
+          "leaf lettuce green",
+          "raw green lettuce",
+          "fresh green leaf lettuce",
+          "lettuce green leaf"
+        ],
+        "category_label": "vegetable",
+        "description": "Green leaf lettuce is a soft crisp salad green used in fresh salads and sandwiches. This USDA row reflects raw values per 100 g.",
+        "display_name": "Lettuce (Green Leaf)",
+        "fdc_id": 169249,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 2.87,
+          "fat_g": 0.15,
+          "fiber_g": 1.3,
+          "protein_g": 1.36,
+          "sodium_g": 0.028,
+          "sugar_g": 0.78
+        },
+        "source_description": "Lettuce, green leaf, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "lettuce"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "iceberg lettuce",
+          "crisphead lettuce",
+          "head lettuce iceberg",
+          "raw iceberg lettuce",
+          "lettuce crisphead"
+        ],
+        "category_label": "vegetable",
+        "description": "Iceberg lettuce is a crunchy mild lettuce used in salads, burgers, and wraps. This USDA row reflects raw iceberg values per 100 g.",
+        "display_name": "Lettuce (Iceberg)",
+        "fdc_id": 169248,
+        "macros": {
+          "calories": 14.0,
+          "carbs_g": 2.97,
+          "fat_g": 0.14,
+          "fiber_g": 1.2,
+          "protein_g": 0.9,
+          "sodium_g": 0.01,
+          "sugar_g": 1.97
+        },
+        "source_description": "Lettuce, iceberg (includes crisphead types), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "lettuce"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "red leaf lettuce",
+          "leaf lettuce red",
+          "raw red leaf lettuce",
+          "fresh red lettuce",
+          "lettuce red leaf"
+        ],
+        "category_label": "vegetable",
+        "description": "Red leaf lettuce is a tender salad green used in mixed salads and garnishes. This USDA row reflects raw red-leaf values per 100 g.",
+        "display_name": "Lettuce (Red Leaf)",
+        "fdc_id": 168431,
+        "macros": {
+          "calories": 13.0,
+          "carbs_g": 2.26,
+          "fat_g": 0.22,
+          "fiber_g": 0.9,
+          "protein_g": 1.33,
+          "sodium_g": 0.025,
+          "sugar_g": 0.48
+        },
+        "source_description": "Lettuce, red leaf, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "lettuce"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "light cream",
+          "light whipping cream",
+          "table cream",
+          "fluid light cream",
+          "cream light"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Light cream is a dairy ingredient used in coffee, sauces, and soups for moderate richness. This USDA row reflects fluid light cream values per 100 g.",
+        "display_name": "Light Cream",
+        "fdc_id": 170858,
+        "macros": {
+          "calories": 292.0,
+          "carbs_g": 2.96,
+          "fat_g": 30.91,
+          "fiber_g": 0.0,
+          "protein_g": 2.17,
+          "sodium_g": 0.034,
+          "sugar_g": 2.96
+        },
+        "source_description": "Cream, fluid, light whipping",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lima beans raw",
+          "immature lima beans",
+          "fresh lima beans",
+          "baby lima beans raw",
+          "lima bean seeds"
+        ],
+        "category_label": "vegetable",
+        "description": "Immature raw lima bean seeds are used after cooking in succotash, stews, and side dishes. This USDA row reflects raw seed values per 100 g.",
+        "display_name": "Lima Beans (Immature Seeds, Raw)",
+        "fdc_id": 168396,
+        "macros": {
+          "calories": 113.0,
+          "carbs_g": 20.17,
+          "fat_g": 0.86,
+          "fiber_g": 4.9,
+          "protein_g": 6.84,
+          "sodium_g": 0.008,
+          "sugar_g": 1.48
+        },
+        "source_description": "Lima beans, immature seeds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lime juice",
+          "fresh lime juice",
+          "raw lime juice",
+          "squeezed lime juice",
+          "lime juice unsweetened"
+        ],
+        "category_label": "fruit",
+        "description": "Raw lime juice is used for acidity in marinades, sauces, and drinks. This USDA row reflects raw lime juice values per 100 g.",
+        "display_name": "Lime Juice (Raw)",
+        "fdc_id": 168156,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 8.42,
+          "fat_g": 0.07,
+          "fiber_g": 0.4,
+          "protein_g": 0.42,
+          "sodium_g": 0.002,
+          "sugar_g": 1.69
+        },
+        "source_description": "Lime juice, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried lychee",
+          "dried litchi",
+          "lychee dried fruit",
+          "litchi dried fruit",
+          "dehydrated lychee"
+        ],
+        "category_label": "fruit",
+        "description": "Dried litchis are concentrated sweet fruit used for snacks and dessert applications. This USDA row reflects dried fruit values per 100 g.",
+        "display_name": "Litchis (Dried)",
+        "fdc_id": 169087,
+        "macros": {
+          "calories": 277.0,
+          "carbs_g": 70.7,
+          "fat_g": 1.2,
+          "fiber_g": 4.6,
+          "protein_g": 3.8,
+          "sodium_g": 0.003,
+          "sugar_g": 66.1
+        },
+        "source_description": "Litchis, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen loganberries",
+          "loganberry frozen",
+          "whole frozen loganberries",
+          "berries logan frozen",
+          "logans frozen fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Frozen loganberries are tart berries used in smoothies, jams, and dessert sauces. This USDA row reflects frozen fruit values per 100 g.",
+        "display_name": "Loganberries (Frozen)",
+        "fdc_id": 169088,
+        "macros": {
+          "calories": 55.0,
+          "carbs_g": 13.02,
+          "fat_g": 0.31,
+          "fiber_g": 5.3,
+          "protein_g": 1.52,
+          "sodium_g": 0.001,
+          "sugar_g": 7.7
+        },
+        "source_description": "Loganberries, frozen",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried longan",
+          "longan dried fruit",
+          "dehydrated longan",
+          "longan fruit dried",
+          "dried longan pulp"
+        ],
+        "category_label": "fruit",
+        "description": "Dried longans are sweet preserved fruit used in desserts, teas, and snacks. This USDA row reflects dried fruit values per 100 g.",
+        "display_name": "Longans (Dried)",
+        "fdc_id": 169907,
+        "macros": {
+          "calories": 286.0,
+          "carbs_g": 74.0,
+          "fat_g": 0.4,
+          "fiber_g": 0.0,
+          "protein_g": 4.9,
+          "sodium_g": 0.048,
+          "sugar_g": 0.0
+        },
+        "source_description": "Longans, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lotus root",
+          "raw lotus root",
+          "lotus stem",
+          "renkon",
+          "fresh lotus root"
+        ],
+        "category_label": "vegetable",
+        "description": "Lotus root is a crunchy root vegetable used in stir-fries, braises, and soups. This USDA row reflects raw lotus root values per 100 g.",
+        "display_name": "Lotus Root (Raw)",
+        "fdc_id": 169250,
+        "macros": {
+          "calories": 74.0,
+          "carbs_g": 17.23,
+          "fat_g": 0.1,
+          "fiber_g": 4.9,
+          "protein_g": 2.6,
+          "sodium_g": 0.04,
+          "sugar_g": 0.0
+        },
+        "source_description": "Lotus root, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "low-fat buttermilk",
+          "cultured buttermilk",
+          "fluid buttermilk low fat",
+          "buttermilk cultured lowfat",
+          "reduced-fat buttermilk"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Cultured low-fat buttermilk is used in baking, marinades, and dressings for tang and tenderness. This USDA row reflects fluid cultured product values per 100 g.",
+        "display_name": "Buttermilk (Cultured, Low-Fat)",
+        "fdc_id": 170874,
+        "macros": {
+          "calories": 40.0,
+          "carbs_g": 4.79,
+          "fat_g": 1.07,
+          "fiber_g": 0.0,
+          "protein_g": 3.31,
+          "sodium_g": 0.148,
+          "sugar_g": 5.36
+        },
+        "source_description": "Milk, buttermilk, fluid, cultured, lowfat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "luffa",
+          "luffa gourd",
+          "dishcloth gourd",
+          "sponge gourd",
+          "towelgourd"
+        ],
+        "category_label": "vegetable",
+        "description": "Luffa gourd is a tender vegetable used in soups and stir-fries when harvested young. This USDA row reflects raw edible gourd values per 100 g.",
+        "display_name": "Luffa Gourd",
+        "fdc_id": 168414,
+        "macros": {
+          "calories": 20.0,
+          "carbs_g": 4.35,
+          "fat_g": 0.2,
+          "fiber_g": 1.1,
+          "protein_g": 1.2,
+          "sodium_g": 0.003,
+          "sugar_g": 2.02
+        },
+        "source_description": "Gourd, dishcloth (towelgourd), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vegetable macaroni",
+          "cooked vegetable macaroni",
+          "enriched vegetable macaroni",
+          "pasta vegetable macaroni",
+          "prepared vegetable macaroni"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked enriched vegetable macaroni is a prepared pasta ingredient for sides and mixed dishes. This USDA row reflects cooked pasta values per 100 g.",
+        "display_name": "Vegetable Macaroni (Cooked)",
+        "fdc_id": 168904,
+        "macros": {
+          "calories": 128.0,
+          "carbs_g": 26.61,
+          "fat_g": 0.11,
+          "fiber_g": 4.3,
+          "protein_g": 4.53,
+          "sodium_g": 0.006,
+          "sugar_g": 1.15
+        },
+        "source_description": "Macaroni, vegetable, enriched, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "malabar spinach",
+          "cooked malabar spinach",
+          "basella",
+          "vine spinach",
+          "ceylon spinach"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked Malabar spinach is a leafy green used in soups, stews, and sautés. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Malabar Spinach (Cooked)",
+        "fdc_id": 169400,
+        "macros": {
+          "calories": 23.0,
+          "carbs_g": 2.71,
+          "fat_g": 0.78,
+          "fiber_g": 2.1,
+          "protein_g": 2.98,
+          "sodium_g": 0.055,
+          "sugar_g": 0.0
+        },
+        "source_description": "Malabar spinach, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mamey apple",
+          "mammy-apple",
+          "mamey fruit",
+          "raw mamey",
+          "mammee apple"
+        ],
+        "category_label": "fruit",
+        "description": "Mamey (mammy-apple) is a tropical fruit eaten fresh or blended into beverages and desserts. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Mamey (Raw)",
+        "fdc_id": 169909,
+        "macros": {
+          "calories": 51.0,
+          "carbs_g": 12.5,
+          "fat_g": 0.5,
+          "fiber_g": 3.0,
+          "protein_g": 0.5,
+          "sodium_g": 0.015,
+          "sugar_g": 0.0
+        },
+        "source_description": "Mammy-apple, (mamey), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried mango",
+          "sweetened dried mango",
+          "dehydrated mango sweetened",
+          "mango dried fruit",
+          "mango strips dried"
+        ],
+        "category_label": "fruit",
+        "description": "Sweetened dried mango is a concentrated fruit snack and baking add-in. This USDA row reflects dried product values per 100 g.",
+        "display_name": "Mango (Dried, Sweetened)",
+        "fdc_id": 169091,
+        "macros": {
+          "calories": 319.0,
+          "carbs_g": 78.58,
+          "fat_g": 1.18,
+          "fiber_g": 2.4,
+          "protein_g": 2.45,
+          "sodium_g": 0.162,
+          "sugar_g": 66.27
+        },
+        "source_description": "Mango, dried, sweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mango nectar",
+          "canned mango nectar",
+          "mango juice nectar",
+          "bottled mango nectar",
+          "mango drink nectar"
+        ],
+        "category_label": "fruit",
+        "description": "Canned mango nectar is a prepared fruit beverage used directly or in mixed drinks. This USDA row reflects nectar values per 100 g.",
+        "display_name": "Mango Nectar (Canned)",
+        "fdc_id": 167785,
+        "macros": {
+          "calories": 51.0,
+          "carbs_g": 13.12,
+          "fat_g": 0.06,
+          "fiber_g": 0.3,
+          "protein_g": 0.11,
+          "sodium_g": 0.005,
+          "sugar_g": 12.45
+        },
+        "source_description": "Mango nectar, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned mangosteen",
+          "mangosteen in syrup",
+          "syrup-pack mangosteen",
+          "mangosteen canned fruit",
+          "drained canned mangosteen"
+        ],
+        "category_label": "fruit",
+        "description": "Canned mangosteen in syrup is a sweet preserved tropical fruit for desserts and fruit mixes. This USDA row reflects syrup-pack values per 100 g.",
+        "display_name": "Mangosteen (Canned, Syrup Pack)",
+        "fdc_id": 169090,
+        "macros": {
+          "calories": 73.0,
+          "carbs_g": 17.91,
+          "fat_g": 0.58,
+          "fiber_g": 1.8,
+          "protein_g": 0.41,
+          "sodium_g": 0.007,
+          "sugar_g": 0.0
+        },
+        "source_description": "Mangosteen, canned, syrup pack",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "maraschino cherries",
+          "canned maraschino cherries",
+          "drained maraschino cherries",
+          "cocktail cherries",
+          "red maraschino cherries"
+        ],
+        "category_label": "fruit",
+        "description": "Maraschino cherries are sweet preserved garnish cherries used in desserts and beverages. This USDA row reflects drained cherries per 100 g.",
+        "display_name": "Maraschino Cherries (Canned, Drained)",
+        "fdc_id": 167766,
+        "macros": {
+          "calories": 165.0,
+          "carbs_g": 41.97,
+          "fat_g": 0.21,
+          "fiber_g": 3.2,
+          "protein_g": 0.22,
+          "sodium_g": 0.004,
+          "sugar_g": 38.77
+        },
+        "source_description": "Maraschino cherries, canned, drained",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "regular margarine",
+          "hard margarine stick",
+          "soy margarine hydrogenated",
+          "margarine hard",
+          "table margarine regular"
+        ],
+        "category_label": "oil_fat",
+        "description": "Regular hard margarine is a fat spread used for baking and cooking applications. This USDA row reflects soybean-based hard margarine values per 100 g.",
+        "display_name": "Margarine (Regular, Hard)",
+        "fdc_id": 171018,
+        "macros": {
+          "calories": 719.0,
+          "carbs_g": 0.9,
+          "fat_g": 80.5,
+          "fiber_g": 0.0,
+          "protein_g": 0.9,
+          "sodium_g": 0.943,
+          "sugar_g": 0.0
+        },
+        "source_description": "Margarine, regular, hard, soybean (hydrogenated)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "butter margarine blend",
+          "margarine butter blend",
+          "80% fat spread blend",
+          "stick blend margarine butter",
+          "blend spread without salt"
+        ],
+        "category_label": "oil_fat",
+        "description": "This 80% fat butter-margarine blend is a spread and cooking fat used where butter flavor is desired with blend stability. This USDA row reflects stick blend values per 100 g.",
+        "display_name": "Margarine-Butter Blend (80% Fat)",
+        "fdc_id": 169052,
+        "macros": {
+          "calories": 718.0,
+          "carbs_g": 0.6,
+          "fat_g": 80.7,
+          "fiber_g": 0.0,
+          "protein_g": 0.9,
+          "sodium_g": 0.028,
+          "sugar_g": 0.0
+        },
+        "source_description": "Margarine-like, butter-margarine blend, 80% fat, stick, without salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweetened vegetable oil spread",
+          "margarine-like vegetable spread",
+          "soft vegetable oil spread",
+          "vegetable spread stick or tub",
+          "sweet spread margarine-like"
+        ],
+        "category_label": "oil_fat",
+        "description": "Margarine-like vegetable oil spread is a sweetened spread used for table and baking applications. This USDA row reflects spread values per 100 g.",
+        "display_name": "Vegetable Oil Spread (Sweetened)",
+        "fdc_id": 169860,
+        "macros": {
+          "calories": 534.0,
+          "carbs_g": 16.7,
+          "fat_g": 52.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.542,
+          "sugar_g": 16.7
+        },
+        "source_description": "Margarine-like, vegetable oil spread, stick or tub, sweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "60% fat vegetable oil spread",
+          "margarine-like spread with vitamin d",
+          "reduced-fat oil spread",
+          "stick tub bottle vegetable spread",
+          "fortified vegetable spread"
+        ],
+        "category_label": "oil_fat",
+        "description": "This margarine-like vegetable spread contains about 60% fat and added vitamin D, used as a spread or cooking fat. This USDA row reflects product values per 100 g.",
+        "display_name": "Vegetable Oil Spread (60% Fat, Vit D)",
+        "fdc_id": 171039,
+        "macros": {
+          "calories": 535.0,
+          "carbs_g": 0.0,
+          "fat_g": 59.17,
+          "fiber_g": 0.0,
+          "protein_g": 0.6,
+          "sodium_g": 0.785,
+          "sugar_g": 0.0
+        },
+        "source_description": "Margarine-like vegetable-oil spread, stick/tub/bottle, 60% fat, with added vitamin D",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "masa harina",
+          "white masa harina",
+          "white corn masa flour",
+          "nixtamalized corn flour",
+          "masa flour white"
+        ],
+        "category_label": "grain_legume",
+        "description": "White masa harina is nixtamalized corn flour used for tortillas, tamales, and masa doughs. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Masa Harina (White Corn Flour)",
+        "fdc_id": 169696,
+        "macros": {
+          "calories": 363.0,
+          "carbs_g": 76.59,
+          "fat_g": 3.69,
+          "fiber_g": 6.4,
+          "protein_g": 8.46,
+          "sodium_g": 0.005,
+          "sugar_g": 1.61
+        },
+        "source_description": "Corn flour, masa, unenriched, white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cholesterol-free mayonnaise dressing",
+          "no-cholesterol mayo dressing",
+          "light mayo dressing substitute",
+          "mayo dressing no cholesterol",
+          "egg-free mayo dressing"
+        ],
+        "category_label": "oil_fat",
+        "description": "No-cholesterol mayonnaise dressing is a condiment used in sandwiches, salads, and dips. This USDA row reflects dressing values per 100 g.",
+        "display_name": "Mayonnaise Dressing (No Cholesterol)",
+        "fdc_id": 167736,
+        "macros": {
+          "calories": 688.0,
+          "carbs_g": 0.3,
+          "fat_g": 77.8,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.486,
+          "sugar_g": 0.3
+        },
+        "source_description": "Mayonnaise dressing, no cholesterol",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tofu mayonnaise",
+          "tofu mayo",
+          "egg-free tofu mayo",
+          "plant-based mayonnaise tofu",
+          "soy tofu mayonnaise"
+        ],
+        "category_label": "oil_fat",
+        "description": "Tofu mayonnaise is an alternative emulsion spread used in sandwiches and salads. This USDA row reflects tofu-based mayonnaise values per 100 g.",
+        "display_name": "Mayonnaise (Made With Tofu)",
+        "fdc_id": 167695,
+        "macros": {
+          "calories": 322.0,
+          "carbs_g": 3.06,
+          "fat_g": 31.79,
+          "fiber_g": 1.1,
+          "protein_g": 5.95,
+          "sodium_g": 0.773,
+          "sugar_g": 0.85
+        },
+        "source_description": "Mayonnaise, made with tofu",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mechanically deboned poultry",
+          "mdm poultry",
+          "mechanically separated chicken",
+          "deboned poultry paste",
+          "poultry mdm raw"
+        ],
+        "category_label": "protein",
+        "description": "Mechanically deboned poultry is a processed raw poultry ingredient used in formulated meat products. This USDA row reflects raw mature-hen material per 100 g.",
+        "display_name": "Mechanically Deboned Poultry (Raw)",
+        "fdc_id": 171106,
+        "macros": {
+          "calories": 243.0,
+          "carbs_g": 0.0,
+          "fat_g": 19.98,
+          "fiber_g": 0.0,
+          "protein_g": 14.72,
+          "sodium_g": 0.04,
+          "sugar_g": 0.0
+        },
+        "source_description": "Poultry, mechanically deboned, from mature hens, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen melon balls",
+          "melon balls frozen",
+          "mixed melon balls frozen",
+          "melon fruit balls frozen",
+          "prepared melon balls"
+        ],
+        "category_label": "fruit",
+        "description": "Frozen melon balls are prepared fruit pieces used for desserts, beverages, and fruit mixes. This USDA row reflects frozen fruit values per 100 g.",
+        "display_name": "Melon Balls (Frozen)",
+        "fdc_id": 169912,
+        "macros": {
+          "calories": 33.0,
+          "carbs_g": 7.94,
+          "fat_g": 0.25,
+          "fiber_g": 0.7,
+          "protein_g": 0.84,
+          "sodium_g": 0.031,
+          "sugar_g": 0.0
+        },
+        "source_description": "Melon balls, frozen",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cantaloupe",
+          "raw cantaloupe",
+          "cantaloupe melon",
+          "muskmelon cantaloupe",
+          "fresh cantaloupe"
+        ],
+        "category_label": "fruit",
+        "description": "Raw cantaloupe is a sweet orange-flesh melon used in fruit salads and snacks. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Melons (Cantaloupe, Raw)",
+        "fdc_id": 169092,
+        "macros": {
+          "calories": 34.0,
+          "carbs_g": 8.16,
+          "fat_g": 0.19,
+          "fiber_g": 0.9,
+          "protein_g": 0.84,
+          "sodium_g": 0.016,
+          "sugar_g": 7.86
+        },
+        "source_description": "Melons, cantaloupe, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "casaba melon",
+          "raw casaba melon",
+          "casaba",
+          "fresh casaba",
+          "casaba fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw casaba is a mild melon used in fruit platters and salads. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Melons (Casaba, Raw)",
+        "fdc_id": 169093,
+        "macros": {
+          "calories": 28.0,
+          "carbs_g": 6.58,
+          "fat_g": 0.1,
+          "fiber_g": 0.9,
+          "protein_g": 1.11,
+          "sodium_g": 0.009,
+          "sugar_g": 5.69
+        },
+        "source_description": "Melons, casaba, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "honeydew melon",
+          "raw honeydew",
+          "honeydew",
+          "fresh honeydew melon",
+          "green melon honeydew"
+        ],
+        "category_label": "fruit",
+        "description": "Raw honeydew is a sweet green-flesh melon used for fresh fruit servings and salads. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Melons (Honeydew, Raw)",
+        "fdc_id": 169911,
+        "macros": {
+          "calories": 36.0,
+          "carbs_g": 9.09,
+          "fat_g": 0.14,
+          "fiber_g": 0.8,
+          "protein_g": 0.54,
+          "sodium_g": 0.018,
+          "sugar_g": 8.12
+        },
+        "source_description": "Melons, honeydew, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "1% milk",
+          "low-fat milk 1%",
+          "one percent milk",
+          "reduced-fat milk 1%",
+          "fluid low-fat milk"
+        ],
+        "category_label": "dairy_egg",
+        "description": "1% low-fat milk is a common dairy beverage and cooking ingredient with reduced fat. This USDA row reflects fortified fluid milk values per 100 g.",
+        "display_name": "Milk (1% Low Fat)",
+        "fdc_id": 170872,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 4.99,
+          "fat_g": 0.97,
+          "fiber_g": 0.0,
+          "protein_g": 3.37,
+          "sodium_g": 0.044,
+          "sugar_g": 5.2
+        },
+        "source_description": "Milk, lowfat, fluid, 1% milkfat, with added vitamin A and vitamin D",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "2% milk",
+          "reduced-fat milk 2%",
+          "two percent milk",
+          "protein-fortified 2% milk",
+          "fluid milk 2%"
+        ],
+        "category_label": "dairy_egg",
+        "description": "2% reduced-fat milk is a staple dairy beverage and cooking ingredient. This USDA row reflects fortified fluid milk values per 100 g.",
+        "display_name": "Milk (2% Reduced Fat)",
+        "fdc_id": 170871,
+        "macros": {
+          "calories": 56.0,
+          "carbs_g": 5.49,
+          "fat_g": 1.98,
+          "fiber_g": 0.0,
+          "protein_g": 3.95,
+          "sodium_g": 0.059,
+          "sugar_g": 5.26
+        },
+        "source_description": "Milk, reduced fat, fluid, 2% milkfat, protein fortified, with added vitamin A and vitamin D",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "skim milk",
+          "fat-free milk",
+          "nonfat milk",
+          "calcium-fortified skim milk",
+          "fluid skim milk"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Skim milk is a nonfat dairy beverage used for drinking, baking, and cooking. This USDA row reflects fortified fluid skim milk values per 100 g.",
+        "display_name": "Milk (Skim, Fortified)",
+        "fdc_id": 169868,
+        "macros": {
+          "calories": 35.0,
+          "carbs_g": 4.85,
+          "fat_g": 0.18,
+          "fiber_g": 0.0,
+          "protein_g": 3.4,
+          "sodium_g": 0.052,
+          "sugar_g": 4.85
+        },
+        "source_description": "Milk, fluid, nonfat, calcium fortified (fat free or skim)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "whole milk powder",
+          "dry whole milk",
+          "fortified whole milk powder",
+          "powdered whole milk",
+          "milk dry whole"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Whole milk powder is dehydrated dairy used for baking, beverages, and shelf-stable formulations. This USDA row reflects dry fortified milk powder values per 100 g.",
+        "display_name": "Milk Powder (Whole, Fortified)",
+        "fdc_id": 170876,
+        "macros": {
+          "calories": 496.0,
+          "carbs_g": 38.42,
+          "fat_g": 26.71,
+          "fiber_g": 0.0,
+          "protein_g": 26.32,
+          "sodium_g": 0.371,
+          "sugar_g": 38.42
+        },
+        "source_description": "Milk, dry, whole, with added vitamin D",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "other",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw snail",
+          "edible snail raw",
+          "mollusk snail",
+          "snail meat raw",
+          "snails"
+        ],
+        "category_label": "protein",
+        "description": "Raw edible snail is a mollusk protein used in specialty culinary preparations. This USDA row reflects raw snail values per 100 g.",
+        "display_name": "Snail (Raw)",
+        "fdc_id": 167744,
+        "macros": {
+          "calories": 90.0,
+          "carbs_g": 2.0,
+          "fat_g": 1.4,
+          "fiber_g": 0.0,
+          "protein_g": 16.1,
+          "sodium_g": 0.07,
+          "sugar_g": 0.0
+        },
+        "source_description": "Mollusks, snail, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mountain yam hawaii",
+          "hawaiian mountain yam",
+          "raw mountain yam",
+          "yam mountain hawaii",
+          "mountain yam root"
+        ],
+        "category_label": "vegetable",
+        "description": "Mountain yam from Hawaii is a starchy root ingredient used in boiled and stewed preparations. This USDA row reflects raw yam values per 100 g.",
+        "display_name": "Mountain Yam (Hawaii, Raw)",
+        "fdc_id": 168432,
+        "macros": {
+          "calories": 67.0,
+          "carbs_g": 16.3,
+          "fat_g": 0.1,
+          "fiber_g": 2.5,
+          "protein_g": 1.34,
+          "sodium_g": 0.013,
+          "sugar_g": 0.31
+        },
+        "source_description": "Mountain yam, hawaii, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mung bean sprouts",
+          "raw mung sprouts",
+          "sprouted mung beans",
+          "fresh mung bean sprouts",
+          "bean sprouts mung"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw mung bean sprouts are used in stir-fries, soups, and fresh toppings. This USDA row reflects sprouted raw values per 100 g.",
+        "display_name": "Mung Bean Sprouts (Raw)",
+        "fdc_id": 169957,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 5.94,
+          "fat_g": 0.18,
+          "fiber_g": 1.8,
+          "protein_g": 3.04,
+          "sodium_g": 0.006,
+          "sugar_g": 4.13
+        },
+        "source_description": "Mung beans, mature seeds, sprouted, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white mushrooms uv exposed",
+          "uv-treated white mushrooms",
+          "white button mushrooms",
+          "mushrooms white raw",
+          "button mushrooms raw"
+        ],
+        "category_label": "vegetable",
+        "description": "UV-exposed white mushrooms are raw button mushrooms treated to increase vitamin D. This USDA row reflects raw mushroom values per 100 g.",
+        "display_name": "Mushrooms (White, UV-Exposed)",
+        "fdc_id": 169376,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 3.26,
+          "fat_g": 0.34,
+          "fiber_g": 1.0,
+          "protein_g": 3.09,
+          "sodium_g": 0.005,
+          "sugar_g": 1.98
+        },
+        "source_description": "Mushroom, white, exposed to ultraviolet light, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "crimini mushrooms",
+          "brown mushrooms",
+          "italian brown mushrooms",
+          "baby bella mushrooms",
+          "raw crimini mushrooms"
+        ],
+        "category_label": "vegetable",
+        "description": "Brown (crimini) mushrooms are versatile mushrooms used in sautés, soups, and roasted dishes. This USDA row reflects raw mushroom values per 100 g.",
+        "display_name": "Mushrooms (Brown/Crimini)",
+        "fdc_id": 168434,
+        "macros": {
+          "calories": 22.0,
+          "carbs_g": 4.3,
+          "fat_g": 0.1,
+          "fiber_g": 0.6,
+          "protein_g": 2.5,
+          "sodium_g": 0.006,
+          "sugar_g": 1.72
+        },
+        "source_description": "Mushrooms, brown, italian, or crimini, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned mushrooms drained",
+          "drained canned mushrooms",
+          "mushrooms canned",
+          "canned mushroom pieces",
+          "preserved mushrooms canned"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned drained mushrooms are ready-to-use mushrooms for pizzas, sauces, and mixed dishes. This USDA row reflects drained solids values per 100 g.",
+        "display_name": "Mushrooms (Canned, Drained)",
+        "fdc_id": 169254,
+        "macros": {
+          "calories": 25.0,
+          "carbs_g": 5.09,
+          "fat_g": 0.29,
+          "fiber_g": 2.4,
+          "protein_g": 1.87,
+          "sodium_g": 0.425,
+          "sugar_g": 2.34
+        },
+        "source_description": "Mushrooms, canned, drained solids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chanterelle mushrooms",
+          "raw chanterelles",
+          "chanterelles",
+          "wild chanterelle mushrooms",
+          "fresh chanterelles"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw chanterelle mushrooms are aromatic wild mushrooms used in sautés, sauces, and egg dishes. This USDA row reflects raw mushroom values per 100 g.",
+        "display_name": "Mushrooms (Chanterelle, Raw)",
+        "fdc_id": 168422,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 6.86,
+          "fat_g": 0.53,
+          "fiber_g": 3.8,
+          "protein_g": 1.49,
+          "sodium_g": 0.009,
+          "sugar_g": 1.16
+        },
+        "source_description": "Mushrooms, Chanterelle, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 007: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "enoki mushrooms",
+          "raw enoki",
+          "enokitake",
+          "golden needle mushrooms",
+          "fresh enoki"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw enoki mushrooms are delicate mushrooms used in soups, hot pots, and quick sautés. This USDA row reflects raw mushroom values per 100 g.",
+        "display_name": "Mushrooms (Enoki, Raw)",
+        "fdc_id": 169382,
+        "macros": {
+          "calories": 37.0,
+          "carbs_g": 7.81,
+          "fat_g": 0.29,
+          "fiber_g": 2.7,
+          "protein_g": 2.66,
+          "sodium_g": 0.003,
+          "sugar_g": 0.22
+        },
+        "source_description": "Mushrooms, enoki, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    }
+  ]
+}

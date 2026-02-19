@@ -32,6 +32,7 @@ xcuserdata/
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
+*.sqlite.lock
 !FridgeLuck.swiftpm/Resources/usda_ingredient_catalog.sqlite
 
 # Local editor/agent metadata
@@ -46,3 +47,11 @@ scripts/data/.cache/
 # local env files
 .env*
 !.env*.example
+
+# Python script artifacts
+__pycache__/
+*.pyc
+scripts/data/.venv/
+scripts/data/*.egg-info/
+scripts/data/catalog/*.lock
+scripts/data/review_batches/*.lock

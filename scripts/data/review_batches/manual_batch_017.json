@@ -1,0 +1,1756 @@
+{
+  "batch_id": 17,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "flaxseed oil",
+          "linseed oil food-grade",
+          "cold-pressed flax oil",
+          "omega-3 flax oil",
+          "flax oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Cold-pressed flaxseed oil is used in dressings, dips, and low-heat finishing applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Flaxseed Oil (Cold-Pressed)",
+        "fdc_id": 167702,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 99.98,
+          "fiber_g": 0.0,
+          "protein_g": 0.11,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, flaxseed, cold pressed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "hearts of palm",
+          "palm hearts",
+          "raw hearts of palm",
+          "palm core",
+          "palmito"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw hearts of palm are tender vegetable stems used in salads, ceviche-style dishes, and antipasto. This USDA row reflects raw values per 100 g.",
+        "display_name": "Hearts of Palm (Raw)",
+        "fdc_id": 167714,
+        "macros": {
+          "calories": 115.0,
+          "carbs_g": 25.61,
+          "fat_g": 0.2,
+          "fiber_g": 1.5,
+          "protein_g": 2.7,
+          "sodium_g": 0.014,
+          "sugar_g": 17.16
+        },
+        "source_description": "Hearts of palm, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "palm_heart"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "corn peanut olive oil blend",
+          "blended vegetable oil",
+          "mixed cooking oil",
+          "corn oil blend",
+          "salad oil blend"
+        ],
+        "category_label": "oil_fat",
+        "description": "This blended oil combines corn, peanut, and olive oils for general cooking and dressings. This USDA row reflects oil values per 100 g.",
+        "display_name": "Corn-Peanut-Olive Oil Blend",
+        "fdc_id": 167737,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, corn, peanut, and olive",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "prune juice",
+          "canned prune juice",
+          "dried plum juice",
+          "plum juice prune",
+          "prune beverage"
+        ],
+        "category_label": "fruit",
+        "description": "Canned prune juice is used as a beverage and as a fruit-sweetener base in sauces and baking. This USDA row reflects juice values per 100 g.",
+        "display_name": "Prune Juice (Canned)",
+        "fdc_id": 167753,
+        "macros": {
+          "calories": 71.0,
+          "carbs_g": 17.45,
+          "fat_g": 0.03,
+          "fiber_g": 1.0,
+          "protein_g": 0.61,
+          "sodium_g": 0.004,
+          "sugar_g": 16.45
+        },
+        "source_description": "Prune juice, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pomelo",
+          "pummelo",
+          "shaddock citrus",
+          "fresh pomelo",
+          "citrus pomelo"
+        ],
+        "category_label": "fruit",
+        "description": "Raw pomelo is a large citrus fruit used fresh in salads and fruit platters. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Pomelo (Raw)",
+        "fdc_id": 167754,
+        "macros": {
+          "calories": 38.0,
+          "carbs_g": 9.62,
+          "fat_g": 0.04,
+          "fiber_g": 1.0,
+          "protein_g": 0.76,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pummelo, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "grapefruit"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raspberries",
+          "raw raspberries",
+          "fresh raspberries",
+          "red raspberries",
+          "whole raspberries"
+        ],
+        "category_label": "fruit",
+        "description": "Raw raspberries are used in desserts, jams, sauces, smoothies, and fresh toppings. This USDA row reflects raw berry values per 100 g.",
+        "display_name": "Raspberries (Raw)",
+        "fdc_id": 167755,
+        "macros": {
+          "calories": 52.0,
+          "carbs_g": 11.94,
+          "fat_g": 0.65,
+          "fiber_g": 6.5,
+          "protein_g": 1.2,
+          "sodium_g": 0.001,
+          "sugar_g": 4.42
+        },
+        "source_description": "Raspberries, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "raspberry"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen raspberries",
+          "sweetened frozen raspberries",
+          "frozen red raspberries",
+          "raspberries in sugar",
+          "frozen berry mix"
+        ],
+        "category_label": "fruit",
+        "description": "Sweetened frozen raspberries are used in sauces, desserts, smoothies, and baking fillings. This USDA row reflects frozen fruit values per 100 g.",
+        "display_name": "Raspberries (Frozen, Sweetened)",
+        "fdc_id": 167757,
+        "macros": {
+          "calories": 103.0,
+          "carbs_g": 26.16,
+          "fat_g": 0.16,
+          "fiber_g": 4.4,
+          "protein_g": 0.7,
+          "sodium_g": 0.001,
+          "sugar_g": 21.76
+        },
+        "source_description": "Raspberries, frozen, red, sweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "raspberry"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rhubarb",
+          "raw rhubarb",
+          "fresh rhubarb stalks",
+          "pie rhubarb",
+          "rhubarb stalk"
+        ],
+        "category_label": "fruit",
+        "description": "Raw rhubarb stalk is a tart ingredient used in compotes, pies, chutneys, and jams. This USDA row reflects raw rhubarb values per 100 g.",
+        "display_name": "Rhubarb (Raw)",
+        "fdc_id": 167758,
+        "macros": {
+          "calories": 21.0,
+          "carbs_g": 4.54,
+          "fat_g": 0.2,
+          "fiber_g": 1.8,
+          "protein_g": 0.9,
+          "sodium_g": 0.004,
+          "sugar_g": 1.1
+        },
+        "source_description": "Rhubarb, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "rhubarb"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sapodilla",
+          "chikoo",
+          "sapota fruit",
+          "raw sapodilla",
+          "fresh sapodilla"
+        ],
+        "category_label": "fruit",
+        "description": "Raw sapodilla is a sweet tropical fruit used fresh, in smoothies, and dessert preparations. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Sapodilla (Raw)",
+        "fdc_id": 167759,
+        "macros": {
+          "calories": 83.0,
+          "carbs_g": 19.96,
+          "fat_g": 1.1,
+          "fiber_g": 5.3,
+          "protein_g": 0.44,
+          "sodium_g": 0.012,
+          "sugar_g": 0.0
+        },
+        "source_description": "Sapodilla, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "soursop",
+          "guanabana",
+          "graviola",
+          "raw soursop",
+          "soursop pulp"
+        ],
+        "category_label": "fruit",
+        "description": "Raw soursop is a tropical fruit used in drinks, smoothies, desserts, and fruit purees. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Soursop (Raw)",
+        "fdc_id": 167761,
+        "macros": {
+          "calories": 66.0,
+          "carbs_g": 16.84,
+          "fat_g": 0.3,
+          "fiber_g": 3.3,
+          "protein_g": 1.0,
+          "sodium_g": 0.014,
+          "sugar_g": 13.54
+        },
+        "source_description": "Soursop, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "soursop"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "strawberries",
+          "raw strawberries",
+          "fresh strawberries",
+          "whole strawberries",
+          "strawberry fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw strawberries are used in desserts, salads, smoothies, sauces, and jams. This USDA row reflects raw berry values per 100 g.",
+        "display_name": "Strawberries (Raw)",
+        "fdc_id": 167762,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 7.68,
+          "fat_g": 0.3,
+          "fiber_g": 2.0,
+          "protein_g": 0.67,
+          "sodium_g": 0.001,
+          "sugar_g": 4.89
+        },
+        "source_description": "Strawberries, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "strawberry"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tamarind",
+          "raw tamarind pulp",
+          "tamarind pods",
+          "imli",
+          "tamarind fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw tamarind pulp is a souring ingredient used in chutneys, sauces, curries, and beverages. This USDA row reflects raw tamarind values per 100 g.",
+        "display_name": "Tamarind (Raw)",
+        "fdc_id": 167763,
+        "macros": {
+          "calories": 239.0,
+          "carbs_g": 62.5,
+          "fat_g": 0.6,
+          "fiber_g": 5.1,
+          "protein_g": 2.8,
+          "sodium_g": 0.028,
+          "sugar_g": 38.8
+        },
+        "source_description": "Tamarinds, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "tamarind"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "tropical fruit salad canned",
+          "fruit cocktail heavy syrup",
+          "canned pineapple papaya banana guava",
+          "tropical canned fruit mix",
+          "fruit salad in syrup"
+        ],
+        "category_label": "fruit",
+        "description": "Canned tropical fruit salad in heavy syrup is a prepared fruit mix used in desserts and toppings. This USDA row reflects solids-and-liquids values per 100 g.",
+        "display_name": "Tropical Fruit Salad (Heavy Syrup)",
+        "fdc_id": 167764,
+        "macros": {
+          "calories": 86.0,
+          "carbs_g": 22.36,
+          "fat_g": 0.1,
+          "fiber_g": 1.3,
+          "protein_g": 0.41,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Fruit salad, (pineapple and papaya and banana and guava), tropical, canned, heavy syrup, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "fruit_mix"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "watermelon",
+          "raw watermelon",
+          "fresh watermelon",
+          "watermelon flesh",
+          "seedless watermelon"
+        ],
+        "category_label": "fruit",
+        "description": "Raw watermelon is used fresh, in salads, juices, and chilled desserts. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Watermelon (Raw)",
+        "fdc_id": 167765,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 7.55,
+          "fat_g": 0.15,
+          "fiber_g": 0.4,
+          "protein_g": 0.61,
+          "sodium_g": 0.001,
+          "sugar_g": 6.2
+        },
+        "source_description": "Watermelon, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "watermelon"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pink grapefruit juice",
+          "raw grapefruit juice",
+          "fresh grapefruit juice",
+          "ruby grapefruit juice",
+          "grapefruit juice"
+        ],
+        "category_label": "fruit",
+        "description": "Raw pink grapefruit juice is used as a beverage and in citrus dressings and marinades. This USDA row reflects juice values per 100 g.",
+        "display_name": "Grapefruit Juice (Pink, Raw)",
+        "fdc_id": 167774,
+        "macros": {
+          "calories": 39.0,
+          "carbs_g": 9.2,
+          "fat_g": 0.1,
+          "fiber_g": 0.0,
+          "protein_g": 0.5,
+          "sodium_g": 0.001,
+          "sugar_g": 0.0
+        },
+        "source_description": "Grapefruit juice, pink, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "red anjou pear",
+          "anjou pear",
+          "raw red pear",
+          "fresh anjou pear",
+          "pear red anjou"
+        ],
+        "category_label": "fruit",
+        "description": "Raw red Anjou pears are used fresh, poached, baked, and in salads. This USDA row reflects raw pear values per 100 g.",
+        "display_name": "Red Anjou Pear (Raw)",
+        "fdc_id": 167777,
+        "macros": {
+          "calories": 62.0,
+          "carbs_g": 14.94,
+          "fat_g": 0.14,
+          "fiber_g": 3.0,
+          "protein_g": 0.33,
+          "sodium_g": 0.001,
+          "sugar_g": 9.54
+        },
+        "source_description": "Pears, raw, red anjou",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "pear"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rowal",
+          "rowal fruit",
+          "raw rowal",
+          "rowal berry",
+          "wild rowal fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Rowal is a tart regional fruit used fresh or in preserves and sauces. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Rowal Fruit (Raw)",
+        "fdc_id": 167783,
+        "macros": {
+          "calories": 111.0,
+          "carbs_g": 23.9,
+          "fat_g": 2.0,
+          "fiber_g": 6.2,
+          "protein_g": 2.3,
+          "sodium_g": 0.004,
+          "sugar_g": 14.1
+        },
+        "source_description": "Rowal, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "guava nectar",
+          "canned guava nectar",
+          "guava juice nectar",
+          "sweet guava drink",
+          "guava beverage"
+        ],
+        "category_label": "fruit",
+        "description": "Canned guava nectar is a fruit beverage base used in drinks and dessert sauces. This USDA row reflects nectar values per 100 g.",
+        "display_name": "Guava Nectar (Canned)",
+        "fdc_id": 167784,
+        "macros": {
+          "calories": 63.0,
+          "carbs_g": 16.25,
+          "fat_g": 0.06,
+          "fiber_g": 1.0,
+          "protein_g": 0.09,
+          "sodium_g": 0.006,
+          "sugar_g": 12.95
+        },
+        "source_description": "Guava nectar, canned, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "seedless raspberry puree",
+          "raspberry puree",
+          "raspberry coulis base",
+          "pureed raspberries",
+          "raspberry fruit puree"
+        ],
+        "category_label": "fruit",
+        "description": "Seedless raspberry puree is used for sauces, desserts, fillings, and beverage flavoring. This USDA row reflects puree values per 100 g.",
+        "display_name": "Raspberry Puree (Seedless)",
+        "fdc_id": 167808,
+        "macros": {
+          "calories": 41.0,
+          "carbs_g": 7.99,
+          "fat_g": 0.87,
+          "fiber_g": 0.9,
+          "protein_g": 1.02,
+          "sodium_g": 0.004,
+          "sugar_g": 6.04
+        },
+        "source_description": "Raspberries, puree, seedless",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "raspberry"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "lean pork shoulder",
+          "pork shoulder raw",
+          "raw pork shoulder lean",
+          "pork roast shoulder",
+          "pork shoulder meat"
+        ],
+        "category_label": "protein",
+        "description": "Raw lean pork shoulder is used for roasting, braising, stews, and pulled pork preparations. This USDA row reflects separable lean values per 100 g.",
+        "display_name": "Pork Shoulder (Lean, Raw)",
+        "fdc_id": 167845,
+        "macros": {
+          "calories": 148.0,
+          "carbs_g": 0.0,
+          "fat_g": 7.14,
+          "fiber_g": 0.0,
+          "protein_g": 19.55,
+          "sodium_g": 0.076,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, shoulder, whole, separable lean only, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw pork spareribs",
+          "pork ribs",
+          "fresh pork ribs",
+          "pork rib meat and fat",
+          "spareribs"
+        ],
+        "category_label": "protein",
+        "description": "Raw pork spareribs are used for roasting, smoking, grilling, and braising. This USDA row reflects lean-and-fat values per 100 g.",
+        "display_name": "Pork Spareribs (Raw)",
+        "fdc_id": 167853,
+        "macros": {
+          "calories": 277.0,
+          "carbs_g": 0.0,
+          "fat_g": 23.4,
+          "fiber_g": 0.0,
+          "protein_g": 15.47,
+          "sodium_g": 0.081,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, spareribs, separable lean and fat, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pork feet",
+          "raw pig feet",
+          "pig trotters",
+          "fresh pork trotters",
+          "pork paws"
+        ],
+        "category_label": "protein",
+        "description": "Raw pork feet are used for stocks, braises, soups, and gelatin-rich preparations. This USDA row reflects raw variety-meat values per 100 g.",
+        "display_name": "Pork Feet (Raw)",
+        "fdc_id": 167859,
+        "macros": {
+          "calories": 212.0,
+          "carbs_g": 0.0,
+          "fat_g": 12.59,
+          "fiber_g": 0.0,
+          "protein_g": 23.16,
+          "sodium_g": 0.132,
+          "sugar_g": 0.0
+        },
+        "source_description": "Pork, fresh, variety meats and by-products, feet, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Pork Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "pork"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "papad",
+          "papadum",
+          "poppadom",
+          "lentil wafer",
+          "indian crisp wafer"
+        ],
+        "category_label": "grain_legume",
+        "description": "Papad is a thin lentil or pulse wafer used as a crisp side, snack, or garnish in South Asian cuisine. This USDA row reflects dry product values per 100 g.",
+        "display_name": "Papad",
+        "fdc_id": 168106,
+        "macros": {
+          "calories": 371.0,
+          "carbs_g": 59.87,
+          "fat_g": 3.25,
+          "fiber_g": 18.6,
+          "protein_g": 25.56,
+          "sodium_g": 1.745,
+          "sugar_g": 0.0
+        },
+        "source_description": "Papad",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "cracker"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "unsweetened cranberry juice",
+          "cranberry juice pure",
+          "100 percent cranberry juice",
+          "tart cranberry juice",
+          "cranberry beverage unsweetened"
+        ],
+        "category_label": "fruit",
+        "description": "Unsweetened cranberry juice is a tart fruit juice used in drinks, marinades, and sauces. This USDA row reflects juice values per 100 g.",
+        "display_name": "Cranberry Juice (Unsweetened)",
+        "fdc_id": 168117,
+        "macros": {
+          "calories": 46.0,
+          "carbs_g": 12.2,
+          "fat_g": 0.13,
+          "fiber_g": 0.1,
+          "protein_g": 0.39,
+          "sodium_g": 0.002,
+          "sugar_g": 12.1
+        },
+        "source_description": "Cranberry juice, unsweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frog legs",
+          "raw frog legs",
+          "frog meat",
+          "amphibian meat",
+          "fresh frog legs"
+        ],
+        "category_label": "protein",
+        "description": "Raw frog legs are a lean protein used in frying, sauteing, and regional stews. This USDA row reflects raw values per 100 g.",
+        "display_name": "Frog Legs (Raw)",
+        "fdc_id": 168148,
+        "macros": {
+          "calories": 73.0,
+          "carbs_g": 0.0,
+          "fat_g": 0.3,
+          "fiber_g": 0.0,
+          "protein_g": 16.4,
+          "sodium_g": 0.058,
+          "sugar_g": 0.0
+        },
+        "source_description": "Frog legs, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "protein_generic"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "java plum",
+          "jambolan",
+          "jamun",
+          "java-plum",
+          "raw jamun"
+        ],
+        "category_label": "fruit",
+        "description": "Java plum (jambolan) is a tart-sweet tropical fruit eaten fresh or used in juices and preserves. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Java Plum (Jambolan, Raw)",
+        "fdc_id": 168150,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 15.56,
+          "fat_g": 0.23,
+          "fiber_g": 0.0,
+          "protein_g": 0.72,
+          "sodium_g": 0.014,
+          "sugar_g": 0.0
+        },
+        "source_description": "Java-plum, (jambolan), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "plum"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "jujube",
+          "raw jujube",
+          "fresh red date",
+          "chinese date fresh",
+          "jujube fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw jujube is a crisp fruit eaten fresh or used in syrups and preserves. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Jujube (Raw)",
+        "fdc_id": 168151,
+        "macros": {
+          "calories": 79.0,
+          "carbs_g": 20.23,
+          "fat_g": 0.2,
+          "fiber_g": 0.0,
+          "protein_g": 1.2,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Jujube, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "date"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "chinese jujube",
+          "jujube fresh dried",
+          "red date chinese",
+          "zao fruit",
+          "chinese date"
+        ],
+        "category_label": "fruit",
+        "description": "Chinese jujube is consumed both fresh and dried in teas, desserts, and savory braises. This USDA row reflects mixed-form values per 100 g.",
+        "display_name": "Chinese Jujube (Fresh and Dried)",
+        "fdc_id": 168152,
+        "macros": {
+          "calories": 281.0,
+          "carbs_g": 72.52,
+          "fat_g": 0.5,
+          "fiber_g": 6.0,
+          "protein_g": 4.72,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Jujube, Chinese, fresh, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "date"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green kiwi",
+          "kiwifruit green",
+          "raw kiwi",
+          "fresh kiwifruit",
+          "kiwi fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw green kiwifruit is used in fruit salads, smoothies, desserts, and salsas. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Kiwifruit (Green, Raw)",
+        "fdc_id": 168153,
+        "macros": {
+          "calories": 61.0,
+          "carbs_g": 14.66,
+          "fat_g": 0.52,
+          "fiber_g": 3.0,
+          "protein_g": 1.14,
+          "sodium_g": 0.003,
+          "sugar_g": 8.99
+        },
+        "source_description": "Kiwifruit, green, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "kiwi"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "kumquats",
+          "raw kumquats",
+          "fresh kumquat",
+          "whole kumquat citrus",
+          "kumquat fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw kumquats are small citrus fruits used whole in marmalades, salads, and candied preparations. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Kumquats (Raw)",
+        "fdc_id": 168154,
+        "macros": {
+          "calories": 71.0,
+          "carbs_g": 15.9,
+          "fat_g": 0.86,
+          "fiber_g": 6.5,
+          "protein_g": 1.88,
+          "sodium_g": 0.01,
+          "sugar_g": 9.36
+        },
+        "source_description": "Kumquats, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "citrus"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "limes",
+          "raw lime",
+          "fresh lime",
+          "key lime",
+          "lime fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw limes are used for juice, zest, marinades, dressings, and drinks. This USDA row reflects raw lime values per 100 g.",
+        "display_name": "Limes (Raw)",
+        "fdc_id": 168155,
+        "macros": {
+          "calories": 30.0,
+          "carbs_g": 10.54,
+          "fat_g": 0.2,
+          "fiber_g": 2.8,
+          "protein_g": 0.7,
+          "sodium_g": 0.002,
+          "sugar_g": 1.69
+        },
+        "source_description": "Limes, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "lime"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned prunes",
+          "prunes in heavy syrup",
+          "canned dried plums",
+          "sweet syrup prunes",
+          "prune compote canned"
+        ],
+        "category_label": "fruit",
+        "description": "Canned prunes in heavy syrup are sweet preserved fruit used in desserts and compotes. This USDA row reflects solids-and-liquids values per 100 g.",
+        "display_name": "Prunes (Canned, Heavy Syrup)",
+        "fdc_id": 168159,
+        "macros": {
+          "calories": 105.0,
+          "carbs_g": 27.8,
+          "fat_g": 0.2,
+          "fiber_g": 3.8,
+          "protein_g": 0.87,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Prunes, canned, heavy syrup pack, solids and liquids",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "prune"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried prunes",
+          "low-moisture prunes",
+          "dried plums",
+          "dehydrated prunes",
+          "uncooked dried prunes"
+        ],
+        "category_label": "fruit",
+        "description": "Low-moisture dried prunes are used in baking, stews, sauces, and snack mixes. This USDA row reflects dried fruit values per 100 g.",
+        "display_name": "Prunes (Low-Moisture, Dried)",
+        "fdc_id": 168160,
+        "macros": {
+          "calories": 339.0,
+          "carbs_g": 89.07,
+          "fat_g": 0.73,
+          "fiber_g": 0.0,
+          "protein_g": 3.7,
+          "sodium_g": 0.005,
+          "sugar_g": 0.0
+        },
+        "source_description": "Prunes, dehydrated (low-moisture), uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "prune"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "quince",
+          "raw quince",
+          "fresh quince fruit",
+          "quince apple",
+          "whole quince"
+        ],
+        "category_label": "fruit",
+        "description": "Raw quince is an aromatic fruit typically cooked into jams, jellies, poaches, and desserts. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Quince (Raw)",
+        "fdc_id": 168163,
+        "macros": {
+          "calories": 57.0,
+          "carbs_g": 15.3,
+          "fat_g": 0.1,
+          "fiber_g": 1.9,
+          "protein_g": 0.4,
+          "sodium_g": 0.004,
+          "sugar_g": 0.0
+        },
+        "source_description": "Quinces, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "quince"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "golden raisins",
+          "seedless golden raisins",
+          "sultana raisins",
+          "dried golden grapes",
+          "raisins golden"
+        ],
+        "category_label": "fruit",
+        "description": "Golden seedless raisins are dried grapes used in baking, pilafs, salads, and trail mixes. This USDA row reflects dried fruit values per 100 g.",
+        "display_name": "Raisins (Golden, Seedless)",
+        "fdc_id": 168164,
+        "macros": {
+          "calories": 301.0,
+          "carbs_g": 80.02,
+          "fat_g": 0.2,
+          "fiber_g": 3.3,
+          "protein_g": 3.28,
+          "sodium_g": 0.024,
+          "sugar_g": 65.7
+        },
+        "source_description": "Raisins, golden, seedless",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "raisin"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "seeded raisins",
+          "raisins with seeds",
+          "dried seeded grapes",
+          "traditional raisins seeded",
+          "raisin fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Seeded raisins are dried grapes used in baking, chutneys, and spiced dishes. This USDA row reflects dried fruit values per 100 g.",
+        "display_name": "Raisins (Seeded)",
+        "fdc_id": 168166,
+        "macros": {
+          "calories": 296.0,
+          "carbs_g": 78.47,
+          "fat_g": 0.54,
+          "fiber_g": 6.8,
+          "protein_g": 2.52,
+          "sodium_g": 0.028,
+          "sugar_g": 0.0
+        },
+        "source_description": "Raisins, seeded",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "raisin"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned rambutan",
+          "rambutan in syrup",
+          "tropical rambutan canned",
+          "peeled rambutan canned",
+          "rambutan fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Canned rambutan in syrup is used in fruit desserts and chilled fruit mixes. This USDA row reflects canned fruit values per 100 g.",
+        "display_name": "Rambutan (Canned, Syrup Pack)",
+        "fdc_id": 168167,
+        "macros": {
+          "calories": 82.0,
+          "carbs_g": 20.87,
+          "fat_g": 0.21,
+          "fiber_g": 0.9,
+          "protein_g": 0.65,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Rambutan, canned, syrup pack",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "rambutan"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen rhubarb cooked",
+          "sweetened rhubarb frozen",
+          "cooked rhubarb with sugar",
+          "rhubarb compote frozen",
+          "rhubarb frozen"
+        ],
+        "category_label": "fruit",
+        "description": "Frozen cooked rhubarb with sugar is used for pie fillings, sauces, and dessert toppings. This USDA row reflects prepared fruit values per 100 g.",
+        "display_name": "Rhubarb (Frozen, Cooked with Sugar)",
+        "fdc_id": 168169,
+        "macros": {
+          "calories": 116.0,
+          "carbs_g": 31.2,
+          "fat_g": 0.05,
+          "fiber_g": 2.0,
+          "protein_g": 0.39,
+          "sodium_g": 0.001,
+          "sugar_g": 28.7
+        },
+        "source_description": "Rhubarb, frozen, cooked, with sugar",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "rhubarb"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roselle",
+          "hibiscus calyx",
+          "raw roselle",
+          "sorrel hibiscus",
+          "roselle fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw roselle is a tart hibiscus ingredient used for teas, syrups, jams, and sauces. This USDA row reflects raw values per 100 g.",
+        "display_name": "Roselle (Raw)",
+        "fdc_id": 168170,
+        "macros": {
+          "calories": 49.0,
+          "carbs_g": 11.31,
+          "fat_g": 0.64,
+          "fiber_g": 0.0,
+          "protein_g": 0.96,
+          "sodium_g": 0.006,
+          "sugar_g": 0.0
+        },
+        "source_description": "Roselle, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "hibiscus"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "feijoa",
+          "pineapple guava",
+          "raw feijoa",
+          "guavasteen",
+          "feijoa fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Raw feijoa (pineapple guava) is used fresh, in jams, and in fruit desserts. This USDA row reflects raw fruit values per 100 g.",
+        "display_name": "Feijoa (Raw)",
+        "fdc_id": 168176,
+        "macros": {
+          "calories": 61.0,
+          "carbs_g": 15.21,
+          "fat_g": 0.42,
+          "fiber_g": 6.4,
+          "protein_g": 0.71,
+          "sodium_g": 0.003,
+          "sugar_g": 8.2
+        },
+        "source_description": "Feijoa, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "guava"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "asian pear",
+          "nashi pear",
+          "raw asian pear",
+          "apple pear",
+          "korean pear"
+        ],
+        "category_label": "fruit",
+        "description": "Raw Asian pear is a crisp fruit used fresh, in salads, and in marinades. This USDA row reflects raw pear values per 100 g.",
+        "display_name": "Asian Pear (Raw)",
+        "fdc_id": 168177,
+        "macros": {
+          "calories": 42.0,
+          "carbs_g": 10.65,
+          "fat_g": 0.23,
+          "fiber_g": 3.6,
+          "protein_g": 0.5,
+          "sodium_g": 0.0,
+          "sugar_g": 7.05
+        },
+        "source_description": "Pears, asian, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "pear"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pear nectar",
+          "canned pear nectar",
+          "pear juice nectar",
+          "sweet pear beverage",
+          "pear drink"
+        ],
+        "category_label": "fruit",
+        "description": "Canned pear nectar is a fruit beverage base used in drinks, smoothies, and sauces. This USDA row reflects nectar values per 100 g.",
+        "display_name": "Pear Nectar (Canned)",
+        "fdc_id": 168186,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 15.76,
+          "fat_g": 0.01,
+          "fiber_g": 0.6,
+          "protein_g": 0.11,
+          "sodium_g": 0.004,
+          "sugar_g": 15.16
+        },
+        "source_description": "Pear nectar, canned, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned jackfruit in syrup",
+          "sweet jackfruit canned",
+          "jackfruit syrup pack",
+          "ripe jackfruit canned",
+          "jackfruit canned"
+        ],
+        "category_label": "fruit",
+        "description": "Canned jackfruit in syrup is used in desserts, fruit mixes, and sweet preparations. This USDA row reflects canned fruit values per 100 g.",
+        "display_name": "Jackfruit (Canned, Syrup Pack)",
+        "fdc_id": 168190,
+        "macros": {
+          "calories": 92.0,
+          "carbs_g": 23.94,
+          "fat_g": 0.14,
+          "fiber_g": 0.9,
+          "protein_g": 0.36,
+          "sodium_g": 0.011,
+          "sugar_g": 0.0
+        },
+        "source_description": "Jackfruit, canned, syrup pack",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "jackfruit"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "medjool dates",
+          "dates medjool",
+          "fresh medjool dates",
+          "soft dates",
+          "date fruit"
+        ],
+        "category_label": "fruit",
+        "description": "Medjool dates are soft sweet dried fruit used in snacks, baking, and natural sweetening. This USDA row reflects date values per 100 g.",
+        "display_name": "Dates (Medjool)",
+        "fdc_id": 168191,
+        "macros": {
+          "calories": 277.0,
+          "carbs_g": 74.97,
+          "fat_g": 0.15,
+          "fiber_g": 6.7,
+          "protein_g": 1.81,
+          "sodium_g": 0.001,
+          "sugar_g": 66.47
+        },
+        "source_description": "Dates, medjool",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "date"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "durian",
+          "raw durian",
+          "frozen durian",
+          "durian flesh",
+          "fresh durian"
+        ],
+        "category_label": "fruit",
+        "description": "Durian is a tropical fruit used fresh, frozen, and in desserts or sweet fillings. This USDA row reflects raw/frozen fruit values per 100 g.",
+        "display_name": "Durian (Raw or Frozen)",
+        "fdc_id": 168192,
+        "macros": {
+          "calories": 147.0,
+          "carbs_g": 27.09,
+          "fat_g": 5.33,
+          "fiber_g": 3.8,
+          "protein_g": 1.47,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Durian, raw or frozen",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "durian"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "guanabana nectar",
+          "soursop nectar",
+          "canned guanabana drink",
+          "tropical nectar guanabana",
+          "guanabana beverage"
+        ],
+        "category_label": "fruit",
+        "description": "Canned guanabana nectar is a sweet fruit beverage base used in drinks and frozen desserts. This USDA row reflects nectar values per 100 g.",
+        "display_name": "Guanabana Nectar (Canned)",
+        "fdc_id": 168196,
+        "macros": {
+          "calories": 59.0,
+          "carbs_g": 14.93,
+          "fat_g": 0.17,
+          "fiber_g": 0.1,
+          "protein_g": 0.11,
+          "sodium_g": 0.008,
+          "sugar_g": 13.07
+        },
+        "source_description": "Guanabana nectar, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "apple grape juice blend",
+          "mixed apple grape juice",
+          "fruit juice blend",
+          "apple and grape drink",
+          "blended fruit juice"
+        ],
+        "category_label": "fruit",
+        "description": "Apple and grape juice blend is used as a beverage and in sauces or glazes. This USDA row reflects fortified blend values per 100 g.",
+        "display_name": "Apple-Grape Juice Blend",
+        "fdc_id": 168197,
+        "macros": {
+          "calories": 50.0,
+          "carbs_g": 12.46,
+          "fat_g": 0.12,
+          "fiber_g": 0.2,
+          "protein_g": 0.16,
+          "sodium_g": 0.007,
+          "sugar_g": 10.92
+        },
+        "source_description": "Juice, apple and grape blend, with added ascorbic acid",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "apple grape pear juice",
+          "mixed fruit juice blend",
+          "apple pear grape juice",
+          "fortified fruit juice blend",
+          "fruit blend juice"
+        ],
+        "category_label": "fruit",
+        "description": "Apple, grape, and pear juice blend is a fortified fruit beverage used for drinking or sweetening preparations. This USDA row reflects blend values per 100 g.",
+        "display_name": "Apple-Grape-Pear Juice Blend",
+        "fdc_id": 168198,
+        "macros": {
+          "calories": 52.0,
+          "carbs_g": 12.96,
+          "fat_g": 0.12,
+          "fiber_g": 0.2,
+          "protein_g": 0.17,
+          "sodium_g": 0.005,
+          "sugar_g": 9.95
+        },
+        "source_description": "Juice, apple, grape and pear blend, with added ascorbic acid and calcium",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "unsweetened grape juice",
+          "fortified grape juice",
+          "canned grape juice",
+          "bottled grape juice",
+          "100 percent grape juice"
+        ],
+        "category_label": "fruit",
+        "description": "Unsweetened fortified grape juice is a fruit beverage used in drinks, sauces, and reductions. This USDA row reflects juice values per 100 g.",
+        "display_name": "Grape Juice (Unsweetened, Fortified)",
+        "fdc_id": 168207,
+        "macros": {
+          "calories": 62.0,
+          "carbs_g": 14.77,
+          "fat_g": 0.13,
+          "fiber_g": 0.2,
+          "protein_g": 0.37,
+          "sodium_g": 0.005,
+          "sugar_g": 14.2
+        },
+        "source_description": "Grape juice, canned or bottled, unsweetened, with added ascorbic acid and calcium",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 017: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "guava nectar sucralose",
+          "diet guava nectar",
+          "sugar-free guava drink",
+          "canned guava nectar",
+          "low-sugar guava beverage"
+        ],
+        "category_label": "fruit",
+        "description": "Canned guava nectar with sucralose is a reduced-sugar fruit beverage base. This USDA row reflects nectar values per 100 g.",
+        "display_name": "Guava Nectar (Sucralose, Canned)",
+        "fdc_id": 168210,
+        "macros": {
+          "calories": 48.0,
+          "carbs_g": 13.3,
+          "fat_g": 0.07,
+          "fiber_g": 1.2,
+          "protein_g": 0.3,
+          "sodium_g": 0.006,
+          "sugar_g": 10.15
+        },
+        "source_description": "Guava nectar, with sucralose, canned",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fruits and Fruit Juices",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "fruit",
+        "sprite_key": "juice"
+      }
+    }
+  ]
+}

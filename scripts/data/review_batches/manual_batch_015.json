@@ -1,0 +1,1756 @@
+{
+  "batch_id": 15,
+  "batch_size": 50,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sun-dried tomatoes",
+          "dried tomatoes",
+          "dehydrated tomatoes",
+          "tomatoes dried",
+          "sun dried tomato"
+        ],
+        "category_label": "vegetable",
+        "description": "Sun-dried tomatoes are concentrated tomato pieces used in pasta, salads, spreads, and sauces. This USDA row reflects dried tomato values per 100 g.",
+        "display_name": "Tomatoes (Sun-Dried)",
+        "fdc_id": 168567,
+        "macros": {
+          "calories": 258.0,
+          "carbs_g": 55.76,
+          "fat_g": 2.97,
+          "fiber_g": 12.3,
+          "protein_g": 14.11,
+          "sodium_g": 0.107,
+          "sugar_g": 37.59
+        },
+        "source_description": "Tomatoes, sun-dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "yellow tomatoes",
+          "raw yellow tomato",
+          "gold tomato",
+          "yellow heirloom tomato",
+          "fresh yellow tomato"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw yellow tomatoes are used in salads, salsas, and fresh sauces with milder acidity than red varieties. This USDA row reflects raw tomato values per 100 g.",
+        "display_name": "Yellow Tomatoes (Raw)",
+        "fdc_id": 170096,
+        "macros": {
+          "calories": 15.0,
+          "carbs_g": 2.98,
+          "fat_g": 0.26,
+          "fiber_g": 0.7,
+          "protein_g": 0.98,
+          "sodium_g": 0.023,
+          "sugar_g": 0.0
+        },
+        "source_description": "Tomatoes, yellow, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cooked tree fern",
+          "tree fern shoots cooked",
+          "salted tree fern",
+          "fiddlehead tree fern cooked",
+          "fern shoots cooked"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked salted tree fern shoots are used as a specialty vegetable in soups and stir-fries. This USDA row reflects cooked salted values per 100 g.",
+        "display_name": "Tree Fern (Cooked, Salted)",
+        "fdc_id": 168553,
+        "macros": {
+          "calories": 40.0,
+          "carbs_g": 10.78,
+          "fat_g": 0.07,
+          "fiber_g": 3.7,
+          "protein_g": 0.29,
+          "sodium_g": 0.241,
+          "sugar_g": 0.0
+        },
+        "source_description": "Tree fern, cooked, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "whole triticale flour",
+          "triticale flour",
+          "triticale wholemeal flour",
+          "triticale baking flour",
+          "triticale grain flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-grain triticale flour is a wheat-rye hybrid flour used in breads and blended baking. This USDA row reflects flour values per 100 g.",
+        "display_name": "Triticale Flour (Whole-Grain)",
+        "fdc_id": 168888,
+        "macros": {
+          "calories": 338.0,
+          "carbs_g": 73.14,
+          "fat_g": 1.81,
+          "fiber_g": 14.6,
+          "protein_g": 13.18,
+          "sodium_g": 0.002,
+          "sugar_g": 0.0
+        },
+        "source_description": "Triticale flour, whole-grain",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw turkey back",
+          "turkey back meat and skin",
+          "turkey back with added solution",
+          "turkey back raw",
+          "whole-bird turkey back"
+        ],
+        "category_label": "protein",
+        "description": "Raw turkey back with meat and skin is used for stock, roasting, and mixed poultry preparations. This USDA row reflects raw values per 100 g.",
+        "display_name": "Turkey Back (Raw, Meat and Skin)",
+        "fdc_id": 171138,
+        "macros": {
+          "calories": 206.0,
+          "carbs_g": 0.15,
+          "fat_g": 15.41,
+          "fiber_g": 0.0,
+          "protein_g": 16.86,
+          "sodium_g": 0.157,
+          "sugar_g": 0.1
+        },
+        "source_description": "Turkey, back, from whole bird, meat and skin, with added solution, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw turkey breast",
+          "turkey breast meat and skin",
+          "whole turkey breast raw",
+          "fresh turkey breast",
+          "turkey breast cut"
+        ],
+        "category_label": "protein",
+        "description": "Raw turkey breast with skin is used for roasting, grilling, and slicing for meal prep. This USDA row reflects raw meat-and-skin values per 100 g.",
+        "display_name": "Turkey Breast (Raw, Meat and Skin)",
+        "fdc_id": 171093,
+        "macros": {
+          "calories": 157.0,
+          "carbs_g": 0.0,
+          "fat_g": 7.02,
+          "fiber_g": 0.0,
+          "protein_g": 21.89,
+          "sodium_g": 0.059,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey, all classes, breast, meat and skin, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "turkey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned turkey",
+          "turkey canned meat",
+          "turkey with broth",
+          "prepared turkey canned",
+          "turkey meat canned"
+        ],
+        "category_label": "protein",
+        "description": "Canned turkey meat with broth is a ready protein used in sandwiches, casseroles, and soups. This USDA row reflects canned product values per 100 g.",
+        "display_name": "Turkey (Canned, Meat with Broth)",
+        "fdc_id": 171101,
+        "macros": {
+          "calories": 169.0,
+          "carbs_g": 1.47,
+          "fat_g": 6.86,
+          "fiber_g": 0.0,
+          "protein_g": 23.68,
+          "sodium_g": 0.518,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey, canned, meat only, with broth",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "turkey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "smoked turkey meat",
+          "cooked smoked turkey",
+          "turkey cooked boneless",
+          "ready turkey meat",
+          "smoked turkey pieces"
+        ],
+        "category_label": "protein",
+        "description": "Cooked smoked turkey meat is used in sandwiches, salads, soups, and grain bowls. This USDA row reflects cooked smoked meat values per 100 g.",
+        "display_name": "Turkey (Smoked, Cooked)",
+        "fdc_id": 167713,
+        "macros": {
+          "calories": 162.0,
+          "carbs_g": 0.0,
+          "fat_g": 5.0,
+          "fiber_g": 0.0,
+          "protein_g": 29.3,
+          "sodium_g": 0.996,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey, light or dark meat, smoked, cooked, skin and bone removed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "turkey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "fried turkey sticks",
+          "breaded turkey sticks",
+          "battered turkey sticks",
+          "frozen turkey sticks",
+          "prepared turkey sticks"
+        ],
+        "category_label": "protein",
+        "description": "Breaded fried turkey sticks are a prepared protein item used as a convenience food component. This USDA row reflects fried product values per 100 g.",
+        "display_name": "Turkey Sticks (Breaded, Fried)",
+        "fdc_id": 171103,
+        "macros": {
+          "calories": 279.0,
+          "carbs_g": 17.0,
+          "fat_g": 16.9,
+          "fiber_g": 0.0,
+          "protein_g": 14.2,
+          "sodium_g": 0.838,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey sticks, breaded, battered, fried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "turkey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw turkey giblets",
+          "turkey organs",
+          "giblets turkey",
+          "turkey offal",
+          "turkey giblet pack"
+        ],
+        "category_label": "protein",
+        "description": "Raw turkey giblets (organ meats) are used for gravy stock, stuffing, and braised dishes. This USDA row reflects raw giblet values per 100 g.",
+        "display_name": "Turkey Giblets (Raw)",
+        "fdc_id": 171083,
+        "macros": {
+          "calories": 124.0,
+          "carbs_g": 0.07,
+          "fat_g": 5.09,
+          "fiber_g": 0.0,
+          "protein_g": 18.18,
+          "sodium_g": 0.136,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey, whole, giblets, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "turkey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw turkey gizzard",
+          "turkey gizzards",
+          "gizzard turkey",
+          "turkey organ meat",
+          "fresh turkey gizzard"
+        ],
+        "category_label": "protein",
+        "description": "Raw turkey gizzard is a dense organ meat used in stews, braises, and stock preparations. This USDA row reflects raw gizzard values per 100 g.",
+        "display_name": "Turkey Gizzard (Raw)",
+        "fdc_id": 171085,
+        "macros": {
+          "calories": 111.0,
+          "carbs_g": 0.0,
+          "fat_g": 3.37,
+          "fiber_g": 0.0,
+          "protein_g": 18.8,
+          "sodium_g": 0.147,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey, gizzard, all classes, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "turkey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted turkey",
+          "turkey roast cooked",
+          "cooked turkey roast",
+          "turkey fryer-roaster roasted",
+          "prepared roast turkey"
+        ],
+        "category_label": "protein",
+        "description": "Roasted turkey meat and skin is a cooked protein used for sandwiches, salads, soups, and leftovers. This USDA row reflects roasted values per 100 g.",
+        "display_name": "Turkey Roast (Roasted, Meat and Skin)",
+        "fdc_id": 171095,
+        "macros": {
+          "calories": 172.0,
+          "carbs_g": 0.0,
+          "fat_g": 5.72,
+          "fiber_g": 0.0,
+          "protein_g": 28.26,
+          "sodium_g": 0.066,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey, fryer-roasters, meat and skin, cooked, roasted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "turkey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw turkey thigh",
+          "turkey thigh meat raw",
+          "turkey thigh no skin",
+          "fresh turkey thigh meat",
+          "whole-bird turkey thigh"
+        ],
+        "category_label": "protein",
+        "description": "Raw turkey thigh meat is a flavorful dark poultry cut used for roasting, braising, and ground mixes. This USDA row reflects raw meat-only values per 100 g.",
+        "display_name": "Turkey Thigh (Raw, Meat Only)",
+        "fdc_id": 171129,
+        "macros": {
+          "calories": 115.0,
+          "carbs_g": 0.15,
+          "fat_g": 4.12,
+          "fiber_g": 0.0,
+          "protein_g": 19.27,
+          "sodium_g": 0.167,
+          "sugar_g": 0.1
+        },
+        "source_description": "Turkey, thigh, from whole bird, meat only, with added solution, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "raw turkey wing",
+          "turkey wing cut",
+          "turkey wing meat and skin",
+          "fresh turkey wing",
+          "retail turkey wing"
+        ],
+        "category_label": "protein",
+        "description": "Raw turkey wing with skin is used for roasting, braising, smoking, and stock. This USDA row reflects raw wing values per 100 g.",
+        "display_name": "Turkey Wing (Raw, Meat and Skin)",
+        "fdc_id": 171132,
+        "macros": {
+          "calories": 202.0,
+          "carbs_g": 0.05,
+          "fat_g": 13.79,
+          "fiber_g": 0.0,
+          "protein_g": 19.53,
+          "sodium_g": 0.067,
+          "sugar_g": 0.03
+        },
+        "source_description": "Turkey, retail parts, wing, meat and skin, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "turkey"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "smoked turkey wing",
+          "cooked turkey wing",
+          "turkey wing smoked",
+          "turkey wing meat cooked",
+          "smoked turkey wings"
+        ],
+        "category_label": "protein",
+        "description": "Smoked cooked turkey wing is used for hearty soups, beans, and braised dishes. This USDA row reflects cooked smoked wing values per 100 g.",
+        "display_name": "Turkey Wing (Smoked, Cooked)",
+        "fdc_id": 167709,
+        "macros": {
+          "calories": 221.0,
+          "carbs_g": 0.0,
+          "fat_g": 12.41,
+          "fiber_g": 0.0,
+          "protein_g": 27.4,
+          "sodium_g": 0.996,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turkey, wing, smoked, cooked, with skin, bone removed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen turnip greens and turnips",
+          "cooked frozen turnip greens",
+          "turnip greens mix frozen",
+          "boiled turnip greens and roots",
+          "turnip mix cooked"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen cooked turnip greens and turnips are used as a quick vegetable side or soup ingredient. This USDA row reflects cooked drained values per 100 g.",
+        "display_name": "Turnip Greens and Turnips (Frozen, Cooked)",
+        "fdc_id": 170141,
+        "macros": {
+          "calories": 34.0,
+          "carbs_g": 4.74,
+          "fat_g": 0.38,
+          "fiber_g": 3.1,
+          "protein_g": 2.99,
+          "sodium_g": 0.255,
+          "sugar_g": 0.95
+        },
+        "source_description": "Turnip greens and turnips, frozen, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "turnip"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "turnip greens",
+          "raw turnip greens",
+          "turnip leaves",
+          "fresh turnip tops",
+          "turnip top greens"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw turnip greens are leafy brassica greens used in saut\u00e9s, braises, and soups. This USDA row reflects raw greens values per 100 g.",
+        "display_name": "Turnip Greens (Raw)",
+        "fdc_id": 170061,
+        "macros": {
+          "calories": 32.0,
+          "carbs_g": 7.13,
+          "fat_g": 0.3,
+          "fiber_g": 3.2,
+          "protein_g": 1.5,
+          "sodium_g": 0.04,
+          "sugar_g": 0.81
+        },
+        "source_description": "Turnip greens, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "green turtle meat",
+          "raw turtle meat",
+          "turtle green raw",
+          "turtle protein",
+          "green turtle"
+        ],
+        "category_label": "protein",
+        "description": "Green turtle meat appears here as a niche raw protein reference in USDA legacy data. This row reflects raw values per 100 g.",
+        "display_name": "Turtle (Green, Raw)",
+        "fdc_id": 167745,
+        "macros": {
+          "calories": 89.0,
+          "carbs_g": 0.0,
+          "fat_g": 0.5,
+          "fiber_g": 0.0,
+          "protein_g": 19.8,
+          "sodium_g": 0.068,
+          "sugar_g": 0.0
+        },
+        "source_description": "Turtle, green, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vegetable macaroni",
+          "cooked vegetable macaroni",
+          "enriched vegetable macaroni",
+          "pasta vegetable macaroni",
+          "prepared vegetable macaroni"
+        ],
+        "category_label": "grain_legume",
+        "description": "Cooked enriched vegetable macaroni is a prepared pasta ingredient for sides and mixed dishes. This USDA row reflects cooked pasta values per 100 g.",
+        "display_name": "Vegetable Macaroni (Cooked)",
+        "fdc_id": 168904,
+        "macros": {
+          "calories": 128.0,
+          "carbs_g": 26.61,
+          "fat_g": 0.11,
+          "fiber_g": 4.3,
+          "protein_g": 4.53,
+          "sodium_g": 0.006,
+          "sugar_g": 1.15
+        },
+        "source_description": "Macaroni, vegetable, enriched, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "high-oleic canola oil",
+          "vegetable oil canola",
+          "natreon canola oil",
+          "high-stability canola oil",
+          "non-trans canola oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "High-oleic canola vegetable oil is a stable cooking oil used for frying and high-heat applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Vegetable Oil (High-Oleic Canola)",
+        "fdc_id": 171033,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, vegetable, Natreon canola, high stability, non trans, high oleic (70%)",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "60% fat vegetable oil spread",
+          "margarine-like spread with vitamin d",
+          "reduced-fat oil spread",
+          "stick tub bottle vegetable spread",
+          "fortified vegetable spread"
+        ],
+        "category_label": "oil_fat",
+        "description": "This margarine-like vegetable spread contains about 60% fat and added vitamin D, used as a spread or cooking fat. This USDA row reflects product values per 100 g.",
+        "display_name": "Vegetable Oil Spread (60% Fat, Vit D)",
+        "fdc_id": 171039,
+        "macros": {
+          "calories": 535.0,
+          "carbs_g": 0.0,
+          "fat_g": 59.17,
+          "fiber_g": 0.0,
+          "protein_g": 0.6,
+          "sodium_g": 0.785,
+          "sugar_g": 0.0
+        },
+        "source_description": "Margarine-like vegetable-oil spread, stick/tub/bottle, 60% fat, with added vitamin D",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "sweetened vegetable oil spread",
+          "margarine-like vegetable spread",
+          "soft vegetable oil spread",
+          "vegetable spread stick or tub",
+          "sweet spread margarine-like"
+        ],
+        "category_label": "oil_fat",
+        "description": "Margarine-like vegetable oil spread is a sweetened spread used for table and baking applications. This USDA row reflects spread values per 100 g.",
+        "display_name": "Vegetable Oil Spread (Sweetened)",
+        "fdc_id": 169860,
+        "macros": {
+          "calories": 534.0,
+          "carbs_g": 16.7,
+          "fat_g": 52.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.542,
+          "sugar_g": 16.7
+        },
+        "source_description": "Margarine-like, vegetable oil spread, stick or tub, sweetened",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "mixed vegetables frozen",
+          "cooked mixed vegetables",
+          "boiled frozen vegetables",
+          "vegetable medley frozen",
+          "mixed veg cooked"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen mixed vegetables are used in stir-fries, soups, casseroles, and side dishes. This USDA row reflects cooked drained values per 100 g.",
+        "display_name": "Mixed Vegetables (Frozen, Cooked)",
+        "fdc_id": 170142,
+        "macros": {
+          "calories": 60.0,
+          "carbs_g": 13.09,
+          "fat_g": 0.15,
+          "fiber_g": 4.4,
+          "protein_g": 2.86,
+          "sodium_g": 0.271,
+          "sugar_g": 3.12
+        },
+        "source_description": "Vegetables, mixed, frozen, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "mixed_veg"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "canned mixed vegetables",
+          "mixed veg canned no salt",
+          "corn lima peas carrots green beans",
+          "vegetable mix canned",
+          "canned vegetable medley"
+        ],
+        "category_label": "vegetable",
+        "description": "Canned mixed vegetables (corn, lima beans, peas, green beans, carrots) are used in soups and quick sides. This USDA row reflects no-salt-added canned values per 100 g.",
+        "display_name": "Mixed Vegetables with Corn (Canned, No Salt)",
+        "fdc_id": 169085,
+        "macros": {
+          "calories": 37.0,
+          "carbs_g": 7.31,
+          "fat_g": 0.2,
+          "fiber_g": 3.1,
+          "protein_g": 1.4,
+          "sodium_g": 0.026,
+          "sugar_g": 2.41
+        },
+        "source_description": "Vegetables, mixed (corn, lima beans, peas, green beans, carrots) canned, no salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "mixed_veg"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "soy vermicelli",
+          "soybean vermicelli noodles",
+          "glass noodles soy",
+          "soy thread noodles",
+          "vermicelli made from soy"
+        ],
+        "category_label": "grain_legume",
+        "description": "Soy vermicelli is a dry noodle ingredient used in soups, stir-fries, and spring-roll fillings after soaking. This USDA row reflects dry noodle values per 100 g.",
+        "display_name": "Soy Vermicelli (Dry)",
+        "fdc_id": 169884,
+        "macros": {
+          "calories": 331.0,
+          "carbs_g": 82.32,
+          "fat_g": 0.1,
+          "fiber_g": 3.9,
+          "protein_g": 0.1,
+          "sodium_g": 0.004,
+          "sugar_g": 17.44
+        },
+        "source_description": "Vermicelli, made from soy",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Legumes and Legume Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "noodle"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "vinespinach",
+          "basella",
+          "malabar spinach",
+          "indian spinach",
+          "climbing spinach"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw vinespinach (basella) is a leafy vegetable used in stir-fries, soups, and stewed dishes. This USDA row reflects raw leaf values per 100 g.",
+        "display_name": "Vinespinach (Basella, Raw)",
+        "fdc_id": 170474,
+        "macros": {
+          "calories": 19.0,
+          "carbs_g": 3.4,
+          "fat_g": 0.3,
+          "fiber_g": 0.0,
+          "protein_g": 1.8,
+          "sodium_g": 0.024,
+          "sugar_g": 0.0
+        },
+        "source_description": "Vinespinach, (basella), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "spinach"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wakame",
+          "wakame seaweed",
+          "raw wakame",
+          "sea mustard",
+          "edible wakame"
+        ],
+        "category_label": "vegetable",
+        "description": "Wakame is an edible seaweed used in miso soup, salads, and seaweed sides. This USDA row reflects raw wakame values per 100 g.",
+        "display_name": "Wakame Seaweed (Raw)",
+        "fdc_id": 170496,
+        "macros": {
+          "calories": 45.0,
+          "carbs_g": 9.14,
+          "fat_g": 0.64,
+          "fiber_g": 0.5,
+          "protein_g": 3.03,
+          "sodium_g": 0.872,
+          "sugar_g": 0.65
+        },
+        "source_description": "Seaweed, wakame, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "seaweed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "walnut oil",
+          "cold-pressed walnut oil",
+          "cooking walnut oil",
+          "nut oil walnut",
+          "salad walnut oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Walnut oil is a flavorful nut oil often used in dressings and finishing applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Walnut Oil",
+        "fdc_id": 171030,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, walnut",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "black walnuts dried",
+          "dried black walnuts",
+          "black walnut kernels",
+          "wild black walnuts",
+          "black walnut nutmeat"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried black walnuts are strongly flavored nuts used in baked goods and specialty recipes. This USDA row reflects dried nut values per 100 g.",
+        "display_name": "Walnuts (Black, Dried)",
+        "fdc_id": 170186,
+        "macros": {
+          "calories": 619.0,
+          "carbs_g": 9.58,
+          "fat_g": 59.33,
+          "fiber_g": 6.8,
+          "protein_g": 24.06,
+          "sodium_g": 0.002,
+          "sugar_g": 1.1
+        },
+        "source_description": "Nuts, walnuts, black, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted walnuts salted",
+          "dry roasted walnuts",
+          "walnuts with salt",
+          "salted walnut halves",
+          "walnuts roasted"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dry roasted salted walnuts are used in snacks, salads, and baking. This USDA row reflects roasted nut values per 100 g.",
+        "display_name": "Walnuts (Dry Roasted, Salted)",
+        "fdc_id": 170594,
+        "macros": {
+          "calories": 643.0,
+          "carbs_g": 17.86,
+          "fat_g": 60.71,
+          "fiber_g": 7.1,
+          "protein_g": 14.29,
+          "sodium_g": 0.643,
+          "sugar_g": 3.57
+        },
+        "source_description": "Nuts, walnuts, dry roasted, with salt added",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wasabi root",
+          "fresh wasabi",
+          "raw wasabi rhizome",
+          "japanese horseradish",
+          "wasabi rhizome"
+        ],
+        "category_label": "herb_spice",
+        "description": "Raw wasabi root is grated for pungent condiment paste and used in dressings and sauces. This USDA row reflects raw root values per 100 g.",
+        "display_name": "Wasabi Root (Raw)",
+        "fdc_id": 168583,
+        "macros": {
+          "calories": 109.0,
+          "carbs_g": 23.54,
+          "fat_g": 0.63,
+          "fiber_g": 7.8,
+          "protein_g": 4.8,
+          "sodium_g": 0.017,
+          "sugar_g": 0.0
+        },
+        "source_description": "Wasabi, root, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "wasabi"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "water spinach cooked",
+          "kangkong cooked",
+          "morning glory greens cooked",
+          "cooked water convolvulus",
+          "boiled water spinach"
+        ],
+        "category_label": "vegetable",
+        "description": "Cooked salted water convolvulus (water spinach/kangkong) is a leafy vegetable used in stir-fries and soups. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Water Convolvulus (Cooked, Salted)",
+        "fdc_id": 170132,
+        "macros": {
+          "calories": 20.0,
+          "carbs_g": 3.7,
+          "fat_g": 0.24,
+          "fiber_g": 1.9,
+          "protein_g": 2.08,
+          "sodium_g": 0.358,
+          "sugar_g": 0.0
+        },
+        "source_description": "Water convolvulus, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "water chestnuts",
+          "chinese water chestnut",
+          "matai",
+          "raw water chestnut",
+          "fresh water chestnuts"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw Chinese water chestnuts are crunchy aquatic vegetables used in stir-fries, fillings, and salads. This USDA row reflects raw values per 100 g.",
+        "display_name": "Chinese Water Chestnuts (Raw)",
+        "fdc_id": 170066,
+        "macros": {
+          "calories": 97.0,
+          "carbs_g": 23.94,
+          "fat_g": 0.1,
+          "fiber_g": 3.0,
+          "protein_g": 1.4,
+          "sodium_g": 0.014,
+          "sugar_g": 4.8
+        },
+        "source_description": "Waterchestnuts, chinese, (matai), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "water_chestnut"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "watermelon seed kernels",
+          "shelled watermelon seeds",
+          "dried watermelon seeds",
+          "egusi-style watermelon seeds",
+          "watermelon seed meats"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried watermelon seed kernels are edible seeds used roasted, ground, or in regional sauces and stews. This USDA row reflects dried kernel values per 100 g.",
+        "display_name": "Watermelon Seed Kernels (Dried)",
+        "fdc_id": 169407,
+        "macros": {
+          "calories": 557.0,
+          "carbs_g": 15.31,
+          "fat_g": 47.37,
+          "fiber_g": 0.0,
+          "protein_g": 28.33,
+          "sodium_g": 0.099,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, watermelon seed kernels, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wax gourd",
+          "winter melon",
+          "chinese preserving melon",
+          "dong gua",
+          "raw wax gourd"
+        ],
+        "category_label": "vegetable",
+        "description": "Wax gourd (winter melon) is a mild squash used in soups, braises, and stews. This USDA row reflects raw gourd values per 100 g.",
+        "display_name": "Wax Gourd (Raw)",
+        "fdc_id": 170069,
+        "macros": {
+          "calories": 13.0,
+          "carbs_g": 3.0,
+          "fat_g": 0.2,
+          "fiber_g": 2.9,
+          "protein_g": 0.4,
+          "sodium_g": 0.111,
+          "sugar_g": 0.0
+        },
+        "source_description": "Waxgourd, (chinese preserving melon), raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "gourd"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "welsh onions",
+          "raw welsh onions",
+          "bunching onions",
+          "welsh onion greens",
+          "allium fistulosum"
+        ],
+        "category_label": "vegetable",
+        "description": "Welsh onions are bunching onions used like scallions in soups and stir-fries. This USDA row reflects raw values per 100 g.",
+        "display_name": "Welsh Onions (Raw)",
+        "fdc_id": 170007,
+        "macros": {
+          "calories": 34.0,
+          "carbs_g": 6.5,
+          "fat_g": 0.4,
+          "fiber_g": 2.4,
+          "protein_g": 1.9,
+          "sodium_g": 0.017,
+          "sugar_g": 2.18
+        },
+        "source_description": "Onions, welsh, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "onion"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wheat bran",
+          "crude wheat bran",
+          "bran cereal",
+          "wheat outer bran",
+          "raw wheat bran"
+        ],
+        "category_label": "grain_legume",
+        "description": "Wheat bran is the fiber-rich outer grain layer used in cereals, muffins, and baking blends. This USDA row reflects bran values per 100 g.",
+        "display_name": "Wheat Bran (Crude)",
+        "fdc_id": 169722,
+        "macros": {
+          "calories": 216.0,
+          "carbs_g": 64.51,
+          "fat_g": 4.25,
+          "fiber_g": 42.8,
+          "protein_g": 15.55,
+          "sodium_g": 0.002,
+          "sugar_g": 0.41
+        },
+        "source_description": "Wheat bran, crude",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "bran"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "white wheat flour tortilla mix",
+          "enriched white flour",
+          "tortilla flour mix",
+          "white wheat flour",
+          "wheat flour enriched"
+        ],
+        "category_label": "grain_legume",
+        "description": "Enriched white wheat flour tortilla mix is used for tortillas, flatbreads, and baked goods. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Wheat Flour (White, Tortilla Mix, Enriched)",
+        "fdc_id": 169724,
+        "macros": {
+          "calories": 405.0,
+          "carbs_g": 67.14,
+          "fat_g": 10.63,
+          "fiber_g": 0.0,
+          "protein_g": 9.66,
+          "sodium_g": 0.677,
+          "sugar_g": 0.0
+        },
+        "source_description": "Wheat flour, white, tortilla mix, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "bread flour enriched",
+          "white bread flour",
+          "enriched wheat bread flour",
+          "high-gluten white flour",
+          "wheat flour bread"
+        ],
+        "category_label": "grain_legume",
+        "description": "Enriched white bread flour is used for yeast breads, pizza dough, and high-structure baking. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Wheat Flour (White Bread, Enriched)",
+        "fdc_id": 168896,
+        "macros": {
+          "calories": 361.0,
+          "carbs_g": 72.53,
+          "fat_g": 1.66,
+          "fiber_g": 2.4,
+          "protein_g": 11.98,
+          "sodium_g": 0.002,
+          "sugar_g": 0.31
+        },
+        "source_description": "Wheat flour, white, bread, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "industrial white wheat flour",
+          "13 percent protein flour",
+          "bleached enriched flour",
+          "high-protein white flour",
+          "commercial wheat flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "White industrial flour (13% protein) is a strong flour used in commercial bread and dough applications. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Wheat Flour (White Industrial, 13% Protein)",
+        "fdc_id": 168942,
+        "macros": {
+          "calories": 362.0,
+          "carbs_g": 72.2,
+          "fat_g": 1.38,
+          "fiber_g": 2.4,
+          "protein_g": 13.07,
+          "sodium_g": 0.002,
+          "sugar_g": 1.1
+        },
+        "source_description": "Wheat flour, white (industrial), 13% protein, bleached, enriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "whole-grain soft wheat flour",
+          "whole wheat flour soft",
+          "soft wheat wholemeal",
+          "whole wheat flour",
+          "soft whole-grain flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Whole-grain soft wheat flour is used in cakes, quick breads, and softer baked goods. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Wheat Flour (Whole-Grain, Soft Wheat)",
+        "fdc_id": 168944,
+        "macros": {
+          "calories": 332.0,
+          "carbs_g": 74.48,
+          "fat_g": 1.95,
+          "fiber_g": 13.1,
+          "protein_g": 9.61,
+          "sodium_g": 0.003,
+          "sugar_g": 1.02
+        },
+        "source_description": "Wheat flour, whole-grain, soft wheat",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "unenriched bread flour",
+          "wheat bread flour",
+          "white bread flour unenriched",
+          "strong wheat flour",
+          "bread wheat flour"
+        ],
+        "category_label": "grain_legume",
+        "description": "Unenriched bread wheat flour is used for yeast breads, rolls, and pizza dough. This USDA row reflects dry flour values per 100 g.",
+        "display_name": "Wheat Flour (Bread, Unenriched)",
+        "fdc_id": 168913,
+        "macros": {
+          "calories": 361.0,
+          "carbs_g": 72.53,
+          "fat_g": 1.66,
+          "fiber_g": 2.4,
+          "protein_g": 11.98,
+          "sodium_g": 0.002,
+          "sugar_g": 0.31
+        },
+        "source_description": "Wheat flours, bread, unenriched",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "flour"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wheat germ",
+          "raw wheat germ",
+          "crude wheat germ",
+          "toasted wheat germ",
+          "wheat embryo"
+        ],
+        "category_label": "grain_legume",
+        "description": "Wheat germ is a nutrient-dense grain component used in smoothies, cereals, and baking. This USDA row reflects germ values per 100 g.",
+        "display_name": "Wheat Germ (Crude)",
+        "fdc_id": 168892,
+        "macros": {
+          "calories": 360.0,
+          "carbs_g": 51.8,
+          "fat_g": 9.72,
+          "fiber_g": 13.2,
+          "protein_g": 23.15,
+          "sodium_g": 0.012,
+          "sugar_g": 0.0
+        },
+        "source_description": "Wheat germ, crude",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "wheat germ oil",
+          "wheat oil germ",
+          "vitamin e wheat germ oil",
+          "cooking wheat germ oil",
+          "nutty wheat germ oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Wheat germ oil is a nutrient-dense oil used in dressings and low-heat culinary applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Wheat Germ Oil",
+        "fdc_id": 171014,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, wheat germ",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": ""
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "hard red spring wheat",
+          "hard red spring wheat berries",
+          "spring wheat grain",
+          "whole spring wheat",
+          "wheat berries"
+        ],
+        "category_label": "grain_legume",
+        "description": "Hard red spring wheat berries are high-protein whole grains used for milling, pilafs, and grain salads. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Wheat Berries (Hard Red Spring)",
+        "fdc_id": 168889,
+        "macros": {
+          "calories": 329.0,
+          "carbs_g": 68.03,
+          "fat_g": 1.92,
+          "fiber_g": 12.2,
+          "protein_g": 15.4,
+          "sodium_g": 0.002,
+          "sugar_g": 0.41
+        },
+        "source_description": "Wheat, hard red spring",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "hard red winter wheat",
+          "winter wheat berries",
+          "hard red wheat grain",
+          "whole winter wheat",
+          "bread wheat berries"
+        ],
+        "category_label": "grain_legume",
+        "description": "Hard red winter wheat berries are strong whole grains used for bread flour and cooked grain dishes. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Wheat Berries (Hard Red Winter)",
+        "fdc_id": 168890,
+        "macros": {
+          "calories": 327.0,
+          "carbs_g": 71.18,
+          "fat_g": 1.54,
+          "fiber_g": 12.2,
+          "protein_g": 12.61,
+          "sodium_g": 0.002,
+          "sugar_g": 0.41
+        },
+        "source_description": "Wheat, hard red winter",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "hard white wheat",
+          "hard white wheat berries",
+          "white wheat grain",
+          "whole hard white wheat",
+          "wheat berries white"
+        ],
+        "category_label": "grain_legume",
+        "description": "Hard white wheat berries are whole grains milled for lighter whole-wheat flour and baked goods. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Wheat Berries (Hard White)",
+        "fdc_id": 169719,
+        "macros": {
+          "calories": 342.0,
+          "carbs_g": 75.9,
+          "fat_g": 1.71,
+          "fiber_g": 12.2,
+          "protein_g": 11.31,
+          "sodium_g": 0.002,
+          "sugar_g": 0.41
+        },
+        "source_description": "Wheat, hard white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "khorasan wheat",
+          "kamut wheat",
+          "khorasan grain",
+          "uncooked khorasan",
+          "ancient khorasan wheat"
+        ],
+        "category_label": "grain_legume",
+        "description": "Uncooked khorasan wheat is an ancient grain used in pilafs, salads, and whole-grain baking. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Khorasan Wheat (Uncooked)",
+        "fdc_id": 169743,
+        "macros": {
+          "calories": 337.0,
+          "carbs_g": 70.58,
+          "fat_g": 2.13,
+          "fiber_g": 11.1,
+          "protein_g": 14.54,
+          "sodium_g": 0.005,
+          "sugar_g": 7.84
+        },
+        "source_description": "Wheat, khorasan, uncooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "soft red winter wheat",
+          "soft red wheat berries",
+          "pastry wheat grain",
+          "whole soft red wheat",
+          "wheat berries soft red"
+        ],
+        "category_label": "grain_legume",
+        "description": "Soft red winter wheat berries are lower-protein grains used for pastries, cakes, and crackers. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Wheat Berries (Soft Red Winter)",
+        "fdc_id": 168891,
+        "macros": {
+          "calories": 331.0,
+          "carbs_g": 74.24,
+          "fat_g": 1.56,
+          "fiber_g": 12.5,
+          "protein_g": 10.35,
+          "sodium_g": 0.002,
+          "sugar_g": 0.41
+        },
+        "source_description": "Wheat, soft red winter",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 015: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "soft white wheat",
+          "soft white wheat berries",
+          "pastry wheat white",
+          "whole soft white wheat",
+          "wheat berries soft white"
+        ],
+        "category_label": "grain_legume",
+        "description": "Soft white wheat berries are mild whole grains used for pastries, noodles, and delicate baked goods. This USDA row reflects dry grain values per 100 g.",
+        "display_name": "Wheat Berries (Soft White)",
+        "fdc_id": 169720,
+        "macros": {
+          "calories": 340.0,
+          "carbs_g": 75.36,
+          "fat_g": 1.99,
+          "fiber_g": 12.7,
+          "protein_g": 10.69,
+          "sodium_g": 0.002,
+          "sugar_g": 0.41
+        },
+        "source_description": "Wheat, soft white",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    }
+  ]
+}

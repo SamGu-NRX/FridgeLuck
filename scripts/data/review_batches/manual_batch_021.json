@@ -1,0 +1,1056 @@
+{
+  "batch_id": 21,
+  "batch_size": 30,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "freeze-dried leeks",
+          "dried leek flakes",
+          "leek flakes",
+          "dehydrated leeks",
+          "leeks dried"
+        ],
+        "category_label": "vegetable",
+        "description": "Freeze-dried leeks are concentrated allium flakes used in soups, seasonings, and sauce mixes. This USDA row reflects dried values per 100 g.",
+        "display_name": "Leeks (Freeze-Dried)",
+        "fdc_id": 170485,
+        "macros": {
+          "calories": 321.0,
+          "carbs_g": 74.65,
+          "fat_g": 2.1,
+          "fiber_g": 10.4,
+          "protein_g": 15.2,
+          "sodium_g": 0.035,
+          "sugar_g": 0.0
+        },
+        "source_description": "Leeks, (bulb and lower-leaf portion), freeze-dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "leek"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "shallots",
+          "raw shallots",
+          "fresh shallot bulbs",
+          "shallot",
+          "shallot onion"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw shallots are mild alliums used in dressings, sauces, marinades, and saut\u00e9s. This USDA row reflects raw shallot values per 100 g.",
+        "display_name": "Shallots (Raw)",
+        "fdc_id": 170499,
+        "macros": {
+          "calories": 72.0,
+          "carbs_g": 16.8,
+          "fat_g": 0.1,
+          "fiber_g": 3.2,
+          "protein_g": 2.5,
+          "sodium_g": 0.012,
+          "sugar_g": 7.87
+        },
+        "source_description": "Shallots, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "shallot"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "orange tomatoes",
+          "raw orange tomato",
+          "heirloom orange tomato",
+          "fresh orange tomatoes",
+          "orange tomato"
+        ],
+        "category_label": "vegetable",
+        "description": "Raw orange tomatoes are used in fresh salads, salsas, and sauces. This USDA row reflects raw tomato values per 100 g.",
+        "display_name": "Orange Tomatoes (Raw)",
+        "fdc_id": 170502,
+        "macros": {
+          "calories": 16.0,
+          "carbs_g": 3.18,
+          "fat_g": 0.19,
+          "fiber_g": 0.9,
+          "protein_g": 1.16,
+          "sodium_g": 0.042,
+          "sugar_g": 0.0
+        },
+        "source_description": "Tomatoes, orange, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "tomato"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen peas and carrots",
+          "cooked peas and carrots",
+          "boiled peas carrots mix",
+          "mixed peas carrots",
+          "peas carrots blend"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen peas and carrots are a mixed vegetable side used in stir-fries, casseroles, and quick meals. This USDA row reflects boiled drained values per 100 g.",
+        "display_name": "Peas and Carrots (Frozen, Cooked)",
+        "fdc_id": 170513,
+        "macros": {
+          "calories": 48.0,
+          "carbs_g": 10.12,
+          "fat_g": 0.42,
+          "fiber_g": 3.1,
+          "protein_g": 3.09,
+          "sodium_g": 0.304,
+          "sugar_g": 4.36
+        },
+        "source_description": "Peas and carrots, frozen, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "mixed_veg"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen peas and onions",
+          "cooked peas onions mix",
+          "boiled peas and onions",
+          "mixed peas onions",
+          "peas onions blend"
+        ],
+        "category_label": "vegetable",
+        "description": "Frozen peas and onions are a mixed vegetable ingredient used in side dishes, soups, and skillets. This USDA row reflects boiled drained values per 100 g.",
+        "display_name": "Peas and Onions (Frozen, Cooked)",
+        "fdc_id": 170514,
+        "macros": {
+          "calories": 45.0,
+          "carbs_g": 8.63,
+          "fat_g": 0.2,
+          "fiber_g": 2.2,
+          "protein_g": 2.54,
+          "sodium_g": 0.273,
+          "sugar_g": 3.77
+        },
+        "source_description": "Peas and onions, frozen, cooked, boiled, drained, with salt",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Vegetables and Vegetable Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "vegetable",
+        "sprite_key": "mixed_veg"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried pumpkin seed kernels",
+          "dried squash seed kernels",
+          "pepitas dried",
+          "pumpkin squash kernels",
+          "seed kernels dried"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried pumpkin and squash seed kernels are used in snacks, granola, toppings, and baking mixes. This USDA row reflects dried kernel values per 100 g.",
+        "display_name": "Pumpkin and Squash Seed Kernels (Dried)",
+        "fdc_id": 170556,
+        "macros": {
+          "calories": 559.0,
+          "carbs_g": 10.71,
+          "fat_g": 49.05,
+          "fiber_g": 6.0,
+          "protein_g": 30.23,
+          "sodium_g": 0.007,
+          "sugar_g": 1.4
+        },
+        "source_description": "Seeds, pumpkin and squash seed kernels, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "pumpkin_seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "safflower seed kernels",
+          "dried safflower kernels",
+          "safflower seeds hulled",
+          "safflower kernel seed",
+          "safflower seeds dried"
+        ],
+        "category_label": "nut_seed",
+        "description": "Dried safflower seed kernels are oil-rich seeds used in specialty seed blends and processing. This USDA row reflects dried kernel values per 100 g.",
+        "display_name": "Safflower Seed Kernels (Dried)",
+        "fdc_id": 170558,
+        "macros": {
+          "calories": 517.0,
+          "carbs_g": 34.29,
+          "fat_g": 38.45,
+          "fiber_g": 0.0,
+          "protein_g": 16.18,
+          "sodium_g": 0.003,
+          "sugar_g": 0.0
+        },
+        "source_description": "Seeds, safflower seed kernels, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Nut and Seed Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "nut_seed",
+        "sprite_key": "seed"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "buckwheat groats cooked",
+          "roasted buckwheat groats",
+          "kasha cooked",
+          "cooked buckwheat",
+          "prepared buckwheat groats"
+        ],
+        "category_label": "grain_legume",
+        "description": "Roasted cooked buckwheat groats (kasha) are used in pilafs, porridge, and grain bowls. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Buckwheat Groats (Roasted, Cooked)",
+        "fdc_id": 170686,
+        "macros": {
+          "calories": 92.0,
+          "carbs_g": 19.94,
+          "fat_g": 0.62,
+          "fiber_g": 2.7,
+          "protein_g": 3.38,
+          "sodium_g": 0.004,
+          "sugar_g": 0.9
+        },
+        "source_description": "Buckwheat groats, roasted, cooked",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Cereal Grains and Pasta",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "grain_legume",
+        "sprite_key": "grain"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "powdered dessert topping",
+          "whipped topping powder",
+          "instant dessert topping mix",
+          "dessert whip powder",
+          "non-dairy topping powder"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Powdered dessert topping mix is a shelf-stable product used to whip topping for desserts. This USDA row reflects dry mix values per 100 g.",
+        "display_name": "Dessert Topping (Powdered)",
+        "fdc_id": 170865,
+        "macros": {
+          "calories": 577.0,
+          "carbs_g": 52.54,
+          "fat_g": 39.92,
+          "fiber_g": 0.0,
+          "protein_g": 4.9,
+          "sodium_g": 0.122,
+          "sugar_g": 52.54
+        },
+        "source_description": "Dessert topping, powdered",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "cream"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "pressurized dessert topping",
+          "aerosol whipped topping",
+          "canned whipped topping",
+          "spray dessert topping",
+          "whipped topping pressurized"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Pressurized dessert topping is an aerosol whipped topping used for desserts and beverages. This USDA row reflects topping values per 100 g.",
+        "display_name": "Dessert Topping (Pressurized)",
+        "fdc_id": 170867,
+        "macros": {
+          "calories": 264.0,
+          "carbs_g": 16.07,
+          "fat_g": 22.3,
+          "fiber_g": 0.0,
+          "protein_g": 0.98,
+          "sodium_g": 0.062,
+          "sugar_g": 16.07
+        },
+        "source_description": "Dessert topping, pressurized",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "cream"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen dessert topping",
+          "semi-solid whipped topping",
+          "tub whipped topping",
+          "frozen topping",
+          "dessert topping frozen"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Semi-solid frozen dessert topping is a thaw-and-serve topping used in pies and desserts. This USDA row reflects product values per 100 g.",
+        "display_name": "Dessert Topping (Semi-Solid, Frozen)",
+        "fdc_id": 170868,
+        "macros": {
+          "calories": 318.0,
+          "carbs_g": 23.05,
+          "fat_g": 25.31,
+          "fiber_g": 0.0,
+          "protein_g": 1.25,
+          "sodium_g": 0.025,
+          "sugar_g": 23.05
+        },
+        "source_description": "Dessert topping, semi solid, frozen",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "cream"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "frozen whole egg salted",
+          "pasteurized whole egg",
+          "liquid whole egg",
+          "whole egg product",
+          "egg whole frozen"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Raw frozen salted whole egg is a pasteurized egg product used in commercial baking and prepared foods. This USDA row reflects product values per 100 g.",
+        "display_name": "Egg (Whole, Raw, Frozen, Salted)",
+        "fdc_id": 170893,
+        "macros": {
+          "calories": 138.0,
+          "carbs_g": 0.83,
+          "fat_g": 10.07,
+          "fiber_g": 0.0,
+          "protein_g": 10.97,
+          "sodium_g": 3.663,
+          "sugar_g": 0.07
+        },
+        "source_description": "Egg, whole, raw, frozen, salted, pasteurized",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "egg"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried egg white",
+          "egg white powder",
+          "stabilized egg white",
+          "albumen powder",
+          "dehydrated egg whites"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Dried stabilized egg white is used in baking, meringues, and protein formulations. This USDA row reflects dried egg white values per 100 g.",
+        "display_name": "Egg White Powder",
+        "fdc_id": 170895,
+        "macros": {
+          "calories": 357.0,
+          "carbs_g": 4.51,
+          "fat_g": 0.32,
+          "fiber_g": 0.0,
+          "protein_g": 84.08,
+          "sodium_g": 1.299,
+          "sugar_g": 0.0
+        },
+        "source_description": "Egg, white, dried, stabilized, glucose reduced",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "egg"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried parsley",
+          "parsley flakes",
+          "parsley spice",
+          "dehydrated parsley",
+          "parsley leaf dried"
+        ],
+        "category_label": "herb_spice",
+        "description": "Dried parsley is a mild herb used in sauces, soups, dressings, and garnish blends. This USDA row reflects dried herb values per 100 g.",
+        "display_name": "Parsley (Dried)",
+        "fdc_id": 170930,
+        "macros": {
+          "calories": 292.0,
+          "carbs_g": 50.64,
+          "fat_g": 5.48,
+          "fiber_g": 26.7,
+          "protein_g": 26.63,
+          "sodium_g": 0.452,
+          "sugar_g": 7.27
+        },
+        "source_description": "Spices, parsley, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "parsley"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cayenne pepper",
+          "red pepper flakes",
+          "crushed red pepper",
+          "ground red pepper",
+          "chili flakes"
+        ],
+        "category_label": "herb_spice",
+        "description": "Red cayenne pepper and flakes are pungent spices used for heat in sauces, rubs, and seasoning blends. This USDA row reflects spice values per 100 g.",
+        "display_name": "Red Pepper (Cayenne / Flakes)",
+        "fdc_id": 170932,
+        "macros": {
+          "calories": 318.0,
+          "carbs_g": 56.63,
+          "fat_g": 17.27,
+          "fiber_g": 27.2,
+          "protein_g": 12.01,
+          "sodium_g": 0.03,
+          "sugar_g": 10.34
+        },
+        "source_description": "Spices, pepper, red or cayenne",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "chili"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "saffron",
+          "saffron threads",
+          "saffron spice",
+          "kesar",
+          "saffron stigmas"
+        ],
+        "category_label": "herb_spice",
+        "description": "Saffron is an aromatic spice used in rice dishes, broths, and desserts. This USDA row reflects saffron values per 100 g.",
+        "display_name": "Saffron",
+        "fdc_id": 170934,
+        "macros": {
+          "calories": 310.0,
+          "carbs_g": 65.37,
+          "fat_g": 5.85,
+          "fiber_g": 3.9,
+          "protein_g": 11.43,
+          "sodium_g": 0.148,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, saffron",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "saffron"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ground sage",
+          "sage spice",
+          "rubbed sage",
+          "dried sage powder",
+          "sage herb"
+        ],
+        "category_label": "herb_spice",
+        "description": "Ground sage is an earthy herb used in poultry seasoning, stuffing, sausage, and sauces. This USDA row reflects ground spice values per 100 g.",
+        "display_name": "Sage (Ground)",
+        "fdc_id": 170935,
+        "macros": {
+          "calories": 315.0,
+          "carbs_g": 60.73,
+          "fat_g": 12.75,
+          "fiber_g": 40.3,
+          "protein_g": 10.63,
+          "sodium_g": 0.011,
+          "sugar_g": 1.71
+        },
+        "source_description": "Spices, sage, ground",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "sage"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ground savory",
+          "savory herb",
+          "summer savory",
+          "winter savory",
+          "savory spice"
+        ],
+        "category_label": "herb_spice",
+        "description": "Ground savory is a pungent herb used in bean dishes, sausages, and savory seasoning blends. This USDA row reflects ground herb values per 100 g.",
+        "display_name": "Savory (Ground)",
+        "fdc_id": 170936,
+        "macros": {
+          "calories": 272.0,
+          "carbs_g": 68.73,
+          "fat_g": 5.91,
+          "fiber_g": 45.7,
+          "protein_g": 6.73,
+          "sodium_g": 0.024,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, savory, ground",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "herb"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried tarragon",
+          "tarragon herb",
+          "estragon",
+          "tarragon leaves dried",
+          "french tarragon"
+        ],
+        "category_label": "herb_spice",
+        "description": "Dried tarragon is an aromatic herb used in dressings, cream sauces, and chicken dishes. This USDA row reflects dried herb values per 100 g.",
+        "display_name": "Tarragon (Dried)",
+        "fdc_id": 170937,
+        "macros": {
+          "calories": 295.0,
+          "carbs_g": 50.22,
+          "fat_g": 7.24,
+          "fiber_g": 7.4,
+          "protein_g": 22.77,
+          "sodium_g": 0.062,
+          "sugar_g": 0.0
+        },
+        "source_description": "Spices, tarragon, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "tarragon"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "dried thyme",
+          "thyme herb",
+          "thyme leaves dried",
+          "ground thyme",
+          "thyme spice"
+        ],
+        "category_label": "herb_spice",
+        "description": "Dried thyme is a common herb used in soups, stews, roasted meats, and Mediterranean blends. This USDA row reflects dried herb values per 100 g.",
+        "display_name": "Thyme (Dried)",
+        "fdc_id": 170938,
+        "macros": {
+          "calories": 276.0,
+          "carbs_g": 63.94,
+          "fat_g": 7.43,
+          "fiber_g": 37.0,
+          "protein_g": 9.11,
+          "sodium_g": 0.055,
+          "sugar_g": 1.71
+        },
+        "source_description": "Spices, thyme, dried",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Spices and Herbs",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "herb_spice",
+        "sprite_key": "thyme"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "rice bran oil",
+          "rice oil",
+          "cooking rice bran oil",
+          "high-smoke-point rice oil",
+          "salad rice bran oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Rice bran oil is a neutral cooking oil used for frying, sauteing, and dressings. This USDA row reflects oil values per 100 g.",
+        "display_name": "Rice Bran Oil",
+        "fdc_id": 171013,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, rice bran",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "palm oil",
+          "red palm oil",
+          "cooking palm oil",
+          "refined palm oil",
+          "palm fruit oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Palm oil is a semi-solid fat used in frying, baking, and processed foods. This USDA row reflects oil values per 100 g.",
+        "display_name": "Palm Oil",
+        "fdc_id": 171015,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, palm",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "cottonseed oil",
+          "cooking cottonseed oil",
+          "salad cottonseed oil",
+          "refined cottonseed oil",
+          "vegetable cottonseed oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Cottonseed oil is a neutral vegetable oil used for frying and baking. This USDA row reflects oil values per 100 g.",
+        "display_name": "Cottonseed Oil",
+        "fdc_id": 171024,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, cottonseed, salad or cooking",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "grapeseed oil",
+          "grape seed oil",
+          "light cooking oil",
+          "high-heat grapeseed oil",
+          "salad grapeseed oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "Grapeseed oil is a light neutral oil used for sauteing, roasting, and dressings. This USDA row reflects oil values per 100 g.",
+        "display_name": "Grapeseed Oil",
+        "fdc_id": 171028,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, grapeseed",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "apricot kernel oil",
+          "apricot seed oil",
+          "light apricot oil",
+          "cooking apricot oil",
+          "kernel oil apricot"
+        ],
+        "category_label": "oil_fat",
+        "description": "Apricot kernel oil is a mild oil used in dressings and specialty cooking applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "Apricot Kernel Oil",
+        "fdc_id": 171032,
+        "macros": {
+          "calories": 884.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, apricot kernel",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "high-oleic canola oil",
+          "industrial canola oil",
+          "canola oil high stability",
+          "oleic canola oil",
+          "processing canola oil"
+        ],
+        "category_label": "oil_fat",
+        "description": "High-oleic industrial canola oil is a stable oil used for frying and food processing applications. This USDA row reflects oil values per 100 g.",
+        "display_name": "High-Oleic Canola Oil (Industrial)",
+        "fdc_id": 171042,
+        "macros": {
+          "calories": 900.0,
+          "carbs_g": 0.0,
+          "fat_g": 100.0,
+          "fiber_g": 0.0,
+          "protein_g": 0.0,
+          "sodium_g": 0.0,
+          "sugar_g": 0.0
+        },
+        "source_description": "Oil, industrial, canola, high oleic",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Fats and Oils",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "oil_fat",
+        "sprite_key": "oil"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "roasted duck leg",
+          "duck roast meat and skin",
+          "cooked duck leg",
+          "pekin duck leg roasted",
+          "roast duck leg"
+        ],
+        "category_label": "protein",
+        "description": "Roasted duck leg with skin is a rich poultry protein used in entrees and composed dishes. This USDA row reflects cooked values per 100 g.",
+        "display_name": "Duck Leg Roast (Roasted, Meat and Skin)",
+        "fdc_id": 171112,
+        "macros": {
+          "calories": 217.0,
+          "carbs_g": 0.0,
+          "fat_g": 11.4,
+          "fiber_g": 0.0,
+          "protein_g": 26.75,
+          "sodium_g": 0.11,
+          "sugar_g": 0.0
+        },
+        "source_description": "Duck, young duckling, domesticated, White Pekin, leg, meat and skin, bone in, cooked, roasted",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "duck"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "ground chicken",
+          "raw ground chicken",
+          "minced chicken",
+          "chicken mince",
+          "ground poultry chicken"
+        ],
+        "category_label": "protein",
+        "description": "Raw ground chicken is used in meatballs, patties, stir-fries, and dumpling fillings. This USDA row reflects raw ground poultry values per 100 g.",
+        "display_name": "Ground Chicken (Raw)",
+        "fdc_id": 171116,
+        "macros": {
+          "calories": 143.0,
+          "carbs_g": 0.04,
+          "fat_g": 8.1,
+          "fiber_g": 0.0,
+          "protein_g": 17.44,
+          "sodium_g": 0.06,
+          "sugar_g": 0.0
+        },
+        "source_description": "Chicken, ground, raw",
+        "source_meta": {
+          "data_type": "SR Legacy",
+          "food_category": "Poultry Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "chicken"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "heavy cream",
+          "heavy whipping cream",
+          "double cream",
+          "thick cream",
+          "cream heavy"
+        ],
+        "category_label": "dairy_egg",
+        "description": "Heavy cream is a high-fat dairy ingredient used for sauces, soups, desserts, and whipping. This USDA row reflects cream values per 100 g.",
+        "display_name": "Heavy Cream",
+        "fdc_id": 2346386,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 3.7995,
+          "fat_g": 35.56,
+          "fiber_g": 0.0,
+          "protein_g": 2.018,
+          "sodium_g": 0.0206,
+          "sugar_g": 0.0
+        },
+        "source_description": "Cream, heavy",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Dairy and Egg Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "dairy_egg",
+        "sprite_key": "cream"
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "manual pass batch 021: curated aliases/descriptions/display names; macros unchanged",
+      "row": {
+        "alt_names": [
+          "anchovies",
+          "canned anchovies",
+          "anchovy fillets in oil",
+          "salted anchovies",
+          "anchovy fish"
+        ],
+        "category_label": "protein",
+        "description": "Canned anchovies in olive oil are salty umami fish used in sauces, dressings, and pasta dishes. This USDA row reflects drained canned values per 100 g.",
+        "display_name": "Anchovies (Canned in Olive Oil)",
+        "fdc_id": 2747652,
+        "macros": {
+          "calories": 0.0,
+          "carbs_g": 2.4095,
+          "fat_g": 9.853,
+          "fiber_g": 0.0,
+          "protein_g": 26.9375,
+          "sodium_g": 5.403,
+          "sugar_g": 0.0
+        },
+        "source_description": "Anchovies, canned in olive oil, with salt, drained",
+        "source_meta": {
+          "data_type": "Foundation",
+          "food_category": "Finfish and Shellfish Products",
+          "verification_source": "USDA FoodData Central API",
+          "verified_at_utc": "2026-02-11T22:06:02Z"
+        },
+        "sprite_group": "protein",
+        "sprite_key": "fish"
+      }
+    }
+  ]
+}

@@ -1,106 +1,96 @@
-# Data Scripts
+# USDA Data Pipeline v2
 
-## USDA ingredient nutrition collector
+This pipeline is JSON-canonical and non-circular:
 
-Script: `scripts/data/fetch_usda_ingredient_nutrition.py`
+1. Curate ingredients in a tracked canonical JSON file.
+2. Build app SQLite deterministically from that canonical file.
+3. Keep USDA fetch/cache artifacts in `.cache` only.
 
-This collector uses the official USDA FoodData Central API to gather nutrition data for the app's bundled ingredient list (`FridgeLuck.swiftpm/Resources/data.json`), then outputs a compact USDA-shaped nutrition dataset.
+## Canonical Files
 
-### Prerequisite
+- Canonical catalog: `scripts/data/catalog/usda_curated_ingredients.json`
+- Review batches: `scripts/data/review_batches/manual_batch_*.json`
+- Generated SQLite: `FridgeLuck.swiftpm/Resources/usda_ingredient_catalog.sqlite`
+- HTTP cache DB: `scripts/data/.cache/usda_http_cache.sqlite`
 
-Install the USDA client in a virtual environment:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install usda-fdc
-```
-
-### Usage
+## Setup (uv)
 
 ```bash
-export USDA_FDC_API_KEY="<your_key>"
-python3 scripts/data/fetch_usda_ingredient_nutrition.py
+cd scripts/data
+uv sync
 ```
 
-Optional flags:
+## Commands
+
+### 1) Bootstrap canonical from existing clean JSON (one-time)
 
 ```bash
-python3 scripts/data/fetch_usda_ingredient_nutrition.py \
-  --ingredient-limit 20 \
-  --max-candidates 12 \
-  --delay-sec 0.15 \
-  --parallelism 6 \
-  --cache-file scripts/data/.cache/usda_fdc_response_cache.json \
-  --catalog-file scripts/data/.cache/usda_common_food_catalog.json \
-  --catalog-target 1500 \
-  --catalog-max-pages 25 \
-  --out FridgeLuck.swiftpm/Resources/usda_ingredient_nutrition_compact.json
+uv run usda bootstrap-canonical \
+  --from-clean .cache/usda_cooking_ingredient_catalog_clean.json \
+  --canonical catalog/usda_curated_ingredients.json
 ```
 
-Fast full refresh (recommended):
+### 2) Fetch USDA candidates (async + bounded concurrency)
 
 ```bash
-python3 scripts/data/fetch_usda_ingredient_nutrition.py \
-  --parallelism 8 \
-  --delay-sec 0.1 \
-  --cache-file scripts/data/.cache/usda_fdc_response_cache.json \
-  --catalog-file scripts/data/.cache/usda_common_food_catalog.json \
-  --catalog-target 1500 \
-  --catalog-refresh
+set -a; source ../../.env; set +a
+uv run usda fetch-candidates \
+  --query-file .cache/missing_terms.txt \
+  --out .cache/candidates/run_001.json
 ```
 
-Generate Swift static data:
+### 3) Export 50-row editable batch
 
 ```bash
-python3 scripts/data/generate_usda_ingredient_swift_static.py \
-  --in-json FridgeLuck.swiftpm/Resources/usda_ingredient_nutrition_compact.json \
-  --out-swift FridgeLuck.swiftpm/Data/Static/USDAIngredientNutritionStaticData.swift
+uv run usda export-batch \
+  --batch-id 1 \
+  --batch-size 50 \
+  --candidates .cache/candidates/run_001.json \
+  --out review_batches/manual_batch_001.json
 ```
 
-Notes:
-- The collector is intentionally conservative: low-confidence USDA matches fall back to existing bundled values.
-- `matched_count` in the output indicates how many ingredients were confidently matched.
-- Bootstraps a large USDA catalog first (default 1500 rows from `foods/list`) and uses USDA-native labels (`dataType`, `foodCode`) during matching.
-- Uses the large catalog for primary matching, then targeted USDA search/detail fallback for misses.
-- Stores API search/detail responses in an on-disk cache to dramatically speed reruns.
-
-## USDA cooking-ingredient curation + SQLite export
-
-Script: `scripts/data/build_usda_catalog_sqlite.py`
-
-Purpose:
-- Repairs/rehydrates macro fields from USDA detail endpoints.
-- Filters out non-home-cooking entries (prepared/commercial categories and noisy rows).
-- Keeps only meaningful columns for app usage.
-- Exports both clean JSON and SQLite.
-- Generates a markdown visualization report for quick QA.
-
-Run:
+### 4) Promote edited batch into canonical JSON
 
 ```bash
-export USDA_FDC_API_KEY="<your_key>"
-python3 scripts/data/build_usda_catalog_sqlite.py \
-  --in-catalog scripts/data/.cache/usda_common_food_catalog.json \
-  --out-json scripts/data/.cache/usda_cooking_ingredient_catalog_clean.json \
-  --out-sqlite FridgeLuck.swiftpm/Resources/usda_ingredient_catalog.sqlite \
-  --out-report scripts/data/.cache/usda_cooking_ingredient_catalog_report.md
+uv run usda promote-batch \
+  --in review_batches/manual_batch_001.json \
+  --canonical catalog/usda_curated_ingredients.json
 ```
 
-Outputs:
-- Clean JSON: `scripts/data/.cache/usda_cooking_ingredient_catalog_clean.json`
-- App-usable SQLite: `FridgeLuck.swiftpm/Resources/usda_ingredient_catalog.sqlite`
-- Visualization report: `scripts/data/.cache/usda_cooking_ingredient_catalog_report.md`
+### 5) Validate canonical data
 
-### Ethical collection notes
+```bash
+uv run usda validate --canonical catalog/usda_curated_ingredients.json
+```
 
-- Uses API access instead of scraping HTML pages.
-- Uses a descriptive `User-Agent`.
-- Includes a request delay for polite usage.
-- Keeps source attribution in output records.
+### 6) Build app SQLite
 
-### Sources
+```bash
+uv run usda build-sqlite \
+  --canonical catalog/usda_curated_ingredients.json \
+  --out ../../FridgeLuck.swiftpm/Resources/usda_ingredient_catalog.sqlite
+```
 
-- USDA FoodData Central API Guide: <https://fdc.nal.usda.gov/api-guide>
-- USDA FoodData Central Download Data: <https://fdc.nal.usda.gov/download-datasets>
-- USDA Food Data Central Python Client docs: <https://usda-fdc.readthedocs.io/en/latest/>
+### 7) Generate report
+
+```bash
+uv run usda report \
+  --canonical catalog/usda_curated_ingredients.json \
+  --out .cache/usda_pipeline_report.md
+```
+
+## Macro Freeze Policy
+
+- Macro fields (`calories`, `protein_g`, `carbs_g`, `fat_g`, `fiber_g`, `sugar_g`, `sodium_g`) are immutable for existing `fdc_id` rows.
+- New rows must include USDA provenance in `source_meta.verification_source`.
+- Aliases, category labels, sprite metadata, and descriptions are editable via review batches.
+
+## Deprecated Wrappers
+
+Legacy scripts still exist as wrappers and print deprecation notices:
+
+- `scripts/data/backfill_usda_common_ingredients.py`
+- `scripts/data/build_usda_catalog_sqlite.py`
+- `scripts/data/generate_usda_override_candidates.py`
+
+Use `uv run usda ...` directly for all new work.
