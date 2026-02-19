@@ -85,12 +85,4 @@ uv run usda report \
 - New rows must include USDA provenance in `source_meta.verification_source`.
 - Aliases, category labels, sprite metadata, and descriptions are editable via review batches.
 
-## Deprecated Wrappers
-
-Legacy scripts still exist as wrappers and print deprecation notices:
-
-- `scripts/data/backfill_usda_common_ingredients.py`
-- `scripts/data/build_usda_catalog_sqlite.py`
-- `scripts/data/generate_usda_override_candidates.py`
-
-Use `uv run usda ...` directly for all new work.
+Use `uv run usda ...` directly for all USDA data workflow steps.
