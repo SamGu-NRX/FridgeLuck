@@ -79,7 +79,21 @@ struct HealthProfile: Sendable, Codable {
   }
 }
 
-extension HealthProfile: FetchableRecord, PersistableRecord, TableRecord {
+extension HealthProfile {
+  enum CodingKeys: String, CodingKey {
+    case id
+    case goal
+    case dailyCalories = "daily_calories"
+    case proteinPct = "protein_pct"
+    case carbsPct = "carbs_pct"
+    case fatPct = "fat_pct"
+    case dietaryRestrictions = "dietary_restrictions"
+    case allergenIngredientIds = "allergen_ingredient_ids"
+    case updatedAt = "updated_at"
+  }
+}
+
+extension HealthProfile: FetchableRecord, MutablePersistableRecord, TableRecord {
   static let databaseTableName = "health_profile"
 
   enum Columns: String, ColumnExpression {
@@ -91,5 +105,17 @@ extension HealthProfile: FetchableRecord, PersistableRecord, TableRecord {
     case dietaryRestrictions = "dietary_restrictions"
     case allergenIngredientIds = "allergen_ingredient_ids"
     case updatedAt = "updated_at"
+  }
+
+  func encode(to container: inout PersistenceContainer) {
+    container[Columns.id] = id
+    container[Columns.goal] = goal
+    container[Columns.dailyCalories] = dailyCalories
+    container[Columns.proteinPct] = proteinPct
+    container[Columns.carbsPct] = carbsPct
+    container[Columns.fatPct] = fatPct
+    container[Columns.dietaryRestrictions] = dietaryRestrictions
+    container[Columns.allergenIngredientIds] = allergenIngredientIds
+    container[Columns.updatedAt] = updatedAt ?? Date()
   }
 }

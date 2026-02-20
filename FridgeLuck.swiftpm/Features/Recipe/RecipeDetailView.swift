@@ -3,29 +3,42 @@ import SwiftUI
 /// Full recipe detail: instructions, ingredients with quantities, macro breakdown, health score.
 struct RecipeDetailView: View {
   @EnvironmentObject var deps: AppDependencies
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   let scoredRecipe: ScoredRecipe
 
   @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
   @State private var showCookedConfirmation = false
   @State private var selectedIngredientForDetail: Ingredient?
+  @State private var completedSteps: Set<Int> = []
 
   private var recipe: Recipe { scoredRecipe.recipe }
   private var macros: RecipeMacros { scoredRecipe.macros }
+  private var instructionSteps: [String] {
+    recipe.instructions
+      .components(separatedBy: "\n")
+      .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+      .filter { !$0.isEmpty }
+  }
 
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: 24) {
-        headerSection
+      VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+        heroSection
         healthSection
         macroSection
         ingredientSection
         instructionSection
-        cookButton
       }
-      .padding()
+      .padding(.horizontal, AppTheme.Space.md)
+      .padding(.top, AppTheme.Space.md)
+      .padding(.bottom, AppTheme.Space.xl)
     }
     .navigationTitle(recipe.title)
     .navigationBarTitleDisplayMode(.inline)
+    .flPageBackground()
+    .safeAreaInset(edge: .bottom) {
+      cookActionBar
+    }
     .alert("Mark as Cooked?", isPresented: $showCookedConfirmation) {
       Button("Yes") { markAsCooked() }
       Button("Cancel", role: .cancel) {}
@@ -40,33 +53,39 @@ struct RecipeDetailView: View {
     }
   }
 
-  // MARK: - Header
+  // MARK: - Hero
 
-  private var headerSection: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      HStack {
-        Label("\(recipe.timeMinutes) min", systemImage: "clock")
-        Label("\(recipe.servings) serving\(recipe.servings > 1 ? "s" : "")", systemImage: "person")
-        Spacer()
-        if recipe.source == .aiGenerated {
-          Label("AI", systemImage: "sparkles")
-            .font(.caption.bold())
-            .foregroundStyle(.purple)
+  private var heroSection: some View {
+    FLCard(tone: .warm) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack(alignment: .top) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+            Text(recipe.title)
+              .font(.title2.bold())
+              .foregroundStyle(AppTheme.textPrimary)
+            Text(
+              "\(recipe.timeMinutes) min · \(recipe.servings) serving\(recipe.servings > 1 ? "s" : "")"
+            )
+            .font(.subheadline)
+            .foregroundStyle(AppTheme.textSecondary)
+          }
+
+          Spacer()
+
+          if recipe.source == .aiGenerated {
+            FLStatusPill(text: "AI", kind: .neutral)
+          }
         }
-      }
-      .font(.subheadline)
-      .foregroundStyle(.secondary)
 
-      // Tags
-      if !recipe.recipeTags.labels.isEmpty {
-        FlowLayout(spacing: 6) {
-          ForEach(recipe.recipeTags.labels, id: \.self) { tag in
-            Text(tag.replacingOccurrences(of: "_", with: " "))
-              .font(.caption2)
-              .padding(.horizontal, 8)
-              .padding(.vertical, 4)
-              .background(.yellow.opacity(0.15))
-              .clipShape(Capsule())
+        if !recipe.recipeTags.labels.isEmpty {
+          FlowLayout(spacing: AppTheme.Space.xs) {
+            ForEach(recipe.recipeTags.labels, id: \.self) { tag in
+              Text(tag.replacingOccurrences(of: "_", with: " "))
+                .font(.caption2)
+                .padding(.horizontal, AppTheme.Space.sm)
+                .padding(.vertical, AppTheme.Space.xs)
+                .background(AppTheme.surface, in: Capsule())
+            }
           }
         }
       }
@@ -76,85 +95,76 @@ struct RecipeDetailView: View {
   // MARK: - Health Score
 
   private var healthSection: some View {
-    HStack {
-      VStack(alignment: .leading, spacing: 4) {
-        HStack(spacing: 4) {
+    FLCard {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader(
+          "Health Signal", subtitle: scoredRecipe.healthScore.reasoning, icon: "heart.text.square")
+
+        HStack(spacing: AppTheme.Space.xs) {
           ForEach(1...5, id: \.self) { star in
             Image(systemName: star <= scoredRecipe.healthScore.rating ? "star.fill" : "star")
               .foregroundStyle(
-                star <= scoredRecipe.healthScore.rating ? .yellow : .gray.opacity(0.3))
+                star <= scoredRecipe.healthScore.rating
+                  ? AppTheme.accent : AppTheme.neutral.opacity(0.4))
           }
           Text(scoredRecipe.healthScore.label)
             .font(.subheadline.bold())
+            .foregroundStyle(AppTheme.textPrimary)
         }
-        Text(scoredRecipe.healthScore.reasoning)
-          .font(.caption)
-          .foregroundStyle(.secondary)
       }
-      Spacer()
     }
-    .padding()
-    .background(
-      RoundedRectangle(cornerRadius: 12)
-        .fill(.yellow.opacity(0.05))
-    )
-    .overlay(
-      RoundedRectangle(cornerRadius: 12)
-        .stroke(.yellow.opacity(0.2), lineWidth: 1)
-    )
   }
 
   // MARK: - Macros
 
   private var macroSection: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      Text("Nutrition (per serving)")
-        .font(.headline)
+    FLCard {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader("Nutrition", subtitle: "Per serving", icon: "chart.bar")
 
-      HStack(spacing: 0) {
-        macroCard(
-          "Calories", value: "\(Int(macros.caloriesPerServing))", unit: "kcal", color: .orange)
-        macroCard("Protein", value: "\(Int(macros.proteinPerServing))", unit: "g", color: .blue)
-        macroCard("Carbs", value: "\(Int(macros.carbsPerServing))", unit: "g", color: .green)
-        macroCard("Fat", value: "\(Int(macros.fatPerServing))", unit: "g", color: .red)
+        HStack(spacing: AppTheme.Space.sm) {
+          macroCell(
+            "Calories", value: "\(Int(macros.caloriesPerServing))", unit: "kcal", color: .orange)
+          macroCell("Protein", value: "\(Int(macros.proteinPerServing))", unit: "g", color: .blue)
+          macroCell("Carbs", value: "\(Int(macros.carbsPerServing))", unit: "g", color: .green)
+          macroCell("Fat", value: "\(Int(macros.fatPerServing))", unit: "g", color: .red)
+        }
+
+        HStack(spacing: AppTheme.Space.md) {
+          miniNutrient("Fiber", value: String(format: "%.1fg", macros.fiberPerServing))
+          miniNutrient("Sugar", value: String(format: "%.1fg", macros.sugarPerServing))
+          miniNutrient("Sodium", value: "\(Int(macros.sodiumPerServing))mg")
+          Spacer()
+        }
+
+        macroSplitBar
       }
-
-      // Additional nutrients
-      HStack(spacing: 16) {
-        miniNutrient("Fiber", value: String(format: "%.1fg", macros.fiberPerServing))
-        miniNutrient("Sugar", value: String(format: "%.1fg", macros.sugarPerServing))
-        miniNutrient("Sodium", value: "\(Int(macros.sodiumPerServing))mg")
-        Spacer()
-      }
-      .padding(.top, 4)
-
-      // Macro split bar
-      macroSplitBar
     }
   }
 
-  private func macroCard(_ label: String, value: String, unit: String, color: Color) -> some View {
-    VStack(spacing: 4) {
+  private func macroCell(_ label: String, value: String, unit: String, color: Color) -> some View {
+    VStack(spacing: AppTheme.Space.xxs) {
       Text(value)
-        .font(.title2.bold())
+        .font(.title3.bold())
         .foregroundStyle(color)
       Text(unit)
         .font(.caption2)
-        .foregroundStyle(.secondary)
+        .foregroundStyle(AppTheme.textSecondary)
       Text(label)
         .font(.caption)
-        .foregroundStyle(.secondary)
+        .foregroundStyle(AppTheme.textSecondary)
     }
     .frame(maxWidth: .infinity)
   }
 
   private func miniNutrient(_ label: String, value: String) -> some View {
-    VStack(alignment: .leading, spacing: 2) {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
       Text(value)
         .font(.caption.bold())
+        .foregroundStyle(AppTheme.textPrimary)
       Text(label)
         .font(.caption2)
-        .foregroundStyle(.secondary)
+        .foregroundStyle(AppTheme.textSecondary)
     }
   }
 
@@ -180,27 +190,33 @@ struct RecipeDetailView: View {
   // MARK: - Ingredients
 
   private var ingredientSection: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      Text("Ingredients")
-        .font(.headline)
+    FLCard {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader(
+          "Ingredients", subtitle: "Tap any ingredient for details", icon: "carrot.fill")
 
-      let required = ingredients.filter { $0.quantity.isRequired }
-      let optional = ingredients.filter { !$0.quantity.isRequired }
+        let required = ingredients.filter { $0.quantity.isRequired }
+        let optional = ingredients.filter { !$0.quantity.isRequired }
 
-      if !required.isEmpty {
-        ForEach(required, id: \.ingredient.id) { item in
-          ingredientRow(item.ingredient, quantity: item.quantity, isRequired: true)
+        if !required.isEmpty {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+            ForEach(required, id: \.ingredient.id) { item in
+              ingredientRow(item.ingredient, quantity: item.quantity, isRequired: true)
+            }
+          }
         }
-      }
 
-      if !optional.isEmpty {
-        Text("Optional")
-          .font(.subheadline)
-          .foregroundStyle(.secondary)
-          .padding(.top, 4)
+        if !optional.isEmpty {
+          Text("Optional")
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(AppTheme.textSecondary)
+            .padding(.top, AppTheme.Space.xs)
 
-        ForEach(optional, id: \.ingredient.id) { item in
-          ingredientRow(item.ingredient, quantity: item.quantity, isRequired: false)
+          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+            ForEach(optional, id: \.ingredient.id) { item in
+              ingredientRow(item.ingredient, quantity: item.quantity, isRequired: false)
+            }
+          }
         }
       }
     }
@@ -212,17 +228,25 @@ struct RecipeDetailView: View {
     Button {
       selectedIngredientForDetail = ingredient
     } label: {
-      HStack {
+      HStack(spacing: AppTheme.Space.sm) {
         Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
-          .foregroundStyle(isRequired ? .green : .secondary)
+          .foregroundStyle(isRequired ? AppTheme.positive : AppTheme.textSecondary)
           .font(.caption)
+
         Text(ingredient.displayName)
+          .font(.subheadline)
+          .foregroundStyle(AppTheme.textPrimary)
+
         Spacer()
+
         Text(quantity.displayQuantity)
           .font(.subheadline)
-          .foregroundStyle(.secondary)
+          .foregroundStyle(AppTheme.textSecondary)
       }
-      .padding(.vertical, 2)
+      .padding(.horizontal, AppTheme.Space.xs)
+      .padding(.vertical, AppTheme.Space.xs)
+      .background(
+        AppTheme.surfaceMuted.opacity(0.4), in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm))
     }
     .buttonStyle(.plain)
   }
@@ -230,37 +254,75 @@ struct RecipeDetailView: View {
   // MARK: - Instructions
 
   private var instructionSection: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      Text("Instructions")
-        .font(.headline)
+    FLCard {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader(
+          "Instructions",
+          subtitle: "\(completedSteps.count)/\(max(1, instructionSteps.count)) completed",
+          icon: "list.number"
+        )
 
-      let steps = recipe.instructions.components(separatedBy: "\n")
-      ForEach(Array(steps.enumerated()), id: \.offset) { _, step in
-        let trimmed = step.trimmingCharacters(in: .whitespaces)
-        if !trimmed.isEmpty {
-          Text(trimmed)
-            .font(.body)
-            .padding(.vertical, 2)
+        GeometryReader { geo in
+          ZStack(alignment: .leading) {
+            Capsule()
+              .fill(AppTheme.textSecondary.opacity(0.16))
+            Capsule()
+              .fill(AppTheme.accent)
+              .frame(width: geo.size.width * instructionProgress)
+          }
+        }
+        .frame(height: 7)
+
+        ForEach(Array(instructionSteps.enumerated()), id: \.offset) { index, step in
+          Button {
+            toggleStep(index)
+          } label: {
+            HStack(alignment: .top, spacing: AppTheme.Space.sm) {
+              Image(systemName: completedSteps.contains(index) ? "checkmark.circle.fill" : "circle")
+                .foregroundStyle(
+                  completedSteps.contains(index) ? AppTheme.positive : AppTheme.textSecondary
+                )
+                .font(.subheadline)
+
+              VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+                Text("Step \(index + 1)")
+                  .font(.caption.weight(.semibold))
+                  .foregroundStyle(AppTheme.textSecondary)
+                Text(step)
+                  .font(.body)
+                  .foregroundStyle(AppTheme.textPrimary)
+                  .frame(maxWidth: .infinity, alignment: .leading)
+              }
+
+              if completedSteps.contains(index) {
+                Image(systemName: "checkmark")
+                  .font(.caption.bold())
+                  .foregroundStyle(AppTheme.positive)
+              }
+            }
+            .padding(AppTheme.Space.sm)
+            .background(
+              completedSteps.contains(index)
+                ? AppTheme.positive.opacity(0.1) : AppTheme.surfaceMuted.opacity(0.4),
+              in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm)
+            )
+          }
+          .buttonStyle(.plain)
         }
       }
     }
   }
 
-  // MARK: - Cook Button
+  // MARK: - Cook CTA
 
-  private var cookButton: some View {
-    Button {
-      showCookedConfirmation = true
-    } label: {
-      Label("I Made This!", systemImage: "frying.pan.fill")
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background(.yellow)
-        .foregroundStyle(.black)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .font(.headline)
+  private var cookActionBar: some View {
+    FLActionBar {
+      FLPrimaryButton("I Made This", systemImage: "frying.pan.fill") {
+        showCookedConfirmation = true
+      }
+      .padding(.horizontal, AppTheme.Space.md)
+      .padding(.bottom, AppTheme.Space.md)
     }
-    .padding(.top, 8)
   }
 
   // MARK: - Actions
@@ -273,5 +335,20 @@ struct RecipeDetailView: View {
   private func markAsCooked() {
     guard let recipeId = recipe.id else { return }
     try? deps.personalizationService.recordCooking(recipeId: recipeId)
+  }
+
+  private var instructionProgress: Double {
+    guard !instructionSteps.isEmpty else { return 0 }
+    return Double(completedSteps.count) / Double(instructionSteps.count)
+  }
+
+  private func toggleStep(_ index: Int) {
+    withAnimation(reduceMotion ? nil : AppMotion.quick) {
+      if completedSteps.contains(index) {
+        completedSteps.remove(index)
+      } else {
+        completedSteps.insert(index)
+      }
+    }
   }
 }

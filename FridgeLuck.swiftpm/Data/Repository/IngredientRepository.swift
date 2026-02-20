@@ -28,8 +28,8 @@ final class IngredientRepository: Sendable {
     let lowered = query.lowercased()
     let like = "%\(lowered)%"
     let prefix = "\(lowered)%"
-    try db.read { db in
-      try Ingredient.fetchAll(
+    return try db.read { db in
+      return try Ingredient.fetchAll(
         db,
         sql: """
             SELECT DISTINCT i.*
@@ -64,6 +64,22 @@ final class IngredientRepository: Sendable {
   func count() throws -> Int {
     try db.read { db in
       try Ingredient.fetchCount(db)
+    }
+  }
+
+  /// Fetch normalized aliases for a given ingredient ID.
+  func aliases(for ingredientID: Int64) throws -> [String] {
+    try db.read { db in
+      try String.fetchAll(
+        db,
+        sql: """
+          SELECT alias
+          FROM ingredient_aliases
+          WHERE ingredient_id = ?
+          ORDER BY alias
+          """,
+        arguments: [ingredientID]
+      )
     }
   }
 }

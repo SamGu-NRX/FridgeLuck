@@ -2,9 +2,12 @@ import SwiftUI
 
 /// Shows recipe recommendations based on the user's available ingredients.
 struct RecipeResultsView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   let ingredientIds: Set<Int64>
 
   @StateObject private var engine: RecommendationEngine
+  @Namespace private var transitionNamespace
+  @State private var revealedCount: Int = 0
 
   init(ingredientIds: Set<Int64>, engine: RecommendationEngine) {
     self.ingredientIds = ingredientIds
@@ -13,7 +16,9 @@ struct RecipeResultsView: View {
 
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: 20) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+        contextSection
+
         if engine.isLoading {
           loadingView
         } else if engine.recommendations.isEmpty {
@@ -25,83 +30,162 @@ struct RecipeResultsView: View {
           allResultsSection
         }
       }
-      .padding()
+      .padding(.horizontal, AppTheme.Space.md)
+      .padding(.vertical, AppTheme.Space.md)
     }
     .navigationTitle("Recipes")
-    .navigationBarTitleDisplayMode(.large)
+    .navigationBarTitleDisplayMode(.inline)
+    .flPageBackground()
     .task {
       await engine.findRecipes(for: ingredientIds)
+      await revealRecommendationsIfNeeded()
     }
+    .onChange(of: engine.recommendations.count) { _, _ in
+      Task { await revealRecommendationsIfNeeded() }
+    }
+  }
+
+  // MARK: - Header Context
+
+  private var contextSection: some View {
+    FLCard(tone: .warm) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        FLSectionHeader(
+          "Based on \(ingredientIds.count) ingredient\(ingredientIds.count == 1 ? "" : "s")",
+          subtitle: "Matches prioritize complete required ingredients first.",
+          icon: "fork.knife.circle.fill"
+        )
+
+        if !engine.recommendations.isEmpty {
+          HStack(spacing: AppTheme.Space.sm) {
+            statusChip(label: "\(engine.recommendations.count) matches", icon: "list.bullet")
+            if let quick = engine.quickSuggestion {
+              statusChip(label: "Quick pick: \(quick.recipe.timeMinutes)m", icon: "bolt.fill")
+            }
+            statusChip(label: "Tap any card for full steps", icon: "hand.tap")
+          }
+        }
+      }
+    }
+  }
+
+  private func statusChip(label: String, icon: String) -> some View {
+    HStack(spacing: AppTheme.Space.xxs) {
+      Image(systemName: icon)
+      Text(label)
+    }
+    .font(.caption.weight(.semibold))
+    .foregroundStyle(AppTheme.textSecondary)
+    .padding(.horizontal, AppTheme.Space.sm)
+    .padding(.vertical, AppTheme.Space.xs)
+    .background(AppTheme.surface, in: Capsule())
   }
 
   // MARK: - Loading
 
   private var loadingView: some View {
-    VStack(spacing: 16) {
-      Spacer(minLength: 100)
-      ProgressView()
-        .controlSize(.large)
-      Text("Finding recipes...")
-        .font(.headline)
-        .foregroundStyle(.secondary)
-      Spacer()
+    FLCard {
+      VStack(spacing: AppTheme.Space.md) {
+        ProgressView()
+          .controlSize(.large)
+        Text("Finding recipes...")
+          .font(.headline)
+          .foregroundStyle(AppTheme.textPrimary)
+        Text("Scoring by ingredient match, nutrition profile, and personalization.")
+          .font(.subheadline)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
+      }
+      .frame(maxWidth: .infinity)
+      .padding(.vertical, AppTheme.Space.xl)
     }
-    .frame(maxWidth: .infinity)
   }
 
   // MARK: - Empty
 
   private var emptyView: some View {
-    VStack(spacing: 16) {
-      Spacer(minLength: 80)
-      Image(systemName: "tray.fill")
-        .font(.system(size: 48))
-        .foregroundStyle(.secondary)
-      Text("No recipes found")
-        .font(.title3.bold())
-      if let error = engine.error {
-        Text(error.localizedDescription)
-          .font(.subheadline)
-          .foregroundStyle(.secondary)
-          .multilineTextAlignment(.center)
-      } else {
-        Text("Try adding more ingredients\nor scan another photo.")
-          .font(.subheadline)
-          .foregroundStyle(.secondary)
-          .multilineTextAlignment(.center)
+    FLEmptyState(
+      title: "No recipe matches yet",
+      message: engine.error?.localizedDescription
+        ?? "Try confirming a few more ingredients or run another scan.",
+      systemImage: "tray.fill",
+      actionTitle: "Retry Search",
+      action: {
+        Task { await engine.findRecipes(for: ingredientIds) }
       }
-      Spacer()
-    }
-    .frame(maxWidth: .infinity)
+    )
   }
 
   // MARK: - Quick Pick
 
   private func quickPickSection(_ recipe: ScoredRecipe) -> some View {
-    VStack(alignment: .leading, spacing: 12) {
-      Label("Quick Pick", systemImage: "bolt.fill")
-        .font(.headline)
-        .foregroundStyle(.yellow)
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      FLSectionHeader(
+        "Quick Pick",
+        subtitle: "Fastest high-quality match right now",
+        icon: "bolt.fill"
+      )
 
-      NavigationLink(destination: RecipeDetailView(scoredRecipe: recipe)) {
-        RecipeCard(scoredRecipe: recipe, isHighlighted: true)
-      }
-      .buttonStyle(.plain)
+      recipeLink(for: recipe, highlighted: true)
     }
   }
 
   // MARK: - All Results
 
   private var allResultsSection: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      Text("All Matches (\(engine.recommendations.count))")
-        .font(.headline)
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      FLSectionHeader(
+        "All Matches (\(engine.recommendations.count))",
+        subtitle: "Sorted by combined quality and fit",
+        icon: "list.bullet.rectangle"
+      )
 
-      ForEach(engine.recommendations, id: \.recipe.id) { scored in
-        NavigationLink(destination: RecipeDetailView(scoredRecipe: scored)) {
-          RecipeCard(scoredRecipe: scored, isHighlighted: false)
-        }
-        .buttonStyle(.plain)
+      ForEach(Array(engine.recommendations.enumerated()), id: \.element.recipe.id) {
+        index, scored in
+        recipeLink(for: scored, highlighted: false)
+          .opacity(index <= revealedCount ? 1 : 0)
+          .offset(y: index <= revealedCount ? 0 : 12)
+          .animation(
+            reduceMotion ? nil : AppMotion.gentle.delay(Double(index) * AppMotion.staggerDelay),
+            value: revealedCount
+          )
+      }
+    }
+  }
+
+  private func recipeLink(for scored: ScoredRecipe, highlighted: Bool) -> some View {
+    NavigationLink {
+      RecipeDetailView(scoredRecipe: scored)
+        .navigationTransition(.zoom(sourceID: transitionID(for: scored), in: transitionNamespace))
+    } label: {
+      RecipeCard(scoredRecipe: scored, isHighlighted: highlighted)
+        .matchedTransitionSource(id: transitionID(for: scored), in: transitionNamespace)
+    }
+    .buttonStyle(.plain)
+  }
+
+  private func transitionID(for scored: ScoredRecipe) -> String {
+    let id = scored.recipe.id ?? -1
+    return "recipe-card-\(id)"
+  }
+
+  private func revealRecommendationsIfNeeded() async {
+    let total = engine.recommendations.count
+    guard total > 0 else {
+      revealedCount = 0
+      return
+    }
+
+    if reduceMotion {
+      revealedCount = total
+      return
+    }
+
+    revealedCount = 0
+    for index in 0..<total {
+      try? await Task.sleep(for: .milliseconds(35))
+      withAnimation(AppMotion.quick) {
+        revealedCount = index
       }
     }
   }
@@ -114,42 +198,53 @@ struct RecipeCard: View {
   let isHighlighted: Bool
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 10) {
-      // Title row
-      HStack {
-        Text(scoredRecipe.recipe.title)
-          .font(.headline)
-          .lineLimit(2)
-        Spacer()
-        HealthBadge(score: scoredRecipe.healthScore)
-      }
+    FLCard(tone: isHighlighted ? .warm : .normal) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack(alignment: .top, spacing: AppTheme.Space.sm) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+            Text(scoredRecipe.recipe.title)
+              .font(.headline)
+              .foregroundStyle(AppTheme.textPrimary)
+              .lineLimit(2)
 
-      // Meta row
-      HStack(spacing: 16) {
-        Label("\(scoredRecipe.recipe.timeMinutes) min", systemImage: "clock")
-        Label(
-          "\(scoredRecipe.recipe.servings) serving\(scoredRecipe.recipe.servings > 1 ? "s" : "")",
-          systemImage: "person")
-        Spacer()
-        Text(scoredRecipe.recipe.recipeTags.labels.prefix(2).joined(separator: ", "))
-          .font(.caption)
-          .foregroundStyle(.secondary)
-      }
-      .font(.caption)
-      .foregroundStyle(.secondary)
+            Text(
+              "\(scoredRecipe.matchedRequired)/\(scoredRecipe.totalRequired) required · \(scoredRecipe.matchedOptional) optional"
+            )
+            .font(.caption)
+            .foregroundStyle(AppTheme.textSecondary)
+          }
 
-      // Macros bar
-      MacroSummaryBar(macros: scoredRecipe.macros)
+          Spacer()
+
+          HealthBadge(score: scoredRecipe.healthScore)
+        }
+
+        HStack(spacing: AppTheme.Space.md) {
+          Label("\(scoredRecipe.recipe.timeMinutes) min", systemImage: "clock")
+          Label(
+            "\(scoredRecipe.recipe.servings) serving\(scoredRecipe.recipe.servings > 1 ? "s" : "")",
+            systemImage: "person"
+          )
+          Spacer()
+        }
+        .font(.caption)
+        .foregroundStyle(AppTheme.textSecondary)
+
+        if !scoredRecipe.recipe.recipeTags.labels.isEmpty {
+          FlowLayout(spacing: AppTheme.Space.xs) {
+            ForEach(Array(scoredRecipe.recipe.recipeTags.labels.prefix(3)), id: \.self) { tag in
+              Text(tag.replacingOccurrences(of: "_", with: " "))
+                .font(.caption2)
+                .padding(.horizontal, AppTheme.Space.sm)
+                .padding(.vertical, AppTheme.Space.xs)
+                .background(AppTheme.accent.opacity(0.14), in: Capsule())
+            }
+          }
+        }
+
+        MacroSummaryBar(macros: scoredRecipe.macros)
+      }
     }
-    .padding()
-    .background(
-      RoundedRectangle(cornerRadius: 14)
-        .fill(isHighlighted ? .yellow.opacity(0.08) : Color(.systemBackground))
-    )
-    .overlay(
-      RoundedRectangle(cornerRadius: 14)
-        .stroke(isHighlighted ? .yellow.opacity(0.4) : .gray.opacity(0.2), lineWidth: 1)
-    )
   }
 }
 
@@ -163,7 +258,7 @@ struct HealthBadge: View {
       ForEach(1...5, id: \.self) { star in
         Image(systemName: star <= score.rating ? "star.fill" : "star")
           .font(.system(size: 10))
-          .foregroundStyle(star <= score.rating ? .yellow : .gray.opacity(0.3))
+          .foregroundStyle(star <= score.rating ? AppTheme.accent : AppTheme.neutral.opacity(0.4))
       }
     }
   }
@@ -175,7 +270,7 @@ struct MacroSummaryBar: View {
   let macros: RecipeMacros
 
   var body: some View {
-    HStack(spacing: 12) {
+    HStack(spacing: AppTheme.Space.sm) {
       macroItem("Cal", value: "\(Int(macros.caloriesPerServing))", color: .orange)
       macroItem("P", value: "\(Int(macros.proteinPerServing))g", color: .blue)
       macroItem("C", value: "\(Int(macros.carbsPerServing))g", color: .green)
@@ -191,7 +286,7 @@ struct MacroSummaryBar: View {
         .frame(width: 6, height: 6)
       Text("\(label) \(value)")
         .font(.caption2)
-        .foregroundStyle(.secondary)
+        .foregroundStyle(AppTheme.textSecondary)
     }
   }
 }

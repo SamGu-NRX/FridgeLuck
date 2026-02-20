@@ -195,7 +195,11 @@ final class RecipeRepository: Sendable {
           typicalUnit: row["typical_unit"],
           storageTip: row["storage_tip"],
           pairsWith: row["pairs_with"],
-          notes: row["notes"]
+          notes: row["notes"],
+          description: row["description"],
+          categoryLabel: row["category_label"],
+          spriteGroup: row["sprite_group"],
+          spriteKey: row["sprite_key"]
         )
         let ri = RecipeIngredient(
           recipeId: row["recipe_id"],
