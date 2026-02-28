@@ -102,11 +102,11 @@ struct AllergenPickerView: View {
     VStack(spacing: AppTheme.Space.sm) {
       HStack {
         Text("Common Allergens")
-          .font(.headline)
+          .font(AppTheme.Typography.displayCaption)
           .foregroundStyle(AppTheme.textPrimary)
         Spacer()
         Text("\(selectedIDs.count) selected")
-          .font(.caption.weight(.semibold))
+          .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
       }
 
@@ -124,7 +124,7 @@ struct AllergenPickerView: View {
       )
       .overlay(
         RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-          .stroke(AppTheme.textSecondary.opacity(0.18), lineWidth: 1)
+          .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
       )
     }
     .padding(.horizontal, AppTheme.Space.md)
@@ -154,13 +154,13 @@ struct AllergenPickerView: View {
           } label: {
             HStack(spacing: AppTheme.Space.xs) {
               Image(systemName: group.systemImage)
-              VStack(alignment: .leading, spacing: 2) {
+              VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
                 Text(group.title)
-                  .font(.caption.weight(.semibold))
+                  .font(AppTheme.Typography.label)
                   .lineLimit(1)
                   .foregroundStyle(AppTheme.textPrimary)
                 Text(isSelected ? "\(selectedCount) selected" : group.subtitle)
-                  .font(.caption2)
+                  .font(AppTheme.Typography.labelSmall)
                   .lineLimit(2)
                   .multilineTextAlignment(.leading)
                   .foregroundStyle(AppTheme.textSecondary)
@@ -180,13 +180,13 @@ struct AllergenPickerView: View {
               maxHeight: Layout.groupChipHeight, alignment: .leading
             )
             .background(
-              isSelected ? AppTheme.accent.opacity(0.28) : AppTheme.surface,
+              isSelected ? AppTheme.accent.opacity(0.14) : AppTheme.surface,
               in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
             )
             .overlay(
               RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
                 .stroke(
-                  isSelected ? AppTheme.accent : AppTheme.textSecondary.opacity(0.16), lineWidth: 1)
+                  isSelected ? AppTheme.accent : AppTheme.oat.opacity(0.25), lineWidth: 1)
             )
             .opacity(ids.isEmpty ? 0.75 : 1)
             .contentShape(Rectangle())
@@ -210,7 +210,7 @@ struct AllergenPickerView: View {
           systemImage: showAllIngredients
             ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle"
         )
-        .font(.caption.weight(.semibold))
+        .font(AppTheme.Typography.label)
       }
       .buttonStyle(.plain)
 
@@ -228,11 +228,11 @@ struct AllergenPickerView: View {
     return VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
       HStack {
         Text(title)
-          .font(.subheadline.bold())
+          .font(.system(.subheadline, design: .serif, weight: .semibold))
           .foregroundStyle(AppTheme.textPrimary)
         Spacer()
         Text("\(items.count)")
-          .font(.caption)
+          .font(AppTheme.Typography.bodySmall)
           .foregroundStyle(AppTheme.textSecondary)
       }
 
@@ -254,14 +254,14 @@ struct AllergenPickerView: View {
     } label: {
       FLCard {
         HStack(spacing: AppTheme.Space.sm) {
-          VStack(alignment: .leading, spacing: 2) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
             Text(ingredient.displayName)
-              .font(.subheadline.weight(.semibold))
+              .font(.system(.subheadline, design: .serif, weight: .semibold))
               .foregroundStyle(AppTheme.textPrimary)
 
             if let category = ingredient.categoryLabel, !category.isEmpty {
               Text(category.replacingOccurrences(of: "_", with: " ").capitalized)
-                .font(.caption2)
+                .font(AppTheme.Typography.labelSmall)
                 .foregroundStyle(AppTheme.textSecondary)
             }
           }
