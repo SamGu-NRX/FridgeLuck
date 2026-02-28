@@ -20,82 +20,92 @@ struct PreparedDishEstimateView: View {
   }
 
   var body: some View {
-    List {
-      Section("Dish Template") {
-        if templates.isEmpty {
-          Text(loadError ?? "No templates available.")
-            .foregroundStyle(.secondary)
-        } else {
-          Picker(
-            "Dish",
-            selection: Binding(
-              get: { selectedTemplate?.id ?? templates.first?.id ?? 0 },
-              set: { selectedTemplateId = $0 }
-            )
-          ) {
-            ForEach(templates, id: \.id) { template in
-              Text(template.name).tag(template.id ?? 0)
+    ScrollView {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
+        // Dish template picker
+        VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+          FLSectionHeader("Dish Template", subtitle: "Choose a dish type", icon: "fork.knife")
+
+          if templates.isEmpty {
+            Text(loadError ?? "No templates available.")
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.textSecondary)
+          } else {
+            Picker(
+              "Dish",
+              selection: Binding(
+                get: { selectedTemplate?.id ?? templates.first?.id ?? 0 },
+                set: { selectedTemplateId = $0 }
+              )
+            ) {
+              ForEach(templates, id: \.id) { template in
+                Text(template.name).tag(template.id ?? 0)
+              }
+            }
+            .tint(AppTheme.accent)
+          }
+        }
+
+        FLWaveDivider()
+
+        // Portion size
+        VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+          FLSectionHeader("Portion Size", icon: "scalemass")
+
+          Picker("Size", selection: $portionSize) {
+            ForEach(DishPortionSize.allCases, id: \.self) { size in
+              Text(size.displayName).tag(size)
             }
           }
+          .pickerStyle(.segmented)
         }
-      }
 
-      Section("Portion Size") {
-        Picker("Size", selection: $portionSize) {
-          ForEach(DishPortionSize.allCases, id: \.self) { size in
-            Text(size.displayName).tag(size)
+        if let estimate {
+          FLWaveDivider()
+
+          // Nutrition range
+          VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+            FLSectionHeader(
+              "Estimated Nutrition", subtitle: "Approximate values", icon: "flame.fill")
+
+            VStack(spacing: AppTheme.Space.sm) {
+              estimateRow(
+                title: "Calories", range: estimate.calories, unit: "kcal",
+                color: AppTheme.accent)
+              estimateRow(
+                title: "Protein", range: estimate.protein, unit: "g", color: AppTheme.sage)
+              estimateRow(
+                title: "Carbs", range: estimate.carbs, unit: "g", color: AppTheme.oat)
+              estimateRow(
+                title: "Fat", range: estimate.fat, unit: "g", color: AppTheme.accentLight)
+            }
+          }
+
+          FLWaveDivider()
+
+          // Macro split
+          VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+            FLSectionHeader("Macro Split", icon: "chart.bar.fill")
+
+            macroSplitBar(estimate: estimate)
+              .frame(height: 10)
+
+            HStack(spacing: AppTheme.Space.md) {
+              keyDot(color: AppTheme.sage, title: "Protein")
+              keyDot(color: AppTheme.oat, title: "Carbs")
+              keyDot(color: AppTheme.accentLight, title: "Fat")
+            }
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.textSecondary)
           }
         }
-        .pickerStyle(.segmented)
       }
-
-      if let estimate {
-        Section("Estimated Nutrition Range") {
-          Text("Approximate values only")
-            .font(.caption)
-            .foregroundStyle(.secondary)
-
-          estimateRow(
-            title: "Calories",
-            range: estimate.calories,
-            unit: "kcal",
-            color: .orange
-          )
-          estimateRow(
-            title: "Protein",
-            range: estimate.protein,
-            unit: "g",
-            color: .blue
-          )
-          estimateRow(
-            title: "Carbs",
-            range: estimate.carbs,
-            unit: "g",
-            color: .green
-          )
-          estimateRow(
-            title: "Fat",
-            range: estimate.fat,
-            unit: "g",
-            color: .red
-          )
-        }
-
-        Section("Macro Split") {
-          macroSplitBar(estimate: estimate)
-            .frame(height: 10)
-          HStack(spacing: 12) {
-            keyDot(color: .blue, title: "Protein")
-            keyDot(color: .green, title: "Carbs")
-            keyDot(color: .red, title: "Fat")
-          }
-          .font(.caption)
-          .foregroundStyle(.secondary)
-        }
-      }
+      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.vertical, AppTheme.Space.md)
     }
     .navigationTitle("Dish Estimate")
     .navigationBarTitleDisplayMode(.inline)
+    .flPageBackground()
     .task {
       loadTemplates()
     }
@@ -119,13 +129,15 @@ struct PreparedDishEstimateView: View {
     color: Color
   ) -> some View {
     HStack {
-      HStack(spacing: 6) {
+      HStack(spacing: AppTheme.Space.chipVertical) {
         Circle().fill(color).frame(width: 8, height: 8)
         Text(title)
+          .font(AppTheme.Typography.bodyMedium)
       }
       Spacer()
-      Text("\(Int(range.min.rounded()))-\(Int(range.max.rounded())) \(unit)")
-        .fontWeight(.semibold)
+      Text("\(Int(range.min.rounded()))\u{2013}\(Int(range.max.rounded())) \(unit)")
+        .font(AppTheme.Typography.dataSmall)
+        .foregroundStyle(AppTheme.textPrimary)
     }
   }
 
@@ -136,15 +148,15 @@ struct PreparedDishEstimateView: View {
     let total = max(1, protein + carbs + fat)
 
     return GeometryReader { geo in
-      HStack(spacing: 2) {
+      HStack(spacing: AppTheme.Space.xxxs) {
         RoundedRectangle(cornerRadius: 4)
-          .fill(.blue)
+          .fill(AppTheme.sage)
           .frame(width: geo.size.width * (protein / total))
         RoundedRectangle(cornerRadius: 4)
-          .fill(.green)
+          .fill(AppTheme.oat)
           .frame(width: geo.size.width * (carbs / total))
         RoundedRectangle(cornerRadius: 4)
-          .fill(.red)
+          .fill(AppTheme.accentLight)
           .frame(width: geo.size.width * (fat / total))
       }
       .clipShape(Capsule())
@@ -152,7 +164,7 @@ struct PreparedDishEstimateView: View {
   }
 
   private func keyDot(color: Color, title: String) -> some View {
-    HStack(spacing: 4) {
+    HStack(spacing: AppTheme.Space.xxs) {
       Circle().fill(color).frame(width: 6, height: 6)
       Text(title)
     }

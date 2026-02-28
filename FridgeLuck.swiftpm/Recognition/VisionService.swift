@@ -194,7 +194,7 @@ final class VisionService: Sendable {
       let handler = VNImageRequestHandler(cgImage: image, options: [:])
       try handler.perform([request])
 
-      let observations = (request.results as? [VNClassificationObservation]) ?? []
+      let observations = request.results ?? []
       return observations.map { obs in
         ClassificationResult(identifier: obs.identifier, confidence: obs.confidence)
       }
@@ -216,7 +216,7 @@ final class VisionService: Sendable {
       let handler = VNImageRequestHandler(cgImage: image, options: [:])
       try handler.perform([request])
 
-      let observations = (request.results as? [VNRecognizedTextObservation]) ?? []
+      let observations = request.results ?? []
       return observations.map { obs in
         let strings = obs.topCandidates(3).map { $0.string }
         return RecognizedTextResult(candidates: strings)

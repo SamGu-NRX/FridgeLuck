@@ -1,0 +1,716 @@
+import Charts
+import SwiftUI
+
+struct HomeDashboardView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  @StateObject private var viewModel: HomeDashboardViewModel
+  @State private var selectedTrendDate: Date?
+  @State private var insightMode: InsightMode = .macros
+  @State private var heroAppeared = false
+  @State private var navAppeared = false
+
+  let isRunningDemo: Bool
+  let onScan: () -> Void
+  let onRunDemo: () -> Void
+  let onEstimate: () -> Void
+  let onCompleteProfile: () -> Void
+  let onProfile: () -> Void
+
+  private enum InsightMode: String, CaseIterable, Identifiable {
+    case macros = "Macros"
+    case cadence = "Cadence"
+    var id: String { rawValue }
+  }
+
+  init(
+    deps: AppDependencies,
+    isRunningDemo: Bool,
+    onScan: @escaping () -> Void,
+    onRunDemo: @escaping () -> Void,
+    onEstimate: @escaping () -> Void,
+    onCompleteProfile: @escaping () -> Void,
+    onProfile: @escaping () -> Void
+  ) {
+    _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
+    self.isRunningDemo = isRunningDemo
+    self.onScan = onScan
+    self.onRunDemo = onRunDemo
+    self.onEstimate = onEstimate
+    self.onCompleteProfile = onCompleteProfile
+    self.onProfile = onProfile
+  }
+
+  // MARK: - Body
+
+  var body: some View {
+    ScrollView {
+      VStack(alignment: .leading, spacing: 0) {
+        if let snapshot = viewModel.snapshot {
+          editorialHeader(snapshot: snapshot)
+            .padding(.horizontal, AppTheme.Space.page)
+            .padding(.bottom, AppTheme.Space.lg)
+
+          heroComposition
+            .padding(.bottom, AppTheme.Space.sectionBreak)
+
+          floatingStats(snapshot: snapshot)
+            .padding(.horizontal, AppTheme.Space.page)
+            .padding(.bottom, AppTheme.Space.sectionBreak)
+
+          rhythmSection(snapshot: snapshot)
+            .padding(.bottom, AppTheme.Space.sectionBreak)
+
+          fridgeLuckPanels(snapshot: snapshot)
+            .padding(.horizontal, AppTheme.Space.page)
+            .padding(.bottom, AppTheme.Space.sectionBreak)
+
+          if snapshot.shouldUseStarterMode {
+            starterPanel(snapshot: snapshot)
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.bottom, AppTheme.Space.sectionBreak)
+          } else {
+            insightSection(snapshot: snapshot)
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.bottom, AppTheme.Space.sectionBreak)
+          }
+
+          secondaryActions(snapshot: snapshot)
+            .padding(.horizontal, AppTheme.Space.page)
+        } else if viewModel.isLoading {
+          loadingState
+            .padding(.horizontal, AppTheme.Space.page)
+        } else {
+          errorState
+            .padding(.horizontal, AppTheme.Space.page)
+        }
+      }
+      .padding(.top, AppTheme.Space.md)
+      .padding(.bottom, AppTheme.Space.lg)
+    }
+    .safeAreaInset(edge: .bottom, spacing: 0) {
+      bottomNav(snapshot: viewModel.snapshot)
+        .opacity(navAppeared ? 1 : 0)
+        .offset(y: navAppeared ? AppTheme.Home.navBaseOffset : AppTheme.Home.navBaseOffset + 20)
+    }
+    .task {
+      guard viewModel.snapshot == nil else { return }
+      await viewModel.load()
+    }
+    .refreshable {
+      await viewModel.load()
+    }
+    .onAppear {
+      guard !reduceMotion else {
+        heroAppeared = true
+        navAppeared = true
+        return
+      }
+
+      if !heroAppeared {
+        withAnimation(AppMotion.heroAppear.delay(0.15)) {
+          heroAppeared = true
+        }
+      }
+
+      if !navAppeared {
+        withAnimation(AppMotion.standard.delay(0.22)) {
+          navAppeared = true
+        }
+      }
+    }
+  }
+
+  // MARK: - Editorial Header
+
+  private func editorialHeader(snapshot: HomeDashboardSnapshot) -> some View {
+    HStack(alignment: .firstTextBaseline) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+        Text(timeGreeting)
+          .font(AppTheme.Typography.displayLarge)
+          .foregroundStyle(AppTheme.textPrimary)
+
+        Text(editorialDate)
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .textCase(.uppercase)
+          .kerning(1.2)
+      }
+
+      Spacer()
+
+      Button(action: onCompleteProfile) {
+        Text("FridgeLuck")
+          .font(.system(.caption2, design: .serif, weight: .medium))
+          .foregroundStyle(AppTheme.oat)
+          .kerning(0.8)
+      }
+      .buttonStyle(.plain)
+      .accessibilityLabel("Open onboarding")
+    }
+  }
+
+  private var timeGreeting: String {
+    let hour = Calendar.current.component(.hour, from: Date())
+    switch hour {
+    case 5..<12: return "Good morning."
+    case 12..<17: return "Good afternoon."
+    default: return "Good evening."
+    }
+  }
+
+  private var editorialDate: String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE, MMMM d"
+    return formatter.string(from: Date())
+  }
+
+  // MARK: - Hero Composition (NOT a card)
+
+  private var heroComposition: some View {
+    Button(action: onScan) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+        // Floating camera icon over the composition
+        Image(systemName: "camera.fill")
+          .font(.system(size: 32, weight: .semibold))
+          .foregroundStyle(.white.opacity(0.9))
+          .frame(width: 64, height: 64)
+          .background(Circle().fill(.white.opacity(0.15)))
+
+        VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+          Text("What's possible?")
+            .font(AppTheme.Typography.displayLarge)
+            .foregroundStyle(.white)
+
+          Text("Scan your fridge and let serendipity find dinner.")
+            .font(AppTheme.Typography.bodyLarge)
+            .foregroundStyle(.white.opacity(0.78))
+        }
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(AppTheme.Space.page)
+      .padding(.vertical, AppTheme.Space.lg)
+      .background(
+        LinearGradient(
+          colors: [AppTheme.accent, AppTheme.accent.opacity(0.85)],
+          startPoint: .topLeading,
+          endPoint: .bottomTrailing
+        )
+      )
+      .overlay(alignment: .topTrailing) {
+        Circle()
+          .fill(.white.opacity(0.06))
+          .frame(width: 200, height: 200)
+          .blur(radius: 40)
+          .offset(x: 60, y: -50)
+          .allowsHitTesting(false)
+      }
+      .clipShape(FLDiagonalClip(cutHeight: 32))
+      .shadow(color: AppTheme.accent.opacity(0.20), radius: 24, x: 0, y: 12)
+    }
+    .buttonStyle(FLHeroCardButtonStyle())
+    .opacity(heroAppeared ? 1 : 0)
+    .offset(y: heroAppeared ? 0 : 16)
+    .accessibilityLabel("Scan your fridge")
+  }
+
+  // MARK: - Floating Stats (NOT in a card)
+
+  private func floatingStats(snapshot: HomeDashboardSnapshot) -> some View {
+    HStack(spacing: 0) {
+      statItem(value: "\(snapshot.currentStreak)", label: "day streak")
+      thinDivider
+      statItem(value: "\(snapshot.mealsLast7Days)", label: "this week")
+      thinDivider
+      statItem(value: "\(snapshot.recipeCount)", label: "recipes")
+    }
+  }
+
+  private func statItem(value: String, label: String) -> some View {
+    VStack(spacing: AppTheme.Space.xxxs) {
+      Text(value)
+        .font(AppTheme.Typography.displayMedium)
+        .foregroundStyle(AppTheme.textPrimary)
+        .contentTransition(.numericText())
+      Text(label)
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(AppTheme.textSecondary)
+    }
+    .frame(maxWidth: .infinity)
+  }
+
+  private var thinDivider: some View {
+    Rectangle()
+      .fill(AppTheme.oat.opacity(0.30))
+      .frame(width: 1, height: AppTheme.Home.statDividerHeight)
+  }
+
+  // MARK: - Rhythm Section (edge-to-edge chart)
+
+  private func rhythmSection(snapshot: HomeDashboardSnapshot) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+      // Title overlaid at top-left, inside page margins
+      HStack(alignment: .center) {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+          Text("Your Rhythm")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(AppTheme.textPrimary)
+          Text("Last 14 days")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+        Spacer()
+        Image(systemName: "chart.line.uptrend.xyaxis")
+          .foregroundStyle(AppTheme.accent)
+          .font(.system(size: 16, weight: .medium))
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+
+      // Chart fills edge-to-edge
+      Chart(snapshot.mealsLast14Days) { point in
+        AreaMark(
+          x: .value("Day", point.date),
+          y: .value("Meals", point.meals)
+        )
+        .interpolationMethod(.catmullRom)
+        .foregroundStyle(
+          .linearGradient(
+            colors: [AppTheme.accent.opacity(0.14), AppTheme.accent.opacity(0.02)],
+            startPoint: .top,
+            endPoint: .bottom
+          )
+        )
+
+        LineMark(
+          x: .value("Day", point.date),
+          y: .value("Meals", point.meals)
+        )
+        .interpolationMethod(.catmullRom)
+        .lineStyle(StrokeStyle(lineWidth: 2.4, lineCap: .round, lineJoin: .round))
+        .foregroundStyle(AppTheme.chartLine)
+
+        if let selectedTrendDate,
+          Calendar.current.isDate(point.date, inSameDayAs: selectedTrendDate)
+        {
+          PointMark(
+            x: .value("Day", point.date),
+            y: .value("Meals", point.meals)
+          )
+          .symbolSize(48)
+          .foregroundStyle(AppTheme.accent)
+          .annotation(position: .top) {
+            Text("\(point.meals)")
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.textPrimary)
+              .padding(.horizontal, AppTheme.Space.xs)
+              .padding(.vertical, AppTheme.Space.xxs)
+              .background(AppTheme.surface, in: Capsule())
+              .shadow(color: AppTheme.Shadow.color, radius: 4, x: 0, y: 2)
+          }
+        }
+      }
+      .chartXSelection(value: $selectedTrendDate)
+      .chartXAxis {
+        AxisMarks(values: .stride(by: .day, count: 3)) { _ in
+          AxisGridLine(stroke: StrokeStyle(lineWidth: 0.4, dash: [3, 3]))
+            .foregroundStyle(AppTheme.oat.opacity(0.35))
+          AxisValueLabel(format: .dateTime.weekday(.narrow))
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+      }
+      .chartYAxis {
+        AxisMarks(position: .leading, values: .automatic(desiredCount: 3)) { value in
+          AxisGridLine(stroke: StrokeStyle(lineWidth: 0.4, dash: [3, 3]))
+            .foregroundStyle(AppTheme.oat.opacity(0.35))
+          AxisValueLabel {
+            if let meals = value.as(Int.self) {
+              Text("\(meals)")
+                .font(AppTheme.Typography.labelSmall)
+            }
+          }
+          .foregroundStyle(AppTheme.textSecondary)
+        }
+      }
+      .frame(height: 180)
+      .padding(.horizontal, AppTheme.Space.xs)
+      .accessibilityLabel("Your cooking rhythm chart for last fourteen days")
+
+      // Wave divider underneath
+      FLWaveDivider()
+        .padding(.horizontal, AppTheme.Space.page)
+    }
+  }
+
+  // MARK: - Fridge / Luck Panels (overlapping, collage-style)
+
+  private func fridgeLuckPanels(snapshot: HomeDashboardSnapshot) -> some View {
+    ZStack(alignment: .topLeading) {
+      // Left panel: Your Fridge (torn-edge, slightly rotated)
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        Text("Your Fridge")
+          .font(AppTheme.Typography.displayCaption)
+          .foregroundStyle(AppTheme.textPrimary)
+
+        Text("\(snapshot.ingredientCount)")
+          .font(AppTheme.Typography.displayLarge)
+          .foregroundStyle(AppTheme.sage)
+        Text("ingredients scanned")
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(AppTheme.textSecondary)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(AppTheme.Space.lg)
+      .background(
+        AppTheme.sageLight.opacity(0.18),
+        in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+      )
+      .overlay(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+          .stroke(AppTheme.sage.opacity(0.20), lineWidth: 1)
+      )
+      .rotationEffect(.degrees(-1.2), anchor: .bottomLeading)
+      .frame(width: UIScreen.main.bounds.width * 0.58)
+
+      // Right panel: Your Luck (contrasting, overlapping)
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        Text("Your Luck")
+          .font(AppTheme.Typography.displayCaption)
+          .foregroundStyle(.white)
+
+        Text("\(snapshot.recipeCount)")
+          .font(AppTheme.Typography.displayLarge)
+          .foregroundStyle(AppTheme.accentLight)
+        Text("recipes possible")
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(.white.opacity(0.7))
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(AppTheme.Space.lg)
+      .background(
+        AppTheme.deepOlive,
+        in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+      )
+      .overlay(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+          .stroke(AppTheme.homePanelStroke, lineWidth: 1)
+      )
+      .shadow(color: AppTheme.Shadow.colorDeep, radius: 12, x: 0, y: 6)
+      .rotationEffect(.degrees(1.5), anchor: .topTrailing)
+      .frame(width: UIScreen.main.bounds.width * 0.52)
+      .offset(x: UIScreen.main.bounds.width * 0.32, y: 50)
+    }
+    .frame(height: 190)
+  }
+
+  // MARK: - Insight Section (card-free)
+
+  private func insightSection(snapshot: HomeDashboardSnapshot) -> some View {
+    let profile = snapshot.healthProfile ?? .default
+    let slices = macroSlices(for: profile)
+
+    return VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+      HStack {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+          Text("Insights")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(AppTheme.textPrimary)
+          Text(insightMode == .macros ? "Target macro split" : "Weekly cooking cadence")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+        Spacer()
+        Image(systemName: insightMode == .macros ? "chart.pie.fill" : "chart.bar.fill")
+          .foregroundStyle(AppTheme.accent)
+          .font(.system(size: 16, weight: .medium))
+      }
+
+      Picker("Insight mode", selection: $insightMode) {
+        ForEach(InsightMode.allCases) { mode in
+          Text(mode.rawValue).tag(mode)
+        }
+      }
+      .pickerStyle(.segmented)
+
+      if insightMode == .macros {
+        ZStack {
+          Chart(slices) { slice in
+            SectorMark(
+              angle: .value("Percent", slice.value),
+              innerRadius: .ratio(0.68),
+              angularInset: 2.0
+            )
+            .foregroundStyle(color(for: slice.color))
+            .cornerRadius(4)
+          }
+          .chartLegend(.hidden)
+          .frame(height: 190)
+
+          VStack(spacing: AppTheme.Space.xxxs) {
+            Text("\(profile.dailyCalories ?? HealthProfile.default.dailyCalories ?? 2000)")
+              .font(AppTheme.Typography.displayCaption)
+              .foregroundStyle(AppTheme.textPrimary)
+            Text("daily target")
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.textSecondary)
+          }
+        }
+
+        HStack(spacing: AppTheme.Space.sm) {
+          legendChip(title: "Protein", color: AppTheme.chartProtein)
+          legendChip(title: "Carbs", color: AppTheme.chartCarbs)
+          legendChip(title: "Fat", color: AppTheme.chartFat)
+        }
+      } else {
+        Chart(snapshot.weekdayDistribution) { point in
+          BarMark(
+            x: .value("Day", point.weekdayLabel),
+            y: .value("Meals", point.meals)
+          )
+          .foregroundStyle(
+            .linearGradient(
+              colors: [AppTheme.chartBarBottom, AppTheme.chartBarTop],
+              startPoint: .bottom,
+              endPoint: .top
+            )
+          )
+          .cornerRadius(5)
+        }
+        .chartYAxis {
+          AxisMarks(values: .automatic(desiredCount: 3)) { _ in
+            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.4, dash: [3, 3]))
+              .foregroundStyle(AppTheme.oat.opacity(0.20))
+          }
+        }
+        .chartXAxis {
+          AxisMarks { value in
+            AxisValueLabel {
+              if let label = value.as(String.self) {
+                Text(label)
+                  .font(AppTheme.Typography.labelSmall)
+                  .foregroundStyle(AppTheme.textSecondary)
+              }
+            }
+          }
+        }
+        .frame(height: 180)
+      }
+    }
+  }
+
+  // MARK: - Starter Panel
+
+  private func starterPanel(snapshot: HomeDashboardSnapshot) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+      HStack(spacing: AppTheme.Space.sm) {
+        Image(systemName: "sparkles")
+          .foregroundStyle(AppTheme.accent)
+          .font(.system(size: 18))
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+          Text("Getting Started")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(AppTheme.textPrimary)
+          Text("Unlock richer analytics")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+      }
+
+      Text("Log at least 3 meals to activate macro and cadence insights.")
+        .font(AppTheme.Typography.bodyMedium)
+        .foregroundStyle(AppTheme.textSecondary)
+
+      HStack(spacing: AppTheme.Space.md) {
+        FLStatDisplay(value: "\(snapshot.totalMealsCooked)", label: "logged")
+        FLStatDisplay(value: "\(max(0, 3 - snapshot.totalMealsCooked))", label: "to unlock")
+      }
+
+      FLWaveDivider()
+    }
+  }
+
+  // MARK: - Secondary Actions (text links, not buttons in cards)
+
+  private func secondaryActions(snapshot: HomeDashboardSnapshot) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+      HStack(spacing: AppTheme.Space.lg) {
+        Button(action: isRunningDemo ? {} : onRunDemo) {
+          Label(isRunningDemo ? "Running..." : "Demo Scan", systemImage: "photo.fill")
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(isRunningDemo ? AppTheme.textSecondary : AppTheme.accent)
+        }
+        .buttonStyle(.plain)
+        .disabled(isRunningDemo)
+
+        Button(action: onEstimate) {
+          Label("Dish Estimate", systemImage: "fork.knife")
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.accent)
+        }
+        .buttonStyle(.plain)
+        .disabled(isRunningDemo)
+      }
+
+      if !snapshot.hasOnboarded {
+        Button(action: onCompleteProfile) {
+          Label("Complete profile for personalized recipes", systemImage: "person.badge.plus")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.accent)
+        }
+        .buttonStyle(.plain)
+      }
+    }
+  }
+
+  // MARK: - Loading / Error
+
+  private var loadingState: some View {
+    VStack(spacing: AppTheme.Space.lg) {
+      ProgressView()
+        .controlSize(.large)
+        .tint(AppTheme.accent)
+      Text("Preparing your kitchen...")
+        .font(AppTheme.Typography.displayCaption)
+        .foregroundStyle(AppTheme.textPrimary)
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.vertical, AppTheme.Space.xxl)
+  }
+
+  private var errorState: some View {
+    FLEmptyState(
+      title: "Dashboard unavailable",
+      message: viewModel.errorMessage ?? "Please try again.",
+      systemImage: "exclamationmark.triangle.fill",
+      actionTitle: "Retry",
+      action: { Task { await viewModel.load() } }
+    )
+  }
+
+  // MARK: - Bottom Navigation
+
+  private func bottomNav(snapshot: HomeDashboardSnapshot?) -> some View {
+    let hasOnboarded = snapshot?.hasOnboarded ?? false
+
+    return ZStack(alignment: .top) {
+      HStack(spacing: 0) {
+        navItem(icon: "house.fill", label: "Home", isActive: true) {}
+
+        Spacer(minLength: AppTheme.Home.navCenterGap)
+
+        navItem(
+          icon: hasOnboarded ? "person.crop.circle.fill" : "person.badge.plus",
+          label: "Profile",
+          isActive: false,
+          action: hasOnboarded ? onProfile : onCompleteProfile
+        )
+      }
+      .padding(.horizontal, AppTheme.Space.lg)
+      .padding(.top, AppTheme.Space.md)
+      .padding(.bottom, AppTheme.Space.sm)
+      .frame(maxWidth: .infinity)
+      .background {
+        RoundedRectangle(cornerRadius: AppTheme.Home.navCornerRadius, style: .continuous)
+          .fill(AppTheme.bg.opacity(0.92))
+          .background(
+            .ultraThinMaterial,
+            in: RoundedRectangle(cornerRadius: AppTheme.Home.navCornerRadius, style: .continuous)
+          )
+      }
+      .overlay {
+        RoundedRectangle(cornerRadius: AppTheme.Home.navCornerRadius, style: .continuous)
+          .stroke(AppTheme.oat.opacity(0.24), lineWidth: 1)
+      }
+      .shadow(color: AppTheme.Shadow.colorDeep.opacity(0.45), radius: 14, x: 0, y: 5)
+
+      Button(action: onScan) {
+        Image(systemName: "camera.fill")
+          .font(.system(size: 22, weight: .bold))
+          .foregroundStyle(.white)
+          .frame(width: AppTheme.Home.orbSize, height: AppTheme.Home.orbSize)
+          .background(AppTheme.accent, in: Circle())
+          .overlay(Circle().stroke(AppTheme.surface.opacity(0.45), lineWidth: 1))
+          .shadow(color: AppTheme.accent.opacity(0.34), radius: 18, x: 0, y: 8)
+      }
+      .buttonStyle(FLNavOrbButtonStyle())
+      .offset(y: -AppTheme.Home.navOrbLift)
+      .accessibilityLabel("Scan your fridge")
+    }
+    .padding(.horizontal, AppTheme.Home.navHorizontalInset)
+    .padding(.top, AppTheme.Space.xs + AppTheme.Home.navOrbLift)
+    .padding(.bottom, 0)
+    .animation(reduceMotion ? nil : AppMotion.standard, value: navAppeared)
+  }
+
+  private struct FLNavOrbButtonStyle: ButtonStyle {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    func makeBody(configuration: Configuration) -> some View {
+      configuration.label
+        .scaleEffect(configuration.isPressed ? 0.94 : 1)
+        .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
+    }
+  }
+
+  private struct FLNavItemButtonStyle: ButtonStyle {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    func makeBody(configuration: Configuration) -> some View {
+      configuration.label
+        .opacity(configuration.isPressed ? 0.80 : 1)
+        .scaleEffect(configuration.isPressed ? 0.97 : 1)
+        .animation(reduceMotion ? nil : AppMotion.quick, value: configuration.isPressed)
+    }
+  }
+
+  private func navItem(
+    icon: String,
+    label: String,
+    isActive: Bool,
+    action: @escaping () -> Void
+  ) -> some View {
+    Button(action: action) {
+      VStack(spacing: AppTheme.Space.xxxs) {
+        Image(systemName: icon)
+          .font(.system(size: 18, weight: .medium))
+        Text(label)
+          .font(AppTheme.Typography.labelSmall)
+      }
+      .foregroundStyle(isActive ? AppTheme.accent : AppTheme.textSecondary)
+      .frame(maxWidth: .infinity)
+      .contentShape(Rectangle())
+    }
+    .buttonStyle(FLNavItemButtonStyle())
+  }
+
+  // MARK: - Helpers
+
+  private func macroSlices(for profile: HealthProfile) -> [MacroTargetSlice] {
+    [
+      MacroTargetSlice(name: "Protein", value: profile.proteinPct * 100, color: .protein),
+      MacroTargetSlice(name: "Carbs", value: profile.carbsPct * 100, color: .carbs),
+      MacroTargetSlice(name: "Fat", value: profile.fatPct * 100, color: .fat),
+    ]
+  }
+
+  private func color(for token: MacroTargetSlice.ColorToken) -> Color {
+    switch token {
+    case .protein: return AppTheme.chartProtein
+    case .carbs: return AppTheme.chartCarbs
+    case .fat: return AppTheme.chartFat
+    }
+  }
+
+  private func legendChip(title: String, color: Color) -> some View {
+    HStack(spacing: AppTheme.Space.xs) {
+      Circle()
+        .fill(color)
+        .frame(width: 8, height: 8)
+      Text(title)
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(AppTheme.textSecondary)
+    }
+    .padding(.horizontal, AppTheme.Space.sm)
+    .padding(.vertical, AppTheme.Space.xs)
+    .background(AppTheme.surfaceMuted, in: Capsule())
+  }
+}

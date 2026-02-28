@@ -22,7 +22,7 @@ struct IngredientDetailSheet: View {
             aliasSection
           }
         }
-        .padding(.horizontal, AppTheme.Space.md)
+        .padding(.horizontal, AppTheme.Space.page)
         .padding(.vertical, AppTheme.Space.md)
       }
       .navigationTitle("Ingredient")
@@ -44,7 +44,7 @@ struct IngredientDetailSheet: View {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         HStack(alignment: .top, spacing: AppTheme.Space.sm) {
           Image(systemName: spriteSymbolName())
-            .font(.title3.weight(.semibold))
+            .font(AppTheme.Typography.displayCaption)
             .foregroundStyle(AppTheme.textPrimary)
             .frame(width: 36, height: 36)
             .background(
@@ -52,11 +52,11 @@ struct IngredientDetailSheet: View {
 
           VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
             Text(ingredient.displayName)
-              .font(.title2.weight(.bold))
+              .font(AppTheme.Typography.displaySmall)
               .foregroundStyle(AppTheme.textPrimary)
             if let categoryLabel = ingredient.categoryLabel, !categoryLabel.isEmpty {
               Text(categoryLabel.replacingOccurrences(of: "_", with: " ").capitalized)
-                .font(.caption)
+                .font(AppTheme.Typography.bodyMedium)
                 .foregroundStyle(AppTheme.textSecondary)
             }
           }
@@ -64,7 +64,7 @@ struct IngredientDetailSheet: View {
         }
 
         Text("\(Int(ingredient.calories)) kcal per 100g")
-          .font(.subheadline.weight(.semibold))
+          .font(AppTheme.Typography.dataSmall)
           .foregroundStyle(AppTheme.textPrimary)
           .padding(.horizontal, AppTheme.Space.sm)
           .padding(.vertical, AppTheme.Space.xs)
@@ -72,11 +72,11 @@ struct IngredientDetailSheet: View {
 
         if let description = ingredient.description, !description.isEmpty {
           Text(description)
-            .font(.subheadline)
+            .font(AppTheme.Typography.bodyMedium)
             .foregroundStyle(AppTheme.textSecondary)
         } else {
           Text("USDA reference ingredient. Nutrition values are standardized per 100g.")
-            .font(.subheadline)
+            .font(AppTheme.Typography.bodyMedium)
             .foregroundStyle(AppTheme.textSecondary)
         }
       }
@@ -99,13 +99,13 @@ struct IngredientDetailSheet: View {
           .fill(color)
           .frame(width: 8, height: 8)
         Text(value)
-          .font(.title3.bold())
+          .font(AppTheme.Typography.dataSmall)
           .foregroundStyle(AppTheme.textPrimary)
         Text(unit)
-          .font(.caption2)
+          .font(AppTheme.Typography.labelSmall)
           .foregroundStyle(AppTheme.textSecondary)
         Text(title)
-          .font(.caption)
+          .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
       }
       .frame(maxWidth: .infinity)
@@ -129,10 +129,10 @@ struct IngredientDetailSheet: View {
   private func metric(label: String, value: String) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
       Text(value)
-        .font(.subheadline.bold())
+        .font(AppTheme.Typography.dataSmall)
         .foregroundStyle(AppTheme.textPrimary)
       Text(label)
-        .font(.caption)
+        .font(AppTheme.Typography.label)
         .foregroundStyle(AppTheme.textSecondary)
     }
   }
@@ -166,7 +166,7 @@ struct IngredientDetailSheet: View {
         FlowLayout(spacing: AppTheme.Space.xs) {
           ForEach(aliases, id: \.self) { alias in
             Text(alias)
-              .font(.caption)
+              .font(AppTheme.Typography.label)
               .padding(.horizontal, AppTheme.Space.sm)
               .padding(.vertical, AppTheme.Space.xs)
               .background(AppTheme.accent.opacity(0.16), in: Capsule())
@@ -179,10 +179,10 @@ struct IngredientDetailSheet: View {
   private func detailRow(label: String, value: String) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
       Text(label)
-        .font(.caption)
+        .font(AppTheme.Typography.label)
         .foregroundStyle(AppTheme.textSecondary)
       Text(value)
-        .font(.subheadline)
+        .font(AppTheme.Typography.bodyMedium)
         .foregroundStyle(AppTheme.textPrimary)
     }
   }

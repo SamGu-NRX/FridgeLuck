@@ -219,7 +219,7 @@ final class RecipeRepository: Sendable {
     _ recipe: Recipe, ingredients: [(ingredientId: Int64, grams: Double, required: Bool)]
   ) throws -> Int64 {
     try db.write { db in
-      var mutableRecipe = recipe
+      let mutableRecipe = recipe
       try mutableRecipe.insert(db)
       let recipeId = db.lastInsertedRowID
 

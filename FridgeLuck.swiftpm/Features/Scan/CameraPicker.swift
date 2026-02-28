@@ -9,6 +9,8 @@ struct CameraPicker: UIViewControllerRepresentable {
   func makeUIViewController(context: Context) -> UIImagePickerController {
     let picker = UIImagePickerController()
     picker.delegate = context.coordinator
+    picker.modalPresentationStyle = .fullScreen
+    picker.allowsEditing = true
 
     if UIImagePickerController.isSourceTypeAvailable(.camera) {
       picker.sourceType = .camera
@@ -37,8 +39,8 @@ struct CameraPicker: UIViewControllerRepresentable {
       _ picker: UIImagePickerController,
       didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-      if let image = info[.originalImage] as? UIImage {
-        parent.image = image
+      if let image = (info[.editedImage] as? UIImage) ?? (info[.originalImage] as? UIImage) {
+        parent.image = ScanImagePreprocessor.prepare(image)
       }
       parent.dismiss()
     }
@@ -57,6 +59,8 @@ struct PhotoLibraryPicker: UIViewControllerRepresentable {
   func makeUIViewController(context: Context) -> UIImagePickerController {
     let picker = UIImagePickerController()
     picker.sourceType = .photoLibrary
+    picker.modalPresentationStyle = .fullScreen
+    picker.allowsEditing = true
     picker.delegate = context.coordinator
     return picker
   }
@@ -78,8 +82,8 @@ struct PhotoLibraryPicker: UIViewControllerRepresentable {
       _ picker: UIImagePickerController,
       didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-      if let image = info[.originalImage] as? UIImage {
-        parent.image = image
+      if let image = (info[.editedImage] as? UIImage) ?? (info[.originalImage] as? UIImage) {
+        parent.image = ScanImagePreprocessor.prepare(image)
       }
       parent.dismiss()
     }

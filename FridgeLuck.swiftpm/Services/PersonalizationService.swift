@@ -60,7 +60,7 @@ final class PersonalizationService: Sendable {
 
   func recordCooking(recipeId: Int64, rating: Int? = nil) throws {
     try db.write { db in
-      var history = CookingHistory(recipeId: recipeId, rating: rating)
+      let history = CookingHistory(recipeId: recipeId, rating: rating)
       try history.insert(db)
 
       // Update streak
@@ -70,7 +70,7 @@ final class PersonalizationService: Sendable {
         streak.mealsCookedCount += 1
         try streak.update(db)
       } else {
-        var streak = Streak(date: today, mealsCookedCount: 1)
+        let streak = Streak(date: today, mealsCookedCount: 1)
         try streak.insert(db)
       }
     }

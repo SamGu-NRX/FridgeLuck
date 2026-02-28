@@ -1,14 +1,18 @@
 import SwiftUI
 
+// MARK: - Button Style
+
 private struct FLPressableButtonStyle: ButtonStyle {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
-      .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
+      .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+      .animation(reduceMotion ? nil : AppMotion.buttonSpring, value: configuration.isPressed)
   }
 }
+
+// MARK: - Card
 
 struct FLCard<Content: View>: View {
   enum Tone {
@@ -21,17 +25,17 @@ struct FLCard<Content: View>: View {
       switch self {
       case .normal: return AppTheme.surface
       case .warm: return AppTheme.surfaceMuted
-      case .success: return AppTheme.positive.opacity(0.08)
-      case .warning: return AppTheme.warning.opacity(0.1)
+      case .success: return AppTheme.sage.opacity(0.08)
+      case .warning: return AppTheme.accent.opacity(0.07)
       }
     }
 
     var stroke: Color {
       switch self {
-      case .normal: return AppTheme.textSecondary.opacity(0.14)
-      case .warm: return AppTheme.accent.opacity(0.25)
-      case .success: return AppTheme.positive.opacity(0.28)
-      case .warning: return AppTheme.warning.opacity(0.32)
+      case .normal: return AppTheme.oat.opacity(0.30)
+      case .warm: return AppTheme.oat.opacity(0.40)
+      case .success: return AppTheme.sage.opacity(0.30)
+      case .warning: return AppTheme.accent.opacity(0.28)
       }
     }
   }
@@ -48,16 +52,19 @@ struct FLCard<Content: View>: View {
     content
       .padding(AppTheme.Space.md)
       .background(
-        tone.fill, in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        tone.fill,
+        in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
       )
       .overlay(
         RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
           .stroke(tone.stroke, lineWidth: 1)
       )
-      .shadow(
-        color: AppTheme.Shadow.color, radius: AppTheme.Shadow.radius, x: 0, y: AppTheme.Shadow.y)
+      .shadow(color: AppTheme.Shadow.color, radius: 8, x: 0, y: 3)
+      .shadow(color: AppTheme.Shadow.colorDeep, radius: 20, x: 0, y: 10)
   }
 }
+
+// MARK: - Section Header (serif title, terracotta icon)
 
 struct FLSectionHeader: View {
   let title: String
@@ -74,13 +81,14 @@ struct FLSectionHeader: View {
     HStack(alignment: .top, spacing: AppTheme.Space.sm) {
       Image(systemName: icon)
         .foregroundStyle(AppTheme.accent)
+        .font(.system(size: 15, weight: .semibold))
       VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
         Text(title)
-          .font(.headline)
+          .font(AppTheme.Typography.displayCaption)
           .foregroundStyle(AppTheme.textPrimary)
         if let subtitle, !subtitle.isEmpty {
           Text(subtitle)
-            .font(.caption)
+            .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
         }
       }
@@ -88,6 +96,8 @@ struct FLSectionHeader: View {
     }
   }
 }
+
+// MARK: - Status Pill (warm status colors)
 
 struct FLStatusPill: View {
   enum Kind {
@@ -109,13 +119,15 @@ struct FLStatusPill: View {
 
   var body: some View {
     Text(text)
-      .font(.caption.bold())
+      .font(AppTheme.Typography.labelSmall)
       .padding(.horizontal, AppTheme.Space.sm)
-      .padding(.vertical, AppTheme.Space.xs)
+      .padding(.vertical, AppTheme.Space.chipVertical)
       .foregroundStyle(kind.color)
-      .background(kind.color.opacity(0.14), in: Capsule())
+      .background(kind.color.opacity(0.12), in: Capsule())
   }
 }
+
+// MARK: - Primary Button (terracotta fill, white text, generous)
 
 struct FLPrimaryButton: View {
   enum LabelAnimation {
@@ -132,7 +144,6 @@ struct FLPrimaryButton: View {
   let action: () -> Void
 
   @State private var labelScale: CGFloat = 1
-  @State private var labelBlur: CGFloat = 0
 
   init(
     _ title: String, systemImage: String? = nil, isEnabled: Bool = true,
@@ -159,16 +170,19 @@ struct FLPrimaryButton: View {
         Text(title)
           .lineLimit(1)
       }
-      .font(.headline)
+      .font(.system(.headline, design: .serif, weight: .semibold))
       .frame(maxWidth: .infinity)
-      .padding(.vertical, AppTheme.Space.md)
+      .padding(.vertical, AppTheme.Space.buttonVertical)
       .scaleEffect(labelScale)
-      .blur(radius: labelBlur)
       .background(
         isEnabled ? AppTheme.accent : AppTheme.neutral.opacity(0.3),
         in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
       )
-      .foregroundStyle(isEnabled ? AppTheme.textPrimary : AppTheme.textSecondary)
+      .foregroundStyle(isEnabled ? .white : AppTheme.textSecondary)
+      .shadow(
+        color: isEnabled ? AppTheme.accent.opacity(0.25) : .clear,
+        radius: 12, x: 0, y: 6
+      )
       .transaction(value: title) { transaction in
         transaction.animation = nil
       }
@@ -181,14 +195,14 @@ struct FLPrimaryButton: View {
     .onChange(of: labelKey) { _, _ in
       guard labelAnimation == .subtleBlend, !reduceMotion else { return }
       labelScale = 0.988
-      labelBlur = 0.8
       withAnimation(AppMotion.quick) {
         labelScale = 1
-        labelBlur = 0
       }
     }
   }
 }
+
+// MARK: - Secondary Button (warm border, serif text)
 
 struct FLSecondaryButton: View {
   let title: String
@@ -217,16 +231,16 @@ struct FLSecondaryButton: View {
         Text(title)
           .lineLimit(1)
       }
-      .font(.headline)
+      .font(.system(.headline, design: .serif, weight: .medium))
       .frame(maxWidth: .infinity)
-      .padding(.vertical, AppTheme.Space.md)
+      .padding(.vertical, AppTheme.Space.buttonVertical)
       .background(
         isEnabled ? AppTheme.surface : AppTheme.surfaceMuted.opacity(0.7),
         in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
       )
       .overlay(
         RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-          .stroke(AppTheme.textSecondary.opacity(0.25), lineWidth: 1)
+          .stroke(AppTheme.oat.opacity(0.45), lineWidth: 1)
       )
       .foregroundStyle(isEnabled ? AppTheme.textPrimary : AppTheme.textSecondary)
       .transaction(value: title) { transaction in
@@ -240,6 +254,8 @@ struct FLSecondaryButton: View {
     .disabled(!isEnabled)
   }
 }
+
+// MARK: - Action Bar
 
 struct FLActionBar<Content: View>: View {
   @ViewBuilder let content: Content
@@ -256,11 +272,13 @@ struct FLActionBar<Content: View>: View {
     .background(AppTheme.bg)
     .overlay(alignment: .top) {
       Rectangle()
-        .fill(AppTheme.textSecondary.opacity(0.14))
+        .fill(AppTheme.oat.opacity(0.30))
         .frame(height: 1)
     }
   }
 }
+
+// MARK: - Empty State
 
 struct FLEmptyState: View {
   let title: String
@@ -284,21 +302,85 @@ struct FLEmptyState: View {
   }
 
   var body: some View {
-    FLCard(tone: .warm) {
-      VStack(spacing: AppTheme.Space.md) {
-        Image(systemName: systemImage)
-          .font(.system(size: 34))
-          .foregroundStyle(AppTheme.textSecondary)
-        Text(title)
-          .font(.headline)
-          .foregroundStyle(AppTheme.textPrimary)
-        Text(message)
-          .font(.subheadline)
-          .foregroundStyle(AppTheme.textSecondary)
-          .multilineTextAlignment(.center)
-        if let actionTitle, let action {
-          FLSecondaryButton(actionTitle, action: action)
-        }
+    VStack(spacing: AppTheme.Space.lg) {
+      Image(systemName: systemImage)
+        .font(.system(size: 34))
+        .foregroundStyle(AppTheme.dustyRose)
+      Text(title)
+        .font(AppTheme.Typography.displayCaption)
+        .foregroundStyle(AppTheme.textPrimary)
+      Text(message)
+        .font(AppTheme.Typography.bodyMedium)
+        .foregroundStyle(AppTheme.textSecondary)
+        .multilineTextAlignment(.center)
+      if let actionTitle, let action {
+        FLSecondaryButton(actionTitle, action: action)
+      }
+    }
+    .padding(AppTheme.Space.lg)
+    .background(
+      AppTheme.surfaceMuted,
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous))
+  }
+}
+
+// MARK: - Stat Display
+
+/// Large serif number + small rounded label. For streak counts, meal numbers, etc.
+struct FLStatDisplay: View {
+  let value: String
+  let label: String
+  var useDarkStyle: Bool = false
+
+  var body: some View {
+    VStack(spacing: AppTheme.Space.xxxs) {
+      Text(value)
+        .font(AppTheme.Typography.displayMedium)
+        .foregroundStyle(useDarkStyle ? AppTheme.surface : AppTheme.textPrimary)
+        .contentTransition(.numericText())
+      Text(label)
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(
+          useDarkStyle ? AppTheme.surface.opacity(0.65) : AppTheme.textSecondary
+        )
+    }
+    .frame(maxWidth: .infinity)
+  }
+}
+
+// MARK: - Analyzing Pulse Animation
+
+/// Custom pulsing terracotta ring for analyzing states. Replaces generic ProgressView.
+struct FLAnalyzingPulse: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @State private var isAnimating = false
+
+  var body: some View {
+    ZStack {
+      Circle()
+        .stroke(AppTheme.accent.opacity(0.20), lineWidth: 3)
+        .scaleEffect(isAnimating ? 1.5 : 1.0)
+        .opacity(isAnimating ? 0 : 0.6)
+
+      Circle()
+        .stroke(AppTheme.accent.opacity(0.15), lineWidth: 2)
+        .scaleEffect(isAnimating ? 1.3 : 0.9)
+        .opacity(isAnimating ? 0 : 0.5)
+
+      Circle()
+        .stroke(AppTheme.accent, lineWidth: 3)
+
+      Circle()
+        .fill(AppTheme.accent)
+        .frame(width: 8, height: 8)
+    }
+    .onAppear {
+      guard !reduceMotion else { return }
+      withAnimation(
+        .easeInOut(duration: 1.6)
+          .repeatForever(autoreverses: false)
+      ) {
+        isAnimating = true
       }
     }
   }

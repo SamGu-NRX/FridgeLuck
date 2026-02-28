@@ -29,7 +29,7 @@ struct RecipeDetailView: View {
         ingredientSection
         instructionSection
       }
-      .padding(.horizontal, AppTheme.Space.md)
+      .padding(.horizontal, AppTheme.Space.page)
       .padding(.top, AppTheme.Space.md)
       .padding(.bottom, AppTheme.Space.xl)
     }
@@ -61,12 +61,12 @@ struct RecipeDetailView: View {
         HStack(alignment: .top) {
           VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
             Text(recipe.title)
-              .font(.title2.bold())
+              .font(AppTheme.Typography.displaySmall)
               .foregroundStyle(AppTheme.textPrimary)
             Text(
               "\(recipe.timeMinutes) min · \(recipe.servings) serving\(recipe.servings > 1 ? "s" : "")"
             )
-            .font(.subheadline)
+            .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.textSecondary)
           }
 
@@ -81,7 +81,7 @@ struct RecipeDetailView: View {
           FlowLayout(spacing: AppTheme.Space.xs) {
             ForEach(recipe.recipeTags.labels, id: \.self) { tag in
               Text(tag.replacingOccurrences(of: "_", with: " "))
-                .font(.caption2)
+                .font(AppTheme.Typography.labelSmall)
                 .padding(.horizontal, AppTheme.Space.sm)
                 .padding(.vertical, AppTheme.Space.xs)
                 .background(AppTheme.surface, in: Capsule())
@@ -105,10 +105,10 @@ struct RecipeDetailView: View {
             Image(systemName: star <= scoredRecipe.healthScore.rating ? "star.fill" : "star")
               .foregroundStyle(
                 star <= scoredRecipe.healthScore.rating
-                  ? AppTheme.accent : AppTheme.neutral.opacity(0.4))
+                  ? AppTheme.accent : AppTheme.oat.opacity(0.4))
           }
           Text(scoredRecipe.healthScore.label)
-            .font(.subheadline.bold())
+            .font(AppTheme.Typography.displayCaption)
             .foregroundStyle(AppTheme.textPrimary)
         }
       }
@@ -145,13 +145,13 @@ struct RecipeDetailView: View {
   private func macroCell(_ label: String, value: String, unit: String, color: Color) -> some View {
     VStack(spacing: AppTheme.Space.xxs) {
       Text(value)
-        .font(.title3.bold())
+        .font(AppTheme.Typography.displayCaption)
         .foregroundStyle(color)
       Text(unit)
-        .font(.caption2)
+        .font(AppTheme.Typography.labelSmall)
         .foregroundStyle(AppTheme.textSecondary)
       Text(label)
-        .font(.caption)
+        .font(AppTheme.Typography.label)
         .foregroundStyle(AppTheme.textSecondary)
     }
     .frame(maxWidth: .infinity)
@@ -160,10 +160,10 @@ struct RecipeDetailView: View {
   private func miniNutrient(_ label: String, value: String) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
       Text(value)
-        .font(.caption.bold())
+        .font(AppTheme.Typography.label)
         .foregroundStyle(AppTheme.textPrimary)
       Text(label)
-        .font(.caption2)
+        .font(AppTheme.Typography.labelSmall)
         .foregroundStyle(AppTheme.textSecondary)
     }
   }
@@ -171,7 +171,7 @@ struct RecipeDetailView: View {
   private var macroSplitBar: some View {
     let split = macros.macroSplit
     return GeometryReader { geo in
-      HStack(spacing: 2) {
+      HStack(spacing: AppTheme.Space.xxxs) {
         RoundedRectangle(cornerRadius: 4)
           .fill(.blue)
           .frame(width: max(2, geo.size.width * split.proteinPct))
@@ -208,7 +208,7 @@ struct RecipeDetailView: View {
 
         if !optional.isEmpty {
           Text("Optional")
-            .font(.caption.weight(.semibold))
+            .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.textSecondary)
             .padding(.top, AppTheme.Space.xs)
 
@@ -231,16 +231,16 @@ struct RecipeDetailView: View {
       HStack(spacing: AppTheme.Space.sm) {
         Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
           .foregroundStyle(isRequired ? AppTheme.positive : AppTheme.textSecondary)
-          .font(.caption)
+          .font(AppTheme.Typography.label)
 
         Text(ingredient.displayName)
-          .font(.subheadline)
+          .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textPrimary)
 
         Spacer()
 
         Text(quantity.displayQuantity)
-          .font(.subheadline)
+          .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
       }
       .padding(.horizontal, AppTheme.Space.xs)
@@ -282,21 +282,21 @@ struct RecipeDetailView: View {
                 .foregroundStyle(
                   completedSteps.contains(index) ? AppTheme.positive : AppTheme.textSecondary
                 )
-                .font(.subheadline)
+                .font(AppTheme.Typography.label)
 
               VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
                 Text("Step \(index + 1)")
-                  .font(.caption.weight(.semibold))
+                  .font(AppTheme.Typography.label)
                   .foregroundStyle(AppTheme.textSecondary)
                 Text(step)
-                  .font(.body)
+                  .font(AppTheme.Typography.bodyLarge)
                   .foregroundStyle(AppTheme.textPrimary)
                   .frame(maxWidth: .infinity, alignment: .leading)
               }
 
               if completedSteps.contains(index) {
                 Image(systemName: "checkmark")
-                  .font(.caption.bold())
+                  .font(AppTheme.Typography.label)
                   .foregroundStyle(AppTheme.positive)
               }
             }
@@ -320,7 +320,7 @@ struct RecipeDetailView: View {
       FLPrimaryButton("I Made This", systemImage: "frying.pan.fill") {
         showCookedConfirmation = true
       }
-      .padding(.horizontal, AppTheme.Space.md)
+      .padding(.horizontal, AppTheme.Space.page)
       .padding(.bottom, AppTheme.Space.md)
     }
   }

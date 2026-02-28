@@ -37,34 +37,25 @@ struct OnboardingView: View {
 
     var title: String {
       switch self {
-      case .goals:
-        return "Set Your Goal"
-      case .restrictions:
-        return "Diet Preferences"
-      case .allergens:
-        return "Allergen Safety"
+      case .goals: return "Set Your Goal"
+      case .restrictions: return "Diet Preferences"
+      case .allergens: return "Allergen Safety"
       }
     }
 
     var subtitle: String {
       switch self {
-      case .goals:
-        return "Personalize calories and nutrition direction."
-      case .restrictions:
-        return "Filter recipes to match how you like to eat."
-      case .allergens:
-        return "Prioritize common allergens first, then refine."
+      case .goals: return "Personalize calories and nutrition direction."
+      case .restrictions: return "Filter recipes to match how you like to eat."
+      case .allergens: return "Prioritize common allergens first, then refine."
       }
     }
 
     var icon: String {
       switch self {
-      case .goals:
-        return "target"
-      case .restrictions:
-        return "slider.horizontal.3"
-      case .allergens:
-        return "exclamationmark.shield"
+      case .goals: return "target"
+      case .restrictions: return "slider.horizontal.3"
+      case .allergens: return "exclamationmark.shield"
       }
     }
   }
@@ -103,7 +94,6 @@ struct OnboardingView: View {
     NavigationStack {
       VStack(spacing: 0) {
         header
-
         stepContentContainer
       }
       .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -123,9 +113,7 @@ struct OnboardingView: View {
         "Unable to Save",
         isPresented: Binding(
           get: { errorMessage != nil },
-          set: { show in
-            if !show { errorMessage = nil }
-          }
+          set: { show in if !show { errorMessage = nil } }
         )
       ) {
         Button("OK", role: .cancel) {}
@@ -154,16 +142,13 @@ struct OnboardingView: View {
   private var stepContentContainer: some View {
     ZStack {
       if currentStep == .goals {
-        goalStep
-          .transition(stepTransition)
+        goalStep.transition(stepTransition)
       }
       if currentStep == .restrictions {
-        restrictionStep
-          .transition(stepTransition)
+        restrictionStep.transition(stepTransition)
       }
       if currentStep == .allergens {
-        allergenStep
-          .transition(stepTransition)
+        allergenStep.transition(stepTransition)
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -186,15 +171,25 @@ struct OnboardingView: View {
     }
   }
 
+  // MARK: - Header (with arc progress)
+
   private var header: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
       HStack(alignment: .center) {
-        HStack(spacing: AppTheme.Space.xs) {
-          Image(systemName: currentStep.icon)
-            .foregroundStyle(AppTheme.accent)
-          Text("Step \(stepIndex + 1) of \(totalSteps)")
-            .font(.caption.weight(.semibold))
-            .foregroundStyle(AppTheme.textSecondary)
+        HStack(spacing: AppTheme.Space.sm) {
+          // Arc progress indicator
+          FLArcIndicator(
+            progress: Double(stepIndex + 1) / Double(totalSteps),
+            steps: totalSteps,
+            size: 40
+          )
+          .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: stepIndex)
+
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+            Text("Step \(stepIndex + 1) of \(totalSteps)")
+              .font(AppTheme.Typography.label)
+              .foregroundStyle(AppTheme.textSecondary)
+          }
         }
 
         Spacer()
@@ -206,256 +201,273 @@ struct OnboardingView: View {
 
       VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
         Text(currentStep.title)
-          .font(.title2.bold())
+          .font(AppTheme.Typography.displaySmall)
           .foregroundStyle(AppTheme.textPrimary)
         Text(currentStep.subtitle)
-          .font(.subheadline)
+          .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
       }
-
-      GeometryReader { geo in
-        ZStack(alignment: .leading) {
-          Capsule()
-            .fill(AppTheme.textSecondary.opacity(0.15))
-          Capsule()
-            .fill(AppTheme.accent)
-            .frame(width: geo.size.width * (Double(stepIndex + 1) / Double(totalSteps)))
-        }
-      }
-      .frame(height: 8)
-      .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: stepIndex)
     }
-    .padding(.horizontal, AppTheme.Space.md)
+    .padding(.horizontal, AppTheme.Space.page)
     .padding(.top, AppTheme.Space.md)
     .padding(.bottom, AppTheme.Space.sm)
     .frame(maxWidth: .infinity, minHeight: Layout.headerMinHeight, alignment: .topLeading)
   }
 
+  // MARK: - Goal Step (card rotations + card-free calorie display)
+
   private var goalStep: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-        FLCard(tone: .warm) {
-          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-            Text("Pick your primary nutrition direction")
-              .font(.headline)
-              .foregroundStyle(AppTheme.textPrimary)
-            Text("You can update this anytime from profile settings.")
-              .font(.subheadline)
-              .foregroundStyle(AppTheme.textSecondary)
-          }
-        }
+      VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+        Text("Pick your primary nutrition direction")
+          .font(AppTheme.Typography.displayCaption)
+          .foregroundStyle(AppTheme.textPrimary)
 
+        Text("You can update this anytime from profile settings.")
+          .font(AppTheme.Typography.bodyMedium)
+          .foregroundStyle(AppTheme.textSecondary)
+
+        // Goal cards with slight rotation (collage feel)
         LazyVGrid(
           columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: AppTheme.Space.sm
         ) {
-          goalCard(.general, accent: .yellow)
-          goalCard(.weightLoss, accent: .green)
-          goalCard(.muscleGain, accent: .blue)
-          goalCard(.maintenance, accent: .orange)
+          goalCard(.general, accent: AppTheme.sage, rotation: -0.8)
+          goalCard(.weightLoss, accent: AppTheme.accent, rotation: 1.0)
+          goalCard(.muscleGain, accent: AppTheme.oat, rotation: 0.5)
+          goalCard(.maintenance, accent: AppTheme.dustyRose, rotation: -1.2)
         }
 
-        FLCard {
-          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-            FLSectionHeader(
-              "Daily Calories", subtitle: "Tune your default target", icon: "flame.fill")
+        FLWaveDivider()
+          .padding(.vertical, AppTheme.Space.sm)
 
-            HStack(spacing: AppTheme.Space.sm) {
-              Button {
-                dailyCalories = max(1000, dailyCalories - 50)
-              } label: {
-                Image(systemName: "minus")
-                  .font(.headline)
-                  .frame(width: 40, height: 40)
-                  .background(AppTheme.surfaceMuted, in: Circle())
-              }
-              .buttonStyle(.plain)
+        // Card-free calorie display: just a massive serif number on warm background
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          Text("DAILY CALORIES")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .kerning(1.5)
 
-              Text("\(dailyCalories)")
-                .font(.system(.title2, design: .rounded, weight: .bold))
-                .foregroundStyle(AppTheme.textPrimary)
-                .frame(maxWidth: .infinity)
-
-              Button {
-                dailyCalories = min(4500, dailyCalories + 50)
-              } label: {
-                Image(systemName: "plus")
-                  .font(.headline)
-                  .frame(width: 40, height: 40)
-                  .background(AppTheme.surfaceMuted, in: Circle())
-              }
-              .buttonStyle(.plain)
+          HStack(spacing: AppTheme.Space.sm) {
+            Button {
+              dailyCalories = max(1000, dailyCalories - 50)
+            } label: {
+              Image(systemName: "minus")
+                .font(.headline)
+                .frame(width: 44, height: 44)
+                .background(AppTheme.surfaceMuted, in: Circle())
+                .overlay(Circle().stroke(AppTheme.oat.opacity(0.25), lineWidth: 1))
             }
+            .buttonStyle(.plain)
 
-            Slider(
-              value: Binding(
-                get: { Double(dailyCalories) },
-                set: { dailyCalories = Int($0.rounded()) }
-              ),
-              in: 1000...4500,
-              step: 50
-            )
-            .tint(AppTheme.accent)
+            Text("\(dailyCalories)")
+              .font(.system(size: 48, weight: .bold, design: .serif))
+              .foregroundStyle(AppTheme.textPrimary)
+              .frame(maxWidth: .infinity)
+              .contentTransition(.numericText())
+
+            Button {
+              dailyCalories = min(4500, dailyCalories + 50)
+            } label: {
+              Image(systemName: "plus")
+                .font(.headline)
+                .frame(width: 44, height: 44)
+                .background(AppTheme.surfaceMuted, in: Circle())
+                .overlay(Circle().stroke(AppTheme.oat.opacity(0.25), lineWidth: 1))
+            }
+            .buttonStyle(.plain)
           }
+
+          Slider(
+            value: Binding(
+              get: { Double(dailyCalories) },
+              set: { dailyCalories = Int($0.rounded()) }
+            ),
+            in: 1000...4500,
+            step: 50
+          )
+          .tint(AppTheme.accent)
         }
       }
-      .padding(.horizontal, AppTheme.Space.md)
+      .padding(.horizontal, AppTheme.Space.page)
       .padding(.bottom, AppTheme.Space.xl)
     }
   }
 
-  private func goalCard(_ value: HealthGoal, accent: Color) -> some View {
+  private func goalCard(_ value: HealthGoal, accent: Color, rotation: Double) -> some View {
     let selected = goal == value
 
     return Button {
       goal = value
     } label: {
-      FLCard(tone: selected ? .warm : .normal) {
-        VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-          Circle()
-            .fill(selected ? accent : AppTheme.textSecondary.opacity(0.2))
-            .frame(width: 10, height: 10)
-          Text(value.displayName)
-            .font(.subheadline.bold())
-            .foregroundStyle(AppTheme.textPrimary)
-          Text("\(value.suggestedCalories) kcal")
-            .font(.caption)
-            .foregroundStyle(AppTheme.textSecondary)
-        }
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        Circle()
+          .fill(selected ? accent : AppTheme.oat.opacity(0.35))
+          .frame(width: 12, height: 12)
+        Text(value.displayName)
+          .font(.system(.subheadline, design: .serif, weight: .semibold))
+          .foregroundStyle(AppTheme.textPrimary)
+        Text("\(value.suggestedCalories) kcal")
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
       }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .frame(minHeight: 80)
+      .padding(AppTheme.Space.md)
+      .background(
+        selected ? accent.opacity(0.10) : AppTheme.surface,
+        in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+      )
+      .overlay(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+          .stroke(selected ? accent.opacity(0.40) : AppTheme.oat.opacity(0.25), lineWidth: 1)
+      )
+      .shadow(color: AppTheme.Shadow.color, radius: selected ? 8 : 4, x: 0, y: selected ? 4 : 2)
+      .rotationEffect(.degrees(rotation), anchor: .center)
     }
     .buttonStyle(.plain)
   }
 
+  // MARK: - Restriction Step (lighter, no card-in-card)
+
   private var restrictionStep: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-        FLCard(tone: .warm) {
-          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-            Text("Choose your dietary constraints")
-              .font(.headline)
-              .foregroundStyle(AppTheme.textPrimary)
-            Text("This helps filter out recipes that don’t fit your preferences.")
-              .font(.subheadline)
-              .foregroundStyle(AppTheme.textSecondary)
-          }
-        }
+      VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+        Text("Choose your dietary constraints")
+          .font(AppTheme.Typography.displayCaption)
+          .foregroundStyle(AppTheme.textPrimary)
 
-        FLCard {
-          LazyVGrid(
-            columns: [GridItem(.adaptive(minimum: 140), spacing: AppTheme.Space.xs)],
-            spacing: AppTheme.Space.xs
-          ) {
-            ForEach(restrictionOptions, id: \.id) { option in
-              let selected = selectedRestrictions.contains(option.id)
+        Text("Filter recipes to match how you eat.")
+          .font(AppTheme.Typography.bodyMedium)
+          .foregroundStyle(AppTheme.textSecondary)
 
-              Button {
-                toggleRestriction(option.id)
-              } label: {
-                HStack(spacing: AppTheme.Space.xs) {
-                  Image(systemName: option.icon)
-                  Text(option.title)
-                    .font(.caption.weight(.semibold))
-                  Spacer(minLength: 0)
-                  Image(systemName: selected ? "checkmark.circle.fill" : "circle")
-                }
-                .foregroundStyle(selected ? AppTheme.textPrimary : AppTheme.textSecondary)
-                .padding(.horizontal, AppTheme.Space.sm)
-                .padding(.vertical, AppTheme.Space.sm)
-                .background(
-                  selected ? AppTheme.accent.opacity(0.3) : AppTheme.surface,
-                  in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                )
-                .overlay(
-                  RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                    .stroke(
-                      selected ? AppTheme.accent : AppTheme.textSecondary.opacity(0.15),
-                      lineWidth: 1)
-                )
+        LazyVGrid(
+          columns: [GridItem(.adaptive(minimum: 140), spacing: AppTheme.Space.xs)],
+          spacing: AppTheme.Space.xs
+        ) {
+          ForEach(restrictionOptions, id: \.id) { option in
+            let selected = selectedRestrictions.contains(option.id)
+
+            Button {
+              toggleRestriction(option.id)
+            } label: {
+              HStack(spacing: AppTheme.Space.xs) {
+                Image(systemName: option.icon)
+                Text(option.title)
+                  .font(AppTheme.Typography.label)
+                Spacer(minLength: 0)
+                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
               }
-              .buttonStyle(.plain)
+              .foregroundStyle(selected ? AppTheme.textPrimary : AppTheme.textSecondary)
+              .padding(.horizontal, AppTheme.Space.sm)
+              .padding(.vertical, AppTheme.Space.sm)
+              .background(
+                selected ? AppTheme.accent.opacity(0.14) : AppTheme.surface,
+                in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+              )
+              .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                  .stroke(
+                    selected ? AppTheme.accent : AppTheme.oat.opacity(0.30),
+                    lineWidth: 1)
+              )
             }
+            .buttonStyle(.plain)
           }
         }
 
         if !selectedRestrictions.isEmpty {
-          FLCard {
-            VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-              FLSectionHeader("Active Filters", icon: "line.3.horizontal.decrease.circle")
-              Text(
-                selectedRestrictions.sorted().joined(separator: ", ").replacingOccurrences(
-                  of: "_", with: " "
-                ).capitalized
-              )
-              .font(.subheadline)
+          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+            Text("ACTIVE FILTERS")
+              .font(AppTheme.Typography.labelSmall)
               .foregroundStyle(AppTheme.textSecondary)
-            }
-          }
-        }
-      }
-      .padding(.horizontal, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Space.xl)
-    }
-  }
+              .kerning(1.2)
 
-  private var allergenStep: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-        FLCard(tone: .warning) {
-          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-            Text("Start with common allergens")
-              .font(.headline)
-              .foregroundStyle(AppTheme.textPrimary)
-            Text("Tap any group below to add/remove matching ingredients in one action.")
-              .font(.subheadline)
-              .foregroundStyle(AppTheme.textSecondary)
-          }
-        }
-
-        FLCard {
-          LazyVGrid(
-            columns: [
-              GridItem(.flexible(), spacing: AppTheme.Space.xs),
-              GridItem(.flexible(), spacing: AppTheme.Space.xs),
-            ],
-            spacing: AppTheme.Space.xs
-          ) {
-            ForEach(AllergenSupport.groups) { group in
-              allergenGroupChip(group)
-            }
-          }
-        }
-
-        FLSecondaryButton("Open Full Allergen Picker", systemImage: "magnifyingglass") {
-          showAllergenPicker = true
-        }
-
-        FLCard {
-          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-            FLSectionHeader(
-              "Selected Allergen Ingredients",
-              subtitle: "\(selectedAllergens.count) selected",
-              icon: "checkmark.shield.fill"
-            )
-
-            if selectedAllergenIngredients.isEmpty {
-              Text("No allergens selected yet.")
-                .font(.subheadline)
-                .foregroundStyle(AppTheme.textSecondary)
-            } else {
-              FlowLayout(spacing: AppTheme.Space.xs) {
-                ForEach(Array(selectedAllergenIngredients.prefix(40)), id: \.id) { ingredient in
-                  Text(ingredient.displayName)
-                    .font(.caption)
-                    .padding(.horizontal, AppTheme.Space.sm)
-                    .padding(.vertical, AppTheme.Space.xs)
-                    .background(AppTheme.accent.opacity(0.18), in: Capsule())
-                }
+            FlowLayout(spacing: AppTheme.Space.xs) {
+              ForEach(Array(selectedRestrictions.sorted()), id: \.self) { restriction in
+                Text(restriction.replacingOccurrences(of: "_", with: " ").capitalized)
+                  .font(AppTheme.Typography.label)
+                  .padding(.horizontal, AppTheme.Space.sm)
+                  .padding(.vertical, AppTheme.Space.chipVertical)
+                  .foregroundStyle(AppTheme.accent)
+                  .background(AppTheme.accent.opacity(0.12), in: Capsule())
               }
             }
           }
         }
       }
-      .padding(.horizontal, AppTheme.Space.md)
+      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.bottom, AppTheme.Space.xl)
+    }
+  }
+
+  // MARK: - Allergen Step (lighter card nesting)
+
+  private var allergenStep: some View {
+    ScrollView {
+      VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          Text("Start with common allergens")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(AppTheme.textPrimary)
+          Text("Tap any group below to add or remove matching ingredients.")
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+
+        LazyVGrid(
+          columns: [
+            GridItem(.flexible(), spacing: AppTheme.Space.xs),
+            GridItem(.flexible(), spacing: AppTheme.Space.xs),
+          ],
+          spacing: AppTheme.Space.xs
+        ) {
+          ForEach(AllergenSupport.groups) { group in
+            allergenGroupChip(group)
+          }
+        }
+
+        Button {
+          showAllergenPicker = true
+        } label: {
+          Label("Open Full Allergen Picker", systemImage: "magnifyingglass")
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.accent)
+        }
+        .buttonStyle(.plain)
+
+        FLWaveDivider()
+
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          Text("SELECTED ALLERGENS")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .kerning(1.2)
+
+          Text("\(selectedAllergens.count) selected")
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.textSecondary)
+
+          if selectedAllergenIngredients.isEmpty {
+            Text("No allergens selected yet.")
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.textSecondary)
+          } else {
+            FlowLayout(spacing: AppTheme.Space.xs) {
+              ForEach(Array(selectedAllergenIngredients.prefix(40)), id: \.id) { ingredient in
+                Text(ingredient.displayName)
+                  .font(AppTheme.Typography.bodySmall)
+                  .padding(.horizontal, AppTheme.Space.sm)
+                  .padding(.vertical, AppTheme.Space.chipVertical)
+                  .background(
+                    FLOrganicBlob(seed: ingredient.displayName.hashValue)
+                      .fill(AppTheme.accent.opacity(0.12))
+                  )
+              }
+            }
+          }
+        }
+      }
+      .padding(.horizontal, AppTheme.Space.page)
       .padding(.bottom, AppTheme.Space.xl)
     }
   }
@@ -472,13 +484,13 @@ struct OnboardingView: View {
     } label: {
       HStack(spacing: AppTheme.Space.xs) {
         Image(systemName: group.systemImage)
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
           Text(group.title)
-            .font(.caption.weight(.semibold))
+            .font(AppTheme.Typography.label)
             .lineLimit(1)
             .foregroundStyle(AppTheme.textPrimary)
           Text(isSelected ? "\(selectedCount) selected" : group.subtitle)
-            .font(.caption2)
+            .font(AppTheme.Typography.labelSmall)
             .lineLimit(2)
             .multilineTextAlignment(.leading)
             .foregroundStyle(AppTheme.textSecondary)
@@ -497,12 +509,12 @@ struct OnboardingView: View {
         maxHeight: Layout.allergenGroupChipHeight, alignment: .leading
       )
       .background(
-        isSelected ? AppTheme.accent.opacity(0.3) : AppTheme.surface,
+        isSelected ? AppTheme.accent.opacity(0.14) : AppTheme.surface,
         in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
       )
       .overlay(
         RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-          .stroke(isSelected ? AppTheme.accent : AppTheme.textSecondary.opacity(0.15), lineWidth: 1)
+          .stroke(isSelected ? AppTheme.accent : AppTheme.oat.opacity(0.25), lineWidth: 1)
       )
       .opacity(matchedIDs.isEmpty ? 0.75 : 1)
       .contentShape(Rectangle())
@@ -510,6 +522,8 @@ struct OnboardingView: View {
     .buttonStyle(.plain)
     .disabled(matchedIDs.isEmpty)
   }
+
+  // MARK: - Footer
 
   private var footer: some View {
     let backVisible = stepIndex > 0
@@ -539,17 +553,20 @@ struct OnboardingView: View {
       if isSaving {
         ProgressView()
           .controlSize(.small)
+          .tint(AppTheme.accent)
       }
     }
-    .padding(.horizontal, AppTheme.Space.md)
+    .padding(.horizontal, AppTheme.Space.page)
     .padding(.vertical, AppTheme.Space.sm)
     .background(AppTheme.bg)
     .overlay(alignment: .top) {
       Rectangle()
-        .fill(AppTheme.textSecondary.opacity(0.14))
+        .fill(AppTheme.oat.opacity(0.25))
         .frame(height: 1)
     }
   }
+
+  // MARK: - Helpers
 
   private var primaryButtonTitle: String {
     if stepIndex == totalSteps - 1 {
@@ -570,7 +587,6 @@ struct OnboardingView: View {
       setStep(stepIndex + 1, direction: .forward)
       return
     }
-
     saveProfile()
   }
 

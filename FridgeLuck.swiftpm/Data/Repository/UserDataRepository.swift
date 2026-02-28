@@ -35,7 +35,7 @@ final class UserDataRepository: Sendable {
 
   func earnBadge(id: String) throws {
     try db.write { db in
-      var badge = Badge(id: id)
+      let badge = Badge(id: id)
       try badge.insert(db)
     }
   }
@@ -67,6 +67,107 @@ final class UserDataRepository: Sendable {
         sql: """
           SELECT COUNT(DISTINCT recipe_id) FROM cooking_history
           """) ?? 0
+    }
+  }
+
+  func mealsCooked(lastDays: Int) throws -> Int {
+    let safeDays = max(1, lastDays)
+    let modifier = "-\(safeDays - 1) days"
+
+    return try db.read { db in
+      try Int.fetchOne(
+        db,
+        sql: """
+          SELECT COUNT(*)
+          FROM cooking_history
+          WHERE cooked_at >= datetime('now', ?)
+          """,
+        arguments: [modifier]
+      ) ?? 0
+    }
+  }
+
+  func mealsByDay(lastDays: Int) throws -> [DailyCookingPoint] {
+    let safeDays = max(1, lastDays)
+    let modifier = "-\(safeDays - 1) days"
+
+    return try db.read { db in
+      let rows = try Row.fetchAll(
+        db,
+        sql: """
+          SELECT date(cooked_at) as day, COUNT(*) as meals
+          FROM cooking_history
+          WHERE cooked_at >= datetime('now', ?)
+          GROUP BY day
+          ORDER BY day ASC
+          """,
+        arguments: [modifier]
+      )
+
+      let mealsByDay = Dictionary(
+        uniqueKeysWithValues: rows.compactMap { row in
+          let day: String = row["day"]
+          let meals: Int = row["meals"]
+          return (day, meals)
+        })
+
+      let calendar = Calendar.current
+      let today = calendar.startOfDay(for: Date())
+      let formatter = DateFormatter()
+      formatter.dateFormat = "yyyy-MM-dd"
+      formatter.locale = Locale(identifier: "en_US_POSIX")
+
+      return (0..<safeDays).reversed().compactMap { offset in
+        guard let date = calendar.date(byAdding: .day, value: -offset, to: today) else {
+          return nil
+        }
+        let key = formatter.string(from: date)
+        return DailyCookingPoint(date: date, meals: mealsByDay[key] ?? 0)
+      }
+    }
+  }
+
+  func mealsByWeekday(lastDays: Int) throws -> [WeekdayCookingPoint] {
+    let safeDays = max(1, lastDays)
+    let modifier = "-\(safeDays - 1) days"
+
+    return try db.read { db in
+      let rows = try Row.fetchAll(
+        db,
+        sql: """
+          SELECT CAST(strftime('%w', cooked_at) AS INTEGER) as weekday,
+                 COUNT(*) as meals
+          FROM cooking_history
+          WHERE cooked_at >= datetime('now', ?)
+          GROUP BY weekday
+          """,
+        arguments: [modifier]
+      )
+
+      let mealsByWeekday = Dictionary(
+        uniqueKeysWithValues: rows.compactMap { row in
+          let weekday: Int = row["weekday"]  // Sunday = 0
+          let meals: Int = row["meals"]
+          return (weekday, meals)
+        })
+
+      let orderedDays: [(index: Int, label: String, sqlWeekday: Int)] = [
+        (1, "Mon", 1),
+        (2, "Tue", 2),
+        (3, "Wed", 3),
+        (4, "Thu", 4),
+        (5, "Fri", 5),
+        (6, "Sat", 6),
+        (7, "Sun", 0),
+      ]
+
+      return orderedDays.map { day in
+        WeekdayCookingPoint(
+          weekdayIndex: day.index,
+          weekdayLabel: day.label,
+          meals: mealsByWeekday[day.sqlWeekday] ?? 0
+        )
+      }
     }
   }
 }
