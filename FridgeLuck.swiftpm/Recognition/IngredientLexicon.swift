@@ -3,6 +3,12 @@ import Foundation
 /// Maps Vision taxonomy labels, OCR text, and common synonyms to ingredient database IDs.
 /// This is intentionally code (not JSON) because it is mapping logic.
 enum IngredientLexicon {
+  struct OCRTextMatch: Sendable {
+    let ingredientId: Int64
+    let kind: OCRMatchKind
+    let matchedToken: String
+  }
+
   // MARK: - Vision label → ingredient ID
 
   /// Maps VNClassifyImageRequest taxonomy labels to ingredient database IDs.
@@ -198,21 +204,42 @@ enum IngredientLexicon {
 
   /// Search OCR text for any known ingredient name.
   static func resolveFromText(_ ocrText: String) -> Int64? {
-    let lowered = ocrText.lowercased()
+    resolveFromTextDetailed(ocrText)?.ingredientId
+  }
 
-    // Check synonyms first (they contain common packaging text)
-    for (phrase, canonical) in synonyms {
-      if lowered.contains(phrase), let id = labelToId[canonical] {
-        return id
-      }
+  /// Resolve OCR text with match quality for source-aware confidence routing.
+  static func resolveFromTextDetailed(_ ocrText: String) -> OCRTextMatch? {
+    let normalizedText = normalizeOCRText(ocrText)
+    guard !normalizedText.isEmpty else { return nil }
+
+    let synonymCandidates = synonyms.keys.sorted { lhs, rhs in
+      if lhs.count == rhs.count { return lhs < rhs }
+      return lhs.count > rhs.count
+    }
+    for phrase in synonymCandidates {
+      guard containsWholePhrase(normalizedText, phrase: phrase),
+        let canonical = synonyms[phrase],
+        let id = labelToId[canonical]
+      else { continue }
+      return OCRTextMatch(ingredientId: id, kind: .exact, matchedToken: phrase)
     }
 
-    // Check direct label names
-    for (name, id) in labelToId {
-      let readable = name.replacingOccurrences(of: "_", with: " ")
-      if lowered.contains(readable) {
-        return id
-      }
+    let labelCandidates = labelToId.keys.sorted { lhs, rhs in
+      if lhs.count == rhs.count { return lhs < rhs }
+      return lhs.count > rhs.count
+    }
+    for label in labelCandidates {
+      let readable = label.replacingOccurrences(of: "_", with: " ")
+      guard containsWholePhrase(normalizedText, phrase: readable),
+        let id = labelToId[label]
+      else { continue }
+      return OCRTextMatch(ingredientId: id, kind: .exact, matchedToken: readable)
+    }
+
+    let tokens = normalizedText.split(separator: " ").map(String.init)
+    for token in tokens where token.count >= 4 {
+      guard let id = resolve(token) else { continue }
+      return OCRTextMatch(ingredientId: id, kind: .fuzzy, matchedToken: token)
     }
 
     return nil
@@ -221,5 +248,19 @@ enum IngredientLexicon {
   /// Get a human-readable display name for an ingredient ID.
   static func displayName(for ingredientId: Int64) -> String {
     displayNames[ingredientId] ?? "Unknown"
+  }
+
+  private static func normalizeOCRText(_ text: String) -> String {
+    let lowered = text.lowercased()
+    let components = lowered.components(separatedBy: CharacterSet.alphanumerics.inverted)
+      .filter { !$0.isEmpty }
+    return components.joined(separator: " ")
+  }
+
+  private static func containsWholePhrase(_ normalizedText: String, phrase: String) -> Bool {
+    let normalizedPhrase = normalizeOCRText(phrase)
+    guard !normalizedPhrase.isEmpty else { return false }
+    let paddedText = " \(normalizedText) "
+    return paddedText.contains(" \(normalizedPhrase) ")
   }
 }

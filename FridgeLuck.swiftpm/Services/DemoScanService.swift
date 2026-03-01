@@ -7,6 +7,8 @@ enum DemoScanService {
   struct DemoScanPayload {
     let detections: [Detection]
     let image: UIImage?
+    let provenance: ScanProvenance
+    let diagnostics: ScanDiagnostics?
     let usedBundledFixture: Bool
     let usedStarterFallback: Bool
   }
@@ -18,11 +20,23 @@ enum DemoScanService {
     let source: String
     let originalVisionLabel: String
     let alternatives: [DemoFixtureAlternative]?
+    let normalizedBoundingBox: DemoFixtureRect?
+    let evidenceTokens: [String]?
+    let cropID: String?
+    let captureIndex: Int?
+    let ocrMatchKind: String?
   }
 
   private struct DemoFixtureAlternative: Decodable {
     let ingredientId: Int64
     let label: String
+  }
+
+  private struct DemoFixtureRect: Decodable {
+    let x: CGFloat
+    let y: CGFloat
+    let width: CGFloat
+    let height: CGFloat
   }
 
   /// Load demo payload for the default scenario (Asian Stir-Fry / legacy).
@@ -47,6 +61,8 @@ enum DemoScanService {
       return DemoScanPayload(
         detections: scanResult.detections,
         image: image,
+        provenance: scanResult.provenance,
+        diagnostics: scanResult.diagnostics,
         usedBundledFixture: false,
         usedStarterFallback: false
       )
@@ -57,6 +73,8 @@ enum DemoScanService {
       return DemoScanPayload(
         detections: fixtureDetections,
         image: demoImage,
+        provenance: .bundledFixture,
+        diagnostics: nil,
         usedBundledFixture: true,
         usedStarterFallback: false
       )
@@ -65,6 +83,8 @@ enum DemoScanService {
     return DemoScanPayload(
       detections: starterDetections(),
       image: demoImage,
+      provenance: .starterFallback,
+      diagnostics: nil,
       usedBundledFixture: true,
       usedStarterFallback: true
     )
@@ -138,6 +158,10 @@ enum DemoScanService {
 
     return fixtures.map { fixture in
       let source = DetectionSource(rawValue: fixture.source) ?? .vision
+      let rect = fixture.normalizedBoundingBox.map {
+        CGRect(x: $0.x, y: $0.y, width: $0.width, height: $0.height)
+      }
+      let matchKind = fixture.ocrMatchKind.flatMap(OCRMatchKind.init(rawValue:))
       return Detection(
         ingredientId: fixture.ingredientId,
         label: fixture.label,
@@ -150,7 +174,12 @@ enum DemoScanService {
             label: $0.label,
             confidence: nil
           )
-        }
+        },
+        normalizedBoundingBox: rect,
+        evidenceTokens: fixture.evidenceTokens ?? [],
+        cropID: fixture.cropID,
+        captureIndex: fixture.captureIndex,
+        ocrMatchKind: matchKind
       )
     }
   }
@@ -164,7 +193,12 @@ enum DemoScanService {
         confidence: 1.0,
         source: .manual,
         originalVisionLabel: "starter_\(id)",
-        alternatives: []
+        alternatives: [],
+        normalizedBoundingBox: nil,
+        evidenceTokens: ["starter_fallback"],
+        cropID: "starter",
+        captureIndex: 0,
+        ocrMatchKind: nil
       )
     }
   }

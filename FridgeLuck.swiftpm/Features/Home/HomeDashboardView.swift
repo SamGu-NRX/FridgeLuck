@@ -11,6 +11,7 @@ struct HomeDashboardView: View {
   @State private var insightMode: InsightMode = .macros
   @State private var heroAppeared = false
   @State private var navAppeared = false
+  @State private var showResetConfirmation = false
 
   let isRunningDemo: Bool
   let onStartJudgePath: () -> Void
@@ -20,6 +21,7 @@ struct HomeDashboardView: View {
   let onCompleteProfile: () -> Void
   let onProfile: () -> Void
   let onSelectDemoScenario: (DemoScenario) -> Void
+  let onReset: () -> Void
 
   private enum InsightMode: String, CaseIterable, Identifiable {
     case macros = "Macros"
@@ -36,7 +38,8 @@ struct HomeDashboardView: View {
     onEstimate: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
     onProfile: @escaping () -> Void,
-    onSelectDemoScenario: @escaping (DemoScenario) -> Void = { _ in }
+    onSelectDemoScenario: @escaping (DemoScenario) -> Void = { _ in },
+    onReset: @escaping () -> Void = {}
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
     self.isRunningDemo = isRunningDemo
@@ -47,6 +50,7 @@ struct HomeDashboardView: View {
     self.onCompleteProfile = onCompleteProfile
     self.onProfile = onProfile
     self.onSelectDemoScenario = onSelectDemoScenario
+    self.onReset = onReset
   }
 
   private var tutorialProgress: TutorialProgress {
@@ -73,9 +77,26 @@ struct HomeDashboardView: View {
           errorState
             .padding(.horizontal, AppTheme.Space.page)
         }
+
+        // Reset button — small, unobtrusive colophon-style
+        resetFooter
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.top, AppTheme.Space.sectionBreak)
       }
       .padding(.top, AppTheme.Space.md)
       .padding(.bottom, AppTheme.Space.lg)
+    }
+    .alert("Start fresh?", isPresented: $showResetConfirmation) {
+      Button("Reset Everything", role: .destructive) {
+        tutorialStorageString = ""
+        onReset()
+        Task { await viewModel.load() }
+      }
+      Button("Cancel", role: .cancel) {}
+    } message: {
+      Text(
+        "This will erase your profile, cooking history, badges, and streaks. Recipes and ingredients stay. You\u{2019}ll see the tutorial again."
+      )
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       bottomNav(snapshot: viewModel.snapshot)
@@ -919,5 +940,33 @@ struct HomeDashboardView: View {
     .padding(.horizontal, AppTheme.Space.sm)
     .padding(.vertical, AppTheme.Space.xs)
     .background(AppTheme.surfaceMuted, in: Capsule())
+  }
+
+  // MARK: - Reset Footer
+
+  private var resetFooter: some View {
+    VStack(spacing: AppTheme.Space.xxs) {
+      Rectangle()
+        .fill(AppTheme.oat.opacity(0.22))
+        .frame(width: 32, height: 1)
+
+      Button {
+        showResetConfirmation = true
+      } label: {
+        HStack(spacing: AppTheme.Space.xxs) {
+          Image(systemName: "arrow.counterclockwise")
+            .font(.system(size: 9, weight: .semibold))
+          Text("Reset progress")
+            .font(.system(size: 10, weight: .medium, design: .serif))
+            .kerning(0.6)
+        }
+        .foregroundStyle(AppTheme.dustyRose.opacity(0.65))
+        .padding(.horizontal, AppTheme.Space.sm)
+        .padding(.vertical, AppTheme.Space.xxs)
+      }
+      .buttonStyle(.plain)
+      .accessibilityLabel("Reset all progress and data")
+    }
+    .frame(maxWidth: .infinity)
   }
 }

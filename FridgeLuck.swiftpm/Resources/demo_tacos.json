@@ -5,6 +5,10 @@
     "confidence": 0.93,
     "source": "vision",
     "originalVisionLabel": "black beans",
+    "normalizedBoundingBox": null,
+    "evidenceTokens": ["fixture_seed"],
+    "cropID": "fixture_full",
+    "captureIndex": 0,
     "alternatives": [
       { "ingredientId": 35, "label": "Chickpea" }
     ]

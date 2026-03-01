@@ -1,5 +1,18 @@
 import SwiftUI
 
+// MARK: - Navigation Coordinator
+
+/// Lightweight coordinator that allows deeply nested views (e.g. cooking celebration)
+/// to signal the root ContentView to collapse the entire NavigationStack back to Home.
+@Observable
+final class NavigationCoordinator {
+  var shouldReturnHome = false
+
+  func returnHome() {
+    shouldReturnHome = true
+  }
+}
+
 /// Root host view for Home Dashboard and navigation flows.
 struct ContentView: View {
   @EnvironmentObject var deps: AppDependencies
@@ -12,6 +25,7 @@ struct ContentView: View {
   @State private var selectedDemoScenario: DemoScenario?
   @State private var showOnboarding = false
   @State private var showProfile = false
+  @State private var navCoordinator = NavigationCoordinator()
 
   @AppStorage("tutorialProgressStorage") private var tutorialStorageString = ""
 
@@ -26,7 +40,8 @@ struct ContentView: View {
         onEstimate: openPreparedDishEstimate,
         onCompleteProfile: openOnboarding,
         onProfile: openProfile,
-        onSelectDemoScenario: openScenarioDemo
+        onSelectDemoScenario: openScenarioDemo,
+        onReset: performFullReset
       )
       .navigationBarTitleDisplayMode(.inline)
       .navigationDestination(isPresented: $navigateToScan) {
@@ -44,7 +59,17 @@ struct ContentView: View {
         PreparedDishEstimateView()
       }
     }
+    .environment(navCoordinator)
     .flPageBackground()
+    .onChange(of: navCoordinator.shouldReturnHome) { _, shouldReturn in
+      guard shouldReturn else { return }
+      // Collapse the entire NavigationStack back to the Home dashboard
+      navigateToScan = false
+      navigateToJudgeDemo = false
+      navigateToScenarioDemo = false
+      navigateToDishEstimate = false
+      navCoordinator.shouldReturnHome = false
+    }
     .task {
       await refreshOnboardingGate()
     }
@@ -115,5 +140,27 @@ struct ContentView: View {
     var progress = TutorialProgress(storageString: tutorialStorageString)
     progress.markCompleted(quest)
     tutorialStorageString = progress.storageString
+  }
+
+  // MARK: - Full Reset
+
+  private func performFullReset() {
+    // 1. Clear all user data from the database
+    do {
+      try deps.userDataRepository.resetAllUserData()
+    } catch {
+      // Reset is best-effort; log but don't block the UI.
+    }
+
+    // 2. Clear tutorial progress (already cleared in HomeDashboardView,
+    //    but ensure ContentView's copy is also empty)
+    tutorialStorageString = ""
+
+    // 3. Clear learning telemetry counters from UserDefaults
+    UserDefaults.standard.removeObject(forKey: "learning_suggestions_shown")
+    UserDefaults.standard.removeObject(forKey: "learning_suggestions_accepted")
+
+    // 4. Refresh onboarding gate so the app knows profile is gone
+    hasOnboarded = false
   }
 }

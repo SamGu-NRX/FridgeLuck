@@ -23,9 +23,15 @@ struct ScanView: View {
   @State private var capturedImage: UIImage?
   @State private var showCamera = false
   @State private var showPhotoLibrary = false
+  @State private var showRunReports = false
   @State private var isProcessing = false
   @State private var detections: [Detection] = []
+  @State private var capturedShots: [UIImage] = []
+  @State private var capturedShotSources: [ScanInputSource] = []
+  @State private var pendingCaptureSource: ScanInputSource = .camera
   @State private var nutritionLabelOutcome: NutritionLabelParseOutcome?
+  @State private var scanProvenance: ScanProvenance = .realScan
+  @State private var scanDiagnostics: ScanDiagnostics?
   @State private var navigateToReview = false
   @State private var errorMessage: String?
   @State private var didStartDemoFlow = false
@@ -95,10 +101,16 @@ struct ScanView: View {
       PhotoLibraryPicker(image: $capturedImage)
         .ignoresSafeArea()
     }
+    .sheet(isPresented: $showRunReports) {
+      ScanRunReportSheet()
+        .environmentObject(deps)
+    }
     .navigationDestination(isPresented: $navigateToReview) {
       IngredientReviewView(
         detections: detections,
-        nutritionLabelOutcome: nutritionLabelOutcome
+        nutritionLabelOutcome: nutritionLabelOutcome,
+        scanProvenance: scanProvenance,
+        scanDiagnostics: scanDiagnostics
       )
     }
     .onAppear {
@@ -107,7 +119,24 @@ struct ScanView: View {
     }
     .onChange(of: capturedImage) { _, newValue in
       guard mode == .live, newValue != nil else { return }
+      if let newValue {
+        capturedShots.append(newValue)
+        capturedShotSources.append(pendingCaptureSource)
+        if capturedShots.count > 3 {
+          capturedShots.removeFirst(capturedShots.count - 3)
+          capturedShotSources.removeFirst(max(0, capturedShotSources.count - 3))
+        }
+      }
       Task { await processImage() }
+    }
+    .toolbar {
+      ToolbarItem(placement: .topBarTrailing) {
+        Button {
+          showRunReports = true
+        } label: {
+          Image(systemName: "doc.text.magnifyingglass")
+        }
+      }
     }
   }
 
@@ -184,6 +213,10 @@ struct ScanView: View {
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
           .multilineTextAlignment(.center)
+        Text("Best results: take 2-3 close shots of ingredient groups.")
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
       }
 
       VStack(spacing: AppTheme.Space.sm) {
@@ -192,12 +225,15 @@ struct ScanView: View {
         }
 
         FLSecondaryButton("Choose from Library", systemImage: "photo.on.rectangle") {
+          pendingCaptureSource = .photoLibrary
           showPhotoLibrary = true
         }
 
         Button {
           detections = []
           nutritionLabelOutcome = nil
+          scanProvenance = .realScan
+          scanDiagnostics = nil
           navigateToReview = true
         } label: {
           Label("Add Ingredients Manually", systemImage: "plus.circle")
@@ -206,6 +242,12 @@ struct ScanView: View {
         }
         .buttonStyle(.plain)
         .padding(.top, AppTheme.Space.xs)
+      }
+
+      if !capturedShots.isEmpty {
+        Text("Captured shots: \(capturedShots.count)/3")
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(AppTheme.textSecondary)
       }
 
       if cameraPermissionState == .denied {
@@ -220,11 +262,14 @@ struct ScanView: View {
 
             HStack(spacing: AppTheme.Space.sm) {
               FLSecondaryButton("Use Library", systemImage: "photo.on.rectangle") {
+                pendingCaptureSource = .photoLibrary
                 showPhotoLibrary = true
               }
               FLSecondaryButton("Manual", systemImage: "plus.circle") {
                 detections = []
                 nutritionLabelOutcome = nil
+                scanProvenance = .realScan
+                scanDiagnostics = nil
                 navigateToReview = true
               }
             }
@@ -293,6 +338,15 @@ struct ScanView: View {
             .foregroundStyle(AppTheme.accent)
             .multilineTextAlignment(.center)
             .padding(.top, AppTheme.Space.xxs)
+        }
+
+        if let scanDiagnostics {
+          Text(
+            "Scan \(scanDiagnostics.elapsedMs)ms · auto \(scanDiagnostics.bucketCounts.auto), confirm \(scanDiagnostics.bucketCounts.confirm), maybe \(scanDiagnostics.bucketCounts.possible)"
+          )
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
         }
       }
     }
@@ -400,6 +454,8 @@ struct ScanView: View {
         FLPrimaryButton("Add Ingredients Manually", systemImage: "plus.circle.fill") {
           detections = []
           nutritionLabelOutcome = nil
+          scanProvenance = .realScan
+          scanDiagnostics = nil
           navigateToReview = true
         }
 
@@ -410,6 +466,8 @@ struct ScanView: View {
             beginDemoFlowIfNeeded()
           } else {
             capturedImage = nil
+            capturedShots.removeAll()
+            capturedShotSources.removeAll()
           }
         }
       }
@@ -422,6 +480,8 @@ struct ScanView: View {
     guard mode == .demo, !didStartDemoFlow else { return }
     didStartDemoFlow = true
     fallbackStateText = nil
+    capturedShots.removeAll()
+    capturedShotSources.removeAll()
 
     if capturedImage == nil {
       capturedImage = DemoScanService.loadDemoImage()
@@ -441,6 +501,7 @@ struct ScanView: View {
       isProcessing = true
       errorMessage = nil
       fallbackStateText = nil
+      scanDiagnostics = nil
     }
 
     defer {
@@ -454,17 +515,29 @@ struct ScanView: View {
         scenario: demoScenario, using: deps.visionService)
       detections = payload.detections
       nutritionLabelOutcome = nil
+      scanProvenance = payload.provenance
+      scanDiagnostics = payload.diagnostics
       if capturedImage == nil {
         capturedImage = payload.image
       }
-      if payload.usedStarterFallback {
+      switch payload.provenance {
+      case .realScan:
+        fallbackStateText = nil
+      case .bundledFixture:
+        fallbackStateText = "Using bundled demo fixture for reliability."
+      case .starterFallback:
         fallbackStateText =
           "Demo assets unavailable. Prefilled starter ingredients for reliable review."
-      } else if payload.usedBundledFixture {
-        fallbackStateText = "Using bundled demo fixture for reliability."
       }
+      await persistRunRecord(
+        mode: .demo,
+        detections: detections,
+        provenance: payload.provenance,
+        diagnostics: payload.diagnostics,
+        inputSources: [.demo]
+      )
     } else {
-      guard let capturedImage, let cgImage = capturedImage.cgImage else {
+      guard let capturedImage else {
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Pick or capture an image before scanning."
         }
@@ -472,9 +545,37 @@ struct ScanView: View {
       }
 
       do {
-        let result = try await deps.visionService.scan(image: cgImage)
+        let imagesToScan: [UIImage] = {
+          if !capturedShots.isEmpty {
+            return Array(capturedShots.suffix(3))
+          }
+          return [capturedImage]
+        }()
+
+        let inputs = imagesToScan.enumerated().compactMap { (index, image) -> ScanInput? in
+          guard let cgImage = image.cgImage else { return nil }
+          let source =
+            capturedShotSources.indices.contains(index)
+            ? capturedShotSources[index]
+            : pendingCaptureSource
+          return ScanInput(
+            image: cgImage,
+            source: source,
+            captureIndex: index
+          )
+        }
+        let result = try await deps.visionService.scan(inputs: inputs)
         detections = result.detections
         nutritionLabelOutcome = NutritionLabelParser.parse(ocrText: result.ocrText)
+        scanProvenance = result.provenance
+        scanDiagnostics = result.diagnostics
+        await persistRunRecord(
+          mode: .live,
+          detections: detections,
+          provenance: result.provenance,
+          diagnostics: result.diagnostics,
+          inputSources: inputs.map(\.source)
+        )
       } catch {
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Scan failed. Try better lighting or continue manually."
@@ -504,17 +605,33 @@ struct ScanView: View {
             label: IngredientLexicon.displayName(for: 1),
             confidence: 1.0,
             source: .manual,
-            originalVisionLabel: "starter_egg"
+            originalVisionLabel: "starter_egg",
+            evidenceTokens: ["starter_fallback"],
+            cropID: "starter",
+            captureIndex: 0
           ),
           Detection(
             ingredientId: 2,
             label: IngredientLexicon.displayName(for: 2),
             confidence: 1.0,
             source: .manual,
-            originalVisionLabel: "starter_rice"
+            originalVisionLabel: "starter_rice",
+            evidenceTokens: ["starter_fallback"],
+            cropID: "starter",
+            captureIndex: 0
           ),
         ]
         nutritionLabelOutcome = nil
+        scanProvenance = .starterFallback
+        fallbackStateText =
+          "Demo scan found no items. Using starter fallback to keep the flow moving."
+        await persistRunRecord(
+          mode: .demo,
+          detections: detections,
+          provenance: .starterFallback,
+          diagnostics: scanDiagnostics,
+          inputSources: [.demo]
+        )
         navigateToReview = true
       }
     } else {
@@ -523,8 +640,10 @@ struct ScanView: View {
   }
 
   private func openCameraCapture() {
+    pendingCaptureSource = .camera
     guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
       cameraPermissionState = .unavailable
+      pendingCaptureSource = .photoLibrary
       showPhotoLibrary = true
       return
     }
@@ -548,8 +667,25 @@ struct ScanView: View {
       cameraPermissionState = .denied
     @unknown default:
       cameraPermissionState = .unavailable
+      pendingCaptureSource = .photoLibrary
       showPhotoLibrary = true
     }
+  }
+
+  private func persistRunRecord(
+    mode: ScanRunRecord.RunMode,
+    detections: [Detection],
+    provenance: ScanProvenance,
+    diagnostics: ScanDiagnostics?,
+    inputSources: [ScanInputSource]
+  ) async {
+    await deps.scanRunStore.record(
+      mode: mode,
+      inputSources: inputSources,
+      provenance: provenance,
+      diagnostics: diagnostics,
+      detections: detections
+    )
   }
 
   private func refreshCameraPermissionState() {

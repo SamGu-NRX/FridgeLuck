@@ -1,8 +1,9 @@
+import CoreGraphics
 import Foundation
 
 // MARK: - Detection Source
 
-enum DetectionSource: String, Sendable {
+enum DetectionSource: String, Sendable, Codable {
   case vision
   case ocr
   case manual
@@ -28,10 +29,15 @@ struct Detection: Identifiable, Sendable {
   let source: DetectionSource
   let originalVisionLabel: String
   var alternatives: [DetectionAlternative] = []
+  var normalizedBoundingBox: CGRect? = nil
+  var evidenceTokens: [String] = []
+  var cropID: String? = nil
+  var captureIndex: Int? = nil
+  var ocrMatchKind: OCRMatchKind? = nil
 
-  var isHighConfidence: Bool { confidence >= 0.65 }
-  var isMediumConfidence: Bool { confidence >= 0.35 && confidence < 0.65 }
-  var isLowConfidence: Bool { confidence < 0.35 }
+  var isHighConfidence: Bool { ConfidenceRouter.bucket(for: self) == .auto }
+  var isMediumConfidence: Bool { ConfidenceRouter.bucket(for: self) == .confirm }
+  var isLowConfidence: Bool { ConfidenceRouter.bucket(for: self) == .possible }
 }
 
 // MARK: - Detection Category
@@ -42,12 +48,12 @@ enum DetectionCategory: Sendable {
   case possibleItem
 
   static func categorize(_ detection: Detection) -> DetectionCategory {
-    switch detection.confidence {
-    case 0.65...:
+    switch ConfidenceRouter.bucket(for: detection) {
+    case .auto:
       return .autoConfirm
-    case 0.35..<0.65:
+    case .confirm:
       return .askUser(alternatives: [])
-    default:
+    case .possible:
       return .possibleItem
     }
   }

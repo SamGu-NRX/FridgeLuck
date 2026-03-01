@@ -2,12 +2,13 @@ import SwiftUI
 
 /// Shows recipe recommendations based on the user's available ingredients.
 /// Tapping a recipe opens a preview drawer (sheet), which leads to the recipe book
-/// (fullScreenCover), then the cooking celebration, and finally dismisses back here.
+/// (fullScreenCover), then the cooking celebration, and finally dismisses back to Home
+/// via the NavigationCoordinator.
 struct RecipeResultsView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.dismiss) private var dismiss
+  @Environment(NavigationCoordinator.self) private var navCoordinator
   let ingredientIds: Set<Int64>
-  var onCookingComplete: (() -> Void)?
 
   @StateObject private var engine: RecommendationEngine
   @Namespace private var transitionNamespace
@@ -19,11 +20,9 @@ struct RecipeResultsView: View {
 
   init(
     ingredientIds: Set<Int64>,
-    engine: RecommendationEngine,
-    onCookingComplete: (() -> Void)? = nil
+    engine: RecommendationEngine
   ) {
     self.ingredientIds = ingredientIds
-    self.onCookingComplete = onCookingComplete
     _engine = StateObject(wrappedValue: engine)
   }
 
@@ -94,8 +93,12 @@ struct RecipeResultsView: View {
     .fullScreenCover(item: $cookingRecipe) { recipe in
       RecipeBookView(scoredRecipe: recipe) {
         // Cooking complete (celebration "Done" tapped)
+        // Dismiss the fullScreenCover first, then return to Home after the animation settles.
         cookingRecipe = nil
-        onCookingComplete?()
+        Task {
+          try? await Task.sleep(for: .milliseconds(450))
+          navCoordinator.returnHome()
+        }
       }
     }
   }
