@@ -218,6 +218,16 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V7: USDA catalog hydration state
+
+    migrator.registerMigration("v7_usda_catalog_state") { db in
+      try db.create(table: "usda_catalog_state") { t in
+        t.primaryKey("key", .text)
+        t.column("value", .text).notNull()
+        t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+      }
+    }
+
     try migrator.migrate(db)
   }
 }

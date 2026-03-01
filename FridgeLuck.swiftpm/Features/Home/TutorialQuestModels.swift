@@ -29,7 +29,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
       return
         "Pick a fridge scenario and watch FridgeLuck identify ingredients and find your best recipes."
     case .cookAndRate:
-      return "Follow step-by-step instructions, then mark your meal as cooked to build your streak."
+      return "Pick a fridge, find a recipe, and cook it step by step."
     case .exploreMore:
       return "Try another cuisine or estimate a prepared dish\u{2019}s nutrition in seconds."
     }
@@ -56,8 +56,8 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   var ctaTitle: String {
     switch self {
     case .setupProfile: return "Set Up Profile"
-    case .firstScan: return "Pick a Scenario"
-    case .cookAndRate: return "View Your Recipe"
+    case .firstScan: return "Try Demo Mode"
+    case .cookAndRate: return "Cook a Recipe"
     case .exploreMore: return "Explore"
     }
   }
@@ -167,6 +167,33 @@ enum DemoScenario: String, CaseIterable, Identifiable, Sendable {
     case .asianStirFry: return "Asian Stir-Fry"
     case .mediterraneanLunch: return "Mediterranean Lunch"
     case .tacoNight: return "Taco Night"
+    }
+  }
+
+  /// Richer description for the DemoModeView cards.
+  var description: String {
+    switch self {
+    case .quickBreakfast:
+      return
+        "A sunny morning spread \u{2014} crack some eggs, toast some bread, and see what FridgeLuck can whip up."
+    case .asianStirFry:
+      return "A well-stocked wok station with aromatic staples ready for a sizzling stir-fry."
+    case .mediterraneanLunch:
+      return
+        "Sun-drenched ingredients from the Mediterranean pantry \u{2014} crisp vegetables and creamy chickpeas."
+    case .tacoNight:
+      return
+        "Everything for a quick taco night \u{2014} pile on the beans, mash the avocado, squeeze the lime."
+    }
+  }
+
+  /// Hint about what recipes might appear.
+  var recipeHint: String {
+    switch self {
+    case .quickBreakfast: return "French Toast, Pancakes"
+    case .asianStirFry: return "Fried Rice, Stir-Fry"
+    case .mediterraneanLunch: return "Chickpea Salad, Caprese"
+    case .tacoNight: return "Black Bean Tacos"
     }
   }
 

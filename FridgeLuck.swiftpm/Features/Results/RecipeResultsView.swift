@@ -97,7 +97,7 @@ struct RecipeResultsView: View {
         cookingRecipe = nil
         Task {
           try? await Task.sleep(for: .milliseconds(450))
-          navCoordinator.returnHome()
+          navCoordinator.returnHomeAfterCooking()
         }
       }
     }

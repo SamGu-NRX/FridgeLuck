@@ -34,6 +34,20 @@ final class AppDatabase: Sendable {
       try await BundledDataLoader.loadInto(appDB)
     }
 
+    // Keep USDA catalog hydration independent from first-launch recipe bootstrap.
+    try await BundledDataLoader.ensureUSDACatalogHydrated(into: appDB)
+
+    #if DEBUG
+      let diagnostics = try await dbQueue.read { db in
+        let ingredientCount = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM ingredients") ?? 0
+        let aliasCount = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM ingredient_aliases") ?? 0
+        return (ingredientCount, aliasCount)
+      }
+      print(
+        "[AppDatabase] Catalog counts: ingredients=\(diagnostics.0), ingredient_aliases=\(diagnostics.1)"
+      )
+    #endif
+
     return appDB
   }
 

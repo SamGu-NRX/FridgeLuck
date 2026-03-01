@@ -18,6 +18,9 @@ struct RecipeBookView: View {
   @State private var showCelebration = false
   @State private var pageDirection: PageDirection = .forward
   @State private var pageAppeared = false
+  @State private var substitutionTarget: (ingredient: Ingredient, quantity: RecipeIngredient)?
+  @State private var activeSubstitutions:
+    [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:]
 
   private var recipe: Recipe { scoredRecipe.recipe }
 
@@ -81,6 +84,26 @@ struct RecipeBookView: View {
         }
       } else {
         pageAppeared = true
+      }
+    }
+    .sheet(
+      item: Binding(
+        get: {
+          substitutionTarget.map {
+            BookSubstitutionTarget(ingredient: $0.ingredient, quantity: $0.quantity)
+          }
+        },
+        set: { wrapper in substitutionTarget = wrapper.map { ($0.ingredient, $0.quantity) } }
+      )
+    ) { target in
+      SubstitutionSheet(
+        ingredient: target.ingredient,
+        quantityGrams: target.quantity.quantityGrams,
+        displayQuantity: target.quantity.displayQuantity
+      ) { substitution, subIngredient in
+        withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
+          activeSubstitutions[target.ingredient.id ?? -1] = (substitution, subIngredient)
+        }
       }
     }
   }
@@ -210,47 +233,84 @@ struct RecipeBookView: View {
     _ ingredient: Ingredient, quantity: RecipeIngredient
   ) -> some View {
     let isChecked = checkedIngredients.contains(ingredient.id ?? -1)
+    let hasSwap = deps.substitutionService.hasSubstitutions(for: ingredient.id ?? -1)
+    let activeSub = activeSubstitutions[ingredient.id ?? -1]
 
-    return Button {
-      withAnimation(reduceMotion ? nil : AppMotion.quick) {
-        if isChecked {
-          checkedIngredients.remove(ingredient.id ?? -1)
-        } else {
-          checkedIngredients.insert(ingredient.id ?? -1)
+    return HStack(spacing: AppTheme.Space.sm) {
+      // Check toggle + ingredient name
+      Button {
+        withAnimation(reduceMotion ? nil : AppMotion.quick) {
+          if isChecked {
+            checkedIngredients.remove(ingredient.id ?? -1)
+          } else {
+            checkedIngredients.insert(ingredient.id ?? -1)
+          }
+        }
+      } label: {
+        HStack(spacing: AppTheme.Space.sm) {
+          Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
+            .foregroundStyle(isChecked ? AppTheme.positive : AppTheme.textSecondary)
+            .font(.system(size: 20))
+
+          if let sub = activeSub {
+            VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+              Text(sub.ingredient.displayName)
+                .font(AppTheme.Typography.bodyLarge)
+                .foregroundStyle(isChecked ? AppTheme.textSecondary : AppTheme.sage)
+                .strikethrough(isChecked, color: AppTheme.textSecondary)
+              Text("replaces \(ingredient.displayName)")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+          } else {
+            Text(ingredient.displayName)
+              .font(AppTheme.Typography.bodyLarge)
+              .foregroundStyle(isChecked ? AppTheme.textSecondary : AppTheme.textPrimary)
+              .strikethrough(isChecked, color: AppTheme.textSecondary)
+          }
+
+          Spacer()
+
+          Text(quantity.displayQuantity)
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.textSecondary)
         }
       }
-    } label: {
-      HStack(spacing: AppTheme.Space.sm) {
-        Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
-          .foregroundStyle(isChecked ? AppTheme.positive : AppTheme.textSecondary)
-          .font(.system(size: 20))
+      .buttonStyle(.plain)
 
-        Text(ingredient.displayName)
-          .font(AppTheme.Typography.bodyLarge)
-          .foregroundStyle(isChecked ? AppTheme.textSecondary : AppTheme.textPrimary)
-          .strikethrough(isChecked, color: AppTheme.textSecondary)
-
-        Spacer()
-
-        Text(quantity.displayQuantity)
-          .font(AppTheme.Typography.label)
-          .foregroundStyle(AppTheme.textSecondary)
+      // Swap button
+      if hasSwap {
+        Button {
+          substitutionTarget = (ingredient, quantity)
+        } label: {
+          Image(systemName: "arrow.triangle.swap")
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundStyle(activeSub != nil ? AppTheme.sage : AppTheme.accent)
+            .frame(width: 28, height: 28)
+            .background(
+              activeSub != nil ? AppTheme.sage.opacity(0.12) : AppTheme.accentMuted,
+              in: Circle()
+            )
+        }
+        .buttonStyle(.plain)
       }
-      .padding(AppTheme.Space.md)
-      .background(
-        isChecked
-          ? AppTheme.positive.opacity(0.06) : AppTheme.surface,
-        in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-      )
-      .overlay(
-        RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-          .stroke(
-            isChecked ? AppTheme.positive.opacity(0.2) : AppTheme.oat.opacity(0.25),
-            lineWidth: 1
-          )
-      )
     }
-    .buttonStyle(.plain)
+    .padding(AppTheme.Space.md)
+    .background(
+      isChecked
+        ? AppTheme.positive.opacity(0.06)
+        : (activeSub != nil ? AppTheme.sage.opacity(0.04) : AppTheme.surface),
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        .stroke(
+          isChecked
+            ? AppTheme.positive.opacity(0.2)
+            : (activeSub != nil ? AppTheme.sage.opacity(0.18) : AppTheme.oat.opacity(0.25)),
+          lineWidth: 1
+        )
+    )
   }
 
   // MARK: - Step Page
@@ -422,4 +482,12 @@ struct RecipeBookView: View {
 private enum PageDirection {
   case forward
   case backward
+}
+
+// MARK: - Substitution Target Wrapper
+
+private struct BookSubstitutionTarget: Identifiable {
+  let ingredient: Ingredient
+  let quantity: RecipeIngredient
+  var id: Int64 { ingredient.id ?? -1 }
 }
