@@ -1,10 +1,13 @@
 import SwiftUI
 
 /// Full recipe book / cooking journal. Shows all cooked meals with filter chips.
-/// Presented as a sheet from DashboardView's "See All Recipes" button.
+/// When `isPushed` is true, this view is pushed inside a parent NavigationStack
+/// and does not wrap itself in a NavigationStack or show a Done button.
 struct RecipeBookView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
+
+  var isPushed: Bool = false
 
   @State private var entries: [CookingJournalEntry] = []
   @State private var isLoading = true
@@ -20,31 +23,42 @@ struct RecipeBookView: View {
   }
 
   var body: some View {
-    NavigationStack {
-      Group {
-        if isLoading {
-          loadingState
-        } else if entries.isEmpty {
-          emptyState
-        } else {
-          journalList
-        }
+    if isPushed {
+      mainContent
+    } else {
+      NavigationStack {
+        mainContent
+          .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+              Button("Done") { dismiss() }
+            }
+          }
       }
-      .navigationTitle("Recipe Book")
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .cancellationAction) {
-          Button("Done") { dismiss() }
-        }
+    }
+  }
+
+  // MARK: - Main Content
+
+  @ViewBuilder
+  private var mainContent: some View {
+    Group {
+      if isLoading {
+        loadingState
+      } else if entries.isEmpty {
+        emptyState
+      } else {
+        journalList
       }
-      .flPageBackground()
-      .sheet(item: $selectedEntry) { entry in
-        RecipeJournalDetailView(entry: entry)
-          .environmentObject(deps)
-      }
-      .task {
-        await loadEntries()
-      }
+    }
+    .navigationTitle("Recipe Book")
+    .navigationBarTitleDisplayMode(.inline)
+    .flPageBackground()
+    .navigationDestination(item: $selectedEntry) { entry in
+      RecipeJournalDetailView(entry: entry, isPushed: true)
+        .environmentObject(deps)
+    }
+    .task {
+      await loadEntries()
     }
   }
 
@@ -93,18 +107,15 @@ struct RecipeBookView: View {
   private var journalList: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-        // Filter chips
         filterChips
           .padding(.horizontal, AppTheme.Space.page)
           .padding(.bottom, AppTheme.Space.xs)
 
-        // Entry count
         Text("\(filteredEntries.count) meal\(filteredEntries.count == 1 ? "" : "s")")
           .font(AppTheme.Typography.labelSmall)
           .foregroundStyle(AppTheme.textSecondary)
           .padding(.horizontal, AppTheme.Space.page)
 
-        // Entries
         LazyVStack(spacing: AppTheme.Space.sm) {
           ForEach(filteredEntries) { entry in
             Button {
@@ -166,7 +177,6 @@ struct RecipeBookView: View {
   private func journalRow(entry: CookingJournalEntry) -> some View {
     FLCard {
       HStack(spacing: AppTheme.Space.sm) {
-        // Thumbnail
         Group {
           if let imagePath = entry.imagePath,
             let image = deps.imageStorageService.load(relativePath: imagePath)
@@ -186,7 +196,6 @@ struct RecipeBookView: View {
         .frame(width: 60, height: 60)
         .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous))
 
-        // Info
         VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
           Text(entry.recipe.title)
             .font(AppTheme.Typography.bodyMedium)
@@ -194,12 +203,10 @@ struct RecipeBookView: View {
             .fontWeight(.medium)
             .lineLimit(1)
 
-          // Date
           Text(entry.cookedAt, format: .dateTime.month(.abbreviated).day().year())
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.textSecondary)
 
-          // Rating stars
           if let rating = entry.rating, rating > 0 {
             HStack(spacing: 2) {
               ForEach(1...5, id: \.self) { star in
@@ -215,7 +222,6 @@ struct RecipeBookView: View {
 
         Spacer()
 
-        // Calorie badge
         VStack(spacing: AppTheme.Space.xxxs) {
           Text("\(Int(entry.macrosConsumed.calories.rounded()))")
             .font(AppTheme.Typography.dataSmall)

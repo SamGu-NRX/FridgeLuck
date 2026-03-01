@@ -10,19 +10,18 @@ struct HomeDashboardView: View {
   @State private var selectedTrendDate: Date?
   @State private var insightMode: InsightMode = .macros
   @State private var heroAppeared = false
-  @State private var navAppeared = false
   @State private var showResetConfirmation = false
   @State private var showSkipConfirmation = false
-  @State private var showSpotlightTutorial = false
-  @State private var spotlightAnchors: [String: CGRect] = [:]
   @AppStorage("hasSeenSpotlightTutorial") private var hasSeenSpotlightTutorial = false
+  @AppStorage("hasSeenCompletionSpotlight") private var hasSeenCompletionSpotlight = false
 
   let onScan: () -> Void
   let onDemoMode: () -> Void
-  let onEstimate: () -> Void
   let onCompleteProfile: () -> Void
-  let onProfile: () -> Void
+  let onExploreComplete: () -> Void
   let onReset: () -> Void
+  var refreshTrigger: Int = 0
+  let spotlightCoordinator: SpotlightCoordinator
 
   private enum InsightMode: String, CaseIterable, Identifiable {
     case macros = "Macros"
@@ -30,22 +29,29 @@ struct HomeDashboardView: View {
     var id: String { rawValue }
   }
 
+  private enum SpotlightKind: String, Equatable {
+    case onboarding
+    case completion
+  }
+
   init(
     deps: AppDependencies,
     onScan: @escaping () -> Void,
     onDemoMode: @escaping () -> Void,
-    onEstimate: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
-    onProfile: @escaping () -> Void,
-    onReset: @escaping () -> Void = {}
+    onExploreComplete: @escaping () -> Void,
+    onReset: @escaping () -> Void = {},
+    refreshTrigger: Int = 0,
+    spotlightCoordinator: SpotlightCoordinator
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
     self.onScan = onScan
     self.onDemoMode = onDemoMode
-    self.onEstimate = onEstimate
     self.onCompleteProfile = onCompleteProfile
-    self.onProfile = onProfile
+    self.onExploreComplete = onExploreComplete
     self.onReset = onReset
+    self.refreshTrigger = refreshTrigger
+    self.spotlightCoordinator = spotlightCoordinator
   }
 
   private var tutorialProgress: TutorialProgress {
@@ -55,110 +61,152 @@ struct HomeDashboardView: View {
   // MARK: - Body
 
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: 0) {
-        if let snapshot = viewModel.snapshot {
-          if tutorialProgress.isComplete {
-            // ---- Graduated dashboard (existing analytics view) ----
-            graduatedDashboard(snapshot: snapshot)
+    ScrollViewReader { scrollProxy in
+      ScrollView {
+        VStack(alignment: .leading, spacing: 0) {
+          if let snapshot = viewModel.snapshot {
+            if tutorialProgress.isComplete {
+              graduatedDashboard(snapshot: snapshot)
+            } else {
+              tutorialHome(snapshot: snapshot)
+            }
+          } else if viewModel.isLoading {
+            loadingState
+              .padding(.horizontal, AppTheme.Space.page)
           } else {
-            // ---- Tutorial-first home page ----
-            tutorialHome(snapshot: snapshot)
+            errorState
+              .padding(.horizontal, AppTheme.Space.page)
           }
-        } else if viewModel.isLoading {
-          loadingState
-            .padding(.horizontal, AppTheme.Space.page)
-        } else {
-          errorState
-            .padding(.horizontal, AppTheme.Space.page)
-        }
 
-        // Reset button — small, unobtrusive colophon-style
-        resetFooter
-          .padding(.horizontal, AppTheme.Space.page)
-          .padding(.top, AppTheme.Space.sectionBreak)
+          resetFooter
+            .padding(.horizontal, AppTheme.Space.page)
+            .padding(.top, AppTheme.Space.sectionBreak)
+        }
+        .padding(.top, AppTheme.Space.md)
+        // Keep footer actions reachable above the persistent bottom navigation + raised scan orb.
+        .padding(
+          .bottom,
+          AppTheme.Space.bottomClearance + AppTheme.Home.navOrbLift + AppTheme.Home.navBaseOffset
+        )
       }
-      .padding(.top, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Space.lg)
-    }
-    .alert("Start fresh?", isPresented: $showResetConfirmation) {
-      Button("Reset Everything", role: .destructive) {
-        tutorialStorageString = ""
-        hasSeenSpotlightTutorial = false
-        onReset()
+      .alert("Start fresh?", isPresented: $showResetConfirmation) {
+        Button("Reset Everything", role: .destructive) {
+          tutorialStorageString = ""
+          hasSeenSpotlightTutorial = false
+          hasSeenCompletionSpotlight = false
+          onReset()
+          Task { await viewModel.load() }
+        }
+        Button("Cancel", role: .cancel) {}
+      } message: {
+        Text(
+          "This will erase your profile, cooking history, badges, and streaks. Recipes and ingredients stay. You\u{2019}ll see the guided tour again."
+        )
+      }
+      .alert("Skip guided tour?", isPresented: $showSkipConfirmation) {
+        Button("Skip Tour", role: .destructive) {
+          let allQuests = Set(TutorialQuest.allCases.map(\.rawValue))
+          let completed = TutorialProgress(completedQuestRawValues: allQuests)
+          withAnimation(reduceMotion ? nil : AppMotion.standard) {
+            tutorialStorageString = completed.storageString
+          }
+        }
+        Button("Continue Tour", role: .cancel) {}
+      } message: {
+        Text(
+          "You\u{2019}ll skip the guided tour and go straight to the dashboard. You can still access demo mode and set up your profile later."
+        )
+      }
+      .task {
+        viewModel.syncTutorialProgress(tutorialProgress)
+        guard viewModel.snapshot == nil else { return }
+        await viewModel.load()
+      }
+      .refreshable {
+        await viewModel.load()
+      }
+      .onChange(of: tutorialStorageString) {
+        viewModel.syncTutorialProgress(tutorialProgress)
+      }
+      .onChange(of: refreshTrigger) {
         Task { await viewModel.load() }
       }
-      Button("Cancel", role: .cancel) {}
-    } message: {
-      Text(
-        "This will erase your profile, cooking history, badges, and streaks. Recipes and ingredients stay. You\u{2019}ll see the tutorial again."
-      )
-    }
-    .alert("Skip setup?", isPresented: $showSkipConfirmation) {
-      Button("Skip", role: .destructive) {
-        let allQuests = Set(TutorialQuest.allCases.map(\.rawValue))
-        let completed = TutorialProgress(completedQuestRawValues: allQuests)
-        withAnimation(reduceMotion ? nil : AppMotion.standard) {
-          tutorialStorageString = completed.storageString
-        }
-      }
-      Button("Continue Setup", role: .cancel) {}
-    } message: {
-      Text(
-        "You\u{2019}ll skip the guided tour and go straight to the dashboard. You can still set up your profile later from the menu."
-      )
-    }
-    .safeAreaInset(edge: .bottom, spacing: 0) {
-      bottomNav(snapshot: viewModel.snapshot)
-        .opacity(navAppeared ? 1 : 0)
-        .offset(y: navAppeared ? AppTheme.Home.navBaseOffset : AppTheme.Home.navBaseOffset + 20)
-    }
-    .task {
-      viewModel.syncTutorialProgress(tutorialProgress)
-      guard viewModel.snapshot == nil else { return }
-      await viewModel.load()
-    }
-    .refreshable {
-      await viewModel.load()
-    }
-    .onChange(of: tutorialStorageString) {
-      viewModel.syncTutorialProgress(tutorialProgress)
-    }
-    .onAppear {
-      if reduceMotion {
-        heroAppeared = true
-        navAppeared = true
-      } else {
-        if !heroAppeared {
-          withAnimation(AppMotion.heroAppear.delay(0.15)) {
-            heroAppeared = true
-          }
-        }
-        if !navAppeared {
-          withAnimation(AppMotion.standard.delay(0.22)) {
-            navAppeared = true
+      .onAppear {
+        if reduceMotion {
+          heroAppeared = true
+        } else {
+          if !heroAppeared {
+            withAnimation(AppMotion.heroAppear.delay(0.15)) {
+              heroAppeared = true
+            }
           }
         }
       }
+      .task(id: pendingSpotlightKind) {
+        guard let kind = pendingSpotlightKind else { return }
+        let delay = reduceMotion ? 0.3 : 0.8
+        let nanoseconds = UInt64(delay * 1_000_000_000)
+        try? await Task.sleep(nanoseconds: nanoseconds)
+        guard !Task.isCancelled else { return }
+        guard pendingSpotlightKind == kind else { return }
+        guard spotlightCoordinator.activeSteps == nil else { return }
+        presentSpotlight(kind)
+      }
+      .onPreferenceChange(SpotlightAnchorKey.self) { spotlightCoordinator.anchors = $0 }
+      .onAppear {
+        spotlightCoordinator.onScrollToAnchor = { anchorID in
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.82)) {
+              scrollProxy.scrollTo(anchorID, anchor: .center)
+            }
+          }
+        }
+      }
+    }
+  }
 
-      if !hasSeenSpotlightTutorial && !tutorialProgress.isComplete {
-        DispatchQueue.main.asyncAfter(deadline: .now() + (reduceMotion ? 0.5 : 1.2)) {
-          guard !hasSeenSpotlightTutorial else { return }
-          showSpotlightTutorial = true
-          hasSeenSpotlightTutorial = true
-        }
+  private var pendingSpotlightKind: SpotlightKind? {
+    guard spotlightCoordinator.activeSteps == nil else { return nil }
+    guard viewModel.snapshot != nil else { return nil }
+
+    if tutorialProgress.isComplete {
+      guard !hasSeenCompletionSpotlight else { return nil }
+      return anchorsReady(for: .completion) ? .completion : nil
+    }
+
+    guard !hasSeenSpotlightTutorial else { return nil }
+    return anchorsReady(for: .onboarding) ? .onboarding : nil
+  }
+
+  private func steps(for kind: SpotlightKind) -> [SpotlightStep] {
+    switch kind {
+    case .onboarding:
+      return SpotlightStep.onboarding
+    case .completion:
+      return SpotlightStep.completion
+    }
+  }
+
+  private func anchorsReady(for kind: SpotlightKind) -> Bool {
+    let requiredAnchorIDs = Set(steps(for: kind).compactMap(\.anchorID))
+    guard !requiredAnchorIDs.isEmpty else { return true }
+
+    for anchorID in requiredAnchorIDs {
+      guard let rect = spotlightCoordinator.anchors[anchorID] else { return false }
+      if rect.isEmpty || rect.isNull || rect.isInfinite {
+        return false
       }
     }
-    .onPreferenceChange(SpotlightAnchorKey.self) { spotlightAnchors = $0 }
-    .overlay {
-      if showSpotlightTutorial {
-        SpotlightTutorialOverlay(
-          steps: SpotlightStep.onboarding,
-          anchors: spotlightAnchors,
-          isPresented: $showSpotlightTutorial
-        )
-        .ignoresSafeArea()
-      }
+    return true
+  }
+
+  private func presentSpotlight(_ kind: SpotlightKind) {
+    spotlightCoordinator.activeSteps = steps(for: kind)
+    switch kind {
+    case .onboarding:
+      hasSeenSpotlightTutorial = true
+    case .completion:
+      hasSeenCompletionSpotlight = true
     }
   }
 
@@ -166,22 +214,19 @@ struct HomeDashboardView: View {
 
   private func tutorialHome(snapshot: HomeDashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
-      // Welcome header
       welcomeHeader
         .padding(.horizontal, AppTheme.Space.page)
 
-      // Progress indicator
       TutorialProgressView(progress: tutorialProgress)
         .padding(.horizontal, AppTheme.Space.page)
+        .id("progressView")
         .spotlightAnchor("progressView")
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 10)
 
-      // Quest cards
       questSection
         .padding(.horizontal, AppTheme.Space.page)
 
-      // Quick-start hint for brand new users
       if tutorialProgress.completedCount == 0 {
         quickStartHint
           .padding(.horizontal, AppTheme.Space.page)
@@ -204,7 +249,7 @@ struct HomeDashboardView: View {
         .foregroundStyle(AppTheme.textPrimary)
 
       Text(
-        "Let me show you around. A few quick steps and your smart kitchen is ready."
+        "Welcome to your guided tour. A few quick steps to set up your profile and explore the app."
       )
       .font(AppTheme.Typography.bodyLarge)
       .foregroundStyle(AppTheme.textSecondary)
@@ -224,6 +269,7 @@ struct HomeDashboardView: View {
         TutorialQuestCard(quest: quest, state: state) {
           handleQuestAction(quest)
         }
+        .id("quest_\(quest.rawValue)")
         .spotlightAnchor("quest_\(quest.rawValue)")
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 12)
@@ -257,7 +303,7 @@ struct HomeDashboardView: View {
     case .cookAndRate:
       onDemoMode()
     case .exploreMore:
-      onEstimate()
+      onExploreComplete()
     }
   }
 
@@ -310,8 +356,9 @@ struct HomeDashboardView: View {
         .padding(.horizontal, AppTheme.Space.page)
         .padding(.bottom, AppTheme.Space.sectionBreak)
 
-      rhythmSection(snapshot: snapshot)
+      myRhythmSection(snapshot: snapshot)
         .padding(.bottom, AppTheme.Space.sectionBreak)
+        .spotlightAnchor("myRhythm")
 
       fridgeLuckPanels(snapshot: snapshot)
         .padding(.horizontal, AppTheme.Space.page)
@@ -376,7 +423,7 @@ struct HomeDashboardView: View {
     return formatter.string(from: Date())
   }
 
-  // MARK: - Hero Composition (NOT a card)
+  // MARK: - Hero Composition
 
   private var heroComposition: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
@@ -392,20 +439,14 @@ struct HomeDashboardView: View {
             .font(AppTheme.Typography.displayLarge)
             .foregroundStyle(.white)
 
-          Text("Pick a pre-stocked fridge and explore recipes, or scan your own.")
+          Text("Pick a pre-stocked fridge and explore recipes.")
             .font(AppTheme.Typography.bodyLarge)
             .foregroundStyle(.white.opacity(0.78))
         }
       }
 
-      VStack(spacing: AppTheme.Space.sm) {
-        FLPrimaryButton("Try Demo Mode", systemImage: "play.fill") {
-          onDemoMode()
-        }
-
-        FLSecondaryButton("Scan Fridge", systemImage: "camera.fill") {
-          onScan()
-        }
+      FLPrimaryButton("Try Demo Mode", systemImage: "play.fill") {
+        onDemoMode()
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -463,97 +504,121 @@ struct HomeDashboardView: View {
       .frame(width: 1, height: AppTheme.Home.statDividerHeight)
   }
 
-  // MARK: - Rhythm Section (edge-to-edge chart)
+  // MARK: - My Rhythm Section (replaces Your Rhythm)
 
-  private func rhythmSection(snapshot: HomeDashboardSnapshot) -> some View {
+  private func myRhythmSection(snapshot: HomeDashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
       HStack(alignment: .center) {
         VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-          Text("Your Rhythm")
+          Text("My Rhythm")
             .font(AppTheme.Typography.displayCaption)
             .foregroundStyle(AppTheme.textPrimary)
-          Text("Last 14 days")
+          Text("Your cooking at a glance")
             .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
         }
         Spacer()
-        Image(systemName: "chart.line.uptrend.xyaxis")
+        Image(systemName: "book.closed.fill")
           .foregroundStyle(AppTheme.accent)
           .font(.system(size: 16, weight: .medium))
       }
       .padding(.horizontal, AppTheme.Space.page)
 
-      Chart(snapshot.mealsLast14Days) { point in
-        AreaMark(
-          x: .value("Day", point.date),
-          y: .value("Meals", point.meals)
-        )
-        .interpolationMethod(.catmullRom)
-        .foregroundStyle(
-          .linearGradient(
-            colors: [AppTheme.accent.opacity(0.14), AppTheme.accent.opacity(0.02)],
-            startPoint: .top,
-            endPoint: .bottom
-          )
-        )
+      if let latestEntry = snapshot.latestJournalEntry {
+        latestRecipeCard(entry: latestEntry)
+          .padding(.horizontal, AppTheme.Space.page)
+      } else {
+        HStack(spacing: AppTheme.Space.sm) {
+          Image(systemName: "fork.knife")
+            .font(.system(size: 18))
+            .foregroundStyle(AppTheme.oat)
+            .frame(width: 44, height: 44)
+            .background(AppTheme.surfaceMuted, in: Circle())
 
-        LineMark(
-          x: .value("Day", point.date),
-          y: .value("Meals", point.meals)
-        )
-        .interpolationMethod(.catmullRom)
-        .lineStyle(StrokeStyle(lineWidth: 2.4, lineCap: .round, lineJoin: .round))
-        .foregroundStyle(AppTheme.chartLine)
-
-        if let selectedTrendDate,
-          Calendar.current.isDate(point.date, inSameDayAs: selectedTrendDate)
-        {
-          PointMark(
-            x: .value("Day", point.date),
-            y: .value("Meals", point.meals)
-          )
-          .symbolSize(48)
-          .foregroundStyle(AppTheme.accent)
-          .annotation(position: .top) {
-            Text("\(point.meals)")
-              .font(AppTheme.Typography.labelSmall)
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+            Text("No meals cooked yet")
+              .font(AppTheme.Typography.bodyMedium)
               .foregroundStyle(AppTheme.textPrimary)
-              .padding(.horizontal, AppTheme.Space.xs)
-              .padding(.vertical, AppTheme.Space.xxs)
-              .background(AppTheme.surface, in: Capsule())
-              .shadow(color: AppTheme.Shadow.color, radius: 4, x: 0, y: 2)
+            Text("Try demo mode to cook your first recipe!")
+              .font(AppTheme.Typography.bodySmall)
+              .foregroundStyle(AppTheme.textSecondary)
           }
+          Spacer()
         }
+        .padding(AppTheme.Space.md)
+        .background(
+          AppTheme.surface,
+          in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+            .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
+        )
+        .padding(.horizontal, AppTheme.Space.page)
       }
-      .chartXSelection(value: $selectedTrendDate)
-      .chartXAxis {
-        AxisMarks(values: .stride(by: .day, count: 3)) { _ in
-          AxisGridLine(stroke: StrokeStyle(lineWidth: 0.4, dash: [3, 3]))
-            .foregroundStyle(AppTheme.oat.opacity(0.35))
-          AxisValueLabel(format: .dateTime.weekday(.narrow))
-            .foregroundStyle(AppTheme.textSecondary)
-        }
-      }
-      .chartYAxis {
-        AxisMarks(position: .leading, values: .automatic(desiredCount: 3)) { value in
-          AxisGridLine(stroke: StrokeStyle(lineWidth: 0.4, dash: [3, 3]))
-            .foregroundStyle(AppTheme.oat.opacity(0.35))
-          AxisValueLabel {
-            if let meals = value.as(Int.self) {
-              Text("\(meals)")
-                .font(AppTheme.Typography.labelSmall)
-            }
-          }
-          .foregroundStyle(AppTheme.textSecondary)
-        }
-      }
-      .frame(height: 180)
-      .padding(.horizontal, AppTheme.Space.xs)
-      .accessibilityLabel("Your cooking rhythm chart for last fourteen days")
 
       FLWaveDivider()
         .padding(.horizontal, AppTheme.Space.page)
     }
+  }
+
+  private func latestRecipeCard(entry: CookingJournalEntry) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      HStack(spacing: AppTheme.Space.sm) {
+        ZStack {
+          AppTheme.surfaceMuted
+          Image(systemName: "fork.knife")
+            .font(.system(size: 18))
+            .foregroundStyle(AppTheme.oat)
+        }
+        .frame(width: 56, height: 56)
+        .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous))
+
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+          Text(entry.recipe.title)
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(AppTheme.textPrimary)
+            .fontWeight(.medium)
+            .lineLimit(2)
+
+          Text(entry.cookedAt, format: .dateTime.month(.abbreviated).day())
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+
+          if let rating = entry.rating, rating > 0 {
+            HStack(spacing: 2) {
+              ForEach(1...5, id: \.self) { star in
+                Image(systemName: star <= rating ? "star.fill" : "star")
+                  .font(.system(size: 10))
+                  .foregroundStyle(
+                    star <= rating ? AppTheme.accent : AppTheme.oat.opacity(0.3)
+                  )
+              }
+            }
+          }
+        }
+
+        Spacer()
+
+        VStack(spacing: AppTheme.Space.xxxs) {
+          Text("\(Int(entry.macrosConsumed.calories.rounded()))")
+            .font(AppTheme.Typography.dataSmall)
+            .foregroundStyle(AppTheme.textPrimary)
+          Text("cal")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+      }
+    }
+    .padding(AppTheme.Space.md)
+    .background(
+      AppTheme.surface,
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
+    )
   }
 
   // MARK: - Fridge / Luck Panels (overlapping, collage-style)
@@ -741,19 +806,10 @@ struct HomeDashboardView: View {
     }
   }
 
-  // MARK: - Secondary Actions (text links, not buttons in cards)
+  // MARK: - Secondary Actions
 
   private func secondaryActions(snapshot: HomeDashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-      HStack(spacing: AppTheme.Space.lg) {
-        Button(action: onEstimate) {
-          Label("Dish Estimate", systemImage: "fork.knife")
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.accent)
-        }
-        .buttonStyle(.plain)
-      }
-
       if !snapshot.hasOnboarded {
         Button(action: onCompleteProfile) {
           Label("Complete profile for personalized recipes", systemImage: "person.badge.plus")
@@ -788,105 +844,6 @@ struct HomeDashboardView: View {
       actionTitle: "Retry",
       action: { Task { await viewModel.load() } }
     )
-  }
-
-  // MARK: - Bottom Navigation
-
-  private func bottomNav(snapshot: HomeDashboardSnapshot?) -> some View {
-    let hasOnboarded = snapshot?.hasOnboarded ?? false
-
-    return ZStack(alignment: .top) {
-      HStack(spacing: 0) {
-        navItem(icon: "house.fill", label: "Home", isActive: true) {}
-
-        Spacer(minLength: AppTheme.Home.navCenterGap)
-
-        navItem(
-          icon: hasOnboarded
-            ? (tutorialProgress.isComplete
-              ? "chart.bar.doc.horizontal.fill" : "person.crop.circle.fill")
-            : "person.badge.plus",
-          label: tutorialProgress.isComplete ? "Dashboard" : "Profile",
-          isActive: false,
-          action: hasOnboarded ? onProfile : onCompleteProfile
-        )
-      }
-      .padding(.horizontal, AppTheme.Space.lg)
-      .padding(.top, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Space.sm)
-      .frame(maxWidth: .infinity)
-      .background {
-        RoundedRectangle(cornerRadius: AppTheme.Home.navCornerRadius, style: .continuous)
-          .fill(AppTheme.bg.opacity(0.92))
-          .background(
-            .ultraThinMaterial,
-            in: RoundedRectangle(cornerRadius: AppTheme.Home.navCornerRadius, style: .continuous)
-          )
-      }
-      .overlay {
-        RoundedRectangle(cornerRadius: AppTheme.Home.navCornerRadius, style: .continuous)
-          .stroke(AppTheme.oat.opacity(0.24), lineWidth: 1)
-      }
-      .shadow(color: AppTheme.Shadow.colorDeep.opacity(0.45), radius: 14, x: 0, y: 5)
-
-      Button(action: onScan) {
-        Image(systemName: "camera.fill")
-          .font(.system(size: 22, weight: .bold))
-          .foregroundStyle(.white)
-          .frame(width: AppTheme.Home.orbSize, height: AppTheme.Home.orbSize)
-          .background(AppTheme.accent, in: Circle())
-          .overlay(Circle().stroke(AppTheme.surface.opacity(0.45), lineWidth: 1))
-          .shadow(color: AppTheme.accent.opacity(0.34), radius: 18, x: 0, y: 8)
-      }
-      .buttonStyle(FLNavOrbButtonStyle())
-      .offset(y: -AppTheme.Home.navOrbLift)
-      .accessibilityLabel("Scan your fridge")
-    }
-    .padding(.horizontal, AppTheme.Home.navHorizontalInset)
-    .padding(.top, AppTheme.Space.xs + AppTheme.Home.navOrbLift)
-    .padding(.bottom, 0)
-    .animation(reduceMotion ? nil : AppMotion.standard, value: navAppeared)
-  }
-
-  private struct FLNavOrbButtonStyle: SwiftUI.ButtonStyle {
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-    func makeBody(configuration: SwiftUI.ButtonStyleConfiguration) -> some View {
-      configuration.label
-        .scaleEffect(configuration.isPressed ? 0.94 : 1)
-        .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
-    }
-  }
-
-  private struct FLNavItemButtonStyle: SwiftUI.ButtonStyle {
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-    func makeBody(configuration: SwiftUI.ButtonStyleConfiguration) -> some View {
-      configuration.label
-        .opacity(configuration.isPressed ? 0.80 : 1)
-        .scaleEffect(configuration.isPressed ? 0.97 : 1)
-        .animation(reduceMotion ? nil : AppMotion.quick, value: configuration.isPressed)
-    }
-  }
-
-  private func navItem(
-    icon: String,
-    label: String,
-    isActive: Bool,
-    action: @escaping () -> Void
-  ) -> some View {
-    Button(action: action) {
-      VStack(spacing: AppTheme.Space.xxxs) {
-        Image(systemName: icon)
-          .font(.system(size: 18, weight: .medium))
-        Text(label)
-          .font(AppTheme.Typography.labelSmall)
-      }
-      .foregroundStyle(isActive ? AppTheme.accent : AppTheme.textSecondary)
-      .frame(maxWidth: .infinity)
-      .contentShape(Rectangle())
-    }
-    .buttonStyle(FLNavItemButtonStyle())
   }
 
   // MARK: - Helpers
@@ -955,7 +912,7 @@ struct HomeDashboardView: View {
           Button {
             showSkipConfirmation = true
           } label: {
-            Text("Skip setup")
+            Text("Skip tour")
               .font(.system(size: 9.5, weight: .regular, design: .serif))
               .kerning(0.4)
               .foregroundStyle(AppTheme.textSecondary.opacity(0.45))
@@ -963,7 +920,7 @@ struct HomeDashboardView: View {
               .padding(.vertical, AppTheme.Space.xxs)
           }
           .buttonStyle(.plain)
-          .accessibilityLabel("Skip onboarding setup, not recommended")
+          .accessibilityLabel("Skip guided tour, not recommended")
         }
       }
     }

@@ -3,49 +3,68 @@ import SwiftUI
 
 /// Post-onboarding Dashboard. Replaces ProfileView once all 4 tutorial quests are completed.
 /// Shows today's macro progress, weekly calorie chart, and a recipe book preview.
+///
+/// When `isTabEmbedded` is true, the parent provides the NavigationStack, so this
+/// view omits its own wrapper and Done toolbar, and navigates to RecipeBookView via push.
 struct DashboardView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
+
+  var isTabEmbedded: Bool = false
 
   @State private var vm: DashboardViewModel?
   @State private var showEditProfile = false
   @State private var showRecipeBook = false
 
   var body: some View {
-    NavigationStack {
-      Group {
-        if let vm, !vm.isLoading, let snap = vm.snapshot {
-          scrollContent(vm: vm, snap: snap)
-        } else {
-          loadingState
-        }
+    if isTabEmbedded {
+      mainContent
+    } else {
+      NavigationStack {
+        mainContent
+          .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+              Button("Done") { dismiss() }
+            }
+          }
       }
-      .navigationTitle("Dashboard")
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .cancellationAction) {
-          Button("Done") { dismiss() }
-        }
+    }
+  }
+
+  // MARK: - Main Content
+
+  @ViewBuilder
+  private var mainContent: some View {
+    Group {
+      if let vm, !vm.isLoading, let snap = vm.snapshot {
+        scrollContent(vm: vm, snap: snap)
+      } else {
+        loadingState
       }
-      .flPageBackground()
-      .sheet(isPresented: $showEditProfile) {
-        OnboardingView(isRequired: false) {
-          Task { await vm?.load() }
-        }
+    }
+    .navigationTitle("Dashboard")
+    .navigationBarTitleDisplayMode(.inline)
+    .flPageBackground()
+    .sheet(isPresented: $showEditProfile) {
+      OnboardingView(isRequired: false) {
+        Task { await vm?.load() }
+      }
+      .environmentObject(deps)
+    }
+    .navigationDestination(isPresented: $showRecipeBook) {
+      RecipeBookView(isPushed: true)
         .environmentObject(deps)
-      }
-      .sheet(isPresented: $showRecipeBook) {
-        RecipeBookView()
-          .environmentObject(deps)
-      }
-      .task {
-        let viewModel = DashboardViewModel(
-          userDataRepository: deps.userDataRepository,
-          personalizationService: deps.personalizationService
-        )
-        vm = viewModel
-        await viewModel.load()
-      }
+    }
+    .refreshable {
+      await vm?.load()
+    }
+    .task {
+      let viewModel = DashboardViewModel(
+        userDataRepository: deps.userDataRepository,
+        personalizationService: deps.personalizationService
+      )
+      vm = viewModel
+      await viewModel.load()
     }
   }
 
@@ -68,11 +87,9 @@ struct DashboardView: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
 
-        // Hero header
         heroHeader(vm: vm, snap: snap)
           .padding(.bottom, AppTheme.Space.sectionBreak)
 
-        // Today's macros
         FLSectionHeader("Today's Macros", icon: "chart.pie")
           .flPagePadding()
           .padding(.bottom, AppTheme.Space.sm)
@@ -81,7 +98,6 @@ struct DashboardView: View {
           .flPagePadding()
           .padding(.bottom, AppTheme.Space.sectionBreak)
 
-        // Weekly chart
         FLSectionHeader("This Week", subtitle: "Daily calorie intake", icon: "chart.bar.fill")
           .flPagePadding()
           .padding(.bottom, AppTheme.Space.sm)
@@ -90,7 +106,6 @@ struct DashboardView: View {
           .flPagePadding()
           .padding(.bottom, AppTheme.Space.sectionBreak)
 
-        // Recipe book preview
         FLSectionHeader("Recipe Book", subtitle: "Your cooking journal", icon: "book.closed.fill")
           .flPagePadding()
           .padding(.bottom, AppTheme.Space.sm)
@@ -98,7 +113,6 @@ struct DashboardView: View {
         recipeBookPreview(snap: snap)
           .padding(.bottom, AppTheme.Space.sectionBreak)
 
-        // Stats row
         FLWaveDivider()
           .flPagePadding()
           .padding(.bottom, AppTheme.Space.sectionBreak)
@@ -107,7 +121,6 @@ struct DashboardView: View {
           .flPagePadding()
           .padding(.bottom, AppTheme.Space.sectionBreak)
 
-        // Edit profile
         FLSecondaryButton("Edit Profile", systemImage: "pencil") {
           showEditProfile = true
         }
@@ -122,7 +135,6 @@ struct DashboardView: View {
 
   private func heroHeader(vm: DashboardViewModel, snap: DashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-      // Greeting
       Text("YOUR PROGRESS")
         .font(AppTheme.Typography.labelSmall)
         .foregroundStyle(AppTheme.textSecondary)
@@ -148,7 +160,6 @@ struct DashboardView: View {
 
         Spacer()
 
-        // Calorie progress ring
         calorieRing(vm: vm, snap: snap)
       }
     }
@@ -284,7 +295,6 @@ struct DashboardView: View {
               .cornerRadius(4)
             }
 
-            // Goal line
             RuleMark(y: .value("Goal", vm.dailyCalorieGoal))
               .lineStyle(StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
               .foregroundStyle(AppTheme.chartLine.opacity(0.6))
@@ -335,7 +345,6 @@ struct DashboardView: View {
           .padding(.horizontal, AppTheme.Space.page)
         }
 
-        // "See All" button
         Button {
           showRecipeBook = true
         } label: {
@@ -354,7 +363,6 @@ struct DashboardView: View {
 
   private func journalEntryCard(entry: CookingJournalEntry) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-      // Photo or placeholder
       Group {
         if let imagePath = entry.imagePath,
           let image = deps.imageStorageService.load(relativePath: imagePath)
@@ -374,13 +382,11 @@ struct DashboardView: View {
       .frame(width: 130, height: 100)
       .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous))
 
-      // Title
       Text(entry.recipe.title)
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textPrimary)
         .lineLimit(2)
 
-      // Rating
       if let rating = entry.rating, rating > 0 {
         HStack(spacing: 2) {
           ForEach(1...5, id: \.self) { star in
@@ -391,7 +397,6 @@ struct DashboardView: View {
         }
       }
 
-      // Calories
       Text("\(Int(entry.macrosConsumed.calories.rounded())) cal")
         .font(AppTheme.Typography.labelSmall)
         .foregroundStyle(AppTheme.textSecondary)

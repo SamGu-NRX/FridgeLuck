@@ -24,17 +24,13 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   var subtitle: String {
     switch self {
     case .setupProfile:
-      return
-        "Tell me your nutrition goals and dietary needs \u{2014} I\u{2019}ll personalize every recipe just for you."
+      return "Share your nutrition goals and dietary needs."
     case .firstScan:
-      return
-        "Show me what\u{2019}s in your fridge. I\u{2019}ll spot every ingredient and find the best recipes you can make right now."
+      return "Try a demo fridge to see how it works."
     case .cookAndRate:
-      return
-        "Pick a recipe, cook it step by step, and rate it. I\u{2019}ll learn your taste and recommend smarter next time."
+      return "Cook a demo recipe and rate it so I can learn your taste."
     case .exploreMore:
-      return
-        "Try a new cuisine or snap a dish photo for an instant nutrition breakdown \u{2014} I\u{2019}ll help you eat better with what you have."
+      return "Try new cuisines or snap a photo for nutrition info."
     }
   }
 

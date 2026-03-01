@@ -7,72 +7,79 @@ struct RecipeJournalDetailView: View {
   @Environment(\.dismiss) private var dismiss
 
   let entry: CookingJournalEntry
+  var isPushed: Bool = false
 
   @State private var rating: Int
   @State private var hasChangedRating = false
 
-  init(entry: CookingJournalEntry) {
+  init(entry: CookingJournalEntry, isPushed: Bool = false) {
     self.entry = entry
+    self.isPushed = isPushed
     self._rating = State(initialValue: entry.rating ?? 0)
   }
 
   var body: some View {
-    NavigationStack {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 0) {
-
-          // Hero photo
-          heroPhoto
-            .padding(.bottom, AppTheme.Space.lg)
-
-          // Title + date
-          titleSection
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
-
-          // Rating
-          ratingSection
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
-
-          FLWaveDivider()
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.sectionBreak)
-
-          // Macro breakdown
-          macroSection
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.sectionBreak)
-
-          FLWaveDivider()
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.sectionBreak)
-
-          // Details
-          detailsSection
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.sectionBreak)
-
-          // Cook Again CTA
-          FLPrimaryButton("Cook Again", systemImage: "fork.knife") {
-            // Dismiss — the parent can handle navigation to cooking guide
-            dismiss()
+    if isPushed {
+      mainContent
+    } else {
+      NavigationStack {
+        mainContent
+          .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+              Button("Done") {
+                saveRatingIfNeeded()
+                dismiss()
+              }
+            }
           }
+      }
+    }
+  }
+
+  @ViewBuilder
+  private var mainContent: some View {
+    ScrollView {
+      VStack(alignment: .leading, spacing: 0) {
+
+        heroPhoto
+          .padding(.bottom, AppTheme.Space.lg)
+
+        titleSection
           .padding(.horizontal, AppTheme.Space.page)
-          .padding(.bottom, AppTheme.Space.bottomClearance)
+          .padding(.bottom, AppTheme.Space.lg)
+
+        ratingSection
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.lg)
+
+        FLWaveDivider()
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.sectionBreak)
+
+        macroSection
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.sectionBreak)
+
+        FLWaveDivider()
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.sectionBreak)
+
+        detailsSection
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.sectionBreak)
+
+        FLPrimaryButton("Cook Again", systemImage: "fork.knife") {
+          dismiss()
         }
+        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.bottom, AppTheme.Space.bottomClearance)
       }
-      .navigationTitle("Meal Detail")
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .cancellationAction) {
-          Button("Done") {
-            saveRatingIfNeeded()
-            dismiss()
-          }
-        }
-      }
-      .flPageBackground()
+    }
+    .navigationTitle("Meal Detail")
+    .navigationBarTitleDisplayMode(.inline)
+    .flPageBackground()
+    .onDisappear {
+      saveRatingIfNeeded()
     }
   }
 
@@ -176,7 +183,6 @@ struct RecipeJournalDetailView: View {
 
       FLCard {
         VStack(spacing: AppTheme.Space.md) {
-          // Calorie headline
           HStack {
             VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
               Text("\(Int(entry.macrosConsumed.calories.rounded()))")
@@ -188,7 +194,6 @@ struct RecipeJournalDetailView: View {
             }
             Spacer()
 
-            // Mini macro ring
             FLMacroRing(
               proteinPct: macroPct(entry.macrosConsumed.protein, factor: 4),
               carbsPct: macroPct(entry.macrosConsumed.carbs, factor: 4),
@@ -201,7 +206,6 @@ struct RecipeJournalDetailView: View {
           Divider()
             .foregroundStyle(AppTheme.oat.opacity(0.3))
 
-          // Macro breakdown row
           HStack(spacing: 0) {
             macroColumn(
               label: "Protein",

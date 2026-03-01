@@ -21,6 +21,7 @@ struct CookingCelebrationView: View {
   @State private var showConfetti = true
   @State private var isSaving = false
   @State private var showRatingNudge = false
+  @State private var showSaveError = false
 
   private var recipe: Recipe { scoredRecipe.recipe }
   private var baseMacros: RecipeMacros { scoredRecipe.macros }
@@ -90,7 +91,6 @@ struct CookingCelebrationView: View {
         .padding(.bottom, AppTheme.Space.bottomClearance)
       }
 
-      // Confetti overlay
       if showConfetti {
         ConfettiOverlay {
           withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -160,7 +160,6 @@ struct CookingCelebrationView: View {
       VStack(spacing: AppTheme.Space.md) {
         FLSectionHeader("Nutrition", icon: "chart.pie.fill")
 
-        // Macro ring + calorie center
         HStack(spacing: AppTheme.Space.lg) {
           ZStack {
             FLMacroRing(
@@ -204,7 +203,6 @@ struct CookingCelebrationView: View {
           }
         }
 
-        // Calorie % of daily goal
         VStack(spacing: AppTheme.Space.xxs) {
           HStack {
             Text("Daily calorie goal")
@@ -252,7 +250,6 @@ struct CookingCelebrationView: View {
           .foregroundStyle(AppTheme.textPrimary)
           .contentTransition(.numericText())
       }
-      // Mini progress bar for % of daily goal
       GeometryReader { geo in
         ZStack(alignment: .leading) {
           Capsule()
@@ -308,7 +305,6 @@ struct CookingCelebrationView: View {
   private var photoSection: some View {
     Group {
       if let capturedImage {
-        // Show captured photo
         FLCard {
           VStack(spacing: AppTheme.Space.sm) {
             Image(uiImage: capturedImage)
@@ -335,7 +331,6 @@ struct CookingCelebrationView: View {
           }
         }
       } else {
-        // Photo CTA
         Button {
           showCamera = true
         } label: {
@@ -399,12 +394,21 @@ struct CookingCelebrationView: View {
         Task { await saveAndDismiss() }
       }
       Button("Rate It") {
-        // Scroll to top / focus on rating — no-op, just dismiss the alert
-        // User stays on the screen to tap a star
       }
     } message: {
       Text(
         "Your ratings help FridgeLuck recommend better recipes next time. It only takes a second!")
+    }
+    .alert("Couldn\u{2019}t save", isPresented: $showSaveError) {
+      Button("Try Again") {
+        Task { await saveAndDismiss() }
+      }
+      Button("Skip", role: .destructive) {
+        onDismiss()
+      }
+    } message: {
+      Text(
+        "Your meal couldn\u{2019}t be saved to the recipe book. You can try again or skip for now.")
     }
   }
 
@@ -418,20 +422,24 @@ struct CookingCelebrationView: View {
     guard !isSaving else { return }
     isSaving = true
 
-    // Save photo if captured
     var imagePath: String?
     if let image = capturedImage {
       imagePath = try? deps.imageStorageService.save(image)
     }
 
-    // Record cooking event
     if let recipeId = recipe.id {
-      try? deps.personalizationService.recordCooking(
-        recipeId: recipeId,
-        rating: rating > 0 ? rating : nil,
-        imagePath: imagePath,
-        servingsConsumed: servings
-      )
+      do {
+        try deps.personalizationService.recordCooking(
+          recipeId: recipeId,
+          rating: rating > 0 ? rating : nil,
+          imagePath: imagePath,
+          servingsConsumed: servings
+        )
+      } catch {
+        isSaving = false
+        showSaveError = true
+        return
+      }
     }
 
     onDismiss()

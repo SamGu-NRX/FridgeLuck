@@ -58,12 +58,13 @@ final class PersonalizationService: Sendable {
 
   // MARK: - Record cooking event
 
+  @discardableResult
   func recordCooking(
     recipeId: Int64,
     rating: Int? = nil,
     imagePath: String? = nil,
     servingsConsumed: Int? = nil
-  ) throws {
+  ) throws -> Int64 {
     try db.write { db in
       let history = CookingHistory(
         recipeId: recipeId,
@@ -73,7 +74,6 @@ final class PersonalizationService: Sendable {
       )
       try history.insert(db)
 
-      // Update streak
       let today = Self.todayString()
       let existing = try Streak.fetchOne(db, key: today)
       if var streak = existing {
@@ -83,6 +83,8 @@ final class PersonalizationService: Sendable {
         let streak = Streak(date: today, mealsCookedCount: 1)
         try streak.insert(db)
       }
+
+      return db.lastInsertedRowID
     }
   }
 
