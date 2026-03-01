@@ -5,6 +5,7 @@ import os
 import re
 import tempfile
 import time
+import unicodedata
 from fractions import Fraction
 from pathlib import Path
 from typing import Any, Optional
@@ -183,6 +184,21 @@ class RecipeOut(BaseModel):
 
 
 app = typer.Typer(add_completion=False, no_args_is_help=True, help="BBC Good Food recipe scraper")
+
+RECIPE_TAG_BITS: dict[str, int] = {
+    "quick": 0,
+    "vegetarian": 1,
+    "vegan": 2,
+    "asian": 3,
+    "breakfast": 4,
+    "budget": 5,
+    "comfort": 6,
+    "mediterranean": 7,
+    "mexican": 8,
+    "high_protein": 9,
+    "low_carb": 10,
+    "one_pot": 11,
+}
 
 
 def _pretty_dumps(payload: Any) -> bytes:
@@ -593,6 +609,381 @@ def parse_recipe_page(source_url: str, html: str, servings_target: int) -> Recip
         steps=steps,
     )
     return candidate
+
+
+def _canonical_text(text: str) -> str:
+    normalized = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+    normalized = normalized.replace("_", " ").replace("-", " ")
+    normalized = re.sub(r"[^a-zA-Z0-9\s]", " ", normalized).lower()
+    return re.sub(r"\s+", " ", normalized).strip()
+
+
+def _singularize_word(word: str) -> str:
+    if word.endswith("ies") and len(word) > 4:
+        return f"{word[:-3]}y"
+    if word.endswith("s") and not word.endswith("ss") and len(word) > 3:
+        return word[:-1]
+    return word
+
+
+def _canonical_name_variants(name: str) -> set[str]:
+    base = _canonical_text(name)
+    if not base:
+        return {""}
+    words = base.split()
+    singular_words = [_singularize_word(w) for w in words]
+    variants = {base, " ".join(singular_words).strip()}
+    if len(words) > 1:
+        variants.add(_singularize_word(words[-1]))
+    return {v for v in variants if v}
+
+
+def _build_ingredient_index(data_payload: dict[str, Any]) -> dict[str, int]:
+    index: dict[str, int] = {}
+    for id_str, ingredient_array in data_payload.get("ingredients", {}).items():
+        if not isinstance(ingredient_array, list) or not ingredient_array:
+            continue
+        name = str(ingredient_array[0])
+        for key in _canonical_name_variants(name):
+            index[key] = int(id_str)
+    return index
+
+
+def _build_existing_recipe_title_keys(data_payload: dict[str, Any]) -> set[str]:
+    titles: set[str] = set()
+    for row in data_payload.get("recipes", []):
+        if isinstance(row, list) and len(row) >= 2:
+            titles.add(_canonical_text(str(row[1])))
+    return titles
+
+
+def _extract_source_url_from_instructions(instructions: Any) -> str | None:
+    if not isinstance(instructions, str):
+        return None
+    first_line = instructions.splitlines()[0].strip() if instructions else ""
+    match = re.match(r"^Source:\s*(https?://\S+)\s*$", first_line, flags=re.IGNORECASE)
+    if not match:
+        return None
+    return match.group(1).rstrip("/")
+
+
+def _build_existing_recipe_source_urls(data_payload: dict[str, Any]) -> set[str]:
+    urls: set[str] = set()
+    for row in data_payload.get("recipes", []):
+        if not isinstance(row, list) or len(row) < 7:
+            continue
+        source_url = _extract_source_url_from_instructions(row[6])
+        if source_url:
+            urls.add(source_url)
+    return urls
+
+
+def _validate_bundled_data_shape(data_payload: dict[str, Any]) -> None:
+    if not isinstance(data_payload, dict):
+        raise typer.BadParameter("Bundled data must be a JSON object.")
+
+    ingredients = data_payload.get("ingredients")
+    recipes = data_payload.get("recipes")
+    tags = data_payload.get("tags")
+    if not isinstance(ingredients, dict):
+        raise typer.BadParameter("Bundled data 'ingredients' must be an object keyed by ID.")
+    if not isinstance(recipes, list):
+        raise typer.BadParameter("Bundled data 'recipes' must be an array.")
+    if not isinstance(tags, list):
+        raise typer.BadParameter("Bundled data 'tags' must be an array.")
+
+    for id_key, ingredient_array in ingredients.items():
+        if not str(id_key).isdigit():
+            raise typer.BadParameter(f"Ingredient key '{id_key}' is not numeric.")
+        if not isinstance(ingredient_array, list) or len(ingredient_array) < 10:
+            raise typer.BadParameter(
+                f"Ingredient '{id_key}' must be an array with at least 10 fields."
+            )
+
+    for idx, row in enumerate(recipes):
+        if not isinstance(row, list) or len(row) < 8:
+            raise typer.BadParameter(
+                f"Recipe row at index {idx} is not compatible with GRDB seed shape."
+            )
+
+
+def _resolve_ingredient_id(name: str, index: dict[str, int]) -> int | None:
+    alias_map = {
+        "spring onion": "green onion",
+        "spring onions": "green onion",
+        "scallion": "green onion",
+        "scallions": "green onion",
+        "red pepper": "bell pepper",
+        "red peppers": "bell pepper",
+        "courgette": "zucchini",
+        "courgettes": "zucchini",
+        "chilli flakes": "red pepper flakes",
+        "chili flakes": "red pepper flakes",
+        "chilies": "red pepper flakes",
+        "chillies": "red pepper flakes",
+        "garlic clove": "garlic",
+        "garlic cloves": "garlic",
+        "chickpeas": "chickpea",
+        "black beans": "black beans",
+        "tuna": "canned tuna",
+    }
+    variants = _canonical_name_variants(name)
+    for variant in variants:
+        if variant in index:
+            return index[variant]
+    for variant in variants:
+        mapped = alias_map.get(variant)
+        if mapped:
+            mapped_key = _canonical_text(mapped)
+            if mapped_key in index:
+                return index[mapped_key]
+    return None
+
+
+def _estimate_grams(ingredient: IngredientOut) -> float:
+    if ingredient.amount_value and ingredient.amount_value > 0:
+        if ingredient.amount_unit in {"g", "ml"}:
+            return float(ingredient.amount_value)
+    qty, _ = parse_leading_quantity(ingredient.scaled_raw)
+    if qty is None or qty <= 0:
+        return 50.0
+
+    single_unit_grams = {
+        "egg": 50.0,
+        "onion": 110.0,
+        "garlic": 3.0,
+        "tomato": 123.0,
+        "pepper": 119.0,
+        "potato": 150.0,
+        "sweet potato": 114.0,
+        "carrot": 61.0,
+        "banana": 118.0,
+        "apple": 182.0,
+        "avocado": 150.0,
+        "bread": 30.0,
+        "tortilla": 45.0,
+        "lemon": 58.0,
+        "lime": 67.0,
+    }
+
+    canonical_name = _canonical_text(ingredient.name)
+    per_unit = 50.0
+    for key, grams in single_unit_grams.items():
+        if key in canonical_name:
+            per_unit = grams
+            break
+    estimated = qty * per_unit
+    return min(1000.0, max(5.0, estimated))
+
+
+def _infer_tag_bitmask(recipe: RecipeOut) -> int:
+    title = _canonical_text(recipe.title)
+    ingredient_blob = " ".join(_canonical_text(ing.name) for ing in recipe.ingredients)
+    corpus = f"{title} {ingredient_blob} {_canonical_text(recipe.source_url)}"
+
+    bits = 0
+    if recipe.steps and len(recipe.steps) <= 6:
+        bits |= 1 << RECIPE_TAG_BITS["quick"]
+    if any(k in corpus for k in ["quick", "10 minute", "15 minute"]) or len(recipe.steps) <= 5:
+        bits |= 1 << RECIPE_TAG_BITS["quick"]
+
+    animal_tokens = ["chicken", "beef", "pork", "bacon", "duck", "salmon", "tuna", "prawn", "fish", "sea bass", "chorizo"]
+    dairy_or_egg_tokens = ["egg", "cheese", "milk", "butter", "yogurt", "honey", "sour cream", "mozzarella", "feta"]
+
+    has_animal = any(token in corpus for token in animal_tokens)
+    has_dairy_or_egg = any(token in corpus for token in dairy_or_egg_tokens)
+    if not has_animal:
+        bits |= 1 << RECIPE_TAG_BITS["vegetarian"]
+    if not has_animal and not has_dairy_or_egg:
+        bits |= 1 << RECIPE_TAG_BITS["vegan"]
+
+    if any(k in corpus for k in ["noodle", "soy", "miso", "udon", "satay", "stir fry", "jalfrezi", "korma", "madras"]):
+        bits |= 1 << RECIPE_TAG_BITS["asian"]
+    if any(k in corpus for k in ["breakfast", "omelette", "oats", "toast", "frittata", "pancake"]):
+        bits |= 1 << RECIPE_TAG_BITS["breakfast"]
+    if any(k in corpus for k in ["budget", "cheap"]):
+        bits |= 1 << RECIPE_TAG_BITS["budget"]
+    if any(k in corpus for k in ["soup", "stew", "bake", "risotto", "curry", "ragu"]):
+        bits |= 1 << RECIPE_TAG_BITS["comfort"]
+    if any(k in corpus for k in ["mediterranean", "feta", "couscous", "hummus", "tzatziki", "halloumi"]):
+        bits |= 1 << RECIPE_TAG_BITS["mediterranean"]
+    if any(k in corpus for k in ["mexican", "taco", "burrito", "enchilada", "guacamole", "salsa"]):
+        bits |= 1 << RECIPE_TAG_BITS["mexican"]
+    if any(k in corpus for k in ["chicken", "tuna", "salmon", "tofu", "egg", "beef", "bean", "chickpea"]):
+        bits |= 1 << RECIPE_TAG_BITS["high_protein"]
+    if not any(k in corpus for k in ["rice", "pasta", "bread", "tortilla", "potato", "oat", "couscous"]):
+        bits |= 1 << RECIPE_TAG_BITS["low_carb"]
+    if any(k in corpus for k in ["one pot", "one pan", "stew", "soup", "curry", "chilli", "chili"]):
+        bits |= 1 << RECIPE_TAG_BITS["one_pot"]
+
+    return bits
+
+
+def _format_instruction_block(source_url: str, steps: list[str]) -> str:
+    lines = [f"Source: {source_url}"]
+    for idx, step in enumerate(steps, start=1):
+        text = re.sub(r"\s+", " ", step).strip()
+        if not text:
+            continue
+        lines.append(f"{idx}. {text}")
+    return "\n".join(lines).strip()
+
+
+@app.command("merge-grdb")
+def merge_grdb(
+    scraped: Path = typer.Option(
+        Path(".cache/bbc_goodfood_recipes.json"),
+        "--scraped",
+        help="Scraped BBC JSON file (output of scrape-recipes run).",
+    ),
+    bundled_data: Path = typer.Option(
+        Path("../../FridgeLuck.swiftpm/Resources/data.json"),
+        "--bundled-data",
+        help="Existing bundled data.json to merge into.",
+    ),
+    out: Path = typer.Option(
+        Path(".cache/data.merged.non_destructive.json"),
+        "--out",
+        help="Output merged JSON path (non-destructive).",
+    ),
+    report_out: Path = typer.Option(
+        Path(".cache/merge_report.json"),
+        "--report-out",
+        help="Path for merge diagnostics report.",
+    ),
+    min_required_matches: int = typer.Option(
+        2,
+        "--min-required-matches",
+        min=1,
+        help="Minimum number of mapped required ingredients to keep a recipe.",
+    ),
+    in_place: bool = typer.Option(
+        False,
+        "--in-place",
+        help="Overwrite bundled-data directly. Off by default for safety.",
+    ),
+) -> None:
+    scraped_payload = orjson.loads(scraped.read_bytes())
+    source_data = orjson.loads(bundled_data.read_bytes())
+    _validate_bundled_data_shape(source_data)
+
+    ingredient_index = _build_ingredient_index(source_data)
+    existing_title_keys = _build_existing_recipe_title_keys(source_data)
+    existing_source_urls = _build_existing_recipe_source_urls(source_data)
+    existing_recipe_rows = source_data.get("recipes", [])
+    existing_ids = [int(row[0]) for row in existing_recipe_rows if isinstance(row, list) and row]
+    if len(existing_ids) != len(set(existing_ids)):
+        raise typer.BadParameter("Bundled data has duplicate recipe IDs; aborting merge safely.")
+    next_recipe_id = (max(existing_ids) + 1) if existing_ids else 1
+
+    accepted_rows: list[list[Any]] = []
+    skipped: list[dict[str, Any]] = []
+    unmatched_ingredients: dict[str, int] = {}
+
+    for raw_item in scraped_payload:
+        recipe = RecipeOut.model_validate(raw_item)
+        title_key = _canonical_text(recipe.title)
+        if not title_key:
+            skipped.append({"title": recipe.title, "reason": "blank_title"})
+            continue
+        if title_key in existing_title_keys:
+            skipped.append({"title": recipe.title, "reason": "duplicate_title"})
+            continue
+
+        normalized_source_url = recipe.source_url.rstrip("/")
+        if normalized_source_url in existing_source_urls:
+            skipped.append(
+                {
+                    "title": recipe.title,
+                    "reason": "duplicate_source_url",
+                    "source_url": recipe.source_url,
+                }
+            )
+            continue
+
+        required: list[list[Any]] = []
+        optional: list[list[Any]] = []
+        used_ids: set[int] = set()
+        for ing in recipe.ingredients:
+            ingredient_id = _resolve_ingredient_id(ing.name, ingredient_index)
+            if ingredient_id is None:
+                key = _canonical_text(ing.name)
+                if key:
+                    unmatched_ingredients[key] = unmatched_ingredients.get(key, 0) + 1
+                continue
+            if ingredient_id in used_ids:
+                continue
+            used_ids.add(ingredient_id)
+            grams = _estimate_grams(ing)
+            pair = [ingredient_id, int(round(grams))]
+            if "optional" in ing.raw.lower():
+                optional.append(pair)
+            else:
+                required.append(pair)
+
+        if len(required) < min_required_matches:
+            skipped.append(
+                {
+                    "title": recipe.title,
+                    "reason": "too_few_mapped_required_ingredients",
+                    "mapped_required_count": len(required),
+                    "source_url": recipe.source_url,
+                }
+            )
+            continue
+
+        instructions = _format_instruction_block(recipe.source_url, recipe.steps)
+        tag_bitmask = _infer_tag_bitmask(recipe)
+        row = [
+            next_recipe_id,
+            recipe.title,
+            max(1, len(recipe.steps) * 5),
+            max(1, recipe.servings_target),
+            required,
+            optional,
+            instructions,
+            tag_bitmask,
+        ]
+        accepted_rows.append(row)
+        existing_title_keys.add(title_key)
+        existing_source_urls.add(normalized_source_url)
+        next_recipe_id += 1
+
+    merged_payload = {
+        "tags": source_data.get("tags", []),
+        "ingredients": source_data.get("ingredients", {}),
+        "recipes": [*existing_recipe_rows, *accepted_rows],
+    }
+    report = {
+        "scraped_recipe_count": len(scraped_payload),
+        "accepted_recipe_count": len(accepted_rows),
+        "skipped_recipe_count": len(skipped),
+        "skipped_recipes": skipped,
+        "top_unmatched_ingredients": sorted(
+            [{"name": name, "count": count} for name, count in unmatched_ingredients.items()],
+            key=lambda item: item["count"],
+            reverse=True,
+        )[:100],
+        "notes": [
+            "Merge is non-destructive by default: ingredients are untouched and recipes are appended only.",
+            "Only recipes with sufficient ingredient-ID matches are imported.",
+            "Unknown ingredients are reported for later nutrition curation.",
+        ],
+        "collision_checks": {
+            "existing_recipe_id_collisions": len(existing_ids) - len(set(existing_ids)),
+            "existing_source_url_count": len(_build_existing_recipe_source_urls(source_data)),
+            "accepted_source_url_count": len(existing_source_urls),
+        },
+    }
+
+    target_path = bundled_data if in_place else out
+    atomic_write_bytes(target_path, _pretty_dumps(merged_payload))
+    atomic_write_bytes(report_out, _pretty_dumps(report))
+
+    typer.echo(f"Merged recipes written: {target_path}")
+    typer.echo(f"Merge report written: {report_out}")
+    typer.echo(f"Accepted recipes: {len(accepted_rows)}")
+    typer.echo(f"Skipped recipes: {len(skipped)}")
 
 
 @app.command("run")
