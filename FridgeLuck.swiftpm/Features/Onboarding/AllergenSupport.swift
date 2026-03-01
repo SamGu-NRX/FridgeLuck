@@ -193,7 +193,6 @@ enum AllergenSupport {
 
     return score
   }
-
   private static func keywordWeight(for keyword: String) -> Int {
     if keyword.contains(" ") {
       return 4
