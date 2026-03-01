@@ -90,6 +90,15 @@ enum DemoScanService {
     )
   }
 
+  /// Load the scenario-specific photo for the scan animation overlay.
+  static func loadScenarioImage(for scenario: DemoScenario) -> UIImage? {
+    if let image = loadImage(name: scenario.scenarioImageName, ext: "png") {
+      return image
+    }
+    // Fall back to the default demo image if scenario photo is missing.
+    return loadDemoImage()
+  }
+
   static func loadDemoImage() -> UIImage? {
     let candidates: [(name: String, ext: String)] = [
       ("garlic_fried_rice", "jpg"),

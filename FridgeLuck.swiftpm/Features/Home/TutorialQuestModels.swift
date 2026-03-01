@@ -24,14 +24,17 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   var subtitle: String {
     switch self {
     case .setupProfile:
-      return "Tell us your nutrition goals and dietary needs so we can personalize every recipe."
+      return
+        "Tell me your nutrition goals and dietary needs \u{2014} I\u{2019}ll personalize every recipe just for you."
     case .firstScan:
       return
-        "Pick a fridge scenario and watch FridgeLuck identify ingredients and find your best recipes."
+        "Show me what\u{2019}s in your fridge. I\u{2019}ll spot every ingredient and find the best recipes you can make right now."
     case .cookAndRate:
-      return "Follow step-by-step instructions, then mark your meal as cooked to build your streak."
+      return
+        "Pick a recipe, cook it step by step, and rate it. I\u{2019}ll learn your taste and recommend smarter next time."
     case .exploreMore:
-      return "Try another cuisine or estimate a prepared dish\u{2019}s nutrition in seconds."
+      return
+        "Try a new cuisine or snap a dish photo for an instant nutrition breakdown \u{2014} I\u{2019}ll help you eat better with what you have."
     }
   }
 
@@ -56,8 +59,8 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   var ctaTitle: String {
     switch self {
     case .setupProfile: return "Set Up Profile"
-    case .firstScan: return "Pick a Scenario"
-    case .cookAndRate: return "View Your Recipe"
+    case .firstScan: return "Try Demo Mode"
+    case .cookAndRate: return "Cook a Recipe"
     case .exploreMore: return "Explore"
     }
   }
@@ -170,6 +173,33 @@ enum DemoScenario: String, CaseIterable, Identifiable, Sendable {
     }
   }
 
+  /// Richer description for the DemoModeView cards.
+  var description: String {
+    switch self {
+    case .quickBreakfast:
+      return
+        "A sunny morning spread \u{2014} crack some eggs, toast some bread, and see what FridgeLuck can whip up."
+    case .asianStirFry:
+      return "A well-stocked wok station with aromatic staples ready for a sizzling stir-fry."
+    case .mediterraneanLunch:
+      return
+        "Sun-drenched ingredients from the Mediterranean pantry \u{2014} crisp vegetables and creamy chickpeas."
+    case .tacoNight:
+      return
+        "Everything for a quick taco night \u{2014} pile on the beans, mash the avocado, squeeze the lime."
+    }
+  }
+
+  /// Hint about what recipes might appear.
+  var recipeHint: String {
+    switch self {
+    case .quickBreakfast: return "French Toast, Pancakes"
+    case .asianStirFry: return "Fried Rice, Stir-Fry"
+    case .mediterraneanLunch: return "Chickpea Salad, Caprese"
+    case .tacoNight: return "Black Bean Tacos"
+    }
+  }
+
   var subtitle: String {
     switch self {
     case .quickBreakfast: return "Eggs, bread, banana, oats, and milk"
@@ -213,6 +243,16 @@ enum DemoScenario: String, CaseIterable, Identifiable, Sendable {
     case .asianStirFry: return "demo_detections"
     case .mediterraneanLunch: return "demo_mediterranean"
     case .tacoNight: return "demo_tacos"
+    }
+  }
+
+  /// Scenario photo filename (without extension) in Resources/demo.
+  var scenarioImageName: String {
+    switch self {
+    case .quickBreakfast: return "quick_breakfast_scenario"
+    case .asianStirFry: return "asian_stirfry_scenario"
+    case .mediterraneanLunch: return "mediterranean_scenario"
+    case .tacoNight: return "taco_night_scenario"
     }
   }
 

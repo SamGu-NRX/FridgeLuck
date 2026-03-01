@@ -89,15 +89,15 @@ struct RecipeResultsView: View {
       .presentationDragIndicator(.visible)
       .presentationCornerRadius(AppTheme.Radius.xl)
     }
-    // Recipe book (full screen)
+    // Cooking guide (full screen)
     .fullScreenCover(item: $cookingRecipe) { recipe in
-      RecipeBookView(scoredRecipe: recipe) {
+      CookingGuideView(scoredRecipe: recipe) {
         // Cooking complete (celebration "Done" tapped)
         // Dismiss the fullScreenCover first, then return to Home after the animation settles.
         cookingRecipe = nil
         Task {
           try? await Task.sleep(for: .milliseconds(450))
-          navCoordinator.returnHome()
+          navCoordinator.returnHomeAfterCooking()
         }
       }
     }

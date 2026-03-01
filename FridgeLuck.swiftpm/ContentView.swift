@@ -7,8 +7,16 @@ import SwiftUI
 @Observable
 final class NavigationCoordinator {
   var shouldReturnHome = false
+  var didCompleteCooking = false
 
   func returnHome() {
+    shouldReturnHome = true
+  }
+
+  /// Signal that the user finished the cooking celebration. ContentView will
+  /// collapse the stack AND mark the cookAndRate quest as completed.
+  func returnHomeAfterCooking() {
+    didCompleteCooking = true
     shouldReturnHome = true
   }
 }
@@ -19,12 +27,11 @@ struct ContentView: View {
 
   @State private var hasOnboarded = false
   @State private var navigateToScan = false
-  @State private var navigateToJudgeDemo = false
+  @State private var navigateToDemoMode = false
   @State private var navigateToDishEstimate = false
-  @State private var navigateToScenarioDemo = false
-  @State private var selectedDemoScenario: DemoScenario?
   @State private var showOnboarding = false
   @State private var showProfile = false
+  @State private var showDashboard = false
   @State private var navCoordinator = NavigationCoordinator()
 
   @AppStorage("tutorialProgressStorage") private var tutorialStorageString = ""
@@ -33,27 +40,19 @@ struct ContentView: View {
     NavigationStack {
       HomeDashboardView(
         deps: deps,
-        isRunningDemo: false,
-        onStartJudgePath: runJudgePathFromDashboard,
         onScan: openScan,
-        onRunDemo: runJudgePathFromDashboard,
+        onDemoMode: openDemoMode,
         onEstimate: openPreparedDishEstimate,
         onCompleteProfile: openOnboarding,
         onProfile: openProfile,
-        onSelectDemoScenario: openScenarioDemo,
         onReset: performFullReset
       )
       .navigationBarTitleDisplayMode(.inline)
       .navigationDestination(isPresented: $navigateToScan) {
         ScanView()
       }
-      .navigationDestination(isPresented: $navigateToJudgeDemo) {
-        ScanView(mode: .demo, entryMode: .judgePath)
-      }
-      .navigationDestination(isPresented: $navigateToScenarioDemo) {
-        if let scenario = selectedDemoScenario {
-          ScanView(mode: .demo, entryMode: .judgePath, demoScenario: scenario)
-        }
+      .navigationDestination(isPresented: $navigateToDemoMode) {
+        DemoModeView()
       }
       .navigationDestination(isPresented: $navigateToDishEstimate) {
         PreparedDishEstimateView()
@@ -63,10 +62,16 @@ struct ContentView: View {
     .flPageBackground()
     .onChange(of: navCoordinator.shouldReturnHome) { _, shouldReturn in
       guard shouldReturn else { return }
+
+      // If cooking was completed, mark the quest before collapsing
+      if navCoordinator.didCompleteCooking {
+        markTutorialQuest(.cookAndRate)
+        navCoordinator.didCompleteCooking = false
+      }
+
       // Collapse the entire NavigationStack back to the Home dashboard
       navigateToScan = false
-      navigateToJudgeDemo = false
-      navigateToScenarioDemo = false
+      navigateToDemoMode = false
       navigateToDishEstimate = false
       navCoordinator.shouldReturnHome = false
     }
@@ -87,6 +92,10 @@ struct ContentView: View {
       ProfileView()
         .environmentObject(deps)
     }
+    .sheet(isPresented: $showDashboard) {
+      DashboardView()
+        .environmentObject(deps)
+    }
   }
 
   private func openScan() {
@@ -97,8 +106,10 @@ struct ContentView: View {
     }
   }
 
-  private func runJudgePathFromDashboard() {
-    navigateToJudgeDemo = true
+  private func openDemoMode() {
+    // Mark Quest 2 (firstScan) when user enters demo mode
+    markTutorialQuest(.firstScan)
+    navigateToDemoMode = true
   }
 
   private func openPreparedDishEstimate() {
@@ -113,17 +124,15 @@ struct ContentView: View {
 
   private func openProfile() {
     if hasOnboarded {
-      showProfile = true
+      let progress = TutorialProgress(storageString: tutorialStorageString)
+      if progress.isComplete {
+        showDashboard = true
+      } else {
+        showProfile = true
+      }
     } else {
       showOnboarding = true
     }
-  }
-
-  private func openScenarioDemo(_ scenario: DemoScenario) {
-    selectedDemoScenario = scenario
-    // Mark Quest 2 (firstScan) when user picks a scenario
-    markTutorialQuest(.firstScan)
-    navigateToScenarioDemo = true
   }
 
   private func refreshOnboardingGate() async {
@@ -156,9 +165,10 @@ struct ContentView: View {
     //    but ensure ContentView's copy is also empty)
     tutorialStorageString = ""
 
-    // 3. Clear learning telemetry counters from UserDefaults
+    // 3. Clear learning telemetry counters and spotlight flag from UserDefaults
     UserDefaults.standard.removeObject(forKey: "learning_suggestions_shown")
     UserDefaults.standard.removeObject(forKey: "learning_suggestions_accepted")
+    UserDefaults.standard.removeObject(forKey: "hasSeenSpotlightTutorial")
 
     // 4. Refresh onboarding gate so the app knows profile is gone
     hasOnboarded = false

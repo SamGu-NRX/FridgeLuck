@@ -110,9 +110,14 @@ protocol RecipeGenerating: Sendable {
 /// Returns the best-matching bundled recipe when Foundation Models is unavailable.
 final class FallbackRecipeGenerator: RecipeGenerating, @unchecked Sendable {
   private let recipeRepository: RecipeRepository
+  private let ingredientResolver: IngredientCatalogResolving
 
-  init(recipeRepository: RecipeRepository) {
+  init(
+    recipeRepository: RecipeRepository,
+    ingredientResolver: IngredientCatalogResolving
+  ) {
     self.recipeRepository = recipeRepository
+    self.ingredientResolver = ingredientResolver
   }
 
   var enhancementAvailability: AIEnhancementAvailability {
@@ -125,7 +130,7 @@ final class FallbackRecipeGenerator: RecipeGenerating, @unchecked Sendable {
   ) async throws -> GeneratedRecipeResult? {
     let ids: Set<Int64> = Set(
       ingredientNames.compactMap { name in
-        IngredientLexicon.resolve(name)
+        ingredientResolver.resolve(name) ?? IngredientLexicon.resolve(name)
       }
     )
 
@@ -157,7 +162,10 @@ final class FallbackRecipeGenerator: RecipeGenerating, @unchecked Sendable {
 
 enum RecipeGeneratorFactory {
   /// Returns the best available generator for the current device.
-  static func create(recipeRepository: RecipeRepository) -> RecipeGenerating {
+  static func create(
+    recipeRepository: RecipeRepository,
+    ingredientResolver: IngredientCatalogResolving
+  ) -> RecipeGenerating {
     #if canImport(FoundationModels)
       if #available(iOS 26.0, macOS 26.0, *) {
         let model = SystemLanguageModel.default
@@ -167,6 +175,9 @@ enum RecipeGeneratorFactory {
       }
     #endif
 
-    return FallbackRecipeGenerator(recipeRepository: recipeRepository)
+    return FallbackRecipeGenerator(
+      recipeRepository: recipeRepository,
+      ingredientResolver: ingredientResolver
+    )
   }
 }
