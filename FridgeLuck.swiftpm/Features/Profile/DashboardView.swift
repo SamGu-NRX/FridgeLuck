@@ -88,38 +88,38 @@ struct DashboardView: View {
       VStack(alignment: .leading, spacing: 0) {
 
         heroHeader(vm: vm, snap: snap)
-          .padding(.bottom, AppTheme.Space.sectionBreak)
+          .padding(.bottom, AppTheme.Space.md)
 
         FLSectionHeader("Today's Macros", icon: "chart.pie")
           .flPagePadding()
-          .padding(.bottom, AppTheme.Space.sm)
+          .padding(.bottom, AppTheme.Space.xs)
 
         todayMacroCard(vm: vm, snap: snap)
           .flPagePadding()
-          .padding(.bottom, AppTheme.Space.sectionBreak)
+          .padding(.bottom, AppTheme.Space.md)
 
         FLSectionHeader("This Week", subtitle: "Daily calorie intake", icon: "chart.bar.fill")
           .flPagePadding()
-          .padding(.bottom, AppTheme.Space.sm)
+          .padding(.bottom, AppTheme.Space.xs)
 
         weeklyCalorieChart(vm: vm, snap: snap)
           .flPagePadding()
-          .padding(.bottom, AppTheme.Space.sectionBreak)
+          .padding(.bottom, AppTheme.Space.md)
 
         FLSectionHeader("Recipe Book", subtitle: "Your cooking journal", icon: "book.closed.fill")
           .flPagePadding()
-          .padding(.bottom, AppTheme.Space.sm)
+          .padding(.bottom, AppTheme.Space.xs)
 
         recipeBookPreview(snap: snap)
-          .padding(.bottom, AppTheme.Space.sectionBreak)
+          .padding(.bottom, AppTheme.Space.md)
 
         FLWaveDivider()
           .flPagePadding()
-          .padding(.bottom, AppTheme.Space.sectionBreak)
+          .padding(.bottom, AppTheme.Space.md)
 
         statsRow(snap: snap)
           .flPagePadding()
-          .padding(.bottom, AppTheme.Space.sectionBreak)
+          .padding(.bottom, AppTheme.Space.md)
 
         FLSecondaryButton("Edit Profile", systemImage: "pencil") {
           showEditProfile = true
@@ -127,52 +127,65 @@ struct DashboardView: View {
         .flPagePadding()
         .padding(.bottom, AppTheme.Space.bottomClearance)
       }
-      .padding(.top, AppTheme.Space.lg)
+      .padding(.top, AppTheme.Space.xs)
     }
   }
 
   // MARK: - Hero Header
 
   private func heroHeader(vm: DashboardViewModel, snap: DashboardSnapshot) -> some View {
-    VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-      Text("YOUR PROGRESS")
-        .font(AppTheme.Typography.labelSmall)
-        .foregroundStyle(AppTheme.textSecondary)
-        .kerning(1.5)
-
-      HStack(alignment: .top) {
-        VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+      HStack(alignment: .center) {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
           Text(snap.healthProfile.goal.displayName)
-            .font(.system(size: 34, weight: .bold, design: .serif))
+            .font(.system(size: 26, weight: .bold, design: .serif))
             .foregroundStyle(AppTheme.textPrimary)
 
-          if snap.currentStreak > 0 {
-            HStack(spacing: AppTheme.Space.xxs) {
-              Image(systemName: "flame.fill")
-                .foregroundStyle(AppTheme.accent)
-                .font(.system(size: 13))
-              Text("\(snap.currentStreak)-day streak")
-                .font(AppTheme.Typography.dataSmall)
-                .foregroundStyle(AppTheme.accent)
-            }
-          }
+          Text("\(Int(vm.dailyCalorieGoal.rounded())) cal / day")
+            .font(AppTheme.Typography.dataSmall)
+            .foregroundStyle(AppTheme.textSecondary)
         }
 
         Spacer()
 
         calorieRing(vm: vm, snap: snap)
       }
+
+      let badges = snap.healthProfile.activeDietaryBadges
+      if !badges.isEmpty || snap.currentStreak > 0 {
+        HStack(spacing: AppTheme.Space.xs) {
+          if snap.currentStreak > 0 {
+            HStack(spacing: AppTheme.Space.xxs) {
+              Image(systemName: "flame.fill")
+                .font(.system(size: 11))
+              Text("\(snap.currentStreak)d")
+                .font(AppTheme.Typography.labelSmall)
+            }
+            .foregroundStyle(AppTheme.accent)
+            .padding(.horizontal, AppTheme.Space.xs)
+            .padding(.vertical, AppTheme.Space.xxs)
+            .background(
+              AppTheme.accentMuted,
+              in: Capsule()
+            )
+          }
+
+          ForEach(badges, id: \.self) { badge in
+            Text(badge)
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.sage)
+              .padding(.horizontal, AppTheme.Space.xs)
+              .padding(.vertical, AppTheme.Space.xxs)
+              .background(
+                AppTheme.sage.opacity(0.12),
+                in: Capsule()
+              )
+          }
+        }
+      }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(.horizontal, AppTheme.Space.page)
-    .padding(.vertical, AppTheme.Space.lg)
-    .background(
-      LinearGradient(
-        colors: [AppTheme.bg, AppTheme.surfaceMuted.opacity(0.5)],
-        startPoint: .top,
-        endPoint: .bottom
-      )
-    )
+    .flPagePadding()
   }
 
   private func calorieRing(vm: DashboardViewModel, snap: DashboardSnapshot) -> some View {
@@ -201,7 +214,7 @@ struct DashboardView: View {
           .foregroundStyle(AppTheme.textSecondary)
       }
     }
-    .frame(width: 80, height: 80)
+    .frame(width: 68, height: 68)
   }
 
   // MARK: - Today's Macros Card

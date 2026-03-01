@@ -78,21 +78,21 @@ struct FLSectionHeader: View {
   }
 
   var body: some View {
-    HStack(alignment: .top, spacing: AppTheme.Space.sm) {
-      Image(systemName: icon)
-        .foregroundStyle(AppTheme.accent)
-        .font(.system(size: 15, weight: .semibold))
-      VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+      HStack(spacing: AppTheme.Space.xs) {
+        Image(systemName: icon)
+          .foregroundStyle(AppTheme.accent)
+          .font(.system(size: 14, weight: .semibold))
         Text(title)
           .font(AppTheme.Typography.displayCaption)
           .foregroundStyle(AppTheme.textPrimary)
-        if let subtitle, !subtitle.isEmpty {
-          Text(subtitle)
-            .font(AppTheme.Typography.bodySmall)
-            .foregroundStyle(AppTheme.textSecondary)
-        }
       }
-      Spacer()
+      if let subtitle, !subtitle.isEmpty {
+        Text(subtitle)
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .padding(.leading, 22)
+      }
     }
   }
 }

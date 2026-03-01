@@ -5,6 +5,7 @@ import SwiftUI
 /// with a dedicated, full-page experience.
 struct DemoModeView: View {
   @EnvironmentObject var deps: AppDependencies
+  @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   // MARK: - State
@@ -21,6 +22,7 @@ struct DemoModeView: View {
   @State private var discoveredCount: Int = 0
   @State private var scannerBracketsVisible = false
   @State private var scanComplete = false
+  @State private var scanTask: Task<Void, Never>?
 
   /// The overlay phases: preview first, then scanning.
   private enum OverlayPhase: Equatable {
@@ -69,7 +71,28 @@ struct DemoModeView: View {
     }
     .navigationTitle("Demo Mode")
     .navigationBarTitleDisplayMode(.inline)
+    .navigationBarBackButtonHidden(true)
     .flPageBackground()
+    .toolbar {
+      ToolbarItem(placement: .topBarLeading) {
+        Button(action: handleBackButton) {
+          Image(systemName: "chevron.left")
+            .font(.system(size: 20, weight: .semibold))
+            .foregroundStyle(AppTheme.textPrimary)
+            .frame(width: 44, height: 44)
+            .background(
+              AppTheme.surface.opacity(0.98),
+              in: Circle()
+            )
+            .overlay(
+              Circle()
+                .stroke(AppTheme.oat.opacity(0.22), lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(isOverlayVisible ? "Close preview" : "Back")
+      }
+    }
     .navigationDestination(isPresented: $navigateToReview) {
       IngredientReviewView(
         detections: loadedDetections,
@@ -594,6 +617,8 @@ struct DemoModeView: View {
   /// Phase 1: Show the fridge preview with scenario info.
   private func beginPreview(_ scenario: DemoScenario) {
     guard !isOverlayVisible else { return }
+    scanTask?.cancel()
+    scanTask = nil
 
     demoImage = DemoScanService.loadScenarioImage(for: scenario)
     activeScenario = scenario
@@ -612,7 +637,8 @@ struct DemoModeView: View {
       overlayPhase = .scanning(scenario)
     }
 
-    Task {
+    scanTask?.cancel()
+    scanTask = Task {
       async let payloadFetch = DemoScanService.loadDemoPayload(
         scenario: scenario,
         using: deps.visionService
@@ -621,13 +647,19 @@ struct DemoModeView: View {
       // Slower ingredient discovery animation (300-500ms per ingredient)
       let totalIngredients = scenario.ingredientNames.count
       for i in 1...totalIngredients {
-        try? await Task.sleep(for: .milliseconds(Int.random(in: 300...500)))
+        do {
+          try await Task.sleep(for: .milliseconds(Int.random(in: 300...500)))
+        } catch {
+          return
+        }
+        guard !Task.isCancelled else { return }
         withAnimation(reduceMotion ? nil : AppMotion.quick) {
           discoveredCount = i
         }
       }
 
       let payload = await payloadFetch
+      guard !Task.isCancelled else { return }
 
       loadedDetections = payload.detections
       loadedProvenance = payload.provenance
@@ -636,15 +668,46 @@ struct DemoModeView: View {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         scanComplete = true
       }
-      try? await Task.sleep(for: .milliseconds(800))
+      do {
+        try await Task.sleep(for: .milliseconds(800))
+      } catch {
+        return
+      }
+      guard !Task.isCancelled else { return }
 
       withAnimation(reduceMotion ? nil : AppMotion.standard) {
         overlayPhase = .hidden
         activeScenario = nil
       }
 
-      try? await Task.sleep(for: .milliseconds(180))
+      do {
+        try await Task.sleep(for: .milliseconds(180))
+      } catch {
+        return
+      }
+      guard !Task.isCancelled else { return }
       navigateToReview = true
+      scanTask = nil
     }
+  }
+
+  private func handleBackButton() {
+    if isOverlayVisible {
+      closeOverlay()
+      return
+    }
+    dismiss()
+  }
+
+  private func closeOverlay() {
+    scanTask?.cancel()
+    scanTask = nil
+    withAnimation(reduceMotion ? nil : AppMotion.standard) {
+      overlayPhase = .hidden
+      activeScenario = nil
+    }
+    discoveredCount = 0
+    scanComplete = false
+    scannerBracketsVisible = false
   }
 }

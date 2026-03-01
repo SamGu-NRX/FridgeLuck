@@ -137,6 +137,7 @@ struct IngredientReviewView: View {
     .navigationTitle("Review Ingredients")
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground()
+    .toolbar(showReviewSpotlight ? .hidden : .visible, for: .navigationBar)
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
         Button {

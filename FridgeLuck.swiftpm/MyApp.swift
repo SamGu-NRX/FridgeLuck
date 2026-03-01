@@ -5,6 +5,10 @@ struct FridgeLuckApp: App {
   @State private var dependencies: AppDependencies?
   @State private var loadError: Error?
 
+  init() {
+    Self.resetTutorialStateForLaunch()
+  }
+
   var body: some Scene {
     WindowGroup {
       Group {
@@ -29,6 +33,21 @@ struct FridgeLuckApp: App {
           }
         }
       }
+    }
+  }
+
+  /// Keeps guided tours replayable on every debug launch.
+  private static func resetTutorialStateForLaunch() {
+    let defaults = UserDefaults.standard
+    let tutorialKeys = [
+      "tutorialProgressStorage",
+      "hasSeenSpotlightTutorial",
+      "hasSeenCompletionSpotlight",
+      "hasSeenReviewSpotlight",
+      "hasSeenSwapTooltip",
+    ]
+    for key in tutorialKeys {
+      defaults.removeObject(forKey: key)
     }
   }
 }
