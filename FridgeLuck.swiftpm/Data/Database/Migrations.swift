@@ -219,6 +219,16 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V8: Bundled recipe hydration state
+
+    migrator.registerMigration("v8_bundled_recipe_state") { db in
+      try db.create(table: "bundled_recipe_state") { t in
+        t.primaryKey("key", .text)
+        t.column("value", .text).notNull()
+        t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+      }
+    }
+
     try migrator.migrate(db)
   }
 }

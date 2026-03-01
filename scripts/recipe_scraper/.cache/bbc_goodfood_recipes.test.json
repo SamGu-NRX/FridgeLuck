@@ -1,0 +1,293 @@
+[
+  {
+    "ingredients": [
+      {
+        "amount_unit": "g",
+        "amount_value": 100,
+        "name": "couscous",
+        "prep_actions": [],
+        "raw": "100g couscous",
+        "scaled_raw": "100 g couscous"
+      },
+      {
+        "amount_unit": "ml",
+        "amount_value": 200,
+        "name": "hot low salt vegetable stock",
+        "prep_actions": [],
+        "raw": "200ml hot low salt vegetable stock (from a cube is fine)",
+        "scaled_raw": "200 ml hot low salt vegetable stock (from a cube is fine)"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "spring onions",
+        "prep_actions": [],
+        "raw": "2 spring onions",
+        "scaled_raw": "2 spring onions"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "red pepper",
+        "prep_actions": [],
+        "raw": "1 red pepper",
+        "scaled_raw": "1 red pepper"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "cucumber",
+        "prep_actions": [],
+        "raw": "½ cucumber",
+        "scaled_raw": "1/2 cucumber"
+      },
+      {
+        "amount_unit": "g",
+        "amount_value": 50,
+        "name": "feta cheese cubed",
+        "prep_actions": [],
+        "raw": "50g feta cheese cubed",
+        "scaled_raw": "50 g feta cheese cubed"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "pesto",
+        "prep_actions": [],
+        "raw": "2tbsp pesto",
+        "scaled_raw": "2 tbsp pesto"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "pine nuts",
+        "prep_actions": [],
+        "raw": "2tbsp pine nuts",
+        "scaled_raw": "2 tbsp pine nuts"
+      }
+    ],
+    "servings_original": 2,
+    "servings_target": 2,
+    "source_url": "https://www.bbcgoodfood.com/recipes/10minute-couscous-salad",
+    "steps": [
+      "Tip the couscous into a large bowl and pour over the stock. Cover, then leave for 10 mins until fluffy and all the stock has been absorbed. Meanwhile, slice the onions and pepper, and dice the cucumber. Add these to the couscous, fork through the pesto, crumble in the feta, then sprinkle over pine nuts to serve."
+    ],
+    "title": "10-minute couscous salad"
+  },
+  {
+    "ingredients": [
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "olive oil",
+        "prep_actions": [],
+        "raw": "1 tbsp olive oil",
+        "scaled_raw": "1 tbsp olive oil"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "onion",
+        "prep_actions": [
+          "chop"
+        ],
+        "raw": "1 small  onion finely chopped",
+        "scaled_raw": "1 small  onion finely chopped"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "garlic cloves",
+        "prep_actions": [
+          "chop"
+        ],
+        "raw": "2  garlic cloves finely chopped",
+        "scaled_raw": "2 garlic cloves finely chopped"
+      },
+      {
+        "amount_unit": "g",
+        "amount_value": 400,
+        "name": "tomatoes",
+        "prep_actions": [
+          "chop"
+        ],
+        "raw": "400g can chopped tomatoes",
+        "scaled_raw": "400 g can chopped tomatoes"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "chilli flakes",
+        "prep_actions": [],
+        "raw": "½ tsp chilli flakes (optional)",
+        "scaled_raw": "1/2 tsp chilli flakes (optional)"
+      },
+      {
+        "amount_unit": "g",
+        "amount_value": 150,
+        "name": "pasta cooked following instructions",
+        "prep_actions": [],
+        "raw": "150g pasta of your choice, cooked following pack instructions",
+        "scaled_raw": "150 g pasta of your choice, cooked following pack instructions"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "tuna olive oil",
+        "prep_actions": [],
+        "raw": "145-165g can  tuna in olive oil, drained",
+        "scaled_raw": "145 -165g can  tuna in olive oil, drained"
+      },
+      {
+        "amount_unit": "g",
+        "amount_value": 50,
+        "name": "mozzarella",
+        "prep_actions": [
+          "grate"
+        ],
+        "raw": "50g grated mozzarella",
+        "scaled_raw": "50 g grated mozzarella"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "parsley",
+        "prep_actions": [
+          "chop"
+        ],
+        "raw": "2 tbsp chopped parsley",
+        "scaled_raw": "2 tbsp chopped parsley"
+      }
+    ],
+    "servings_original": 2,
+    "servings_target": 2,
+    "source_url": "https://www.bbcgoodfood.com/recipes/air-fryer-tuna-pasta-bake",
+    "steps": [
+      "Chop the onion.",
+      "Chop the garlic cloves.",
+      "Chop the tomatoes.",
+      "Grate the mozzarella.",
+      "Chop the parsley.",
+      "Heat the air-fryer to 190C. Tip the oil, onion and garlic into a heatproof dish and air-fry for 3 mins. Add the tomatoes and chilli flakes, if using, along with some seasoning. Air-fry for a further 5 mins.",
+      "Reduce the temperature to 170C. Stir in the cooked pasta, tuna, most of the mozzarella and the parsley. Scatter the reserved mozzarella over the top.",
+      "Air-fry for 5 mins until golden, then cover with foil and cook for a further 5 mins until bubbling. Serve warm with salad."
+    ],
+    "title": "Air fryer tuna pasta bake"
+  },
+  {
+    "ingredients": [
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "asparagus spears",
+        "prep_actions": [],
+        "raw": "8 asparagus spears, halved",
+        "scaled_raw": "2 asparagus spears, halved"
+      },
+      {
+        "amount_unit": "g",
+        "amount_value": 250,
+        "name": "green beans",
+        "prep_actions": [],
+        "raw": "250g green beans halved",
+        "scaled_raw": "62 1/2 g green beans halved"
+      },
+      {
+        "amount_unit": "g",
+        "amount_value": 250,
+        "name": "long-stem broccoli lengths",
+        "prep_actions": [
+          "chop"
+        ],
+        "raw": "250g long-stem broccoli chopped into 2cm lengths",
+        "scaled_raw": "62 1/2 g long-stem broccoli chopped into 2cm lengths"
+      },
+      {
+        "amount_unit": "g",
+        "amount_value": 200,
+        "name": "peas",
+        "prep_actions": [],
+        "raw": "200g peas fresh or frozen",
+        "scaled_raw": "50 g peas fresh or frozen"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "radishes",
+        "prep_actions": [
+          "slice"
+        ],
+        "raw": "8 radishes sliced",
+        "scaled_raw": "2 radishes sliced"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "pointed cabbage",
+        "prep_actions": [
+          "shred"
+        ],
+        "raw": "1 pointed cabbage shredded",
+        "scaled_raw": "1/4 pointed cabbage shredded"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "spring onions",
+        "prep_actions": [
+          "slice"
+        ],
+        "raw": "4 spring onions sliced",
+        "scaled_raw": "1 spring onions sliced"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "handful mint leaves",
+        "prep_actions": [
+          "chop"
+        ],
+        "raw": "handful of mint leaves, chopped",
+        "scaled_raw": "handful of mint leaves, chopped"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "olive oil",
+        "prep_actions": [],
+        "raw": "4 tbsp olive oil",
+        "scaled_raw": "1 tbsp olive oil"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "dijon mustard",
+        "prep_actions": [],
+        "raw": "1 tbsp Dijon mustard",
+        "scaled_raw": "1/4 tbsp Dijon mustard"
+      },
+      {
+        "amount_unit": null,
+        "amount_value": null,
+        "name": "lemon",
+        "prep_actions": [],
+        "raw": "1 lemon juiced",
+        "scaled_raw": "1/4 lemon juiced"
+      }
+    ],
+    "servings_original": 8,
+    "servings_target": 2,
+    "source_url": "https://www.bbcgoodfood.com/recipes/allotment-salad",
+    "steps": [
+      "Chop the long-stem broccoli lengths.",
+      "Slice the radishes.",
+      "Shred the pointed cabbage.",
+      "Slice the spring onions.",
+      "Chop the handful mint leaves.",
+      "To make the dressing, combine all the ingredients in a bowl and season well.",
+      "Bring a pan of salted water to the boil and fill a bowl with iced water. Cook the asparagus for 2 mins, then transfer to the iced water with a slotted spoon. Cook the beans for 4 mins and repeat, then do the same with the broccoli (cook for 2½ mins) and peas (cook for 1 min). Drain and pat dry with kitchen paper.",
+      "Tip into a bowl with the radishes, cabbage, spring onions and mint. Serve the dressing on the side."
+    ],
+    "title": "Allotment salad"
+  }
+]

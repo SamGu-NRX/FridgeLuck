@@ -86,6 +86,12 @@ private struct RecipeArray: Decodable {
 // MARK: - Loader
 
 enum BundledDataLoader {
+  private enum BundledRecipeStateKey {
+    static let bundleMarker = "bundle_marker"
+    static let recipeCount = "recipe_count"
+    static let hydratedAt = "hydrated_at_utc"
+  }
+
   private enum USDAStateKey {
     static let bundleMarker = "bundle_marker"
     static let ingredientCount = "ingredient_count"
@@ -93,6 +99,7 @@ enum BundledDataLoader {
     static let hydratedAt = "hydrated_at_utc"
   }
 
+  private static let minimumExpectedBundledRecipeCount = 100
   private static let minimumExpectedCatalogIngredientCount = 300
 
   /// Load bundled data.json into the SQLite database.
@@ -211,6 +218,114 @@ enum BundledDataLoader {
       try upsertUSDACatalogState(
         db, key: USDAStateKey.aliasCount, value: String(hydratedAliasCount))
       try upsertUSDACatalogState(db, key: USDAStateKey.hydratedAt, value: hydratedAt)
+    }
+  }
+
+  /// Ensure bundled recipes are present for existing installs.
+  /// Safe to run at every launch because inserts are idempotent by normalized title.
+  static func ensureBundledRecipesHydrated(into appDB: AppDatabase) async throws {
+    guard let url = Bundle.main.url(forResource: "data", withExtension: "json") else {
+      return
+    }
+    let marker = catalogMarker(for: url)
+    let jsonData = try Data(contentsOf: url)
+    let bundled = try JSONDecoder().decode(BundledData.self, from: jsonData)
+
+    try await appDB.dbQueue.write { db in
+      let existingBundledCount =
+        try Int.fetchOne(
+          db,
+          sql: "SELECT COUNT(*) FROM recipes WHERE source = 'bundled'"
+        ) ?? 0
+      let lastImportedMarker = try String.fetchOne(
+        db,
+        sql: "SELECT value FROM bundled_recipe_state WHERE key = ?",
+        arguments: [BundledRecipeStateKey.bundleMarker]
+      )
+
+      let shouldHydrate =
+        lastImportedMarker != marker
+        || existingBundledCount < minimumExpectedBundledRecipeCount
+      guard shouldHydrate else {
+        return
+      }
+
+      let existingTitleRows = try Row.fetchAll(
+        db,
+        sql: "SELECT title FROM recipes WHERE source = 'bundled'"
+      )
+      var existingTitleKeys = Set(
+        existingTitleRows.compactMap { row in
+          let title: String? = row["title"]
+          return title?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        }
+      )
+
+      var insertedCount = 0
+      for raw in bundled.recipes {
+        let titleKey = raw.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !titleKey.isEmpty else { continue }
+        guard !existingTitleKeys.contains(titleKey) else { continue }
+
+        try db.execute(
+          sql: """
+            INSERT INTO recipes
+                (title, time_minutes, servings, instructions, tags, source)
+            VALUES (?, ?, ?, ?, ?, 'bundled')
+            """,
+          arguments: [
+            raw.title, raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask,
+          ]
+        )
+        let newRecipeId = db.lastInsertedRowID
+        insertedCount += 1
+
+        for (ingId, grams) in raw.requiredIngredients {
+          let displayQty = Self.formatDisplayQuantity(
+            grams: grams, ingredientId: ingId, ingredients: bundled.ingredients)
+          try db.execute(
+            sql: """
+              INSERT INTO recipe_ingredients
+                  (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+              VALUES (?, ?, 1, ?, ?)
+              """,
+            arguments: [newRecipeId, ingId, grams, displayQty]
+          )
+        }
+
+        for (ingId, grams) in raw.optionalIngredients {
+          let displayQty = Self.formatDisplayQuantity(
+            grams: grams, ingredientId: ingId, ingredients: bundled.ingredients)
+          try db.execute(
+            sql: """
+              INSERT INTO recipe_ingredients
+                  (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+              VALUES (?, ?, 0, ?, ?)
+              """,
+            arguments: [newRecipeId, ingId, grams, displayQty]
+          )
+        }
+
+        existingTitleKeys.insert(titleKey)
+      }
+
+      let hydratedRecipeCount =
+        try Int.fetchOne(
+          db,
+          sql: "SELECT COUNT(*) FROM recipes WHERE source = 'bundled'"
+        ) ?? 0
+      let hydratedAt = ISO8601DateFormatter().string(from: Date())
+
+      try upsertBundledRecipeState(db, key: BundledRecipeStateKey.bundleMarker, value: marker)
+      try upsertBundledRecipeState(
+        db, key: BundledRecipeStateKey.recipeCount, value: String(hydratedRecipeCount))
+      try upsertBundledRecipeState(db, key: BundledRecipeStateKey.hydratedAt, value: hydratedAt)
+
+      #if DEBUG
+        if insertedCount > 0 {
+          print("[BundledDataLoader] Hydrated \(insertedCount) bundled recipes.")
+        }
+      #endif
     }
   }
 
@@ -348,6 +463,19 @@ enum BundledDataLoader {
     try db.execute(
       sql: """
         INSERT INTO usda_catalog_state (key, value, updated_at)
+        VALUES (?, ?, CURRENT_TIMESTAMP)
+        ON CONFLICT(key) DO UPDATE SET
+            value = excluded.value,
+            updated_at = CURRENT_TIMESTAMP
+        """,
+      arguments: [key, value]
+    )
+  }
+
+  private static func upsertBundledRecipeState(_ db: Database, key: String, value: String) throws {
+    try db.execute(
+      sql: """
+        INSERT INTO bundled_recipe_state (key, value, updated_at)
         VALUES (?, ?, CURRENT_TIMESTAMP)
         ON CONFLICT(key) DO UPDATE SET
             value = excluded.value,

@@ -266,20 +266,27 @@ struct RecipePreviewDrawer: View {
 
         HStack(spacing: AppTheme.Space.sm) {
           macroCell(
-            "Calories", value: "\(Int(macros.caloriesPerServing))", unit: "kcal",
+            "Calories", value: "\(Int(macros.caloriesPerServing.rounded()))", unit: "kcal",
             color: AppTheme.accent)
           macroCell(
-            "Protein", value: "\(Int(macros.proteinPerServing))", unit: "g",
+            "Protein", value: "\(Int(macros.proteinPerServing.rounded()))", unit: "g",
             color: AppTheme.sage)
           macroCell(
-            "Carbs", value: "\(Int(macros.carbsPerServing))", unit: "g",
+            "Carbs", value: "\(Int(macros.carbsPerServing.rounded()))", unit: "g",
             color: AppTheme.oat)
           macroCell(
-            "Fat", value: "\(Int(macros.fatPerServing))", unit: "g",
+            "Fat", value: "\(Int(macros.fatPerServing.rounded()))", unit: "g",
             color: AppTheme.accentLight)
         }
 
         macroSplitBar
+
+        HStack(spacing: AppTheme.Space.md) {
+          secondaryNutrient(label: "Fiber", value: "\(Int(macros.fiberPerServing.rounded()))g")
+          secondaryNutrient(label: "Sugar", value: "\(Int(macros.sugarPerServing.rounded()))g")
+          secondaryNutrient(label: "Sodium", value: "\(Int(macros.sodiumPerServing.rounded()))mg")
+          Spacer()
+        }
       }
     }
   }
@@ -317,6 +324,17 @@ struct RecipePreviewDrawer: View {
     }
     .frame(height: 8)
     .clipShape(Capsule())
+  }
+
+  private func secondaryNutrient(label: String, value: String) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+      Text(value)
+        .font(AppTheme.Typography.label)
+        .foregroundStyle(AppTheme.textPrimary)
+      Text(label)
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(AppTheme.textSecondary)
+    }
   }
 
   // MARK: - Ingredients
