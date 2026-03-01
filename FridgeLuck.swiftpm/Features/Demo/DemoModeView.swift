@@ -15,6 +15,10 @@ struct DemoModeView: View {
   @State private var loadedProvenance: ScanProvenance = .bundledFixture
   @State private var navigateToReview = false
   @State private var navigateToScan = false
+  @State private var demoImage: UIImage?
+  @State private var scanProgress: CGFloat = 0
+  @State private var discoveredCount: Int = 0
+  @State private var scannerBracketsVisible = false
 
   // MARK: - Layout
 
@@ -48,7 +52,7 @@ struct DemoModeView: View {
           .transition(.opacity)
       }
     }
-    .navigationTitle("Try FridgeLuck")
+    .navigationTitle("Demo Mode")
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground()
     .navigationDestination(isPresented: $navigateToReview) {
@@ -233,35 +237,193 @@ struct DemoModeView: View {
     )
   }
 
-  // MARK: - Loading Overlay
+  // MARK: - Scanning Overlay
 
   private func scenarioLoadingOverlay(_ scenario: DemoScenario) -> some View {
     ZStack {
-      LinearGradient(
-        colors: scenario.gradientColors + [
-          scenario.gradientColors.last?.opacity(0.9) ?? scenario.accentColor
-        ],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-      )
-      .ignoresSafeArea()
+      Color.black.opacity(0.72)
+        .ignoresSafeArea()
 
       VStack(spacing: AppTheme.Space.lg) {
-        Image(systemName: scenario.icon)
-          .font(.system(size: 48, weight: .semibold))
-          .foregroundStyle(.white.opacity(0.9))
-          .frame(width: 96, height: 96)
-          .background(Circle().fill(.white.opacity(0.12)))
+        ZStack {
+          if let image = demoImage {
+            Image(uiImage: image)
+              .resizable()
+              .scaledToFill()
+              .overlay {
+                ZStack {
+                  Color.black.opacity(0.08)
+                  RadialGradient(
+                    colors: [Color.clear, Color.black.opacity(0.30)],
+                    center: .center,
+                    startRadius: 80,
+                    endRadius: 320
+                  )
+                }
+              }
+          } else {
+            Color.clear
+              .background(
+                LinearGradient(
+                  colors: scenario.gradientColors,
+                  startPoint: .topLeading,
+                  endPoint: .bottomTrailing
+                )
+              )
+              .overlay {
+                Image(systemName: scenario.icon)
+                  .font(.system(size: 36, weight: .semibold))
+                  .foregroundStyle(.white.opacity(0.6))
+              }
+          }
 
-        FLAnalyzingPulse()
-          .frame(width: 36, height: 36)
+          ScanSweepOverlay(isAnimating: !reduceMotion)
 
-        Text("Loading \(scenario.title)\u{2026}")
-          .font(AppTheme.Typography.displayCaption)
-          .foregroundStyle(.white)
+          scannerCornerBrackets(accentColor: scenario.accentColor)
+        }
+        .aspectRatio(3.0 / 4.0, contentMode: .fit)
+        .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous))
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+            .stroke(.white.opacity(0.10), lineWidth: 0.5)
+        )
+        .shadow(color: .black.opacity(0.45), radius: 28, x: 0, y: 14)
+        .padding(.horizontal, AppTheme.Space.page)
+
+        scanProgressBar(scenario)
+          .padding(.horizontal, AppTheme.Space.page + AppTheme.Space.md)
+
+        VStack(spacing: AppTheme.Space.sm) {
+          Text("Scanning your fridge")
+            .font(AppTheme.Typography.displaySmall)
+            .foregroundStyle(.white)
+            .multilineTextAlignment(.center)
+
+          Text(scanStatusText(scenario))
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(.white.opacity(0.72))
+            .multilineTextAlignment(.center)
+            .contentTransition(.numericText())
+        }
+        .padding(.horizontal, AppTheme.Space.page)
+
+        if discoveredCount > 0 {
+          discoveredIngredientChips(scenario)
+            .padding(.horizontal, AppTheme.Space.page)
+        }
       }
     }
-    .accessibilityLabel("Loading \(scenario.title) scenario")
+    .onAppear {
+      if !reduceMotion {
+        withAnimation(.easeOut(duration: 0.5).delay(0.15)) {
+          scannerBracketsVisible = true
+        }
+      } else {
+        scannerBracketsVisible = true
+      }
+    }
+    .onDisappear {
+      scannerBracketsVisible = false
+    }
+    .accessibilityLabel("Scanning \(scenario.title) ingredients")
+  }
+
+  // MARK: - Scanner Viewfinder Brackets
+
+  private func scannerCornerBrackets(accentColor: Color) -> some View {
+    GeometryReader { geo in
+      let w = geo.size.width
+      let h = geo.size.height
+      let cornerLen: CGFloat = 26
+      let inset: CGFloat = 14
+
+      Path { p in
+        p.move(to: CGPoint(x: inset, y: inset + cornerLen))
+        p.addLine(to: CGPoint(x: inset, y: inset))
+        p.addLine(to: CGPoint(x: inset + cornerLen, y: inset))
+
+        p.move(to: CGPoint(x: w - inset - cornerLen, y: inset))
+        p.addLine(to: CGPoint(x: w - inset, y: inset))
+        p.addLine(to: CGPoint(x: w - inset, y: inset + cornerLen))
+
+        p.move(to: CGPoint(x: w - inset, y: h - inset - cornerLen))
+        p.addLine(to: CGPoint(x: w - inset, y: h - inset))
+        p.addLine(to: CGPoint(x: w - inset - cornerLen, y: h - inset))
+
+        p.move(to: CGPoint(x: inset + cornerLen, y: h - inset))
+        p.addLine(to: CGPoint(x: inset, y: h - inset))
+        p.addLine(to: CGPoint(x: inset, y: h - inset - cornerLen))
+      }
+      .stroke(
+        .white.opacity(0.72),
+        style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round)
+      )
+      .shadow(color: accentColor.opacity(0.45), radius: 6, x: 0, y: 0)
+    }
+    .opacity(scannerBracketsVisible ? 1 : 0)
+    .scaleEffect(scannerBracketsVisible ? 1 : 1.06)
+  }
+
+  // MARK: - Scan Progress Bar
+
+  private func scanProgressBar(_ scenario: DemoScenario) -> some View {
+    let total = max(1, scenario.ingredientNames.count)
+    let progress = CGFloat(discoveredCount) / CGFloat(total)
+
+    return GeometryReader { geo in
+      ZStack(alignment: .leading) {
+        Capsule()
+          .fill(.white.opacity(0.10))
+
+        Capsule()
+          .fill(
+            LinearGradient(
+              colors: [scenario.accentColor.opacity(0.9), scenario.accentColor.opacity(0.6)],
+              startPoint: .leading,
+              endPoint: .trailing
+            )
+          )
+          .frame(width: max(4, geo.size.width * progress))
+          .shadow(color: scenario.accentColor.opacity(0.4), radius: 4, x: 0, y: 0)
+      }
+    }
+    .frame(height: 3)
+    .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: discoveredCount)
+  }
+
+  // MARK: - Discovered Ingredient Chips
+
+  private func discoveredIngredientChips(_ scenario: DemoScenario) -> some View {
+    FlowLayout(spacing: AppTheme.Space.xxs) {
+      ForEach(
+        Array(scenario.ingredientNames.prefix(discoveredCount).enumerated()),
+        id: \.element
+      ) { _, name in
+        HStack(spacing: 4) {
+          Image(systemName: "checkmark")
+            .font(.system(size: 8, weight: .bold))
+          Text(name)
+            .font(AppTheme.Typography.labelSmall)
+        }
+        .foregroundStyle(.white.opacity(0.85))
+        .padding(.horizontal, AppTheme.Space.xs)
+        .padding(.vertical, AppTheme.Space.xxxs + 1)
+        .background(.white.opacity(0.12), in: Capsule())
+        .transition(
+          .asymmetric(
+            insertion: .scale(scale: 0.5).combined(with: .opacity),
+            removal: .opacity
+          )
+        )
+      }
+    }
+  }
+
+  private func scanStatusText(_ scenario: DemoScenario) -> String {
+    if discoveredCount > 0 {
+      return "Found \(discoveredCount) ingredient\(discoveredCount == 1 ? "" : "s") so far\u{2026}"
+    }
+    return "Finding ingredients in \(scenario.title)\u{2026}"
   }
 
   // MARK: - Actions
@@ -269,21 +431,38 @@ struct DemoModeView: View {
   private func selectScenario(_ scenario: DemoScenario) {
     guard loadingScenario == nil else { return }
 
+    // Pre-load the scenario-specific photo for the scan overlay
+    demoImage = DemoScanService.loadScenarioImage(for: scenario)
+    discoveredCount = 0
+    scannerBracketsVisible = false
+
     withAnimation(reduceMotion ? nil : AppMotion.standard) {
       loadingScenario = scenario
     }
 
     Task {
-      let payload = await DemoScanService.loadDemoPayload(
+      // Start the scan in the background
+      async let payloadFetch = DemoScanService.loadDemoPayload(
         scenario: scenario,
         using: deps.visionService
       )
 
+      // Animate ingredient discovery count while loading
+      let totalIngredients = scenario.ingredientNames.count
+      for i in 1...totalIngredients {
+        try? await Task.sleep(for: .milliseconds(Int.random(in: 180...350)))
+        withAnimation(reduceMotion ? nil : AppMotion.quick) {
+          discoveredCount = i
+        }
+      }
+
+      let payload = await payloadFetch
+
       loadedDetections = payload.detections
       loadedProvenance = payload.provenance
 
-      // Ensure minimum visible loading time for polish
-      try? await Task.sleep(for: .milliseconds(1200))
+      // Ensure minimum visible scanning time for polish (at least 1.8s total)
+      try? await Task.sleep(for: .milliseconds(400))
 
       withAnimation(reduceMotion ? nil : AppMotion.standard) {
         loadingScenario = nil

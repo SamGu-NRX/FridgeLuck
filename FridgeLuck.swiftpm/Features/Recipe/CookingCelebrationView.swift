@@ -20,6 +20,7 @@ struct CookingCelebrationView: View {
   @State private var appeared = false
   @State private var showConfetti = true
   @State private var isSaving = false
+  @State private var showRatingNudge = false
 
   private var recipe: Recipe { scoredRecipe.recipe }
   private var baseMacros: RecipeMacros { scoredRecipe.macros }
@@ -78,9 +79,9 @@ struct CookingCelebrationView: View {
       ScrollView {
         VStack(spacing: AppTheme.Space.lg) {
           headerSection
+          ratingSection
           servingSection
           macroSection
-          ratingSection
           photoSection
           doneButton
         }
@@ -99,7 +100,7 @@ struct CookingCelebrationView: View {
       }
     }
     .task {
-      servings = recipe.servings
+      servings = 1
       loadHealthProfile()
       if !reduceMotion {
         try? await Task.sleep(for: .milliseconds(200))
@@ -149,7 +150,7 @@ struct CookingCelebrationView: View {
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 12)
-    .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.06), value: appeared)
+    .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.12), value: appeared)
   }
 
   // MARK: - Macro Breakdown
@@ -231,7 +232,7 @@ struct CookingCelebrationView: View {
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 12)
-    .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.12), value: appeared)
+    .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.18), value: appeared)
   }
 
   private func macroRow(
@@ -288,7 +289,7 @@ struct CookingCelebrationView: View {
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 12)
-    .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.18), value: appeared)
+    .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.06), value: appeared)
   }
 
   private var ratingLabel: String {
@@ -383,12 +384,28 @@ struct CookingCelebrationView: View {
 
   private var doneButton: some View {
     FLPrimaryButton("Done", systemImage: "checkmark", isEnabled: !isSaving) {
-      Task { await saveAndDismiss() }
+      if rating == 0 {
+        showRatingNudge = true
+      } else {
+        Task { await saveAndDismiss() }
+      }
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 12)
     .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.30), value: appeared)
     .padding(.top, AppTheme.Space.sm)
+    .alert("Rate this recipe?", isPresented: $showRatingNudge) {
+      Button("Skip", role: .cancel) {
+        Task { await saveAndDismiss() }
+      }
+      Button("Rate It") {
+        // Scroll to top / focus on rating — no-op, just dismiss the alert
+        // User stays on the screen to tap a star
+      }
+    } message: {
+      Text(
+        "Your ratings help FridgeLuck recommend better recipes next time. It only takes a second!")
+    }
   }
 
   // MARK: - Actions

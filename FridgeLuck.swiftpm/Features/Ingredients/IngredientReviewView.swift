@@ -408,7 +408,7 @@ struct IngredientReviewView: View {
     }
   }
 
-  // MARK: - Confirmed Section (organic blob chips — sage tint)
+  // MARK: - Confirmed Section (sage tint)
 
   private var confirmedSection: some View {
     Group {
@@ -807,7 +807,7 @@ private struct FLAddChipButtonStyle: ButtonStyle {
   }
 }
 
-// MARK: - Organic Ingredient Chip
+// MARK: - Ingredient Chip
 
 struct OrganicIngredientChip: View {
   let label: String
@@ -818,8 +818,8 @@ struct OrganicIngredientChip: View {
   let action: () -> Void
 
   enum ChipStyle {
-    case confirmed  // sage-tinted organic blob
-    case possible  // stone-tinted, faded, smaller
+    case confirmed
+    case possible
 
     var tint: Color {
       switch self {
@@ -852,16 +852,16 @@ struct OrganicIngredientChip: View {
         }
         .padding(.horizontal, AppTheme.Space.sm)
         .padding(.vertical, AppTheme.Space.chipVertical)
-        .background(
-          FLOrganicBlob(seed: label.hashValue)
-            .fill(isSelected ? chipStyle.selectedTint.opacity(0.18) : chipStyle.tint.opacity(0.08))
-        )
         .foregroundStyle(isSelected ? AppTheme.textPrimary : AppTheme.textSecondary)
+        .background(
+          isSelected ? chipStyle.selectedTint.opacity(0.18) : chipStyle.tint.opacity(0.08),
+          in: Capsule()
+        )
         .overlay(
-          FLOrganicBlob(seed: label.hashValue)
-            .stroke(
-              isSelected ? chipStyle.selectedTint.opacity(0.40) : chipStyle.tint.opacity(0.18),
-              lineWidth: 1)
+          Capsule().stroke(
+            isSelected ? chipStyle.selectedTint.opacity(0.40) : chipStyle.tint.opacity(0.18),
+            lineWidth: 1
+          )
         )
         .opacity(chipStyle == .possible ? 0.85 : 1.0)
       }

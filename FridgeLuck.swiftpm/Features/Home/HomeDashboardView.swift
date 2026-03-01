@@ -12,6 +12,10 @@ struct HomeDashboardView: View {
   @State private var heroAppeared = false
   @State private var navAppeared = false
   @State private var showResetConfirmation = false
+  @State private var showSkipConfirmation = false
+  @State private var showSpotlightTutorial = false
+  @State private var spotlightAnchors: [String: CGRect] = [:]
+  @AppStorage("hasSeenSpotlightTutorial") private var hasSeenSpotlightTutorial = false
 
   let onScan: () -> Void
   let onDemoMode: () -> Void
@@ -80,6 +84,7 @@ struct HomeDashboardView: View {
     .alert("Start fresh?", isPresented: $showResetConfirmation) {
       Button("Reset Everything", role: .destructive) {
         tutorialStorageString = ""
+        hasSeenSpotlightTutorial = false
         onReset()
         Task { await viewModel.load() }
       }
@@ -87,6 +92,20 @@ struct HomeDashboardView: View {
     } message: {
       Text(
         "This will erase your profile, cooking history, badges, and streaks. Recipes and ingredients stay. You\u{2019}ll see the tutorial again."
+      )
+    }
+    .alert("Skip setup?", isPresented: $showSkipConfirmation) {
+      Button("Skip", role: .destructive) {
+        let allQuests = Set(TutorialQuest.allCases.map(\.rawValue))
+        let completed = TutorialProgress(completedQuestRawValues: allQuests)
+        withAnimation(reduceMotion ? nil : AppMotion.standard) {
+          tutorialStorageString = completed.storageString
+        }
+      }
+      Button("Continue Setup", role: .cancel) {}
+    } message: {
+      Text(
+        "You\u{2019}ll skip the guided tour and go straight to the dashboard. You can still set up your profile later from the menu."
       )
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -106,22 +125,39 @@ struct HomeDashboardView: View {
       viewModel.syncTutorialProgress(tutorialProgress)
     }
     .onAppear {
-      guard !reduceMotion else {
+      if reduceMotion {
         heroAppeared = true
         navAppeared = true
-        return
-      }
-
-      if !heroAppeared {
-        withAnimation(AppMotion.heroAppear.delay(0.15)) {
-          heroAppeared = true
+      } else {
+        if !heroAppeared {
+          withAnimation(AppMotion.heroAppear.delay(0.15)) {
+            heroAppeared = true
+          }
+        }
+        if !navAppeared {
+          withAnimation(AppMotion.standard.delay(0.22)) {
+            navAppeared = true
+          }
         }
       }
 
-      if !navAppeared {
-        withAnimation(AppMotion.standard.delay(0.22)) {
-          navAppeared = true
+      if !hasSeenSpotlightTutorial && !tutorialProgress.isComplete {
+        DispatchQueue.main.asyncAfter(deadline: .now() + (reduceMotion ? 0.5 : 1.2)) {
+          guard !hasSeenSpotlightTutorial else { return }
+          showSpotlightTutorial = true
+          hasSeenSpotlightTutorial = true
         }
+      }
+    }
+    .onPreferenceChange(SpotlightAnchorKey.self) { spotlightAnchors = $0 }
+    .overlay {
+      if showSpotlightTutorial {
+        SpotlightTutorialOverlay(
+          steps: SpotlightStep.onboarding,
+          anchors: spotlightAnchors,
+          isPresented: $showSpotlightTutorial
+        )
+        .ignoresSafeArea()
       }
     }
   }
@@ -137,6 +173,7 @@ struct HomeDashboardView: View {
       // Progress indicator
       TutorialProgressView(progress: tutorialProgress)
         .padding(.horizontal, AppTheme.Space.page)
+        .spotlightAnchor("progressView")
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 10)
 
@@ -166,10 +203,12 @@ struct HomeDashboardView: View {
         .font(AppTheme.Typography.displayLarge)
         .foregroundStyle(AppTheme.textPrimary)
 
-      Text("Scan real ingredients. Get personalized recipes. Cook smarter.")
-        .font(AppTheme.Typography.bodyLarge)
-        .foregroundStyle(AppTheme.textSecondary)
-        .padding(.top, AppTheme.Space.xxs)
+      Text(
+        "Let me show you around. A few quick steps and your smart kitchen is ready."
+      )
+      .font(AppTheme.Typography.bodyLarge)
+      .foregroundStyle(AppTheme.textSecondary)
+      .padding(.top, AppTheme.Space.xxs)
     }
     .opacity(heroAppeared ? 1 : 0)
     .offset(y: heroAppeared ? 0 : 16)
@@ -185,6 +224,7 @@ struct HomeDashboardView: View {
         TutorialQuestCard(quest: quest, state: state) {
           handleQuestAction(quest)
         }
+        .spotlightAnchor("quest_\(quest.rawValue)")
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 12)
         .animation(
@@ -229,9 +269,11 @@ struct HomeDashboardView: View {
         .font(.system(size: 16, weight: .medium))
         .foregroundStyle(AppTheme.oat)
 
-      Text("Start with \u{201C}Set Up Your Kitchen\u{201D} \u{2014} it takes about 30 seconds.")
-        .font(AppTheme.Typography.bodySmall)
-        .foregroundStyle(AppTheme.textSecondary)
+      Text(
+        "Start with \u{201C}Set Up Your Kitchen\u{201D} \u{2014} it takes about 30 seconds to begin."
+      )
+      .font(AppTheme.Typography.bodySmall)
+      .foregroundStyle(AppTheme.textSecondary)
     }
     .padding(AppTheme.Space.md)
     .background(
@@ -760,8 +802,11 @@ struct HomeDashboardView: View {
         Spacer(minLength: AppTheme.Home.navCenterGap)
 
         navItem(
-          icon: hasOnboarded ? "person.crop.circle.fill" : "person.badge.plus",
-          label: "Profile",
+          icon: hasOnboarded
+            ? (tutorialProgress.isComplete
+              ? "chart.bar.doc.horizontal.fill" : "person.crop.circle.fill")
+            : "person.badge.plus",
+          label: tutorialProgress.isComplete ? "Dashboard" : "Profile",
           isActive: false,
           action: hasOnboarded ? onProfile : onCompleteProfile
         )
@@ -884,22 +929,43 @@ struct HomeDashboardView: View {
         .fill(AppTheme.oat.opacity(0.22))
         .frame(width: 32, height: 1)
 
-      Button {
-        showResetConfirmation = true
-      } label: {
-        HStack(spacing: AppTheme.Space.xxs) {
-          Image(systemName: "arrow.counterclockwise")
-            .font(.system(size: 9, weight: .semibold))
-          Text("Reset progress")
-            .font(.system(size: 10, weight: .medium, design: .serif))
-            .kerning(0.6)
+      HStack(spacing: 0) {
+        Button {
+          showResetConfirmation = true
+        } label: {
+          HStack(spacing: AppTheme.Space.xxs) {
+            Image(systemName: "arrow.counterclockwise")
+              .font(.system(size: 9, weight: .semibold))
+            Text("Reset progress")
+              .font(.system(size: 10, weight: .medium, design: .serif))
+              .kerning(0.6)
+          }
+          .foregroundStyle(AppTheme.dustyRose.opacity(0.65))
+          .padding(.horizontal, AppTheme.Space.sm)
+          .padding(.vertical, AppTheme.Space.xxs)
         }
-        .foregroundStyle(AppTheme.dustyRose.opacity(0.65))
-        .padding(.horizontal, AppTheme.Space.sm)
-        .padding(.vertical, AppTheme.Space.xxs)
+        .buttonStyle(.plain)
+        .accessibilityLabel("Reset all progress and data")
+
+        if !tutorialProgress.isComplete {
+          Text("\u{00B7}")
+            .font(.system(size: 10, weight: .bold))
+            .foregroundStyle(AppTheme.oat.opacity(0.30))
+
+          Button {
+            showSkipConfirmation = true
+          } label: {
+            Text("Skip setup")
+              .font(.system(size: 9.5, weight: .regular, design: .serif))
+              .kerning(0.4)
+              .foregroundStyle(AppTheme.textSecondary.opacity(0.45))
+              .padding(.horizontal, AppTheme.Space.sm)
+              .padding(.vertical, AppTheme.Space.xxs)
+          }
+          .buttonStyle(.plain)
+          .accessibilityLabel("Skip onboarding setup, not recommended")
+        }
       }
-      .buttonStyle(.plain)
-      .accessibilityLabel("Reset all progress and data")
     }
     .frame(maxWidth: .infinity)
   }
