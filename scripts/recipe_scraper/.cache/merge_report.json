@@ -1,0 +1,483 @@
+{
+  "accepted_recipe_count": 141,
+  "collision_checks": {
+    "accepted_source_url_count": 141,
+    "existing_recipe_id_collisions": 0,
+    "existing_source_url_count": 0
+  },
+  "notes": [
+    "Merge is non-destructive by default: ingredients are untouched and recipes are appended only.",
+    "Only recipes with sufficient ingredient-ID matches are imported.",
+    "Unknown ingredients are reported for later nutrition curation."
+  ],
+  "scraped_recipe_count": 152,
+  "skipped_recipe_count": 11,
+  "skipped_recipes": [
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/baked-sea-bass-lemon-caper-dressing",
+      "title": "Baked sea bass with lemon caper dressing"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/beetroot-halloumi-salad-pomegranate-dill",
+      "title": "Beetroot & halloumi salad with pomegranate and dill"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/courgette-potato-cheddar-soup",
+      "title": "Courgette soup"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/fennel-spaghetti",
+      "title": "Fennel spaghetti"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/guacamole-mango-salad-black-beans",
+      "title": "Mango salad with avocado and black beans"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/linguine-avocado-tomato-lime",
+      "title": "Linguine with avocado, tomato & lime"
+    },
+    {
+      "reason": "duplicate_title",
+      "title": "One-pot chicken & rice"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/pearl-couscous-salad-with-hot-smoked-trout-buttermilk-dressing",
+      "title": "Pearl couscous salad with hot smoked trout & buttermilk dressing"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/pesto-spinach-penne",
+      "title": "Pesto spinach penne"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/prawn-harissa-spaghetti",
+      "title": "Prawn & harissa spaghetti"
+    },
+    {
+      "mapped_required_count": 1,
+      "reason": "too_few_mapped_required_ingredients",
+      "source_url": "https://www.bbcgoodfood.com/recipes/puy-lentil-salad-with-beetroot-walnuts",
+      "title": "Puy lentil salad with beetroot & walnuts"
+    }
+  ],
+  "top_unmatched_ingredients": [
+    {
+      "count": 38,
+      "name": "tomatoes"
+    },
+    {
+      "count": 20,
+      "name": "tomato puree"
+    },
+    {
+      "count": 19,
+      "name": "coriander"
+    },
+    {
+      "count": 18,
+      "name": "red chilli deseeded"
+    },
+    {
+      "count": 14,
+      "name": "lemon zested"
+    },
+    {
+      "count": 13,
+      "name": "turmeric"
+    },
+    {
+      "count": 12,
+      "name": "smoked paprika"
+    },
+    {
+      "count": 11,
+      "name": "vegetable stock"
+    },
+    {
+      "count": 11,
+      "name": "ground coriander"
+    },
+    {
+      "count": 10,
+      "name": "red wine vinegar"
+    },
+    {
+      "count": 9,
+      "name": "handful coriander"
+    },
+    {
+      "count": 9,
+      "name": "cumin seeds"
+    },
+    {
+      "count": 9,
+      "name": "cherry tomatoes"
+    },
+    {
+      "count": 8,
+      "name": "vegetable bouillon powder"
+    },
+    {
+      "count": 7,
+      "name": "parmesan"
+    },
+    {
+      "count": 7,
+      "name": "oregano"
+    },
+    {
+      "count": 7,
+      "name": "chicken stock"
+    },
+    {
+      "count": 6,
+      "name": "red chilli"
+    },
+    {
+      "count": 6,
+      "name": "curry powder"
+    },
+    {
+      "count": 6,
+      "name": "celery sticks"
+    },
+    {
+      "count": 6,
+      "name": "fennel seeds"
+    },
+    {
+      "count": 5,
+      "name": "parsley"
+    },
+    {
+      "count": 5,
+      "name": "radishes"
+    },
+    {
+      "count": 5,
+      "name": "capers"
+    },
+    {
+      "count": 5,
+      "name": "chilli powder"
+    },
+    {
+      "count": 5,
+      "name": "bunch coriander"
+    },
+    {
+      "count": 5,
+      "name": "chicken thighs"
+    },
+    {
+      "count": 5,
+      "name": "thumb sized piece ginger peeled"
+    },
+    {
+      "count": 5,
+      "name": "hot vegetable stock"
+    },
+    {
+      "count": 5,
+      "name": "rice vinegar"
+    },
+    {
+      "count": 5,
+      "name": "wholemeal penne"
+    },
+    {
+      "count": 4,
+      "name": "handful mint leaves"
+    },
+    {
+      "count": 4,
+      "name": "dijon mustard"
+    },
+    {
+      "count": 4,
+      "name": "apple cider vinegar"
+    },
+    {
+      "count": 4,
+      "name": "pomegranate seeds"
+    },
+    {
+      "count": 4,
+      "name": "black beans rinsed"
+    },
+    {
+      "count": 4,
+      "name": "chipotle paste"
+    },
+    {
+      "count": 4,
+      "name": "avocado stoned peeled"
+    },
+    {
+      "count": 4,
+      "name": "red lentils"
+    },
+    {
+      "count": 4,
+      "name": "ricotta"
+    },
+    {
+      "count": 4,
+      "name": "bunch parsley"
+    },
+    {
+      "count": 4,
+      "name": "garam masala"
+    },
+    {
+      "count": 4,
+      "name": "handful parsley"
+    },
+    {
+      "count": 4,
+      "name": "lime zested"
+    },
+    {
+      "count": 4,
+      "name": "ground cinnamon"
+    },
+    {
+      "count": 4,
+      "name": "sugar"
+    },
+    {
+      "count": 4,
+      "name": "bay leaves"
+    },
+    {
+      "count": 3,
+      "name": "pesto"
+    },
+    {
+      "count": 3,
+      "name": "parsley leaves stalks"
+    },
+    {
+      "count": 3,
+      "name": "caster sugar"
+    },
+    {
+      "count": 3,
+      "name": "mint"
+    },
+    {
+      "count": 3,
+      "name": "red pepper deseeded"
+    },
+    {
+      "count": 3,
+      "name": "black mustard seeds"
+    },
+    {
+      "count": 3,
+      "name": "cider vinegar"
+    },
+    {
+      "count": 3,
+      "name": "spring onions trimmed"
+    },
+    {
+      "count": 3,
+      "name": "potatoes peeled chunks"
+    },
+    {
+      "count": 3,
+      "name": "ground turmeric"
+    },
+    {
+      "count": 3,
+      "name": "green chilli"
+    },
+    {
+      "count": 3,
+      "name": "plum tomatoes"
+    },
+    {
+      "count": 3,
+      "name": "golden caster sugar"
+    },
+    {
+      "count": 3,
+      "name": "chicken breasts chunks"
+    },
+    {
+      "count": 3,
+      "name": "white wine vinegar"
+    },
+    {
+      "count": 3,
+      "name": "eggs beaten"
+    },
+    {
+      "count": 3,
+      "name": "tamari"
+    },
+    {
+      "count": 3,
+      "name": "lime juice"
+    },
+    {
+      "count": 3,
+      "name": "passata"
+    },
+    {
+      "count": 3,
+      "name": "tahini"
+    },
+    {
+      "count": 3,
+      "name": "pitted kalamata olives"
+    },
+    {
+      "count": 3,
+      "name": "beansprouts"
+    },
+    {
+      "count": 3,
+      "name": "handful basil leaves"
+    },
+    {
+      "count": 3,
+      "name": "leeks"
+    },
+    {
+      "count": 3,
+      "name": "chickpeas rinsed"
+    },
+    {
+      "count": 3,
+      "name": "thyme leaves"
+    },
+    {
+      "count": 3,
+      "name": "feta crumbled"
+    },
+    {
+      "count": 3,
+      "name": "new potatoes"
+    },
+    {
+      "count": 3,
+      "name": "sesame seeds"
+    },
+    {
+      "count": 2,
+      "name": "couscous"
+    },
+    {
+      "count": 2,
+      "name": "artichokes"
+    },
+    {
+      "count": 2,
+      "name": "chilli deseeded"
+    },
+    {
+      "count": 2,
+      "name": "cucumber deseeded"
+    },
+    {
+      "count": 2,
+      "name": "oranges"
+    },
+    {
+      "count": 2,
+      "name": "cooked beetroots"
+    },
+    {
+      "count": 2,
+      "name": "pumpkin seeds"
+    },
+    {
+      "count": 2,
+      "name": "extra virgin olive oil drizzling"
+    },
+    {
+      "count": 2,
+      "name": "garlic granules"
+    },
+    {
+      "count": 2,
+      "name": "green chilli deseeded"
+    },
+    {
+      "count": 2,
+      "name": "mango chutney"
+    },
+    {
+      "count": 2,
+      "name": "aubergine"
+    },
+    {
+      "count": 2,
+      "name": "pappardelle"
+    },
+    {
+      "count": 2,
+      "name": "carton passata"
+    },
+    {
+      "count": 2,
+      "name": "banana shallot"
+    },
+    {
+      "count": 2,
+      "name": "almonds"
+    },
+    {
+      "count": 2,
+      "name": "chorizo"
+    },
+    {
+      "count": 2,
+      "name": "handful coriander leaves"
+    },
+    {
+      "count": 2,
+      "name": "mint leaves"
+    },
+    {
+      "count": 2,
+      "name": "hot chilli powder"
+    },
+    {
+      "count": 2,
+      "name": "chicken thigh"
+    },
+    {
+      "count": 2,
+      "name": "chicken breast fillets"
+    },
+    {
+      "count": 2,
+      "name": "ripe tomatoes"
+    },
+    {
+      "count": 2,
+      "name": "pinch sugar"
+    }
+  ]
+}

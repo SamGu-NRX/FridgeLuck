@@ -61,7 +61,7 @@ final class NutritionService: Sendable {
                  ri.quantity_grams
           FROM recipe_ingredients ri
           JOIN ingredients i ON i.id = ri.ingredient_id
-          WHERE ri.recipe_id = ?
+          WHERE ri.recipe_id = ? AND ri.is_required = 1
           """, arguments: [recipeId])
 
       var totalCal = 0.0
