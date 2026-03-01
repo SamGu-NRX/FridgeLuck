@@ -103,6 +103,21 @@ final class UserDataRepository: Sendable {
     }
   }
 
+  // MARK: - Reset All User Data
+
+  /// Deletes all user-generated data from the database:
+  /// health profile, cooking history, badges, streaks, and user corrections.
+  /// Bundled content (recipes, ingredients, dish templates, aliases) is preserved.
+  func resetAllUserData() throws {
+    try db.write { db in
+      try db.execute(sql: "DELETE FROM health_profile")
+      try db.execute(sql: "DELETE FROM cooking_history")
+      try db.execute(sql: "DELETE FROM badges")
+      try db.execute(sql: "DELETE FROM streaks")
+      try db.execute(sql: "DELETE FROM user_corrections")
+    }
+  }
+
   func mealsByDay(lastDays: Int) throws -> [DailyCookingPoint] {
     let safeDays = max(1, lastDays)
     let modifier = "-\(safeDays - 1) days"

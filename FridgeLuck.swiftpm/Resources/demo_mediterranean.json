@@ -5,6 +5,10 @@
     "confidence": 0.95,
     "source": "vision",
     "originalVisionLabel": "tomato",
+    "normalizedBoundingBox": null,
+    "evidenceTokens": ["fixture_seed"],
+    "cropID": "fixture_full",
+    "captureIndex": 0,
     "alternatives": [
       { "ingredientId": 8, "label": "Bell Pepper" }
     ]

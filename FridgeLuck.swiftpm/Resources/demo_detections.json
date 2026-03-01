@@ -5,6 +5,10 @@
     "confidence": 0.92,
     "source": "vision",
     "originalVisionLabel": "egg",
+    "normalizedBoundingBox": null,
+    "evidenceTokens": ["fixture_seed"],
+    "cropID": "fixture_full",
+    "captureIndex": 0,
     "alternatives": [
       { "ingredientId": 13, "label": "Milk" },
       { "ingredientId": 12, "label": "Cheese" }

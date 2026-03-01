@@ -7,6 +7,8 @@ struct IngredientReviewView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State var detections: [Detection]
   let nutritionLabelOutcome: NutritionLabelParseOutcome?
+  let scanProvenance: ScanProvenance
+  let scanDiagnostics: ScanDiagnostics?
 
   @State private var confirmedIds: Set<Int64> = []
   @State private var showSheetMode: IngredientSheetMode?
@@ -20,10 +22,14 @@ struct IngredientReviewView: View {
 
   init(
     detections: [Detection],
-    nutritionLabelOutcome: NutritionLabelParseOutcome? = nil
+    nutritionLabelOutcome: NutritionLabelParseOutcome? = nil,
+    scanProvenance: ScanProvenance = .realScan,
+    scanDiagnostics: ScanDiagnostics? = nil
   ) {
     self._detections = State(initialValue: detections)
     self.nutritionLabelOutcome = nutritionLabelOutcome
+    self.scanProvenance = scanProvenance
+    self.scanDiagnostics = scanDiagnostics
   }
 
   enum IngredientSheetMode: Identifiable {
@@ -105,9 +111,12 @@ struct IngredientReviewView: View {
         Button {
           showSheetMode = .addManual
         } label: {
-          Label("Add", systemImage: "plus")
-            .labelStyle(.iconOnly)
+          Image(systemName: "plus.circle.fill")
+            .font(.system(size: 18, weight: .medium))
+            .foregroundStyle(AppTheme.accent)
+            .symbolRenderingMode(.hierarchical)
         }
+        .accessibilityLabel("Add ingredient manually")
       }
     }
     .sheet(item: $showSheetMode) { mode in
@@ -138,10 +147,7 @@ struct IngredientReviewView: View {
     .navigationDestination(isPresented: $navigateToResults) {
       RecipeResultsView(
         ingredientIds: confirmedIds,
-        engine: deps.makeRecommendationEngine(),
-        onCookingComplete: {
-          navigateToResults = false
-        }
+        engine: deps.makeRecommendationEngine()
       )
     }
     .onAppear {
@@ -242,6 +248,21 @@ struct IngredientReviewView: View {
         Text("Learning hit rate: \(Int((telemetry.hitRate * 100).rounded()))%")
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
+      }
+
+      if scanProvenance != .realScan {
+        FLStatusPill(
+          text: scanProvenance == .bundledFixture ? "Bundled fixture fallback" : "Starter fallback",
+          kind: .warning
+        )
+      }
+
+      if let scanDiagnostics {
+        Text(
+          "Scan \(scanDiagnostics.elapsedMs)ms · auto \(scanDiagnostics.bucketCounts.auto) · confirm \(scanDiagnostics.bucketCounts.confirm) · maybe \(scanDiagnostics.bucketCounts.possible)"
+        )
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(AppTheme.textSecondary)
       }
 
       if !categorized.needsConfirmation.isEmpty {
@@ -367,11 +388,22 @@ struct IngredientReviewView: View {
         Button {
           showSheetMode = .addManual
         } label: {
-          Label("Add", systemImage: "plus.circle")
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.accent)
+          HStack(spacing: AppTheme.Space.xxs) {
+            Image(systemName: "plus")
+              .font(.system(size: 11, weight: .bold))
+            Text("Add")
+              .font(.system(.caption, design: .serif, weight: .semibold))
+          }
+          .foregroundStyle(.white)
+          .padding(.horizontal, AppTheme.Space.sm)
+          .padding(.vertical, AppTheme.Space.chipVertical)
+          .background(
+            AppTheme.accent,
+            in: Capsule()
+          )
+          .shadow(color: AppTheme.accent.opacity(0.22), radius: 6, x: 0, y: 3)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(FLAddChipButtonStyle())
       }
     }
   }
@@ -431,6 +463,7 @@ struct IngredientReviewView: View {
 
   private func confidenceRow(for detection: Detection) -> some View {
     let options = candidateOptions(for: detection)
+    let bucket = ConfidenceRouter.bucket(for: detection)
 
     return VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
       HStack(alignment: .top) {
@@ -438,8 +471,13 @@ struct IngredientReviewView: View {
           Text(detection.label)
             .font(AppTheme.Typography.displayCaption)
             .foregroundStyle(AppTheme.textPrimary)
-          Text("Detected at \(Int((detection.confidence * 100).rounded()))% confidence")
-            .font(AppTheme.Typography.label)
+          Text(
+            "\(ConfidenceRouter.label(for: bucket)) · \(Int((detection.confidence * 100).rounded())) score"
+          )
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
+          Text(ConfidenceRouter.explanation(for: detection))
+            .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.textSecondary)
         }
         Spacer()
@@ -753,6 +791,19 @@ struct IngredientReviewView: View {
 
     let seeded = ids.compactMap { lookup[$0] }
     return seeded.isEmpty ? allIngredients : seeded
+  }
+}
+
+// MARK: - Add Chip Button Style
+
+private struct FLAddChipButtonStyle: ButtonStyle {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .scaleEffect(configuration.isPressed ? 0.92 : 1)
+      .opacity(configuration.isPressed ? 0.85 : 1)
+      .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
   }
 }
 

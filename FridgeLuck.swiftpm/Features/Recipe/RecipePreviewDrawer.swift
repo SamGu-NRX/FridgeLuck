@@ -105,15 +105,6 @@ struct RecipePreviewDrawer: View {
             .foregroundStyle(.white.opacity(0.6))
         }
       }
-
-      // Drag indicator at top
-      VStack {
-        Capsule()
-          .fill(.white.opacity(0.4))
-          .frame(width: 36, height: 4)
-          .padding(.top, AppTheme.Space.sm)
-        Spacer()
-      }
     }
   }
 

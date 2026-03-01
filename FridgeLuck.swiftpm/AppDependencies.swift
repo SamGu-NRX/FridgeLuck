@@ -23,6 +23,7 @@ final class AppDependencies: ObservableObject {
   let personalizationService: PersonalizationService
   let dishEstimateService: DishEstimateService
   let imageStorageService: ImageStorageService
+  let scanRunStore: ScanRunStore
 
   // Intelligence
   let recipeGenerator: RecipeGenerating
@@ -43,6 +44,7 @@ final class AppDependencies: ObservableObject {
     )
     self.dishEstimateService = DishEstimateService(db: db)
     self.imageStorageService = ImageStorageService()
+    self.scanRunStore = ScanRunStore()
 
     // Repositories
     self.ingredientRepository = IngredientRepository(db: db)

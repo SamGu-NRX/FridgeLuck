@@ -1,0 +1,25 @@
+{
+  "iterations": 5,
+  "images": [
+    {
+      "id": "fridge_1",
+      "path": "example_fridge_1.png",
+      "source": "benchmark"
+    },
+    {
+      "id": "fridge_2",
+      "path": "example_fridge_2.png",
+      "source": "benchmark"
+    },
+    {
+      "id": "fridge_3",
+      "path": "example_fridge_3.png",
+      "source": "benchmark"
+    },
+    {
+      "id": "bundled_demo_image",
+      "path": "FridgeLuck.swiftpm/Resources/demo/garlic_fried_rice.jpg",
+      "source": "demo"
+    }
+  ]
+}
