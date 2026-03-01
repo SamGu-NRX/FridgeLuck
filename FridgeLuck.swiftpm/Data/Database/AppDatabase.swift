@@ -32,6 +32,9 @@ final class AppDatabase: Sendable {
       try await BundledDataLoader.loadInto(appDB)
     }
 
+    // Ensure bundled recipes are hydrated for existing installs after app updates.
+    try await BundledDataLoader.ensureBundledRecipesHydrated(into: appDB)
+
     // Keep USDA catalog hydration independent from first-launch recipe bootstrap.
     try await BundledDataLoader.ensureUSDACatalogHydrated(into: appDB)
 
