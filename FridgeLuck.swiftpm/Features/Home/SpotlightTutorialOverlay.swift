@@ -16,35 +16,81 @@ extension SpotlightStep {
       id: "welcome",
       anchorID: nil,
       icon: "sparkles",
-      title: "Meet FridgeLuck",
+      title: "Welcome to FridgeLuck",
       message:
-        "Most apps track what you\u{2019}ve already eaten. I\u{2019}m different \u{2014} I help you decide what to cook next using what\u{2019}s already in your fridge."
+        "This guided tour walks you through the app. In a few quick steps, you\u{2019}ll set up your profile, explore pre-built demos, and unlock your personalized dashboard."
     ),
     SpotlightStep(
       id: "setup",
       anchorID: "progressView",
       icon: "rectangle.stack",
-      title: "Your Guided Setup",
+      title: "Your Guided Tour",
       message:
-        "Each step teaches a different way I help you eat smarter, save money, and reduce waste. Complete them all to unlock your full dashboard."
+        "These 4 steps each teach a core feature. Complete them all to unlock your full dashboard \u{2014} or skip ahead any time."
     ),
     SpotlightStep(
       id: "personalize",
       anchorID: "quest_0",
       icon: "person.crop.circle.badge.checkmark",
-      title: "Personalized to You",
+      title: "Set Up Your Profile",
       message:
-        "Tell me your goals, dietary needs, and allergens. I\u{2019}ll tailor every recipe so it actually fits your life \u{2014} not the other way around."
+        "This is your onboarding \u{2014} tell me your goals, dietary needs, and allergens. I\u{2019}ll personalize every recipe to fit your life."
     ),
     SpotlightStep(
-      id: "ready",
+      id: "demos",
+      anchorID: "quest_1",
+      icon: "play.rectangle.fill",
+      title: "Pre-built Demos",
+      message:
+        "Setting up a live fridge scan in Xcode isn\u{2019}t practical, so we\u{2019}ve pre-built demo scenarios for you. Pick a pre-stocked fridge, cook a recipe, and see the full experience."
+    ),
+    SpotlightStep(
+      id: "wrapup",
       anchorID: nil,
       icon: "arrow.right.circle",
-      title: "Let\u{2019}s Get Started",
+      title: "Before You Begin",
       message:
-        "Complete these quick steps to unlock your dashboard with personalized insights, cooking streaks, and recipes built around what you have."
+        "Want to redo this tour later? Scroll to the bottom and tap \u{201C}Reset progress\u{201D} to start fresh. Or skip the tour entirely \u{2014} you\u{2019}ll still have full access to demo mode from the main dashboard."
     ),
   ]
+
+  static let completion: [SpotlightStep] = [
+    SpotlightStep(
+      id: "congrats",
+      anchorID: nil,
+      icon: "party.popper.fill",
+      title: "Setup Complete!",
+      message:
+        "You\u{2019}ve finished the guided tour. Your personalized kitchen dashboard is now fully unlocked."
+    ),
+    SpotlightStep(
+      id: "rhythm",
+      anchorID: "myRhythm",
+      icon: "book.closed.fill",
+      title: "My Rhythm",
+      message:
+        "This is your cooking journal at a glance. Your latest recipes and cooking history live here \u{2014} tap through to view your full recipe book."
+    ),
+    SpotlightStep(
+      id: "explore_done",
+      anchorID: nil,
+      icon: "checkmark.seal.fill",
+      title: "You\u{2019}re All Set",
+      message:
+        "Use the scan button to photograph your fridge, try demo scenarios, or open Dashboard for full analytics. Happy cooking!"
+    ),
+  ]
+}
+
+// MARK: - Coordinator
+
+/// Bridges spotlight state between HomeDashboardView (which owns the logic) and
+/// ContentView (which presents the overlay above the tab bar).
+@Observable
+final class SpotlightCoordinator {
+  var activeSteps: [SpotlightStep]? = nil
+  var anchors: [String: CGRect] = [:]
+  var onScrollToAnchor: ((String) -> Void)? = nil
 }
 
 // MARK: - Preference Key
@@ -75,6 +121,7 @@ struct SpotlightTutorialOverlay: View {
   let steps: [SpotlightStep]
   let anchors: [String: CGRect]
   @Binding var isPresented: Bool
+  var onScrollToAnchor: ((String) -> Void)? = nil
 
   @State private var stepIndex = 0
   @State private var appeared = false
@@ -94,16 +141,18 @@ struct SpotlightTutorialOverlay: View {
         dimmingLayer
         highlightBorder
         tooltipCard(in: geo)
-        skipLabel(in: geo)
+        skipButton(in: geo)
       }
     }
     .ignoresSafeArea()
-    .contentShape(Rectangle())
-    .onTapGesture { advance() }
     .opacity(appeared ? 1 : 0)
     .onAppear {
       withAnimation(reduceMotion ? nil : .easeOut(duration: 0.35)) {
         appeared = true
+      }
+      // Scroll initial step's anchor into view if needed
+      if let anchorID = steps[0].anchorID {
+        onScrollToAnchor?(anchorID)
       }
     }
     .accessibilityAddTraits(.isModal)
@@ -247,23 +296,32 @@ struct SpotlightTutorialOverlay: View {
 
   // MARK: - Skip
 
-  private func skipLabel(in geo: GeometryProxy) -> some View {
+  private func skipButton(in geo: GeometryProxy) -> some View {
     VStack {
       HStack {
         Spacer()
         Button {
           dismissOverlay()
         } label: {
-          Text("Skip")
-            .font(.system(size: 13, weight: .medium))
-            .foregroundStyle(.white.opacity(0.45))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
+          HStack(spacing: AppTheme.Space.xxs) {
+            Text("Skip tour")
+              .font(.system(size: 14, weight: .medium))
+            Image(systemName: "forward.fill")
+              .font(.system(size: 10, weight: .semibold))
+          }
+          .foregroundStyle(.white.opacity(0.70))
+          .padding(.horizontal, 16)
+          .padding(.vertical, 8)
+          .background(.white.opacity(0.12), in: Capsule())
+          .overlay(
+            Capsule().stroke(.white.opacity(0.18), lineWidth: 1)
+          )
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("Skip guided tour")
       }
-      .padding(.top, geo.safeAreaInsets.top + 8)
-      .padding(.trailing, 16)
+      .padding(.top, geo.safeAreaInsets.top + 40)
+      .padding(.trailing, AppTheme.Space.page)
       Spacer()
     }
   }
@@ -291,8 +349,13 @@ struct SpotlightTutorialOverlay: View {
       dismissOverlay()
       return
     }
+    let nextIndex = stepIndex + 1
+    // Scroll the target into center before animating the step transition
+    if let anchorID = steps[nextIndex].anchorID {
+      onScrollToAnchor?(anchorID)
+    }
     withAnimation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.82)) {
-      stepIndex += 1
+      stepIndex = nextIndex
     }
   }
 

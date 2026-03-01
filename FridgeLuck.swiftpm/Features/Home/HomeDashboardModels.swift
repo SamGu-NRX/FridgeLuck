@@ -26,6 +26,7 @@ struct HomeDashboardSnapshot: Sendable {
   let healthProfile: HealthProfile?
   let totalMealsCooked: Int
   let tutorialProgress: TutorialProgress
+  let latestJournalEntry: CookingJournalEntry?
 
   var shouldUseStarterMode: Bool {
     totalMealsCooked < 3

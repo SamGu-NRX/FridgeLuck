@@ -4,7 +4,7 @@ import Foundation
 
 /// A single entry in the user's recipe book / cooking journal.
 /// Joins cooking_history with the recipe and its computed macros.
-struct CookingJournalEntry: Identifiable, Sendable {
+struct CookingJournalEntry: Identifiable, Sendable, Hashable {
   let id: Int64  // cooking_history.id
   let recipe: Recipe
   let cookedAt: Date
@@ -12,6 +12,14 @@ struct CookingJournalEntry: Identifiable, Sendable {
   let imagePath: String?
   let servingsConsumed: Int
   let macrosConsumed: MacroTotals  // scaled by servings
+
+  static func == (lhs: CookingJournalEntry, rhs: CookingJournalEntry) -> Bool {
+    lhs.id == rhs.id
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
 }
 
 // MARK: - Daily Macro Point

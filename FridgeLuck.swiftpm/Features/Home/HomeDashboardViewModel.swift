@@ -35,6 +35,8 @@ final class HomeDashboardViewModel: ObservableObject {
       let profile: HealthProfile? =
         hasOnboarded ? try deps.userDataRepository.fetchHealthProfile() : nil
 
+      let latestEntry = try deps.userDataRepository.cookingJournal(limit: 1).first
+
       snapshot = HomeDashboardSnapshot(
         ingredientCount: ingredientCount,
         recipeCount: recipeCount,
@@ -45,7 +47,8 @@ final class HomeDashboardViewModel: ObservableObject {
         weekdayDistribution: weekdayDistribution,
         healthProfile: profile,
         totalMealsCooked: totalMealsCooked,
-        tutorialProgress: tutorialProgress
+        tutorialProgress: tutorialProgress,
+        latestJournalEntry: latestEntry
       )
       errorMessage = nil
     } catch {
@@ -68,7 +71,8 @@ final class HomeDashboardViewModel: ObservableObject {
         weekdayDistribution: snap.weekdayDistribution,
         healthProfile: snap.healthProfile,
         totalMealsCooked: snap.totalMealsCooked,
-        tutorialProgress: tutorialProgress
+        tutorialProgress: tutorialProgress,
+        latestJournalEntry: snap.latestJournalEntry
       )
       snapshot = snap
     }
