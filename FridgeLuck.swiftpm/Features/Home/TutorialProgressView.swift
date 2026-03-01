@@ -58,22 +58,23 @@ struct TutorialProgressView: View {
 
   private var progressTitle: String {
     if progress.isComplete {
-      return "All done!"
+      return "Setup complete!"
     } else if progress.completedCount == 0 {
-      return "Your Kitchen Tour"
+      return "Quick Setup"
     } else {
-      return "Keep going"
+      return "Almost there"
     }
   }
 
   private var progressSubtitle: String {
     if progress.isComplete {
-      return "You\u{2019}ve explored everything. Enjoy cooking!"
+      return "Your dashboard is unlocked. Enjoy cooking!"
     } else if progress.completedCount == 0 {
-      return "\(progress.totalCount) quick quests to discover FridgeLuck."
+      return "Finish all \(progress.totalCount) steps to unlock your dashboard."
     } else {
+      let remaining = progress.totalCount - progress.completedCount
       return
-        "\(progress.totalCount - progress.completedCount) quest\(progress.totalCount - progress.completedCount == 1 ? "" : "s") remaining."
+        "\(remaining) step\(remaining == 1 ? "" : "s") left to unlock your dashboard."
     }
   }
 

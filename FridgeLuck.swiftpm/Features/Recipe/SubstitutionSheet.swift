@@ -168,9 +168,14 @@ struct SubstitutionSheet: View {
 
             // Adjusted quantity
             let adjustedGrams = quantityGrams * substitution.ratio
-            Text(formatAdjustedQuantity(grams: adjustedGrams, originalDisplay: displayQuantity))
-              .font(AppTheme.Typography.label)
-              .foregroundStyle(AppTheme.textSecondary)
+            Text(
+              formatAdjustedQuantity(
+                grams: adjustedGrams,
+                substituteName: subIngredient.displayName
+              )
+            )
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.textSecondary)
           }
 
           Spacer()
@@ -259,7 +264,11 @@ struct SubstitutionSheet: View {
   private func nutritionComparison(original: RecipeMacros, substitute: RecipeMacros) -> some View {
     HStack(spacing: AppTheme.Space.sm) {
       macroDelta(
-        "Cal", original: original.caloriesPerServing, new: substitute.caloriesPerServing, unit: "")
+        "Cal",
+        original: caloriesFromDisplayedMacros(original),
+        new: caloriesFromDisplayedMacros(substitute),
+        unit: ""
+      )
       macroDelta(
         "P", original: original.proteinPerServing, new: substitute.proteinPerServing, unit: "g")
       macroDelta(
@@ -299,7 +308,7 @@ struct SubstitutionSheet: View {
 
   private func compactMacroRow(macros: RecipeMacros, highlight: Bool) -> some View {
     HStack(spacing: AppTheme.Space.md) {
-      compactMacro("Cal", value: Int(macros.caloriesPerServing.rounded()), unit: "")
+      compactMacro("Cal", value: Int(caloriesFromDisplayedMacros(macros).rounded()), unit: "")
       compactMacro("P", value: Int(macros.proteinPerServing.rounded()), unit: "g")
       compactMacro("C", value: Int(macros.carbsPerServing.rounded()), unit: "g")
       compactMacro("F", value: Int(macros.fatPerServing.rounded()), unit: "g")
@@ -325,11 +334,9 @@ struct SubstitutionSheet: View {
 
   // MARK: - Helpers
 
-  private func formatAdjustedQuantity(grams: Double, originalDisplay: String) -> String {
-    if grams == quantityGrams {
-      return originalDisplay
-    }
-    return "\(Int(grams.rounded()))g"
+  private func formatAdjustedQuantity(grams: Double, substituteName: String) -> String {
+    let roundedGrams = Int(grams.rounded())
+    return "\(roundedGrams)g \(substituteName.lowercased())"
   }
 
   private func formatRatio(_ ratio: Double) -> String {
@@ -344,6 +351,11 @@ struct SubstitutionSheet: View {
       }
     }()
     return nice
+  }
+
+  private func caloriesFromDisplayedMacros(_ macros: RecipeMacros) -> Double {
+    // Keep calories consistent with the displayed P/C/F values on this sheet.
+    (macros.proteinPerServing * 4) + (macros.carbsPerServing * 4) + (macros.fatPerServing * 9)
   }
 
   // MARK: - Data Loading

@@ -31,6 +31,7 @@ struct ContentView: View {
   @State private var navigateToDishEstimate = false
   @State private var showOnboarding = false
   @State private var showProfile = false
+  @State private var showDashboard = false
   @State private var navCoordinator = NavigationCoordinator()
 
   @AppStorage("tutorialProgressStorage") private var tutorialStorageString = ""
@@ -91,6 +92,10 @@ struct ContentView: View {
       ProfileView()
         .environmentObject(deps)
     }
+    .sheet(isPresented: $showDashboard) {
+      DashboardView()
+        .environmentObject(deps)
+    }
   }
 
   private func openScan() {
@@ -119,7 +124,12 @@ struct ContentView: View {
 
   private func openProfile() {
     if hasOnboarded {
-      showProfile = true
+      let progress = TutorialProgress(storageString: tutorialStorageString)
+      if progress.isComplete {
+        showDashboard = true
+      } else {
+        showProfile = true
+      }
     } else {
       showOnboarding = true
     }
@@ -155,9 +165,10 @@ struct ContentView: View {
     //    but ensure ContentView's copy is also empty)
     tutorialStorageString = ""
 
-    // 3. Clear learning telemetry counters from UserDefaults
+    // 3. Clear learning telemetry counters and spotlight flag from UserDefaults
     UserDefaults.standard.removeObject(forKey: "learning_suggestions_shown")
     UserDefaults.standard.removeObject(forKey: "learning_suggestions_accepted")
+    UserDefaults.standard.removeObject(forKey: "hasSeenSpotlightTutorial")
 
     // 4. Refresh onboarding gate so the app knows profile is gone
     hasOnboarded = false

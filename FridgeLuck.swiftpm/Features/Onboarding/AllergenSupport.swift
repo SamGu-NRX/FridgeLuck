@@ -114,6 +114,23 @@ enum AllergenSupport {
     return ids
   }
 
+  /// Builds one pass of allergen group matches so UI can avoid repeated O(n*m) rescans.
+  static func groupMatchesByGroupID(in ingredients: [Ingredient]) -> [String: Set<Int64>] {
+    var matches: [String: Set<Int64>] = [:]
+    matches.reserveCapacity(groups.count)
+    for group in groups {
+      matches[group.id] = []
+    }
+
+    for ingredient in ingredients {
+      guard let id = ingredient.id else { continue }
+      guard let group = self.group(for: ingredient) else { continue }
+      matches[group.id, default: []].insert(id)
+    }
+
+    return matches
+  }
+
   static func group(for ingredient: Ingredient) -> AllergenGroupDefinition? {
     let text = normalizedSearchableText(for: ingredient)
     guard !text.isEmpty else { return nil }

@@ -706,65 +706,64 @@ struct ScanView: View {
   }
 }
 
-private struct ScanSweepOverlay: View {
+struct ScanSweepOverlay: View {
   let isAnimating: Bool
 
-  @State private var travel: CGFloat = 0.08
+  private static let cycleDuration: Double = 4.0
 
   var body: some View {
-    GeometryReader { geo in
-      let y = max(12, min(geo.size.height - 12, geo.size.height * travel))
-      ZStack {
-        LinearGradient(
-          colors: [Color.clear, Color.white.opacity(0.08), Color.clear],
-          startPoint: .top,
-          endPoint: .bottom
-        )
+    TimelineView(.animation(paused: !isAnimating)) { context in
+      let travel = Self.sweepPosition(at: context.date)
 
-        Rectangle()
-          .fill(
-            LinearGradient(
-              colors: [
-                AppTheme.accent.opacity(0.12), AppTheme.surface.opacity(0.90),
-                AppTheme.accent.opacity(0.12),
-              ],
-              startPoint: .leading,
-              endPoint: .trailing
-            )
+      GeometryReader { geo in
+        let y = max(12, min(geo.size.height - 12, geo.size.height * travel))
+        ZStack {
+          LinearGradient(
+            colors: [Color.clear, Color.white.opacity(0.04), Color.clear],
+            startPoint: .top,
+            endPoint: .bottom
           )
-          .frame(height: 2)
-          .position(x: geo.size.width / 2, y: y)
-          .shadow(color: AppTheme.accent.opacity(0.45), radius: 8, x: 0, y: 0)
 
-        LinearGradient(
-          colors: [
-            AppTheme.accent.opacity(0.00), AppTheme.accent.opacity(0.22),
-            AppTheme.accent.opacity(0.00),
-          ],
-          startPoint: .top,
-          endPoint: .bottom
-        )
-        .frame(height: 74)
-        .position(x: geo.size.width / 2, y: y)
-        .blur(radius: 6)
-      }
-      .onAppear {
-        startSweepIfNeeded()
-      }
-      .onChange(of: isAnimating) { _, _ in
-        startSweepIfNeeded()
+          Rectangle()
+            .fill(
+              LinearGradient(
+                colors: [
+                  Color.white.opacity(0.0),
+                  Color.white.opacity(0.65),
+                  Color.white.opacity(0.85),
+                  Color.white.opacity(0.65),
+                  Color.white.opacity(0.0),
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+              )
+            )
+            .frame(height: 1.5)
+            .position(x: geo.size.width / 2, y: y)
+            .shadow(color: Color.white.opacity(0.5), radius: 4, x: 0, y: 0)
+
+          LinearGradient(
+            colors: [
+              AppTheme.accent.opacity(0.0),
+              AppTheme.accent.opacity(0.18),
+              AppTheme.accent.opacity(0.0),
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+          )
+          .frame(height: 80)
+          .position(x: geo.size.width / 2, y: y)
+          .blur(radius: 8)
+        }
       }
     }
   }
 
-  private func startSweepIfNeeded() {
-    if isAnimating {
-      travel = 0.08
-      withAnimation(.linear(duration: 1.8).repeatForever(autoreverses: true)) {
-        travel = 0.92
-      }
-    } else {
-      travel = 0.5
-    }
+  /// Triangle wave from elapsed time — immune to external animation interference.
+  private static func sweepPosition(at date: Date) -> CGFloat {
+    let elapsed = date.timeIntervalSinceReferenceDate
+    let phase = elapsed.truncatingRemainder(dividingBy: cycleDuration) / cycleDuration
+    let triangle = phase <= 0.5 ? phase * 2 : 2.0 - phase * 2
+    return 0.08 + CGFloat(triangle) * 0.84
   }
 }

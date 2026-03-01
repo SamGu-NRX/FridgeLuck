@@ -1,9 +1,9 @@
 import SwiftUI
 
-/// A paginated recipe book experience. Each cooking step gets its own full page.
+/// A paginated cooking guide experience. Each cooking step gets its own full page.
 /// Page 0 is the ingredients checklist, pages 1-N are individual steps,
 /// and the final action triggers the "I Made This" celebration.
-struct RecipeBookView: View {
+struct CookingGuideView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -33,13 +33,21 @@ struct RecipeBookView: View {
 
   /// Total pages: 1 (ingredients) + N (steps)
   private var totalPages: Int { 1 + instructionSteps.count }
+  private var totalSteps: Int { instructionSteps.count }
   private var isOnIngredientsPage: Bool { currentPage == 0 }
   private var isOnLastStep: Bool { currentPage == totalPages - 1 }
   private var currentStepIndex: Int { currentPage - 1 }
+  private var contentHorizontalPadding: CGFloat { AppTheme.Space.page }
+
+  private var topBarCounterText: String {
+    guard totalSteps > 0 else { return "0/0" }
+    if isOnIngredientsPage { return "Prep" }
+    return "\(currentStepIndex + 1)/\(totalSteps)"
+  }
 
   private var progress: Double {
-    guard totalPages > 1 else { return 0 }
-    return Double(currentPage) / Double(totalPages - 1)
+    guard totalSteps > 0 else { return 0 }
+    return min(max(Double(currentPage) / Double(totalSteps), 0), 1)
   }
 
   var body: some View {
@@ -133,12 +141,12 @@ struct RecipeBookView: View {
         Spacer()
 
         // Page counter
-        Text("\(currentPage + 1)/\(totalPages)")
+        Text(topBarCounterText)
           .font(AppTheme.Typography.dataMedium)
           .foregroundStyle(AppTheme.accent)
           .contentTransition(.numericText())
       }
-      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.horizontal, contentHorizontalPadding)
 
       // Progress bar
       GeometryReader { geo in
@@ -152,7 +160,7 @@ struct RecipeBookView: View {
         }
       }
       .frame(height: 4)
-      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.horizontal, contentHorizontalPadding)
     }
     .padding(.top, AppTheme.Space.sm)
     .padding(.bottom, AppTheme.Space.md)
@@ -224,7 +232,7 @@ struct RecipeBookView: View {
         }
       }
     }
-    .padding(.horizontal, AppTheme.Space.page)
+    .padding(.horizontal, contentHorizontalPadding)
     .padding(.top, AppTheme.Space.md)
     .padding(.bottom, AppTheme.Space.xxl)
   }
@@ -326,7 +334,7 @@ struct RecipeBookView: View {
           .font(.system(size: 72, weight: .bold, design: .serif))
           .foregroundStyle(AppTheme.accent.opacity(0.18))
 
-        Text("of \(instructionSteps.count)")
+        Text("of \(totalSteps)")
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
           .padding(.bottom, AppTheme.Space.sm)
@@ -341,6 +349,7 @@ struct RecipeBookView: View {
         .foregroundStyle(AppTheme.textPrimary)
         .lineSpacing(6)
         .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .opacity(pageAppeared ? 1 : 0)
         .offset(y: pageAppeared ? 0 : 12)
         .animation(
@@ -382,7 +391,8 @@ struct RecipeBookView: View {
 
       Spacer()
     }
-    .padding(.horizontal, AppTheme.Space.page)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(.horizontal, contentHorizontalPadding)
     .padding(.top, AppTheme.Space.lg)
     .padding(.bottom, AppTheme.Space.xxl)
   }
@@ -392,7 +402,7 @@ struct RecipeBookView: View {
   private var bottomNavigation: some View {
     VStack(spacing: 0) {
       FLWaveDivider()
-        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.horizontal, contentHorizontalPadding)
 
       HStack(spacing: AppTheme.Space.md) {
         // Back button
@@ -415,7 +425,7 @@ struct RecipeBookView: View {
           }
         }
       }
-      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.horizontal, contentHorizontalPadding)
       .padding(.vertical, AppTheme.Space.md)
     }
     .background(AppTheme.bg)
