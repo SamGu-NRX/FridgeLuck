@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Substitution Sheet
 
 /// Bottom sheet showing available substitutions for an ingredient.
-/// Displays original → substitute comparison with reason badges and nutritional delta.
+/// Displays original → substitute comparison with reason badges and nutritional context.
 struct SubstitutionSheet: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
@@ -256,17 +256,17 @@ struct SubstitutionSheet: View {
 
   private func nutritionComparison(original: RecipeMacros, substitute: RecipeMacros) -> some View {
     HStack(spacing: AppTheme.Space.sm) {
-      macroDelta(
+      macroValue(
         "Cal",
         original: caloriesFromDisplayedMacros(original),
         new: caloriesFromDisplayedMacros(substitute),
         unit: ""
       )
-      macroDelta(
+      macroValue(
         "P", original: original.proteinPerServing, new: substitute.proteinPerServing, unit: "g")
-      macroDelta(
+      macroValue(
         "C", original: original.carbsPerServing, new: substitute.carbsPerServing, unit: "g")
-      macroDelta("F", original: original.fatPerServing, new: substitute.fatPerServing, unit: "g")
+      macroValue("F", original: original.fatPerServing, new: substitute.fatPerServing, unit: "g")
       Spacer()
     }
     .padding(AppTheme.Space.xs)
@@ -276,19 +276,19 @@ struct SubstitutionSheet: View {
     )
   }
 
-  private func macroDelta(_ label: String, original: Double, new: Double, unit: String) -> some View
+  private func macroValue(_ label: String, original: Double, new: Double, unit: String) -> some View
   {
     let delta = new - original
-    let sign = delta >= 0 ? "+" : ""
     let color: Color =
       abs(delta) < 1
       ? AppTheme.textSecondary
       : (label == "Cal" || label == "F")
         ? (delta < 0 ? AppTheme.sage : AppTheme.accent)
         : (label == "P") ? (delta > 0 ? AppTheme.sage : AppTheme.accent) : AppTheme.textSecondary
+    let displayValue = Int(max(0, new.rounded()))
 
     return VStack(spacing: AppTheme.Space.xxxs) {
-      Text("\(sign)\(Int(delta.rounded()))\(unit)")
+      Text("\(displayValue)\(unit)")
         .font(AppTheme.Typography.labelSmall)
         .foregroundStyle(color)
       Text(label)

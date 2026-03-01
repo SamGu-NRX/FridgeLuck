@@ -101,6 +101,12 @@ enum BundledDataLoader {
 
   private static let minimumExpectedBundledRecipeCount = 100
   private static let minimumExpectedCatalogIngredientCount = 300
+  private static let requiredDemoRecipeTitles: [String] = [
+    "Classic Egg Fried Rice",
+    "Banana Oat Pancakes",
+    "Mediterranean Chickpea Salad",
+    "Black Bean Tacos",
+  ]
 
   /// Load bundled data.json into the SQLite database.
   /// Called once on first launch.
@@ -246,86 +252,72 @@ enum BundledDataLoader {
       let shouldHydrate =
         lastImportedMarker != marker
         || existingBundledCount < minimumExpectedBundledRecipeCount
-      guard shouldHydrate else {
-        return
-      }
-
-      let existingTitleRows = try Row.fetchAll(
-        db,
-        sql: "SELECT title FROM recipes WHERE source = 'bundled'"
-      )
-      var existingTitleKeys = Set(
-        existingTitleRows.compactMap { row in
-          let title: String? = row["title"]
-          return title?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        }
-      )
-
       var insertedCount = 0
-      for raw in bundled.recipes {
-        let titleKey = raw.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        guard !titleKey.isEmpty else { continue }
-        guard !existingTitleKeys.contains(titleKey) else { continue }
-
-        try db.execute(
-          sql: """
-            INSERT INTO recipes
-                (title, time_minutes, servings, instructions, tags, source)
-            VALUES (?, ?, ?, ?, ?, 'bundled')
-            """,
-          arguments: [
-            raw.title, raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask,
-          ]
+      if shouldHydrate {
+        let existingTitleRows = try Row.fetchAll(
+          db,
+          sql: "SELECT title FROM recipes WHERE source = 'bundled'"
         )
-        let newRecipeId = db.lastInsertedRowID
-        insertedCount += 1
+        var existingTitleKeys = Set(
+          existingTitleRows.compactMap { row in
+            let title: String? = row["title"]
+            return normalizedTitleKey(title)
+          }
+        )
 
-        for (ingId, grams) in raw.requiredIngredients {
-          let displayQty = Self.formatDisplayQuantity(
-            grams: grams, ingredientId: ingId, ingredients: bundled.ingredients)
+        for raw in bundled.recipes {
+          guard let titleKey = normalizedTitleKey(raw.title) else { continue }
+          guard !existingTitleKeys.contains(titleKey) else { continue }
+
           try db.execute(
             sql: """
-              INSERT INTO recipe_ingredients
-                  (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
-              VALUES (?, ?, 1, ?, ?)
+              INSERT INTO recipes
+                  (title, time_minutes, servings, instructions, tags, source)
+              VALUES (?, ?, ?, ?, ?, 'bundled')
               """,
-            arguments: [newRecipeId, ingId, grams, displayQty]
+            arguments: [
+              raw.title, raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask,
+            ]
           )
+          let newRecipeId = db.lastInsertedRowID
+          insertedCount += 1
+
+          try insertRecipeIngredients(
+            for: newRecipeId,
+            raw: raw,
+            bundledIngredients: bundled.ingredients,
+            into: db
+          )
+
+          existingTitleKeys.insert(titleKey)
         }
 
-        for (ingId, grams) in raw.optionalIngredients {
-          let displayQty = Self.formatDisplayQuantity(
-            grams: grams, ingredientId: ingId, ingredients: bundled.ingredients)
-          try db.execute(
-            sql: """
-              INSERT INTO recipe_ingredients
-                  (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
-              VALUES (?, ?, 0, ?, ?)
-              """,
-            arguments: [newRecipeId, ingId, grams, displayQty]
-          )
-        }
+        let hydratedRecipeCount =
+          try Int.fetchOne(
+            db,
+            sql: "SELECT COUNT(*) FROM recipes WHERE source = 'bundled'"
+          ) ?? 0
+        let hydratedAt = ISO8601DateFormatter().string(from: Date())
 
-        existingTitleKeys.insert(titleKey)
+        try upsertBundledRecipeState(db, key: BundledRecipeStateKey.bundleMarker, value: marker)
+        try upsertBundledRecipeState(
+          db, key: BundledRecipeStateKey.recipeCount, value: String(hydratedRecipeCount))
+        try upsertBundledRecipeState(db, key: BundledRecipeStateKey.hydratedAt, value: hydratedAt)
+
+        #if DEBUG
+          if insertedCount > 0 {
+            print("[BundledDataLoader] Hydrated \(insertedCount) bundled recipes.")
+          }
+        #endif
       }
 
-      let hydratedRecipeCount =
-        try Int.fetchOne(
-          db,
-          sql: "SELECT COUNT(*) FROM recipes WHERE source = 'bundled'"
-        ) ?? 0
-      let hydratedAt = ISO8601DateFormatter().string(from: Date())
-
-      try upsertBundledRecipeState(db, key: BundledRecipeStateKey.bundleMarker, value: marker)
-      try upsertBundledRecipeState(
-        db, key: BundledRecipeStateKey.recipeCount, value: String(hydratedRecipeCount))
-      try upsertBundledRecipeState(db, key: BundledRecipeStateKey.hydratedAt, value: hydratedAt)
-
-      #if DEBUG
-        if insertedCount > 0 {
-          print("[BundledDataLoader] Hydrated \(insertedCount) bundled recipes.")
-        }
-      #endif
+      // Safety net for legacy installs: ensure the 4 demo scenario recipes are
+      // always complete (row exists + instructions + ingredient links).
+      try ensureRequiredDemoRecipes(
+        bundledRecipes: bundled.recipes,
+        bundledIngredients: bundled.ingredients,
+        db: db
+      )
     }
   }
 
@@ -483,6 +475,140 @@ enum BundledDataLoader {
         """,
       arguments: [key, value]
     )
+  }
+
+  private static func normalizedTitleKey(_ title: String?) -> String? {
+    guard let title else { return nil }
+    let key = title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+    return key.isEmpty ? nil : key
+  }
+
+  private static func insertRecipeIngredients(
+    for recipeId: Int64,
+    raw: RecipeArray,
+    bundledIngredients: [String: IngredientArray],
+    into db: Database
+  ) throws {
+    for (ingId, grams) in raw.requiredIngredients {
+      let displayQty = Self.formatDisplayQuantity(
+        grams: grams,
+        ingredientId: ingId,
+        ingredients: bundledIngredients
+      )
+      try db.execute(
+        sql: """
+          INSERT INTO recipe_ingredients
+              (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+          VALUES (?, ?, 1, ?, ?)
+          """,
+        arguments: [recipeId, ingId, grams, displayQty]
+      )
+    }
+
+    for (ingId, grams) in raw.optionalIngredients {
+      let displayQty = Self.formatDisplayQuantity(
+        grams: grams,
+        ingredientId: ingId,
+        ingredients: bundledIngredients
+      )
+      try db.execute(
+        sql: """
+          INSERT INTO recipe_ingredients
+              (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+          VALUES (?, ?, 0, ?, ?)
+          """,
+        arguments: [recipeId, ingId, grams, displayQty]
+      )
+    }
+  }
+
+  private static func ensureRequiredDemoRecipes(
+    bundledRecipes: [RecipeArray],
+    bundledIngredients: [String: IngredientArray],
+    db: Database
+  ) throws {
+    var bundledByTitle: [String: RecipeArray] = [:]
+    for raw in bundledRecipes {
+      guard let key = normalizedTitleKey(raw.title), bundledByTitle[key] == nil else { continue }
+      bundledByTitle[key] = raw
+    }
+
+    for demoTitle in requiredDemoRecipeTitles {
+      guard
+        let key = normalizedTitleKey(demoTitle),
+        let raw = bundledByTitle[key]
+      else {
+        continue
+      }
+
+      let existingRow = try Row.fetchOne(
+        db,
+        sql: """
+          SELECT id, time_minutes, servings, instructions
+          FROM recipes
+          WHERE LOWER(TRIM(title)) = ?
+          ORDER BY id ASC
+          LIMIT 1
+          """,
+        arguments: [key]
+      )
+
+      if let existingRow {
+        let recipeID: Int64 = existingRow["id"]
+        let ingredientCount =
+          try Int.fetchOne(
+            db,
+            sql: "SELECT COUNT(*) FROM recipe_ingredients WHERE recipe_id = ?",
+            arguments: [recipeID]
+          ) ?? 0
+        let timeMinutes: Int = existingRow["time_minutes"]
+        let servings: Int = existingRow["servings"]
+        let instructions: String = existingRow["instructions"]
+
+        let needsRepair =
+          ingredientCount == 0
+          || timeMinutes <= 0
+          || servings <= 0
+          || instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+
+        guard needsRepair else { continue }
+
+        try db.execute(
+          sql: """
+            UPDATE recipes
+            SET time_minutes = ?, servings = ?, instructions = ?, tags = ?, source = 'bundled'
+            WHERE id = ?
+            """,
+          arguments: [raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask, recipeID]
+        )
+        try db.execute(
+          sql: "DELETE FROM recipe_ingredients WHERE recipe_id = ?",
+          arguments: [recipeID]
+        )
+        try insertRecipeIngredients(
+          for: recipeID,
+          raw: raw,
+          bundledIngredients: bundledIngredients,
+          into: db
+        )
+      } else {
+        try db.execute(
+          sql: """
+            INSERT INTO recipes
+                (title, time_minutes, servings, instructions, tags, source)
+            VALUES (?, ?, ?, ?, ?, 'bundled')
+            """,
+          arguments: [raw.title, raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask]
+        )
+        let recipeID = db.lastInsertedRowID
+        try insertRecipeIngredients(
+          for: recipeID,
+          raw: raw,
+          bundledIngredients: bundledIngredients,
+          into: db
+        )
+      }
+    }
   }
 
   /// Build a human-readable quantity string from grams + ingredient info.

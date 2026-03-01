@@ -427,19 +427,18 @@ struct CookingCelebrationView: View {
       imagePath = try? deps.imageStorageService.save(image)
     }
 
-    if let recipeId = recipe.id {
-      do {
-        try deps.personalizationService.recordCooking(
-          recipeId: recipeId,
-          rating: rating > 0 ? rating : nil,
-          imagePath: imagePath,
-          servingsConsumed: servings
-        )
-      } catch {
-        isSaving = false
-        showSaveError = true
-        return
-      }
+    do {
+      let persistedRecipeID = try deps.recipeRepository.resolvePersistedRecipeID(for: recipe)
+      try deps.personalizationService.recordCooking(
+        recipeId: persistedRecipeID,
+        rating: rating > 0 ? rating : nil,
+        imagePath: imagePath,
+        servingsConsumed: servings
+      )
+    } catch {
+      isSaving = false
+      showSaveError = true
+      return
     }
 
     onDismiss()

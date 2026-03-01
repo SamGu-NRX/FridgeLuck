@@ -361,6 +361,53 @@ final class RecipeRepository: Sendable {
     }
   }
 
+  /// Resolve a stable persisted recipe ID for downstream foreign-key writes.
+  /// If a recipe row is unexpectedly missing, we attempt title-based recovery and
+  /// finally insert a minimal row so cooking history can still be recorded.
+  func resolvePersistedRecipeID(for recipe: Recipe) throws -> Int64 {
+    try db.write { db in
+      if let id = recipe.id, try Recipe.fetchOne(db, key: id) != nil {
+        return id
+      }
+
+      let titleKey = recipe.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+      if !titleKey.isEmpty,
+        let existingID = try Int64.fetchOne(
+          db,
+          sql: """
+            SELECT id
+            FROM recipes
+            WHERE LOWER(TRIM(title)) = ?
+            ORDER BY id ASC
+            LIMIT 1
+            """,
+          arguments: [titleKey]
+        )
+      {
+        return existingID
+      }
+
+      let safeTitle =
+        recipe.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        ? "Untitled Recipe" : recipe.title
+      let safeTime = max(1, recipe.timeMinutes)
+      let safeServings = max(1, recipe.servings)
+      let safeInstructions =
+        recipe.instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        ? "No instructions provided."
+        : recipe.instructions
+
+      try db.execute(
+        sql: """
+          INSERT INTO recipes (title, time_minutes, servings, instructions, tags, source)
+          VALUES (?, ?, ?, ?, ?, ?)
+          """,
+        arguments: [safeTitle, safeTime, safeServings, safeInstructions, recipe.tags, "bundled"]
+      )
+      return db.lastInsertedRowID
+    }
+  }
+
   /// Get all ingredients for a recipe with their quantities.
   func ingredientsForRecipe(id: Int64) throws -> [(
     ingredient: Ingredient, quantity: RecipeIngredient

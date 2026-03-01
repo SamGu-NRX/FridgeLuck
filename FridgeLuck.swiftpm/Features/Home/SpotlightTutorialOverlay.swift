@@ -378,7 +378,7 @@ struct SpotlightTutorialOverlay: View {
         .buttonStyle(.plain)
         .accessibilityLabel("Skip guided tour")
       }
-      .padding(.top, geo.safeAreaInsets.top + 40)
+      .padding(.top, geo.safeAreaInsets.top + 50)
       .padding(.trailing, AppTheme.Space.page)
       Spacer()
     }
