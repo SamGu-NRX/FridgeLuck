@@ -80,7 +80,6 @@ enum AppTheme {
     static let xl: CGFloat = 32
     static let xxl: CGFloat = 48
 
-    // Named semantic tokens
     static let page: CGFloat = 24  // standard horizontal page margin
     static let sectionBreak: CGFloat = 40  // between major sections
     static let bottomClearance: CGFloat = 100  // bottom nav safe area
@@ -122,18 +121,15 @@ enum AppTheme {
   // MARK: - Typography
 
   enum Typography {
-    // Display — New York serif, the editorial voice
     static let displayLarge = Font.system(.largeTitle, design: .serif, weight: .bold)
     static let displayMedium = Font.system(.title, design: .serif, weight: .bold)
     static let displaySmall = Font.system(.title2, design: .serif, weight: .semibold)
     static let displayCaption = Font.system(.title3, design: .serif, weight: .medium)
 
-    // Body — SF Pro for readability
     static let bodyLarge = Font.system(.body, weight: .regular)
     static let bodyMedium = Font.system(.subheadline, weight: .regular)
     static let bodySmall = Font.system(.caption, weight: .medium)
 
-    // UI — SF Pro Rounded for friendly data/labels
     static let dataLarge = Font.system(.title, design: .rounded, weight: .bold)
     static let dataMedium = Font.system(.headline, design: .rounded, weight: .bold)
     static let dataSmall = Font.system(.subheadline, design: .rounded, weight: .semibold)

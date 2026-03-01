@@ -41,7 +41,6 @@ struct FLOrganicBlob: Shape {
       }
     }
 
-    // Close with a curve back to start
     let firstAngle = -Double.pi / 2
     let firstWobble = seededRandom(seed: seed, index: 0)
     let firstX = cx + cos(firstAngle) * rx * (0.88 + firstWobble * 0.18)
@@ -119,16 +118,13 @@ struct FLArcIndicator: View {
 
   var body: some View {
     ZStack {
-      // Track arc
       ArcShape()
         .stroke(trackColor, style: StrokeStyle(lineWidth: 3, lineCap: .round))
 
-      // Fill arc
       ArcShape()
         .trim(from: 0, to: progress)
         .stroke(fillColor, style: StrokeStyle(lineWidth: 3, lineCap: .round))
 
-      // Step dots
       ForEach(0..<steps, id: \.self) { step in
         let angle = stepAngle(step: step)
         let active = Double(step + 1) / Double(steps) <= progress + 0.01

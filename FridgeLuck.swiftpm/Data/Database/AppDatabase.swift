@@ -20,12 +20,10 @@ final class AppDatabase: Sendable {
 
     let dbQueue = try DatabaseQueue(path: path, configuration: config)
 
-    // Run migrations
     try DatabaseMigrations.migrate(dbQueue)
 
     let appDB = AppDatabase(dbQueue: dbQueue)
 
-    // Bootstrap bundled data on first launch
     let recipeCount = try await dbQueue.read { db in
       try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM recipes") ?? 0
     }

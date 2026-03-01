@@ -9,27 +9,36 @@ struct IngredientReviewView: View {
   let nutritionLabelOutcome: NutritionLabelParseOutcome?
   let scanProvenance: ScanProvenance
   let scanDiagnostics: ScanDiagnostics?
+  let fridgeImage: UIImage?
 
   @State private var confirmedIds: Set<Int64> = []
   @State private var showSheetMode: IngredientSheetMode?
   @State private var navigateToResults = false
   @State private var allIngredients: [Ingredient] = []
   @State private var selectedIngredientForDetail: Ingredient?
+  @State private var showFridgePhoto = false
 
   @State private var selectedIngredientForDetection: [UUID: Int64] = [:]
   @State private var suggestedOutcomeByDetection: [UUID: Bool] = [:]
   @State private var didInitialize = false
 
+  // MARK: - Spotlight Tutorial State
+  @AppStorage("hasSeenReviewSpotlight") private var hasSeenReviewSpotlight = false
+  @State private var reviewSpotlight = SpotlightCoordinator()
+  @State private var showReviewSpotlight = false
+
   init(
     detections: [Detection],
     nutritionLabelOutcome: NutritionLabelParseOutcome? = nil,
     scanProvenance: ScanProvenance = .realScan,
-    scanDiagnostics: ScanDiagnostics? = nil
+    scanDiagnostics: ScanDiagnostics? = nil,
+    fridgeImage: UIImage? = nil
   ) {
     self._detections = State(initialValue: detections)
     self.nutritionLabelOutcome = nutritionLabelOutcome
     self.scanProvenance = scanProvenance
     self.scanDiagnostics = scanDiagnostics
+    self.fridgeImage = fridgeImage
   }
 
   enum IngredientSheetMode: Identifiable {
@@ -57,51 +66,73 @@ struct IngredientReviewView: View {
 
   var body: some View {
     VStack(spacing: 0) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 0) {
-          summarySection
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
+      ScrollViewReader { scrollProxy in
+        ScrollView {
+          VStack(alignment: .leading, spacing: 0) {
+            summarySection
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.bottom, AppTheme.Space.lg)
+              .id("confidenceLevels")
+              .spotlightAnchor("confidenceLevels")
 
-          nutritionLabelSection
-            .padding(.horizontal, AppTheme.Space.page)
+            nutritionLabelSection
+              .padding(.horizontal, AppTheme.Space.page)
 
-          bulkActionSection
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
+            bulkActionSection
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.bottom, AppTheme.Space.lg)
+              .id("bulkActions")
+              .spotlightAnchor("bulkActions")
 
-          FLWaveDivider()
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
-
-          confirmedSection
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
-
-          if !categorized.confirmed.isEmpty && !categorized.needsConfirmation.isEmpty {
             FLWaveDivider()
               .padding(.horizontal, AppTheme.Space.page)
               .padding(.bottom, AppTheme.Space.lg)
-          }
 
-          needsConfirmationSection
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
-
-          if !categorized.needsConfirmation.isEmpty && !categorized.possible.isEmpty {
-            FLWaveDivider()
+            confirmedSection
               .padding(.horizontal, AppTheme.Space.page)
               .padding(.bottom, AppTheme.Space.lg)
-          }
+              .id("autoDetected")
+              .spotlightAnchor("autoDetected")
 
-          possibleSection
-            .padding(.horizontal, AppTheme.Space.page)
+            if !categorized.confirmed.isEmpty && !categorized.needsConfirmation.isEmpty {
+              FLWaveDivider()
+                .padding(.horizontal, AppTheme.Space.page)
+                .padding(.bottom, AppTheme.Space.lg)
+            }
+
+            needsConfirmationSection
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.bottom, AppTheme.Space.lg)
+              .id("needsConfirmation")
+              .spotlightAnchor("needsConfirmation")
+
+            if !categorized.needsConfirmation.isEmpty && !categorized.possible.isEmpty {
+              FLWaveDivider()
+                .padding(.horizontal, AppTheme.Space.page)
+                .padding(.bottom, AppTheme.Space.lg)
+            }
+
+            possibleSection
+              .padding(.horizontal, AppTheme.Space.page)
+          }
+          .padding(.top, AppTheme.Space.md)
+          .padding(.bottom, AppTheme.Space.lg)
         }
-        .padding(.top, AppTheme.Space.md)
-        .padding(.bottom, AppTheme.Space.lg)
+        .onPreferenceChange(SpotlightAnchorKey.self) { reviewSpotlight.anchors = $0 }
+        .onAppear {
+          reviewSpotlight.onScrollToAnchor = { anchorID in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+              withAnimation(.spring(response: 0.5, dampingFraction: 0.82)) {
+                scrollProxy.scrollTo(anchorID, anchor: .center)
+              }
+            }
+          }
+        }
       }
 
       bottomBar
+        .id("findRecipes")
+        .spotlightAnchor("findRecipes")
     }
     .navigationTitle("Review Ingredients")
     .navigationBarTitleDisplayMode(.inline)
@@ -117,6 +148,7 @@ struct IngredientReviewView: View {
             .symbolRenderingMode(.hierarchical)
         }
         .accessibilityLabel("Add ingredient manually")
+        .spotlightAnchor("toolbarAdd")
       }
     }
     .sheet(item: $showSheetMode) { mode in
@@ -144,11 +176,35 @@ struct IngredientReviewView: View {
     .sheet(item: $selectedIngredientForDetail) { ingredient in
       IngredientDetailSheet(ingredient: ingredient)
     }
+    .sheet(isPresented: $showFridgePhoto) {
+      if let fridgeImage {
+        FridgePhotoViewer(image: fridgeImage)
+      }
+    }
     .navigationDestination(isPresented: $navigateToResults) {
       RecipeResultsView(
         ingredientIds: confirmedIds,
         engine: deps.makeRecommendationEngine()
       )
+    }
+    .overlay {
+      if showReviewSpotlight, let steps = reviewSpotlight.activeSteps {
+        SpotlightTutorialOverlay(
+          steps: steps,
+          anchors: reviewSpotlight.anchors,
+          isPresented: Binding(
+            get: { showReviewSpotlight },
+            set: { isPresented in
+              if !isPresented {
+                showReviewSpotlight = false
+                reviewSpotlight.activeSteps = nil
+              }
+            }
+          ),
+          onScrollToAnchor: reviewSpotlight.onScrollToAnchor
+        )
+        .ignoresSafeArea()
+      }
     }
     .onAppear {
       guard !didInitialize else { return }
@@ -156,6 +212,22 @@ struct IngredientReviewView: View {
       loadAllIngredients()
       categorizeDetections()
     }
+    .task {
+      guard !hasSeenReviewSpotlight else { return }
+      let delay = reduceMotion ? 0.3 : 0.8
+      try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+      guard !Task.isCancelled else { return }
+      guard !showReviewSpotlight else { return }
+      presentReviewSpotlight()
+    }
+  }
+
+  // MARK: - Review Spotlight
+
+  private func presentReviewSpotlight() {
+    reviewSpotlight.activeSteps = SpotlightStep.ingredientReview
+    showReviewSpotlight = true
+    hasSeenReviewSpotlight = true
   }
 
   // MARK: - Categorization
@@ -218,7 +290,6 @@ struct IngredientReviewView: View {
   // MARK: - Summary Section (card-free, editorial)
 
   private var summarySection: some View {
-    let telemetry = deps.learningService.telemetry()
     let pill = confidenceHealthPill()
 
     return VStack(alignment: .leading, spacing: AppTheme.Space.md) {
@@ -232,6 +303,36 @@ struct IngredientReviewView: View {
             .foregroundStyle(AppTheme.textSecondary)
         }
         Spacer()
+
+        if let fridgeImage {
+          Button {
+            showFridgePhoto = true
+          } label: {
+            Image(uiImage: fridgeImage)
+              .resizable()
+              .scaledToFill()
+              .frame(width: 48, height: 48)
+              .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous))
+              .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                  .stroke(AppTheme.oat.opacity(0.35), lineWidth: 1)
+              )
+              .overlay(alignment: .bottomTrailing) {
+                Image(systemName: "magnifyingglass")
+                  .font(.system(size: 8, weight: .bold))
+                  .foregroundStyle(.white)
+                  .padding(3)
+                  .background(AppTheme.accent, in: Circle())
+                  .offset(x: 3, y: 3)
+              }
+              .shadow(color: AppTheme.Shadow.color, radius: 4, x: 0, y: 2)
+          }
+          .buttonStyle(.plain)
+          .accessibilityLabel("View fridge photo")
+        }
+      }
+
+      HStack(alignment: .top, spacing: AppTheme.Space.sm) {
         FLStatusPill(text: pill.text, kind: pill.kind)
       }
 
@@ -242,27 +343,6 @@ struct IngredientReviewView: View {
           label: "Confirm", value: categorized.needsConfirmation.count,
           icon: "questionmark.circle.fill")
         summaryCounter(label: "Maybe", value: categorized.possible.count, icon: "sparkles")
-      }
-
-      if telemetry.suggestionsShown > 0 {
-        Text("Learning hit rate: \(Int((telemetry.hitRate * 100).rounded()))%")
-          .font(AppTheme.Typography.label)
-          .foregroundStyle(AppTheme.textSecondary)
-      }
-
-      if scanProvenance != .realScan {
-        FLStatusPill(
-          text: scanProvenance == .bundledFixture ? "Bundled fixture fallback" : "Starter fallback",
-          kind: .warning
-        )
-      }
-
-      if let scanDiagnostics {
-        Text(
-          "Scan \(scanDiagnostics.elapsedMs)ms · auto \(scanDiagnostics.bucketCounts.auto) · confirm \(scanDiagnostics.bucketCounts.confirm) · maybe \(scanDiagnostics.bucketCounts.possible)"
-        )
-        .font(AppTheme.Typography.labelSmall)
-        .foregroundStyle(AppTheme.textSecondary)
       }
 
       if !categorized.needsConfirmation.isEmpty {
@@ -610,7 +690,7 @@ struct IngredientReviewView: View {
       }
 
       FLPrimaryButton(
-        "Find Recipes (\(confirmedIds.count))",
+        "Find Recipes with \(confirmedIds.count) Ingredient\(confirmedIds.count == 1 ? "" : "s")",
         systemImage: "fork.knife",
         isEnabled: !confirmedIds.isEmpty
       ) {
@@ -875,6 +955,69 @@ struct OrganicIngredientChip: View {
         }
         .buttonStyle(.plain)
       }
+    }
+  }
+}
+
+// MARK: - Fridge Photo Viewer
+
+private struct FridgePhotoViewer: View {
+  @Environment(\.dismiss) private var dismiss
+  let image: UIImage
+  @State private var scale: CGFloat = 1.0
+  @State private var lastScale: CGFloat = 1.0
+
+  var body: some View {
+    NavigationStack {
+      GeometryReader { geo in
+        ScrollView([.horizontal, .vertical], showsIndicators: false) {
+          Image(uiImage: image)
+            .resizable()
+            .scaledToFit()
+            .frame(
+              width: geo.size.width * scale,
+              height: geo.size.height * scale
+            )
+            .frame(minWidth: geo.size.width, minHeight: geo.size.height)
+            .gesture(
+              MagnifyGesture()
+                .onChanged { value in
+                  scale = max(1.0, min(lastScale * value.magnification, 4.0))
+                }
+                .onEnded { value in
+                  lastScale = scale
+                  if scale < 1.1 {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                      scale = 1.0
+                      lastScale = 1.0
+                    }
+                  }
+                }
+            )
+            .onTapGesture(count: 2) {
+              withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                if scale > 1.1 {
+                  scale = 1.0
+                  lastScale = 1.0
+                } else {
+                  scale = 2.5
+                  lastScale = 2.5
+                }
+              }
+            }
+        }
+      }
+      .background(Color.black)
+      .navigationTitle("Fridge Photo")
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          Button("Done") { dismiss() }
+            .foregroundStyle(.white)
+        }
+      }
+      .toolbarBackground(.black, for: .navigationBar)
+      .toolbarColorScheme(.dark, for: .navigationBar)
     }
   }
 }

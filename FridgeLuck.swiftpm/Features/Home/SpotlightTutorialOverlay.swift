@@ -80,6 +80,65 @@ extension SpotlightStep {
         "Use the scan button to photograph your fridge, try demo scenarios, or open Dashboard for full analytics. Happy cooking!"
     ),
   ]
+
+  static let ingredientReview: [SpotlightStep] = [
+    SpotlightStep(
+      id: "review_welcome",
+      anchorID: nil,
+      icon: "eyes.inverse",
+      title: "Review Your Ingredients",
+      message:
+        "This page shows everything the scan detected. Items are sorted by confidence \u{2014} review uncertain ones before finding recipes."
+    ),
+    SpotlightStep(
+      id: "review_confidence",
+      anchorID: "confidenceLevels",
+      icon: "gauge.with.dots.needle.33percent",
+      title: "Confidence Levels",
+      message:
+        "Auto = high confidence (auto-selected). Confirm = medium confidence (pick the right match). Maybe = low confidence (tap to include)."
+    ),
+    SpotlightStep(
+      id: "review_auto",
+      anchorID: "autoDetected",
+      icon: "checkmark.seal.fill",
+      title: "Auto-Detected Items",
+      message:
+        "These ingredients were detected with high confidence and are already selected. Tap any chip to deselect it, or tap the \u{24D8} icon to view nutrition details."
+    ),
+    SpotlightStep(
+      id: "review_confirm",
+      anchorID: "needsConfirmation",
+      icon: "questionmark.circle.fill",
+      title: "Needs Confirmation",
+      message:
+        "These items need your help. Pick the correct match from the options, tap \u{201C}Choose another\u{201D} to search, or \u{201C}Not this item\u{201D} to skip."
+    ),
+    SpotlightStep(
+      id: "review_bulk",
+      anchorID: "bulkActions",
+      icon: "checklist",
+      title: "Quick Actions & Add",
+      message:
+        "\u{201C}Select Auto\u{201D} accepts all high-confidence items at once. \u{201C}Clear Uncertain\u{201D} resets your choices. The \u{201C}+ Add\u{201D} button lets you manually add ingredients the scan missed."
+    ),
+    SpotlightStep(
+      id: "review_toolbar_add",
+      anchorID: "toolbarAdd",
+      icon: "plus.circle.fill",
+      title: "Toolbar Add Button",
+      message:
+        "You can also add ingredients from the toolbar \u{2014} same action, always accessible regardless of scroll position."
+    ),
+    SpotlightStep(
+      id: "review_find_recipes",
+      anchorID: "findRecipes",
+      icon: "fork.knife",
+      title: "Find Recipes",
+      message:
+        "When you\u{2019}re happy with your selection, tap this button. The count updates as you toggle ingredients \u{2014} aim for at least 3\u{2013}5 for better recipe matches."
+    ),
+  ]
 }
 
 // MARK: - Coordinator
@@ -150,7 +209,6 @@ struct SpotlightTutorialOverlay: View {
       withAnimation(reduceMotion ? nil : .easeOut(duration: 0.35)) {
         appeared = true
       }
-      // Scroll initial step's anchor into view if needed
       if let anchorID = steps[0].anchorID {
         onScrollToAnchor?(anchorID)
       }
@@ -350,7 +408,6 @@ struct SpotlightTutorialOverlay: View {
       return
     }
     let nextIndex = stepIndex + 1
-    // Scroll the target into center before animating the step transition
     if let anchorID = steps[nextIndex].anchorID {
       onScrollToAnchor?(anchorID)
     }

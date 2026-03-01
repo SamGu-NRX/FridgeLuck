@@ -350,7 +350,7 @@ struct FLStatDisplay: View {
 
 // MARK: - Analyzing Pulse Animation
 
-/// Custom pulsing terracotta ring for analyzing states. Replaces generic ProgressView.
+/// Pulsing ring for analyzing states.
 struct FLAnalyzingPulse: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var isAnimating = false
@@ -426,7 +426,7 @@ struct FLStarRating: View {
 
 // MARK: - Serving Stepper
 
-/// Elegant serving size selector with animated counter display.
+/// Serving size selector with animated counter display.
 struct FLServingStepper: View {
   @Binding var servings: Int
   var range: ClosedRange<Int> = 1...8
@@ -499,23 +499,19 @@ struct FLMacroRing: View {
 
   var body: some View {
     ZStack {
-      // Background track
       Circle()
         .stroke(AppTheme.surfaceMuted, lineWidth: lineWidth)
 
-      // Fat arc (bottom layer)
       Circle()
         .trim(from: 0, to: proteinPct + carbsPct + fatPct)
         .stroke(AppTheme.accentLight, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
         .rotationEffect(.degrees(-90))
 
-      // Carbs arc (middle layer)
       Circle()
         .trim(from: 0, to: proteinPct + carbsPct)
         .stroke(AppTheme.oat, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
         .rotationEffect(.degrees(-90))
 
-      // Protein arc (top layer)
       Circle()
         .trim(from: 0, to: proteinPct)
         .stroke(AppTheme.sage, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))

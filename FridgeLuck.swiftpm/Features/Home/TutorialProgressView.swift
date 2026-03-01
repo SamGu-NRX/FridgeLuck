@@ -10,7 +10,6 @@ struct TutorialProgressView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
       HStack(alignment: .center, spacing: AppTheme.Space.md) {
-        // Arc indicator
         ZStack {
           Circle()
             .stroke(AppTheme.oat.opacity(0.25), lineWidth: 5)
@@ -43,7 +42,6 @@ struct TutorialProgressView: View {
         Spacer()
       }
 
-      // Completed quest pills (horizontal scroll if many)
       if !progress.completedQuestsOrdered.isEmpty {
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: AppTheme.Space.xs) {

@@ -3,7 +3,6 @@ import SwiftUI
 // MARK: - Quest Definitions
 
 /// Each quest represents a guided step that teaches a core feature.
-/// Designed for the WWDC judge experience: quick, purposeful, impressive.
 enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   case setupProfile = 0
   case firstScan = 1

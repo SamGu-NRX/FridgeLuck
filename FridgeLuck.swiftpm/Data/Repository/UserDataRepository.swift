@@ -238,7 +238,6 @@ final class UserDataRepository: Sendable {
         let servingsConsumed: Int = row["servings_consumed"] as? Int ?? recipe.servings
         let recipeId: Int64 = row["recipe_id"]
 
-        // Compute macros for the servings actually consumed
         let macros = try Self.computeConsumedMacros(
           db: db, recipeId: recipeId,
           recipeServings: recipe.servings, servingsConsumed: servingsConsumed

@@ -22,7 +22,6 @@ struct PreparedDishEstimateView: View {
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
-        // Dish template picker
         VStack(alignment: .leading, spacing: AppTheme.Space.md) {
           FLSectionHeader("Dish Template", subtitle: "Choose a dish type", icon: "fork.knife")
 
@@ -48,7 +47,6 @@ struct PreparedDishEstimateView: View {
 
         FLWaveDivider()
 
-        // Portion size
         VStack(alignment: .leading, spacing: AppTheme.Space.md) {
           FLSectionHeader("Portion Size", icon: "scalemass")
 
@@ -63,7 +61,6 @@ struct PreparedDishEstimateView: View {
         if let estimate {
           FLWaveDivider()
 
-          // Nutrition range
           VStack(alignment: .leading, spacing: AppTheme.Space.md) {
             FLSectionHeader(
               "Estimated Nutrition", subtitle: "Approximate values", icon: "flame.fill")
@@ -83,7 +80,6 @@ struct PreparedDishEstimateView: View {
 
           FLWaveDivider()
 
-          // Macro split
           VStack(alignment: .leading, spacing: AppTheme.Space.md) {
             FLSectionHeader("Macro Split", icon: "chart.bar.fill")
 

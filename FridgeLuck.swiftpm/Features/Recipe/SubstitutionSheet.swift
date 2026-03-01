@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - Substitution Sheet
 
-/// Beautiful bottom sheet showing available substitutions for an ingredient.
+/// Bottom sheet showing available substitutions for an ingredient.
 /// Displays original → substitute comparison with reason badges and nutritional delta.
 struct SubstitutionSheet: View {
   @EnvironmentObject var deps: AppDependencies
@@ -154,9 +154,7 @@ struct SubstitutionSheet: View {
       dismiss()
     } label: {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        // Header: name + adjusted quantity
         HStack(alignment: .top, spacing: AppTheme.Space.sm) {
-          // Swap arrow icon
           Image(systemName: "arrow.right.circle.fill")
             .font(.system(size: 20))
             .foregroundStyle(AppTheme.sage)
@@ -166,7 +164,6 @@ struct SubstitutionSheet: View {
               .font(AppTheme.Typography.displayCaption)
               .foregroundStyle(AppTheme.textPrimary)
 
-            // Adjusted quantity
             let adjustedGrams = quantityGrams * substitution.ratio
             Text(
               formatAdjustedQuantity(
@@ -180,7 +177,6 @@ struct SubstitutionSheet: View {
 
           Spacer()
 
-          // Ratio badge (if not 1:1)
           if substitution.ratio != 1.0 {
             Text(formatRatio(substitution.ratio))
               .font(AppTheme.Typography.labelSmall)
@@ -191,7 +187,6 @@ struct SubstitutionSheet: View {
           }
         }
 
-        // Reason badges
         FlowLayout(spacing: AppTheme.Space.xxs) {
           ForEach(
             Array(substitution.reasons).sorted(by: { $0.rawValue < $1.rawValue }),
@@ -201,14 +196,12 @@ struct SubstitutionSheet: View {
           }
         }
 
-        // Nutritional comparison
         if let subMacros = substituteMacros[substitution.substituteId],
           let origMacros = originalMacros
         {
           nutritionComparison(original: origMacros, substitute: subMacros)
         }
 
-        // Cook's note
         if let note = substitution.note {
           HStack(alignment: .top, spacing: AppTheme.Space.xs) {
             Image(systemName: "lightbulb.min")
@@ -341,7 +334,6 @@ struct SubstitutionSheet: View {
 
   private func formatRatio(_ ratio: Double) -> String {
     if ratio == 1.0 { return "1:1" }
-    // Express as fraction: e.g. 0.75 → "¾×", 1.2 → "1.2×"
     let nice: String = {
       switch ratio {
       case 0.5: return "½×"
@@ -354,14 +346,12 @@ struct SubstitutionSheet: View {
   }
 
   private func caloriesFromDisplayedMacros(_ macros: RecipeMacros) -> Double {
-    // Keep calories consistent with the displayed P/C/F values on this sheet.
     (macros.proteinPerServing * 4) + (macros.carbsPerServing * 4) + (macros.fatPerServing * 9)
   }
 
   // MARK: - Data Loading
 
   private func loadData() async {
-    // Load user dietary context
     if let profile = try? deps.userDataRepository.fetchHealthProfile() {
       dietaryRestrictions = profile.normalizedDietaryRestrictionIDs
     }
@@ -372,7 +362,6 @@ struct SubstitutionSheet: View {
     )
     substitutions = subs
 
-    // Load substitute ingredient models + macros in parallel
     for sub in subs {
       if let subIngredient = try? deps.substitutionService.ingredient(id: sub.substituteId) {
         substituteIngredients[sub.substituteId] = subIngredient
@@ -383,7 +372,6 @@ struct SubstitutionSheet: View {
       }
     }
 
-    // Original macros
     originalMacros = try? deps.nutritionService.ingredientMacros(
       ingredientId: ingredient.id ?? -1, grams: quantityGrams
     )

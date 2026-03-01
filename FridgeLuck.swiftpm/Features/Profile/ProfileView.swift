@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Editorial, read-focused profile view. Completely different from OnboardingView.
+/// Read-focused profile view.
 /// Journal-style layout: large serif headlines, overlapping shapes, wave dividers, no cards.
 struct ProfileView: View {
   @EnvironmentObject var deps: AppDependencies
@@ -132,7 +132,6 @@ struct ProfileView: View {
         .kerning(1.5)
 
       ZStack {
-        // Protein circle (left)
         Circle()
           .fill(AppTheme.chartProtein.opacity(0.20))
           .frame(width: 100, height: 100)
@@ -147,7 +146,6 @@ struct ProfileView: View {
           )
           .offset(x: -44, y: 0)
 
-        // Carbs circle (center-right)
         Circle()
           .fill(AppTheme.chartCarbs.opacity(0.20))
           .frame(width: 100, height: 100)
@@ -162,7 +160,6 @@ struct ProfileView: View {
           )
           .offset(x: 10, y: -14)
 
-        // Fat circle (right)
         Circle()
           .fill(AppTheme.chartFat.opacity(0.20))
           .frame(width: 88, height: 88)
@@ -296,11 +293,9 @@ struct ProfileView: View {
       totalMeals = try deps.userDataRepository.totalMealsCooked()
       totalRecipes = try deps.userDataRepository.totalRecipesUsed()
 
-      // Calculate streak from mealsByDay
       let days = try deps.userDataRepository.mealsByDay(lastDays: 30)
       streak = calculateStreak(from: days)
 
-      // Load allergen ingredients
       let allIngredients = (try? deps.ingredientRepository.fetchAll()) ?? []
       let allergenIds = Set(profile.parsedAllergenIds)
       allergenIngredients = allIngredients.filter { ingredient in

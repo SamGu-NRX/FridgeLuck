@@ -16,7 +16,6 @@ struct IngredientDetailSheet: View {
         VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
           heroSection
           macroSection
-          secondaryNutrients
           contextSection
           if !aliases.isEmpty {
             aliasSection
@@ -84,55 +83,78 @@ struct IngredientDetailSheet: View {
   }
 
   private var macroSection: some View {
-    HStack(spacing: AppTheme.Space.sm) {
-      macroCard(
-        "Protein", value: String(format: "%.1f", ingredient.protein), unit: "g", color: .blue)
-      macroCard("Carbs", value: String(format: "%.1f", ingredient.carbs), unit: "g", color: .green)
-      macroCard("Fat", value: String(format: "%.1f", ingredient.fat), unit: "g", color: .red)
-    }
-  }
+    let totalMacroGrams = max(1, ingredient.protein + ingredient.carbs + ingredient.fat)
+    let pPct = ingredient.protein / totalMacroGrams
+    let cPct = ingredient.carbs / totalMacroGrams
+    let fPct = ingredient.fat / totalMacroGrams
 
-  private func macroCard(_ title: String, value: String, unit: String, color: Color) -> some View {
-    FLCard {
-      VStack(spacing: AppTheme.Space.xs) {
-        Circle()
-          .fill(color)
-          .frame(width: 8, height: 8)
-        Text(value)
-          .font(AppTheme.Typography.dataSmall)
-          .foregroundStyle(AppTheme.textPrimary)
-        Text(unit)
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary)
-        Text(title)
-          .font(AppTheme.Typography.label)
-          .foregroundStyle(AppTheme.textSecondary)
-      }
-      .frame(maxWidth: .infinity)
-    }
-  }
+    return FLCard {
+      VStack(spacing: AppTheme.Space.md) {
+        HStack(spacing: AppTheme.Space.lg) {
+          FLMacroRing(
+            proteinPct: pPct,
+            carbsPct: cPct,
+            fatPct: fPct,
+            size: 80,
+            lineWidth: 10
+          )
+          .overlay {
+            VStack(spacing: 2) {
+              Text("\(Int(ingredient.calories))")
+                .font(AppTheme.Typography.dataSmall)
+                .foregroundStyle(AppTheme.textPrimary)
+              Text("kcal")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+          }
 
-  private var secondaryNutrients: some View {
-    FLCard {
-      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        FLSectionHeader("Secondary Nutrition", icon: "chart.bar.doc.horizontal")
-        HStack(spacing: AppTheme.Space.md) {
-          metric(label: "Fiber", value: String(format: "%.1fg", ingredient.fiber))
-          metric(label: "Sugar", value: String(format: "%.1fg", ingredient.sugar))
-          metric(label: "Sodium", value: "\(Int((ingredient.sodium * 1000).rounded()))mg")
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            macroRow(label: "Protein", value: ingredient.protein, color: AppTheme.sage)
+            macroRow(label: "Carbs", value: ingredient.carbs, color: AppTheme.oat)
+            macroRow(label: "Fat", value: ingredient.fat, color: AppTheme.accentLight)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+        }
+
+        Divider()
+          .foregroundStyle(AppTheme.oat.opacity(0.20))
+
+        HStack(spacing: 0) {
+          secondaryMetric(label: "Fiber", value: String(format: "%.1fg", ingredient.fiber))
           Spacer()
+          secondaryMetric(label: "Sugar", value: String(format: "%.1fg", ingredient.sugar))
+          Spacer()
+          secondaryMetric(
+            label: "Sodium", value: "\(Int((ingredient.sodium * 1000).rounded()))mg")
         }
       }
     }
   }
 
-  private func metric(label: String, value: String) -> some View {
-    VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+  private func macroRow(label: String, value: Double, color: Color) -> some View {
+    HStack(spacing: AppTheme.Space.xs) {
+      RoundedRectangle(cornerRadius: 2, style: .continuous)
+        .fill(color)
+        .frame(width: 4, height: 20)
+      VStack(alignment: .leading, spacing: 0) {
+        Text(String(format: "%.1fg", value))
+          .font(AppTheme.Typography.dataSmall)
+          .foregroundStyle(AppTheme.textPrimary)
+        Text(label)
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(AppTheme.textSecondary)
+      }
+    }
+  }
+
+  private func secondaryMetric(label: String, value: String) -> some View {
+    VStack(spacing: AppTheme.Space.xxxs) {
       Text(value)
-        .font(AppTheme.Typography.dataSmall)
+        .font(AppTheme.Typography.label)
         .foregroundStyle(AppTheme.textPrimary)
       Text(label)
-        .font(AppTheme.Typography.label)
+        .font(AppTheme.Typography.labelSmall)
         .foregroundStyle(AppTheme.textSecondary)
     }
   }
