@@ -55,3 +55,5 @@ scripts/data/.venv/
 scripts/data/*.egg-info/
 scripts/data/catalog/*.lock
 scripts/data/review_batches/*.lock
+
+example_fridge_*.png

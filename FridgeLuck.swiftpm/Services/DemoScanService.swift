@@ -7,6 +7,8 @@ enum DemoScanService {
   struct DemoScanPayload {
     let detections: [Detection]
     let image: UIImage?
+    let usedBundledFixture: Bool
+    let usedStarterFallback: Bool
   }
 
   private struct DemoFixture: Decodable {
@@ -23,18 +25,49 @@ enum DemoScanService {
     let label: String
   }
 
+  /// Load demo payload for the default scenario (Asian Stir-Fry / legacy).
   static func loadDemoPayload(using visionService: VisionService) async -> DemoScanPayload {
-    let demoImage = loadDemoImage()
+    await loadDemoPayload(scenario: nil, using: visionService)
+  }
 
-    if let image = demoImage,
+  /// Load demo payload for a specific scenario, falling back through fixture → starter.
+  static func loadDemoPayload(scenario: DemoScenario?, using visionService: VisionService) async
+    -> DemoScanPayload
+  {
+    let demoImage = loadDemoImage()
+    let fixtureName = scenario?.fixtureFileName ?? "demo_detections"
+
+    // Try live Vision scan first (only for default/legacy flow).
+    if scenario == nil,
+      let image = demoImage,
       let cgImage = image.cgImage,
       let scanResult = try? await visionService.scan(image: cgImage),
       !scanResult.detections.isEmpty
     {
-      return DemoScanPayload(detections: scanResult.detections, image: image)
+      return DemoScanPayload(
+        detections: scanResult.detections,
+        image: image,
+        usedBundledFixture: false,
+        usedStarterFallback: false
+      )
     }
 
-    return DemoScanPayload(detections: loadFallbackFixture(), image: demoImage)
+    let fixtureDetections = loadFallbackFixture(named: fixtureName)
+    if !fixtureDetections.isEmpty {
+      return DemoScanPayload(
+        detections: fixtureDetections,
+        image: demoImage,
+        usedBundledFixture: true,
+        usedStarterFallback: false
+      )
+    }
+
+    return DemoScanPayload(
+      detections: starterDetections(),
+      image: demoImage,
+      usedBundledFixture: true,
+      usedStarterFallback: true
+    )
   }
 
   static func loadDemoImage() -> UIImage? {
@@ -92,9 +125,11 @@ enum DemoScanService {
     return ScanImagePreprocessor.prepare(image)
   }
 
-  private static func loadFallbackFixture() -> [Detection] {
+  private static func loadFallbackFixture(named fixtureName: String = "demo_detections")
+    -> [Detection]
+  {
     guard
-      let url = Bundle.main.url(forResource: "demo_detections", withExtension: "json"),
+      let url = Bundle.main.url(forResource: fixtureName, withExtension: "json"),
       let data = try? Data(contentsOf: url),
       let fixtures = try? JSONDecoder().decode([DemoFixture].self, from: data)
     else {
@@ -116,6 +151,20 @@ enum DemoScanService {
             confidence: nil
           )
         }
+      )
+    }
+  }
+
+  private static func starterDetections() -> [Detection] {
+    let starterIds: [Int64] = [1, 2, 5, 6]
+    return starterIds.map { id in
+      Detection(
+        ingredientId: id,
+        label: IngredientLexicon.displayName(for: id),
+        confidence: 1.0,
+        source: .manual,
+        originalVisionLabel: "starter_\(id)",
+        alternatives: []
       )
     }
   }

@@ -7,6 +7,9 @@ final class HomeDashboardViewModel: ObservableObject {
   @Published private(set) var isLoading = false
   @Published private(set) var errorMessage: String?
 
+  /// Tutorial progress, stored via @AppStorage in the view layer and synced here.
+  @Published var tutorialProgress: TutorialProgress = .empty
+
   private let deps: AppDependencies
 
   init(deps: AppDependencies) {
@@ -41,11 +44,38 @@ final class HomeDashboardViewModel: ObservableObject {
         mealsLast14Days: mealsLast14Days,
         weekdayDistribution: weekdayDistribution,
         healthProfile: profile,
-        totalMealsCooked: totalMealsCooked
+        totalMealsCooked: totalMealsCooked,
+        tutorialProgress: tutorialProgress
       )
       errorMessage = nil
     } catch {
       errorMessage = error.localizedDescription
     }
+  }
+
+  /// Mark a quest completed and refresh the snapshot.
+  func completeQuest(_ quest: TutorialQuest) {
+    tutorialProgress.markCompleted(quest)
+    // Update snapshot in-place if it exists, so UI reacts immediately.
+    if var snap = snapshot {
+      snap = HomeDashboardSnapshot(
+        ingredientCount: snap.ingredientCount,
+        recipeCount: snap.recipeCount,
+        hasOnboarded: snap.hasOnboarded,
+        currentStreak: snap.currentStreak,
+        mealsLast7Days: snap.mealsLast7Days,
+        mealsLast14Days: snap.mealsLast14Days,
+        weekdayDistribution: snap.weekdayDistribution,
+        healthProfile: snap.healthProfile,
+        totalMealsCooked: snap.totalMealsCooked,
+        tutorialProgress: tutorialProgress
+      )
+      snapshot = snap
+    }
+  }
+
+  /// Sync tutorial progress from external @AppStorage value.
+  func syncTutorialProgress(_ progress: TutorialProgress) {
+    tutorialProgress = progress
   }
 }

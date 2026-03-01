@@ -1,25 +1,30 @@
 import Foundation
 import GRDB
 
+enum RecipeMatchTier: String, Sendable {
+  case exact
+  case nearMatch
+}
+
 /// A recipe with all computed scores for display in results.
 struct ScoredRecipe: Identifiable, Sendable {
   let recipe: Recipe
   let matchedRequired: Int
   let totalRequired: Int
   let matchedOptional: Int
+  let missingRequiredCount: Int
+  let missingIngredientIds: [Int64]
   let macros: RecipeMacros
   let healthScore: HealthScore
   let personalScore: Double
+  let rankingScore: Double
+  let rankingReasons: [String]
+  let matchTier: RecipeMatchTier
 
   var id: Int64? { recipe.id }
 
   /// Combined score for sorting. Higher is better.
-  var combinedScore: Double {
-    let matchScore = Double(matchedRequired) * 10.0 + Double(matchedOptional) * 3.0
-    let healthBoost = Double(healthScore.rating) * 5.0
-    let timeBonus = recipe.timeMinutes <= 15 ? 3.0 : 0.0
-    return matchScore + healthBoost + timeBonus + personalScore
-  }
+  var combinedScore: Double { rankingScore }
 }
 
 /// Central repository for all recipe queries.
@@ -50,9 +55,63 @@ final class RecipeRepository: Sendable {
     profile: HealthProfile,
     limit: Int = 20
   ) throws -> [ScoredRecipe] {
+    try queryRecipes(
+      with: availableIds,
+      profile: profile,
+      minMissingRequired: 0,
+      maxMissingRequired: 0,
+      matchTier: .exact,
+      limit: limit
+    )
+  }
+
+  func findNearMatch(
+    with availableIds: Set<Int64>,
+    profile: HealthProfile,
+    maxMissingRequired: Int = 1,
+    limit: Int = 20
+  ) throws -> [ScoredRecipe] {
+    guard maxMissingRequired >= 1 else { return [] }
+    return try queryRecipes(
+      with: availableIds,
+      profile: profile,
+      minMissingRequired: 1,
+      maxMissingRequired: maxMissingRequired,
+      matchTier: .nearMatch,
+      limit: limit
+    )
+  }
+
+  // MARK: - Quick Suggestion ("Make Something Now")
+
+  /// Returns the single best recipe using the same unified ranking policy as result lists.
+  func quickSuggestion(
+    with availableIds: Set<Int64>,
+    profile: HealthProfile
+  ) throws -> ScoredRecipe? {
+    if let exact = try findMakeable(with: availableIds, profile: profile, limit: 1).first {
+      return exact
+    }
+    return try findNearMatch(with: availableIds, profile: profile, maxMissingRequired: 1, limit: 1)
+      .first
+  }
+
+  // MARK: - Internal Querying
+
+  private func queryRecipes(
+    with availableIds: Set<Int64>,
+    profile: HealthProfile,
+    minMissingRequired: Int,
+    maxMissingRequired: Int,
+    matchTier: RecipeMatchTier,
+    limit: Int
+  ) throws -> [ScoredRecipe] {
     guard !availableIds.isEmpty else { return [] }
 
-    let idList = availableIds.map(String.init).joined(separator: ",")
+    let idList = availableIds.sorted().map(String.init).joined(separator: ",")
+    let requiredTagMask = profile.requiredRecipeTagMask
+    let tagFilter =
+      requiredTagMask == 0 ? "" : "WHERE (r.tags & \(requiredTagMask)) = \(requiredTagMask)"
 
     let rows = try db.read { db -> [Row] in
       try Row.fetchAll(
@@ -60,20 +119,27 @@ final class RecipeRepository: Sendable {
         sql: """
           SELECT r.*,
               SUM(CASE WHEN ri.is_required = 1
-                   AND ri.ingredient_id IN (\(idList)) THEN 1 ELSE 0 END) as matched_req,
-              SUM(CASE WHEN ri.is_required = 1 THEN 1 ELSE 0 END) as total_req,
+                   AND ri.ingredient_id IN (\(idList)) THEN 1 ELSE 0 END) AS matched_req,
+              SUM(CASE WHEN ri.is_required = 1 THEN 1 ELSE 0 END) AS total_req,
               SUM(CASE WHEN ri.is_required = 0
-                   AND ri.ingredient_id IN (\(idList)) THEN 1 ELSE 0 END) as matched_opt
+                   AND ri.ingredient_id IN (\(idList)) THEN 1 ELSE 0 END) AS matched_opt,
+              SUM(CASE WHEN ri.is_required = 1
+                   AND ri.ingredient_id NOT IN (\(idList)) THEN 1 ELSE 0 END) AS missing_req,
+              GROUP_CONCAT(CASE WHEN ri.is_required = 1
+                   AND ri.ingredient_id NOT IN (\(idList)) THEN ri.ingredient_id END) AS missing_req_ids
           FROM recipes r
           JOIN recipe_ingredients ri ON r.id = ri.recipe_id
+          \(tagFilter)
           GROUP BY r.id
-          HAVING matched_req = total_req
-          ORDER BY matched_req DESC, matched_opt DESC, r.time_minutes ASC
-          """)
+          HAVING missing_req BETWEEN ? AND ?
+          ORDER BY missing_req ASC, matched_req DESC, matched_opt DESC, r.time_minutes ASC
+          """,
+        arguments: [minMissingRequired, maxMissingRequired]
+      )
     }
 
-    let allergenIds = Set(profile.parsedAllergenIds)
-
+    let excludedIngredientIds = Set(profile.parsedAllergenIds).union(
+      profile.dietaryExcludedIngredientIds)
     var results: [ScoredRecipe] = []
 
     for row in rows {
@@ -90,71 +156,201 @@ final class RecipeRepository: Sendable {
 
       guard let recipeId = recipe.id else { continue }
 
-      // Filter out recipes containing allergens
-      if !allergenIds.isEmpty {
-        let hasAllergen =
-          try db.read { db in
-            try Bool.fetchOne(
-              db,
-              sql: """
-                SELECT EXISTS(
-                    SELECT 1 FROM recipe_ingredients
-                    WHERE recipe_id = ?
-                    AND ingredient_id IN (\(allergenIds.map(String.init).joined(separator: ",")))
-                )
-                """, arguments: [recipeId])
-          } ?? false
-
-        if hasAllergen { continue }
+      // Filter out recipes containing either explicit allergens or restriction exclusions.
+      if !excludedIngredientIds.isEmpty {
+        let hasExcluded = try recipeContainsAnyIngredient(
+          recipeId: recipeId,
+          ingredientIds: excludedIngredientIds
+        )
+        if hasExcluded { continue }
       }
+
+      let matchedRequired: Int = row["matched_req"]
+      let totalRequired: Int = row["total_req"]
+      let matchedOptional: Int = row["matched_opt"] as? Int ?? 0
+      let missingRequired: Int =
+        row["missing_req"] as? Int ?? max(totalRequired - matchedRequired, 0)
+      let missingIngredientIds = parseIngredientIDList(row["missing_req_ids"] as String?)
 
       let macros = try nutritionService.macros(for: recipeId)
       let healthScore = try healthScoringService.score(macros: macros)
       let personalScore = try personalizationService.personalScore(for: recipeId)
+      let rankingScore = Self.sharedRankingScore(
+        recipe: recipe,
+        matchedRequired: matchedRequired,
+        totalRequired: totalRequired,
+        matchedOptional: matchedOptional,
+        missingRequiredCount: missingRequired,
+        macros: macros,
+        healthScore: healthScore,
+        personalScore: personalScore,
+        profile: profile
+      )
+
+      let reasons = Self.rankingReasons(
+        recipe: recipe,
+        missingRequiredCount: missingRequired,
+        macros: macros,
+        healthScore: healthScore,
+        profile: profile
+      )
 
       results.append(
         ScoredRecipe(
           recipe: recipe,
-          matchedRequired: row["matched_req"] as Int,
-          totalRequired: row["total_req"] as Int,
-          matchedOptional: row["matched_opt"] as? Int ?? 0,
+          matchedRequired: matchedRequired,
+          totalRequired: totalRequired,
+          matchedOptional: matchedOptional,
+          missingRequiredCount: missingRequired,
+          missingIngredientIds: missingIngredientIds,
           macros: macros,
           healthScore: healthScore,
-          personalScore: personalScore
-        ))
-
-      if results.count >= limit { break }
+          personalScore: personalScore,
+          rankingScore: rankingScore,
+          rankingReasons: reasons,
+          matchTier: matchTier
+        )
+      )
     }
 
-    // Sort by combined score
-    results.sort { $0.combinedScore > $1.combinedScore }
+    results.sort { lhs, rhs in
+      if lhs.rankingScore == rhs.rankingScore {
+        if lhs.missingRequiredCount == rhs.missingRequiredCount {
+          return lhs.recipe.timeMinutes < rhs.recipe.timeMinutes
+        }
+        return lhs.missingRequiredCount < rhs.missingRequiredCount
+      }
+      return lhs.rankingScore > rhs.rankingScore
+    }
 
+    if results.count > limit {
+      return Array(results.prefix(limit))
+    }
     return results
   }
 
-  // MARK: - Quick Suggestion ("Make Something Now")
+  private func recipeContainsAnyIngredient(recipeId: Int64, ingredientIds: Set<Int64>) throws
+    -> Bool
+  {
+    guard !ingredientIds.isEmpty else { return false }
+    let ingredientList = ingredientIds.sorted().map(String.init).joined(separator: ",")
 
-  /// Returns the single best recipe optimized for speed + health + freshness.
-  func quickSuggestion(
-    with availableIds: Set<Int64>,
+    return try db.read { db in
+      try Bool.fetchOne(
+        db,
+        sql: """
+          SELECT EXISTS(
+              SELECT 1
+              FROM recipe_ingredients
+              WHERE recipe_id = ?
+              AND ingredient_id IN (\(ingredientList))
+          )
+          """,
+        arguments: [recipeId]
+      ) ?? false
+    }
+  }
+
+  private func parseIngredientIDList(_ csv: String?) -> [Int64] {
+    guard let csv, !csv.isEmpty else { return [] }
+    return
+      csv
+      .split(separator: ",")
+      .compactMap { Int64($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
+  }
+
+  private static func sharedRankingScore(
+    recipe: Recipe,
+    matchedRequired: Int,
+    totalRequired: Int,
+    matchedOptional: Int,
+    missingRequiredCount: Int,
+    macros: RecipeMacros,
+    healthScore: HealthScore,
+    personalScore: Double,
     profile: HealthProfile
-  ) throws -> ScoredRecipe? {
-    var candidates = try findMakeable(with: availableIds, profile: profile, limit: 5)
+  ) -> Double {
+    let requiredCoverage = Double(matchedRequired) / Double(max(totalRequired, 1))
+    let optionalContribution = Double(matchedOptional) * 2.5
+    let healthContribution = Double(healthScore.rating) * 6.5
+    let personalizationContribution = personalScore * 8.0
 
-    // Re-sort prioritizing quick cook time
-    candidates.sort { a, b in
-      let aScore =
-        Double(a.healthScore.rating) * 10.0
-        - Double(a.recipe.timeMinutes)
-        + a.personalScore * 5.0
-      let bScore =
-        Double(b.healthScore.rating) * 10.0
-        - Double(b.recipe.timeMinutes)
-        + b.personalScore * 5.0
-      return aScore > bScore
+    var score =
+      requiredCoverage * 72.0
+      + optionalContribution
+      + healthContribution
+      + personalizationContribution
+
+    if recipe.timeMinutes <= 15 {
+      score += 6.0
+    } else if recipe.timeMinutes <= 30 {
+      score += 3.0
     }
 
-    return candidates.first
+    switch profile.goal {
+    case .muscleGain:
+      score += min(macros.proteinPerServing / 8.0, 8.0)
+    case .weightLoss:
+      score += macros.caloriesPerServing <= 550 ? 5.0 : -3.0
+    case .maintenance:
+      score += (macros.caloriesPerServing >= 450 && macros.caloriesPerServing <= 750) ? 3.0 : 0.0
+    case .general:
+      break
+    }
+
+    if recipe.recipeTags.contains(.highProtein) || macros.proteinPerServing >= 24 {
+      score += 4.0
+    }
+
+    score -= Double(max(0, missingRequiredCount)) * 24.0
+    return score
+  }
+
+  private static func rankingReasons(
+    recipe: Recipe,
+    missingRequiredCount: Int,
+    macros: RecipeMacros,
+    healthScore: HealthScore,
+    profile: HealthProfile
+  ) -> [String] {
+    var reasons: [String] = []
+
+    if missingRequiredCount == 0 {
+      reasons.append("Complete match")
+    } else {
+      reasons.append("Almost there (missing \(missingRequiredCount))")
+    }
+
+    if recipe.timeMinutes <= 20 {
+      reasons.append("Quick cook")
+    }
+
+    switch profile.goal {
+    case .muscleGain:
+      if macros.proteinPerServing >= 25 {
+        reasons.append("Fits your goal")
+      }
+    case .weightLoss:
+      if macros.caloriesPerServing <= 550 {
+        reasons.append("Fits your goal")
+      }
+    case .maintenance:
+      if macros.caloriesPerServing >= 450 && macros.caloriesPerServing <= 750 {
+        reasons.append("Fits your goal")
+      }
+    case .general:
+      break
+    }
+
+    if recipe.recipeTags.contains(.highProtein) || macros.proteinPerServing >= 24 {
+      reasons.append("High protein")
+    }
+
+    if reasons.count < 2, healthScore.rating >= 4 {
+      reasons.append("High health score")
+    }
+
+    return Array(reasons.prefix(4))
   }
 
   // MARK: - Recipe by ID

@@ -87,6 +87,22 @@ final class UserDataRepository: Sendable {
     }
   }
 
+  /// Get the most recent photo path for a recipe, if any.
+  func latestPhotoPath(forRecipeId recipeId: Int64) throws -> String? {
+    try db.read { db in
+      try String.fetchOne(
+        db,
+        sql: """
+          SELECT image_path FROM cooking_history
+          WHERE recipe_id = ? AND image_path IS NOT NULL
+          ORDER BY cooked_at DESC
+          LIMIT 1
+          """,
+        arguments: [recipeId]
+      )
+    }
+  }
+
   func mealsByDay(lastDays: Int) throws -> [DailyCookingPoint] {
     let safeDays = max(1, lastDays)
     let modifier = "-\(safeDays - 1) days"

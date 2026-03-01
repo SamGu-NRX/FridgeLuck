@@ -8,6 +8,16 @@ struct CookingHistory: Identifiable, Sendable, Codable {
   var recipeId: Int64
   var cookedAt: Date?
   var rating: Int?  // 1-5 stars, nil if unrated
+  var imagePath: String?  // relative path in app documents
+  var servingsConsumed: Int?  // how many servings the user ate
+
+  init(recipeId: Int64, rating: Int? = nil, imagePath: String? = nil, servingsConsumed: Int? = nil)
+  {
+    self.recipeId = recipeId
+    self.rating = rating
+    self.imagePath = imagePath
+    self.servingsConsumed = servingsConsumed
+  }
 }
 
 extension CookingHistory: FetchableRecord, PersistableRecord, TableRecord {
@@ -18,6 +28,8 @@ extension CookingHistory: FetchableRecord, PersistableRecord, TableRecord {
     case recipeId = "recipe_id"
     case cookedAt = "cooked_at"
     case rating
+    case imagePath = "image_path"
+    case servingsConsumed = "servings_consumed"
   }
 }
 

@@ -69,6 +69,13 @@ struct HealthProfile: Sendable, Codable {
     return array
   }
 
+  var normalizedDietaryRestrictionIDs: Set<String> {
+    Set(
+      parsedDietaryRestrictions.map {
+        $0.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+      })
+  }
+
   var parsedAllergenIds: [Int64] {
     guard let data = allergenIngredientIds.data(using: .utf8),
       let array = try? JSONDecoder().decode([Int64].self, from: data)
@@ -76,6 +83,55 @@ struct HealthProfile: Sendable, Codable {
       return []
     }
     return array
+  }
+}
+
+extension HealthProfile {
+  var requiredRecipeTagMask: Int {
+    var tags: RecipeTags = []
+    let restrictions = normalizedDietaryRestrictionIDs
+
+    if restrictions.contains("vegan") {
+      tags.insert(.vegan)
+    } else if restrictions.contains("vegetarian") {
+      tags.insert(.vegetarian)
+    }
+
+    if restrictions.contains("low_carb") {
+      tags.insert(.lowCarb)
+    }
+
+    return tags.rawValue
+  }
+
+  var dietaryExcludedIngredientIds: Set<Int64> {
+    let restrictions = normalizedDietaryRestrictionIDs
+    var excluded: Set<Int64> = []
+
+    if restrictions.contains("dairy_free") || restrictions.contains("vegan") {
+      excluded.formUnion([12, 13, 14, 32, 50])  // cheese, milk, butter, yogurt, sour cream
+    }
+
+    if restrictions.contains("gluten_free") {
+      excluded.formUnion([9, 15, 28, 31])  // pasta, bread, tortilla, oats
+    }
+
+    return excluded
+  }
+
+  var activeDietaryBadges: [String] {
+    let labels: [(String, String)] = [
+      ("vegetarian", "Vegetarian"),
+      ("vegan", "Vegan"),
+      ("gluten_free", "Gluten Free"),
+      ("dairy_free", "Dairy Free"),
+      ("low_carb", "Low Carb"),
+    ]
+
+    let restrictions = normalizedDietaryRestrictionIDs
+    return labels.compactMap { id, label in
+      restrictions.contains(id) ? label : nil
+    }
   }
 }
 

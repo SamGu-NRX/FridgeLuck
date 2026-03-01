@@ -385,3 +385,142 @@ struct FLAnalyzingPulse: View {
     }
   }
 }
+
+// MARK: - Star Rating
+
+/// Interactive 5-star rating with spring animation on each star.
+struct FLStarRating: View {
+  @Binding var rating: Int
+  var maxRating: Int = 5
+  var size: CGFloat = 28
+
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @State private var animatingStars: Set<Int> = []
+
+  var body: some View {
+    HStack(spacing: AppTheme.Space.xs) {
+      ForEach(1...maxRating, id: \.self) { star in
+        Button {
+          let newRating = star == rating ? 0 : star
+          withAnimation(reduceMotion ? nil : AppMotion.starBounce) {
+            rating = newRating
+          }
+          if !reduceMotion {
+            animatingStars.insert(star)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+              animatingStars.remove(star)
+            }
+          }
+        } label: {
+          Image(systemName: star <= rating ? "star.fill" : "star")
+            .font(.system(size: size))
+            .foregroundStyle(star <= rating ? AppTheme.accent : AppTheme.oat.opacity(0.4))
+            .scaleEffect(animatingStars.contains(star) ? 1.25 : 1.0)
+            .animation(reduceMotion ? nil : AppMotion.starBounce, value: animatingStars)
+        }
+        .buttonStyle(.plain)
+      }
+    }
+  }
+}
+
+// MARK: - Serving Stepper
+
+/// Elegant serving size selector with animated counter display.
+struct FLServingStepper: View {
+  @Binding var servings: Int
+  var range: ClosedRange<Int> = 1...8
+  var label: String = "Servings"
+
+  var body: some View {
+    HStack(spacing: AppTheme.Space.md) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+        Text(label)
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
+        Text("\(servings) serving\(servings == 1 ? "" : "s")")
+          .font(AppTheme.Typography.displayCaption)
+          .foregroundStyle(AppTheme.textPrimary)
+          .contentTransition(.numericText())
+      }
+
+      Spacer()
+
+      HStack(spacing: AppTheme.Space.sm) {
+        stepperButton(systemImage: "minus", enabled: servings > range.lowerBound) {
+          withAnimation(AppMotion.quick) { servings -= 1 }
+        }
+
+        Text("\(servings)")
+          .font(AppTheme.Typography.dataMedium)
+          .foregroundStyle(AppTheme.textPrimary)
+          .frame(width: 32)
+          .contentTransition(.numericText())
+
+        stepperButton(systemImage: "plus", enabled: servings < range.upperBound) {
+          withAnimation(AppMotion.quick) { servings += 1 }
+        }
+      }
+    }
+    .padding(AppTheme.Space.md)
+    .background(
+      AppTheme.surfaceMuted.opacity(0.5),
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+    )
+  }
+
+  private func stepperButton(systemImage: String, enabled: Bool, action: @escaping () -> Void)
+    -> some View
+  {
+    Button(action: action) {
+      Image(systemName: systemImage)
+        .font(.system(size: 14, weight: .bold))
+        .foregroundStyle(enabled ? AppTheme.accent : AppTheme.textSecondary.opacity(0.3))
+        .frame(width: 36, height: 36)
+        .background(
+          enabled ? AppTheme.accent.opacity(0.12) : AppTheme.surfaceMuted,
+          in: Circle()
+        )
+    }
+    .buttonStyle(FLPressableButtonStyle())
+    .disabled(!enabled)
+  }
+}
+
+// MARK: - Macro Ring
+
+/// Circular macro breakdown visualization for the celebration screen.
+struct FLMacroRing: View {
+  let proteinPct: Double
+  let carbsPct: Double
+  let fatPct: Double
+  var size: CGFloat = 120
+  var lineWidth: CGFloat = 12
+
+  var body: some View {
+    ZStack {
+      // Background track
+      Circle()
+        .stroke(AppTheme.surfaceMuted, lineWidth: lineWidth)
+
+      // Fat arc (bottom layer)
+      Circle()
+        .trim(from: 0, to: proteinPct + carbsPct + fatPct)
+        .stroke(AppTheme.accentLight, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+        .rotationEffect(.degrees(-90))
+
+      // Carbs arc (middle layer)
+      Circle()
+        .trim(from: 0, to: proteinPct + carbsPct)
+        .stroke(AppTheme.oat, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+        .rotationEffect(.degrees(-90))
+
+      // Protein arc (top layer)
+      Circle()
+        .trim(from: 0, to: proteinPct)
+        .stroke(AppTheme.sage, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+        .rotationEffect(.degrees(-90))
+    }
+    .frame(width: size, height: size)
+  }
+}

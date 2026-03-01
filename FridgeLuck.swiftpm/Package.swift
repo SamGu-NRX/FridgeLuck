@@ -27,11 +27,12 @@ let package = Package(
         .landscapeRight,
         .landscapeLeft,
         .portraitUpsideDown(.when(deviceFamilies: [.pad])),
-      ]
+      ],
+      additionalInfoPlistContentFilePath: "Support/AdditionalInfo.plist"
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0")
+    .package(path: "Vendor/GRDB.swift")
   ],
   targets: [
     .executableTarget(
@@ -40,6 +41,9 @@ let package = Package(
         .product(name: "GRDB", package: "GRDB.swift")
       ],
       path: ".",
+      exclude: [
+        "Vendor"
+      ],
       resources: [
         .process("Resources")
       ]

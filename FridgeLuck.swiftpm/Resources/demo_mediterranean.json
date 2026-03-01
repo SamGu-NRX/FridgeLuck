@@ -1,0 +1,60 @@
+[
+  {
+    "ingredientId": 7,
+    "label": "Tomato",
+    "confidence": 0.95,
+    "source": "vision",
+    "originalVisionLabel": "tomato",
+    "alternatives": [
+      { "ingredientId": 8, "label": "Bell Pepper" }
+    ]
+  },
+  {
+    "ingredientId": 25,
+    "label": "Cucumber",
+    "confidence": 0.90,
+    "source": "vision",
+    "originalVisionLabel": "cucumber"
+  },
+  {
+    "ingredientId": 35,
+    "label": "Chickpea",
+    "confidence": 0.86,
+    "source": "vision",
+    "originalVisionLabel": "chickpea",
+    "alternatives": [
+      { "ingredientId": 27, "label": "Black Beans" }
+    ]
+  },
+  {
+    "ingredientId": 16,
+    "label": "Olive Oil",
+    "confidence": 0.83,
+    "source": "ocr",
+    "originalVisionLabel": "olive oil"
+  },
+  {
+    "ingredientId": 5,
+    "label": "Onion",
+    "confidence": 0.79,
+    "source": "vision",
+    "originalVisionLabel": "onion"
+  },
+  {
+    "ingredientId": 17,
+    "label": "Lemon",
+    "confidence": 0.55,
+    "source": "vision",
+    "originalVisionLabel": "lemon",
+    "alternatives": [
+      { "ingredientId": 29, "label": "Lime" }
+    ]
+  },
+  {
+    "ingredientId": 12,
+    "label": "Cheese",
+    "confidence": 0.48,
+    "source": "vision",
+    "originalVisionLabel": "cheese"
+  }
+]

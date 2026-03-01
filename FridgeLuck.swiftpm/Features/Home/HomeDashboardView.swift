@@ -5,17 +5,21 @@ struct HomeDashboardView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   @StateObject private var viewModel: HomeDashboardViewModel
+  @AppStorage("tutorialProgressStorage") private var tutorialStorageString = ""
+
   @State private var selectedTrendDate: Date?
   @State private var insightMode: InsightMode = .macros
   @State private var heroAppeared = false
   @State private var navAppeared = false
 
   let isRunningDemo: Bool
+  let onStartJudgePath: () -> Void
   let onScan: () -> Void
   let onRunDemo: () -> Void
   let onEstimate: () -> Void
   let onCompleteProfile: () -> Void
   let onProfile: () -> Void
+  let onSelectDemoScenario: (DemoScenario) -> Void
 
   private enum InsightMode: String, CaseIterable, Identifiable {
     case macros = "Macros"
@@ -26,19 +30,27 @@ struct HomeDashboardView: View {
   init(
     deps: AppDependencies,
     isRunningDemo: Bool,
+    onStartJudgePath: @escaping () -> Void,
     onScan: @escaping () -> Void,
     onRunDemo: @escaping () -> Void,
     onEstimate: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
-    onProfile: @escaping () -> Void
+    onProfile: @escaping () -> Void,
+    onSelectDemoScenario: @escaping (DemoScenario) -> Void = { _ in }
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
     self.isRunningDemo = isRunningDemo
+    self.onStartJudgePath = onStartJudgePath
     self.onScan = onScan
     self.onRunDemo = onRunDemo
     self.onEstimate = onEstimate
     self.onCompleteProfile = onCompleteProfile
     self.onProfile = onProfile
+    self.onSelectDemoScenario = onSelectDemoScenario
+  }
+
+  private var tutorialProgress: TutorialProgress {
+    TutorialProgress(storageString: tutorialStorageString)
   }
 
   // MARK: - Body
@@ -47,36 +59,13 @@ struct HomeDashboardView: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
         if let snapshot = viewModel.snapshot {
-          editorialHeader(snapshot: snapshot)
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
-
-          heroComposition
-            .padding(.bottom, AppTheme.Space.sectionBreak)
-
-          floatingStats(snapshot: snapshot)
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.sectionBreak)
-
-          rhythmSection(snapshot: snapshot)
-            .padding(.bottom, AppTheme.Space.sectionBreak)
-
-          fridgeLuckPanels(snapshot: snapshot)
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.sectionBreak)
-
-          if snapshot.shouldUseStarterMode {
-            starterPanel(snapshot: snapshot)
-              .padding(.horizontal, AppTheme.Space.page)
-              .padding(.bottom, AppTheme.Space.sectionBreak)
+          if tutorialProgress.isComplete {
+            // ---- Graduated dashboard (existing analytics view) ----
+            graduatedDashboard(snapshot: snapshot)
           } else {
-            insightSection(snapshot: snapshot)
-              .padding(.horizontal, AppTheme.Space.page)
-              .padding(.bottom, AppTheme.Space.sectionBreak)
+            // ---- Tutorial-first home page ----
+            tutorialHome(snapshot: snapshot)
           }
-
-          secondaryActions(snapshot: snapshot)
-            .padding(.horizontal, AppTheme.Space.page)
         } else if viewModel.isLoading {
           loadingState
             .padding(.horizontal, AppTheme.Space.page)
@@ -94,11 +83,15 @@ struct HomeDashboardView: View {
         .offset(y: navAppeared ? AppTheme.Home.navBaseOffset : AppTheme.Home.navBaseOffset + 20)
     }
     .task {
+      viewModel.syncTutorialProgress(tutorialProgress)
       guard viewModel.snapshot == nil else { return }
       await viewModel.load()
     }
     .refreshable {
       await viewModel.load()
+    }
+    .onChange(of: tutorialStorageString) {
+      viewModel.syncTutorialProgress(tutorialProgress)
     }
     .onAppear {
       guard !reduceMotion else {
@@ -118,6 +111,186 @@ struct HomeDashboardView: View {
           navAppeared = true
         }
       }
+    }
+  }
+
+  // MARK: - Tutorial Home
+
+  private func tutorialHome(snapshot: HomeDashboardSnapshot) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
+      // Welcome header
+      welcomeHeader
+        .padding(.horizontal, AppTheme.Space.page)
+
+      // Progress indicator
+      TutorialProgressView(progress: tutorialProgress)
+        .padding(.horizontal, AppTheme.Space.page)
+        .opacity(heroAppeared ? 1 : 0)
+        .offset(y: heroAppeared ? 0 : 10)
+
+      // Quest cards
+      questSection
+        .padding(.horizontal, AppTheme.Space.page)
+
+      // Scenario picker (shown when Quest 2 is active)
+      if tutorialProgress.currentQuest == .firstScan {
+        DemoScenarioPicker(scenarios: DemoScenario.allCases) { scenario in
+          onSelectDemoScenario(scenario)
+        }
+        .padding(.horizontal, AppTheme.Space.page)
+        .transition(
+          .asymmetric(
+            insertion: .move(edge: .bottom).combined(with: .opacity),
+            removal: .opacity
+          ))
+      }
+
+      // Quick-start hint for brand new users
+      if tutorialProgress.completedCount == 0 {
+        quickStartHint
+          .padding(.horizontal, AppTheme.Space.page)
+      }
+    }
+  }
+
+  // MARK: - Welcome Header
+
+  private var welcomeHeader: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+      Text("Welcome to")
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(AppTheme.textSecondary)
+        .textCase(.uppercase)
+        .kerning(1.2)
+
+      Text("FridgeLuck")
+        .font(AppTheme.Typography.displayLarge)
+        .foregroundStyle(AppTheme.textPrimary)
+
+      Text("Scan real ingredients. Get personalized recipes. Cook smarter.")
+        .font(AppTheme.Typography.bodyLarge)
+        .foregroundStyle(AppTheme.textSecondary)
+        .padding(.top, AppTheme.Space.xxs)
+    }
+    .opacity(heroAppeared ? 1 : 0)
+    .offset(y: heroAppeared ? 0 : 16)
+  }
+
+  // MARK: - Quest Section
+
+  private var questSection: some View {
+    VStack(spacing: AppTheme.Space.sm) {
+      ForEach(TutorialQuest.allCases) { quest in
+        let state = cardState(for: quest)
+
+        TutorialQuestCard(quest: quest, state: state) {
+          handleQuestAction(quest)
+        }
+        .opacity(heroAppeared ? 1 : 0)
+        .offset(y: heroAppeared ? 0 : 12)
+        .animation(
+          reduceMotion
+            ? nil
+            : AppMotion.cardSpring.delay(Double(quest.staggerIndex) * AppMotion.staggerDelay + 0.1),
+          value: heroAppeared
+        )
+        .animation(reduceMotion ? nil : AppMotion.standard, value: tutorialStorageString)
+      }
+    }
+  }
+
+  private func cardState(for quest: TutorialQuest) -> TutorialQuestCard.QuestCardState {
+    if tutorialProgress.isCompleted(quest) {
+      return .completed
+    } else if tutorialProgress.currentQuest == quest {
+      return .active
+    } else {
+      return .locked
+    }
+  }
+
+  private func handleQuestAction(_ quest: TutorialQuest) {
+    switch quest {
+    case .setupProfile:
+      onCompleteProfile()
+    case .firstScan:
+      // The scenario picker is shown below — no direct action from the card itself
+      // But if tapped, start with a default scenario
+      onSelectDemoScenario(.asianStirFry)
+    case .cookAndRate:
+      // Navigate to recipe results (handled by ContentView)
+      onRunDemo()
+    case .exploreMore:
+      onEstimate()
+    }
+  }
+
+  // MARK: - Quick Start Hint
+
+  private var quickStartHint: some View {
+    HStack(spacing: AppTheme.Space.sm) {
+      Image(systemName: "lightbulb.fill")
+        .font(.system(size: 16, weight: .medium))
+        .foregroundStyle(AppTheme.oat)
+
+      Text("Start with \u{201C}Set Up Your Kitchen\u{201D} \u{2014} it takes about 30 seconds.")
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(AppTheme.textSecondary)
+    }
+    .padding(AppTheme.Space.md)
+    .background(
+      AppTheme.oat.opacity(0.08),
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+        .stroke(AppTheme.oat.opacity(0.18), lineWidth: 1)
+    )
+  }
+
+  // MARK: - Mark Quest Completed (callable from outside)
+
+  func markQuestCompleted(_ quest: TutorialQuest) {
+    var progress = tutorialProgress
+    progress.markCompleted(quest)
+    tutorialStorageString = progress.storageString
+    viewModel.completeQuest(quest)
+  }
+
+  // MARK: - Graduated Dashboard (existing analytics)
+
+  private func graduatedDashboard(snapshot: HomeDashboardSnapshot) -> some View {
+    VStack(alignment: .leading, spacing: 0) {
+      editorialHeader(snapshot: snapshot)
+        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.bottom, AppTheme.Space.lg)
+
+      heroComposition
+        .padding(.bottom, AppTheme.Space.sectionBreak)
+
+      floatingStats(snapshot: snapshot)
+        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.bottom, AppTheme.Space.sectionBreak)
+
+      rhythmSection(snapshot: snapshot)
+        .padding(.bottom, AppTheme.Space.sectionBreak)
+
+      fridgeLuckPanels(snapshot: snapshot)
+        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.bottom, AppTheme.Space.sectionBreak)
+
+      if snapshot.shouldUseStarterMode {
+        starterPanel(snapshot: snapshot)
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.sectionBreak)
+      } else {
+        insightSection(snapshot: snapshot)
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.sectionBreak)
+      }
+
+      secondaryActions(snapshot: snapshot)
+        .padding(.horizontal, AppTheme.Space.page)
     }
   }
 
@@ -168,50 +341,89 @@ struct HomeDashboardView: View {
   // MARK: - Hero Composition (NOT a card)
 
   private var heroComposition: some View {
-    Button(action: onScan) {
+    VStack(alignment: .leading, spacing: AppTheme.Space.md) {
       VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
-        // Floating camera icon over the composition
-        Image(systemName: "camera.fill")
+        Image(systemName: "bolt.fill")
           .font(.system(size: 32, weight: .semibold))
           .foregroundStyle(.white.opacity(0.9))
           .frame(width: 64, height: 64)
           .background(Circle().fill(.white.opacity(0.15)))
 
         VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-          Text("What's possible?")
+          Text("Judge Path")
             .font(AppTheme.Typography.displayLarge)
             .foregroundStyle(.white)
 
-          Text("Scan your fridge and let serendipity find dinner.")
+          Text("Complete demo photo, review, and best recipe in about 60 seconds.")
             .font(AppTheme.Typography.bodyLarge)
             .foregroundStyle(.white.opacity(0.78))
         }
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(AppTheme.Space.page)
-      .padding(.vertical, AppTheme.Space.lg)
-      .background(
-        LinearGradient(
-          colors: [AppTheme.accent, AppTheme.accent.opacity(0.85)],
-          startPoint: .topLeading,
-          endPoint: .bottomTrailing
-        )
-      )
-      .overlay(alignment: .topTrailing) {
-        Circle()
-          .fill(.white.opacity(0.06))
-          .frame(width: 200, height: 200)
-          .blur(radius: 40)
-          .offset(x: 60, y: -50)
-          .allowsHitTesting(false)
+
+      VStack(spacing: AppTheme.Space.sm) {
+        FLPrimaryButton("Start 60-sec demo", systemImage: "play.fill") {
+          onStartJudgePath()
+        }
+
+        FLSecondaryButton("Scan Fridge", systemImage: "camera.fill") {
+          onScan()
+        }
       }
-      .clipShape(FLDiagonalClip(cutHeight: 32))
-      .shadow(color: AppTheme.accent.opacity(0.20), radius: 24, x: 0, y: 12)
+
+      HStack(spacing: AppTheme.Space.xs) {
+        judgeStepChip(index: 1, text: "Demo photo")
+        Image(systemName: "arrow.right")
+          .font(.system(size: 11, weight: .medium))
+          .foregroundStyle(.white.opacity(0.72))
+        judgeStepChip(index: 2, text: "Review")
+        Image(systemName: "arrow.right")
+          .font(.system(size: 11, weight: .medium))
+          .foregroundStyle(.white.opacity(0.72))
+        judgeStepChip(index: 3, text: "Best recipe")
+      }
+      .accessibilityElement(children: .combine)
+      .accessibilityLabel("Demo flow: demo photo, review, best recipe")
     }
-    .buttonStyle(FLHeroCardButtonStyle())
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(AppTheme.Space.page)
+    .padding(.vertical, AppTheme.Space.lg)
+    .background(
+      LinearGradient(
+        colors: [AppTheme.accent, AppTheme.accent.opacity(0.85)],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+      )
+    )
+    .overlay(alignment: .topTrailing) {
+      Circle()
+        .fill(.white.opacity(0.06))
+        .frame(width: 200, height: 200)
+        .blur(radius: 40)
+        .offset(x: 60, y: -50)
+        .allowsHitTesting(false)
+    }
+    .clipShape(FLDiagonalClip(cutHeight: 32))
+    .shadow(color: AppTheme.accent.opacity(0.20), radius: 24, x: 0, y: 12)
     .opacity(heroAppeared ? 1 : 0)
     .offset(y: heroAppeared ? 0 : 16)
-    .accessibilityLabel("Scan your fridge")
+  }
+
+  private func judgeStepChip(index: Int, text: String) -> some View {
+    HStack(spacing: AppTheme.Space.xxxs) {
+      Text("\(index)")
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(.white.opacity(0.92))
+        .padding(.horizontal, AppTheme.Space.xs)
+        .padding(.vertical, AppTheme.Space.xxxs)
+        .background(.white.opacity(0.16), in: Capsule())
+
+      Text(text)
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(.white.opacity(0.86))
+    }
+    .padding(.horizontal, AppTheme.Space.xs)
+    .padding(.vertical, AppTheme.Space.chipVertical)
+    .background(.white.opacity(0.10), in: Capsule())
   }
 
   // MARK: - Floating Stats (NOT in a card)
@@ -249,7 +461,6 @@ struct HomeDashboardView: View {
 
   private func rhythmSection(snapshot: HomeDashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-      // Title overlaid at top-left, inside page margins
       HStack(alignment: .center) {
         VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
           Text("Your Rhythm")
@@ -266,7 +477,6 @@ struct HomeDashboardView: View {
       }
       .padding(.horizontal, AppTheme.Space.page)
 
-      // Chart fills edge-to-edge
       Chart(snapshot.mealsLast14Days) { point in
         AreaMark(
           x: .value("Day", point.date),
@@ -335,7 +545,6 @@ struct HomeDashboardView: View {
       .padding(.horizontal, AppTheme.Space.xs)
       .accessibilityLabel("Your cooking rhythm chart for last fourteen days")
 
-      // Wave divider underneath
       FLWaveDivider()
         .padding(.horizontal, AppTheme.Space.page)
     }
@@ -345,7 +554,6 @@ struct HomeDashboardView: View {
 
   private func fridgeLuckPanels(snapshot: HomeDashboardSnapshot) -> some View {
     ZStack(alignment: .topLeading) {
-      // Left panel: Your Fridge (torn-edge, slightly rotated)
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         Text("Your Fridge")
           .font(AppTheme.Typography.displayCaption)
@@ -371,7 +579,6 @@ struct HomeDashboardView: View {
       .rotationEffect(.degrees(-1.2), anchor: .bottomLeading)
       .frame(width: UIScreen.main.bounds.width * 0.58)
 
-      // Right panel: Your Luck (contrasting, overlapping)
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         Text("Your Luck")
           .font(AppTheme.Typography.displayCaption)
@@ -641,20 +848,20 @@ struct HomeDashboardView: View {
     .animation(reduceMotion ? nil : AppMotion.standard, value: navAppeared)
   }
 
-  private struct FLNavOrbButtonStyle: ButtonStyle {
+  private struct FLNavOrbButtonStyle: SwiftUI.ButtonStyle {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    func makeBody(configuration: Configuration) -> some View {
+    func makeBody(configuration: SwiftUI.ButtonStyleConfiguration) -> some View {
       configuration.label
         .scaleEffect(configuration.isPressed ? 0.94 : 1)
         .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
     }
   }
 
-  private struct FLNavItemButtonStyle: ButtonStyle {
+  private struct FLNavItemButtonStyle: SwiftUI.ButtonStyle {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    func makeBody(configuration: Configuration) -> some View {
+    func makeBody(configuration: SwiftUI.ButtonStyleConfiguration) -> some View {
       configuration.label
         .opacity(configuration.isPressed ? 0.80 : 1)
         .scaleEffect(configuration.isPressed ? 0.97 : 1)

@@ -1,0 +1,56 @@
+[
+  {
+    "ingredientId": 27,
+    "label": "Black Beans",
+    "confidence": 0.93,
+    "source": "vision",
+    "originalVisionLabel": "black beans",
+    "alternatives": [
+      { "ingredientId": 35, "label": "Chickpea" }
+    ]
+  },
+  {
+    "ingredientId": 28,
+    "label": "Tortilla",
+    "confidence": 0.90,
+    "source": "vision",
+    "originalVisionLabel": "tortilla",
+    "alternatives": [
+      { "ingredientId": 15, "label": "Bread" }
+    ]
+  },
+  {
+    "ingredientId": 26,
+    "label": "Avocado",
+    "confidence": 0.88,
+    "source": "vision",
+    "originalVisionLabel": "avocado"
+  },
+  {
+    "ingredientId": 29,
+    "label": "Lime",
+    "confidence": 0.82,
+    "source": "vision",
+    "originalVisionLabel": "lime",
+    "alternatives": [
+      { "ingredientId": 17, "label": "Lemon" }
+    ]
+  },
+  {
+    "ingredientId": 7,
+    "label": "Tomato",
+    "confidence": 0.78,
+    "source": "vision",
+    "originalVisionLabel": "tomato",
+    "alternatives": [
+      { "ingredientId": 8, "label": "Bell Pepper" }
+    ]
+  },
+  {
+    "ingredientId": 12,
+    "label": "Cheese",
+    "confidence": 0.52,
+    "source": "vision",
+    "originalVisionLabel": "cheese"
+  }
+]

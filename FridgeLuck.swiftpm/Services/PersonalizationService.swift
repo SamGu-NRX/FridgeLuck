@@ -58,9 +58,19 @@ final class PersonalizationService: Sendable {
 
   // MARK: - Record cooking event
 
-  func recordCooking(recipeId: Int64, rating: Int? = nil) throws {
+  func recordCooking(
+    recipeId: Int64,
+    rating: Int? = nil,
+    imagePath: String? = nil,
+    servingsConsumed: Int? = nil
+  ) throws {
     try db.write { db in
-      let history = CookingHistory(recipeId: recipeId, rating: rating)
+      let history = CookingHistory(
+        recipeId: recipeId,
+        rating: rating,
+        imagePath: imagePath,
+        servingsConsumed: servingsConsumed
+      )
       try history.insert(db)
 
       // Update streak

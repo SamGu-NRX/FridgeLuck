@@ -1,0 +1,56 @@
+[
+  {
+    "ingredientId": 1,
+    "label": "Egg",
+    "confidence": 0.94,
+    "source": "vision",
+    "originalVisionLabel": "egg",
+    "alternatives": [
+      { "ingredientId": 23, "label": "Tofu" }
+    ]
+  },
+  {
+    "ingredientId": 15,
+    "label": "Bread",
+    "confidence": 0.91,
+    "source": "vision",
+    "originalVisionLabel": "bread",
+    "alternatives": [
+      { "ingredientId": 28, "label": "Tortilla" }
+    ]
+  },
+  {
+    "ingredientId": 20,
+    "label": "Banana",
+    "confidence": 0.89,
+    "source": "vision",
+    "originalVisionLabel": "banana"
+  },
+  {
+    "ingredientId": 13,
+    "label": "Milk",
+    "confidence": 0.87,
+    "source": "vision",
+    "originalVisionLabel": "milk",
+    "alternatives": [
+      { "ingredientId": 34, "label": "Yogurt" }
+    ]
+  },
+  {
+    "ingredientId": 14,
+    "label": "Butter",
+    "confidence": 0.62,
+    "source": "vision",
+    "originalVisionLabel": "butter",
+    "alternatives": [
+      { "ingredientId": 16, "label": "Olive Oil" }
+    ]
+  },
+  {
+    "ingredientId": 31,
+    "label": "Oats",
+    "confidence": 0.45,
+    "source": "vision",
+    "originalVisionLabel": "oats"
+  }
+]

@@ -25,6 +25,7 @@ struct HomeDashboardSnapshot: Sendable {
   let weekdayDistribution: [WeekdayCookingPoint]
   let healthProfile: HealthProfile?
   let totalMealsCooked: Int
+  let tutorialProgress: TutorialProgress
 
   var shouldUseStarterMode: Bool {
     totalMealsCooked < 3
