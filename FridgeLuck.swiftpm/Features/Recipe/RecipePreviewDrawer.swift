@@ -13,6 +13,9 @@ struct RecipePreviewDrawer: View {
 
   @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
   @State private var selectedIngredientForDetail: Ingredient?
+  @State private var substitutionTarget: (ingredient: Ingredient, quantity: RecipeIngredient)?
+  @State private var activeSubstitutions:
+    [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:]
   @State private var sectionsRevealed: Int = 0
   @State private var existingPhoto: UIImage?
 
@@ -60,6 +63,26 @@ struct RecipePreviewDrawer: View {
     }
     .sheet(item: $selectedIngredientForDetail) { ingredient in
       IngredientDetailSheet(ingredient: ingredient)
+    }
+    .sheet(
+      item: Binding(
+        get: {
+          substitutionTarget.map {
+            SubstitutionTargetWrapper(ingredient: $0.ingredient, quantity: $0.quantity)
+          }
+        },
+        set: { wrapper in substitutionTarget = wrapper.map { ($0.ingredient, $0.quantity) } }
+      )
+    ) { target in
+      SubstitutionSheet(
+        ingredient: target.ingredient,
+        quantityGrams: target.quantity.quantityGrams,
+        displayQuantity: target.quantity.displayQuantity
+      ) { substitution, subIngredient in
+        withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
+          activeSubstitutions[target.ingredient.id ?? -1] = (substitution, subIngredient)
+        }
+      }
     }
   }
 
@@ -314,32 +337,71 @@ struct RecipePreviewDrawer: View {
   private func ingredientRow(
     _ ingredient: Ingredient, quantity: RecipeIngredient, isRequired: Bool
   ) -> some View {
-    Button {
-      selectedIngredientForDetail = ingredient
-    } label: {
-      HStack(spacing: AppTheme.Space.sm) {
-        Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
-          .foregroundStyle(isRequired ? AppTheme.positive : AppTheme.textSecondary)
-          .font(AppTheme.Typography.label)
+    let hasSwap = deps.substitutionService.hasSubstitutions(for: ingredient.id ?? -1)
+    let activeSub = activeSubstitutions[ingredient.id ?? -1]
 
-        Text(ingredient.displayName)
-          .font(AppTheme.Typography.bodyMedium)
-          .foregroundStyle(AppTheme.textPrimary)
+    return HStack(spacing: AppTheme.Space.sm) {
+      // Tap the main content to view ingredient detail
+      Button {
+        selectedIngredientForDetail = activeSub?.ingredient ?? ingredient
+      } label: {
+        HStack(spacing: AppTheme.Space.sm) {
+          Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
+            .foregroundStyle(isRequired ? AppTheme.positive : AppTheme.textSecondary)
+            .font(AppTheme.Typography.label)
 
-        Spacer()
+          if let sub = activeSub {
+            // Show substituted ingredient with visual indicator
+            VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+              Text(sub.ingredient.displayName)
+                .font(AppTheme.Typography.bodyMedium)
+                .foregroundStyle(AppTheme.sage)
+              Text("replaces \(ingredient.displayName)")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+          } else {
+            Text(ingredient.displayName)
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.textPrimary)
+          }
 
-        Text(quantity.displayQuantity)
-          .font(AppTheme.Typography.label)
-          .foregroundStyle(AppTheme.textSecondary)
+          Spacer()
+
+          Text(quantity.displayQuantity)
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
       }
-      .padding(.horizontal, AppTheme.Space.xs)
-      .padding(.vertical, AppTheme.Space.xs)
-      .background(
-        AppTheme.surfaceMuted.opacity(0.4),
-        in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm)
-      )
+      .buttonStyle(.plain)
+
+      // Swap button (only if substitutions exist)
+      if hasSwap {
+        Button {
+          substitutionTarget = (ingredient, quantity)
+        } label: {
+          Image(systemName: activeSub != nil ? "arrow.triangle.swap" : "arrow.triangle.swap")
+            .font(.system(size: 13, weight: .semibold))
+            .foregroundStyle(activeSub != nil ? AppTheme.sage : AppTheme.accent)
+            .frame(width: 30, height: 30)
+            .background(
+              activeSub != nil ? AppTheme.sage.opacity(0.12) : AppTheme.accentMuted,
+              in: Circle()
+            )
+        }
+        .buttonStyle(.plain)
+      }
     }
-    .buttonStyle(.plain)
+    .padding(.horizontal, AppTheme.Space.xs)
+    .padding(.vertical, AppTheme.Space.xs)
+    .background(
+      activeSub != nil ? AppTheme.sage.opacity(0.05) : AppTheme.surfaceMuted.opacity(0.4),
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm)
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: AppTheme.Radius.sm)
+        .stroke(activeSub != nil ? AppTheme.sage.opacity(0.2) : Color.clear, lineWidth: 1)
+    )
   }
 
   // MARK: - Bottom CTA
@@ -399,4 +461,13 @@ struct RecipePreviewDrawer: View {
       existingPhoto = deps.imageStorageService.load(relativePath: path)
     }
   }
+}
+
+// MARK: - Substitution Target Wrapper
+
+/// Identifiable wrapper so `.sheet(item:)` works with our tuple.
+private struct SubstitutionTargetWrapper: Identifiable {
+  let ingredient: Ingredient
+  let quantity: RecipeIngredient
+  var id: Int64 { ingredient.id ?? -1 }
 }

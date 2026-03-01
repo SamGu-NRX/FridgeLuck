@@ -14,9 +14,12 @@ struct OnboardingView: View {
   @State private var selectedRestrictions: Set<String> = []
   @State private var selectedAllergens: Set<Int64> = []
   @State private var allIngredients: [Ingredient] = []
+  @State private var ingredientByID: [Int64: Ingredient] = [:]
+  @State private var allergenGroupMatchesByID: [String: Set<Int64>] = [:]
 
   @State private var stepIndex = 0
   @State private var stepDirection: StepDirection = .forward
+  @State private var isTransitioning = false
   @State private var isLoaded = false
   @State private var isSaving = false
   @State private var errorMessage: String?
@@ -80,11 +83,8 @@ struct OnboardingView: View {
   }
 
   private var selectedAllergenIngredients: [Ingredient] {
-    allIngredients
-      .filter { ingredient in
-        guard let id = ingredient.id else { return false }
-        return selectedAllergens.contains(id)
-      }
+    selectedAllergens
+      .compactMap { ingredientByID[$0] }
       .sorted { lhs, rhs in
         lhs.displayName.localizedCaseInsensitiveCompare(rhs.displayName) == .orderedAscending
       }
@@ -141,15 +141,18 @@ struct OnboardingView: View {
 
   private var stepContentContainer: some View {
     ZStack {
-      if currentStep == .goals {
-        goalStep.transition(stepTransition)
+      Group {
+        switch currentStep {
+        case .goals:
+          goalStep
+        case .restrictions:
+          restrictionStep
+        case .allergens:
+          allergenStep
+        }
       }
-      if currentStep == .restrictions {
-        restrictionStep.transition(stepTransition)
-      }
-      if currentStep == .allergens {
-        allergenStep.transition(stepTransition)
-      }
+      .id(currentStep)
+      .transition(stepTransition)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     .clipped()
@@ -473,7 +476,7 @@ struct OnboardingView: View {
   }
 
   private func allergenGroupChip(_ group: AllergenGroupDefinition) -> some View {
-    let matchedIDs = AllergenSupport.matchingIDs(for: group, in: allIngredients)
+    let matchedIDs = allergenGroupMatchesByID[group.id] ?? []
     let selectedCount = selectedAllergens.intersection(matchedIDs).count
     let isFullySelected = !matchedIDs.isEmpty && selectedCount == matchedIDs.count
     let isPartiallySelected = selectedCount > 0 && !isFullySelected
@@ -533,6 +536,8 @@ struct OnboardingView: View {
         FLSecondaryButton("Back", systemImage: "chevron.left") {
           setStep(max(0, stepIndex - 1), direction: .backward)
         }
+        .buttonRepeatBehavior(.disabled)
+        .disabled(isSaving || isTransitioning)
         .frame(width: backVisible ? 132 : 0, height: Layout.actionButtonHeight)
         .opacity(backVisible ? 1 : 0)
         .clipped()
@@ -541,11 +546,12 @@ struct OnboardingView: View {
         FLPrimaryButton(
           primaryButtonTitle,
           systemImage: primaryButtonIcon,
-          isEnabled: !isSaving,
+          isEnabled: !isSaving && !isTransitioning,
           labelAnimation: .subtleBlend
         ) {
           handlePrimaryAction()
         }
+        .buttonRepeatBehavior(.disabled)
       }
       .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: backVisible)
       .frame(minHeight: Layout.actionButtonHeight)
@@ -583,6 +589,8 @@ struct OnboardingView: View {
   }
 
   private func handlePrimaryAction() {
+    guard !isTransitioning, !isSaving else { return }
+
     if stepIndex < totalSteps - 1 {
       setStep(stepIndex + 1, direction: .forward)
       return
@@ -599,7 +607,7 @@ struct OnboardingView: View {
   }
 
   private func toggleAllergenGroup(_ group: AllergenGroupDefinition) {
-    let ids = AllergenSupport.matchingIDs(for: group, in: allIngredients)
+    let ids = allergenGroupMatchesByID[group.id] ?? []
     guard !ids.isEmpty else { return }
 
     let selectedCount = selectedAllergens.intersection(ids).count
@@ -613,7 +621,10 @@ struct OnboardingView: View {
   private func setStep(_ newValue: Int, direction: StepDirection) {
     let clamped = min(max(newValue, 0), totalSteps - 1)
     guard clamped != stepIndex else { return }
+    guard !isTransitioning else { return }
+
     stepDirection = direction
+    isTransitioning = true
 
     if reduceMotion {
       stepIndex = clamped
@@ -622,18 +633,48 @@ struct OnboardingView: View {
         stepIndex = clamped
       }
     }
+
+    let lockDurationNanoseconds: UInt64 = reduceMotion ? 10_000_000 : 280_000_000
+    Task { @MainActor in
+      try? await Task.sleep(nanoseconds: lockDurationNanoseconds)
+      isTransitioning = false
+    }
   }
 
   private func loadProfile() async {
-    allIngredients = (try? deps.ingredientRepository.fetchAll()) ?? []
+    let ingredientRepository = deps.ingredientRepository
+    let userDataRepository = deps.userDataRepository
+
+    let fetchedIngredients = await Task.detached(priority: .userInitiated) {
+      (try? ingredientRepository.fetchAll()) ?? []
+    }.value
+
+    let caches = await Task.detached(priority: .userInitiated) {
+      let ingredientsByID = Dictionary(
+        uniqueKeysWithValues: fetchedIngredients.compactMap { ingredient -> (Int64, Ingredient)? in
+          guard let id = ingredient.id else { return nil }
+          return (id, ingredient)
+        })
+      let matchesByGroup = AllergenSupport.groupMatchesByGroupID(in: fetchedIngredients)
+      return (ingredientsByID, matchesByGroup)
+    }.value
+
+    allIngredients = fetchedIngredients
+    ingredientByID = caches.0
+    allergenGroupMatchesByID = caches.1
 
     do {
-      guard try deps.userDataRepository.hasCompletedOnboarding() else {
+      let profile: HealthProfile? = try await Task.detached(priority: .userInitiated) {
+        () throws -> HealthProfile? in
+        guard try userDataRepository.hasCompletedOnboarding() else { return nil }
+        return try userDataRepository.fetchHealthProfile()
+      }.value
+
+      guard let profile else {
         dailyCalories = goal.suggestedCalories
         return
       }
 
-      let profile = try deps.userDataRepository.fetchHealthProfile()
       goal = profile.goal
       dailyCalories = profile.dailyCalories ?? profile.goal.suggestedCalories
       selectedRestrictions = Set(profile.parsedDietaryRestrictions)
@@ -644,31 +685,44 @@ struct OnboardingView: View {
   }
 
   private func saveProfile() {
+    guard !isSaving else { return }
     isSaving = true
-    defer { isSaving = false }
 
-    do {
-      let restrictionsJSON = try encodeJSON(Array(selectedRestrictions).sorted())
-      let allergensJSON = try encodeJSON(Array(selectedAllergens).sorted())
-      let split = goal.defaultMacroSplit
+    let selectedRestrictions = Array(self.selectedRestrictions).sorted()
+    let selectedAllergens = Array(self.selectedAllergens).sorted()
+    let selectedGoal = goal
+    let selectedCalories = dailyCalories
+    let userDataRepository = deps.userDataRepository
 
-      let profile = HealthProfile(
-        goal: goal,
-        dailyCalories: dailyCalories,
-        proteinPct: split.protein,
-        carbsPct: split.carbs,
-        fatPct: split.fat,
-        dietaryRestrictions: restrictionsJSON,
-        allergenIngredientIds: allergensJSON
-      )
-      try deps.userDataRepository.saveHealthProfile(profile)
-      onComplete()
+    Task { @MainActor in
+      defer { isSaving = false }
 
-      if !isRequired {
-        dismiss()
+      do {
+        let restrictionsJSON = try encodeJSON(selectedRestrictions)
+        let allergensJSON = try encodeJSON(selectedAllergens)
+        let split = selectedGoal.defaultMacroSplit
+
+        let profile = HealthProfile(
+          goal: selectedGoal,
+          dailyCalories: selectedCalories,
+          proteinPct: split.protein,
+          carbsPct: split.carbs,
+          fatPct: split.fat,
+          dietaryRestrictions: restrictionsJSON,
+          allergenIngredientIds: allergensJSON
+        )
+
+        try await Task.detached(priority: .userInitiated) {
+          try userDataRepository.saveHealthProfile(profile)
+        }.value
+
+        onComplete()
+        if !isRequired {
+          dismiss()
+        }
+      } catch {
+        errorMessage = error.localizedDescription
       }
-    } catch {
-      errorMessage = error.localizedDescription
     }
   }
 

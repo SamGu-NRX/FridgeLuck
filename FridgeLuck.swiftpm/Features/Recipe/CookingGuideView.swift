@@ -1,9 +1,9 @@
 import SwiftUI
 
-/// A paginated recipe book experience. Each cooking step gets its own full page.
+/// A paginated cooking guide experience. Each cooking step gets its own full page.
 /// Page 0 is the ingredients checklist, pages 1-N are individual steps,
 /// and the final action triggers the "I Made This" celebration.
-struct RecipeBookView: View {
+struct CookingGuideView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -18,6 +18,9 @@ struct RecipeBookView: View {
   @State private var showCelebration = false
   @State private var pageDirection: PageDirection = .forward
   @State private var pageAppeared = false
+  @State private var substitutionTarget: (ingredient: Ingredient, quantity: RecipeIngredient)?
+  @State private var activeSubstitutions:
+    [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:]
 
   private var recipe: Recipe { scoredRecipe.recipe }
 
@@ -30,13 +33,21 @@ struct RecipeBookView: View {
 
   /// Total pages: 1 (ingredients) + N (steps)
   private var totalPages: Int { 1 + instructionSteps.count }
+  private var totalSteps: Int { instructionSteps.count }
   private var isOnIngredientsPage: Bool { currentPage == 0 }
   private var isOnLastStep: Bool { currentPage == totalPages - 1 }
   private var currentStepIndex: Int { currentPage - 1 }
+  private var contentHorizontalPadding: CGFloat { AppTheme.Space.page }
+
+  private var topBarCounterText: String {
+    guard totalSteps > 0 else { return "0/0" }
+    if isOnIngredientsPage { return "Prep" }
+    return "\(currentStepIndex + 1)/\(totalSteps)"
+  }
 
   private var progress: Double {
-    guard totalPages > 1 else { return 0 }
-    return Double(currentPage) / Double(totalPages - 1)
+    guard totalSteps > 0 else { return 0 }
+    return min(max(Double(currentPage) / Double(totalSteps), 0), 1)
   }
 
   var body: some View {
@@ -83,6 +94,26 @@ struct RecipeBookView: View {
         pageAppeared = true
       }
     }
+    .sheet(
+      item: Binding(
+        get: {
+          substitutionTarget.map {
+            BookSubstitutionTarget(ingredient: $0.ingredient, quantity: $0.quantity)
+          }
+        },
+        set: { wrapper in substitutionTarget = wrapper.map { ($0.ingredient, $0.quantity) } }
+      )
+    ) { target in
+      SubstitutionSheet(
+        ingredient: target.ingredient,
+        quantityGrams: target.quantity.quantityGrams,
+        displayQuantity: target.quantity.displayQuantity
+      ) { substitution, subIngredient in
+        withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
+          activeSubstitutions[target.ingredient.id ?? -1] = (substitution, subIngredient)
+        }
+      }
+    }
   }
 
   // MARK: - Top Bar
@@ -110,12 +141,12 @@ struct RecipeBookView: View {
         Spacer()
 
         // Page counter
-        Text("\(currentPage + 1)/\(totalPages)")
+        Text(topBarCounterText)
           .font(AppTheme.Typography.dataMedium)
           .foregroundStyle(AppTheme.accent)
           .contentTransition(.numericText())
       }
-      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.horizontal, contentHorizontalPadding)
 
       // Progress bar
       GeometryReader { geo in
@@ -129,7 +160,7 @@ struct RecipeBookView: View {
         }
       }
       .frame(height: 4)
-      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.horizontal, contentHorizontalPadding)
     }
     .padding(.top, AppTheme.Space.sm)
     .padding(.bottom, AppTheme.Space.md)
@@ -201,7 +232,7 @@ struct RecipeBookView: View {
         }
       }
     }
-    .padding(.horizontal, AppTheme.Space.page)
+    .padding(.horizontal, contentHorizontalPadding)
     .padding(.top, AppTheme.Space.md)
     .padding(.bottom, AppTheme.Space.xxl)
   }
@@ -210,47 +241,84 @@ struct RecipeBookView: View {
     _ ingredient: Ingredient, quantity: RecipeIngredient
   ) -> some View {
     let isChecked = checkedIngredients.contains(ingredient.id ?? -1)
+    let hasSwap = deps.substitutionService.hasSubstitutions(for: ingredient.id ?? -1)
+    let activeSub = activeSubstitutions[ingredient.id ?? -1]
 
-    return Button {
-      withAnimation(reduceMotion ? nil : AppMotion.quick) {
-        if isChecked {
-          checkedIngredients.remove(ingredient.id ?? -1)
-        } else {
-          checkedIngredients.insert(ingredient.id ?? -1)
+    return HStack(spacing: AppTheme.Space.sm) {
+      // Check toggle + ingredient name
+      Button {
+        withAnimation(reduceMotion ? nil : AppMotion.quick) {
+          if isChecked {
+            checkedIngredients.remove(ingredient.id ?? -1)
+          } else {
+            checkedIngredients.insert(ingredient.id ?? -1)
+          }
+        }
+      } label: {
+        HStack(spacing: AppTheme.Space.sm) {
+          Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
+            .foregroundStyle(isChecked ? AppTheme.positive : AppTheme.textSecondary)
+            .font(.system(size: 20))
+
+          if let sub = activeSub {
+            VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+              Text(sub.ingredient.displayName)
+                .font(AppTheme.Typography.bodyLarge)
+                .foregroundStyle(isChecked ? AppTheme.textSecondary : AppTheme.sage)
+                .strikethrough(isChecked, color: AppTheme.textSecondary)
+              Text("replaces \(ingredient.displayName)")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+          } else {
+            Text(ingredient.displayName)
+              .font(AppTheme.Typography.bodyLarge)
+              .foregroundStyle(isChecked ? AppTheme.textSecondary : AppTheme.textPrimary)
+              .strikethrough(isChecked, color: AppTheme.textSecondary)
+          }
+
+          Spacer()
+
+          Text(quantity.displayQuantity)
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.textSecondary)
         }
       }
-    } label: {
-      HStack(spacing: AppTheme.Space.sm) {
-        Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
-          .foregroundStyle(isChecked ? AppTheme.positive : AppTheme.textSecondary)
-          .font(.system(size: 20))
+      .buttonStyle(.plain)
 
-        Text(ingredient.displayName)
-          .font(AppTheme.Typography.bodyLarge)
-          .foregroundStyle(isChecked ? AppTheme.textSecondary : AppTheme.textPrimary)
-          .strikethrough(isChecked, color: AppTheme.textSecondary)
-
-        Spacer()
-
-        Text(quantity.displayQuantity)
-          .font(AppTheme.Typography.label)
-          .foregroundStyle(AppTheme.textSecondary)
+      // Swap button
+      if hasSwap {
+        Button {
+          substitutionTarget = (ingredient, quantity)
+        } label: {
+          Image(systemName: "arrow.triangle.swap")
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundStyle(activeSub != nil ? AppTheme.sage : AppTheme.accent)
+            .frame(width: 28, height: 28)
+            .background(
+              activeSub != nil ? AppTheme.sage.opacity(0.12) : AppTheme.accentMuted,
+              in: Circle()
+            )
+        }
+        .buttonStyle(.plain)
       }
-      .padding(AppTheme.Space.md)
-      .background(
-        isChecked
-          ? AppTheme.positive.opacity(0.06) : AppTheme.surface,
-        in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-      )
-      .overlay(
-        RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-          .stroke(
-            isChecked ? AppTheme.positive.opacity(0.2) : AppTheme.oat.opacity(0.25),
-            lineWidth: 1
-          )
-      )
     }
-    .buttonStyle(.plain)
+    .padding(AppTheme.Space.md)
+    .background(
+      isChecked
+        ? AppTheme.positive.opacity(0.06)
+        : (activeSub != nil ? AppTheme.sage.opacity(0.04) : AppTheme.surface),
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        .stroke(
+          isChecked
+            ? AppTheme.positive.opacity(0.2)
+            : (activeSub != nil ? AppTheme.sage.opacity(0.18) : AppTheme.oat.opacity(0.25)),
+          lineWidth: 1
+        )
+    )
   }
 
   // MARK: - Step Page
@@ -266,7 +334,7 @@ struct RecipeBookView: View {
           .font(.system(size: 72, weight: .bold, design: .serif))
           .foregroundStyle(AppTheme.accent.opacity(0.18))
 
-        Text("of \(instructionSteps.count)")
+        Text("of \(totalSteps)")
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
           .padding(.bottom, AppTheme.Space.sm)
@@ -281,6 +349,7 @@ struct RecipeBookView: View {
         .foregroundStyle(AppTheme.textPrimary)
         .lineSpacing(6)
         .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .opacity(pageAppeared ? 1 : 0)
         .offset(y: pageAppeared ? 0 : 12)
         .animation(
@@ -322,7 +391,8 @@ struct RecipeBookView: View {
 
       Spacer()
     }
-    .padding(.horizontal, AppTheme.Space.page)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(.horizontal, contentHorizontalPadding)
     .padding(.top, AppTheme.Space.lg)
     .padding(.bottom, AppTheme.Space.xxl)
   }
@@ -332,7 +402,7 @@ struct RecipeBookView: View {
   private var bottomNavigation: some View {
     VStack(spacing: 0) {
       FLWaveDivider()
-        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.horizontal, contentHorizontalPadding)
 
       HStack(spacing: AppTheme.Space.md) {
         // Back button
@@ -355,7 +425,7 @@ struct RecipeBookView: View {
           }
         }
       }
-      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.horizontal, contentHorizontalPadding)
       .padding(.vertical, AppTheme.Space.md)
     }
     .background(AppTheme.bg)
@@ -422,4 +492,12 @@ struct RecipeBookView: View {
 private enum PageDirection {
   case forward
   case backward
+}
+
+// MARK: - Substitution Target Wrapper
+
+private struct BookSubstitutionTarget: Identifiable {
+  let ingredient: Ingredient
+  let quantity: RecipeIngredient
+  var id: Int64 { ingredient.id ?? -1 }
 }

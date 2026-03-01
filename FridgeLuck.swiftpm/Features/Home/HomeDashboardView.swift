@@ -12,15 +12,16 @@ struct HomeDashboardView: View {
   @State private var heroAppeared = false
   @State private var navAppeared = false
   @State private var showResetConfirmation = false
+  @State private var showSkipConfirmation = false
+  @State private var showSpotlightTutorial = false
+  @State private var spotlightAnchors: [String: CGRect] = [:]
+  @AppStorage("hasSeenSpotlightTutorial") private var hasSeenSpotlightTutorial = false
 
-  let isRunningDemo: Bool
-  let onStartJudgePath: () -> Void
   let onScan: () -> Void
-  let onRunDemo: () -> Void
+  let onDemoMode: () -> Void
   let onEstimate: () -> Void
   let onCompleteProfile: () -> Void
   let onProfile: () -> Void
-  let onSelectDemoScenario: (DemoScenario) -> Void
   let onReset: () -> Void
 
   private enum InsightMode: String, CaseIterable, Identifiable {
@@ -31,25 +32,19 @@ struct HomeDashboardView: View {
 
   init(
     deps: AppDependencies,
-    isRunningDemo: Bool,
-    onStartJudgePath: @escaping () -> Void,
     onScan: @escaping () -> Void,
-    onRunDemo: @escaping () -> Void,
+    onDemoMode: @escaping () -> Void,
     onEstimate: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
     onProfile: @escaping () -> Void,
-    onSelectDemoScenario: @escaping (DemoScenario) -> Void = { _ in },
     onReset: @escaping () -> Void = {}
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
-    self.isRunningDemo = isRunningDemo
-    self.onStartJudgePath = onStartJudgePath
     self.onScan = onScan
-    self.onRunDemo = onRunDemo
+    self.onDemoMode = onDemoMode
     self.onEstimate = onEstimate
     self.onCompleteProfile = onCompleteProfile
     self.onProfile = onProfile
-    self.onSelectDemoScenario = onSelectDemoScenario
     self.onReset = onReset
   }
 
@@ -89,6 +84,7 @@ struct HomeDashboardView: View {
     .alert("Start fresh?", isPresented: $showResetConfirmation) {
       Button("Reset Everything", role: .destructive) {
         tutorialStorageString = ""
+        hasSeenSpotlightTutorial = false
         onReset()
         Task { await viewModel.load() }
       }
@@ -96,6 +92,20 @@ struct HomeDashboardView: View {
     } message: {
       Text(
         "This will erase your profile, cooking history, badges, and streaks. Recipes and ingredients stay. You\u{2019}ll see the tutorial again."
+      )
+    }
+    .alert("Skip setup?", isPresented: $showSkipConfirmation) {
+      Button("Skip", role: .destructive) {
+        let allQuests = Set(TutorialQuest.allCases.map(\.rawValue))
+        let completed = TutorialProgress(completedQuestRawValues: allQuests)
+        withAnimation(reduceMotion ? nil : AppMotion.standard) {
+          tutorialStorageString = completed.storageString
+        }
+      }
+      Button("Continue Setup", role: .cancel) {}
+    } message: {
+      Text(
+        "You\u{2019}ll skip the guided tour and go straight to the dashboard. You can still set up your profile later from the menu."
       )
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -115,22 +125,39 @@ struct HomeDashboardView: View {
       viewModel.syncTutorialProgress(tutorialProgress)
     }
     .onAppear {
-      guard !reduceMotion else {
+      if reduceMotion {
         heroAppeared = true
         navAppeared = true
-        return
-      }
-
-      if !heroAppeared {
-        withAnimation(AppMotion.heroAppear.delay(0.15)) {
-          heroAppeared = true
+      } else {
+        if !heroAppeared {
+          withAnimation(AppMotion.heroAppear.delay(0.15)) {
+            heroAppeared = true
+          }
+        }
+        if !navAppeared {
+          withAnimation(AppMotion.standard.delay(0.22)) {
+            navAppeared = true
+          }
         }
       }
 
-      if !navAppeared {
-        withAnimation(AppMotion.standard.delay(0.22)) {
-          navAppeared = true
+      if !hasSeenSpotlightTutorial && !tutorialProgress.isComplete {
+        DispatchQueue.main.asyncAfter(deadline: .now() + (reduceMotion ? 0.5 : 1.2)) {
+          guard !hasSeenSpotlightTutorial else { return }
+          showSpotlightTutorial = true
+          hasSeenSpotlightTutorial = true
         }
+      }
+    }
+    .onPreferenceChange(SpotlightAnchorKey.self) { spotlightAnchors = $0 }
+    .overlay {
+      if showSpotlightTutorial {
+        SpotlightTutorialOverlay(
+          steps: SpotlightStep.onboarding,
+          anchors: spotlightAnchors,
+          isPresented: $showSpotlightTutorial
+        )
+        .ignoresSafeArea()
       }
     }
   }
@@ -146,25 +173,13 @@ struct HomeDashboardView: View {
       // Progress indicator
       TutorialProgressView(progress: tutorialProgress)
         .padding(.horizontal, AppTheme.Space.page)
+        .spotlightAnchor("progressView")
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 10)
 
       // Quest cards
       questSection
         .padding(.horizontal, AppTheme.Space.page)
-
-      // Scenario picker (shown when Quest 2 is active)
-      if tutorialProgress.currentQuest == .firstScan {
-        DemoScenarioPicker(scenarios: DemoScenario.allCases) { scenario in
-          onSelectDemoScenario(scenario)
-        }
-        .padding(.horizontal, AppTheme.Space.page)
-        .transition(
-          .asymmetric(
-            insertion: .move(edge: .bottom).combined(with: .opacity),
-            removal: .opacity
-          ))
-      }
 
       // Quick-start hint for brand new users
       if tutorialProgress.completedCount == 0 {
@@ -188,10 +203,12 @@ struct HomeDashboardView: View {
         .font(AppTheme.Typography.displayLarge)
         .foregroundStyle(AppTheme.textPrimary)
 
-      Text("Scan real ingredients. Get personalized recipes. Cook smarter.")
-        .font(AppTheme.Typography.bodyLarge)
-        .foregroundStyle(AppTheme.textSecondary)
-        .padding(.top, AppTheme.Space.xxs)
+      Text(
+        "Let me show you around. A few quick steps and your smart kitchen is ready."
+      )
+      .font(AppTheme.Typography.bodyLarge)
+      .foregroundStyle(AppTheme.textSecondary)
+      .padding(.top, AppTheme.Space.xxs)
     }
     .opacity(heroAppeared ? 1 : 0)
     .offset(y: heroAppeared ? 0 : 16)
@@ -207,6 +224,7 @@ struct HomeDashboardView: View {
         TutorialQuestCard(quest: quest, state: state) {
           handleQuestAction(quest)
         }
+        .spotlightAnchor("quest_\(quest.rawValue)")
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 12)
         .animation(
@@ -235,12 +253,9 @@ struct HomeDashboardView: View {
     case .setupProfile:
       onCompleteProfile()
     case .firstScan:
-      // The scenario picker is shown below — no direct action from the card itself
-      // But if tapped, start with a default scenario
-      onSelectDemoScenario(.asianStirFry)
+      onDemoMode()
     case .cookAndRate:
-      // Navigate to recipe results (handled by ContentView)
-      onRunDemo()
+      onDemoMode()
     case .exploreMore:
       onEstimate()
     }
@@ -254,9 +269,11 @@ struct HomeDashboardView: View {
         .font(.system(size: 16, weight: .medium))
         .foregroundStyle(AppTheme.oat)
 
-      Text("Start with \u{201C}Set Up Your Kitchen\u{201D} \u{2014} it takes about 30 seconds.")
-        .font(AppTheme.Typography.bodySmall)
-        .foregroundStyle(AppTheme.textSecondary)
+      Text(
+        "Start with \u{201C}Set Up Your Kitchen\u{201D} \u{2014} it takes about 30 seconds to begin."
+      )
+      .font(AppTheme.Typography.bodySmall)
+      .foregroundStyle(AppTheme.textSecondary)
     }
     .padding(AppTheme.Space.md)
     .background(
@@ -364,46 +381,32 @@ struct HomeDashboardView: View {
   private var heroComposition: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
       VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
-        Image(systemName: "bolt.fill")
+        Image(systemName: "sparkles")
           .font(.system(size: 32, weight: .semibold))
           .foregroundStyle(.white.opacity(0.9))
           .frame(width: 64, height: 64)
           .background(Circle().fill(.white.opacity(0.15)))
 
         VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-          Text("Judge Path")
+          Text("Demo Mode")
             .font(AppTheme.Typography.displayLarge)
             .foregroundStyle(.white)
 
-          Text("Complete demo photo, review, and best recipe in about 60 seconds.")
+          Text("Pick a pre-stocked fridge and explore recipes, or scan your own.")
             .font(AppTheme.Typography.bodyLarge)
             .foregroundStyle(.white.opacity(0.78))
         }
       }
 
       VStack(spacing: AppTheme.Space.sm) {
-        FLPrimaryButton("Start 60-sec demo", systemImage: "play.fill") {
-          onStartJudgePath()
+        FLPrimaryButton("Try Demo Mode", systemImage: "play.fill") {
+          onDemoMode()
         }
 
         FLSecondaryButton("Scan Fridge", systemImage: "camera.fill") {
           onScan()
         }
       }
-
-      HStack(spacing: AppTheme.Space.xs) {
-        judgeStepChip(index: 1, text: "Demo photo")
-        Image(systemName: "arrow.right")
-          .font(.system(size: 11, weight: .medium))
-          .foregroundStyle(.white.opacity(0.72))
-        judgeStepChip(index: 2, text: "Review")
-        Image(systemName: "arrow.right")
-          .font(.system(size: 11, weight: .medium))
-          .foregroundStyle(.white.opacity(0.72))
-        judgeStepChip(index: 3, text: "Best recipe")
-      }
-      .accessibilityElement(children: .combine)
-      .accessibilityLabel("Demo flow: demo photo, review, best recipe")
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding(AppTheme.Space.page)
@@ -427,24 +430,6 @@ struct HomeDashboardView: View {
     .shadow(color: AppTheme.accent.opacity(0.20), radius: 24, x: 0, y: 12)
     .opacity(heroAppeared ? 1 : 0)
     .offset(y: heroAppeared ? 0 : 16)
-  }
-
-  private func judgeStepChip(index: Int, text: String) -> some View {
-    HStack(spacing: AppTheme.Space.xxxs) {
-      Text("\(index)")
-        .font(AppTheme.Typography.labelSmall)
-        .foregroundStyle(.white.opacity(0.92))
-        .padding(.horizontal, AppTheme.Space.xs)
-        .padding(.vertical, AppTheme.Space.xxxs)
-        .background(.white.opacity(0.16), in: Capsule())
-
-      Text(text)
-        .font(AppTheme.Typography.labelSmall)
-        .foregroundStyle(.white.opacity(0.86))
-    }
-    .padding(.horizontal, AppTheme.Space.xs)
-    .padding(.vertical, AppTheme.Space.chipVertical)
-    .background(.white.opacity(0.10), in: Capsule())
   }
 
   // MARK: - Floating Stats (NOT in a card)
@@ -761,21 +746,12 @@ struct HomeDashboardView: View {
   private func secondaryActions(snapshot: HomeDashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
       HStack(spacing: AppTheme.Space.lg) {
-        Button(action: isRunningDemo ? {} : onRunDemo) {
-          Label(isRunningDemo ? "Running..." : "Demo Scan", systemImage: "photo.fill")
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(isRunningDemo ? AppTheme.textSecondary : AppTheme.accent)
-        }
-        .buttonStyle(.plain)
-        .disabled(isRunningDemo)
-
         Button(action: onEstimate) {
           Label("Dish Estimate", systemImage: "fork.knife")
             .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.accent)
         }
         .buttonStyle(.plain)
-        .disabled(isRunningDemo)
       }
 
       if !snapshot.hasOnboarded {
@@ -826,8 +802,11 @@ struct HomeDashboardView: View {
         Spacer(minLength: AppTheme.Home.navCenterGap)
 
         navItem(
-          icon: hasOnboarded ? "person.crop.circle.fill" : "person.badge.plus",
-          label: "Profile",
+          icon: hasOnboarded
+            ? (tutorialProgress.isComplete
+              ? "chart.bar.doc.horizontal.fill" : "person.crop.circle.fill")
+            : "person.badge.plus",
+          label: tutorialProgress.isComplete ? "Dashboard" : "Profile",
           isActive: false,
           action: hasOnboarded ? onProfile : onCompleteProfile
         )
@@ -950,22 +929,43 @@ struct HomeDashboardView: View {
         .fill(AppTheme.oat.opacity(0.22))
         .frame(width: 32, height: 1)
 
-      Button {
-        showResetConfirmation = true
-      } label: {
-        HStack(spacing: AppTheme.Space.xxs) {
-          Image(systemName: "arrow.counterclockwise")
-            .font(.system(size: 9, weight: .semibold))
-          Text("Reset progress")
-            .font(.system(size: 10, weight: .medium, design: .serif))
-            .kerning(0.6)
+      HStack(spacing: 0) {
+        Button {
+          showResetConfirmation = true
+        } label: {
+          HStack(spacing: AppTheme.Space.xxs) {
+            Image(systemName: "arrow.counterclockwise")
+              .font(.system(size: 9, weight: .semibold))
+            Text("Reset progress")
+              .font(.system(size: 10, weight: .medium, design: .serif))
+              .kerning(0.6)
+          }
+          .foregroundStyle(AppTheme.dustyRose.opacity(0.65))
+          .padding(.horizontal, AppTheme.Space.sm)
+          .padding(.vertical, AppTheme.Space.xxs)
         }
-        .foregroundStyle(AppTheme.dustyRose.opacity(0.65))
-        .padding(.horizontal, AppTheme.Space.sm)
-        .padding(.vertical, AppTheme.Space.xxs)
+        .buttonStyle(.plain)
+        .accessibilityLabel("Reset all progress and data")
+
+        if !tutorialProgress.isComplete {
+          Text("\u{00B7}")
+            .font(.system(size: 10, weight: .bold))
+            .foregroundStyle(AppTheme.oat.opacity(0.30))
+
+          Button {
+            showSkipConfirmation = true
+          } label: {
+            Text("Skip setup")
+              .font(.system(size: 9.5, weight: .regular, design: .serif))
+              .kerning(0.4)
+              .foregroundStyle(AppTheme.textSecondary.opacity(0.45))
+              .padding(.horizontal, AppTheme.Space.sm)
+              .padding(.vertical, AppTheme.Space.xxs)
+          }
+          .buttonStyle(.plain)
+          .accessibilityLabel("Skip onboarding setup, not recommended")
+        }
       }
-      .buttonStyle(.plain)
-      .accessibilityLabel("Reset all progress and data")
     }
     .frame(maxWidth: .infinity)
   }
