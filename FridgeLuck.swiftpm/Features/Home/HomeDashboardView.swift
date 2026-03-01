@@ -13,14 +13,11 @@ struct HomeDashboardView: View {
   @State private var navAppeared = false
   @State private var showResetConfirmation = false
 
-  let isRunningDemo: Bool
-  let onStartJudgePath: () -> Void
   let onScan: () -> Void
-  let onRunDemo: () -> Void
+  let onDemoMode: () -> Void
   let onEstimate: () -> Void
   let onCompleteProfile: () -> Void
   let onProfile: () -> Void
-  let onSelectDemoScenario: (DemoScenario) -> Void
   let onReset: () -> Void
 
   private enum InsightMode: String, CaseIterable, Identifiable {
@@ -31,25 +28,19 @@ struct HomeDashboardView: View {
 
   init(
     deps: AppDependencies,
-    isRunningDemo: Bool,
-    onStartJudgePath: @escaping () -> Void,
     onScan: @escaping () -> Void,
-    onRunDemo: @escaping () -> Void,
+    onDemoMode: @escaping () -> Void,
     onEstimate: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
     onProfile: @escaping () -> Void,
-    onSelectDemoScenario: @escaping (DemoScenario) -> Void = { _ in },
     onReset: @escaping () -> Void = {}
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
-    self.isRunningDemo = isRunningDemo
-    self.onStartJudgePath = onStartJudgePath
     self.onScan = onScan
-    self.onRunDemo = onRunDemo
+    self.onDemoMode = onDemoMode
     self.onEstimate = onEstimate
     self.onCompleteProfile = onCompleteProfile
     self.onProfile = onProfile
-    self.onSelectDemoScenario = onSelectDemoScenario
     self.onReset = onReset
   }
 
@@ -153,19 +144,6 @@ struct HomeDashboardView: View {
       questSection
         .padding(.horizontal, AppTheme.Space.page)
 
-      // Scenario picker (shown when Quest 2 is active)
-      if tutorialProgress.currentQuest == .firstScan {
-        DemoScenarioPicker(scenarios: DemoScenario.allCases) { scenario in
-          onSelectDemoScenario(scenario)
-        }
-        .padding(.horizontal, AppTheme.Space.page)
-        .transition(
-          .asymmetric(
-            insertion: .move(edge: .bottom).combined(with: .opacity),
-            removal: .opacity
-          ))
-      }
-
       // Quick-start hint for brand new users
       if tutorialProgress.completedCount == 0 {
         quickStartHint
@@ -235,12 +213,9 @@ struct HomeDashboardView: View {
     case .setupProfile:
       onCompleteProfile()
     case .firstScan:
-      // The scenario picker is shown below — no direct action from the card itself
-      // But if tapped, start with a default scenario
-      onSelectDemoScenario(.asianStirFry)
+      onDemoMode()
     case .cookAndRate:
-      // Navigate to recipe results (handled by ContentView)
-      onRunDemo()
+      onDemoMode()
     case .exploreMore:
       onEstimate()
     }
@@ -364,46 +339,32 @@ struct HomeDashboardView: View {
   private var heroComposition: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
       VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
-        Image(systemName: "bolt.fill")
+        Image(systemName: "sparkles")
           .font(.system(size: 32, weight: .semibold))
           .foregroundStyle(.white.opacity(0.9))
           .frame(width: 64, height: 64)
           .background(Circle().fill(.white.opacity(0.15)))
 
         VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-          Text("Judge Path")
+          Text("Demo Mode")
             .font(AppTheme.Typography.displayLarge)
             .foregroundStyle(.white)
 
-          Text("Complete demo photo, review, and best recipe in about 60 seconds.")
+          Text("Pick a pre-stocked fridge and explore recipes, or scan your own.")
             .font(AppTheme.Typography.bodyLarge)
             .foregroundStyle(.white.opacity(0.78))
         }
       }
 
       VStack(spacing: AppTheme.Space.sm) {
-        FLPrimaryButton("Start 60-sec demo", systemImage: "play.fill") {
-          onStartJudgePath()
+        FLPrimaryButton("Try Demo Mode", systemImage: "play.fill") {
+          onDemoMode()
         }
 
         FLSecondaryButton("Scan Fridge", systemImage: "camera.fill") {
           onScan()
         }
       }
-
-      HStack(spacing: AppTheme.Space.xs) {
-        judgeStepChip(index: 1, text: "Demo photo")
-        Image(systemName: "arrow.right")
-          .font(.system(size: 11, weight: .medium))
-          .foregroundStyle(.white.opacity(0.72))
-        judgeStepChip(index: 2, text: "Review")
-        Image(systemName: "arrow.right")
-          .font(.system(size: 11, weight: .medium))
-          .foregroundStyle(.white.opacity(0.72))
-        judgeStepChip(index: 3, text: "Best recipe")
-      }
-      .accessibilityElement(children: .combine)
-      .accessibilityLabel("Demo flow: demo photo, review, best recipe")
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding(AppTheme.Space.page)
@@ -427,24 +388,6 @@ struct HomeDashboardView: View {
     .shadow(color: AppTheme.accent.opacity(0.20), radius: 24, x: 0, y: 12)
     .opacity(heroAppeared ? 1 : 0)
     .offset(y: heroAppeared ? 0 : 16)
-  }
-
-  private func judgeStepChip(index: Int, text: String) -> some View {
-    HStack(spacing: AppTheme.Space.xxxs) {
-      Text("\(index)")
-        .font(AppTheme.Typography.labelSmall)
-        .foregroundStyle(.white.opacity(0.92))
-        .padding(.horizontal, AppTheme.Space.xs)
-        .padding(.vertical, AppTheme.Space.xxxs)
-        .background(.white.opacity(0.16), in: Capsule())
-
-      Text(text)
-        .font(AppTheme.Typography.labelSmall)
-        .foregroundStyle(.white.opacity(0.86))
-    }
-    .padding(.horizontal, AppTheme.Space.xs)
-    .padding(.vertical, AppTheme.Space.chipVertical)
-    .background(.white.opacity(0.10), in: Capsule())
   }
 
   // MARK: - Floating Stats (NOT in a card)
@@ -761,21 +704,12 @@ struct HomeDashboardView: View {
   private func secondaryActions(snapshot: HomeDashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
       HStack(spacing: AppTheme.Space.lg) {
-        Button(action: isRunningDemo ? {} : onRunDemo) {
-          Label(isRunningDemo ? "Running..." : "Demo Scan", systemImage: "photo.fill")
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(isRunningDemo ? AppTheme.textSecondary : AppTheme.accent)
-        }
-        .buttonStyle(.plain)
-        .disabled(isRunningDemo)
-
         Button(action: onEstimate) {
           Label("Dish Estimate", systemImage: "fork.knife")
             .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.accent)
         }
         .buttonStyle(.plain)
-        .disabled(isRunningDemo)
       }
 
       if !snapshot.hasOnboarded {

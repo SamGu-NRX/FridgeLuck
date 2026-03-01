@@ -8,6 +8,7 @@ import Vision
 /// Results are normalized through LearningService and IngredientLexicon.
 final class VisionService: Sendable {
   private let learningService: LearningService
+  private let ingredientResolver: IngredientCatalogResolving
 
   enum VisionServiceError: LocalizedError {
     case pipelineFailed(classificationError: Error?, ocrError: Error?)
@@ -53,8 +54,12 @@ final class VisionService: Sendable {
     let captureIndex: Int
   }
 
-  init(learningService: LearningService) {
+  init(
+    learningService: LearningService,
+    ingredientResolver: IngredientCatalogResolving
+  ) {
     self.learningService = learningService
+    self.ingredientResolver = ingredientResolver
   }
 
   // MARK: - Public API
@@ -146,6 +151,9 @@ final class VisionService: Sendable {
           let originalLabel = obs.identifier
           var resolvedId = learningService.correctedIngredientId(for: originalLabel)
           if resolvedId == nil {
+            resolvedId = ingredientResolver.resolve(originalLabel)
+          }
+          if resolvedId == nil {
             resolvedId = IngredientLexicon.resolve(originalLabel)
           }
           guard let ingredientId = resolvedId else { continue }
@@ -175,6 +183,19 @@ final class VisionService: Sendable {
                 originalText: topText,
                 matchedToken: matched.matchedToken,
                 kind: matched.kind,
+                boundingBox: obs.boundingBox,
+                cropID: crop.id,
+                captureIndex: input.captureIndex
+              )
+            )
+          } else if let resolvedId = ingredientResolver.resolveFromText(topText) {
+            resolvedOCRMatches.append(
+              ResolvedOCR(
+                ingredientId: resolvedId,
+                confidence: ConfidenceRouter.Thresholds.ocrFuzzyConfirmMin,
+                originalText: topText,
+                matchedToken: topText,
+                kind: .fuzzy,
                 boundingBox: obs.boundingBox,
                 cropID: crop.id,
                 captureIndex: input.captureIndex
@@ -219,7 +240,7 @@ final class VisionService: Sendable {
       let alternatives = alternativeIds.map {
         DetectionAlternative(
           ingredientId: $0,
-          label: IngredientLexicon.displayName(for: $0),
+          label: displayName(for: $0),
           confidence: nil
         )
       }
@@ -227,7 +248,7 @@ final class VisionService: Sendable {
       detections.append(
         Detection(
           ingredientId: best.ingredientId,
-          label: IngredientLexicon.displayName(for: best.ingredientId),
+          label: displayName(for: best.ingredientId),
           confidence: best.confidence,
           source: .vision,
           originalVisionLabel: best.originalLabel,
@@ -244,7 +265,7 @@ final class VisionService: Sendable {
       detections.append(
         Detection(
           ingredientId: ocr.ingredientId,
-          label: IngredientLexicon.displayName(for: ocr.ingredientId),
+          label: displayName(for: ocr.ingredientId),
           confidence: ocr.confidence,
           source: .ocr,
           originalVisionLabel: ocr.originalText,
@@ -361,5 +382,10 @@ final class VisionService: Sendable {
     case .vision:
       return 0
     }
+  }
+
+  private func displayName(for ingredientId: Int64) -> String {
+    ingredientResolver.displayName(for: ingredientId)
+      ?? IngredientLexicon.displayName(for: ingredientId)
   }
 }

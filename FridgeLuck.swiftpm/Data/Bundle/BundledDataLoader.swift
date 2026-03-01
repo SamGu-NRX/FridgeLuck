@@ -87,6 +87,15 @@ private struct RecipeArray: Decodable {
 // MARK: - Loader
 
 enum BundledDataLoader {
+  private enum USDAStateKey {
+    static let bundleMarker = "bundle_marker"
+    static let ingredientCount = "ingredient_count"
+    static let aliasCount = "alias_count"
+    static let hydratedAt = "hydrated_at_utc"
+  }
+
+  private static let minimumExpectedCatalogIngredientCount = 300
+
   /// Load bundled data.json into the SQLite database.
   /// Called once on first launch.
   static func loadInto(_ appDB: AppDatabase) async throws {
@@ -162,6 +171,51 @@ enum BundledDataLoader {
           )
         }
       }
+    }
+  }
+
+  /// Ensure bundled USDA catalog rows are present for existing installs.
+  /// Safe to run at every launch because inserts are idempotent.
+  static func ensureUSDACatalogHydrated(into appDB: AppDatabase) async throws {
+    try await appDB.dbQueue.write { db in
+      guard
+        let url = Bundle.main.url(forResource: "usda_ingredient_catalog", withExtension: "sqlite")
+      else {
+        return
+      }
+
+      let marker = catalogMarker(for: url)
+      let ingredientCount = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM ingredients") ?? 0
+      let aliasCount = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM ingredient_aliases") ?? 0
+      let lastImportedMarker = try String.fetchOne(
+        db,
+        sql: "SELECT value FROM usda_catalog_state WHERE key = ?",
+        arguments: [USDAStateKey.bundleMarker]
+      )
+
+      let shouldHydrate =
+        lastImportedMarker != marker
+        || ingredientCount < minimumExpectedCatalogIngredientCount
+        || aliasCount == 0
+
+      guard shouldHydrate else {
+        return
+      }
+
+      try loadUSDACatalogIngredientsIfAvailable(into: db)
+
+      let hydratedIngredientCount =
+        try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM ingredients") ?? 0
+      let hydratedAliasCount =
+        try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM ingredient_aliases") ?? 0
+      let hydratedAt = ISO8601DateFormatter().string(from: Date())
+
+      try upsertUSDACatalogState(db, key: USDAStateKey.bundleMarker, value: marker)
+      try upsertUSDACatalogState(
+        db, key: USDAStateKey.ingredientCount, value: String(hydratedIngredientCount))
+      try upsertUSDACatalogState(
+        db, key: USDAStateKey.aliasCount, value: String(hydratedAliasCount))
+      try upsertUSDACatalogState(db, key: USDAStateKey.hydratedAt, value: hydratedAt)
     }
   }
 
@@ -286,6 +340,26 @@ enum BundledDataLoader {
         arguments: [ingredientId, alias.lowercased()]
       )
     }
+  }
+
+  private static func catalogMarker(for url: URL) -> String {
+    let values = try? url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+    let fileSize = values?.fileSize ?? 0
+    let modifiedAt = Int64(values?.contentModificationDate?.timeIntervalSince1970 ?? 0)
+    return "size=\(fileSize);mtime=\(modifiedAt)"
+  }
+
+  private static func upsertUSDACatalogState(_ db: Database, key: String, value: String) throws {
+    try db.execute(
+      sql: """
+        INSERT INTO usda_catalog_state (key, value, updated_at)
+        VALUES (?, ?, CURRENT_TIMESTAMP)
+        ON CONFLICT(key) DO UPDATE SET
+            value = excluded.value,
+            updated_at = CURRENT_TIMESTAMP
+        """,
+      arguments: [key, value]
+    )
   }
 
   /// Build a human-readable quantity string from grams + ingredient info.
