@@ -44,7 +44,6 @@ final class NutritionService: Sendable {
   /// Compute full macros for a recipe by summing all ingredient contributions.
   func macros(for recipeId: Int64) throws -> RecipeMacros {
     try db.read { db in
-      // Get servings
       let servings =
         try Double.fetchOne(
           db,
@@ -52,7 +51,6 @@ final class NutritionService: Sendable {
           arguments: [recipeId]
         ) ?? 1.0
 
-      // Join recipe_ingredients with ingredients to get nutrition + quantities
       let rows = try Row.fetchAll(
         db,
         sql: """

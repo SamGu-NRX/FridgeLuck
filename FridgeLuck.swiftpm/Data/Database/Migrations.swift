@@ -9,7 +9,6 @@ enum DatabaseMigrations {
     // MARK: - V1: Initial Schema
 
     migrator.registerMigration("v1_initial") { db in
-      // Recipes
       try db.create(table: "recipes") { t in
         t.autoIncrementedPrimaryKey("id")
         t.column("title", .text).notNull()
@@ -21,7 +20,6 @@ enum DatabaseMigrations {
         t.column("created_at", .datetime).defaults(sql: "CURRENT_TIMESTAMP")
       }
 
-      // Ingredients with full nutrition data per 100g
       try db.create(table: "ingredients") { t in
         t.autoIncrementedPrimaryKey("id")
         t.column("name", .text).notNull().unique()
@@ -36,7 +34,6 @@ enum DatabaseMigrations {
         t.column("storage_tip", .text)
       }
 
-      // Recipe-Ingredient join table WITH quantities
       try db.create(table: "recipe_ingredients") { t in
         t.column("recipe_id", .integer)
           .notNull()
@@ -50,7 +47,6 @@ enum DatabaseMigrations {
         t.primaryKey(["recipe_id", "ingredient_id"])
       }
 
-      // User corrections for continual learning
       try db.create(table: "user_corrections") { t in
         t.autoIncrementedPrimaryKey("id")
         t.column("vision_label", .text).notNull()
@@ -62,7 +58,6 @@ enum DatabaseMigrations {
         t.uniqueKey(["vision_label", "corrected_ingredient_id"])
       }
 
-      // Health profile (single row, set during onboarding)
       try db.create(table: "health_profile") { t in
         t.primaryKey("id", .integer, onConflict: .replace)
           .check { $0 == 1 }
@@ -76,7 +71,6 @@ enum DatabaseMigrations {
         t.column("updated_at", .datetime).defaults(sql: "CURRENT_TIMESTAMP")
       }
 
-      // Cooking history for personalization + streaks
       try db.create(table: "cooking_history") { t in
         t.autoIncrementedPrimaryKey("id")
         t.column("recipe_id", .integer)
@@ -87,19 +81,16 @@ enum DatabaseMigrations {
           .check { $0 >= 1 && $0 <= 5 }
       }
 
-      // Badges
       try db.create(table: "badges") { t in
         t.primaryKey("id", .text)
         t.column("earned_at", .datetime).defaults(sql: "CURRENT_TIMESTAMP")
       }
 
-      // Streaks
       try db.create(table: "streaks") { t in
         t.primaryKey("date", .text)
         t.column("meals_cooked", .integer).defaults(to: 0)
       }
 
-      // Indexes for query performance
       try db.create(
         index: "idx_ri_ingredient",
         on: "recipe_ingredients",

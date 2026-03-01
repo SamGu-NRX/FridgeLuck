@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// A celebratory confetti burst overlay. Particles launch upward, spread horizontally,
-/// and fall with gravity. Uses the app's warm palette -- no neon, no generic rainbow.
+/// and fall with gravity.
 struct ConfettiOverlay: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var particles: [ConfettiParticle] = []

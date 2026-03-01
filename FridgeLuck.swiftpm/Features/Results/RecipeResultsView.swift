@@ -14,7 +14,6 @@ struct RecipeResultsView: View {
   @Namespace private var transitionNamespace
   @State private var revealedCount: Int = 0
 
-  // Navigation state for drawer → book flow
   @State private var selectedRecipe: ScoredRecipe?
   @State private var cookingRecipe: ScoredRecipe?
 
@@ -74,12 +73,9 @@ struct RecipeResultsView: View {
     .onChange(of: engine.sections.exact.count) { _, _ in
       Task { await revealRecommendationsIfNeeded() }
     }
-    // Preview drawer (sheet ~92%)
     .sheet(item: $selectedRecipe) { recipe in
       RecipePreviewDrawer(scoredRecipe: recipe) {
-        // "Start Cooking" tapped — dismiss drawer, then open book
         selectedRecipe = nil
-        // Small delay to let sheet dismiss before presenting fullScreenCover
         Task {
           try? await Task.sleep(for: .milliseconds(350))
           cookingRecipe = recipe
@@ -89,11 +85,8 @@ struct RecipeResultsView: View {
       .presentationDragIndicator(.visible)
       .presentationCornerRadius(AppTheme.Radius.xl)
     }
-    // Cooking guide (full screen)
     .fullScreenCover(item: $cookingRecipe) { recipe in
       CookingGuideView(scoredRecipe: recipe) {
-        // Cooking complete (celebration "Done" tapped)
-        // Dismiss the fullScreenCover first, then return to Home after the animation settles.
         cookingRecipe = nil
         Task {
           try? await Task.sleep(for: .milliseconds(450))
@@ -198,7 +191,6 @@ struct RecipeResultsView: View {
       selectedRecipe = scored
     } label: {
       VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-        // Floating badge overlapping the top
         HStack {
           Text("BEST MATCH")
             .font(AppTheme.Typography.labelSmall)
@@ -228,7 +220,6 @@ struct RecipeResultsView: View {
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textSecondary)
 
-        // Macro bar — thin, elegant, no card wrapper
         MacroSummaryBar(macros: scored.macros)
 
         if !scored.rankingReasons.isEmpty {
@@ -354,7 +345,6 @@ struct RecipeResultsView: View {
       selectedRecipe = scored
     } label: {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        // Floating match percentage
         Text("\(scored.matchedRequired)/\(scored.totalRequired)")
           .font(AppTheme.Typography.dataMedium)
           .foregroundStyle(AppTheme.accent)
@@ -374,7 +364,6 @@ struct RecipeResultsView: View {
 
         Spacer(minLength: 0)
 
-        // Inline macro summary
         VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
           miniMacro("P", value: Int(scored.macros.proteinPerServing), color: AppTheme.sage)
           miniMacro("C", value: Int(scored.macros.carbsPerServing), color: AppTheme.oat)

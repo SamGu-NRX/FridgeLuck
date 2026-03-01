@@ -61,7 +61,6 @@ private struct RecipeArray: Decodable {
     timeMinutes = try container.decode(Int.self)
     servings = try container.decode(Int.self)
 
-    // Decode ingredient pairs: [[id, grams], ...]
     requiredIngredients = try Self.decodeIngredientPairs(from: &container)
     optionalIngredients = try Self.decodeIngredientPairs(from: &container)
 
@@ -108,7 +107,6 @@ enum BundledDataLoader {
     let bundled = try JSONDecoder().decode(BundledData.self, from: jsonData)
 
     try await appDB.dbQueue.write { db in
-      // Insert ingredients
       for (idString, raw) in bundled.ingredients {
         guard let id = Int64(idString) else { continue }
         try db.execute(
@@ -129,7 +127,6 @@ enum BundledDataLoader {
       // This keeps the hand-authored core IDs stable while expanding searchable coverage.
       try loadUSDACatalogIngredientsIfAvailable(into: db)
 
-      // Insert recipes + ingredient relationships
       for raw in bundled.recipes {
         try db.execute(
           sql: """
@@ -143,7 +140,6 @@ enum BundledDataLoader {
           ]
         )
 
-        // Required ingredients
         for (ingId, grams) in raw.requiredIngredients {
           let displayQty = Self.formatDisplayQuantity(
             grams: grams, ingredientId: ingId, ingredients: bundled.ingredients)
@@ -157,7 +153,6 @@ enum BundledDataLoader {
           )
         }
 
-        // Optional ingredients
         for (ingId, grams) in raw.optionalIngredients {
           let displayQty = Self.formatDisplayQuantity(
             grams: grams, ingredientId: ingId, ingredients: bundled.ingredients)
@@ -372,8 +367,6 @@ enum BundledDataLoader {
       return "\(Int(grams))g"
     }
 
-    // Use the typical_unit info to build a readable quantity
-    // For now, just show grams — a future pass can map to cups/tbsp/etc.
     let name = raw.name.replacingOccurrences(of: "_", with: " ")
     return "\(Int(grams))g \(name)"
   }

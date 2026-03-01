@@ -52,14 +52,11 @@ struct CookingGuideView: View {
 
   var body: some View {
     ZStack {
-      // Background
       AppTheme.bg.ignoresSafeArea()
 
       VStack(spacing: 0) {
-        // Top bar: close + progress
         topBar
 
-        // Page content
         pageContent
           .id(currentPage)
           .transition(pageTransition)
@@ -67,7 +64,6 @@ struct CookingGuideView: View {
 
         Spacer(minLength: 0)
 
-        // Bottom navigation
         bottomNavigation
       }
 
@@ -140,7 +136,6 @@ struct CookingGuideView: View {
 
         Spacer()
 
-        // Page counter
         Text(topBarCounterText)
           .font(AppTheme.Typography.dataMedium)
           .foregroundStyle(AppTheme.accent)
@@ -148,7 +143,6 @@ struct CookingGuideView: View {
       }
       .padding(.horizontal, contentHorizontalPadding)
 
-      // Progress bar
       GeometryReader { geo in
         ZStack(alignment: .leading) {
           Capsule()
@@ -183,7 +177,6 @@ struct CookingGuideView: View {
 
   private var ingredientsPage: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
-      // Page header
       VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
         Text("Ingredients")
           .font(AppTheme.Typography.displayMedium)
@@ -196,7 +189,6 @@ struct CookingGuideView: View {
       .opacity(pageAppeared ? 1 : 0)
       .offset(y: pageAppeared ? 0 : 10)
 
-      // Ingredient checklist
       let required = ingredients.filter { $0.quantity.isRequired }
       let optional = ingredients.filter { !$0.quantity.isRequired }
 
@@ -245,7 +237,6 @@ struct CookingGuideView: View {
     let activeSub = activeSubstitutions[ingredient.id ?? -1]
 
     return HStack(spacing: AppTheme.Space.sm) {
-      // Check toggle + ingredient name
       Button {
         withAnimation(reduceMotion ? nil : AppMotion.quick) {
           if isChecked {
@@ -286,7 +277,6 @@ struct CookingGuideView: View {
       }
       .buttonStyle(.plain)
 
-      // Swap button
       if hasSwap {
         Button {
           substitutionTarget = (ingredient, quantity)
@@ -328,7 +318,6 @@ struct CookingGuideView: View {
     let isCompleted = completedSteps.contains(index)
 
     return VStack(alignment: .leading, spacing: AppTheme.Space.xl) {
-      // Large step number
       HStack(alignment: .firstTextBaseline) {
         Text(String(format: "%02d", index + 1))
           .font(.system(size: 72, weight: .bold, design: .serif))
@@ -343,7 +332,6 @@ struct CookingGuideView: View {
       .scaleEffect(pageAppeared ? 1 : 0.85, anchor: .leading)
       .animation(reduceMotion ? nil : AppMotion.heroAppear, value: pageAppeared)
 
-      // Step instruction
       Text(step)
         .font(.system(.title3, weight: .regular))
         .foregroundStyle(AppTheme.textPrimary)
@@ -357,7 +345,6 @@ struct CookingGuideView: View {
           value: pageAppeared
         )
 
-      // Done toggle
       Button {
         withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
           if isCompleted {
@@ -405,14 +392,12 @@ struct CookingGuideView: View {
         .padding(.horizontal, contentHorizontalPadding)
 
       HStack(spacing: AppTheme.Space.md) {
-        // Back button
         if currentPage > 0 {
           FLSecondaryButton("Back", systemImage: "chevron.left") {
             goToPreviousPage()
           }
         }
 
-        // Next / "I Made This" button
         if isOnLastStep {
           FLPrimaryButton("I Made This!", systemImage: "frying.pan.fill") {
             withAnimation(reduceMotion ? nil : AppMotion.celebration) {
@@ -440,7 +425,6 @@ struct CookingGuideView: View {
     withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
       currentPage += 1
     }
-    // Re-trigger page appear animation
     Task {
       try? await Task.sleep(for: .milliseconds(50))
       withAnimation(reduceMotion ? nil : AppMotion.sectionReveal) {

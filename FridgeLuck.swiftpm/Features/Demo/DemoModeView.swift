@@ -10,7 +10,8 @@ struct DemoModeView: View {
   // MARK: - State
 
   @State private var appeared = false
-  @State private var loadingScenario: DemoScenario?
+  @State private var overlayPhase: OverlayPhase = .hidden
+  @State private var activeScenario: DemoScenario?
   @State private var loadedDetections: [Detection] = []
   @State private var loadedProvenance: ScanProvenance = .bundledFixture
   @State private var navigateToReview = false
@@ -19,6 +20,18 @@ struct DemoModeView: View {
   @State private var scanProgress: CGFloat = 0
   @State private var discoveredCount: Int = 0
   @State private var scannerBracketsVisible = false
+  @State private var scanComplete = false
+
+  /// The overlay phases: preview first, then scanning.
+  private enum OverlayPhase: Equatable {
+    case hidden
+    case preview(DemoScenario)
+    case scanning(DemoScenario)
+  }
+
+  private var isOverlayVisible: Bool {
+    overlayPhase != .hidden
+  }
 
   // MARK: - Layout
 
@@ -36,6 +49,9 @@ struct DemoModeView: View {
           header
             .padding(.horizontal, AppTheme.Space.page)
 
+          howItWorksCallout
+            .padding(.horizontal, AppTheme.Space.page)
+
           scenarioGrid
             .padding(.horizontal, AppTheme.Space.page)
 
@@ -46,9 +62,8 @@ struct DemoModeView: View {
         .padding(.bottom, AppTheme.Space.bottomClearance)
       }
 
-      // Loading overlay
-      if let scenario = loadingScenario {
-        scenarioLoadingOverlay(scenario)
+      if isOverlayVisible, let scenario = activeScenario {
+        overlayContent(scenario)
           .transition(.opacity)
       }
     }
@@ -58,7 +73,8 @@ struct DemoModeView: View {
     .navigationDestination(isPresented: $navigateToReview) {
       IngredientReviewView(
         detections: loadedDetections,
-        scanProvenance: loadedProvenance
+        scanProvenance: loadedProvenance,
+        fridgeImage: demoImage
       )
     }
     .navigationDestination(isPresented: $navigateToScan) {
@@ -91,6 +107,40 @@ struct DemoModeView: View {
     .offset(y: appeared ? 0 : 12)
   }
 
+  // MARK: - How It Works Callout
+
+  private var howItWorksCallout: some View {
+    HStack(spacing: AppTheme.Space.sm) {
+      Image(systemName: "lightbulb.min.fill")
+        .font(.system(size: 16, weight: .semibold))
+        .foregroundStyle(AppTheme.oat)
+        .frame(width: 32, height: 32)
+        .background(AppTheme.oat.opacity(0.15), in: Circle())
+
+      Text(
+        "Each card is a realistic fridge scenario with different ingredients. Tap one to see how FridgeLuck scans and identifies what\u{2019}s inside."
+      )
+      .font(AppTheme.Typography.bodySmall)
+      .foregroundStyle(AppTheme.textSecondary)
+      .fixedSize(horizontal: false, vertical: true)
+    }
+    .padding(AppTheme.Space.md)
+    .background(
+      AppTheme.oat.opacity(0.08),
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        .stroke(AppTheme.oat.opacity(0.20), lineWidth: 1)
+    )
+    .opacity(appeared ? 1 : 0)
+    .offset(y: appeared ? 0 : 8)
+    .animation(
+      reduceMotion ? nil : AppMotion.gentle.delay(0.05),
+      value: appeared
+    )
+  }
+
   // MARK: - Scenario Grid
 
   private var scenarioGrid: some View {
@@ -103,17 +153,15 @@ struct DemoModeView: View {
 
   private func scenarioCard(_ scenario: DemoScenario, index: Int) -> some View {
     Button {
-      selectScenario(scenario)
+      beginPreview(scenario)
     } label: {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        // Icon
         Image(systemName: scenario.icon)
           .font(.system(size: 24, weight: .semibold))
           .foregroundStyle(.white.opacity(0.9))
           .frame(width: 44, height: 44)
           .background(Circle().fill(.white.opacity(0.15)))
 
-        // Title & description
         VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
           Text(scenario.title)
             .font(AppTheme.Typography.label)
@@ -127,7 +175,6 @@ struct DemoModeView: View {
             .multilineTextAlignment(.leading)
         }
 
-        // Ingredient chips
         FlowLayout(spacing: AppTheme.Space.xxs) {
           ForEach(scenario.ingredientNames.prefix(4), id: \.self) { name in
             Text(name)
@@ -147,7 +194,6 @@ struct DemoModeView: View {
           }
         }
 
-        // Recipe hint
         HStack(spacing: AppTheme.Space.xxs) {
           Image(systemName: "fork.knife")
             .font(.system(size: 10, weight: .medium))
@@ -179,7 +225,7 @@ struct DemoModeView: View {
       .rotationEffect(.degrees(scenario.cardRotation), anchor: .center)
     }
     .buttonStyle(.plain)
-    .disabled(loadingScenario != nil)
+    .disabled(isOverlayVisible)
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 12)
     .animation(
@@ -228,7 +274,7 @@ struct DemoModeView: View {
       )
     }
     .buttonStyle(.plain)
-    .disabled(loadingScenario != nil)
+    .disabled(isOverlayVisible)
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 8)
     .animation(
@@ -237,9 +283,122 @@ struct DemoModeView: View {
     )
   }
 
+  // MARK: - Overlay Content (Preview → Scanning)
+
+  @ViewBuilder
+  private func overlayContent(_ scenario: DemoScenario) -> some View {
+    switch overlayPhase {
+    case .preview:
+      scenarioPreviewOverlay(scenario)
+    case .scanning:
+      scenarioScanningOverlay(scenario)
+    case .hidden:
+      EmptyView()
+    }
+  }
+
+  // MARK: - Scenario Preview Overlay
+
+  private func scenarioPreviewOverlay(_ scenario: DemoScenario) -> some View {
+    ZStack {
+      Color.black.opacity(0.72)
+        .ignoresSafeArea()
+
+      VStack(spacing: AppTheme.Space.lg) {
+        // Fridge image preview
+        ZStack {
+          if let image = demoImage {
+            Image(uiImage: image)
+              .resizable()
+              .scaledToFill()
+              .overlay {
+                ZStack {
+                  Color.black.opacity(0.06)
+                  RadialGradient(
+                    colors: [Color.clear, Color.black.opacity(0.25)],
+                    center: .center,
+                    startRadius: 80,
+                    endRadius: 320
+                  )
+                }
+              }
+          } else {
+            Color.clear
+              .background(
+                LinearGradient(
+                  colors: scenario.gradientColors,
+                  startPoint: .topLeading,
+                  endPoint: .bottomTrailing
+                )
+              )
+              .overlay {
+                Image(systemName: scenario.icon)
+                  .font(.system(size: 48, weight: .semibold))
+                  .foregroundStyle(.white.opacity(0.6))
+              }
+          }
+        }
+        .aspectRatio(3.0 / 4.0, contentMode: .fit)
+        .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous))
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+            .stroke(.white.opacity(0.12), lineWidth: 0.5)
+        )
+        .shadow(color: .black.opacity(0.45), radius: 28, x: 0, y: 14)
+        .padding(.horizontal, AppTheme.Space.page)
+
+        VStack(spacing: AppTheme.Space.sm) {
+          Text(scenario.title)
+            .font(AppTheme.Typography.displaySmall)
+            .foregroundStyle(.white)
+            .multilineTextAlignment(.center)
+
+          Text(scenario.description)
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(.white.opacity(0.72))
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal, AppTheme.Space.page)
+
+        // Ingredient preview pills
+        FlowLayout(spacing: AppTheme.Space.xxs) {
+          ForEach(scenario.ingredientNames, id: \.self) { name in
+            Text(name)
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(.white.opacity(0.85))
+              .padding(.horizontal, AppTheme.Space.xs)
+              .padding(.vertical, AppTheme.Space.xxxs + 1)
+              .background(.white.opacity(0.12), in: Capsule())
+          }
+        }
+        .padding(.horizontal, AppTheme.Space.page)
+
+        Button {
+          beginScanning(scenario)
+        } label: {
+          HStack(spacing: AppTheme.Space.xs) {
+            Image(systemName: "viewfinder")
+              .font(.system(size: 16, weight: .semibold))
+            Text("Scan This Fridge")
+              .font(.system(size: 16, weight: .semibold))
+          }
+          .foregroundStyle(.white)
+          .padding(.horizontal, AppTheme.Space.lg)
+          .padding(.vertical, AppTheme.Space.md)
+          .background(scenario.accentColor, in: Capsule())
+          .shadow(color: scenario.accentColor.opacity(0.4), radius: 10, x: 0, y: 4)
+        }
+        .buttonStyle(.plain)
+        .padding(.top, AppTheme.Space.xs)
+      }
+    }
+    .accessibilityLabel("\(scenario.title) preview")
+  }
+
   // MARK: - Scanning Overlay
 
-  private func scenarioLoadingOverlay(_ scenario: DemoScenario) -> some View {
+  private func scenarioScanningOverlay(_ scenario: DemoScenario) -> some View {
     ZStack {
       Color.black.opacity(0.72)
         .ignoresSafeArea()
@@ -294,10 +453,11 @@ struct DemoModeView: View {
           .padding(.horizontal, AppTheme.Space.page + AppTheme.Space.md)
 
         VStack(spacing: AppTheme.Space.sm) {
-          Text("Scanning your fridge")
+          Text(scanComplete ? "Analysis complete!" : "Scanning your fridge")
             .font(AppTheme.Typography.displaySmall)
             .foregroundStyle(.white)
             .multilineTextAlignment(.center)
+            .contentTransition(.numericText())
 
           Text(scanStatusText(scenario))
             .font(AppTheme.Typography.bodyMedium)
@@ -420,6 +580,9 @@ struct DemoModeView: View {
   }
 
   private func scanStatusText(_ scenario: DemoScenario) -> String {
+    if scanComplete {
+      return "Found \(scenario.ingredientNames.count) ingredients. Preparing review\u{2026}"
+    }
     if discoveredCount > 0 {
       return "Found \(discoveredCount) ingredient\(discoveredCount == 1 ? "" : "s") so far\u{2026}"
     }
@@ -428,29 +591,37 @@ struct DemoModeView: View {
 
   // MARK: - Actions
 
-  private func selectScenario(_ scenario: DemoScenario) {
-    guard loadingScenario == nil else { return }
+  /// Phase 1: Show the fridge preview with scenario info.
+  private func beginPreview(_ scenario: DemoScenario) {
+    guard !isOverlayVisible else { return }
 
-    // Pre-load the scenario-specific photo for the scan overlay
     demoImage = DemoScanService.loadScenarioImage(for: scenario)
+    activeScenario = scenario
     discoveredCount = 0
+    scanComplete = false
     scannerBracketsVisible = false
 
     withAnimation(reduceMotion ? nil : AppMotion.standard) {
-      loadingScenario = scenario
+      overlayPhase = .preview(scenario)
+    }
+  }
+
+  /// Phase 2: Transition from preview to scanning with the slower animation.
+  private func beginScanning(_ scenario: DemoScenario) {
+    withAnimation(reduceMotion ? nil : AppMotion.standard) {
+      overlayPhase = .scanning(scenario)
     }
 
     Task {
-      // Start the scan in the background
       async let payloadFetch = DemoScanService.loadDemoPayload(
         scenario: scenario,
         using: deps.visionService
       )
 
-      // Animate ingredient discovery count while loading
+      // Slower ingredient discovery animation (300-500ms per ingredient)
       let totalIngredients = scenario.ingredientNames.count
       for i in 1...totalIngredients {
-        try? await Task.sleep(for: .milliseconds(Int.random(in: 180...350)))
+        try? await Task.sleep(for: .milliseconds(Int.random(in: 300...500)))
         withAnimation(reduceMotion ? nil : AppMotion.quick) {
           discoveredCount = i
         }
@@ -461,15 +632,18 @@ struct DemoModeView: View {
       loadedDetections = payload.detections
       loadedProvenance = payload.provenance
 
-      // Ensure minimum visible scanning time for polish (at least 1.8s total)
-      try? await Task.sleep(for: .milliseconds(400))
+      // Show "Analysis complete!" for a longer beat
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        scanComplete = true
+      }
+      try? await Task.sleep(for: .milliseconds(800))
 
       withAnimation(reduceMotion ? nil : AppMotion.standard) {
-        loadingScenario = nil
+        overlayPhase = .hidden
+        activeScenario = nil
       }
 
-      // Small delay for overlay dismiss animation
-      try? await Task.sleep(for: .milliseconds(150))
+      try? await Task.sleep(for: .milliseconds(180))
       navigateToReview = true
     }
   }

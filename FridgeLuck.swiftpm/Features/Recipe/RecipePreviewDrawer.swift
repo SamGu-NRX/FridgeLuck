@@ -19,6 +19,10 @@ struct RecipePreviewDrawer: View {
   @State private var sectionsRevealed: Int = 0
   @State private var existingPhoto: UIImage?
 
+  // MARK: - Swap Tooltip State
+  @AppStorage("hasSeenSwapTooltip") private var hasSeenSwapTooltip = false
+  @State private var showSwapTooltip = false
+
   private var recipe: Recipe { scoredRecipe.recipe }
   private var macros: RecipeMacros { scoredRecipe.macros }
   private let totalSections = 5
@@ -60,6 +64,19 @@ struct RecipePreviewDrawer: View {
       await loadIngredients()
       await loadExistingPhoto()
       await revealSections()
+      if !hasSeenSwapTooltip {
+        let hasAnySwap = ingredients.contains { item in
+          deps.substitutionService.hasSubstitutions(for: item.ingredient.id ?? -1)
+        }
+        if hasAnySwap {
+          let delay = reduceMotion ? 0.2 : 0.6
+          try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+          guard !Task.isCancelled else { return }
+          withAnimation(reduceMotion ? nil : .easeOut(duration: 0.35)) {
+            showSwapTooltip = true
+          }
+        }
+      }
     }
     .sheet(item: $selectedIngredientForDetail) { ingredient in
       IngredientDetailSheet(ingredient: ingredient)
@@ -82,6 +99,18 @@ struct RecipePreviewDrawer: View {
         withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
           activeSubstitutions[target.ingredient.id ?? -1] = (substitution, subIngredient)
         }
+        hasSeenSwapTooltip = true
+        showSwapTooltip = false
+      }
+    }
+    .overlay {
+      if showSwapTooltip {
+        SwapTooltipOverlay {
+          withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
+            showSwapTooltip = false
+            hasSeenSwapTooltip = true
+          }
+        }
       }
     }
   }
@@ -90,13 +119,11 @@ struct RecipePreviewDrawer: View {
 
   private var heroVisual: some View {
     ZStack {
-      // Warm gradient derived from recipe tags
       heroGradient
         .frame(height: 240)
         .clipShape(RoundedRectangle(cornerRadius: 0))
 
       if let photo = existingPhoto {
-        // Show existing meal photo
         Image(uiImage: photo)
           .resizable()
           .aspectRatio(contentMode: .fill)
@@ -110,10 +137,8 @@ struct RecipePreviewDrawer: View {
             )
           }
       } else {
-        // Placeholder with camera hint
         VStack(spacing: AppTheme.Space.sm) {
           ZStack {
-            // Decorative organic blob
             FLOrganicBlob(seed: recipe.title.hashValue)
               .fill(AppTheme.surface.opacity(0.15))
               .frame(width: 100, height: 100)
@@ -134,7 +159,6 @@ struct RecipePreviewDrawer: View {
   private var heroGradient: some View {
     let tags = recipe.recipeTags
 
-    // Pick gradient colors based on recipe's cuisine/type tags
     let (primary, secondary): (Color, Color) = {
       if tags.contains(.asian) { return (AppTheme.sage, AppTheme.deepOliveLight) }
       if tags.contains(.mediterranean) { return (AppTheme.oat, AppTheme.accent.opacity(0.7)) }
@@ -144,7 +168,6 @@ struct RecipePreviewDrawer: View {
       if tags.contains(.vegetarian) || tags.contains(.vegan) {
         return (AppTheme.sage, AppTheme.sageLight)
       }
-      // Default warm editorial
       return (AppTheme.bgDeep, AppTheme.oat.opacity(0.6))
     }()
 
@@ -341,7 +364,6 @@ struct RecipePreviewDrawer: View {
     let activeSub = activeSubstitutions[ingredient.id ?? -1]
 
     return HStack(spacing: AppTheme.Space.sm) {
-      // Tap the main content to view ingredient detail
       Button {
         selectedIngredientForDetail = activeSub?.ingredient ?? ingredient
       } label: {
@@ -351,7 +373,6 @@ struct RecipePreviewDrawer: View {
             .font(AppTheme.Typography.label)
 
           if let sub = activeSub {
-            // Show substituted ingredient with visual indicator
             VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
               Text(sub.ingredient.displayName)
                 .font(AppTheme.Typography.bodyMedium)
@@ -375,7 +396,6 @@ struct RecipePreviewDrawer: View {
       }
       .buttonStyle(.plain)
 
-      // Swap button (only if substitutions exist)
       if hasSwap {
         Button {
           substitutionTarget = (ingredient, quantity)
@@ -456,7 +476,6 @@ struct RecipePreviewDrawer: View {
 
   private func loadExistingPhoto() async {
     guard let recipeId = recipe.id else { return }
-    // Check if there's a previous cooking with a photo for this recipe
     if let path = try? deps.userDataRepository.latestPhotoPath(forRecipeId: recipeId) {
       existingPhoto = deps.imageStorageService.load(relativePath: path)
     }
@@ -470,4 +489,78 @@ private struct SubstitutionTargetWrapper: Identifiable {
   let ingredient: Ingredient
   let quantity: RecipeIngredient
   var id: Int64 { ingredient.id ?? -1 }
+}
+
+// MARK: - Swap Tooltip Overlay
+
+/// A one-time educational tooltip that explains the swap/substitution feature.
+/// Shown as a floating card with a dimmed backdrop, dismissed by tapping "Got it".
+private struct SwapTooltipOverlay: View {
+  var onDismiss: () -> Void
+
+  @State private var appeared = false
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  var body: some View {
+    ZStack {
+      Color.black.opacity(appeared ? 0.5 : 0)
+        .ignoresSafeArea()
+        .onTapGesture { onDismiss() }
+
+      VStack(spacing: AppTheme.Space.md) {
+        Image(systemName: "arrow.triangle.swap")
+          .font(.system(size: 24, weight: .semibold))
+          .foregroundStyle(.white)
+          .frame(width: 48, height: 48)
+          .background(AppTheme.accent.opacity(0.85), in: Circle())
+
+        VStack(spacing: AppTheme.Space.xs) {
+          Text("Swap Ingredients")
+            .font(AppTheme.Typography.displaySmall)
+            .foregroundStyle(.white)
+            .multilineTextAlignment(.center)
+
+          Text(
+            "See a swap icon next to an ingredient? Tap it to find substitutions \u{2014} great for dietary needs, allergies, or using what you already have."
+          )
+          .font(AppTheme.Typography.bodyMedium)
+          .foregroundStyle(.white.opacity(0.76))
+          .multilineTextAlignment(.center)
+          .fixedSize(horizontal: false, vertical: true)
+        }
+
+        Button {
+          onDismiss()
+        } label: {
+          Text("Got it")
+            .font(.system(size: 15, weight: .semibold))
+            .foregroundStyle(AppTheme.accent)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .background(.white, in: Capsule())
+        }
+        .buttonStyle(.plain)
+      }
+      .padding(AppTheme.Space.lg)
+      .frame(maxWidth: 300)
+      .background(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+          .fill(.ultraThinMaterial)
+          .environment(\.colorScheme, .dark)
+      )
+      .overlay(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+          .stroke(.white.opacity(0.10), lineWidth: 1)
+      )
+      .shadow(color: .black.opacity(0.35), radius: 30, x: 0, y: 15)
+      .scaleEffect(appeared ? 1 : 0.85)
+      .opacity(appeared ? 1 : 0)
+    }
+    .onAppear {
+      withAnimation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.82)) {
+        appeared = true
+      }
+    }
+    .accessibilityAddTraits(.isModal)
+  }
 }

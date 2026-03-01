@@ -110,7 +110,8 @@ struct ScanView: View {
         detections: detections,
         nutritionLabelOutcome: nutritionLabelOutcome,
         scanProvenance: scanProvenance,
-        scanDiagnostics: scanDiagnostics
+        scanDiagnostics: scanDiagnostics,
+        fridgeImage: capturedImage
       )
     }
     .onAppear {

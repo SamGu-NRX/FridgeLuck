@@ -26,6 +26,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Sequence
 
+try:
+    from usda_fdc import FdcApiError, FdcAuthError, FdcClient, FdcRateLimitError
+except Exception:
+    FdcApiError = FdcAuthError = FdcRateLimitError = None
+    FdcClient = None
+
 FDC_SEARCH_URL = "https://api.nal.usda.gov/fdc/v1/foods/search"
 FDC_FOOD_URL = "https://api.nal.usda.gov/fdc/v1/food"
 FDC_FOODS_URL = "https://api.nal.usda.gov/fdc/v1/foods"
@@ -446,12 +452,7 @@ class FDCClientAdapter:
         self._FdcApiError: Any = None
         self._FdcAuthError: Any = None
 
-        try:
-            from usda_fdc import FdcApiError, FdcAuthError, FdcClient, FdcRateLimitError
-        except Exception:
-            self.mode = "http"
-            self._client = None
-        else:
+        if FdcClient is not None:
             self.mode = "usda-fdc"
             self._client = FdcClient(api_key=api_key)
             self._FdcRateLimitError = FdcRateLimitError

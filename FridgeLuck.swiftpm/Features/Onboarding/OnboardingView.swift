@@ -180,7 +180,6 @@ struct OnboardingView: View {
     VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
       HStack(alignment: .center) {
         HStack(spacing: AppTheme.Space.sm) {
-          // Arc progress indicator
           FLArcIndicator(
             progress: Double(stepIndex + 1) / Double(totalSteps),
             steps: totalSteps,
@@ -230,7 +229,6 @@ struct OnboardingView: View {
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
 
-        // Goal cards with slight rotation (collage feel)
         LazyVGrid(
           columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: AppTheme.Space.sm
         ) {
@@ -243,7 +241,6 @@ struct OnboardingView: View {
         FLWaveDivider()
           .padding(.vertical, AppTheme.Space.sm)
 
-        // Card-free calorie display: just a massive serif number on warm background
         VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
           Text("DAILY CALORIES")
             .font(AppTheme.Typography.labelSmall)

@@ -59,7 +59,6 @@ final class HomeDashboardViewModel: ObservableObject {
   /// Mark a quest completed and refresh the snapshot.
   func completeQuest(_ quest: TutorialQuest) {
     tutorialProgress.markCompleted(quest)
-    // Update snapshot in-place if it exists, so UI reacts immediately.
     if var snap = snapshot {
       snap = HomeDashboardSnapshot(
         ingredientCount: snap.ingredientCount,

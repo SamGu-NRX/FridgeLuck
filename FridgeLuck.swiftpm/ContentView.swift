@@ -233,6 +233,8 @@ struct ContentView: View {
     UserDefaults.standard.removeObject(forKey: "learning_suggestions_accepted")
     UserDefaults.standard.removeObject(forKey: "hasSeenSpotlightTutorial")
     UserDefaults.standard.removeObject(forKey: "hasSeenCompletionSpotlight")
+    UserDefaults.standard.removeObject(forKey: "hasSeenReviewSpotlight")
+    UserDefaults.standard.removeObject(forKey: "hasSeenSwapTooltip")
 
     hasOnboarded = false
     selectedTab = .home

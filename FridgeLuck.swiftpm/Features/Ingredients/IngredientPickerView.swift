@@ -179,10 +179,8 @@ struct IngredientPickerView: View {
       }
     } label: {
       HStack(spacing: AppTheme.Space.sm) {
-        // Category icon badge
         ingredientIcon(ingredient)
 
-        // Name + description
         VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
           Text(ingredient.displayName)
             .font(.system(.subheadline, design: .serif, weight: .semibold))
@@ -204,7 +202,6 @@ struct IngredientPickerView: View {
 
         Spacer(minLength: 4)
 
-        // Macro proportion bar + calorie count
         VStack(alignment: .trailing, spacing: AppTheme.Space.xxxs) {
           Text("\(Int(ingredient.calories))")
             .font(.system(.caption, design: .rounded, weight: .bold))
@@ -216,7 +213,6 @@ struct IngredientPickerView: View {
           macroBar(ingredient: ingredient)
         }
 
-        // Selection indicator (multi-select)
         if isMultiSelect {
           Image(systemName: isChosen ? "checkmark.circle.fill" : "circle")
             .font(.system(size: 20, weight: .medium))
