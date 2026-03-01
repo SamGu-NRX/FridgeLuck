@@ -209,6 +209,15 @@ enum DatabaseMigrations {
       )
     }
 
+    // MARK: - V6: Cooking history photo + serving tracking
+
+    migrator.registerMigration("v6_cooking_photo_servings") { db in
+      try db.alter(table: "cooking_history") { t in
+        t.add(column: "image_path", .text)
+        t.add(column: "servings_consumed", .integer)
+      }
+    }
+
     try migrator.migrate(db)
   }
 }

@@ -1,3 +1,4 @@
+import AVFoundation
 import SwiftUI
 
 /// Scan flow: capture → analyze → review.
@@ -7,10 +8,17 @@ struct ScanView: View {
     case demo
   }
 
+  enum EntryMode {
+    case standard
+    case judgePath
+  }
+
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let mode: ScanMode
+  let entryMode: EntryMode
+  let demoScenario: DemoScenario?
 
   @State private var capturedImage: UIImage?
   @State private var showCamera = false
@@ -21,15 +29,26 @@ struct ScanView: View {
   @State private var navigateToReview = false
   @State private var errorMessage: String?
   @State private var didStartDemoFlow = false
+  @State private var fallbackStateText: String?
+  @State private var cameraPermissionState: CameraPermissionState = .unknown
 
-  init(mode: ScanMode = .live) {
+  init(mode: ScanMode = .live, entryMode: EntryMode = .standard, demoScenario: DemoScenario? = nil)
+  {
     self.mode = mode
+    self.entryMode = entryMode
+    self.demoScenario = demoScenario
   }
 
   private enum ScanStage: Int {
     case capture = 1
     case analyze = 2
     case review = 3
+  }
+
+  private enum CameraPermissionState {
+    case unknown
+    case denied
+    case unavailable
   }
 
   private var stage: ScanStage {
@@ -65,7 +84,7 @@ struct ScanView: View {
       .animation(reduceMotion ? nil : AppMotion.gentle, value: stage)
     }
     .padding(.horizontal, AppTheme.Space.page)
-    .navigationTitle(mode == .demo ? "Demo Scan" : "Scan Ingredients")
+    .navigationTitle(mode == .demo ? "60-sec Demo" : "Scan Ingredients")
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground()
     .sheet(isPresented: $showCamera) {
@@ -84,6 +103,7 @@ struct ScanView: View {
     }
     .onAppear {
       beginDemoFlowIfNeeded()
+      refreshCameraPermissionState()
     }
     .onChange(of: capturedImage) { _, newValue in
       guard mode == .live, newValue != nil else { return }
@@ -168,7 +188,7 @@ struct ScanView: View {
 
       VStack(spacing: AppTheme.Space.sm) {
         FLPrimaryButton("Open Camera", systemImage: "camera.fill") {
-          showCamera = true
+          openCameraCapture()
         }
 
         FLSecondaryButton("Choose from Library", systemImage: "photo.on.rectangle") {
@@ -186,6 +206,37 @@ struct ScanView: View {
         }
         .buttonStyle(.plain)
         .padding(.top, AppTheme.Space.xs)
+      }
+
+      if cameraPermissionState == .denied {
+        FLCard(tone: .warning) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            Text("Camera permission is off")
+              .font(AppTheme.Typography.displayCaption)
+              .foregroundStyle(AppTheme.textPrimary)
+            Text("Use photo library or manual ingredients to finish without camera access.")
+              .font(AppTheme.Typography.bodySmall)
+              .foregroundStyle(AppTheme.textSecondary)
+
+            HStack(spacing: AppTheme.Space.sm) {
+              FLSecondaryButton("Use Library", systemImage: "photo.on.rectangle") {
+                showPhotoLibrary = true
+              }
+              FLSecondaryButton("Manual", systemImage: "plus.circle") {
+                detections = []
+                nutritionLabelOutcome = nil
+                navigateToReview = true
+              }
+            }
+          }
+        }
+      }
+
+      if cameraPermissionState == .unavailable {
+        Text("Camera unavailable on this device. Library and manual entry are ready.")
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
       }
     }
   }
@@ -227,10 +278,22 @@ struct ScanView: View {
         Text("Demo frame loaded")
           .font(AppTheme.Typography.displayCaption)
           .foregroundStyle(AppTheme.textPrimary)
-        Text("Running the same scan path: capture, analyze, then review.")
-          .font(AppTheme.Typography.bodyMedium)
-          .foregroundStyle(AppTheme.textSecondary)
-          .multilineTextAlignment(.center)
+        Text(
+          entryMode == .judgePath
+            ? "Judge flow: demo photo, review, and best recipe."
+            : "Running the same scan path: capture, analyze, then review."
+        )
+        .font(AppTheme.Typography.bodyMedium)
+        .foregroundStyle(AppTheme.textSecondary)
+        .multilineTextAlignment(.center)
+
+        if let fallbackStateText {
+          Text(fallbackStateText)
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.accent)
+            .multilineTextAlignment(.center)
+            .padding(.top, AppTheme.Space.xxs)
+        }
       }
     }
   }
@@ -260,6 +323,12 @@ struct ScanView: View {
           .foregroundStyle(AppTheme.textSecondary)
           .lineLimit(3)
           .multilineTextAlignment(.center)
+        if let fallbackStateText {
+          Text(fallbackStateText)
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.accent)
+            .multilineTextAlignment(.center)
+        }
       }
       .frame(maxWidth: .infinity, alignment: .center)
       .padding(.horizontal, AppTheme.Space.md)
@@ -352,6 +421,7 @@ struct ScanView: View {
   private func beginDemoFlowIfNeeded() {
     guard mode == .demo, !didStartDemoFlow else { return }
     didStartDemoFlow = true
+    fallbackStateText = nil
 
     if capturedImage == nil {
       capturedImage = DemoScanService.loadDemoImage()
@@ -370,6 +440,7 @@ struct ScanView: View {
     withAnimation(reduceMotion ? nil : AppMotion.standard) {
       isProcessing = true
       errorMessage = nil
+      fallbackStateText = nil
     }
 
     defer {
@@ -379,11 +450,18 @@ struct ScanView: View {
     }
 
     if mode == .demo {
-      let payload = await DemoScanService.loadDemoPayload(using: deps.visionService)
+      let payload = await DemoScanService.loadDemoPayload(
+        scenario: demoScenario, using: deps.visionService)
       detections = payload.detections
       nutritionLabelOutcome = nil
       if capturedImage == nil {
         capturedImage = payload.image
+      }
+      if payload.usedStarterFallback {
+        fallbackStateText =
+          "Demo assets unavailable. Prefilled starter ingredients for reliable review."
+      } else if payload.usedBundledFixture {
+        fallbackStateText = "Using bundled demo fixture for reliability."
       }
     } else {
       guard let capturedImage, let cgImage = capturedImage.cgImage else {
@@ -416,11 +494,78 @@ struct ScanView: View {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         errorMessage =
           mode == .demo
-          ? "Demo fixture is unavailable right now."
+          ? "Demo scan could not detect items. Continue with starter ingredients."
           : "No ingredients were found. Try a tighter crop or clearer lighting."
+      }
+      if mode == .demo {
+        detections = [
+          Detection(
+            ingredientId: 1,
+            label: IngredientLexicon.displayName(for: 1),
+            confidence: 1.0,
+            source: .manual,
+            originalVisionLabel: "starter_egg"
+          ),
+          Detection(
+            ingredientId: 2,
+            label: IngredientLexicon.displayName(for: 2),
+            confidence: 1.0,
+            source: .manual,
+            originalVisionLabel: "starter_rice"
+          ),
+        ]
+        nutritionLabelOutcome = nil
+        navigateToReview = true
       }
     } else {
       navigateToReview = true
+    }
+  }
+
+  private func openCameraCapture() {
+    guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+      cameraPermissionState = .unavailable
+      showPhotoLibrary = true
+      return
+    }
+
+    switch AVCaptureDevice.authorizationStatus(for: .video) {
+    case .authorized:
+      cameraPermissionState = .unknown
+      showCamera = true
+    case .notDetermined:
+      AVCaptureDevice.requestAccess(for: .video) { granted in
+        DispatchQueue.main.async {
+          if granted {
+            self.cameraPermissionState = .unknown
+            self.showCamera = true
+          } else {
+            self.cameraPermissionState = .denied
+          }
+        }
+      }
+    case .denied, .restricted:
+      cameraPermissionState = .denied
+    @unknown default:
+      cameraPermissionState = .unavailable
+      showPhotoLibrary = true
+    }
+  }
+
+  private func refreshCameraPermissionState() {
+    guard mode == .live else { return }
+    guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+      cameraPermissionState = .unavailable
+      return
+    }
+
+    switch AVCaptureDevice.authorizationStatus(for: .video) {
+    case .authorized, .notDetermined:
+      cameraPermissionState = .unknown
+    case .denied, .restricted:
+      cameraPermissionState = .denied
+    @unknown default:
+      cameraPermissionState = .unavailable
     }
   }
 }

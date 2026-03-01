@@ -1,0 +1,425 @@
+import SwiftUI
+
+/// A paginated recipe book experience. Each cooking step gets its own full page.
+/// Page 0 is the ingredients checklist, pages 1-N are individual steps,
+/// and the final action triggers the "I Made This" celebration.
+struct RecipeBookView: View {
+  @EnvironmentObject var deps: AppDependencies
+  @Environment(\.dismiss) private var dismiss
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  let scoredRecipe: ScoredRecipe
+  var onComplete: () -> Void
+
+  @State private var currentPage: Int = 0
+  @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
+  @State private var checkedIngredients: Set<Int64> = []
+  @State private var completedSteps: Set<Int> = []
+  @State private var showCelebration = false
+  @State private var pageDirection: PageDirection = .forward
+  @State private var pageAppeared = false
+
+  private var recipe: Recipe { scoredRecipe.recipe }
+
+  private var instructionSteps: [String] {
+    recipe.instructions
+      .components(separatedBy: "\n")
+      .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+      .filter { !$0.isEmpty }
+  }
+
+  /// Total pages: 1 (ingredients) + N (steps)
+  private var totalPages: Int { 1 + instructionSteps.count }
+  private var isOnIngredientsPage: Bool { currentPage == 0 }
+  private var isOnLastStep: Bool { currentPage == totalPages - 1 }
+  private var currentStepIndex: Int { currentPage - 1 }
+
+  private var progress: Double {
+    guard totalPages > 1 else { return 0 }
+    return Double(currentPage) / Double(totalPages - 1)
+  }
+
+  var body: some View {
+    ZStack {
+      // Background
+      AppTheme.bg.ignoresSafeArea()
+
+      VStack(spacing: 0) {
+        // Top bar: close + progress
+        topBar
+
+        // Page content
+        pageContent
+          .id(currentPage)
+          .transition(pageTransition)
+          .animation(reduceMotion ? nil : AppMotion.pageTurn, value: currentPage)
+
+        Spacer(minLength: 0)
+
+        // Bottom navigation
+        bottomNavigation
+      }
+
+      if showCelebration {
+        CookingCelebrationView(
+          scoredRecipe: scoredRecipe,
+          onDismiss: {
+            dismiss()
+            onComplete()
+          }
+        )
+        .transition(.opacity.combined(with: .scale(scale: 0.95)))
+        .zIndex(10)
+      }
+    }
+    .task {
+      await loadIngredients()
+      if !reduceMotion {
+        try? await Task.sleep(for: .milliseconds(100))
+        withAnimation(AppMotion.sectionReveal) {
+          pageAppeared = true
+        }
+      } else {
+        pageAppeared = true
+      }
+    }
+  }
+
+  // MARK: - Top Bar
+
+  private var topBar: some View {
+    VStack(spacing: AppTheme.Space.sm) {
+      HStack {
+        Button {
+          dismiss()
+        } label: {
+          Image(systemName: "xmark")
+            .font(.system(size: 14, weight: .bold))
+            .foregroundStyle(AppTheme.textSecondary)
+            .frame(width: 32, height: 32)
+            .background(AppTheme.surfaceMuted, in: Circle())
+        }
+
+        Spacer()
+
+        Text(recipe.title)
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
+          .lineLimit(1)
+
+        Spacer()
+
+        // Page counter
+        Text("\(currentPage + 1)/\(totalPages)")
+          .font(AppTheme.Typography.dataMedium)
+          .foregroundStyle(AppTheme.accent)
+          .contentTransition(.numericText())
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+
+      // Progress bar
+      GeometryReader { geo in
+        ZStack(alignment: .leading) {
+          Capsule()
+            .fill(AppTheme.surfaceMuted)
+          Capsule()
+            .fill(AppTheme.accent)
+            .frame(width: geo.size.width * progress)
+            .animation(reduceMotion ? nil : AppMotion.standard, value: progress)
+        }
+      }
+      .frame(height: 4)
+      .padding(.horizontal, AppTheme.Space.page)
+    }
+    .padding(.top, AppTheme.Space.sm)
+    .padding(.bottom, AppTheme.Space.md)
+  }
+
+  // MARK: - Page Content
+
+  @ViewBuilder
+  private var pageContent: some View {
+    ScrollView {
+      if isOnIngredientsPage {
+        ingredientsPage
+      } else {
+        stepPage(index: currentStepIndex)
+      }
+    }
+  }
+
+  // MARK: - Ingredients Page
+
+  private var ingredientsPage: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+      // Page header
+      VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+        Text("Ingredients")
+          .font(AppTheme.Typography.displayMedium)
+          .foregroundStyle(AppTheme.textPrimary)
+
+        Text("Make sure you have everything before you start")
+          .font(AppTheme.Typography.bodyMedium)
+          .foregroundStyle(AppTheme.textSecondary)
+      }
+      .opacity(pageAppeared ? 1 : 0)
+      .offset(y: pageAppeared ? 0 : 10)
+
+      // Ingredient checklist
+      let required = ingredients.filter { $0.quantity.isRequired }
+      let optional = ingredients.filter { !$0.quantity.isRequired }
+
+      if !required.isEmpty {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+          Text("REQUIRED")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .kerning(1.2)
+
+          ForEach(Array(required.enumerated()), id: \.element.ingredient.id) { index, item in
+            ingredientCheckRow(item.ingredient, quantity: item.quantity)
+              .opacity(pageAppeared ? 1 : 0)
+              .offset(y: pageAppeared ? 0 : 8)
+              .animation(
+                reduceMotion ? nil : AppMotion.sectionReveal.delay(Double(index) * 0.03),
+                value: pageAppeared
+              )
+          }
+        }
+      }
+
+      if !optional.isEmpty {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+          Text("OPTIONAL")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .kerning(1.2)
+
+          ForEach(optional, id: \.ingredient.id) { item in
+            ingredientCheckRow(item.ingredient, quantity: item.quantity)
+          }
+        }
+      }
+    }
+    .padding(.horizontal, AppTheme.Space.page)
+    .padding(.top, AppTheme.Space.md)
+    .padding(.bottom, AppTheme.Space.xxl)
+  }
+
+  private func ingredientCheckRow(
+    _ ingredient: Ingredient, quantity: RecipeIngredient
+  ) -> some View {
+    let isChecked = checkedIngredients.contains(ingredient.id ?? -1)
+
+    return Button {
+      withAnimation(reduceMotion ? nil : AppMotion.quick) {
+        if isChecked {
+          checkedIngredients.remove(ingredient.id ?? -1)
+        } else {
+          checkedIngredients.insert(ingredient.id ?? -1)
+        }
+      }
+    } label: {
+      HStack(spacing: AppTheme.Space.sm) {
+        Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
+          .foregroundStyle(isChecked ? AppTheme.positive : AppTheme.textSecondary)
+          .font(.system(size: 20))
+
+        Text(ingredient.displayName)
+          .font(AppTheme.Typography.bodyLarge)
+          .foregroundStyle(isChecked ? AppTheme.textSecondary : AppTheme.textPrimary)
+          .strikethrough(isChecked, color: AppTheme.textSecondary)
+
+        Spacer()
+
+        Text(quantity.displayQuantity)
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
+      }
+      .padding(AppTheme.Space.md)
+      .background(
+        isChecked
+          ? AppTheme.positive.opacity(0.06) : AppTheme.surface,
+        in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+      )
+      .overlay(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+          .stroke(
+            isChecked ? AppTheme.positive.opacity(0.2) : AppTheme.oat.opacity(0.25),
+            lineWidth: 1
+          )
+      )
+    }
+    .buttonStyle(.plain)
+  }
+
+  // MARK: - Step Page
+
+  private func stepPage(index: Int) -> some View {
+    let step = instructionSteps[index]
+    let isCompleted = completedSteps.contains(index)
+
+    return VStack(alignment: .leading, spacing: AppTheme.Space.xl) {
+      // Large step number
+      HStack(alignment: .firstTextBaseline) {
+        Text(String(format: "%02d", index + 1))
+          .font(.system(size: 72, weight: .bold, design: .serif))
+          .foregroundStyle(AppTheme.accent.opacity(0.18))
+
+        Text("of \(instructionSteps.count)")
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
+          .padding(.bottom, AppTheme.Space.sm)
+      }
+      .opacity(pageAppeared ? 1 : 0)
+      .scaleEffect(pageAppeared ? 1 : 0.85, anchor: .leading)
+      .animation(reduceMotion ? nil : AppMotion.heroAppear, value: pageAppeared)
+
+      // Step instruction
+      Text(step)
+        .font(.system(.title3, weight: .regular))
+        .foregroundStyle(AppTheme.textPrimary)
+        .lineSpacing(6)
+        .fixedSize(horizontal: false, vertical: true)
+        .opacity(pageAppeared ? 1 : 0)
+        .offset(y: pageAppeared ? 0 : 12)
+        .animation(
+          reduceMotion ? nil : AppMotion.sectionReveal.delay(0.08),
+          value: pageAppeared
+        )
+
+      // Done toggle
+      Button {
+        withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
+          if isCompleted {
+            completedSteps.remove(index)
+          } else {
+            completedSteps.insert(index)
+          }
+        }
+      } label: {
+        HStack(spacing: AppTheme.Space.sm) {
+          Image(systemName: isCompleted ? "checkmark.circle.fill" : "circle")
+            .font(.system(size: 22))
+            .foregroundStyle(isCompleted ? AppTheme.positive : AppTheme.textSecondary)
+
+          Text(isCompleted ? "Done" : "Mark as done")
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(isCompleted ? AppTheme.positive : AppTheme.textSecondary)
+        }
+        .padding(AppTheme.Space.md)
+        .background(
+          isCompleted ? AppTheme.positive.opacity(0.08) : AppTheme.surfaceMuted.opacity(0.5),
+          in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        )
+      }
+      .buttonStyle(.plain)
+      .opacity(pageAppeared ? 1 : 0)
+      .animation(
+        reduceMotion ? nil : AppMotion.sectionReveal.delay(0.14),
+        value: pageAppeared
+      )
+
+      Spacer()
+    }
+    .padding(.horizontal, AppTheme.Space.page)
+    .padding(.top, AppTheme.Space.lg)
+    .padding(.bottom, AppTheme.Space.xxl)
+  }
+
+  // MARK: - Bottom Navigation
+
+  private var bottomNavigation: some View {
+    VStack(spacing: 0) {
+      FLWaveDivider()
+        .padding(.horizontal, AppTheme.Space.page)
+
+      HStack(spacing: AppTheme.Space.md) {
+        // Back button
+        if currentPage > 0 {
+          FLSecondaryButton("Back", systemImage: "chevron.left") {
+            goToPreviousPage()
+          }
+        }
+
+        // Next / "I Made This" button
+        if isOnLastStep {
+          FLPrimaryButton("I Made This!", systemImage: "frying.pan.fill") {
+            withAnimation(reduceMotion ? nil : AppMotion.celebration) {
+              showCelebration = true
+            }
+          }
+        } else {
+          FLPrimaryButton("Next", systemImage: "chevron.right") {
+            goToNextPage()
+          }
+        }
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.vertical, AppTheme.Space.md)
+    }
+    .background(AppTheme.bg)
+  }
+
+  // MARK: - Navigation Actions
+
+  private func goToNextPage() {
+    guard currentPage < totalPages - 1 else { return }
+    pageDirection = .forward
+    pageAppeared = false
+    withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
+      currentPage += 1
+    }
+    // Re-trigger page appear animation
+    Task {
+      try? await Task.sleep(for: .milliseconds(50))
+      withAnimation(reduceMotion ? nil : AppMotion.sectionReveal) {
+        pageAppeared = true
+      }
+    }
+  }
+
+  private func goToPreviousPage() {
+    guard currentPage > 0 else { return }
+    pageDirection = .backward
+    pageAppeared = false
+    withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
+      currentPage -= 1
+    }
+    Task {
+      try? await Task.sleep(for: .milliseconds(50))
+      withAnimation(reduceMotion ? nil : AppMotion.sectionReveal) {
+        pageAppeared = true
+      }
+    }
+  }
+
+  private var pageTransition: AnyTransition {
+    switch pageDirection {
+    case .forward:
+      return .asymmetric(
+        insertion: .move(edge: .trailing).combined(with: .opacity),
+        removal: .move(edge: .leading).combined(with: .opacity)
+      )
+    case .backward:
+      return .asymmetric(
+        insertion: .move(edge: .leading).combined(with: .opacity),
+        removal: .move(edge: .trailing).combined(with: .opacity)
+      )
+    }
+  }
+
+  // MARK: - Data Loading
+
+  private func loadIngredients() async {
+    guard let recipeId = recipe.id else { return }
+    ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeId)) ?? []
+  }
+}
+
+// MARK: - Page Direction
+
+private enum PageDirection {
+  case forward
+  case backward
+}

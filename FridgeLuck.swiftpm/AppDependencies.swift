@@ -22,6 +22,7 @@ final class AppDependencies: ObservableObject {
   let healthScoringService: HealthScoringService
   let personalizationService: PersonalizationService
   let dishEstimateService: DishEstimateService
+  let imageStorageService: ImageStorageService
 
   // Intelligence
   let recipeGenerator: RecipeGenerating
@@ -41,6 +42,7 @@ final class AppDependencies: ObservableObject {
       db: db
     )
     self.dishEstimateService = DishEstimateService(db: db)
+    self.imageStorageService = ImageStorageService()
 
     // Repositories
     self.ingredientRepository = IngredientRepository(db: db)
@@ -56,7 +58,7 @@ final class AppDependencies: ObservableObject {
     // Recognition
     self.visionService = VisionService(learningService: learningService)
 
-    // Intelligence (uses fallback until iOS 26 SDK is available)
+    // Intelligence (Foundation Models on iOS 26+ with deterministic fallback)
     self.recipeGenerator = RecipeGeneratorFactory.create(
       recipeRepository: recipeRepository
     )

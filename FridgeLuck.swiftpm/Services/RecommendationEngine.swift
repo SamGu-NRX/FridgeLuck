@@ -1,5 +1,19 @@
 import Foundation
 
+struct RecommendationSections: Sendable {
+  var exact: [ScoredRecipe]
+  var nearMatch: [ScoredRecipe]
+
+  static let empty = RecommendationSections(exact: [], nearMatch: [])
+
+  var all: [ScoredRecipe] { exact + nearMatch }
+}
+
+struct RecommendationExplanationPayload: Sendable {
+  let policySummary: String
+  let activeDietaryBadges: [String]
+}
+
 /// Orchestrates the full flow from detected ingredients to scored recipe recommendations.
 /// Ties together RecipeRepository, HealthScoring, and RecipeGenerator.
 @MainActor
@@ -9,8 +23,15 @@ final class RecommendationEngine: ObservableObject {
   private let recipeGenerator: RecipeGenerating
 
   @Published var recommendations: [ScoredRecipe] = []
+  @Published var sections: RecommendationSections = .empty
   @Published var quickSuggestion: ScoredRecipe?
   @Published var aiGeneratedRecipe: GeneratedRecipeResult?
+  @Published var explanationPayload = RecommendationExplanationPayload(
+    policySummary:
+      "Complete matches rank first, then near matches missing one required ingredient.",
+    activeDietaryBadges: []
+  )
+  @Published var aiEnhancementNotice: String?
   @Published var isLoading = false
   @Published var error: Error?
 
@@ -22,6 +43,7 @@ final class RecommendationEngine: ObservableObject {
     self.recipeRepository = recipeRepository
     self.healthScoringService = healthScoringService
     self.recipeGenerator = recipeGenerator
+    self.aiEnhancementNotice = recipeGenerator.enhancementAvailability.noticeText
   }
 
   // MARK: - Find Recipes
@@ -31,28 +53,54 @@ final class RecommendationEngine: ObservableObject {
     isLoading = true
     error = nil
 
+    defer { isLoading = false }
+
     do {
       let profile = try healthScoringService.fetchHealthProfile()
+      let effectiveIngredientIDs: Set<Int64> =
+        ingredientIds.isEmpty ? Set([1, 2, 5, 6]) : ingredientIds
 
-      // Find bundled/saved recipes
-      let results = try recipeRepository.findMakeable(
-        with: ingredientIds,
+      let exact = try recipeRepository.findMakeable(
+        with: effectiveIngredientIDs,
         profile: profile,
         limit: 20
       )
-      recommendations = results
-
-      // Quick suggestion
-      quickSuggestion = try recipeRepository.quickSuggestion(
-        with: ingredientIds,
-        profile: profile
+      var near = try recipeRepository.findNearMatch(
+        with: effectiveIngredientIDs,
+        profile: profile,
+        maxMissingRequired: 1,
+        limit: exact.isEmpty ? 20 : 8
       )
 
+      if exact.isEmpty && near.isEmpty {
+        near = try recipeRepository.findNearMatch(
+          with: effectiveIngredientIDs,
+          profile: profile,
+          maxMissingRequired: 2,
+          limit: 20
+        )
+      }
+
+      sections = RecommendationSections(exact: exact, nearMatch: near)
+      recommendations = sections.all
+      quickSuggestion = exact.first ?? near.first
+
+      explanationPayload = RecommendationExplanationPayload(
+        policySummary:
+          "Complete matches rank first, then near matches missing one required ingredient.",
+        activeDietaryBadges: profile.activeDietaryBadges
+      )
     } catch {
       self.error = error
+      recommendations = []
+      sections = .empty
+      quickSuggestion = nil
+      explanationPayload = RecommendationExplanationPayload(
+        policySummary:
+          "Complete matches rank first, then near matches missing one required ingredient.",
+        activeDietaryBadges: []
+      )
     }
-
-    isLoading = false
   }
 
   // MARK: - AI Recipe Generation
@@ -62,13 +110,15 @@ final class RecommendationEngine: ObservableObject {
     ingredientNames: [String],
     dietaryRestrictions: [String] = []
   ) async {
+    let normalizedNames = await AIIngredientNormalizer.enhancedNormalize(ingredientNames)
+
     do {
       aiGeneratedRecipe = try await recipeGenerator.generate(
-        from: ingredientNames,
+        from: normalizedNames,
         dietaryRestrictions: dietaryRestrictions
       )
     } catch {
-      // AI generation is optional — don't surface as error
+      // AI generation is optional — don't surface as error.
       aiGeneratedRecipe = nil
     }
   }

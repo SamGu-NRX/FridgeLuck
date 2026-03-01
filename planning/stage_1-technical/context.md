@@ -614,20 +614,26 @@ Some Apple Intelligence features users see in the OS aren't exposed as public AP
 
 ```bash
 #!/bin/bash
-find . -name ".DS_Store" -delete
-zip -r FridgeLuck.zip FridgeLuck.swiftpm
-ls -lh FridgeLuck.zip
-# Warn if > 25MB
+set -euo pipefail
+find FridgeLuck.swiftpm -name ".DS_Store" -delete
+zip -rq FridgeLuck.zip FridgeLuck.swiftpm
+# hard fail if ZIP >= 25 MB
 ```
 
 **`scripts/offline_audit.sh`**
 
 ```bash
 #!/bin/bash
-echo "Checking for network calls..."
-grep -r "URLSession\|http://\|https://" Sources/
-echo "Remember to test with Wi-Fi off!"
+set -euo pipefail
+# scan for runtime network API calls
+rg -n "URLSession|http://|https://" FridgeLuck.swiftpm
+# verify local vendored dependency exists
+test -f FridgeLuck.swiftpm/Vendor/GRDB.swift/Package.swift
+# verify usage descriptions are present
+test -f FridgeLuck.swiftpm/Support/AdditionalInfo.plist
 ```
+
+**Offline dependency strategy:** GRDB is vendored at `FridgeLuck.swiftpm/Vendor/GRDB.swift` and referenced through `.package(path: "Vendor/GRDB.swift")`, so a clean offline machine can open and build without fetching remote packages.
 
 ---
 

@@ -1,16 +1,29 @@
 import SwiftUI
 
 /// Shows recipe recommendations based on the user's available ingredients.
+/// Tapping a recipe opens a preview drawer (sheet), which leads to the recipe book
+/// (fullScreenCover), then the cooking celebration, and finally dismisses back here.
 struct RecipeResultsView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @Environment(\.dismiss) private var dismiss
   let ingredientIds: Set<Int64>
+  var onCookingComplete: (() -> Void)?
 
   @StateObject private var engine: RecommendationEngine
   @Namespace private var transitionNamespace
   @State private var revealedCount: Int = 0
 
-  init(ingredientIds: Set<Int64>, engine: RecommendationEngine) {
+  // Navigation state for drawer → book flow
+  @State private var selectedRecipe: ScoredRecipe?
+  @State private var cookingRecipe: ScoredRecipe?
+
+  init(
+    ingredientIds: Set<Int64>,
+    engine: RecommendationEngine,
+    onCookingComplete: (() -> Void)? = nil
+  ) {
     self.ingredientIds = ingredientIds
+    self.onCookingComplete = onCookingComplete
     _engine = StateObject(wrappedValue: engine)
   }
 
@@ -37,8 +50,16 @@ struct RecipeResultsView: View {
             .padding(.horizontal, AppTheme.Space.page)
             .padding(.bottom, AppTheme.Space.lg)
 
-          allResultsGrid
-            .padding(.horizontal, AppTheme.Space.page)
+          if !engine.sections.exact.isEmpty {
+            allResultsGrid
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.bottom, AppTheme.Space.lg)
+          }
+
+          if !engine.sections.nearMatch.isEmpty {
+            nearMatchSection
+              .padding(.horizontal, AppTheme.Space.page)
+          }
         }
       }
       .padding(.top, AppTheme.Space.md)
@@ -51,8 +72,31 @@ struct RecipeResultsView: View {
       await engine.findRecipes(for: ingredientIds)
       await revealRecommendationsIfNeeded()
     }
-    .onChange(of: engine.recommendations.count) { _, _ in
+    .onChange(of: engine.sections.exact.count) { _, _ in
       Task { await revealRecommendationsIfNeeded() }
+    }
+    // Preview drawer (sheet ~92%)
+    .sheet(item: $selectedRecipe) { recipe in
+      RecipePreviewDrawer(scoredRecipe: recipe) {
+        // "Start Cooking" tapped — dismiss drawer, then open book
+        selectedRecipe = nil
+        // Small delay to let sheet dismiss before presenting fullScreenCover
+        Task {
+          try? await Task.sleep(for: .milliseconds(350))
+          cookingRecipe = recipe
+        }
+      }
+      .presentationDetents([.fraction(0.92)])
+      .presentationDragIndicator(.visible)
+      .presentationCornerRadius(AppTheme.Radius.xl)
+    }
+    // Recipe book (full screen)
+    .fullScreenCover(item: $cookingRecipe) { recipe in
+      RecipeBookView(scoredRecipe: recipe) {
+        // Cooking complete (celebration "Done" tapped)
+        cookingRecipe = nil
+        onCookingComplete?()
+      }
     }
   }
 
@@ -64,17 +108,37 @@ struct RecipeResultsView: View {
         .font(AppTheme.Typography.displaySmall)
         .foregroundStyle(AppTheme.textPrimary)
 
-      Text("Matches prioritize complete required ingredients first.")
+      Text(engine.explanationPayload.policySummary)
         .font(AppTheme.Typography.bodyMedium)
         .foregroundStyle(AppTheme.textSecondary)
 
+      if !engine.explanationPayload.activeDietaryBadges.isEmpty {
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: AppTheme.Space.xs) {
+            ForEach(engine.explanationPayload.activeDietaryBadges, id: \.self) { badge in
+              statusChip(label: badge, icon: "line.3.horizontal.decrease.circle")
+            }
+          }
+        }
+      }
+
       if !engine.recommendations.isEmpty {
         HStack(spacing: AppTheme.Space.sm) {
-          statusChip(label: "\(engine.recommendations.count) matches", icon: "list.bullet")
+          statusChip(label: "\(engine.sections.exact.count) exact", icon: "checkmark.circle")
+          if !engine.sections.nearMatch.isEmpty {
+            statusChip(
+              label: "\(engine.sections.nearMatch.count) near", icon: "exclamationmark.circle")
+          }
           if let quick = engine.quickSuggestion {
             statusChip(label: "\(quick.recipe.timeMinutes)m", icon: "bolt.fill")
           }
         }
+      }
+
+      if let aiNotice = engine.aiEnhancementNotice {
+        Text(aiNotice)
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
       }
     }
   }
@@ -127,9 +191,8 @@ struct RecipeResultsView: View {
   // MARK: - Best Match Hero (torn-edge, editorial)
 
   private func bestMatchHero(_ scored: ScoredRecipe) -> some View {
-    NavigationLink {
-      RecipeDetailView(scoredRecipe: scored)
-        .navigationTransition(.zoom(sourceID: "best-match", in: transitionNamespace))
+    Button {
+      selectedRecipe = scored
     } label: {
       VStack(alignment: .leading, spacing: AppTheme.Space.md) {
         // Floating badge overlapping the top
@@ -164,6 +227,12 @@ struct RecipeResultsView: View {
 
         // Macro bar — thin, elegant, no card wrapper
         MacroSummaryBar(macros: scored.macros)
+
+        if !scored.rankingReasons.isEmpty {
+          Text(scored.rankingReasons.joined(separator: " • "))
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding(AppTheme.Space.page)
@@ -189,7 +258,7 @@ struct RecipeResultsView: View {
 
   private var allResultsGrid: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-      Text("ALL MATCHES")
+      Text("EXACT MATCHES")
         .font(AppTheme.Typography.labelSmall)
         .foregroundStyle(AppTheme.textSecondary)
         .kerning(1.2)
@@ -200,7 +269,7 @@ struct RecipeResultsView: View {
       ]
 
       LazyVGrid(columns: columns, spacing: AppTheme.Space.sm) {
-        ForEach(Array(engine.recommendations.enumerated()), id: \.element.recipe.id) {
+        ForEach(Array(engine.sections.exact.enumerated()), id: \.element.recipe.id) {
           index, scored in
           recipeGridItem(scored: scored, index: index)
             .opacity(index <= revealedCount ? 1 : 0)
@@ -214,12 +283,72 @@ struct RecipeResultsView: View {
     }
   }
 
+  private var nearMatchSection: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+      Text("ALMOST THERE")
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(AppTheme.textSecondary)
+        .kerning(1.2)
+
+      ForEach(engine.sections.nearMatch) { scored in
+        Button {
+          selectedRecipe = scored
+        } label: {
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            Text(scored.recipe.title)
+              .font(.system(.headline, design: .serif, weight: .semibold))
+              .foregroundStyle(AppTheme.textPrimary)
+              .multilineTextAlignment(.leading)
+
+            HStack(spacing: AppTheme.Space.md) {
+              Label("\(scored.recipe.timeMinutes)m", systemImage: "clock")
+              Label("Missing \(scored.missingRequiredCount)", systemImage: "exclamationmark.circle")
+            }
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+
+            if !scored.missingIngredientIds.isEmpty {
+              ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: AppTheme.Space.xs) {
+                  ForEach(scored.missingIngredientIds, id: \.self) { ingredientID in
+                    Text(IngredientLexicon.displayName(for: ingredientID))
+                      .font(AppTheme.Typography.labelSmall)
+                      .foregroundStyle(AppTheme.textSecondary)
+                      .padding(.horizontal, AppTheme.Space.sm)
+                      .padding(.vertical, AppTheme.Space.chipVertical)
+                      .background(AppTheme.surfaceMuted, in: Capsule())
+                  }
+                }
+              }
+            }
+
+            if !scored.rankingReasons.isEmpty {
+              Text(scored.rankingReasons.joined(separator: " • "))
+                .font(AppTheme.Typography.bodySmall)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(AppTheme.Space.md)
+          .background(
+            AppTheme.surface,
+            in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+          )
+          .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+              .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
+          )
+        }
+        .buttonStyle(.plain)
+      }
+    }
+  }
+
   private func recipeGridItem(scored: ScoredRecipe, index: Int) -> some View {
     let isOdd = index % 2 == 1
 
-    return NavigationLink {
-      RecipeDetailView(scoredRecipe: scored)
-        .navigationTransition(.zoom(sourceID: transitionID(for: scored), in: transitionNamespace))
+    return Button {
+      selectedRecipe = scored
     } label: {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         // Floating match percentage
@@ -282,7 +411,7 @@ struct RecipeResultsView: View {
   }
 
   private func revealRecommendationsIfNeeded() async {
-    let total = engine.recommendations.count
+    let total = engine.sections.exact.count
     guard total > 0 else {
       revealedCount = 0
       return
@@ -300,6 +429,20 @@ struct RecipeResultsView: View {
         revealedCount = index
       }
     }
+  }
+}
+
+// MARK: - Identifiable conformance for ScoredRecipe sheet binding
+
+extension ScoredRecipe: Equatable {
+  static func == (lhs: ScoredRecipe, rhs: ScoredRecipe) -> Bool {
+    lhs.recipe.id == rhs.recipe.id
+  }
+}
+
+extension ScoredRecipe: Hashable {
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(recipe.id)
   }
 }
 
