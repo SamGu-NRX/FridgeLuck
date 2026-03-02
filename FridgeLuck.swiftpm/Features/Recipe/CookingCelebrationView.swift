@@ -436,6 +436,9 @@ struct CookingCelebrationView: View {
         servingsConsumed: servings
       )
     } catch {
+      #if DEBUG
+        print("[CookingCelebrationView] Failed to save cooked meal: \(error)")
+      #endif
       isSaving = false
       showSaveError = true
       return

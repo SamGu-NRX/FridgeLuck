@@ -19,6 +19,26 @@ struct Ingredient: Identifiable, Sendable, Codable {
   var categoryLabel: String?
   var spriteGroup: String?
   var spriteKey: String?
+
+  enum CodingKeys: String, CodingKey {
+    case id
+    case name
+    case calories
+    case protein
+    case carbs
+    case fat
+    case fiber
+    case sugar
+    case sodium
+    case typicalUnit = "typical_unit"
+    case storageTip = "storage_tip"
+    case pairsWith = "pairs_with"
+    case notes
+    case description
+    case categoryLabel = "category_label"
+    case spriteGroup = "sprite_group"
+    case spriteKey = "sprite_key"
+  }
 }
 
 extension Ingredient: FetchableRecord, PersistableRecord, TableRecord {

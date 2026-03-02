@@ -139,6 +139,17 @@ extension SpotlightStep {
         "When you\u{2019}re happy with your selection, tap this button. The count updates as you toggle ingredients \u{2014} aim for at least 3\u{2013}5 for better recipe matches."
     ),
   ]
+
+  static let swapIngredients: [SpotlightStep] = [
+    SpotlightStep(
+      id: "swap_intro",
+      anchorID: "swapButton",
+      icon: "arrow.triangle.swap",
+      title: "Swap Ingredients",
+      message:
+        "Tap this swap button to open substitutions. Great for dietary needs, allergies, or using what you already have."
+    )
+  ]
 }
 
 // MARK: - Coordinator
@@ -181,6 +192,7 @@ struct SpotlightTutorialOverlay: View {
   let anchors: [String: CGRect]
   @Binding var isPresented: Bool
   var onScrollToAnchor: ((String) -> Void)? = nil
+  var onStepChange: ((SpotlightStep) -> Void)? = nil
 
   @State private var stepIndex = 0
   @State private var appeared = false
@@ -206,12 +218,16 @@ struct SpotlightTutorialOverlay: View {
     .ignoresSafeArea()
     .opacity(appeared ? 1 : 0)
     .onAppear {
-      withAnimation(reduceMotion ? nil : .easeOut(duration: 0.35)) {
+      withAnimation(reduceMotion ? nil : .easeOut(duration: 0.28)) {
         appeared = true
       }
+      onStepChange?(step)
       if let anchorID = steps[0].anchorID {
         onScrollToAnchor?(anchorID)
       }
+    }
+    .onChange(of: stepIndex) {
+      onStepChange?(step)
     }
     .accessibilityAddTraits(.isModal)
   }
@@ -220,18 +236,16 @@ struct SpotlightTutorialOverlay: View {
 
   @ViewBuilder
   private var dimmingLayer: some View {
-    let pad: CGFloat = 10
-    let cr: CGFloat = 14
-
     if let rect = highlightRect {
+      let highlight = highlightMetrics(for: rect)
       Color.black.opacity(0.68)
         .reverseMask {
-          RoundedRectangle(cornerRadius: cr, style: .continuous)
-            .frame(width: rect.width + pad * 2, height: rect.height + pad * 2)
+          RoundedRectangle(cornerRadius: highlight.cornerRadius, style: .continuous)
+            .frame(width: highlight.width, height: highlight.height)
             .position(x: rect.midX, y: rect.midY)
         }
         .animation(
-          reduceMotion ? nil : .spring(response: 0.5, dampingFraction: 0.82),
+          reduceMotion ? nil : AppMotion.spotlightMove,
           value: stepIndex
         )
     } else {
@@ -242,12 +256,13 @@ struct SpotlightTutorialOverlay: View {
   @ViewBuilder
   private var highlightBorder: some View {
     if let rect = highlightRect {
-      RoundedRectangle(cornerRadius: 14, style: .continuous)
+      let highlight = highlightMetrics(for: rect)
+      RoundedRectangle(cornerRadius: highlight.cornerRadius, style: .continuous)
         .stroke(.white.opacity(0.22), lineWidth: 1.5)
-        .frame(width: rect.width + 20, height: rect.height + 20)
+        .frame(width: highlight.width, height: highlight.height)
         .position(x: rect.midX, y: rect.midY)
         .animation(
-          reduceMotion ? nil : .spring(response: 0.5, dampingFraction: 0.82),
+          reduceMotion ? nil : AppMotion.spotlightMove,
           value: stepIndex
         )
     }
@@ -261,6 +276,7 @@ struct SpotlightTutorialOverlay: View {
 
     return VStack(spacing: AppTheme.Space.md) {
       Image(systemName: step.icon)
+        .contentTransition(.symbolEffect(.replace))
         .font(.system(size: 26, weight: .semibold))
         .foregroundStyle(.white)
         .frame(width: 52, height: 52)
@@ -271,12 +287,14 @@ struct SpotlightTutorialOverlay: View {
           .font(AppTheme.Typography.displaySmall)
           .foregroundStyle(.white)
           .multilineTextAlignment(.center)
+          .contentTransition(.opacity)
 
         Text(step.message)
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(.white.opacity(0.76))
           .multilineTextAlignment(.center)
           .fixedSize(horizontal: false, vertical: true)
+          .contentTransition(.opacity)
       }
 
       HStack {
@@ -300,7 +318,7 @@ struct SpotlightTutorialOverlay: View {
     .shadow(color: .black.opacity(0.35), radius: 30, x: 0, y: 15)
     .position(x: geo.size.width / 2, y: y)
     .animation(
-      reduceMotion ? nil : .spring(response: 0.5, dampingFraction: 0.82),
+      reduceMotion ? nil : AppMotion.spotlightMove,
       value: stepIndex
     )
   }
@@ -312,7 +330,7 @@ struct SpotlightTutorialOverlay: View {
           .fill(i == stepIndex ? Color.white : Color.white.opacity(0.28))
           .frame(width: i == stepIndex ? 18 : 6, height: 6)
           .animation(
-            reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.75),
+            reduceMotion ? nil : .spring(response: 0.28, dampingFraction: 0.78),
             value: stepIndex
           )
       }
@@ -355,9 +373,13 @@ struct SpotlightTutorialOverlay: View {
   // MARK: - Skip
 
   private func skipButton(in geo: GeometryProxy) -> some View {
-    VStack {
+    let pinLeading = step.anchorID == "toolbarAdd"
+
+    return VStack {
       HStack {
-        Spacer()
+        if !pinLeading {
+          Spacer()
+        }
         Button {
           dismissOverlay()
         } label: {
@@ -377,14 +399,46 @@ struct SpotlightTutorialOverlay: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Skip guided tour")
+        if pinLeading {
+          Spacer()
+        }
       }
       .padding(.top, geo.safeAreaInsets.top + 50)
-      .padding(.trailing, AppTheme.Space.page)
+      .padding(.horizontal, AppTheme.Space.page)
       Spacer()
     }
   }
 
   // MARK: - Positioning
+
+  private struct HighlightMetrics {
+    let width: CGFloat
+    let height: CGFloat
+    let cornerRadius: CGFloat
+  }
+
+  private func highlightMetrics(for rect: CGRect) -> HighlightMetrics {
+    switch step.anchorID {
+    case "toolbarAdd":
+      return HighlightMetrics(
+        width: max(rect.width + 16, 72),
+        height: max(rect.height + 12, 38),
+        cornerRadius: 10
+      )
+    case "swapButton":
+      return HighlightMetrics(
+        width: max(rect.width + 18, 58),
+        height: max(rect.height + 14, 38),
+        cornerRadius: 12
+      )
+    default:
+      return HighlightMetrics(
+        width: rect.width + 20,
+        height: rect.height + 20,
+        cornerRadius: 14
+      )
+    }
+  }
 
   private func tooltipY(screenHeight: CGFloat) -> CGFloat {
     guard let rect = highlightRect else {
@@ -411,16 +465,16 @@ struct SpotlightTutorialOverlay: View {
     if let anchorID = steps[nextIndex].anchorID {
       onScrollToAnchor?(anchorID)
     }
-    withAnimation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.82)) {
+    withAnimation(reduceMotion ? nil : AppMotion.spotlightMove) {
       stepIndex = nextIndex
     }
   }
 
   private func dismissOverlay() {
-    withAnimation(reduceMotion ? nil : .easeIn(duration: 0.25)) {
+    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.2)) {
       appeared = false
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.28) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.24) {
       isPresented = false
     }
   }

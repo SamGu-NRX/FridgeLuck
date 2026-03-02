@@ -18,6 +18,15 @@ struct CookingHistory: Identifiable, Sendable, Codable {
     self.imagePath = imagePath
     self.servingsConsumed = servingsConsumed
   }
+
+  enum CodingKeys: String, CodingKey {
+    case id
+    case recipeId = "recipe_id"
+    case cookedAt = "cooked_at"
+    case rating
+    case imagePath = "image_path"
+    case servingsConsumed = "servings_consumed"
+  }
 }
 
 extension CookingHistory: FetchableRecord, PersistableRecord, TableRecord {
@@ -38,6 +47,11 @@ extension CookingHistory: FetchableRecord, PersistableRecord, TableRecord {
 struct Badge: Identifiable, Sendable, Codable {
   var id: String
   var earnedAt: Date?
+
+  enum CodingKeys: String, CodingKey {
+    case id
+    case earnedAt = "earned_at"
+  }
 }
 
 extension Badge: FetchableRecord, PersistableRecord, TableRecord {
@@ -54,6 +68,11 @@ extension Badge: FetchableRecord, PersistableRecord, TableRecord {
 struct Streak: Sendable, Codable {
   var date: String  // ISO format: "2026-02-08"
   var mealsCookedCount: Int
+
+  enum CodingKeys: String, CodingKey {
+    case date
+    case mealsCookedCount = "meals_cooked"
+  }
 }
 
 extension Streak: FetchableRecord, PersistableRecord, TableRecord {
@@ -73,6 +92,14 @@ struct UserCorrection: Identifiable, Sendable, Codable {
   var correctedIngredientId: Int64
   var correctionCount: Int
   var lastUsedAt: Date?
+
+  enum CodingKeys: String, CodingKey {
+    case id
+    case visionLabel = "vision_label"
+    case correctedIngredientId = "corrected_ingredient_id"
+    case correctionCount = "correction_count"
+    case lastUsedAt = "last_used_at"
+  }
 }
 
 extension UserCorrection: FetchableRecord, PersistableRecord, TableRecord {

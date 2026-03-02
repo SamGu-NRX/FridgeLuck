@@ -5,7 +5,6 @@ import SwiftUI
 /// ingredients, and a "Start Cooking" CTA. Does NOT show step-by-step instructions.
 struct RecipePreviewDrawer: View {
   @EnvironmentObject var deps: AppDependencies
-  @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let scoredRecipe: ScoredRecipe
@@ -21,39 +20,52 @@ struct RecipePreviewDrawer: View {
 
   // MARK: - Swap Tooltip State
   @AppStorage("hasSeenSwapTooltip") private var hasSeenSwapTooltip = false
-  @State private var showSwapTooltip = false
+  @State private var showSwapSpotlight = false
+  @State private var swapSpotlight = SpotlightCoordinator()
 
   private var recipe: Recipe { scoredRecipe.recipe }
   private var macros: RecipeMacros { scoredRecipe.macros }
   private let totalSections = 5
 
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: 0) {
-        heroVisual
-          .opacity(sectionOpacity(0))
-          .offset(y: sectionOffset(0))
+    ScrollViewReader { scrollProxy in
+      ScrollView {
+        VStack(alignment: .leading, spacing: 0) {
+          heroVisual
+            .opacity(sectionOpacity(0))
+            .offset(y: sectionOffset(0))
 
-        VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
-          titleSection
-            .opacity(sectionOpacity(1))
-            .offset(y: sectionOffset(1))
+          VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+            titleSection
+              .opacity(sectionOpacity(1))
+              .offset(y: sectionOffset(1))
 
-          healthSection
-            .opacity(sectionOpacity(2))
-            .offset(y: sectionOffset(2))
+            healthSection
+              .opacity(sectionOpacity(2))
+              .offset(y: sectionOffset(2))
 
-          macroSection
-            .opacity(sectionOpacity(3))
-            .offset(y: sectionOffset(3))
+            macroSection
+              .opacity(sectionOpacity(3))
+              .offset(y: sectionOffset(3))
 
-          ingredientSection
-            .opacity(sectionOpacity(4))
-            .offset(y: sectionOffset(4))
+            ingredientSection
+              .opacity(sectionOpacity(4))
+              .offset(y: sectionOffset(4))
+          }
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.top, AppTheme.Space.lg)
+          .padding(.bottom, AppTheme.Space.xxl)
         }
-        .padding(.horizontal, AppTheme.Space.page)
-        .padding(.top, AppTheme.Space.lg)
-        .padding(.bottom, AppTheme.Space.xxl)
+      }
+      .onPreferenceChange(SpotlightAnchorKey.self) { swapSpotlight.anchors = $0 }
+      .onAppear {
+        swapSpotlight.onScrollToAnchor = { anchorID in
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.82)) {
+              scrollProxy.scrollTo(anchorID, anchor: .center)
+            }
+          }
+        }
       }
     }
     .safeAreaInset(edge: .bottom) {
@@ -72,9 +84,7 @@ struct RecipePreviewDrawer: View {
           let delay = reduceMotion ? 0.2 : 0.6
           try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
           guard !Task.isCancelled else { return }
-          withAnimation(reduceMotion ? nil : .easeOut(duration: 0.35)) {
-            showSwapTooltip = true
-          }
+          presentSwapSpotlight()
         }
       }
     }
@@ -100,17 +110,28 @@ struct RecipePreviewDrawer: View {
           activeSubstitutions[target.ingredient.id ?? -1] = (substitution, subIngredient)
         }
         hasSeenSwapTooltip = true
-        showSwapTooltip = false
+        showSwapSpotlight = false
+        swapSpotlight.activeSteps = nil
       }
     }
     .overlay {
-      if showSwapTooltip {
-        SwapTooltipOverlay {
-          withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
-            showSwapTooltip = false
-            hasSeenSwapTooltip = true
-          }
-        }
+      if showSwapSpotlight, let steps = swapSpotlight.activeSteps {
+        SpotlightTutorialOverlay(
+          steps: steps,
+          anchors: swapSpotlight.anchors,
+          isPresented: Binding(
+            get: { showSwapSpotlight },
+            set: { isPresented in
+              if !isPresented {
+                showSwapSpotlight = false
+                swapSpotlight.activeSteps = nil
+                hasSeenSwapTooltip = true
+              }
+            }
+          ),
+          onScrollToAnchor: swapSpotlight.onScrollToAnchor
+        )
+        .ignoresSafeArea()
       }
     }
   }
@@ -350,11 +371,19 @@ struct RecipePreviewDrawer: View {
 
         let required = ingredients.filter { $0.quantity.isRequired }
         let optional = ingredients.filter { !$0.quantity.isRequired }
+        let firstSwapIngredientID = ingredients.first {
+          deps.substitutionService.hasSubstitutions(for: $0.ingredient.id ?? -1)
+        }?.ingredient.id
 
         if !required.isEmpty {
           VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
             ForEach(required, id: \.ingredient.id) { item in
-              ingredientRow(item.ingredient, quantity: item.quantity, isRequired: true)
+              ingredientRow(
+                item.ingredient,
+                quantity: item.quantity,
+                isRequired: true,
+                isSwapSpotlightTarget: item.ingredient.id == firstSwapIngredientID
+              )
             }
           }
         }
@@ -367,7 +396,12 @@ struct RecipePreviewDrawer: View {
 
           VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
             ForEach(optional, id: \.ingredient.id) { item in
-              ingredientRow(item.ingredient, quantity: item.quantity, isRequired: false)
+              ingredientRow(
+                item.ingredient,
+                quantity: item.quantity,
+                isRequired: false,
+                isSwapSpotlightTarget: item.ingredient.id == firstSwapIngredientID
+              )
             }
           }
         }
@@ -376,7 +410,10 @@ struct RecipePreviewDrawer: View {
   }
 
   private func ingredientRow(
-    _ ingredient: Ingredient, quantity: RecipeIngredient, isRequired: Bool
+    _ ingredient: Ingredient,
+    quantity: RecipeIngredient,
+    isRequired: Bool,
+    isSwapSpotlightTarget: Bool = false
   ) -> some View {
     let hasSwap = deps.substitutionService.hasSubstitutions(for: ingredient.id ?? -1)
     let activeSub = activeSubstitutions[ingredient.id ?? -1]
@@ -415,19 +452,17 @@ struct RecipePreviewDrawer: View {
       .buttonStyle(.plain)
 
       if hasSwap {
-        Button {
-          substitutionTarget = (ingredient, quantity)
-        } label: {
-          Image(systemName: activeSub != nil ? "arrow.triangle.swap" : "arrow.triangle.swap")
-            .font(.system(size: 13, weight: .semibold))
-            .foregroundStyle(activeSub != nil ? AppTheme.sage : AppTheme.accent)
-            .frame(width: 30, height: 30)
-            .background(
-              activeSub != nil ? AppTheme.sage.opacity(0.12) : AppTheme.accentMuted,
-              in: Circle()
-            )
+        if isSwapSpotlightTarget {
+          swapActionButton(activeSub: activeSub) {
+            substitutionTarget = (ingredient, quantity)
+          }
+          .id("swapButton")
+          .spotlightAnchor("swapButton")
+        } else {
+          swapActionButton(activeSub: activeSub) {
+            substitutionTarget = (ingredient, quantity)
+          }
         }
-        .buttonStyle(.plain)
       }
     }
     .padding(.horizontal, AppTheme.Space.xs)
@@ -440,6 +475,25 @@ struct RecipePreviewDrawer: View {
       RoundedRectangle(cornerRadius: AppTheme.Radius.sm)
         .stroke(activeSub != nil ? AppTheme.sage.opacity(0.2) : Color.clear, lineWidth: 1)
     )
+  }
+
+  private func swapActionButton(
+    activeSub: (substitution: Substitution, ingredient: Ingredient)?,
+    action: @escaping () -> Void
+  ) -> some View {
+    Button {
+      action()
+    } label: {
+      Image(systemName: "arrow.triangle.swap")
+        .font(.system(size: 13, weight: .semibold))
+        .foregroundStyle(activeSub != nil ? AppTheme.sage : AppTheme.accent)
+        .frame(width: 30, height: 30)
+        .background(
+          activeSub != nil ? AppTheme.sage.opacity(0.12) : AppTheme.accentMuted,
+          in: Circle()
+        )
+    }
+    .buttonStyle(.plain)
   }
 
   // MARK: - Bottom CTA
@@ -458,6 +512,16 @@ struct RecipePreviewDrawer: View {
       .padding(.horizontal, AppTheme.Space.page)
       .padding(.vertical, AppTheme.Space.md)
       .background(AppTheme.bg)
+    }
+  }
+
+  // MARK: - Swap Spotlight
+
+  private func presentSwapSpotlight() {
+    guard !showSwapSpotlight else { return }
+    swapSpotlight.activeSteps = SpotlightStep.swapIngredients
+    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.35)) {
+      showSwapSpotlight = true
     }
   }
 
@@ -507,78 +571,4 @@ private struct SubstitutionTargetWrapper: Identifiable {
   let ingredient: Ingredient
   let quantity: RecipeIngredient
   var id: Int64 { ingredient.id ?? -1 }
-}
-
-// MARK: - Swap Tooltip Overlay
-
-/// A one-time educational tooltip that explains the swap/substitution feature.
-/// Shown as a floating card with a dimmed backdrop, dismissed by tapping "Got it".
-private struct SwapTooltipOverlay: View {
-  var onDismiss: () -> Void
-
-  @State private var appeared = false
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-  var body: some View {
-    ZStack {
-      Color.black.opacity(appeared ? 0.5 : 0)
-        .ignoresSafeArea()
-        .onTapGesture { onDismiss() }
-
-      VStack(spacing: AppTheme.Space.md) {
-        Image(systemName: "arrow.triangle.swap")
-          .font(.system(size: 24, weight: .semibold))
-          .foregroundStyle(.white)
-          .frame(width: 48, height: 48)
-          .background(AppTheme.accent.opacity(0.85), in: Circle())
-
-        VStack(spacing: AppTheme.Space.xs) {
-          Text("Swap Ingredients")
-            .font(AppTheme.Typography.displaySmall)
-            .foregroundStyle(.white)
-            .multilineTextAlignment(.center)
-
-          Text(
-            "See a swap icon next to an ingredient? Tap it to find substitutions \u{2014} great for dietary needs, allergies, or using what you already have."
-          )
-          .font(AppTheme.Typography.bodyMedium)
-          .foregroundStyle(.white.opacity(0.76))
-          .multilineTextAlignment(.center)
-          .fixedSize(horizontal: false, vertical: true)
-        }
-
-        Button {
-          onDismiss()
-        } label: {
-          Text("Got it")
-            .font(.system(size: 15, weight: .semibold))
-            .foregroundStyle(AppTheme.accent)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .background(.white, in: Capsule())
-        }
-        .buttonStyle(.plain)
-      }
-      .padding(AppTheme.Space.lg)
-      .frame(maxWidth: 300)
-      .background(
-        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-          .fill(.ultraThinMaterial)
-          .environment(\.colorScheme, .dark)
-      )
-      .overlay(
-        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-          .stroke(.white.opacity(0.10), lineWidth: 1)
-      )
-      .shadow(color: .black.opacity(0.35), radius: 30, x: 0, y: 15)
-      .scaleEffect(appeared ? 1 : 0.85)
-      .opacity(appeared ? 1 : 0)
-    }
-    .onAppear {
-      withAnimation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.82)) {
-        appeared = true
-      }
-    }
-    .accessibilityAddTraits(.isModal)
-  }
 }
