@@ -6,6 +6,7 @@ enum AppMotion {
   static let quick: Animation = .timingCurve(0.2, 0.8, 0.2, 1.0, duration: 0.14)
   static let press: Animation = .timingCurve(0.18, 0.9, 0.22, 1.0, duration: 0.12)
   static let onboardingStep: Animation = .timingCurve(0.18, 0.96, 0.24, 1.0, duration: 0.22)
+  static let spotlightMove: Animation = .spring(response: 0.30, dampingFraction: 0.84)
   static let staggerDelay: Double = 0.035
 
   static let cardSpring: Animation = .spring(response: 0.35, dampingFraction: 0.72)

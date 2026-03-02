@@ -64,6 +64,17 @@ struct Recipe: Identifiable, Sendable, Codable {
   var recipeTags: RecipeTags {
     RecipeTags(rawValue: tags)
   }
+
+  enum CodingKeys: String, CodingKey {
+    case id
+    case title
+    case timeMinutes = "time_minutes"
+    case servings
+    case instructions
+    case tags
+    case source
+    case createdAt = "created_at"
+  }
 }
 
 extension Recipe: FetchableRecord, PersistableRecord, TableRecord {
@@ -85,6 +96,14 @@ struct RecipeIngredient: Sendable, Codable {
   var isRequired: Bool
   var quantityGrams: Double
   var displayQuantity: String
+
+  enum CodingKeys: String, CodingKey {
+    case recipeId = "recipe_id"
+    case ingredientId = "ingredient_id"
+    case isRequired = "is_required"
+    case quantityGrams = "quantity_grams"
+    case displayQuantity = "display_quantity"
+  }
 }
 
 extension RecipeIngredient: FetchableRecord, PersistableRecord, TableRecord {

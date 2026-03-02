@@ -42,12 +42,20 @@ let package = Package(
       ],
       path: ".",
       exclude: [
-        "Vendor"
+        "Tests",
+        "Vendor",
       ],
       resources: [
         .process("Resources")
       ]
-    )
+    ),
+    .testTarget(
+      name: "AppModuleTests",
+      dependencies: [
+        .product(name: "GRDB", package: "GRDB.swift")
+      ],
+      path: "Tests"
+    ),
   ],
   swiftLanguageVersions: [.v6]
 )

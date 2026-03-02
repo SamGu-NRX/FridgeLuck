@@ -26,6 +26,7 @@ struct IngredientReviewView: View {
   @AppStorage("hasSeenReviewSpotlight") private var hasSeenReviewSpotlight = false
   @State private var reviewSpotlight = SpotlightCoordinator()
   @State private var showReviewSpotlight = false
+  @State private var reviewSpotlightStepID: String?
 
   init(
     detections: [Detection],
@@ -136,20 +137,15 @@ struct IngredientReviewView: View {
     }
     .navigationTitle("Review Ingredients")
     .navigationBarTitleDisplayMode(.inline)
+    .navigationBarBackButtonHidden(showReviewSpotlight)
     .flPageBackground()
-    .toolbar(showReviewSpotlight ? .hidden : .visible, for: .navigationBar)
+    .toolbar(.visible, for: .navigationBar)
     .toolbar {
-      ToolbarItem(placement: .topBarTrailing) {
-        Button {
-          showSheetMode = .addManual
-        } label: {
-          Image(systemName: "plus.circle.fill")
-            .font(.system(size: 18, weight: .medium))
-            .foregroundStyle(AppTheme.accent)
-            .symbolRenderingMode(.hierarchical)
+      if !showReviewSpotlight || reviewSpotlightStepID == "review_toolbar_add" {
+        ToolbarItem(placement: .topBarTrailing) {
+          toolbarAddButton()
+            .spotlightAnchor("toolbarAdd")
         }
-        .accessibilityLabel("Add ingredient manually")
-        .spotlightAnchor("toolbarAdd")
       }
     }
     .sheet(item: $showSheetMode) { mode in
@@ -199,10 +195,14 @@ struct IngredientReviewView: View {
               if !isPresented {
                 showReviewSpotlight = false
                 reviewSpotlight.activeSteps = nil
+                reviewSpotlightStepID = nil
               }
             }
           ),
-          onScrollToAnchor: reviewSpotlight.onScrollToAnchor
+          onScrollToAnchor: reviewSpotlight.onScrollToAnchor,
+          onStepChange: { step in
+            reviewSpotlightStepID = step.id
+          }
         )
         .ignoresSafeArea()
       }
@@ -228,7 +228,21 @@ struct IngredientReviewView: View {
   private func presentReviewSpotlight() {
     reviewSpotlight.activeSteps = SpotlightStep.ingredientReview
     showReviewSpotlight = true
+    reviewSpotlightStepID = SpotlightStep.ingredientReview.first?.id
     hasSeenReviewSpotlight = true
+  }
+
+  private func toolbarAddButton() -> some View {
+    Button {
+      showSheetMode = .addManual
+    } label: {
+      Image(systemName: "plus.circle.fill")
+        .font(.system(size: 18, weight: .medium))
+        .foregroundStyle(AppTheme.accent)
+        .symbolRenderingMode(.hierarchical)
+    }
+    .buttonStyle(.plain)
+    .accessibilityLabel("Add ingredient manually")
   }
 
   // MARK: - Categorization
