@@ -302,9 +302,7 @@ struct ProfileView: View {
         guard let id = ingredient.id else { return false }
         return allergenIds.contains(id)
       }.sorted { $0.displayName < $1.displayName }
-    } catch {
-      // Profile loading is non-critical — defaults are fine
-    }
+    } catch {}
   }
 
   private func calculateStreak(from days: [DailyCookingPoint]) -> Int {

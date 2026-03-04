@@ -217,7 +217,6 @@ struct DemoModeView: View {
 
   // MARK: - Actions
 
-  /// Phase 1: Show the fridge preview with scenario info.
   private func beginPreview(_ scenario: DemoScenario) {
     guard !isOverlayVisible else { return }
     scanTask?.cancel()
@@ -234,7 +233,6 @@ struct DemoModeView: View {
     }
   }
 
-  /// Phase 2: Transition from preview to scanning with the slower animation.
   private func beginScanning(_ scenario: DemoScenario) {
     withAnimation(reduceMotion ? nil : AppMotion.standard) {
       overlayPhase = .scanning(scenario)

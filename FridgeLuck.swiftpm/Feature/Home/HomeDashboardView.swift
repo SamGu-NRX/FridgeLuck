@@ -84,7 +84,6 @@ struct HomeDashboardView: View {
           .padding(.top, AppTheme.Space.sectionBreak)
         }
         .padding(.top, AppTheme.Space.md)
-        // Keep footer actions reachable above the persistent bottom navigation + raised scan orb.
         .padding(
           .bottom,
           AppTheme.Space.bottomClearance + AppTheme.Home.navOrbLift + AppTheme.Home.navBaseOffset

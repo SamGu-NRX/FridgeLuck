@@ -52,7 +52,6 @@ enum DemoScanService {
     let demoImage = loadDemoImage()
     let fixtureName = scenario?.fixtureFileName ?? "demo_detections"
 
-    // Try live Vision scan first (only for default/legacy flow).
     if scenario == nil,
       let image = demoImage,
       let cgImage = image.cgImage,
@@ -104,7 +103,6 @@ enum DemoScanService {
     if let image = loadImage(name: scenario.scenarioImageName, ext: "png") {
       return image
     }
-    // Fall back to the default demo image if scenario photo is missing.
     return loadDemoImage()
   }
 
@@ -126,7 +124,6 @@ enum DemoScanService {
   }
 
   private static func loadImage(name: String, ext: String) -> UIImage? {
-    // Prefer explicit demo subdirectory matches to avoid accidentally loading similarly named assets.
     if let demoURLs = Bundle.main.urls(forResourcesWithExtension: ext, subdirectory: "demo") {
       for url in demoURLs where url.deletingPathExtension().lastPathComponent == name {
         if let image = decodeImage(url: url) {

@@ -63,16 +63,13 @@ final class LearningService: @unchecked Sendable {
             count: row["correction_count"]
           )
 
-          // Keep only the highest-frequency correction per label.
           if let existing = cache[key], existing.count >= candidate.count {
             continue
           }
           cache[key] = candidate
         }
       }
-    } catch {
-      // Non-fatal: cache starts empty, corrections still work via DB
-    }
+    } catch {}
   }
 
   // MARK: - Record Corrections
@@ -94,11 +91,8 @@ final class LearningService: @unchecked Sendable {
                 last_used_at = CURRENT_TIMESTAMP
             """, arguments: [key, correctedIngredientId])
       }
-    } catch {
-      // Log but don't crash — correction just won't persist
-    }
+    } catch {}
 
-    // Refresh the top correction for this label from the DB source of truth.
     do {
       let top = try db.read { db -> CachedCorrection? in
         guard
@@ -127,9 +121,7 @@ final class LearningService: @unchecked Sendable {
         cache.removeValue(forKey: key)
       }
       lock.unlock()
-    } catch {
-      // Non-fatal: cache will self-heal on next app launch.
-    }
+    } catch {}
   }
 
   // MARK: - Query Corrections
