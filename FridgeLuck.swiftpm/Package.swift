@@ -16,7 +16,7 @@ let package = Package(
       teamIdentifier: "DWGXWVUR2B",
       displayVersion: "1.0",
       bundleVersion: "1",
-      appIcon: .placeholder(icon: .cloud),
+      appIcon: .asset("AppIcon"),
       accentColor: .presetColor(.brown),
       supportedDeviceFamilies: [
         .pad,
@@ -36,13 +36,26 @@ let package = Package(
     .package(url: "https://github.com/groue/GRDB.swift.git", "7.10.0"..<"8.0.0")
   ],
   targets: [
+    .target(
+      name: "FLFeatureLogic",
+      path: "FeatureLogic"
+    ),
     .executableTarget(
       name: "AppModule",
       dependencies: [
-        .product(name: "GRDB", package: "GRDB.swift")
+        "FLFeatureLogic",
+        .product(name: "GRDB", package: "GRDB.swift"),
       ],
       path: ".",
       exclude: ["Tests", "Vendor"],
+      sources: [
+        "App",
+        "Capability",
+        "DesignSystem",
+        "Domain",
+        "Feature",
+        "Platform",
+      ],
       resources: [
         .process("Resources")
       ]
@@ -50,7 +63,8 @@ let package = Package(
     .testTarget(
       name: "AppModuleTests",
       dependencies: [
-        .product(name: "GRDB", package: "GRDB.swift")
+        "FLFeatureLogic",
+        .product(name: "GRDB", package: "GRDB.swift"),
       ],
       path: "Tests"
     ),
