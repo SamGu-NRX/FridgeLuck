@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import SwiftUI
 
 struct CookingGuideTopBar: View {
@@ -117,7 +118,8 @@ struct CookingGuideIngredientsPage: View {
     .padding(.bottom, AppTheme.Space.xxl)
   }
 
-  private func ingredientCheckRow(_ ingredient: Ingredient, quantity: RecipeIngredient) -> some View {
+  private func ingredientCheckRow(_ ingredient: Ingredient, quantity: RecipeIngredient) -> some View
+  {
     let ingredientID = ingredient.id ?? -1
     let isChecked = checkedIngredients.contains(ingredientID)
     let hasSwap = hasSubstitution(ingredientID)

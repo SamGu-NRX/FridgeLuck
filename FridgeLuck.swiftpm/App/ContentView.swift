@@ -1,4 +1,8 @@
+import FLFeatureLogic
 import SwiftUI
+import os
+
+private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "ContentView")
 
 // MARK: - Navigation Coordinator
 
@@ -174,10 +178,11 @@ struct ContentView: View {
   // MARK: - Navigation Actions
 
   private func openScan() {
-    if hasOnboarded {
+    switch AppFlowPolicy.scanEntryRoute(hasOnboarded: hasOnboarded) {
+    case .scan:
       selectedTab = .home
       navigateToScan = true
-    } else {
+    case .onboarding:
       showOnboarding = true
     }
   }
@@ -196,11 +201,15 @@ struct ContentView: View {
   }
 
   private func openDashboardTab() {
-    if hasOnboarded && tutorialProgress.isComplete {
+    switch AppFlowPolicy.dashboardEntryRoute(
+      hasOnboarded: hasOnboarded,
+      isTutorialComplete: tutorialProgress.isComplete
+    ) {
+    case .dashboard:
       selectedTab = .dashboard
-    } else if hasOnboarded {
+    case .profile:
       showProfile = true
-    } else {
+    case .onboarding:
       showOnboarding = true
     }
   }
@@ -208,7 +217,9 @@ struct ContentView: View {
   private func refreshOnboardingGate() async {
     do {
       hasOnboarded = try deps.userDataRepository.hasCompletedOnboarding()
-    } catch {}
+    } catch {
+      logger.error("Failed to check onboarding status: \(error.localizedDescription)")
+    }
   }
 
   // MARK: - Tutorial Progress
@@ -224,14 +235,26 @@ struct ContentView: View {
   private func performFullReset() {
     do {
       try deps.userDataRepository.resetAllUserData()
-    } catch {}
+    } catch {
+      logger.error("Failed to reset user data: \(error.localizedDescription)")
+    }
 
     tutorialStorageString = ""
     spotlightCoordinator.activeSteps = nil
 
-    UserDefaults.standard.removeObject(forKey: LearningStorageKeys.suggestionsShown)
-    UserDefaults.standard.removeObject(forKey: LearningStorageKeys.suggestionsAccepted)
-    for key in TutorialStorageKeys.all where key != TutorialStorageKeys.progress {
+    let tutorialKeys = ResetPolicy.tutorialKeysToClear(
+      allKeys: TutorialStorageKeys.all,
+      preserving: TutorialStorageKeys.progress
+    )
+    let keysToClear = ResetPolicy.defaultsKeysToClear(
+      tutorialKeys: tutorialKeys,
+      learningKeys: [
+        LearningStorageKeys.suggestionsShown,
+        LearningStorageKeys.suggestionsAccepted,
+      ]
+    )
+
+    for key in keysToClear {
       UserDefaults.standard.removeObject(forKey: key)
     }
 

@@ -1,0 +1,72 @@
+name: iOS CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Xcode Version
+        run: xcodebuild -version
+
+      - name: Resolve Simulator Destination
+        id: sim
+        run: echo "destination=$(./scripts/resolve_ios_sim_destination.sh iPhone)" >> "$GITHUB_OUTPUT"
+
+      - name: Build and Test
+        env:
+          DESTINATION: ${{ steps.sim.outputs.destination }}
+        run: ./scripts/run_ios_tests.sh
+
+  dead-code-advisory:
+    runs-on: macos-15
+    needs: build-and-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install Periphery
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: brew install periphery
+
+      - name: Resolve Simulator Destination
+        id: sim
+        run: echo "destination=$(./scripts/resolve_ios_sim_destination.sh iPhone)" >> "$GITHUB_OUTPUT"
+
+      - name: Run Periphery (Advisory)
+        id: periphery
+        continue-on-error: true
+        env:
+          DESTINATION: ${{ steps.sim.outputs.destination }}
+          STRICT: "0"
+        run: ./scripts/run_periphery_scan.sh
+
+      - name: Periphery Summary
+        if: always()
+        run: |
+          if [[ "${{ steps.periphery.outcome }}" == "failure" ]]; then
+            echo "Periphery scan reported findings or tool errors (advisory mode)." >> "$GITHUB_STEP_SUMMARY"
+            echo "Review artifact: periphery-report." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Periphery scan completed with no strict failures." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload Periphery Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: periphery-report
+          path: reports/periphery/

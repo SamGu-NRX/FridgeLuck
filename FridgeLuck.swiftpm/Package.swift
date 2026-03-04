@@ -69,5 +69,5 @@ let package = Package(
       path: "Tests"
     ),
   ],
-  swiftLanguageVersions: [.version("6")]
+  swiftLanguageModes: [.v6]
 )
