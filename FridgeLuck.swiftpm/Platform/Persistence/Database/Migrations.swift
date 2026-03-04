@@ -190,7 +190,6 @@ enum DatabaseMigrations {
         t.add(column: "sprite_key", .text)
       }
 
-      // Backfill description from existing notes for older rows.
       try db.execute(
         sql: """
           UPDATE ingredients
@@ -227,6 +226,84 @@ enum DatabaseMigrations {
         t.column("value", .text).notNull()
         t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
       }
+    }
+
+    // MARK: - V9: Smart fridge inventory tracking
+
+    migrator.registerMigration("v9_smart_fridge_inventory") { db in
+      try db.create(table: "ingredient_shelf_life_profiles") { t in
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        t.column("fridge_days", .integer)
+        t.column("pantry_days", .integer)
+        t.column("freezer_days", .integer)
+        t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+        t.primaryKey(["ingredient_id"])
+      }
+
+      try db.create(table: "inventory_lots") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        t.column("quantity_grams", .double).notNull()
+        t.column("remaining_grams", .double).notNull()
+        t.column("storage_location", .text).notNull().defaults(to: "unknown")
+        t.column("confidence_score", .double).notNull().defaults(to: 1.0)
+        t.column("source", .text).notNull().defaults(to: "manual")
+        t.column("acquired_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+        t.column("expires_at", .datetime)
+        t.column("created_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+        t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+        t.check(sql: "quantity_grams >= 0")
+        t.check(sql: "remaining_grams >= 0")
+      }
+
+      try db.create(table: "inventory_events") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        t.column("lot_id", .integer).references("inventory_lots", onDelete: .setNull)
+        t.column("event_type", .text).notNull()
+        t.column("quantity_delta_grams", .double).notNull()
+        t.column("confidence_score", .double).notNull().defaults(to: 1.0)
+        t.column("reason", .text)
+        t.column("source_ref", .text)
+        t.column("created_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+      }
+
+      try db.create(table: "inventory_items") { t in
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        t.column("total_remaining_grams", .double).notNull().defaults(to: 0)
+        t.column("average_confidence_score", .double).notNull().defaults(to: 1.0)
+        t.column("last_updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+        t.primaryKey(["ingredient_id"])
+      }
+
+      try db.create(
+        index: "idx_inventory_lots_lookup",
+        on: "inventory_lots",
+        columns: ["ingredient_id", "expires_at", "acquired_at"]
+      )
+      try db.create(
+        index: "idx_inventory_lots_remaining",
+        on: "inventory_lots",
+        columns: ["remaining_grams"]
+      )
+      try db.create(
+        index: "idx_inventory_events_ingredient",
+        on: "inventory_events",
+        columns: ["ingredient_id", "created_at"]
+      )
+      try db.create(
+        index: "idx_inventory_events_lot",
+        on: "inventory_events",
+        columns: ["lot_id"]
+      )
     }
 
     try migrator.migrate(db)

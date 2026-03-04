@@ -121,7 +121,6 @@ final class RecommendationEngine: ObservableObject {
         dietaryRestrictions: dietaryRestrictions
       )
     } catch {
-      // AI generation is optional — don't surface as error.
       aiGeneratedRecipe = nil
     }
   }

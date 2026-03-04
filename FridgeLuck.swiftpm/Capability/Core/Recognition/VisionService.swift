@@ -208,7 +208,6 @@ final class VisionService: Sendable {
 
     var detections: [Detection] = []
 
-    // Keep one best classification per ingredient.
     var bestByIngredient: [Int64: ResolvedClassification] = [:]
     for candidate in resolvedClassifications {
       guard let existing = bestByIngredient[candidate.ingredientId] else {
@@ -278,7 +277,6 @@ final class VisionService: Sendable {
         ))
     }
 
-    // Deduplicate by ingredientId, favoring stronger confidence and then stronger source quality.
     var bestDetectionByIngredient: [Int64: Detection] = [:]
     for candidate in detections {
       guard let existing = bestDetectionByIngredient[candidate.ingredientId] else {

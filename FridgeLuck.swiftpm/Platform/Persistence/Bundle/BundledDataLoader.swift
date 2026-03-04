@@ -136,8 +136,6 @@ enum BundledDataLoader {
         )
       }
 
-      // Optionally augment bundled base ingredients with curated USDA catalog rows.
-      // This keeps the hand-authored core IDs stable while expanding searchable coverage.
       try loadUSDACatalogIngredientsIfAvailable(into: db)
 
       for raw in bundled.recipes {
@@ -311,8 +309,6 @@ enum BundledDataLoader {
         #endif
       }
 
-      // Safety net for legacy installs: ensure the 4 demo scenario recipes are
-      // always complete (row exists + instructions + ingredient links).
       try ensureRequiredDemoRecipes(
         bundledRecipes: bundled.recipes,
         bundledIngredients: bundled.ingredients,

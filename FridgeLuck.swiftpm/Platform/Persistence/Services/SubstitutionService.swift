@@ -91,7 +91,6 @@ final class SubstitutionService: Sendable {
 
     let relevantReasons = SubstitutionReason.reasons(forRestrictions: dietaryRestrictions)
 
-    // Sort: dietary-relevant subs first, then the rest.
     return subs.sorted { a, b in
       let aRelevant = !a.reasons.isDisjoint(with: relevantReasons)
       let bRelevant = !b.reasons.isDisjoint(with: relevantReasons)

@@ -36,7 +36,6 @@ extension BundledDataLoader {
             """
         )
       } catch {
-        // Backward compatibility for older USDA SQLite resources without display metadata columns.
         return try Row.fetchAll(
           src,
           sql: """

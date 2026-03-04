@@ -137,7 +137,6 @@ final class RecipeRepository: Sendable {
 
       guard let recipeId = recipe.id else { continue }
 
-      // Filter out recipes containing either explicit allergens or restriction exclusions.
       if !excludedIngredientIds.isEmpty {
         let hasExcluded = try recipeContainsAnyIngredient(
           recipeId: recipeId,

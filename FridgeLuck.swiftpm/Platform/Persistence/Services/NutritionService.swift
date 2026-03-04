@@ -72,7 +72,7 @@ final class NutritionService: Sendable {
 
       for row in rows {
         let grams: Double = row["quantity_grams"]
-        let factor = grams / 100.0  // nutrition is per 100g
+        let factor = grams / 100.0
 
         totalCal += (row["calories"] as Double) * factor
         totalPro += (row["protein"] as Double) * factor
@@ -90,7 +90,7 @@ final class NutritionService: Sendable {
         fatPerServing: totalFat / servings,
         fiberPerServing: totalFib / servings,
         sugarPerServing: totalSug / servings,
-        sodiumPerServing: (totalSod / servings) * 1000  // g → mg
+        sodiumPerServing: (totalSod / servings) * 1000
       )
     }
   }

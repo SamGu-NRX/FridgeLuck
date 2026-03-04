@@ -20,7 +20,7 @@ def migrate_from_clean_json(path: Path) -> CanonicalCatalog:
             continue
         try:
             fdc_id = int(raw.get("fdc_id"))
-        except Exception:
+        except (ValueError, TypeError):
             continue
         display_name = str(raw.get("display_name", "") or "").strip()
         if not display_name:

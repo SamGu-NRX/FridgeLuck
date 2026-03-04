@@ -40,36 +40,31 @@ final class HealthScoringService: Sendable {
   private func computeScore(macros: RecipeMacros, profile: HealthProfile) -> HealthScore {
     var points: Double = 0
 
-    // 1. Calorie alignment (0-30 points)
     if let targetCal = profile.dailyCalories {
-      let mealTarget = Double(targetCal) / 3.0  // assume 3 meals/day
+      let mealTarget = Double(targetCal) / 3.0
       let ratio = macros.caloriesPerServing / mealTarget
       switch ratio {
-      case 0.7...1.1: points += 30  // within range
-      case 0.5..<0.7: points += 20  // slightly under
-      case 1.1..<1.4: points += 15  // slightly over
-      default: points += 5  // far off
+      case 0.7...1.1: points += 30
+      case 0.5..<0.7: points += 20
+      case 1.1..<1.4: points += 15
+      default: points += 5
       }
     } else {
-      points += 20  // no target = neutral
+      points += 20
     }
 
-    // 2. Macro balance alignment (0-40 points)
     let split = macros.macroSplit
     let proteinDiff = abs(split.proteinPct - profile.proteinPct)
     let carbsDiff = abs(split.carbsPct - profile.carbsPct)
     let fatDiff = abs(split.fatPct - profile.fatPct)
     let avgDiff = (proteinDiff + carbsDiff + fatDiff) / 3.0
 
-    // avgDiff of 0 → 40 pts, avgDiff of 0.33+ → 5 pts
     points += max(5, 40 * (1.0 - avgDiff * 3.0))
 
-    // 3. Nutritional quality bonuses (0-30 points)
-    if macros.fiberPerServing >= 5 { points += 10 }  // good fiber
-    if macros.sugarPerServing <= 10 { points += 10 }  // low sugar
-    if macros.sodiumPerServing <= 600 { points += 10 }  // reasonable sodium
+    if macros.fiberPerServing >= 5 { points += 10 }
+    if macros.sugarPerServing <= 10 { points += 10 }
+    if macros.sodiumPerServing <= 600 { points += 10 }
 
-    // Convert 0-100 scale to 1-5 stars
     let rating = min(5, max(1, Int(ceil(points / 20.0))))
 
     let reasoning = buildReasoning(macros: macros, split: split)

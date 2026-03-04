@@ -218,7 +218,6 @@ def atomic_write_bytes(path: Path, payload: bytes) -> None:
 def _normalize_unicode_fractions(text: str) -> str:
     out = text
     for ch, repl in UNICODE_FRACTIONS.items():
-        # Handle "1½" -> "1 1/2" before global replacement.
         out = re.sub(rf"(\d){re.escape(ch)}", rf"\1 {repl}", out)
         out = out.replace(ch, repl)
     return out
