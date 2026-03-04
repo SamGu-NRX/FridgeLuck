@@ -25,7 +25,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
     case .setupProfile:
       return "Share your nutrition goals and dietary needs."
     case .firstScan:
-      return "Try a demo fridge to see how it works."
+      return "Pick a pre-stocked fridge and explore recipes \u{2014} nothing can go wrong."
     case .cookAndRate:
       return "Cook a demo recipe and rate it so I can learn your taste."
     case .exploreMore:

@@ -6,7 +6,9 @@ struct FridgeLuckApp: App {
   @State private var loadError: Error?
 
   init() {
-    Self.resetTutorialStateForLaunch()
+    #if DEBUG
+      Self.resetTutorialStateForLaunch()
+    #endif
   }
 
   var body: some Scene {
@@ -45,6 +47,8 @@ struct FridgeLuckApp: App {
       "hasSeenCompletionSpotlight",
       "hasSeenReviewSpotlight",
       "hasSeenSwapTooltip",
+      "hasSeenFirstScanNudge",
+      "hasSeenDemoSpotlight",
     ]
     for key in tutorialKeys {
       defaults.removeObject(forKey: key)

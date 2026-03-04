@@ -27,6 +27,7 @@ struct IngredientReviewView: View {
   @State private var reviewSpotlight = SpotlightCoordinator()
   @State private var showReviewSpotlight = false
   @State private var reviewSpotlightStepID: String?
+  @State private var isInitialAutoTour = true
 
   init(
     detections: [Detection],
@@ -73,8 +74,6 @@ struct IngredientReviewView: View {
             summarySection
               .padding(.horizontal, AppTheme.Space.page)
               .padding(.bottom, AppTheme.Space.lg)
-              .id("confidenceLevels")
-              .spotlightAnchor("confidenceLevels")
 
             nutritionLabelSection
               .padding(.horizontal, AppTheme.Space.page)
@@ -119,11 +118,11 @@ struct IngredientReviewView: View {
           .padding(.top, AppTheme.Space.md)
           .padding(.bottom, AppTheme.Space.lg)
         }
-        .onPreferenceChange(SpotlightAnchorKey.self) { reviewSpotlight.anchors = $0 }
         .onAppear {
           reviewSpotlight.onScrollToAnchor = { anchorID in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-              withAnimation(.spring(response: 0.5, dampingFraction: 0.82)) {
+            guard anchorID != "confidenceLevels" else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+              withAnimation(AppMotion.spotlightMove) {
                 scrollProxy.scrollTo(anchorID, anchor: .center)
               }
             }
@@ -135,6 +134,36 @@ struct IngredientReviewView: View {
         .id("findRecipes")
         .spotlightAnchor("findRecipes")
     }
+    .onPreferenceChange(SpotlightAnchorKey.self) { newAnchors in
+      var merged = reviewSpotlight.anchors
+      for (anchorID, rect) in newAnchors where isUsableAnchorRect(rect) {
+        merged[anchorID] = rect
+      }
+      reviewSpotlight.anchors = merged
+    }
+    .overlay {
+      if showReviewSpotlight, let steps = reviewSpotlight.activeSteps {
+        SpotlightTutorialOverlay(
+          steps: steps,
+          anchors: reviewSpotlight.anchors,
+          isPresented: Binding(
+            get: { showReviewSpotlight },
+            set: { isPresented in
+              if !isPresented {
+                showReviewSpotlight = false
+                reviewSpotlight.activeSteps = nil
+                reviewSpotlightStepID = nil
+              }
+            }
+          ),
+          onScrollToAnchor: reviewSpotlight.onScrollToAnchor,
+          onStepChange: { step in
+            reviewSpotlightStepID = step.id
+          }
+        )
+        .ignoresSafeArea()
+      }
+    }
     .navigationTitle("Review Ingredients")
     .navigationBarTitleDisplayMode(.inline)
     .navigationBarBackButtonHidden(showReviewSpotlight)
@@ -145,6 +174,11 @@ struct IngredientReviewView: View {
         ToolbarItem(placement: .topBarTrailing) {
           toolbarAddButton()
             .spotlightAnchor("toolbarAdd")
+        }
+      }
+      if hasSeenReviewSpotlight && isInitialAutoTour && !showReviewSpotlight {
+        ToolbarItem(placement: .topBarLeading) {
+          replayTourButton
         }
       }
     }
@@ -184,48 +218,44 @@ struct IngredientReviewView: View {
         engine: deps.makeRecommendationEngine()
       )
     }
-    .overlay {
-      if showReviewSpotlight, let steps = reviewSpotlight.activeSteps {
-        SpotlightTutorialOverlay(
-          steps: steps,
-          anchors: reviewSpotlight.anchors,
-          isPresented: Binding(
-            get: { showReviewSpotlight },
-            set: { isPresented in
-              if !isPresented {
-                showReviewSpotlight = false
-                reviewSpotlight.activeSteps = nil
-                reviewSpotlightStepID = nil
-              }
-            }
-          ),
-          onScrollToAnchor: reviewSpotlight.onScrollToAnchor,
-          onStepChange: { step in
-            reviewSpotlightStepID = step.id
-          }
-        )
-        .ignoresSafeArea()
-      }
-    }
     .onAppear {
       guard !didInitialize else { return }
       didInitialize = true
       loadAllIngredients()
       categorizeDetections()
     }
-    .task {
-      guard !hasSeenReviewSpotlight else { return }
+    .task(id: shouldAutoPresentReviewSpotlight) {
+      guard shouldAutoPresentReviewSpotlight else { return }
       let delay = reduceMotion ? 0.3 : 0.8
       try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
       guard !Task.isCancelled else { return }
-      guard !showReviewSpotlight else { return }
+      guard shouldAutoPresentReviewSpotlight else { return }
       presentReviewSpotlight()
     }
   }
 
   // MARK: - Review Spotlight
 
+  private var shouldAutoPresentReviewSpotlight: Bool {
+    guard !hasSeenReviewSpotlight else { return false }
+    guard reviewSpotlight.activeSteps == nil else { return false }
+    guard !showReviewSpotlight else { return false }
+    return isAnchorReady("confidenceLevels")
+  }
+
+  private func isAnchorReady(_ anchorID: String) -> Bool {
+    guard let rect = reviewSpotlight.anchors[anchorID] else { return false }
+    return isUsableAnchorRect(rect)
+  }
+
+  private func isUsableAnchorRect(_ rect: CGRect) -> Bool {
+    guard !rect.isEmpty, !rect.isNull, !rect.isInfinite else { return false }
+    guard rect.width > 0, rect.height > 0 else { return false }
+    return rect.minX.isFinite && rect.minY.isFinite && rect.maxX.isFinite && rect.maxY.isFinite
+  }
+
   private func presentReviewSpotlight() {
+    guard reviewSpotlight.activeSteps == nil else { return }
     reviewSpotlight.activeSteps = SpotlightStep.ingredientReview
     showReviewSpotlight = true
     reviewSpotlightStepID = SpotlightStep.ingredientReview.first?.id
@@ -243,6 +273,23 @@ struct IngredientReviewView: View {
     }
     .buttonStyle(.plain)
     .accessibilityLabel("Add ingredient manually")
+  }
+
+  private var replayTourButton: some View {
+    Button {
+      isInitialAutoTour = false
+      presentReviewSpotlight()
+    } label: {
+      HStack(spacing: AppTheme.Space.xxs) {
+        Image(systemName: "arrow.counterclockwise")
+          .font(.system(size: 12, weight: .semibold))
+        Text("Replay tour")
+          .font(.system(size: 13, weight: .medium))
+      }
+      .foregroundStyle(AppTheme.accent)
+    }
+    .buttonStyle(.plain)
+    .accessibilityLabel("Replay guided tour")
   }
 
   // MARK: - Categorization
@@ -359,6 +406,8 @@ struct IngredientReviewView: View {
           icon: "questionmark.circle.fill")
         summaryCounter(label: "Maybe", value: categorized.possible.count, icon: "sparkles")
       }
+      .id("confidenceLevels")
+      .spotlightAnchor("confidenceLevels")
 
       if !categorized.needsConfirmation.isEmpty {
         VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {

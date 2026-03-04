@@ -8,6 +8,7 @@ import SwiftUI
 /// - **completed**: compact pill with checkmark
 struct TutorialQuestCard: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @Environment(\.colorScheme) private var colorScheme
 
   let quest: TutorialQuest
   let state: QuestCardState
@@ -93,33 +94,45 @@ struct TutorialQuestCard: View {
   // MARK: - Locked Card
 
   private var lockedCard: some View {
-    HStack(spacing: AppTheme.Space.sm) {
+    let iconTint =
+      colorScheme == .dark
+      ? AppTheme.textSecondary.opacity(0.78) : AppTheme.textSecondary.opacity(0.5)
+    let titleTint =
+      colorScheme == .dark
+      ? AppTheme.textSecondary.opacity(0.86) : AppTheme.textSecondary.opacity(0.6)
+    let subtitleTint =
+      colorScheme == .dark
+      ? AppTheme.textSecondary.opacity(0.68) : AppTheme.textSecondary.opacity(0.4)
+    let fillOpacity = colorScheme == .dark ? 0.72 : 0.5
+    let strokeOpacity = colorScheme == .dark ? 0.28 : 0.15
+
+    return HStack(spacing: AppTheme.Space.sm) {
       Image(systemName: "lock.fill")
         .font(.system(size: 14, weight: .medium))
-        .foregroundStyle(AppTheme.textSecondary.opacity(0.5))
+        .foregroundStyle(iconTint)
         .frame(width: 32, height: 32)
         .background(Circle().fill(AppTheme.surfaceMuted))
 
       VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
         Text(quest.title)
           .font(AppTheme.Typography.label)
-          .foregroundStyle(AppTheme.textSecondary.opacity(0.6))
+          .foregroundStyle(titleTint)
 
         Text("Complete previous quest to unlock")
           .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary.opacity(0.4))
+          .foregroundStyle(subtitleTint)
       }
 
       Spacer()
     }
     .padding(AppTheme.Space.md)
     .background(
-      AppTheme.surfaceMuted.opacity(0.5),
+      AppTheme.surfaceMuted.opacity(fillOpacity),
       in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
     )
     .overlay(
       RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-        .stroke(AppTheme.oat.opacity(0.15), lineWidth: 1)
+        .stroke(AppTheme.oat.opacity(strokeOpacity), lineWidth: 1)
     )
   }
 
