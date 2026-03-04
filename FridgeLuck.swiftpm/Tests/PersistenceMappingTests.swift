@@ -192,7 +192,7 @@ final class PersistenceMappingTests: XCTestCase {
       .deletingLastPathComponent()
 
     let recipeModels = try String(
-      contentsOf: root.appendingPathComponent("Data/Models/Recipe.swift"),
+      contentsOf: root.appendingPathComponent("Domain/Models/Recipe.swift"),
       encoding: .utf8
     )
     XCTAssertTrue(recipeModels.contains("case timeMinutes = \"time_minutes\""))
@@ -201,7 +201,7 @@ final class PersistenceMappingTests: XCTestCase {
     XCTAssertTrue(recipeModels.contains("case displayQuantity = \"display_quantity\""))
 
     let ingredientModels = try String(
-      contentsOf: root.appendingPathComponent("Data/Models/Ingredient.swift"),
+      contentsOf: root.appendingPathComponent("Domain/Models/Ingredient.swift"),
       encoding: .utf8
     )
     XCTAssertTrue(ingredientModels.contains("case typicalUnit = \"typical_unit\""))
@@ -212,7 +212,7 @@ final class PersistenceMappingTests: XCTestCase {
     XCTAssertTrue(ingredientModels.contains("case spriteKey = \"sprite_key\""))
 
     let dishTemplateModels = try String(
-      contentsOf: root.appendingPathComponent("Data/Models/DishTemplate.swift"),
+      contentsOf: root.appendingPathComponent("Domain/Models/DishTemplate.swift"),
       encoding: .utf8
     )
     XCTAssertTrue(dishTemplateModels.contains("case baseCalories = \"base_calories\""))
@@ -221,7 +221,7 @@ final class PersistenceMappingTests: XCTestCase {
     XCTAssertTrue(dishTemplateModels.contains("case baseFat = \"base_fat\""))
 
     let userProgressModels = try String(
-      contentsOf: root.appendingPathComponent("Data/Models/UserProgress.swift"),
+      contentsOf: root.appendingPathComponent("Domain/Models/UserProgress.swift"),
       encoding: .utf8
     )
     XCTAssertTrue(userProgressModels.contains("case recipeId = \"recipe_id\""))
