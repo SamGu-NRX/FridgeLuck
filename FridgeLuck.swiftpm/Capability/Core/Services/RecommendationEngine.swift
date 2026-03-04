@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 
 struct RecommendationSections: Sendable {
@@ -57,8 +58,7 @@ final class RecommendationEngine: ObservableObject {
 
     do {
       let profile = try healthScoringService.fetchHealthProfile()
-      let effectiveIngredientIDs: Set<Int64> =
-        ingredientIds.isEmpty ? Set([1, 2, 5, 6]) : ingredientIds
+      let effectiveIngredientIDs = RecommendationPolicy.effectiveIngredientIDs(from: ingredientIds)
 
       let exact = try recipeRepository.findMakeable(
         with: effectiveIngredientIDs,
@@ -69,10 +69,13 @@ final class RecommendationEngine: ObservableObject {
         with: effectiveIngredientIDs,
         profile: profile,
         maxMissingRequired: 1,
-        limit: exact.isEmpty ? 20 : 8
+        limit: RecommendationPolicy.nearMatchLimit(hasExactMatches: !exact.isEmpty)
       )
 
-      if exact.isEmpty && near.isEmpty {
+      if RecommendationPolicy.shouldWidenNearMatchSearch(
+        exactCount: exact.count,
+        nearMatchCount: near.count
+      ) {
         near = try recipeRepository.findNearMatch(
           with: effectiveIngredientIDs,
           profile: profile,

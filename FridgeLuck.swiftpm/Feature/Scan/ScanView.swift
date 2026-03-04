@@ -21,6 +21,40 @@ struct ScanView: View {
   let demoScenario: DemoScenario?
   let scopedDependencies: Dependencies?
 
+  struct Dependencies {
+    let loadDemoPayload: (_ scenario: DemoScenario?) async -> DemoScanService.DemoScanPayload
+    let scanInputs: (_ inputs: [ScanInput]) async throws -> VisionService.ScanResult
+    let recordRun:
+      (
+        _ mode: ScanRunRecord.RunMode,
+        _ inputSources: [ScanInputSource],
+        _ provenance: ScanProvenance,
+        _ diagnostics: ScanDiagnostics?,
+        _ detections: [Detection]
+      ) async -> Void
+  }
+
+  var dependencies: Dependencies {
+    if let scopedDependencies { return scopedDependencies }
+    return Dependencies(
+      loadDemoPayload: { scenario in
+        await DemoScanService.loadDemoPayload(scenario: scenario, using: deps.visionService)
+      },
+      scanInputs: { inputs in
+        try await deps.visionService.scan(inputs: inputs)
+      },
+      recordRun: { mode, inputSources, provenance, diagnostics, detections in
+        await deps.scanRunStore.record(
+          mode: mode,
+          inputSources: inputSources,
+          provenance: provenance,
+          diagnostics: diagnostics,
+          detections: detections
+        )
+      }
+    )
+  }
+
   @State private var capturedImage: UIImage?
   @State private var showCamera = false
   @State private var showPhotoLibrary = false
@@ -81,9 +115,9 @@ struct ScanView: View {
         stageIndex: stage.rawValue,
         reduceMotion: reduceMotion
       )
-        .padding(.horizontal, AppTheme.Space.page)
-        .padding(.top, AppTheme.Space.md)
-        .padding(.bottom, AppTheme.Space.lg)
+      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.top, AppTheme.Space.md)
+      .padding(.bottom, AppTheme.Space.lg)
 
       ZStack {
         Group {
@@ -459,67 +493,5 @@ struct ScanView: View {
     @unknown default:
       cameraPermissionState = .unavailable
     }
-  }
-}
-
-struct ScanSweepOverlay: View {
-  let isAnimating: Bool
-
-  private static let cycleDuration: Double = 4.0
-
-  var body: some View {
-    TimelineView(.animation(paused: !isAnimating)) { context in
-      let travel = Self.sweepPosition(at: context.date)
-
-      GeometryReader { geo in
-        let y = max(12, min(geo.size.height - 12, geo.size.height * travel))
-        ZStack {
-          LinearGradient(
-            colors: [Color.clear, Color.white.opacity(0.04), Color.clear],
-            startPoint: .top,
-            endPoint: .bottom
-          )
-
-          Rectangle()
-            .fill(
-              LinearGradient(
-                colors: [
-                  Color.white.opacity(0.0),
-                  Color.white.opacity(0.65),
-                  Color.white.opacity(0.85),
-                  Color.white.opacity(0.65),
-                  Color.white.opacity(0.0),
-                ],
-                startPoint: .leading,
-                endPoint: .trailing
-              )
-            )
-            .frame(height: 1.5)
-            .position(x: geo.size.width / 2, y: y)
-            .shadow(color: Color.white.opacity(0.5), radius: 4, x: 0, y: 0)
-
-          LinearGradient(
-            colors: [
-              AppTheme.accent.opacity(0.0),
-              AppTheme.accent.opacity(0.18),
-              AppTheme.accent.opacity(0.0),
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-          )
-          .frame(height: 80)
-          .position(x: geo.size.width / 2, y: y)
-          .blur(radius: 8)
-        }
-      }
-    }
-  }
-
-  /// Triangle wave from elapsed time — immune to external animation interference.
-  private static func sweepPosition(at date: Date) -> CGFloat {
-    let elapsed = date.timeIntervalSinceReferenceDate
-    let phase = elapsed.truncatingRemainder(dividingBy: cycleDuration) / cycleDuration
-    let triangle = phase <= 0.5 ? phase * 2 : 2.0 - phase * 2
-    return 0.08 + CGFloat(triangle) * 0.84
   }
 }

@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import UIKit
 
@@ -56,7 +57,11 @@ enum DemoScanService {
       let image = demoImage,
       let cgImage = image.cgImage,
       let scanResult = try? await visionService.scan(image: cgImage),
-      !scanResult.detections.isEmpty
+      DemoFallbackPolicy.shouldUseLiveVision(
+        scenarioIsDefault: scenario == nil,
+        hasDemoImage: true,
+        detectionCount: scanResult.detections.count
+      )
     {
       return DemoScanPayload(
         detections: scanResult.detections,
@@ -69,14 +74,18 @@ enum DemoScanService {
     }
 
     let fixtureDetections = loadFallbackFixture(named: fixtureName)
-    if !fixtureDetections.isEmpty {
+    let fallback = DemoFallbackPolicy.fallbackDecision(
+      hasFixtureDetections: !fixtureDetections.isEmpty
+    )
+
+    if !fallback.usedStarterFallback {
       return DemoScanPayload(
         detections: fixtureDetections,
         image: demoImage,
         provenance: .bundledFixture,
         diagnostics: nil,
-        usedBundledFixture: true,
-        usedStarterFallback: false
+        usedBundledFixture: fallback.usedBundledFixture,
+        usedStarterFallback: fallback.usedStarterFallback
       )
     }
 
@@ -85,8 +94,8 @@ enum DemoScanService {
       image: demoImage,
       provenance: .starterFallback,
       diagnostics: nil,
-      usedBundledFixture: true,
-      usedStarterFallback: true
+      usedBundledFixture: fallback.usedBundledFixture,
+      usedStarterFallback: fallback.usedStarterFallback
     )
   }
 
