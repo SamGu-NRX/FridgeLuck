@@ -16,8 +16,8 @@ let package = Package(
       teamIdentifier: "DWGXWVUR2B",
       displayVersion: "1.0",
       bundleVersion: "1",
-      appIcon: .placeholder(icon: .moon),
-      accentColor: .presetColor(.yellow),
+      appIcon: .placeholder(icon: .cloud),
+      accentColor: .presetColor(.brown),
       supportedDeviceFamilies: [
         .pad,
         .phone,
@@ -28,11 +28,12 @@ let package = Package(
         .landscapeLeft,
         .portraitUpsideDown(.when(deviceFamilies: [.pad])),
       ],
+      appCategory: .healthcareFitness,
       additionalInfoPlistContentFilePath: "Support/AdditionalInfo.plist"
     )
   ],
   dependencies: [
-    .package(path: "Vendor/GRDB.swift")
+    .package(url: "https://github.com/groue/GRDB.swift.git", "7.10.0"..<"8.0.0")
   ],
   targets: [
     .executableTarget(
@@ -41,10 +42,7 @@ let package = Package(
         .product(name: "GRDB", package: "GRDB.swift")
       ],
       path: ".",
-      exclude: [
-        "Tests",
-        "Vendor",
-      ],
+      exclude: ["Tests", "Vendor"],
       resources: [
         .process("Resources")
       ]
@@ -57,5 +55,5 @@ let package = Package(
       path: "Tests"
     ),
   ],
-  swiftLanguageModes: [.v6]
+  swiftLanguageVersions: [.version("6")]
 )

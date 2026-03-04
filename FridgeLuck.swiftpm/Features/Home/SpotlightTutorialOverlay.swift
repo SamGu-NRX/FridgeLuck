@@ -42,7 +42,7 @@ extension SpotlightStep {
       icon: "play.rectangle.fill",
       title: "Pre-built Demos",
       message:
-        "Setting up a live fridge scan in Xcode isn\u{2019}t practical, so we\u{2019}ve pre-built demo scenarios for you. Pick a pre-stocked fridge, cook a recipe, and see the full experience."
+        "We\u{2019}ve pre-built demo scenarios so you can explore the full experience. Pick a pre-stocked fridge, cook a recipe, and see how it all works."
     ),
     SpotlightStep(
       id: "wrapup",
@@ -140,6 +140,44 @@ extension SpotlightStep {
     ),
   ]
 
+  static let firstScanNudge: [SpotlightStep] = [
+    SpotlightStep(
+      id: "nudge_profile_done",
+      anchorID: "quest_0",
+      icon: "checkmark.circle.fill",
+      title: "Profile Done!",
+      message:
+        "Your recipes will now match your goals and dietary needs."
+    ),
+    SpotlightStep(
+      id: "nudge_try_demo",
+      anchorID: "quest_1",
+      icon: "play.rectangle.fill",
+      title: "Try Demo Mode",
+      message:
+        "Tap here to explore a pre-stocked fridge. You\u{2019}ll see the full scan-to-recipe flow \u{2014} nothing can go wrong."
+    ),
+  ]
+
+  static let demoMode: [SpotlightStep] = [
+    SpotlightStep(
+      id: "demo_welcome",
+      anchorID: nil,
+      icon: "play.rectangle.fill",
+      title: "Welcome to Demo Mode",
+      message:
+        "Each card is a different fridge scenario with real ingredients. Pick one to see how FridgeLuck scans and finds recipes."
+    ),
+    SpotlightStep(
+      id: "demo_scenarios",
+      anchorID: "scenarioGrid",
+      icon: "square.grid.2x2.fill",
+      title: "Pick a Scenario",
+      message:
+        "Tap any card to preview what\u{2019}s inside, then scan it. Everything here is safe to explore \u{2014} try as many as you like."
+    ),
+  ]
+
   static let swapIngredients: [SpotlightStep] = [
     SpotlightStep(
       id: "swap_intro",
@@ -196,23 +234,24 @@ struct SpotlightTutorialOverlay: View {
 
   @State private var stepIndex = 0
   @State private var appeared = false
+  @State private var highlightGlow: CGFloat = 0
+
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   private var step: SpotlightStep { steps[stepIndex] }
   private var isLast: Bool { stepIndex >= steps.count - 1 }
 
-  private var highlightRect: CGRect? {
-    guard let aid = step.anchorID else { return nil }
-    return anchors[aid]
-  }
-
   var body: some View {
     GeometryReader { geo in
       ZStack {
-        dimmingLayer
-        highlightBorder
-        tooltipCard(in: geo)
+        dimmingLayer(in: geo)
+          .zIndex(0)
+        highlightBorder(in: geo)
+          .zIndex(1)
         skipButton(in: geo)
+          .zIndex(2)
+        tooltipCard(in: geo)
+          .zIndex(3)
       }
     }
     .ignoresSafeArea()
@@ -235,8 +274,8 @@ struct SpotlightTutorialOverlay: View {
   // MARK: - Dimming
 
   @ViewBuilder
-  private var dimmingLayer: some View {
-    if let rect = highlightRect {
+  private func dimmingLayer(in geo: GeometryProxy) -> some View {
+    if let rect = highlightRect(in: geo) {
       let highlight = highlightMetrics(for: rect)
       Color.black.opacity(0.68)
         .reverseMask {
@@ -254,11 +293,11 @@ struct SpotlightTutorialOverlay: View {
   }
 
   @ViewBuilder
-  private var highlightBorder: some View {
-    if let rect = highlightRect {
+  private func highlightBorder(in geo: GeometryProxy) -> some View {
+    if let rect = highlightRect(in: geo) {
       let highlight = highlightMetrics(for: rect)
       RoundedRectangle(cornerRadius: highlight.cornerRadius, style: .continuous)
-        .stroke(.white.opacity(0.22), lineWidth: 1.5)
+        .stroke(.white.opacity(0.22 + highlightGlow * 0.35), lineWidth: 1.5 + highlightGlow * 1.5)
         .frame(width: highlight.width, height: highlight.height)
         .position(x: rect.midX, y: rect.midY)
         .animation(
@@ -271,8 +310,7 @@ struct SpotlightTutorialOverlay: View {
   // MARK: - Tooltip
 
   private func tooltipCard(in geo: GeometryProxy) -> some View {
-    let screenH = geo.size.height + geo.safeAreaInsets.top + geo.safeAreaInsets.bottom
-    let y = tooltipY(screenHeight: screenH)
+    let y = tooltipY(in: geo, screenHeight: screenHeight(for: geo))
 
     return VStack(spacing: AppTheme.Space.md) {
       Image(systemName: step.icon)
@@ -287,14 +325,14 @@ struct SpotlightTutorialOverlay: View {
           .font(AppTheme.Typography.displaySmall)
           .foregroundStyle(.white)
           .multilineTextAlignment(.center)
-          .contentTransition(.opacity)
+          .contentTransition(.numericText())
 
         Text(step.message)
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(.white.opacity(0.76))
           .multilineTextAlignment(.center)
           .fixedSize(horizontal: false, vertical: true)
-          .contentTransition(.opacity)
+          .contentTransition(.numericText())
       }
 
       HStack {
@@ -350,7 +388,7 @@ struct SpotlightTutorialOverlay: View {
           .padding(.vertical, 10)
           .background(.white, in: Capsule())
       }
-      .buttonStyle(.plain)
+      .buttonStyle(SpotlightPressStyle())
     } else {
       Button {
         advance()
@@ -366,55 +404,89 @@ struct SpotlightTutorialOverlay: View {
         .padding(.vertical, 10)
         .background(.white.opacity(0.16), in: Capsule())
       }
-      .buttonStyle(.plain)
+      .buttonStyle(SpotlightPressStyle())
     }
   }
 
   // MARK: - Skip
 
   private func skipButton(in geo: GeometryProxy) -> some View {
-    let pinLeading = step.anchorID == "toolbarAdd"
-
-    return VStack {
-      HStack {
-        if !pinLeading {
-          Spacer()
-        }
-        Button {
-          dismissOverlay()
-        } label: {
-          HStack(spacing: AppTheme.Space.xxs) {
-            Text("Skip tour")
-              .font(.system(size: 14, weight: .medium))
-            Image(systemName: "forward.fill")
-              .font(.system(size: 10, weight: .semibold))
-          }
-          .foregroundStyle(.white.opacity(0.70))
-          .padding(.horizontal, 16)
-          .padding(.vertical, 8)
-          .background(.white.opacity(0.12), in: Capsule())
-          .overlay(
-            Capsule().stroke(.white.opacity(0.18), lineWidth: 1)
-          )
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Skip guided tour")
-        if pinLeading {
-          Spacer()
-        }
-      }
-      .padding(.top, geo.safeAreaInsets.top + 50)
-      .padding(.horizontal, AppTheme.Space.page)
+    VStack {
       Spacer()
+      HStack {
+        skipButtonLabel
+        Spacer()
+      }
+      .padding(.bottom, geo.safeAreaInsets.bottom + skipBottomOffset)
+      .padding(.horizontal, skipHorizontalPadding)
     }
   }
 
+  private var skipButtonLabel: some View {
+    Button {
+      dismissOverlay()
+    } label: {
+      HStack(spacing: AppTheme.Space.xxs) {
+        Text("Skip tour")
+          .font(.system(size: 14, weight: .medium))
+        Image(systemName: "forward.fill")
+          .font(.system(size: 10, weight: .semibold))
+      }
+      .foregroundStyle(.white.opacity(0.70))
+      .padding(.horizontal, 16)
+      .padding(.vertical, 8)
+      .background(.white.opacity(0.12), in: Capsule())
+      .overlay(
+        Capsule().stroke(.white.opacity(0.18), lineWidth: 1)
+      )
+    }
+    .buttonStyle(SpotlightPressStyle())
+    .accessibilityLabel("Skip guided tour")
+  }
+
   // MARK: - Positioning
+
+  private let tooltipCardHeight: CGFloat = 260
+  private let skipBottomOffset: CGFloat = 24
+  private let skipHorizontalPadding: CGFloat = AppTheme.Space.page
 
   private struct HighlightMetrics {
     let width: CGFloat
     let height: CGFloat
     let cornerRadius: CGFloat
+  }
+
+  private func highlightRect(in geo: GeometryProxy) -> CGRect? {
+    guard let anchorID = step.anchorID, let globalRect = anchors[anchorID] else { return nil }
+
+    let overlayFrame = geo.frame(in: .global)
+    let normalizedRect = CGRect(
+      x: globalRect.minX - overlayFrame.minX,
+      y: globalRect.minY - overlayFrame.minY,
+      width: globalRect.width,
+      height: globalRect.height
+    )
+
+    let visibleBounds = CGRect(
+      x: 0,
+      y: 0,
+      width: geo.size.width,
+      height: screenHeight(for: geo)
+    ).insetBy(dx: -24, dy: -24)
+
+    let normalizedScore = visibleIntersectionArea(of: normalizedRect, within: visibleBounds)
+    let globalScore = visibleIntersectionArea(of: globalRect, within: visibleBounds)
+
+    return globalScore > normalizedScore ? globalRect : normalizedRect
+  }
+
+  private func visibleIntersectionArea(of rect: CGRect, within bounds: CGRect) -> CGFloat {
+    guard rect.minX.isFinite, rect.minY.isFinite, rect.maxX.isFinite, rect.maxY.isFinite else {
+      return 0
+    }
+    let intersection = rect.intersection(bounds)
+    guard !intersection.isNull, !intersection.isEmpty else { return 0 }
+    return intersection.width * intersection.height
   }
 
   private func highlightMetrics(for rect: CGRect) -> HighlightMetrics {
@@ -440,18 +512,39 @@ struct SpotlightTutorialOverlay: View {
     }
   }
 
-  private func tooltipY(screenHeight: CGFloat) -> CGFloat {
-    guard let rect = highlightRect else {
-      return screenHeight / 2
+  private func tooltipY(in geo: GeometryProxy, screenHeight: CGFloat) -> CGFloat {
+    let centeredY = clampedTooltipY(screenHeight / 2, screenHeight: screenHeight)
+    guard let rect = highlightRect(in: geo) else {
+      return centeredY
     }
-    let cardH: CGFloat = 260
     let gap: CGFloat = 24
-    let below = rect.maxY + gap + cardH / 2
-    let above = rect.minY - gap - cardH / 2
+    let below = rect.maxY + gap + tooltipCardHeight / 2
+    let above = rect.minY - gap - tooltipCardHeight / 2
 
-    if below + cardH / 2 < screenHeight - 40 { return below }
-    if above - cardH / 2 > 40 { return above }
-    return screenHeight / 2
+    if below + tooltipCardHeight / 2 < screenHeight - 40 {
+      return clampedTooltipY(below, screenHeight: screenHeight)
+    }
+    if above - tooltipCardHeight / 2 > 40 {
+      return clampedTooltipY(above, screenHeight: screenHeight)
+    }
+    return centeredY
+  }
+
+  private func clampedTooltipY(_ y: CGFloat, screenHeight: CGFloat) -> CGFloat {
+    let inset: CGFloat = 40
+    let halfHeight = tooltipCardHeight / 2
+    let minCenter = inset + halfHeight
+    let maxCenter = screenHeight - inset - halfHeight
+
+    guard maxCenter > minCenter else {
+      return max(halfHeight, min(screenHeight - halfHeight, y))
+    }
+    return min(max(y, minCenter), maxCenter)
+  }
+
+  private func screenHeight(for geo: GeometryProxy) -> CGFloat {
+    let overlayTop = geo.frame(in: .global).minY
+    return max(geo.size.height, UIScreen.main.bounds.height - overlayTop)
   }
 
   // MARK: - Actions
@@ -462,11 +555,24 @@ struct SpotlightTutorialOverlay: View {
       return
     }
     let nextIndex = stepIndex + 1
+    let needsScroll = steps[nextIndex].anchorID != nil
+
     if let anchorID = steps[nextIndex].anchorID {
       onScrollToAnchor?(anchorID)
     }
-    withAnimation(reduceMotion ? nil : AppMotion.spotlightMove) {
-      stepIndex = nextIndex
+
+    let stepDelay: Double = needsScroll && !reduceMotion ? 0.25 : 0
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + stepDelay) {
+      withAnimation(self.reduceMotion ? nil : AppMotion.spotlightMove) {
+        self.stepIndex = nextIndex
+      }
+      if !self.reduceMotion {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+          self.highlightGlow = 1
+          withAnimation(.easeOut(duration: 0.5)) { self.highlightGlow = 0 }
+        }
+      }
     }
   }
 
@@ -477,6 +583,17 @@ struct SpotlightTutorialOverlay: View {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.24) {
       isPresented = false
     }
+  }
+}
+
+// MARK: - Supporting
+
+private struct SpotlightPressStyle: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+      .opacity(configuration.isPressed ? 0.85 : 1.0)
+      .animation(.spring(response: 0.2, dampingFraction: 0.7), value: configuration.isPressed)
   }
 }
 

@@ -24,6 +24,12 @@ struct DemoModeView: View {
   @State private var scanComplete = false
   @State private var scanTask: Task<Void, Never>?
 
+  // MARK: - Spotlight Tutorial State
+  @AppStorage("hasSeenDemoSpotlight") private var hasSeenDemoSpotlight = false
+  @State private var demoSpotlight = SpotlightCoordinator()
+  @State private var showDemoSpotlight = false
+  @State private var isFirstVisit = false
+
   /// The overlay phases: preview first, then scanning.
   private enum OverlayPhase: Equatable {
     case hidden
@@ -46,27 +52,60 @@ struct DemoModeView: View {
 
   var body: some View {
     ZStack {
-      ScrollView {
-        VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
-          header
-            .padding(.horizontal, AppTheme.Space.page)
+      ScrollViewReader { scrollProxy in
+        ScrollView {
+          VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
+            header
+              .padding(.horizontal, AppTheme.Space.page)
 
-          howItWorksCallout
-            .padding(.horizontal, AppTheme.Space.page)
+            howItWorksCallout
+              .padding(.horizontal, AppTheme.Space.page)
 
-          scenarioGrid
-            .padding(.horizontal, AppTheme.Space.page)
+            scenarioGrid
+              .padding(.horizontal, AppTheme.Space.page)
+              .id("scenarioGrid")
+              .spotlightAnchor("scenarioGrid")
 
-          ownPhotoCard
-            .padding(.horizontal, AppTheme.Space.page)
+            ownPhotoCard
+              .padding(.horizontal, AppTheme.Space.page)
+          }
+          .padding(.top, AppTheme.Space.md)
+          .padding(.bottom, AppTheme.Space.bottomClearance)
         }
-        .padding(.top, AppTheme.Space.md)
-        .padding(.bottom, AppTheme.Space.bottomClearance)
+        .onAppear {
+          demoSpotlight.onScrollToAnchor = { anchorID in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+              withAnimation(AppMotion.spotlightMove) {
+                scrollProxy.scrollTo(anchorID, anchor: .center)
+              }
+            }
+          }
+        }
       }
 
       if isOverlayVisible, let scenario = activeScenario {
         overlayContent(scenario)
           .transition(.opacity)
+      }
+    }
+    .onPreferenceChange(SpotlightAnchorKey.self) { demoSpotlight.anchors = $0 }
+    .overlay {
+      if showDemoSpotlight, let steps = demoSpotlight.activeSteps {
+        SpotlightTutorialOverlay(
+          steps: steps,
+          anchors: demoSpotlight.anchors,
+          isPresented: Binding(
+            get: { showDemoSpotlight },
+            set: { isPresented in
+              if !isPresented {
+                showDemoSpotlight = false
+                demoSpotlight.activeSteps = nil
+              }
+            }
+          ),
+          onScrollToAnchor: demoSpotlight.onScrollToAnchor
+        )
+        .ignoresSafeArea()
       }
     }
     .navigationTitle("Demo Mode")
@@ -77,17 +116,9 @@ struct DemoModeView: View {
       ToolbarItem(placement: .topBarLeading) {
         Button(action: handleBackButton) {
           Image(systemName: "chevron.left")
-            .font(.system(size: 20, weight: .semibold))
+            .font(.system(size: 18, weight: .semibold))
             .foregroundStyle(AppTheme.textPrimary)
             .frame(width: 44, height: 44)
-            .background(
-              AppTheme.surface.opacity(0.98),
-              in: Circle()
-            )
-            .overlay(
-              Circle()
-                .stroke(AppTheme.oat.opacity(0.22), lineWidth: 1)
-            )
         }
         .buttonStyle(.plain)
         .accessibilityLabel(isOverlayVisible ? "Close preview" : "Back")
@@ -104,6 +135,9 @@ struct DemoModeView: View {
       ScanView(mode: .live)
     }
     .onAppear {
+      if !hasSeenDemoSpotlight {
+        isFirstVisit = true
+      }
       guard !reduceMotion, !appeared else {
         appeared = true
         return
@@ -112,6 +146,23 @@ struct DemoModeView: View {
         appeared = true
       }
     }
+    .task {
+      guard !hasSeenDemoSpotlight else { return }
+      let delay = reduceMotion ? 0.3 : 0.8
+      try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+      guard !Task.isCancelled else { return }
+      guard !showDemoSpotlight else { return }
+      presentDemoSpotlight()
+    }
+  }
+
+  // MARK: - Demo Spotlight
+
+  private func presentDemoSpotlight() {
+    guard demoSpotlight.activeSteps == nil else { return }
+    demoSpotlight.activeSteps = SpotlightStep.demoMode
+    showDemoSpotlight = true
+    hasSeenDemoSpotlight = true
   }
 
   // MARK: - Header
@@ -141,7 +192,9 @@ struct DemoModeView: View {
         .background(AppTheme.oat.opacity(0.15), in: Circle())
 
       Text(
-        "Each card is a realistic fridge scenario with different ingredients. Tap one to see how FridgeLuck scans and identifies what\u{2019}s inside."
+        isFirstVisit
+          ? "Each card is a pre-stocked fridge. Tap one to preview what\u{2019}s inside, then scan it \u{2014} everything here is safe to explore."
+          : "Each card is a realistic fridge scenario with different ingredients. Tap one to see how FridgeLuck scans and identifies what\u{2019}s inside."
       )
       .font(AppTheme.Typography.bodySmall)
       .foregroundStyle(AppTheme.textSecondary)
@@ -414,6 +467,13 @@ struct DemoModeView: View {
         }
         .buttonStyle(.plain)
         .padding(.top, AppTheme.Space.xs)
+
+        if isFirstVisit {
+          Text("This is a demo \u{2014} nothing is saved or sent anywhere.")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(.white.opacity(0.48))
+            .multilineTextAlignment(.center)
+        }
       }
     }
     .accessibilityLabel("\(scenario.title) preview")
@@ -604,10 +664,15 @@ struct DemoModeView: View {
 
   private func scanStatusText(_ scenario: DemoScenario) -> String {
     if scanComplete {
-      return "Found \(scenario.ingredientNames.count) ingredients. Preparing review\u{2026}"
+      let prefix = isFirstVisit ? "All done! " : ""
+      return
+        "\(prefix)Found \(scenario.ingredientNames.count) ingredients. Preparing review\u{2026}"
     }
     if discoveredCount > 0 {
       return "Found \(discoveredCount) ingredient\(discoveredCount == 1 ? "" : "s") so far\u{2026}"
+    }
+    if isFirstVisit {
+      return "Identifying what\u{2019}s in the fridge\u{2026}"
     }
     return "Finding ingredients in \(scenario.title)\u{2026}"
   }

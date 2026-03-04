@@ -14,6 +14,7 @@ struct HomeDashboardView: View {
   @State private var showSkipConfirmation = false
   @AppStorage("hasSeenSpotlightTutorial") private var hasSeenSpotlightTutorial = false
   @AppStorage("hasSeenCompletionSpotlight") private var hasSeenCompletionSpotlight = false
+  @AppStorage("hasSeenFirstScanNudge") private var hasSeenFirstScanNudge = false
 
   let onScan: () -> Void
   let onDemoMode: () -> Void
@@ -32,6 +33,7 @@ struct HomeDashboardView: View {
   private enum SpotlightKind: String, Equatable {
     case onboarding
     case completion
+    case firstScanNudge
   }
 
   init(
@@ -94,6 +96,7 @@ struct HomeDashboardView: View {
           tutorialStorageString = ""
           hasSeenSpotlightTutorial = false
           hasSeenCompletionSpotlight = false
+          hasSeenFirstScanNudge = false
           onReset()
           Task { await viewModel.load() }
         }
@@ -155,14 +158,15 @@ struct HomeDashboardView: View {
       .onPreferenceChange(SpotlightAnchorKey.self) { spotlightCoordinator.anchors = $0 }
       .onAppear {
         spotlightCoordinator.onScrollToAnchor = { anchorID in
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.82)) {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
+            withAnimation(AppMotion.spotlightMove) {
               scrollProxy.scrollTo(anchorID, anchor: .center)
             }
           }
         }
       }
     }
+    .flPageBackground()
   }
 
   private var pendingSpotlightKind: SpotlightKind? {
@@ -174,8 +178,18 @@ struct HomeDashboardView: View {
       return anchorsReady(for: .completion) ? .completion : nil
     }
 
-    guard !hasSeenSpotlightTutorial else { return nil }
-    return anchorsReady(for: .onboarding) ? .onboarding : nil
+    if !hasSeenSpotlightTutorial {
+      return anchorsReady(for: .onboarding) ? .onboarding : nil
+    }
+
+    if !hasSeenFirstScanNudge,
+      tutorialProgress.isCompleted(.setupProfile),
+      !tutorialProgress.isCompleted(.firstScan)
+    {
+      return anchorsReady(for: .firstScanNudge) ? .firstScanNudge : nil
+    }
+
+    return nil
   }
 
   private func steps(for kind: SpotlightKind) -> [SpotlightStep] {
@@ -184,6 +198,8 @@ struct HomeDashboardView: View {
       return SpotlightStep.onboarding
     case .completion:
       return SpotlightStep.completion
+    case .firstScanNudge:
+      return SpotlightStep.firstScanNudge
     }
   }
 
@@ -207,6 +223,8 @@ struct HomeDashboardView: View {
       hasSeenSpotlightTutorial = true
     case .completion:
       hasSeenCompletionSpotlight = true
+    case .firstScanNudge:
+      hasSeenFirstScanNudge = true
     }
   }
 

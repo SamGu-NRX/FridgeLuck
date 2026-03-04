@@ -60,8 +60,8 @@ struct RecipePreviewDrawer: View {
       .onPreferenceChange(SpotlightAnchorKey.self) { swapSpotlight.anchors = $0 }
       .onAppear {
         swapSpotlight.onScrollToAnchor = { anchorID in
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.82)) {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
+            withAnimation(AppMotion.spotlightMove) {
               scrollProxy.scrollTo(anchorID, anchor: .center)
             }
           }

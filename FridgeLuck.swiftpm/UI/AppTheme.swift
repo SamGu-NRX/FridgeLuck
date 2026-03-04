@@ -1,72 +1,176 @@
 import SwiftUI
 
+#if canImport(UIKit)
+  import UIKit
+#endif
+
 // MARK: - Design System
 
 enum AppTheme {
 
+  private struct RGB {
+    let red: CGFloat
+    let green: CGFloat
+    let blue: CGFloat
+  }
+
+  private struct RGBA {
+    let red: CGFloat
+    let green: CGFloat
+    let blue: CGFloat
+    let alpha: CGFloat
+  }
+
+  private static func dynamic(light: RGB, dark: RGB) -> Color {
+    #if canImport(UIKit)
+      Color(
+        uiColor: UIColor { traits in
+          let active = traits.userInterfaceStyle == .dark ? dark : light
+          return UIColor(red: active.red, green: active.green, blue: active.blue, alpha: 1)
+        }
+      )
+    #else
+      Color(red: Double(light.red), green: Double(light.green), blue: Double(light.blue))
+    #endif
+  }
+
+  private static func dynamic(light: RGBA, dark: RGBA) -> Color {
+    #if canImport(UIKit)
+      Color(
+        uiColor: UIColor { traits in
+          let active = traits.userInterfaceStyle == .dark ? dark : light
+          return UIColor(
+            red: active.red,
+            green: active.green,
+            blue: active.blue,
+            alpha: active.alpha
+          )
+        }
+      )
+    #else
+      Color(
+        red: Double(light.red),
+        green: Double(light.green),
+        blue: Double(light.blue),
+        opacity: Double(light.alpha)
+      )
+    #endif
+  }
+
   // MARK: Backgrounds — warm linen, not sterile white
 
-  static let bg = Color(red: 0.96, green: 0.94, blue: 0.91)  // #F5F0E8  linen
-  static let bgDeep = Color(red: 0.91, green: 0.88, blue: 0.83)  // #E8E0D4  linen deep
+  static let bg = dynamic(
+    light: RGB(red: 0.96, green: 0.94, blue: 0.91),  // #F5F0E8
+    dark: RGB(red: 0.05, green: 0.06, blue: 0.05)  // #0D100D
+  )
+  static let bgDeep = dynamic(
+    light: RGB(red: 0.91, green: 0.88, blue: 0.83),  // #E8E0D4
+    dark: RGB(red: 0.11, green: 0.13, blue: 0.10)  // #1C211A
+  )
 
   // MARK: Surfaces
 
-  static let surface = Color(red: 0.99, green: 0.99, blue: 0.97)  // #FEFCF8  warm white
-  static let surfaceMuted = Color(red: 0.94, green: 0.91, blue: 0.87)  // #F0E8DE  muted warm
+  static let surface = dynamic(
+    light: RGB(red: 0.99, green: 0.99, blue: 0.97),  // #FEFCF8
+    dark: RGB(red: 0.15, green: 0.17, blue: 0.14)  // #262B24
+  )
+  static let surfaceMuted = dynamic(
+    light: RGB(red: 0.94, green: 0.91, blue: 0.87),  // #F0E8DE
+    dark: RGB(red: 0.20, green: 0.23, blue: 0.19)  // #333B30
+  )
 
   // MARK: Text — warm walnut, not cold black
 
-  static let textPrimary = Color(red: 0.16, green: 0.13, blue: 0.09)  // #2A2118  walnut
-  static let textSecondary = Color(red: 0.53, green: 0.48, blue: 0.42)  // #887A6A  stone
+  static let textPrimary = dynamic(
+    light: RGB(red: 0.16, green: 0.13, blue: 0.09),  // #2A2118
+    dark: RGB(red: 0.95, green: 0.94, blue: 0.90)  // #F2EFE6
+  )
+  static let textSecondary = dynamic(
+    light: RGB(red: 0.53, green: 0.48, blue: 0.42),  // #887A6A
+    dark: RGB(red: 0.78, green: 0.74, blue: 0.67)  // #C7BDAA
+  )
 
   // MARK: Primary accent — terracotta
 
-  static let accent = Color(red: 0.76, green: 0.38, blue: 0.23)  // #C2613A
-  static let accentLight = Color(red: 0.89, green: 0.62, blue: 0.48)  // #E39E7A
-  static let accentMuted = Color(red: 0.76, green: 0.38, blue: 0.23).opacity(0.12)
+  static let accent = dynamic(
+    light: RGB(red: 0.76, green: 0.38, blue: 0.23),  // #C2613A
+    dark: RGB(red: 0.84, green: 0.47, blue: 0.31)  // #D7784F
+  )
+  static let accentLight = dynamic(
+    light: RGB(red: 0.89, green: 0.62, blue: 0.48),  // #E39E7A
+    dark: RGB(red: 0.92, green: 0.69, blue: 0.55)  // #EBB08C
+  )
+  static let accentMuted = accent.opacity(0.12)
 
   // MARK: Secondary accent — sage
 
-  static let sage = Color(red: 0.48, green: 0.56, blue: 0.42)  // #7A8E6B
-  static let sageLight = Color(red: 0.72, green: 0.78, blue: 0.68)  // #B8C7AD
+  static let sage = dynamic(
+    light: RGB(red: 0.48, green: 0.56, blue: 0.42),  // #7A8E6B
+    dark: RGB(red: 0.60, green: 0.71, blue: 0.54)  // #99B588
+  )
+  static let sageLight = dynamic(
+    light: RGB(red: 0.72, green: 0.78, blue: 0.68),  // #B8C7AD
+    dark: RGB(red: 0.44, green: 0.54, blue: 0.41)  // #708A68
+  )
 
   // MARK: Warm neutrals
 
-  static let oat = Color(red: 0.83, green: 0.72, blue: 0.56)  // #D4B78F
-  static let dustyRose = Color(red: 0.75, green: 0.62, blue: 0.59)  // #C09E96
+  static let oat = dynamic(
+    light: RGB(red: 0.83, green: 0.72, blue: 0.56),  // #D4B78F
+    dark: RGB(red: 0.81, green: 0.71, blue: 0.55)  // #CFB58C
+  )
+  static let dustyRose = dynamic(
+    light: RGB(red: 0.75, green: 0.62, blue: 0.59),  // #C09E96
+    dark: RGB(red: 0.77, green: 0.64, blue: 0.61)  // #C4A39C
+  )
 
   // MARK: Status — muted, warm variants
 
-  static let positive = Color(red: 0.48, green: 0.56, blue: 0.42)  // sage
-  static let warning = Color(red: 0.76, green: 0.38, blue: 0.23)  // terracotta
-  static let neutral = Color(red: 0.53, green: 0.48, blue: 0.42)  // stone
+  static let positive = sage
+  static let warning = accent
+  static let neutral = textSecondary
 
   // MARK: Dark surfaces — deep olive, not cold charcoal
 
-  static let deepOlive = Color(red: 0.12, green: 0.14, blue: 0.10)  // #1E2419
-  static let deepOliveLight = Color(red: 0.18, green: 0.20, blue: 0.15)  // #2E3326
-  static let charcoal = Color(red: 0.12, green: 0.14, blue: 0.10)  // alias
+  static let deepOlive = dynamic(
+    light: RGB(red: 0.12, green: 0.14, blue: 0.10),  // #1E2419
+    dark: RGB(red: 0.18, green: 0.21, blue: 0.17)  // #2E352C
+  )
+  static let deepOliveLight = dynamic(
+    light: RGB(red: 0.18, green: 0.20, blue: 0.15),  // #2E3326
+    dark: RGB(red: 0.24, green: 0.28, blue: 0.23)  // #3D473A
+  )
+  static let charcoal = deepOlive
 
   // MARK: Dark surface chrome
 
-  static let slabFill = Color(red: 0.12, green: 0.14, blue: 0.10)
-  static let slabStroke = Color.white.opacity(0.09)
-  static let homePanel = Color(red: 0.12, green: 0.14, blue: 0.10)
-  static let homePanelStroke = Color.white.opacity(0.10)
+  static let slabFill = deepOlive
+  static let slabStroke = dynamic(
+    light: RGBA(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.10),
+    dark: RGBA(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.14)
+  )
+  static let homePanel = deepOlive
+  static let homePanelStroke = slabStroke
 
   // MARK: Hero gradient (warm amber, editorial)
 
-  static let heroLight = Color(red: 0.94, green: 0.88, blue: 0.78)  // #F0E0C7
-  static let heroMid = Color(red: 0.83, green: 0.72, blue: 0.56)  // oat
+  static let heroLight = dynamic(
+    light: RGB(red: 0.94, green: 0.88, blue: 0.78),  // #F0E0C7
+    dark: RGB(red: 0.45, green: 0.37, blue: 0.30)  // #73604D
+  )
+  static let heroMid = dynamic(
+    light: RGB(red: 0.83, green: 0.72, blue: 0.56),  // #D4B78F
+    dark: RGB(red: 0.61, green: 0.49, blue: 0.36)  // #9C7D5C
+  )
 
   // MARK: Chart tokens
 
-  static let chartLine = Color(red: 0.76, green: 0.38, blue: 0.23)  // terracotta
-  static let chartProtein = Color(red: 0.48, green: 0.56, blue: 0.42)  // sage
-  static let chartCarbs = Color(red: 0.83, green: 0.72, blue: 0.56)  // oat
-  static let chartFat = Color(red: 0.89, green: 0.62, blue: 0.48)  // terracotta light
-  static let chartBarBottom = Color(red: 0.48, green: 0.56, blue: 0.42)  // sage
-  static let chartBarTop = Color(red: 0.72, green: 0.78, blue: 0.68)  // sage light
+  static let chartLine = accent
+  static let chartProtein = sage
+  static let chartCarbs = oat
+  static let chartFat = accentLight
+  static let chartBarBottom = sage
+  static let chartBarTop = sageLight
 
   // MARK: - Spacing (editorial, intentional, consistent)
 
@@ -100,8 +204,14 @@ enum AppTheme {
   // MARK: - Depth (warm, layered shadows)
 
   enum Shadow {
-    static let color = Color(red: 0.20, green: 0.16, blue: 0.10).opacity(0.08)
-    static let colorDeep = Color(red: 0.20, green: 0.16, blue: 0.10).opacity(0.15)
+    static let color = dynamic(
+      light: RGBA(red: 0.20, green: 0.16, blue: 0.10, alpha: 0.08),
+      dark: RGBA(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.28)
+    )
+    static let colorDeep = dynamic(
+      light: RGBA(red: 0.20, green: 0.16, blue: 0.10, alpha: 0.15),
+      dark: RGBA(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.46)
+    )
     static let radius: CGFloat = 16
     static let y: CGFloat = 8
   }
