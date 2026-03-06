@@ -15,6 +15,7 @@ struct DashboardView: View {
   @State private var vm: DashboardViewModel?
   @State private var showEditProfile = false
   @State private var showRecipeBook = false
+  @State private var showReverseScan = false
 
   var body: some View {
     if isTabEmbedded {
@@ -53,6 +54,10 @@ struct DashboardView: View {
     }
     .navigationDestination(isPresented: $showRecipeBook) {
       RecipeBookView(isPushed: true)
+        .environmentObject(deps)
+    }
+    .navigationDestination(isPresented: $showReverseScan) {
+      ReverseScanMealView()
         .environmentObject(deps)
     }
     .refreshable {
@@ -112,6 +117,12 @@ struct DashboardView: View {
 
         recipeBookPreview(snap: snap)
           .padding(.bottom, AppTheme.Space.md)
+
+        FLSecondaryButton("Reverse Scan a Meal", systemImage: "camera.macro") {
+          showReverseScan = true
+        }
+        .flPagePadding()
+        .padding(.bottom, AppTheme.Space.md)
 
         FLWaveDivider()
           .flPagePadding()

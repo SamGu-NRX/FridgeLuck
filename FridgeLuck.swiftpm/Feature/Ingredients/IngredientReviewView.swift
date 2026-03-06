@@ -1,4 +1,7 @@
 import SwiftUI
+import os
+
+private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "IngredientReviewView")
 
 /// Review detected ingredients: confirm, remove, correct, or add manually.
 /// Then proceed to recipe recommendations.
@@ -19,6 +22,13 @@ struct IngredientReviewView: View {
     let fetchAllIngredients: () throws -> [Ingredient]
     let recordCorrection: (_ visionLabel: String, _ correctedIngredientID: Int64) -> Void
     let recordSuggestionOutcome: (_ accepted: Bool) -> Void
+    let ingestInventoryFromScan:
+      (
+        _ detections: [Detection],
+        _ confirmedIngredientIDs: Set<Int64>,
+        _ selectedIngredientByDetection: [UUID: Int64],
+        _ sourceRef: String
+      ) throws -> Void
   }
 
   var dependencies: Dependencies {
@@ -42,6 +52,19 @@ struct IngredientReviewView: View {
       },
       recordSuggestionOutcome: { accepted in
         deps.learningService.recordSuggestionOutcome(accepted: accepted)
+      },
+      ingestInventoryFromScan: {
+        detections,
+        confirmedIngredientIDs,
+        selectedIngredientByDetection,
+        sourceRef
+        in
+        _ = try deps.inventoryIntakeService.ingestConfirmedScan(
+          detections: detections,
+          confirmedIngredientIDs: confirmedIngredientIDs,
+          selectedIngredientByDetection: selectedIngredientByDetection,
+          sourceRef: sourceRef
+        )
       }
     )
   }
@@ -56,6 +79,7 @@ struct IngredientReviewView: View {
   @State private var selectedIngredientForDetection: [UUID: Int64] = [:]
   @State private var suggestedOutcomeByDetection: [UUID: Bool] = [:]
   @State private var didInitialize = false
+  @State private var inventorySourceRef = "scan-review:\(UUID().uuidString)"
 
   // MARK: - Spotlight Tutorial State
   @AppStorage(TutorialStorageKeys.hasSeenReviewSpotlight) private var hasSeenReviewSpotlight = false
@@ -218,6 +242,22 @@ struct IngredientReviewView: View {
         unresolvedCount: unresolvedCount,
         reduceMotion: reduceMotion,
         onFindRecipes: {
+          logger.info(
+            "Find recipes tapped. confirmed=\(confirmedIds.count, privacy: .public), unresolved=\(unresolvedCount, privacy: .public)"
+          )
+          do {
+            try dependencies.ingestInventoryFromScan(
+              detections,
+              confirmedIds,
+              selectedIngredientForDetection,
+              inventorySourceRef
+            )
+            logger.info("Inventory intake from scan review succeeded.")
+          } catch {
+            logger.error(
+              "Inventory intake from scan review failed: \(error.localizedDescription, privacy: .public)"
+            )
+          }
           flushLearningTelemetry()
           navigateToResults = true
         }
@@ -306,6 +346,9 @@ struct IngredientReviewView: View {
     .navigationDestination(isPresented: $navigateToResults) {
       RecipeResultsView(
         ingredientIds: confirmedIds,
+        ingredientNames: confirmedIngredientNames(),
+        fridgePhoto: fridgeImage,
+        scanConfidenceScore: averageConfirmedDetectionConfidence(),
         engine: dependencies.makeRecommendationEngine()
       )
     }
@@ -400,6 +443,9 @@ struct IngredientReviewView: View {
 
   private func categorizeDetections() {
     let results = categorized
+    logger.debug(
+      "Categorizing detections. confirmed=\(results.confirmed.count, privacy: .public), needsConfirmation=\(results.needsConfirmation.count, privacy: .public), possible=\(results.possible.count, privacy: .public)"
+    )
 
     for detection in results.confirmed {
       confirmedIds.insert(detection.ingredientId)
@@ -426,6 +472,26 @@ struct IngredientReviewView: View {
   private func displayName(for id: Int64) -> String {
     ingredient(for: id)?.displayName
       ?? IngredientLexicon.displayName(for: id)
+  }
+
+  private func confirmedIngredientNames() -> [String] {
+    confirmedIds
+      .compactMap { ingredient(for: $0)?.displayName }
+      .sorted()
+  }
+
+  private func averageConfirmedDetectionConfidence() -> Double? {
+    let confirmedDetections = detections.filter { detection in
+      let resolvedIngredientID =
+        selectedIngredientForDetection[detection.id] ?? detection.ingredientId
+      return confirmedIds.contains(resolvedIngredientID)
+    }
+    guard !confirmedDetections.isEmpty else { return nil }
+
+    let sum = confirmedDetections.reduce(0.0) { partial, detection in
+      partial + max(0, min(Double(detection.confidence), 1.0))
+    }
+    return sum / Double(confirmedDetections.count)
   }
 
   private func confidenceHealthPill() -> (text: String, kind: FLStatusPill.Kind) {
@@ -577,6 +643,9 @@ struct IngredientReviewView: View {
 
     if option.ingredientId != detection.ingredientId {
       dependencies.recordCorrection(detection.originalVisionLabel, option.ingredientId)
+      logger.debug(
+        "User corrected detection. original=\(detection.label, privacy: .public), selected=\(option.label, privacy: .public)"
+      )
     }
 
     if let suggestion = dependencies.suggestedCorrection(detection.originalVisionLabel) {
@@ -585,10 +654,12 @@ struct IngredientReviewView: View {
   }
 
   private func flushLearningTelemetry() {
+    let sampleCount = suggestedOutcomeByDetection.count
     for (_, accepted) in suggestedOutcomeByDetection {
       dependencies.recordSuggestionOutcome(accepted)
     }
     suggestedOutcomeByDetection.removeAll()
+    logger.debug("Flushed learning telemetry outcomes. samples=\(sampleCount, privacy: .public)")
   }
 
   private func candidateOptions(for detection: Detection) -> [DetectionAlternative] {

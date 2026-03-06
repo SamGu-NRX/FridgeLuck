@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// Shows recipe recommendations based on the user's available ingredients.
 /// Tapping a recipe opens a preview drawer (sheet), which leads to the recipe book
@@ -9,6 +10,9 @@ struct RecipeResultsView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(NavigationCoordinator.self) private var navCoordinator
   let ingredientIds: Set<Int64>
+  let ingredientNames: [String]
+  let fridgePhoto: UIImage?
+  let scanConfidenceScore: Double?
 
   @StateObject private var engine: RecommendationEngine
   @Namespace private var transitionNamespace
@@ -19,9 +23,15 @@ struct RecipeResultsView: View {
 
   init(
     ingredientIds: Set<Int64>,
+    ingredientNames: [String] = [],
+    fridgePhoto: UIImage? = nil,
+    scanConfidenceScore: Double? = nil,
     engine: RecommendationEngine
   ) {
     self.ingredientIds = ingredientIds
+    self.ingredientNames = ingredientNames
+    self.fridgePhoto = fridgePhoto
+    self.scanConfidenceScore = scanConfidenceScore
     _engine = StateObject(wrappedValue: engine)
   }
 
@@ -31,6 +41,12 @@ struct RecipeResultsView: View {
         contextHeader
           .padding(.horizontal, AppTheme.Space.page)
           .padding(.bottom, AppTheme.Space.lg)
+
+        if let generated = engine.aiGeneratedRecipe {
+          aiGeneratedRecipeCard(generated)
+            .padding(.horizontal, AppTheme.Space.page)
+            .padding(.bottom, AppTheme.Space.lg)
+        }
 
         if engine.isLoading {
           loadingView
@@ -68,6 +84,13 @@ struct RecipeResultsView: View {
     .flPageBackground()
     .task {
       await engine.findRecipes(for: ingredientIds)
+      if !ingredientNames.isEmpty {
+        await engine.generateAIRecipe(
+          ingredientNames: ingredientNames,
+          photoJPEGData: fridgePhoto?.jpegData(compressionQuality: 0.72),
+          scanConfidenceScore: scanConfidenceScore
+        )
+      }
       await revealRecommendationsIfNeeded()
     }
     .onChange(of: engine.sections.exact.count) { _, _ in
@@ -108,6 +131,36 @@ struct RecipeResultsView: View {
       quickSuggestionMinutes: engine.quickSuggestion?.recipe.timeMinutes,
       aiNotice: engine.aiEnhancementNotice
     )
+  }
+
+  private func aiGeneratedRecipeCard(_ generated: GeneratedRecipeResult) -> some View {
+    FLCard(tone: .warm) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack {
+          FLSectionHeader(
+            "Live Recipe Idea",
+            subtitle: generated.isAIGenerated
+              ? "Photo-grounded ingredient synthesis" : "Local fallback suggestion",
+            icon: "wand.and.sparkles"
+          )
+          Spacer()
+          FLStatusPill(
+            text: generated.isAIGenerated ? "AI" : "Fallback",
+            kind: generated.isAIGenerated ? .positive : .neutral
+          )
+        }
+
+        Text(generated.title)
+          .font(AppTheme.Typography.displayCaption)
+          .foregroundStyle(AppTheme.textPrimary)
+
+        Text(
+          "\(generated.timeMinutes) min · \(generated.servings) servings · ~\(generated.estimatedCaloriesPerServing) kcal/serving"
+        )
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(AppTheme.textSecondary)
+      }
+    }
   }
 
   // MARK: - Loading

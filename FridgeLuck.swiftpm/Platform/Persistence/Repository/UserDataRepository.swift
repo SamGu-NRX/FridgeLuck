@@ -3,10 +3,53 @@ import GRDB
 
 /// Repository for user-specific data: health profile, badges, preferences.
 final class UserDataRepository: Sendable {
+  private static let onboardingAgeRange = 13...100
+
   private let db: DatabaseQueue
 
   init(db: DatabaseQueue) {
     self.db = db
+  }
+
+  // MARK: - Observations
+
+  /// Observes revisions to cooking history so dashboards can stay in sync
+  /// with logged meals, rating updates, and serving adjustments.
+  @discardableResult
+  func observeCookingHistoryChanges(
+    onError: @escaping (Error) -> Void = { _ in },
+    onChange: @escaping () -> Void
+  ) -> AnyDatabaseCancellable {
+    ValueObservation
+      .tracking { db in
+        let row = try Row.fetchOne(
+          db,
+          sql: """
+            SELECT
+              COUNT(*) AS total_count,
+              COALESCE(MAX(id), 0) AS latest_id,
+              COALESCE(SUM(COALESCE(rating, 0)), 0) AS rating_checksum,
+              COALESCE(SUM(COALESCE(servings_consumed, 0)), 0) AS servings_checksum
+            FROM cooking_history
+            """
+        )
+
+        return CookingHistoryRevisionToken(
+          totalCount: row?["total_count"] as? Int ?? 0,
+          latestID: row?["latest_id"] as? Int64 ?? 0,
+          ratingChecksum: row?["rating_checksum"] as? Int ?? 0,
+          servingsChecksum: row?["servings_checksum"] as? Int ?? 0
+        )
+      }
+      .removeDuplicates()
+      .start(
+        in: db,
+        scheduling: .async(onQueue: .main),
+        onError: onError,
+        onChange: { _ in
+          onChange()
+        }
+      )
   }
 
   // MARK: - Health Profile
@@ -27,7 +70,10 @@ final class UserDataRepository: Sendable {
 
   func hasCompletedOnboarding() throws -> Bool {
     try db.read { db in
-      (try HealthProfile.fetchOne(db, key: 1)) != nil
+      guard let profile = try HealthProfile.fetchOne(db, key: 1) else { return false }
+      let hasDisplayName = !profile.normalizedDisplayName.isEmpty
+      guard let age = profile.age else { return false }
+      return hasDisplayName && Self.onboardingAgeRange.contains(age)
     }
   }
 
@@ -80,7 +126,7 @@ final class UserDataRepository: Sendable {
         sql: """
           SELECT COUNT(*)
           FROM cooking_history
-          WHERE cooked_at >= datetime('now', ?)
+          WHERE datetime(cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))
           """,
         arguments: [modifier]
       ) ?? 0
@@ -126,9 +172,9 @@ final class UserDataRepository: Sendable {
       let rows = try Row.fetchAll(
         db,
         sql: """
-          SELECT date(cooked_at) as day, COUNT(*) as meals
+          SELECT date(cooked_at, 'localtime') as day, COUNT(*) as meals
           FROM cooking_history
-          WHERE cooked_at >= datetime('now', ?)
+          WHERE datetime(cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))
           GROUP BY day
           ORDER BY day ASC
           """,
@@ -166,10 +212,10 @@ final class UserDataRepository: Sendable {
       let rows = try Row.fetchAll(
         db,
         sql: """
-          SELECT CAST(strftime('%w', cooked_at) AS INTEGER) as weekday,
+          SELECT CAST(strftime('%w', cooked_at, 'localtime') AS INTEGER) as weekday,
                  COUNT(*) as meals
           FROM cooking_history
-          WHERE cooked_at >= datetime('now', ?)
+          WHERE datetime(cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))
           GROUP BY weekday
           """,
         arguments: [modifier]
@@ -268,7 +314,7 @@ final class UserDataRepository: Sendable {
       let rows = try Row.fetchAll(
         db,
         sql: """
-          SELECT date(ch.cooked_at) AS day,
+          SELECT date(ch.cooked_at, 'localtime') AS day,
                  SUM(
                    (i.calories / 100.0 * ri.quantity_grams / r.servings)
                    * COALESCE(ch.servings_consumed, r.servings)
@@ -289,7 +335,7 @@ final class UserDataRepository: Sendable {
           JOIN recipes r ON r.id = ch.recipe_id
           JOIN recipe_ingredients ri ON ri.recipe_id = r.id
           JOIN ingredients i ON i.id = ri.ingredient_id
-          WHERE ch.cooked_at >= datetime('now', ?)
+          WHERE datetime(ch.cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))
           GROUP BY day
           ORDER BY day ASC
           """,
@@ -353,7 +399,7 @@ final class UserDataRepository: Sendable {
           JOIN recipes r ON r.id = ch.recipe_id
           JOIN recipe_ingredients ri ON ri.recipe_id = r.id
           JOIN ingredients i ON i.id = ri.ingredient_id
-          WHERE date(ch.cooked_at) = date('now')
+          WHERE date(ch.cooked_at, 'localtime') = date('now', 'localtime')
           """
       )
 
@@ -421,4 +467,11 @@ final class UserDataRepository: Sendable {
       fat: (row["total_fat"] as? Double ?? 0) * servingsFactor
     )
   }
+}
+
+private struct CookingHistoryRevisionToken: Equatable, Sendable {
+  let totalCount: Int
+  let latestID: Int64
+  let ratingChecksum: Int
+  let servingsChecksum: Int
 }

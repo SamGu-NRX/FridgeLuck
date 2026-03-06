@@ -1,5 +1,6 @@
 import FLFeatureLogic
 import SwiftUI
+import UIKit
 import os
 
 private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "ContentView")
@@ -40,13 +41,17 @@ struct ContentView: View {
   @State private var selectedTab: AppTab = .home
   @State private var hasOnboarded = false
   @State private var navigateToScan = false
+  @State private var navigateToReverseScan = false
   @State private var navigateToDemoMode = false
   @State private var showOnboarding = false
   @State private var showProfile = false
   @State private var navCoordinator = NavigationCoordinator()
   @State private var navAppeared = false
-  @State private var homeRefreshTrigger = 0
   @State private var spotlightCoordinator = SpotlightCoordinator()
+
+  // Scan mode menu state
+  @State private var showScanModeMenu = false
+  @State private var highlightedScanMode: ScanMode?
 
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
 
@@ -54,11 +59,40 @@ struct ContentView: View {
     TutorialProgress(storageString: tutorialStorageString)
   }
 
+  private var dashboardNavRoute: DashboardEntryRoute {
+    AppFlowPolicy.dashboardEntryRoute(
+      hasOnboarded: hasOnboarded,
+      isTutorialComplete: tutorialProgress.isComplete
+    )
+  }
+
+  private var dashboardNavLabel: String {
+    switch dashboardNavRoute {
+    case .dashboard:
+      return "Dashboard"
+    case .profile:
+      return "Profile"
+    case .onboarding:
+      return "Onboarding"
+    }
+  }
+
+  private var dashboardNavIcon: String {
+    switch dashboardNavRoute {
+    case .dashboard:
+      return "chart.bar.doc.horizontal.fill"
+    case .profile:
+      return "person.crop.circle.fill"
+    case .onboarding:
+      return "person.badge.plus"
+    }
+  }
+
   /// The shell nav should appear on top-level tab surfaces, not within pushed task flows.
   private var shouldShowBottomNav: Bool {
     switch selectedTab {
     case .home:
-      return !navigateToScan && !navigateToDemoMode
+      return !navigateToScan && !navigateToReverseScan && !navigateToDemoMode
     case .dashboard:
       return true
     }
@@ -74,12 +108,14 @@ struct ContentView: View {
           onCompleteProfile: openOnboarding,
           onExploreComplete: completeExploreQuest,
           onReset: performFullReset,
-          refreshTrigger: homeRefreshTrigger,
           spotlightCoordinator: spotlightCoordinator
         )
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $navigateToScan) {
           ScanView()
+        }
+        .navigationDestination(isPresented: $navigateToReverseScan) {
+          ReverseScanMealView()
         }
         .navigationDestination(isPresented: $navigateToDemoMode) {
           DemoModeView()
@@ -90,7 +126,7 @@ struct ContentView: View {
       .zIndex(selectedTab == .home ? 1 : 0)
       .allowsHitTesting(selectedTab == .home)
 
-      if tutorialProgress.isComplete {
+      if hasOnboarded && tutorialProgress.isComplete {
         NavigationStack {
           DashboardView(isTabEmbedded: true)
         }
@@ -129,16 +165,25 @@ struct ContentView: View {
         .ignoresSafeArea()
       }
     }
+    .overlay {
+      if shouldShowBottomNav {
+        ScanModeMenu(
+          isPresented: $showScanModeMenu,
+          highlightedMode: $highlightedScanMode,
+          onSelect: handleScanModeSelection
+        )
+      }
+    }
     .onChange(of: navCoordinator.shouldReturnHome) { _, shouldReturn in
       guard shouldReturn else { return }
 
       if navCoordinator.didCompleteCooking {
         markTutorialQuest(.cookAndRate)
         navCoordinator.didCompleteCooking = false
-        homeRefreshTrigger += 1
       }
 
       navigateToScan = false
+      navigateToReverseScan = false
       navigateToDemoMode = false
       selectedTab = .home
       navCoordinator.shouldReturnHome = false
@@ -175,6 +220,110 @@ struct ContentView: View {
     }
   }
 
+  // MARK: - Scan Orb
+
+  @State private var orbTouchDownDate: Date?
+  @State private var orbLongPressTriggered = false
+  private let orbLongPressThreshold: TimeInterval = 0.35
+
+  private var scanOrb: some View {
+    Image(systemName: "camera.fill")
+      .font(.system(size: 22, weight: .bold))
+      .foregroundStyle(.white)
+      .frame(width: AppTheme.Home.orbSize, height: AppTheme.Home.orbSize)
+      .background(
+        showScanModeMenu ? AppTheme.accent.opacity(0.75) : AppTheme.accent,
+        in: Circle()
+      )
+      .overlay(Circle().stroke(AppTheme.surface.opacity(0.45), lineWidth: 1))
+      .shadow(color: AppTheme.accent.opacity(0.34), radius: 18, x: 0, y: 8)
+      .scaleEffect(showScanModeMenu ? 0.92 : 1.0)
+      .animation(reduceMotion ? nil : AppMotion.buttonSpring, value: showScanModeMenu)
+      .gesture(
+        DragGesture(minimumDistance: 0)
+          .onChanged { value in
+            // First touch — record start time
+            if orbTouchDownDate == nil {
+              orbTouchDownDate = value.time
+              orbLongPressTriggered = false
+            }
+
+            let elapsed = value.time.timeIntervalSince(orbTouchDownDate ?? value.time)
+
+            // Cross long-press threshold → enter drag-to-select mode
+            if !orbLongPressTriggered && elapsed >= orbLongPressThreshold {
+              orbLongPressTriggered = true
+              let generator = UIImpactFeedbackGenerator(style: .medium)
+              generator.impactOccurred()
+              withAnimation(reduceMotion ? nil : AppMotion.menuReveal) {
+                showScanModeMenu = true
+              }
+            }
+
+            // While in long-press mode, update drag highlight
+            if orbLongPressTriggered {
+              let newHighlight = ScanModeMenuGesture.highlightedMode(
+                for: value.translation
+              )
+              if newHighlight != highlightedScanMode {
+                highlightedScanMode = newHighlight
+                if newHighlight != nil {
+                  let generator = UISelectionFeedbackGenerator()
+                  generator.selectionChanged()
+                }
+              }
+            }
+          }
+          .onEnded { _ in
+            let wasLongPress = orbLongPressTriggered
+
+            if wasLongPress {
+              // Long-press release — select highlighted mode if any
+              if let mode = highlightedScanMode {
+                withAnimation(AppMotion.menuDismiss) {
+                  showScanModeMenu = false
+                }
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.impactOccurred()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                  handleScanModeSelection(mode)
+                }
+              }
+              // If no mode highlighted, menu stays open for tap selection
+            } else {
+              // Quick tap — toggle menu
+              if showScanModeMenu {
+                withAnimation(AppMotion.menuDismiss) {
+                  showScanModeMenu = false
+                }
+              } else {
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.impactOccurred()
+                withAnimation(reduceMotion ? nil : AppMotion.menuReveal) {
+                  showScanModeMenu = true
+                }
+              }
+            }
+
+            // Reset state
+            orbTouchDownDate = nil
+            orbLongPressTriggered = false
+            highlightedScanMode = nil
+          }
+      )
+  }
+
+  // MARK: - Scan Mode Selection
+
+  private func handleScanModeSelection(_ mode: ScanMode) {
+    switch mode {
+    case .scanIngredients:
+      openScan()
+    case .logMeal:
+      openReverseScan()
+    }
+  }
+
   // MARK: - Navigation Actions
 
   private func openScan() {
@@ -187,9 +336,24 @@ struct ContentView: View {
     }
   }
 
+  private func openReverseScan() {
+    switch AppFlowPolicy.scanEntryRoute(hasOnboarded: hasOnboarded) {
+    case .scan:
+      selectedTab = .home
+      navigateToReverseScan = true
+    case .onboarding:
+      showOnboarding = true
+    }
+  }
+
   private func openDemoMode() {
-    selectedTab = .home
-    navigateToDemoMode = true
+    switch AppFlowPolicy.scanEntryRoute(hasOnboarded: hasOnboarded) {
+    case .scan:
+      selectedTab = .home
+      navigateToDemoMode = true
+    case .onboarding:
+      showOnboarding = true
+    }
   }
 
   private func completeExploreQuest() {
@@ -201,10 +365,7 @@ struct ContentView: View {
   }
 
   private func openDashboardTab() {
-    switch AppFlowPolicy.dashboardEntryRoute(
-      hasOnboarded: hasOnboarded,
-      isTutorialComplete: tutorialProgress.isComplete
-    ) {
+    switch dashboardNavRoute {
     case .dashboard:
       selectedTab = .dashboard
     case .profile:
@@ -217,6 +378,11 @@ struct ContentView: View {
   private func refreshOnboardingGate() async {
     do {
       hasOnboarded = try deps.userDataRepository.hasCompletedOnboarding()
+      if !hasOnboarded {
+        selectedTab = .home
+        showProfile = false
+        showOnboarding = true
+      }
     } catch {
       logger.error("Failed to check onboarding status: \(error.localizedDescription)")
     }
@@ -260,6 +426,7 @@ struct ContentView: View {
 
     hasOnboarded = false
     selectedTab = .home
+    showOnboarding = true
   }
 
   // MARK: - Bottom Navigation
@@ -278,12 +445,8 @@ struct ContentView: View {
         Spacer(minLength: AppTheme.Home.navCenterGap)
 
         navItem(
-          icon: hasOnboarded
-            ? (tutorialProgress.isComplete
-              ? "chart.bar.doc.horizontal.fill"
-              : "person.crop.circle.fill")
-            : "person.badge.plus",
-          label: tutorialProgress.isComplete ? "Dashboard" : "Profile",
+          icon: dashboardNavIcon,
+          label: dashboardNavLabel,
           isActive: selectedTab == .dashboard
         ) {
           openDashboardTab()
@@ -307,18 +470,10 @@ struct ContentView: View {
       }
       .shadow(color: AppTheme.Shadow.colorDeep.opacity(0.45), radius: 14, x: 0, y: 5)
 
-      Button(action: openScan) {
-        Image(systemName: "camera.fill")
-          .font(.system(size: 22, weight: .bold))
-          .foregroundStyle(.white)
-          .frame(width: AppTheme.Home.orbSize, height: AppTheme.Home.orbSize)
-          .background(AppTheme.accent, in: Circle())
-          .overlay(Circle().stroke(AppTheme.surface.opacity(0.45), lineWidth: 1))
-          .shadow(color: AppTheme.accent.opacity(0.34), radius: 18, x: 0, y: 8)
-      }
-      .buttonStyle(FLNavOrbButtonStyle())
-      .offset(y: -AppTheme.Home.navOrbLift)
-      .accessibilityLabel("Scan your fridge")
+      scanOrb
+        .offset(y: -AppTheme.Home.navOrbLift)
+        .accessibilityLabel("Scan options")
+        .accessibilityHint("Tap for scan options, or press and hold to drag to an option")
     }
     .padding(.horizontal, AppTheme.Home.navHorizontalInset)
     .padding(.top, AppTheme.Space.xs + AppTheme.Home.navOrbLift)

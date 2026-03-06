@@ -239,6 +239,32 @@ final class RecipeRepository: Sendable {
       .compactMap { Int64($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
   }
 
+  // MARK: - Browse & Search
+
+  /// Fetch all recipes, ordered by title, with an optional limit.
+  func fetchAllRecipes(limit: Int = 200) throws -> [Recipe] {
+    try db.read { db in
+      try Recipe
+        .order(Recipe.Columns.title.asc)
+        .limit(limit)
+        .fetchAll(db)
+    }
+  }
+
+  /// Search recipes by title using a case-insensitive LIKE query.
+  func searchRecipes(query: String, limit: Int = 60) throws -> [Recipe] {
+    let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty else { return try fetchAllRecipes(limit: limit) }
+
+    return try db.read { db in
+      try Recipe
+        .filter(Recipe.Columns.title.like("%\(trimmed)%"))
+        .order(Recipe.Columns.title.asc)
+        .limit(limit)
+        .fetchAll(db)
+    }
+  }
+
   // MARK: - Recipe by ID
 
   func fetchRecipe(id: Int64) throws -> Recipe? {
@@ -252,46 +278,128 @@ final class RecipeRepository: Sendable {
   /// finally insert a minimal row so cooking history can still be recorded.
   func resolvePersistedRecipeID(for recipe: Recipe) throws -> Int64 {
     try db.write { db in
-      if let id = recipe.id, try Recipe.fetchOne(db, key: id) != nil {
+      try resolvePersistedRecipeID(in: db, for: recipe)
+    }
+  }
+
+  /// Transaction-scoped recipe resolution used by higher-level services that
+  /// need to compose multiple DB writes atomically.
+  func resolvePersistedRecipeID(in db: Database, for recipe: Recipe) throws -> Int64 {
+    let titleKey = normalizedTitleKey(recipe.title)
+
+    if let id = recipe.id, try Recipe.fetchOne(db, key: id) != nil {
+      // Prefer recipes that have ingredient rows so downstream macro and inventory
+      // calculations are deterministic for dashboard/journal aggregates.
+      if try recipeHasIngredients(in: db, recipeId: id) {
         return id
       }
 
-      let titleKey = recipe.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
       if !titleKey.isEmpty,
-        let existingID = try Int64.fetchOne(
-          db,
-          sql: """
-            SELECT id
-            FROM recipes
-            WHERE LOWER(TRIM(title)) = ?
-            ORDER BY id ASC
-            LIMIT 1
-            """,
-          arguments: [titleKey]
+        let recoveredID = try ingredientBackedRecipeID(
+          in: db,
+          normalizedTitleKey: titleKey
         )
       {
-        return existingID
+        return recoveredID
       }
 
-      let safeTitle =
-        recipe.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        ? "Untitled Recipe" : recipe.title
-      let safeTime = max(1, recipe.timeMinutes)
-      let safeServings = max(1, recipe.servings)
-      let safeInstructions =
-        recipe.instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        ? "No instructions provided."
-        : recipe.instructions
-
-      try db.execute(
-        sql: """
-          INSERT INTO recipes (title, time_minutes, servings, instructions, tags, source)
-          VALUES (?, ?, ?, ?, ?, ?)
-          """,
-        arguments: [safeTitle, safeTime, safeServings, safeInstructions, recipe.tags, "bundled"]
-      )
-      return db.lastInsertedRowID
+      return id
     }
+
+    if !titleKey.isEmpty,
+      let existingID = try bestMatchingRecipeID(
+        in: db,
+        normalizedTitleKey: titleKey
+      )
+    {
+      return existingID
+    }
+
+    let safeTitle =
+      recipe.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+      ? "Untitled Recipe" : recipe.title
+    let safeTime = max(1, recipe.timeMinutes)
+    let safeServings = max(1, recipe.servings)
+    let safeInstructions =
+      recipe.instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+      ? "No instructions provided."
+      : recipe.instructions
+
+    try db.execute(
+      sql: """
+        INSERT INTO recipes (title, time_minutes, servings, instructions, tags, source)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+      arguments: [
+        safeTitle,
+        safeTime,
+        safeServings,
+        safeInstructions,
+        recipe.tags,
+        recipe.source.rawValue,
+      ]
+    )
+    return db.lastInsertedRowID
+  }
+
+  private func normalizedTitleKey(_ title: String) -> String {
+    title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+  }
+
+  private func bestMatchingRecipeID(
+    in db: Database,
+    normalizedTitleKey: String
+  ) throws -> Int64? {
+    try Int64.fetchOne(
+      db,
+      sql: """
+        SELECT r.id
+        FROM recipes r
+        LEFT JOIN recipe_ingredients ri ON ri.recipe_id = r.id
+        WHERE LOWER(TRIM(r.title)) = ?
+        GROUP BY r.id
+        ORDER BY
+          CASE WHEN COUNT(ri.ingredient_id) > 0 THEN 0 ELSE 1 END ASC,
+          COUNT(ri.ingredient_id) DESC,
+          r.id ASC
+        LIMIT 1
+        """,
+      arguments: [normalizedTitleKey]
+    )
+  }
+
+  private func ingredientBackedRecipeID(
+    in db: Database,
+    normalizedTitleKey: String
+  ) throws -> Int64? {
+    try Int64.fetchOne(
+      db,
+      sql: """
+        SELECT r.id
+        FROM recipes r
+        JOIN recipe_ingredients ri ON ri.recipe_id = r.id
+        WHERE LOWER(TRIM(r.title)) = ?
+        GROUP BY r.id
+        ORDER BY COUNT(ri.ingredient_id) DESC, r.id ASC
+        LIMIT 1
+        """,
+      arguments: [normalizedTitleKey]
+    )
+  }
+
+  private func recipeHasIngredients(in db: Database, recipeId: Int64) throws -> Bool {
+    try Bool.fetchOne(
+      db,
+      sql: """
+        SELECT EXISTS(
+          SELECT 1
+          FROM recipe_ingredients
+          WHERE recipe_id = ?
+          LIMIT 1
+        )
+        """,
+      arguments: [recipeId]
+    ) ?? false
   }
 
   /// Get all ingredients for a recipe with their quantities.

@@ -299,6 +299,72 @@ struct HomeFridgeLuckPanelsSection: View {
   }
 }
 
+struct HomeUseSoonSection: View {
+  let suggestions: [InventoryUseSoonSuggestion]
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+      HStack(spacing: AppTheme.Space.xs) {
+        Image(systemName: "clock.badge.exclamationmark")
+          .foregroundStyle(AppTheme.warning)
+        Text("Use Soon")
+          .font(AppTheme.Typography.displayCaption)
+          .foregroundStyle(AppTheme.textPrimary)
+      }
+
+      if suggestions.isEmpty {
+        Text("No urgent items right now.")
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+      } else {
+        VStack(spacing: AppTheme.Space.xs) {
+          ForEach(suggestions, id: \.ingredientId) { suggestion in
+            HStack(spacing: AppTheme.Space.sm) {
+              VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+                Text(suggestion.ingredientName)
+                  .font(AppTheme.Typography.bodyMedium)
+                  .foregroundStyle(AppTheme.textPrimary)
+                Text("\(Int(suggestion.remainingGrams.rounded()))g left")
+                  .font(AppTheme.Typography.labelSmall)
+                  .foregroundStyle(AppTheme.textSecondary)
+              }
+
+              Spacer()
+
+              Text(dayLabel(for: suggestion.daysRemaining))
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.warning)
+                .padding(.horizontal, AppTheme.Space.xs)
+                .padding(.vertical, AppTheme.Space.chipVertical)
+                .background(AppTheme.warning.opacity(0.10), in: Capsule())
+            }
+            .padding(.vertical, AppTheme.Space.xs)
+
+            if suggestion.ingredientId != suggestions.last?.ingredientId {
+              Divider()
+            }
+          }
+        }
+      }
+    }
+    .padding(AppTheme.Space.md)
+    .background(
+      AppTheme.surface,
+      in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
+    )
+  }
+
+  private func dayLabel(for days: Int) -> String {
+    if days <= 0 { return "Today" }
+    if days == 1 { return "1 day" }
+    return "\(days) days"
+  }
+}
+
 struct HomeStarterPanelSection: View {
   let snapshot: HomeDashboardSnapshot
 

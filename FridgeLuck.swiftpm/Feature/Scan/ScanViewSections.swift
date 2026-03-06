@@ -38,6 +38,7 @@ struct ScanLiveCapturePrompt: View {
   let isCameraUnavailable: Bool
   let onOpenCamera: () -> Void
   let onOpenLibrary: () -> Void
+  let onOpenSettings: () -> Void
   let onManualEntry: () -> Void
 
   var body: some View {
@@ -101,6 +102,8 @@ struct ScanLiveCapturePrompt: View {
             HStack(spacing: AppTheme.Space.sm) {
               FLSecondaryButton(
                 "Use Library", systemImage: "photo.on.rectangle", action: onOpenLibrary)
+              FLSecondaryButton(
+                "Open Settings", systemImage: "gearshape", action: onOpenSettings)
               FLSecondaryButton("Manual", systemImage: "plus.circle", action: onManualEntry)
             }
           }
@@ -194,6 +197,8 @@ struct ScanAnalyzingView: View {
   let capturedImage: UIImage?
   let fallbackStateText: String?
   let reduceMotion: Bool
+  var title: String = "Scanning your fridge"
+  var subtitle: String = "Finding ingredients and preparing your luck-based recipe set."
 
   var body: some View {
     VStack(spacing: AppTheme.Space.lg) {
@@ -209,11 +214,11 @@ struct ScanAnalyzingView: View {
       )
 
       VStack(spacing: AppTheme.Space.sm) {
-        Text("Scanning your fridge")
+        Text(title)
           .font(AppTheme.Typography.displaySmall)
           .foregroundStyle(AppTheme.textPrimary)
           .multilineTextAlignment(.center)
-        Text("Finding ingredients and preparing your luck-based recipe set.")
+        Text(subtitle)
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
           .lineLimit(3)

@@ -9,6 +9,7 @@ final class AppDependencies: ObservableObject {
 
   let recipeRepository: RecipeRepository
   let ingredientRepository: IngredientRepository
+  let inventoryRepository: InventoryRepository
   let userDataRepository: UserDataRepository
 
   let learningService: LearningService
@@ -22,6 +23,12 @@ final class AppDependencies: ObservableObject {
   let imageStorageService: ImageStorageService
   let scanRunStore: ScanRunStore
   let substitutionService: SubstitutionService
+  let spoilageService: SpoilageService
+  let inventoryIntakeService: InventoryIntakeService
+  let mealLogService: MealLogService
+  let confidenceLearningService: ConfidenceLearningService
+  let reverseScanService: ReverseScanService
+  let geminiCloudAgent: GeminiCloudAgent
 
   let recipeGenerator: RecipeGenerating
 
@@ -42,9 +49,17 @@ final class AppDependencies: ObservableObject {
     self.imageStorageService = ImageStorageService()
     self.scanRunStore = ScanRunStore()
     self.substitutionService = SubstitutionService(db: db)
+    self.confidenceLearningService = ConfidenceLearningService(db: db)
 
     self.ingredientRepository = IngredientRepository(db: db)
+    self.inventoryRepository = InventoryRepository(db: db)
     self.userDataRepository = UserDataRepository(db: db)
+    self.spoilageService = SpoilageService(inventoryRepository: inventoryRepository)
+    self.inventoryIntakeService = InventoryIntakeService(
+      ingredientRepository: ingredientRepository,
+      inventoryRepository: inventoryRepository
+    )
+    self.geminiCloudAgent = GeminiCloudAgent()
 
     self.recipeRepository = RecipeRepository(
       db: db,
@@ -52,10 +67,25 @@ final class AppDependencies: ObservableObject {
       healthScoringService: healthScoringService,
       personalizationService: personalizationService
     )
+    self.mealLogService = MealLogService(
+      db: db,
+      recipeRepository: recipeRepository,
+      personalizationService: personalizationService,
+      inventoryRepository: inventoryRepository,
+      imageStorageService: imageStorageService
+    )
 
     self.visionService = VisionService(
       learningService: learningService,
       ingredientResolver: ingredientCatalogResolver
+    )
+    self.reverseScanService = ReverseScanService(
+      visionService: visionService,
+      recipeRepository: recipeRepository,
+      healthScoringService: healthScoringService,
+      dishEstimateService: dishEstimateService,
+      geminiCloudAgent: geminiCloudAgent,
+      confidenceLearningService: confidenceLearningService
     )
 
     self.recipeGenerator = RecipeGeneratorFactory.create(
@@ -68,7 +98,9 @@ final class AppDependencies: ObservableObject {
     RecommendationEngine(
       recipeRepository: recipeRepository,
       healthScoringService: healthScoringService,
-      recipeGenerator: recipeGenerator
+      recipeGenerator: recipeGenerator,
+      geminiCloudAgent: geminiCloudAgent,
+      confidenceLearningService: confidenceLearningService
     )
   }
 }
