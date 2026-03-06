@@ -22,7 +22,6 @@ struct HomeDashboardView: View {
   let onCompleteProfile: () -> Void
   let onExploreComplete: () -> Void
   let onReset: () -> Void
-  var refreshTrigger: Int = 0
   let spotlightCoordinator: SpotlightCoordinator
 
   private enum SpotlightKind: String, Equatable {
@@ -38,7 +37,6 @@ struct HomeDashboardView: View {
     onCompleteProfile: @escaping () -> Void,
     onExploreComplete: @escaping () -> Void,
     onReset: @escaping () -> Void = {},
-    refreshTrigger: Int = 0,
     spotlightCoordinator: SpotlightCoordinator
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
@@ -47,7 +45,6 @@ struct HomeDashboardView: View {
     self.onCompleteProfile = onCompleteProfile
     self.onExploreComplete = onExploreComplete
     self.onReset = onReset
-    self.refreshTrigger = refreshTrigger
     self.spotlightCoordinator = spotlightCoordinator
   }
 
@@ -115,7 +112,7 @@ struct HomeDashboardView: View {
         Button("Continue Tour", role: .cancel) {}
       } message: {
         Text(
-          "You\u{2019}ll skip the guided tour and go straight to the dashboard. You can still access demo mode and set up your profile later."
+          "You\u{2019}ll skip the guided tour and unlock the dashboard now. You can still explore demo mode anytime."
         )
       }
       .task {
@@ -128,9 +125,6 @@ struct HomeDashboardView: View {
       }
       .onChange(of: tutorialStorageString) {
         viewModel.syncTutorialProgress(tutorialProgress)
-      }
-      .onChange(of: refreshTrigger) {
-        Task { await viewModel.load() }
       }
       .onAppear {
         if reduceMotion {
@@ -305,6 +299,10 @@ struct HomeDashboardView: View {
         .spotlightAnchor("myRhythm")
 
       HomeFridgeLuckPanelsSection(snapshot: snapshot)
+        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.bottom, AppTheme.Space.sectionBreak)
+
+      HomeUseSoonSection(suggestions: snapshot.useSoonSuggestions)
         .padding(.horizontal, AppTheme.Space.page)
         .padding(.bottom, AppTheme.Space.sectionBreak)
 

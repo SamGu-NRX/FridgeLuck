@@ -20,4 +20,9 @@ enum AppMotion {
   static let counterReveal: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 0.6)
   static let sectionReveal: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.28)
   static let confettiDuration: Double = 2.8
+
+  // Scan-mode popup menu
+  static let menuReveal: Animation = .spring(response: 0.32, dampingFraction: 0.76)
+  static let menuDismiss: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.18)
+  static let menuStagger: Double = 0.020
 }

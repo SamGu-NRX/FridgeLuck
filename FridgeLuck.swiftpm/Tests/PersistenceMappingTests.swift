@@ -211,6 +211,13 @@ final class PersistenceMappingTests: XCTestCase {
     XCTAssertTrue(ingredientModels.contains("case spriteGroup = \"sprite_group\""))
     XCTAssertTrue(ingredientModels.contains("case spriteKey = \"sprite_key\""))
 
+    let healthProfileModels = try String(
+      contentsOf: root.appendingPathComponent("Domain/Models/HealthProfile.swift"),
+      encoding: .utf8
+    )
+    XCTAssertTrue(healthProfileModels.contains("case displayName = \"display_name\""))
+    XCTAssertTrue(healthProfileModels.contains("case age"))
+
     let dishTemplateModels = try String(
       contentsOf: root.appendingPathComponent("Domain/Models/DishTemplate.swift"),
       encoding: .utf8
@@ -235,5 +242,56 @@ final class PersistenceMappingTests: XCTestCase {
       userProgressModels.contains("case correctedIngredientId = \"corrected_ingredient_id\""))
     XCTAssertTrue(userProgressModels.contains("case correctionCount = \"correction_count\""))
     XCTAssertTrue(userProgressModels.contains("case lastUsedAt = \"last_used_at\""))
+  }
+
+  func testInventoryModelsDeclareRequiredSnakeCaseCodingKeys() throws {
+    let root = URL(fileURLWithPath: #filePath)
+      .deletingLastPathComponent()
+      .deletingLastPathComponent()
+
+    let inventoryModels = try String(
+      contentsOf: root.appendingPathComponent("Domain/Models/Inventory.swift"),
+      encoding: .utf8
+    )
+
+    XCTAssertTrue(inventoryModels.contains("case ingredientId = \"ingredient_id\""))
+    XCTAssertTrue(inventoryModels.contains("case fridgeDays = \"fridge_days\""))
+    XCTAssertTrue(inventoryModels.contains("case pantryDays = \"pantry_days\""))
+    XCTAssertTrue(inventoryModels.contains("case freezerDays = \"freezer_days\""))
+    XCTAssertTrue(inventoryModels.contains("case quantityGrams = \"quantity_grams\""))
+    XCTAssertTrue(inventoryModels.contains("case remainingGrams = \"remaining_grams\""))
+    XCTAssertTrue(inventoryModels.contains("case storageLocation = \"storage_location\""))
+    XCTAssertTrue(inventoryModels.contains("case confidenceScore = \"confidence_score\""))
+    XCTAssertTrue(inventoryModels.contains("case acquiredAt = \"acquired_at\""))
+    XCTAssertTrue(inventoryModels.contains("case expiresAt = \"expires_at\""))
+    XCTAssertTrue(inventoryModels.contains("case eventType = \"event_type\""))
+    XCTAssertTrue(inventoryModels.contains("case quantityDeltaGrams = \"quantity_delta_grams\""))
+    XCTAssertTrue(inventoryModels.contains("case sourceRef = \"source_ref\""))
+    XCTAssertTrue(inventoryModels.contains("case totalRemainingGrams = \"total_remaining_grams\""))
+    XCTAssertTrue(
+      inventoryModels.contains("case averageConfidenceScore = \"average_confidence_score\""))
+    XCTAssertTrue(inventoryModels.contains("case lastUpdatedAt = \"last_updated_at\""))
+  }
+
+  func testMigrationsDeclareInventoryTables() throws {
+    let root = URL(fileURLWithPath: #filePath)
+      .deletingLastPathComponent()
+      .deletingLastPathComponent()
+    let migrations = try String(
+      contentsOf: root.appendingPathComponent("Platform/Persistence/Database/Migrations.swift"),
+      encoding: .utf8
+    )
+
+    XCTAssertTrue(migrations.contains("v9_smart_fridge_inventory"))
+    XCTAssertTrue(migrations.contains("ingredient_shelf_life_profiles"))
+    XCTAssertTrue(migrations.contains("inventory_lots"))
+    XCTAssertTrue(migrations.contains("inventory_events"))
+    XCTAssertTrue(migrations.contains("inventory_items"))
+    XCTAssertTrue(migrations.contains("v10_confidence_learning"))
+    XCTAssertTrue(migrations.contains("confidence_signal_events"))
+    XCTAssertTrue(migrations.contains("trust_vector_state"))
+    XCTAssertTrue(migrations.contains("v12_required_onboarding_identity"))
+    XCTAssertTrue(migrations.contains("display_name"))
+    XCTAssertTrue(migrations.contains("age"))
   }
 }

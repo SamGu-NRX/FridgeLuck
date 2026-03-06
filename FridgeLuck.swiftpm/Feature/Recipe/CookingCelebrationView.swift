@@ -1,3 +1,4 @@
+import PhotosUI
 import SwiftUI
 import UIKit
 
@@ -13,11 +14,8 @@ struct CookingCelebrationView: View {
 
   struct Dependencies {
     let fetchHealthProfile: () throws -> HealthProfile
-    let saveImage: (UIImage) throws -> String
-    let resolvePersistedRecipeID: (Recipe) throws -> Int64
-    let recordCooking:
-      (_ recipeID: Int64, _ rating: Int?, _ imagePath: String?, _ servings: Int) throws
-        -> Void
+    let logMeal:
+      (_ recipe: Recipe, _ rating: Int?, _ capturedImage: UIImage?, _ servings: Int) throws -> Void
   }
 
   init(
@@ -34,6 +32,9 @@ struct CookingCelebrationView: View {
   @State private var rating: Int = 0
   @State private var capturedImage: UIImage?
   @State private var showCamera = false
+  @State private var showPhotoPicker = false
+  @State private var selectedPhotoItem: PhotosPickerItem?
+  @State private var cameraPermissionStatus: AppPermissionStatus = .notDetermined
   @State private var healthProfile: HealthProfile = .default
   @State private var appeared = false
   @State private var showConfetti = true
@@ -47,16 +48,13 @@ struct CookingCelebrationView: View {
     if let scopedDependencies { return scopedDependencies }
     return Dependencies(
       fetchHealthProfile: { try deps.userDataRepository.fetchHealthProfile() },
-      saveImage: { image in try deps.imageStorageService.save(image) },
-      resolvePersistedRecipeID: { recipe in
-        try deps.recipeRepository.resolvePersistedRecipeID(for: recipe)
-      },
-      recordCooking: { recipeID, rating, imagePath, servings in
-        try deps.personalizationService.recordCooking(
-          recipeId: recipeID,
+      logMeal: { recipe, rating, capturedImage, servings in
+        _ = try deps.mealLogService.logMeal(
+          recipe: recipe,
           rating: rating,
-          imagePath: imagePath,
-          servingsConsumed: servings
+          capturedImage: capturedImage,
+          servingsConsumed: servings,
+          sourceRefPrefix: "cooking_celebration"
         )
       }
     )
@@ -140,7 +138,10 @@ struct CookingCelebrationView: View {
 
           CookingCelebrationPhotoSection(
             capturedImage: $capturedImage,
-            showCamera: $showCamera,
+            cameraPermissionStatus: cameraPermissionStatus,
+            onOpenCamera: openCamera,
+            onOpenLibrary: openLibrary,
+            onOpenSettings: openSettings,
             appeared: appeared,
             reduceMotion: reduceMotion
           )
@@ -171,9 +172,19 @@ struct CookingCelebrationView: View {
       } else {
         appeared = true
       }
+      refreshCameraPermissionStatus()
     }
     .sheet(isPresented: $showCamera) {
       MealPhotoPicker(image: $capturedImage)
+    }
+    .photosPicker(
+      isPresented: $showPhotoPicker,
+      selection: $selectedPhotoItem,
+      matching: .images
+    )
+    .onChange(of: selectedPhotoItem) { _, newValue in
+      guard newValue != nil else { return }
+      loadSelectedPhoto()
     }
   }
 
@@ -226,21 +237,63 @@ struct CookingCelebrationView: View {
     healthProfile = (try? dependencies.fetchHealthProfile()) ?? .default
   }
 
+  private func refreshCameraPermissionStatus() {
+    cameraPermissionStatus = AppPermissionCenter.status(for: .camera)
+  }
+
+  private func openCamera() {
+    Task {
+      let result = await AppPermissionCenter.request(.camera)
+      if AppPermissionCenter.canProceed(result) {
+        cameraPermissionStatus = .authorized
+        showCamera = true
+        return
+      }
+
+      cameraPermissionStatus = AppPermissionCenter.status(for: .camera)
+      if cameraPermissionStatus == .unavailable {
+        openLibrary()
+      }
+    }
+  }
+
+  private func openLibrary() {
+    showPhotoPicker = true
+  }
+
+  private func openSettings() {
+    AppPermissionCenter.openAppSettings()
+  }
+
+  private func loadSelectedPhoto() {
+    guard let selectedPhotoItem else { return }
+
+    Task {
+      defer { self.selectedPhotoItem = nil }
+
+      do {
+        guard let data = try await selectedPhotoItem.loadTransferable(type: Data.self),
+          let image = UIImage(data: data)
+        else { return }
+
+        capturedImage = image
+      } catch {
+        #if DEBUG
+          print("[CookingCelebrationView] Failed to load selected photo: \(error)")
+        #endif
+      }
+    }
+  }
+
   private func saveAndDismiss() async {
     guard !isSaving else { return }
     isSaving = true
 
-    var imagePath: String?
-    if let image = capturedImage {
-      imagePath = try? dependencies.saveImage(image)
-    }
-
     do {
-      let persistedRecipeID = try dependencies.resolvePersistedRecipeID(recipe)
-      try dependencies.recordCooking(
-        persistedRecipeID,
+      try dependencies.logMeal(
+        recipe,
         rating > 0 ? rating : nil,
-        imagePath,
+        capturedImage,
         servings
       )
     } catch {

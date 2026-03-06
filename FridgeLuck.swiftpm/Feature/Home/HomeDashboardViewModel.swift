@@ -1,3 +1,4 @@
+import GRDB
 import SwiftUI
 
 // MARK: - Dashboard Models
@@ -29,6 +30,7 @@ struct HomeDashboardSnapshot: Sendable {
   let totalMealsCooked: Int
   let tutorialProgress: TutorialProgress
   let latestJournalEntry: CookingJournalEntry?
+  let useSoonSuggestions: [InventoryUseSoonSuggestion]
 
   var shouldUseStarterMode: Bool {
     totalMealsCooked < 3
@@ -56,19 +58,33 @@ final class HomeDashboardViewModel: ObservableObject {
   @Published private(set) var snapshot: HomeDashboardSnapshot?
   @Published private(set) var isLoading = false
   @Published private(set) var errorMessage: String?
+  private var pendingReload = false
 
   /// Tutorial progress, stored via @AppStorage in the view layer and synced here.
   @Published var tutorialProgress: TutorialProgress = .empty
 
   private let deps: AppDependencies
+  private var cookingHistoryObserver: AnyDatabaseCancellable?
 
   init(deps: AppDependencies) {
     self.deps = deps
+    startLiveUpdates()
   }
 
   func load() async {
+    if isLoading {
+      pendingReload = true
+      return
+    }
+
     isLoading = true
-    defer { isLoading = false }
+    defer {
+      isLoading = false
+      if pendingReload {
+        pendingReload = false
+        Task { await load() }
+      }
+    }
 
     do {
       let ingredientCount = try deps.ingredientRepository.count()
@@ -79,6 +95,7 @@ final class HomeDashboardViewModel: ObservableObject {
       let mealsLast7Days = try deps.userDataRepository.mealsCooked(lastDays: 7)
       let mealsLast14Days = try deps.userDataRepository.mealsByDay(lastDays: 14)
       let weekdayDistribution = try deps.userDataRepository.mealsByWeekday(lastDays: 28)
+      let useSoonSuggestions = try deps.spoilageService.useSoonSuggestions(withinDays: 3, limit: 3)
 
       let profile: HealthProfile? =
         hasOnboarded ? try deps.userDataRepository.fetchHealthProfile() : nil
@@ -96,7 +113,8 @@ final class HomeDashboardViewModel: ObservableObject {
         healthProfile: profile,
         totalMealsCooked: totalMealsCooked,
         tutorialProgress: tutorialProgress,
-        latestJournalEntry: latestEntry
+        latestJournalEntry: latestEntry,
+        useSoonSuggestions: useSoonSuggestions
       )
       errorMessage = nil
     } catch {
@@ -119,7 +137,8 @@ final class HomeDashboardViewModel: ObservableObject {
         healthProfile: snap.healthProfile,
         totalMealsCooked: snap.totalMealsCooked,
         tutorialProgress: tutorialProgress,
-        latestJournalEntry: snap.latestJournalEntry
+        latestJournalEntry: snap.latestJournalEntry,
+        useSoonSuggestions: snap.useSoonSuggestions
       )
       snapshot = snap
     }
@@ -128,5 +147,17 @@ final class HomeDashboardViewModel: ObservableObject {
   /// Sync tutorial progress from external @AppStorage value.
   func syncTutorialProgress(_ progress: TutorialProgress) {
     tutorialProgress = progress
+  }
+
+  // MARK: - Live Updates
+
+  private func startLiveUpdates() {
+    cookingHistoryObserver = deps.userDataRepository.observeCookingHistoryChanges(
+      onError: { _ in },
+      onChange: { [weak self] in
+        guard let self else { return }
+        Task { await self.load() }
+      }
+    )
   }
 }

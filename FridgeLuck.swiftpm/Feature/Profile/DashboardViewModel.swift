@@ -1,4 +1,5 @@
 import Foundation
+import GRDB
 import Observation
 
 /// ViewModel for the post-onboarding Dashboard.
@@ -9,12 +10,14 @@ final class DashboardViewModel {
   // MARK: - Published State
 
   var snapshot: DashboardSnapshot?
-  var isLoading = true
+  var isLoading = false
+  private var pendingReload = false
 
   // MARK: - Dependencies
 
   private let userDataRepository: UserDataRepository
   private let personalizationService: PersonalizationService
+  private var cookingHistoryObserver: AnyDatabaseCancellable?
 
   init(
     userDataRepository: UserDataRepository,
@@ -22,12 +25,26 @@ final class DashboardViewModel {
   ) {
     self.userDataRepository = userDataRepository
     self.personalizationService = personalizationService
+    startLiveUpdates()
   }
 
   // MARK: - Loading
 
   func load() async {
+    if isLoading {
+      pendingReload = true
+      return
+    }
+
     isLoading = true
+    defer {
+      isLoading = false
+      if pendingReload {
+        pendingReload = false
+        Task { await load() }
+      }
+    }
+
     do {
       let profile = try userDataRepository.fetchHealthProfile()
       let todayMacros = try userDataRepository.todayMacros()
@@ -51,7 +68,6 @@ final class DashboardViewModel {
     } catch {
       // Non-critical — dashboard will show empty state
     }
-    isLoading = false
   }
 
   // MARK: - Derived
@@ -79,5 +95,17 @@ final class DashboardViewModel {
   var todayCaloriePct: Double {
     guard let snap = snapshot, dailyCalorieGoal > 0 else { return 0 }
     return min(snap.todayMacros.calories / dailyCalorieGoal, 1.0)
+  }
+
+  // MARK: - Live Updates
+
+  private func startLiveUpdates() {
+    cookingHistoryObserver = userDataRepository.observeCookingHistoryChanges(
+      onError: { _ in },
+      onChange: { [weak self] in
+        guard let self else { return }
+        Task { await self.load() }
+      }
+    )
   }
 }

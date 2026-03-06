@@ -153,3 +153,24 @@ Convex capability/deployment references:
 ## Status
 
 This document is actively intended to replace long exploratory notes as the main source of user intent for stage 4.
+
+## Implementation Status Snapshot (2026-03-04)
+
+Implemented in code (current):
+
+1. Confidence-routed ingredient review remains the front door for exactness.
+2. Smart-fridge inventory ledger tables and repository are live.
+3. Cooking completion now consumes inventory lots.
+4. Confirmed scan results now ingest inventory lots with confidence-aware intake.
+5. Home now surfaces "use soon" freshness nudges from inventory expiry windows.
+6. Reverse-scan foundation now exists:
+   - meal photo analysis,
+   - confidence-scored recipe candidate matching,
+   - confirm-and-log flow with inventory consumption.
+7. Recipe results now surface a live recipe idea card from current generation pipeline.
+
+Still pending for full target vision:
+
+1. Full Gemini Live transport/session tool-calling implementation in production path.
+2. Voice-first assistant UX and continuous multimodal session.
+3. Stronger reverse-scan ingredient/gram editing before finalization.

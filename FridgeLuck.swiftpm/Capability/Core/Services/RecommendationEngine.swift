@@ -1,5 +1,8 @@
 import FLFeatureLogic
 import Foundation
+import os
+
+private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "RecommendationEngine")
 
 struct RecommendationSections: Sendable {
   var exact: [ScoredRecipe]
@@ -22,6 +25,8 @@ final class RecommendationEngine: ObservableObject {
   private let recipeRepository: RecipeRepository
   private let healthScoringService: HealthScoringService
   private let recipeGenerator: RecipeGenerating
+  private let geminiCloudAgent: GeminiCloudAgent?
+  private let confidenceLearningService: ConfidenceLearningService?
 
   @Published var recommendations: [ScoredRecipe] = []
   @Published var sections: RecommendationSections = .empty
@@ -39,11 +44,15 @@ final class RecommendationEngine: ObservableObject {
   init(
     recipeRepository: RecipeRepository,
     healthScoringService: HealthScoringService,
-    recipeGenerator: RecipeGenerating
+    recipeGenerator: RecipeGenerating,
+    geminiCloudAgent: GeminiCloudAgent? = nil,
+    confidenceLearningService: ConfidenceLearningService? = nil
   ) {
     self.recipeRepository = recipeRepository
     self.healthScoringService = healthScoringService
     self.recipeGenerator = recipeGenerator
+    self.geminiCloudAgent = geminiCloudAgent
+    self.confidenceLearningService = confidenceLearningService
     self.aiEnhancementNotice = recipeGenerator.enhancementAvailability.noticeText
   }
 
@@ -53,6 +62,7 @@ final class RecommendationEngine: ObservableObject {
   func findRecipes(for ingredientIds: Set<Int64>) async {
     isLoading = true
     error = nil
+    logger.info("Finding recipes. ingredientIds=\(ingredientIds.count, privacy: .public)")
 
     defer { isLoading = false }
 
@@ -87,6 +97,10 @@ final class RecommendationEngine: ObservableObject {
       sections = RecommendationSections(exact: exact, nearMatch: near)
       recommendations = sections.all
       quickSuggestion = exact.first ?? near.first
+      let totalResults = exact.count + near.count
+      logger.info(
+        "Recipe search completed. exact=\(exact.count, privacy: .public), near=\(near.count, privacy: .public), total=\(totalResults, privacy: .public)"
+      )
 
       explanationPayload = RecommendationExplanationPayload(
         policySummary:
@@ -95,6 +109,7 @@ final class RecommendationEngine: ObservableObject {
       )
     } catch {
       self.error = error
+      logger.error("Recipe search failed: \(error.localizedDescription, privacy: .public)")
       recommendations = []
       sections = .empty
       quickSuggestion = nil
@@ -111,17 +126,83 @@ final class RecommendationEngine: ObservableObject {
   /// Attempt to generate a novel recipe from the given ingredient names.
   func generateAIRecipe(
     ingredientNames: [String],
+    photoJPEGData: Data? = nil,
+    scanConfidenceScore: Double? = nil,
     dietaryRestrictions: [String] = []
   ) async {
     let normalizedNames = await AIIngredientNormalizer.enhancedNormalize(ingredientNames)
+    logger.info(
+      "Generate AI recipe requested. normalizedIngredients=\(normalizedNames.count, privacy: .public), hasPhoto=\(photoJPEGData != nil, privacy: .public), scanConfidence=\(scanConfidenceScore ?? -1, privacy: .public)"
+    )
+
+    let hasHighConfidenceLocalPath: Bool
+    if let confidenceLearningService {
+      let scanSignal = ConfidenceSignalInput(
+        key: "recipe_generation.scan_confidence",
+        rawScore: scanConfidenceScore ?? 0.55,
+        weight: 0.65,
+        reason: "scan confidence"
+      )
+      let ingredientCoverageSignal = ConfidenceSignalInput(
+        key: "recipe_generation.ingredient_coverage",
+        rawScore: min(Double(normalizedNames.count) / 7.0, 1.0),
+        weight: 0.35,
+        reason: "ingredient coverage"
+      )
+      let assessment = confidenceLearningService.assess(
+        signals: [scanSignal, ingredientCoverageSignal],
+        hardFailReasons: normalizedNames.isEmpty ? ["No confirmed ingredients yet."] : []
+      )
+      hasHighConfidenceLocalPath = assessment.mode == .exact && photoJPEGData == nil
+      logger.debug(
+        "Recipe generation confidence mode=\(assessment.mode.rawValue, privacy: .public), overall=\(assessment.overallScore, privacy: .public)"
+      )
+    } else {
+      hasHighConfidenceLocalPath = (scanConfidenceScore ?? 0) >= 0.93 && photoJPEGData == nil
+      logger.debug(
+        "Recipe generation using legacy local-path heuristic. localPath=\(hasHighConfidenceLocalPath, privacy: .public)"
+      )
+    }
+
+    if !hasHighConfidenceLocalPath,
+      let geminiCloudAgent,
+      geminiCloudAgent.isConfigured
+    {
+      logger.info("Routing recipe generation to cloud Gemini.")
+      do {
+        if let cloudRecipe = try await geminiCloudAgent.generateRecipe(
+          ingredientNames: normalizedNames,
+          dietaryRestrictions: dietaryRestrictions,
+          photoJPEGData: photoJPEGData,
+          scanConfidenceScore: scanConfidenceScore
+        ) {
+          aiGeneratedRecipe = cloudRecipe
+          aiEnhancementNotice = "Cloud Gemini recipe synthesis active."
+          logger.info("Cloud recipe generation returned successfully.")
+          return
+        }
+      } catch {
+        logger.error(
+          "Cloud recipe generation failed: \(error.localizedDescription, privacy: .public)")
+        // Fall through to local generator
+      }
+    }
 
     do {
       aiGeneratedRecipe = try await recipeGenerator.generate(
         from: normalizedNames,
         dietaryRestrictions: dietaryRestrictions
       )
+      if aiGeneratedRecipe != nil {
+        aiEnhancementNotice = recipeGenerator.enhancementAvailability.noticeText
+        logger.info("Local recipe generation returned successfully.")
+      } else {
+        logger.notice("Local recipe generation returned no result.")
+      }
     } catch {
       aiGeneratedRecipe = nil
+      logger.error(
+        "Local recipe generation failed: \(error.localizedDescription, privacy: .public)")
     }
   }
 }
