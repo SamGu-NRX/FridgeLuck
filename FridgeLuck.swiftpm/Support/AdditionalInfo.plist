@@ -6,5 +6,7 @@
   <string>FridgeLuck uses the camera to scan ingredients and nutrition labels.</string>
   <key>NSPhotoLibraryUsageDescription</key>
   <string>FridgeLuck uses your photo library so you can scan ingredient photos.</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>FridgeLuck uses your microphone for live voice guidance and recipe assistance.</string>
 </dict>
 </plist>

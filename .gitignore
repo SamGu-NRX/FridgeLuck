@@ -52,6 +52,18 @@ scripts/data/.cache/
 .env*
 !.env*.example
 
+# Node / TypeScript artifacts
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.npm/
+.pnpm-store/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Python script artifacts
 __pycache__/
 *.pyc

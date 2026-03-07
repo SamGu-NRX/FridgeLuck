@@ -9,6 +9,8 @@ struct OnboardingView: View {
   let isRequired: Bool
   let onComplete: () -> Void
 
+  @State private var displayName = ""
+  @State private var ageInput = ""
   @State private var goal: HealthGoal = .general
   @State private var dailyCalories: Int = HealthGoal.general.suggestedCalories
   @State private var selectedRestrictions: Set<String> = []
@@ -23,6 +25,7 @@ struct OnboardingView: View {
   @State private var isLoaded = false
   @State private var isSaving = false
   @State private var errorMessage: String?
+  @State private var identityValidationMessage: String?
   @State private var showAllergenPicker = false
 
   private let restrictionOptions: [OnboardingRestrictionOption] = [
@@ -122,6 +125,21 @@ struct OnboardingView: View {
           dailyCalories = newGoal.suggestedCalories
         }
       }
+      .onChange(of: displayName) { _, _ in
+        if identityValidationMessage != nil {
+          identityValidationMessage = nil
+        }
+      }
+      .onChange(of: ageInput) { _, newValue in
+        let filtered = newValue.filter(\.isNumber)
+        let clamped = String(filtered.prefix(3))
+        if clamped != newValue {
+          ageInput = clamped
+        }
+        if identityValidationMessage != nil {
+          identityValidationMessage = nil
+        }
+      }
     }
   }
 
@@ -172,7 +190,13 @@ struct OnboardingView: View {
   }
 
   private var goalStep: some View {
-    OnboardingGoalStepSection(goal: $goal, dailyCalories: $dailyCalories)
+    OnboardingGoalStepSection(
+      displayName: $displayName,
+      ageInput: $ageInput,
+      goal: $goal,
+      dailyCalories: $dailyCalories,
+      identityValidationMessage: identityValidationMessage
+    )
   }
 
   private var restrictionStep: some View {
@@ -225,6 +249,9 @@ struct OnboardingView: View {
     guard !isTransitioning, !isSaving else { return }
 
     if stepIndex < totalSteps - 1 {
+      if stepIndex == Step.goals.rawValue {
+        guard validatedIdentity() != nil else { return }
+      }
       setStep(stepIndex + 1, direction: .forward)
       return
     }
@@ -297,17 +324,12 @@ struct OnboardingView: View {
     allergenGroupMatchesByID = caches.1
 
     do {
-      let profile: HealthProfile? = try await Task.detached(priority: .userInitiated) {
-        () throws -> HealthProfile? in
-        guard try userDataRepository.hasCompletedOnboarding() else { return nil }
-        return try userDataRepository.fetchHealthProfile()
+      let profile: HealthProfile = try await Task.detached(priority: .userInitiated) {
+        try userDataRepository.fetchHealthProfile()
       }.value
 
-      guard let profile else {
-        dailyCalories = goal.suggestedCalories
-        return
-      }
-
+      displayName = profile.displayName
+      ageInput = profile.age.map(String.init) ?? ""
       goal = profile.goal
       dailyCalories = profile.dailyCalories ?? profile.goal.suggestedCalories
       selectedRestrictions = Set(profile.parsedDietaryRestrictions)
@@ -319,10 +341,13 @@ struct OnboardingView: View {
 
   private func saveProfile() {
     guard !isSaving else { return }
+    guard let identity = validatedIdentity() else { return }
     isSaving = true
 
     let selectedRestrictions = Array(self.selectedRestrictions).sorted()
     let selectedAllergens = Array(self.selectedAllergens).sorted()
+    let selectedName = identity.displayName
+    let selectedAge = identity.age
     let selectedGoal = goal
     let selectedCalories = dailyCalories
     let userDataRepository = deps.userDataRepository
@@ -336,6 +361,8 @@ struct OnboardingView: View {
         let split = selectedGoal.defaultMacroSplit
 
         let profile = HealthProfile(
+          displayName: selectedName,
+          age: selectedAge,
           goal: selectedGoal,
           dailyCalories: selectedCalories,
           proteinPct: split.protein,
@@ -357,6 +384,22 @@ struct OnboardingView: View {
         errorMessage = error.localizedDescription
       }
     }
+  }
+
+  private func validatedIdentity() -> (displayName: String, age: Int)? {
+    let normalizedDisplayName = displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !normalizedDisplayName.isEmpty else {
+      identityValidationMessage = "Please enter your name to continue."
+      return nil
+    }
+
+    guard let age = Int(ageInput), (13...100).contains(age) else {
+      identityValidationMessage = "Enter an age between 13 and 100."
+      return nil
+    }
+
+    identityValidationMessage = nil
+    return (normalizedDisplayName, age)
   }
 
   private func encodeJSON<T: Encodable>(_ value: T) throws -> String {

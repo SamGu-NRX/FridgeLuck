@@ -209,7 +209,10 @@ private struct CookingCelebrationMacroRow: View {
 
 struct CookingCelebrationPhotoSection: View {
   @Binding var capturedImage: UIImage?
-  @Binding var showCamera: Bool
+  let cameraPermissionStatus: AppPermissionStatus
+  let onOpenCamera: () -> Void
+  let onOpenLibrary: () -> Void
+  let onOpenSettings: () -> Void
   let appeared: Bool
   let reduceMotion: Bool
 
@@ -243,7 +246,7 @@ struct CookingCelebrationPhotoSection: View {
         }
       } else {
         Button {
-          showCamera = true
+          onOpenCamera()
         } label: {
           HStack(spacing: AppTheme.Space.sm) {
             Image(systemName: "camera.fill")
@@ -276,6 +279,33 @@ struct CookingCelebrationPhotoSection: View {
           )
         }
         .buttonStyle(FLPressableButtonStyle())
+
+        if cameraPermissionStatus == .denied || cameraPermissionStatus == .restricted {
+          FLCard(tone: .warning) {
+            VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+              Text("Camera permission is off")
+                .font(AppTheme.Typography.displayCaption)
+                .foregroundStyle(AppTheme.textPrimary)
+              Text("Use photo library to continue, or enable camera access in Settings.")
+                .font(AppTheme.Typography.bodySmall)
+                .foregroundStyle(AppTheme.textSecondary)
+
+              HStack(spacing: AppTheme.Space.sm) {
+                FLSecondaryButton(
+                  "Use Library", systemImage: "photo.on.rectangle", action: onOpenLibrary)
+                FLSecondaryButton(
+                  "Open Settings", systemImage: "gearshape", action: onOpenSettings)
+              }
+            }
+          }
+        }
+
+        if cameraPermissionStatus == .unavailable {
+          Text("Camera unavailable on this device. Use the photo library instead.")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .multilineTextAlignment(.center)
+        }
       }
     }
     .opacity(appeared ? 1 : 0)

@@ -31,6 +31,10 @@ if ! rg -q "NSPhotoLibraryUsageDescription" "$TARGET_DIR/Support/AdditionalInfo.
   echo "ERROR: NSPhotoLibraryUsageDescription missing."
   exit 1
 fi
+if ! rg -q "NSMicrophoneUsageDescription" "$TARGET_DIR/Support/AdditionalInfo.plist"; then
+  echo "ERROR: NSMicrophoneUsageDescription missing."
+  exit 1
+fi
 
 echo "Offline audit complete."
 echo "Final manual check: run app once with Wi-Fi disabled."

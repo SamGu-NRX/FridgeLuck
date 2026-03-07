@@ -223,11 +223,17 @@ Build tasks:
 ### P1-3: Permission declaration and cross-device safety hardening
 
 Current state:
-- Camera/photo picker is used, but explicit permission metadata hardening is not visible in this package manifest setup.
+- Centralized app permission handling is now required across scan and meal-log entry points.
+- Photo selection should prefer `PhotosPicker` (item-scoped native behavior) over broad library preauthorization.
+- Microphone permission should be declared and available for upcoming live-agent voice flows.
+- LiDAR/depth should be capability-detected only (no dedicated user prompt path).
 
 Build tasks:
-1. Verify camera/photo descriptions are set in app configuration for build/distribution mode.
-2. Test deny-permission behavior paths and copy.
+1. Route first-access permission checks through `AppPermissionCenter` for camera, microphone, and photo read/write status.
+2. Use `PhotosPicker` as the default photo-library path in scan/reverse-scan/cooking flows.
+3. Keep denied-state UX explicit: fallback path plus "Open Settings" action.
+4. Verify usage descriptions include camera, photo library, and microphone in app configuration.
+5. Test denied/unavailable flows on phone + tablet + simulator paths.
 
 ### P1-4: Demo/asset/UI polish from Stage 1 design language is missing
 

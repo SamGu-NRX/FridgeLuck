@@ -66,26 +66,44 @@ final class PersonalizationService: Sendable {
     servingsConsumed: Int? = nil
   ) throws -> Int64 {
     try db.write { db in
-      let history = CookingHistory(
+      try recordCooking(
+        in: db,
         recipeId: recipeId,
         rating: rating,
         imagePath: imagePath,
         servingsConsumed: servingsConsumed
       )
-      try history.insert(db)
-
-      let today = Self.todayString()
-      let existing = try Streak.fetchOne(db, key: today)
-      if var streak = existing {
-        streak.mealsCookedCount += 1
-        try streak.update(db)
-      } else {
-        let streak = Streak(date: today, mealsCookedCount: 1)
-        try streak.insert(db)
-      }
-
-      return db.lastInsertedRowID
     }
+  }
+
+  /// Transaction-scoped insert used by higher-level services that compose
+  /// multiple writes in a single DB transaction.
+  func recordCooking(
+    in db: Database,
+    recipeId: Int64,
+    rating: Int? = nil,
+    imagePath: String? = nil,
+    servingsConsumed: Int? = nil
+  ) throws -> Int64 {
+    let history = CookingHistory(
+      recipeId: recipeId,
+      rating: rating,
+      imagePath: imagePath,
+      servingsConsumed: servingsConsumed
+    )
+    try history.insert(db)
+
+    let today = Self.todayString()
+    let existing = try Streak.fetchOne(db, key: today)
+    if var streak = existing {
+      streak.mealsCookedCount += 1
+      try streak.update(db)
+    } else {
+      let streak = Streak(date: today, mealsCookedCount: 1)
+      try streak.insert(db)
+    }
+
+    return db.lastInsertedRowID
   }
 
   /// Rate a previously cooked recipe.

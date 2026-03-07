@@ -21,8 +21,17 @@ enum AppMotion {
   static let sectionReveal: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.28)
   static let confettiDuration: Double = 2.8
 
-  // Scan-mode popup menu
-  static let menuReveal: Animation = .spring(response: 0.32, dampingFraction: 0.76)
-  static let menuDismiss: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.18)
-  static let menuStagger: Double = 0.020
+  // Scan-mode popup menu — layered choreography
+  /// Arc path: slightly underdamped spring for organic overshoot
+  static let menuArc: Animation = .spring(response: 0.52, dampingFraction: 0.74)
+  /// Bubble scale: tighter spring, no bobble
+  static let menuScale: Animation = .spring(response: 0.42, dampingFraction: 0.82)
+  /// Bubble opacity: fast ease-out to establish presence
+  static let menuFade: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 0.16)
+  /// Label text: delayed reveal with slide
+  static let menuLabel: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.14)
+  /// Fast collapse on dismiss — no stagger, all at once
+  static let menuDismiss: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 0.20)
+  /// Cascade delay between left and right options
+  static let menuStagger: Double = 0.055
 }

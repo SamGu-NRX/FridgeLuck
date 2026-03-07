@@ -1,8 +1,8 @@
 import SwiftUI
 import UIKit
 
-/// A simple camera/photo picker for meal photos. Unlike `CameraPicker`, this does NOT
-/// apply `ScanImagePreprocessor` since we want the original photo for the food journal.
+/// UIKit camera wrapper for meal photos.
+/// Unlike `CameraPicker`, this does NOT apply `ScanImagePreprocessor`.
 struct MealPhotoPicker: UIViewControllerRepresentable {
   @Binding var image: UIImage?
   @Environment(\.dismiss) private var dismiss
@@ -12,13 +12,7 @@ struct MealPhotoPicker: UIViewControllerRepresentable {
     picker.delegate = context.coordinator
     picker.modalPresentationStyle = .fullScreen
     picker.allowsEditing = true
-
-    if UIImagePickerController.isSourceTypeAvailable(.camera) {
-      picker.sourceType = .camera
-    } else {
-      picker.sourceType = .photoLibrary
-    }
-
+    picker.sourceType = .camera
     return picker
   }
 

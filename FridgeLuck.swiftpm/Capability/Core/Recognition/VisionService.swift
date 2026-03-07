@@ -1,6 +1,9 @@
 import Foundation
 import UIKit
 import Vision
+import os
+
+private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "VisionService")
 
 /// Multi-pass image recognition pipeline.
 /// Pass 1: VNClassifyImageRequest (food labels + confidence)
@@ -66,7 +69,8 @@ final class VisionService: Sendable {
 
   /// Scan an image and return detected ingredients with confidence scores.
   func scan(image: CGImage) async throws -> ScanResult {
-    try await scan(
+    logger.info("Starting single-image scan request.")
+    return try await scan(
       inputs: [
         ScanInput(
           image: image,
@@ -80,7 +84,9 @@ final class VisionService: Sendable {
   /// Session API for multi-shot scan aggregation.
   func scan(inputs: [ScanInput]) async throws -> ScanResult {
     let startedAt = Date()
+    logger.info("Starting scan session. captures=\(inputs.count, privacy: .public)")
     guard !inputs.isEmpty else {
+      logger.debug("Scan session has no inputs; returning empty result.")
       return ScanResult(
         detections: [],
         ocrText: [],
@@ -110,6 +116,9 @@ final class VisionService: Sendable {
 
     for input in inputs {
       let crops = ScanImagePreprocessor.deterministicCrops(for: input.image)
+      logger.debug(
+        "Capture index=\(input.captureIndex, privacy: .public), source=\(input.source.rawValue, privacy: .public), crops=\(crops.count, privacy: .public)"
+      )
       for crop in crops {
         cropCount += 1
 
@@ -124,19 +133,31 @@ final class VisionService: Sendable {
         do {
           classifications = try await classPass
           hadClassificationSuccess = true
+          logger.debug(
+            "Classification pass succeeded. capture=\(input.captureIndex, privacy: .public), crop=\(crop.id, privacy: .public), labels=\(classifications.count, privacy: .public)"
+          )
         } catch {
           classifications = []
           classificationError = error
           if firstClassificationError == nil { firstClassificationError = error }
+          logger.error(
+            "Classification pass failed. capture=\(input.captureIndex, privacy: .public), crop=\(crop.id, privacy: .public), error=\(error.localizedDescription, privacy: .public)"
+          )
         }
 
         do {
           textObservations = try await ocrPass
           hadOCRSuccess = true
+          logger.debug(
+            "OCR pass succeeded. capture=\(input.captureIndex, privacy: .public), crop=\(crop.id, privacy: .public), observations=\(textObservations.count, privacy: .public)"
+          )
         } catch {
           textObservations = []
           ocrError = error
           if firstOCRError == nil { firstOCRError = error }
+          logger.error(
+            "OCR pass failed. capture=\(input.captureIndex, privacy: .public), crop=\(crop.id, privacy: .public), error=\(error.localizedDescription, privacy: .public)"
+          )
         }
 
         if let classificationError, let ocrError {
@@ -299,6 +320,9 @@ final class VisionService: Sendable {
     let deduplicated = bestDetectionByIngredient.values.sorted { $0.confidence > $1.confidence }
 
     if deduplicated.isEmpty, !hadClassificationSuccess, !hadOCRSuccess {
+      logger.error(
+        "Scan session failed: no successful passes. classError=\(firstClassificationError?.localizedDescription ?? "nil", privacy: .public), ocrError=\(firstOCRError?.localizedDescription ?? "nil", privacy: .public)"
+      )
       throw VisionServiceError.pipelineFailed(
         classificationError: firstClassificationError,
         ocrError: firstOCRError
@@ -320,6 +344,13 @@ final class VisionService: Sendable {
       passErrors: passErrors,
       elapsedMs: elapsedMs
     )
+
+    logger.info(
+      "Scan session completed. elapsedMs=\(elapsedMs, privacy: .public), detections=\(deduplicated.count, privacy: .public), auto=\(categorized.confirmed.count, privacy: .public), confirm=\(categorized.needsConfirmation.count, privacy: .public), possible=\(categorized.possible.count, privacy: .public), cropCount=\(cropCount, privacy: .public)"
+    )
+    if !passErrors.isEmpty {
+      logger.debug("Scan pass errors count=\(passErrors.count, privacy: .public)")
+    }
 
     return ScanResult(
       detections: deduplicated,

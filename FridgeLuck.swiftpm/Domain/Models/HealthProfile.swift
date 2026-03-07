@@ -41,6 +41,8 @@ enum HealthGoal: String, Sendable, Codable, CaseIterable, DatabaseValueConvertib
 
 struct HealthProfile: Sendable, Codable {
   var id: Int64 = 1
+  var displayName: String
+  var age: Int?
   var goal: HealthGoal
   var dailyCalories: Int?
   var proteinPct: Double
@@ -51,6 +53,8 @@ struct HealthProfile: Sendable, Codable {
   var updatedAt: Date?
 
   static let `default` = HealthProfile(
+    displayName: "",
+    age: nil,
     goal: .general,
     dailyCalories: 2000,
     proteinPct: 0.25,
@@ -87,6 +91,10 @@ struct HealthProfile: Sendable, Codable {
 }
 
 extension HealthProfile {
+  var normalizedDisplayName: String {
+    displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
+
   var requiredRecipeTagMask: Int {
     var tags: RecipeTags = []
     let restrictions = normalizedDietaryRestrictionIDs
@@ -138,6 +146,8 @@ extension HealthProfile {
 extension HealthProfile {
   enum CodingKeys: String, CodingKey {
     case id
+    case displayName = "display_name"
+    case age
     case goal
     case dailyCalories = "daily_calories"
     case proteinPct = "protein_pct"
@@ -153,7 +163,10 @@ extension HealthProfile: FetchableRecord, MutablePersistableRecord, TableRecord 
   static let databaseTableName = "health_profile"
 
   enum Columns: String, ColumnExpression {
-    case id, goal
+    case id
+    case displayName = "display_name"
+    case age
+    case goal
     case dailyCalories = "daily_calories"
     case proteinPct = "protein_pct"
     case carbsPct = "carbs_pct"
@@ -165,6 +178,8 @@ extension HealthProfile: FetchableRecord, MutablePersistableRecord, TableRecord 
 
   func encode(to container: inout PersistenceContainer) {
     container[Columns.id] = id
+    container[Columns.displayName] = displayName
+    container[Columns.age] = age
     container[Columns.goal] = goal
     container[Columns.dailyCalories] = dailyCalories
     container[Columns.proteinPct] = proteinPct
