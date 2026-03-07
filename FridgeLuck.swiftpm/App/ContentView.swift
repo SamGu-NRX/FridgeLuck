@@ -255,9 +255,7 @@ struct ContentView: View {
               orbLongPressTriggered = true
               let generator = UIImpactFeedbackGenerator(style: .medium)
               generator.impactOccurred()
-              withAnimation(reduceMotion ? nil : AppMotion.menuReveal) {
-                showScanModeMenu = true
-              }
+              showScanModeMenu = true
             }
 
             // While in long-press mode, update drag highlight
@@ -280,12 +278,10 @@ struct ContentView: View {
             if wasLongPress {
               // Long-press release — select highlighted mode if any
               if let mode = highlightedScanMode {
-                withAnimation(AppMotion.menuDismiss) {
-                  showScanModeMenu = false
-                }
+                showScanModeMenu = false
                 let generator = UIImpactFeedbackGenerator(style: .light)
                 generator.impactOccurred()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                   handleScanModeSelection(mode)
                 }
               }
@@ -293,15 +289,11 @@ struct ContentView: View {
             } else {
               // Quick tap — toggle menu
               if showScanModeMenu {
-                withAnimation(AppMotion.menuDismiss) {
-                  showScanModeMenu = false
-                }
+                showScanModeMenu = false
               } else {
                 let generator = UIImpactFeedbackGenerator(style: .light)
                 generator.impactOccurred()
-                withAnimation(reduceMotion ? nil : AppMotion.menuReveal) {
-                  showScanModeMenu = true
-                }
+                showScanModeMenu = true
               }
             }
 

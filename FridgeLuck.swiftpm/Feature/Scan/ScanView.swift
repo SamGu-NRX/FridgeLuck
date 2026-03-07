@@ -1,4 +1,4 @@
-import AVFoundation
+import PhotosUI
 import SwiftUI
 
 /// Scan flow: capture → analyze → review.
@@ -57,7 +57,8 @@ struct ScanView: View {
 
   @State private var capturedImage: UIImage?
   @State private var showCamera = false
-  @State private var showPhotoLibrary = false
+  @State private var showPhotoPicker = false
+  @State private var selectedPhotoItem: PhotosPickerItem?
   @State private var showRunReports = false
   @State private var isProcessing = false
   @State private var detections: [Detection] = []
@@ -142,10 +143,11 @@ struct ScanView: View {
       CameraPicker(image: $capturedImage)
         .ignoresSafeArea()
     }
-    .sheet(isPresented: $showPhotoLibrary) {
-      PhotoLibraryPicker(image: $capturedImage)
-        .ignoresSafeArea()
-    }
+    .photosPicker(
+      isPresented: $showPhotoPicker,
+      selection: $selectedPhotoItem,
+      matching: .images
+    )
     .sheet(isPresented: $showRunReports) {
       ScanRunReportSheet()
         .environmentObject(deps)
@@ -174,6 +176,10 @@ struct ScanView: View {
         }
       }
       Task { await processImage() }
+    }
+    .onChange(of: selectedPhotoItem) { _, newValue in
+      guard newValue != nil else { return }
+      loadSelectedPhoto()
     }
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
@@ -216,6 +222,7 @@ struct ScanView: View {
           isCameraUnavailable: cameraPermissionState == .unavailable,
           onOpenCamera: openCameraCapture,
           onOpenLibrary: openPhotoLibraryCapture,
+          onOpenSettings: AppPermissionCenter.openAppSettings,
           onManualEntry: beginManualEntry
         )
       }
@@ -258,7 +265,7 @@ struct ScanView: View {
 
   private func openPhotoLibraryCapture() {
     pendingCaptureSource = .photoLibrary
-    showPhotoLibrary = true
+    showPhotoPicker = true
   }
 
   private func retryScan() {
@@ -437,34 +444,19 @@ struct ScanView: View {
 
   private func openCameraCapture() {
     pendingCaptureSource = .camera
-    guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-      cameraPermissionState = .unavailable
-      pendingCaptureSource = .photoLibrary
-      showPhotoLibrary = true
-      return
-    }
-
-    switch AVCaptureDevice.authorizationStatus(for: .video) {
-    case .authorized:
-      cameraPermissionState = .unknown
-      showCamera = true
-    case .notDetermined:
-      AVCaptureDevice.requestAccess(for: .video) { granted in
-        DispatchQueue.main.async {
-          if granted {
-            self.cameraPermissionState = .unknown
-            self.showCamera = true
-          } else {
-            self.cameraPermissionState = .denied
-          }
-        }
+    Task {
+      let result = await AppPermissionCenter.request(.camera)
+      if AppPermissionCenter.canProceed(result) {
+        cameraPermissionState = .unknown
+        showCamera = true
+        return
       }
-    case .denied, .restricted:
-      cameraPermissionState = .denied
-    @unknown default:
-      cameraPermissionState = .unavailable
-      pendingCaptureSource = .photoLibrary
-      showPhotoLibrary = true
+
+      cameraPermissionState = mapCameraPermissionState(AppPermissionCenter.status(for: .camera))
+      if cameraPermissionState == .unavailable {
+        pendingCaptureSource = .photoLibrary
+        showPhotoPicker = true
+      }
     }
   }
 
@@ -480,18 +472,37 @@ struct ScanView: View {
 
   private func refreshCameraPermissionState() {
     guard mode == .live else { return }
-    guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-      cameraPermissionState = .unavailable
-      return
-    }
+    cameraPermissionState = mapCameraPermissionState(AppPermissionCenter.status(for: .camera))
+  }
 
-    switch AVCaptureDevice.authorizationStatus(for: .video) {
-    case .authorized, .notDetermined:
-      cameraPermissionState = .unknown
+  private func mapCameraPermissionState(_ status: AppPermissionStatus) -> CameraPermissionState {
+    switch status {
     case .denied, .restricted:
-      cameraPermissionState = .denied
-    @unknown default:
-      cameraPermissionState = .unavailable
+      return .denied
+    case .unavailable:
+      return .unavailable
+    case .authorized, .notDetermined, .limited:
+      return .unknown
+    }
+  }
+
+  private func loadSelectedPhoto() {
+    guard let selectedPhotoItem else { return }
+
+    Task {
+      defer { self.selectedPhotoItem = nil }
+
+      do {
+        guard let data = try await selectedPhotoItem.loadTransferable(type: Data.self),
+          let image = UIImage(data: data)
+        else { return }
+
+        capturedImage = ScanImagePreprocessor.prepare(image)
+      } catch {
+        withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+          errorMessage = "Could not load the selected photo. Try another image."
+        }
+      }
     }
   }
 }

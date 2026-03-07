@@ -60,12 +60,63 @@ struct OnboardingStepHeader: View {
 }
 
 struct OnboardingGoalStepSection: View {
+  @Binding var displayName: String
+  @Binding var ageInput: String
   @Binding var goal: HealthGoal
   @Binding var dailyCalories: Int
+  let identityValidationMessage: String?
 
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          Text("YOUR PROFILE")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .kerning(1.2)
+
+          TextField("Name", text: $displayName)
+            .textInputAutocapitalization(.words)
+            .autocorrectionDisabled(true)
+            .padding(.horizontal, AppTheme.Space.sm)
+            .padding(.vertical, AppTheme.Space.sm)
+            .background(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                .fill(AppTheme.surface)
+            )
+            .overlay(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
+            )
+
+          TextField("Age", text: $ageInput)
+            .keyboardType(.numberPad)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
+            .padding(.horizontal, AppTheme.Space.sm)
+            .padding(.vertical, AppTheme.Space.sm)
+            .background(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                .fill(AppTheme.surface)
+            )
+            .overlay(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
+            )
+
+          if let identityValidationMessage {
+            HStack(spacing: AppTheme.Space.xxs) {
+              Image(systemName: "exclamationmark.circle.fill")
+              Text(identityValidationMessage)
+            }
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.warning)
+          }
+        }
+
+        FLWaveDivider()
+          .padding(.vertical, AppTheme.Space.sm)
+
         Text("Pick your primary nutrition direction")
           .font(AppTheme.Typography.displayCaption)
           .foregroundStyle(AppTheme.textPrimary)
@@ -82,9 +133,6 @@ struct OnboardingGoalStepSection: View {
           goalCard(.muscleGain, accent: AppTheme.oat, rotation: 0.5)
           goalCard(.maintenance, accent: AppTheme.dustyRose, rotation: -1.2)
         }
-
-        FLWaveDivider()
-          .padding(.vertical, AppTheme.Space.sm)
 
         VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
           Text("DAILY CALORIES")

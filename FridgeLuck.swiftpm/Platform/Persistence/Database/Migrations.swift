@@ -306,6 +306,112 @@ enum DatabaseMigrations {
       )
     }
 
+    // MARK: - V10: Confidence learning signal history + trust vectors
+
+    migrator.registerMigration("v10_confidence_learning") { db in
+      try db.create(table: "confidence_signal_events") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("signal_key", .text).notNull()
+        t.column("context_key", .text)
+        t.column("raw_score", .double).notNull()
+        t.column("outcome_reward", .double).notNull()
+        t.column("note", .text)
+        t.column("created_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+      }
+
+      try db.create(table: "trust_vector_state") { t in
+        t.primaryKey("signal_key", .text)
+        t.column("alpha", .double).notNull().defaults(to: 4.0)
+        t.column("beta", .double).notNull().defaults(to: 3.0)
+        t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+      }
+
+      try db.create(
+        index: "idx_confidence_events_signal",
+        on: "confidence_signal_events",
+        columns: ["signal_key", "created_at"]
+      )
+      try db.create(
+        index: "idx_confidence_events_context",
+        on: "confidence_signal_events",
+        columns: ["context_key"]
+      )
+    }
+
+    // MARK: - V11: Repair cooking-history recipe links with missing ingredients
+
+    migrator.registerMigration("v11_reconcile_ingredientless_recipe_links") { db in
+      // Re-point cooking history rows that reference ingredient-less recipe rows
+      // to a same-title recipe that actually has ingredients.
+      try db.execute(
+        sql: """
+          UPDATE cooking_history
+          SET recipe_id = (
+            SELECT r_good.id
+            FROM recipes r_bad
+            JOIN recipes r_good
+              ON LOWER(TRIM(r_good.title)) = LOWER(TRIM(r_bad.title))
+            WHERE r_bad.id = cooking_history.recipe_id
+              AND EXISTS(
+                SELECT 1
+                FROM recipe_ingredients ri_good
+                WHERE ri_good.recipe_id = r_good.id
+              )
+            ORDER BY r_good.id ASC
+            LIMIT 1
+          )
+          WHERE recipe_id IN (
+            SELECT r.id
+            FROM recipes r
+            WHERE NOT EXISTS(
+              SELECT 1
+              FROM recipe_ingredients ri
+              WHERE ri.recipe_id = r.id
+            )
+          )
+            AND EXISTS (
+              SELECT 1
+              FROM recipes r_bad
+              JOIN recipes r_good
+                ON LOWER(TRIM(r_good.title)) = LOWER(TRIM(r_bad.title))
+              WHERE r_bad.id = cooking_history.recipe_id
+                AND EXISTS(
+                  SELECT 1
+                  FROM recipe_ingredients ri_good
+                  WHERE ri_good.recipe_id = r_good.id
+                )
+            )
+          """
+      )
+
+      // Remove dangling placeholder recipes that have no ingredients and are
+      // no longer referenced by cooking history.
+      try db.execute(
+        sql: """
+          DELETE FROM recipes
+          WHERE NOT EXISTS (
+            SELECT 1
+            FROM recipe_ingredients ri
+            WHERE ri.recipe_id = recipes.id
+          )
+            AND NOT EXISTS (
+              SELECT 1
+              FROM cooking_history ch
+              WHERE ch.recipe_id = recipes.id
+            )
+          """
+      )
+    }
+
+    // MARK: - V12: Required onboarding identity fields
+
+    migrator.registerMigration("v12_required_onboarding_identity") { db in
+      try db.alter(table: "health_profile") { t in
+        t.add(column: "display_name", .text).notNull().defaults(to: "")
+        t.add(column: "age", .integer)
+      }
+    }
+
     try migrator.migrate(db)
   }
 }
