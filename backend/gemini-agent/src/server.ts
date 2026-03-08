@@ -9,7 +9,6 @@ import { rankReverseScanCandidates } from "./services/reverseScanService.js";
 import { attachLiveSessionGateway } from "./services/liveSessionGateway.js";
 import { InventoryLedger } from "./inventory/inventoryLedger.js";
 import { createWebhookRouter } from "./api/webhooks.js";
-import { traceToolCall, startTrace } from "./observability/tracing.js";
 import type {
   ConfidenceAssessRequest,
   ConfidenceOutcomeRequest,
@@ -21,18 +20,6 @@ const config = loadConfig();
 const ai = createGenAIClient(config);
 const confidenceService = new ConfidenceService();
 const ledger = new InventoryLedger(config);
-
-// Startup trace — visible in Cloud Logging
-traceToolCall(
-  startTrace("server.startup").build(true, {
-    args: {
-      port: config.port,
-      liveModel: config.liveModel,
-      vertexAi: config.useVertexAi,
-      restockThresholdDays: config.restockThresholdDays
-    }
-  })
-);
 
 const app = express();
 app.use(express.json({ limit: "12mb" }));
@@ -113,7 +100,6 @@ app.get("/v1/inventory", (_req: Request, res: Response) => {
   res.json({ inventory: ledger.snapshot() });
 });
 
-// Cloud Scheduler + Cloud Tasks webhook endpoints
 app.use("/v1/webhooks", createWebhookRouter(ledger, config));
 
 const server = createServer(app);
@@ -133,12 +119,6 @@ server.on("upgrade", (request: any, socket: any, head: any) => {
 
 server.listen(config.port, () => {
   console.log(
-    JSON.stringify({
-      severity: "INFO",
-      message: "server_listening",
-      port: config.port,
-      vertexAi: config.useVertexAi,
-      liveModel: config.liveModel
-    })
+    `[gemini-agent] listening on :${config.port} (vertexAi=${config.useVertexAi}, liveModel=${config.liveModel})`
   );
 });
