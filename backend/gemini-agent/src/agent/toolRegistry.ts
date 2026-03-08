@@ -9,8 +9,6 @@ import { buildRestockPlan } from "../automation/restockJob.js";
 import { startTrace, traceToolCall, traceConfidenceDecision } from "../observability/tracing.js";
 import type { RecipeGenerationRequest, ReverseScanRankRequest } from "../types/contracts.js";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface ToolDeps {
   ai: GoogleGenAI;
   config: AppConfig;
@@ -24,19 +22,15 @@ export type ToolHandler = (
   sessionId?: string
 ) => Promise<unknown>;
 
-// ─── Handlers ─────────────────────────────────────────────────────────────────
-
 const handleScanFridge: ToolHandler = async (args, deps, sessionId) => {
   const tr = startTrace("scan_fridge", sessionId, args);
 
   try {
-    // Scan-fridge uses the recipe service to ground ingredient detection
     const req: RecipeGenerationRequest = {
       ingredientNames: (args.existingInventoryNames as string[] | undefined) ?? [],
       photoBase64JPEG: args.photoBase64JPEG as string | undefined
     };
 
-    // Build a lightweight confidence signal request based on the image presence
     const hasPhoto = Boolean(req.photoBase64JPEG);
     const confidenceReq: ConfidenceAssessRequest = {
       signals: [
@@ -52,15 +46,11 @@ const handleScanFridge: ToolHandler = async (args, deps, sessionId) => {
 
     const assessment = deps.confidenceService.assess(confidenceReq);
     traceConfidenceDecision(assessment, "scan_fridge", sessionId);
-
     traceToolCall(tr.build(true, { confidenceMode: assessment.mode, confidenceScore: assessment.overallScore }));
-    return {
-      detectedIngredients: req.ingredientNames,
-      confidence_assessment: assessment
-    };
+
+    return { detectedIngredients: req.ingredientNames, confidence_assessment: assessment };
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : "scan_fridge failed";
-    traceToolCall(tr.build(false, { errorMessage }));
+    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "scan_fridge failed" }));
     throw err;
   }
 };
@@ -97,12 +87,11 @@ const handleReverseScanMeal: ToolHandler = async (args, deps, sessionId) => {
 
     const assessment = deps.confidenceService.assess(confidenceReq);
     traceConfidenceDecision(assessment, "reverse_scan_meal", sessionId);
-
     traceToolCall(tr.build(true, { confidenceMode: assessment.mode, confidenceScore: assessment.overallScore }));
+
     return { ...result, confidence_assessment: assessment };
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : "reverse_scan_meal failed";
-    traceToolCall(tr.build(false, { errorMessage }));
+    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "reverse_scan_meal failed" }));
     throw err;
   }
 };
@@ -122,8 +111,7 @@ const handleGenerateRecipe: ToolHandler = async (args, deps, sessionId) => {
     traceToolCall(tr.build(true));
     return result;
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : "generate_recipe failed";
-    traceToolCall(tr.build(false, { errorMessage }));
+    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "generate_recipe failed" }));
     throw err;
   }
 };
@@ -158,8 +146,7 @@ const handleMutateInventory: ToolHandler = async (args, deps, sessionId) => {
     traceToolCall(tr.build(true));
     return result;
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : "mutate_inventory failed";
-    traceToolCall(tr.build(false, { errorMessage }));
+    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "mutate_inventory failed" }));
     throw err;
   }
 };
@@ -168,9 +155,8 @@ const handleGetRestockPlan: ToolHandler = async (args, deps, sessionId) => {
   const tr = startTrace("get_restock_plan", sessionId, args);
 
   try {
-    const snapshot = deps.ledger.snapshot();
     const result = buildRestockPlan({
-      inventorySnapshot: snapshot,
+      inventorySnapshot: deps.ledger.snapshot(),
       thresholdDays: (args.thresholdDays as number | undefined) ?? deps.config.restockThresholdDays,
       restockBelowGrams: (args.restockBelowGrams as number | undefined) ?? deps.config.restockBelowGrams
     });
@@ -178,13 +164,10 @@ const handleGetRestockPlan: ToolHandler = async (args, deps, sessionId) => {
     traceToolCall(tr.build(true));
     return result;
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : "get_restock_plan failed";
-    traceToolCall(tr.build(false, { errorMessage }));
+    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "get_restock_plan failed" }));
     throw err;
   }
 };
-
-// ─── Registry ─────────────────────────────────────────────────────────────────
 
 const HANDLERS: Record<string, ToolHandler> = {
   scan_fridge: handleScanFridge,
