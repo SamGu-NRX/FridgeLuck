@@ -9,6 +9,14 @@ export interface AppConfig {
   recipeModel: string;
   rankingModel: string;
   liveModel: string;
+  /** Days remaining before expiry that triggers a "use soon" alert (default: 3) */
+  restockThresholdDays: number;
+  /** Seconds before an idempotency key expires and the same key can re-apply (default: 3600) */
+  idempotencyTtlSeconds: number;
+  /** Firestore emulator host, e.g. "localhost:8080" — if set, SDK uses emulator */
+  firestoreEmulator?: string;
+  /** Grams below which an inventory item is added to the restock list (default: 50) */
+  restockBelowGrams: number;
 }
 
 function asBool(value: string | undefined): boolean {
@@ -28,7 +36,11 @@ export function loadConfig(): AppConfig {
     apiKey: process.env.GEMINI_API_KEY,
     recipeModel: process.env.GEMINI_RECIPE_MODEL ?? "gemini-2.5-flash",
     rankingModel: process.env.GEMINI_RANKING_MODEL ?? "gemini-2.5-flash",
-    liveModel: process.env.GEMINI_LIVE_MODEL ?? "gemini-live-2.5-flash-preview"
+    liveModel: process.env.GEMINI_LIVE_MODEL ?? "gemini-live-2.5-flash-preview",
+    restockThresholdDays: Number(process.env.RESTOCK_THRESHOLD_DAYS ?? "3"),
+    idempotencyTtlSeconds: Number(process.env.IDEMPOTENCY_TTL_SECONDS ?? "3600"),
+    restockBelowGrams: Number(process.env.RESTOCK_BELOW_GRAMS ?? "50"),
+    firestoreEmulator: process.env.FIRESTORE_EMULATOR_HOST
   };
 
   if (useVertexAi) {
