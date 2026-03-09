@@ -6,7 +6,8 @@ import PackageDescription
 let package = Package(
   name: "FridgeLuck",
   platforms: [
-    .iOS("18.0")
+    // make sure to NOT change this.
+    .iOS("26.0")
   ],
   products: [
     .iOSApplication(

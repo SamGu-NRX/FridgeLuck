@@ -4,59 +4,34 @@ struct AllergenPickerView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-  let ingredients: [Ingredient]
+  let catalog: AllergenCatalogIndex
   @Binding var selectedIDs: Set<Int64>
 
   @State private var searchText = ""
-  @State private var showAllIngredients = false
+  @State private var includeFullCatalog = false
+  @State private var showOnlySelected = false
 
-  private enum Layout {
-    static let groupChipHeight: CGFloat = 92
+  private var normalizedSearchText: String {
+    AllergenSupport.normalizedQuery(searchText)
   }
 
-  private var baseIngredients: [Ingredient] {
-    if showAllIngredients {
-      return ingredients.sorted {
-        $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending
-      }
-      .filter { $0.id != nil }
-    }
-
-    return AllergenSupport.relevantIngredients(in: ingredients)
+  private var selectedIngredients: [Ingredient] {
+    catalog.selectedIngredients(from: selectedIDs)
   }
 
-  private var filteredIngredients: [Ingredient] {
-    let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-    guard !trimmed.isEmpty else { return baseIngredients }
+  private var visibleSections: [AllergenCatalogSection] {
+    let baseSections = catalog.sections(
+      matching: normalizedSearchText,
+      includeAllIngredients: includeFullCatalog
+    )
 
-    return
-      ingredients
-      .filter { ingredient in
-        ingredient.id != nil && AllergenSupport.searchableText(for: ingredient).contains(trimmed)
-      }
-      .sorted { lhs, rhs in
-        lhs.displayName.localizedCaseInsensitiveCompare(rhs.displayName) == .orderedAscending
-      }
-  }
+    guard showOnlySelected else { return baseSections }
 
-  private var groupedIngredients: [(title: String, ingredients: [Ingredient])] {
-    let grouped = Dictionary(grouping: filteredIngredients) { ingredient -> String in
-      AllergenSupport.group(for: ingredient)?.title ?? "Other"
+    return baseSections.compactMap { section in
+      let ingredients = section.ingredients.filter { selectedIDs.contains($0.id) }
+      guard !ingredients.isEmpty else { return nil }
+      return AllergenCatalogSection(id: section.id, title: section.title, ingredients: ingredients)
     }
-
-    var ordered: [(String, [Ingredient])] = []
-
-    for group in AllergenSupport.groups {
-      if let items = grouped[group.title], !items.isEmpty {
-        ordered.append((group.title, items))
-      }
-    }
-
-    if let other = grouped["Other"], !other.isEmpty {
-      ordered.append(("Other", other))
-    }
-
-    return ordered
   }
 
   var body: some View {
@@ -65,29 +40,29 @@ struct AllergenPickerView: View {
         LazyVStack(alignment: .leading, spacing: AppTheme.Space.md, pinnedViews: [.sectionHeaders])
         {
           Section {
-            commonAllergenGroups
-            displayModeToggle
+            guidanceCard
+            modeControls
+
+            if !selectedIngredients.isEmpty {
+              selectedIngredientsBlock
+            }
+
+            if visibleSections.isEmpty {
+              emptyState
+            } else {
+              ForEach(visibleSections) { section in
+                sectionBlock(section)
+              }
+            }
           } header: {
             stickyTopBar
-          }
-
-          if groupedIngredients.isEmpty {
-            FLEmptyState(
-              title: "No ingredients found",
-              message: "Try a broader search term.",
-              systemImage: "magnifyingglass"
-            )
-          } else {
-            ForEach(groupedIngredients, id: \.title) { section in
-              sectionBlock(title: section.title, ingredients: section.ingredients)
-            }
           }
         }
         .padding(.horizontal, AppTheme.Space.md)
         .padding(.top, AppTheme.Space.md)
         .padding(.bottom, AppTheme.Space.xl)
       }
-      .navigationTitle("Select Allergens")
+      .navigationTitle("Refine Specific Ingredients")
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
@@ -99,12 +74,19 @@ struct AllergenPickerView: View {
   }
 
   private var stickyTopBar: some View {
-    VStack(spacing: AppTheme.Space.sm) {
-      HStack {
-        Text("Common Allergens")
-          .font(AppTheme.Typography.displayCaption)
-          .foregroundStyle(AppTheme.textPrimary)
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      HStack(alignment: .firstTextBaseline) {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+          Text("Specific allergen details")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(AppTheme.textPrimary)
+          Text("Search exact ingredients instead of broad allergen groups.")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+
         Spacer()
+
         Text("\(selectedIDs.count) selected")
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
@@ -113,7 +95,7 @@ struct AllergenPickerView: View {
       HStack(spacing: AppTheme.Space.xs) {
         Image(systemName: "magnifyingglass")
           .foregroundStyle(AppTheme.textSecondary)
-        TextField("Search allergens or ingredients", text: $searchText)
+        TextField("Search whey, tahini, miso, cod...", text: $searchText)
           .textInputAutocapitalization(.never)
           .autocorrectionDisabled(true)
       }
@@ -130,140 +112,199 @@ struct AllergenPickerView: View {
     .padding(.horizontal, AppTheme.Space.md)
     .padding(.top, AppTheme.Space.sm)
     .padding(.bottom, AppTheme.Space.sm)
-    .background(AppTheme.bg.opacity(0.95))
+    .background(AppTheme.bg.opacity(0.96))
   }
 
-  private var commonAllergenGroups: some View {
+  private var guidanceCard: some View {
     FLCard(tone: .warm) {
-      LazyVGrid(
-        columns: [
-          GridItem(.flexible(), spacing: AppTheme.Space.xs),
-          GridItem(.flexible(), spacing: AppTheme.Space.xs),
-        ],
-        spacing: AppTheme.Space.xs
-      ) {
-        ForEach(AllergenSupport.groups) { group in
-          let ids = AllergenSupport.matchingIDs(for: group, in: ingredients)
-          let selectedCount = selectedIDs.intersection(ids).count
-          let isFullySelected = !ids.isEmpty && selectedCount == ids.count
-          let isPartiallySelected = selectedCount > 0 && !isFullySelected
-          let isSelected = isFullySelected || isPartiallySelected
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        Text("The Big 10 cards already handle the common cases.")
+          .font(.system(.subheadline, design: .serif, weight: .semibold))
+          .foregroundStyle(AppTheme.textPrimary)
 
-          Button {
-            toggleGroup(group)
-          } label: {
-            HStack(spacing: AppTheme.Space.xs) {
-              Image(systemName: group.systemImage)
-              VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-                Text(group.title)
-                  .font(AppTheme.Typography.label)
-                  .lineLimit(1)
-                  .foregroundStyle(AppTheme.textPrimary)
-                Text(isSelected ? "\(selectedCount) selected" : group.subtitle)
-                  .font(AppTheme.Typography.labelSmall)
-                  .lineLimit(2)
-                  .multilineTextAlignment(.leading)
-                  .foregroundStyle(AppTheme.textSecondary)
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .frame(minHeight: 34, alignment: .topLeading)
-              Spacer(minLength: 4)
-              Image(
-                systemName: isFullySelected
-                  ? "checkmark.circle.fill" : (isPartiallySelected ? "minus.circle.fill" : "circle")
-              )
-            }
+        Text(
+          "Use this screen only when you want finer control over exact catalog ingredients. It is best for ingredients like whey, tahini, miso, cod, or mayonnaise."
+        )
+        .font(AppTheme.Typography.bodyMedium)
+        .foregroundStyle(AppTheme.textSecondary)
+
+        FlowLayout(spacing: AppTheme.Space.xs) {
+          exampleChip("Whey")
+          exampleChip("Tahini")
+          exampleChip("Miso")
+          exampleChip("Cod")
+          exampleChip("Mayonnaise")
+        }
+      }
+    }
+  }
+
+  private var modeControls: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      HStack(spacing: AppTheme.Space.xs) {
+        modeButton(
+          title: "Suggested",
+          subtitle: "Likely allergen ingredients",
+          isActive: !includeFullCatalog
+        ) {
+          withAnimation(reduceMotion ? nil : AppMotion.standard) {
+            includeFullCatalog = false
+          }
+        }
+
+        modeButton(
+          title: "Full Catalog",
+          subtitle: "Browse every ingredient",
+          isActive: includeFullCatalog
+        ) {
+          withAnimation(reduceMotion ? nil : AppMotion.standard) {
+            includeFullCatalog = true
+          }
+        }
+      }
+
+      Toggle(isOn: $showOnlySelected.animation(reduceMotion ? nil : AppMotion.colorTransition)) {
+        Text("Show selected ingredients only")
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
+      }
+      .toggleStyle(.switch)
+      .tint(AppTheme.accent)
+    }
+  }
+
+  private var selectedIngredientsBlock: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      Text("CURRENTLY SELECTED")
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(AppTheme.textSecondary)
+        .kerning(1.2)
+
+      FlowLayout(spacing: AppTheme.Space.xs) {
+        ForEach(Array(selectedIngredients.prefix(24)), id: \.id) { ingredient in
+          Text(ingredient.displayName)
+            .font(AppTheme.Typography.bodySmall)
             .padding(.horizontal, AppTheme.Space.sm)
-            .padding(.vertical, AppTheme.Space.sm)
-            .frame(
-              maxWidth: .infinity, minHeight: Layout.groupChipHeight,
-              maxHeight: Layout.groupChipHeight, alignment: .leading
-            )
+            .padding(.vertical, AppTheme.Space.chipVertical)
             .background(
-              isSelected ? AppTheme.accent.opacity(0.14) : AppTheme.surface,
-              in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+              Capsule(style: .continuous)
+                .fill(AppTheme.accent.opacity(0.12))
             )
             .overlay(
-              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                .stroke(
-                  isSelected ? AppTheme.accent : AppTheme.oat.opacity(0.25), lineWidth: 1)
+              Capsule(style: .continuous)
+                .stroke(AppTheme.accent.opacity(0.16), lineWidth: 1)
             )
-            .opacity(ids.isEmpty ? 0.75 : 1)
-            .contentShape(Rectangle())
-          }
-          .buttonStyle(.plain)
-          .disabled(ids.isEmpty)
         }
       }
     }
   }
 
-  private var displayModeToggle: some View {
-    HStack {
-      Button {
-        withAnimation(reduceMotion ? nil : AppMotion.standard) {
-          showAllIngredients.toggle()
-        }
-      } label: {
-        Label(
-          showAllIngredients ? "Showing all ingredients" : "Showing allergen-focused ingredients",
-          systemImage: showAllIngredients
-            ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle"
-        )
-        .font(AppTheme.Typography.label)
-      }
-      .buttonStyle(.plain)
-
-      Spacer()
-    }
-    .foregroundStyle(AppTheme.textSecondary)
+  private var emptyState: some View {
+    FLEmptyState(
+      title: showOnlySelected ? "No selected ingredients in this view" : "No ingredients found",
+      message: showOnlySelected
+        ? "Try turning off the selected-only filter or search for something else."
+        : "Try a broader search term or switch between Suggested and Full Catalog.",
+      systemImage: showOnlySelected ? "line.3.horizontal.decrease.circle" : "magnifyingglass"
+    )
   }
 
-  private func sectionBlock(title: String, ingredients: [Ingredient]) -> some View {
-    let items = ingredients.compactMap { ingredient -> (id: Int64, ingredient: Ingredient)? in
-      guard let id = ingredient.id else { return nil }
-      return (id, ingredient)
-    }
-
-    return VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-      HStack {
+  private func modeButton(
+    title: String,
+    subtitle: String,
+    isActive: Bool,
+    action: @escaping () -> Void
+  ) -> some View {
+    Button(action: action) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
         Text(title)
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textPrimary)
+        Text(subtitle)
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .lineLimit(2)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(.horizontal, AppTheme.Space.sm)
+      .padding(.vertical, AppTheme.Space.sm)
+      .background(
+        isActive ? AppTheme.accent.opacity(0.14) : AppTheme.surface,
+        in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+      )
+      .overlay(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+          .stroke(isActive ? AppTheme.accent : AppTheme.oat.opacity(0.25), lineWidth: 1)
+      )
+      .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isActive)
+    }
+    .buttonStyle(.plain)
+  }
+
+  private func exampleChip(_ title: String) -> some View {
+    Text(title)
+      .font(AppTheme.Typography.labelSmall)
+      .foregroundStyle(AppTheme.textSecondary)
+      .padding(.horizontal, AppTheme.Space.sm)
+      .padding(.vertical, AppTheme.Space.xxs)
+      .background(
+        Capsule(style: .continuous)
+          .fill(AppTheme.surface)
+      )
+      .overlay(
+        Capsule(style: .continuous)
+          .stroke(AppTheme.oat.opacity(0.2), lineWidth: 1)
+      )
+  }
+
+  private func sectionBlock(_ section: AllergenCatalogSection) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+      HStack {
+        Text(section.title)
           .font(.system(.subheadline, design: .serif, weight: .semibold))
           .foregroundStyle(AppTheme.textPrimary)
         Spacer()
-        Text("\(items.count)")
+        Text("\(section.ingredients.count)")
           .font(AppTheme.Typography.bodySmall)
           .foregroundStyle(AppTheme.textSecondary)
       }
 
-      ForEach(items, id: \.id) { item in
-        allergenRow(item.ingredient, id: item.id)
+      ForEach(section.ingredients) { item in
+        allergenRow(item)
       }
     }
   }
 
-  private func allergenRow(_ ingredient: Ingredient, id: Int64) -> some View {
-    let selected = selectedIDs.contains(id)
+  private func allergenRow(_ item: AllergenIndexedIngredient) -> some View {
+    let selected = selectedIDs.contains(item.id)
 
     return Button {
-      if selected {
-        selectedIDs.remove(id)
-      } else {
-        selectedIDs.insert(id)
+      withAnimation(reduceMotion ? nil : AppMotion.chipReflow) {
+        if selected {
+          selectedIDs.remove(item.id)
+        } else {
+          selectedIDs.insert(item.id)
+        }
       }
     } label: {
       FLCard {
         HStack(spacing: AppTheme.Space.sm) {
           VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-            Text(ingredient.displayName)
+            Text(item.displayName)
               .font(.system(.subheadline, design: .serif, weight: .semibold))
               .foregroundStyle(AppTheme.textPrimary)
 
-            if let category = ingredient.categoryLabel, !category.isEmpty {
-              Text(category.replacingOccurrences(of: "_", with: " ").capitalized)
-                .font(AppTheme.Typography.labelSmall)
-                .foregroundStyle(AppTheme.textSecondary)
+            HStack(spacing: AppTheme.Space.xxs) {
+              if let category = item.ingredient.categoryLabel, !category.isEmpty {
+                Text(category.replacingOccurrences(of: "_", with: " ").capitalized)
+              }
+
+              if includeFullCatalog, item.group == nil {
+                Text("Not auto-matched")
+              }
             }
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
           }
 
           Spacer()
@@ -271,21 +312,10 @@ struct AllergenPickerView: View {
           Image(systemName: selected ? "checkmark.circle.fill" : "circle")
             .font(.title3)
             .foregroundStyle(selected ? AppTheme.positive : AppTheme.textSecondary)
+            .animation(reduceMotion ? nil : AppMotion.colorTransition, value: selected)
         }
       }
     }
     .buttonStyle(.plain)
-  }
-
-  private func toggleGroup(_ group: AllergenGroupDefinition) {
-    let ids = AllergenSupport.matchingIDs(for: group, in: ingredients)
-    guard !ids.isEmpty else { return }
-
-    let selectedCount = selectedIDs.intersection(ids).count
-    if selectedCount == ids.count {
-      selectedIDs.subtract(ids)
-    } else {
-      selectedIDs.formUnion(ids)
-    }
   }
 }

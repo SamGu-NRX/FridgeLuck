@@ -311,6 +311,9 @@ struct ContentView: View {
     switch mode {
     case .scanIngredients:
       openScan()
+    case .updateGroceries:
+      // TODO: Route to grocery/pantry management view
+      logger.info("Update Groceries selected — feature coming soon")
     case .logMeal:
       openReverseScan()
     }
@@ -486,6 +489,7 @@ struct ContentView: View {
           .font(AppTheme.Typography.labelSmall)
       }
       .foregroundStyle(isActive ? AppTheme.accent : AppTheme.textSecondary)
+      .animation(.default, value: isActive)
       .frame(maxWidth: .infinity)
       .contentShape(Rectangle())
     }

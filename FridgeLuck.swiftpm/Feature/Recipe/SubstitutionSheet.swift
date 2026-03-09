@@ -250,6 +250,7 @@ struct SubstitutionSheet: View {
       isDietaryMatch ? AppTheme.sage.opacity(0.12) : AppTheme.surfaceMuted,
       in: Capsule()
     )
+    .animation(.default, value: isDietaryMatch)
   }
 
   // MARK: - Nutrition Comparison

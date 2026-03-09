@@ -3,14 +3,16 @@ import UIKit
 
 // MARK: - Scan Mode
 
-/// The two scan entry points accessible from the camera orb.
+/// The three scan entry points accessible from the camera orb.
 enum ScanMode: String, CaseIterable {
   case scanIngredients
+  case updateGroceries
   case logMeal
 
   var label: String {
     switch self {
     case .scanIngredients: return "Scan Ingredients"
+    case .updateGroceries: return "Update Groceries"
     case .logMeal: return "Log a Meal"
     }
   }
@@ -18,54 +20,51 @@ enum ScanMode: String, CaseIterable {
   var icon: String {
     switch self {
     case .scanIngredients: return "camera.viewfinder"
-    case .logMeal: return "camera.macro"
+    case .updateGroceries: return "cart.fill"
+    case .logMeal: return "fork.knife"
     }
   }
 }
 
-// MARK: - Fan Arc Geometry Effect
+// MARK: - Fan Layout
 
-/// Translates a view along a quadratic Bezier arc as `progress` animates from 0 → 1.
+/// Computes the semi-circle positions for three option bubbles above the orb.
 ///
-/// At `progress = 0` the view is offset by `startOffset` (at the orb center).
-/// At `progress = 1` the offset is (0, 0) — the view sits at its natural `.position()`.
-/// The `controlOffset` shapes the arc curvature between start and end.
-///
-/// Because `progress` is the single `animatableData`, SwiftUI interpolates along the
-/// true curved path on every frame — no straight-line cheating.
-private struct FanArcEffect: GeometryEffect {
-  var progress: CGFloat
+/// Layout: center bubble at 12 o'clock (highest), side bubbles at roughly
+/// 10 and 2 o'clock — forming a gentle semi-circle.
+private struct FanLayout {
+  /// Distance from orb center to each bubble center.
+  let radius: CGFloat = 112
+  /// Angle from vertical axis for the two side bubbles (degrees).
+  let sideAngle: CGFloat = 58
 
-  let startOffset: CGPoint
-  let controlOffset: CGPoint
+  private var sideAngleRad: CGFloat { sideAngle * .pi / 180 }
 
-  var animatableData: CGFloat {
-    get { progress }
-    set { progress = newValue }
+  /// Offset from orb center to the CENTER bubble's final resting position.
+  var centerOffset: CGSize {
+    CGSize(width: 0, height: -radius)
   }
 
-  func effectValue(size: CGSize) -> ProjectionTransform {
-    let t = progress
-    let u = 1.0 - t
+  /// Offset from orb center to the LEFT bubble's final resting position.
+  var leftOffset: CGSize {
+    CGSize(
+      width: -radius * sin(sideAngleRad),
+      height: -radius * cos(sideAngleRad)
+    )
+  }
 
-    // Quadratic Bezier: P(t) = (1-t)²·P0 + 2(1-t)t·P1 + t²·P2
-    // P0 = startOffset (orb center), P1 = controlOffset, P2 = (0, 0)
-    let x = u * u * startOffset.x + 2.0 * u * t * controlOffset.x
-    let y = u * u * startOffset.y + 2.0 * u * t * controlOffset.y
-
-    return ProjectionTransform(CGAffineTransform(translationX: x, y: y))
+  /// Offset from orb center to the RIGHT bubble's final resting position.
+  var rightOffset: CGSize {
+    CGSize(
+      width: radius * sin(sideAngleRad),
+      height: -radius * cos(sideAngleRad)
+    )
   }
 }
 
 // MARK: - Scan Mode Menu
 
-/// Horizontal fan popup that emerges from the camera orb.
-///
-/// Each option sweeps outward along a curved arc path with layered
-/// timing: position (spring) → scale (tighter spring) → opacity (fast
-/// ease-out) → label (delayed slide-up). The second option is staggered
-/// by 55ms for a cascading wing-spread feel. Dismiss collapses everything
-/// simultaneously for responsiveness.
+/// Semi-circular fan menu that emerges from the camera orb.
 struct ScanModeMenu: View {
   @Binding var isPresented: Bool
   @Binding var highlightedMode: ScanMode?
@@ -75,59 +74,38 @@ struct ScanModeMenu: View {
 
   // MARK: - Animation State
 
-  /// Per-option arc progress (staggered entrance)
-  @State private var leftArcProgress: CGFloat = 0
-  @State private var rightArcProgress: CGFloat = 0
-
-  /// Shared visual layers
-  @State private var bubbleScale: CGFloat = 0.86
+  /// Horizontal spread progress: 0 = stacked at orb, 1 = at final X positions.
+  @State private var fanX: CGFloat = 0
+  /// Vertical movement progress: 0 = at orb, 1 = at final Y positions.
+  /// Overshoots above 1 (spring) then settles — the "starts higher, drops down" feel.
+  @State private var fanY: CGFloat = 0
+  /// Shared opacity for all bubbles (fast presence).
   @State private var bubbleOpacity: Double = 0
+  /// Shared scale for all bubbles (0.93 → 1.0).
+  @State private var bubbleScale: CGFloat = 0.93
+  /// Label text opacity (delayed reveal).
   @State private var labelOpacity: Double = 0
+  /// Label slide offset (6pt → 0, with opacity).
   @State private var labelSlide: CGFloat = 6
+  /// Backdrop dim.
   @State private var backdropOpacity: Double = 0
 
-  // MARK: - Layout Constants
+  // MARK: - Layout
 
-  /// Horizontal distance from orb center to each option's final position.
-  private let fanSpread: CGFloat = 92
-  /// Vertical lift above the orb center at rest.
-  private let fanLift: CGFloat = 28
-  /// Extra vertical lift at the arc's peak (controls how much the path curves upward).
-  private let arcPeak: CGFloat = 22
-  /// Diameter of each option circle.
-  private let optionSize: CGFloat = 72
-
-  // MARK: - Arc Parameters
-
-  /// Bezier offsets for the LEFT option (Scan Ingredients).
-  /// Start: at the orb center relative to the option's final position
-  /// (right and down from final pos). Control: halfway back, lifted above.
-  private var leftStartOffset: CGPoint {
-    CGPoint(x: fanSpread, y: fanLift)
-  }
-  private var leftControlOffset: CGPoint {
-    CGPoint(x: fanSpread * 0.52, y: -arcPeak)
-  }
-
-  /// Bezier offsets for the RIGHT option (Log a Meal) — mirror of left.
-  private var rightStartOffset: CGPoint {
-    CGPoint(x: -fanSpread, y: fanLift)
-  }
-  private var rightControlOffset: CGPoint {
-    CGPoint(x: -fanSpread * 0.52, y: -arcPeak)
-  }
+  private let layout = FanLayout()
+  private let optionSize: CGFloat = 64
+  private let backdropTargetOpacity: Double = 0.68
+  private let labelBackgroundOpacity: Double = 0.54
 
   // MARK: - Body
 
   var body: some View {
     ZStack {
-      // Dimmed backdrop
       Color.black.opacity(backdropOpacity)
         .ignoresSafeArea()
         .onTapGesture { dismissMenu() }
         .allowsHitTesting(isPresented)
 
-      // Fan options positioned relative to screen bottom center
       GeometryReader { geo in
         let centerX = geo.size.width / 2
         let orbCenterY =
@@ -135,35 +113,37 @@ struct ScanModeMenu: View {
           - AppTheme.Home.orbSize / 2
           - AppTheme.Home.navOrbLift
           - AppTheme.Home.navBaseOffset
-          + 6  // visual alignment nudge
+          + 6
 
-        // Left option: Scan Ingredients
         optionBubble(
           mode: .scanIngredients,
           isHighlighted: highlightedMode == .scanIngredients
         )
-        .modifier(
-          FanArcEffect(
-            progress: leftArcProgress,
-            startOffset: leftStartOffset,
-            controlOffset: leftControlOffset
-          )
+        .offset(fanOffset(for: layout.leftOffset))
+        .position(
+          x: centerX + layout.leftOffset.width,
+          y: orbCenterY + layout.leftOffset.height
         )
-        .position(x: centerX - fanSpread, y: orbCenterY - fanLift)
 
-        // Right option: Log a Meal
+        optionBubble(
+          mode: .updateGroceries,
+          isHighlighted: highlightedMode == .updateGroceries
+        )
+        .offset(fanOffset(for: layout.centerOffset))
+        .position(
+          x: centerX + layout.centerOffset.width,
+          y: orbCenterY + layout.centerOffset.height
+        )
+
         optionBubble(
           mode: .logMeal,
           isHighlighted: highlightedMode == .logMeal
         )
-        .modifier(
-          FanArcEffect(
-            progress: rightArcProgress,
-            startOffset: rightStartOffset,
-            controlOffset: rightControlOffset
-          )
+        .offset(fanOffset(for: layout.rightOffset))
+        .position(
+          x: centerX + layout.rightOffset.width,
+          y: orbCenterY + layout.rightOffset.height
         )
-        .position(x: centerX + fanSpread, y: orbCenterY - fanLift)
       }
       .allowsHitTesting(isPresented)
     }
@@ -181,6 +161,16 @@ struct ScanModeMenu: View {
     .accessibilityLabel("Scan mode menu")
   }
 
+  // MARK: - Fan Offset
+
+  /// Offset from bubble's final position toward orb center. At fanX=0,fanY=0 full offset; at 1,1 none.
+  private func fanOffset(for finalOffset: CGSize) -> CGSize {
+    CGSize(
+      width: -finalOffset.width * (1 - fanX),
+      height: -finalOffset.height * (1 - fanY)
+    )
+  }
+
   // MARK: - Option Bubble
 
   private func optionBubble(
@@ -191,7 +181,6 @@ struct ScanModeMenu: View {
       selectMode(mode)
     } label: {
       VStack(spacing: AppTheme.Space.xxs) {
-        // Icon circle
         ZStack {
           Circle()
             .fill(isHighlighted ? AppTheme.accent : AppTheme.surface)
@@ -215,18 +204,27 @@ struct ScanModeMenu: View {
             )
 
           Image(systemName: mode.icon)
-            .font(.system(size: 24, weight: .semibold))
+            .font(.system(size: 22, weight: .semibold))
             .foregroundStyle(isHighlighted ? .white : AppTheme.accent)
+            .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isHighlighted)
         }
 
-        // Label — independent fade + slide
         Text(mode.label)
           .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(
-            isHighlighted ? AppTheme.accent : AppTheme.textPrimary
-          )
+          .foregroundStyle(AppTheme.surface)
           .lineLimit(1)
           .fixedSize()
+          .padding(.horizontal, AppTheme.Space.xs)
+          .padding(.vertical, 6)
+          .background(
+            Capsule(style: .continuous)
+              .fill(Color.black.opacity(labelBackgroundOpacity))
+          )
+          .overlay(
+            Capsule(style: .continuous)
+              .stroke(.white.opacity(isHighlighted ? 0.22 : 0.12), lineWidth: 1)
+          )
+          .shadow(color: .black.opacity(0.22), radius: 8, x: 0, y: 3)
           .opacity(labelOpacity)
           .offset(y: labelSlide)
       }
@@ -245,43 +243,44 @@ struct ScanModeMenu: View {
 
   // MARK: - Animation Choreography
 
-  /// Layered entrance: backdrop → opacity/scale → arc (staggered) → labels
   private func revealMenu() {
-    // Layer 1: Backdrop dims
-    withAnimation(AppMotion.menuFade) {
-      backdropOpacity = 0.18
+    withAnimation(.easeOut(duration: 0.22)) {
+      backdropOpacity = backdropTargetOpacity
     }
 
-    // Layer 2: Bubbles fade in + scale up (quick — establishes presence)
-    withAnimation(AppMotion.menuFade) {
+    withAnimation(AppMotion.menuPresence) {
       bubbleOpacity = 1
     }
+
+    // Scale: spring up from 0.93 → 1.0
     withAnimation(AppMotion.menuScale) {
       bubbleScale = 1.0
     }
 
-    // Layer 3: Arc paths (spring, staggered per option)
-    withAnimation(AppMotion.menuArc) {
-      leftArcProgress = 1
-    }
-    withAnimation(AppMotion.menuArc.delay(AppMotion.menuStagger)) {
-      rightArcProgress = 1
+    // Horizontal spread: fast spring, completes first
+    withAnimation(AppMotion.menuExpandX) {
+      fanX = 1
     }
 
-    // Layer 4: Labels slide up + fade in (delayed — after icons settle)
-    withAnimation(AppMotion.menuLabel.delay(0.10)) {
+    // Vertical rise: slower spring with overshoot — rises above rest, settles down
+    withAnimation(AppMotion.menuSettleY) {
+      fanY = 1
+    }
+
+    // Labels: delayed fade-in + slide
+    withAnimation(AppMotion.menuLabel.delay(0.08)) {
       labelOpacity = 1
       labelSlide = 0
     }
   }
 
-  /// Fast simultaneous collapse — no stagger on exit for responsiveness.
+  /// Fast simultaneous collapse — all properties at once, no stagger.
   private func collapseMenu() {
     withAnimation(AppMotion.menuDismiss) {
-      leftArcProgress = 0
-      rightArcProgress = 0
-      bubbleScale = 0.86
+      fanX = 0
+      fanY = 0
       bubbleOpacity = 0
+      bubbleScale = 0.93
       labelOpacity = 0
       labelSlide = 6
       backdropOpacity = 0
@@ -291,13 +290,13 @@ struct ScanModeMenu: View {
 
   /// Accessibility: instant state change, no animation.
   private func applyInstant(visible: Bool) {
-    leftArcProgress = visible ? 1 : 0
-    rightArcProgress = visible ? 1 : 0
-    bubbleScale = visible ? 1 : 0.86
+    fanX = visible ? 1 : 0
+    fanY = visible ? 1 : 0
     bubbleOpacity = visible ? 1 : 0
+    bubbleScale = visible ? 1 : 0.93
     labelOpacity = visible ? 1 : 0
     labelSlide = visible ? 0 : 6
-    backdropOpacity = visible ? 0.18 : 0
+    backdropOpacity = visible ? backdropTargetOpacity : 0
     if !visible { highlightedMode = nil }
   }
 
@@ -340,17 +339,25 @@ private struct ScanModeOptionButtonStyle: ButtonStyle {
 /// Static helpers for updating highlight state from drag gestures.
 enum ScanModeMenuGesture {
 
-  /// Determine which mode (if any) is highlighted based on horizontal drag.
+  /// Determine which mode (if any) is highlighted based on drag translation.
   static func highlightedMode(
     for translation: CGSize
   ) -> ScanMode? {
-    let threshold: CGFloat = 30
+    let horizontalThreshold: CGFloat = 30
+    let verticalThreshold: CGFloat = 20
 
-    if translation.width < -threshold {
+    if translation.width < -horizontalThreshold {
       return .scanIngredients
-    } else if translation.width > threshold {
+    } else if translation.width > horizontalThreshold {
       return .logMeal
     }
+
+    if translation.height < -verticalThreshold
+      && abs(translation.width) < horizontalThreshold
+    {
+      return .updateGroceries
+    }
+
     return nil
   }
 }

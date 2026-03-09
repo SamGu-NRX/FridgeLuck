@@ -242,58 +242,62 @@ struct HomeFridgeLuckPanelsSection: View {
   let snapshot: HomeDashboardSnapshot
 
   var body: some View {
-    ZStack(alignment: .topLeading) {
-      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        Text("Your Fridge")
-          .font(AppTheme.Typography.displayCaption)
-          .foregroundStyle(AppTheme.textPrimary)
+    GeometryReader { geo in
+      let width = geo.size.width
 
-        Text("\(snapshot.ingredientCount)")
-          .font(AppTheme.Typography.displayLarge)
-          .foregroundStyle(AppTheme.sage)
-        Text("ingredients scanned")
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary)
+      ZStack(alignment: .topLeading) {
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          Text("Your Fridge")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(AppTheme.textPrimary)
+
+          Text("\(snapshot.ingredientCount)")
+            .font(AppTheme.Typography.displayLarge)
+            .foregroundStyle(AppTheme.sage)
+          Text("ingredients scanned")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(AppTheme.Space.lg)
+        .background(
+          AppTheme.sageLight.opacity(0.18),
+          in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+            .stroke(AppTheme.sage.opacity(0.20), lineWidth: 1)
+        )
+        .rotationEffect(.degrees(-1.2), anchor: .bottomLeading)
+        .frame(width: width * 0.58)
+
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          Text("Your Luck")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(.white)
+
+          Text("\(snapshot.recipeCount)")
+            .font(AppTheme.Typography.displayLarge)
+            .foregroundStyle(AppTheme.accentLight)
+          Text("recipes possible")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(.white.opacity(0.7))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(AppTheme.Space.lg)
+        .background(
+          AppTheme.deepOlive,
+          in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+            .stroke(AppTheme.homePanelStroke, lineWidth: 1)
+        )
+        .shadow(color: AppTheme.Shadow.colorDeep, radius: 12, x: 0, y: 6)
+        .rotationEffect(.degrees(1.5), anchor: .topTrailing)
+        .frame(width: width * 0.52)
+        .offset(x: width * 0.32, y: 50)
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(AppTheme.Space.lg)
-      .background(
-        AppTheme.sageLight.opacity(0.18),
-        in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-      )
-      .overlay(
-        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-          .stroke(AppTheme.sage.opacity(0.20), lineWidth: 1)
-      )
-      .rotationEffect(.degrees(-1.2), anchor: .bottomLeading)
-      .frame(width: UIScreen.main.bounds.width * 0.58)
-
-      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        Text("Your Luck")
-          .font(AppTheme.Typography.displayCaption)
-          .foregroundStyle(.white)
-
-        Text("\(snapshot.recipeCount)")
-          .font(AppTheme.Typography.displayLarge)
-          .foregroundStyle(AppTheme.accentLight)
-        Text("recipes possible")
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(.white.opacity(0.7))
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(AppTheme.Space.lg)
-      .background(
-        AppTheme.deepOlive,
-        in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-      )
-      .overlay(
-        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-          .stroke(AppTheme.homePanelStroke, lineWidth: 1)
-      )
-      .shadow(color: AppTheme.Shadow.colorDeep, radius: 12, x: 0, y: 6)
-      .rotationEffect(.degrees(1.5), anchor: .topTrailing)
-      .frame(width: UIScreen.main.bounds.width * 0.52)
-      .offset(x: UIScreen.main.bounds.width * 0.32, y: 50)
     }
     .frame(height: 190)
   }
