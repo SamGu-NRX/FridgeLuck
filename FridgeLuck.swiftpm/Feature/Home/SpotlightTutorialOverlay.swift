@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // MARK: - Step Model
 
@@ -313,27 +314,28 @@ struct SpotlightTutorialOverlay: View {
     let y = tooltipY(in: geo, screenHeight: screenHeight(for: geo))
 
     return VStack(spacing: AppTheme.Space.md) {
-      Image(systemName: step.icon)
-        .contentTransition(.symbolEffect(.replace))
-        .font(.system(size: 26, weight: .semibold))
-        .foregroundStyle(.white)
-        .frame(width: 52, height: 52)
-        .background(AppTheme.accent.opacity(0.85), in: Circle())
-
-      VStack(spacing: AppTheme.Space.xs) {
-        Text(step.title)
-          .font(AppTheme.Typography.displaySmall)
+      VStack(spacing: AppTheme.Space.md) {
+        Image(systemName: step.icon)
+          .font(.system(size: 26, weight: .semibold))
           .foregroundStyle(.white)
-          .multilineTextAlignment(.center)
-          .contentTransition(.numericText())
+          .frame(width: 52, height: 52)
+          .background(AppTheme.accent.opacity(0.85), in: Circle())
 
-        Text(step.message)
-          .font(AppTheme.Typography.bodyMedium)
-          .foregroundStyle(.white.opacity(0.76))
-          .multilineTextAlignment(.center)
-          .fixedSize(horizontal: false, vertical: true)
-          .contentTransition(.numericText())
+        VStack(spacing: AppTheme.Space.xs) {
+          Text(step.title)
+            .font(AppTheme.Typography.displaySmall)
+            .foregroundStyle(.white)
+            .multilineTextAlignment(.center)
+
+          Text(step.message)
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(.white.opacity(0.76))
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+        }
       }
+      .id(stepIndex)
+      .transition(.blurReplace)
 
       HStack {
         stepIndicator
@@ -544,7 +546,15 @@ struct SpotlightTutorialOverlay: View {
 
   private func screenHeight(for geo: GeometryProxy) -> CGFloat {
     let overlayTop = geo.frame(in: .global).minY
-    return max(geo.size.height, UIScreen.main.bounds.height - overlayTop)
+    let sceneScreenHeight =
+      UIApplication.shared.connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .first(where: { $0.activationState == .foregroundActive })?
+      .screen
+      .bounds.height
+      ?? geo.size.height
+
+    return max(geo.size.height, sceneScreenHeight - overlayTop)
   }
 
   // MARK: - Actions

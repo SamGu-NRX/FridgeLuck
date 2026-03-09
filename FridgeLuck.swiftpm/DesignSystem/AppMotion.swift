@@ -21,17 +21,35 @@ enum AppMotion {
   static let sectionReveal: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.28)
   static let confettiDuration: Double = 2.8
 
-  // Scan-mode popup menu — layered choreography
-  /// Arc path: slightly underdamped spring for organic overshoot
-  static let menuArc: Animation = .spring(response: 0.52, dampingFraction: 0.74)
-  /// Bubble scale: tighter spring, no bobble
-  static let menuScale: Animation = .spring(response: 0.42, dampingFraction: 0.82)
-  /// Bubble opacity: fast ease-out to establish presence
-  static let menuFade: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 0.16)
-  /// Label text: delayed reveal with slide
+  // Scan-mode fan menu — independent X/Y springs
+  /// Horizontal spread: fast, minimal overshoot — layout establishes quickly
+  static let menuExpandX: Animation = .spring(response: 0.32, dampingFraction: 0.84)
+  /// Vertical settle: slower, meaningful overshoot — rises above rest, drifts down
+  static let menuSettleY: Animation = .spring(response: 0.48, dampingFraction: 0.72)
+  /// Quick presence: fast ease-out for opacity + backdrop
+  static let menuPresence: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 0.12)
+  /// Bubble scale: medium spring, no bobble
+  static let menuScale: Animation = .spring(response: 0.35, dampingFraction: 0.80)
+  /// Label text: delayed reveal with upward slide
   static let menuLabel: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.14)
-  /// Fast collapse on dismiss — no stagger, all at once
-  static let menuDismiss: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 0.20)
-  /// Cascade delay between left and right options
-  static let menuStagger: Double = 0.055
+  /// Fast simultaneous collapse on dismiss
+  static let menuDismiss: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 0.18)
+
+  // Onboarding — step-by-step flow
+  /// Ruler drag: responsive spring for continuous tracking
+  static let rulerDrag: Animation = .spring(response: 0.18, dampingFraction: 0.92)
+  /// Ruler snap: bouncy spring on release to nearest tick
+  static let rulerSnap: Animation = .spring(response: 0.32, dampingFraction: 0.72)
+  /// Selection card press scale
+  static let selectionPress: Animation = .spring(response: 0.24, dampingFraction: 0.80)
+  /// Chip toggle: quick pop
+  static let chipToggle: Animation = .spring(response: 0.22, dampingFraction: 0.76)
+  /// Chip reflow: use ease-in-out for neighboring pills shifting on-screen
+  static let chipReflow: Animation = .timingCurve(0.645, 0.045, 0.355, 1.0, duration: 0.22)
+  /// Progress bar width change
+  static let progressBar: Animation = .spring(response: 0.40, dampingFraction: 0.84)
+
+  // Color transitions — selection states, toggles, status changes
+  /// 150ms ease (asymmetrical — faster start, smooth settle)
+  static let colorTransition: Animation = .timingCurve(0.25, 0.1, 0.25, 1.0, duration: 0.15)
 }

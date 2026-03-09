@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Health onboarding and profile editor.
+/// Health onboarding — 7-step flow.
 struct OnboardingView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
@@ -9,15 +9,15 @@ struct OnboardingView: View {
   let isRequired: Bool
   let onComplete: () -> Void
 
+  // MARK: - State
+
   @State private var displayName = ""
-  @State private var ageInput = ""
+  @State private var age: Int = 25
   @State private var goal: HealthGoal = .general
   @State private var dailyCalories: Int = HealthGoal.general.suggestedCalories
-  @State private var selectedRestrictions: Set<String> = []
+  @State private var selectedDiet: String = "classic"
   @State private var selectedAllergens: Set<Int64> = []
-  @State private var allIngredients: [Ingredient] = []
-  @State private var ingredientByID: [Int64: Ingredient] = [:]
-  @State private var allergenGroupMatchesByID: [String: Set<Int64>] = [:]
+  @State private var allergenCatalog: AllergenCatalogIndex = .empty
 
   @State private var stepIndex = 0
   @State private var stepDirection: StepDirection = .forward
@@ -25,37 +25,21 @@ struct OnboardingView: View {
   @State private var isLoaded = false
   @State private var isSaving = false
   @State private var errorMessage: String?
-  @State private var identityValidationMessage: String?
+  @State private var validationMessage: String?
   @State private var showAllergenPicker = false
 
-  private let restrictionOptions: [OnboardingRestrictionOption] = [
-    .init(id: "vegetarian", title: "Vegetarian", icon: "leaf"),
-    .init(id: "vegan", title: "Vegan", icon: "leaf.circle"),
-    .init(id: "gluten_free", title: "Gluten Free", icon: "takeoutbag.and.cup.and.straw"),
-    .init(id: "dairy_free", title: "Dairy Free", icon: "drop"),
-    .init(id: "low_carb", title: "Low Carb", icon: "bolt"),
-  ]
+  @FocusState private var isNameFocused: Bool
+
+  // MARK: - Step Definition
 
   private enum Step: Int, CaseIterable {
-    case goals
+    case name
+    case welcome
+    case age
+    case goal
+    case calories
     case restrictions
     case allergens
-
-    var title: String {
-      switch self {
-      case .goals: return "Set Your Goal"
-      case .restrictions: return "Diet Preferences"
-      case .allergens: return "Allergen Safety"
-      }
-    }
-
-    var subtitle: String {
-      switch self {
-      case .goals: return "Personalize calories and nutrition direction."
-      case .restrictions: return "Filter recipes to match how you like to eat."
-      case .allergens: return "Prioritize common allergens first, then refine."
-      }
-    }
   }
 
   private enum StepDirection {
@@ -63,96 +47,163 @@ struct OnboardingView: View {
     case backward
   }
 
+  private let dietOptions: [DietOption] = [
+    .init(id: "classic", title: "Classic", subtitle: "No dietary restrictions", icon: .dietClassic),
+    .init(
+      id: "pescatarian", title: "Pescatarian", subtitle: "No meat, includes fish",
+      icon: .dietPescatarian),
+    .init(
+      id: "vegetarian", title: "Vegetarian", subtitle: "No meat or fish", icon: .dietVegetarian),
+    .init(id: "vegan", title: "Vegan", subtitle: "No animal products", icon: .dietVegan),
+    .init(id: "keto", title: "Keto", subtitle: "Very low carb, high fat", icon: .dietKeto),
+  ]
+
   private var currentStep: Step {
-    Step(rawValue: stepIndex) ?? .goals
+    Step(rawValue: stepIndex) ?? .name
   }
 
   private var totalSteps: Int {
     Step.allCases.count
   }
 
-  private var selectedAllergenIngredients: [Ingredient] {
-    selectedAllergens
-      .compactMap { ingredientByID[$0] }
-      .sorted { lhs, rhs in
-        lhs.displayName.localizedCaseInsensitiveCompare(rhs.displayName) == .orderedAscending
-      }
+  private var progress: Double {
+    Double(stepIndex + 1) / Double(totalSteps)
   }
 
+  private var selectedAllergenIngredients: [Ingredient] {
+    allergenCatalog.selectedIngredients(from: selectedAllergens)
+  }
+
+  private var normalizedName: String {
+    displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
+
+  // MARK: - Body
+
   var body: some View {
-    NavigationStack {
-      VStack(spacing: 0) {
-        header
-        stepContentContainer
+    VStack(spacing: 0) {
+      topBar
+      stepContentContainer
+    }
+    .safeAreaInset(edge: .bottom, spacing: 0) {
+      footer
+    }
+    .flPageBackground()
+    .alert(
+      "Unable to Save",
+      isPresented: Binding(
+        get: { errorMessage != nil },
+        set: { show in if !show { errorMessage = nil } }
+      )
+    ) {
+      Button("OK", role: .cancel) {}
+    } message: {
+      Text(errorMessage ?? "")
+    }
+    .sheet(isPresented: $showAllergenPicker) {
+      AllergenPickerView(
+        catalog: allergenCatalog,
+        selectedIDs: $selectedAllergens
+      )
+    }
+    .task {
+      guard !isLoaded else { return }
+      isLoaded = true
+      await loadProfile()
+    }
+    .onChange(of: goal) { oldGoal, newGoal in
+      if dailyCalories == oldGoal.suggestedCalories {
+        dailyCalories = newGoal.suggestedCalories
       }
-      .safeAreaInset(edge: .bottom, spacing: 0) {
-        footer
-      }
-      .flPageBackground()
-      .navigationTitle(isRequired ? "Onboarding" : "Health Profile")
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        if !isRequired {
-          ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") { dismiss() }
-          }
-        }
-      }
-      .alert(
-        "Unable to Save",
-        isPresented: Binding(
-          get: { errorMessage != nil },
-          set: { show in if !show { errorMessage = nil } }
-        )
-      ) {
-        Button("OK", role: .cancel) {}
-      } message: {
-        Text(errorMessage ?? "")
-      }
-      .sheet(isPresented: $showAllergenPicker) {
-        AllergenPickerView(
-          ingredients: allIngredients,
-          selectedIDs: $selectedAllergens
-        )
-      }
-      .task {
-        guard !isLoaded else { return }
-        isLoaded = true
-        await loadProfile()
-      }
-      .onChange(of: goal) { oldGoal, newGoal in
-        if dailyCalories == oldGoal.suggestedCalories {
-          dailyCalories = newGoal.suggestedCalories
-        }
-      }
-      .onChange(of: displayName) { _, _ in
-        if identityValidationMessage != nil {
-          identityValidationMessage = nil
-        }
-      }
-      .onChange(of: ageInput) { _, newValue in
-        let filtered = newValue.filter(\.isNumber)
-        let clamped = String(filtered.prefix(3))
-        if clamped != newValue {
-          ageInput = clamped
-        }
-        if identityValidationMessage != nil {
-          identityValidationMessage = nil
-        }
+    }
+    .onChange(of: displayName) { _, _ in
+      if validationMessage != nil {
+        validationMessage = nil
       }
     }
   }
+
+  // MARK: - Top Bar
+
+  private var topBar: some View {
+    VStack(spacing: AppTheme.Space.sm) {
+      HStack {
+        if stepIndex > 0 {
+          OnboardingBackButton {
+            goBack()
+          }
+          .transition(.opacity)
+        } else {
+          Color.clear.frame(width: 40, height: 40)
+        }
+
+        Spacer()
+
+        Text("Step \(stepIndex + 1) of \(totalSteps)")
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(AppTheme.textSecondary)
+
+        Spacer()
+
+        if !isRequired {
+          Button {
+            dismiss()
+          } label: {
+            Image(systemName: "xmark")
+              .font(.system(size: 14, weight: .semibold))
+              .foregroundStyle(AppTheme.textSecondary)
+              .frame(width: 40, height: 40)
+          }
+          .buttonStyle(.plain)
+        } else {
+          Color.clear.frame(width: 40, height: 40)
+        }
+      }
+      .padding(.horizontal, AppTheme.Space.sm)
+      .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: stepIndex)
+
+      OnboardingProgressBar(
+        progress: progress,
+        reduceMotion: reduceMotion
+      )
+    }
+    .padding(.top, AppTheme.Space.xs)
+  }
+
+  // MARK: - Step Content
 
   private var stepContentContainer: some View {
     ZStack {
       Group {
         switch currentStep {
-        case .goals:
-          goalStep
+        case .name:
+          OnboardingNameStep(
+            displayName: $displayName,
+            isNameFocused: $isNameFocused,
+            validationMessage: validationMessage
+          )
+        case .welcome:
+          OnboardingWelcomeStep(displayName: normalizedName)
+        case .age:
+          OnboardingAgeStep(age: $age, reduceMotion: reduceMotion)
+        case .goal:
+          OnboardingGoalStep(goal: $goal)
+        case .calories:
+          OnboardingCalorieStep(dailyCalories: $dailyCalories, goal: goal)
         case .restrictions:
-          restrictionStep
+          OnboardingDietStep(
+            options: dietOptions,
+            selectedDiet: selectedDiet,
+            onSelect: selectDiet
+          )
         case .allergens:
-          allergenStep
+          OnboardingAllergenStep(
+            allergenGroupMatchesByID: allergenCatalog.groupMatchesByID,
+            selectedAllergens: selectedAllergens,
+            selectedAllergenIngredients: selectedAllergenIngredients,
+            onToggleGroup: toggleAllergenGroup,
+            onOpenPicker: { showAllergenPicker = true }
+          )
         }
       }
       .id(currentStep)
@@ -178,55 +229,14 @@ struct OnboardingView: View {
     }
   }
 
-  private var header: some View {
-    OnboardingStepHeader(
-      stepIndex: stepIndex,
-      totalSteps: totalSteps,
-      title: currentStep.title,
-      subtitle: currentStep.subtitle,
-      isRequired: isRequired,
-      reduceMotion: reduceMotion
-    )
-  }
-
-  private var goalStep: some View {
-    OnboardingGoalStepSection(
-      displayName: $displayName,
-      ageInput: $ageInput,
-      goal: $goal,
-      dailyCalories: $dailyCalories,
-      identityValidationMessage: identityValidationMessage
-    )
-  }
-
-  private var restrictionStep: some View {
-    OnboardingRestrictionStepSection(
-      options: restrictionOptions,
-      selectedRestrictions: selectedRestrictions,
-      onToggle: toggleRestriction
-    )
-  }
-
-  private var allergenStep: some View {
-    OnboardingAllergenStepSection(
-      allergenGroupMatchesByID: allergenGroupMatchesByID,
-      selectedAllergens: selectedAllergens,
-      selectedAllergenIngredients: selectedAllergenIngredients,
-      onToggleGroup: toggleAllergenGroup,
-      onOpenPicker: { showAllergenPicker = true }
-    )
-  }
+  // MARK: - Footer
 
   private var footer: some View {
     OnboardingFooter(
-      stepIndex: stepIndex,
-      totalSteps: totalSteps,
       isSaving: isSaving,
       isTransitioning: isTransitioning,
-      reduceMotion: reduceMotion,
       primaryButtonTitle: primaryButtonTitle,
       primaryButtonIcon: primaryButtonIcon,
-      onBack: { setStep(max(0, stepIndex - 1), direction: .backward) },
       onPrimaryAction: handlePrimaryAction
     )
   }
@@ -245,37 +255,29 @@ struct OnboardingView: View {
     return "arrow.right"
   }
 
+  // MARK: - Navigation
+
   private func handlePrimaryAction() {
     guard !isTransitioning, !isSaving else { return }
 
+    if currentStep == .name {
+      guard validateName() else { return }
+    }
+
     if stepIndex < totalSteps - 1 {
-      if stepIndex == Step.goals.rawValue {
-        guard validatedIdentity() != nil else { return }
+      if currentStep == .name {
+        isNameFocused = false
       }
       setStep(stepIndex + 1, direction: .forward)
-      return
-    }
-    saveProfile()
-  }
-
-  private func toggleRestriction(_ id: String) {
-    if selectedRestrictions.contains(id) {
-      selectedRestrictions.remove(id)
     } else {
-      selectedRestrictions.insert(id)
+      saveProfile()
     }
   }
 
-  private func toggleAllergenGroup(_ group: AllergenGroupDefinition) {
-    let ids = allergenGroupMatchesByID[group.id] ?? []
-    guard !ids.isEmpty else { return }
-
-    let selectedCount = selectedAllergens.intersection(ids).count
-    if selectedCount == ids.count {
-      selectedAllergens.subtract(ids)
-    } else {
-      selectedAllergens.formUnion(ids)
-    }
+  private func goBack() {
+    guard stepIndex > 0, !isTransitioning, !isSaving else { return }
+    isNameFocused = false
+    setStep(stepIndex - 1, direction: .backward)
   }
 
   private func setStep(_ newValue: Int, direction: StepDirection) {
@@ -298,30 +300,58 @@ struct OnboardingView: View {
     Task { @MainActor in
       try? await Task.sleep(nanoseconds: lockDurationNanoseconds)
       isTransitioning = false
+
+      if Step(rawValue: clamped) == .name {
+        isNameFocused = true
+      }
     }
   }
+
+  // MARK: - Validation
+
+  private func validateName() -> Bool {
+    guard !normalizedName.isEmpty else {
+      validationMessage = "Please enter your name to continue."
+      return false
+    }
+    validationMessage = nil
+    return true
+  }
+
+  // MARK: - Toggles
+
+  private func selectDiet(_ id: String) {
+    withAnimation(reduceMotion ? nil : AppMotion.selectionPress) {
+      selectedDiet = id
+    }
+  }
+
+  private func toggleAllergenGroup(_ group: AllergenGroupDefinition) {
+    let ids = allergenCatalog.groupMatchesByID[group.id] ?? []
+    guard !ids.isEmpty else { return }
+
+    withAnimation(reduceMotion ? nil : AppMotion.chipReflow) {
+      let selectedCount = selectedAllergens.intersection(ids).count
+      if selectedCount == ids.count {
+        selectedAllergens.subtract(ids)
+      } else {
+        selectedAllergens.formUnion(ids)
+      }
+    }
+  }
+
+  // MARK: - Data Loading
 
   private func loadProfile() async {
     let ingredientRepository = deps.ingredientRepository
     let userDataRepository = deps.userDataRepository
 
-    let fetchedIngredients = await Task.detached(priority: .userInitiated) {
-      (try? ingredientRepository.fetchAll()) ?? []
+    let catalog = await Task.detached(priority: .userInitiated) {
+      let fetchedIngredients = (try? ingredientRepository.fetchAll()) ?? []
+      return AllergenSupport.buildCatalog(from: fetchedIngredients)
     }.value
 
-    let caches = await Task.detached(priority: .userInitiated) {
-      let ingredientsByID = Dictionary(
-        uniqueKeysWithValues: fetchedIngredients.compactMap { ingredient -> (Int64, Ingredient)? in
-          guard let id = ingredient.id else { return nil }
-          return (id, ingredient)
-        })
-      let matchesByGroup = AllergenSupport.groupMatchesByGroupID(in: fetchedIngredients)
-      return (ingredientsByID, matchesByGroup)
-    }.value
-
-    allIngredients = fetchedIngredients
-    ingredientByID = caches.0
-    allergenGroupMatchesByID = caches.1
+    allergenCatalog = catalog
 
     do {
       let profile: HealthProfile = try await Task.detached(priority: .userInitiated) {
@@ -329,25 +359,27 @@ struct OnboardingView: View {
       }.value
 
       displayName = profile.displayName
-      ageInput = profile.age.map(String.init) ?? ""
+      age = profile.age ?? 25
       goal = profile.goal
       dailyCalories = profile.dailyCalories ?? profile.goal.suggestedCalories
-      selectedRestrictions = Set(profile.parsedDietaryRestrictions)
+      selectedDiet = profile.selectedDietID ?? "classic"
       selectedAllergens = Set(profile.parsedAllergenIds)
     } catch {
       errorMessage = error.localizedDescription
     }
   }
 
+  // MARK: - Save
+
   private func saveProfile() {
     guard !isSaving else { return }
-    guard let identity = validatedIdentity() else { return }
+    guard validateName() else { return }
     isSaving = true
 
-    let selectedRestrictions = Array(self.selectedRestrictions).sorted()
+    let dietArray = selectedDiet == "classic" ? [String]() : [selectedDiet]
     let selectedAllergens = Array(self.selectedAllergens).sorted()
-    let selectedName = identity.displayName
-    let selectedAge = identity.age
+    let selectedName = normalizedName
+    let selectedAge = age
     let selectedGoal = goal
     let selectedCalories = dailyCalories
     let userDataRepository = deps.userDataRepository
@@ -356,7 +388,7 @@ struct OnboardingView: View {
       defer { isSaving = false }
 
       do {
-        let restrictionsJSON = try encodeJSON(selectedRestrictions)
+        let restrictionsJSON = try encodeJSON(dietArray)
         let allergensJSON = try encodeJSON(selectedAllergens)
         let split = selectedGoal.defaultMacroSplit
 
@@ -384,22 +416,6 @@ struct OnboardingView: View {
         errorMessage = error.localizedDescription
       }
     }
-  }
-
-  private func validatedIdentity() -> (displayName: String, age: Int)? {
-    let normalizedDisplayName = displayName.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !normalizedDisplayName.isEmpty else {
-      identityValidationMessage = "Please enter your name to continue."
-      return nil
-    }
-
-    guard let age = Int(ageInput), (13...100).contains(age) else {
-      identityValidationMessage = "Enter an age between 13 and 100."
-      return nil
-    }
-
-    identityValidationMessage = nil
-    return (normalizedDisplayName, age)
   }
 
   private func encodeJSON<T: Encodable>(_ value: T) throws -> String {
