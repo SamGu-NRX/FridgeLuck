@@ -7,6 +7,8 @@ import { ConfidenceService } from "./services/confidenceService.js";
 import { generateRecipe } from "./services/recipeService.js";
 import { rankReverseScanCandidates } from "./services/reverseScanService.js";
 import { attachLiveSessionGateway } from "./services/liveSessionGateway.js";
+import { InventoryLedger } from "./inventory/inventoryLedger.js";
+import { createWebhookRouter } from "./api/webhooks.js";
 import type {
   ConfidenceAssessRequest,
   ConfidenceOutcomeRequest,
@@ -17,12 +19,18 @@ import type {
 const config = loadConfig();
 const ai = createGenAIClient(config);
 const confidenceService = new ConfidenceService();
+const ledger = new InventoryLedger(config);
 
 const app = express();
 app.use(express.json({ limit: "12mb" }));
 
 app.get("/healthz", (_req: Request, res: Response) => {
-  res.json({ ok: true, model: config.liveModel, vertexAi: config.useVertexAi });
+  res.json({
+    ok: true,
+    model: config.liveModel,
+    vertexAi: config.useVertexAi,
+    inventoryCount: ledger.snapshot().length
+  });
 });
 
 app.post("/v1/recipes/generate", async (req: Request, res: Response) => {
@@ -88,17 +96,23 @@ app.get("/v1/confidence/snapshots", (_req: Request, res: Response) => {
   res.json({ snapshots: confidenceService.calibrationSnapshots() });
 });
 
+app.get("/v1/inventory", (_req: Request, res: Response) => {
+  res.json({ inventory: ledger.snapshot() });
+});
+
+app.use("/v1/webhooks", createWebhookRouter(ledger, config));
+
 const server = createServer(app);
 const wss = new WebSocketServer({ noServer: true });
-attachLiveSessionGateway(wss, ai, config);
+attachLiveSessionGateway(wss, ai, config, ledger, confidenceService);
 
-server.on("upgrade", (request, socket, head) => {
+server.on("upgrade", (request: any, socket: any, head: any) => {
   if (!request.url?.startsWith("/v1/live")) {
     socket.destroy();
     return;
   }
 
-  wss.handleUpgrade(request, socket, head, (ws) => {
+  wss.handleUpgrade(request, socket, head, (ws: any) => {
     wss.emit("connection", ws, request);
   });
 });
