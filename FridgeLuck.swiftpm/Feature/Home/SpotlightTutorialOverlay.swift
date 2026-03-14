@@ -19,7 +19,7 @@ extension SpotlightStep {
       icon: "sparkles",
       title: "Welcome to FridgeLuck",
       message:
-        "This guided tour walks you through the app. In a few quick steps, you\u{2019}ll set up your profile, explore pre-built demos, and unlock your personalized dashboard."
+        "This guided tour teaches the app itself. You already handled setup before entering \u{2014} now we\u{2019}ll show you where everything lives."
     ),
     SpotlightStep(
       id: "setup",
@@ -27,23 +27,23 @@ extension SpotlightStep {
       icon: "rectangle.stack",
       title: "Your Guided Tour",
       message:
-        "These 4 steps each teach a core feature. Complete them all to unlock your full dashboard \u{2014} or skip ahead any time."
+        "These 4 steps teach the core FridgeLuck flow: scan, review uncertain ingredients, cook, and explore more."
     ),
     SpotlightStep(
-      id: "personalize",
+      id: "scan_first",
       anchorID: "quest_0",
-      icon: "person.crop.circle.badge.checkmark",
-      title: "Set Up Your Profile",
+      icon: "camera.viewfinder",
+      title: "Start With Demo Mode",
       message:
-        "This is your onboarding \u{2014} tell me your goals, dietary needs, and allergens. I\u{2019}ll personalize every recipe to fit your life."
+        "Use the demo scenarios first. They make it easy to understand the full scan-to-recipe loop before you use your own kitchen."
     ),
     SpotlightStep(
-      id: "demos",
+      id: "review_step",
       anchorID: "quest_1",
-      icon: "play.rectangle.fill",
-      title: "Pre-built Demos",
+      icon: "checklist.checked",
+      title: "Accuracy Checkpoints",
       message:
-        "We\u{2019}ve pre-built demo scenarios so you can explore the full experience. Pick a pre-stocked fridge, cook a recipe, and see how it all works."
+        "FridgeLuck will ask for confirmation when confidence is lower. That review step is a feature, not a failure \u{2014} it keeps results trustworthy."
     ),
     SpotlightStep(
       id: "wrapup",
@@ -143,20 +143,20 @@ extension SpotlightStep {
 
   static let firstScanNudge: [SpotlightStep] = [
     SpotlightStep(
-      id: "nudge_profile_done",
+      id: "nudge_demo_ready",
       anchorID: "quest_0",
-      icon: "checkmark.circle.fill",
-      title: "Profile Done!",
+      icon: "play.circle.fill",
+      title: "Start With The Demo",
       message:
-        "Your recipes will now match your goals and dietary needs."
+        "Your setup is done. Use demo mode first so the scan, review, and recipe flow feels obvious."
     ),
     SpotlightStep(
-      id: "nudge_try_demo",
+      id: "nudge_review_ready",
       anchorID: "quest_1",
-      icon: "play.rectangle.fill",
-      title: "Try Demo Mode",
+      icon: "checklist",
+      title: "Then Practice Review",
       message:
-        "Tap here to explore a pre-stocked fridge. You\u{2019}ll see the full scan-to-recipe flow \u{2014} nothing can go wrong."
+        "The next step teaches how FridgeLuck handles uncertain ingredients before recipe matching."
     ),
   ]
 

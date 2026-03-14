@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // MARK: - Shared Types
 
@@ -12,6 +13,339 @@ struct DietOption: Identifiable {
 private enum OnboardingTypography {
   static let sectionTitle = Font.system(.title, design: .serif, weight: .bold)
   static let welcomeTitle = Font.system(.largeTitle, design: .serif, weight: .bold)
+}
+
+struct OnboardingStorySlide: Identifiable {
+  enum Artwork {
+    case hero
+    case scanPantry
+    case pantryLoop
+    case leChef
+    case trust
+  }
+
+  let id: String
+  let eyebrow: String
+  let title: String
+  let body: String
+  let caption: String
+  let artwork: Artwork
+
+  static let defaultDeck: [OnboardingStorySlide] = [
+    .init(
+      id: "hero",
+      eyebrow: "Welcome",
+      title: "Turn what you have into meals you can trust.",
+      body:
+        "FridgeLuck helps you understand what is in your kitchen, decide what to cook, and stay confident that the suggestions fit your life.",
+      caption: "Simple enough for a first-time cook. Smart enough to keep up every day.",
+      artwork: .hero
+    ),
+    .init(
+      id: "scan",
+      eyebrow: "See Your Kitchen",
+      title: "Scan your fridge or pantry in seconds.",
+      body:
+        "Point your camera at what you already have and FridgeLuck turns the mess into ingredients you can actually cook with.",
+      caption: "No spreadsheets. No typing every item by hand.",
+      artwork: .scanPantry
+    ),
+    .init(
+      id: "pantry",
+      eyebrow: "Stay Updated",
+      title: "Keep a virtual pantry without the busywork.",
+      body:
+        "As your groceries change, FridgeLuck keeps your kitchen picture current so recipes keep matching what is really there.",
+      caption: "Less waste, fewer forgotten ingredients, faster decisions.",
+      artwork: .pantryLoop
+    ),
+    .init(
+      id: "lechef",
+      eyebrow: "Cook With Help",
+      title: "Get live kitchen help while you cook.",
+      body:
+        "Le Chef guides you in real time so the app feels more like a calm cooking partner than a static recipe page.",
+      caption: "Hands busy. Eyes on the pan. Guidance when you need it.",
+      artwork: .leChef
+    ),
+    .init(
+      id: "trust",
+      eyebrow: "Stay In Control",
+      title: "You make the final call.",
+      body:
+        "FridgeLuck takes accuracy seriously. It asks when something looks uncertain and gets better around your choices over time.",
+      caption: "Helpful AI, with human control where it matters.",
+      artwork: .trust
+    ),
+  ]
+}
+
+struct OnboardingStoryStep: View {
+  let slides: [OnboardingStorySlide]
+  @Binding var currentPage: Int
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  var body: some View {
+    VStack(spacing: 0) {
+      Spacer()
+        .frame(height: AppTheme.Space.sm)
+
+      TabView(selection: $currentPage) {
+        ForEach(Array(slides.enumerated()), id: \.element.id) { index, slide in
+          storyPage(slide)
+            .tag(index)
+            .padding(.horizontal, AppTheme.Space.page)
+            .padding(.bottom, AppTheme.Space.lg)
+        }
+      }
+      .tabViewStyle(.page(indexDisplayMode: .never))
+      .animation(reduceMotion ? nil : AppMotion.pageTurn, value: currentPage)
+
+      HStack(spacing: AppTheme.Space.xs) {
+        ForEach(Array(slides.indices), id: \.self) { index in
+          Capsule()
+            .fill(index == currentPage ? AppTheme.accent : AppTheme.oat.opacity(0.28))
+            .frame(width: index == currentPage ? 20 : 8, height: 8)
+            .animation(reduceMotion ? nil : AppMotion.quick, value: currentPage)
+        }
+      }
+      .padding(.bottom, AppTheme.Space.sm)
+    }
+  }
+
+  private func storyPage(_ slide: OnboardingStorySlide) -> some View {
+    VStack(spacing: AppTheme.Space.lg) {
+      OnboardingStoryArtworkCard(artwork: slide.artwork)
+        .frame(maxHeight: 360)
+
+      VStack(spacing: AppTheme.Space.sm) {
+        Text(slide.eyebrow)
+          .font(AppTheme.Typography.label)
+          .textCase(.uppercase)
+          .kerning(1.1)
+          .foregroundStyle(AppTheme.accent)
+
+        Text(slide.title)
+          .font(OnboardingTypography.welcomeTitle)
+          .foregroundStyle(AppTheme.textPrimary)
+          .multilineTextAlignment(.center)
+
+        Text(slide.body)
+          .font(AppTheme.Typography.bodyLarge)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
+          .fixedSize(horizontal: false, vertical: true)
+
+        Text(slide.caption)
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary.opacity(0.9))
+          .multilineTextAlignment(.center)
+          .padding(.top, AppTheme.Space.xxs)
+      }
+      .frame(maxWidth: 540)
+
+      Spacer(minLength: 0)
+    }
+  }
+}
+
+private struct OnboardingStoryArtworkCard: View {
+  let artwork: OnboardingStorySlide.Artwork
+
+  var body: some View {
+    ZStack {
+      RoundedRectangle(cornerRadius: AppTheme.Radius.xxl, style: .continuous)
+        .fill(
+          LinearGradient(
+            colors: [AppTheme.surface, AppTheme.bgDeep.opacity(0.65)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+          )
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.xxl, style: .continuous)
+            .stroke(AppTheme.oat.opacity(0.22), lineWidth: 1)
+        )
+        .shadow(color: AppTheme.Shadow.colorDeep, radius: 18, x: 0, y: 12)
+
+      switch artwork {
+      case .hero:
+        heroArtwork
+      case .scanPantry:
+        scenarioArtwork(
+          image: DemoScanService.loadScenarioImage(for: .asianStirFry),
+          label: "Snap your shelf",
+          accent: AppTheme.accent
+        )
+      case .pantryLoop:
+        scenarioArtwork(
+          image: DemoScanService.loadScenarioImage(for: .mediterraneanLunch),
+          label: "Keep your pantry current",
+          accent: AppTheme.sage
+        )
+      case .leChef:
+        leChefArtwork
+      case .trust:
+        trustArtwork
+      }
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.top, AppTheme.Space.md)
+  }
+
+  private var heroArtwork: some View {
+    VStack(spacing: AppTheme.Space.md) {
+      ZStack {
+        Circle()
+          .fill(
+            LinearGradient(
+              colors: [AppTheme.heroLight, AppTheme.accentLight],
+              startPoint: .topLeading,
+              endPoint: .bottomTrailing
+            )
+          )
+          .frame(width: 142, height: 142)
+          .blur(radius: 10)
+
+        if UIImage(named: "FridgeLuckLogo") != nil {
+          Image("FridgeLuckLogo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 92, height: 92)
+        } else {
+          Image(systemName: "refrigerator.fill")
+            .font(.system(size: 54, weight: .semibold))
+            .foregroundStyle(AppTheme.accent)
+        }
+      }
+
+      HStack(spacing: AppTheme.Space.sm) {
+        featurePill(icon: "camera.macro", text: "Scan")
+        featurePill(icon: "fork.knife", text: "Cook")
+        featurePill(icon: "heart.text.square", text: "Track")
+      }
+    }
+    .padding(AppTheme.Space.xl)
+  }
+
+  private func scenarioArtwork(image: UIImage?, label: String, accent: Color) -> some View {
+    VStack(spacing: AppTheme.Space.md) {
+      if let image {
+        Image(uiImage: image)
+          .resizable()
+          .scaledToFill()
+          .frame(height: 238)
+          .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous))
+          .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+              .stroke(.white.opacity(0.22), lineWidth: 1)
+          )
+      }
+
+      HStack(spacing: AppTheme.Space.xs) {
+        Image(systemName: "sparkles")
+          .foregroundStyle(accent)
+        Text(label)
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+      }
+    }
+    .padding(AppTheme.Space.lg)
+  }
+
+  private var leChefArtwork: some View {
+    HStack(spacing: AppTheme.Space.lg) {
+      RoundedRectangle(cornerRadius: 30, style: .continuous)
+        .fill(AppTheme.deepOlive)
+        .frame(width: 154, height: 276)
+        .overlay(
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+              .fill(AppTheme.accent.opacity(0.18))
+              .frame(height: 92)
+              .overlay(
+                VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+                  Text("Le Chef")
+                    .font(AppTheme.Typography.label)
+                    .foregroundStyle(.white.opacity(0.85))
+                  HStack(spacing: 4) {
+                    ForEach(0..<8, id: \.self) { index in
+                      Capsule()
+                        .fill(index.isMultiple(of: 2) ? AppTheme.accentLight : AppTheme.oat)
+                        .frame(width: 5, height: CGFloat(16 + (index % 3) * 9))
+                    }
+                  }
+                }
+                .padding(AppTheme.Space.md),
+                alignment: .bottomLeading
+              )
+
+            VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+              Text("1. Stir until glossy")
+              Text("2. Lower heat")
+              Text("3. Add basil now")
+            }
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(.white.opacity(0.82))
+
+            Spacer()
+          }
+          .padding(AppTheme.Space.md)
+        )
+
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        featurePill(icon: "waveform", text: "Voice guidance")
+        featurePill(icon: "eye.fill", text: "Sees your cooking")
+        featurePill(icon: "rectangle.bottomthird.inset.filled", text: "Live drawer")
+      }
+    }
+    .padding(AppTheme.Space.xl)
+  }
+
+  private var trustArtwork: some View {
+    VStack(spacing: AppTheme.Space.lg) {
+      VStack(spacing: AppTheme.Space.sm) {
+        trustRow(icon: "checkmark.seal.fill", title: "Confident picks", tint: AppTheme.sage)
+        trustRow(icon: "questionmark.circle.fill", title: "Ask when unsure", tint: AppTheme.oat)
+        trustRow(icon: "brain.head.profile", title: "Learns your choices", tint: AppTheme.accent)
+      }
+      .padding(AppTheme.Space.lg)
+      .background(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+          .fill(AppTheme.surface)
+      )
+    }
+    .padding(AppTheme.Space.xl)
+  }
+
+  private func trustRow(icon: String, title: String, tint: Color) -> some View {
+    HStack(spacing: AppTheme.Space.sm) {
+      Image(systemName: icon)
+        .font(.system(size: 18, weight: .semibold))
+        .foregroundStyle(tint)
+        .frame(width: 34, height: 34)
+        .background(tint.opacity(0.12), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+
+      Text(title)
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(AppTheme.textPrimary)
+
+      Spacer()
+    }
+  }
+
+  private func featurePill(icon: String, text: String) -> some View {
+    HStack(spacing: AppTheme.Space.xs) {
+      Image(systemName: icon)
+      Text(text)
+    }
+    .font(AppTheme.Typography.label)
+    .foregroundStyle(AppTheme.textPrimary)
+    .padding(.horizontal, AppTheme.Space.sm)
+    .padding(.vertical, AppTheme.Space.chipVertical)
+    .background(AppTheme.surface, in: Capsule())
+    .overlay(Capsule().stroke(AppTheme.oat.opacity(0.2), lineWidth: 1))
+  }
 }
 
 // MARK: - Progress Bar
@@ -792,17 +1126,303 @@ struct OnboardingAllergenStep: View {
   }
 }
 
-// MARK: - Onboarding Footer (Continue Button)
+// MARK: - Apple Health
+
+struct OnboardingAppleHealthValueStep: View {
+  var body: some View {
+    ScrollView {
+      VStack(spacing: AppTheme.Space.xl) {
+        Spacer()
+          .frame(height: AppTheme.Space.sm)
+
+        ZStack {
+          Circle()
+            .fill(AppTheme.accent.opacity(0.10))
+            .frame(width: 170, height: 170)
+
+          Image(systemName: "heart.text.square.fill")
+            .font(.system(size: 62, weight: .semibold))
+            .foregroundStyle(AppTheme.accent)
+        }
+
+        VStack(spacing: AppTheme.Space.sm) {
+          Text("Connect Apple Health")
+            .font(OnboardingTypography.sectionTitle)
+            .foregroundStyle(AppTheme.textPrimary)
+            .multilineTextAlignment(.center)
+
+          Text("Keep your nutrition history in one place without extra logging.")
+            .font(AppTheme.Typography.bodyLarge)
+            .foregroundStyle(AppTheme.textSecondary)
+            .multilineTextAlignment(.center)
+        }
+
+        VStack(spacing: AppTheme.Space.sm) {
+          healthBenefit(icon: "square.and.arrow.up.fill", title: "Save meals automatically")
+          healthBenefit(icon: "chart.bar.fill", title: "See your food story more clearly")
+          healthBenefit(
+            icon: "shield.lefthalf.filled", title: "You stay in control of what gets shared")
+        }
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.bottom, AppTheme.Space.xl)
+    }
+  }
+
+  private func healthBenefit(icon: String, title: String) -> some View {
+    HStack(spacing: AppTheme.Space.md) {
+      Image(systemName: icon)
+        .font(.system(size: 18, weight: .semibold))
+        .foregroundStyle(AppTheme.accent)
+        .frame(width: 42, height: 42)
+        .background(
+          AppTheme.accent.opacity(0.10), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+
+      Text(title)
+        .font(AppTheme.Typography.bodyMedium)
+        .foregroundStyle(AppTheme.textPrimary)
+
+      Spacer()
+    }
+    .padding(AppTheme.Space.md)
+    .background(
+      AppTheme.surface, in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+        .stroke(AppTheme.oat.opacity(0.22), lineWidth: 1)
+    )
+  }
+}
+
+struct OnboardingAppleHealthPermissionStep: View {
+  let status: AppPermissionStatus
+  let isRequestInFlight: Bool
+  let didChooseSkip: Bool
+
+  var body: some View {
+    VStack(spacing: 0) {
+      Spacer()
+        .frame(maxHeight: 80)
+
+      VStack(spacing: AppTheme.Space.xl) {
+        VStack(spacing: AppTheme.Space.sm) {
+          statusBadge
+
+          Text(title)
+            .font(OnboardingTypography.sectionTitle)
+            .foregroundStyle(AppTheme.textPrimary)
+            .multilineTextAlignment(.center)
+
+          Text(message)
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(AppTheme.textSecondary)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+
+        VStack(spacing: AppTheme.Space.sm) {
+          permissionNote("Writes the meals you log in FridgeLuck to Apple Health.")
+          permissionNote("Reads your nutrition totals so tracking starts connected from day one.")
+          permissionNote(
+            status == .denied
+              ? "Use Settings to turn access back on, then return here."
+              : "You can manage the connection later in Settings after setup."
+          )
+        }
+
+        if isRequestInFlight {
+          ProgressView()
+            .controlSize(.small)
+            .tint(AppTheme.accent)
+        }
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+
+      Spacer()
+    }
+  }
+
+  private var title: String {
+    switch status {
+    case .authorized:
+      return "Apple Health is connected."
+    case .unavailable:
+      return "Apple Health is not available here."
+    case .denied:
+      return "Apple Health can stay off for now."
+    default:
+      return "Connect Apple Health."
+    }
+  }
+
+  private var message: String {
+    switch status {
+    case .authorized:
+      return "FridgeLuck can now keep your meals in sync."
+    case .unavailable:
+      return "You can still use every core part of FridgeLuck without it."
+    case .denied:
+      return didChooseSkip
+        ? "You chose to skip this for now. You can still finish setup and connect later in Settings."
+        : "If you do not want to connect right now, skip this step and keep going."
+    default:
+      return
+        "Connect once so FridgeLuck can save your meal logs and read your daily nutrition totals automatically."
+    }
+  }
+
+  private var statusBadge: some View {
+    let label: String
+    let tint: Color
+
+    switch status {
+    case .authorized:
+      label = "Connected"
+      tint = AppTheme.sage
+    case .denied:
+      label = "Optional"
+      tint = AppTheme.oat
+    case .unavailable:
+      label = "Unavailable"
+      tint = AppTheme.textSecondary
+    default:
+      label = "Optional"
+      tint = AppTheme.accent
+    }
+
+    return Text(label)
+      .font(AppTheme.Typography.label)
+      .foregroundStyle(tint)
+      .padding(.horizontal, AppTheme.Space.sm)
+      .padding(.vertical, AppTheme.Space.chipVertical)
+      .background(tint.opacity(0.12), in: Capsule())
+  }
+
+  private func permissionNote(_ text: String) -> some View {
+    HStack(alignment: .top, spacing: AppTheme.Space.sm) {
+      Image(systemName: "checkmark")
+        .font(.system(size: 11, weight: .bold))
+        .foregroundStyle(AppTheme.accent)
+        .padding(.top, 4)
+
+      Text(text)
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(AppTheme.textSecondary)
+
+      Spacer()
+    }
+  }
+}
+
+struct OnboardingSetupBridgeStep: View {
+  let displayName: String
+  let goal: HealthGoal
+
+  var body: some View {
+    VStack(spacing: AppTheme.Space.xl) {
+      Spacer()
+
+      ProgressView()
+        .controlSize(.large)
+        .tint(AppTheme.accent)
+
+      VStack(spacing: AppTheme.Space.sm) {
+        Text("Building your FridgeLuck setup")
+          .font(OnboardingTypography.sectionTitle)
+          .foregroundStyle(AppTheme.textPrimary)
+          .multilineTextAlignment(.center)
+
+        Text(copy)
+          .font(AppTheme.Typography.bodyMedium)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+
+      Spacer()
+    }
+  }
+
+  private var copy: String {
+    let firstName = displayName.isEmpty ? "you" : displayName
+    switch goal {
+    case .general:
+      return "Pulling together everyday recommendations for \(firstName)."
+    case .weightLoss:
+      return "Shaping lighter, more goal-aware picks for \(firstName)."
+    case .muscleGain:
+      return "Setting up protein-forward recommendations for \(firstName)."
+    case .maintenance:
+      return "Balancing steady, repeatable meal picks for \(firstName)."
+    }
+  }
+}
+
+struct OnboardingHandoffStep: View {
+  let displayName: String
+
+  var body: some View {
+    VStack(spacing: 0) {
+      Spacer()
+        .frame(maxHeight: 70)
+
+      VStack(spacing: AppTheme.Space.xl) {
+        ZStack {
+          Circle()
+            .fill(AppTheme.sage.opacity(0.14))
+            .frame(width: 152, height: 152)
+
+          Image(systemName: "party.popper.fill")
+            .font(.system(size: 54, weight: .semibold))
+            .foregroundStyle(AppTheme.sage)
+        }
+
+        VStack(spacing: AppTheme.Space.sm) {
+          Text("You're ready, \(displayName.isEmpty ? "friend" : displayName).")
+            .font(OnboardingTypography.welcomeTitle)
+            .foregroundStyle(AppTheme.textPrimary)
+            .multilineTextAlignment(.center)
+
+          Text(
+            "Next, FridgeLuck will walk you through the app with a guided demo so everything feels familiar before your first real scan."
+          )
+          .font(AppTheme.Typography.bodyLarge)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
+        }
+        .padding(.horizontal, AppTheme.Space.page)
+      }
+
+      Spacer()
+    }
+  }
+}
+
+// MARK: - Onboarding Footer
 
 struct OnboardingFooter: View {
   let isSaving: Bool
   let isTransitioning: Bool
   let primaryButtonTitle: String
   let primaryButtonIcon: String
+  let secondaryButtonTitle: String?
+  let secondaryButtonIcon: String?
   let onPrimaryAction: () -> Void
+  let onSecondaryAction: (() -> Void)?
 
   var body: some View {
     VStack(spacing: AppTheme.Space.xs) {
+      if let secondaryButtonTitle, let onSecondaryAction {
+        FLSecondaryButton(
+          secondaryButtonTitle,
+          systemImage: secondaryButtonIcon,
+          isEnabled: !isSaving && !isTransitioning,
+          action: onSecondaryAction
+        )
+        .buttonRepeatBehavior(.disabled)
+      }
+
       FLPrimaryButton(
         primaryButtonTitle,
         systemImage: primaryButtonIcon,

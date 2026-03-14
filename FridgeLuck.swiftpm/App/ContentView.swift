@@ -37,6 +37,7 @@ enum AppTab: Sendable {
 struct ContentView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @Environment(FirstRunExperienceStore.self) private var firstRunExperienceStore
 
   @State private var selectedTab: AppTab = .home
   @State private var hasOnboarded = false
@@ -105,7 +106,7 @@ struct ContentView: View {
           deps: deps,
           onScan: openScan,
           onDemoMode: openDemoMode,
-          onCompleteProfile: openOnboarding,
+          onCompleteProfile: openProfileEditor,
           onExploreComplete: completeExploreQuest,
           onReset: performFullReset,
           spotlightCoordinator: spotlightCoordinator
@@ -198,8 +199,9 @@ struct ContentView: View {
     }
     .fullScreenCover(isPresented: $showOnboarding) {
       OnboardingView(isRequired: !hasOnboarded) {
+        firstRunExperienceStore.markCompletedCurrentVersion()
+        hasOnboarded = true
         showOnboarding = false
-        markTutorialQuest(.setupProfile)
         Task { await refreshOnboardingGate() }
       }
       .interactiveDismissDisabled(!hasOnboarded)
@@ -355,8 +357,12 @@ struct ContentView: View {
     markTutorialQuest(.exploreMore)
   }
 
-  private func openOnboarding() {
-    showOnboarding = true
+  private func openProfileEditor() {
+    guard hasOnboarded else {
+      showOnboarding = true
+      return
+    }
+    showProfile = true
   }
 
   private func openDashboardTab() {
@@ -376,7 +382,9 @@ struct ContentView: View {
       if !hasOnboarded {
         selectedTab = .home
         showProfile = false
-        showOnboarding = true
+        if !firstRunExperienceStore.hasCompletedCurrentVersion {
+          showOnboarding = true
+        }
       }
     } catch {
       logger.error("Failed to check onboarding status: \(error.localizedDescription)")
@@ -421,6 +429,7 @@ struct ContentView: View {
 
     hasOnboarded = false
     selectedTab = .home
+    firstRunExperienceStore.reset()
     showOnboarding = true
   }
 

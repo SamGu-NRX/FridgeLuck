@@ -76,7 +76,7 @@ struct HomeTutorialQuickStartHint: View {
         .foregroundStyle(AppTheme.oat)
 
       Text(
-        "Start with \u{201C}Set Up Your Kitchen\u{201D} \u{2014} it takes about 30 seconds to begin."
+        "Start with \u{201C}Your First Scan\u{201D} \u{2014} demo mode gives you a safe first run."
       )
       .font(AppTheme.Typography.bodySmall)
       .foregroundStyle(AppTheme.textSecondary)

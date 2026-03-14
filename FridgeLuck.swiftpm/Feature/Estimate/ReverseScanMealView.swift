@@ -893,6 +893,11 @@ struct ReverseScanMealView: View {
         sourceRefPrefix: "reverse_scan"
       )
 
+      await deps.mealLogSyncCoordinator.syncLoggedMeal(
+        recipeId: mealOutcome.recipeId,
+        servingsConsumed: servings
+      )
+
       if let analysis {
         let reward: Double
         if manuallyPickedRecipe != nil {

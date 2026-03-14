@@ -8,5 +8,9 @@
   <string>FridgeLuck uses your photo library so you can scan ingredient photos.</string>
   <key>NSMicrophoneUsageDescription</key>
   <string>FridgeLuck uses your microphone for live voice guidance and recipe assistance.</string>
+  <key>NSHealthShareUsageDescription</key>
+  <string>FridgeLuck reads your Apple Health nutrition totals so meal tracking stays connected from the start.</string>
+  <key>NSHealthUpdateUsageDescription</key>
+  <string>FridgeLuck saves the meals you log so your Apple Health nutrition history stays up to date.</string>
 </dict>
 </plist>
