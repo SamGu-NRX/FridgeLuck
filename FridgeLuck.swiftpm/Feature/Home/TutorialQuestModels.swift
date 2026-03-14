@@ -4,68 +4,76 @@ import SwiftUI
 
 /// Each quest represents a guided step that teaches a core feature.
 enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
-  case setupProfile = 0
-  case firstScan = 1
-  case cookAndRate = 2
-  case exploreMore = 3
+  case firstScan = 0
+  case ingredientReview = 1
+  case pickRecipeMatch = 2
+  case liveAgent = 3
+  case cookAndRate = 4
 
   var id: Int { rawValue }
 
   var title: String {
     switch self {
-    case .setupProfile: return "Set Up Your Kitchen"
     case .firstScan: return "Your First Scan"
+    case .ingredientReview: return "Review With Confidence"
+    case .pickRecipeMatch: return "Pick A Recipe Match"
+    case .liveAgent: return "Learn The Live Agent"
     case .cookAndRate: return "Cook & Rate"
-    case .exploreMore: return "Explore More"
     }
   }
 
   var subtitle: String {
     switch self {
-    case .setupProfile:
-      return "Share your nutrition goals and dietary needs."
     case .firstScan:
       return "Pick a pre-stocked fridge and explore recipes \u{2014} nothing can go wrong."
+    case .ingredientReview:
+      return "Learn how FridgeLuck asks for confirmation when accuracy needs your call."
+    case .pickRecipeMatch:
+      return "See the first confident recipe match, then return home for the next guided lesson."
+    case .liveAgent:
+      return "Launch the kitchen-side live guide and place your phone near the prep area."
     case .cookAndRate:
       return "Cook a demo recipe and rate it so I can learn your taste."
-    case .exploreMore:
-      return "Try new cuisines or snap a photo for nutrition info."
     }
   }
 
   var icon: String {
     switch self {
-    case .setupProfile: return "person.crop.circle.badge.checkmark"
     case .firstScan: return "camera.viewfinder"
+    case .ingredientReview: return "checklist.checked"
+    case .pickRecipeMatch: return "fork.knife.circle"
+    case .liveAgent: return "waveform.and.mic"
     case .cookAndRate: return "fork.knife.circle"
-    case .exploreMore: return "sparkle.magnifyingglass"
     }
   }
 
   var accentColor: Color {
     switch self {
-    case .setupProfile: return AppTheme.sage
     case .firstScan: return AppTheme.accent
+    case .ingredientReview: return AppTheme.sage
+    case .pickRecipeMatch: return AppTheme.dustyRose
+    case .liveAgent: return AppTheme.deepOlive
     case .cookAndRate: return AppTheme.oat
-    case .exploreMore: return AppTheme.dustyRose
     }
   }
 
   var ctaTitle: String {
     switch self {
-    case .setupProfile: return "Set Up Profile"
     case .firstScan: return "Try Demo Mode"
+    case .ingredientReview: return "Practice Review"
+    case .pickRecipeMatch: return "Find A Match"
+    case .liveAgent: return "Launch Live Guide"
     case .cookAndRate: return "Cook a Recipe"
-    case .exploreMore: return "Explore"
     }
   }
 
   var ctaIcon: String {
     switch self {
-    case .setupProfile: return "arrow.right"
     case .firstScan: return "camera.fill"
+    case .ingredientReview: return "checklist"
+    case .pickRecipeMatch: return "fork.knife"
+    case .liveAgent: return "waveform.circle.fill"
     case .cookAndRate: return "fork.knife"
-    case .exploreMore: return "sparkles"
     }
   }
 

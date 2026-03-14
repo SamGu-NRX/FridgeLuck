@@ -175,7 +175,6 @@ struct HomeDashboardView: View {
     }
 
     if !hasSeenFirstScanNudge,
-      tutorialProgress.isCompleted(.setupProfile),
       !tutorialProgress.isCompleted(.firstScan)
     {
       return anchorsReady(for: .firstScanNudge) ? .firstScanNudge : nil
@@ -252,9 +251,9 @@ struct HomeDashboardView: View {
 
   private func handleQuestAction(_ quest: TutorialQuest) {
     switch quest {
-    case .setupProfile:
-      onCompleteProfile()
     case .firstScan:
+      onDemoMode()
+    case .ingredientReview:
       onDemoMode()
     case .cookAndRate:
       onDemoMode()

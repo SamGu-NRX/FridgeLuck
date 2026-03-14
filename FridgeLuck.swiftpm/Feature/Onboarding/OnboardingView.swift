@@ -1,10 +1,12 @@
 import SwiftUI
 
-/// Health onboarding — 7-step flow.
+/// Health onboarding — narrative intro, profile setup, Apple Health, then app handoff.
 struct OnboardingView: View {
   @EnvironmentObject var deps: AppDependencies
+  @Environment(FirstRunExperienceStore.self) private var firstRunExperienceStore
   @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @Environment(\.scenePhase) private var scenePhase
 
   let isRequired: Bool
   let onComplete: () -> Void
@@ -20,6 +22,7 @@ struct OnboardingView: View {
   @State private var allergenCatalog: AllergenCatalogIndex = .empty
 
   @State private var stepIndex = 0
+  @State private var storyPageIndex = 0
   @State private var stepDirection: StepDirection = .forward
   @State private var isTransitioning = false
   @State private var isLoaded = false
@@ -27,12 +30,16 @@ struct OnboardingView: View {
   @State private var errorMessage: String?
   @State private var validationMessage: String?
   @State private var showAllergenPicker = false
+  @State private var appleHealthStatus: AppPermissionStatus = .notDetermined
+  @State private var appleHealthRequestInFlight = false
+  @State private var setupBridgeState: SetupBridgeState = .idle
 
   @FocusState private var isNameFocused: Bool
 
   // MARK: - Step Definition
 
   private enum Step: Int, CaseIterable {
+    case story
     case name
     case welcome
     case age
@@ -40,11 +47,21 @@ struct OnboardingView: View {
     case calories
     case restrictions
     case allergens
+    case healthValue
+    case healthPermission
+    case setupBridge
+    case handoff
   }
 
   private enum StepDirection {
     case forward
     case backward
+  }
+
+  private enum SetupBridgeState {
+    case idle
+    case running
+    case complete
   }
 
   private let dietOptions: [DietOption] = [
@@ -58,8 +75,10 @@ struct OnboardingView: View {
     .init(id: "keto", title: "Keto", subtitle: "Very low carb, high fat", icon: .dietKeto),
   ]
 
+  private let storySlides = OnboardingStorySlide.defaultDeck
+
   private var currentStep: Step {
-    Step(rawValue: stepIndex) ?? .name
+    Step(rawValue: stepIndex) ?? .story
   }
 
   private var totalSteps: Int {
@@ -78,6 +97,17 @@ struct OnboardingView: View {
     displayName.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
+  private var canGoBack: Bool {
+    switch currentStep {
+    case .story:
+      return storyPageIndex > 0
+    case .setupBridge:
+      return false
+    default:
+      return stepIndex > 0
+    }
+  }
+
   // MARK: - Body
 
   var body: some View {
@@ -90,7 +120,7 @@ struct OnboardingView: View {
     }
     .flPageBackground()
     .alert(
-      "Unable to Save",
+      "Unable to Continue",
       isPresented: Binding(
         get: { errorMessage != nil },
         set: { show in if !show { errorMessage = nil } }
@@ -111,6 +141,10 @@ struct OnboardingView: View {
       isLoaded = true
       await loadProfile()
     }
+    .task(id: stepIndex) {
+      guard currentStep == .setupBridge else { return }
+      await runSetupBridgeIfNeeded()
+    }
     .onChange(of: goal) { oldGoal, newGoal in
       if dailyCalories == oldGoal.suggestedCalories {
         dailyCalories = newGoal.suggestedCalories
@@ -121,6 +155,10 @@ struct OnboardingView: View {
         validationMessage = nil
       }
     }
+    .onChange(of: scenePhase) { _, newPhase in
+      guard newPhase == .active else { return }
+      refreshAppleHealthStatus()
+    }
   }
 
   // MARK: - Top Bar
@@ -128,7 +166,7 @@ struct OnboardingView: View {
   private var topBar: some View {
     VStack(spacing: AppTheme.Space.sm) {
       HStack {
-        if stepIndex > 0 {
+        if canGoBack {
           OnboardingBackButton {
             goBack()
           }
@@ -176,6 +214,11 @@ struct OnboardingView: View {
     ZStack {
       Group {
         switch currentStep {
+        case .story:
+          OnboardingStoryStep(
+            slides: storySlides,
+            currentPage: $storyPageIndex
+          )
         case .name:
           OnboardingNameStep(
             displayName: $displayName,
@@ -204,9 +247,24 @@ struct OnboardingView: View {
             onToggleGroup: toggleAllergenGroup,
             onOpenPicker: { showAllergenPicker = true }
           )
+        case .healthValue:
+          OnboardingAppleHealthValueStep()
+        case .healthPermission:
+          OnboardingAppleHealthPermissionStep(
+            status: appleHealthStatus,
+            isRequestInFlight: appleHealthRequestInFlight,
+            didChooseSkip: firstRunExperienceStore.appleHealthChoice == .skipped
+          )
+        case .setupBridge:
+          OnboardingSetupBridgeStep(
+            displayName: normalizedName,
+            goal: goal
+          )
+        case .handoff:
+          OnboardingHandoffStep(displayName: normalizedName)
         }
       }
-      .id(currentStep)
+      .id(currentStep.rawValue)
       .transition(stepTransition)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -231,51 +289,124 @@ struct OnboardingView: View {
 
   // MARK: - Footer
 
+  @ViewBuilder
   private var footer: some View {
-    OnboardingFooter(
-      isSaving: isSaving,
-      isTransitioning: isTransitioning,
-      primaryButtonTitle: primaryButtonTitle,
-      primaryButtonIcon: primaryButtonIcon,
-      onPrimaryAction: handlePrimaryAction
-    )
+    if currentStep == .setupBridge {
+      EmptyView()
+    } else {
+      OnboardingFooter(
+        isSaving: isSaving || appleHealthRequestInFlight,
+        isTransitioning: isTransitioning,
+        primaryButtonTitle: primaryButtonTitle,
+        primaryButtonIcon: primaryButtonIcon,
+        secondaryButtonTitle: secondaryButtonTitle,
+        secondaryButtonIcon: secondaryButtonIcon,
+        onPrimaryAction: handlePrimaryAction,
+        onSecondaryAction: handleSecondaryAction
+      )
+    }
   }
 
   private var primaryButtonTitle: String {
-    if stepIndex == totalSteps - 1 {
-      return isRequired ? "Finish Setup" : "Save Profile"
+    switch currentStep {
+    case .story:
+      return storyPageIndex == storySlides.count - 1 ? "Start Setup" : "Continue"
+    case .healthPermission:
+      switch appleHealthStatus {
+      case .authorized, .unavailable:
+        return "Continue"
+      case .denied:
+        return "Open Settings"
+      default:
+        return "Connect Apple Health"
+      }
+    case .handoff:
+      return "Start Guided Demo"
+    default:
+      return "Continue"
     }
-    return "Continue"
   }
 
   private var primaryButtonIcon: String {
-    if stepIndex == totalSteps - 1 {
-      return "checkmark.circle.fill"
+    switch currentStep {
+    case .healthPermission:
+      switch appleHealthStatus {
+      case .authorized:
+        return "checkmark.circle.fill"
+      case .unavailable:
+        return "arrow.right"
+      case .denied:
+        return "gearshape.fill"
+      default:
+        return "heart.text.square.fill"
+      }
+    case .handoff:
+      return "arrow.right.circle.fill"
+    case .story where storyPageIndex == storySlides.count - 1:
+      return "sparkles"
+    default:
+      return "arrow.right"
     }
-    return "arrow.right"
+  }
+
+  private var secondaryButtonTitle: String? {
+    guard currentStep == .healthPermission else { return nil }
+    guard appleHealthStatus != .authorized && appleHealthStatus != .unavailable else { return nil }
+    return "Skip for now"
+  }
+
+  private var secondaryButtonIcon: String? {
+    secondaryButtonTitle == nil ? nil : "arrow.uturn.right"
   }
 
   // MARK: - Navigation
 
   private func handlePrimaryAction() {
-    guard !isTransitioning, !isSaving else { return }
+    guard !isTransitioning, !isSaving, !appleHealthRequestInFlight else { return }
 
-    if currentStep == .name {
-      guard validateName() else { return }
-    }
-
-    if stepIndex < totalSteps - 1 {
-      if currentStep == .name {
-        isNameFocused = false
+    switch currentStep {
+    case .story:
+      if storyPageIndex < storySlides.count - 1 {
+        withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
+          storyPageIndex += 1
+        }
+      } else {
+        setStep(stepIndex + 1, direction: .forward)
       }
+
+    case .name:
+      guard validateName() else { return }
+      isNameFocused = false
       setStep(stepIndex + 1, direction: .forward)
-    } else {
-      saveProfile()
+
+    case .healthPermission:
+      handleAppleHealthPrimaryAction()
+
+    case .handoff:
+      completeFlow()
+
+    default:
+      setStep(stepIndex + 1, direction: .forward)
     }
   }
 
+  private func handleSecondaryAction() {
+    guard currentStep == .healthPermission else { return }
+    firstRunExperienceStore.appleHealthChoice = .skipped
+    setStep(stepIndex + 1, direction: .forward)
+  }
+
   private func goBack() {
-    guard stepIndex > 0, !isTransitioning, !isSaving else { return }
+    guard !isTransitioning, !isSaving, !appleHealthRequestInFlight else { return }
+
+    if currentStep == .story, storyPageIndex > 0 {
+      withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
+        storyPageIndex -= 1
+      }
+      return
+    }
+
+    guard stepIndex > 0 else { return }
     isNameFocused = false
     setStep(stepIndex - 1, direction: .backward)
   }
@@ -352,6 +483,7 @@ struct OnboardingView: View {
     }.value
 
     allergenCatalog = catalog
+    refreshAppleHealthStatus()
 
     do {
       let profile: HealthProfile = try await Task.detached(priority: .userInitiated) {
@@ -369,13 +501,80 @@ struct OnboardingView: View {
     }
   }
 
-  // MARK: - Save
+  // MARK: - Apple Health
 
-  private func saveProfile() {
-    guard !isSaving else { return }
+  private func refreshAppleHealthStatus() {
+    appleHealthStatus = deps.appleHealthService.authorizationStatus()
+    if appleHealthStatus == .authorized {
+      firstRunExperienceStore.appleHealthChoice = .connected
+    }
+  }
+
+  private func handleAppleHealthPrimaryAction() {
+    switch appleHealthStatus {
+    case .authorized, .unavailable:
+      setStep(stepIndex + 1, direction: .forward)
+    case .denied:
+      AppPermissionCenter.openAppSettings()
+    default:
+      requestAppleHealthAuthorization()
+    }
+  }
+
+  private func requestAppleHealthAuthorization() {
+    appleHealthRequestInFlight = true
+
+    Task { @MainActor in
+      defer { appleHealthRequestInFlight = false }
+
+      let result = await deps.appleHealthService.requestAuthorization()
+      appleHealthStatus = deps.appleHealthService.authorizationStatus()
+
+      switch result {
+      case .granted:
+        firstRunExperienceStore.appleHealthChoice = .connected
+        setStep(stepIndex + 1, direction: .forward)
+      case .limited:
+        firstRunExperienceStore.appleHealthChoice = .connected
+        setStep(stepIndex + 1, direction: .forward)
+      case .denied:
+        firstRunExperienceStore.appleHealthChoice = .unresolved
+      case .unavailable:
+        appleHealthStatus = .unavailable
+        firstRunExperienceStore.appleHealthChoice = .unresolved
+        setStep(stepIndex + 1, direction: .forward)
+      }
+    }
+  }
+
+  // MARK: - Setup Bridge
+
+  private func runSetupBridgeIfNeeded() async {
+    guard setupBridgeState == .idle else { return }
     guard validateName() else { return }
+
+    setupBridgeState = .running
     isSaving = true
 
+    let bridgeMinimumDelay: UInt64 = reduceMotion ? 250_000_000 : 1_050_000_000
+
+    do {
+      async let saveTask: Void = persistProfile()
+      async let minimumDelay: Void = Task.sleep(nanoseconds: bridgeMinimumDelay)
+      _ = try await saveTask
+      try await minimumDelay
+
+      isSaving = false
+      setupBridgeState = .complete
+      setStep(stepIndex + 1, direction: .forward)
+    } catch {
+      isSaving = false
+      setupBridgeState = .idle
+      errorMessage = error.localizedDescription
+    }
+  }
+
+  private func persistProfile() async throws {
     let dietArray = selectedDiet == "classic" ? [String]() : [selectedDiet]
     let selectedAllergens = Array(self.selectedAllergens).sorted()
     let selectedName = normalizedName
@@ -384,37 +583,33 @@ struct OnboardingView: View {
     let selectedCalories = dailyCalories
     let userDataRepository = deps.userDataRepository
 
-    Task { @MainActor in
-      defer { isSaving = false }
+    let restrictionsJSON = try encodeJSON(dietArray)
+    let allergensJSON = try encodeJSON(selectedAllergens)
+    let split = selectedGoal.defaultMacroSplit
 
-      do {
-        let restrictionsJSON = try encodeJSON(dietArray)
-        let allergensJSON = try encodeJSON(selectedAllergens)
-        let split = selectedGoal.defaultMacroSplit
+    let profile = HealthProfile(
+      displayName: selectedName,
+      age: selectedAge,
+      goal: selectedGoal,
+      dailyCalories: selectedCalories,
+      proteinPct: split.protein,
+      carbsPct: split.carbs,
+      fatPct: split.fat,
+      dietaryRestrictions: restrictionsJSON,
+      allergenIngredientIds: allergensJSON
+    )
 
-        let profile = HealthProfile(
-          displayName: selectedName,
-          age: selectedAge,
-          goal: selectedGoal,
-          dailyCalories: selectedCalories,
-          proteinPct: split.protein,
-          carbsPct: split.carbs,
-          fatPct: split.fat,
-          dietaryRestrictions: restrictionsJSON,
-          allergenIngredientIds: allergensJSON
-        )
+    try await Task.detached(priority: .userInitiated) {
+      try userDataRepository.saveHealthProfile(profile)
+    }.value
+  }
 
-        try await Task.detached(priority: .userInitiated) {
-          try userDataRepository.saveHealthProfile(profile)
-        }.value
+  // MARK: - Completion
 
-        onComplete()
-        if !isRequired {
-          dismiss()
-        }
-      } catch {
-        errorMessage = error.localizedDescription
-      }
+  private func completeFlow() {
+    onComplete()
+    if !isRequired {
+      dismiss()
     }
   }
 
