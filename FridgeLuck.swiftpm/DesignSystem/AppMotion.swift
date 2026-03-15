@@ -52,4 +52,22 @@ enum AppMotion {
   // Color transitions — selection states, toggles, status changes
   /// 150ms ease (asymmetrical — faster start, smooth settle)
   static let colorTransition: Animation = .timingCurve(0.25, 0.1, 0.25, 1.0, duration: 0.15)
+
+  // Onboarding — staggered entrance system
+  /// Each element in a step entrance uses this spring
+  static let staggerEntrance: Animation = .spring(response: 0.45, dampingFraction: 0.82)
+  /// Delay between successive staggered elements (seconds)
+  static let staggerInterval: Double = 0.06
+  /// Setup bridge ring fill animation
+  static let ringFill: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 1.2)
+  /// Welcome hero choreography — slower, more dramatic entrance
+  static let heroEntrance: Animation = .spring(response: 0.55, dampingFraction: 0.80)
+  /// Welcome hero pill float-in
+  static let heroPill: Animation = .spring(response: 0.50, dampingFraction: 0.75)
+  /// Feature bridge auto-advance delay (seconds)
+  static let bridgeAutoDuration: Double = 2.8
+  /// Confetti burst on personalWelcome / handoff
+  static let confettiBurst: Animation = .spring(response: 0.60, dampingFraction: 0.65)
+  /// Crossfade for rotating setup messages
+  static let messageCrossfade: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.35)
 }

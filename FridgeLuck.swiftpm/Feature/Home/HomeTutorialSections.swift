@@ -16,7 +16,7 @@ struct HomeTutorialWelcomeHeader: View {
         .foregroundStyle(AppTheme.textPrimary)
 
       Text(
-        "Welcome to your guided tour. A few quick steps to set up your profile and explore the app."
+        "Welcome to your guided tour. The steps unlock in order so the demo scan, review, recipe match, live guide, and cooking flow each make sense."
       )
       .font(AppTheme.Typography.bodyLarge)
       .foregroundStyle(AppTheme.textSecondary)

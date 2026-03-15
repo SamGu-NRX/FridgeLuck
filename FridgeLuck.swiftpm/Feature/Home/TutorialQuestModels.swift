@@ -27,9 +27,10 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
     case .firstScan:
       return "Pick a pre-stocked fridge and explore recipes \u{2014} nothing can go wrong."
     case .ingredientReview:
-      return "Learn how FridgeLuck asks for confirmation when accuracy needs your call."
+      return "Run the demo flow again and confirm any uncertain ingredients before recipes appear."
     case .pickRecipeMatch:
-      return "See the first confident recipe match, then return home for the next guided lesson."
+      return
+        "Finish the demo review, choose the best recipe match, and return Home for the live guide."
     case .liveAgent:
       return "Launch the kitchen-side live guide and place your phone near the prep area."
     case .cookAndRate:
@@ -60,8 +61,8 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   var ctaTitle: String {
     switch self {
     case .firstScan: return "Try Demo Mode"
-    case .ingredientReview: return "Practice Review"
-    case .pickRecipeMatch: return "Find A Match"
+    case .ingredientReview: return "Open Demo Review"
+    case .pickRecipeMatch: return "Finish Demo Match"
     case .liveAgent: return "Launch Live Guide"
     case .cookAndRate: return "Cook a Recipe"
     }
