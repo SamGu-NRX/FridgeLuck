@@ -1,0 +1,91 @@
+name: FridgeLuck
+
+options:
+  minimumXcodeGenVersion: "2.45.3"
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "26.0"
+
+packages:
+  GRDB:
+    url: https://github.com/groue/GRDB.swift.git
+    from: 7.10.0
+
+targets:
+  FLFeatureLogic:
+    type: framework
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: FridgeLuck.swiftpm/FeatureLogic
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        DEVELOPMENT_TEAM: DWGXWVUR2B
+        GENERATE_INFOPLIST_FILE: "YES"
+        IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+        MARKETING_VERSION: 1.0
+        PRODUCT_BUNDLE_IDENTIFIER: samgu.FridgeLuck.FLFeatureLogic
+        PRODUCT_NAME: FLFeatureLogic
+        SKIP_INSTALL: "YES"
+        SWIFT_VERSION: 6.0
+
+  FridgeLuck:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: FridgeLuck.swiftpm/App
+      - path: FridgeLuck.swiftpm/Capability
+      - path: FridgeLuck.swiftpm/DesignSystem
+      - path: FridgeLuck.swiftpm/Domain
+      - path: FridgeLuck.swiftpm/Feature
+      - path: FridgeLuck.swiftpm/Integration
+      - path: FridgeLuck.swiftpm/Platform
+      - path: FridgeLuck.swiftpm/Resources
+    dependencies:
+      - target: FLFeatureLogic
+      - package: GRDB
+        product: GRDB
+    info:
+      path: Xcode/FridgeLuck-Info.plist
+      properties:
+        CFBundleDisplayName: FridgeLuck
+        LSRequiresIPhoneOS: true
+        NSCameraUsageDescription: FridgeLuck uses the camera to scan ingredients and nutrition labels.
+        NSPhotoLibraryUsageDescription: FridgeLuck uses your photo library so you can scan ingredient photos.
+        NSMicrophoneUsageDescription: FridgeLuck uses your microphone for live voice guidance and recipe assistance.
+        NSHealthShareUsageDescription: FridgeLuck reads your Apple Health nutrition totals so meal tracking stays connected from the start.
+        NSHealthUpdateUsageDescription: FridgeLuck saves the meals you log so your Apple Health nutrition history stays up to date.
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    entitlements:
+      path: Xcode/FridgeLuck.entitlements
+      properties:
+        com.apple.developer.applesignin:
+          - Default
+        com.apple.developer.healthkit: true
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_ENTITLEMENTS: Xcode/FridgeLuck.entitlements
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        DEVELOPMENT_TEAM: DWGXWVUR2B
+        GENERATE_INFOPLIST_FILE: "NO"
+        IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+        MARKETING_VERSION: 1.0
+        PRODUCT_BUNDLE_IDENTIFIER: samgu.FridgeLuck
+        PRODUCT_NAME: FridgeLuck
+        SWIFT_VERSION: 6.0
+        TARGETED_DEVICE_FAMILY: "1,2"

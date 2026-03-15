@@ -27,7 +27,7 @@ extension SpotlightStep {
       icon: "rectangle.stack",
       title: "Your Guided Tour",
       message:
-        "These 4 steps teach the core FridgeLuck flow: scan, review uncertain ingredients, cook, and explore more."
+        "These 5 steps unlock one at a time: start with a demo scan, review uncertain ingredients, choose a recipe match, learn the live guide, then cook."
     ),
     SpotlightStep(
       id: "scan_first",
@@ -38,20 +38,12 @@ extension SpotlightStep {
         "Use the demo scenarios first. They make it easy to understand the full scan-to-recipe loop before you use your own kitchen."
     ),
     SpotlightStep(
-      id: "review_step",
-      anchorID: "quest_1",
-      icon: "checklist.checked",
-      title: "Accuracy Checkpoints",
-      message:
-        "FridgeLuck will ask for confirmation when confidence is lower. That review step is a feature, not a failure \u{2014} it keeps results trustworthy."
-    ),
-    SpotlightStep(
       id: "wrapup",
       anchorID: nil,
       icon: "arrow.right.circle",
       title: "Before You Begin",
       message:
-        "Want to redo this tour later? Scroll to the bottom and tap \u{201C}Reset progress\u{201D} to start fresh. Or skip the tour entirely \u{2014} you\u{2019}ll still have full access to demo mode from the main dashboard."
+        "After your demo scan, FridgeLuck will meet you inside ingredient review for the next lesson. Want to redo this tour later? Scroll to the bottom and tap \u{201C}Reset progress\u{201D}."
     ),
   ]
 
@@ -141,25 +133,6 @@ extension SpotlightStep {
     ),
   ]
 
-  static let firstScanNudge: [SpotlightStep] = [
-    SpotlightStep(
-      id: "nudge_demo_ready",
-      anchorID: "quest_0",
-      icon: "play.circle.fill",
-      title: "Start With The Demo",
-      message:
-        "Your setup is done. Use demo mode first so the scan, review, and recipe flow feels obvious."
-    ),
-    SpotlightStep(
-      id: "nudge_review_ready",
-      anchorID: "quest_1",
-      icon: "checklist",
-      title: "Then Practice Review",
-      message:
-        "The next step teaches how FridgeLuck handles uncertain ingredients before recipe matching."
-    ),
-  ]
-
   static let demoMode: [SpotlightStep] = [
     SpotlightStep(
       id: "demo_welcome",
@@ -188,6 +161,33 @@ extension SpotlightStep {
       message:
         "Tap this swap button to open substitutions. Great for dietary needs, allergies, or using what you already have."
     )
+  ]
+
+  static let liveAssistantLesson: [SpotlightStep] = [
+    SpotlightStep(
+      id: "live_lesson_intro",
+      anchorID: nil,
+      icon: "sparkles.rectangle.stack.fill",
+      title: "Your Recipe Match Is Ready",
+      message:
+        "Before you start cooking, FridgeLuck can turn that recipe into a hands-free kitchen guide from Home."
+    ),
+    SpotlightStep(
+      id: "live_lesson_entry",
+      anchorID: "liveAssistantEntry",
+      icon: "waveform.and.mic",
+      title: "Set Up The Live Guide",
+      message:
+        "Place the phone on a counter stand near your prep area so Gemini can see your cutting board, ingredients, and pan while it guides you."
+    ),
+    SpotlightStep(
+      id: "live_lesson_grounding",
+      anchorID: nil,
+      icon: "checkmark.shield.fill",
+      title: "Stay Grounded",
+      message:
+        "Use the assistant for step-by-step coaching, substitutions, and food-safety checks. You can skip this lesson now and reopen it from Home later."
+    ),
   ]
 }
 

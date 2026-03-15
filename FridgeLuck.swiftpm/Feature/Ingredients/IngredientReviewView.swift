@@ -315,7 +315,7 @@ struct IngredientReviewView: View {
         }
       }
       if hasSeenReviewSpotlight && isInitialAutoTour && !showReviewSpotlight {
-        ToolbarItem(placement: .topBarLeading) {
+        ToolbarItem(placement: .topBarTrailing) {
           replayTourButton
         }
       }

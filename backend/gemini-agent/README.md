@@ -26,6 +26,8 @@ Edit `.env` to keep:
 GOOGLE_GENAI_USE_VERTEXAI=true
 GOOGLE_CLOUD_PROJECT=your-project-id
 GOOGLE_CLOUD_LOCATION=us-central1
+LIVE_SESSION_STORE_MODE=firestore
+FIRESTORE_COLLECTION=liveSessions
 ```
 
 Then authenticate locally:
@@ -64,5 +66,15 @@ Set one of these in your iOS app runtime environment or Info.plist:
 
 ## 5) Notes
 
-- Live bridge is text-modality by default and can be extended for audio/video realtime input.
-- Confidence module is in-memory for now; back it with Firestore/Redis for multi-instance Cloud Run.
+- Live bridge accepts text turns, realtime audio/image input, and `session_context` patches from the client.
+- Firestore-backed live session state is the intended Cloud Run path. `LIVE_SESSION_STORE_MODE=auto` falls back to memory for local-only development.
+- Food-safety and freshness grounding are limited to Google Search backed questions; recipe, macro, and inventory truth remain FridgeLuck-context grounded.
+
+## 6) Cloud Run deployment proof
+
+- Cloud Run deployment assets live alongside this service (`Dockerfile`, `cloudbuild.yaml`, `scripts/deploy-cloud-run.sh`).
+- Submission proof should capture:
+  - Cloud Run service URL and latest revision
+  - structured logs for `live_session_open`, tool calls, and scheduler/task webhooks
+  - Firestore `liveSessions` collection showing active session documents
+  - websocket `/v1/live` usage in app or smoke-test flow

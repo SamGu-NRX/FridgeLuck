@@ -5,7 +5,6 @@ import SwiftUI
 /// with a dedicated, full-page experience.
 struct DemoModeView: View {
   @EnvironmentObject var deps: AppDependencies
-  @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   // MARK: - State
@@ -116,18 +115,25 @@ struct DemoModeView: View {
     }
     .navigationTitle("Demo Mode")
     .navigationBarTitleDisplayMode(.inline)
-    .navigationBarBackButtonHidden(true)
+    .navigationBarBackButtonHidden(isOverlayVisible)
     .flPageBackground()
     .toolbar {
-      ToolbarItem(placement: .topBarLeading) {
-        Button(action: handleBackButton) {
-          Image(systemName: "chevron.left")
-            .font(.system(size: 18, weight: .semibold))
-            .foregroundStyle(AppTheme.textPrimary)
-            .frame(width: 44, height: 44)
+      if isOverlayVisible {
+        ToolbarItem(placement: .topBarLeading) {
+          Button(action: closeOverlay) {
+            Label("Close", systemImage: "xmark")
+              .labelStyle(.iconOnly)
+              .font(.system(size: 15, weight: .semibold))
+              .foregroundStyle(AppTheme.textPrimary)
+              .frame(width: 32, height: 32)
+              .background(
+                AppTheme.surfaceMuted,
+                in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+              )
+          }
+          .buttonStyle(.plain)
+          .accessibilityLabel("Close preview")
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(isOverlayVisible ? "Close preview" : "Back")
       }
     }
     .navigationDestination(isPresented: $navigateToReview) {
@@ -288,14 +294,6 @@ struct DemoModeView: View {
       navigateToReview = true
       scanTask = nil
     }
-  }
-
-  private func handleBackButton() {
-    if isOverlayVisible {
-      closeOverlay()
-      return
-    }
-    dismiss()
   }
 
   private func closeOverlay() {

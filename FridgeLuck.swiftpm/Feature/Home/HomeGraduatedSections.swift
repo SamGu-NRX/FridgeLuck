@@ -402,6 +402,54 @@ struct HomeStarterPanelSection: View {
   }
 }
 
+struct HomeLiveAssistantSection: View {
+  let recipeContext: LiveAssistantRecipeContext
+  let isTutorialActive: Bool
+  let onOpenAssistant: () -> Void
+
+  var body: some View {
+    FLCard(tone: .warm) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+        HStack(alignment: .top, spacing: AppTheme.Space.sm) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+            Text(isTutorialActive ? "Step 4 · Live Kitchen Guide" : "Live Kitchen Guide")
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.deepOlive)
+              .textCase(.uppercase)
+              .kerning(0.8)
+
+            Text(recipeContext.title)
+              .font(AppTheme.Typography.displayCaption)
+              .foregroundStyle(AppTheme.textPrimary)
+
+            Text(
+              "Prop your phone on a counter stand near the prep area. Gemini will stay anchored to this recipe while it watches the ingredients in frame."
+            )
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+          }
+
+          Spacer()
+
+          FLStatusPill(text: "Recipe ready", kind: .positive)
+        }
+
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: AppTheme.Space.xs) {
+            FLStatusPill(text: "\(recipeContext.ingredients.count) ingredients", kind: .neutral)
+            FLStatusPill(text: "\(recipeContext.timeMinutes) min", kind: .neutral)
+            FLStatusPill(text: "Grounded guidance", kind: .positive)
+          }
+        }
+
+        FLPrimaryButton("Open Live Guide", systemImage: "waveform.and.mic") {
+          onOpenAssistant()
+        }
+      }
+    }
+  }
+}
+
 struct HomeSecondaryActionsSection: View {
   let snapshot: HomeDashboardSnapshot
   let onCompleteProfile: () -> Void

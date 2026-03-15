@@ -93,7 +93,8 @@ final class AppleHealthService: AppleHealthServicing, @unchecked Sendable {
       let samples = makeSamples(from: record)
       guard !samples.isEmpty else { return }
 
-      try await withCheckedThrowingContinuation { continuation in
+      try await withCheckedThrowingContinuation {
+        (continuation: CheckedContinuation<Void, Error>) in
         healthStore.save(samples) { success, error in
           if let error {
             continuation.resume(throwing: error)

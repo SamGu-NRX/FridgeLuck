@@ -55,6 +55,7 @@ let package = Package(
         "DesignSystem",
         "Domain",
         "Feature",
+        "Integration",
         "Platform",
       ],
       resources: [

@@ -1,6 +1,8 @@
+import AuthenticationServices
 import SwiftUI
 
-/// Health onboarding — narrative intro, profile setup, Apple Health, then app handoff.
+/// Health onboarding — hero welcome, profile setup, feature highlights,
+/// Apple Health, then app handoff.
 struct OnboardingView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(FirstRunExperienceStore.self) private var firstRunExperienceStore
@@ -22,7 +24,6 @@ struct OnboardingView: View {
   @State private var allergenCatalog: AllergenCatalogIndex = .empty
 
   @State private var stepIndex = 0
-  @State private var storyPageIndex = 0
   @State private var stepDirection: StepDirection = .forward
   @State private var isTransitioning = false
   @State private var isLoaded = false
@@ -39,13 +40,15 @@ struct OnboardingView: View {
   // MARK: - Step Definition
 
   private enum Step: Int, CaseIterable {
-    case story
-    case name
     case welcome
+    case name
+    case personalWelcome
     case age
     case goal
+    case featureScan
     case calories
     case restrictions
+    case featureChef
     case allergens
     case healthValue
     case healthPermission
@@ -75,10 +78,8 @@ struct OnboardingView: View {
     .init(id: "keto", title: "Keto", subtitle: "Very low carb, high fat", icon: .dietKeto),
   ]
 
-  private let storySlides = OnboardingStorySlide.defaultDeck
-
   private var currentStep: Step {
-    Step(rawValue: stepIndex) ?? .story
+    Step(rawValue: stepIndex) ?? .welcome
   }
 
   private var totalSteps: Int {
@@ -86,7 +87,8 @@ struct OnboardingView: View {
   }
 
   private var progress: Double {
-    Double(stepIndex + 1) / Double(totalSteps)
+    guard stepIndex > 0 else { return 0 }
+    return Double(stepIndex) / Double(totalSteps - 1)
   }
 
   private var selectedAllergenIngredients: [Ingredient] {
@@ -99,8 +101,8 @@ struct OnboardingView: View {
 
   private var canGoBack: Bool {
     switch currentStep {
-    case .story:
-      return storyPageIndex > 0
+    case .welcome:
+      return false
     case .setupBridge:
       return false
     default:
@@ -112,13 +114,17 @@ struct OnboardingView: View {
 
   var body: some View {
     VStack(spacing: 0) {
-      topBar
+      if currentStep != .welcome {
+        topBar
+          .transition(.opacity.combined(with: .move(edge: .top)))
+      }
       stepContentContainer
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       footer
     }
     .flPageBackground()
+    .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: currentStep == .welcome)
     .alert(
       "Unable to Continue",
       isPresented: Binding(
@@ -177,10 +183,6 @@ struct OnboardingView: View {
 
         Spacer()
 
-        Text("Step \(stepIndex + 1) of \(totalSteps)")
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary)
-
         Spacer()
 
         if !isRequired {
@@ -214,31 +216,47 @@ struct OnboardingView: View {
     ZStack {
       Group {
         switch currentStep {
-        case .story:
-          OnboardingStoryStep(
-            slides: storySlides,
-            currentPage: $storyPageIndex
+        case .welcome:
+          OnboardingWelcomeHeroStep(
+            onContinueWithoutApple: {
+              setStep(Step.name.rawValue, direction: .forward)
+            },
+            onAppleSignInRequest: configureAppleSignInRequest,
+            onAppleSignInCompletion: handleAppleSignInCompletion
           )
+
         case .name:
           OnboardingNameStep(
             displayName: $displayName,
             isNameFocused: $isNameFocused,
             validationMessage: validationMessage
           )
-        case .welcome:
-          OnboardingWelcomeStep(displayName: normalizedName)
+
+        case .personalWelcome:
+          OnboardingPersonalWelcomeStep(displayName: normalizedName)
+
         case .age:
           OnboardingAgeStep(age: $age, reduceMotion: reduceMotion)
+
         case .goal:
           OnboardingGoalStep(goal: $goal)
+
+        case .featureScan:
+          OnboardingFeatureScanStep()
+
         case .calories:
           OnboardingCalorieStep(dailyCalories: $dailyCalories, goal: goal)
+
         case .restrictions:
           OnboardingDietStep(
             options: dietOptions,
             selectedDiet: selectedDiet,
             onSelect: selectDiet
           )
+
+        case .featureChef:
+          OnboardingFeatureChefStep()
+
         case .allergens:
           OnboardingAllergenStep(
             allergenGroupMatchesByID: allergenCatalog.groupMatchesByID,
@@ -247,21 +265,32 @@ struct OnboardingView: View {
             onToggleGroup: toggleAllergenGroup,
             onOpenPicker: { showAllergenPicker = true }
           )
+
         case .healthValue:
           OnboardingAppleHealthValueStep()
+
         case .healthPermission:
           OnboardingAppleHealthPermissionStep(
             status: appleHealthStatus,
             isRequestInFlight: appleHealthRequestInFlight,
             didChooseSkip: firstRunExperienceStore.appleHealthChoice == .skipped
           )
+
         case .setupBridge:
           OnboardingSetupBridgeStep(
             displayName: normalizedName,
             goal: goal
           )
+
         case .handoff:
-          OnboardingHandoffStep(displayName: normalizedName)
+          OnboardingHandoffStep(
+            displayName: normalizedName,
+            goal: goal,
+            dailyCalories: dailyCalories,
+            selectedDiet: selectedDiet,
+            allergenCount: selectedAllergens.count,
+            healthConnected: firstRunExperienceStore.appleHealthChoice == .connected
+          )
         }
       }
       .id(currentStep.rawValue)
@@ -291,7 +320,7 @@ struct OnboardingView: View {
 
   @ViewBuilder
   private var footer: some View {
-    if currentStep == .setupBridge {
+    if currentStep == .setupBridge || currentStep == .welcome {
       EmptyView()
     } else {
       OnboardingFooter(
@@ -304,13 +333,12 @@ struct OnboardingView: View {
         onPrimaryAction: handlePrimaryAction,
         onSecondaryAction: handleSecondaryAction
       )
+      .transition(.move(edge: .bottom).combined(with: .opacity))
     }
   }
 
   private var primaryButtonTitle: String {
     switch currentStep {
-    case .story:
-      return storyPageIndex == storySlides.count - 1 ? "Start Setup" : "Continue"
     case .healthPermission:
       switch appleHealthStatus {
       case .authorized, .unavailable:
@@ -342,8 +370,6 @@ struct OnboardingView: View {
       }
     case .handoff:
       return "arrow.right.circle.fill"
-    case .story where storyPageIndex == storySlides.count - 1:
-      return "sparkles"
     default:
       return "arrow.right"
     }
@@ -365,14 +391,8 @@ struct OnboardingView: View {
     guard !isTransitioning, !isSaving, !appleHealthRequestInFlight else { return }
 
     switch currentStep {
-    case .story:
-      if storyPageIndex < storySlides.count - 1 {
-        withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
-          storyPageIndex += 1
-        }
-      } else {
-        setStep(stepIndex + 1, direction: .forward)
-      }
+    case .welcome:
+      break
 
     case .name:
       guard validateName() else { return }
@@ -398,14 +418,6 @@ struct OnboardingView: View {
 
   private func goBack() {
     guard !isTransitioning, !isSaving, !appleHealthRequestInFlight else { return }
-
-    if currentStep == .story, storyPageIndex > 0 {
-      withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
-        storyPageIndex -= 1
-      }
-      return
-    }
-
     guard stepIndex > 0 else { return }
     isNameFocused = false
     setStep(stepIndex - 1, direction: .backward)
@@ -434,6 +446,59 @@ struct OnboardingView: View {
 
       if Step(rawValue: clamped) == .name {
         isNameFocused = true
+      }
+    }
+  }
+
+  // MARK: - Apple Sign In
+
+  private func configureAppleSignInRequest(_ request: ASAuthorizationAppleIDRequest) {
+    request.requestedScopes = [.fullName]
+  }
+
+  private func handleAppleSignInCompletion(_ result: Result<ASAuthorization, Error>) {
+    switch result {
+    case .success(let authorization):
+      guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+        errorMessage = "Apple sign-in returned an unexpected credential."
+        return
+      }
+
+      UserDefaults.standard.set(credential.user, forKey: "appleUserIdentifier")
+      if let givenName = credential.fullName?.givenName, !givenName.isEmpty {
+        displayName = givenName
+      }
+      setStep(Step.name.rawValue, direction: .forward)
+
+    case .failure(let error):
+      if let authError = error as? ASAuthorizationError {
+        switch authError.code {
+        case .canceled:
+          return
+        case .failed:
+          errorMessage =
+            "Apple sign-in failed. If this is a personal team build, continue without Apple for local testing."
+        case .invalidResponse:
+          errorMessage =
+            "Apple sign-in returned an invalid response. Try again."
+        case .notHandled:
+          errorMessage =
+            "Apple sign-in could not be completed here. Try again from a signed-in device."
+        case .notInteractive,
+          .matchedExcludedCredential,
+          .credentialImport,
+          .credentialExport,
+          .preferSignInWithApple,
+          .deviceNotConfiguredForPasskeyCreation:
+          errorMessage = authError.localizedDescription
+        case .unknown:
+          errorMessage =
+            "Apple sign-in is not configured for this build. Continue without Apple for local testing, or use a paid Apple Developer team with the capability enabled."
+        @unknown default:
+          errorMessage = authError.localizedDescription
+        }
+      } else {
+        errorMessage = error.localizedDescription
       }
     }
   }
@@ -556,7 +621,7 @@ struct OnboardingView: View {
     setupBridgeState = .running
     isSaving = true
 
-    let bridgeMinimumDelay: UInt64 = reduceMotion ? 250_000_000 : 1_050_000_000
+    let bridgeMinimumDelay: UInt64 = reduceMotion ? 250_000_000 : 2_200_000_000
 
     do {
       async let saveTask: Void = persistProfile()
