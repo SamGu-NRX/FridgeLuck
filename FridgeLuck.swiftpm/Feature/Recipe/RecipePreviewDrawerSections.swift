@@ -318,7 +318,6 @@ struct RecipePreviewIngredientSection: View {
           Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
             .foregroundStyle(isRequired ? AppTheme.positive : AppTheme.textSecondary)
             .font(AppTheme.Typography.label)
-            .animation(.default, value: isRequired)
 
           if let sub = activeSub {
             VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
@@ -383,7 +382,6 @@ struct RecipePreviewIngredientSection: View {
           activeSub != nil ? AppTheme.sage.opacity(0.12) : AppTheme.accentMuted,
           in: Circle()
         )
-        .animation(.default, value: activeSub != nil)
     }
     .buttonStyle(.plain)
   }
@@ -399,7 +397,7 @@ struct RecipePreviewBottomCTA: View {
         .frame(height: 1)
 
       VStack(spacing: AppTheme.Space.xs) {
-        FLPrimaryButton("Cook with Le Chef", systemImage: "waveform.and.mic") {
+        FLPrimaryButton("Start Cooking", systemImage: "flame.fill") {
           onStartCooking()
         }
       }

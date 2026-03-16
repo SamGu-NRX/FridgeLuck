@@ -16,10 +16,9 @@ final class UserDataRepository: Sendable {
   /// Observes revisions to cooking history so dashboards can stay in sync
   /// with logged meals, rating updates, and serving adjustments.
   @discardableResult
-  @MainActor
   func observeCookingHistoryChanges(
-    onError: @escaping @MainActor (Error) -> Void = { _ in },
-    onChange: @escaping @MainActor () -> Void
+    onError: @escaping (Error) -> Void = { _ in },
+    onChange: @escaping () -> Void
   ) -> AnyDatabaseCancellable {
     ValueObservation
       .tracking { db in
@@ -45,7 +44,7 @@ final class UserDataRepository: Sendable {
       .removeDuplicates()
       .start(
         in: db,
-        scheduling: .mainActor,
+        scheduling: .async(onQueue: .main),
         onError: onError,
         onChange: { _ in
           onChange()

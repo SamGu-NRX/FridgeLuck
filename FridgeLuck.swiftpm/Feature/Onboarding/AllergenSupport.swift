@@ -1,86 +1,11 @@
 import Foundation
 
-enum AllergenIcon: Hashable, Sendable {
-  /// SF Symbol name (e.g. "drop.fill")
-  case system(String)
-  /// Asset-catalog image name (e.g. "allergen_shellfish")
-  case named(String)
-
-  var source: FLIconSource {
-    switch self {
-    case .system(let name):
-      return .system(name)
-    case .named(let name):
-      return .asset(name)
-    }
-  }
-}
-
-struct AllergenGroupDefinition: Identifiable, Hashable, Sendable {
+struct AllergenGroupDefinition: Identifiable, Hashable {
   let id: String
   let title: String
   let subtitle: String
-  let icon: AllergenIcon
+  let systemImage: String
   let keywords: [String]
-}
-
-struct AllergenIndexedIngredient: Identifiable, Sendable {
-  let id: Int64
-  let ingredient: Ingredient
-  let searchableText: String
-  let sortKey: String
-  let group: AllergenGroupDefinition?
-
-  var displayName: String {
-    ingredient.displayName
-  }
-
-  var groupTitle: String {
-    group?.title ?? "Other"
-  }
-}
-
-struct AllergenCatalogSection: Identifiable, Sendable {
-  let id: String
-  let title: String
-  let ingredients: [AllergenIndexedIngredient]
-}
-
-struct AllergenCatalogIndex: Sendable {
-  let allIngredients: [AllergenIndexedIngredient]
-  let relevantIngredients: [AllergenIndexedIngredient]
-  let ingredientsByID: [Int64: Ingredient]
-  let groupMatchesByID: [String: Set<Int64>]
-  let allSections: [AllergenCatalogSection]
-  let relevantSections: [AllergenCatalogSection]
-
-  static let empty = AllergenCatalogIndex(
-    allIngredients: [],
-    relevantIngredients: [],
-    ingredientsByID: [:],
-    groupMatchesByID: Dictionary(
-      uniqueKeysWithValues: AllergenSupport.groups.map { ($0.id, Set<Int64>()) }),
-    allSections: [],
-    relevantSections: []
-  )
-
-  func sections(matching query: String, includeAllIngredients: Bool) -> [AllergenCatalogSection] {
-    guard !query.isEmpty else {
-      return includeAllIngredients ? allSections : relevantSections
-    }
-
-    let source = includeAllIngredients ? allIngredients : relevantIngredients
-    let filtered = source.filter { $0.searchableText.contains(query) }
-    return AllergenSupport.makeSections(from: filtered)
-  }
-
-  func selectedIngredients(from ids: Set<Int64>) -> [Ingredient] {
-    ids
-      .compactMap { ingredientsByID[$0] }
-      .sorted { lhs, rhs in
-        lhs.displayName.localizedCaseInsensitiveCompare(rhs.displayName) == .orderedAscending
-      }
-  }
 }
 
 enum AllergenSupport {
@@ -101,28 +26,28 @@ enum AllergenSupport {
       id: "milk",
       title: "Milk",
       subtitle: "Dairy",
-      icon: .named("allergen_milk"),
+      systemImage: "drop.fill",
       keywords: ["milk", "cream", "cheese", "butter", "yogurt", "ghee", "whey", "casein"]
     ),
     .init(
       id: "egg",
       title: "Egg",
       subtitle: "Egg",
-      icon: .named("allergen_egg"),
+      systemImage: "circle.fill",
       keywords: ["egg", "albumin", "mayonnaise", "mayo"]
     ),
     .init(
       id: "peanut",
       title: "Peanut",
       subtitle: "Legume",
-      icon: .named("allergen_peanut"),
+      systemImage: "circle.hexagongrid.fill",
       keywords: ["peanut", "groundnut"]
     ),
     .init(
       id: "tree_nut",
       title: "Tree Nuts",
       subtitle: "Almond, walnut, etc.",
-      icon: .named("allergen_treenut"),
+      systemImage: "leaf.circle.fill",
       keywords: [
         "almond", "walnut", "cashew", "pecan", "hazelnut", "pistachio", "macadamia",
         "brazil nut", "pine nut", "tree nut",
@@ -132,28 +57,28 @@ enum AllergenSupport {
       id: "soy",
       title: "Soy",
       subtitle: "Soybean",
-      icon: .named("allergen_soy"),
+      systemImage: "capsule.fill",
       keywords: ["soy", "soybean", "tofu", "edamame", "miso", "tempeh"]
     ),
     .init(
       id: "wheat_gluten",
-      title: "Gluten",
-      subtitle: "Wheat, barley, rye",
-      icon: .named("allergen_gluten"),
+      title: "Wheat/Gluten",
+      subtitle: "Wheat family",
+      systemImage: "takeoutbag.and.cup.and.straw.fill",
       keywords: ["wheat", "flour", "gluten", "barley", "rye", "semolina", "spelt"]
     ),
     .init(
       id: "fish",
       title: "Fish",
       subtitle: "Fin fish",
-      icon: .named("allergen_fish"),
+      systemImage: "fish.fill",
       keywords: ["fish", "salmon", "tuna", "cod", "anchovy", "sardine", "mackerel", "halibut"]
     ),
     .init(
       id: "shellfish",
       title: "Shellfish",
-      subtitle: "Shrimp, crab, oyster",
-      icon: .named("allergen_shellfish"),
+      subtitle: "Crustacean/mollusk",
+      systemImage: "tortoise.fill",
       keywords: [
         "shrimp", "prawn", "crab", "lobster", "clam", "mussel", "oyster", "scallop", "shellfish",
       ]
@@ -162,130 +87,52 @@ enum AllergenSupport {
       id: "sesame",
       title: "Sesame",
       subtitle: "Seeds/tahini",
-      icon: .named("allergen_sesame"),
+      systemImage: "smallcircle.filled.circle",
       keywords: ["sesame", "tahini"]
     ),
     .init(
       id: "mustard",
       title: "Mustard",
       subtitle: "Mustard seed",
-      icon: .named("allergen_mustard"),
+      systemImage: "circle.grid.cross.fill",
       keywords: ["mustard"]
     ),
   ]
 
-  static func buildCatalog(from ingredients: [Ingredient]) -> AllergenCatalogIndex {
-    var indexedIngredients: [AllergenIndexedIngredient] = []
-    indexedIngredients.reserveCapacity(ingredients.count)
-
-    var ingredientsByID: [Int64: Ingredient] = [:]
-    ingredientsByID.reserveCapacity(ingredients.count)
-
-    var groupMatchesByID = Dictionary(
-      uniqueKeysWithValues: groups.map { ($0.id, Set<Int64>()) }
-    )
-
-    for ingredient in ingredients {
-      guard let id = ingredient.id else { continue }
-
-      let searchableText = normalizedSearchableText(for: ingredient)
-      let matchedGroup = group(forNormalizedText: searchableText)
-
-      ingredientsByID[id] = ingredient
-      if let matchedGroup {
-        groupMatchesByID[matchedGroup.id, default: []].insert(id)
-      }
-
-      indexedIngredients.append(
-        AllergenIndexedIngredient(
-          id: id,
-          ingredient: ingredient,
-          searchableText: searchableText,
-          sortKey: sortableName(for: ingredient),
-          group: matchedGroup
-        )
-      )
-    }
-
-    indexedIngredients.sort { $0.sortKey < $1.sortKey }
-
-    let relevantIngredients = indexedIngredients.filter { $0.group != nil }
-
-    return AllergenCatalogIndex(
-      allIngredients: indexedIngredients,
-      relevantIngredients: relevantIngredients,
-      ingredientsByID: ingredientsByID,
-      groupMatchesByID: groupMatchesByID,
-      allSections: makeSections(from: indexedIngredients),
-      relevantSections: makeSections(from: relevantIngredients)
-    )
-  }
-
   static func matchingIDs(for group: AllergenGroupDefinition, in ingredients: [Ingredient]) -> Set<
     Int64
   > {
-    buildCatalog(from: ingredients).groupMatchesByID[group.id] ?? []
+    var ids = Set<Int64>()
+
+    for ingredient in ingredients {
+      guard let id = ingredient.id else { continue }
+      if self.group(for: ingredient)?.id == group.id {
+        ids.insert(id)
+      }
+    }
+
+    return ids
   }
 
   /// Builds one pass of allergen group matches so UI can avoid repeated O(n*m) rescans.
   static func groupMatchesByGroupID(in ingredients: [Ingredient]) -> [String: Set<Int64>] {
-    buildCatalog(from: ingredients).groupMatchesByID
+    var matches: [String: Set<Int64>] = [:]
+    matches.reserveCapacity(groups.count)
+    for group in groups {
+      matches[group.id] = []
+    }
+
+    for ingredient in ingredients {
+      guard let id = ingredient.id else { continue }
+      guard let group = self.group(for: ingredient) else { continue }
+      matches[group.id, default: []].insert(id)
+    }
+
+    return matches
   }
 
   static func group(for ingredient: Ingredient) -> AllergenGroupDefinition? {
-    group(forNormalizedText: normalizedSearchableText(for: ingredient))
-  }
-
-  static func relevantIngredients(in ingredients: [Ingredient]) -> [Ingredient] {
-    buildCatalog(from: ingredients).relevantIngredients.map(\.ingredient)
-  }
-
-  static func searchableText(for ingredient: Ingredient) -> String {
-    normalizedSearchableText(for: ingredient)
-  }
-
-  static func normalizedQuery(_ raw: String) -> String {
-    normalize(raw)
-  }
-
-  private static func score(for group: AllergenGroupDefinition, in text: String) -> Int {
-    var score = 0
-
-    for keyword in group.keywords {
-      guard containsTerm(keyword, in: text) else { continue }
-
-      if group.id == "milk", keyword == "butter",
-        nutButterQualifiers.contains(where: { containsTerm("\($0) butter", in: text) })
-      {
-        continue
-      }
-
-      score += keywordWeight(for: keyword)
-    }
-
-    return score
-  }
-
-  private static func keywordWeight(for keyword: String) -> Int {
-    if keyword.contains(" ") {
-      return 4
-    }
-    if keyword.count >= 6 {
-      return 3
-    }
-    if keyword.count >= 4 {
-      return 2
-    }
-    return 1
-  }
-
-  private static func containsTerm(_ term: String, in text: String) -> Bool {
-    let normalizedTerm = normalize(term)
-    guard !normalizedTerm.isEmpty else { return false }
-    return " \(text) ".contains(" \(normalizedTerm) ")
-  }
-
-  private static func group(forNormalizedText text: String) -> AllergenGroupDefinition? {
+    let text = normalizedSearchableText(for: ingredient)
     guard !text.isEmpty else { return nil }
 
     var best: (group: AllergenGroupDefinition, score: Int)?
@@ -306,43 +153,67 @@ enum AllergenSupport {
     return best?.group
   }
 
-  private static func normalizedSearchableText(for ingredient: Ingredient) -> String {
-    normalize(
-      [
-        ingredient.name,
-        ingredient.displayName,
-        ingredient.description ?? "",
-        ingredient.categoryLabel ?? "",
-        ingredient.notes ?? "",
-      ]
-      .joined(separator: " ")
-    )
-  }
-
-  private static func sortableName(for ingredient: Ingredient) -> String {
-    ingredient.displayName.folding(
-      options: [.caseInsensitive, .diacriticInsensitive],
-      locale: .current
-    )
-  }
-
-  fileprivate static func makeSections(
-    from ingredients: [AllergenIndexedIngredient]
-  ) -> [AllergenCatalogSection] {
-    let grouped = Dictionary(grouping: ingredients) { $0.groupTitle }
-    var ordered: [AllergenCatalogSection] = []
-
-    for group in groups {
-      if let items = grouped[group.title], !items.isEmpty {
-        ordered.append(.init(id: group.id, title: group.title, ingredients: items))
+  static func relevantIngredients(in ingredients: [Ingredient]) -> [Ingredient] {
+    ingredients
+      .filter { ingredient in
+        guard ingredient.id != nil else { return false }
+        return group(for: ingredient) != nil
       }
+      .sorted { lhs, rhs in
+        lhs.displayName.localizedCaseInsensitiveCompare(rhs.displayName) == .orderedAscending
+      }
+  }
+
+  static func searchableText(for ingredient: Ingredient) -> String {
+    [
+      ingredient.name,
+      ingredient.displayName,
+      ingredient.description ?? "",
+      ingredient.categoryLabel ?? "",
+      ingredient.notes ?? "",
+    ]
+    .joined(separator: " ")
+    .lowercased()
+  }
+
+  private static func score(for group: AllergenGroupDefinition, in text: String) -> Int {
+    var score = 0
+
+    for keyword in group.keywords {
+      guard containsTerm(keyword, in: text) else { continue }
+
+      if group.id == "milk", keyword == "butter",
+        nutButterQualifiers.contains(where: { containsTerm("\($0) butter", in: text) })
+      {
+        continue
+      }
+
+      score += keywordWeight(for: keyword)
     }
 
-    if let other = grouped["Other"], !other.isEmpty {
-      ordered.append(.init(id: "other", title: "Other", ingredients: other))
+    return score
+  }
+  private static func keywordWeight(for keyword: String) -> Int {
+    if keyword.contains(" ") {
+      return 4
     }
+    if keyword.count >= 6 {
+      return 3
+    }
+    if keyword.count >= 4 {
+      return 2
+    }
+    return 1
+  }
 
-    return ordered
+  private static func containsTerm(_ term: String, in text: String) -> Bool {
+    let normalizedTerm = normalize(term)
+    guard !normalizedTerm.isEmpty else { return false }
+    return " \(text) ".contains(" \(normalizedTerm) ")
+  }
+
+  private static func normalizedSearchableText(for ingredient: Ingredient) -> String {
+    normalize(searchableText(for: ingredient))
   }
 
   private static func normalize(_ raw: String) -> String {

@@ -6,8 +6,7 @@ export function createGenAIClient(config: AppConfig): GoogleGenAI {
     return new GoogleGenAI({
       vertexai: true,
       project: config.projectId,
-      location: config.location,
-      apiVersion: "v1"
+      location: config.location
     });
   }
 

@@ -473,7 +473,6 @@ struct ReverseScanMealView: View {
               .foregroundStyle(
                 isSelected ? AppTheme.accent : AppTheme.oat.opacity(0.5)
               )
-              .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isSelected)
               .symbolEffect(
                 .bounce,
                 options: reduceMotion ? .nonRepeating : .default,
@@ -891,11 +890,6 @@ struct ReverseScanMealView: View {
         capturedImage: capturedImage,
         servingsConsumed: servings,
         sourceRefPrefix: "reverse_scan"
-      )
-
-      await deps.mealLogSyncCoordinator.syncLoggedMeal(
-        recipeId: mealOutcome.recipeId,
-        servingsConsumed: servings
       )
 
       if let analysis {

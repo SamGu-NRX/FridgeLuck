@@ -15,8 +15,7 @@ struct CookingCelebrationView: View {
   struct Dependencies {
     let fetchHealthProfile: () throws -> HealthProfile
     let logMeal:
-      (_ recipe: Recipe, _ rating: Int?, _ capturedImage: UIImage?, _ servings: Int) throws ->
-        MealLogService.Outcome
+      (_ recipe: Recipe, _ rating: Int?, _ capturedImage: UIImage?, _ servings: Int) throws -> Void
   }
 
   init(
@@ -50,7 +49,7 @@ struct CookingCelebrationView: View {
     return Dependencies(
       fetchHealthProfile: { try deps.userDataRepository.fetchHealthProfile() },
       logMeal: { recipe, rating, capturedImage, servings in
-        try deps.mealLogService.logMeal(
+        _ = try deps.mealLogService.logMeal(
           recipe: recipe,
           rating: rating,
           capturedImage: capturedImage,
@@ -291,15 +290,11 @@ struct CookingCelebrationView: View {
     isSaving = true
 
     do {
-      let mealOutcome = try dependencies.logMeal(
+      try dependencies.logMeal(
         recipe,
         rating > 0 ? rating : nil,
         capturedImage,
         servings
-      )
-      await deps.mealLogSyncCoordinator.syncLoggedMeal(
-        recipeId: mealOutcome.recipeId,
-        servingsConsumed: servings
       )
     } catch {
       #if DEBUG

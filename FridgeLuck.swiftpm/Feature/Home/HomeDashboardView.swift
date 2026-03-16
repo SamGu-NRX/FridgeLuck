@@ -2,7 +2,6 @@ import SwiftUI
 
 struct HomeDashboardView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  @Environment(LiveAssistantCoordinator.self) private var liveAssistantCoordinator
 
   @StateObject private var viewModel: HomeDashboardViewModel
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
@@ -16,20 +15,19 @@ struct HomeDashboardView: View {
     false
   @AppStorage(TutorialStorageKeys.hasSeenCompletionSpotlight)
   private var hasSeenCompletionSpotlight = false
-  @AppStorage(TutorialStorageKeys.hasSeenLiveAssistantLesson)
-  private var hasSeenLiveAssistantLesson = false
+  @AppStorage(TutorialStorageKeys.hasSeenFirstScanNudge) private var hasSeenFirstScanNudge = false
 
   let onScan: () -> Void
   let onDemoMode: () -> Void
   let onCompleteProfile: () -> Void
-  let onOpenAssistant: () -> Void
+  let onExploreComplete: () -> Void
   let onReset: () -> Void
   let spotlightCoordinator: SpotlightCoordinator
 
   private enum SpotlightKind: String, Equatable {
     case onboarding
     case completion
-    case liveAssistantLesson
+    case firstScanNudge
   }
 
   init(
@@ -37,7 +35,7 @@ struct HomeDashboardView: View {
     onScan: @escaping () -> Void,
     onDemoMode: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
-    onOpenAssistant: @escaping () -> Void,
+    onExploreComplete: @escaping () -> Void,
     onReset: @escaping () -> Void = {},
     spotlightCoordinator: SpotlightCoordinator
   ) {
@@ -45,7 +43,7 @@ struct HomeDashboardView: View {
     self.onScan = onScan
     self.onDemoMode = onDemoMode
     self.onCompleteProfile = onCompleteProfile
-    self.onOpenAssistant = onOpenAssistant
+    self.onExploreComplete = onExploreComplete
     self.onReset = onReset
     self.spotlightCoordinator = spotlightCoordinator
   }
@@ -93,7 +91,7 @@ struct HomeDashboardView: View {
           tutorialStorageString = ""
           hasSeenSpotlightTutorial = false
           hasSeenCompletionSpotlight = false
-          hasSeenLiveAssistantLesson = false
+          hasSeenFirstScanNudge = false
           onReset()
           Task { await viewModel.load() }
         }
@@ -176,11 +174,11 @@ struct HomeDashboardView: View {
       return anchorsReady(for: .onboarding) ? .onboarding : nil
     }
 
-    if liveAssistantCoordinator.shouldPresentLesson,
-      !tutorialProgress.isCompleted(.cookWithLeChef),
-      !hasSeenLiveAssistantLesson
+    if !hasSeenFirstScanNudge,
+      tutorialProgress.isCompleted(.setupProfile),
+      !tutorialProgress.isCompleted(.firstScan)
     {
-      return anchorsReady(for: .liveAssistantLesson) ? .liveAssistantLesson : nil
+      return anchorsReady(for: .firstScanNudge) ? .firstScanNudge : nil
     }
 
     return nil
@@ -192,8 +190,8 @@ struct HomeDashboardView: View {
       return SpotlightStep.onboarding
     case .completion:
       return SpotlightStep.completion
-    case .liveAssistantLesson:
-      return SpotlightStep.liveAssistantLesson
+    case .firstScanNudge:
+      return SpotlightStep.firstScanNudge
     }
   }
 
@@ -217,19 +215,15 @@ struct HomeDashboardView: View {
       hasSeenSpotlightTutorial = true
     case .completion:
       hasSeenCompletionSpotlight = true
-    case .liveAssistantLesson:
-      hasSeenLiveAssistantLesson = true
+    case .firstScanNudge:
+      hasSeenFirstScanNudge = true
     }
   }
 
   // MARK: - Tutorial Home
 
   private func tutorialHome(snapshot: HomeDashboardSnapshot) -> some View {
-    let shouldFeatureLiveCook =
-      tutorialProgress.currentQuest == .cookWithLeChef
-      && liveAssistantCoordinator.matchedRecipeContext != nil
-
-    return VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
       HomeTutorialWelcomeHeader(heroAppeared: heroAppeared)
         .padding(.horizontal, AppTheme.Space.page)
 
@@ -240,25 +234,14 @@ struct HomeDashboardView: View {
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 10)
 
-      if shouldFeatureLiveCook, let recipeContext = liveAssistantCoordinator.matchedRecipeContext {
-        HomeLiveAssistantSection(
-          recipeContext: recipeContext,
-          isTutorialActive: true,
-          onOpenAssistant: onOpenAssistant
-        )
-        .padding(.horizontal, AppTheme.Space.page)
-        .id("liveAssistantEntry")
-        .spotlightAnchor("liveAssistantEntry")
-      } else {
-        HomeTutorialQuestSection(
-          tutorialProgress: tutorialProgress,
-          tutorialStorageString: tutorialStorageString,
-          heroAppeared: heroAppeared,
-          reduceMotion: reduceMotion,
-          onQuestAction: handleQuestAction
-        )
-        .padding(.horizontal, AppTheme.Space.page)
-      }
+      HomeTutorialQuestSection(
+        tutorialProgress: tutorialProgress,
+        tutorialStorageString: tutorialStorageString,
+        heroAppeared: heroAppeared,
+        reduceMotion: reduceMotion,
+        onQuestAction: handleQuestAction
+      )
+      .padding(.horizontal, AppTheme.Space.page)
 
       if tutorialProgress.completedCount == 0 {
         HomeTutorialQuickStartHint()
@@ -269,14 +252,14 @@ struct HomeDashboardView: View {
 
   private func handleQuestAction(_ quest: TutorialQuest) {
     switch quest {
+    case .setupProfile:
+      onCompleteProfile()
     case .firstScan:
       onDemoMode()
-    case .ingredientReview:
+    case .cookAndRate:
       onDemoMode()
-    case .pickRecipeMatch:
-      onDemoMode()
-    case .cookWithLeChef:
-      onOpenAssistant()
+    case .exploreMore:
+      onExploreComplete()
     }
   }
 
@@ -314,18 +297,6 @@ struct HomeDashboardView: View {
       HomeMyRhythmSection(snapshot: snapshot)
         .padding(.bottom, AppTheme.Space.sectionBreak)
         .spotlightAnchor("myRhythm")
-
-      if let recipeContext = liveAssistantCoordinator.matchedRecipeContext {
-        HomeLiveAssistantSection(
-          recipeContext: recipeContext,
-          isTutorialActive: false,
-          onOpenAssistant: onOpenAssistant
-        )
-        .padding(.horizontal, AppTheme.Space.page)
-        .padding(.bottom, AppTheme.Space.sectionBreak)
-        .id("liveAssistantEntry")
-        .spotlightAnchor("liveAssistantEntry")
-      }
 
       HomeFridgeLuckPanelsSection(snapshot: snapshot)
         .padding(.horizontal, AppTheme.Space.page)

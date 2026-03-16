@@ -16,7 +16,7 @@ struct HomeTutorialWelcomeHeader: View {
         .foregroundStyle(AppTheme.textPrimary)
 
       Text(
-        "Welcome to your guided tour. The steps unlock in order so the demo scan, review, recipe match, and live cook flow each land cleanly."
+        "Welcome to your guided tour. A few quick steps to set up your profile and explore the app."
       )
       .font(AppTheme.Typography.bodyLarge)
       .foregroundStyle(AppTheme.textSecondary)
@@ -35,24 +35,35 @@ struct HomeTutorialQuestSection: View {
   let onQuestAction: (TutorialQuest) -> Void
 
   var body: some View {
-    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-      if let currentQuest = tutorialProgress.currentQuest {
-        TutorialQuestCard(quest: currentQuest, state: .active) {
-          onQuestAction(currentQuest)
+    VStack(spacing: AppTheme.Space.sm) {
+      ForEach(TutorialQuest.allCases) { quest in
+        let state = cardState(for: quest)
+
+        TutorialQuestCard(quest: quest, state: state) {
+          onQuestAction(quest)
         }
-        .id("quest_\(currentQuest.rawValue)")
-        .spotlightAnchor("quest_\(currentQuest.rawValue)")
+        .id("quest_\(quest.rawValue)")
+        .spotlightAnchor("quest_\(quest.rawValue)")
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 12)
         .animation(
           reduceMotion
             ? nil
-            : AppMotion.cardSpring.delay(
-              Double(currentQuest.staggerIndex) * AppMotion.staggerDelay + 0.1),
+            : AppMotion.cardSpring.delay(Double(quest.staggerIndex) * AppMotion.staggerDelay + 0.1),
           value: heroAppeared
         )
         .animation(reduceMotion ? nil : AppMotion.standard, value: tutorialStorageString)
       }
+    }
+  }
+
+  private func cardState(for quest: TutorialQuest) -> TutorialQuestCard.QuestCardState {
+    if tutorialProgress.isCompleted(quest) {
+      return .completed
+    } else if tutorialProgress.currentQuest == quest {
+      return .active
+    } else {
+      return .locked
     }
   }
 }
@@ -65,7 +76,7 @@ struct HomeTutorialQuickStartHint: View {
         .foregroundStyle(AppTheme.oat)
 
       Text(
-        "Start with \u{201C}Your First Scan\u{201D} \u{2014} demo mode gives you a safe first run."
+        "Start with \u{201C}Set Up Your Kitchen\u{201D} \u{2014} it takes about 30 seconds to begin."
       )
       .font(AppTheme.Typography.bodySmall)
       .foregroundStyle(AppTheme.textSecondary)

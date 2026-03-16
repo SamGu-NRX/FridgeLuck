@@ -25,6 +25,12 @@ struct RecipePickerView: View {
     return !analysis.candidateRecipes.isEmpty
   }
 
+  private var filteredAllRecipes: [Recipe] {
+    let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+    guard !trimmed.isEmpty else { return allRecipes }
+    return allRecipes.filter { $0.title.lowercased().contains(trimmed) }
+  }
+
   var body: some View {
     NavigationStack {
       Group {
@@ -43,10 +49,10 @@ struct RecipePickerView: View {
         }
       }
       .task {
-        await runSearch(query: "", bypassDebounce: true)
+        await loadAllRecipes()
       }
       .task(id: searchText) {
-        await runSearch(query: searchText, bypassDebounce: false)
+        await refreshSearch()
       }
     }
     .flPageBackground()
@@ -99,20 +105,20 @@ struct RecipePickerView: View {
         sectionHeader(
           "All Recipes",
           icon: "book.closed.fill",
-          subtitle: allRecipes.isEmpty
-            ? "No results" : "\(allRecipes.count) recipes"
+          subtitle: filteredAllRecipes.isEmpty
+            ? "No results" : "\(filteredAllRecipes.count) recipes"
         )
 
-        if allRecipes.isEmpty {
+        if filteredAllRecipes.isEmpty {
           noResultsView
         } else {
           ForEach(
-            Array(allRecipes.enumerated()),
+            Array(filteredAllRecipes.enumerated()),
             id: \.element.id
           ) { index, recipe in
             recipeRow(recipe, index: index)
 
-            if index < allRecipes.count - 1 {
+            if index < filteredAllRecipes.count - 1 {
               rowDivider
             }
           }
@@ -372,19 +378,24 @@ struct RecipePickerView: View {
 
   // MARK: - Data Loading
 
-  private func runSearch(query: String, bypassDebounce: Bool) async {
-    let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+  private func loadAllRecipes() async {
+    isLoading = true
+    defer { isLoading = false }
 
-    if !bypassDebounce {
+    allRecipes = (try? deps.recipeRepository.fetchAllRecipes(limit: 300)) ?? []
+    resultsToken = UUID()
+  }
+
+  private func refreshSearch() async {
+    let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+    if !trimmed.isEmpty {
       try? await Task.sleep(for: .milliseconds(200))
       guard !Task.isCancelled else { return }
       guard trimmed == searchText.trimmingCharacters(in: .whitespacesAndNewlines) else {
         return
       }
     }
-
-    isLoading = true
-    defer { isLoading = false }
 
     if trimmed.isEmpty {
       allRecipes = (try? deps.recipeRepository.fetchAllRecipes(limit: 300)) ?? []

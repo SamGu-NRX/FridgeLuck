@@ -26,26 +26,16 @@ enum SubstitutionReason: String, Sendable, CaseIterable {
   }
 
   /// Map dietary restriction IDs to relevant reasons.
-  ///
-  /// With the simplified diet model (classic/pescatarian/vegetarian/vegan/keto),
-  /// only the single selected diet is passed in the restrictions set.
-  /// Gluten-free and dairy-free are now handled by the allergen system.
   static func reasons(forRestrictions restrictions: Set<String>) -> Set<SubstitutionReason> {
     var result: Set<SubstitutionReason> = []
-
     if restrictions.contains("vegan") {
       result.formUnion([.vegan, .dairyFree, .vegetarian])
-    } else if restrictions.contains("vegetarian") || restrictions.contains("pescatarian") {
+    }
+    if restrictions.contains("vegetarian") {
       result.insert(.vegetarian)
     }
-
-    if restrictions.contains("keto") {
-      result.insert(.lowCarb)
-    }
-
-    // Legacy support: if older profiles still have these IDs, honor them
     if restrictions.contains("dairy_free") {
-      result.insert(.dairyFree)
+      result.formUnion([.dairyFree])
     }
     if restrictions.contains("gluten_free") {
       result.insert(.glutenFree)
@@ -53,7 +43,6 @@ enum SubstitutionReason: String, Sendable, CaseIterable {
     if restrictions.contains("low_carb") {
       result.insert(.lowCarb)
     }
-
     return result
   }
 }

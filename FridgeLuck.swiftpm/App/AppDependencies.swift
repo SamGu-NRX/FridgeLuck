@@ -18,8 +18,6 @@ final class AppDependencies: ObservableObject {
 
   let nutritionService: NutritionService
   let healthScoringService: HealthScoringService
-  let appleHealthService: AppleHealthServicing
-  let mealLogSyncCoordinator: MealLogSyncCoordinator
   let personalizationService: PersonalizationService
   let dishEstimateService: DishEstimateService
   let imageStorageService: ImageStorageService
@@ -42,15 +40,10 @@ final class AppDependencies: ObservableObject {
     self.personalizationService = PersonalizationService(db: db)
     self.learningService = LearningService(db: db)
     self.ingredientCatalogResolver = IngredientCatalogResolver(db: db)
-    self.appleHealthService = AppleHealthService()
 
     self.healthScoringService = HealthScoringService(
       nutritionService: nutritionService,
       db: db
-    )
-    self.mealLogSyncCoordinator = MealLogSyncCoordinator(
-      appleHealthService: appleHealthService,
-      nutritionService: nutritionService
     )
     self.dishEstimateService = DishEstimateService(db: db)
     self.imageStorageService = ImageStorageService()

@@ -6,8 +6,7 @@ import PackageDescription
 let package = Package(
   name: "FridgeLuck",
   platforms: [
-    // make sure to NOT change this.
-    .iOS("26.0")
+    .iOS("18.0")
   ],
   products: [
     .iOSApplication(
@@ -55,7 +54,6 @@ let package = Package(
         "DesignSystem",
         "Domain",
         "Feature",
-        "Integration",
         "Platform",
       ],
       resources: [

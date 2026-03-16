@@ -86,7 +86,6 @@ struct FLStarRating: View {
           Image(systemName: star <= rating ? "star.fill" : "star")
             .font(.system(size: size))
             .foregroundStyle(star <= rating ? AppTheme.accent : AppTheme.oat.opacity(0.4))
-            .animation(reduceMotion ? nil : AppMotion.colorTransition, value: star <= rating)
             .scaleEffect(animatingStars.contains(star) ? 1.25 : 1.0)
             .animation(reduceMotion ? nil : AppMotion.starBounce, value: animatingStars)
         }
@@ -152,7 +151,6 @@ struct FLServingStepper: View {
           enabled ? AppTheme.accent.opacity(0.12) : AppTheme.surfaceMuted,
           in: Circle()
         )
-        .animation(.default, value: enabled)
     }
     .buttonStyle(FLPressableButtonStyle())
     .disabled(!enabled)

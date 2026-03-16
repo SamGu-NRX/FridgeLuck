@@ -9,7 +9,6 @@ struct IngredientDetailSheet: View {
   let ingredient: Ingredient
 
   @State private var aliases: [String] = []
-  @Namespace private var aliasChipNamespace
 
   var body: some View {
     NavigationStack {
@@ -193,7 +192,6 @@ struct IngredientDetailSheet: View {
               .padding(.horizontal, AppTheme.Space.sm)
               .padding(.vertical, AppTheme.Space.xs)
               .background(AppTheme.accent.opacity(0.16), in: Capsule())
-              .matchedGeometryEffect(id: alias, in: aliasChipNamespace, properties: .frame)
           }
         }
       }

@@ -1,27 +1,23 @@
-import AuthenticationServices
 import SwiftUI
 
-/// Health onboarding — hero welcome, profile setup, feature highlights,
-/// Apple Health, then app handoff.
+/// Health onboarding and profile editor.
 struct OnboardingView: View {
   @EnvironmentObject var deps: AppDependencies
-  @Environment(FirstRunExperienceStore.self) private var firstRunExperienceStore
   @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  @Environment(\.scenePhase) private var scenePhase
 
   let isRequired: Bool
   let onComplete: () -> Void
 
-  // MARK: - State
-
   @State private var displayName = ""
-  @State private var age: Int = 25
+  @State private var ageInput = ""
   @State private var goal: HealthGoal = .general
   @State private var dailyCalories: Int = HealthGoal.general.suggestedCalories
-  @State private var selectedDiet: String = "classic"
+  @State private var selectedRestrictions: Set<String> = []
   @State private var selectedAllergens: Set<Int64> = []
-  @State private var allergenCatalog: AllergenCatalogIndex = .empty
+  @State private var allIngredients: [Ingredient] = []
+  @State private var ingredientByID: [Int64: Ingredient] = [:]
+  @State private var allergenGroupMatchesByID: [String: Set<Int64>] = [:]
 
   @State private var stepIndex = 0
   @State private var stepDirection: StepDirection = .forward
@@ -29,31 +25,37 @@ struct OnboardingView: View {
   @State private var isLoaded = false
   @State private var isSaving = false
   @State private var errorMessage: String?
-  @State private var validationMessage: String?
+  @State private var identityValidationMessage: String?
   @State private var showAllergenPicker = false
-  @State private var appleHealthStatus: AppPermissionStatus = .notDetermined
-  @State private var appleHealthRequestInFlight = false
-  @State private var setupBridgeState: SetupBridgeState = .idle
 
-  @FocusState private var isNameFocused: Bool
-
-  // MARK: - Step Definition
+  private let restrictionOptions: [OnboardingRestrictionOption] = [
+    .init(id: "vegetarian", title: "Vegetarian", icon: "leaf"),
+    .init(id: "vegan", title: "Vegan", icon: "leaf.circle"),
+    .init(id: "gluten_free", title: "Gluten Free", icon: "takeoutbag.and.cup.and.straw"),
+    .init(id: "dairy_free", title: "Dairy Free", icon: "drop"),
+    .init(id: "low_carb", title: "Low Carb", icon: "bolt"),
+  ]
 
   private enum Step: Int, CaseIterable {
-    case welcome
-    case name
-    case personalWelcome
-    case age
-    case goal
-    case featureScan
-    case calories
+    case goals
     case restrictions
-    case featureChef
     case allergens
-    case healthValue
-    case healthPermission
-    case setupBridge
-    case handoff
+
+    var title: String {
+      switch self {
+      case .goals: return "Set Your Goal"
+      case .restrictions: return "Diet Preferences"
+      case .allergens: return "Allergen Safety"
+      }
+    }
+
+    var subtitle: String {
+      switch self {
+      case .goals: return "Personalize calories and nutrition direction."
+      case .restrictions: return "Filter recipes to match how you like to eat."
+      case .allergens: return "Prioritize common allergens first, then refine."
+      }
+    }
   }
 
   private enum StepDirection {
@@ -61,239 +63,99 @@ struct OnboardingView: View {
     case backward
   }
 
-  private enum SetupBridgeState {
-    case idle
-    case running
-    case complete
-  }
-
-  private let dietOptions: [DietOption] = [
-    .init(id: "classic", title: "Classic", subtitle: "No dietary restrictions", icon: .dietClassic),
-    .init(
-      id: "pescatarian", title: "Pescatarian", subtitle: "No meat, includes fish",
-      icon: .dietPescatarian),
-    .init(
-      id: "vegetarian", title: "Vegetarian", subtitle: "No meat or fish", icon: .dietVegetarian),
-    .init(id: "vegan", title: "Vegan", subtitle: "No animal products", icon: .dietVegan),
-    .init(id: "keto", title: "Keto", subtitle: "Very low carb, high fat", icon: .dietKeto),
-  ]
-
   private var currentStep: Step {
-    Step(rawValue: stepIndex) ?? .welcome
+    Step(rawValue: stepIndex) ?? .goals
   }
 
   private var totalSteps: Int {
     Step.allCases.count
   }
 
-  private var progress: Double {
-    guard stepIndex > 0 else { return 0 }
-    return Double(stepIndex) / Double(totalSteps - 1)
-  }
-
   private var selectedAllergenIngredients: [Ingredient] {
-    allergenCatalog.selectedIngredients(from: selectedAllergens)
+    selectedAllergens
+      .compactMap { ingredientByID[$0] }
+      .sorted { lhs, rhs in
+        lhs.displayName.localizedCaseInsensitiveCompare(rhs.displayName) == .orderedAscending
+      }
   }
-
-  private var normalizedName: String {
-    displayName.trimmingCharacters(in: .whitespacesAndNewlines)
-  }
-
-  private var canGoBack: Bool {
-    switch currentStep {
-    case .welcome:
-      return false
-    case .setupBridge:
-      return false
-    default:
-      return stepIndex > 0
-    }
-  }
-
-  // MARK: - Body
 
   var body: some View {
-    VStack(spacing: 0) {
-      if currentStep != .welcome {
-        topBar
-          .transition(.opacity.combined(with: .move(edge: .top)))
+    NavigationStack {
+      VStack(spacing: 0) {
+        header
+        stepContentContainer
       }
-      stepContentContainer
-    }
-    .safeAreaInset(edge: .bottom, spacing: 0) {
-      footer
-    }
-    .flPageBackground()
-    .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: currentStep == .welcome)
-    .alert(
-      "Unable to Continue",
-      isPresented: Binding(
-        get: { errorMessage != nil },
-        set: { show in if !show { errorMessage = nil } }
-      )
-    ) {
-      Button("OK", role: .cancel) {}
-    } message: {
-      Text(errorMessage ?? "")
-    }
-    .sheet(isPresented: $showAllergenPicker) {
-      AllergenPickerView(
-        catalog: allergenCatalog,
-        selectedIDs: $selectedAllergens
-      )
-    }
-    .task {
-      guard !isLoaded else { return }
-      isLoaded = true
-      await loadProfile()
-    }
-    .task(id: stepIndex) {
-      guard currentStep == .setupBridge else { return }
-      await runSetupBridgeIfNeeded()
-    }
-    .onChange(of: goal) { oldGoal, newGoal in
-      if dailyCalories == oldGoal.suggestedCalories {
-        dailyCalories = newGoal.suggestedCalories
+      .safeAreaInset(edge: .bottom, spacing: 0) {
+        footer
       }
-    }
-    .onChange(of: displayName) { _, _ in
-      if validationMessage != nil {
-        validationMessage = nil
-      }
-    }
-    .onChange(of: scenePhase) { _, newPhase in
-      guard newPhase == .active else { return }
-      refreshAppleHealthStatus()
-    }
-  }
-
-  // MARK: - Top Bar
-
-  private var topBar: some View {
-    VStack(spacing: AppTheme.Space.sm) {
-      HStack {
-        if canGoBack {
-          OnboardingBackButton {
-            goBack()
-          }
-          .transition(.opacity)
-        } else {
-          Color.clear.frame(width: 40, height: 40)
-        }
-
-        Spacer()
-
-        Spacer()
-
+      .flPageBackground()
+      .navigationTitle(isRequired ? "Onboarding" : "Health Profile")
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
         if !isRequired {
-          Button {
-            dismiss()
-          } label: {
-            Image(systemName: "xmark")
-              .font(.system(size: 14, weight: .semibold))
-              .foregroundStyle(AppTheme.textSecondary)
-              .frame(width: 40, height: 40)
+          ToolbarItem(placement: .cancellationAction) {
+            Button("Cancel") { dismiss() }
           }
-          .buttonStyle(.plain)
-        } else {
-          Color.clear.frame(width: 40, height: 40)
         }
       }
-      .padding(.horizontal, AppTheme.Space.sm)
-      .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: stepIndex)
-
-      OnboardingProgressBar(
-        progress: progress,
-        reduceMotion: reduceMotion
-      )
+      .alert(
+        "Unable to Save",
+        isPresented: Binding(
+          get: { errorMessage != nil },
+          set: { show in if !show { errorMessage = nil } }
+        )
+      ) {
+        Button("OK", role: .cancel) {}
+      } message: {
+        Text(errorMessage ?? "")
+      }
+      .sheet(isPresented: $showAllergenPicker) {
+        AllergenPickerView(
+          ingredients: allIngredients,
+          selectedIDs: $selectedAllergens
+        )
+      }
+      .task {
+        guard !isLoaded else { return }
+        isLoaded = true
+        await loadProfile()
+      }
+      .onChange(of: goal) { oldGoal, newGoal in
+        if dailyCalories == oldGoal.suggestedCalories {
+          dailyCalories = newGoal.suggestedCalories
+        }
+      }
+      .onChange(of: displayName) { _, _ in
+        if identityValidationMessage != nil {
+          identityValidationMessage = nil
+        }
+      }
+      .onChange(of: ageInput) { _, newValue in
+        let filtered = newValue.filter(\.isNumber)
+        let clamped = String(filtered.prefix(3))
+        if clamped != newValue {
+          ageInput = clamped
+        }
+        if identityValidationMessage != nil {
+          identityValidationMessage = nil
+        }
+      }
     }
-    .padding(.top, AppTheme.Space.xs)
   }
-
-  // MARK: - Step Content
 
   private var stepContentContainer: some View {
     ZStack {
       Group {
         switch currentStep {
-        case .welcome:
-          OnboardingWelcomeHeroStep(
-            onContinueWithoutApple: {
-              setStep(Step.name.rawValue, direction: .forward)
-            },
-            onAppleSignInRequest: configureAppleSignInRequest,
-            onAppleSignInCompletion: handleAppleSignInCompletion
-          )
-
-        case .name:
-          OnboardingNameStep(
-            displayName: $displayName,
-            isNameFocused: $isNameFocused,
-            validationMessage: validationMessage
-          )
-
-        case .personalWelcome:
-          OnboardingPersonalWelcomeStep(displayName: normalizedName)
-
-        case .age:
-          OnboardingAgeStep(age: $age, reduceMotion: reduceMotion)
-
-        case .goal:
-          OnboardingGoalStep(goal: $goal)
-
-        case .featureScan:
-          OnboardingFeatureScanStep()
-
-        case .calories:
-          OnboardingCalorieStep(dailyCalories: $dailyCalories, goal: goal)
-
+        case .goals:
+          goalStep
         case .restrictions:
-          OnboardingDietStep(
-            options: dietOptions,
-            selectedDiet: selectedDiet,
-            onSelect: selectDiet
-          )
-
-        case .featureChef:
-          OnboardingFeatureChefStep()
-
+          restrictionStep
         case .allergens:
-          OnboardingAllergenStep(
-            allergenGroupMatchesByID: allergenCatalog.groupMatchesByID,
-            selectedAllergens: selectedAllergens,
-            selectedAllergenIngredients: selectedAllergenIngredients,
-            onToggleGroup: toggleAllergenGroup,
-            onOpenPicker: { showAllergenPicker = true }
-          )
-
-        case .healthValue:
-          OnboardingAppleHealthValueStep()
-
-        case .healthPermission:
-          OnboardingAppleHealthPermissionStep(
-            status: appleHealthStatus,
-            isRequestInFlight: appleHealthRequestInFlight,
-            didChooseSkip: firstRunExperienceStore.appleHealthChoice == .skipped
-          )
-
-        case .setupBridge:
-          OnboardingSetupBridgeStep(
-            displayName: normalizedName,
-            goal: goal
-          )
-
-        case .handoff:
-          OnboardingHandoffStep(
-            displayName: normalizedName,
-            goal: goal,
-            dailyCalories: dailyCalories,
-            selectedDiet: selectedDiet,
-            allergenCount: selectedAllergens.count,
-            healthConnected: firstRunExperienceStore.appleHealthChoice == .connected
-          )
+          allergenStep
         }
       }
-      .id(currentStep.rawValue)
+      .id(currentStep)
       .transition(stepTransition)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -316,111 +178,104 @@ struct OnboardingView: View {
     }
   }
 
-  // MARK: - Footer
+  private var header: some View {
+    OnboardingStepHeader(
+      stepIndex: stepIndex,
+      totalSteps: totalSteps,
+      title: currentStep.title,
+      subtitle: currentStep.subtitle,
+      isRequired: isRequired,
+      reduceMotion: reduceMotion
+    )
+  }
 
-  @ViewBuilder
+  private var goalStep: some View {
+    OnboardingGoalStepSection(
+      displayName: $displayName,
+      ageInput: $ageInput,
+      goal: $goal,
+      dailyCalories: $dailyCalories,
+      identityValidationMessage: identityValidationMessage
+    )
+  }
+
+  private var restrictionStep: some View {
+    OnboardingRestrictionStepSection(
+      options: restrictionOptions,
+      selectedRestrictions: selectedRestrictions,
+      onToggle: toggleRestriction
+    )
+  }
+
+  private var allergenStep: some View {
+    OnboardingAllergenStepSection(
+      allergenGroupMatchesByID: allergenGroupMatchesByID,
+      selectedAllergens: selectedAllergens,
+      selectedAllergenIngredients: selectedAllergenIngredients,
+      onToggleGroup: toggleAllergenGroup,
+      onOpenPicker: { showAllergenPicker = true }
+    )
+  }
+
   private var footer: some View {
-    if currentStep == .setupBridge || currentStep == .welcome {
-      EmptyView()
-    } else {
-      OnboardingFooter(
-        isSaving: isSaving || appleHealthRequestInFlight,
-        isTransitioning: isTransitioning,
-        primaryButtonTitle: primaryButtonTitle,
-        primaryButtonIcon: primaryButtonIcon,
-        secondaryButtonTitle: secondaryButtonTitle,
-        secondaryButtonIcon: secondaryButtonIcon,
-        onPrimaryAction: handlePrimaryAction,
-        onSecondaryAction: handleSecondaryAction
-      )
-      .transition(.move(edge: .bottom).combined(with: .opacity))
-    }
+    OnboardingFooter(
+      stepIndex: stepIndex,
+      totalSteps: totalSteps,
+      isSaving: isSaving,
+      isTransitioning: isTransitioning,
+      reduceMotion: reduceMotion,
+      primaryButtonTitle: primaryButtonTitle,
+      primaryButtonIcon: primaryButtonIcon,
+      onBack: { setStep(max(0, stepIndex - 1), direction: .backward) },
+      onPrimaryAction: handlePrimaryAction
+    )
   }
 
   private var primaryButtonTitle: String {
-    switch currentStep {
-    case .healthPermission:
-      switch appleHealthStatus {
-      case .authorized, .unavailable:
-        return "Continue"
-      case .denied:
-        return "Open Settings"
-      default:
-        return "Connect Apple Health"
-      }
-    case .handoff:
-      return "Start Guided Demo"
-    default:
-      return "Continue"
+    if stepIndex == totalSteps - 1 {
+      return isRequired ? "Finish Setup" : "Save Profile"
     }
+    return "Continue"
   }
 
   private var primaryButtonIcon: String {
-    switch currentStep {
-    case .healthPermission:
-      switch appleHealthStatus {
-      case .authorized:
-        return "checkmark.circle.fill"
-      case .unavailable:
-        return "arrow.right"
-      case .denied:
-        return "gearshape.fill"
-      default:
-        return "heart.text.square.fill"
-      }
-    case .handoff:
-      return "arrow.right.circle.fill"
-    default:
-      return "arrow.right"
+    if stepIndex == totalSteps - 1 {
+      return "checkmark.circle.fill"
     }
+    return "arrow.right"
   }
-
-  private var secondaryButtonTitle: String? {
-    guard currentStep == .healthPermission else { return nil }
-    guard appleHealthStatus != .authorized && appleHealthStatus != .unavailable else { return nil }
-    return "Skip for now"
-  }
-
-  private var secondaryButtonIcon: String? {
-    secondaryButtonTitle == nil ? nil : "arrow.uturn.right"
-  }
-
-  // MARK: - Navigation
 
   private func handlePrimaryAction() {
-    guard !isTransitioning, !isSaving, !appleHealthRequestInFlight else { return }
+    guard !isTransitioning, !isSaving else { return }
 
-    switch currentStep {
-    case .welcome:
-      break
-
-    case .name:
-      guard validateName() else { return }
-      isNameFocused = false
+    if stepIndex < totalSteps - 1 {
+      if stepIndex == Step.goals.rawValue {
+        guard validatedIdentity() != nil else { return }
+      }
       setStep(stepIndex + 1, direction: .forward)
+      return
+    }
+    saveProfile()
+  }
 
-    case .healthPermission:
-      handleAppleHealthPrimaryAction()
-
-    case .handoff:
-      completeFlow()
-
-    default:
-      setStep(stepIndex + 1, direction: .forward)
+  private func toggleRestriction(_ id: String) {
+    if selectedRestrictions.contains(id) {
+      selectedRestrictions.remove(id)
+    } else {
+      selectedRestrictions.insert(id)
     }
   }
 
-  private func handleSecondaryAction() {
-    guard currentStep == .healthPermission else { return }
-    firstRunExperienceStore.appleHealthChoice = .skipped
-    setStep(stepIndex + 1, direction: .forward)
-  }
+  private func toggleAllergenGroup(_ group: AllergenGroupDefinition) {
+    let ids = allergenGroupMatchesByID[group.id] ?? []
+    guard !ids.isEmpty else { return }
 
-  private func goBack() {
-    guard !isTransitioning, !isSaving, !appleHealthRequestInFlight else { return }
-    guard stepIndex > 0 else { return }
-    isNameFocused = false
-    setStep(stepIndex - 1, direction: .backward)
+    let selectedCount = selectedAllergens.intersection(ids).count
+    if selectedCount == ids.count {
+      selectedAllergens.subtract(ids)
+    } else {
+      selectedAllergens.formUnion(ids)
+    }
   }
 
   private func setStep(_ newValue: Int, direction: StepDirection) {
@@ -443,112 +298,30 @@ struct OnboardingView: View {
     Task { @MainActor in
       try? await Task.sleep(nanoseconds: lockDurationNanoseconds)
       isTransitioning = false
-
-      if Step(rawValue: clamped) == .name {
-        isNameFocused = true
-      }
     }
   }
-
-  // MARK: - Apple Sign In
-
-  private func configureAppleSignInRequest(_ request: ASAuthorizationAppleIDRequest) {
-    request.requestedScopes = [.fullName]
-  }
-
-  private func handleAppleSignInCompletion(_ result: Result<ASAuthorization, Error>) {
-    switch result {
-    case .success(let authorization):
-      guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-        errorMessage = "Apple sign-in returned an unexpected credential."
-        return
-      }
-
-      UserDefaults.standard.set(credential.user, forKey: "appleUserIdentifier")
-      if let givenName = credential.fullName?.givenName, !givenName.isEmpty {
-        displayName = givenName
-      }
-      setStep(Step.name.rawValue, direction: .forward)
-
-    case .failure(let error):
-      if let authError = error as? ASAuthorizationError {
-        switch authError.code {
-        case .canceled:
-          return
-        case .failed:
-          errorMessage =
-            "Apple sign-in failed. If this is a personal team build, continue without Apple for local testing."
-        case .invalidResponse:
-          errorMessage =
-            "Apple sign-in returned an invalid response. Try again."
-        case .notHandled:
-          errorMessage =
-            "Apple sign-in could not be completed here. Try again from a signed-in device."
-        case .notInteractive,
-          .matchedExcludedCredential,
-          .credentialImport,
-          .credentialExport,
-          .preferSignInWithApple,
-          .deviceNotConfiguredForPasskeyCreation:
-          errorMessage = authError.localizedDescription
-        case .unknown:
-          errorMessage =
-            "Apple sign-in is not configured for this build. Continue without Apple for local testing, or use a paid Apple Developer team with the capability enabled."
-        @unknown default:
-          errorMessage = authError.localizedDescription
-        }
-      } else {
-        errorMessage = error.localizedDescription
-      }
-    }
-  }
-
-  // MARK: - Validation
-
-  private func validateName() -> Bool {
-    guard !normalizedName.isEmpty else {
-      validationMessage = "Please enter your name to continue."
-      return false
-    }
-    validationMessage = nil
-    return true
-  }
-
-  // MARK: - Toggles
-
-  private func selectDiet(_ id: String) {
-    withAnimation(reduceMotion ? nil : AppMotion.selectionPress) {
-      selectedDiet = id
-    }
-  }
-
-  private func toggleAllergenGroup(_ group: AllergenGroupDefinition) {
-    let ids = allergenCatalog.groupMatchesByID[group.id] ?? []
-    guard !ids.isEmpty else { return }
-
-    withAnimation(reduceMotion ? nil : AppMotion.chipReflow) {
-      let selectedCount = selectedAllergens.intersection(ids).count
-      if selectedCount == ids.count {
-        selectedAllergens.subtract(ids)
-      } else {
-        selectedAllergens.formUnion(ids)
-      }
-    }
-  }
-
-  // MARK: - Data Loading
 
   private func loadProfile() async {
     let ingredientRepository = deps.ingredientRepository
     let userDataRepository = deps.userDataRepository
 
-    let catalog = await Task.detached(priority: .userInitiated) {
-      let fetchedIngredients = (try? ingredientRepository.fetchAll()) ?? []
-      return AllergenSupport.buildCatalog(from: fetchedIngredients)
+    let fetchedIngredients = await Task.detached(priority: .userInitiated) {
+      (try? ingredientRepository.fetchAll()) ?? []
     }.value
 
-    allergenCatalog = catalog
-    refreshAppleHealthStatus()
+    let caches = await Task.detached(priority: .userInitiated) {
+      let ingredientsByID = Dictionary(
+        uniqueKeysWithValues: fetchedIngredients.compactMap { ingredient -> (Int64, Ingredient)? in
+          guard let id = ingredient.id else { return nil }
+          return (id, ingredient)
+        })
+      let matchesByGroup = AllergenSupport.groupMatchesByGroupID(in: fetchedIngredients)
+      return (ingredientsByID, matchesByGroup)
+    }.value
+
+    allIngredients = fetchedIngredients
+    ingredientByID = caches.0
+    allergenGroupMatchesByID = caches.1
 
     do {
       let profile: HealthProfile = try await Task.detached(priority: .userInitiated) {
@@ -556,126 +329,77 @@ struct OnboardingView: View {
       }.value
 
       displayName = profile.displayName
-      age = profile.age ?? 25
+      ageInput = profile.age.map(String.init) ?? ""
       goal = profile.goal
       dailyCalories = profile.dailyCalories ?? profile.goal.suggestedCalories
-      selectedDiet = profile.selectedDietID ?? "classic"
+      selectedRestrictions = Set(profile.parsedDietaryRestrictions)
       selectedAllergens = Set(profile.parsedAllergenIds)
     } catch {
       errorMessage = error.localizedDescription
     }
   }
 
-  // MARK: - Apple Health
-
-  private func refreshAppleHealthStatus() {
-    appleHealthStatus = deps.appleHealthService.authorizationStatus()
-    if appleHealthStatus == .authorized {
-      firstRunExperienceStore.appleHealthChoice = .connected
-    }
-  }
-
-  private func handleAppleHealthPrimaryAction() {
-    switch appleHealthStatus {
-    case .authorized, .unavailable:
-      setStep(stepIndex + 1, direction: .forward)
-    case .denied:
-      AppPermissionCenter.openAppSettings()
-    default:
-      requestAppleHealthAuthorization()
-    }
-  }
-
-  private func requestAppleHealthAuthorization() {
-    appleHealthRequestInFlight = true
-
-    Task { @MainActor in
-      defer { appleHealthRequestInFlight = false }
-
-      let result = await deps.appleHealthService.requestAuthorization()
-      appleHealthStatus = deps.appleHealthService.authorizationStatus()
-
-      switch result {
-      case .granted:
-        firstRunExperienceStore.appleHealthChoice = .connected
-        setStep(stepIndex + 1, direction: .forward)
-      case .limited:
-        firstRunExperienceStore.appleHealthChoice = .connected
-        setStep(stepIndex + 1, direction: .forward)
-      case .denied:
-        firstRunExperienceStore.appleHealthChoice = .unresolved
-      case .unavailable:
-        appleHealthStatus = .unavailable
-        firstRunExperienceStore.appleHealthChoice = .unresolved
-        setStep(stepIndex + 1, direction: .forward)
-      }
-    }
-  }
-
-  // MARK: - Setup Bridge
-
-  private func runSetupBridgeIfNeeded() async {
-    guard setupBridgeState == .idle else { return }
-    guard validateName() else { return }
-
-    setupBridgeState = .running
+  private func saveProfile() {
+    guard !isSaving else { return }
+    guard let identity = validatedIdentity() else { return }
     isSaving = true
 
-    let bridgeMinimumDelay: UInt64 = reduceMotion ? 250_000_000 : 2_200_000_000
-
-    do {
-      async let saveTask: Void = persistProfile()
-      async let minimumDelay: Void = Task.sleep(nanoseconds: bridgeMinimumDelay)
-      _ = try await saveTask
-      try await minimumDelay
-
-      isSaving = false
-      setupBridgeState = .complete
-      setStep(stepIndex + 1, direction: .forward)
-    } catch {
-      isSaving = false
-      setupBridgeState = .idle
-      errorMessage = error.localizedDescription
-    }
-  }
-
-  private func persistProfile() async throws {
-    let dietArray = selectedDiet == "classic" ? [String]() : [selectedDiet]
+    let selectedRestrictions = Array(self.selectedRestrictions).sorted()
     let selectedAllergens = Array(self.selectedAllergens).sorted()
-    let selectedName = normalizedName
-    let selectedAge = age
+    let selectedName = identity.displayName
+    let selectedAge = identity.age
     let selectedGoal = goal
     let selectedCalories = dailyCalories
     let userDataRepository = deps.userDataRepository
 
-    let restrictionsJSON = try encodeJSON(dietArray)
-    let allergensJSON = try encodeJSON(selectedAllergens)
-    let split = selectedGoal.defaultMacroSplit
+    Task { @MainActor in
+      defer { isSaving = false }
 
-    let profile = HealthProfile(
-      displayName: selectedName,
-      age: selectedAge,
-      goal: selectedGoal,
-      dailyCalories: selectedCalories,
-      proteinPct: split.protein,
-      carbsPct: split.carbs,
-      fatPct: split.fat,
-      dietaryRestrictions: restrictionsJSON,
-      allergenIngredientIds: allergensJSON
-    )
+      do {
+        let restrictionsJSON = try encodeJSON(selectedRestrictions)
+        let allergensJSON = try encodeJSON(selectedAllergens)
+        let split = selectedGoal.defaultMacroSplit
 
-    try await Task.detached(priority: .userInitiated) {
-      try userDataRepository.saveHealthProfile(profile)
-    }.value
+        let profile = HealthProfile(
+          displayName: selectedName,
+          age: selectedAge,
+          goal: selectedGoal,
+          dailyCalories: selectedCalories,
+          proteinPct: split.protein,
+          carbsPct: split.carbs,
+          fatPct: split.fat,
+          dietaryRestrictions: restrictionsJSON,
+          allergenIngredientIds: allergensJSON
+        )
+
+        try await Task.detached(priority: .userInitiated) {
+          try userDataRepository.saveHealthProfile(profile)
+        }.value
+
+        onComplete()
+        if !isRequired {
+          dismiss()
+        }
+      } catch {
+        errorMessage = error.localizedDescription
+      }
+    }
   }
 
-  // MARK: - Completion
-
-  private func completeFlow() {
-    onComplete()
-    if !isRequired {
-      dismiss()
+  private func validatedIdentity() -> (displayName: String, age: Int)? {
+    let normalizedDisplayName = displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !normalizedDisplayName.isEmpty else {
+      identityValidationMessage = "Please enter your name to continue."
+      return nil
     }
+
+    guard let age = Int(ageInput), (13...100).contains(age) else {
+      identityValidationMessage = "Enter an age between 13 and 100."
+      return nil
+    }
+
+    identityValidationMessage = nil
+    return (normalizedDisplayName, age)
   }
 
   private func encodeJSON<T: Encodable>(_ value: T) throws -> String {

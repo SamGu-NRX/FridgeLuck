@@ -138,7 +138,6 @@ struct CookingGuideIngredientsPage: View {
           Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
             .foregroundStyle(isChecked ? AppTheme.positive : AppTheme.textSecondary)
             .font(.system(size: 20))
-            .animation(.default, value: isChecked)
 
           if let activeSub {
             VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
@@ -178,7 +177,6 @@ struct CookingGuideIngredientsPage: View {
               activeSub != nil ? AppTheme.sage.opacity(0.12) : AppTheme.accentMuted,
               in: Circle()
             )
-            .animation(.default, value: activeSub != nil)
         }
         .buttonStyle(.plain)
       }
@@ -251,7 +249,6 @@ struct CookingGuideStepPage: View {
           Image(systemName: isCompleted ? "checkmark.circle.fill" : "circle")
             .font(.system(size: 22))
             .foregroundStyle(isCompleted ? AppTheme.positive : AppTheme.textSecondary)
-            .animation(.default, value: isCompleted)
 
           Text(isCompleted ? "Done" : "Mark as done")
             .font(AppTheme.Typography.bodyMedium)

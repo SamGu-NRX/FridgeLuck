@@ -92,7 +92,6 @@ struct IngredientPickerView: View {
         Image(systemName: "checkmark.seal.fill")
           .font(.system(size: 14, weight: .semibold))
           .foregroundStyle(count > 0 ? AppTheme.sage : AppTheme.textSecondary)
-          .animation(reduceMotion ? nil : AppMotion.colorTransition, value: count > 0)
 
         Text("\(count)")
           .font(AppTheme.Typography.dataSmall)
@@ -204,9 +203,12 @@ struct IngredientPickerView: View {
         Spacer(minLength: 4)
 
         VStack(alignment: .trailing, spacing: AppTheme.Space.xxxs) {
-          Text("\(Int(ingredient.calories)) kcal")
+          Text("\(Int(ingredient.calories))")
             .font(.system(.caption, design: .rounded, weight: .bold))
             .foregroundStyle(AppTheme.textPrimary)
+            + Text(" kcal")
+            .font(.system(.caption2, design: .rounded, weight: .medium))
+            .foregroundStyle(AppTheme.textSecondary)
 
           macroBar(ingredient: ingredient)
         }
@@ -215,7 +217,6 @@ struct IngredientPickerView: View {
           Image(systemName: isChosen ? "checkmark.circle.fill" : "circle")
             .font(.system(size: 20, weight: .medium))
             .foregroundStyle(isChosen ? AppTheme.sage : AppTheme.oat.opacity(0.5))
-            .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isChosen)
             .symbolEffect(
               .bounce,
               options: reduceMotion ? .nonRepeating : .default,

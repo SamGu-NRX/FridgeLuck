@@ -91,42 +91,37 @@ struct HealthProfile: Sendable, Codable {
 }
 
 extension HealthProfile {
-  private static let supportedDietIDsInPriorityOrder: [String] = [
-    "vegan",
-    "vegetarian",
-    "pescatarian",
-    "keto",
-  ]
-
   var normalizedDisplayName: String {
     displayName.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
-  /// The single diet ID stored (e.g. "vegan", "keto"), or nil for "classic".
-  var selectedDietID: String? {
-    Self.canonicalDietID(from: normalizedDietaryRestrictionIDs)
-  }
-
   var requiredRecipeTagMask: Int {
     var tags: RecipeTags = []
-    let diet = selectedDietID
+    let restrictions = normalizedDietaryRestrictionIDs
 
-    switch diet {
-    case "vegan": tags.insert(.vegan)
-    case "vegetarian": tags.insert(.vegetarian)
-    case "keto": tags.insert(.lowCarb)
-    default: break
+    if restrictions.contains("vegan") {
+      tags.insert(.vegan)
+    } else if restrictions.contains("vegetarian") {
+      tags.insert(.vegetarian)
+    }
+
+    if restrictions.contains("low_carb") {
+      tags.insert(.lowCarb)
     }
 
     return tags.rawValue
   }
 
   var dietaryExcludedIngredientIds: Set<Int64> {
+    let restrictions = normalizedDietaryRestrictionIDs
     var excluded: Set<Int64> = []
-    let diet = selectedDietID
 
-    if diet == "vegan" {
+    if restrictions.contains("dairy_free") || restrictions.contains("vegan") {
       excluded.formUnion([12, 13, 14, 32, 50])  // cheese, milk, butter, yogurt, sour cream
+    }
+
+    if restrictions.contains("gluten_free") {
+      excluded.formUnion([9, 15, 28, 31])  // pasta, bread, tortilla, oats
     }
 
     return excluded
@@ -134,29 +129,17 @@ extension HealthProfile {
 
   var activeDietaryBadges: [String] {
     let labels: [(String, String)] = [
-      ("pescatarian", "Pescatarian"),
       ("vegetarian", "Vegetarian"),
       ("vegan", "Vegan"),
-      ("keto", "Keto"),
+      ("gluten_free", "Gluten Free"),
+      ("dairy_free", "Dairy Free"),
+      ("low_carb", "Low Carb"),
     ]
 
-    let diet = selectedDietID
+    let restrictions = normalizedDietaryRestrictionIDs
     return labels.compactMap { id, label in
-      diet == id ? label : nil
+      restrictions.contains(id) ? label : nil
     }
-  }
-
-  private static func canonicalDietID(from normalizedRestrictions: Set<String>) -> String? {
-    for dietID in supportedDietIDsInPriorityOrder where normalizedRestrictions.contains(dietID) {
-      return dietID
-    }
-
-    // Legacy profiles may still store low-carb as a restriction rather than the newer keto diet.
-    if normalizedRestrictions.contains("low_carb") {
-      return "keto"
-    }
-
-    return nil
   }
 }
 

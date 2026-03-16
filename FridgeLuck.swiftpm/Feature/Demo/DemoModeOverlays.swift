@@ -116,7 +116,6 @@ struct DemoScenarioScanningOverlay: View {
   let discoveredCount: Int
   let scanComplete: Bool
   @Binding var scannerBracketsVisible: Bool
-  @Namespace private var discoveredChipNamespace
 
   var body: some View {
     ZStack {
@@ -288,7 +287,6 @@ struct DemoScenarioScanningOverlay: View {
             removal: .opacity
           )
         )
-        .matchedGeometryEffect(id: name, in: discoveredChipNamespace, properties: .frame)
       }
     }
   }

@@ -319,7 +319,6 @@ struct HealthBadge: View {
         Image(systemName: star <= score.rating ? "star.fill" : "star")
           .font(.system(size: 10))
           .foregroundStyle(star <= score.rating ? AppTheme.accent : AppTheme.oat.opacity(0.40))
-          .animation(.default, value: star <= score.rating)
       }
     }
   }
