@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>GEMINI_BACKEND_BASE_URL</key>
+  <string>$(GEMINI_BACKEND_BASE_URL)</string>
+  <key>NSCameraUsageDescription</key>
+  <string>FridgeLuck uses the camera to scan ingredients and nutrition labels.</string>
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+  </dict>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>FridgeLuck uses your photo library so you can scan ingredient photos.</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>FridgeLuck uses your microphone for live voice guidance and recipe assistance.</string>
+  <key>NSHealthShareUsageDescription</key>
+  <string>FridgeLuck reads your Apple Health nutrition totals so meal tracking stays connected from the start.</string>
+  <key>NSHealthUpdateUsageDescription</key>
+  <string>FridgeLuck saves the meals you log so your Apple Health nutrition history stays up to date.</string>
+</dict>
+</plist>
