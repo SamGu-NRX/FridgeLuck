@@ -7,8 +7,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   case firstScan = 0
   case ingredientReview = 1
   case pickRecipeMatch = 2
-  case liveAgent = 3
-  case cookAndRate = 4
+  case cookWithLeChef = 3
 
   var id: Int { rawValue }
 
@@ -17,8 +16,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
     case .firstScan: return "Your First Scan"
     case .ingredientReview: return "Review With Confidence"
     case .pickRecipeMatch: return "Pick A Recipe Match"
-    case .liveAgent: return "Learn The Live Agent"
-    case .cookAndRate: return "Cook & Rate"
+    case .cookWithLeChef: return "Cook With Le Chef"
     }
   }
 
@@ -31,10 +29,9 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
     case .pickRecipeMatch:
       return
         "Finish the demo review, choose the best recipe match, and return Home for the live guide."
-    case .liveAgent:
-      return "Launch the kitchen-side live guide and place your phone near the prep area."
-    case .cookAndRate:
-      return "Cook a demo recipe and rate it so I can learn your taste."
+    case .cookWithLeChef:
+      return
+        "Launch the live cook flow, prop your phone near the prep area, and finish one guided recipe."
     }
   }
 
@@ -43,8 +40,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
     case .firstScan: return "camera.viewfinder"
     case .ingredientReview: return "checklist.checked"
     case .pickRecipeMatch: return "fork.knife.circle"
-    case .liveAgent: return "waveform.and.mic"
-    case .cookAndRate: return "fork.knife.circle"
+    case .cookWithLeChef: return "waveform.and.mic"
     }
   }
 
@@ -53,8 +49,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
     case .firstScan: return AppTheme.accent
     case .ingredientReview: return AppTheme.sage
     case .pickRecipeMatch: return AppTheme.dustyRose
-    case .liveAgent: return AppTheme.deepOlive
-    case .cookAndRate: return AppTheme.oat
+    case .cookWithLeChef: return AppTheme.deepOlive
     }
   }
 
@@ -63,8 +58,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
     case .firstScan: return "Try Demo Mode"
     case .ingredientReview: return "Open Demo Review"
     case .pickRecipeMatch: return "Finish Demo Match"
-    case .liveAgent: return "Launch Live Guide"
-    case .cookAndRate: return "Cook a Recipe"
+    case .cookWithLeChef: return "Cook With Le Chef"
     }
   }
 
@@ -73,8 +67,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
     case .firstScan: return "camera.fill"
     case .ingredientReview: return "checklist"
     case .pickRecipeMatch: return "fork.knife"
-    case .liveAgent: return "waveform.circle.fill"
-    case .cookAndRate: return "fork.knife"
+    case .cookWithLeChef: return "waveform.circle.fill"
     }
   }
 

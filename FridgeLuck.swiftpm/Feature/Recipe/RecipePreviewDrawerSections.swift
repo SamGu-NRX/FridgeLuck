@@ -399,7 +399,7 @@ struct RecipePreviewBottomCTA: View {
         .frame(height: 1)
 
       VStack(spacing: AppTheme.Space.xs) {
-        FLPrimaryButton("Start Cooking", systemImage: "flame.fill") {
+        FLPrimaryButton("Cook with Le Chef", systemImage: "waveform.and.mic") {
           onStartCooking()
         }
       }

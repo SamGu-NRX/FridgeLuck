@@ -93,7 +93,6 @@ struct IngredientReviewView: View {
   @State private var reviewSpotlight = SpotlightCoordinator()
   @State private var showReviewSpotlight = false
   @State private var reviewSpotlightStepID: String?
-  @State private var isInitialAutoTour = true
 
   init(
     detections: [Detection],
@@ -314,11 +313,6 @@ struct IngredientReviewView: View {
             .spotlightAnchor("toolbarAdd")
         }
       }
-      if hasSeenReviewSpotlight && isInitialAutoTour && !showReviewSpotlight {
-        ToolbarItem(placement: .topBarTrailing) {
-          replayTourButton
-        }
-      }
     }
     .sheet(item: $showSheetMode) { mode in
       switch mode {
@@ -418,23 +412,6 @@ struct IngredientReviewView: View {
     }
     .buttonStyle(.plain)
     .accessibilityLabel("Add ingredient manually")
-  }
-
-  private var replayTourButton: some View {
-    Button {
-      isInitialAutoTour = false
-      presentReviewSpotlight()
-    } label: {
-      HStack(spacing: AppTheme.Space.xxs) {
-        Image(systemName: "arrow.counterclockwise")
-          .font(.system(size: 12, weight: .semibold))
-        Text("Replay tour")
-          .font(.system(size: 13, weight: .medium))
-      }
-      .foregroundStyle(AppTheme.accent)
-    }
-    .buttonStyle(.plain)
-    .accessibilityLabel("Replay guided tour")
   }
 
   // MARK: - Categorization

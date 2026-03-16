@@ -8,7 +8,7 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
       .deletingLastPathComponent()
   }
 
-  func testTutorialQuestSourceDefinesFiveStepFlowIncludingLiveAgent() throws {
+  func testTutorialQuestSourceDefinesFourStepFlowIncludingCookWithLeChef() throws {
     let source = try String(
       contentsOf: packageRoot().appendingPathComponent("Feature/Home/TutorialQuestModels.swift"),
       encoding: .utf8
@@ -17,8 +17,7 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
     XCTAssertTrue(source.contains("case firstScan = 0"))
     XCTAssertTrue(source.contains("case ingredientReview = 1"))
     XCTAssertTrue(source.contains("case pickRecipeMatch = 2"))
-    XCTAssertTrue(source.contains("case liveAgent = 3"))
-    XCTAssertTrue(source.contains("case cookAndRate = 4"))
+    XCTAssertTrue(source.contains("case cookWithLeChef = 3"))
   }
 
   func testRecipeResultsPromotesRecipeSelectionIntoLiveAssistantLesson() throws {
@@ -32,15 +31,15 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
     XCTAssertTrue(source.contains("navCoordinator.returnHome()"))
   }
 
-  func testContentViewRoutesHomeToAssistantAndTutorialCook() throws {
+  func testContentViewUsesLiveAssistantAsOnlyCookingRoute() throws {
     let source = try String(
       contentsOf: packageRoot().appendingPathComponent("App/ContentView.swift"),
       encoding: .utf8
     )
 
     XCTAssertTrue(source.contains(".navigationDestination(item: $assistantRecipeContext)"))
-    XCTAssertTrue(source.contains(".fullScreenCover(item: $tutorialCookingRecipe)"))
-    XCTAssertTrue(source.contains("markTutorialQuest(.liveAgent)"))
+    XCTAssertFalse(source.contains("tutorialCookingRecipe"))
+    XCTAssertTrue(source.contains("markTutorialQuest(.cookWithLeChef)"))
   }
 
   func testPackageManifestIncludesIntegrationSources() throws {

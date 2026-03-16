@@ -12,16 +12,8 @@ private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "ContentVie
 @Observable
 final class NavigationCoordinator {
   var shouldReturnHome = false
-  var didCompleteCooking = false
 
   func returnHome() {
-    shouldReturnHome = true
-  }
-
-  /// Signal that the user finished the cooking celebration. ContentView will
-  /// collapse the stack AND mark the cookAndRate quest as completed.
-  func returnHomeAfterCooking() {
-    didCompleteCooking = true
     shouldReturnHome = true
   }
 }
@@ -45,7 +37,6 @@ struct ContentView: View {
   @State private var navigateToReverseScan = false
   @State private var navigateToDemoMode = false
   @State private var assistantRecipeContext: LiveAssistantRecipeContext?
-  @State private var tutorialCookingRecipe: ScoredRecipe?
   @State private var showOnboarding = false
   @State private var showProfile = false
   @State private var navCoordinator = NavigationCoordinator()
@@ -97,7 +88,7 @@ struct ContentView: View {
     switch selectedTab {
     case .home:
       return !navigateToScan && !navigateToReverseScan && !navigateToDemoMode
-        && assistantRecipeContext == nil && tutorialCookingRecipe == nil
+        && assistantRecipeContext == nil
     case .dashboard:
       return true
     }
@@ -112,7 +103,6 @@ struct ContentView: View {
           onDemoMode: openDemoMode,
           onCompleteProfile: openProfileEditor,
           onOpenAssistant: openLiveAssistant,
-          onOpenTutorialCook: openTutorialCook,
           onReset: performFullReset,
           spotlightCoordinator: spotlightCoordinator
         )
@@ -130,7 +120,7 @@ struct ContentView: View {
           LiveAssistantView(
             recipeContext: recipeContext,
             onCompleteLesson: completeLiveAssistantLesson,
-            onSkipLesson: completeLiveAssistantLesson
+            onSkipLesson: skipLiveAssistantLesson
           )
         }
       }
@@ -162,7 +152,7 @@ struct ContentView: View {
     .overlay {
       if let steps = spotlightCoordinator.activeSteps,
         selectedTab == .home, !navigateToScan, !navigateToReverseScan, !navigateToDemoMode,
-        assistantRecipeContext == nil, tutorialCookingRecipe == nil
+        assistantRecipeContext == nil
       {
         SpotlightTutorialOverlay(
           steps: steps,
@@ -192,16 +182,10 @@ struct ContentView: View {
     .onChange(of: navCoordinator.shouldReturnHome) { _, shouldReturn in
       guard shouldReturn else { return }
 
-      if navCoordinator.didCompleteCooking {
-        markTutorialQuest(.cookAndRate)
-        navCoordinator.didCompleteCooking = false
-      }
-
       navigateToScan = false
       navigateToReverseScan = false
       navigateToDemoMode = false
       assistantRecipeContext = nil
-      tutorialCookingRecipe = nil
       selectedTab = .home
       navCoordinator.shouldReturnHome = false
     }
@@ -226,15 +210,6 @@ struct ContentView: View {
     .sheet(isPresented: $showProfile) {
       ProfileView()
         .environmentObject(deps)
-    }
-    .fullScreenCover(item: $tutorialCookingRecipe) { recipe in
-      CookingGuideView(scoredRecipe: recipe) {
-        tutorialCookingRecipe = nil
-        Task {
-          try? await Task.sleep(for: .milliseconds(450))
-          navCoordinator.returnHomeAfterCooking()
-        }
-      }
     }
     .onAppear {
       if reduceMotion {
@@ -392,24 +367,15 @@ struct ContentView: View {
     assistantRecipeContext = recipeContext
   }
 
-  private func openTutorialCook() {
-    guard hasOnboarded else {
-      showOnboarding = true
-      return
-    }
-    guard let recipe = liveAssistantCoordinator.matchedRecipe else {
-      logger.notice("Tutorial cook requested without a matched recipe.")
-      return
-    }
-
-    selectedTab = .home
-    tutorialCookingRecipe = recipe
-  }
-
   private func completeLiveAssistantLesson() {
     liveAssistantCoordinator.clearPendingLesson()
     assistantRecipeContext = nil
-    markTutorialQuest(.liveAgent)
+    markTutorialQuest(.cookWithLeChef)
+  }
+
+  private func skipLiveAssistantLesson() {
+    liveAssistantCoordinator.clearPendingLesson()
+    assistantRecipeContext = nil
   }
 
   private func openProfileEditor() {
@@ -466,7 +432,6 @@ struct ContentView: View {
     tutorialStorageString = ""
     spotlightCoordinator.activeSteps = nil
     assistantRecipeContext = nil
-    tutorialCookingRecipe = nil
     liveAssistantCoordinator.matchedRecipe = nil
     liveAssistantCoordinator.matchedRecipeContext = nil
     liveAssistantCoordinator.clearPendingLesson()
