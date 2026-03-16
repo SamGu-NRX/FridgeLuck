@@ -6,9 +6,11 @@ import UIKit
 /// (fullScreenCover), then the cooking celebration, and finally dismisses back to Home
 /// via the NavigationCoordinator.
 struct RecipeResultsView: View {
+  @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  @Environment(\.dismiss) private var dismiss
   @Environment(NavigationCoordinator.self) private var navCoordinator
+  @Environment(LiveAssistantCoordinator.self) private var liveAssistantCoordinator
+  @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
   let ingredientIds: Set<Int64>
   let ingredientNames: [String]
   let fridgePhoto: UIImage?
@@ -19,7 +21,7 @@ struct RecipeResultsView: View {
   @State private var revealedCount: Int = 0
 
   @State private var selectedRecipe: ScoredRecipe?
-  @State private var cookingRecipe: ScoredRecipe?
+  @State private var didPromoteRecipeMatchLesson = false
 
   init(
     ingredientIds: Set<Int64>,
@@ -98,25 +100,16 @@ struct RecipeResultsView: View {
     }
     .sheet(item: $selectedRecipe) { recipe in
       RecipePreviewDrawer(scoredRecipe: recipe) {
-        selectedRecipe = nil
-        Task {
-          try? await Task.sleep(for: .milliseconds(350))
-          cookingRecipe = recipe
-        }
+        handleStartCooking(recipe)
       }
       .presentationDetents([.fraction(0.92)])
       .presentationDragIndicator(.visible)
       .presentationCornerRadius(AppTheme.Radius.xl)
     }
-    .fullScreenCover(item: $cookingRecipe) { recipe in
-      CookingGuideView(scoredRecipe: recipe) {
-        cookingRecipe = nil
-        Task {
-          try? await Task.sleep(for: .milliseconds(450))
-          navCoordinator.returnHomeAfterCooking()
-        }
-      }
-    }
+  }
+
+  private var tutorialProgress: TutorialProgress {
+    TutorialProgress(storageString: tutorialStorageString)
   }
 
   // MARK: - Context Header (card-free)
@@ -190,7 +183,7 @@ struct RecipeResultsView: View {
     RecipeResultsBestMatchHero(
       scored: scored,
       transitionNamespace: transitionNamespace,
-      onTap: { selectedRecipe = scored }
+      onTap: { handleRecipeSelection(scored) }
     )
   }
 
@@ -202,15 +195,64 @@ struct RecipeResultsView: View {
       revealedCount: revealedCount,
       reduceMotion: reduceMotion,
       transitionNamespace: transitionNamespace,
-      onTap: { selectedRecipe = $0 }
+      onTap: handleRecipeSelection
     )
   }
 
   private var nearMatchSection: some View {
     RecipeResultsNearMatchSection(
       nearMatches: engine.sections.nearMatch,
-      onTap: { selectedRecipe = $0 }
+      onTap: handleRecipeSelection
     )
+  }
+
+  private func handleRecipeSelection(_ scored: ScoredRecipe) {
+    guard tutorialProgress.currentQuest == .pickRecipeMatch, !didPromoteRecipeMatchLesson else {
+      selectedRecipe = scored
+      return
+    }
+
+    let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
+    if let recipeID = scored.recipe.id {
+      ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
+    } else {
+      ingredients = []
+    }
+
+    let recipeContext = LiveAssistantRecipeContext(
+      scoredRecipe: scored,
+      ingredients: ingredients
+    )
+    liveAssistantCoordinator.storeRecipeMatch(
+      scoredRecipe: scored,
+      context: recipeContext
+    )
+
+    didPromoteRecipeMatchLesson = true
+    var progress = tutorialProgress
+    progress.markCompleted(.pickRecipeMatch)
+    tutorialStorageString = progress.storageString
+    navCoordinator.returnHome()
+  }
+
+  private func handleStartCooking(_ scored: ScoredRecipe) {
+    let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
+    if let recipeID = scored.recipe.id {
+      ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
+    } else {
+      ingredients = []
+    }
+
+    liveAssistantCoordinator.storeRecipeMatch(
+      scoredRecipe: scored,
+      context: LiveAssistantRecipeContext(scoredRecipe: scored, ingredients: ingredients)
+    )
+
+    selectedRecipe = nil
+    Task {
+      try? await Task.sleep(for: .milliseconds(220))
+      navCoordinator.returnHome()
+    }
   }
 
   private func revealRecommendationsIfNeeded() async {

@@ -1,19 +1,19 @@
 import type { GoogleGenAI } from "@google/genai";
 import type { AppConfig } from "../config.js";
-import type { ConfidenceAssessRequest } from "../types/contracts.js";
 import type { InventoryLedger } from "../inventory/inventoryLedger.js";
 import type { ConfidenceService } from "../services/confidenceService.js";
-import { generateRecipe } from "../services/recipeService.js";
-import { rankReverseScanCandidates } from "../services/reverseScanService.js";
 import { buildRestockPlan } from "../automation/restockJob.js";
 import { startTrace, traceToolCall, traceConfidenceDecision } from "../observability/tracing.js";
-import type { RecipeGenerationRequest, ReverseScanRankRequest } from "../types/contracts.js";
+import type { LiveSessionStore } from "../session/liveSessionStore.js";
+import { assessLiveCookingScene } from "../services/liveContextService.js";
+import { answerFoodSafetyQuestion } from "../services/groundingService.js";
 
 export interface ToolDeps {
   ai: GoogleGenAI;
   config: AppConfig;
   ledger: InventoryLedger;
   confidenceService: ConfidenceService;
+  sessionStore: LiveSessionStore;
 }
 
 export type ToolHandler = (
@@ -22,96 +22,72 @@ export type ToolHandler = (
   sessionId?: string
 ) => Promise<unknown>;
 
-const handleScanFridge: ToolHandler = async (args, deps, sessionId) => {
-  const tr = startTrace("scan_fridge", sessionId, args);
+const handleGetRecipeContext: ToolHandler = async (_args, deps, sessionId) => {
+  const tr = startTrace("get_recipe_context", sessionId);
 
   try {
-    const req: RecipeGenerationRequest = {
-      ingredientNames: (args.existingInventoryNames as string[] | undefined) ?? [],
-      photoBase64JPEG: args.photoBase64JPEG as string | undefined
+    if (!sessionId) throw new Error("get_recipe_context requires a live sessionId.");
+    const session = await deps.sessionStore.getSession(sessionId);
+    traceToolCall(tr.build(true));
+    return {
+      selectedRecipe: session.selectedRecipe ?? null,
+      confirmedIngredients: session.confirmedIngredients,
+      latestConfidence: session.latestConfidence ?? null,
+      hasRecentCameraFrame: Boolean(session.latestCameraFrame),
+      mutationAudit: session.mutationAudit
     };
-
-    const hasPhoto = Boolean(req.photoBase64JPEG);
-    const confidenceReq: ConfidenceAssessRequest = {
-      signals: [
-        {
-          key: "vision.fridge_scan",
-          rawScore: hasPhoto ? 0.78 : 0.42,
-          weight: 0.6,
-          reason: hasPhoto ? "Photo provided for scan" : "No photo — low confidence"
-        }
-      ],
-      hardFailReasons: hasPhoto ? [] : ["No photo provided for fridge scan."]
-    };
-
-    const assessment = deps.confidenceService.assess(confidenceReq);
-    traceConfidenceDecision(assessment, "scan_fridge", sessionId);
-    traceToolCall(tr.build(true, { confidenceMode: assessment.mode, confidenceScore: assessment.overallScore }));
-
-    return { detectedIngredients: req.ingredientNames, confidence_assessment: assessment };
   } catch (err) {
-    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "scan_fridge failed" }));
+    traceToolCall(
+      tr.build(false, { errorMessage: err instanceof Error ? err.message : "get_recipe_context failed" })
+    );
     throw err;
   }
 };
 
-const handleReverseScanMeal: ToolHandler = async (args, deps, sessionId) => {
-  const tr = startTrace("reverse_scan_meal", sessionId, args);
+const handleAssessLiveScene: ToolHandler = async (args, deps, sessionId) => {
+  const tr = startTrace("assess_live_scene", sessionId, args);
 
   try {
-    const req: ReverseScanRankRequest = {
-      detections: [],
-      candidates: [],
-      photoBase64JPEG: args.photoBase64JPEG as string | undefined
-    };
+    if (!sessionId) throw new Error("assess_live_scene requires a live sessionId.");
+    const session = await deps.sessionStore.getSession(sessionId);
+    const result = await assessLiveCookingScene(deps.ai, deps.config, deps.confidenceService, {
+      recipe: session.selectedRecipe,
+      confirmedIngredients: session.confirmedIngredients,
+      latestCameraFrame: session.latestCameraFrame,
+      userQuestion: args.userQuestion as string | undefined
+    });
 
-    const result = await rankReverseScanCandidates(deps.ai, deps.config, req);
+    await deps.sessionStore.recordLatestConfidence(sessionId, result.confidence_assessment);
+    traceConfidenceDecision(result.confidence_assessment, "assess_live_scene", sessionId);
+    traceToolCall(
+      tr.build(true, {
+        confidenceMode: result.confidence_assessment.mode,
+        confidenceScore: result.confidence_assessment.overallScore
+      })
+    );
 
-    const topScore = result.rankings[0]?.confidenceScore ?? 0;
-    const confidenceReq: ConfidenceAssessRequest = {
-      signals: [
-        {
-          key: "reverse_scan.vision_detection",
-          rawScore: args.photoBase64JPEG ? 0.75 : 0.3,
-          weight: 0.4,
-          reason: "Vision detection signal"
-        },
-        {
-          key: "reverse_scan.recipe_match",
-          rawScore: topScore,
-          weight: 0.4,
-          reason: "Top recipe match score"
-        }
-      ]
-    };
-
-    const assessment = deps.confidenceService.assess(confidenceReq);
-    traceConfidenceDecision(assessment, "reverse_scan_meal", sessionId);
-    traceToolCall(tr.build(true, { confidenceMode: assessment.mode, confidenceScore: assessment.overallScore }));
-
-    return { ...result, confidence_assessment: assessment };
+    return result;
   } catch (err) {
-    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "reverse_scan_meal failed" }));
+    traceToolCall(
+      tr.build(false, { errorMessage: err instanceof Error ? err.message : "assess_live_scene failed" })
+    );
     throw err;
   }
 };
 
-const handleGenerateRecipe: ToolHandler = async (args, deps, sessionId) => {
-  const tr = startTrace("generate_recipe", sessionId, args);
+const handleGroundFoodSafety: ToolHandler = async (args, deps, sessionId) => {
+  const tr = startTrace("ground_food_safety", sessionId, args);
 
   try {
-    const req: RecipeGenerationRequest = {
-      ingredientNames: (args.ingredientNames as string[]) ?? [],
-      dietaryRestrictions: (args.dietaryRestrictions as string[] | undefined) ?? [],
-      scanConfidenceScore: (args.scanConfidenceScore as number | undefined) ?? 0,
-      photoBase64JPEG: args.photoBase64JPEG as string | undefined
-    };
-
-    const result = await generateRecipe(deps.ai, deps.config, req);
+    const question = args.question as string | undefined;
+    if (!question) throw new Error("ground_food_safety requires a question.");
+    const result = await answerFoodSafetyQuestion(deps.ai, deps.config, question);
     traceToolCall(tr.build(true));
     return result;
   } catch (err) {
-    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "generate_recipe failed" }));
+    traceToolCall(
+      tr.build(false, { errorMessage: err instanceof Error ? err.message : "ground_food_safety failed" })
+    );
     throw err;
   }
 };
@@ -130,7 +106,9 @@ const handleMutateInventory: ToolHandler = async (args, deps, sessionId) => {
     }>;
 
     if (!idempotencyKey) throw new Error("mutate_inventory: idempotencyKey is required.");
-    if (!Array.isArray(items) || items.length === 0) throw new Error("mutate_inventory: items must be a non-empty array.");
+    if (!Array.isArray(items) || items.length === 0) {
+      throw new Error("mutate_inventory: items must be a non-empty array.");
+    }
 
     const req = { idempotencyKey, items };
     let result;
@@ -143,10 +121,22 @@ const handleMutateInventory: ToolHandler = async (args, deps, sessionId) => {
       throw new Error(`mutate_inventory: unknown operation '${operation}'. Use 'add' or 'decrement'.`);
     }
 
+    if (sessionId) {
+      await deps.sessionStore.appendMutationAudit(sessionId, {
+        operation,
+        idempotencyKey,
+        itemCount: items.length,
+        committed: result.committed,
+        createdAt: new Date().toISOString()
+      });
+    }
+
     traceToolCall(tr.build(true));
     return result;
   } catch (err) {
-    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "mutate_inventory failed" }));
+    traceToolCall(
+      tr.build(false, { errorMessage: err instanceof Error ? err.message : "mutate_inventory failed" })
+    );
     throw err;
   }
 };
@@ -164,15 +154,17 @@ const handleGetRestockPlan: ToolHandler = async (args, deps, sessionId) => {
     traceToolCall(tr.build(true));
     return result;
   } catch (err) {
-    traceToolCall(tr.build(false, { errorMessage: err instanceof Error ? err.message : "get_restock_plan failed" }));
+    traceToolCall(
+      tr.build(false, { errorMessage: err instanceof Error ? err.message : "get_restock_plan failed" })
+    );
     throw err;
   }
 };
 
 const HANDLERS: Record<string, ToolHandler> = {
-  scan_fridge: handleScanFridge,
-  reverse_scan_meal: handleReverseScanMeal,
-  generate_recipe: handleGenerateRecipe,
+  get_recipe_context: handleGetRecipeContext,
+  assess_live_scene: handleAssessLiveScene,
+  ground_food_safety: handleGroundFoodSafety,
   mutate_inventory: handleMutateInventory,
   get_restock_plan: handleGetRestockPlan
 };

@@ -12,16 +12,8 @@ private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "ContentVie
 @Observable
 final class NavigationCoordinator {
   var shouldReturnHome = false
-  var didCompleteCooking = false
 
   func returnHome() {
-    shouldReturnHome = true
-  }
-
-  /// Signal that the user finished the cooking celebration. ContentView will
-  /// collapse the stack AND mark the cookAndRate quest as completed.
-  func returnHomeAfterCooking() {
-    didCompleteCooking = true
     shouldReturnHome = true
   }
 }
@@ -37,17 +29,20 @@ enum AppTab: Sendable {
 struct ContentView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @Environment(FirstRunExperienceStore.self) private var firstRunExperienceStore
 
   @State private var selectedTab: AppTab = .home
   @State private var hasOnboarded = false
   @State private var navigateToScan = false
   @State private var navigateToReverseScan = false
   @State private var navigateToDemoMode = false
+  @State private var assistantRecipeContext: LiveAssistantRecipeContext?
   @State private var showOnboarding = false
   @State private var showProfile = false
   @State private var navCoordinator = NavigationCoordinator()
   @State private var navAppeared = false
   @State private var spotlightCoordinator = SpotlightCoordinator()
+  @State private var liveAssistantCoordinator = LiveAssistantCoordinator()
 
   // Scan mode menu state
   @State private var showScanModeMenu = false
@@ -93,6 +88,7 @@ struct ContentView: View {
     switch selectedTab {
     case .home:
       return !navigateToScan && !navigateToReverseScan && !navigateToDemoMode
+        && assistantRecipeContext == nil
     case .dashboard:
       return true
     }
@@ -105,8 +101,8 @@ struct ContentView: View {
           deps: deps,
           onScan: openScan,
           onDemoMode: openDemoMode,
-          onCompleteProfile: openOnboarding,
-          onExploreComplete: completeExploreQuest,
+          onCompleteProfile: openProfileEditor,
+          onOpenAssistant: openLiveAssistant,
           onReset: performFullReset,
           spotlightCoordinator: spotlightCoordinator
         )
@@ -120,8 +116,16 @@ struct ContentView: View {
         .navigationDestination(isPresented: $navigateToDemoMode) {
           DemoModeView()
         }
+        .navigationDestination(item: $assistantRecipeContext) { recipeContext in
+          LiveAssistantView(
+            recipeContext: recipeContext,
+            onCompleteLesson: completeLiveAssistantLesson,
+            onSkipLesson: skipLiveAssistantLesson
+          )
+        }
       }
       .environment(navCoordinator)
+      .environment(liveAssistantCoordinator)
       .opacity(selectedTab == .home ? 1 : 0)
       .zIndex(selectedTab == .home ? 1 : 0)
       .allowsHitTesting(selectedTab == .home)
@@ -147,7 +151,8 @@ struct ContentView: View {
     }
     .overlay {
       if let steps = spotlightCoordinator.activeSteps,
-        selectedTab == .home, !navigateToScan, !navigateToDemoMode
+        selectedTab == .home, !navigateToScan, !navigateToReverseScan, !navigateToDemoMode,
+        assistantRecipeContext == nil
       {
         SpotlightTutorialOverlay(
           steps: steps,
@@ -177,14 +182,10 @@ struct ContentView: View {
     .onChange(of: navCoordinator.shouldReturnHome) { _, shouldReturn in
       guard shouldReturn else { return }
 
-      if navCoordinator.didCompleteCooking {
-        markTutorialQuest(.cookAndRate)
-        navCoordinator.didCompleteCooking = false
-      }
-
       navigateToScan = false
       navigateToReverseScan = false
       navigateToDemoMode = false
+      assistantRecipeContext = nil
       selectedTab = .home
       navCoordinator.shouldReturnHome = false
     }
@@ -198,8 +199,9 @@ struct ContentView: View {
     }
     .fullScreenCover(isPresented: $showOnboarding) {
       OnboardingView(isRequired: !hasOnboarded) {
+        firstRunExperienceStore.markCompletedCurrentVersion()
+        hasOnboarded = true
         showOnboarding = false
-        markTutorialQuest(.setupProfile)
         Task { await refreshOnboardingGate() }
       }
       .interactiveDismissDisabled(!hasOnboarded)
@@ -311,6 +313,9 @@ struct ContentView: View {
     switch mode {
     case .scanIngredients:
       openScan()
+    case .updateGroceries:
+      // TODO: Route to grocery/pantry management view
+      logger.info("Update Groceries selected — feature coming soon")
     case .logMeal:
       openReverseScan()
     }
@@ -348,12 +353,37 @@ struct ContentView: View {
     }
   }
 
-  private func completeExploreQuest() {
-    markTutorialQuest(.exploreMore)
+  private func openLiveAssistant() {
+    guard hasOnboarded else {
+      showOnboarding = true
+      return
+    }
+    guard let recipeContext = liveAssistantCoordinator.matchedRecipeContext else {
+      logger.notice("Live assistant requested without a matched recipe context.")
+      return
+    }
+
+    selectedTab = .home
+    assistantRecipeContext = recipeContext
   }
 
-  private func openOnboarding() {
-    showOnboarding = true
+  private func completeLiveAssistantLesson() {
+    liveAssistantCoordinator.clearPendingLesson()
+    assistantRecipeContext = nil
+    markTutorialQuest(.cookWithLeChef)
+  }
+
+  private func skipLiveAssistantLesson() {
+    liveAssistantCoordinator.clearPendingLesson()
+    assistantRecipeContext = nil
+  }
+
+  private func openProfileEditor() {
+    guard hasOnboarded else {
+      showOnboarding = true
+      return
+    }
+    showProfile = true
   }
 
   private func openDashboardTab() {
@@ -373,7 +403,9 @@ struct ContentView: View {
       if !hasOnboarded {
         selectedTab = .home
         showProfile = false
-        showOnboarding = true
+        if !firstRunExperienceStore.hasCompletedCurrentVersion {
+          showOnboarding = true
+        }
       }
     } catch {
       logger.error("Failed to check onboarding status: \(error.localizedDescription)")
@@ -399,6 +431,10 @@ struct ContentView: View {
 
     tutorialStorageString = ""
     spotlightCoordinator.activeSteps = nil
+    assistantRecipeContext = nil
+    liveAssistantCoordinator.matchedRecipe = nil
+    liveAssistantCoordinator.matchedRecipeContext = nil
+    liveAssistantCoordinator.clearPendingLesson()
 
     let tutorialKeys = ResetPolicy.tutorialKeysToClear(
       allKeys: TutorialStorageKeys.all,
@@ -418,6 +454,7 @@ struct ContentView: View {
 
     hasOnboarded = false
     selectedTab = .home
+    firstRunExperienceStore.reset()
     showOnboarding = true
   }
 
@@ -486,6 +523,7 @@ struct ContentView: View {
           .font(AppTheme.Typography.labelSmall)
       }
       .foregroundStyle(isActive ? AppTheme.accent : AppTheme.textSecondary)
+      .animation(.default, value: isActive)
       .frame(maxWidth: .infinity)
       .contentShape(Rectangle())
     }

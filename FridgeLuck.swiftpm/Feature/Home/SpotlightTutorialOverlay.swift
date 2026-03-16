@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // MARK: - Step Model
 
@@ -18,7 +19,7 @@ extension SpotlightStep {
       icon: "sparkles",
       title: "Welcome to FridgeLuck",
       message:
-        "This guided tour walks you through the app. In a few quick steps, you\u{2019}ll set up your profile, explore pre-built demos, and unlock your personalized dashboard."
+        "This guided tour teaches the app itself. You already handled setup before entering \u{2014} now we\u{2019}ll show you where everything lives."
     ),
     SpotlightStep(
       id: "setup",
@@ -26,23 +27,15 @@ extension SpotlightStep {
       icon: "rectangle.stack",
       title: "Your Guided Tour",
       message:
-        "These 4 steps each teach a core feature. Complete them all to unlock your full dashboard \u{2014} or skip ahead any time."
+        "These 4 steps unlock one at a time: start with a demo scan, review uncertain ingredients, choose a recipe match, then cook with Le Chef."
     ),
     SpotlightStep(
-      id: "personalize",
+      id: "scan_first",
       anchorID: "quest_0",
-      icon: "person.crop.circle.badge.checkmark",
-      title: "Set Up Your Profile",
+      icon: "camera.viewfinder",
+      title: "Start With Demo Mode",
       message:
-        "This is your onboarding \u{2014} tell me your goals, dietary needs, and allergens. I\u{2019}ll personalize every recipe to fit your life."
-    ),
-    SpotlightStep(
-      id: "demos",
-      anchorID: "quest_1",
-      icon: "play.rectangle.fill",
-      title: "Pre-built Demos",
-      message:
-        "We\u{2019}ve pre-built demo scenarios so you can explore the full experience. Pick a pre-stocked fridge, cook a recipe, and see how it all works."
+        "Use the demo scenarios first. They make it easy to understand the full scan-to-recipe loop before you use your own kitchen."
     ),
     SpotlightStep(
       id: "wrapup",
@@ -50,7 +43,7 @@ extension SpotlightStep {
       icon: "arrow.right.circle",
       title: "Before You Begin",
       message:
-        "Want to redo this tour later? Scroll to the bottom and tap \u{201C}Reset progress\u{201D} to start fresh. Or skip the tour entirely \u{2014} you\u{2019}ll still have full access to demo mode from the main dashboard."
+        "After your demo scan, FridgeLuck will meet you inside ingredient review for the next lesson. Want to redo this tour later? Scroll to the bottom and tap \u{201C}Reset progress\u{201D}."
     ),
   ]
 
@@ -140,25 +133,6 @@ extension SpotlightStep {
     ),
   ]
 
-  static let firstScanNudge: [SpotlightStep] = [
-    SpotlightStep(
-      id: "nudge_profile_done",
-      anchorID: "quest_0",
-      icon: "checkmark.circle.fill",
-      title: "Profile Done!",
-      message:
-        "Your recipes will now match your goals and dietary needs."
-    ),
-    SpotlightStep(
-      id: "nudge_try_demo",
-      anchorID: "quest_1",
-      icon: "play.rectangle.fill",
-      title: "Try Demo Mode",
-      message:
-        "Tap here to explore a pre-stocked fridge. You\u{2019}ll see the full scan-to-recipe flow \u{2014} nothing can go wrong."
-    ),
-  ]
-
   static let demoMode: [SpotlightStep] = [
     SpotlightStep(
       id: "demo_welcome",
@@ -187,6 +161,33 @@ extension SpotlightStep {
       message:
         "Tap this swap button to open substitutions. Great for dietary needs, allergies, or using what you already have."
     )
+  ]
+
+  static let liveAssistantLesson: [SpotlightStep] = [
+    SpotlightStep(
+      id: "live_lesson_intro",
+      anchorID: nil,
+      icon: "sparkles.rectangle.stack.fill",
+      title: "Your Recipe Match Is Ready",
+      message:
+        "Before you start cooking, FridgeLuck can turn that recipe into a hands-free kitchen guide from Home."
+    ),
+    SpotlightStep(
+      id: "live_lesson_entry",
+      anchorID: "liveAssistantEntry",
+      icon: "waveform.and.mic",
+      title: "Cook With Le Chef",
+      message:
+        "Place the phone on a counter stand near your prep area so Gemini can see your cutting board, ingredients, and pan while it guides you live."
+    ),
+    SpotlightStep(
+      id: "live_lesson_grounding",
+      anchorID: nil,
+      icon: "checkmark.shield.fill",
+      title: "Stay Grounded",
+      message:
+        "Use the assistant for step-by-step coaching, substitutions, and food-safety checks. You can skip this lesson now and reopen it from Home later."
+    ),
   ]
 }
 
@@ -313,27 +314,28 @@ struct SpotlightTutorialOverlay: View {
     let y = tooltipY(in: geo, screenHeight: screenHeight(for: geo))
 
     return VStack(spacing: AppTheme.Space.md) {
-      Image(systemName: step.icon)
-        .contentTransition(.symbolEffect(.replace))
-        .font(.system(size: 26, weight: .semibold))
-        .foregroundStyle(.white)
-        .frame(width: 52, height: 52)
-        .background(AppTheme.accent.opacity(0.85), in: Circle())
-
-      VStack(spacing: AppTheme.Space.xs) {
-        Text(step.title)
-          .font(AppTheme.Typography.displaySmall)
+      VStack(spacing: AppTheme.Space.md) {
+        Image(systemName: step.icon)
+          .font(.system(size: 26, weight: .semibold))
           .foregroundStyle(.white)
-          .multilineTextAlignment(.center)
-          .contentTransition(.numericText())
+          .frame(width: 52, height: 52)
+          .background(AppTheme.accent.opacity(0.85), in: Circle())
 
-        Text(step.message)
-          .font(AppTheme.Typography.bodyMedium)
-          .foregroundStyle(.white.opacity(0.76))
-          .multilineTextAlignment(.center)
-          .fixedSize(horizontal: false, vertical: true)
-          .contentTransition(.numericText())
+        VStack(spacing: AppTheme.Space.xs) {
+          Text(step.title)
+            .font(AppTheme.Typography.displaySmall)
+            .foregroundStyle(.white)
+            .multilineTextAlignment(.center)
+
+          Text(step.message)
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(.white.opacity(0.76))
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+        }
       }
+      .id(stepIndex)
+      .transition(.blurReplace)
 
       HStack {
         stepIndicator
@@ -544,7 +546,15 @@ struct SpotlightTutorialOverlay: View {
 
   private func screenHeight(for geo: GeometryProxy) -> CGFloat {
     let overlayTop = geo.frame(in: .global).minY
-    return max(geo.size.height, UIScreen.main.bounds.height - overlayTop)
+    let sceneScreenHeight =
+      UIApplication.shared.connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .first(where: { $0.activationState == .foregroundActive })?
+      .screen
+      .bounds.height
+      ?? geo.size.height
+
+    return max(geo.size.height, sceneScreenHeight - overlayTop)
   }
 
   // MARK: - Actions

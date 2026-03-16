@@ -242,58 +242,62 @@ struct HomeFridgeLuckPanelsSection: View {
   let snapshot: HomeDashboardSnapshot
 
   var body: some View {
-    ZStack(alignment: .topLeading) {
-      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        Text("Your Fridge")
-          .font(AppTheme.Typography.displayCaption)
-          .foregroundStyle(AppTheme.textPrimary)
+    GeometryReader { geo in
+      let width = geo.size.width
 
-        Text("\(snapshot.ingredientCount)")
-          .font(AppTheme.Typography.displayLarge)
-          .foregroundStyle(AppTheme.sage)
-        Text("ingredients scanned")
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary)
+      ZStack(alignment: .topLeading) {
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          Text("Your Fridge")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(AppTheme.textPrimary)
+
+          Text("\(snapshot.ingredientCount)")
+            .font(AppTheme.Typography.displayLarge)
+            .foregroundStyle(AppTheme.sage)
+          Text("ingredients scanned")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(AppTheme.Space.lg)
+        .background(
+          AppTheme.sageLight.opacity(0.18),
+          in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+            .stroke(AppTheme.sage.opacity(0.20), lineWidth: 1)
+        )
+        .rotationEffect(.degrees(-1.2), anchor: .bottomLeading)
+        .frame(width: width * 0.58)
+
+        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          Text("Your Luck")
+            .font(AppTheme.Typography.displayCaption)
+            .foregroundStyle(.white)
+
+          Text("\(snapshot.recipeCount)")
+            .font(AppTheme.Typography.displayLarge)
+            .foregroundStyle(AppTheme.accentLight)
+          Text("recipes possible")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(.white.opacity(0.7))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(AppTheme.Space.lg)
+        .background(
+          AppTheme.deepOlive,
+          in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+            .stroke(AppTheme.homePanelStroke, lineWidth: 1)
+        )
+        .shadow(color: AppTheme.Shadow.colorDeep, radius: 12, x: 0, y: 6)
+        .rotationEffect(.degrees(1.5), anchor: .topTrailing)
+        .frame(width: width * 0.52)
+        .offset(x: width * 0.32, y: 50)
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(AppTheme.Space.lg)
-      .background(
-        AppTheme.sageLight.opacity(0.18),
-        in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-      )
-      .overlay(
-        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-          .stroke(AppTheme.sage.opacity(0.20), lineWidth: 1)
-      )
-      .rotationEffect(.degrees(-1.2), anchor: .bottomLeading)
-      .frame(width: UIScreen.main.bounds.width * 0.58)
-
-      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        Text("Your Luck")
-          .font(AppTheme.Typography.displayCaption)
-          .foregroundStyle(.white)
-
-        Text("\(snapshot.recipeCount)")
-          .font(AppTheme.Typography.displayLarge)
-          .foregroundStyle(AppTheme.accentLight)
-        Text("recipes possible")
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(.white.opacity(0.7))
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(AppTheme.Space.lg)
-      .background(
-        AppTheme.deepOlive,
-        in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-      )
-      .overlay(
-        RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-          .stroke(AppTheme.homePanelStroke, lineWidth: 1)
-      )
-      .shadow(color: AppTheme.Shadow.colorDeep, radius: 12, x: 0, y: 6)
-      .rotationEffect(.degrees(1.5), anchor: .topTrailing)
-      .frame(width: UIScreen.main.bounds.width * 0.52)
-      .offset(x: UIScreen.main.bounds.width * 0.32, y: 50)
     }
     .frame(height: 190)
   }
@@ -395,6 +399,83 @@ struct HomeStarterPanelSection: View {
 
       FLWaveDivider()
     }
+  }
+}
+
+struct HomeLiveAssistantSection: View {
+  let recipeContext: LiveAssistantRecipeContext
+  let isTutorialActive: Bool
+  let onOpenAssistant: () -> Void
+
+  var body: some View {
+    ZStack(alignment: .topTrailing) {
+      RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+        .fill(
+          LinearGradient(
+            colors: [AppTheme.deepOlive, AppTheme.deepOliveLight],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+          )
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+            .stroke(AppTheme.slabStroke, lineWidth: 1)
+        )
+
+      Circle()
+        .fill(AppTheme.accent.opacity(0.18))
+        .frame(width: 220, height: 220)
+        .blur(radius: 40)
+        .offset(x: 84, y: -72)
+        .allowsHitTesting(false)
+
+      VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+        HStack(alignment: .top, spacing: AppTheme.Space.sm) {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+            Text(isTutorialActive ? "Step 4 · Live Cook" : "Live Cook Ready")
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.oat)
+              .textCase(.uppercase)
+              .kerning(0.9)
+
+            Text(recipeContext.title)
+              .font(AppTheme.Typography.displayCaption)
+              .foregroundStyle(.white)
+
+            Text(
+              "Full-screen camera, grounded voice guidance, and a collapsible step drawer designed for the kitchen."
+            )
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(.white.opacity(0.74))
+          }
+
+          Spacer(minLength: AppTheme.Space.sm)
+
+          FLStatusPill(text: "Ready", kind: .positive)
+        }
+
+        HStack(spacing: AppTheme.Space.xs) {
+          liveDetailPill("\(recipeContext.ingredients.count) items")
+          liveDetailPill("\(recipeContext.timeMinutes) min")
+          liveDetailPill("Camera-first")
+        }
+
+        FLPrimaryButton("Cook with Le Chef", systemImage: "waveform.and.mic") {
+          onOpenAssistant()
+        }
+      }
+      .padding(AppTheme.Space.lg)
+    }
+    .shadow(color: AppTheme.Shadow.colorDeep, radius: 18, x: 0, y: 10)
+  }
+
+  private func liveDetailPill(_ text: String) -> some View {
+    Text(text)
+      .font(AppTheme.Typography.labelSmall)
+      .foregroundStyle(.white.opacity(0.82))
+      .padding(.horizontal, AppTheme.Space.sm)
+      .padding(.vertical, AppTheme.Space.chipVertical)
+      .background(.white.opacity(0.08), in: Capsule())
   }
 }
 

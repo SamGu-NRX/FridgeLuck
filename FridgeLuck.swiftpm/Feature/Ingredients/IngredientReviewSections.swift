@@ -282,6 +282,7 @@ struct IngredientReviewNeedsConfirmationSection: View {
               Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                 .font(AppTheme.Typography.label)
                 .foregroundStyle(isSelected ? AppTheme.positive : AppTheme.textSecondary)
+                .animation(.default, value: isSelected)
               Text(option.label)
                 .font(AppTheme.Typography.label)
                 .lineLimit(1)
@@ -304,6 +305,7 @@ struct IngredientReviewNeedsConfirmationSection: View {
                   ? StrokeStyle(lineWidth: 1) : StrokeStyle(lineWidth: 1, dash: [4, 3])
               )
             )
+            .animation(.default, value: isSelected)
           }
           .buttonStyle(.plain)
         }
@@ -424,6 +426,7 @@ struct OrganicIngredientChip: View {
             lineWidth: 1
           )
         )
+        .animation(.default, value: isSelected)
         .opacity(chipStyle == .possible ? 0.85 : 1.0)
       }
       .buttonStyle(.plain)

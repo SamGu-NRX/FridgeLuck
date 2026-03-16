@@ -73,6 +73,12 @@ struct IngredientReviewView: View {
   @State private var showSheetMode: IngredientSheetMode?
   @State private var navigateToResults = false
   @State private var allIngredients: [Ingredient] = []
+  @State private var ingredientByID: [Int64: Ingredient] = [:]
+  @State private var categorizedResults = ConfidenceRouter.CategorizedResults(
+    confirmed: [],
+    needsConfirmation: [],
+    possible: []
+  )
   @State private var selectedIngredientForDetail: Ingredient?
   @State private var showFridgePhoto = false
 
@@ -82,11 +88,11 @@ struct IngredientReviewView: View {
   @State private var inventorySourceRef = "scan-review:\(UUID().uuidString)"
 
   // MARK: - Spotlight Tutorial State
+  @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
   @AppStorage(TutorialStorageKeys.hasSeenReviewSpotlight) private var hasSeenReviewSpotlight = false
   @State private var reviewSpotlight = SpotlightCoordinator()
   @State private var showReviewSpotlight = false
   @State private var reviewSpotlightStepID: String?
-  @State private var isInitialAutoTour = true
 
   init(
     detections: [Detection],
@@ -307,11 +313,6 @@ struct IngredientReviewView: View {
             .spotlightAnchor("toolbarAdd")
         }
       }
-      if hasSeenReviewSpotlight && isInitialAutoTour && !showReviewSpotlight {
-        ToolbarItem(placement: .topBarLeading) {
-          replayTourButton
-        }
-      }
     }
     .sheet(item: $showSheetMode) { mode in
       switch mode {
@@ -356,7 +357,11 @@ struct IngredientReviewView: View {
       guard !didInitialize else { return }
       didInitialize = true
       loadAllIngredients()
-      categorizeDetections()
+      refreshCategorization(seedSuggestions: true)
+      markIngredientReviewQuestIfNeeded()
+    }
+    .onChange(of: detectionIDs) { _, _ in
+      refreshCategorization(seedSuggestions: false)
     }
     .task(id: shouldAutoPresentReviewSpotlight) {
       guard shouldAutoPresentReviewSpotlight else { return }
@@ -409,27 +414,14 @@ struct IngredientReviewView: View {
     .accessibilityLabel("Add ingredient manually")
   }
 
-  private var replayTourButton: some View {
-    Button {
-      isInitialAutoTour = false
-      presentReviewSpotlight()
-    } label: {
-      HStack(spacing: AppTheme.Space.xxs) {
-        Image(systemName: "arrow.counterclockwise")
-          .font(.system(size: 12, weight: .semibold))
-        Text("Replay tour")
-          .font(.system(size: 13, weight: .medium))
-      }
-      .foregroundStyle(AppTheme.accent)
-    }
-    .buttonStyle(.plain)
-    .accessibilityLabel("Replay guided tour")
-  }
-
   // MARK: - Categorization
 
   private var categorized: ConfidenceRouter.CategorizedResults {
-    ConfidenceRouter.categorize(detections)
+    categorizedResults
+  }
+
+  private var detectionIDs: [UUID] {
+    detections.map(\.id)
   }
 
   private var unresolvedCount: Int {
@@ -441,11 +433,14 @@ struct IngredientReviewView: View {
     return Double(total - unresolvedCount) / Double(total)
   }
 
-  private func categorizeDetections() {
-    let results = categorized
+  private func refreshCategorization(seedSuggestions: Bool) {
+    let results = ConfidenceRouter.categorize(detections)
+    categorizedResults = results
     logger.debug(
       "Categorizing detections. confirmed=\(results.confirmed.count, privacy: .public), needsConfirmation=\(results.needsConfirmation.count, privacy: .public), possible=\(results.possible.count, privacy: .public)"
     )
+
+    guard seedSuggestions else { return }
 
     for detection in results.confirmed {
       confirmedIds.insert(detection.ingredientId)
@@ -462,11 +457,18 @@ struct IngredientReviewView: View {
   }
 
   private func loadAllIngredients() {
-    allIngredients = (try? dependencies.fetchAllIngredients()) ?? []
+    let ingredients = (try? dependencies.fetchAllIngredients()) ?? []
+    allIngredients = ingredients
+    ingredientByID = Dictionary(
+      uniqueKeysWithValues: ingredients.compactMap { ingredient -> (Int64, Ingredient)? in
+        guard let id = ingredient.id else { return nil }
+        return (id, ingredient)
+      }
+    )
   }
 
   private func ingredient(for id: Int64) -> Ingredient? {
-    allIngredients.first(where: { $0.id == id })
+    ingredientByID[id]
   }
 
   private func displayName(for id: Int64) -> String {
@@ -476,7 +478,7 @@ struct IngredientReviewView: View {
 
   private func confirmedIngredientNames() -> [String] {
     confirmedIds
-      .compactMap { ingredient(for: $0)?.displayName }
+      .map { ingredient(for: $0)?.displayName ?? IngredientLexicon.displayName(for: $0) }
       .sorted()
   }
 
@@ -707,14 +709,15 @@ struct IngredientReviewView: View {
 
   private func candidateSeedIngredients(for detection: Detection) -> [Ingredient] {
     let ids = candidateOptions(for: detection).map(\.ingredientId)
-    let pairs: [(Int64, Ingredient)] = allIngredients.compactMap { ingredient in
-      guard let id = ingredient.id else { return nil }
-      return (id, ingredient)
-    }
-    let lookup = Dictionary(uniqueKeysWithValues: pairs)
-
-    let seeded = ids.compactMap { lookup[$0] }
+    let seeded = ids.compactMap { ingredientByID[$0] }
     return seeded.isEmpty ? allIngredients : seeded
+  }
+
+  private func markIngredientReviewQuestIfNeeded() {
+    var progress = TutorialProgress(storageString: tutorialStorageString)
+    guard !progress.isCompleted(.ingredientReview) else { return }
+    progress.markCompleted(.ingredientReview)
+    tutorialStorageString = progress.storageString
   }
 }
 

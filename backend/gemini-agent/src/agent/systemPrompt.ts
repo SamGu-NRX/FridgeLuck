@@ -1,12 +1,10 @@
 import { Type, type Tool } from "@google/genai";
 
-// ─── System Prompt ────────────────────────────────────────────────────────────
-
 export const SYSTEM_PROMPT = `
 You are FridgeLuck's smart-fridge assistant, powered by Gemini Live.
 
 ## Role
-Help users scan their fridge/pantry, identify ingredients, generate recipes, track inventory, and plan restocking — all with ingredient-level accuracy.
+Help users cook from a selected recipe, keep inventory trustworthy, and answer freshness or food-safety questions with grounded evidence when needed.
 
 ## Confidence Policy (MANDATORY — never violate these rules)
 
@@ -18,87 +16,57 @@ Help users scan their fridge/pantry, identify ingredients, generate recipes, tra
 
 ## Tool Usage Rules
 
-- Use scan_fridge when the user shows you a fridge or pantry.
-- Use reverse_scan_meal when the user shows you a cooked dish or plated meal.
-- Use generate_recipe when the user wants recipe suggestions from available ingredients.
+- Use get_recipe_context first when you need the selected recipe, confirmed ingredients, or prior confidence state.
+- Use assess_live_scene when you need grounded cooking guidance from the current kitchen camera frame.
+- Use ground_food_safety only for freshness, food-safety, or shelf-life questions that require external evidence.
 - Use mutate_inventory only AFTER the user has confirmed the ingredient list.
 - Use get_restock_plan when the user asks about expiring food or what to buy.
 
 ## Persona
-Be warm, practical, and concise. You are a cooking assistant, not a nutritionist. Avoid overwhelming detail. Use bullet lists for ingredient confirmations.
+Be warm, practical, and concise. You are a kitchen-side cooking assistant, not a nutritionist. Avoid overwhelming detail. Prefer short, actionable next steps.
 `.trim();
-
-// ─── Tool Declarations ────────────────────────────────────────────────────────
 
 export const TOOL_DECLARATIONS: Tool[] = [
   {
     functionDeclarations: [
       {
-        name: "scan_fridge",
+        name: "get_recipe_context",
         description:
-          "Analyse a fridge or pantry photo to identify available ingredients with confidence scores. Returns detected ingredients and a confidence assessment.",
+          "Return the live session recipe context, confirmed ingredients, latest confidence decision, and recent frame availability from Firestore-backed session state.",
         parameters: {
           type: Type.OBJECT,
-          properties: {
-            photoBase64JPEG: {
-              type: Type.STRING,
-              description: "Base64-encoded JPEG image of the fridge or pantry."
-            },
-            existingInventoryNames: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: "Optional list of ingredient names already in the user's inventory ledger for cross-reference."
-            }
-          },
-          required: ["photoBase64JPEG"]
+          properties: {},
+          required: []
         }
       },
       {
-        name: "reverse_scan_meal",
+        name: "assess_live_scene",
         description:
-          "Analyse a photo of a cooked or plated meal to identify the recipe match and infer ingredients with portion estimates. Returns ranked recipe candidates and confidence assessment.",
+          "Assess the current kitchen scene using the latest camera frame plus selected recipe context. Returns grounded next-step guidance, observed ingredients, kitchen risks, and a confidence assessment.",
         parameters: {
           type: Type.OBJECT,
           properties: {
-            photoBase64JPEG: {
+            userQuestion: {
               type: Type.STRING,
-              description: "Base64-encoded JPEG image of the meal."
-            },
-            mealDescription: {
-              type: Type.STRING,
-              description: "Optional short description of the meal from the user."
+              description: "Optional question to focus the scene assessment, e.g. 'Is the pan hot enough?'"
             }
           },
-          required: ["photoBase64JPEG"]
+          required: []
         }
       },
       {
-        name: "generate_recipe",
+        name: "ground_food_safety",
         description:
-          "Generate a recipe using the user's available ingredients. Returns a structured recipe with time, servings, and estimated calories.",
+          "Answer freshness, shelf-life, or food-safety questions with Google Search grounding. Returns a grounded answer plus source links.",
         parameters: {
           type: Type.OBJECT,
           properties: {
-            ingredientNames: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: "List of ingredient names available."
-            },
-            dietaryRestrictions: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: "Optional dietary restrictions, e.g. ['gluten-free', 'dairy-free']."
-            },
-            scanConfidenceScore: {
-              type: Type.NUMBER,
-              description: "Overall confidence score from the preceding scan (0–1)."
-            },
-            photoBase64JPEG: {
+            question: {
               type: Type.STRING,
-              description: "Optional photo to visually ground the recipe suggestion."
+              description: "The user's freshness or food-safety question."
             }
           },
-          required: ["ingredientNames"]
+          required: ["question"]
         }
       },
       {
@@ -110,7 +78,7 @@ export const TOOL_DECLARATIONS: Tool[] = [
           properties: {
             operation: {
               type: Type.STRING,
-              description: "'add' to add ingredients (e.g. after scan), 'decrement' to consume (e.g. after cooking)."
+              description: "'add' to add ingredients, 'decrement' to consume ingredients."
             },
             idempotencyKey: {
               type: Type.STRING,

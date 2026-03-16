@@ -22,6 +22,11 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
+# XcodeGen-generated project files
+FridgeLuck.xcodeproj/
+Xcode/FridgeLuck-Info.plist
+Xcode/FridgeLuck.entitlements
+
 # iOS/macOS build outputs
 *.ipa
 *.dSYM

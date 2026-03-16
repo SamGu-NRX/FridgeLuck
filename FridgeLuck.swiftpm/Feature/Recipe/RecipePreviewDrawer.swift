@@ -2,7 +2,7 @@ import SwiftUI
 
 /// A drawer-style sheet for browsing a recipe's details before deciding to cook.
 /// Covers ~92% of the screen. Shows hero visual, title, macros, health score,
-/// ingredients, and a "Start Cooking" CTA. Does NOT show step-by-step instructions.
+/// ingredients, and a live-cook CTA. Does NOT show step-by-step instructions.
 struct RecipePreviewDrawer: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion

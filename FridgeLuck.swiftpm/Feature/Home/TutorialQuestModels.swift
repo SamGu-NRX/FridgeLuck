@@ -4,68 +4,70 @@ import SwiftUI
 
 /// Each quest represents a guided step that teaches a core feature.
 enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
-  case setupProfile = 0
-  case firstScan = 1
-  case cookAndRate = 2
-  case exploreMore = 3
+  case firstScan = 0
+  case ingredientReview = 1
+  case pickRecipeMatch = 2
+  case cookWithLeChef = 3
 
   var id: Int { rawValue }
 
   var title: String {
     switch self {
-    case .setupProfile: return "Set Up Your Kitchen"
     case .firstScan: return "Your First Scan"
-    case .cookAndRate: return "Cook & Rate"
-    case .exploreMore: return "Explore More"
+    case .ingredientReview: return "Review With Confidence"
+    case .pickRecipeMatch: return "Pick A Recipe Match"
+    case .cookWithLeChef: return "Cook With Le Chef"
     }
   }
 
   var subtitle: String {
     switch self {
-    case .setupProfile:
-      return "Share your nutrition goals and dietary needs."
     case .firstScan:
       return "Pick a pre-stocked fridge and explore recipes \u{2014} nothing can go wrong."
-    case .cookAndRate:
-      return "Cook a demo recipe and rate it so I can learn your taste."
-    case .exploreMore:
-      return "Try new cuisines or snap a photo for nutrition info."
+    case .ingredientReview:
+      return "Run the demo flow again and confirm any uncertain ingredients before recipes appear."
+    case .pickRecipeMatch:
+      return
+        "Finish the demo review, choose the best recipe match, and return Home for the live guide."
+    case .cookWithLeChef:
+      return
+        "Launch the live cook flow, prop your phone near the prep area, and finish one guided recipe."
     }
   }
 
   var icon: String {
     switch self {
-    case .setupProfile: return "person.crop.circle.badge.checkmark"
     case .firstScan: return "camera.viewfinder"
-    case .cookAndRate: return "fork.knife.circle"
-    case .exploreMore: return "sparkle.magnifyingglass"
+    case .ingredientReview: return "checklist.checked"
+    case .pickRecipeMatch: return "fork.knife.circle"
+    case .cookWithLeChef: return "waveform.and.mic"
     }
   }
 
   var accentColor: Color {
     switch self {
-    case .setupProfile: return AppTheme.sage
     case .firstScan: return AppTheme.accent
-    case .cookAndRate: return AppTheme.oat
-    case .exploreMore: return AppTheme.dustyRose
+    case .ingredientReview: return AppTheme.sage
+    case .pickRecipeMatch: return AppTheme.dustyRose
+    case .cookWithLeChef: return AppTheme.deepOlive
     }
   }
 
   var ctaTitle: String {
     switch self {
-    case .setupProfile: return "Set Up Profile"
     case .firstScan: return "Try Demo Mode"
-    case .cookAndRate: return "Cook a Recipe"
-    case .exploreMore: return "Explore"
+    case .ingredientReview: return "Open Demo Review"
+    case .pickRecipeMatch: return "Finish Demo Match"
+    case .cookWithLeChef: return "Cook With Le Chef"
     }
   }
 
   var ctaIcon: String {
     switch self {
-    case .setupProfile: return "arrow.right"
     case .firstScan: return "camera.fill"
-    case .cookAndRate: return "fork.knife"
-    case .exploreMore: return "sparkles"
+    case .ingredientReview: return "checklist"
+    case .pickRecipeMatch: return "fork.knife"
+    case .cookWithLeChef: return "waveform.circle.fill"
     }
   }
 

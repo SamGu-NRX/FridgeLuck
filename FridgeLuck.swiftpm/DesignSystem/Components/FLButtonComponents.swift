@@ -54,6 +54,7 @@ struct FLPrimaryButton: View {
         in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
       )
       .foregroundStyle(isEnabled ? .white : AppTheme.textSecondary)
+      .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isEnabled)
       .shadow(color: isEnabled ? AppTheme.accent.opacity(0.25) : .clear, radius: 12, x: 0, y: 6)
       .transaction(value: title) { transaction in
         transaction.animation = nil
@@ -77,6 +78,8 @@ struct FLPrimaryButton: View {
 // MARK: - Secondary Button
 
 struct FLSecondaryButton: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
   let title: String
   let systemImage: String?
   let isEnabled: Bool
@@ -115,6 +118,7 @@ struct FLSecondaryButton: View {
           .stroke(AppTheme.oat.opacity(0.45), lineWidth: 1)
       )
       .foregroundStyle(isEnabled ? AppTheme.textPrimary : AppTheme.textSecondary)
+      .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isEnabled)
       .transaction(value: title) { transaction in
         transaction.animation = nil
       }
