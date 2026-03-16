@@ -408,45 +408,74 @@ struct HomeLiveAssistantSection: View {
   let onOpenAssistant: () -> Void
 
   var body: some View {
-    FLCard(tone: .warm) {
+    ZStack(alignment: .topTrailing) {
+      RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+        .fill(
+          LinearGradient(
+            colors: [AppTheme.deepOlive, AppTheme.deepOliveLight],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+          )
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+            .stroke(AppTheme.slabStroke, lineWidth: 1)
+        )
+
+      Circle()
+        .fill(AppTheme.accent.opacity(0.18))
+        .frame(width: 220, height: 220)
+        .blur(radius: 40)
+        .offset(x: 84, y: -72)
+        .allowsHitTesting(false)
+
       VStack(alignment: .leading, spacing: AppTheme.Space.md) {
         HStack(alignment: .top, spacing: AppTheme.Space.sm) {
           VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-            Text(isTutorialActive ? "Step 4 · Live Kitchen Guide" : "Live Kitchen Guide")
+            Text(isTutorialActive ? "Step 4 · Live Cook" : "Live Cook Ready")
               .font(AppTheme.Typography.labelSmall)
-              .foregroundStyle(AppTheme.deepOlive)
+              .foregroundStyle(AppTheme.oat)
               .textCase(.uppercase)
-              .kerning(0.8)
+              .kerning(0.9)
 
             Text(recipeContext.title)
               .font(AppTheme.Typography.displayCaption)
-              .foregroundStyle(AppTheme.textPrimary)
+              .foregroundStyle(.white)
 
             Text(
-              "Prop your phone on a counter stand near the prep area. Gemini will stay anchored to this recipe while it watches the ingredients in frame."
+              "Full-screen camera, grounded voice guidance, and a collapsible step drawer designed for the kitchen."
             )
             .font(AppTheme.Typography.bodySmall)
-            .foregroundStyle(AppTheme.textSecondary)
+            .foregroundStyle(.white.opacity(0.74))
           }
 
-          Spacer()
+          Spacer(minLength: AppTheme.Space.sm)
 
-          FLStatusPill(text: "Recipe ready", kind: .positive)
+          FLStatusPill(text: "Ready", kind: .positive)
         }
 
-        ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: AppTheme.Space.xs) {
-            FLStatusPill(text: "\(recipeContext.ingredients.count) ingredients", kind: .neutral)
-            FLStatusPill(text: "\(recipeContext.timeMinutes) min", kind: .neutral)
-            FLStatusPill(text: "Grounded guidance", kind: .positive)
-          }
+        HStack(spacing: AppTheme.Space.xs) {
+          liveDetailPill("\(recipeContext.ingredients.count) items")
+          liveDetailPill("\(recipeContext.timeMinutes) min")
+          liveDetailPill("Camera-first")
         }
 
-        FLPrimaryButton("Open Live Guide", systemImage: "waveform.and.mic") {
+        FLPrimaryButton("Cook with Le Chef", systemImage: "waveform.and.mic") {
           onOpenAssistant()
         }
       }
+      .padding(AppTheme.Space.lg)
     }
+    .shadow(color: AppTheme.Shadow.colorDeep, radius: 18, x: 0, y: 10)
+  }
+
+  private func liveDetailPill(_ text: String) -> some View {
+    Text(text)
+      .font(AppTheme.Typography.labelSmall)
+      .foregroundStyle(.white.opacity(0.82))
+      .padding(.horizontal, AppTheme.Space.sm)
+      .padding(.vertical, AppTheme.Space.chipVertical)
+      .background(.white.opacity(0.08), in: Capsule())
   }
 }
 

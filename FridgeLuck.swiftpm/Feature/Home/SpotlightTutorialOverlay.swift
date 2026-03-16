@@ -27,7 +27,7 @@ extension SpotlightStep {
       icon: "rectangle.stack",
       title: "Your Guided Tour",
       message:
-        "These 5 steps unlock one at a time: start with a demo scan, review uncertain ingredients, choose a recipe match, learn the live guide, then cook."
+        "These 4 steps unlock one at a time: start with a demo scan, review uncertain ingredients, choose a recipe match, then cook with Le Chef."
     ),
     SpotlightStep(
       id: "scan_first",
@@ -176,9 +176,9 @@ extension SpotlightStep {
       id: "live_lesson_entry",
       anchorID: "liveAssistantEntry",
       icon: "waveform.and.mic",
-      title: "Set Up The Live Guide",
+      title: "Cook With Le Chef",
       message:
-        "Place the phone on a counter stand near your prep area so Gemini can see your cutting board, ingredients, and pan while it guides you."
+        "Place the phone on a counter stand near your prep area so Gemini can see your cutting board, ingredients, and pan while it guides you live."
     ),
     SpotlightStep(
       id: "live_lesson_grounding",

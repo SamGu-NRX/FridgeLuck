@@ -52,7 +52,10 @@ targets:
       path: Xcode/FridgeLuck-Info.plist
       properties:
         CFBundleDisplayName: FridgeLuck
+        GEMINI_BACKEND_BASE_URL: $(GEMINI_BACKEND_BASE_URL)
         LSRequiresIPhoneOS: true
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
         NSCameraUsageDescription: FridgeLuck uses the camera to scan ingredients and nutrition labels.
         NSPhotoLibraryUsageDescription: FridgeLuck uses your photo library so you can scan ingredient photos.
         NSMicrophoneUsageDescription: FridgeLuck uses your microphone for live voice guidance and recipe assistance.

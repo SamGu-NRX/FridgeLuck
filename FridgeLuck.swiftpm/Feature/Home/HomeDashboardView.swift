@@ -23,7 +23,6 @@ struct HomeDashboardView: View {
   let onDemoMode: () -> Void
   let onCompleteProfile: () -> Void
   let onOpenAssistant: () -> Void
-  let onOpenTutorialCook: () -> Void
   let onReset: () -> Void
   let spotlightCoordinator: SpotlightCoordinator
 
@@ -39,7 +38,6 @@ struct HomeDashboardView: View {
     onDemoMode: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
     onOpenAssistant: @escaping () -> Void,
-    onOpenTutorialCook: @escaping () -> Void,
     onReset: @escaping () -> Void = {},
     spotlightCoordinator: SpotlightCoordinator
   ) {
@@ -48,7 +46,6 @@ struct HomeDashboardView: View {
     self.onDemoMode = onDemoMode
     self.onCompleteProfile = onCompleteProfile
     self.onOpenAssistant = onOpenAssistant
-    self.onOpenTutorialCook = onOpenTutorialCook
     self.onReset = onReset
     self.spotlightCoordinator = spotlightCoordinator
   }
@@ -180,7 +177,7 @@ struct HomeDashboardView: View {
     }
 
     if liveAssistantCoordinator.shouldPresentLesson,
-      !tutorialProgress.isCompleted(.liveAgent),
+      !tutorialProgress.isCompleted(.cookWithLeChef),
       !hasSeenLiveAssistantLesson
     {
       return anchorsReady(for: .liveAssistantLesson) ? .liveAssistantLesson : nil
@@ -228,7 +225,11 @@ struct HomeDashboardView: View {
   // MARK: - Tutorial Home
 
   private func tutorialHome(snapshot: HomeDashboardSnapshot) -> some View {
-    VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
+    let shouldFeatureLiveCook =
+      tutorialProgress.currentQuest == .cookWithLeChef
+      && liveAssistantCoordinator.matchedRecipeContext != nil
+
+    return VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
       HomeTutorialWelcomeHeader(heroAppeared: heroAppeared)
         .padding(.horizontal, AppTheme.Space.page)
 
@@ -239,16 +240,7 @@ struct HomeDashboardView: View {
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 10)
 
-      HomeTutorialQuestSection(
-        tutorialProgress: tutorialProgress,
-        tutorialStorageString: tutorialStorageString,
-        heroAppeared: heroAppeared,
-        reduceMotion: reduceMotion,
-        onQuestAction: handleQuestAction
-      )
-      .padding(.horizontal, AppTheme.Space.page)
-
-      if let recipeContext = liveAssistantCoordinator.matchedRecipeContext {
+      if shouldFeatureLiveCook, let recipeContext = liveAssistantCoordinator.matchedRecipeContext {
         HomeLiveAssistantSection(
           recipeContext: recipeContext,
           isTutorialActive: true,
@@ -257,6 +249,15 @@ struct HomeDashboardView: View {
         .padding(.horizontal, AppTheme.Space.page)
         .id("liveAssistantEntry")
         .spotlightAnchor("liveAssistantEntry")
+      } else {
+        HomeTutorialQuestSection(
+          tutorialProgress: tutorialProgress,
+          tutorialStorageString: tutorialStorageString,
+          heroAppeared: heroAppeared,
+          reduceMotion: reduceMotion,
+          onQuestAction: handleQuestAction
+        )
+        .padding(.horizontal, AppTheme.Space.page)
       }
 
       if tutorialProgress.completedCount == 0 {
@@ -274,10 +275,8 @@ struct HomeDashboardView: View {
       onDemoMode()
     case .pickRecipeMatch:
       onDemoMode()
-    case .liveAgent:
+    case .cookWithLeChef:
       onOpenAssistant()
-    case .cookAndRate:
-      onOpenTutorialCook()
     }
   }
 

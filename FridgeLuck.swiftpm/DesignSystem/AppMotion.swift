@@ -70,4 +70,16 @@ enum AppMotion {
   static let confettiBurst: Animation = .spring(response: 0.60, dampingFraction: 0.65)
   /// Crossfade for rotating setup messages
   static let messageCrossfade: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.35)
+
+  // Live Assistant — camera-first cooking guide
+  /// Panel snap to detent after drag ends
+  static let panelSnap: Animation = .spring(response: 0.38, dampingFraction: 0.82)
+  /// AI response bubble entrance
+  static let bubbleAppear: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.22)
+  /// AI response bubble exit
+  static let bubbleDismiss: Animation = .timingCurve(0.4, 0.0, 0.2, 1.0, duration: 0.30)
+  /// Mic button active pulsing ring
+  static let micPulse: Animation = .easeInOut(duration: 1.2)
+  /// Camera resize when panel expands
+  static let cameraResize: Animation = .spring(response: 0.40, dampingFraction: 0.84)
 }

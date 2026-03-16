@@ -21,7 +21,6 @@ struct RecipeResultsView: View {
   @State private var revealedCount: Int = 0
 
   @State private var selectedRecipe: ScoredRecipe?
-  @State private var cookingRecipe: ScoredRecipe?
   @State private var didPromoteRecipeMatchLesson = false
 
   init(
@@ -101,24 +100,11 @@ struct RecipeResultsView: View {
     }
     .sheet(item: $selectedRecipe) { recipe in
       RecipePreviewDrawer(scoredRecipe: recipe) {
-        selectedRecipe = nil
-        Task {
-          try? await Task.sleep(for: .milliseconds(350))
-          cookingRecipe = recipe
-        }
+        handleStartCooking(recipe)
       }
       .presentationDetents([.fraction(0.92)])
       .presentationDragIndicator(.visible)
       .presentationCornerRadius(AppTheme.Radius.xl)
-    }
-    .fullScreenCover(item: $cookingRecipe) { recipe in
-      CookingGuideView(scoredRecipe: recipe) {
-        cookingRecipe = nil
-        Task {
-          try? await Task.sleep(for: .milliseconds(450))
-          navCoordinator.returnHomeAfterCooking()
-        }
-      }
     }
   }
 
@@ -247,6 +233,26 @@ struct RecipeResultsView: View {
     progress.markCompleted(.pickRecipeMatch)
     tutorialStorageString = progress.storageString
     navCoordinator.returnHome()
+  }
+
+  private func handleStartCooking(_ scored: ScoredRecipe) {
+    let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
+    if let recipeID = scored.recipe.id {
+      ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
+    } else {
+      ingredients = []
+    }
+
+    liveAssistantCoordinator.storeRecipeMatch(
+      scoredRecipe: scored,
+      context: LiveAssistantRecipeContext(scoredRecipe: scored, ingredients: ingredients)
+    )
+
+    selectedRecipe = nil
+    Task {
+      try? await Task.sleep(for: .milliseconds(220))
+      navCoordinator.returnHome()
+    }
   }
 
   private func revealRecommendationsIfNeeded() async {
