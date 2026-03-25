@@ -20,7 +20,7 @@ Outputs a single JSON array in this schema:
 - `ingredients: [{ raw, scaled_raw, name, amount_value, amount_unit, prep_actions }]`
 - `steps: [string, ...]`
 
-The app's bundled GRDB seed (`FridgeLuck.swiftpm/Resources/data.json`) uses a different schema:
+The app's bundled GRDB seed (`apps/ios/Resources/data.json`) uses a different schema:
 
 - fixed `ingredients` dictionary keyed by numeric ID
 - `recipes` as positional arrays with required/optional ingredient ID + grams pairs
@@ -69,7 +69,7 @@ Transforms scraper output into bundled `data.json` recipe-array format while:
 ```bash
 uv run scrape-recipes merge-grdb \
   --scraped .cache/bbc_goodfood_recipes.json \
-  --bundled-data ../../FridgeLuck.swiftpm/Resources/data.json \
+  --bundled-data ../../apps/ios/Resources/data.json \
   --out .cache/data.merged.non_destructive.json \
   --report-out .cache/merge_report.json
 ```

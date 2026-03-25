@@ -17,7 +17,7 @@ targets:
     platform: iOS
     deploymentTarget: "26.0"
     sources:
-      - path: FridgeLuck.swiftpm/FeatureLogic
+      - path: apps/ios/FeatureLogic
     settings:
       base:
         CODE_SIGN_STYLE: Automatic
@@ -31,19 +31,42 @@ targets:
         SKIP_INSTALL: "YES"
         SWIFT_VERSION: 6.0
 
+  FridgeLuckTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: apps/ios/Tests
+    dependencies:
+      - target: FLFeatureLogic
+      - package: GRDB
+        product: GRDB
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        DEVELOPMENT_TEAM: DWGXWVUR2B
+        GENERATE_INFOPLIST_FILE: "YES"
+        IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+        MARKETING_VERSION: 1.0
+        PRODUCT_BUNDLE_IDENTIFIER: samgu.FridgeLuckTests
+        PRODUCT_NAME: FridgeLuckTests
+        SWIFT_VERSION: 6.0
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/FridgeLuck.app/FridgeLuck"
+
   FridgeLuck:
     type: application
     platform: iOS
     deploymentTarget: "26.0"
     sources:
-      - path: FridgeLuck.swiftpm/App
-      - path: FridgeLuck.swiftpm/Capability
-      - path: FridgeLuck.swiftpm/DesignSystem
-      - path: FridgeLuck.swiftpm/Domain
-      - path: FridgeLuck.swiftpm/Feature
-      - path: FridgeLuck.swiftpm/Integration
-      - path: FridgeLuck.swiftpm/Platform
-      - path: FridgeLuck.swiftpm/Resources
+      - path: apps/ios/App
+      - path: apps/ios/Capability
+      - path: apps/ios/DesignSystem
+      - path: apps/ios/Domain
+      - path: apps/ios/Feature
+      - path: apps/ios/Integration
+      - path: apps/ios/Platform
+      - path: apps/ios/Resources
     dependencies:
       - target: FLFeatureLogic
       - package: GRDB
@@ -92,3 +115,6 @@ targets:
         PRODUCT_NAME: FridgeLuck
         SWIFT_VERSION: 6.0
         TARGETED_DEVICE_FAMILY: "1,2"
+    scheme:
+      testTargets:
+        - FridgeLuckTests

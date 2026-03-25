@@ -37,8 +37,8 @@ FDC_FOOD_URL = "https://api.nal.usda.gov/fdc/v1/food"
 FDC_FOODS_URL = "https://api.nal.usda.gov/fdc/v1/foods"
 FDC_FOODS_LIST_URL = "https://api.nal.usda.gov/fdc/v1/foods/list"
 
-DEFAULT_INPUT = Path("FridgeLuck.swiftpm/Resources/data.json")
-DEFAULT_OUTPUT = Path("FridgeLuck.swiftpm/Resources/usda_ingredient_nutrition_compact.json")
+DEFAULT_INPUT = Path("apps/ios/Resources/data.json")
+DEFAULT_OUTPUT = Path("apps/ios/Resources/usda_ingredient_nutrition_compact.json")
 DEFAULT_CATALOG = Path("scripts/data/.cache/usda_common_food_catalog.json")
 
 SEARCH_DATA_TYPES = ["Foundation", "SR Legacy", "Survey (FNDDS)"]

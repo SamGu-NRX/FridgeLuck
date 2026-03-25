@@ -4,7 +4,7 @@ set -euo pipefail
 # Non-blocking cohesion audit for Swift files.
 # Purpose: flag files that may need review, not enforce hard limits.
 
-ROOT_DIR="${1:-FridgeLuck.swiftpm}"
+ROOT_DIR="${1:-apps/ios}"
 GUIDELINE_LOC="${GUIDELINE_LOC:-450}"
 TOP_N="${TOP_N:-30}"
 

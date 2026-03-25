@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT_DIR"
 
 ZIP_NAME="FridgeLuck.zip"
-TARGET_DIR="FridgeLuck.swiftpm"
+TARGET_DIR="apps/ios"
 
 find "$TARGET_DIR" -name '.DS_Store' -delete
 rm -f "$ZIP_NAME"

@@ -8,8 +8,8 @@ import json
 from pathlib import Path
 from typing import Any
 
-DEFAULT_JSON = Path("FridgeLuck.swiftpm/Resources/usda_ingredient_nutrition_compact.json")
-DEFAULT_SWIFT = Path("FridgeLuck.swiftpm/Data/Static/USDAIngredientNutritionStaticData.swift")
+DEFAULT_JSON = Path("apps/ios/Resources/usda_ingredient_nutrition_compact.json")
+DEFAULT_SWIFT = Path("apps/ios/Platform/Persistence/Static/USDAIngredientNutritionStaticData.swift")
 
 
 def swift_string(value: Any) -> str:

@@ -10,7 +10,7 @@ This pipeline is JSON-canonical and non-circular:
 
 - Canonical catalog: `scripts/data/catalog/usda_curated_ingredients.json`
 - Review batches: `scripts/data/review_batches/manual_batch_*.json`
-- Generated SQLite: `FridgeLuck.swiftpm/Resources/usda_ingredient_catalog.sqlite`
+- Generated SQLite: `apps/ios/Resources/usda_ingredient_catalog.sqlite`
 - HTTP cache DB: `scripts/data/.cache/usda_http_cache.sqlite`
 
 ## Setup (uv)
@@ -68,7 +68,7 @@ uv run usda validate --canonical catalog/usda_curated_ingredients.json
 ```bash
 uv run usda build-sqlite \
   --canonical catalog/usda_curated_ingredients.json \
-  --out ../../FridgeLuck.swiftpm/Resources/usda_ingredient_catalog.sqlite
+  --out ../../apps/ios/Resources/usda_ingredient_catalog.sqlite
 ```
 
 ### 7) Generate report

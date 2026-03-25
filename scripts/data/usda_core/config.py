@@ -11,7 +11,7 @@ CANDIDATE_DIR = CACHE_DIR / "candidates"
 
 CANONICAL_JSON = CATALOG_DIR / "usda_curated_ingredients.json"
 CACHE_DB = CACHE_DIR / "usda_http_cache.sqlite"
-DEFAULT_SQLITE_OUT = ROOT / "FridgeLuck.swiftpm" / "Resources" / "usda_ingredient_catalog.sqlite"
+DEFAULT_SQLITE_OUT = ROOT / "apps" / "ios" / "Resources" / "usda_ingredient_catalog.sqlite"
 DEFAULT_REPORT_OUT = CACHE_DIR / "usda_pipeline_report.md"
 
 USDA_SEARCH_URL = "https://api.nal.usda.gov/fdc/v1/foods/search"

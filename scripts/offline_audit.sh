@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT_DIR"
 
-TARGET_DIR="FridgeLuck.swiftpm"
+TARGET_DIR="apps/ios"
 
 echo "Checking code for runtime network calls..."
 NETWORK_HITS=$(

@@ -20,7 +20,7 @@ struct ScanBenchmarkManifest: Sendable, Codable {
         ScanBenchmarkImage(id: "fridge_3", path: "example_fridge_3.png", source: .benchmark),
         ScanBenchmarkImage(
           id: "bundled_demo_image",
-          path: "FridgeLuck.swiftpm/Resources/demo/garlic_fried_rice.jpg",
+          path: "apps/ios/Resources/demo/garlic_fried_rice.jpg",
           source: .demo
         ),
       ]

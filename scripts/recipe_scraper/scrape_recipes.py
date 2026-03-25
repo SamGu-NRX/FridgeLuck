@@ -836,7 +836,7 @@ def merge_grdb(
         help="Scraped BBC JSON file (output of scrape-recipes run).",
     ),
     bundled_data: Path = typer.Option(
-        Path("../../FridgeLuck.swiftpm/Resources/data.json"),
+        Path("../../apps/ios/Resources/data.json"),
         "--bundled-data",
         help="Existing bundled data.json to merge into.",
     ),
