@@ -272,11 +272,7 @@ struct IngredientReviewView: View {
       .spotlightAnchor("findRecipes")
     }
     .onPreferenceChange(SpotlightAnchorKey.self) { newAnchors in
-      var merged = reviewSpotlight.anchors
-      for (anchorID, rect) in newAnchors where isUsableAnchorRect(rect) {
-        merged[anchorID] = rect
-      }
-      reviewSpotlight.anchors = merged
+      reviewSpotlight.updateAnchors(newAnchors, retainingExistingValues: true)
     }
     .overlay {
       if showReviewSpotlight, let steps = reviewSpotlight.activeSteps {

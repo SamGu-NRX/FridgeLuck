@@ -149,7 +149,9 @@ struct HomeDashboardView: View {
         guard spotlightCoordinator.activeSteps == nil else { return }
         presentSpotlight(kind)
       }
-      .onPreferenceChange(SpotlightAnchorKey.self) { spotlightCoordinator.anchors = $0 }
+      .onPreferenceChange(SpotlightAnchorKey.self) {
+        spotlightCoordinator.updateAnchors($0)
+      }
       .onAppear {
         spotlightCoordinator.onScrollToAnchor = { anchorID in
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {

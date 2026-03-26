@@ -298,7 +298,9 @@ struct CookingCelebrationView: View {
         servings
       )
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
+        historyId: mealOutcome.historyId,
         recipeId: mealOutcome.recipeId,
+        mealTitle: recipe.title,
         servingsConsumed: servings
       )
     } catch {

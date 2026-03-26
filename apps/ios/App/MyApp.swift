@@ -96,74 +96,51 @@ private struct LaunchSplashView: View {
   let isBootstrapping: Bool
 
   @State private var hasAppeared = false
+  @State private var showDetails = false
+  @State private var breatheScale: CGFloat = 1.0
 
   var body: some View {
     ZStack {
       FLAmbientBackground()
         .ignoresSafeArea()
 
-      VStack(spacing: AppTheme.Space.xl) {
+      VStack(spacing: AppTheme.Space.lg) {
         ZStack {
+          // Breathing glow behind logo
           Circle()
             .fill(
-              LinearGradient(
-                colors: [AppTheme.heroLight.opacity(0.85), AppTheme.accentLight.opacity(0.55)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+              RadialGradient(
+                colors: [
+                  AppTheme.accentLight.opacity(0.35),
+                  AppTheme.oat.opacity(0.15),
+                  Color.clear,
+                ],
+                center: .center,
+                startRadius: 20,
+                endRadius: 120
               )
             )
-            .frame(width: 184, height: 184)
-            .blur(radius: 14)
+            .frame(width: 240, height: 240)
+            .blur(radius: 30)
+            .scaleEffect(breatheScale)
+            .opacity(hasAppeared ? 0.9 : 0)
 
-          RoundedRectangle(cornerRadius: AppTheme.Radius.xxl, style: .continuous)
-            .fill(AppTheme.surface.opacity(0.88))
-            .background(
-              .ultraThinMaterial,
-              in: RoundedRectangle(cornerRadius: AppTheme.Radius.xxl, style: .continuous)
-            )
-            .frame(width: 160, height: 160)
-            .overlay(
-              RoundedRectangle(cornerRadius: AppTheme.Radius.xxl, style: .continuous)
-                .stroke(AppTheme.oat.opacity(0.28), lineWidth: 1)
-            )
-
-          if UIImage(named: "FridgeLuckLogo") != nil {
-            Image("FridgeLuckLogo")
-              .resizable()
-              .scaledToFit()
-              .frame(width: 96, height: 96)
-          } else {
-            Image(systemName: "refrigerator.fill")
-              .font(.system(size: 56, weight: .semibold))
-              .foregroundStyle(AppTheme.accent)
-          }
+          splashMark
         }
         .scaleEffect(hasAppeared ? 1 : 0.94)
         .opacity(hasAppeared ? 1 : 0)
 
-        VStack(spacing: AppTheme.Space.xs) {
+        VStack(spacing: AppTheme.Space.xxs) {
           Text("FridgeLuck")
             .font(AppTheme.Typography.displayLarge)
             .foregroundStyle(AppTheme.textPrimary)
 
-          Text("Turn what you have into meals you can trust.")
-            .font(AppTheme.Typography.bodyLarge)
-            .foregroundStyle(AppTheme.textSecondary)
-            .multilineTextAlignment(.center)
-        }
-        .opacity(hasAppeared ? 1 : 0)
-        .offset(y: hasAppeared ? 0 : 10)
-
-        HStack(spacing: AppTheme.Space.sm) {
-          ProgressView()
-            .controlSize(.small)
-            .tint(AppTheme.accent)
-
-          Text(isBootstrapping ? "Setting up your kitchen..." : "Opening FridgeLuck...")
-            .font(AppTheme.Typography.bodySmall)
+          Text("Cook with what you have.")
+            .font(AppTheme.Typography.bodyMedium)
             .foregroundStyle(AppTheme.textSecondary)
         }
-        .opacity(hasAppeared ? 1 : 0)
+        .opacity(showDetails ? 1 : 0)
+        .offset(y: showDetails ? 0 : 8)
       }
       .padding(.horizontal, AppTheme.Space.page)
     }
@@ -171,10 +148,34 @@ private struct LaunchSplashView: View {
       guard !hasAppeared else { return }
       if reduceMotion {
         hasAppeared = true
+        showDetails = true
       } else {
         withAnimation(.timingCurve(0.19, 1.0, 0.22, 1.0, duration: 0.42)) {
           hasAppeared = true
         }
+        withAnimation(.easeOut(duration: 0.22).delay(0.16)) {
+          showDetails = true
+        }
+        withAnimation(.easeInOut(duration: 2.4).repeatForever(autoreverses: true)) {
+          breatheScale = 1.08
+        }
+      }
+    }
+  }
+
+  private var splashMark: some View {
+    Group {
+      if UIImage(named: "FridgeLuckLogo") != nil {
+        Image("FridgeLuckLogo")
+          .resizable()
+          .scaledToFill()
+          .frame(width: 120, height: 120)
+          .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.xl, style: .continuous))
+          .shadow(color: AppTheme.Shadow.colorDeep, radius: 20, x: 0, y: 10)
+      } else {
+        Image(systemName: "refrigerator.fill")
+          .font(.system(size: 64, weight: .semibold))
+          .foregroundStyle(AppTheme.accent)
       }
     }
   }

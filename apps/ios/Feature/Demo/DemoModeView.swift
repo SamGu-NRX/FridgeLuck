@@ -93,7 +93,9 @@ struct DemoModeView: View {
           .transition(.opacity)
       }
     }
-    .onPreferenceChange(SpotlightAnchorKey.self) { demoSpotlight.anchors = $0 }
+    .onPreferenceChange(SpotlightAnchorKey.self) {
+      demoSpotlight.updateAnchors($0)
+    }
     .overlay {
       if showDemoSpotlight, let steps = demoSpotlight.activeSteps {
         SpotlightTutorialOverlay(

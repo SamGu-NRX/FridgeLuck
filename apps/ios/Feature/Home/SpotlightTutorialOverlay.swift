@@ -195,11 +195,32 @@ extension SpotlightStep {
 
 /// Bridges spotlight state between HomeDashboardView (which owns the logic) and
 /// ContentView (which presents the overlay above the tab bar).
+@MainActor
 @Observable
 final class SpotlightCoordinator {
   var activeSteps: [SpotlightStep]? = nil
   var anchors: [String: CGRect] = [:]
   var onScrollToAnchor: ((String) -> Void)? = nil
+
+  func updateAnchors(
+    _ newAnchors: [String: CGRect],
+    retainingExistingValues: Bool = false
+  ) {
+    var nextAnchors = retainingExistingValues ? anchors : [:]
+
+    for (anchorID, rect) in newAnchors {
+      let normalizedRect = rect.normalizedForSpotlight
+      guard normalizedRect.isUsableSpotlightRect else { continue }
+      nextAnchors[anchorID] = normalizedRect
+    }
+
+    guard nextAnchors != anchors else { return }
+
+    Task { @MainActor [weak self, nextAnchors] in
+      guard let self, self.anchors != nextAnchors else { return }
+      self.anchors = nextAnchors
+    }
+  }
 }
 
 // MARK: - Preference Key
@@ -208,6 +229,27 @@ struct SpotlightAnchorKey: PreferenceKey {
   static let defaultValue: [String: CGRect] = [:]
   static func reduce(value: inout [String: CGRect], nextValue: () -> [String: CGRect]) {
     value.merge(nextValue(), uniquingKeysWith: { $1 })
+  }
+}
+
+extension CGRect {
+  fileprivate var isUsableSpotlightRect: Bool {
+    guard !isEmpty, !isNull, !isInfinite else { return false }
+    guard width > 0, height > 0 else { return false }
+    return minX.isFinite && minY.isFinite && maxX.isFinite && maxY.isFinite
+  }
+
+  fileprivate var normalizedForSpotlight: CGRect {
+    CGRect(
+      x: normalizedSpotlightCoordinate(minX),
+      y: normalizedSpotlightCoordinate(minY),
+      width: normalizedSpotlightCoordinate(width),
+      height: normalizedSpotlightCoordinate(height)
+    )
+  }
+
+  private func normalizedSpotlightCoordinate(_ value: CGFloat) -> CGFloat {
+    (value * 2).rounded() / 2
   }
 }
 
@@ -462,33 +504,12 @@ struct SpotlightTutorialOverlay: View {
     guard let anchorID = step.anchorID, let globalRect = anchors[anchorID] else { return nil }
 
     let overlayFrame = geo.frame(in: .global)
-    let normalizedRect = CGRect(
+    return CGRect(
       x: globalRect.minX - overlayFrame.minX,
       y: globalRect.minY - overlayFrame.minY,
       width: globalRect.width,
       height: globalRect.height
     )
-
-    let visibleBounds = CGRect(
-      x: 0,
-      y: 0,
-      width: geo.size.width,
-      height: screenHeight(for: geo)
-    ).insetBy(dx: -24, dy: -24)
-
-    let normalizedScore = visibleIntersectionArea(of: normalizedRect, within: visibleBounds)
-    let globalScore = visibleIntersectionArea(of: globalRect, within: visibleBounds)
-
-    return globalScore > normalizedScore ? globalRect : normalizedRect
-  }
-
-  private func visibleIntersectionArea(of rect: CGRect, within bounds: CGRect) -> CGFloat {
-    guard rect.minX.isFinite, rect.minY.isFinite, rect.maxX.isFinite, rect.maxY.isFinite else {
-      return 0
-    }
-    let intersection = rect.intersection(bounds)
-    guard !intersection.isNull, !intersection.isEmpty else { return 0 }
-    return intersection.width * intersection.height
   }
 
   private func highlightMetrics(for rect: CGRect) -> HighlightMetrics {

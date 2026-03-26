@@ -69,7 +69,9 @@ struct RecipePreviewDrawer: View {
           .padding(.bottom, AppTheme.Space.xxl)
         }
       }
-      .onPreferenceChange(SpotlightAnchorKey.self) { swapSpotlight.anchors = $0 }
+      .onPreferenceChange(SpotlightAnchorKey.self) {
+        swapSpotlight.updateAnchors($0)
+      }
       .onAppear {
         swapSpotlight.onScrollToAnchor = { anchorID in
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {

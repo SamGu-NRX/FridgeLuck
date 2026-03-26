@@ -1,6 +1,10 @@
 import Foundation
 import GRDB
 
+#if canImport(HealthKit)
+  import HealthKit
+#endif
+
 /// Dependency injection container. Created once at app launch.
 /// All services share the same DatabaseQueue.
 @MainActor
@@ -19,6 +23,7 @@ final class AppDependencies: ObservableObject {
   let nutritionService: NutritionService
   let healthScoringService: HealthScoringService
   let appleHealthService: AppleHealthServicing
+  let appleHealthAuthorizationContext: AppleHealthAuthorizationContext?
   let mealLogSyncCoordinator: MealLogSyncCoordinator
   let personalizationService: PersonalizationService
   let dishEstimateService: DishEstimateService
@@ -42,14 +47,20 @@ final class AppDependencies: ObservableObject {
     self.personalizationService = PersonalizationService(db: db)
     self.learningService = LearningService(db: db)
     self.ingredientCatalogResolver = IngredientCatalogResolver(db: db)
-    self.appleHealthService = AppleHealthService()
+    let appleHealthService = AppleHealthService()
+    self.appleHealthService = appleHealthService
+    #if canImport(HealthKit)
+      self.appleHealthAuthorizationContext = appleHealthService.authorizationContext
+    #else
+      self.appleHealthAuthorizationContext = nil
+    #endif
 
     self.healthScoringService = HealthScoringService(
       nutritionService: nutritionService,
       db: db
     )
     self.mealLogSyncCoordinator = MealLogSyncCoordinator(
-      appleHealthService: appleHealthService,
+      appleHealthService: self.appleHealthService,
       nutritionService: nutritionService
     )
     self.dishEstimateService = DishEstimateService(db: db)

@@ -17,14 +17,18 @@ final class DashboardViewModel {
 
   private let userDataRepository: UserDataRepository
   private let personalizationService: PersonalizationService
+  private let appleHealthService: AppleHealthServicing
   private var cookingHistoryObserver: AnyDatabaseCancellable?
+  private var appleHealthObserver: NSObjectProtocol?
 
   init(
     userDataRepository: UserDataRepository,
-    personalizationService: PersonalizationService
+    personalizationService: PersonalizationService,
+    appleHealthService: AppleHealthServicing
   ) {
     self.userDataRepository = userDataRepository
     self.personalizationService = personalizationService
+    self.appleHealthService = appleHealthService
     startLiveUpdates()
   }
 
@@ -47,18 +51,22 @@ final class DashboardViewModel {
 
     do {
       let profile = try userDataRepository.fetchHealthProfile()
-      let todayMacros = try userDataRepository.todayMacros()
-      let weeklyMacros = try userDataRepository.dailyMacroTotals(lastDays: 7)
       let recentJournal = try userDataRepository.cookingJournal(limit: 8)
       let totalMeals = try userDataRepository.totalMealsCooked()
       let totalRecipes = try userDataRepository.totalRecipesUsed()
       let streak = try personalizationService.currentStreak()
       let avgRating = try userDataRepository.averageRating()
+      let localTodayMacros = try userDataRepository.todayMacros()
+      let localWeeklyMacros = try userDataRepository.dailyMacroTotals(lastDays: 7)
+      let nutritionSource = await resolvedNutritionSource(
+        localTodayMacros: localTodayMacros,
+        localWeeklyMacros: localWeeklyMacros
+      )
 
       snapshot = DashboardSnapshot(
         healthProfile: profile,
-        todayMacros: todayMacros,
-        weeklyMacros: weeklyMacros,
+        todayMacros: nutritionSource.today,
+        weeklyMacros: nutritionSource.weekly,
         recentJournal: recentJournal,
         totalMealsCooked: totalMeals,
         totalRecipesUsed: totalRecipes,
@@ -107,5 +115,66 @@ final class DashboardViewModel {
         Task { await self.load() }
       }
     )
+
+    appleHealthObserver = NotificationCenter.default.addObserver(
+      forName: .appleHealthDidUpdate,
+      object: nil,
+      queue: .main
+    ) { [weak self] _ in
+      guard let self else { return }
+      Task { await self.load() }
+    }
+  }
+
+  private func resolvedNutritionSource(
+    localTodayMacros: MacroTotals,
+    localWeeklyMacros: [DailyMacroPoint]
+  ) async -> (today: MacroTotals, weekly: [DailyMacroPoint]) {
+    guard appleHealthService.authorizationStatus() == .authorized else {
+      return (localTodayMacros, localWeeklyMacros)
+    }
+
+    let calendar = Calendar.current
+    let startOfToday = calendar.startOfDay(for: Date())
+    guard let startOfTomorrow = calendar.date(byAdding: .day, value: 1, to: startOfToday) else {
+      return (localTodayMacros, localWeeklyMacros)
+    }
+
+    do {
+      async let todayTotals = appleHealthService.fetchNutritionTotals(
+        in: DateInterval(start: startOfToday, end: startOfTomorrow)
+      )
+      async let weeklyTotals = appleHealthService.fetchDailyNutritionTotals(
+        lastDays: 7,
+        endingOn: Date()
+      )
+
+      let resolvedTodayTotals = try await todayTotals
+      let resolvedWeeklyTotals = try await weeklyTotals
+
+      guard let resolvedTodayTotals else {
+        return (localTodayMacros, localWeeklyMacros)
+      }
+
+      let todayMacros = MacroTotals(
+        calories: resolvedTodayTotals.calories,
+        protein: resolvedTodayTotals.proteinGrams,
+        carbs: resolvedTodayTotals.carbsGrams,
+        fat: resolvedTodayTotals.fatGrams
+      )
+      let weeklyMacros = resolvedWeeklyTotals.map {
+        DailyMacroPoint(
+          date: $0.date,
+          calories: $0.totals.calories,
+          protein: $0.totals.proteinGrams,
+          carbs: $0.totals.carbsGrams,
+          fat: $0.totals.fatGrams
+        )
+      }
+
+      return (todayMacros, weeklyMacros)
+    } catch {
+      return (localTodayMacros, localWeeklyMacros)
+    }
   }
 }

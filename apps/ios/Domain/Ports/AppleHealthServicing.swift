@@ -1,7 +1,19 @@
 import FLFeatureLogic
 import Foundation
 
+enum AppleHealthAuthorizationRequestStatus: Sendable {
+  case shouldRequest
+  case unnecessary
+  case unknown
+  case failed(String)
+  case unavailable
+}
+
 struct AppleHealthMealRecord: Sendable {
+  let syncIdentifier: String
+  let syncVersion: Int
+  let externalUUID: String
+  let foodType: String
   let date: Date
   let calories: Double
   let proteinGrams: Double
@@ -22,10 +34,16 @@ struct AppleHealthNutritionTotals: Sendable {
   let sodiumMilligrams: Double
 }
 
+struct AppleHealthNutritionDay: Sendable {
+  let date: Date
+  let totals: AppleHealthNutritionTotals
+}
+
 protocol AppleHealthServicing: Sendable {
   func authorizationStatus() -> PermissionStatus
-  @MainActor
-  func requestAuthorization() async -> PermissionRequestResult
+  func authorizationRequestStatus() async -> AppleHealthAuthorizationRequestStatus
   func writeMeal(_ record: AppleHealthMealRecord) async throws
-  func fetchTodayNutritionTotals() async throws -> AppleHealthNutritionTotals?
+  func fetchNutritionTotals(in interval: DateInterval) async throws -> AppleHealthNutritionTotals?
+  func fetchDailyNutritionTotals(lastDays: Int, endingOn endDate: Date) async throws
+    -> [AppleHealthNutritionDay]
 }

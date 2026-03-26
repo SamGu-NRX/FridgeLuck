@@ -2,15 +2,21 @@ import Foundation
 import XCTest
 
 final class GeminiLiveTutorialFlowTests: XCTestCase {
-  private func packageRoot() -> URL {
+  private func iosRoot() -> URL {
     URL(fileURLWithPath: #filePath)
+      .deletingLastPathComponent()
+      .deletingLastPathComponent()
+  }
+
+  private func repoRoot() -> URL {
+    iosRoot()
       .deletingLastPathComponent()
       .deletingLastPathComponent()
   }
 
   func testTutorialQuestSourceDefinesFourStepFlowIncludingCookWithLeChef() throws {
     let source = try String(
-      contentsOf: packageRoot().appendingPathComponent("Feature/Home/TutorialQuestModels.swift"),
+      contentsOf: iosRoot().appendingPathComponent("Feature/Home/TutorialQuestModels.swift"),
       encoding: .utf8
     )
 
@@ -22,7 +28,7 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
 
   func testRecipeResultsPromotesRecipeSelectionIntoLiveAssistantLesson() throws {
     let source = try String(
-      contentsOf: packageRoot().appendingPathComponent("Feature/Results/RecipeResultsView.swift"),
+      contentsOf: iosRoot().appendingPathComponent("Feature/Results/RecipeResultsView.swift"),
       encoding: .utf8
     )
 
@@ -33,7 +39,7 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
 
   func testContentViewUsesLiveAssistantAsOnlyCookingRoute() throws {
     let source = try String(
-      contentsOf: packageRoot().appendingPathComponent("App/ContentView.swift"),
+      contentsOf: iosRoot().appendingPathComponent("App/ContentView.swift"),
       encoding: .utf8
     )
 
@@ -42,12 +48,12 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
     XCTAssertTrue(source.contains("markTutorialQuest(.cookWithLeChef)"))
   }
 
-  func testPackageManifestIncludesIntegrationSources() throws {
+  func testXcodeGenProjectIncludesIntegrationSources() throws {
     let source = try String(
-      contentsOf: packageRoot().appendingPathComponent("Package.swift"),
+      contentsOf: repoRoot().appendingPathComponent("project.yml"),
       encoding: .utf8
     )
 
-    XCTAssertTrue(source.contains("\"Integration\""))
+    XCTAssertTrue(source.contains("- path: apps/ios/Integration"))
   }
 }

@@ -66,7 +66,8 @@ struct DashboardView: View {
     .task {
       let viewModel = DashboardViewModel(
         userDataRepository: deps.userDataRepository,
-        personalizationService: deps.personalizationService
+        personalizationService: deps.personalizationService,
+        appleHealthService: deps.appleHealthService
       )
       vm = viewModel
       await viewModel.load()

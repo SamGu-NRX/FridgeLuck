@@ -17,7 +17,9 @@ final class MealLogSyncCoordinator {
   }
 
   func syncLoggedMeal(
+    historyId: Int64,
     recipeId: Int64,
+    mealTitle: String,
     servingsConsumed: Int,
     loggedAt: Date = Date()
   ) async {
@@ -27,6 +29,10 @@ final class MealLogSyncCoordinator {
       let macros = try nutritionService.macros(for: recipeId)
       let scale = Double(max(1, servingsConsumed))
       let record = AppleHealthMealRecord(
+        syncIdentifier: "samgu.FridgeLuck.cooking_history.\(historyId)",
+        syncVersion: 1,
+        externalUUID: "samgu.FridgeLuck.cooking_history.\(historyId)",
+        foodType: mealTitle,
         date: loggedAt,
         calories: macros.caloriesPerServing * scale,
         proteinGrams: macros.proteinPerServing * scale,

@@ -86,6 +86,10 @@ targets:
         NSHealthUpdateUsageDescription: FridgeLuck saves the meals you log so your Apple Health nutrition history stays up to date.
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+          UIImageName: FridgeLuckLogo
+          UIImageRespectsSafeAreaInsets: false
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
@@ -108,6 +112,7 @@ targets:
         CODE_SIGN_STYLE: Automatic
         CURRENT_PROJECT_VERSION: 1
         DEVELOPMENT_TEAM: DWGXWVUR2B
+        GEMINI_BACKEND_BASE_URL: https://fridgeluck-gemini-agent-c6qrhws74q-uc.a.run.app
         GENERATE_INFOPLIST_FILE: "NO"
         IPHONEOS_DEPLOYMENT_TARGET: "26.0"
         MARKETING_VERSION: 1.0

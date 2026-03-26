@@ -5,15 +5,10 @@ import FLFeatureLogic
 import Photos
 import UIKit
 
-#if canImport(HealthKit)
-  import HealthKit
-#endif
-
 enum AppPermission: Equatable {
   case camera
   case microphone
   case photoLibraryReadWrite
-  case healthKit
 }
 
 typealias AppPermissionStatus = PermissionStatus
@@ -36,8 +31,6 @@ enum AppPermissionCenter {
       return mapMicrophonePermission(MicrophonePermissionBridge.currentStatus())
     case .photoLibraryReadWrite:
       return mapPhotoAuthorizationStatus(PHPhotoLibrary.authorizationStatus(for: .readWrite))
-    case .healthKit:
-      return mapHealthKitPermission(healthKitAuthorizationStatus())
     }
   }
 
@@ -96,9 +89,6 @@ enum AppPermissionCenter {
       @unknown default:
         return .unavailable
       }
-
-    case .healthKit:
-      return await requestHealthKitAuthorization()
     }
   }
 
@@ -145,21 +135,6 @@ enum AppPermissionCenter {
       state = .undetermined
     }
     return PermissionMapping.mapMicrophoneStatus(state)
-  }
-
-  fileprivate static func mapHealthKitPermission(
-    _ permission: HealthKitPermissionBridge.NormalizedPermission
-  ) -> AppPermissionStatus {
-    switch permission {
-    case .authorized:
-      return .authorized
-    case .denied:
-      return .denied
-    case .notDetermined:
-      return .notDetermined
-    case .unavailable:
-      return .unavailable
-    }
   }
 
   static func mapPhotoAuthorizationStatus(
@@ -214,25 +189,6 @@ enum AppPermissionCenter {
     }
   }
 
-  private static func healthKitAuthorizationStatus()
-    -> HealthKitPermissionBridge.NormalizedPermission
-  {
-    HealthKitPermissionBridge.currentStatus()
-  }
-
-  @MainActor
-  private static func requestHealthKitAuthorization() async -> AppPermissionRequestResult {
-    switch HealthKitPermissionBridge.currentStatus() {
-    case .authorized:
-      return .granted
-    case .denied:
-      return .denied
-    case .unavailable:
-      return .unavailable
-    case .notDetermined:
-      return await HealthKitPermissionBridge.request()
-    }
-  }
 }
 
 private enum MicrophonePermissionBridge {
@@ -274,55 +230,5 @@ private enum MicrophonePermissionBridge {
     } else {
       AVAudioSession.sharedInstance().requestRecordPermission(completion)
     }
-  }
-}
-
-private enum HealthKitPermissionBridge {
-  enum NormalizedPermission {
-    case authorized
-    case denied
-    case notDetermined
-    case unavailable
-  }
-
-  static func currentStatus() -> NormalizedPermission {
-    #if canImport(HealthKit)
-      guard HKHealthStore.isHealthDataAvailable() else { return .unavailable }
-      let store = HKHealthStore()
-      let statuses = AppleHealthTypeRegistry.quantityTypes.map {
-        store.authorizationStatus(for: $0)
-      }
-
-      if statuses.allSatisfy({ $0 == .sharingAuthorized }) {
-        return .authorized
-      }
-
-      if statuses.contains(.sharingDenied) {
-        return .denied
-      }
-
-      return .notDetermined
-    #else
-      return .unavailable
-    #endif
-  }
-
-  @MainActor
-  static func request() async -> AppPermissionRequestResult {
-    #if canImport(HealthKit)
-      guard HKHealthStore.isHealthDataAvailable() else { return .unavailable }
-      let store = HKHealthStore()
-
-      return await withCheckedContinuation { continuation in
-        store.requestAuthorization(
-          toShare: AppleHealthTypeRegistry.shareTypes,
-          read: AppleHealthTypeRegistry.readTypes
-        ) { success, _ in
-          continuation.resume(returning: success ? .granted : .denied)
-        }
-      }
-    #else
-      return .unavailable
-    #endif
   }
 }

@@ -69,7 +69,7 @@ struct AllergenPickerView: View {
           Button("Done") { dismiss() }
         }
       }
-      .flPageBackground()
+      .flPageBackground(renderMode: .interactive)
     }
   }
 

@@ -894,7 +894,9 @@ struct ReverseScanMealView: View {
       )
 
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
+        historyId: mealOutcome.historyId,
         recipeId: mealOutcome.recipeId,
+        mealTitle: recipeToLog.title,
         servingsConsumed: servings
       )
 

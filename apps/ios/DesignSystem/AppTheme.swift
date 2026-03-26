@@ -61,40 +61,40 @@ enum AppTheme {
 
   static let bg = dynamic(
     light: RGB(red: 0.96, green: 0.94, blue: 0.91),  // #F5F0E8
-    dark: RGB(red: 0.05, green: 0.06, blue: 0.05)  // #0D100D
+    dark: RGB(red: 0.08, green: 0.07, blue: 0.06)  // #141210
   )
   static let bgDeep = dynamic(
     light: RGB(red: 0.91, green: 0.88, blue: 0.83),  // #E8E0D4
-    dark: RGB(red: 0.11, green: 0.13, blue: 0.10)  // #1C211A
+    dark: RGB(red: 0.10, green: 0.09, blue: 0.07)  // #1A1712
   )
 
   // MARK: Surfaces
 
   static let surface = dynamic(
     light: RGB(red: 0.99, green: 0.99, blue: 0.97),  // #FEFCF8
-    dark: RGB(red: 0.15, green: 0.17, blue: 0.14)  // #262B24
+    dark: RGB(red: 0.14, green: 0.13, blue: 0.11)  // #24211C
   )
   static let surfaceMuted = dynamic(
     light: RGB(red: 0.94, green: 0.91, blue: 0.87),  // #F0E8DE
-    dark: RGB(red: 0.20, green: 0.23, blue: 0.19)  // #333B30
+    dark: RGB(red: 0.18, green: 0.16, blue: 0.14)  // #2E2924
   )
 
   // MARK: Text — warm walnut, not cold black
 
   static let textPrimary = dynamic(
     light: RGB(red: 0.16, green: 0.13, blue: 0.09),  // #2A2118
-    dark: RGB(red: 0.95, green: 0.94, blue: 0.90)  // #F2EFE6
+    dark: RGB(red: 0.95, green: 0.93, blue: 0.89)  // #F2EDE3
   )
   static let textSecondary = dynamic(
     light: RGB(red: 0.53, green: 0.48, blue: 0.42),  // #887A6A
-    dark: RGB(red: 0.78, green: 0.74, blue: 0.67)  // #C7BDAA
+    dark: RGB(red: 0.74, green: 0.69, blue: 0.62)  // #BDB09E
   )
 
   // MARK: Primary accent — terracotta
 
   static let accent = dynamic(
     light: RGB(red: 0.76, green: 0.38, blue: 0.23),  // #C2613A
-    dark: RGB(red: 0.84, green: 0.47, blue: 0.31)  // #D7784F
+    dark: RGB(red: 0.85, green: 0.50, blue: 0.35)  // #D98059
   )
   static let accentLight = dynamic(
     light: RGB(red: 0.89, green: 0.62, blue: 0.48),  // #E39E7A
@@ -106,7 +106,7 @@ enum AppTheme {
 
   static let sage = dynamic(
     light: RGB(red: 0.48, green: 0.56, blue: 0.42),  // #7A8E6B
-    dark: RGB(red: 0.60, green: 0.71, blue: 0.54)  // #99B588
+    dark: RGB(red: 0.58, green: 0.69, blue: 0.52)  // #94B085
   )
   static let sageLight = dynamic(
     light: RGB(red: 0.72, green: 0.78, blue: 0.68),  // #B8C7AD
@@ -130,15 +130,15 @@ enum AppTheme {
   static let warning = accent
   static let neutral = textSecondary
 
-  // MARK: Dark surfaces — deep olive, not cold charcoal
+  // MARK: Dark surfaces — warm charcoal, editorial depth
 
   static let deepOlive = dynamic(
     light: RGB(red: 0.12, green: 0.14, blue: 0.10),  // #1E2419
-    dark: RGB(red: 0.18, green: 0.21, blue: 0.17)  // #2E352C
+    dark: RGB(red: 0.12, green: 0.11, blue: 0.09)  // #1E1C17
   )
   static let deepOliveLight = dynamic(
     light: RGB(red: 0.18, green: 0.20, blue: 0.15),  // #2E3326
-    dark: RGB(red: 0.24, green: 0.28, blue: 0.23)  // #3D473A
+    dark: RGB(red: 0.17, green: 0.16, blue: 0.14)  // #2C2924
   )
   static let charcoal = deepOlive
 
@@ -147,7 +147,7 @@ enum AppTheme {
   static let slabFill = deepOlive
   static let slabStroke = dynamic(
     light: RGBA(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.10),
-    dark: RGBA(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.14)
+    dark: RGBA(red: 1.0, green: 0.96, blue: 0.90, alpha: 0.12)
   )
   static let homePanel = deepOlive
   static let homePanelStroke = slabStroke
@@ -156,11 +156,11 @@ enum AppTheme {
 
   static let heroLight = dynamic(
     light: RGB(red: 0.94, green: 0.88, blue: 0.78),  // #F0E0C7
-    dark: RGB(red: 0.45, green: 0.37, blue: 0.30)  // #73604D
+    dark: RGB(red: 0.38, green: 0.30, blue: 0.22)  // #614D38
   )
   static let heroMid = dynamic(
     light: RGB(red: 0.83, green: 0.72, blue: 0.56),  // #D4B78F
-    dark: RGB(red: 0.61, green: 0.49, blue: 0.36)  // #9C7D5C
+    dark: RGB(red: 0.52, green: 0.40, blue: 0.28)  // #856648
   )
 
   // MARK: Chart tokens
@@ -206,11 +206,11 @@ enum AppTheme {
   enum Shadow {
     static let color = dynamic(
       light: RGBA(red: 0.20, green: 0.16, blue: 0.10, alpha: 0.08),
-      dark: RGBA(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.28)
+      dark: RGBA(red: 0.06, green: 0.04, blue: 0.02, alpha: 0.30)
     )
     static let colorDeep = dynamic(
       light: RGBA(red: 0.20, green: 0.16, blue: 0.10, alpha: 0.15),
-      dark: RGBA(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.46)
+      dark: RGBA(red: 0.06, green: 0.04, blue: 0.02, alpha: 0.50)
     )
     static let radius: CGFloat = 16
     static let y: CGFloat = 8
@@ -251,9 +251,9 @@ enum AppTheme {
 // MARK: - View modifiers
 
 extension View {
-  func flPageBackground() -> some View {
+  func flPageBackground(renderMode: FLAmbientBackgroundRenderMode = .live) -> some View {
     background(
-      FLAmbientBackground()
+      FLAmbientBackground(renderMode: renderMode)
         .ignoresSafeArea()
     )
   }

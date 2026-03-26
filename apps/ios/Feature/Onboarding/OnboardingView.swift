@@ -1,9 +1,54 @@
-import AuthenticationServices
 import SwiftUI
+
+#if canImport(HealthKitUI)
+  import HealthKitUI
+#endif
+
+enum AppleHealthOnboardingState: Equatable {
+  case readyToRequest
+  case requesting
+  case connected
+  case needsSettings
+  case unavailable
+
+  static func resolve(
+    authorizationStatus: AppPermissionStatus,
+    requestStatus: AppleHealthAuthorizationRequestStatus
+  ) -> AppleHealthOnboardingState {
+    switch authorizationStatus {
+    case .authorized, .limited:
+      return .connected
+    case .unavailable:
+      return .unavailable
+    case .denied, .restricted:
+      return .needsSettings
+    case .notDetermined:
+      switch requestStatus {
+      case .shouldRequest, .unknown, .failed:
+        return .readyToRequest
+      case .unnecessary:
+        return .needsSettings
+      case .unavailable:
+        return .unavailable
+      }
+    }
+  }
+}
 
 /// Health onboarding — hero welcome, profile setup, feature highlights,
 /// Apple Health, then app handoff.
 struct OnboardingView: View {
+  private enum Chrome {
+    static let topBarHeight: CGFloat = 64
+  }
+
+  private enum Timing {
+    static let reducedMotionStepTransitionLockNanoseconds: UInt64 = 10_000_000
+    static let stepTransitionLockNanoseconds: UInt64 = 280_000_000
+    static let reducedMotionNameFocusSettleNanoseconds: UInt64 = 90_000_000
+    static let nameFocusSettleNanoseconds: UInt64 = 180_000_000
+  }
+
   @EnvironmentObject var deps: AppDependencies
   @Environment(FirstRunExperienceStore.self) private var firstRunExperienceStore
   @Environment(\.dismiss) private var dismiss
@@ -24,37 +69,25 @@ struct OnboardingView: View {
   @State private var allergenCatalog: AllergenCatalogIndex = .empty
 
   @State private var stepIndex = 0
+  @State private var previousStep: OnboardingStep = .welcome
   @State private var stepDirection: StepDirection = .forward
   @State private var isTransitioning = false
   @State private var isLoaded = false
   @State private var isSaving = false
+  @State private var isAllergenCatalogLoaded = false
+  @State private var isAllergenCatalogLoading = false
   @State private var errorMessage: String?
   @State private var validationMessage: String?
   @State private var showAllergenPicker = false
-  @State private var appleHealthStatus: AppPermissionStatus = .notDetermined
-  @State private var appleHealthRequestInFlight = false
+  @State private var appleHealthState: AppleHealthOnboardingState = .readyToRequest
+  @State private var appleHealthRequestTrigger = 0
+  @State private var appleHealthInlineErrorMessage: String?
   @State private var setupBridgeState: SetupBridgeState = .idle
+  @State private var pendingNameFocusTask: Task<Void, Never>?
 
   @FocusState private var isNameFocused: Bool
 
   // MARK: - Step Definition
-
-  private enum Step: Int, CaseIterable {
-    case welcome
-    case name
-    case personalWelcome
-    case age
-    case goal
-    case featureScan
-    case calories
-    case restrictions
-    case featureChef
-    case allergens
-    case healthValue
-    case healthPermission
-    case setupBridge
-    case handoff
-  }
 
   private enum StepDirection {
     case forward
@@ -78,12 +111,12 @@ struct OnboardingView: View {
     .init(id: "keto", title: "Keto", subtitle: "Very low carb, high fat", icon: .dietKeto),
   ]
 
-  private var currentStep: Step {
-    Step(rawValue: stepIndex) ?? .welcome
+  private var currentStep: OnboardingStep {
+    OnboardingStep(rawValue: stepIndex) ?? .welcome
   }
 
   private var totalSteps: Int {
-    Step.allCases.count
+    OnboardingStep.allCases.count
   }
 
   private var progress: Double {
@@ -113,18 +146,19 @@ struct OnboardingView: View {
   // MARK: - Body
 
   var body: some View {
+    applyAppleHealthAuthorizationRequest(to: rootContent)
+  }
+
+  private var rootContent: some View {
     VStack(spacing: 0) {
-      if currentStep != .welcome {
-        topBar
-          .transition(.opacity.combined(with: .move(edge: .top)))
-      }
+      topBar
+        .frame(height: Chrome.topBarHeight, alignment: .top)
       stepContentContainer
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       footer
     }
-    .flPageBackground()
-    .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: currentStep == .welcome)
+    .flPageBackground(renderMode: currentStep.backgroundRenderMode)
     .alert(
       "Unable to Continue",
       isPresented: Binding(
@@ -147,6 +181,14 @@ struct OnboardingView: View {
       isLoaded = true
       await loadProfile()
     }
+    .task(id: currentStep) {
+      if currentStep.shouldWarmAllergenCatalog {
+        await preloadAllergenCatalogIfNeeded()
+      }
+      if currentStep == .healthPermission {
+        await refreshAppleHealthState(showPreflightErrors: true)
+      }
+    }
     .task(id: stepIndex) {
       guard currentStep == .setupBridge else { return }
       await runSetupBridgeIfNeeded()
@@ -162,8 +204,11 @@ struct OnboardingView: View {
       }
     }
     .onChange(of: scenePhase) { _, newPhase in
-      guard newPhase == .active else { return }
-      refreshAppleHealthStatus()
+      guard newPhase == .active, currentStep == .healthPermission else { return }
+      Task { await refreshAppleHealthState(showPreflightErrors: true) }
+    }
+    .onDisappear {
+      pendingNameFocusTask?.cancel()
     }
   }
 
@@ -200,7 +245,6 @@ struct OnboardingView: View {
         }
       }
       .padding(.horizontal, AppTheme.Space.sm)
-      .animation(reduceMotion ? nil : AppMotion.onboardingStep, value: stepIndex)
 
       OnboardingProgressBar(
         progress: progress,
@@ -208,6 +252,9 @@ struct OnboardingView: View {
       )
     }
     .padding(.top, AppTheme.Space.xs)
+    .opacity(currentStep.showsTopBarContent ? 1 : 0)
+    .allowsHitTesting(currentStep.showsTopBarContent)
+    .accessibilityHidden(!currentStep.showsTopBarContent)
   }
 
   // MARK: - Step Content
@@ -219,10 +266,8 @@ struct OnboardingView: View {
         case .welcome:
           OnboardingWelcomeHeroStep(
             onContinueWithoutApple: {
-              setStep(Step.name.rawValue, direction: .forward)
-            },
-            onAppleSignInRequest: configureAppleSignInRequest,
-            onAppleSignInCompletion: handleAppleSignInCompletion
+              setStep(OnboardingStep.name.rawValue, direction: .forward)
+            }
           )
 
         case .name:
@@ -259,6 +304,7 @@ struct OnboardingView: View {
 
         case .allergens:
           OnboardingAllergenStep(
+            isCatalogReady: isAllergenCatalogLoaded,
             allergenGroupMatchesByID: allergenCatalog.groupMatchesByID,
             selectedAllergens: selectedAllergens,
             selectedAllergenIngredients: selectedAllergenIngredients,
@@ -271,9 +317,10 @@ struct OnboardingView: View {
 
         case .healthPermission:
           OnboardingAppleHealthPermissionStep(
-            status: appleHealthStatus,
-            isRequestInFlight: appleHealthRequestInFlight,
+            state: appleHealthState,
             didChooseSkip: firstRunExperienceStore.appleHealthChoice == .skipped
+              && appleHealthState != .connected,
+            inlineErrorMessage: appleHealthInlineErrorMessage
           )
 
         case .setupBridge:
@@ -301,51 +348,50 @@ struct OnboardingView: View {
   }
 
   private var stepTransition: AnyTransition {
-    guard !reduceMotion else { return .opacity }
-    switch stepDirection {
-    case .forward:
-      return .asymmetric(
-        insertion: .move(edge: .trailing).combined(with: .opacity),
-        removal: .move(edge: .leading).combined(with: .opacity)
-      )
-    case .backward:
-      return .asymmetric(
-        insertion: .move(edge: .leading).combined(with: .opacity),
-        removal: .move(edge: .trailing).combined(with: .opacity)
-      )
-    }
+    OnboardingTransitionPolicy.transition(
+      from: previousStep,
+      to: currentStep,
+      isForward: stepDirection == .forward,
+      reduceMotion: reduceMotion
+    )
   }
 
   // MARK: - Footer
 
-  @ViewBuilder
   private var footer: some View {
-    if currentStep == .setupBridge || currentStep == .welcome {
-      EmptyView()
-    } else {
-      OnboardingFooter(
-        isSaving: isSaving || appleHealthRequestInFlight,
-        isTransitioning: isTransitioning,
-        primaryButtonTitle: primaryButtonTitle,
-        primaryButtonIcon: primaryButtonIcon,
-        secondaryButtonTitle: secondaryButtonTitle,
-        secondaryButtonIcon: secondaryButtonIcon,
-        onPrimaryAction: handlePrimaryAction,
-        onSecondaryAction: handleSecondaryAction
-      )
-      .transition(.move(edge: .bottom).combined(with: .opacity))
+    Group {
+      if currentStep.showsFooterActions {
+        OnboardingFooter(
+          isSaving: isSaving || appleHealthState == .requesting,
+          isTransitioning: isTransitioning,
+          primaryButtonTitle: primaryButtonTitle,
+          primaryButtonIcon: primaryButtonIcon,
+          secondaryButtonTitle: secondaryButtonTitle,
+          secondaryButtonIcon: secondaryButtonIcon,
+          onPrimaryAction: handlePrimaryAction,
+          onSecondaryAction: handleSecondaryAction
+        )
+      } else {
+        Color.clear
+          .frame(height: OnboardingFooter.reservedHeight)
+          .accessibilityHidden(true)
+      }
     }
+  }
+
+  private var isReadyForPrimaryAction: Bool {
+    !isTransitioning && !isSaving && appleHealthState != .requesting
   }
 
   private var primaryButtonTitle: String {
     switch currentStep {
     case .healthPermission:
-      switch appleHealthStatus {
-      case .authorized, .unavailable:
+      switch appleHealthState {
+      case .connected, .unavailable:
         return "Continue"
-      case .denied:
+      case .needsSettings:
         return "Open Settings"
-      default:
+      case .readyToRequest, .requesting:
         return "Connect Apple Health"
       }
     case .handoff:
@@ -358,14 +404,14 @@ struct OnboardingView: View {
   private var primaryButtonIcon: String {
     switch currentStep {
     case .healthPermission:
-      switch appleHealthStatus {
-      case .authorized:
+      switch appleHealthState {
+      case .connected:
         return "checkmark.circle.fill"
       case .unavailable:
         return "arrow.right"
-      case .denied:
+      case .needsSettings:
         return "gearshape.fill"
-      default:
+      case .readyToRequest, .requesting:
         return "heart.text.square.fill"
       }
     case .handoff:
@@ -377,7 +423,7 @@ struct OnboardingView: View {
 
   private var secondaryButtonTitle: String? {
     guard currentStep == .healthPermission else { return nil }
-    guard appleHealthStatus != .authorized && appleHealthStatus != .unavailable else { return nil }
+    guard appleHealthState != .connected && appleHealthState != .unavailable else { return nil }
     return "Skip for now"
   }
 
@@ -388,7 +434,7 @@ struct OnboardingView: View {
   // MARK: - Navigation
 
   private func handlePrimaryAction() {
-    guard !isTransitioning, !isSaving, !appleHealthRequestInFlight else { return }
+    guard isReadyForPrimaryAction else { return }
 
     switch currentStep {
     case .welcome:
@@ -396,7 +442,7 @@ struct OnboardingView: View {
 
     case .name:
       guard validateName() else { return }
-      isNameFocused = false
+      clearNameFocus()
       setStep(stepIndex + 1, direction: .forward)
 
     case .healthPermission:
@@ -417,9 +463,9 @@ struct OnboardingView: View {
   }
 
   private func goBack() {
-    guard !isTransitioning, !isSaving, !appleHealthRequestInFlight else { return }
+    guard isReadyForPrimaryAction else { return }
     guard stepIndex > 0 else { return }
-    isNameFocused = false
+    clearNameFocus()
     setStep(stepIndex - 1, direction: .backward)
   }
 
@@ -428,6 +474,11 @@ struct OnboardingView: View {
     guard clamped != stepIndex else { return }
     guard !isTransitioning else { return }
 
+    let nextStep = OnboardingStep(rawValue: clamped) ?? .welcome
+    let performanceLabel = "step_transition_\(currentStep.rawValue)_\(nextStep.rawValue)"
+    let stepTransitionStart = OnboardingPerformanceProfiler.begin(performanceLabel)
+
+    previousStep = currentStep
     stepDirection = direction
     isTransitioning = true
 
@@ -439,67 +490,48 @@ struct OnboardingView: View {
       }
     }
 
-    let lockDurationNanoseconds: UInt64 = reduceMotion ? 10_000_000 : 280_000_000
+    let lockDurationNanoseconds =
+      reduceMotion
+      ? Timing.reducedMotionStepTransitionLockNanoseconds
+      : Timing.stepTransitionLockNanoseconds
     Task { @MainActor in
       try? await Task.sleep(nanoseconds: lockDurationNanoseconds)
       isTransitioning = false
-
-      if Step(rawValue: clamped) == .name {
-        isNameFocused = true
-      }
+      scheduleNameFocusIfNeeded(for: nextStep)
+      OnboardingPerformanceProfiler.end(performanceLabel, from: stepTransitionStart)
     }
   }
 
-  // MARK: - Apple Sign In
-
-  private func configureAppleSignInRequest(_ request: ASAuthorizationAppleIDRequest) {
-    request.requestedScopes = [.fullName]
+  private func clearNameFocus() {
+    pendingNameFocusTask?.cancel()
+    pendingNameFocusTask = nil
+    isNameFocused = false
   }
 
-  private func handleAppleSignInCompletion(_ result: Result<ASAuthorization, Error>) {
-    switch result {
-    case .success(let authorization):
-      guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-        errorMessage = "Apple sign-in returned an unexpected credential."
-        return
-      }
+  private func scheduleNameFocusIfNeeded(for step: OnboardingStep) {
+    pendingNameFocusTask?.cancel()
+    pendingNameFocusTask = nil
 
-      UserDefaults.standard.set(credential.user, forKey: "appleUserIdentifier")
-      if let givenName = credential.fullName?.givenName, !givenName.isEmpty {
-        displayName = givenName
-      }
-      setStep(Step.name.rawValue, direction: .forward)
+    guard step == .name else { return }
 
-    case .failure(let error):
-      if let authError = error as? ASAuthorizationError {
-        switch authError.code {
-        case .canceled:
-          return
-        case .failed:
-          errorMessage =
-            "Apple sign-in failed. If this is a personal team build, continue without Apple for local testing."
-        case .invalidResponse:
-          errorMessage =
-            "Apple sign-in returned an invalid response. Try again."
-        case .notHandled:
-          errorMessage =
-            "Apple sign-in could not be completed here. Try again from a signed-in device."
-        case .notInteractive,
-          .matchedExcludedCredential,
-          .credentialImport,
-          .credentialExport,
-          .preferSignInWithApple,
-          .deviceNotConfiguredForPasskeyCreation:
-          errorMessage = authError.localizedDescription
-        case .unknown:
-          errorMessage =
-            "Apple sign-in is not configured for this build. Continue without Apple for local testing, or use a paid Apple Developer team with the capability enabled."
-        @unknown default:
-          errorMessage = authError.localizedDescription
-        }
-      } else {
-        errorMessage = error.localizedDescription
-      }
+    pendingNameFocusTask = Task { @MainActor in
+      let focusStart = OnboardingPerformanceProfiler.begin("name_focus_request")
+      let focusDelayNanoseconds =
+        reduceMotion
+        ? Timing.reducedMotionNameFocusSettleNanoseconds
+        : Timing.nameFocusSettleNanoseconds
+
+      try? await Task.sleep(nanoseconds: focusDelayNanoseconds)
+      guard !Task.isCancelled else { return }
+      guard currentStep == .name else { return }
+      guard !isTransitioning else { return }
+
+      await Task.yield()
+      guard !Task.isCancelled else { return }
+      guard currentStep == .name else { return }
+
+      isNameFocused = true
+      OnboardingPerformanceProfiler.end("name_focus_request", from: focusStart)
     }
   }
 
@@ -539,16 +571,12 @@ struct OnboardingView: View {
   // MARK: - Data Loading
 
   private func loadProfile() async {
-    let ingredientRepository = deps.ingredientRepository
+    let loadStart = OnboardingPerformanceProfiler.begin("onboarding_initial_load")
     let userDataRepository = deps.userDataRepository
 
-    let catalog = await Task.detached(priority: .userInitiated) {
-      let fetchedIngredients = (try? ingredientRepository.fetchAll()) ?? []
-      return AllergenSupport.buildCatalog(from: fetchedIngredients)
-    }.value
-
-    allergenCatalog = catalog
-    refreshAppleHealthStatus()
+    if currentStep == .healthPermission {
+      await refreshAppleHealthState(showPreflightErrors: true)
+    }
 
     do {
       let profile: HealthProfile = try await Task.detached(priority: .userInitiated) {
@@ -564,52 +592,107 @@ struct OnboardingView: View {
     } catch {
       errorMessage = error.localizedDescription
     }
+
+    OnboardingPerformanceProfiler.end("onboarding_initial_load", from: loadStart)
+  }
+
+  private func preloadAllergenCatalogIfNeeded() async {
+    guard !isAllergenCatalogLoaded, !isAllergenCatalogLoading else { return }
+
+    isAllergenCatalogLoading = true
+    let catalog = await OnboardingAllergenCatalogLoader.load(from: deps.ingredientRepository)
+    allergenCatalog = catalog
+    isAllergenCatalogLoaded = true
+    isAllergenCatalogLoading = false
   }
 
   // MARK: - Apple Health
 
-  private func refreshAppleHealthStatus() {
-    appleHealthStatus = deps.appleHealthService.authorizationStatus()
-    if appleHealthStatus == .authorized {
+  private func refreshAppleHealthState(showPreflightErrors: Bool) async {
+    let requestStatus = await deps.appleHealthService.authorizationRequestStatus()
+    let authorizationStatus = deps.appleHealthService.authorizationStatus()
+    appleHealthState = AppleHealthOnboardingState.resolve(
+      authorizationStatus: authorizationStatus,
+      requestStatus: requestStatus
+    )
+
+    if showPreflightErrors {
+      switch requestStatus {
+      case .failed(let message):
+        appleHealthInlineErrorMessage =
+          "Apple Health could not be checked right now. \(message)"
+      default:
+        appleHealthInlineErrorMessage = nil
+      }
+    }
+
+    if appleHealthState == .connected {
       firstRunExperienceStore.appleHealthChoice = .connected
+      appleHealthInlineErrorMessage = nil
     }
   }
 
   private func handleAppleHealthPrimaryAction() {
-    switch appleHealthStatus {
-    case .authorized, .unavailable:
+    appleHealthInlineErrorMessage = nil
+
+    switch appleHealthState {
+    case .connected, .unavailable:
       setStep(stepIndex + 1, direction: .forward)
-    case .denied:
+    case .needsSettings:
       AppPermissionCenter.openAppSettings()
-    default:
-      requestAppleHealthAuthorization()
+    case .readyToRequest:
+      appleHealthState = .requesting
+      appleHealthRequestTrigger += 1
+    case .requesting:
+      break
     }
   }
 
-  private func requestAppleHealthAuthorization() {
-    appleHealthRequestInFlight = true
-
-    Task { @MainActor in
-      defer { appleHealthRequestInFlight = false }
-
-      let result = await deps.appleHealthService.requestAuthorization()
-      appleHealthStatus = deps.appleHealthService.authorizationStatus()
-
-      switch result {
-      case .granted:
-        firstRunExperienceStore.appleHealthChoice = .connected
-        setStep(stepIndex + 1, direction: .forward)
-      case .limited:
-        firstRunExperienceStore.appleHealthChoice = .connected
-        setStep(stepIndex + 1, direction: .forward)
-      case .denied:
-        firstRunExperienceStore.appleHealthChoice = .unresolved
-      case .unavailable:
-        appleHealthStatus = .unavailable
-        firstRunExperienceStore.appleHealthChoice = .unresolved
-        setStep(stepIndex + 1, direction: .forward)
+  @MainActor
+  private func handleAppleHealthAuthorizationCompletion(_ result: Result<Bool, Error>) async {
+    defer {
+      if appleHealthState == .requesting {
+        appleHealthState = .readyToRequest
       }
     }
+
+    switch result {
+    case .success(let granted):
+      await refreshAppleHealthState(showPreflightErrors: true)
+      if appleHealthState == .connected {
+        setStep(stepIndex + 1, direction: .forward)
+      } else if !granted {
+        firstRunExperienceStore.appleHealthChoice = .unresolved
+      }
+    case .failure(let error):
+      await refreshAppleHealthState(showPreflightErrors: true)
+      appleHealthInlineErrorMessage =
+        "Apple Health could not be connected right now. \(error.localizedDescription)"
+      firstRunExperienceStore.appleHealthChoice = .unresolved
+    }
+  }
+
+  @ViewBuilder
+  private func applyAppleHealthAuthorizationRequest<Content: View>(to content: Content) -> some View
+  {
+    #if canImport(HealthKitUI)
+      if let context = deps.appleHealthAuthorizationContext {
+        content.healthDataAccessRequest(
+          store: context.healthStore,
+          shareTypes: context.requestShareTypes,
+          readTypes: context.requestReadTypes,
+          trigger: appleHealthRequestTrigger
+        ) { result in
+          Task { @MainActor in
+            await handleAppleHealthAuthorizationCompletion(result)
+          }
+        }
+      } else {
+        content
+      }
+    #else
+      content
+    #endif
   }
 
   // MARK: - Setup Bridge

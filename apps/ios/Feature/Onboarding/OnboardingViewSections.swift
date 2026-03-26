@@ -1,4 +1,3 @@
-import AuthenticationServices
 import SwiftUI
 import UIKit
 
@@ -43,138 +42,144 @@ private struct StaggerIn: ViewModifier {
 
 struct OnboardingWelcomeHeroStep: View {
   let onContinueWithoutApple: () -> Void
-  let onAppleSignInRequest: (ASAuthorizationAppleIDRequest) -> Void
-  let onAppleSignInCompletion: (Result<ASAuthorization, Error>) -> Void
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var appeared = false
 
   var body: some View {
-    VStack(spacing: 0) {
-      Spacer()
+    ZStack {
+      // Floating atmospheric food icons
+      floatingAccents
 
-      ZStack {
-        Circle()
-          .fill(
-            RadialGradient(
-              colors: [
-                AppTheme.heroLight.opacity(0.9),
-                AppTheme.accentLight.opacity(0.45),
-                Color.clear,
-              ],
-              center: .center,
-              startRadius: 18,
-              endRadius: 130
+      VStack(spacing: 0) {
+        Spacer(minLength: AppTheme.Space.xl)
+
+        ZStack {
+          // Warm accent glow (upper-right bias)
+          Circle()
+            .fill(
+              RadialGradient(
+                colors: [AppTheme.accentLight.opacity(0.45), Color.clear],
+                center: .center,
+                startRadius: 10,
+                endRadius: 90
+              )
             )
-          )
-          .frame(width: 260, height: 260)
-          .blur(radius: 22)
-          .opacity(appeared ? 1 : 0)
-          .animation(
-            reduceMotion ? nil : .easeOut(duration: 0.5).delay(0.05),
-            value: appeared
-          )
-
-        RoundedRectangle(cornerRadius: AppTheme.Radius.xxl, style: .continuous)
-          .fill(.ultraThinMaterial)
-          .overlay(
-            RoundedRectangle(cornerRadius: AppTheme.Radius.xxl, style: .continuous)
-              .fill(AppTheme.surface.opacity(0.78))
-          )
-          .overlay(
-            RoundedRectangle(cornerRadius: AppTheme.Radius.xxl, style: .continuous)
-              .stroke(AppTheme.oat.opacity(0.28), lineWidth: 1)
-          )
-          .frame(width: 152, height: 152)
-          .shadow(color: AppTheme.Shadow.colorDeep, radius: 24, x: 0, y: 12)
-
-        if UIImage(named: "FridgeLuckLogo") != nil {
-          Image("FridgeLuckLogo")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 90, height: 90)
-        } else {
-          Image(systemName: "refrigerator.fill")
-            .font(.system(size: 50, weight: .semibold))
-            .foregroundStyle(AppTheme.accent)
-        }
-      }
-      .scaleEffect(appeared ? 1 : 0.92)
-      .opacity(appeared ? 1 : 0)
-      .animation(
-        reduceMotion ? nil : AppMotion.heroEntrance.delay(0.1),
-        value: appeared
-      )
-
-      Spacer()
-        .frame(height: AppTheme.Space.lg)
-
-      HStack(spacing: AppTheme.Space.sm) {
-        heroPill(icon: "camera.macro", text: "Scan", delay: 0.28)
-        heroPill(icon: "fork.knife", text: "Cook", delay: 0.34)
-        heroPill(icon: "heart.text.square", text: "Track", delay: 0.40)
-      }
-
-      Spacer()
-        .frame(height: AppTheme.Space.xxl)
-
-      VStack(spacing: AppTheme.Space.sm) {
-        Text("Turn what you have\ninto meals you can trust.")
-          .font(OnboardingTypography.welcomeTitle)
-          .foregroundStyle(AppTheme.textPrimary)
-          .multilineTextAlignment(.center)
-          .fixedSize(horizontal: false, vertical: true)
-
-        Text("Simple enough for a first-time cook.\nSmart enough to keep up every day.")
-          .font(AppTheme.Typography.bodyMedium)
-          .foregroundStyle(AppTheme.textSecondary)
-          .multilineTextAlignment(.center)
-      }
-      .padding(.horizontal, AppTheme.Space.page)
-      .opacity(appeared ? 1 : 0)
-      .offset(y: appeared ? 0 : 14)
-      .animation(
-        reduceMotion ? nil : .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.34).delay(0.42),
-        value: appeared
-      )
-
-      Spacer()
-
-      VStack(spacing: AppTheme.Space.sm) {
-        Button(action: onContinueWithoutApple) {
-          Text("Get Started")
-            .font(.system(.headline, design: .serif, weight: .semibold))
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, AppTheme.Space.buttonVertical)
-            .background(
-              AppTheme.accent,
-              in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+            .frame(width: 180, height: 180)
+            .offset(x: 20, y: -15)
+            .blur(radius: 25)
+            .opacity(appeared ? 1 : 0)
+            .animation(
+              reduceMotion ? nil : .easeOut(duration: 0.5).delay(0.05),
+              value: appeared
             )
-            .foregroundStyle(.white)
-            .shadow(color: AppTheme.accent.opacity(0.25), radius: 12, x: 0, y: 6)
-        }
-        .buttonStyle(FLPressableButtonStyle())
 
-        SignInWithAppleButton(
-          .continue,
-          onRequest: onAppleSignInRequest,
-          onCompletion: onAppleSignInCompletion
+          // Cool sage glow (lower-left bias)
+          Circle()
+            .fill(
+              RadialGradient(
+                colors: [AppTheme.sageLight.opacity(0.30), Color.clear],
+                center: .center,
+                startRadius: 10,
+                endRadius: 80
+              )
+            )
+            .frame(width: 160, height: 160)
+            .offset(x: -20, y: 15)
+            .blur(radius: 22)
+            .opacity(appeared ? 1 : 0)
+            .animation(
+              reduceMotion ? nil : .easeOut(duration: 0.6).delay(0.08),
+              value: appeared
+            )
+
+          // Logo — clipped directly, no container
+          if UIImage(named: "FridgeLuckLogo") != nil {
+            Image("FridgeLuckLogo")
+              .resizable()
+              .scaledToFill()
+              .frame(width: 108, height: 108)
+              .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous))
+              .shadow(color: AppTheme.Shadow.colorDeep, radius: 20, x: 0, y: 10)
+          } else {
+            Image(systemName: "refrigerator.fill")
+              .font(.system(size: 50, weight: .semibold))
+              .foregroundStyle(AppTheme.accent)
+          }
+        }
+        .scaleEffect(appeared ? 1 : 0.92)
+        .opacity(appeared ? 1 : 0)
+        .animation(
+          reduceMotion ? nil : AppMotion.heroEntrance.delay(0.1),
+          value: appeared
         )
-        .signInWithAppleButtonStyle(.black)
-        .frame(height: 54)
-        .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous))
-        .shadow(color: AppTheme.Shadow.colorDeep.opacity(0.16), radius: 12, x: 0, y: 6)
-        .accessibilityLabel("Continue with Apple")
-        .accessibilityHint(
-          "Optionally prefills your name from Apple when the capability is available.")
+
+        Spacer()
+          .frame(height: AppTheme.Space.md)
+
+        HStack(spacing: AppTheme.Space.sm) {
+          heroPill(icon: "camera.macro", text: "Scan", delay: 0.28, tint: AppTheme.accent)
+          heroPill(icon: "fork.knife", text: "Cook", delay: 0.34, tint: AppTheme.sage)
+          heroPill(icon: "heart.text.square", text: "Track", delay: 0.40, tint: AppTheme.dustyRose)
+        }
+
+        Spacer()
+          .frame(height: AppTheme.Space.lg)
+
+        VStack(spacing: AppTheme.Space.xs) {
+          Text("Turn what you have\ninto meals you trust.")
+            .font(OnboardingTypography.welcomeTitle)
+            .foregroundStyle(
+              LinearGradient(
+                colors: [AppTheme.textPrimary, AppTheme.textPrimary.opacity(0.78)],
+                startPoint: .top,
+                endPoint: .bottom
+              )
+            )
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+
+          Text("Smart enough for every day.\nSimple enough for your first.")
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(AppTheme.textSecondary)
+            .multilineTextAlignment(.center)
+        }
+        .padding(.horizontal, AppTheme.Space.page)
+        .opacity(appeared ? 1 : 0)
+        .offset(y: appeared ? 0 : 14)
+        .animation(
+          reduceMotion ? nil : .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.34).delay(0.42),
+          value: appeared
+        )
+
+        Spacer(minLength: AppTheme.Space.xxl)
+
+        VStack(spacing: 0) {
+          Button(action: onContinueWithoutApple) {
+            Text("Get Started")
+              .font(.system(.headline, design: .serif, weight: .semibold))
+              .frame(maxWidth: .infinity)
+              .padding(.vertical, AppTheme.Space.buttonVertical)
+              .background(
+                AppTheme.accent,
+                in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+              )
+              .foregroundStyle(.white)
+              .shadow(color: AppTheme.accent.opacity(0.25), radius: 12, x: 0, y: 6)
+          }
+          .buttonStyle(FLPressableButtonStyle())
+        }
+        .frame(maxWidth: 375)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.top, AppTheme.Space.md)
+        .safeAreaPadding(.bottom, AppTheme.Space.md)
+        .opacity(appeared ? 1 : 0)
+        .offset(y: appeared ? 0 : 10)
+        .animation(
+          reduceMotion ? nil : .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.30).delay(0.58),
+          value: appeared
+        )
       }
-      .padding(.horizontal, AppTheme.Space.page)
-      .padding(.bottom, AppTheme.Space.lg)
-      .opacity(appeared ? 1 : 0)
-      .offset(y: appeared ? 0 : 10)
-      .animation(
-        reduceMotion ? nil : .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.30).delay(0.58),
-        value: appeared
-      )
     }
     .task {
       guard !appeared else { return }
@@ -183,17 +188,48 @@ struct OnboardingWelcomeHeroStep: View {
     }
   }
 
-  private func heroPill(icon: String, text: String, delay: Double) -> some View {
+  // MARK: - Floating Atmospheric Accents
+
+  private var floatingAccents: some View {
+    ZStack {
+      floatingIcon("carrot.fill", size: 20, x: -120, y: -200, rotation: -12, color: AppTheme.accent)
+      floatingIcon("leaf.fill", size: 16, x: 130, y: -160, rotation: 8, color: AppTheme.sage)
+      floatingIcon(
+        "flame.fill", size: 18, x: -100, y: 80, rotation: -6, color: AppTheme.accentLight)
+      floatingIcon("fork.knife", size: 15, x: 110, y: 120, rotation: 14, color: AppTheme.oat)
+      floatingIcon(
+        "cup.and.saucer.fill", size: 17, x: -50, y: 220, rotation: -10, color: AppTheme.dustyRose)
+      floatingIcon("fish.fill", size: 16, x: 80, y: -50, rotation: 6, color: AppTheme.sageLight)
+    }
+    .opacity(appeared ? 1 : 0)
+    .animation(reduceMotion ? nil : .easeOut(duration: 0.8).delay(0.3), value: appeared)
+  }
+
+  private func floatingIcon(
+    _ name: String, size: CGFloat, x: CGFloat, y: CGFloat, rotation: Double, color: Color
+  ) -> some View {
+    Image(systemName: name)
+      .font(.system(size: size, weight: .medium))
+      .foregroundStyle(color.opacity(0.12))
+      .offset(x: x, y: y)
+      .rotationEffect(.degrees(rotation))
+  }
+
+  // MARK: - Hero Pills
+
+  private func heroPill(icon: String, text: String, delay: Double, tint: Color) -> some View {
     HStack(spacing: AppTheme.Space.xs) {
       Image(systemName: icon)
+        .foregroundStyle(tint)
       Text(text)
     }
     .font(AppTheme.Typography.label)
     .foregroundStyle(AppTheme.textPrimary)
-    .padding(.horizontal, AppTheme.Space.sm)
-    .padding(.vertical, AppTheme.Space.chipVertical)
-    .background(AppTheme.surface, in: Capsule())
-    .overlay(Capsule().stroke(AppTheme.oat.opacity(0.22), lineWidth: 1))
+    .padding(.horizontal, AppTheme.Space.md)
+    .padding(.vertical, AppTheme.Space.xs)
+    .background(AppTheme.surface.opacity(0.85), in: Capsule())
+    .overlay(Capsule().stroke(AppTheme.oat.opacity(0.18), lineWidth: 1))
+    .shadow(color: AppTheme.Shadow.color, radius: 8, x: 0, y: 4)
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 8)
     .animation(
@@ -215,20 +251,24 @@ struct OnboardingNameStep: View {
   var body: some View {
     VStack(spacing: 0) {
       Spacer()
-        .frame(maxHeight: 80)
+        .frame(maxHeight: 60)
 
-      VStack(spacing: AppTheme.Space.lg) {
+      VStack(spacing: AppTheme.Space.md) {
+        Text("👋")
+          .font(.system(size: 48))
+          .modifier(StaggerIn(index: 0, appeared: appeared))
+
         Text("What's your name?")
           .font(OnboardingTypography.sectionTitle)
           .foregroundStyle(AppTheme.textPrimary)
           .multilineTextAlignment(.center)
-          .modifier(StaggerIn(index: 0, appeared: appeared))
+          .modifier(StaggerIn(index: 1, appeared: appeared))
 
         Text("We'll use this to personalize your experience.")
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
           .multilineTextAlignment(.center)
-          .modifier(StaggerIn(index: 1, appeared: appeared))
+          .modifier(StaggerIn(index: 2, appeared: appeared))
 
         TextField("Your name", text: $displayName)
           .font(.system(size: 24, weight: .medium, design: .serif))
@@ -249,9 +289,12 @@ struct OnboardingNameStep: View {
                 lineWidth: isNameFocused ? 1.5 : 1
               )
           )
+          .shadow(
+            color: isNameFocused ? AppTheme.accent.opacity(0.15) : Color.clear,
+            radius: 12, x: 0, y: 0
+          )
           .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isNameFocused)
           .padding(.horizontal, AppTheme.Space.xl)
-          .modifier(StaggerIn(index: 2, appeared: appeared))
 
         if let validationMessage {
           HStack(spacing: AppTheme.Space.xxs) {
@@ -398,6 +441,7 @@ struct OnboardingAgeStep: View {
         VStack(spacing: AppTheme.Space.sm) {
           Text("\(age)")
             .font(.system(size: 64, weight: .bold, design: .serif))
+            .monospacedDigit()
             .foregroundStyle(AppTheme.textPrimary)
             .contentTransition(.numericText(value: Double(age)))
             .animation(reduceMotion ? nil : AppMotion.rulerSnap, value: age)
@@ -438,7 +482,7 @@ struct HorizontalScrollRuler: View {
   @State private var baseValue: Int = 0
   @GestureState private var isDragging = false
 
-  private let tickSpacing: CGFloat = 12
+  private let tickSpacing: CGFloat = 9
   private let majorTickInterval = 5
 
   var body: some View {
@@ -452,7 +496,7 @@ struct HorizontalScrollRuler: View {
 
           for i in 0...totalTicks {
             let tickValue = range.lowerBound + i
-            let xOffset = CGFloat(tickValue - value) * tickSpacing + dragOffset + center
+            let xOffset = CGFloat(tickValue - baseValue) * tickSpacing + dragOffset + center
             guard xOffset > -tickSpacing, xOffset < size.width + tickSpacing else { continue }
 
             let isMajor = (tickValue % majorTickInterval) == 0
@@ -504,12 +548,16 @@ struct HorizontalScrollRuler: View {
           }
           .onEnded { gesture in
             let finalValue = resolvedValue(for: gesture.translation.width, from: baseValue)
+            let snappedOffset = CGFloat(baseValue - finalValue) * tickSpacing
             value = finalValue
-            baseValue = finalValue
             if reduceMotion {
+              baseValue = finalValue
               dragOffset = 0
             } else {
               withAnimation(AppMotion.rulerSnap) {
+                dragOffset = snappedOffset
+              } completion: {
+                baseValue = finalValue
                 dragOffset = 0
               }
             }
@@ -1085,49 +1133,62 @@ struct OnboardingFeatureChefStep: View {
     RoundedRectangle(cornerRadius: 26, style: .continuous)
       .fill(AppTheme.deepOlive)
       .frame(width: 148, height: 264)
-      .overlay(
-        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-          RoundedRectangle(cornerRadius: 14, style: .continuous)
-            .fill(AppTheme.accent.opacity(0.18))
-            .frame(height: 88)
-            .overlay(
-              VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-                Text("Le Chef")
-                  .font(AppTheme.Typography.label)
-                  .foregroundStyle(.white.opacity(0.88))
-                HStack(spacing: 4) {
-                  ForEach(0..<8, id: \.self) { i in
-                    Capsule()
-                      .fill(i.isMultiple(of: 2) ? AppTheme.accentLight : AppTheme.oat)
-                      .frame(
-                        width: 5,
-                        height: waveToggle
-                          ? CGFloat(10 + (i % 4) * 8)
-                          : CGFloat(16 + (i % 3) * 9)
-                      )
-                  }
-                }
-              }
-              .padding(AppTheme.Space.md),
-              alignment: .bottomLeading
-            )
-
-          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-            Text("1. Stir until glossy")
-            Text("2. Lower heat")
-            Text("3. Add basil now")
-          }
-          .font(AppTheme.Typography.bodySmall)
-          .foregroundStyle(.white.opacity(0.82))
-
-          Spacer()
-        }
-        .padding(AppTheme.Space.md)
-      )
+      .overlay(phoneCardContents)
       .overlay(
         RoundedRectangle(cornerRadius: 26, style: .continuous)
           .stroke(.white.opacity(0.08), lineWidth: 1)
       )
+  }
+
+  private var phoneCardContents: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      phoneCardHeader
+      phoneCardSteps
+      Spacer()
+    }
+    .padding(AppTheme.Space.md)
+  }
+
+  private var phoneCardHeader: some View {
+    RoundedRectangle(cornerRadius: 14, style: .continuous)
+      .fill(AppTheme.accent.opacity(0.18))
+      .frame(height: 88)
+      .overlay(phoneCardHeaderOverlay, alignment: .bottomLeading)
+  }
+
+  private var phoneCardHeaderOverlay: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+      Text("Le Chef")
+        .font(AppTheme.Typography.label)
+        .foregroundStyle(.white.opacity(0.88))
+
+      HStack(spacing: 4) {
+        ForEach(0..<8, id: \.self) { index in
+          Capsule()
+            .fill(index.isMultiple(of: 2) ? AppTheme.accentLight : AppTheme.oat)
+            .frame(width: 5, height: waveHeight(for: index))
+        }
+      }
+    }
+    .padding(AppTheme.Space.md)
+  }
+
+  private var phoneCardSteps: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+      Text("1. Stir until glossy")
+      Text("2. Lower heat")
+      Text("3. Add basil now")
+    }
+    .font(AppTheme.Typography.bodySmall)
+    .foregroundStyle(.white.opacity(0.82))
+  }
+
+  private func waveHeight(for index: Int) -> CGFloat {
+    if waveToggle {
+      return CGFloat(10 + (index % 4) * 8)
+    }
+
+    return CGFloat(16 + (index % 3) * 9)
   }
 
   private func chefFeaturePill(icon: String, text: String) -> some View {
@@ -1152,6 +1213,7 @@ struct OnboardingFeatureChefStep: View {
 // MARK: - Step 9: Allergen Safety
 
 struct OnboardingAllergenStep: View {
+  let isCatalogReady: Bool
   let allergenGroupMatchesByID: [String: Set<Int64>]
   let selectedAllergens: Set<Int64>
   let selectedAllergenIngredients: [Ingredient]
@@ -1185,26 +1247,40 @@ struct OnboardingAllergenStep: View {
         }
         .modifier(StaggerIn(index: 0, appeared: appeared))
 
-        LazyVGrid(
-          columns: [
-            GridItem(.flexible(), spacing: AppTheme.Space.xs),
-            GridItem(.flexible(), spacing: AppTheme.Space.xs),
-          ],
-          spacing: AppTheme.Space.xs
-        ) {
-          ForEach(AllergenSupport.groups) { group in
-            allergenGroupChip(group)
+        if isCatalogReady {
+          LazyVGrid(
+            columns: [
+              GridItem(.flexible(), spacing: AppTheme.Space.xs),
+              GridItem(.flexible(), spacing: AppTheme.Space.xs),
+            ],
+            spacing: AppTheme.Space.xs
+          ) {
+            ForEach(AllergenSupport.groups) { group in
+              allergenGroupChip(group)
+            }
           }
-        }
-        .modifier(StaggerIn(index: 1, appeared: appeared))
+          .modifier(StaggerIn(index: 1, appeared: appeared))
 
-        Button(action: onOpenPicker) {
-          Label("Refine Specific Ingredients", systemImage: "magnifyingglass")
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.accent)
+          Button(action: onOpenPicker) {
+            Label("Refine Specific Ingredients", systemImage: "magnifyingglass")
+              .font(AppTheme.Typography.label)
+              .foregroundStyle(AppTheme.accent)
+          }
+          .buttonStyle(.plain)
+          .modifier(StaggerIn(index: 2, appeared: appeared))
+        } else {
+          VStack(spacing: AppTheme.Space.sm) {
+            ProgressView()
+              .tint(AppTheme.accent)
+
+            Text("Loading ingredient safety filters…")
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.textSecondary)
+              .frame(maxWidth: .infinity, alignment: .center)
+          }
+          .padding(.vertical, AppTheme.Space.xl)
+          .modifier(StaggerIn(index: 1, appeared: appeared))
         }
-        .buttonStyle(.plain)
-        .modifier(StaggerIn(index: 2, appeared: appeared))
 
         FLWaveDivider()
 
@@ -1223,7 +1299,11 @@ struct OnboardingAllergenStep: View {
             .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.textSecondary)
 
-          if selectedAllergenIngredients.isEmpty {
+          if !isCatalogReady {
+            Text("Preparing your ingredient list…")
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.textSecondary)
+          } else if selectedAllergenIngredients.isEmpty {
             Text("No allergens selected yet.")
               .font(AppTheme.Typography.bodyMedium)
               .foregroundStyle(AppTheme.textSecondary)
@@ -1486,9 +1566,9 @@ struct OnboardingAppleHealthValueStep: View {
 // MARK: - Step 11: Apple Health Permission
 
 struct OnboardingAppleHealthPermissionStep: View {
-  let status: AppPermissionStatus
-  let isRequestInFlight: Bool
+  let state: AppleHealthOnboardingState
   let didChooseSkip: Bool
+  let inlineErrorMessage: String?
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var appeared = false
 
@@ -1520,14 +1600,23 @@ struct OnboardingAppleHealthPermissionStep: View {
           permissionNote(
             "Writes the meals you log in FridgeLuck to Apple Health.", index: 3)
           permissionNote(
-            status == .denied
+            state == .needsSettings
               ? "Use Settings to turn access back on, then return here."
               : "You can manage the connection later in Settings.",
             index: 4
           )
         }
 
-        if isRequestInFlight {
+        if let inlineErrorMessage {
+          Text(inlineErrorMessage)
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.warning)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            .transition(.opacity)
+        }
+
+        if state == .requesting {
           ProgressView()
             .controlSize(.small)
             .tint(AppTheme.accent)
@@ -1545,29 +1634,29 @@ struct OnboardingAppleHealthPermissionStep: View {
   }
 
   private var title: String {
-    switch status {
-    case .authorized:
+    switch state {
+    case .connected:
       return "Apple Health is connected."
     case .unavailable:
       return "Apple Health is not available here."
-    case .denied:
+    case .needsSettings:
       return "Apple Health can stay off for now."
-    default:
+    case .readyToRequest, .requesting:
       return "Connect Apple Health."
     }
   }
 
   private var message: String {
-    switch status {
-    case .authorized:
+    switch state {
+    case .connected:
       return "FridgeLuck can now keep your meals in sync."
     case .unavailable:
       return "You can still use every core part of FridgeLuck without it."
-    case .denied:
+    case .needsSettings:
       return didChooseSkip
         ? "You chose to skip this for now. You can connect later in Settings."
         : "If you do not want to connect right now, skip this step and keep going."
-    default:
+    case .readyToRequest, .requesting:
       return
         "Connect once so FridgeLuck can save your meal logs and read your daily nutrition totals automatically."
     }
@@ -1577,17 +1666,20 @@ struct OnboardingAppleHealthPermissionStep: View {
     let label: String
     let tint: Color
 
-    switch status {
-    case .authorized:
+    switch state {
+    case .connected:
       label = "Connected"
       tint = AppTheme.sage
-    case .denied:
+    case .needsSettings:
       label = "Optional"
       tint = AppTheme.oat
     case .unavailable:
       label = "Unavailable"
       tint = AppTheme.textSecondary
-    default:
+    case .requesting:
+      label = "Connecting"
+      tint = AppTheme.accent
+    case .readyToRequest:
       label = "Optional"
       tint = AppTheme.accent
     }
@@ -1858,7 +1950,7 @@ struct OnboardingProgressBar: View {
             )
           )
           .frame(width: geo.size.width * max(0, min(1, progress)), height: 5)
-          .shadow(color: AppTheme.accent.opacity(0.25), radius: 3, x: 2, y: 0)
+          .shadow(color: AppTheme.accent.opacity(0.35), radius: 4, x: 2, y: 0)
           .animation(reduceMotion ? nil : AppMotion.progressBar, value: progress)
       }
     }
@@ -1887,6 +1979,8 @@ struct OnboardingBackButton: View {
 // MARK: - Onboarding Footer
 
 struct OnboardingFooter: View {
+  static let reservedHeight: CGFloat = 120
+
   let isSaving: Bool
   let isTransitioning: Bool
   let primaryButtonTitle: String
@@ -1924,13 +2018,22 @@ struct OnboardingFooter: View {
           .tint(AppTheme.accent)
       }
     }
+    .frame(maxWidth: .infinity, alignment: .top)
     .padding(.horizontal, AppTheme.Space.page)
-    .padding(.vertical, AppTheme.Space.sm)
+    .padding(.top, AppTheme.Space.xs)
+    .padding(.bottom, AppTheme.Space.sm)
     .background(AppTheme.bg)
     .overlay(alignment: .top) {
-      Rectangle()
-        .fill(AppTheme.oat.opacity(0.25))
-        .frame(height: 1)
+      LinearGradient(
+        colors: [
+          AppTheme.oat.opacity(0.0),
+          AppTheme.oat.opacity(0.12),
+          AppTheme.oat.opacity(0.0),
+        ],
+        startPoint: .leading,
+        endPoint: .trailing
+      )
+      .frame(height: 1)
     }
   }
 }
