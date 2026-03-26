@@ -6,6 +6,12 @@ enum AppMotion {
   static let quick: Animation = .timingCurve(0.2, 0.8, 0.2, 1.0, duration: 0.14)
   static let press: Animation = .timingCurve(0.18, 0.9, 0.22, 1.0, duration: 0.12)
   static let onboardingStep: Animation = .timingCurve(0.18, 0.96, 0.24, 1.0, duration: 0.22)
+  static let onboardingHandoffIn: Animation = .timingCurve(
+    0.18, 1.0, 0.32, 1.0, duration: 0.30)
+  static let onboardingHandoffOut: Animation = .timingCurve(
+    0.4, 0.0, 0.2, 1.0, duration: 0.28)
+  /// Spotlight overlay entrance: ease-out-quint — fast snap into place, gentle settle
+  static let spotlightEntry: Animation = .timingCurve(0.23, 1.0, 0.32, 1.0, duration: 0.22)
   static let spotlightMove: Animation = .spring(response: 0.30, dampingFraction: 0.88)
   static let staggerDelay: Double = 0.035
 
@@ -38,8 +44,8 @@ enum AppMotion {
   // Onboarding — step-by-step flow
   /// Ruler drag: responsive spring for continuous tracking
   static let rulerDrag: Animation = .spring(response: 0.18, dampingFraction: 0.92)
-  /// Ruler snap: bouncy spring on release to nearest tick
-  static let rulerSnap: Animation = .spring(response: 0.32, dampingFraction: 0.72)
+  /// Ruler snap: quick, low-bounce settle on release to nearest tick
+  static let rulerSnap: Animation = .spring(response: 0.20, dampingFraction: 0.90)
   /// Selection card press scale
   static let selectionPress: Animation = .spring(response: 0.24, dampingFraction: 0.80)
   /// Chip toggle: quick pop

@@ -393,19 +393,26 @@ struct RecipePreviewBottomCTA: View {
   let onStartCooking: () -> Void
 
   var body: some View {
-    VStack(spacing: 0) {
-      Rectangle()
-        .fill(AppTheme.oat.opacity(0.30))
-        .frame(height: 1)
-
-      VStack(spacing: AppTheme.Space.xs) {
-        FLPrimaryButton("Cook with Le Chef", systemImage: "waveform.and.mic") {
-          onStartCooking()
-        }
+    VStack(spacing: AppTheme.Space.xs) {
+      FLPrimaryButton("Cook with Le Chef", systemImage: "waveform.and.mic") {
+        onStartCooking()
       }
-      .padding(.horizontal, AppTheme.Space.page)
-      .padding(.vertical, AppTheme.Space.md)
-      .background(AppTheme.bg)
+    }
+    .padding(.horizontal, AppTheme.Space.page)
+    .padding(.top, AppTheme.Space.xs)
+    .padding(.bottom, AppTheme.Space.sm)
+    .background(AppTheme.bg)
+    .overlay(alignment: .top) {
+      LinearGradient(
+        colors: [
+          AppTheme.oat.opacity(0.0),
+          AppTheme.oat.opacity(0.12),
+          AppTheme.oat.opacity(0.0),
+        ],
+        startPoint: .leading,
+        endPoint: .trailing
+      )
+      .frame(height: 1)
     }
   }
 }

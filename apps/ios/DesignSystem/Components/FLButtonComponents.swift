@@ -181,12 +181,20 @@ struct FLActionBar<Content: View>: View {
     VStack(spacing: AppTheme.Space.xs) {
       content
     }
-    .padding(.vertical, AppTheme.Space.sm)
+    .padding(.top, AppTheme.Space.xs)
+    .padding(.bottom, AppTheme.Space.sm)
     .background(AppTheme.bg)
     .overlay(alignment: .top) {
-      Rectangle()
-        .fill(AppTheme.oat.opacity(0.30))
-        .frame(height: 1)
+      LinearGradient(
+        colors: [
+          AppTheme.oat.opacity(0.0),
+          AppTheme.oat.opacity(0.12),
+          AppTheme.oat.opacity(0.0),
+        ],
+        startPoint: .leading,
+        endPoint: .trailing
+      )
+      .frame(height: 1)
     }
   }
 }

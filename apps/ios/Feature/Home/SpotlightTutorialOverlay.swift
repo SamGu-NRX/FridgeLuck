@@ -3,12 +3,18 @@ import UIKit
 
 // MARK: - Step Model
 
-struct SpotlightStep: Identifiable {
+struct SpotlightStep: Identifiable, Equatable {
   let id: String
   let anchorID: String?
   let icon: String
   let title: String
   let message: String
+}
+
+struct SpotlightPresentation: Identifiable, Equatable {
+  let id = UUID()
+  let source: String
+  let steps: [SpotlightStep]
 }
 
 extension SpotlightStep {
@@ -189,6 +195,20 @@ extension SpotlightStep {
         "Use the assistant for step-by-step coaching, substitutions, and food-safety checks. You can skip this lesson now and reopen it from Home later."
     ),
   ]
+
+  /// A single-step spotlight that highlights the next quest CTA after the user
+  /// completes a step and returns home. Keeps the guided tour feeling continuous.
+  static func questAdvance(for quest: TutorialQuest) -> [SpotlightStep] {
+    [
+      SpotlightStep(
+        id: "quest_advance_\(quest.rawValue)",
+        anchorID: "quest_\(quest.rawValue)",
+        icon: quest.icon,
+        title: "Next Up: \(quest.title)",
+        message: quest.subtitle
+      )
+    ]
+  }
 }
 
 // MARK: - Coordinator
@@ -198,9 +218,21 @@ extension SpotlightStep {
 @MainActor
 @Observable
 final class SpotlightCoordinator {
-  var activeSteps: [SpotlightStep]? = nil
+  var activePresentation: SpotlightPresentation? = nil
   var anchors: [String: CGRect] = [:]
   var onScrollToAnchor: ((String) -> Void)? = nil
+  var onDismissPresentation: ((SpotlightPresentation) -> Void)? = nil
+
+  func present(steps: [SpotlightStep], source: String) {
+    guard !steps.isEmpty else { return }
+    activePresentation = SpotlightPresentation(source: source, steps: steps)
+  }
+
+  func dismissActivePresentation() {
+    guard let activePresentation else { return }
+    onDismissPresentation?(activePresentation)
+    self.activePresentation = nil
+  }
 
   func updateAnchors(
     _ newAnchors: [String: CGRect],
@@ -269,6 +301,7 @@ extension View {
 // MARK: - Overlay
 
 struct SpotlightTutorialOverlay: View {
+  let presentationID: UUID
   let steps: [SpotlightStep]
   let anchors: [String: CGRect]
   @Binding var isPresented: Bool
@@ -282,6 +315,7 @@ struct SpotlightTutorialOverlay: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   private var step: SpotlightStep { steps[stepIndex] }
+  private var isFirst: Bool { stepIndex <= 0 }
   private var isLast: Bool { stepIndex >= steps.count - 1 }
 
   var body: some View {
@@ -300,7 +334,11 @@ struct SpotlightTutorialOverlay: View {
     .ignoresSafeArea()
     .opacity(appeared ? 1 : 0)
     .onAppear {
-      withAnimation(reduceMotion ? nil : .easeOut(duration: 0.28)) {
+      guard !steps.isEmpty else {
+        isPresented = false
+        return
+      }
+      withAnimation(reduceMotion ? nil : AppMotion.spotlightEntry) {
         appeared = true
       }
       onStepChange?(step)
@@ -310,6 +348,11 @@ struct SpotlightTutorialOverlay: View {
     }
     .onChange(of: stepIndex) {
       onStepChange?(step)
+    }
+    .onChange(of: presentationID) {
+      stepIndex = 0
+      appeared = false
+      highlightGlow = 0
     }
     .accessibilityAddTraits(.isModal)
   }
@@ -379,7 +422,8 @@ struct SpotlightTutorialOverlay: View {
       .id(stepIndex)
       .transition(.blurReplace)
 
-      HStack {
+      HStack(spacing: AppTheme.Space.sm) {
+        backButton
         stepIndicator
         Spacer()
         navButton
@@ -416,6 +460,30 @@ struct SpotlightTutorialOverlay: View {
             value: stepIndex
           )
       }
+    }
+  }
+
+  @ViewBuilder
+  private var backButton: some View {
+    if !isFirst {
+      Button {
+        goBack()
+      } label: {
+        Image(systemName: "chevron.left")
+          .font(.system(size: 13, weight: .semibold))
+          .foregroundStyle(.white.opacity(0.65))
+          .frame(width: 32, height: 32)
+          .background(.white.opacity(0.10), in: Circle())
+          .overlay(Circle().stroke(.white.opacity(0.14), lineWidth: 0.5))
+      }
+      .buttonStyle(SpotlightPressStyle())
+      .transition(
+        .asymmetric(
+          insertion: .scale(scale: 0.5).combined(with: .opacity),
+          removal: .scale(scale: 0.85).combined(with: .opacity)
+        )
+      )
+      .accessibilityLabel("Previous step")
     }
   }
 
@@ -580,6 +648,30 @@ struct SpotlightTutorialOverlay: View {
 
   // MARK: - Actions
 
+  private func goBack() {
+    guard !isFirst else { return }
+    let prevIndex = stepIndex - 1
+    let needsScroll = steps[prevIndex].anchorID != nil
+
+    if let anchorID = steps[prevIndex].anchorID {
+      onScrollToAnchor?(anchorID)
+    }
+
+    let stepDelay: Double = needsScroll && !reduceMotion ? 0.25 : 0
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + stepDelay) {
+      withAnimation(self.reduceMotion ? nil : AppMotion.spotlightMove) {
+        self.stepIndex = prevIndex
+      }
+      if !self.reduceMotion {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+          self.highlightGlow = 1
+          withAnimation(.easeOut(duration: 0.5)) { self.highlightGlow = 0 }
+        }
+      }
+    }
+  }
+
   private func advance() {
     guard !isLast else {
       dismissOverlay()
@@ -608,7 +700,7 @@ struct SpotlightTutorialOverlay: View {
   }
 
   private func dismissOverlay() {
-    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.2)) {
+    withAnimation(reduceMotion ? nil : AppMotion.spotlightEntry) {
       appeared = false
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.24) {

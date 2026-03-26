@@ -36,25 +36,86 @@ final class OnboardingPerformanceRemediationTests: XCTestCase {
     XCTAssertTrue(source.contains("case .softFade"))
   }
 
-  func testOnboardingUsesInteractiveBackgroundModeAndDeferredFocus() throws {
+  func testOnboardingKeepsEarlyStepsOnLiveBackground() throws {
+    let root = sourceRoot()
+
+    let stepSource = try String(
+      contentsOf: root.appendingPathComponent("Feature/Onboarding/OnboardingStep.swift"),
+      encoding: .utf8
+    )
+
+    XCTAssertFalse(stepSource.contains("case .name,"))
+    XCTAssertFalse(stepSource.contains("case .personalWelcome,"))
+    XCTAssertTrue(stepSource.contains("case .age,"))
+  }
+
+  func testOnboardingDefersNameFocusUntilAfterSettle() throws {
     let root = sourceRoot()
 
     let onboardingViewSource = try String(
       contentsOf: root.appendingPathComponent("Feature/Onboarding/OnboardingView.swift"),
       encoding: .utf8
     )
+    let sectionsSource = try String(
+      contentsOf: root.appendingPathComponent("Feature/Onboarding/OnboardingViewSections.swift"),
+      encoding: .utf8
+    )
+
+    XCTAssertTrue(onboardingViewSource.contains("scheduleNameFocusIfNeeded(for: nextStep)"))
+    XCTAssertTrue(
+      onboardingViewSource.contains("static let nameFocusSettleNanoseconds: UInt64 = 180_000_000")
+    )
+    XCTAssertTrue(
+      onboardingViewSource.contains(
+        "static let reducedMotionNameFocusSettleNanoseconds: UInt64 = 90_000_000")
+    )
+    XCTAssertTrue(onboardingViewSource.contains("await Task.yield()"))
+    XCTAssertTrue(
+      sectionsSource.contains(
+        """
+        TextField("Your name", text: $displayName)
+                  .font(.system(size: 24, weight: .medium, design: .serif))
+                  .multilineTextAlignment(.center)
+                  .textInputAutocapitalization(.words)
+                  .autocorrectionDisabled(true)
+                  .focused($isNameFocused)
+        """
+      )
+    )
+  }
+
+  func testBackgroundRendererUsesStableSizingAndBackgroundQueue() throws {
+    let root = sourceRoot()
+
     let backgroundSource = try String(
       contentsOf: root.appendingPathComponent("DesignSystem/BackgroundSystem.swift"),
       encoding: .utf8
     )
 
-    XCTAssertTrue(
-      onboardingViewSource.contains(
-        ".flPageBackground(renderMode: currentStep.backgroundRenderMode)")
+    XCTAssertTrue(backgroundSource.contains("@State private var stableSize: CGSize = .zero"))
+    XCTAssertTrue(backgroundSource.contains("height: max(stableSize.height, size.height)"))
+    XCTAssertTrue(backgroundSource.contains("label: \"samgu.FridgeLuck.cachedGrainTexture\""))
+    XCTAssertTrue(backgroundSource.contains("Task { @MainActor in"))
+  }
+
+  func testOnboardingCompletionBridgesIntoHomeBeforeSpotlight() throws {
+    let root = sourceRoot()
+
+    let contentSource = try String(
+      contentsOf: root.appendingPathComponent("App/ContentView.swift"),
+      encoding: .utf8
     )
-    XCTAssertTrue(onboardingViewSource.contains("scheduleNameFocusIfNeeded(for: nextStep)"))
-    XCTAssertTrue(backgroundSource.contains("case .interactive"))
-    XCTAssertTrue(backgroundSource.contains("FLCachedGrainTexture"))
+    let homeSource = try String(
+      contentsOf: root.appendingPathComponent("Feature/Home/HomeDashboardView.swift"),
+      encoding: .utf8
+    )
+
+    XCTAssertTrue(contentSource.contains("OnboardingHomeHandoffOverlay"))
+    XCTAssertTrue(contentSource.contains("beginOnboardingHandoff()"))
+    XCTAssertTrue(contentSource.contains("releaseOnboardingHandoff()"))
+    XCTAssertTrue(homeSource.contains("prefersAcceleratedOnboardingSpotlight"))
+    XCTAssertTrue(homeSource.contains("onOnboardingSpotlightWillPresent()"))
+    XCTAssertTrue(homeSource.contains("handleSpotlightDismissal(for: presentation.source)"))
   }
 
   private func sourceRoot() -> URL {

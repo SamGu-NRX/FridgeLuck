@@ -175,6 +175,8 @@ private struct FLLiveGrainTexture: View {
 private struct FLCachedGrainTexture: View {
   let isDarkMode: Bool
   @State private var grainImage: CGImage?
+  @State private var stableSize: CGSize = .zero
+  @State private var requestedCacheKey = ""
 
   var body: some View {
     GeometryReader { geo in
@@ -189,50 +191,101 @@ private struct FLCachedGrainTexture: View {
         }
       }
       .task(id: cacheKey(for: geo.size)) {
-        grainImage = FLCachedGrainTextureRenderer.image(
-          for: geo.size,
-          isDarkMode: isDarkMode
-        )
+        await requestGrainImage(for: geo.size)
       }
     }
     .allowsHitTesting(false)
   }
 
   private func cacheKey(for size: CGSize) -> String {
-    FLCachedGrainTextureRenderer.cacheKey(for: size, isDarkMode: isDarkMode)
+    let stabilized = stabilizedSize(for: size)
+    return FLCachedGrainTextureRenderer.cacheKey(for: stabilized, isDarkMode: isDarkMode)
+  }
+
+  @MainActor
+  private func requestGrainImage(for size: CGSize) async {
+    let stabilized = stabilizedSize(for: size)
+    stableSize = stabilized
+
+    let cacheKey = FLCachedGrainTextureRenderer.cacheKey(for: stabilized, isDarkMode: isDarkMode)
+    guard requestedCacheKey != cacheKey else { return }
+    requestedCacheKey = cacheKey
+
+    let result = await FLCachedGrainTextureRenderer.image(for: stabilized, isDarkMode: isDarkMode)
+    guard requestedCacheKey == result.cacheKey else { return }
+    grainImage = result.image
+  }
+
+  private func stabilizedSize(for size: CGSize) -> CGSize {
+    CGSize(
+      width: max(stableSize.width, size.width),
+      height: max(stableSize.height, size.height)
+    )
   }
 }
 
-@MainActor
+private actor FLCachedGrainImageCache {
+  static let shared = FLCachedGrainImageCache()
+
+  private let cache = NSCache<NSString, FLCachedGrainImageBox>()
+
+  func image(forKey key: String) -> CGImage? {
+    cache.object(forKey: key as NSString)?.image
+  }
+
+  func setImage(_ image: CGImage, forKey key: String) {
+    cache.setObject(FLCachedGrainImageBox(image: image), forKey: key as NSString)
+  }
+}
+
 private enum FLCachedGrainTextureRenderer {
-  private static let cache = NSCache<NSString, FLCachedGrainImageBox>()
+  private static let renderQueue = DispatchQueue(
+    label: "samgu.FridgeLuck.cachedGrainTexture",
+    qos: .utility
+  )
   private static let scaleFactor: CGFloat = 0.45
   private static let step: Int = 2
 
-  static func image(for size: CGSize, isDarkMode: Bool) -> CGImage? {
-    let key = cacheKey(for: size, isDarkMode: isDarkMode) as NSString
-    if let cached = cache.object(forKey: key) {
-      return cached.image
+  static func image(for size: CGSize, isDarkMode: Bool) async -> (cacheKey: String, image: CGImage?)
+  {
+    let cacheKey = cacheKey(for: size, isDarkMode: isDarkMode)
+    if let cached = await FLCachedGrainImageCache.shared.image(forKey: cacheKey) {
+      return (cacheKey, cached)
     }
 
-    guard let image = makeImage(for: size, isDarkMode: isDarkMode) else {
-      return nil
+    let renderSize = renderedDimensions(for: size)
+    let image = await withCheckedContinuation { continuation in
+      renderQueue.async {
+        continuation.resume(
+          returning: makeImage(
+            width: renderSize.width,
+            height: renderSize.height,
+            isDarkMode: isDarkMode
+          )
+        )
+      }
     }
 
-    cache.setObject(FLCachedGrainImageBox(image: image), forKey: key)
-    return image
+    if let image {
+      await FLCachedGrainImageCache.shared.setImage(image, forKey: cacheKey)
+    }
+
+    return (cacheKey, image)
   }
 
   static func cacheKey(for size: CGSize, isDarkMode: Bool) -> String {
-    let width = max(Int(size.width * scaleFactor), 1)
-    let height = max(Int(size.height * scaleFactor), 1)
-    return "\(width)x\(height)-\(isDarkMode ? "dark" : "light")"
+    let dimensions = renderedDimensions(for: size)
+    return "\(dimensions.width)x\(dimensions.height)-\(isDarkMode ? "dark" : "light")"
   }
 
-  private static func makeImage(for size: CGSize, isDarkMode: Bool) -> CGImage? {
-    let width = max(Int(size.width * scaleFactor), 1)
-    let height = max(Int(size.height * scaleFactor), 1)
+  private static func renderedDimensions(for size: CGSize) -> (width: Int, height: Int) {
+    (
+      width: max(Int(size.width * scaleFactor), 1),
+      height: max(Int(size.height * scaleFactor), 1)
+    )
+  }
 
+  private static func makeImage(width: Int, height: Int, isDarkMode: Bool) -> CGImage? {
     guard
       let context = CGContext(
         data: nil,
