@@ -440,11 +440,8 @@ struct OnboardingAgeStep: View {
 
         VStack(spacing: AppTheme.Space.sm) {
           Text("\(age)")
-            .font(.system(size: 64, weight: .bold, design: .serif))
-            .monospacedDigit()
+            .font(.system(size: 64, weight: .bold, design: .serif).monospacedDigit())
             .foregroundStyle(AppTheme.textPrimary)
-            .contentTransition(.numericText(value: Double(age)))
-            .animation(reduceMotion ? nil : AppMotion.rulerSnap, value: age)
 
           Text("years old")
             .font(AppTheme.Typography.bodyMedium)
@@ -892,11 +889,9 @@ struct OnboardingCalorieStep: View {
             .buttonStyle(.plain)
 
             Text("\(dailyCalories)")
-              .font(.system(size: 56, weight: .bold, design: .serif))
+              .font(.system(size: 56, weight: .bold, design: .serif).monospacedDigit())
               .foregroundStyle(AppTheme.textPrimary)
               .frame(maxWidth: .infinity)
-              .contentTransition(.numericText(value: Double(dailyCalories)))
-              .animation(reduceMotion ? nil : AppMotion.quick, value: dailyCalories)
 
             Button {
               dailyCalories = min(4500, dailyCalories + 50)
@@ -1717,7 +1712,6 @@ struct OnboardingSetupBridgeStep: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   @State private var progress: Double = 0
-  @State private var messageIndex = 0
   @State private var appeared = false
 
   private let messages = [
@@ -1734,6 +1728,17 @@ struct OnboardingSetupBridgeStep: View {
     "Recipes",
     "Health Score",
   ]
+
+  private var activeChecklistIndex: Int {
+    if progress >= 1 {
+      return checklistItems.count - 1
+    }
+    return min(Int(progress * Double(checklistItems.count)), checklistItems.count - 1)
+  }
+
+  private var currentMessageIndex: Int {
+    min(Int(progress * Double(messages.count)), messages.count - 1)
+  }
 
   var body: some View {
     VStack(spacing: AppTheme.Space.xl) {
@@ -1758,10 +1763,8 @@ struct OnboardingSetupBridgeStep: View {
           .rotationEffect(.degrees(-90))
 
         Text("\(Int(progress * 100))%")
-          .font(.system(size: 38, weight: .bold, design: .serif))
+          .font(.system(size: 38, weight: .bold, design: .serif).monospacedDigit())
           .foregroundStyle(AppTheme.textPrimary)
-          .contentTransition(.numericText(value: progress))
-          .animation(reduceMotion ? nil : AppMotion.quick, value: progress)
       }
       .modifier(StaggerIn(index: 0, appeared: appeared))
 
@@ -1772,28 +1775,42 @@ struct OnboardingSetupBridgeStep: View {
           .multilineTextAlignment(.center)
           .modifier(StaggerIn(index: 1, appeared: appeared))
 
-        Text(messages[messageIndex])
+        Text(messages[currentMessageIndex])
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
           .contentTransition(.opacity)
-          .animation(reduceMotion ? nil : AppMotion.messageCrossfade, value: messageIndex)
+          .animation(reduceMotion ? nil : AppMotion.messageCrossfade, value: currentMessageIndex)
           .modifier(StaggerIn(index: 2, appeared: appeared))
       }
       .padding(.horizontal, AppTheme.Space.page)
 
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         ForEach(Array(checklistItems.enumerated()), id: \.offset) { index, item in
-          let isComplete =
-            progress > Double(index + 1) / Double(checklistItems.count + 1)
+          let isComplete = progress >= Double(index + 1) / Double(checklistItems.count)
+          let isActive = !isComplete && index == activeChecklistIndex
           HStack(spacing: AppTheme.Space.sm) {
-            Image(systemName: isComplete ? "checkmark.circle.fill" : "circle")
-              .font(.system(size: 16))
-              .foregroundStyle(isComplete ? AppTheme.sage : AppTheme.oat.opacity(0.4))
-              .animation(reduceMotion ? nil : AppMotion.chipToggle, value: isComplete)
+            Image(
+              systemName: isComplete
+                ? "checkmark.circle.fill" : (isActive ? "circle.fill" : "circle")
+            )
+            .font(.system(size: 16))
+            .foregroundStyle(
+              isComplete
+                ? AppTheme.sage
+                : (isActive ? AppTheme.accent : AppTheme.oat.opacity(0.4))
+            )
+            .animation(reduceMotion ? nil : AppMotion.chipToggle, value: isComplete)
             Text(item)
               .font(AppTheme.Typography.bodySmall)
-              .foregroundStyle(isComplete ? AppTheme.textPrimary : AppTheme.textSecondary)
+              .foregroundStyle(
+                isComplete || isActive ? AppTheme.textPrimary : AppTheme.textSecondary
+              )
           }
+          .opacity(isComplete ? 1 : (isActive ? 0.96 : 0.48))
+          .scaleEffect(isActive ? 1.02 : 1.0)
+          .offset(y: isActive ? -1 : 0)
+          .animation(reduceMotion ? nil : AppMotion.quick, value: isActive)
+          .animation(reduceMotion ? nil : AppMotion.gentle, value: isComplete)
         }
       }
       .padding(.horizontal, AppTheme.Space.xxl)
@@ -1803,26 +1820,21 @@ struct OnboardingSetupBridgeStep: View {
     }
     .task {
       guard !appeared else { return }
-      try? await Task.sleep(nanoseconds: 80_000_000)
+      try? await Task.sleep(nanoseconds: OnboardingSetupBridgeTiming.leadIn)
       appeared = true
 
       guard !reduceMotion else {
         progress = 1
-        messageIndex = messages.count - 1
         return
       }
 
-      for step in 1...20 {
+      for step in 1...OnboardingSetupBridgeTiming.progressSteps {
         guard !Task.isCancelled else { return }
-        try? await Task.sleep(nanoseconds: 100_000_000)
-        withAnimation(AppMotion.quick) {
-          progress = Double(step) / 20.0
-        }
-        let newIdx = min(step / 5, messages.count - 1)
-        if newIdx != messageIndex {
-          messageIndex = newIdx
-        }
+        try? await Task.sleep(nanoseconds: OnboardingSetupBridgeTiming.progressStepDuration)
+        progress = Double(step) / Double(OnboardingSetupBridgeTiming.progressSteps)
       }
+
+      try? await Task.sleep(nanoseconds: OnboardingSetupBridgeTiming.completionHold)
     }
   }
 }

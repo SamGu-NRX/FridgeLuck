@@ -87,7 +87,8 @@ struct IngredientReviewView: View {
   @State private var didInitialize = false
   @State private var inventorySourceRef = "scan-review:\(UUID().uuidString)"
 
-  // MARK: - Spotlight Tutorial State
+  // MARK: - Tutorial Integration
+  @Environment(TutorialFlowContext.self) private var tutorialFlowContext: TutorialFlowContext?
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
   @AppStorage(TutorialStorageKeys.hasSeenReviewSpotlight) private var hasSeenReviewSpotlight = false
   @State private var reviewSpotlight = SpotlightCoordinator()
@@ -160,8 +161,6 @@ struct IngredientReviewView: View {
             bulkActionSection
               .padding(.horizontal, AppTheme.Space.page)
               .padding(.bottom, AppTheme.Space.lg)
-              .id("bulkActions")
-              .spotlightAnchor("bulkActions")
 
             FLWaveDivider()
               .padding(.horizontal, AppTheme.Space.page)
@@ -233,7 +232,6 @@ struct IngredientReviewView: View {
         }
         .onAppear {
           reviewSpotlight.onScrollToAnchor = { anchorID in
-            guard anchorID != "confidenceLevels" else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
               withAnimation(AppMotion.spotlightMove) {
                 scrollProxy.scrollTo(anchorID, anchor: .center)
@@ -265,26 +263,31 @@ struct IngredientReviewView: View {
             )
           }
           flushLearningTelemetry()
+
+          if tutorialFlowContext?.activeQuest == .ingredientReview {
+            tutorialFlowContext?.completeObjective()
+            return
+          }
+
           navigateToResults = true
         }
       )
-      .id("findRecipes")
-      .spotlightAnchor("findRecipes")
     }
     .onPreferenceChange(SpotlightAnchorKey.self) { newAnchors in
       reviewSpotlight.updateAnchors(newAnchors, retainingExistingValues: true)
     }
     .overlay {
-      if showReviewSpotlight, let steps = reviewSpotlight.activeSteps {
+      if showReviewSpotlight, let presentation = reviewSpotlight.activePresentation {
         SpotlightTutorialOverlay(
-          steps: steps,
+          presentationID: presentation.id,
+          steps: presentation.steps,
           anchors: reviewSpotlight.anchors,
           isPresented: Binding(
             get: { showReviewSpotlight },
             set: { isPresented in
               if !isPresented {
                 showReviewSpotlight = false
-                reviewSpotlight.activeSteps = nil
+                reviewSpotlight.activePresentation = nil
                 reviewSpotlightStepID = nil
               }
             }
@@ -294,6 +297,7 @@ struct IngredientReviewView: View {
             reviewSpotlightStepID = step.id
           }
         )
+        .id(presentation.id)
         .ignoresSafeArea()
       }
     }
@@ -354,7 +358,6 @@ struct IngredientReviewView: View {
       didInitialize = true
       loadAllIngredients()
       refreshCategorization(seedSuggestions: true)
-      markIngredientReviewQuestIfNeeded()
     }
     .onChange(of: detectionIDs) { _, _ in
       refreshCategorization(seedSuggestions: false)
@@ -373,7 +376,7 @@ struct IngredientReviewView: View {
 
   private var shouldAutoPresentReviewSpotlight: Bool {
     guard !hasSeenReviewSpotlight else { return false }
-    guard reviewSpotlight.activeSteps == nil else { return false }
+    guard reviewSpotlight.activePresentation == nil else { return false }
     guard !showReviewSpotlight else { return false }
     return isAnchorReady("confidenceLevels")
   }
@@ -390,8 +393,8 @@ struct IngredientReviewView: View {
   }
 
   private func presentReviewSpotlight() {
-    guard reviewSpotlight.activeSteps == nil else { return }
-    reviewSpotlight.activeSteps = SpotlightStep.ingredientReview
+    guard reviewSpotlight.activePresentation == nil else { return }
+    reviewSpotlight.present(steps: SpotlightStep.ingredientReview, source: "ingredientReview")
     showReviewSpotlight = true
     reviewSpotlightStepID = SpotlightStep.ingredientReview.first?.id
     hasSeenReviewSpotlight = true
@@ -543,6 +546,8 @@ struct IngredientReviewView: View {
         }
         .buttonStyle(FLAddChipButtonStyle())
       }
+      .id("bulkActions")
+      .spotlightAnchor("bulkActions")
     }
   }
 
@@ -709,12 +714,6 @@ struct IngredientReviewView: View {
     return seeded.isEmpty ? allIngredients : seeded
   }
 
-  private func markIngredientReviewQuestIfNeeded() {
-    var progress = TutorialProgress(storageString: tutorialStorageString)
-    guard !progress.isCompleted(.ingredientReview) else { return }
-    progress.markCompleted(.ingredientReview)
-    tutorialStorageString = progress.storageString
-  }
 }
 
 // MARK: - Fridge Photo Viewer

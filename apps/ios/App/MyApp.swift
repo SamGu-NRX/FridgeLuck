@@ -6,13 +6,14 @@ struct FridgeLuckApp: App {
   @State private var dependencies: AppDependencies?
   @State private var loadError: Error?
   @State private var launchStarted = false
-  @State private var splashGatePassed = false
   @State private var shouldShowFirstRunOnboarding = false
   @State private var firstRunExperienceStore = FirstRunExperienceStore()
 
   init() {
     #if DEBUG
-      Self.resetTutorialStateForLaunch()
+      if Self.shouldResetTutorialStateForLaunch {
+        Self.resetTutorialStateForLaunch()
+      }
     #endif
   }
 
@@ -21,7 +22,7 @@ struct FridgeLuckApp: App {
       ZStack {
         if let loadError {
           ErrorView(error: loadError)
-        } else if let dependencies, splashGatePassed {
+        } else if let dependencies {
           if shouldShowFirstRunOnboarding {
             OnboardingView(isRequired: true) {
               firstRunExperienceStore.markCompletedCurrentVersion()
@@ -33,9 +34,7 @@ struct FridgeLuckApp: App {
               .environmentObject(dependencies)
           }
         } else {
-          LaunchSplashView(
-            isBootstrapping: dependencies == nil && loadError == nil
-          )
+          LaunchSplashView()
         }
       }
       .environment(firstRunExperienceStore)
@@ -50,17 +49,15 @@ struct FridgeLuckApp: App {
     guard !launchStarted else { return }
     launchStarted = true
 
-    async let splashGate: Void = Task.sleep(nanoseconds: 950_000_000)
-
     do {
-      let appDB = try await AppDatabase.setup()
+      let appDB = try await Task.detached(priority: .userInitiated) {
+        try await AppDatabase.setup()
+      }.value
       let resolvedDependencies = await MainActor.run {
         AppDependencies(appDatabase: appDB)
       }
       let hasLegacyProfile =
         (try? resolvedDependencies.userDataRepository.hasCompletedOnboarding()) ?? false
-
-      try? await splashGate
 
       #if !DEBUG
         if hasLegacyProfile {
@@ -70,15 +67,12 @@ struct FridgeLuckApp: App {
 
       dependencies = resolvedDependencies
       shouldShowFirstRunOnboarding = !firstRunExperienceStore.hasCompletedCurrentVersion
-      splashGatePassed = true
+      warmBundledContentInBackground(using: appDB)
     } catch {
-      try? await splashGate
       loadError = error
-      splashGatePassed = true
     }
   }
 
-  /// Keeps guided tours replayable on every debug launch.
   private static func resetTutorialStateForLaunch() {
     let defaults = UserDefaults.standard
     for key in TutorialStorageKeys.all {
@@ -87,13 +81,22 @@ struct FridgeLuckApp: App {
     defaults.removeObject(forKey: "firstRunExperienceCompletedVersion")
     defaults.removeObject(forKey: "firstRunExperienceAppleHealthChoice")
   }
+
+  private static var shouldResetTutorialStateForLaunch: Bool {
+    ProcessInfo.processInfo.environment["FL_RESET_TUTORIAL_STATE_ON_LAUNCH"] == "1"
+  }
+
+  private func warmBundledContentInBackground(using appDatabase: AppDatabase) {
+    Task.detached(priority: .utility) {
+      try? await appDatabase.warmBundledContentIfNeeded()
+    }
+  }
 }
 
 // MARK: - Splash View
 
 private struct LaunchSplashView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  let isBootstrapping: Bool
 
   @State private var hasAppeared = false
   @State private var showDetails = false
@@ -101,8 +104,38 @@ private struct LaunchSplashView: View {
 
   var body: some View {
     ZStack {
-      FLAmbientBackground()
-        .ignoresSafeArea()
+      LinearGradient(
+        colors: [AppTheme.bg, AppTheme.bgDeep.opacity(0.72)],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+      )
+      .ignoresSafeArea()
+
+      Circle()
+        .fill(
+          RadialGradient(
+            colors: [AppTheme.accent.opacity(0.14), Color.clear],
+            center: .center,
+            startRadius: 12,
+            endRadius: 150
+          )
+        )
+        .frame(width: 260, height: 260)
+        .offset(x: 120, y: -260)
+        .blur(radius: 26)
+
+      Circle()
+        .fill(
+          RadialGradient(
+            colors: [AppTheme.sage.opacity(0.12), Color.clear],
+            center: .center,
+            startRadius: 10,
+            endRadius: 140
+          )
+        )
+        .frame(width: 240, height: 240)
+        .offset(x: -100, y: 240)
+        .blur(radius: 30)
 
       VStack(spacing: AppTheme.Space.lg) {
         ZStack {

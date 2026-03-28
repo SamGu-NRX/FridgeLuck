@@ -10,6 +10,7 @@ struct RecipeResultsView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(NavigationCoordinator.self) private var navCoordinator
   @Environment(LiveAssistantCoordinator.self) private var liveAssistantCoordinator
+  @Environment(TutorialFlowContext.self) private var tutorialFlowContext: TutorialFlowContext?
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
   let ingredientIds: Set<Int64>
   let ingredientNames: [String]
@@ -207,35 +208,29 @@ struct RecipeResultsView: View {
   }
 
   private func handleRecipeSelection(_ scored: ScoredRecipe) {
-    guard tutorialProgress.currentQuest == .pickRecipeMatch, !didPromoteRecipeMatchLesson else {
-      selectedRecipe = scored
+    if let context = tutorialFlowContext,
+      context.activeQuest == .pickRecipeMatch,
+      !didPromoteRecipeMatchLesson
+    {
+      storeRecipeForAssistant(scored)
+      didPromoteRecipeMatchLesson = true
+      context.completeObjective()
       return
     }
 
-    let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
-    if let recipeID = scored.recipe.id {
-      ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
-    } else {
-      ingredients = []
-    }
-
-    let recipeContext = LiveAssistantRecipeContext(
-      scoredRecipe: scored,
-      ingredients: ingredients
-    )
-    liveAssistantCoordinator.storeRecipeMatch(
-      scoredRecipe: scored,
-      context: recipeContext
-    )
-
-    didPromoteRecipeMatchLesson = true
-    var progress = tutorialProgress
-    progress.markCompleted(.pickRecipeMatch)
-    tutorialStorageString = progress.storageString
-    navCoordinator.returnHome()
+    selectedRecipe = scored
   }
 
   private func handleStartCooking(_ scored: ScoredRecipe) {
+    storeRecipeForAssistant(scored)
+    selectedRecipe = nil
+    Task {
+      try? await Task.sleep(for: .milliseconds(220))
+      navCoordinator.returnHome()
+    }
+  }
+
+  private func storeRecipeForAssistant(_ scored: ScoredRecipe) {
     let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
     if let recipeID = scored.recipe.id {
       ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
@@ -247,12 +242,6 @@ struct RecipeResultsView: View {
       scoredRecipe: scored,
       context: LiveAssistantRecipeContext(scoredRecipe: scored, ingredients: ingredients)
     )
-
-    selectedRecipe = nil
-    Task {
-      try? await Task.sleep(for: .milliseconds(220))
-      navCoordinator.returnHome()
-    }
   }
 
   private func revealRecommendationsIfNeeded() async {

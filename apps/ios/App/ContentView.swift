@@ -9,6 +9,7 @@ private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "ContentVie
 
 /// Lightweight coordinator that allows deeply nested views (e.g. cooking celebration)
 /// to signal the root ContentView to collapse the entire NavigationStack back to Home.
+@MainActor
 @Observable
 final class NavigationCoordinator {
   var shouldReturnHome = false
@@ -25,6 +26,66 @@ enum AppTab: Sendable {
   case dashboard
 }
 
+private struct OnboardingHomeHandoffOverlay: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @State private var cardAppeared = false
+
+  var body: some View {
+    ZStack {
+      Rectangle()
+        .fill(.ultraThinMaterial)
+        .opacity(0.96)
+        .ignoresSafeArea()
+
+      VStack(spacing: AppTheme.Space.lg) {
+        ZStack {
+          Circle()
+            .fill(
+              RadialGradient(
+                colors: [AppTheme.accent.opacity(0.18), AppTheme.accent.opacity(0.03)],
+                center: .center,
+                startRadius: 16,
+                endRadius: 72
+              )
+            )
+            .frame(width: 132, height: 132)
+
+          Image(systemName: "party.popper.fill")
+            .font(.system(size: 42, weight: .semibold))
+            .foregroundStyle(AppTheme.accent)
+            .accessibilityHidden(true)
+        }
+
+        VStack(spacing: AppTheme.Space.xs) {
+          Text("Your kitchen is ready.")
+            .font(AppTheme.Typography.displaySmall)
+            .foregroundStyle(AppTheme.textPrimary)
+            .multilineTextAlignment(.center)
+
+          Text("Landing you in the guided demo so the first lesson feels continuous.")
+            .font(AppTheme.Typography.bodyLarge)
+            .foregroundStyle(AppTheme.textSecondary)
+            .multilineTextAlignment(.center)
+        }
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+      .scaleEffect(cardAppeared ? 1 : 0.97)
+      .opacity(cardAppeared ? 1 : 0)
+      .offset(y: cardAppeared ? 0 : 10)
+    }
+    .task {
+      guard !cardAppeared else { return }
+      if reduceMotion {
+        cardAppeared = true
+      } else {
+        withAnimation(AppMotion.onboardingHandoffIn) {
+          cardAppeared = true
+        }
+      }
+    }
+  }
+}
+
 /// Root host view with permanent Home / Scan / Dashboard tab shell.
 struct ContentView: View {
   @EnvironmentObject var deps: AppDependencies
@@ -36,6 +97,10 @@ struct ContentView: View {
   @State private var navigateToScan = false
   @State private var navigateToReverseScan = false
   @State private var navigateToDemoMode = false
+  @State private var navigateToDirectReview = false
+  @State private var navigateToDirectResults = false
+  @State private var navigateToVirtualFridge = false
+  @State private var navigateToUpdateGroceries = false
   @State private var assistantRecipeContext: LiveAssistantRecipeContext?
   @State private var showOnboarding = false
   @State private var showProfile = false
@@ -43,6 +108,16 @@ struct ContentView: View {
   @State private var navAppeared = false
   @State private var spotlightCoordinator = SpotlightCoordinator()
   @State private var liveAssistantCoordinator = LiveAssistantCoordinator()
+  @State private var tutorialFlowContext = TutorialFlowContext()
+
+  @State private var directReviewDetections: [Detection] = []
+  @State private var directReviewImage: UIImage?
+  @State private var directResultsIngredientIds: Set<Int64> = []
+  @State private var directResultsIngredientNames: [String] = []
+  @State private var directResultsImage: UIImage?
+  @State private var onboardingHandoffToken: UUID?
+  @State private var isOnboardingHandoffVisible = false
+  @State private var onboardingHandoffFallbackTask: Task<Void, Never>?
 
   // Scan mode menu state
   @State private var showScanModeMenu = false
@@ -88,6 +163,8 @@ struct ContentView: View {
     switch selectedTab {
     case .home:
       return !navigateToScan && !navigateToReverseScan && !navigateToDemoMode
+        && !navigateToDirectReview && !navigateToDirectResults
+        && !navigateToVirtualFridge && !navigateToUpdateGroceries
         && assistantRecipeContext == nil
     case .dashboard:
       return true
@@ -100,10 +177,14 @@ struct ContentView: View {
         HomeDashboardView(
           deps: deps,
           onScan: openScan,
+          onQuestCTA: handleQuestCTA,
           onDemoMode: openDemoMode,
           onCompleteProfile: openProfileEditor,
           onOpenAssistant: openLiveAssistant,
+          onOpenVirtualFridge: openVirtualFridge,
           onReset: performFullReset,
+          onOnboardingSpotlightWillPresent: releaseOnboardingHandoff,
+          prefersAcceleratedOnboardingSpotlight: isOnboardingHandoffVisible,
           spotlightCoordinator: spotlightCoordinator
         )
         .navigationBarTitleDisplayMode(.inline)
@@ -116,6 +197,27 @@ struct ContentView: View {
         .navigationDestination(isPresented: $navigateToDemoMode) {
           DemoModeView()
         }
+        .navigationDestination(isPresented: $navigateToDirectReview) {
+          IngredientReviewView(
+            detections: directReviewDetections,
+            scanProvenance: .bundledFixture,
+            fridgeImage: directReviewImage
+          )
+        }
+        .navigationDestination(isPresented: $navigateToDirectResults) {
+          RecipeResultsView(
+            ingredientIds: directResultsIngredientIds,
+            ingredientNames: directResultsIngredientNames,
+            fridgePhoto: directResultsImage,
+            engine: deps.makeRecommendationEngine()
+          )
+        }
+        .navigationDestination(isPresented: $navigateToVirtualFridge) {
+          VirtualFridgeView()
+        }
+        .navigationDestination(isPresented: $navigateToUpdateGroceries) {
+          UpdateGroceriesView()
+        }
         .navigationDestination(item: $assistantRecipeContext) { recipeContext in
           LiveAssistantView(
             recipeContext: recipeContext,
@@ -126,6 +228,7 @@ struct ContentView: View {
       }
       .environment(navCoordinator)
       .environment(liveAssistantCoordinator)
+      .environment(tutorialFlowContext)
       .opacity(selectedTab == .home ? 1 : 0)
       .zIndex(selectedTab == .home ? 1 : 0)
       .allowsHitTesting(selectedTab == .home)
@@ -139,6 +242,14 @@ struct ContentView: View {
         .zIndex(selectedTab == .dashboard ? 1 : 0)
         .allowsHitTesting(selectedTab == .dashboard)
       }
+
+      if let onboardingHandoffToken, isOnboardingHandoffVisible {
+        OnboardingHomeHandoffOverlay()
+          .id(onboardingHandoffToken)
+          .transition(.opacity.combined(with: .scale(scale: 0.98)))
+          .zIndex(3)
+          .allowsHitTesting(false)
+      }
     }
     .flPageBackground()
     .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -150,23 +261,26 @@ struct ContentView: View {
       }
     }
     .overlay {
-      if let steps = spotlightCoordinator.activeSteps,
+      if let presentation = spotlightCoordinator.activePresentation,
         selectedTab == .home, !navigateToScan, !navigateToReverseScan, !navigateToDemoMode,
-        assistantRecipeContext == nil
+        !navigateToDirectReview, !navigateToDirectResults, !navigateToVirtualFridge,
+        !navigateToUpdateGroceries, assistantRecipeContext == nil
       {
         SpotlightTutorialOverlay(
-          steps: steps,
+          presentationID: presentation.id,
+          steps: presentation.steps,
           anchors: spotlightCoordinator.anchors,
           isPresented: Binding(
-            get: { spotlightCoordinator.activeSteps != nil },
+            get: { spotlightCoordinator.activePresentation != nil },
             set: { isPresented in
               if !isPresented {
-                spotlightCoordinator.activeSteps = nil
+                spotlightCoordinator.dismissActivePresentation()
               }
             }
           ),
           onScrollToAnchor: spotlightCoordinator.onScrollToAnchor
         )
+        .id(presentation.id)
         .ignoresSafeArea()
       }
     }
@@ -185,13 +299,23 @@ struct ContentView: View {
       navigateToScan = false
       navigateToReverseScan = false
       navigateToDemoMode = false
+      navigateToDirectReview = false
+      navigateToDirectResults = false
+      navigateToVirtualFridge = false
+      navigateToUpdateGroceries = false
       assistantRecipeContext = nil
       selectedTab = .home
       navCoordinator.shouldReturnHome = false
     }
-    .onChange(of: navigateToDemoMode) { wasNavigating, isNavigating in
-      if wasNavigating && !isNavigating && !tutorialProgress.isCompleted(.firstScan) {
-        markTutorialQuest(.firstScan)
+    .onChange(of: tutorialFlowContext.questObjectiveCompleted) { _, completed in
+      guard completed, let quest = tutorialFlowContext.activeQuest else { return }
+      markTutorialQuest(quest)
+      let flowContext = tutorialFlowContext
+
+      Task {
+        try? await Task.sleep(for: .milliseconds(reduceMotion ? 200 : 500))
+        navCoordinator.returnHome()
+        flowContext.reset()
       }
     }
     .task {
@@ -200,9 +324,10 @@ struct ContentView: View {
     .fullScreenCover(isPresented: $showOnboarding) {
       OnboardingView(isRequired: !hasOnboarded) {
         firstRunExperienceStore.markCompletedCurrentVersion()
+        beginOnboardingHandoff()
         hasOnboarded = true
+        selectedTab = .home
         showOnboarding = false
-        Task { await refreshOnboardingGate() }
       }
       .interactiveDismissDisabled(!hasOnboarded)
       .environmentObject(deps)
@@ -314,8 +439,7 @@ struct ContentView: View {
     case .scanIngredients:
       openScan()
     case .updateGroceries:
-      // TODO: Route to grocery/pantry management view
-      logger.info("Update Groceries selected — feature coming soon")
+      openUpdateGroceries()
     case .logMeal:
       openReverseScan()
     }
@@ -353,6 +477,75 @@ struct ContentView: View {
     }
   }
 
+  private func openVirtualFridge() {
+    guard hasOnboarded else {
+      showOnboarding = true
+      return
+    }
+    selectedTab = .home
+    navigateToVirtualFridge = true
+  }
+
+  private func openUpdateGroceries() {
+    switch AppFlowPolicy.scanEntryRoute(hasOnboarded: hasOnboarded) {
+    case .scan:
+      selectedTab = .home
+      navigateToUpdateGroceries = true
+    case .onboarding:
+      showOnboarding = true
+    }
+  }
+
+  private func handleQuestCTA(_ quest: TutorialQuest) {
+    guard hasOnboarded else {
+      showOnboarding = true
+      return
+    }
+
+    tutorialFlowContext.beginQuest(quest)
+
+    switch quest {
+    case .firstScan:
+      openDemoMode()
+    case .ingredientReview:
+      openDirectIngredientReview(scenario: .asianStirFry)
+    case .pickRecipeMatch:
+      openDirectRecipeResults(scenario: .mediterraneanLunch)
+    case .cookWithLeChef:
+      openLiveAssistant()
+    }
+  }
+
+  private func openDirectIngredientReview(scenario: DemoScenario) {
+    selectedTab = .home
+    Task {
+      let payload = await DemoScanService.loadDemoPayload(
+        scenario: scenario,
+        using: deps.visionService
+      )
+      directReviewDetections = payload.detections
+      directReviewImage = payload.image
+      navigateToDirectReview = true
+    }
+  }
+
+  private func openDirectRecipeResults(scenario: DemoScenario) {
+    selectedTab = .home
+    Task {
+      let payload = await DemoScanService.loadDemoPayload(
+        scenario: scenario,
+        using: deps.visionService
+      )
+      let ids = Set(payload.detections.map(\.ingredientId))
+      let names = ids.map { IngredientLexicon.displayName(for: $0) }.sorted()
+
+      directResultsIngredientIds = ids
+      directResultsIngredientNames = names
+      directResultsImage = payload.image
+      navigateToDirectResults = true
+    }
+  }
+
   private func openLiveAssistant() {
     guard hasOnboarded else {
       showOnboarding = true
@@ -370,7 +563,12 @@ struct ContentView: View {
   private func completeLiveAssistantLesson() {
     liveAssistantCoordinator.clearPendingLesson()
     assistantRecipeContext = nil
-    markTutorialQuest(.cookWithLeChef)
+
+    if tutorialFlowContext.activeQuest == .cookWithLeChef {
+      tutorialFlowContext.completeObjective()
+    } else {
+      markTutorialQuest(.cookWithLeChef)
+    }
   }
 
   private func skipLiveAssistantLesson() {
@@ -430,11 +628,16 @@ struct ContentView: View {
     }
 
     tutorialStorageString = ""
-    spotlightCoordinator.activeSteps = nil
+    spotlightCoordinator.activePresentation = nil
+    tutorialFlowContext.reset()
     assistantRecipeContext = nil
     liveAssistantCoordinator.matchedRecipe = nil
     liveAssistantCoordinator.matchedRecipeContext = nil
     liveAssistantCoordinator.clearPendingLesson()
+    onboardingHandoffFallbackTask?.cancel()
+    onboardingHandoffFallbackTask = nil
+    onboardingHandoffToken = nil
+    isOnboardingHandoffVisible = false
 
     let tutorialKeys = ResetPolicy.tutorialKeysToClear(
       allKeys: TutorialStorageKeys.all,
@@ -456,6 +659,52 @@ struct ContentView: View {
     selectedTab = .home
     firstRunExperienceStore.reset()
     showOnboarding = true
+  }
+
+  private func beginOnboardingHandoff() {
+    onboardingHandoffFallbackTask?.cancel()
+
+    let token = UUID()
+    onboardingHandoffToken = token
+
+    if reduceMotion {
+      isOnboardingHandoffVisible = true
+    } else {
+      withAnimation(AppMotion.onboardingHandoffIn) {
+        isOnboardingHandoffVisible = true
+      }
+    }
+
+    onboardingHandoffFallbackTask = Task { @MainActor in
+      let fallbackDelay = reduceMotion ? 450_000_000 : 1_400_000_000
+      try? await Task.sleep(nanoseconds: UInt64(fallbackDelay))
+      guard !Task.isCancelled else { return }
+      guard onboardingHandoffToken == token else { return }
+      releaseOnboardingHandoff()
+    }
+  }
+
+  private func releaseOnboardingHandoff() {
+    onboardingHandoffFallbackTask?.cancel()
+    onboardingHandoffFallbackTask = nil
+
+    guard let token = onboardingHandoffToken else { return }
+
+    if reduceMotion {
+      isOnboardingHandoffVisible = false
+      onboardingHandoffToken = nil
+      return
+    }
+
+    withAnimation(AppMotion.onboardingHandoffOut) {
+      isOnboardingHandoffVisible = false
+    }
+
+    Task { @MainActor in
+      try? await Task.sleep(nanoseconds: 320_000_000)
+      guard onboardingHandoffToken == token else { return }
+      onboardingHandoffToken = nil
+    }
   }
 
   // MARK: - Bottom Navigation

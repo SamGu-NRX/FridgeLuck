@@ -22,7 +22,8 @@ struct DemoModeView: View {
   @State private var scanComplete = false
   @State private var scanTask: Task<Void, Never>?
 
-  // MARK: - Spotlight Tutorial State
+  // MARK: - Tutorial Integration
+  @Environment(TutorialFlowContext.self) private var tutorialFlowContext: TutorialFlowContext?
   @AppStorage(TutorialStorageKeys.hasSeenDemoSpotlight) private var hasSeenDemoSpotlight = false
   @State private var demoSpotlight = SpotlightCoordinator()
   @State private var showDemoSpotlight = false
@@ -43,6 +44,14 @@ struct DemoModeView: View {
     GridItem(.flexible(), spacing: AppTheme.Space.sm),
     GridItem(.flexible(), spacing: AppTheme.Space.sm),
   ]
+
+  private var shouldAutoPresentDemoSpotlight: Bool {
+    guard !hasSeenDemoSpotlight else { return false }
+    guard appeared else { return false }
+    guard demoSpotlight.activePresentation == nil else { return false }
+    guard !showDemoSpotlight else { return false }
+    return true
+  }
 
   // MARK: - Body
 
@@ -97,27 +106,29 @@ struct DemoModeView: View {
       demoSpotlight.updateAnchors($0)
     }
     .overlay {
-      if showDemoSpotlight, let steps = demoSpotlight.activeSteps {
+      if showDemoSpotlight, let presentation = demoSpotlight.activePresentation {
         SpotlightTutorialOverlay(
-          steps: steps,
+          presentationID: presentation.id,
+          steps: presentation.steps,
           anchors: demoSpotlight.anchors,
           isPresented: Binding(
             get: { showDemoSpotlight },
             set: { isPresented in
               if !isPresented {
                 showDemoSpotlight = false
-                demoSpotlight.activeSteps = nil
+                demoSpotlight.activePresentation = nil
               }
             }
           ),
           onScrollToAnchor: demoSpotlight.onScrollToAnchor
         )
+        .id(presentation.id)
         .ignoresSafeArea()
       }
     }
     .navigationTitle("Demo Mode")
     .navigationBarTitleDisplayMode(.inline)
-    .navigationBarBackButtonHidden(isOverlayVisible)
+    .navigationBarBackButtonHidden(isOverlayVisible || showDemoSpotlight)
     .flPageBackground()
     .toolbar {
       if isOverlayVisible {
@@ -160,12 +171,12 @@ struct DemoModeView: View {
         appeared = true
       }
     }
-    .task {
-      guard !hasSeenDemoSpotlight else { return }
+    .task(id: shouldAutoPresentDemoSpotlight) {
+      guard shouldAutoPresentDemoSpotlight else { return }
       let delay = reduceMotion ? 0.3 : 0.8
       try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
       guard !Task.isCancelled else { return }
-      guard !showDemoSpotlight else { return }
+      guard shouldAutoPresentDemoSpotlight else { return }
       presentDemoSpotlight()
     }
   }
@@ -217,8 +228,8 @@ struct DemoModeView: View {
   // MARK: - Spotlight
 
   private func presentDemoSpotlight() {
-    guard demoSpotlight.activeSteps == nil else { return }
-    demoSpotlight.activeSteps = SpotlightStep.demoMode
+    guard demoSpotlight.activePresentation == nil else { return }
+    demoSpotlight.present(steps: SpotlightStep.demoMode, source: "demoMode")
     showDemoSpotlight = true
     hasSeenDemoSpotlight = true
   }
@@ -293,6 +304,13 @@ struct DemoModeView: View {
         return
       }
       guard !Task.isCancelled else { return }
+
+      if tutorialFlowContext?.activeQuest == .firstScan {
+        tutorialFlowContext?.completeObjective()
+        scanTask = nil
+        return
+      }
+
       navigateToReview = true
       scanTask = nil
     }

@@ -83,7 +83,15 @@ struct OnboardingView: View {
   @State private var appleHealthRequestTrigger = 0
   @State private var appleHealthInlineErrorMessage: String?
   @State private var setupBridgeState: SetupBridgeState = .idle
+  @State private var setupBridgeVisitToken = 0
   @State private var pendingNameFocusTask: Task<Void, Never>?
+
+  // Kitchen inventory capture state
+  @State private var fridgeCapturedImages: [UIImage] = []
+  @State private var pantryCapturedImages: [UIImage] = []
+  @State private var kitchenDetections: [Detection] = []
+  @State private var kitchenConfirmedIds: Set<Int64> = []
+  @State private var isAnalyzingKitchen = false
 
   @FocusState private var isNameFocused: Bool
 
@@ -135,8 +143,6 @@ struct OnboardingView: View {
   private var canGoBack: Bool {
     switch currentStep {
     case .welcome:
-      return false
-    case .setupBridge:
       return false
     default:
       return stepIndex > 0
@@ -323,11 +329,31 @@ struct OnboardingView: View {
             inlineErrorMessage: appleHealthInlineErrorMessage
           )
 
+        case .virtualFridgeIntro:
+          OnboardingVirtualFridgeIntroStep()
+
+        case .fridgeCapture:
+          OnboardingFridgeCaptureStep(capturedImages: $fridgeCapturedImages)
+
+        case .pantryCapture:
+          OnboardingPantryCaptureStep(capturedImages: $pantryCapturedImages)
+
+        case .kitchenReview:
+          OnboardingKitchenReviewStep(
+            fridgeCapturedImages: fridgeCapturedImages,
+            pantryCapturedImages: pantryCapturedImages,
+            detections: $kitchenDetections,
+            confirmedIds: $kitchenConfirmedIds,
+            isAnalyzing: $isAnalyzingKitchen,
+            onConfirm: commitKitchenInventory
+          )
+
         case .setupBridge:
           OnboardingSetupBridgeStep(
             displayName: normalizedName,
             goal: goal
           )
+          .id(setupBridgeVisitToken)
 
         case .handoff:
           OnboardingHandoffStep(
@@ -463,7 +489,13 @@ struct OnboardingView: View {
   }
 
   private func goBack() {
-    guard isReadyForPrimaryAction else { return }
+    if currentStep == .setupBridge {
+      guard !isTransitioning else { return }
+      setupBridgeState = .idle
+      isSaving = false
+    } else {
+      guard isReadyForPrimaryAction else { return }
+    }
     guard stepIndex > 0 else { return }
     clearNameFocus()
     setStep(stepIndex - 1, direction: .backward)
@@ -481,6 +513,12 @@ struct OnboardingView: View {
     previousStep = currentStep
     stepDirection = direction
     isTransitioning = true
+
+    if nextStep == .setupBridge {
+      setupBridgeState = .idle
+      isSaving = false
+      setupBridgeVisitToken += 1
+    }
 
     if reduceMotion {
       stepIndex = clamped
@@ -704,13 +742,17 @@ struct OnboardingView: View {
     setupBridgeState = .running
     isSaving = true
 
-    let bridgeMinimumDelay: UInt64 = reduceMotion ? 250_000_000 : 2_200_000_000
+    let bridgeMinimumDelay =
+      reduceMotion
+      ? OnboardingSetupBridgeTiming.reducedMotionDuration
+      : OnboardingSetupBridgeTiming.totalVisualDuration
 
     do {
       async let saveTask: Void = persistProfile()
       async let minimumDelay: Void = Task.sleep(nanoseconds: bridgeMinimumDelay)
       _ = try await saveTask
       try await minimumDelay
+      try Task.checkCancellation()
 
       isSaving = false
       setupBridgeState = .complete
@@ -718,7 +760,9 @@ struct OnboardingView: View {
     } catch {
       isSaving = false
       setupBridgeState = .idle
-      errorMessage = error.localizedDescription
+      if !(error is CancellationError) {
+        errorMessage = error.localizedDescription
+      }
     }
   }
 
@@ -750,6 +794,33 @@ struct OnboardingView: View {
     try await Task.detached(priority: .userInitiated) {
       try userDataRepository.saveHealthProfile(profile)
     }.value
+  }
+
+  // MARK: - Kitchen Inventory Commit
+
+  private func commitKitchenInventory() {
+    let confirmedDetections = kitchenDetections.filter {
+      kitchenConfirmedIds.contains($0.ingredientId)
+    }
+    guard !confirmedDetections.isEmpty else {
+      setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
+      return
+    }
+
+    Task {
+      do {
+        _ = try deps.inventoryIntakeService.ingestConfirmedScan(
+          detections: confirmedDetections,
+          confirmedIngredientIDs: kitchenConfirmedIds,
+          selectedIngredientByDetection: [:],
+          sourceRef: "onboarding_kitchen_capture_\(UUID().uuidString)"
+        )
+      } catch {
+        // Non-blocking: inventory seeding failure shouldn't stop onboarding
+        errorMessage = nil
+      }
+      setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
+    }
   }
 
   // MARK: - Completion

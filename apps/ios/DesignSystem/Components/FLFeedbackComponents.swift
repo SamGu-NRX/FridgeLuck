@@ -109,10 +109,13 @@ struct FLServingStepper: View {
         Text(label)
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
-        Text("\(servings) serving\(servings == 1 ? "" : "s")")
-          .font(AppTheme.Typography.displayCaption)
-          .foregroundStyle(AppTheme.textPrimary)
-          .contentTransition(.numericText())
+        HStack(spacing: 0) {
+          Text("\(servings)")
+            .monospacedDigit()
+          Text(" serving\(servings == 1 ? "" : "s")")
+        }
+        .font(AppTheme.Typography.displayCaption)
+        .foregroundStyle(AppTheme.textPrimary)
       }
 
       Spacer()
@@ -123,10 +126,10 @@ struct FLServingStepper: View {
         }
 
         Text("\(servings)")
+          .monospacedDigit()
           .font(AppTheme.Typography.dataMedium)
           .foregroundStyle(AppTheme.textPrimary)
           .frame(width: 32)
-          .contentTransition(.numericText())
 
         stepperButton(systemImage: "plus", enabled: servings < range.upperBound) {
           withAnimation(AppMotion.quick) { servings += 1 }

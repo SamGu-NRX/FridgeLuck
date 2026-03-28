@@ -12,6 +12,9 @@ enum AppMotion {
     0.4, 0.0, 0.2, 1.0, duration: 0.28)
   /// Spotlight overlay entrance: ease-out-quint — fast snap into place, gentle settle
   static let spotlightEntry: Animation = .timingCurve(0.23, 1.0, 0.32, 1.0, duration: 0.22)
+  static let spotlightDimmer: Animation = .timingCurve(0.18, 1.0, 0.32, 1.0, duration: 0.20)
+  static let spotlightCardEntry: Animation = .spring(response: 0.40, dampingFraction: 0.84)
+  static let spotlightDismiss: Animation = .timingCurve(0.4, 0.0, 0.2, 1.0, duration: 0.20)
   static let spotlightMove: Animation = .spring(response: 0.30, dampingFraction: 0.88)
   static let staggerDelay: Double = 0.035
 
@@ -76,6 +79,16 @@ enum AppMotion {
   static let confettiBurst: Animation = .spring(response: 0.60, dampingFraction: 0.65)
   /// Crossfade for rotating setup messages
   static let messageCrossfade: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.35)
+
+  // Camera Capture — still-photo viewfinder
+  /// Viewfinder bracket breathing: slow, subtle scale pulse
+  static let viewfinderBreathing: Animation = .easeInOut(duration: 2.5)
+  /// Shutter flash: ultra-fast white overlay pulse
+  static let shutterFlash: Animation = .timingCurve(0.16, 1.0, 0.3, 1.0, duration: 0.15)
+  /// Thumbnail landing: bouncy spring for captured photo insertion
+  static let thumbnailLand: Animation = .spring(response: 0.30, dampingFraction: 0.72)
+  /// Camera reveal: smooth cross-fade when camera becomes ready
+  static let cameraReveal: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.30)
 
   // Live Assistant — camera-first cooking guide
   /// Panel snap to detent after drag ends

@@ -125,26 +125,28 @@ struct RecipePreviewDrawer: View {
         }
         hasSeenSwapTooltip = true
         showSwapSpotlight = false
-        swapSpotlight.activeSteps = nil
+        swapSpotlight.activePresentation = nil
       }
     }
     .overlay {
-      if showSwapSpotlight, let steps = swapSpotlight.activeSteps {
+      if showSwapSpotlight, let presentation = swapSpotlight.activePresentation {
         SpotlightTutorialOverlay(
-          steps: steps,
+          presentationID: presentation.id,
+          steps: presentation.steps,
           anchors: swapSpotlight.anchors,
           isPresented: Binding(
             get: { showSwapSpotlight },
             set: { isPresented in
               if !isPresented {
                 showSwapSpotlight = false
-                swapSpotlight.activeSteps = nil
+                swapSpotlight.activePresentation = nil
                 hasSeenSwapTooltip = true
               }
             }
           ),
           onScrollToAnchor: swapSpotlight.onScrollToAnchor
         )
+        .id(presentation.id)
         .ignoresSafeArea()
       }
     }
@@ -154,7 +156,7 @@ struct RecipePreviewDrawer: View {
 
   private func presentSwapSpotlight() {
     guard !showSwapSpotlight else { return }
-    swapSpotlight.activeSteps = SpotlightStep.swapIngredients
+    swapSpotlight.present(steps: SpotlightStep.swapIngredients, source: "swapIngredients")
     withAnimation(reduceMotion ? nil : .easeOut(duration: 0.35)) {
       showSwapSpotlight = true
     }

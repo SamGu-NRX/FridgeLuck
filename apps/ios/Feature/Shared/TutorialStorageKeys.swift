@@ -8,6 +8,7 @@ enum TutorialStorageKeys {
   static let hasSeenSwapTooltip = "hasSeenSwapTooltip"
   static let hasSeenDemoSpotlight = "hasSeenDemoSpotlight"
   static let hasSeenLiveAssistantLesson = "hasSeenLiveAssistantLesson"
+  static let lastAdvanceSpotlightQuestShown = "lastAdvanceSpotlightQuestShown"
 
   static let all: [String] = [
     progress,
@@ -17,6 +18,7 @@ enum TutorialStorageKeys {
     hasSeenSwapTooltip,
     hasSeenDemoSpotlight,
     hasSeenLiveAssistantLesson,
+    lastAdvanceSpotlightQuestShown,
   ]
 }
 

@@ -12,7 +12,7 @@ final class AppDatabase: Sendable {
 
   // MARK: - Setup
 
-  /// Create or open the database, run migrations, and bootstrap bundled data if needed.
+  /// Create or open the database and run migrations.
   static func setup() async throws -> AppDatabase {
     let path = try databasePath()
     var config = Configuration()
@@ -24,16 +24,23 @@ final class AppDatabase: Sendable {
 
     let appDB = AppDatabase(dbQueue: dbQueue)
 
+    return appDB
+  }
+
+  /// Loads bundled recipes and USDA catalog data if needed.
+  func warmBundledContentIfNeeded() async throws {
+    let dbQueue = self.dbQueue
+
     let recipeCount = try await dbQueue.read { db in
       try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM recipes") ?? 0
     }
 
     if recipeCount == 0 {
-      try await BundledDataLoader.loadInto(appDB)
+      try await BundledDataLoader.loadInto(self)
     }
 
-    try await BundledDataLoader.ensureBundledRecipesHydrated(into: appDB)
-    try await BundledDataLoader.ensureUSDACatalogHydrated(into: appDB)
+    try await BundledDataLoader.ensureBundledRecipesHydrated(into: self)
+    try await BundledDataLoader.ensureUSDACatalogHydrated(into: self)
 
     #if DEBUG
       let diagnostics = try await dbQueue.read { db in
@@ -45,8 +52,6 @@ final class AppDatabase: Sendable {
         "[AppDatabase] Catalog counts: ingredients=\(diagnostics.0), ingredient_aliases=\(diagnostics.1)"
       )
     #endif
-
-    return appDB
   }
 
   // MARK: - Database Path

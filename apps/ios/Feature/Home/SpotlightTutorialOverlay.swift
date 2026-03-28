@@ -196,8 +196,6 @@ extension SpotlightStep {
     ),
   ]
 
-  /// A single-step spotlight that highlights the next quest CTA after the user
-  /// completes a step and returns home. Keeps the guided tour feeling continuous.
   static func questAdvance(for quest: TutorialQuest) -> [SpotlightStep] {
     [
       SpotlightStep(
@@ -213,8 +211,6 @@ extension SpotlightStep {
 
 // MARK: - Coordinator
 
-/// Bridges spotlight state between HomeDashboardView (which owns the logic) and
-/// ContentView (which presents the overlay above the tab bar).
 @MainActor
 @Observable
 final class SpotlightCoordinator {
@@ -238,18 +234,19 @@ final class SpotlightCoordinator {
     _ newAnchors: [String: CGRect],
     retainingExistingValues: Bool = false
   ) {
-    var nextAnchors = retainingExistingValues ? anchors : [:]
-
-    for (anchorID, rect) in newAnchors {
-      let normalizedRect = rect.normalizedForSpotlight
-      guard normalizedRect.isUsableSpotlightRect else { continue }
-      nextAnchors[anchorID] = normalizedRect
+    let normalizedAnchors = newAnchors.reduce(into: [String: CGRect]()) { partialResult, entry in
+      let normalizedRect = entry.value.normalizedForSpotlight
+      guard normalizedRect.isUsableSpotlightRect else { return }
+      partialResult[entry.key] = normalizedRect
     }
 
-    guard nextAnchors != anchors else { return }
-
-    Task { @MainActor [weak self, nextAnchors] in
-      guard let self, self.anchors != nextAnchors else { return }
+    Task { @MainActor [weak self, normalizedAnchors, retainingExistingValues] in
+      guard let self else { return }
+      var nextAnchors = retainingExistingValues ? self.anchors : [:]
+      for (anchorID, rect) in normalizedAnchors {
+        nextAnchors[anchorID] = rect
+      }
+      guard self.anchors != nextAnchors else { return }
       self.anchors = nextAnchors
     }
   }
@@ -333,14 +330,13 @@ struct SpotlightTutorialOverlay: View {
     }
     .ignoresSafeArea()
     .opacity(appeared ? 1 : 0)
+    .animation(reduceMotion ? nil : AppMotion.spotlightDimmer, value: appeared)
     .onAppear {
       guard !steps.isEmpty else {
         isPresented = false
         return
       }
-      withAnimation(reduceMotion ? nil : AppMotion.spotlightEntry) {
-        appeared = true
-      }
+      startEntrance()
       onStepChange?(step)
       if let anchorID = steps[0].anchorID {
         onScrollToAnchor?(anchorID)
@@ -353,6 +349,7 @@ struct SpotlightTutorialOverlay: View {
       stepIndex = 0
       appeared = false
       highlightGlow = 0
+      startEntrance()
     }
     .accessibilityAddTraits(.isModal)
   }
@@ -443,9 +440,16 @@ struct SpotlightTutorialOverlay: View {
     )
     .shadow(color: .black.opacity(0.35), radius: 30, x: 0, y: 15)
     .position(x: geo.size.width / 2, y: y)
+    .scaleEffect(appeared ? 1.0 : 0.96)
+    .offset(y: appeared ? 0 : 8)
+    .opacity(appeared ? 1 : 0)
     .animation(
       reduceMotion ? nil : AppMotion.spotlightMove,
       value: stepIndex
+    )
+    .animation(
+      reduceMotion ? nil : AppMotion.spotlightCardEntry,
+      value: appeared
     )
   }
 
@@ -523,15 +527,36 @@ struct SpotlightTutorialOverlay: View {
   // MARK: - Skip
 
   private func skipButton(in geo: GeometryProxy) -> some View {
-    VStack {
-      Spacer()
-      HStack {
-        skipButtonLabel
+    let placement = skipButtonPlacement(in: geo)
+
+    return VStack {
+      if placement == .bottomLeading {
         Spacer()
       }
-      .padding(.bottom, geo.safeAreaInsets.bottom + skipBottomOffset)
+
+      HStack {
+        if placement == .topTrailing {
+          Spacer()
+          skipButtonLabel
+        } else {
+          skipButtonLabel
+          Spacer()
+        }
+      }
+      .padding(.top, placement == .bottomLeading ? 0 : skipTopOffset)
+      .padding(
+        .bottom,
+        placement == .bottomLeading
+          ? geo.safeAreaInsets.bottom + skipBottomOffset
+          : 0
+      )
       .padding(.horizontal, skipHorizontalPadding)
+
+      if placement != .bottomLeading {
+        Spacer()
+      }
     }
+    .animation(reduceMotion ? nil : AppMotion.spotlightMove, value: placement)
   }
 
   private var skipButtonLabel: some View {
@@ -559,8 +584,16 @@ struct SpotlightTutorialOverlay: View {
   // MARK: - Positioning
 
   private let tooltipCardHeight: CGFloat = 260
+  private let skipTopOffset: CGFloat = 88
   private let skipBottomOffset: CGFloat = 24
   private let skipHorizontalPadding: CGFloat = AppTheme.Space.page
+  private let skipButtonSize = CGSize(width: 132, height: 40)
+
+  private enum SkipButtonPlacement {
+    case topTrailing
+    case topLeading
+    case bottomLeading
+  }
 
   private struct HighlightMetrics {
     let width: CGFloat
@@ -646,6 +679,75 @@ struct SpotlightTutorialOverlay: View {
     return max(geo.size.height, sceneScreenHeight - overlayTop)
   }
 
+  private func startEntrance() {
+    guard !reduceMotion else {
+      appeared = true
+      return
+    }
+
+    Task { @MainActor in
+      await Task.yield()
+      guard !Task.isCancelled else { return }
+      withAnimation(AppMotion.spotlightDimmer) {
+        appeared = true
+      }
+    }
+  }
+
+  private func skipButtonPlacement(in geo: GeometryProxy) -> SkipButtonPlacement {
+    let placements: [SkipButtonPlacement] = [.topTrailing, .topLeading, .bottomLeading]
+    let tooltipFrame = tooltipFrame(in: geo)
+    let highlightFrame = highlightFrame(in: geo)
+
+    for placement in placements {
+      let skipFrame = skipButtonFrame(for: placement, in: geo)
+      if skipFrame.intersects(tooltipFrame) { continue }
+      if let highlightFrame, skipFrame.intersects(highlightFrame) { continue }
+      return placement
+    }
+
+    return .bottomLeading
+  }
+
+  private func tooltipFrame(in geo: GeometryProxy) -> CGRect {
+    let width = min(geo.size.width - 48, 340)
+    let originX = (geo.size.width - width) / 2
+    let centerY = tooltipY(in: geo, screenHeight: screenHeight(for: geo))
+    let originY = centerY - tooltipCardHeight / 2
+    return CGRect(x: originX, y: originY, width: width, height: tooltipCardHeight)
+  }
+
+  private func highlightFrame(in geo: GeometryProxy) -> CGRect? {
+    guard let rect = highlightRect(in: geo) else { return nil }
+    let metrics = highlightMetrics(for: rect)
+    return CGRect(
+      x: rect.midX - metrics.width / 2,
+      y: rect.midY - metrics.height / 2,
+      width: metrics.width,
+      height: metrics.height
+    )
+  }
+
+  private func skipButtonFrame(for placement: SkipButtonPlacement, in geo: GeometryProxy) -> CGRect
+  {
+    let x: CGFloat
+    let y: CGFloat
+
+    switch placement {
+    case .topTrailing:
+      x = geo.size.width - skipHorizontalPadding - skipButtonSize.width
+      y = skipTopOffset
+    case .topLeading:
+      x = skipHorizontalPadding
+      y = skipTopOffset
+    case .bottomLeading:
+      x = skipHorizontalPadding
+      y = geo.size.height - geo.safeAreaInsets.bottom - skipBottomOffset - skipButtonSize.height
+    }
+
+    return CGRect(origin: CGPoint(x: x, y: y), size: skipButtonSize)
+  }
+
   // MARK: - Actions
 
   private func goBack() {
@@ -700,7 +802,7 @@ struct SpotlightTutorialOverlay: View {
   }
 
   private func dismissOverlay() {
-    withAnimation(reduceMotion ? nil : AppMotion.spotlightEntry) {
+    withAnimation(reduceMotion ? nil : AppMotion.spotlightDismiss) {
       appeared = false
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.24) {

@@ -23,12 +23,11 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   var subtitle: String {
     switch self {
     case .firstScan:
-      return "Pick a pre-stocked fridge and explore recipes \u{2014} nothing can go wrong."
+      return "Pick a pre-stocked fridge and watch the scan identify your ingredients."
     case .ingredientReview:
-      return "Run the demo flow again and confirm any uncertain ingredients before recipes appear."
+      return "Confirm uncertain ingredients before recipes appear \u{2014} learn the review tools."
     case .pickRecipeMatch:
-      return
-        "Finish the demo review, choose the best recipe match, and return Home for the live guide."
+      return "Browse recipe matches and choose the best one for your ingredients."
     case .cookWithLeChef:
       return
         "Launch the live cook flow, prop your phone near the prep area, and finish one guided recipe."
@@ -56,8 +55,8 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   var ctaTitle: String {
     switch self {
     case .firstScan: return "Try Demo Mode"
-    case .ingredientReview: return "Open Demo Review"
-    case .pickRecipeMatch: return "Finish Demo Match"
+    case .ingredientReview: return "Review Ingredients"
+    case .pickRecipeMatch: return "Browse Recipes"
     case .cookWithLeChef: return "Cook With Le Chef"
     }
   }
@@ -65,9 +64,18 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
   var ctaIcon: String {
     switch self {
     case .firstScan: return "camera.fill"
-    case .ingredientReview: return "checklist"
-    case .pickRecipeMatch: return "fork.knife"
+    case .ingredientReview: return "eye.circle.fill"
+    case .pickRecipeMatch: return "text.book.closed.fill"
     case .cookWithLeChef: return "waveform.circle.fill"
+    }
+  }
+
+  var assignedScenario: DemoScenario? {
+    switch self {
+    case .firstScan: return nil
+    case .ingredientReview: return .asianStirFry
+    case .pickRecipeMatch: return .mediterraneanLunch
+    case .cookWithLeChef: return nil
     }
   }
 

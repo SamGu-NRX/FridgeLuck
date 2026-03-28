@@ -18,35 +18,50 @@ struct HomeDashboardView: View {
   private var hasSeenCompletionSpotlight = false
   @AppStorage(TutorialStorageKeys.hasSeenLiveAssistantLesson)
   private var hasSeenLiveAssistantLesson = false
+  @AppStorage(TutorialStorageKeys.lastAdvanceSpotlightQuestShown)
+  private var lastAdvanceSpotlightQuestShown = -1
 
   let onScan: () -> Void
+  let onQuestCTA: (TutorialQuest) -> Void
   let onDemoMode: () -> Void
   let onCompleteProfile: () -> Void
   let onOpenAssistant: () -> Void
+  let onOpenVirtualFridge: () -> Void
   let onReset: () -> Void
+  let onOnboardingSpotlightWillPresent: () -> Void
+  let prefersAcceleratedOnboardingSpotlight: Bool
   let spotlightCoordinator: SpotlightCoordinator
 
   private enum SpotlightKind: String, Equatable {
     case onboarding
     case completion
     case liveAssistantLesson
+    case questAdvance
   }
 
   init(
     deps: AppDependencies,
     onScan: @escaping () -> Void,
+    onQuestCTA: @escaping (TutorialQuest) -> Void,
     onDemoMode: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
     onOpenAssistant: @escaping () -> Void,
+    onOpenVirtualFridge: @escaping () -> Void = {},
     onReset: @escaping () -> Void = {},
+    onOnboardingSpotlightWillPresent: @escaping () -> Void = {},
+    prefersAcceleratedOnboardingSpotlight: Bool = false,
     spotlightCoordinator: SpotlightCoordinator
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
     self.onScan = onScan
+    self.onQuestCTA = onQuestCTA
     self.onDemoMode = onDemoMode
     self.onCompleteProfile = onCompleteProfile
     self.onOpenAssistant = onOpenAssistant
+    self.onOpenVirtualFridge = onOpenVirtualFridge
     self.onReset = onReset
+    self.onOnboardingSpotlightWillPresent = onOnboardingSpotlightWillPresent
+    self.prefersAcceleratedOnboardingSpotlight = prefersAcceleratedOnboardingSpotlight
     self.spotlightCoordinator = spotlightCoordinator
   }
 
@@ -94,6 +109,7 @@ struct HomeDashboardView: View {
           hasSeenSpotlightTutorial = false
           hasSeenCompletionSpotlight = false
           hasSeenLiveAssistantLesson = false
+          lastAdvanceSpotlightQuestShown = -1
           onReset()
           Task { await viewModel.load() }
         }
@@ -141,12 +157,12 @@ struct HomeDashboardView: View {
       }
       .task(id: pendingSpotlightKind) {
         guard let kind = pendingSpotlightKind else { return }
-        let delay = reduceMotion ? 0.3 : 0.8
+        let delay = spotlightPresentationDelay(for: kind)
         let nanoseconds = UInt64(delay * 1_000_000_000)
         try? await Task.sleep(nanoseconds: nanoseconds)
         guard !Task.isCancelled else { return }
         guard pendingSpotlightKind == kind else { return }
-        guard spotlightCoordinator.activeSteps == nil else { return }
+        guard spotlightCoordinator.activePresentation == nil else { return }
         presentSpotlight(kind)
       }
       .onPreferenceChange(SpotlightAnchorKey.self) {
@@ -160,13 +176,16 @@ struct HomeDashboardView: View {
             }
           }
         }
+        spotlightCoordinator.onDismissPresentation = { presentation in
+          handleSpotlightDismissal(for: presentation.source)
+        }
       }
     }
     .flPageBackground()
   }
 
   private var pendingSpotlightKind: SpotlightKind? {
-    guard spotlightCoordinator.activeSteps == nil else { return nil }
+    guard spotlightCoordinator.activePresentation == nil else { return nil }
     guard viewModel.snapshot != nil else { return nil }
 
     if tutorialProgress.isComplete {
@@ -175,7 +194,7 @@ struct HomeDashboardView: View {
     }
 
     if !hasSeenSpotlightTutorial {
-      return anchorsReady(for: .onboarding) ? .onboarding : nil
+      return heroAppeared && anchorsReady(for: .onboarding) ? .onboarding : nil
     }
 
     if liveAssistantCoordinator.shouldPresentLesson,
@@ -185,7 +204,33 @@ struct HomeDashboardView: View {
       return anchorsReady(for: .liveAssistantLesson) ? .liveAssistantLesson : nil
     }
 
+    if let nextQuest = tutorialProgress.currentQuest,
+      tutorialProgress.completedCount > 0,
+      lastAdvanceSpotlightQuestShown < nextQuest.rawValue
+    {
+      return heroAppeared && anchorsReady(for: .questAdvance) ? .questAdvance : nil
+    }
+
     return nil
+  }
+
+  private func spotlightPresentationDelay(for kind: SpotlightKind) -> Double {
+    if reduceMotion {
+      return kind == .onboarding && prefersAcceleratedOnboardingSpotlight ? 0.08 : 0.22
+    }
+
+    if kind == .onboarding && prefersAcceleratedOnboardingSpotlight {
+      return 0.18
+    }
+
+    switch kind {
+    case .onboarding:
+      return 0.5
+    case .completion:
+      return 0.45
+    case .liveAssistantLesson, .questAdvance:
+      return 0.65
+    }
   }
 
   private func steps(for kind: SpotlightKind) -> [SpotlightStep] {
@@ -196,6 +241,9 @@ struct HomeDashboardView: View {
       return SpotlightStep.completion
     case .liveAssistantLesson:
       return SpotlightStep.liveAssistantLesson
+    case .questAdvance:
+      guard let quest = tutorialProgress.currentQuest else { return [] }
+      return SpotlightStep.questAdvance(for: quest)
     }
   }
 
@@ -213,7 +261,20 @@ struct HomeDashboardView: View {
   }
 
   private func presentSpotlight(_ kind: SpotlightKind) {
-    spotlightCoordinator.activeSteps = steps(for: kind)
+    let spotlightSteps = steps(for: kind)
+    guard !spotlightSteps.isEmpty else { return }
+    guard anchorsReady(for: kind) else { return }
+
+    if kind == .onboarding {
+      onOnboardingSpotlightWillPresent()
+    }
+
+    spotlightCoordinator.present(steps: spotlightSteps, source: kind.rawValue)
+  }
+
+  private func handleSpotlightDismissal(for source: String) {
+    guard let kind = SpotlightKind(rawValue: source) else { return }
+
     switch kind {
     case .onboarding:
       hasSeenSpotlightTutorial = true
@@ -221,6 +282,10 @@ struct HomeDashboardView: View {
       hasSeenCompletionSpotlight = true
     case .liveAssistantLesson:
       hasSeenLiveAssistantLesson = true
+    case .questAdvance:
+      if let quest = tutorialProgress.currentQuest {
+        lastAdvanceSpotlightQuestShown = quest.rawValue
+      }
     }
   }
 
@@ -270,16 +335,7 @@ struct HomeDashboardView: View {
   }
 
   private func handleQuestAction(_ quest: TutorialQuest) {
-    switch quest {
-    case .firstScan:
-      onDemoMode()
-    case .ingredientReview:
-      onDemoMode()
-    case .pickRecipeMatch:
-      onDemoMode()
-    case .cookWithLeChef:
-      onOpenAssistant()
-    }
+    onQuestCTA(quest)
   }
 
   // MARK: - Mark Quest Completed (callable from outside)
@@ -329,9 +385,12 @@ struct HomeDashboardView: View {
         .spotlightAnchor("liveAssistantEntry")
       }
 
-      HomeFridgeLuckPanelsSection(snapshot: snapshot)
-        .padding(.horizontal, AppTheme.Space.page)
-        .padding(.bottom, AppTheme.Space.sectionBreak)
+      HomeFridgeLuckPanelsSection(
+        snapshot: snapshot,
+        onOpenVirtualFridge: onOpenVirtualFridge
+      )
+      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.bottom, AppTheme.Space.sectionBreak)
 
       HomeUseSoonSection(suggestions: snapshot.useSoonSuggestions)
         .padding(.horizontal, AppTheme.Space.page)
