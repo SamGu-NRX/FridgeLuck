@@ -11,6 +11,10 @@ enum OnboardingStep: Int, CaseIterable {
   case allergens
   case healthValue
   case healthPermission
+  case virtualFridgeIntro
+  case fridgeCapture
+  case pantryCapture
+  case kitchenReview
   case setupBridge
   case handoff
 
@@ -19,7 +23,7 @@ enum OnboardingStep: Int, CaseIterable {
   }
 
   var showsFooterActions: Bool {
-    self != .welcome && self != .setupBridge
+    self != .welcome && self != .setupBridge && self != .kitchenReview
   }
 
   var backgroundRenderMode: FLAmbientBackgroundRenderMode {
@@ -29,8 +33,12 @@ enum OnboardingStep: Int, CaseIterable {
       .calories,
       .restrictions,
       .allergens,
-      .healthPermission:
+      .healthPermission,
+      .fridgeCapture,
+      .pantryCapture:
       return .interactive
+    case .virtualFridgeIntro:
+      return .live
     default:
       return .live
     }

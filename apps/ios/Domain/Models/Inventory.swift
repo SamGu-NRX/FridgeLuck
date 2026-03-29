@@ -179,3 +179,66 @@ struct InventoryConsumptionResult: Sendable {
   let consumedGrams: Double
   let shortfallGrams: Double
 }
+
+// MARK: - Virtual Fridge View Models
+
+/// Active stock row: ingredient + storage, aggregated from lots.
+struct InventoryActiveItem: Identifiable, Sendable {
+  let ingredientId: Int64
+  let ingredientName: String
+  let storageLocation: InventoryStorageLocation
+  let totalRemainingGrams: Double
+  let averageConfidenceScore: Double
+  let earliestExpiresAt: Date?
+  let daysUntilExpiry: Int?
+  let lastUpdatedAt: Date?
+  let lotCount: Int
+  let mostRecentSource: InventoryLotSource
+
+  var id: String { "\(ingredientId)_\(storageLocation.rawValue)" }
+
+  var isRecentlyAdded: Bool {
+    guard let lastUpdatedAt else { return false }
+    return abs(lastUpdatedAt.timeIntervalSinceNow) < 24 * 3600
+  }
+
+  var isLowStock: Bool { totalRemainingGrams < 50 }
+
+  var isExpiringSoon: Bool {
+    guard let daysUntilExpiry else { return false }
+    return daysUntilExpiry <= 3
+  }
+
+  func withConfirmedConfidence() -> InventoryActiveItem {
+    InventoryActiveItem(
+      ingredientId: ingredientId,
+      ingredientName: ingredientName,
+      storageLocation: storageLocation,
+      totalRemainingGrams: totalRemainingGrams,
+      averageConfidenceScore: 1.0,
+      earliestExpiresAt: earliestExpiresAt,
+      daysUntilExpiry: daysUntilExpiry,
+      lastUpdatedAt: lastUpdatedAt,
+      lotCount: lotCount,
+      mostRecentSource: mostRecentSource
+    )
+  }
+}
+
+/// Preview of grams that would be consumed vs on-hand.
+struct InventoryDeductionPreview: Identifiable, Sendable {
+  let ingredientId: Int64
+  let ingredientName: String
+  let proposedGrams: Double
+  let availableGrams: Double
+  let shortfallGrams: Double
+
+  var id: Int64 { ingredientId }
+
+  var hasShortfall: Bool { shortfallGrams > 0 }
+
+  var coverageRatio: Double {
+    guard proposedGrams > 0 else { return 1.0 }
+    return min(1.0, availableGrams / proposedGrams)
+  }
+}

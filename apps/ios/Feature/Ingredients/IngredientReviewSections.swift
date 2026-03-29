@@ -478,6 +478,8 @@ struct IngredientReviewBottomBar: View {
       ) {
         onFindRecipes()
       }
+      .id("findRecipes")
+      .spotlightAnchor("findRecipes")
       .padding(.horizontal, AppTheme.Space.page)
     }
     .animation(reduceMotion ? nil : AppMotion.gentle, value: unresolvedCount)

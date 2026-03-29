@@ -42,7 +42,13 @@ enum OnboardingTransitionPolicy {
     case (.welcome, .name),
       (.name, .welcome),
       (.name, .personalWelcome),
-      (.personalWelcome, .name):
+      (.personalWelcome, .name),
+      (.healthPermission, .virtualFridgeIntro),
+      (.virtualFridgeIntro, .healthPermission),
+      (.virtualFridgeIntro, .fridgeCapture),
+      (.fridgeCapture, .virtualFridgeIntro),
+      (.kitchenReview, .setupBridge),
+      (.setupBridge, .kitchenReview):
       return .softFade
     default:
       return .directionalSlide

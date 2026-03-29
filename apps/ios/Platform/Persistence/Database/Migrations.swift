@@ -412,6 +412,37 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V13: Ingredient favorites for quick-access picker
+
+    migrator.registerMigration("v13_ingredient_favorites") { db in
+      try db.create(table: "ingredient_favorites") { t in
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        t.column("created_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+        t.primaryKey(["ingredient_id"])
+      }
+    }
+
+    // MARK: - V14: Pantry assumptions + saved winners
+
+    migrator.registerMigration("v14_pantry_assumptions_saved_winners") { db in
+      // Pantry staples — ingredients the user always/usually has on hand
+      try db.create(table: "pantry_assumptions") { t in
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        t.column("tier", .text).notNull().defaults(to: "only_if_confirmed")
+        t.column("added_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+        t.primaryKey(["ingredient_id"])
+      }
+
+      // Saved winner flag on cooking history
+      try db.alter(table: "cooking_history") { t in
+        t.add(column: "is_saved_winner", .integer).notNull().defaults(to: 0)
+      }
+    }
+
     try migrator.migrate(db)
   }
 }

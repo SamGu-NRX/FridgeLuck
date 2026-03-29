@@ -280,6 +280,183 @@ final class InventoryRepository: Sendable {
     }
   }
 
+  // MARK: - Virtual Fridge Queries
+
+  /// Active items grouped by ingredient and storage (Virtual Fridge).
+  func fetchAllActiveItems() throws -> [InventoryActiveItem] {
+    let calendar = Calendar.current
+    let today = calendar.startOfDay(for: Date())
+
+    return try db.read { db in
+      let rows = try Row.fetchAll(
+        db,
+        sql: """
+          SELECT
+            il.ingredient_id AS ingredient_id,
+            i.name AS ingredient_name,
+            il.storage_location AS storage_location,
+            SUM(il.remaining_grams) AS total_remaining_grams,
+            AVG(il.confidence_score) AS avg_confidence_score,
+            MIN(il.expires_at) AS earliest_expires_at,
+            MAX(il.updated_at) AS last_updated_at,
+            COUNT(il.id) AS lot_count,
+            (SELECT source FROM inventory_lots sub
+             WHERE sub.ingredient_id = il.ingredient_id
+               AND sub.storage_location = il.storage_location
+               AND sub.remaining_grams > 0
+             ORDER BY sub.acquired_at DESC LIMIT 1) AS most_recent_source
+          FROM inventory_lots il
+          JOIN ingredients i ON i.id = il.ingredient_id
+          WHERE il.remaining_grams > 0
+          GROUP BY il.ingredient_id, il.storage_location
+          ORDER BY i.name ASC
+          """
+      )
+
+      return rows.compactMap { row -> InventoryActiveItem? in
+        guard
+          let ingredientId: Int64 = row["ingredient_id"],
+          let ingredientName: String = row["ingredient_name"],
+          let storageLocationRaw: String = row["storage_location"],
+          let totalRemainingGrams: Double = row["total_remaining_grams"]
+        else { return nil }
+
+        let storageLocation = InventoryStorageLocation(rawValue: storageLocationRaw) ?? .unknown
+        let avgConfidence: Double = row["avg_confidence_score"] as? Double ?? 1.0
+        let earliestExpiresAt: Date? = row["earliest_expires_at"]
+        let lastUpdatedAt: Date? = row["last_updated_at"]
+        let lotCount: Int = row["lot_count"] as? Int ?? 1
+        let sourceRaw: String? = row["most_recent_source"]
+        let mostRecentSource = sourceRaw.flatMap { InventoryLotSource(rawValue: $0) } ?? .scan
+
+        var daysUntilExpiry: Int?
+        if let expiresAt = earliestExpiresAt {
+          let expiryDay = calendar.startOfDay(for: expiresAt)
+          daysUntilExpiry = calendar.dateComponents([.day], from: today, to: expiryDay).day
+        }
+
+        return InventoryActiveItem(
+          ingredientId: ingredientId,
+          ingredientName: ingredientName.replacingOccurrences(of: "_", with: " ")
+            .localizedCapitalized,
+          storageLocation: storageLocation,
+          totalRemainingGrams: totalRemainingGrams,
+          averageConfidenceScore: max(0, min(avgConfidence, 1.0)),
+          earliestExpiresAt: earliestExpiresAt,
+          daysUntilExpiry: daysUntilExpiry,
+          lastUpdatedAt: lastUpdatedAt,
+          lotCount: lotCount,
+          mostRecentSource: mostRecentSource
+        )
+      }
+    }
+  }
+
+  /// Returns active inventory items filtered by a specific storage location.
+  func fetchActiveItemsByLocation(
+    _ location: InventoryStorageLocation
+  ) throws -> [InventoryActiveItem] {
+    try fetchAllActiveItems().filter { $0.storageLocation == location }
+  }
+
+  /// Remove all lots for a given active item (ingredient + location).
+  func removeActiveItem(id: String) throws {
+    let parts = id.split(separator: "_", maxSplits: 1)
+    guard parts.count == 2, let ingredientId = Int64(parts[0]) else { return }
+    let locationRaw = String(parts[1])
+
+    try db.write { db in
+      try db.execute(
+        sql: """
+          UPDATE inventory_lots
+          SET remaining_grams = 0
+          WHERE ingredient_id = ? AND storage_location = ? AND remaining_grams > 0
+          """,
+        arguments: [ingredientId, locationRaw]
+      )
+    }
+  }
+
+  /// Set confidence to 1.0 for all lots belonging to an active item.
+  func confirmActiveItem(id: String) throws {
+    let parts = id.split(separator: "_", maxSplits: 1)
+    guard parts.count == 2, let ingredientId = Int64(parts[0]) else { return }
+    let locationRaw = String(parts[1])
+
+    try db.write { db in
+      try db.execute(
+        sql: """
+          UPDATE inventory_lots
+          SET confidence_score = 1.0
+          WHERE ingredient_id = ? AND storage_location = ? AND remaining_grams > 0
+          """,
+        arguments: [ingredientId, locationRaw]
+      )
+    }
+  }
+
+  /// Returns all active lots for a specific ingredient, ordered by expiry (soonest first).
+  func fetchActiveLots(for ingredientId: Int64) throws -> [InventoryLot] {
+    try db.read { db in
+      try InventoryLot.fetchAll(
+        db,
+        sql: """
+          SELECT *
+          FROM inventory_lots
+          WHERE ingredient_id = ? AND remaining_grams > 0
+          ORDER BY
+            CASE WHEN expires_at IS NULL THEN 1 ELSE 0 END ASC,
+            datetime(expires_at) ASC,
+            datetime(acquired_at) ASC
+          """,
+        arguments: [ingredientId]
+      )
+    }
+  }
+
+  /// Read-only consumption preview (reverse-scan deduction UI).
+  func previewConsumption(
+    ingredientGrams: [(ingredientId: Int64, grams: Double)]
+  ) throws -> [InventoryDeductionPreview] {
+    try db.read { db in
+      var results: [InventoryDeductionPreview] = []
+      for (ingredientId, proposedGrams) in ingredientGrams {
+        let safeProposed = max(0, proposedGrams)
+
+        let row = try Row.fetchOne(
+          db,
+          sql: """
+            SELECT
+              i.name AS ingredient_name,
+              COALESCE(SUM(il.remaining_grams), 0) AS available_grams
+            FROM ingredients i
+            LEFT JOIN inventory_lots il
+              ON il.ingredient_id = i.id AND il.remaining_grams > 0
+            WHERE i.id = ?
+            GROUP BY i.id
+            """,
+          arguments: [ingredientId]
+        )
+
+        let ingredientName = (row?["ingredient_name"] as? String ?? "Unknown")
+          .replacingOccurrences(of: "_", with: " ")
+          .localizedCapitalized
+        let availableGrams: Double = row?["available_grams"] as? Double ?? 0
+
+        results.append(
+          InventoryDeductionPreview(
+            ingredientId: ingredientId,
+            ingredientName: ingredientName,
+            proposedGrams: safeProposed,
+            availableGrams: availableGrams,
+            shortfallGrams: max(0, safeProposed - availableGrams)
+          )
+        )
+      }
+      return results
+    }
+  }
+
   func hasEvent(eventType: InventoryEventType, sourceRef: String) throws -> Bool {
     let normalizedRef = sourceRef.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !normalizedRef.isEmpty else { return false }

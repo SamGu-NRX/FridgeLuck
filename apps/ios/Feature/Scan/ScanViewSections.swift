@@ -5,13 +5,28 @@ struct ScanArcStageIndicator: View {
   let stageProgress: Double
   let stageName: String
   let stageIndex: Int
+  let totalSteps: Int
   let reduceMotion: Bool
+
+  init(
+    stageProgress: Double,
+    stageName: String,
+    stageIndex: Int,
+    totalSteps: Int = 3,
+    reduceMotion: Bool
+  ) {
+    self.stageProgress = stageProgress
+    self.stageName = stageName
+    self.stageIndex = stageIndex
+    self.totalSteps = totalSteps
+    self.reduceMotion = reduceMotion
+  }
 
   var body: some View {
     HStack(spacing: AppTheme.Space.lg) {
       FLArcIndicator(
         progress: stageProgress,
-        steps: 3,
+        steps: totalSteps,
         size: 56
       )
       .frame(width: 72, height: 56, alignment: .center)
@@ -22,7 +37,7 @@ struct ScanArcStageIndicator: View {
         Text(stageName)
           .font(AppTheme.Typography.displayCaption)
           .foregroundStyle(AppTheme.textPrimary)
-        Text("Step \(stageIndex) of 3")
+        Text("Step \(stageIndex) of \(totalSteps)")
           .font(AppTheme.Typography.labelSmall)
           .foregroundStyle(AppTheme.textSecondary)
       }

@@ -13,6 +13,13 @@ struct IngredientPickerView: View {
   @State private var isLoading = false
   @State private var resultsRevealToken = UUID()
 
+  @State private var favorites: [Ingredient] = []
+  @State private var recents: [Ingredient] = []
+  @State private var commonIngredients: [Ingredient] = []
+  @State private var isExpanded = false
+  @State private var groupedIngredients: [(letter: String, ingredients: [Ingredient])] = []
+  @State private var favoriteIDs: Set<Int64> = []
+
   private let onPickSingle: ((Ingredient) -> Void)?
   private let selectedIDs: Binding<Set<Int64>>?
 
@@ -39,6 +46,9 @@ struct IngredientPickerView: View {
   }
 
   private var isMultiSelect: Bool { selectedIDs != nil }
+  private var isSearching: Bool {
+    !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
 
   var body: some View {
     NavigationStack {
@@ -51,15 +61,13 @@ struct IngredientPickerView: View {
             .transition(.move(edge: .top).combined(with: .opacity))
         }
 
-        Group {
-          if results.isEmpty, !isLoading {
-            if searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-              emptyBrowseState
-            } else {
-              noResultsState
-            }
+        ZStack {
+          if isSearching {
+            searchResultsView
+          } else if isExpanded {
+            expandedListView
           } else {
-            ingredientList
+            smartSectionsView
           }
         }
       }
@@ -67,7 +75,7 @@ struct IngredientPickerView: View {
       .navigationBarTitleDisplayMode(.inline)
       .searchable(text: $searchText, prompt: "Search ingredients")
       .task {
-        await runSearch(query: "", bypassDebounce: true)
+        await loadSmartSections()
       }
       .task(id: searchText) {
         await runSearch(query: searchText, bypassDebounce: false)
@@ -80,6 +88,8 @@ struct IngredientPickerView: View {
     }
     .flPageBackground()
     .animation(reduceMotion ? nil : AppMotion.gentle, value: selectedIDs?.wrappedValue.count ?? 0)
+    .animation(reduceMotion ? nil : AppMotion.gentle, value: isExpanded)
+    .animation(reduceMotion ? nil : AppMotion.gentle, value: isSearching)
   }
 
   // MARK: - Multi-Select Summary
@@ -136,57 +146,237 @@ struct IngredientPickerView: View {
     )
   }
 
-  // MARK: - Ingredient List
+  // MARK: - Smart Sections
 
-  private var ingredientList: some View {
+  private var smartSectionsView: some View {
     ScrollView {
-      LazyVStack(spacing: 0) {
-        ForEach(Array(results.enumerated()), id: \.element.id) { index, ingredient in
-          if let id = ingredient.id {
-            ingredientRow(ingredient, id: id, index: index)
-
-            if index < results.count - 1 {
-              rowDivider
-            }
+      LazyVStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+        if !favorites.isEmpty {
+          sectionHeader(title: "Favorites", icon: "heart.fill", tint: AppTheme.dustyRose)
+          FLIngredientChipScroll(
+            ingredients: favorites,
+            selectedIDs: selectedIDs?.wrappedValue ?? [],
+            isMultiSelect: isMultiSelect
+          ) { ingredient in
+            handleIngredientTap(ingredient)
           }
         }
+
+        if !recents.isEmpty {
+          sectionHeader(title: "Recent", icon: "clock.arrow.circlepath", tint: AppTheme.sage)
+          FLIngredientChipScroll(
+            ingredients: recents,
+            selectedIDs: selectedIDs?.wrappedValue ?? [],
+            isMultiSelect: isMultiSelect
+          ) { ingredient in
+            handleIngredientTap(ingredient)
+          }
+        }
+
+        if !commonIngredients.isEmpty {
+          sectionHeader(title: "Common", icon: "star.fill", tint: AppTheme.oat)
+
+          LazyVStack(spacing: 0) {
+            ForEach(Array(commonIngredients.enumerated()), id: \.element.id) { index, ingredient in
+              if let id = ingredient.id {
+                ingredientRow(ingredient, id: id, index: index)
+
+                if index < commonIngredients.count - 1 {
+                  rowDivider
+                }
+              }
+            }
+          }
+          .padding(.horizontal, AppTheme.Space.page)
+        }
+
+        Button {
+          Task {
+            if groupedIngredients.isEmpty {
+              groupedIngredients = (try? deps.ingredientRepository.fetchAllGrouped()) ?? []
+            }
+            isExpanded = true
+          }
+        } label: {
+          HStack(spacing: AppTheme.Space.sm) {
+            Image(systemName: "list.bullet")
+              .font(.system(size: 14, weight: .medium))
+              .foregroundStyle(AppTheme.accent)
+
+            Text("Show all ingredients")
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.accent)
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+              .font(.system(size: 12, weight: .semibold))
+              .foregroundStyle(AppTheme.accent.opacity(0.6))
+          }
+          .padding(AppTheme.Space.md)
+          .background(
+            AppTheme.accent.opacity(0.06),
+            in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+          )
+          .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+              .stroke(AppTheme.accent.opacity(0.15), lineWidth: 1)
+          )
+        }
+        .buttonStyle(FLPressableButtonStyle())
+        .padding(.horizontal, AppTheme.Space.page)
+
+        if favorites.isEmpty, recents.isEmpty, commonIngredients.isEmpty, !isLoading {
+          emptyBrowseState
+        }
+
+        Spacer(minLength: AppTheme.Space.xxl)
       }
-      .padding(.horizontal, AppTheme.Space.page)
-      .padding(.top, AppTheme.Space.xs)
-      .padding(.bottom, AppTheme.Space.xxl)
-      .id(resultsRevealToken)
+      .padding(.top, AppTheme.Space.sm)
     }
     .scrollDismissesKeyboard(.interactively)
   }
 
-  private var rowDivider: some View {
-    Rectangle()
-      .fill(AppTheme.oat.opacity(0.18))
-      .frame(height: 1)
-      .padding(.leading, 52)
+  // MARK: - Expanded A-Z List View
+
+  private var expandedListView: some View {
+    let availableLetters = Set(groupedIngredients.map(\.letter))
+
+    return HStack(spacing: 0) {
+      ScrollViewReader { proxy in
+        ScrollView {
+          LazyVStack(alignment: .leading, spacing: 0) {
+            Button {
+              isExpanded = false
+            } label: {
+              HStack(spacing: AppTheme.Space.xs) {
+                Image(systemName: "chevron.left")
+                  .font(.system(size: 12, weight: .semibold))
+                Text("Back to common")
+                  .font(AppTheme.Typography.label)
+              }
+              .foregroundStyle(AppTheme.accent)
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.vertical, AppTheme.Space.sm)
+            }
+            .buttonStyle(.plain)
+
+            ForEach(groupedIngredients, id: \.letter) { group in
+              Section {
+                ForEach(Array(group.ingredients.enumerated()), id: \.element.id) {
+                  index, ingredient in
+                  if let id = ingredient.id {
+                    ingredientRow(ingredient, id: id, index: index)
+
+                    if index < group.ingredients.count - 1 {
+                      rowDivider
+                    }
+                  }
+                }
+              } header: {
+                Text(group.letter)
+                  .font(.system(.caption, design: .rounded, weight: .bold))
+                  .foregroundStyle(AppTheme.textSecondary)
+                  .padding(.horizontal, AppTheme.Space.page)
+                  .padding(.top, AppTheme.Space.md)
+                  .padding(.bottom, AppTheme.Space.xxs)
+                  .id("section_\(group.letter)")
+              }
+            }
+
+            Spacer(minLength: AppTheme.Space.xxl)
+          }
+          .padding(.top, AppTheme.Space.xs)
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .overlay(alignment: .trailing) {
+          FLAlphabetScrubber(
+            availableLetters: availableLetters,
+            onLetterChanged: { letter in
+              withAnimation(reduceMotion ? nil : AppMotion.quick) {
+                proxy.scrollTo("section_\(letter)", anchor: .top)
+              }
+            }
+          )
+          .padding(.trailing, 2)
+        }
+      }
+    }
+  }
+
+  // MARK: - Search Results View
+
+  private var searchResultsView: some View {
+    Group {
+      if results.isEmpty, !isLoading {
+        noResultsState
+      } else {
+        ScrollView {
+          LazyVStack(spacing: 0) {
+            ForEach(Array(results.enumerated()), id: \.element.id) { index, ingredient in
+              if let id = ingredient.id {
+                ingredientRow(ingredient, id: id, index: index)
+
+                if index < results.count - 1 {
+                  rowDivider
+                }
+              }
+            }
+          }
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.top, AppTheme.Space.xs)
+          .padding(.bottom, AppTheme.Space.xxl)
+          .id(resultsRevealToken)
+        }
+        .scrollDismissesKeyboard(.interactively)
+      }
+    }
+  }
+
+  // MARK: - Section Header
+
+  private func sectionHeader(title: String, icon: String, tint: Color) -> some View {
+    HStack(spacing: AppTheme.Space.xs) {
+      Image(systemName: icon)
+        .font(.system(size: 12, weight: .semibold))
+        .foregroundStyle(tint)
+
+      Text(title.uppercased())
+        .font(.system(.caption2, design: .rounded, weight: .bold))
+        .foregroundStyle(AppTheme.textSecondary)
+        .tracking(0.8)
+
+      Spacer()
+    }
+    .padding(.horizontal, AppTheme.Space.page)
+    .padding(.top, AppTheme.Space.xs)
   }
 
   // MARK: - Ingredient Row
 
   private func ingredientRow(_ ingredient: Ingredient, id: Int64, index: Int) -> some View {
     let isChosen = isMultiSelect ? isSelected(id) : false
+    let isFavorited = favoriteIDs.contains(id)
 
     return Button {
-      if isMultiSelect {
-        toggleSelection(id)
-      } else {
-        onPickSingle?(ingredient)
-        dismiss()
-      }
+      handleIngredientTap(ingredient)
     } label: {
       HStack(spacing: AppTheme.Space.sm) {
         ingredientIcon(ingredient)
 
         VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-          Text(ingredient.displayName)
-            .font(.system(.subheadline, design: .serif, weight: .semibold))
-            .foregroundStyle(AppTheme.textPrimary)
-            .lineLimit(1)
+          HStack(spacing: AppTheme.Space.xxs) {
+            Text(ingredient.displayName)
+              .font(.system(.subheadline, design: .serif, weight: .semibold))
+              .foregroundStyle(AppTheme.textPrimary)
+              .lineLimit(1)
+
+            if isFavorited {
+              Image(systemName: "heart.fill")
+                .font(.system(size: 10))
+                .foregroundStyle(AppTheme.dustyRose)
+            }
+          }
 
           if let desc = ingredient.description, !desc.isEmpty {
             Text(desc)
@@ -224,10 +414,20 @@ struct IngredientPickerView: View {
         }
       }
       .padding(.vertical, AppTheme.Space.sm)
+      .padding(.horizontal, AppTheme.Space.page)
       .contentShape(Rectangle())
     }
     .buttonStyle(IngredientRowButtonStyle())
-    .opacity(reduceMotion ? 1 : 1)
+    .contextMenu {
+      Button {
+        toggleFavorite(id)
+      } label: {
+        Label(
+          isFavorited ? "Remove from Favorites" : "Add to Favorites",
+          systemImage: isFavorited ? "heart.slash" : "heart"
+        )
+      }
+    }
     .animation(
       reduceMotion
         ? nil
@@ -307,6 +507,15 @@ struct IngredientPickerView: View {
     .clipShape(Capsule())
   }
 
+  // MARK: - Row Divider
+
+  private var rowDivider: some View {
+    Rectangle()
+      .fill(AppTheme.oat.opacity(0.18))
+      .frame(height: 1)
+      .padding(.leading, 52 + AppTheme.Space.page)
+  }
+
   // MARK: - Empty Browse State
 
   private var emptyBrowseState: some View {
@@ -370,10 +579,31 @@ struct IngredientPickerView: View {
     .padding(.horizontal, AppTheme.Space.page)
   }
 
+  // MARK: - Data Loading
+
+  private func loadSmartSections() async {
+    isLoading = true
+    defer { isLoading = false }
+
+    favorites = (try? deps.ingredientRepository.fetchFavorites()) ?? []
+    favoriteIDs = Set(favorites.compactMap(\.id))
+    recents = (try? deps.ingredientRepository.fetchRecentlyUsed(limit: 15)) ?? []
+    commonIngredients = (try? deps.ingredientRepository.fetchCommon(limit: 40)) ?? []
+
+    if !seedIngredients.isEmpty {
+      commonIngredients = seedIngredients
+    }
+  }
+
   // MARK: - Search Logic
 
   private func runSearch(query: String, bypassDebounce: Bool) async {
     let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+
+    guard !trimmed.isEmpty else {
+      results = []
+      return
+    }
 
     if !bypassDebounce {
       try? await Task.sleep(for: .milliseconds(220))
@@ -386,20 +616,21 @@ struct IngredientPickerView: View {
     isLoading = true
     defer { isLoading = false }
 
-    if trimmed.isEmpty {
-      if !seedIngredients.isEmpty {
-        results = seedIngredients
-      } else {
-        results = (try? deps.ingredientRepository.fetchAll()) ?? []
-      }
-    } else {
-      results = (try? deps.ingredientRepository.search(query: trimmed, limit: 120)) ?? []
-    }
-
+    results = (try? deps.ingredientRepository.search(query: trimmed, limit: 120)) ?? []
     resultsRevealToken = UUID()
   }
 
   // MARK: - Selection Helpers
+
+  private func handleIngredientTap(_ ingredient: Ingredient) {
+    guard let id = ingredient.id else { return }
+    if isMultiSelect {
+      toggleSelection(id)
+    } else {
+      onPickSingle?(ingredient)
+      dismiss()
+    }
+  }
 
   private func isSelected(_ id: Int64) -> Bool {
     selectedIDs?.wrappedValue.contains(id) ?? false
@@ -413,6 +644,22 @@ struct IngredientPickerView: View {
       current.insert(id)
     }
     selectedIDs?.wrappedValue = current
+  }
+
+  // MARK: - Favorites
+
+  private func toggleFavorite(_ id: Int64) {
+    do {
+      let isNowFavorited = try deps.ingredientRepository.toggleFavorite(ingredientId: id)
+      if isNowFavorited {
+        favoriteIDs.insert(id)
+      } else {
+        favoriteIDs.remove(id)
+      }
+      Task {
+        favorites = (try? deps.ingredientRepository.fetchFavorites()) ?? []
+      }
+    } catch {}
   }
 }
 

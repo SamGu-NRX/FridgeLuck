@@ -4,11 +4,7 @@ import os
 
 private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "ReverseScanMealView")
 
-/// Multi-step reverse-scan flow for prepared meals.
-///
-/// Stage 1: Capture — open camera or photo library
-/// Stage 2: Analyze — scan sweep animation + recipe matching
-/// Stage 3: Results — recipe candidates, macros, confirm & log
+/// Capture → analyze → results for logging a prepared meal from a photo.
 struct ReverseScanMealView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -40,8 +36,12 @@ struct ReverseScanMealView: View {
   @State private var manuallyPickedRecipe: Recipe?
   @State private var manuallyPickedMacros: RecipeMacros?
   @State private var resultsAppeared = false
+  @State private var mealPortionSize: MealPortionSize = .normal
+  @State private var deductionPreviews: [InventoryDeductionPreview] = []
 
   // MARK: - Derived
+
+  private var portionMultiplier: Double { mealPortionSize.multiplier }
 
   private var stage: ScanStage {
     if isAnalyzing { return .analyze }
@@ -110,9 +110,21 @@ struct ReverseScanMealView: View {
     .navigationTitle("Log a Meal")
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground()
-    .sheet(isPresented: $showCamera) {
-      CameraPicker(image: $capturedImage)
-        .ignoresSafeArea()
+    .fullScreenCover(isPresented: $showCamera) {
+      FLCaptureView(
+        configuration: FLCaptureConfiguration(
+          title: "Log a Meal",
+          subtitle: "A clear photo helps identify the recipe",
+          maxPhotos: 1
+        ),
+        capturedImages: Binding(
+          get: { capturedImage.map { [$0] } ?? [] },
+          set: { newImages in
+            capturedImage = newImages.last
+          }
+        ),
+        onDone: {}
+      )
     }
     .photosPicker(
       isPresented: $showPhotoPicker,
@@ -235,7 +247,6 @@ struct ReverseScanMealView: View {
     } else if let analysis {
       ScrollView {
         VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-          // Captured image thumbnail
           if let capturedImage {
             Image(uiImage: capturedImage)
               .resizable()
@@ -254,7 +265,6 @@ struct ReverseScanMealView: View {
               )
           }
 
-          // Detection summary
           detectionSummarySection(analysis)
             .opacity(resultsAppeared ? 1 : 0)
             .offset(y: resultsAppeared ? 0 : 12)
@@ -264,7 +274,20 @@ struct ReverseScanMealView: View {
               value: resultsAppeared
             )
 
-          // Manually picked recipe override
+          ReverseScanIngredientBreakdownSection(
+            analysis: analysis,
+            candidateRecipe: selectedCandidate,
+            portionMultiplier: portionMultiplier,
+            servings: servings
+          )
+          .opacity(resultsAppeared ? 1 : 0)
+          .offset(y: resultsAppeared ? 0 : 12)
+          .animation(
+            reduceMotion
+              ? nil : AppMotion.cardSpring.delay(AppMotion.staggerDelay * 1.5),
+            value: resultsAppeared
+          )
+
           if let manuallyPickedRecipe {
             manualRecipeCard(manuallyPickedRecipe)
               .opacity(resultsAppeared ? 1 : 0)
@@ -275,7 +298,6 @@ struct ReverseScanMealView: View {
                 value: resultsAppeared
               )
           } else if !analysis.candidateRecipes.isEmpty {
-            // Recipe candidates
             recipeCandidatesSection(analysis)
               .opacity(resultsAppeared ? 1 : 0)
               .offset(y: resultsAppeared ? 0 : 12)
@@ -286,7 +308,15 @@ struct ReverseScanMealView: View {
               )
           }
 
-          // Macros card
+          ReverseScanPortionControls(portionSize: $mealPortionSize)
+            .opacity(resultsAppeared ? 1 : 0)
+            .offset(y: resultsAppeared ? 0 : 12)
+            .animation(
+              reduceMotion
+                ? nil : AppMotion.cardSpring.delay(AppMotion.staggerDelay * 2.5),
+              value: resultsAppeared
+            )
+
           macrosSection
             .opacity(resultsAppeared ? 1 : 0)
             .offset(y: resultsAppeared ? 0 : 12)
@@ -296,7 +326,15 @@ struct ReverseScanMealView: View {
               value: resultsAppeared
             )
 
-          // Fallback / manual entry
+          ReverseScanDeductionPreviewSection(previews: deductionPreviews)
+            .opacity(resultsAppeared ? 1 : 0)
+            .offset(y: resultsAppeared ? 0 : 12)
+            .animation(
+              reduceMotion
+                ? nil : AppMotion.cardSpring.delay(AppMotion.staggerDelay * 3.5),
+              value: resultsAppeared
+            )
+
           if analysis.candidateRecipes.isEmpty && manuallyPickedRecipe == nil {
             estimateFallbackSection(analysis)
               .opacity(resultsAppeared ? 1 : 0)
@@ -308,7 +346,6 @@ struct ReverseScanMealView: View {
               )
           }
 
-          // Select recipe manually button
           selectRecipeManuallyButton
             .opacity(resultsAppeared ? 1 : 0)
             .offset(y: resultsAppeared ? 0 : 8)
@@ -318,7 +355,6 @@ struct ReverseScanMealView: View {
               value: resultsAppeared
             )
 
-          // Error inline
           if let errorMessage {
             Text(errorMessage)
               .font(AppTheme.Typography.bodySmall)
@@ -339,6 +375,32 @@ struct ReverseScanMealView: View {
           }
         }
       }
+      .task(id: "\(selectedCandidateID ?? 0)_\(servings)_\(mealPortionSize.rawValue)") {
+        await loadDeductionPreviews()
+      }
+    }
+  }
+
+  private func loadDeductionPreviews() async {
+    guard let analysis else {
+      deductionPreviews = []
+      return
+    }
+    let ingredientGrams: [(ingredientId: Int64, grams: Double)] = analysis.detections.prefix(12)
+      .map { detection in
+        let baseGrams: Double = 100
+        let scaledGrams = baseGrams * portionMultiplier * Double(servings)
+        return (ingredientId: detection.ingredientId, grams: scaledGrams)
+      }
+    do {
+      let previews = try deps.inventoryRepository.previewConsumption(
+        ingredientGrams: ingredientGrams)
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        deductionPreviews = previews
+      }
+    } catch {
+      logger.error("Failed to load deduction previews: \(error.localizedDescription)")
+      deductionPreviews = []
     }
   }
 
@@ -568,22 +630,22 @@ struct ReverseScanMealView: View {
         HStack(spacing: AppTheme.Space.md) {
           macroMetric(
             "Calories",
-            value: macros.caloriesPerServing * Double(servings),
+            value: macros.caloriesPerServing * Double(servings) * portionMultiplier,
             unit: "kcal"
           )
           macroMetric(
             "Protein",
-            value: macros.proteinPerServing * Double(servings),
+            value: macros.proteinPerServing * Double(servings) * portionMultiplier,
             unit: "g"
           )
           macroMetric(
             "Carbs",
-            value: macros.carbsPerServing * Double(servings),
+            value: macros.carbsPerServing * Double(servings) * portionMultiplier,
             unit: "g"
           )
           macroMetric(
             "Fat",
-            value: macros.fatPerServing * Double(servings),
+            value: macros.fatPerServing * Double(servings) * portionMultiplier,
             unit: "g"
           )
         }
@@ -595,7 +657,11 @@ struct ReverseScanMealView: View {
         }
 
         FLPrimaryButton(
-          isLoggingMeal ? "Logging..." : "Confirm & Log Meal",
+          isLoggingMeal
+            ? "Logging..."
+            : deductionPreviews.isEmpty
+              ? "Confirm & Log Meal"
+              : "Log Meal · Deduct \(deductionPreviews.count) item\(deductionPreviews.count == 1 ? "" : "s")",
           systemImage: "checkmark",
           isEnabled: !isLoggingMeal
         ) {
@@ -840,7 +906,6 @@ struct ReverseScanMealView: View {
     do {
       let result = try await deps.reverseScanService.analyzeMealPhoto(capturedImage)
 
-      // Enforce minimum analyze duration for perceived thoroughness
       let elapsed = Date().timeIntervalSince(startedAt)
       let minDuration = reduceMotion ? 0.35 : 1.3
       if elapsed < minDuration {
@@ -869,7 +934,6 @@ struct ReverseScanMealView: View {
     guard !isLoggingMeal else { return }
     logger.info("Reverse scan meal log requested.")
 
-    // Determine recipe + macros source
     let recipeToLog: Recipe
     if let manuallyPickedRecipe {
       recipeToLog = manuallyPickedRecipe

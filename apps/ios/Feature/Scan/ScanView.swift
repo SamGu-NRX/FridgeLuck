@@ -139,9 +139,25 @@ struct ScanView: View {
     .navigationTitle(mode == .demo ? "60-sec Demo" : "Scan Ingredients")
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground()
-    .sheet(isPresented: $showCamera) {
-      CameraPicker(image: $capturedImage)
-        .ignoresSafeArea()
+    .fullScreenCover(isPresented: $showCamera) {
+      FLCaptureView(
+        configuration: FLCaptureConfiguration(
+          title: "Scan Ingredients",
+          subtitle: "Close framing improves matching",
+          maxPhotos: 3,
+          showManualEntry: true,
+          manualEntryLabel: "Add Manually"
+        ),
+        capturedImages: $capturedShots,
+        onDone: {
+          if let lastShot = capturedShots.last {
+            capturedImage = lastShot
+          }
+        },
+        onManualEntry: {
+          beginManualEntry()
+        }
+      )
     }
     .photosPicker(
       isPresented: $showPhotoPicker,

@@ -1,5 +1,42 @@
 import SwiftUI
 
+// MARK: - Decision Header (Phase 2 redesign)
+
+struct HomeDecisionHeader: View {
+  let timeGreeting: String
+  let editorialDate: String
+  let currentStreak: Int
+  let weekActivity: [Bool]
+
+  var body: some View {
+    HStack(alignment: .top) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+        Text(timeGreeting)
+          .font(AppTheme.Typography.displayLarge)
+          .foregroundStyle(AppTheme.textPrimary)
+
+        Text(editorialDate)
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .textCase(.uppercase)
+          .kerning(1.2)
+      }
+
+      Spacer()
+
+      if currentStreak > 0 {
+        FLStreakBadge(
+          currentStreak: currentStreak,
+          weekActivity: weekActivity,
+          isMilestone: [7, 14, 30, 60, 100].contains(currentStreak)
+        )
+      }
+    }
+  }
+}
+
+// MARK: - Legacy Editorial Header
+
 struct HomeGraduatedEditorialHeader: View {
   let timeGreeting: String
   let editorialDate: String
@@ -240,34 +277,52 @@ struct HomeMyRhythmSection: View {
 
 struct HomeFridgeLuckPanelsSection: View {
   let snapshot: HomeDashboardSnapshot
+  var onOpenVirtualFridge: (() -> Void)?
 
   var body: some View {
     GeometryReader { geo in
       let width = geo.size.width
 
       ZStack(alignment: .topLeading) {
-        VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-          Text("Your Fridge")
-            .font(AppTheme.Typography.displayCaption)
-            .foregroundStyle(AppTheme.textPrimary)
+        Button {
+          onOpenVirtualFridge?()
+        } label: {
+          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+            HStack {
+              Text("Your Fridge")
+                .font(AppTheme.Typography.displayCaption)
+                .foregroundStyle(AppTheme.textPrimary)
+              Spacer()
+              if onOpenVirtualFridge != nil {
+                HStack(spacing: AppTheme.Space.xxs) {
+                  Text("View all")
+                    .font(AppTheme.Typography.labelSmall)
+                  Image(systemName: "chevron.right")
+                    .font(.system(size: 9, weight: .semibold))
+                }
+                .foregroundStyle(AppTheme.sage)
+              }
+            }
 
-          Text("\(snapshot.ingredientCount)")
-            .font(AppTheme.Typography.displayLarge)
-            .foregroundStyle(AppTheme.sage)
-          Text("ingredients scanned")
-            .font(AppTheme.Typography.labelSmall)
-            .foregroundStyle(AppTheme.textSecondary)
+            Text("\(snapshot.ingredientCount)")
+              .font(AppTheme.Typography.displayLarge)
+              .foregroundStyle(AppTheme.sage)
+            Text("ingredients scanned")
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.textSecondary)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(AppTheme.Space.lg)
+          .background(
+            AppTheme.sageLight.opacity(0.18),
+            in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+          )
+          .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+              .stroke(AppTheme.sage.opacity(0.20), lineWidth: 1)
+          )
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(AppTheme.Space.lg)
-        .background(
-          AppTheme.sageLight.opacity(0.18),
-          in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-        )
-        .overlay(
-          RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
-            .stroke(AppTheme.sage.opacity(0.20), lineWidth: 1)
-        )
+        .buttonStyle(FLPressableButtonStyle())
         .rotationEffect(.degrees(-1.2), anchor: .bottomLeading)
         .frame(width: width * 0.58)
 
