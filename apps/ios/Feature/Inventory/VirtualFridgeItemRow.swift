@@ -3,6 +3,8 @@ import SwiftUI
 struct VirtualFridgeItemRow: View {
   let item: InventoryActiveItem
 
+  @Environment(AppPreferencesStore.self) private var prefs
+
   var body: some View {
     FLCard {
       HStack(spacing: AppTheme.Space.sm) {
@@ -17,7 +19,7 @@ struct VirtualFridgeItemRow: View {
             .lineLimit(1)
 
           HStack(spacing: AppTheme.Space.xs) {
-            Text("\(Int(item.totalRemainingGrams.rounded()))g")
+            Text(prefs.formatWeight(grams: item.totalRemainingGrams))
               .font(AppTheme.Typography.dataSmall)
               .foregroundStyle(AppTheme.textPrimary)
               .contentTransition(.numericText())
@@ -111,7 +113,7 @@ struct VirtualFridgeItemRow: View {
     let badges = activeBadges
     if !badges.isEmpty {
       HStack(spacing: AppTheme.Space.xxs) {
-        ForEach(badges, id: \.text) { badge in
+        ForEach(badges, id: \.self) { badge in
           FLStatusPill(text: badge.text, kind: badge.kind)
         }
       }

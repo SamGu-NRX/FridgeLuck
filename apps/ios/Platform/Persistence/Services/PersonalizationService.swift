@@ -125,6 +125,28 @@ final class PersonalizationService: Sendable {
 
   // MARK: - Stats
 
+  func weekActivity() throws -> [Bool] {
+    try db.read { db in
+      let calendar = Calendar.current
+      let today = calendar.startOfDay(for: Date())
+      let weekday = calendar.component(.weekday, from: today)
+      let daysFromMonday = (weekday + 5) % 7
+      guard let monday = calendar.date(byAdding: .day, value: -daysFromMonday, to: today) else {
+        return Array(repeating: false, count: 7)
+      }
+
+      var result = Array(repeating: false, count: 7)
+      for offset in 0..<7 {
+        guard let day = calendar.date(byAdding: .day, value: offset, to: monday) else { continue }
+        let dayString = Self.formatDate(day)
+        if let streak = try Streak.fetchOne(db, key: dayString), streak.mealsCookedCount > 0 {
+          result[offset] = true
+        }
+      }
+      return result
+    }
+  }
+
   func currentStreak() throws -> Int {
     try db.read { db in
       let rows = try Streak.order(Streak.Columns.date.desc).fetchAll(db)
@@ -150,15 +172,34 @@ final class PersonalizationService: Sendable {
     }
   }
 
+  private static func formatDate(_ date: Date) -> String {
+    let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
+    guard
+      let year = components.year,
+      let month = components.month,
+      let day = components.day
+    else {
+      return ""
+    }
+    return String(format: "%04d-%02d-%02d", year, month, day)
+  }
+
   private static func todayString() -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd"
-    return formatter.string(from: Date())
+    formatDate(Date())
   }
 
   private static func parseDate(_ string: String) -> Date? {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd"
-    return formatter.date(from: string)
+    let parts = string.split(separator: "-", omittingEmptySubsequences: false)
+    guard parts.count == 3 else { return nil }
+    guard
+      let year = Int(parts[0]),
+      let month = Int(parts[1]),
+      let day = Int(parts[2])
+    else {
+      return nil
+    }
+    return Calendar.current.date(
+      from: DateComponents(year: year, month: month, day: day)
+    )
   }
 }

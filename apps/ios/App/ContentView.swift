@@ -7,8 +7,6 @@ private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "ContentVie
 
 // MARK: - Navigation Coordinator
 
-/// Lightweight coordinator that allows deeply nested views (e.g. cooking celebration)
-/// to signal the root ContentView to collapse the entire NavigationStack back to Home.
 @MainActor
 @Observable
 final class NavigationCoordinator {
@@ -23,7 +21,9 @@ final class NavigationCoordinator {
 
 enum AppTab: Sendable {
   case home
-  case dashboard
+  case kitchen
+  case progress
+  case settings
 }
 
 private struct OnboardingHomeHandoffOverlay: View {
@@ -86,8 +86,15 @@ private struct OnboardingHomeHandoffOverlay: View {
   }
 }
 
-/// Root host view with permanent Home / Scan / Dashboard tab shell.
 struct ContentView: View {
+  private enum Timing {
+    static let navAppearanceDelay = 0.22
+    static let scanModeSelectionDelay = Duration.milliseconds(150)
+    static let onboardingHandoffFallbackReduced = Duration.milliseconds(450)
+    static let onboardingHandoffFallbackStandard = Duration.milliseconds(1400)
+    static let onboardingHandoffCleanupDelay = Duration.milliseconds(320)
+  }
+
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(FirstRunExperienceStore.self) private var firstRunExperienceStore
@@ -99,15 +106,14 @@ struct ContentView: View {
   @State private var navigateToDemoMode = false
   @State private var navigateToDirectReview = false
   @State private var navigateToDirectResults = false
-  @State private var navigateToVirtualFridge = false
   @State private var navigateToUpdateGroceries = false
   @State private var assistantRecipeContext: LiveAssistantRecipeContext?
   @State private var showOnboarding = false
-  @State private var showProfile = false
   @State private var navCoordinator = NavigationCoordinator()
   @State private var navAppeared = false
   @State private var spotlightCoordinator = SpotlightCoordinator()
   @State private var liveAssistantCoordinator = LiveAssistantCoordinator()
+  @State private var settingsCoordinator = SettingsCoordinator()
   @State private var tutorialFlowContext = TutorialFlowContext()
 
   @State private var directReviewDetections: [Detection] = []
@@ -119,60 +125,131 @@ struct ContentView: View {
   @State private var isOnboardingHandoffVisible = false
   @State private var onboardingHandoffFallbackTask: Task<Void, Never>?
 
-  // Scan mode menu state
   @State private var showScanModeMenu = false
   @State private var highlightedScanMode: ScanMode?
 
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
 
-  private var tutorialProgress: TutorialProgress {
-    TutorialProgress(storageString: tutorialStorageString)
+  @State private var orbTouchDownDate: Date?
+  @State private var orbLongPressTriggered = false
+  private let orbLongPressThreshold: TimeInterval = 0.35
+
+  private var hasActiveHomeDestination: Bool {
+    navigateToScan || navigateToReverseScan || navigateToDemoMode || navigateToDirectReview
+      || navigateToDirectResults || navigateToUpdateGroceries || assistantRecipeContext != nil
   }
 
-  private var dashboardNavRoute: DashboardEntryRoute {
-    AppFlowPolicy.dashboardEntryRoute(
-      hasOnboarded: hasOnboarded,
-      isTutorialComplete: tutorialProgress.isComplete
-    )
-  }
-
-  private var dashboardNavLabel: String {
-    switch dashboardNavRoute {
-    case .dashboard:
-      return "Dashboard"
-    case .profile:
-      return "Profile"
-    case .onboarding:
-      return "Onboarding"
-    }
-  }
-
-  private var dashboardNavIcon: String {
-    switch dashboardNavRoute {
-    case .dashboard:
-      return "chart.bar.doc.horizontal.fill"
-    case .profile:
-      return "person.crop.circle.fill"
-    case .onboarding:
-      return "person.badge.plus"
-    }
-  }
-
-  /// The shell nav should appear on top-level tab surfaces, not within pushed task flows.
   private var shouldShowBottomNav: Bool {
-    switch selectedTab {
-    case .home:
-      return !navigateToScan && !navigateToReverseScan && !navigateToDemoMode
-        && !navigateToDirectReview && !navigateToDirectResults
-        && !navigateToVirtualFridge && !navigateToUpdateGroceries
-        && assistantRecipeContext == nil
-    case .dashboard:
-      return true
-    }
+    selectedTab != .home || !hasActiveHomeDestination
+  }
+
+  private var shouldShowSpotlightOverlay: Bool {
+    selectedTab == .home && !hasActiveHomeDestination
   }
 
   var body: some View {
     ZStack {
+      homeTab
+      kitchenTab
+      progressTab
+      settingsTab
+
+      onboardingHandoffOverlay
+    }
+    .flPageBackground()
+    .safeAreaInset(edge: .bottom, spacing: 0) {
+      if shouldShowBottomNav {
+        bottomNav
+          .opacity(navAppeared ? 1 : 0)
+          .offset(y: navAppeared ? AppTheme.Home.navBaseOffset : AppTheme.Home.navBaseOffset + 20)
+          .animation(reduceMotion ? nil : AppMotion.standard, value: navAppeared)
+      }
+    }
+    .overlay {
+      if let presentation = spotlightCoordinator.activePresentation, shouldShowSpotlightOverlay {
+        SpotlightTutorialOverlay(
+          presentationID: presentation.id,
+          steps: presentation.steps,
+          anchors: spotlightCoordinator.anchors,
+          isPresented: Binding(
+            get: { spotlightCoordinator.activePresentation != nil },
+            set: { isPresented in
+              if !isPresented {
+                spotlightCoordinator.dismissActivePresentation()
+              }
+            }
+          ),
+          onScrollToAnchor: spotlightCoordinator.onScrollToAnchor
+        )
+        .id(presentation.id)
+        .ignoresSafeArea()
+      }
+    }
+    .overlay {
+      if shouldShowBottomNav {
+        ScanModeMenu(
+          isPresented: $showScanModeMenu,
+          highlightedMode: $highlightedScanMode,
+          onSelect: handleScanModeSelection
+        )
+      }
+    }
+    .onChange(of: navCoordinator.shouldReturnHome) { _, shouldReturn in
+      guard shouldReturn else { return }
+
+      returnToHomeRoot()
+      navCoordinator.shouldReturnHome = false
+    }
+    .onChange(of: tutorialFlowContext.questObjectiveCompleted) { _, completed in
+      guard completed, let quest = tutorialFlowContext.activeQuest else { return }
+      markTutorialQuest(quest)
+      let flowContext = tutorialFlowContext
+
+      Task {
+        try? await Task.sleep(for: .milliseconds(reduceMotion ? 200 : 500))
+        navCoordinator.returnHome()
+        flowContext.reset()
+      }
+    }
+    .task {
+      await refreshOnboardingGate()
+    }
+    .fullScreenCover(isPresented: $showOnboarding) {
+      OnboardingView(isRequired: !hasOnboarded) {
+        firstRunExperienceStore.markCompletedCurrentVersion()
+        beginOnboardingHandoff()
+        hasOnboarded = true
+        selectedTab = .home
+        showOnboarding = false
+      }
+      .interactiveDismissDisabled(!hasOnboarded)
+      .environmentObject(deps)
+    }
+    .onAppear {
+      if reduceMotion {
+        navAppeared = true
+      } else if !navAppeared {
+        withAnimation(AppMotion.standard.delay(Timing.navAppearanceDelay)) {
+          navAppeared = true
+        }
+      }
+    }
+  }
+
+  @ViewBuilder
+  private func tabHost<Content: View>(for tab: AppTab, @ViewBuilder content: () -> Content)
+    -> some View
+  {
+    content()
+      .opacity(selectedTab == tab ? 1 : 0)
+      .scaleEffect(selectedTab == tab ? 1 : 0.985)
+      .zIndex(selectedTab == tab ? 1 : 0)
+      .allowsHitTesting(selectedTab == tab)
+      .animation(reduceMotion ? nil : AppMotion.tabEntrance, value: selectedTab)
+  }
+
+  private var homeTab: some View {
+    tabHost(for: .home) {
       NavigationStack {
         HomeDashboardView(
           deps: deps,
@@ -212,9 +289,6 @@ struct ContentView: View {
             engine: deps.makeRecommendationEngine()
           )
         }
-        .navigationDestination(isPresented: $navigateToVirtualFridge) {
-          VirtualFridgeView()
-        }
         .navigationDestination(isPresented: $navigateToUpdateGroceries) {
           UpdateGroceriesView()
         }
@@ -229,129 +303,51 @@ struct ContentView: View {
       .environment(navCoordinator)
       .environment(liveAssistantCoordinator)
       .environment(tutorialFlowContext)
-      .opacity(selectedTab == .home ? 1 : 0)
-      .zIndex(selectedTab == .home ? 1 : 0)
-      .allowsHitTesting(selectedTab == .home)
+    }
+  }
 
-      if hasOnboarded && tutorialProgress.isComplete {
-        NavigationStack {
-          DashboardView(isTabEmbedded: true)
-        }
-        .environmentObject(deps)
-        .opacity(selectedTab == .dashboard ? 1 : 0)
-        .zIndex(selectedTab == .dashboard ? 1 : 0)
-        .allowsHitTesting(selectedTab == .dashboard)
-      }
-
-      if let onboardingHandoffToken, isOnboardingHandoffVisible {
-        OnboardingHomeHandoffOverlay()
-          .id(onboardingHandoffToken)
-          .transition(.opacity.combined(with: .scale(scale: 0.98)))
-          .zIndex(3)
-          .allowsHitTesting(false)
-      }
-    }
-    .flPageBackground()
-    .safeAreaInset(edge: .bottom, spacing: 0) {
-      if shouldShowBottomNav {
-        bottomNav
-          .opacity(navAppeared ? 1 : 0)
-          .offset(y: navAppeared ? AppTheme.Home.navBaseOffset : AppTheme.Home.navBaseOffset + 20)
-          .animation(reduceMotion ? nil : AppMotion.standard, value: navAppeared)
-      }
-    }
-    .overlay {
-      if let presentation = spotlightCoordinator.activePresentation,
-        selectedTab == .home, !navigateToScan, !navigateToReverseScan, !navigateToDemoMode,
-        !navigateToDirectReview, !navigateToDirectResults, !navigateToVirtualFridge,
-        !navigateToUpdateGroceries, assistantRecipeContext == nil
-      {
-        SpotlightTutorialOverlay(
-          presentationID: presentation.id,
-          steps: presentation.steps,
-          anchors: spotlightCoordinator.anchors,
-          isPresented: Binding(
-            get: { spotlightCoordinator.activePresentation != nil },
-            set: { isPresented in
-              if !isPresented {
-                spotlightCoordinator.dismissActivePresentation()
-              }
-            }
-          ),
-          onScrollToAnchor: spotlightCoordinator.onScrollToAnchor
-        )
-        .id(presentation.id)
-        .ignoresSafeArea()
-      }
-    }
-    .overlay {
-      if shouldShowBottomNav {
-        ScanModeMenu(
-          isPresented: $showScanModeMenu,
-          highlightedMode: $highlightedScanMode,
-          onSelect: handleScanModeSelection
-        )
-      }
-    }
-    .onChange(of: navCoordinator.shouldReturnHome) { _, shouldReturn in
-      guard shouldReturn else { return }
-
-      navigateToScan = false
-      navigateToReverseScan = false
-      navigateToDemoMode = false
-      navigateToDirectReview = false
-      navigateToDirectResults = false
-      navigateToVirtualFridge = false
-      navigateToUpdateGroceries = false
-      assistantRecipeContext = nil
-      selectedTab = .home
-      navCoordinator.shouldReturnHome = false
-    }
-    .onChange(of: tutorialFlowContext.questObjectiveCompleted) { _, completed in
-      guard completed, let quest = tutorialFlowContext.activeQuest else { return }
-      markTutorialQuest(quest)
-      let flowContext = tutorialFlowContext
-
-      Task {
-        try? await Task.sleep(for: .milliseconds(reduceMotion ? 200 : 500))
-        navCoordinator.returnHome()
-        flowContext.reset()
-      }
-    }
-    .task {
-      await refreshOnboardingGate()
-    }
-    .fullScreenCover(isPresented: $showOnboarding) {
-      OnboardingView(isRequired: !hasOnboarded) {
-        firstRunExperienceStore.markCompletedCurrentVersion()
-        beginOnboardingHandoff()
-        hasOnboarded = true
-        selectedTab = .home
-        showOnboarding = false
-      }
-      .interactiveDismissDisabled(!hasOnboarded)
-      .environmentObject(deps)
-    }
-    .sheet(isPresented: $showProfile) {
-      ProfileView()
-        .environmentObject(deps)
-    }
-    .onAppear {
-      if reduceMotion {
-        navAppeared = true
-      } else if !navAppeared {
-        withAnimation(AppMotion.standard.delay(0.22)) {
-          navAppeared = true
-        }
+  private var kitchenTab: some View {
+    tabHost(for: .kitchen) {
+      NavigationStack {
+        KitchenView(deps: deps)
       }
     }
   }
 
-  // MARK: - Scan Orb
+  private var progressTab: some View {
+    tabHost(for: .progress) {
+      NavigationStack {
+        ProgressTabView(deps: deps, onOpenProfileSettings: openProfileEditor)
+      }
+      .environmentObject(deps)
+    }
+  }
 
-  @State private var orbTouchDownDate: Date?
-  @State private var orbLongPressTriggered = false
-  private let orbLongPressThreshold: TimeInterval = 0.35
+  private var settingsTab: some View {
+    tabHost(for: .settings) {
+      SettingsView(
+        coordinator: settingsCoordinator,
+        onProfileChanged: {
+          Task { await refreshOnboardingGate() }
+        },
+        onResetAllData: performFullReset
+      )
+      .environmentObject(deps)
+    }
+  }
+
+  @ViewBuilder
+  private var onboardingHandoffOverlay: some View {
+    if let onboardingHandoffToken, isOnboardingHandoffVisible {
+      OnboardingHomeHandoffOverlay()
+        .id(onboardingHandoffToken)
+        .transition(.opacity.combined(with: .scale(scale: 0.98)))
+        .zIndex(3)
+        .allowsHitTesting(false)
+    }
+  }
+
+  // MARK: - Scan Orb
 
   private var scanOrb: some View {
     Image(systemName: "camera.fill")
@@ -369,7 +365,6 @@ struct ContentView: View {
       .gesture(
         DragGesture(minimumDistance: 0)
           .onChanged { value in
-            // First touch — record start time
             if orbTouchDownDate == nil {
               orbTouchDownDate = value.time
               orbLongPressTriggered = false
@@ -377,15 +372,12 @@ struct ContentView: View {
 
             let elapsed = value.time.timeIntervalSince(orbTouchDownDate ?? value.time)
 
-            // Cross long-press threshold → enter drag-to-select mode
             if !orbLongPressTriggered && elapsed >= orbLongPressThreshold {
               orbLongPressTriggered = true
-              let generator = UIImpactFeedbackGenerator(style: .medium)
-              generator.impactOccurred()
+              AppPreferencesStore.haptic(.medium)
               showScanModeMenu = true
             }
 
-            // While in long-press mode, update drag highlight
             if orbLongPressTriggered {
               let newHighlight = ScanModeMenuGesture.highlightedMode(
                 for: value.translation
@@ -403,28 +395,23 @@ struct ContentView: View {
             let wasLongPress = orbLongPressTriggered
 
             if wasLongPress {
-              // Long-press release — select highlighted mode if any
               if let mode = highlightedScanMode {
                 showScanModeMenu = false
-                let generator = UIImpactFeedbackGenerator(style: .light)
-                generator.impactOccurred()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                AppPreferencesStore.haptic(.light)
+                Task { @MainActor in
+                  try? await Task.sleep(for: Timing.scanModeSelectionDelay)
                   handleScanModeSelection(mode)
                 }
               }
-              // If no mode highlighted, menu stays open for tap selection
             } else {
-              // Quick tap — toggle menu
               if showScanModeMenu {
                 showScanModeMenu = false
               } else {
-                let generator = UIImpactFeedbackGenerator(style: .light)
-                generator.impactOccurred()
+                AppPreferencesStore.haptic(.light)
                 showScanModeMenu = true
               }
             }
 
-            // Reset state
             orbTouchDownDate = nil
             orbLongPressTriggered = false
             highlightedScanMode = nil
@@ -482,8 +469,7 @@ struct ContentView: View {
       showOnboarding = true
       return
     }
-    selectedTab = .home
-    navigateToVirtualFridge = true
+    selectedTab = .kitchen
   }
 
   private func openUpdateGroceries() {
@@ -577,22 +563,23 @@ struct ContentView: View {
   }
 
   private func openProfileEditor() {
-    guard hasOnboarded else {
-      showOnboarding = true
-      return
-    }
-    showProfile = true
+    selectedTab = .settings
+    settingsCoordinator.open(.profileBasics)
   }
 
-  private func openDashboardTab() {
-    switch dashboardNavRoute {
-    case .dashboard:
-      selectedTab = .dashboard
-    case .profile:
-      showProfile = true
-    case .onboarding:
-      showOnboarding = true
-    }
+  private func clearHomeNavigation() {
+    navigateToScan = false
+    navigateToReverseScan = false
+    navigateToDemoMode = false
+    navigateToDirectReview = false
+    navigateToDirectResults = false
+    navigateToUpdateGroceries = false
+    assistantRecipeContext = nil
+  }
+
+  private func returnToHomeRoot() {
+    clearHomeNavigation()
+    selectedTab = .home
   }
 
   private func refreshOnboardingGate() async {
@@ -600,7 +587,6 @@ struct ContentView: View {
       hasOnboarded = try deps.userDataRepository.hasCompletedOnboarding()
       if !hasOnboarded {
         selectedTab = .home
-        showProfile = false
         if !firstRunExperienceStore.hasCompletedCurrentVersion {
           showOnboarding = true
         }
@@ -634,6 +620,7 @@ struct ContentView: View {
     liveAssistantCoordinator.matchedRecipe = nil
     liveAssistantCoordinator.matchedRecipeContext = nil
     liveAssistantCoordinator.clearPendingLesson()
+    settingsCoordinator.reset()
     onboardingHandoffFallbackTask?.cancel()
     onboardingHandoffFallbackTask = nil
     onboardingHandoffToken = nil
@@ -656,7 +643,7 @@ struct ContentView: View {
     }
 
     hasOnboarded = false
-    selectedTab = .home
+    returnToHomeRoot()
     firstRunExperienceStore.reset()
     showOnboarding = true
   }
@@ -676,8 +663,10 @@ struct ContentView: View {
     }
 
     onboardingHandoffFallbackTask = Task { @MainActor in
-      let fallbackDelay = reduceMotion ? 450_000_000 : 1_400_000_000
-      try? await Task.sleep(nanoseconds: UInt64(fallbackDelay))
+      let fallbackDelay =
+        reduceMotion
+        ? Timing.onboardingHandoffFallbackReduced : Timing.onboardingHandoffFallbackStandard
+      try? await Task.sleep(for: fallbackDelay)
       guard !Task.isCancelled else { return }
       guard onboardingHandoffToken == token else { return }
       releaseOnboardingHandoff()
@@ -701,7 +690,7 @@ struct ContentView: View {
     }
 
     Task { @MainActor in
-      try? await Task.sleep(nanoseconds: 320_000_000)
+      try? await Task.sleep(for: Timing.onboardingHandoffCleanupDelay)
       guard onboardingHandoffToken == token else { return }
       onboardingHandoffToken = nil
     }
@@ -712,22 +701,24 @@ struct ContentView: View {
   private var bottomNav: some View {
     ZStack(alignment: .top) {
       HStack(spacing: 0) {
-        navItem(
-          icon: "house.fill",
-          label: "Home",
-          isActive: selectedTab == .home
-        ) {
+        navItem(icon: "house.fill", label: "Home", isActive: selectedTab == .home) {
           selectedTab = .home
+        }
+
+        navItem(icon: "refrigerator.fill", label: "Kitchen", isActive: selectedTab == .kitchen) {
+          selectedTab = .kitchen
         }
 
         Spacer(minLength: AppTheme.Home.navCenterGap)
 
         navItem(
-          icon: dashboardNavIcon,
-          label: dashboardNavLabel,
-          isActive: selectedTab == .dashboard
+          icon: "chart.line.uptrend.xyaxis", label: "Progress", isActive: selectedTab == .progress
         ) {
-          openDashboardTab()
+          selectedTab = .progress
+        }
+
+        navItem(icon: "gearshape", label: "Settings", isActive: selectedTab == .settings) {
+          selectedTab = .settings
         }
       }
       .padding(.horizontal, AppTheme.Space.lg)
@@ -772,7 +763,7 @@ struct ContentView: View {
           .font(AppTheme.Typography.labelSmall)
       }
       .foregroundStyle(isActive ? AppTheme.accent : AppTheme.textSecondary)
-      .animation(.default, value: isActive)
+      .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isActive)
       .frame(maxWidth: .infinity)
       .contentShape(Rectangle())
     }
@@ -781,16 +772,6 @@ struct ContentView: View {
 }
 
 // MARK: - Button Styles
-
-private struct FLNavOrbButtonStyle: SwiftUI.ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-  func makeBody(configuration: SwiftUI.ButtonStyleConfiguration) -> some View {
-    configuration.label
-      .scaleEffect(configuration.isPressed ? 0.94 : 1)
-      .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
-  }
-}
 
 private struct FLNavItemButtonStyle: SwiftUI.ButtonStyle {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion

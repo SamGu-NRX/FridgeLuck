@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - Decision Header (Phase 2 redesign)
+// MARK: - Decision Header
 
 struct HomeDecisionHeader: View {
   let timeGreeting: String
@@ -28,7 +28,7 @@ struct HomeDecisionHeader: View {
         FLStreakBadge(
           currentStreak: currentStreak,
           weekActivity: weekActivity,
-          isMilestone: [7, 14, 30, 60, 100].contains(currentStreak)
+          isMilestone: FLStreakBadge.milestoneThresholds.contains(currentStreak)
         )
       }
     }

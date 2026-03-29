@@ -3,7 +3,6 @@ import UIKit
 
 // MARK: - Scan Mode
 
-/// The three scan entry points accessible from the camera orb.
 enum ScanMode: String, CaseIterable {
   case scanIngredients
   case updateGroceries
@@ -28,24 +27,16 @@ enum ScanMode: String, CaseIterable {
 
 // MARK: - Fan Layout
 
-/// Computes the semi-circle positions for three option bubbles above the orb.
-///
-/// Layout: center bubble at 12 o'clock (highest), side bubbles at roughly
-/// 10 and 2 o'clock — forming a gentle semi-circle.
 private struct FanLayout {
-  /// Distance from orb center to each bubble center.
   let radius: CGFloat = 112
-  /// Angle from vertical axis for the two side bubbles (degrees).
   let sideAngle: CGFloat = 58
 
   private var sideAngleRad: CGFloat { sideAngle * .pi / 180 }
 
-  /// Offset from orb center to the CENTER bubble's final resting position.
   var centerOffset: CGSize {
     CGSize(width: 0, height: -radius)
   }
 
-  /// Offset from orb center to the LEFT bubble's final resting position.
   var leftOffset: CGSize {
     CGSize(
       width: -radius * sin(sideAngleRad),
@@ -53,7 +44,6 @@ private struct FanLayout {
     )
   }
 
-  /// Offset from orb center to the RIGHT bubble's final resting position.
   var rightOffset: CGSize {
     CGSize(
       width: radius * sin(sideAngleRad),
@@ -64,7 +54,6 @@ private struct FanLayout {
 
 // MARK: - Scan Mode Menu
 
-/// Semi-circular fan menu that emerges from the camera orb.
 struct ScanModeMenu: View {
   @Binding var isPresented: Bool
   @Binding var highlightedMode: ScanMode?
@@ -74,20 +63,12 @@ struct ScanModeMenu: View {
 
   // MARK: - Animation State
 
-  /// Horizontal spread progress: 0 = stacked at orb, 1 = at final X positions.
   @State private var fanX: CGFloat = 0
-  /// Vertical movement progress: 0 = at orb, 1 = at final Y positions.
-  /// Overshoots above 1 (spring) then settles — the "starts higher, drops down" feel.
   @State private var fanY: CGFloat = 0
-  /// Shared opacity for all bubbles (fast presence).
   @State private var bubbleOpacity: Double = 0
-  /// Shared scale for all bubbles (0.93 → 1.0).
   @State private var bubbleScale: CGFloat = 0.93
-  /// Label text opacity (delayed reveal).
   @State private var labelOpacity: Double = 0
-  /// Label slide offset (6pt → 0, with opacity).
   @State private var labelSlide: CGFloat = 6
-  /// Backdrop dim.
   @State private var backdropOpacity: Double = 0
 
   // MARK: - Layout
@@ -163,7 +144,6 @@ struct ScanModeMenu: View {
 
   // MARK: - Fan Offset
 
-  /// Offset from bubble's final position toward orb center. At fanX=0,fanY=0 full offset; at 1,1 none.
   private func fanOffset(for finalOffset: CGSize) -> CGSize {
     CGSize(
       width: -finalOffset.width * (1 - fanX),
@@ -252,29 +232,24 @@ struct ScanModeMenu: View {
       bubbleOpacity = 1
     }
 
-    // Scale: spring up from 0.93 → 1.0
     withAnimation(AppMotion.menuScale) {
       bubbleScale = 1.0
     }
 
-    // Horizontal spread: fast spring, completes first
     withAnimation(AppMotion.menuExpandX) {
       fanX = 1
     }
 
-    // Vertical rise: slower spring with overshoot — rises above rest, settles down
     withAnimation(AppMotion.menuSettleY) {
       fanY = 1
     }
 
-    // Labels: delayed fade-in + slide
     withAnimation(AppMotion.menuLabel.delay(0.08)) {
       labelOpacity = 1
       labelSlide = 0
     }
   }
 
-  /// Fast simultaneous collapse — all properties at once, no stagger.
   private func collapseMenu() {
     withAnimation(AppMotion.menuDismiss) {
       fanX = 0
@@ -288,7 +263,6 @@ struct ScanModeMenu: View {
     highlightedMode = nil
   }
 
-  /// Accessibility: instant state change, no animation.
   private func applyInstant(visible: Bool) {
     fanX = visible ? 1 : 0
     fanY = visible ? 1 : 0
@@ -303,13 +277,12 @@ struct ScanModeMenu: View {
   // MARK: - Actions
 
   private func selectMode(_ mode: ScanMode) {
-    let generator = UIImpactFeedbackGenerator(style: .light)
-    generator.impactOccurred()
+    AppPreferencesStore.haptic(.light)
 
     dismissMenu()
 
-    // Small delay so the dismiss animation plays before navigation
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+    Task { @MainActor in
+      try? await Task.sleep(for: .milliseconds(150))
       onSelect(mode)
     }
   }
@@ -336,10 +309,7 @@ private struct ScanModeOptionButtonStyle: ButtonStyle {
 
 // MARK: - Highlight Helper
 
-/// Static helpers for updating highlight state from drag gestures.
 enum ScanModeMenuGesture {
-
-  /// Determine which mode (if any) is highlighted based on drag translation.
   static func highlightedMode(
     for translation: CGSize
   ) -> ScanMode? {

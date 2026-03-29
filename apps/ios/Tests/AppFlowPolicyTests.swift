@@ -10,24 +10,10 @@ final class AppFlowPolicyTests: XCTestCase {
     XCTAssertEqual(AppFlowPolicy.scanEntryRoute(hasOnboarded: true), .scan)
   }
 
-  func testDashboardEntryRoutePrefersOnboardingWhenProfileMissing() {
+  func testSettingsEntryRouteAlwaysUsesSettingsSurface() {
     XCTAssertEqual(
-      AppFlowPolicy.dashboardEntryRoute(hasOnboarded: false, isTutorialComplete: false),
-      .onboarding
-    )
-  }
-
-  func testDashboardEntryRouteUsesProfileUntilTutorialComplete() {
-    XCTAssertEqual(
-      AppFlowPolicy.dashboardEntryRoute(hasOnboarded: true, isTutorialComplete: false),
-      .profile
-    )
-  }
-
-  func testDashboardEntryRouteUsesDashboardWhenReady() {
-    XCTAssertEqual(
-      AppFlowPolicy.dashboardEntryRoute(hasOnboarded: true, isTutorialComplete: true),
-      .dashboard
+      AppFlowPolicy.settingsEntryRoute(),
+      .settings
     )
   }
 

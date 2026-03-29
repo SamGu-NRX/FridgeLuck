@@ -172,6 +172,18 @@ enum AppTheme {
   static let chartBarBottom = sage
   static let chartBarTop = sageLight
 
+  // MARK: Macro visualization aliases
+  static let macroProtein = sage
+  static let macroCarbs = oat
+  static let macroFat = accentLight
+  static let macroCalorie = accent
+
+  // MARK: Elevated surface (lifted in dark mode)
+  static let surfaceElevated = dynamic(
+    light: RGB(red: 0.99, green: 0.99, blue: 0.97),
+    dark: RGB(red: 0.16, green: 0.14, blue: 0.12)
+  )
+
   // MARK: - Spacing (editorial, intentional, consistent)
 
   enum Space {
@@ -189,6 +201,10 @@ enum AppTheme {
     static let bottomClearance: CGFloat = 100  // bottom nav safe area
     static let buttonVertical: CGFloat = 18  // primary/secondary button padding
     static let chipVertical: CGFloat = 6  // pill/chip vertical padding
+    static let cardImageHeight: CGFloat = 180
+    static let ringHeroSize: CGFloat = 120
+    static let ringCompactSize: CGFloat = 68
+    static let ringMacroSize: CGFloat = 44
   }
 
   // MARK: - Radius
@@ -222,9 +238,10 @@ enum AppTheme {
     static let orbSize: CGFloat = 76
     static let navOrbLift: CGFloat = 18
     static let navBaseOffset: CGFloat = 14
-    static let navCenterGap: CGFloat = 92
+    static let navCenterGap: CGFloat = 78
     static let navHorizontalInset: CGFloat = 14
     static let navCornerRadius: CGFloat = 28
+    static let navIconSize: CGFloat = 18
     static let statDividerHeight: CGFloat = 36
   }
 
@@ -245,6 +262,16 @@ enum AppTheme {
     static let dataSmall = Font.system(.subheadline, design: .rounded, weight: .semibold)
     static let label = Font.system(.caption, design: .rounded, weight: .semibold)
     static let labelSmall = Font.system(.caption2, design: .rounded, weight: .semibold)
+    static let dataHero = Font.system(.largeTitle, design: .rounded, weight: .bold)
+
+    // Settings — intentionally .default design for utility surfaces
+    static let settingsTitle = Font.system(.title3, design: .default, weight: .semibold)
+    static let settingsBody = Font.system(.body, design: .default, weight: .medium)
+    static let settingsDetail = Font.system(.subheadline, design: .default, weight: .regular)
+    static let settingsCaption = Font.system(.caption, design: .default, weight: .regular)
+    static let settingsCaptionMedium = Font.system(.caption, design: .default, weight: .medium)
+    static let settingsHeadline = Font.system(.headline, design: .default, weight: .semibold)
+    static let settingsBodySemibold = Font.system(.body, design: .default, weight: .semibold)
   }
 }
 

@@ -1,25 +1,91 @@
 {
-  "iterations": 5,
-  "images": [
+  "gates" : {
+    "minimumCorrectionCoverage" : 0.2,
+    "minimumDetectionF1" : 0.45,
+    "minimumOCRFieldAccuracy" : 0.8,
+    "minimumReliabilityJaccard" : 0.8,
+    "targetMedianElapsedMs" : 8000
+  },
+  "images" : [
     {
-      "id": "fridge_1",
-      "path": "example_fridge_1.png",
-      "source": "benchmark"
+      "expectedIngredientIds" : [
+        1,
+        15,
+        20,
+        13,
+        14,
+        31
+      ],
+      "id" : "quick_breakfast_scenario",
+      "resourceExtension" : "png",
+      "resourceName" : "quick_breakfast_scenario",
+      "resourceSubdirectory" : "demo",
+      "scenarioTags" : [
+        "tutorial",
+        "breakfast",
+        "real_scan"
+      ]
     },
     {
-      "id": "fridge_2",
-      "path": "example_fridge_2.png",
-      "source": "benchmark"
+      "expectedIngredientIds" : [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        21
+      ],
+      "id" : "garlic_fried_rice_demo_image",
+      "resourceExtension" : "jpg",
+      "resourceName" : "garlic_fried_rice",
+      "resourceSubdirectory" : "demo",
+      "scenarioTags" : [
+        "default_demo_image",
+        "meal_photo",
+        "real_scan"
+      ]
     },
     {
-      "id": "fridge_3",
-      "path": "example_fridge_3.png",
-      "source": "benchmark"
+      "expectedIngredientIds" : [
+        7,
+        25,
+        35,
+        16,
+        5,
+        17,
+        12
+      ],
+      "id" : "mediterranean_lunch_scenario",
+      "resourceExtension" : "png",
+      "resourceName" : "mediterranean_scenario",
+      "resourceSubdirectory" : "demo",
+      "scenarioTags" : [
+        "tutorial",
+        "mediterranean",
+        "real_scan"
+      ]
     },
     {
-      "id": "bundled_demo_image",
-      "path": "apps/ios/Resources/demo/garlic_fried_rice.jpg",
-      "source": "demo"
+      "expectedIngredientIds" : [
+        27,
+        28,
+        26,
+        29,
+        7,
+        12
+      ],
+      "id" : "taco_night_scenario",
+      "resourceExtension" : "png",
+      "resourceName" : "taco_night_scenario",
+      "resourceSubdirectory" : "demo",
+      "scenarioTags" : [
+        "tutorial",
+        "taco_night",
+        "real_scan"
+      ]
     }
-  ]
+  ],
+  "iterations" : 5
 }

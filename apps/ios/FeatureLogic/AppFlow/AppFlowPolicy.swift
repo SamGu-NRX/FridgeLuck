@@ -3,10 +3,18 @@ public enum ScanEntryRoute: Sendable, Equatable {
   case onboarding
 }
 
-public enum DashboardEntryRoute: Sendable, Equatable {
-  case dashboard
-  case profile
-  case onboarding
+public enum SettingsEntryRoute: Sendable, Equatable {
+  case settings
+}
+
+public enum KitchenEntryRoute: Sendable, Equatable {
+  case kitchen
+  case emptyState
+}
+
+public enum ProgressEntryRoute: Sendable, Equatable {
+  case progress
+  case emptyState
 }
 
 public enum AppFlowPolicy {
@@ -14,12 +22,20 @@ public enum AppFlowPolicy {
     hasOnboarded ? .scan : .onboarding
   }
 
-  public static func dashboardEntryRoute(
+  public static func settingsEntryRoute() -> SettingsEntryRoute {
+    .settings
+  }
+
+  public static func kitchenEntryRoute(hasOnboarded: Bool) -> KitchenEntryRoute {
+    hasOnboarded ? .kitchen : .emptyState
+  }
+
+  public static func progressEntryRoute(
     hasOnboarded: Bool,
     isTutorialComplete: Bool
-  ) -> DashboardEntryRoute {
-    guard hasOnboarded else { return .onboarding }
-    return isTutorialComplete ? .dashboard : .profile
+  ) -> ProgressEntryRoute {
+    guard hasOnboarded else { return .emptyState }
+    return isTutorialComplete ? .progress : .emptyState
   }
 }
 

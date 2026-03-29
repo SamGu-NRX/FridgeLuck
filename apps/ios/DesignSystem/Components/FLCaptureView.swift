@@ -30,6 +30,12 @@ struct FLCaptureConfiguration {
 
 /// Full-screen camera capture with preview, shutter, thumbnails, and library/manual fallbacks.
 struct FLCaptureView: View {
+  private struct ThumbnailItem: Identifiable {
+    let id: ObjectIdentifier
+    let index: Int
+    let image: UIImage
+  }
+
   let configuration: FLCaptureConfiguration
   @Binding var capturedImages: [UIImage]
   let onDone: () -> Void
@@ -50,6 +56,12 @@ struct FLCaptureView: View {
     case ready
     case denied
     case unavailable
+  }
+
+  private var thumbnailItems: [ThumbnailItem] {
+    capturedImages.enumerated().map { index, image in
+      ThumbnailItem(id: ObjectIdentifier(image), index: index, image: image)
+    }
   }
 
   init(
@@ -234,9 +246,9 @@ struct FLCaptureView: View {
     HStack(spacing: AppTheme.Space.sm) {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: AppTheme.Space.xs) {
-          ForEach(Array(capturedImages.enumerated()), id: \.offset) { index, image in
+          ForEach(thumbnailItems) { item in
             ZStack(alignment: .topTrailing) {
-              Image(uiImage: image)
+              Image(uiImage: item.image)
                 .resizable()
                 .scaledToFill()
                 .frame(width: 56, height: 56)
@@ -248,8 +260,8 @@ struct FLCaptureView: View {
 
               Button {
                 withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-                  if index < capturedImages.count {
-                    capturedImages.remove(at: index)
+                  if item.index < capturedImages.count {
+                    capturedImages.remove(at: item.index)
                   }
                 }
               } label: {
@@ -340,6 +352,7 @@ struct FLCaptureView: View {
       capturedImages.count >= configuration.maxPhotos
       || permissionState != .ready
       || !coordinator.isCameraReady
+      || coordinator.isCapturingPhoto
 
     return Button {
       guard !isDisabled else { return }
@@ -457,8 +470,8 @@ struct FLCaptureView: View {
   }
 
   private func capturePhoto() {
-    let haptic = UIImpactFeedbackGenerator(style: .medium)
-    haptic.impactOccurred()
+    AppPreferencesStore.haptic(.medium)
+    let flashRequested = coordinator.isFlashOn
 
     withAnimation(reduceMotion ? nil : AppMotion.shutterFlash) {
       shutterFlashOpacity = 0.7
@@ -471,21 +484,11 @@ struct FLCaptureView: View {
     }
 
     Task {
-      guard let image = await coordinator.capturePhoto() else { return }
+      guard let image = await coordinator.capturePhoto(flashRequested: flashRequested) else {
+        return
+      }
       let processed = ScanImagePreprocessor.prepare(image)
-
-      withAnimation(reduceMotion ? nil : AppMotion.thumbnailLand) {
-        capturedImages.append(processed)
-      }
-
-      if capturedImages.count >= configuration.maxPhotos {
-        let successHaptic = UINotificationFeedbackGenerator()
-        successHaptic.notificationOccurred(.success)
-
-        try? await Task.sleep(nanoseconds: 500_000_000)
-        onDone()
-        dismiss()
-      }
+      await appendCapturedImage(processed)
     }
   }
 
@@ -498,19 +501,21 @@ struct FLCaptureView: View {
       else { return }
 
       let processed = ScanImagePreprocessor.prepare(image)
-
-      withAnimation(reduceMotion ? nil : AppMotion.thumbnailLand) {
-        capturedImages.append(processed)
-      }
-
-      if capturedImages.count >= configuration.maxPhotos {
-        let successHaptic = UINotificationFeedbackGenerator()
-        successHaptic.notificationOccurred(.success)
-
-        try? await Task.sleep(nanoseconds: 500_000_000)
-        onDone()
-        dismiss()
-      }
+      await appendCapturedImage(processed)
     }
+  }
+
+  @MainActor
+  private func appendCapturedImage(_ image: UIImage) async {
+    withAnimation(reduceMotion ? nil : AppMotion.thumbnailLand) {
+      capturedImages.append(image)
+    }
+
+    guard capturedImages.count >= configuration.maxPhotos else { return }
+
+    AppPreferencesStore.notification(.success)
+    try? await Task.sleep(for: .milliseconds(500))
+    onDone()
+    dismiss()
   }
 }

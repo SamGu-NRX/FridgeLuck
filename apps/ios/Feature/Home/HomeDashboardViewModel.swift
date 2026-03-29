@@ -1,57 +1,11 @@
+import FLFeatureLogic
 import GRDB
 import SwiftUI
-
-// MARK: - Dashboard Models
-
-struct DailyCookingPoint: Identifiable, Sendable, Equatable {
-  let date: Date
-  let meals: Int
-
-  var id: Date { date }
-}
-
-struct WeekdayCookingPoint: Identifiable, Sendable, Equatable {
-  let weekdayIndex: Int  // Monday = 1 ... Sunday = 7
-  let weekdayLabel: String
-  let meals: Int
-
-  var id: Int { weekdayIndex }
-}
-
-struct HomeDashboardSnapshot: Sendable {
-  let ingredientCount: Int
-  let recipeCount: Int
-  let hasOnboarded: Bool
-  let currentStreak: Int
-  let mealsLast7Days: Int
-  let mealsLast14Days: [DailyCookingPoint]
-  let weekdayDistribution: [WeekdayCookingPoint]
-  let healthProfile: HealthProfile?
-  let totalMealsCooked: Int
-  let tutorialProgress: TutorialProgress
-  let latestJournalEntry: CookingJournalEntry?
-  let useSoonSuggestions: [InventoryUseSoonSuggestion]
-
-  var shouldUseStarterMode: Bool {
-    totalMealsCooked < 3
-  }
-}
-
-struct MacroTargetSlice: Identifiable, Sendable {
-  let name: String
-  let value: Double
-  let color: ColorToken
-
-  enum ColorToken: Sendable {
-    case protein
-    case carbs
-    case fat
-  }
-
-  var id: String { name }
-}
+import os
 
 // MARK: - View Model
+
+private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "HomeDashboardViewModel")
 
 @MainActor
 final class HomeDashboardViewModel: ObservableObject {
@@ -59,9 +13,6 @@ final class HomeDashboardViewModel: ObservableObject {
   @Published private(set) var isLoading = false
   @Published private(set) var errorMessage: String?
   private var pendingReload = false
-
-  /// Tutorial progress, stored via @AppStorage in the view layer and synced here.
-  @Published var tutorialProgress: TutorialProgress = .empty
 
   private let deps: AppDependencies
   private var cookingHistoryObserver: AnyDatabaseCancellable?
@@ -99,8 +50,66 @@ final class HomeDashboardViewModel: ObservableObject {
 
       let profile: HealthProfile? =
         hasOnboarded ? try deps.userDataRepository.fetchHealthProfile() : nil
+      let resolvedProfile = profile ?? .default
 
       let latestEntry = try deps.userDataRepository.cookingJournal(limit: 1).first
+
+      let calGoal = Double(
+        resolvedProfile.dailyCalories ?? resolvedProfile.goal.suggestedCalories
+      )
+      let protPct = resolvedProfile.proteinPct
+      let carbPct = resolvedProfile.carbsPct
+      let fatPct = resolvedProfile.fatPct
+
+      let proteinGoalGrams = (calGoal * protPct) / 4.0
+      let carbsGoalGrams = (calGoal * carbPct) / 4.0
+      let fatGoalGrams = (calGoal * fatPct) / 9.0
+
+      let todayMacros = try deps.userDataRepository.todayMacros()
+
+      var primary: HomeRecommendation?
+      var fallbacks: [HomeRecommendation] = []
+      if hasOnboarded, ingredientCount > 0 {
+        let activeItems = try deps.inventoryRepository.fetchAllActiveItems()
+        let ingredientIds = Set(activeItems.map(\.ingredientId))
+        if !ingredientIds.isEmpty {
+          let effectiveIds = RecommendationPolicy.effectiveIngredientIDs(from: ingredientIds)
+          let exact = try deps.recipeRepository.findMakeable(
+            with: effectiveIds,
+            profile: resolvedProfile,
+            limit: 5
+          )
+          let near =
+            exact.isEmpty
+            ? try deps.recipeRepository.findNearMatch(
+              with: effectiveIds,
+              profile: resolvedProfile,
+              maxMissingRequired: 1,
+              limit: 5
+            )
+            : []
+
+          let all = exact + near
+          if let top = all.first {
+            primary = HomeRecommendation(
+              recipeName: top.recipe.title,
+              explanation: top.rankingReasons.prefix(3).joined(separator: ". ") + ".",
+              cookTimeMinutes: top.recipe.timeMinutes,
+              matchLabel: top.matchTier == RecipeMatchTier.exact ? "Perfect match" : "Almost there",
+              badgeLabel: top.matchTier == RecipeMatchTier.exact ? "Perfect match" : nil
+            )
+          }
+          fallbacks = Array(all.dropFirst().prefix(3)).map { scored in
+            HomeRecommendation(
+              recipeName: scored.recipe.title,
+              explanation: scored.rankingReasons.prefix(2).joined(separator: ". "),
+              cookTimeMinutes: scored.recipe.timeMinutes,
+              matchLabel: nil,
+              badgeLabel: scored.rankingReasons.first
+            )
+          }
+        }
+      }
 
       snapshot = HomeDashboardSnapshot(
         ingredientCount: ingredientCount,
@@ -112,48 +121,33 @@ final class HomeDashboardViewModel: ObservableObject {
         weekdayDistribution: weekdayDistribution,
         healthProfile: profile,
         totalMealsCooked: totalMealsCooked,
-        tutorialProgress: tutorialProgress,
         latestJournalEntry: latestEntry,
-        useSoonSuggestions: useSoonSuggestions
+        useSoonSuggestions: useSoonSuggestions,
+        todayCalories: todayMacros.calories,
+        todayProtein: todayMacros.protein,
+        todayCarbs: todayMacros.carbs,
+        todayFat: todayMacros.fat,
+        calorieGoal: calGoal,
+        proteinGoal: proteinGoalGrams,
+        carbsGoal: carbsGoalGrams,
+        fatGoal: fatGoalGrams,
+        primaryRecommendation: primary,
+        fallbackOptions: fallbacks
       )
       errorMessage = nil
     } catch {
+      logger.error("Failed to load home dashboard: \(error.localizedDescription)")
       errorMessage = error.localizedDescription
     }
-  }
-
-  /// Mark a quest completed and refresh the snapshot.
-  func completeQuest(_ quest: TutorialQuest) {
-    tutorialProgress.markCompleted(quest)
-    if var snap = snapshot {
-      snap = HomeDashboardSnapshot(
-        ingredientCount: snap.ingredientCount,
-        recipeCount: snap.recipeCount,
-        hasOnboarded: snap.hasOnboarded,
-        currentStreak: snap.currentStreak,
-        mealsLast7Days: snap.mealsLast7Days,
-        mealsLast14Days: snap.mealsLast14Days,
-        weekdayDistribution: snap.weekdayDistribution,
-        healthProfile: snap.healthProfile,
-        totalMealsCooked: snap.totalMealsCooked,
-        tutorialProgress: tutorialProgress,
-        latestJournalEntry: snap.latestJournalEntry,
-        useSoonSuggestions: snap.useSoonSuggestions
-      )
-      snapshot = snap
-    }
-  }
-
-  /// Sync tutorial progress from external @AppStorage value.
-  func syncTutorialProgress(_ progress: TutorialProgress) {
-    tutorialProgress = progress
   }
 
   // MARK: - Live Updates
 
   private func startLiveUpdates() {
     cookingHistoryObserver = deps.userDataRepository.observeCookingHistoryChanges(
-      onError: { _ in },
+      onError: { error in
+        logger.error("Cooking history observer failed: \(error.localizedDescription)")
+      },
       onChange: { [weak self] in
         guard let self else { return }
         Task { await self.load() }

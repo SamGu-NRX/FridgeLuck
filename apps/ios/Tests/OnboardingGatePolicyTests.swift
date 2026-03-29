@@ -19,7 +19,7 @@ final class OnboardingGatePolicyTests: XCTestCase {
     XCTAssertTrue(source.contains("Self.onboardingAgeRange.contains(age)"))
   }
 
-  func testContentViewUsesSingleRouteSourceForDashboardNavLabelAndAction() throws {
+  func testContentViewUsesRealSettingsTabAndRemovesLegacyProfileSheets() throws {
     let root = URL(fileURLWithPath: #filePath)
       .deletingLastPathComponent()
       .deletingLastPathComponent()
@@ -29,11 +29,16 @@ final class OnboardingGatePolicyTests: XCTestCase {
       encoding: .utf8
     )
 
-    XCTAssertTrue(source.contains("private var dashboardNavRoute: DashboardEntryRoute"))
-    XCTAssertTrue(source.contains("switch dashboardNavRoute"))
-    XCTAssertTrue(source.contains("return \"Onboarding\""))
-    XCTAssertTrue(source.contains("return \"Profile\""))
-    XCTAssertTrue(source.contains("return \"Dashboard\""))
-    XCTAssertTrue(source.contains("openDashboardTab()"))
+    XCTAssertTrue(source.contains("case settings"))
+    XCTAssertTrue(source.contains("SettingsView("))
+    XCTAssertTrue(source.contains("settingsCoordinator.open(.profileBasics)"))
+    XCTAssertTrue(
+      source.contains(
+        "navItem(icon: \"gearshape\", label: \"Settings\", isActive: selectedTab == .settings)"
+      ))
+    XCTAssertFalse(source.contains("showSettings"))
+    XCTAssertFalse(source.contains("showProfile"))
+    XCTAssertFalse(source.contains(".sheet(isPresented: $showSettings)"))
+    XCTAssertFalse(source.contains(".sheet(isPresented: $showProfile)"))
   }
 }

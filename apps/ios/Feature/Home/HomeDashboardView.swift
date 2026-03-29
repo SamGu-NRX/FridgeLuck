@@ -1,14 +1,27 @@
 import SwiftUI
 
 struct HomeDashboardView: View {
+  private enum SpotlightDelay {
+    static let acceleratedReducedMotion = Duration.milliseconds(80)
+    static let reducedMotion = Duration.milliseconds(220)
+    static let accelerated = Duration.milliseconds(180)
+    static let onboarding = Duration.milliseconds(500)
+    static let completion = Duration.milliseconds(450)
+    static let lesson = Duration.milliseconds(650)
+  }
+
+  private static let editorialDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE, MMMM d"
+    return formatter
+  }()
+
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(LiveAssistantCoordinator.self) private var liveAssistantCoordinator
 
   @StateObject private var viewModel: HomeDashboardViewModel
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
 
-  @State private var selectedTrendDate: Date?
-  @State private var insightMode: HomeInsightMode = .macros
   @State private var heroAppeared = false
   @State private var showResetConfirmation = false
   @State private var showSkipConfirmation = false
@@ -27,6 +40,8 @@ struct HomeDashboardView: View {
   let onCompleteProfile: () -> Void
   let onOpenAssistant: () -> Void
   let onOpenVirtualFridge: () -> Void
+  let onSwitchToKitchen: () -> Void
+  let onSwitchToProgress: () -> Void
   let onReset: () -> Void
   let onOnboardingSpotlightWillPresent: () -> Void
   let prefersAcceleratedOnboardingSpotlight: Bool
@@ -47,6 +62,8 @@ struct HomeDashboardView: View {
     onCompleteProfile: @escaping () -> Void,
     onOpenAssistant: @escaping () -> Void,
     onOpenVirtualFridge: @escaping () -> Void = {},
+    onSwitchToKitchen: @escaping () -> Void = {},
+    onSwitchToProgress: @escaping () -> Void = {},
     onReset: @escaping () -> Void = {},
     onOnboardingSpotlightWillPresent: @escaping () -> Void = {},
     prefersAcceleratedOnboardingSpotlight: Bool = false,
@@ -59,6 +76,8 @@ struct HomeDashboardView: View {
     self.onCompleteProfile = onCompleteProfile
     self.onOpenAssistant = onOpenAssistant
     self.onOpenVirtualFridge = onOpenVirtualFridge
+    self.onSwitchToKitchen = onSwitchToKitchen
+    self.onSwitchToProgress = onSwitchToProgress
     self.onReset = onReset
     self.onOnboardingSpotlightWillPresent = onOnboardingSpotlightWillPresent
     self.prefersAcceleratedOnboardingSpotlight = prefersAcceleratedOnboardingSpotlight
@@ -134,32 +153,19 @@ struct HomeDashboardView: View {
         )
       }
       .task {
-        viewModel.syncTutorialProgress(tutorialProgress)
         guard viewModel.snapshot == nil else { return }
         await viewModel.load()
       }
       .refreshable {
         await viewModel.load()
       }
-      .onChange(of: tutorialStorageString) {
-        viewModel.syncTutorialProgress(tutorialProgress)
-      }
       .onAppear {
-        if reduceMotion {
-          heroAppeared = true
-        } else {
-          if !heroAppeared {
-            withAnimation(AppMotion.heroAppear.delay(0.15)) {
-              heroAppeared = true
-            }
-          }
-        }
+        handleHeroAppearance()
+        configureSpotlightCallbacks(using: scrollProxy)
       }
       .task(id: pendingSpotlightKind) {
         guard let kind = pendingSpotlightKind else { return }
-        let delay = spotlightPresentationDelay(for: kind)
-        let nanoseconds = UInt64(delay * 1_000_000_000)
-        try? await Task.sleep(nanoseconds: nanoseconds)
+        try? await Task.sleep(for: spotlightPresentationDelay(for: kind))
         guard !Task.isCancelled else { return }
         guard pendingSpotlightKind == kind else { return }
         guard spotlightCoordinator.activePresentation == nil else { return }
@@ -167,18 +173,6 @@ struct HomeDashboardView: View {
       }
       .onPreferenceChange(SpotlightAnchorKey.self) {
         spotlightCoordinator.updateAnchors($0)
-      }
-      .onAppear {
-        spotlightCoordinator.onScrollToAnchor = { anchorID in
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
-            withAnimation(AppMotion.spotlightMove) {
-              scrollProxy.scrollTo(anchorID, anchor: .center)
-            }
-          }
-        }
-        spotlightCoordinator.onDismissPresentation = { presentation in
-          handleSpotlightDismissal(for: presentation.source)
-        }
       }
     }
     .flPageBackground()
@@ -214,22 +208,24 @@ struct HomeDashboardView: View {
     return nil
   }
 
-  private func spotlightPresentationDelay(for kind: SpotlightKind) -> Double {
+  private func spotlightPresentationDelay(for kind: SpotlightKind) -> Duration {
     if reduceMotion {
-      return kind == .onboarding && prefersAcceleratedOnboardingSpotlight ? 0.08 : 0.22
+      return kind == .onboarding && prefersAcceleratedOnboardingSpotlight
+        ? SpotlightDelay.acceleratedReducedMotion
+        : SpotlightDelay.reducedMotion
     }
 
     if kind == .onboarding && prefersAcceleratedOnboardingSpotlight {
-      return 0.18
+      return SpotlightDelay.accelerated
     }
 
     switch kind {
     case .onboarding:
-      return 0.5
+      return SpotlightDelay.onboarding
     case .completion:
-      return 0.45
+      return SpotlightDelay.completion
     case .liveAssistantLesson, .questAdvance:
-      return 0.65
+      return SpotlightDelay.lesson
     }
   }
 
@@ -338,40 +334,34 @@ struct HomeDashboardView: View {
     onQuestCTA(quest)
   }
 
-  // MARK: - Mark Quest Completed (callable from outside)
-
-  func markQuestCompleted(_ quest: TutorialQuest) {
-    var progress = tutorialProgress
-    progress.markCompleted(quest)
-    tutorialStorageString = progress.storageString
-    viewModel.completeQuest(quest)
-  }
-
-  // MARK: - Graduated Dashboard (existing analytics)
-
   private func graduatedDashboard(snapshot: HomeDashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: 0) {
-      HomeGraduatedEditorialHeader(
+      HomeDecisionHeader(
         timeGreeting: timeGreeting,
         editorialDate: editorialDate,
-        onCompleteProfile: onCompleteProfile
+        currentStreak: snapshot.currentStreak,
+        weekActivity: weekActivityFromSnapshot(snapshot)
+      )
+      .padding(.horizontal, AppTheme.Space.page)
+      .padding(.bottom, AppTheme.Space.sectionBreak)
+      .opacity(heroAppeared ? 1 : 0)
+      .offset(y: heroAppeared ? 0 : 10)
+
+      HomeDailyNutritionRing(
+        caloriesConsumed: snapshot.todayCalories,
+        calorieGoal: snapshot.calorieGoal,
+        proteinCurrent: snapshot.todayProtein,
+        proteinGoal: snapshot.proteinGoal,
+        carbsCurrent: snapshot.todayCarbs,
+        carbsGoal: snapshot.carbsGoal,
+        fatCurrent: snapshot.todayFat,
+        fatGoal: snapshot.fatGoal,
+        onTap: onSwitchToProgress
       )
       .padding(.horizontal, AppTheme.Space.page)
       .padding(.bottom, AppTheme.Space.lg)
-
-      HomeGraduatedHeroSection(
-        heroAppeared: heroAppeared,
-        onDemoMode: onDemoMode
-      )
-      .padding(.bottom, AppTheme.Space.sectionBreak)
-
-      HomeFloatingStatsSection(snapshot: snapshot)
-        .padding(.horizontal, AppTheme.Space.page)
-        .padding(.bottom, AppTheme.Space.sectionBreak)
-
-      HomeMyRhythmSection(snapshot: snapshot)
-        .padding(.bottom, AppTheme.Space.sectionBreak)
-        .spotlightAnchor("myRhythm")
+      .opacity(heroAppeared ? 1 : 0)
+      .offset(y: heroAppeared ? 0 : 10)
 
       if let recipeContext = liveAssistantCoordinator.matchedRecipeContext {
         HomeLiveAssistantSection(
@@ -385,27 +375,53 @@ struct HomeDashboardView: View {
         .spotlightAnchor("liveAssistantEntry")
       }
 
-      HomeFridgeLuckPanelsSection(
-        snapshot: snapshot,
-        onOpenVirtualFridge: onOpenVirtualFridge
+      HomePrimaryRecommendationCard(
+        recipeName: snapshot.primaryRecommendation?.recipeName ?? "",
+        explanation: snapshot.primaryRecommendation?.explanation ?? "",
+        cookTimeMinutes: snapshot.primaryRecommendation?.cookTimeMinutes,
+        matchLabel: snapshot.primaryRecommendation?.matchLabel,
+        onCook: {
+          // TODO: Route the primary recommendation into the cooking flow once Home can launch recipes directly.
+        },
+        onScan: onScan,
+        hasRecommendation: snapshot.primaryRecommendation != nil
       )
       .padding(.horizontal, AppTheme.Space.page)
       .padding(.bottom, AppTheme.Space.sectionBreak)
 
-      HomeUseSoonSection(suggestions: snapshot.useSoonSuggestions)
-        .padding(.horizontal, AppTheme.Space.page)
-        .padding(.bottom, AppTheme.Space.sectionBreak)
-
-      if snapshot.shouldUseStarterMode {
-        HomeStarterPanelSection(snapshot: snapshot)
-          .padding(.horizontal, AppTheme.Space.page)
-          .padding(.bottom, AppTheme.Space.sectionBreak)
-      } else {
-        HomeInsightSection(
-          insightMode: $insightMode,
-          snapshot: snapshot
+      if let urgent = snapshot.useSoonSuggestions.first {
+        HomeUseSoonAlert(
+          ingredientName: urgent.ingredientName,
+          daysRemaining: urgent.daysRemaining,
+          onTap: onSwitchToKitchen
         )
         .padding(.horizontal, AppTheme.Space.page)
+        .padding(.bottom, AppTheme.Space.lg)
+      }
+
+      if !snapshot.fallbackOptions.isEmpty {
+        HomeFallbackOptionsRow(
+          options: snapshot.fallbackOptions.enumerated().map { index, rec in
+            HomeFallbackOption(
+              id: "\(index)-\(rec.recipeName)-\(rec.cookTimeMinutes ?? -1)",
+              recipeName: rec.recipeName,
+              cookTimeMinutes: rec.cookTimeMinutes,
+              badgeLabel: rec.badgeLabel ?? "Option",
+              badgeColor: AppTheme.sage
+            )
+          },
+          onSelect: { _ in
+            // TODO: Route fallback recommendations into the cooking flow once Home can launch recipes directly.
+          }
+        )
+        .padding(.bottom, AppTheme.Space.sectionBreak)
+      }
+
+      if snapshot.ingredientCount == 0 {
+        HomeGraduatedHeroSection(
+          heroAppeared: heroAppeared,
+          onDemoMode: onDemoMode
+        )
         .padding(.bottom, AppTheme.Space.sectionBreak)
       }
 
@@ -414,6 +430,22 @@ struct HomeDashboardView: View {
         onCompleteProfile: onCompleteProfile
       )
       .padding(.horizontal, AppTheme.Space.page)
+    }
+  }
+
+  private func weekActivityFromSnapshot(_ snapshot: HomeDashboardSnapshot) -> [Bool] {
+    let calendar = Calendar.current
+    let today = calendar.startOfDay(for: Date())
+    let weekday = calendar.component(.weekday, from: today)
+    let daysFromMonday = (weekday + 5) % 7
+    guard let monday = calendar.date(byAdding: .day, value: -daysFromMonday, to: today) else {
+      return Array(repeating: false, count: 7)
+    }
+
+    let mealDates = Set(snapshot.mealsLast14Days.map { calendar.startOfDay(for: $0.date) })
+    return (0..<7).map { offset in
+      guard let day = calendar.date(byAdding: .day, value: offset, to: monday) else { return false }
+      return mealDates.contains(day)
     }
   }
 
@@ -427,9 +459,32 @@ struct HomeDashboardView: View {
   }
 
   private var editorialDate: String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "EEEE, MMMM d"
-    return formatter.string(from: Date())
+    Self.editorialDateFormatter.string(from: Date())
+  }
+
+  private func handleHeroAppearance() {
+    if reduceMotion {
+      heroAppeared = true
+      return
+    }
+
+    guard !heroAppeared else { return }
+    withAnimation(AppMotion.heroAppear.delay(0.15)) {
+      heroAppeared = true
+    }
+  }
+
+  private func configureSpotlightCallbacks(using scrollProxy: ScrollViewProxy) {
+    spotlightCoordinator.onScrollToAnchor = { anchorID in
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
+        withAnimation(AppMotion.spotlightMove) {
+          scrollProxy.scrollTo(anchorID, anchor: .center)
+        }
+      }
+    }
+    spotlightCoordinator.onDismissPresentation = { presentation in
+      handleSpotlightDismissal(for: presentation.source)
+    }
   }
 
   // MARK: - Loading / Error

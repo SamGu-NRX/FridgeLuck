@@ -8,6 +8,7 @@ struct FridgeLuckApp: App {
   @State private var launchStarted = false
   @State private var shouldShowFirstRunOnboarding = false
   @State private var firstRunExperienceStore = FirstRunExperienceStore()
+  @State private var preferencesStore = AppPreferencesStore()
 
   init() {
     #if DEBUG
@@ -38,6 +39,8 @@ struct FridgeLuckApp: App {
         }
       }
       .environment(firstRunExperienceStore)
+      .environment(preferencesStore)
+      .preferredColorScheme(preferencesStore.appearance.colorScheme)
       .task {
         await bootstrapIfNeeded()
       }
@@ -80,6 +83,12 @@ struct FridgeLuckApp: App {
     }
     defaults.removeObject(forKey: "firstRunExperienceCompletedVersion")
     defaults.removeObject(forKey: "firstRunExperienceAppleHealthChoice")
+    for key in [
+      "appPref_appearance", "appPref_measurementUnit", "appPref_defaultServings",
+      "appPref_hapticsEnabled",
+    ] {
+      defaults.removeObject(forKey: key)
+    }
   }
 
   private static var shouldResetTutorialStateForLaunch: Bool {

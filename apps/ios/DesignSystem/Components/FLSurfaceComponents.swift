@@ -11,7 +11,7 @@ struct FLCard<Content: View>: View {
 
     var fill: Color {
       switch self {
-      case .normal: return AppTheme.surface
+      case .normal: return AppTheme.surfaceElevated
       case .warm: return AppTheme.surfaceMuted
       case .success: return AppTheme.sage.opacity(0.08)
       case .warning: return AppTheme.accent.opacity(0.07)

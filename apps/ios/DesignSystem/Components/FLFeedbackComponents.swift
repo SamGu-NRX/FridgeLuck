@@ -49,7 +49,7 @@ struct FLAnalyzingPulse: View {
     .onAppear {
       guard !reduceMotion else { return }
       withAnimation(
-        .easeInOut(duration: 1.6)
+        AppMotion.shimmer
           .repeatForever(autoreverses: false)
       ) {
         isAnimating = true
@@ -73,6 +73,7 @@ struct FLStarRating: View {
       ForEach(1...maxRating, id: \.self) { star in
         Button {
           let newRating = star == rating ? 0 : star
+          AppPreferencesStore.haptic(.light)
           withAnimation(reduceMotion ? nil : AppMotion.starBounce) {
             rating = newRating
           }
@@ -122,6 +123,7 @@ struct FLServingStepper: View {
 
       HStack(spacing: AppTheme.Space.sm) {
         stepperButton(systemImage: "minus", enabled: servings > range.lowerBound) {
+          AppPreferencesStore.haptic(.light)
           withAnimation(AppMotion.quick) { servings -= 1 }
         }
 
@@ -132,6 +134,7 @@ struct FLServingStepper: View {
           .frame(width: 32)
 
         stepperButton(systemImage: "plus", enabled: servings < range.upperBound) {
+          AppPreferencesStore.haptic(.light)
           withAnimation(AppMotion.quick) { servings += 1 }
         }
       }
@@ -155,7 +158,7 @@ struct FLServingStepper: View {
           enabled ? AppTheme.accent.opacity(0.12) : AppTheme.surfaceMuted,
           in: Circle()
         )
-        .animation(.default, value: enabled)
+        .animation(AppMotion.colorTransition, value: enabled)
     }
     .buttonStyle(FLPressableButtonStyle())
     .disabled(!enabled)
@@ -164,33 +167,80 @@ struct FLServingStepper: View {
 
 // MARK: - Macro Ring
 
+enum MacroRingStyle {
+  case combined
+  case single(Color)
+}
+
 struct FLMacroRing: View {
   let proteinPct: Double
   let carbsPct: Double
   let fatPct: Double
   var size: CGFloat = 120
   var lineWidth: CGFloat = 12
+  var style: MacroRingStyle = .combined
+  var animateOnAppear: Bool = false
+
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @State private var animationProgress: Double = 0
+
+  private var shouldAnimate: Bool { animateOnAppear && !reduceMotion }
 
   var body: some View {
     ZStack {
+      // Track
       Circle()
         .stroke(AppTheme.surfaceMuted, lineWidth: lineWidth)
 
+      switch style {
+      case .combined:
+        combinedRings
+      case .single(let color):
+        singleRing(color: color)
+      }
+    }
+    .frame(width: size, height: size)
+    .onAppear {
+      if shouldAnimate {
+        withAnimation(AppMotion.ringFillProgress) {
+          animationProgress = 1
+        }
+      } else {
+        animationProgress = 1
+      }
+    }
+  }
+
+  // MARK: - Combined (protein + carbs + fat)
+
+  private var combinedRings: some View {
+    Group {
+      // Fat layer (outermost)
       Circle()
-        .trim(from: 0, to: proteinPct + carbsPct + fatPct)
+        .trim(from: 0, to: (proteinPct + carbsPct + fatPct) * animationProgress)
         .stroke(AppTheme.accentLight, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
         .rotationEffect(.degrees(-90))
 
+      // Carbs layer
       Circle()
-        .trim(from: 0, to: proteinPct + carbsPct)
+        .trim(from: 0, to: (proteinPct + carbsPct) * animationProgress)
         .stroke(AppTheme.oat, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
         .rotationEffect(.degrees(-90))
 
+      // Protein layer (innermost)
       Circle()
-        .trim(from: 0, to: proteinPct)
+        .trim(from: 0, to: proteinPct * animationProgress)
         .stroke(AppTheme.sage, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
         .rotationEffect(.degrees(-90))
     }
-    .frame(width: size, height: size)
+  }
+
+  // MARK: - Single nutrient
+
+  private func singleRing(color: Color) -> some View {
+    Circle()
+      .trim(from: 0, to: proteinPct * animationProgress)
+      .stroke(color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+      .rotationEffect(.degrees(-90))
   }
 }

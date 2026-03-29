@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import SwiftUI
 
@@ -15,17 +16,19 @@ struct ScanRunReportSheet: View {
       List {
         Section("Verification Notes") {
           Text("Confidence scores are routing signals, not calibrated probabilities.")
+          Text("Scan quality benchmarks use the real scan pipeline on a labeled image corpus.")
+          Text("Unsupported today: ingredient segmentation and image-derived quantity detection.")
           Text("Run records include source, provenance, bucket counts, and per-item evidence.")
         }
 
-        Section("Benchmark") {
+        Section("Scan Quality Benchmark") {
           Button {
-            Task { await runBundledDemoBenchmark() }
+            Task { await runScanQualityBenchmark() }
           } label: {
             if isRunningBenchmark {
               Label("Running benchmark...", systemImage: "hourglass")
             } else {
-              Label("Run 5x Bundled Demo Benchmark", systemImage: "speedometer")
+              Label("Run Scan Quality Benchmark", systemImage: "speedometer")
             }
           }
           .disabled(isRunningBenchmark)
@@ -116,68 +119,20 @@ struct ScanRunReportSheet: View {
     isLoading = false
   }
 
-  private func runBundledDemoBenchmark() async {
+  private func runScanQualityBenchmark() async {
     guard !isRunningBenchmark else { return }
     isRunningBenchmark = true
     defer { isRunningBenchmark = false }
 
-    guard
-      let image = DemoScanService.loadDemoImage(),
-      let cgImage = image.cgImage
-    else {
-      benchmarkStatus = "Bundled demo image not found."
-      return
-    }
-
-    let iterations = ScanDemoGate.benchmarkIterations
-    var idSets: [Set<Int64>] = []
-    var elapsed: [Int] = []
-    var bucketRuns: [ScanBucketCounts] = []
-
-    for index in 0..<iterations {
-      let result = try? await deps.visionService.scan(
-        inputs: [ScanInput(image: cgImage, source: .demo, captureIndex: index)]
-      )
-      let ids = Set((result?.detections ?? []).map(\.ingredientId))
-      idSets.append(ids)
-      elapsed.append(result?.diagnostics.elapsedMs ?? 0)
-      bucketRuns.append(
-        result?.diagnostics.bucketCounts ?? ScanBucketCounts(auto: 0, confirm: 0, possible: 0))
-    }
-
-    let baseline = idSets.first ?? []
-    let jaccards = idSets.map { jaccard(baseline, $0) }
-    let meanJaccard = jaccards.isEmpty ? 0 : jaccards.reduce(0, +) / Double(jaccards.count)
-    let minJaccard = jaccards.min() ?? 0
-    let sortedElapsed = elapsed.sorted()
-    let medianElapsed = sortedElapsed.isEmpty ? 0 : sortedElapsed[sortedElapsed.count / 2]
-
-    struct BenchmarkSummary: Codable {
-      let generatedAtISO8601: String
-      let iterations: Int
-      let minJaccard: Double
-      let meanJaccard: Double
-      let medianElapsedMs: Int
-      let bucketRuns: [ScanBucketCounts]
-    }
-
-    let summary = BenchmarkSummary(
-      generatedAtISO8601: ISO8601DateFormatter().string(from: Date()),
-      iterations: iterations,
-      minJaccard: minJaccard,
-      meanJaccard: meanJaccard,
-      medianElapsedMs: medianElapsed,
-      bucketRuns: bucketRuns
-    )
-
     do {
-      let encoder = JSONEncoder()
-      encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-      let data = try encoder.encode(summary)
+      let corpus = try ScanBenchmarkRunner.defaultCorpus()
+      let report = try await ScanBenchmarkRunner.run(
+        corpus: corpus,
+        visionService: deps.visionService
+      )
       let outputURL = ScanRunStore.benchmarkOutputURL()
-      try data.write(to: outputURL, options: .atomic)
-      benchmarkStatus =
-        "Saved benchmark to \(outputURL.path). minJaccard \(String(format: "%.3f", minJaccard)), mean \(String(format: "%.3f", meanJaccard)), median \(medianElapsed)ms."
+      try ScanBenchmarkRunner.writeReport(report, to: outputURL)
+      benchmarkStatus = benchmarkSummaryText(report: report, outputURL: outputURL)
     } catch {
       benchmarkStatus = "Benchmark failed to save: \(error.localizedDescription)"
     }
@@ -185,10 +140,33 @@ struct ScanRunReportSheet: View {
     await loadRuns()
   }
 
-  private func jaccard(_ a: Set<Int64>, _ b: Set<Int64>) -> Double {
-    if a.isEmpty, b.isEmpty { return 1.0 }
-    let union = a.union(b).count
-    guard union > 0 else { return 0 }
-    return Double(a.intersection(b).count) / Double(union)
+  private func benchmarkSummaryText(report: ScanBenchmarkReport, outputURL: URL) -> String {
+    let detectionF1Text =
+      report.summary.overallDetectionF1.map {
+        String(format: "%.3f", $0)
+      } ?? "n/a"
+    let reliabilityText =
+      report.summary.overallMinimumReliabilityJaccard.map {
+        String(format: "%.3f", $0)
+      } ?? "n/a"
+    let latencyText = report.summary.overallMedianElapsedMs.map(String.init) ?? "n/a"
+
+    let statusText: String
+    switch report.status {
+    case .passed:
+      statusText = "passed"
+    case .regressed:
+      statusText = "regressed"
+    case .invalid:
+      statusText = "invalid"
+    }
+
+    let unsupported =
+      report.images.first.map {
+        [$0.localizationMetric.name, $0.amountMetric.name].joined(separator: ", ")
+      } ?? "vision_localization, image_amount_detection"
+
+    return
+      "Saved benchmark to \(outputURL.path). status \(statusText). F1 \(detectionF1Text), minJaccard \(reliabilityText), median \(latencyText)ms. Unsupported: \(unsupported)."
   }
 }
