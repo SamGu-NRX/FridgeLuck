@@ -14,7 +14,7 @@ final class SettingsFlowTests: XCTestCase {
         .foodPreferences,
         .integrations,
         .permissions,
-        .appExperience,
+        .help,
         .dataAndPrivacy,
       ]
     )

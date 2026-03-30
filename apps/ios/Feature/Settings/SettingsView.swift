@@ -18,11 +18,11 @@ struct SettingsView: View {
 
   var body: some View {
     NavigationStack(path: $coordinator.path) {
-      SettingsHubView(refreshID: refreshID)
+      SettingsHubView()
         .navigationDestination(for: SettingsRoute.self) { route in
           switch route {
           case .overview:
-            SettingsHubView(refreshID: refreshID)
+            SettingsHubView()
           case .profileBasics:
             SettingsProfileBasicsView {
               handleProfileMutation()
@@ -42,8 +42,8 @@ struct SettingsView: View {
             )
           case .permissions:
             SettingsPermissionsView()
-          case .appExperience:
-            SettingsAppExperienceView {
+          case .help:
+            SettingsHelpView {
               showReplayOnboarding = true
             }
           case .dataAndPrivacy:

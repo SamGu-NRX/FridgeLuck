@@ -3,6 +3,30 @@ import GRDB
 import Observation
 import os
 
+enum ChartRange: Int, CaseIterable, Identifiable, Sendable {
+  case week = 7
+  case month = 30
+  case threeMonths = 90
+
+  var id: Int { rawValue }
+
+  var label: String {
+    switch self {
+    case .week: "7D"
+    case .month: "30D"
+    case .threeMonths: "90D"
+    }
+  }
+
+  var sectionTitle: String {
+    switch self {
+    case .week: "This Week"
+    case .month: "Last 30 Days"
+    case .threeMonths: "Last 90 Days"
+    }
+  }
+}
+
 @Observable
 @MainActor
 final class ProgressViewModel {
@@ -13,6 +37,7 @@ final class ProgressViewModel {
   var snapshot: ProgressSnapshot?
   var isLoading = false
   var errorMessage: String?
+  var rangeMacros: [DailyMacroPoint] = []
   private var pendingReload = false
 
   // MARK: - Dependencies
@@ -147,6 +172,41 @@ final class ProgressViewModel {
     } else {
       return
         "You averaged \(Int(avg.rounded())) cal/day \u{2014} \(Int(abs(goalDiff).rounded())) under your goal."
+    }
+  }
+
+  // MARK: - Range Loading
+
+  func loadMacros(for range: ChartRange) async {
+    if range == .week {
+      rangeMacros = snapshot?.weeklyMacros ?? []
+      return
+    }
+
+    do {
+      let localMacros = try userDataRepository.dailyMacroTotals(lastDays: range.rawValue)
+
+      guard appleHealthService.authorizationStatus() == .authorized else {
+        rangeMacros = localMacros
+        return
+      }
+
+      let healthMacros = try await appleHealthService.fetchDailyNutritionTotals(
+        lastDays: range.rawValue,
+        endingOn: Date()
+      )
+      rangeMacros = healthMacros.map {
+        DailyMacroPoint(
+          date: $0.date,
+          calories: $0.totals.calories,
+          protein: $0.totals.proteinGrams,
+          carbs: $0.totals.carbsGrams,
+          fat: $0.totals.fatGrams
+        )
+      }
+    } catch {
+      Self.logger.error("Failed to load range macros: \(error.localizedDescription)")
+      rangeMacros = snapshot?.weeklyMacros ?? []
     }
   }
 

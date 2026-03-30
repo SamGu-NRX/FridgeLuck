@@ -18,6 +18,15 @@ enum HealthGoal: String, Sendable, Codable, CaseIterable, DatabaseValueConvertib
     }
   }
 
+  var icon: String {
+    switch self {
+    case .general: "heart.circle"
+    case .weightLoss: "arrow.down.circle"
+    case .muscleGain: "dumbbell"
+    case .maintenance: "scale.3d"
+    }
+  }
+
   var suggestedCalories: Int {
     switch self {
     case .general: 2000

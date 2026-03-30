@@ -30,6 +30,14 @@ enum AppAppearance: String, CaseIterable, Identifiable, Sendable {
     case .dark: .dark
     }
   }
+
+  var icon: String {
+    switch self {
+    case .system: "circle.lefthalf.filled"
+    case .light: "sun.max.fill"
+    case .dark: "moon.fill"
+    }
+  }
 }
 
 enum AppMeasurementUnit: String, CaseIterable, Identifiable, Sendable {

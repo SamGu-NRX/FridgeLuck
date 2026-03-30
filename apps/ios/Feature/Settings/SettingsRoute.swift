@@ -7,6 +7,6 @@ enum SettingsRoute: Hashable, CaseIterable {
   case foodPreferences
   case integrations
   case permissions
-  case appExperience
+  case help
   case dataAndPrivacy
 }

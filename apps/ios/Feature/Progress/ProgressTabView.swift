@@ -97,7 +97,11 @@ struct ProgressTabView: View {
         ProgressWeeklyTrendSection(
           weeklyMacros: snapshot.weeklyMacros,
           dailyCalorieGoal: viewModel.dailyCalorieGoal,
-          insightText: viewModel.weeklyInsight
+          insightText: viewModel.weeklyInsight,
+          onRangeChanged: { range in
+            await viewModel.loadMacros(for: range)
+            return viewModel.rangeMacros
+          }
         )
         .padding(.horizontal, AppTheme.Space.page)
         .padding(.bottom, AppTheme.Space.sectionBreak)

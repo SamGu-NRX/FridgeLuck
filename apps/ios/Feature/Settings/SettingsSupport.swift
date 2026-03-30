@@ -1,5 +1,6 @@
 import FLFeatureLogic
 import Foundation
+import SwiftUI
 
 enum SettingsDietOption: String, CaseIterable, Identifiable {
   case classic
@@ -17,6 +18,26 @@ enum SettingsDietOption: String, CaseIterable, Identifiable {
     case .vegetarian: return "Vegetarian"
     case .pescatarian: return "Pescatarian"
     case .keto: return "Keto"
+    }
+  }
+
+  var icon: String {
+    switch self {
+    case .classic: return "fork.knife"
+    case .vegan: return "leaf.fill"
+    case .vegetarian: return "carrot"
+    case .pescatarian: return "fish"
+    case .keto: return "flame.fill"
+    }
+  }
+
+  var shortDescription: String {
+    switch self {
+    case .classic: return "No restrictions, all recipes"
+    case .vegan: return "No animal products"
+    case .vegetarian: return "No meat or fish"
+    case .pescatarian: return "Fish but no meat"
+    case .keto: return "High fat, low carb"
     }
   }
 
@@ -84,5 +105,16 @@ extension AppPermissionStatus {
 
   var isAllowedForSettings: Bool {
     self == .authorized || self == .limited
+  }
+
+  var statusColor: Color {
+    switch self {
+    case .authorized: return AppTheme.sage
+    case .limited: return AppTheme.oat
+    case .notDetermined: return AppTheme.textSecondary
+    case .denied: return AppTheme.accent
+    case .restricted: return AppTheme.accent
+    case .unavailable: return AppTheme.textSecondary
+    }
   }
 }

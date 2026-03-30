@@ -139,6 +139,16 @@ struct IngredientReviewView: View {
       ScrollViewReader { scrollProxy in
         ScrollView {
           VStack(alignment: .leading, spacing: 0) {
+            if let fridgeImage, hasAnnotatedDetections {
+              FLScanAnnotationOverlay(
+                image: fridgeImage,
+                detections: detections
+              )
+              .frame(height: 220)
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.bottom, AppTheme.Space.md)
+            }
+
             IngredientReviewSummarySection(
               confirmedCount: confirmedIds.count,
               categorizedConfirmedCount: categorized.confirmed.count,
@@ -414,6 +424,10 @@ struct IngredientReviewView: View {
   }
 
   // MARK: - Categorization
+
+  private var hasAnnotatedDetections: Bool {
+    detections.contains { $0.normalizedBoundingBox != nil }
+  }
 
   private var categorized: ConfidenceRouter.CategorizedResults {
     categorizedResults

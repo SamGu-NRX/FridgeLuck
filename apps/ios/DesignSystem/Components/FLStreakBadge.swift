@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FLStreakBadge: View {
   static let milestoneThresholds: Set<Int> = [7, 14, 30, 60, 100]
+  private static let dayLabels = ["S", "M", "T", "W", "T", "F", "S"]
 
   let currentStreak: Int
   let weekActivity: [Bool]
@@ -31,11 +32,20 @@ struct FLStreakBadge: View {
       .background(AppTheme.accentMuted, in: Capsule())
       .scaleEffect(milestoneScale)
 
-      HStack(spacing: AppTheme.Space.xxs) {
+      HStack(spacing: 6) {
         ForEach(0..<min(weekActivity.count, 7), id: \.self) { index in
-          Circle()
-            .fill(weekActivity[index] ? AppTheme.accent : AppTheme.surfaceMuted)
-            .frame(width: 8, height: 8)
+          VStack(spacing: 2) {
+            Circle()
+              .fill(weekActivity[index] ? AppTheme.accent : AppTheme.surfaceMuted)
+              .frame(width: 7, height: 7)
+            Text(Self.dayLabels[index])
+              .font(.system(size: 8, weight: .medium, design: .rounded))
+              .foregroundStyle(
+                weekActivity[index]
+                  ? AppTheme.accent
+                  : AppTheme.textSecondary.opacity(0.45)
+              )
+          }
         }
       }
     }
