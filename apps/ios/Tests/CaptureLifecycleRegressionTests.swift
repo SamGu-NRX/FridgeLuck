@@ -30,6 +30,7 @@ final class CaptureLifecycleRegressionTests: XCTestCase {
     XCTAssertFalse(coordinator.isCapturingPhoto)
   }
 
+  @MainActor
   func testPreviewDismantleClearsAttachedSession() {
     let session = AVCaptureSession()
     let container = FLCapturePreviewContainer()
