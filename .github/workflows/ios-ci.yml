@@ -21,6 +21,14 @@ jobs:
       - name: Xcode Version
         run: xcodebuild -version
 
+      - name: Install XcodeGen
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: brew install xcodegen
+
+      - name: Generate Xcode Project
+        run: ./scripts/ensure_xcode_project.sh
+
       - name: Resolve Simulator Destination
         id: sim
         run: echo "destination=$(./scripts/resolve_ios_sim_destination.sh iPhone)" >> "$GITHUB_OUTPUT"
@@ -36,6 +44,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Install XcodeGen
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: brew install xcodegen
+
+      - name: Generate Xcode Project
+        run: ./scripts/ensure_xcode_project.sh
 
       - name: Install Periphery
         env:

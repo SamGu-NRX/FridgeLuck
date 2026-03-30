@@ -7,6 +7,8 @@ derived_data_path="${DERIVED_DATA_PATH:-$repo_root/.build/periphery-derived-data
 reports_dir="${REPORTS_DIR:-$repo_root/reports/periphery}"
 baseline_file="${BASELINE_FILE:-$repo_root/.periphery-baseline.json}"
 
+"$repo_root/scripts/ensure_xcode_project.sh"
+
 if [[ -n "${SCHEME_NAMES:-}" ]]; then
   read -r -a schemes <<< "$SCHEME_NAMES"
 else
