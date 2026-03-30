@@ -1,185 +1,69 @@
 import Foundation
 import XCTest
 
+@testable import FridgeLuck
+
+@MainActor
 final class SpotlightAnchorUpdateTests: XCTestCase {
-  private func sourceRoot() -> URL {
-    URL(fileURLWithPath: #filePath)
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
+  func testUpdateAnchorsNormalizesRectsAndDropsInvalidEntries() async {
+    let coordinator = SpotlightCoordinator()
+
+    coordinator.updateAnchors([
+      "hero": CGRect(x: 10.24, y: 20.26, width: 100.74, height: 200.76),
+      "empty": .zero,
+    ])
+    await settleCoordinatorUpdates()
+
+    XCTAssertEqual(
+      coordinator.anchors["hero"],
+      CGRect(x: 10.0, y: 20.5, width: 100.5, height: 201.0)
+    )
+    XCTAssertNil(coordinator.anchors["empty"])
   }
 
-  func testSpotlightCoordinatorNormalizesAndDefersAnchorUpdates() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Home/SpotlightTutorialOverlay.swift"),
-      encoding: .utf8
-    )
+  func testUpdateAnchorsCanMergeOrReplaceExistingValues() async {
+    let coordinator = SpotlightCoordinator()
 
-    XCTAssertTrue(source.contains("struct SpotlightPresentation"))
-    XCTAssertTrue(source.contains("var activePresentation: SpotlightPresentation? = nil"))
-    XCTAssertTrue(source.contains("func dismissActivePresentation()"))
-    XCTAssertTrue(source.contains("onDismissPresentation?(activePresentation)"))
-    XCTAssertTrue(source.contains("func updateAnchors("))
-    XCTAssertTrue(source.contains("retainingExistingValues: Bool = false"))
-    XCTAssertTrue(source.contains("let normalizedRect = entry.value.normalizedForSpotlight"))
-    XCTAssertTrue(source.contains("var nextAnchors = retainingExistingValues ? self.anchors : [:]"))
-    XCTAssertFalse(source.contains("private var anchorUpdateGeneration = 0"))
-    XCTAssertFalse(source.contains("self.anchorUpdateGeneration == generation"))
-    XCTAssertTrue(source.contains("Task { @MainActor"))
+    coordinator.updateAnchors(["first": CGRect(x: 0, y: 0, width: 40, height: 40)])
+    await settleCoordinatorUpdates()
+    XCTAssertEqual(Set(coordinator.anchors.keys), ["first"])
+
+    coordinator.updateAnchors(
+      ["second": CGRect(x: 60, y: 60, width: 24, height: 24)],
+      retainingExistingValues: true
+    )
+    await settleCoordinatorUpdates()
+    XCTAssertEqual(Set(coordinator.anchors.keys), ["first", "second"])
+
+    coordinator.updateAnchors(["replacement": CGRect(x: 8, y: 8, width: 16, height: 16)])
+    await settleCoordinatorUpdates()
+    XCTAssertEqual(Set(coordinator.anchors.keys), ["replacement"])
   }
 
-  func testHighlightRectUsesOverlayLocalCoordinatesOnly() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Home/SpotlightTutorialOverlay.swift"),
-      encoding: .utf8
-    )
+  func testDismissActivePresentationInvokesCallbackAndClearsPresentation() {
+    let coordinator = SpotlightCoordinator()
+    var dismissedSource: String?
 
-    XCTAssertTrue(source.contains("let overlayFrame = geo.frame(in: .global)"))
-    XCTAssertTrue(source.contains("return CGRect("))
-    XCTAssertFalse(source.contains("return globalRect"))
-    XCTAssertFalse(source.contains("visibleIntersectionArea("))
-    XCTAssertFalse(source.contains("let normalizedScore"))
-    XCTAssertFalse(source.contains("let globalScore"))
+    coordinator.onDismissPresentation = { presentation in
+      dismissedSource = presentation.source
+    }
+
+    coordinator.present(steps: SpotlightStep.completion, source: "completion")
+    XCTAssertEqual(coordinator.activePresentation?.steps, SpotlightStep.completion)
+
+    coordinator.dismissActivePresentation()
+
+    XCTAssertNil(coordinator.activePresentation)
+    XCTAssertEqual(dismissedSource, "completion")
   }
 
-  func testSpotlightOverlayUsesSimpleEntranceAndFixedTooltipPlacement() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Home/SpotlightTutorialOverlay.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertTrue(source.contains("@State private var appeared = false"))
-    XCTAssertTrue(source.contains(".opacity(appeared ? 1 : 0)"))
-    XCTAssertTrue(source.contains("await Task.yield()"))
-    XCTAssertTrue(source.contains("AppMotion.spotlightDimmer"))
-    XCTAssertTrue(source.contains("AppMotion.spotlightCardEntry"))
-    XCTAssertTrue(source.contains(".scaleEffect(appeared ? 1.0 : 0.96)"))
-    XCTAssertTrue(source.contains(".offset(y: appeared ? 0 : 8)"))
-    XCTAssertTrue(source.contains(".onChange(of: presentationID)"))
-    XCTAssertTrue(source.contains("private let tooltipCardHeight: CGFloat = 260"))
-    XCTAssertTrue(source.contains("private let skipTopOffset: CGFloat = 88"))
-    XCTAssertTrue(source.contains("private let skipBottomOffset: CGFloat = 24"))
-    XCTAssertFalse(source.contains("dimmerVisible"))
-    XCTAssertFalse(source.contains("cardVisible"))
-    XCTAssertFalse(source.contains("hasStartedEntrance"))
-    XCTAssertFalse(source.contains("tooltipCardSize"))
-    XCTAssertFalse(source.contains(".onGeometryChange(for: CGSize.self)"))
+  func testCompletionPresentationStillTargetsMyRhythmAnchor() {
+    let anchorIDs = SpotlightStep.completion.compactMap(\.anchorID)
+    XCTAssertTrue(anchorIDs.contains("myRhythm"))
   }
 
-  func testSpotlightOverlayUsesCollisionAwareSkipPlacement() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Home/SpotlightTutorialOverlay.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertTrue(source.contains("private enum SkipButtonPlacement"))
-    XCTAssertTrue(source.contains("case topTrailing"))
-    XCTAssertTrue(source.contains("case topLeading"))
-    XCTAssertTrue(source.contains("case bottomLeading"))
-    XCTAssertTrue(source.contains("private func skipButtonPlacement(in geo: GeometryProxy)"))
-    XCTAssertTrue(source.contains("if skipFrame.intersects(tooltipFrame)"))
-    XCTAssertTrue(source.contains("if let highlightFrame, skipFrame.intersects(highlightFrame)"))
-    XCTAssertTrue(source.contains("return .bottomLeading"))
-  }
-
-  func testSpotlightOverlayKeepsTimedAnchoredTransitions() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Home/SpotlightTutorialOverlay.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertTrue(
-      source.contains("let stepDelay: Double = needsScroll && !reduceMotion ? 0.25 : 0"))
-    XCTAssertTrue(source.contains("DispatchQueue.main.asyncAfter(deadline: .now() + stepDelay)"))
-    XCTAssertFalse(source.contains("onScrollToAnchorAndWait"))
-    XCTAssertFalse(source.contains("private func transition(to targetIndex: Int)"))
-  }
-
-  func testSpotlightScreensUseCoordinatorAnchorUpdateHelper() throws {
-    let root = sourceRoot()
-    let ingredientReview = try String(
-      contentsOf: root.appendingPathComponent("Feature/Ingredients/IngredientReviewView.swift"),
-      encoding: .utf8
-    )
-    let home = try String(
-      contentsOf: root.appendingPathComponent("Feature/Home/HomeDashboardView.swift"),
-      encoding: .utf8
-    )
-    let demo = try String(
-      contentsOf: root.appendingPathComponent("Feature/Demo/DemoModeView.swift"),
-      encoding: .utf8
-    )
-    let ingredientSections = try String(
-      contentsOf: root.appendingPathComponent("Feature/Ingredients/IngredientReviewSections.swift"),
-      encoding: .utf8
-    )
-    let recipePreview = try String(
-      contentsOf: root.appendingPathComponent("Feature/Recipe/RecipePreviewDrawer.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertTrue(ingredientReview.contains("reviewSpotlight.updateAnchors(newAnchors"))
-    XCTAssertTrue(home.contains("spotlightCoordinator.updateAnchors($0)"))
-    XCTAssertTrue(demo.contains("demoSpotlight.updateAnchors($0)"))
-    XCTAssertTrue(ingredientSections.contains(".id(\"findRecipes\")"))
-    XCTAssertTrue(ingredientSections.contains(".spotlightAnchor(\"findRecipes\")"))
-    XCTAssertTrue(recipePreview.contains("swapSpotlight.updateAnchors($0)"))
-    XCTAssertTrue(
-      demo.contains(".navigationBarBackButtonHidden(isOverlayVisible || showDemoSpotlight)"))
-  }
-
-  func testIngredientReviewUsesTighterAnchorScopes() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Ingredients/IngredientReviewView.swift"),
-      encoding: .utf8
-    )
-    let sections = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Ingredients/IngredientReviewSections.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertFalse(source.contains("guard anchorID != \"confidenceLevels\" else { return }"))
-    XCTAssertTrue(source.contains("scrollProxy.scrollTo(anchorID, anchor: .center)"))
-    XCTAssertTrue(source.contains("presentReviewSpotlight()"))
-    XCTAssertFalse(source.contains("reviewScrollPhase"))
-    XCTAssertFalse(source.contains("isPreparingReviewSpotlight"))
-    XCTAssertFalse(source.contains(".onScrollPhaseChange"))
-    XCTAssertFalse(source.contains("prepareReviewSpotlight()"))
-    XCTAssertFalse(source.contains("presentPreparedReviewSpotlightIfReady()"))
-    XCTAssertFalse(
-      source.contains(".id(\"bulkActions\")\n              .spotlightAnchor(\"bulkActions\")"))
-    XCTAssertFalse(source.contains(".id(\"findRecipes\")\n      .spotlightAnchor(\"findRecipes\")"))
-    XCTAssertTrue(source.contains(".id(\"bulkActions\")"))
-    XCTAssertTrue(source.contains(".spotlightAnchor(\"bulkActions\")"))
-    XCTAssertTrue(sections.contains(".id(\"findRecipes\")"))
-    XCTAssertTrue(sections.contains(".spotlightAnchor(\"findRecipes\")"))
-  }
-
-  func testSpotlightHostsWaitForVisibleScreenState() throws {
-    let home = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Home/HomeDashboardView.swift"),
-      encoding: .utf8
-    )
-    let demo = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Demo/DemoModeView.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertTrue(
-      home.contains("return heroAppeared && anchorsReady(for: .onboarding) ? .onboarding : nil"))
-    XCTAssertTrue(
-      home.contains("return heroAppeared && anchorsReady(for: .questAdvance) ? .questAdvance : nil")
-    )
-    XCTAssertTrue(demo.contains("private var shouldAutoPresentDemoSpotlight: Bool"))
-    XCTAssertTrue(demo.contains("guard appeared else { return false }"))
-    XCTAssertTrue(demo.contains(".task(id: shouldAutoPresentDemoSpotlight)"))
+  private func settleCoordinatorUpdates() async {
+    await Task.yield()
+    await Task.yield()
   }
 }

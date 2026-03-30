@@ -198,29 +198,34 @@ struct KitchenItemRow: View {
 
 struct KitchenQuickAddSection: View {
   let onScanGroceries: () -> Void
+  let onScanReceipt: () -> Void
   let onAddManual: () -> Void
 
   var body: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-      FLSectionHeader("Add Items", icon: "plus.circle")
+      FLSectionHeader("Add Groceries", icon: "plus.circle")
 
       HStack(spacing: AppTheme.Space.sm) {
         quickAddButton(
           icon: "camera.viewfinder",
-          label: "Scan\nGroceries",
+          label: "Photo\nGroceries",
+          accessibilityLabel: "Photograph groceries",
+          accessibilityHint: "Open the grocery camera capture flow.",
           action: onScanGroceries
+        )
+        quickAddButton(
+          icon: "doc.text.viewfinder",
+          label: "Scan\nReceipt",
+          accessibilityLabel: "Scan a receipt",
+          accessibilityHint: "Open the receipt capture flow.",
+          action: onScanReceipt
         )
         quickAddButton(
           icon: "plus.circle",
           label: "Add\nManually",
+          accessibilityLabel: "Add groceries manually",
+          accessibilityHint: "Search for ingredients and add them by hand.",
           action: onAddManual
-        )
-        quickAddButton(
-          icon: "doc.text.viewfinder",
-          label: "Photo\nReceipt",
-          action: {
-            // TODO: Connect this action to the receipt-import capture flow.
-          }
         )
       }
     }
@@ -229,6 +234,8 @@ struct KitchenQuickAddSection: View {
   private func quickAddButton(
     icon: String,
     label: String,
+    accessibilityLabel: String,
+    accessibilityHint: String,
     action: @escaping () -> Void
   ) -> some View {
     Button(action: action) {
@@ -236,6 +243,7 @@ struct KitchenQuickAddSection: View {
         Image(systemName: icon)
           .font(.system(size: 22, weight: .medium))
           .foregroundStyle(AppTheme.accent)
+          .accessibilityHidden(true)
         Text(label)
           .font(AppTheme.Typography.labelSmall)
           .foregroundStyle(AppTheme.textSecondary)
@@ -253,5 +261,7 @@ struct KitchenQuickAddSection: View {
       )
     }
     .buttonStyle(FLPressableButtonStyle())
+    .accessibilityLabel(accessibilityLabel)
+    .accessibilityHint(accessibilityHint)
   }
 }

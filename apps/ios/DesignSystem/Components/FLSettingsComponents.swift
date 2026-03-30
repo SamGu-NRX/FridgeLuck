@@ -3,31 +3,44 @@ import SwiftUI
 struct FLSettingsSummaryCard: View {
   let title: String
   let subtitle: String
-  let badges: [FLSettingsBadge]
+
+  private var initial: String {
+    String(title.trimmingCharacters(in: .whitespacesAndNewlines).prefix(1)).uppercased()
+  }
 
   var body: some View {
-    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+    HStack(spacing: AppTheme.Space.md) {
+      Text(initial)
+        .font(.system(.title3, design: .serif, weight: .bold))
+        .foregroundStyle(.white)
+        .frame(width: 44, height: 44)
+        .background(
+          Circle()
+            .fill(
+              LinearGradient(
+                colors: [AppTheme.accent, AppTheme.accentLight],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+        )
+
       VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
         Text(title)
-          .font(AppTheme.Typography.settingsTitle)
+          .font(.system(.title3, design: .serif, weight: .semibold))
           .foregroundStyle(AppTheme.textPrimary)
-          .lineLimit(2)
+          .lineLimit(1)
 
         Text(subtitle)
           .font(AppTheme.Typography.settingsDetail)
           .foregroundStyle(AppTheme.textSecondary)
-          .lineLimit(3)
+          .lineLimit(2)
       }
 
-      if !badges.isEmpty {
-        FlowLayout(spacing: AppTheme.Space.xs) {
-          ForEach(badges) { badge in
-            FLSettingsBadgeView(badge: badge)
-          }
-        }
-      }
+      Spacer(minLength: 0)
     }
     .padding(AppTheme.Space.md)
+    .frame(maxWidth: .infinity, alignment: .leading)
     .background(
       RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
         .fill(AppTheme.surfaceElevated.opacity(0.96))
@@ -104,18 +117,15 @@ struct FLSettingsDisclosureRow: View {
   let title: String
   let value: String
   let subtitle: String?
-  let badge: FLSettingsBadge?
 
   init(
     title: String,
     value: String,
-    subtitle: String? = nil,
-    badge: FLSettingsBadge? = nil
+    subtitle: String? = nil
   ) {
     self.title = title
     self.value = value
     self.subtitle = subtitle
-    self.badge = badge
   }
 
   var body: some View {
@@ -127,10 +137,12 @@ struct FLSettingsDisclosureRow: View {
 
         Spacer(minLength: AppTheme.Space.sm)
 
-        Text(value)
-          .font(AppTheme.Typography.settingsDetail)
-          .foregroundStyle(AppTheme.textSecondary)
-          .multilineTextAlignment(.trailing)
+        if !value.isEmpty {
+          Text(value)
+            .font(AppTheme.Typography.settingsDetail)
+            .foregroundStyle(AppTheme.textSecondary)
+            .multilineTextAlignment(.trailing)
+        }
       }
 
       if let subtitle, !subtitle.isEmpty {
@@ -138,14 +150,10 @@ struct FLSettingsDisclosureRow: View {
           .font(AppTheme.Typography.settingsCaption)
           .foregroundStyle(AppTheme.textSecondary)
       }
-
-      if let badge {
-        FLSettingsBadgeView(badge: badge)
-      }
     }
     .padding(.vertical, AppTheme.Space.xxxs)
     .accessibilityElement(children: .combine)
-    .accessibilityLabel("\(title), \(value)")
+    .accessibilityLabel("\(title)\(value.isEmpty ? "" : ", \(value)")")
     .accessibilityHint(subtitle ?? "")
   }
 }

@@ -2,7 +2,6 @@ import SwiftUI
 
 private struct SettingsOverviewSnapshot {
   let profile: HealthProfile
-  let hasCompletedOnboarding: Bool
   let tutorialProgress: TutorialProgress
   let appleHealthStatus: AppPermissionStatus
   let cameraStatus: AppPermissionStatus
@@ -20,31 +19,10 @@ private struct SettingsOverviewSnapshot {
       "\(profile.goal.displayName) \u{2022} \(profile.dailyCalories ?? profile.goal.suggestedCalories) kcal/day \u{2022} \(ageText)"
   }
 
-  var summaryBadges: [FLSettingsBadge] {
-    var items: [FLSettingsBadge] = [
-      FLSettingsBadge(
-        text: hasCompletedOnboarding ? "Profile complete" : "Needs attention",
-        tone: hasCompletedOnboarding ? .positive : .warning
-      ),
-      FLSettingsBadge(
-        text: profile.selectedDietID?.capitalized ?? "Classic",
-        tone: .neutral
-      ),
-    ]
-
-    if appleHealthStatus.isAllowedForSettings {
-      items.append(FLSettingsBadge(text: "Apple Health connected", tone: .positive))
-    } else {
-      items.append(FLSettingsBadge(text: "Apple Health not connected", tone: .accent))
-    }
-
-    return items
-  }
-
   var profileSummary: String {
     let name =
-      profile.normalizedDisplayName.isEmpty ? "Name and age needed" : profile.normalizedDisplayName
-    let age = profile.age.map(String.init) ?? "Age"
+      profile.normalizedDisplayName.isEmpty ? "Not set" : profile.normalizedDisplayName
+    let age = profile.age.map(String.init) ?? "—"
     return "\(name) \u{2022} \(age)"
   }
 
@@ -57,8 +35,8 @@ private struct SettingsOverviewSnapshot {
     let diet = profile.selectedDietID?.capitalized ?? "Classic"
     let allergenCount = profile.parsedAllergenIds.count
     return allergenCount > 0
-      ? "\(diet) \u{2022} \(allergenCount) allergen filters"
-      : "\(diet) \u{2022} No allergen filters"
+      ? "\(diet) \u{2022} \(allergenCount) allergens"
+      : "\(diet) \u{2022} No allergens"
   }
 
   var integrationsSummary: String {
@@ -70,17 +48,13 @@ private struct SettingsOverviewSnapshot {
       $0.isAllowedForSettings
     }
     .count
-    return "\(allowedCount) of 3 allowed"
+    return "\(allowedCount) of 3"
   }
 
   var appExperienceSummary: String {
     tutorialProgress.isComplete
-      ? "Guided tour complete"
-      : "\(tutorialProgress.completedCount) of \(TutorialQuest.allCases.count) tutorial steps complete"
-  }
-
-  var dataSummary: String {
-    "Reset data, open system settings, and review local storage controls"
+      ? "Complete"
+      : "\(tutorialProgress.completedCount) of \(TutorialQuest.allCases.count)"
   }
 
   private var macroSummary: String {
@@ -101,7 +75,6 @@ struct SettingsHubView: View {
 
   @State private var snapshot = SettingsOverviewSnapshot(
     profile: .default,
-    hasCompletedOnboarding: false,
     tutorialProgress: .empty,
     appleHealthStatus: .notDetermined,
     cameraStatus: .notDetermined,
@@ -109,65 +82,25 @@ struct SettingsHubView: View {
     photoStatus: .notDetermined
   )
 
-  @State private var summaryAppeared = false
-  @State private var sectionsAppeared = false
+  @State private var phase1Appeared = false
+  @State private var phase2Appeared = false
+  @State private var phase3Appeared = false
+  @State private var phase4Appeared = false
 
   var body: some View {
     @Bindable var boundPrefs = prefs
 
     Form {
-      // MARK: - Summary Card
-
       Section {
         FLSettingsSummaryCard(
           title: snapshot.summaryTitle,
-          subtitle: snapshot.summarySubtitle,
-          badges: snapshot.summaryBadges
+          subtitle: snapshot.summarySubtitle
         )
         .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
         .listRowBackground(Color.clear)
       }
-      .opacity(summaryAppeared ? 1 : 0)
-      .offset(y: summaryAppeared ? 0 : 8)
-
-      // MARK: - Profile & Nutrition
-
-      Section {
-        NavigationLink(value: SettingsRoute.profileBasics) {
-          FLSettingsDisclosureRow(
-            title: "Basics",
-            value: snapshot.profileSummary,
-            subtitle: snapshot.hasCompletedOnboarding
-              ? "Used for personalization and onboarding status."
-              : "Complete this to unlock personalized recipe guidance."
-          )
-        }
-
-        NavigationLink(value: SettingsRoute.nutritionTargets) {
-          FLSettingsDisclosureRow(
-            title: "Targets",
-            value: snapshot.nutritionSummary,
-            subtitle: "Goal, calories, and macro balance."
-          )
-        }
-
-        NavigationLink(value: SettingsRoute.foodPreferences) {
-          FLSettingsDisclosureRow(
-            title: "Diet and allergens",
-            value: snapshot.foodSummary,
-            subtitle: "Recipe matching and safety filters."
-          )
-        }
-      } header: {
-        Label("Profile & Nutrition", systemImage: "person.crop.circle")
-          .font(AppTheme.Typography.settingsCaptionMedium)
-          .foregroundStyle(AppTheme.textSecondary)
-          .textCase(nil)
-      }
-      .opacity(sectionsAppeared ? 1 : 0)
-      .offset(y: sectionsAppeared ? 0 : 10)
-
-      // MARK: - Preferences (inline controls)
+      .opacity(phase1Appeared ? 1 : 0)
+      .offset(y: phase1Appeared ? 0 : 8)
 
       Section {
         Picker("Appearance", selection: $boundPrefs.appearance) {
@@ -212,69 +145,97 @@ struct SettingsHubView: View {
             }
           }
       } header: {
-        Label("Preferences", systemImage: "slider.horizontal.3")
-          .font(AppTheme.Typography.settingsCaptionMedium)
-          .foregroundStyle(AppTheme.textSecondary)
-          .textCase(nil)
-      } footer: {
-        FLSettingsFootnote(text: "Appearance and units apply across the entire app.")
+        sectionHeader("Preferences")
       }
-      .opacity(sectionsAppeared ? 1 : 0)
-      .offset(y: sectionsAppeared ? 0 : 10)
+      .opacity(phase2Appeared ? 1 : 0)
+      .offset(y: phase2Appeared ? 0 : 10)
 
-      // MARK: - Connections
+      Section {
+        NavigationLink(value: SettingsRoute.profileBasics) {
+          iconRow(
+            icon: "person.fill",
+            tint: AppTheme.accent,
+            title: "Basics",
+            value: snapshot.profileSummary
+          )
+        }
+
+        NavigationLink(value: SettingsRoute.nutritionTargets) {
+          iconRow(
+            icon: "target",
+            tint: AppTheme.sage,
+            title: "Targets",
+            value: snapshot.nutritionSummary
+          )
+        }
+
+        NavigationLink(value: SettingsRoute.foodPreferences) {
+          iconRow(
+            icon: "leaf.fill",
+            tint: AppTheme.oat,
+            title: "Diet and allergens",
+            value: snapshot.foodSummary
+          )
+        }
+      } header: {
+        sectionHeader("Profile & Nutrition")
+      }
+      .opacity(phase3Appeared ? 1 : 0)
+      .offset(y: phase3Appeared ? 0 : 10)
 
       Section {
         NavigationLink(value: SettingsRoute.integrations) {
-          FLSettingsDisclosureRow(
-            title: "Integrations",
-            value: snapshot.integrationsSummary,
-            subtitle: "Apple Health nutrition sync."
+          iconRow(
+            icon: "heart.fill",
+            tint: AppTheme.sage,
+            title: "Apple Health",
+            value: snapshot.integrationsSummary
           )
         }
 
         NavigationLink(value: SettingsRoute.permissions) {
-          FLSettingsDisclosureRow(
+          iconRow(
+            icon: "lock.fill",
+            tint: AppTheme.textSecondary,
             title: "Permissions",
-            value: snapshot.permissionsSummary,
-            subtitle: "Camera, microphone, and photo access."
+            value: snapshot.permissionsSummary
           )
         }
       } header: {
-        Label("Connections", systemImage: "link")
-          .font(AppTheme.Typography.settingsCaptionMedium)
-          .foregroundStyle(AppTheme.textSecondary)
-          .textCase(nil)
+        sectionHeader("Connections")
       }
-      .opacity(sectionsAppeared ? 1 : 0)
-      .offset(y: sectionsAppeared ? 0 : 10)
-
-      // MARK: - More
+      .opacity(phase4Appeared ? 1 : 0)
+      .offset(y: phase4Appeared ? 0 : 10)
 
       Section {
         NavigationLink(value: SettingsRoute.appExperience) {
-          FLSettingsDisclosureRow(
+          iconRow(
+            icon: "sparkles",
+            tint: AppTheme.accentLight,
             title: "Guided experience",
-            value: snapshot.appExperienceSummary,
-            subtitle: "Replay onboarding and check tutorial progress."
+            value: snapshot.appExperienceSummary
           )
         }
 
         NavigationLink(value: SettingsRoute.dataAndPrivacy) {
-          FLSettingsDisclosureRow(
-            title: "Controls",
-            value: "Manage",
-            subtitle: snapshot.dataSummary
+          iconRow(
+            icon: "shield.fill",
+            tint: AppTheme.dustyRose,
+            title: "Data & Privacy"
           )
         }
       } header: {
-        Label("More", systemImage: "ellipsis.circle")
-          .font(AppTheme.Typography.settingsCaptionMedium)
-          .foregroundStyle(AppTheme.textSecondary)
-          .textCase(nil)
+        sectionHeader("More")
+      } footer: {
+        Text(appVersion)
+          .font(AppTheme.Typography.settingsCaption)
+          .foregroundStyle(AppTheme.textSecondary.opacity(0.6))
+          .frame(maxWidth: .infinity)
+          .padding(.top, AppTheme.Space.lg)
+          .padding(.bottom, AppTheme.Home.navOrbLift)
       }
-      .opacity(sectionsAppeared ? 1 : 0)
-      .offset(y: sectionsAppeared ? 0 : 10)
+      .opacity(phase4Appeared ? 1 : 0)
+      .offset(y: phase4Appeared ? 0 : 10)
     }
     .scrollContentBackground(.hidden)
     .navigationTitle("Settings")
@@ -287,29 +248,83 @@ struct SettingsHubView: View {
       await load()
     }
     .onAppear {
-      guard !summaryAppeared else { return }
+      guard !phase1Appeared else { return }
       if reduceMotion {
-        summaryAppeared = true
-        sectionsAppeared = true
+        phase1Appeared = true
+        phase2Appeared = true
+        phase3Appeared = true
+        phase4Appeared = true
       } else {
-        withAnimation(AppMotion.tabEntrance) {
-          summaryAppeared = true
+        let interval = AppMotion.staggerInterval
+        withAnimation(AppMotion.staggerEntrance) {
+          phase1Appeared = true
         }
-        withAnimation(AppMotion.staggerEntrance.delay(AppMotion.staggerInterval * 2)) {
-          sectionsAppeared = true
+        withAnimation(AppMotion.staggerEntrance.delay(interval * 2)) {
+          phase2Appeared = true
+        }
+        withAnimation(AppMotion.staggerEntrance.delay(interval * 4)) {
+          phase3Appeared = true
+        }
+        withAnimation(AppMotion.staggerEntrance.delay(interval * 6)) {
+          phase4Appeared = true
         }
       }
     }
   }
 
+  private func sectionHeader(_ title: String) -> some View {
+    Text(title)
+      .font(.system(.subheadline, design: .serif, weight: .medium))
+      .foregroundStyle(AppTheme.textSecondary)
+      .textCase(nil)
+  }
+
+  private func iconRow(
+    icon: String,
+    tint: Color,
+    title: String,
+    value: String = ""
+  ) -> some View {
+    HStack(spacing: AppTheme.Space.sm) {
+      Image(systemName: icon)
+        .font(.system(size: 13, weight: .semibold))
+        .foregroundStyle(.white)
+        .frame(width: 28, height: 28)
+        .background(tint, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+
+      Text(title)
+        .font(AppTheme.Typography.settingsBody)
+        .foregroundStyle(AppTheme.textPrimary)
+
+      Spacer(minLength: AppTheme.Space.xs)
+
+      if !value.isEmpty {
+        Text(value)
+          .font(AppTheme.Typography.settingsDetail)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.trailing)
+          .lineLimit(1)
+      }
+    }
+    .padding(.vertical, AppTheme.Space.xxxs)
+    .accessibilityElement(children: .combine)
+    .accessibilityLabel("\(title)\(value.isEmpty ? "" : ", \(value)")")
+  }
+
+  private var appVersion: String {
+    let shortVersion =
+      Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
+    let buildNumber =
+      Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"
+    return "Version \(shortVersion) (\(buildNumber))"
+  }
+
   private func load() async {
     let profile = (try? deps.userDataRepository.fetchHealthProfile()) ?? .default
-    let hasCompletedOnboarding = (try? deps.userDataRepository.hasCompletedOnboarding()) ?? false
     let tutorialProgress = TutorialProgress(storageString: tutorialStorageString)
 
     snapshot = SettingsOverviewSnapshot(
       profile: profile,
-      hasCompletedOnboarding: hasCompletedOnboarding,
       tutorialProgress: tutorialProgress,
       appleHealthStatus: deps.appleHealthService.authorizationStatus(),
       cameraStatus: AppPermissionCenter.status(for: .camera),

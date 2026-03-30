@@ -1,4 +1,3 @@
-import PhotosUI
 import SwiftUI
 import os
 
@@ -8,46 +7,6 @@ struct UpdateGroceriesView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.dismiss) private var dismiss
-
-  // MARK: - Enums
-
-  private enum GroceryEntryMode: String, CaseIterable {
-    case photo
-    case receipt
-    case manual
-
-    var title: String {
-      switch self {
-      case .photo: return "Photograph groceries"
-      case .receipt: return "Scan a receipt"
-      case .manual: return "Add items manually"
-      }
-    }
-
-    var subtitle: String {
-      switch self {
-      case .photo: return "Snap a photo of your haul"
-      case .receipt: return "OCR your shopping receipt"
-      case .manual: return "Search and add by hand"
-      }
-    }
-
-    var icon: String {
-      switch self {
-      case .photo: return "camera.fill"
-      case .receipt: return "doc.text.viewfinder"
-      case .manual: return "text.badge.plus"
-      }
-    }
-
-    var iconColor: Color {
-      switch self {
-      case .photo: return AppTheme.accent
-      case .receipt: return AppTheme.sage
-      case .manual: return AppTheme.oat
-      }
-    }
-  }
 
   private enum GroceryStage: Int {
     case selectMode = 1
@@ -71,18 +30,44 @@ struct UpdateGroceriesView: View {
 
   // MARK: - State
 
-  @State private var selectedMode: GroceryEntryMode?
+  let launchMode: UpdateGroceriesLaunchMode
+
+  @State private var selectedMode: UpdateGroceriesLaunchMode?
   @State private var stage: GroceryStage = .selectMode
   @State private var capturedImage: UIImage?
-  @State private var capturedImages: [UIImage] = []
   @State private var showCamera = false
-  @State private var selectedPhotoItem: PhotosPickerItem?
   @State private var pendingItems: [GroceryPendingItem] = []
   @State private var isCommitting = false
   @State private var showSuccess = false
   @State private var stageAppeared = false
   @State private var showIngredientPicker = false
   @State private var selectedIngredientIDs: Set<Int64> = []
+  @State private var hasAppliedLaunchMode = false
+  @State private var cameraLaunchTask: Task<Void, Never>?
+  @State private var successDismissTask: Task<Void, Never>?
+  @State private var stageAppearanceTask: Task<Void, Never>?
+
+  init(launchMode: UpdateGroceriesLaunchMode = .chooser) {
+    self.launchMode = launchMode
+  }
+
+  private var captureImagesBinding: Binding<[UIImage]> {
+    Binding(
+      get: { capturedImage.map { [$0] } ?? [] },
+      set: { images in
+        capturedImage = images.last
+      }
+    )
+  }
+
+  private var captureConfiguration: FLCaptureConfiguration {
+    let mode = selectedMode ?? launchMode
+    return FLCaptureConfiguration(
+      title: mode.captureTitle,
+      subtitle: mode.captureSubtitle,
+      maxPhotos: 1
+    )
+  }
 
   // MARK: - Body
 
@@ -141,17 +126,10 @@ struct UpdateGroceriesView: View {
     }
     .fullScreenCover(isPresented: $showCamera) {
       FLCaptureView(
-        configuration: FLCaptureConfiguration(
-          title: selectedMode == .receipt ? "Scan Receipt" : "Photograph Groceries",
-          subtitle: selectedMode == .receipt
-            ? "Center the receipt in frame"
-            : "Lay out items for best results",
-          maxPhotos: 1
-        ),
-        capturedImages: $capturedImages,
+        configuration: captureConfiguration,
+        capturedImages: captureImagesBinding,
         onDone: {
-          if let lastImage = capturedImages.last {
-            capturedImage = lastImage
+          if capturedImage != nil {
             advanceToAnalyze()
           }
         }
@@ -163,13 +141,23 @@ struct UpdateGroceriesView: View {
         selectedIDs: $selectedIngredientIDs
       )
     }
+    .task {
+      applyLaunchModeIfNeeded()
+    }
+    .onDisappear {
+      cancelPendingTasks()
+    }
     .onChange(of: showCamera) { _, isShowing in
-      if !isShowing, capturedImages.isEmpty, stage == .capture {
-        withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-          stage = .selectMode
-          stageAppeared = false
+      if !isShowing, capturedImage == nil, stage == .capture {
+        if launchMode.isDirectEntry {
+          dismiss()
+        } else {
+          withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+            stage = .selectMode
+            stageAppeared = false
+          }
+          triggerStageAppearance()
         }
-        triggerStageAppearance()
       }
     }
   }
@@ -194,7 +182,8 @@ struct UpdateGroceriesView: View {
         }
 
         VStack(spacing: AppTheme.Space.md) {
-          ForEach(Array(GroceryEntryMode.allCases.enumerated()), id: \.element) { index, mode in
+          ForEach(Array(UpdateGroceriesLaunchMode.entryModes.enumerated()), id: \.element) {
+            index, mode in
             modeCard(mode, staggerIndex: index)
           }
         }
@@ -206,7 +195,7 @@ struct UpdateGroceriesView: View {
     .onAppear { triggerStageAppearance() }
   }
 
-  private func modeCard(_ mode: GroceryEntryMode, staggerIndex: Int) -> some View {
+  private func modeCard(_ mode: UpdateGroceriesLaunchMode, staggerIndex: Int) -> some View {
     Button {
       selectedMode = mode
       advanceToCaptureOrReview(mode: mode)
@@ -276,10 +265,7 @@ struct UpdateGroceriesView: View {
     }
     .frame(maxWidth: .infinity)
     .onAppear {
-      Task { @MainActor in
-        try? await Task.sleep(nanoseconds: 100_000_000)
-        showCamera = true
-      }
+      scheduleCameraLaunch()
     }
   }
 
@@ -295,8 +281,8 @@ struct UpdateGroceriesView: View {
     )
     .padding(.horizontal, AppTheme.Space.page)
     .task {
-      let delayNanoseconds: UInt64 = reduceMotion ? 500_000_000 : 1_300_000_000
-      try? await Task.sleep(nanoseconds: delayNanoseconds)
+      try? await Task.sleep(for: reduceMotion ? .milliseconds(500) : .milliseconds(1300))
+      guard !Task.isCancelled else { return }
 
       let demoItems = generateDemoGroceryItems()
       pendingItems = demoItems
@@ -349,16 +335,57 @@ struct UpdateGroceriesView: View {
     }
     .transition(.opacity.combined(with: .scale(scale: 0.98)))
     .onAppear {
-      Task {
-        try? await Task.sleep(nanoseconds: reduceMotion ? 800_000_000 : 1_600_000_000)
-        dismiss()
-      }
+      scheduleSuccessDismiss()
     }
   }
 
   // MARK: - Navigation Helpers
 
-  private func advanceToCaptureOrReview(mode: GroceryEntryMode) {
+  private func applyLaunchModeIfNeeded() {
+    guard launchMode.isDirectEntry, !hasAppliedLaunchMode else { return }
+    hasAppliedLaunchMode = true
+    selectedMode = launchMode
+    advanceToCaptureOrReview(mode: launchMode)
+  }
+
+  private func cancelPendingTasks() {
+    cameraLaunchTask?.cancel()
+    cameraLaunchTask = nil
+    successDismissTask?.cancel()
+    successDismissTask = nil
+    stageAppearanceTask?.cancel()
+    stageAppearanceTask = nil
+  }
+
+  private func scheduleCameraLaunch() {
+    cameraLaunchTask?.cancel()
+
+    guard !reduceMotion else {
+      showCamera = true
+      return
+    }
+
+    cameraLaunchTask = Task { @MainActor in
+      try? await Task.sleep(for: .milliseconds(100))
+      guard !Task.isCancelled else { return }
+
+      showCamera = true
+      cameraLaunchTask = nil
+    }
+  }
+
+  private func scheduleSuccessDismiss() {
+    successDismissTask?.cancel()
+    successDismissTask = Task { @MainActor in
+      try? await Task.sleep(for: reduceMotion ? .milliseconds(800) : .milliseconds(1600))
+      guard !Task.isCancelled else { return }
+
+      dismiss()
+      successDismissTask = nil
+    }
+  }
+
+  private func advanceToCaptureOrReview(mode: UpdateGroceriesLaunchMode) {
     switch mode {
     case .photo, .receipt:
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -368,11 +395,16 @@ struct UpdateGroceriesView: View {
     case .manual:
       selectedIngredientIDs = []
       showIngredientPicker = true
+    case .chooser:
+      break
     }
   }
 
   private func onIngredientPickerDismiss() {
     guard !selectedIngredientIDs.isEmpty else {
+      if launchMode.isDirectEntry, pendingItems.isEmpty {
+        dismiss()
+      }
       return
     }
 
@@ -410,13 +442,19 @@ struct UpdateGroceriesView: View {
 
   private func triggerStageAppearance() {
     if reduceMotion {
+      stageAppearanceTask?.cancel()
+      stageAppearanceTask = nil
       stageAppeared = true
     } else {
-      Task { @MainActor in
-        try? await Task.sleep(nanoseconds: 50_000_000)
+      stageAppearanceTask?.cancel()
+      stageAppearanceTask = Task { @MainActor in
+        try? await Task.sleep(for: .milliseconds(50))
+        guard !Task.isCancelled else { return }
+
         withAnimation(AppMotion.cardSpring) {
           stageAppeared = true
         }
+        stageAppearanceTask = nil
       }
     }
   }

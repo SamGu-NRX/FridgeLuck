@@ -8,6 +8,7 @@ final class KitchenViewModel {
   var allItems: [InventoryActiveItem] = []
   var selectedLocation: InventoryStorageLocation? = nil
   var pantryAssumptions: [PantryAssumptionDisplay] = []
+  var errorMessage: String?
 
   private let inventoryRepository: InventoryRepository
   private let pantryAssumptionService: PantryAssumptionService
@@ -69,9 +70,9 @@ final class KitchenViewModel {
           tier: assumption.tier
         )
       }
+      errorMessage = nil
     } catch {
-      allItems = []
-      pantryAssumptions = []
+      errorMessage = "We couldn't load your kitchen right now. Pull to refresh and try again."
     }
   }
 
@@ -84,8 +85,10 @@ final class KitchenViewModel {
         try repo.removeActiveItem(id: item.id)
       }.value
       allItems.removeAll { $0.id == item.id }
+      errorMessage = nil
     } catch {
       await load()
+      errorMessage = "We couldn't remove \(item.ingredientName). Please try again."
     }
   }
 
@@ -98,8 +101,10 @@ final class KitchenViewModel {
       if let index = allItems.firstIndex(where: { $0.id == item.id }) {
         allItems[index] = allItems[index].withConfirmedConfidence()
       }
+      errorMessage = nil
     } catch {
       await load()
+      errorMessage = "We couldn't confirm \(item.ingredientName). Please try again."
     }
   }
 
@@ -121,8 +126,10 @@ final class KitchenViewModel {
         ingredientName: current.ingredientName,
         tier: newTier
       )
+      errorMessage = nil
     } catch {
       await load()
+      errorMessage = "We couldn't update \(current.ingredientName). Please try again."
     }
   }
 
@@ -133,8 +140,31 @@ final class KitchenViewModel {
         try pantryService.removeAssumption(ingredientId: ingredientId)
       }.value
       pantryAssumptions.removeAll { $0.ingredientId == ingredientId }
+      errorMessage = nil
     } catch {
       await load()
+      let ingredientName =
+        pantryAssumptions.first(where: { $0.ingredientId == ingredientId })?.ingredientName
+        ?? "that staple"
+      errorMessage = "We couldn't remove \(ingredientName). Please try again."
+    }
+  }
+
+  func addPantryAssumptions(ingredientIDs: Set<Int64>) async {
+    let existingIDs = Set(pantryAssumptions.map(\.ingredientId))
+    let newIDs = ingredientIDs.subtracting(existingIDs)
+    guard !newIDs.isEmpty else { return }
+
+    let pantryService = pantryAssumptionService
+    do {
+      try await Task.detached(priority: .userInitiated) {
+        try pantryService.setAssumptions(ingredientIDs: newIDs, tier: .alwaysHave)
+      }.value
+      await load()
+      errorMessage = nil
+    } catch {
+      await load()
+      errorMessage = "We couldn't save those pantry staples. Please try again."
     }
   }
 }

@@ -134,7 +134,10 @@ public enum ScanBenchmarkScorer {
 
     let overallStatus: ScanBenchmarkStatus
     let invalidReason: String?
-    if invalidImageCount > 0 {
+    if imageReports.isEmpty {
+      overallStatus = .invalid
+      invalidReason = "No benchmark images were evaluated."
+    } else if invalidImageCount > 0 {
       overallStatus = .invalid
       invalidReason = imageReports.first(where: { $0.status == .invalid })?.invalidReason
     } else if regressedImageCount > 0 {

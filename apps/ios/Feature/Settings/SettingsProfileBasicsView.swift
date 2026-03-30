@@ -21,27 +21,14 @@ struct SettingsProfileBasicsView: View {
         TextField("Age", text: $ageText)
           .keyboardType(.numberPad)
       } footer: {
-        FLSettingsFootnote(
-          text: "Name and age unlock personalized recipe guidance and mark onboarding complete."
-        )
-      }
-
-      Section("Status") {
-        FLSettingsStatusRow(
-          title: "Profile completion",
-          status: isProfileComplete ? "Ready" : "Incomplete",
-          detail: isProfileComplete
-            ? "Your profile has the minimum info needed for personalization."
-            : "Set both a name and a valid age from 13 to 100.",
-          badge: FLSettingsBadge(
-            text: isProfileComplete ? "Complete" : "Needs attention",
-            tone: isProfileComplete ? .positive : .warning
-          )
-        )
-
         if let validationMessage {
-          FLSettingsFootnote(text: validationMessage)
+          Text(validationMessage)
+            .font(AppTheme.Typography.settingsCaption)
             .foregroundStyle(AppTheme.accent)
+        } else {
+          FLSettingsFootnote(
+            text: "Name and age personalize your recipe recommendations."
+          )
         }
       }
     }
@@ -64,12 +51,6 @@ struct SettingsProfileBasicsView: View {
   private var parsedAge: Int? {
     guard !ageText.isEmpty else { return nil }
     return Int(ageText)
-  }
-
-  private var isProfileComplete: Bool {
-    let nameReady = !displayName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    guard let parsedAge else { return false }
-    return nameReady && (13...100).contains(parsedAge)
   }
 
   private func load() {

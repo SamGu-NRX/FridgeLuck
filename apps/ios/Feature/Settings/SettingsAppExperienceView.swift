@@ -40,22 +40,6 @@ struct SettingsAppExperienceView: View {
           onReplayOnboarding()
         }
       }
-
-      Section("Coming Soon") {
-        FLSettingsStatusRow(
-          title: "Notifications",
-          status: "Coming soon",
-          detail: "Reminder controls will live here once they are supported in the app.",
-          badge: FLSettingsBadge(text: "Soon", tone: .neutral)
-        )
-
-        FLSettingsStatusRow(
-          title: "Widgets",
-          status: "Coming soon",
-          detail: "Home and Lock Screen widget controls will land here in a later pass.",
-          badge: FLSettingsBadge(text: "Soon", tone: .neutral)
-        )
-      }
     }
     .scrollContentBackground(.hidden)
     .navigationTitle("App Experience")

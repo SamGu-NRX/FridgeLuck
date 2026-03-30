@@ -3,14 +3,24 @@ import SwiftUI
 struct KitchenView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+  private let deps: AppDependencies
+  private let onOpenGroceriesFlow: (UpdateGroceriesLaunchMode) -> Void
+
   @State private var viewModel: KitchenViewModel
   @State private var selectedLocation: InventoryStorageLocation? = nil
   @State private var headerAppeared = false
   @State private var sectionsAppeared = false
+  @State private var showStaplePicker = false
+  @State private var selectedStapleIDs: Set<Int64> = []
 
   private let locationOrder: [InventoryStorageLocation] = [.fridge, .pantry, .freezer]
 
-  init(deps: AppDependencies) {
+  init(
+    deps: AppDependencies,
+    onOpenGroceriesFlow: @escaping (UpdateGroceriesLaunchMode) -> Void = { _ in }
+  ) {
+    self.deps = deps
+    self.onOpenGroceriesFlow = onOpenGroceriesFlow
     _viewModel = State(wrappedValue: KitchenViewModel(deps: deps))
   }
 
@@ -23,15 +33,27 @@ struct KitchenView: View {
           .opacity(headerAppeared ? 1 : 0)
           .offset(y: headerAppeared ? 0 : -8)
 
-        if !viewModel.hasLoaded || viewModel.isLoading {
+        if !viewModel.hasLoaded || (viewModel.isLoading && !hasKitchenContent) {
           loadingState
-        } else if viewModel.allItems.isEmpty {
+        } else if let errorMessage = viewModel.errorMessage, !hasKitchenContent {
+          errorState(message: errorMessage)
+            .padding(.horizontal, AppTheme.Space.page)
+            .padding(.top, AppTheme.Space.sectionBreak)
+        } else if !hasKitchenContent {
           emptyState
             .padding(.horizontal, AppTheme.Space.page)
             .padding(.top, AppTheme.Space.sectionBreak)
         } else {
-          locationFilter
-            .padding(.top, AppTheme.Space.lg)
+          if let errorMessage = viewModel.errorMessage {
+            refreshErrorBanner(message: errorMessage)
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.top, AppTheme.Space.lg)
+          }
+
+          if !viewModel.allItems.isEmpty {
+            locationFilter
+              .padding(.top, AppTheme.Space.lg)
+          }
 
           VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
             KitchenUseSoonSection(items: viewModel.useSoonItems)
@@ -51,10 +73,13 @@ struct KitchenView: View {
 
             KitchenQuickAddSection(
               onScanGroceries: {
-                // TODO: Connect this action to the grocery scan capture flow.
+                onOpenGroceriesFlow(.photo)
+              },
+              onScanReceipt: {
+                onOpenGroceriesFlow(.receipt)
               },
               onAddManual: {
-                // TODO: Connect this action to the manual grocery entry flow.
+                onOpenGroceriesFlow(.manual)
               }
             )
             .opacity(sectionsAppeared ? 1 : 0)
@@ -65,7 +90,8 @@ struct KitchenView: View {
               onCycleTier: { id in Task { await viewModel.cyclePantryTier(ingredientId: id) } },
               onRemove: { id in Task { await viewModel.removePantryAssumption(ingredientId: id) } },
               onAddStaple: {
-                // TODO: Present the pantry staple picker once Kitchen can launch ingredient search.
+                selectedStapleIDs = []
+                showStaplePicker = true
               }
             )
             .opacity(sectionsAppeared ? 1 : 0)
@@ -97,6 +123,13 @@ struct KitchenView: View {
     .refreshable {
       await viewModel.load()
     }
+    .sheet(isPresented: $showStaplePicker, onDismiss: handleStaplePickerDismiss) {
+      IngredientPickerView(
+        title: "Pantry Staples",
+        selectedIDs: $selectedStapleIDs
+      )
+      .environmentObject(deps)
+    }
     .onAppear {
       guard !headerAppeared else { return }
       if reduceMotion {
@@ -112,6 +145,10 @@ struct KitchenView: View {
   private var effectiveLocationOrder: [InventoryStorageLocation] {
     let hasUnknown = viewModel.filteredItems.contains { $0.storageLocation == .unknown }
     return hasUnknown ? locationOrder + [.unknown] : locationOrder
+  }
+
+  private var hasKitchenContent: Bool {
+    !viewModel.allItems.isEmpty || !viewModel.pantryAssumptions.isEmpty
   }
 
   // MARK: - Header
@@ -225,14 +262,62 @@ struct KitchenView: View {
     .padding(.vertical, AppTheme.Space.xxl)
   }
 
+  private func errorState(message: String) -> some View {
+    FLEmptyState(
+      title: "Kitchen unavailable",
+      message: message,
+      systemImage: "exclamationmark.triangle.fill",
+      actionTitle: "Try Again"
+    ) {
+      Task { await viewModel.load() }
+    }
+  }
+
+  private func refreshErrorBanner(message: String) -> some View {
+    FLCard(tone: .warm) {
+      HStack(alignment: .top, spacing: AppTheme.Space.sm) {
+        Image(systemName: "exclamationmark.triangle.fill")
+          .font(.system(size: 14, weight: .semibold))
+          .foregroundStyle(AppTheme.dustyRose)
+          .accessibilityHidden(true)
+
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+          Text("Kitchen refresh failed")
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.textPrimary)
+          Text(message)
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+
+        Spacer(minLength: AppTheme.Space.sm)
+
+        Button("Retry") {
+          Task { await viewModel.load() }
+        }
+        .font(AppTheme.Typography.label)
+      }
+    }
+  }
+
   private var emptyState: some View {
     FLEmptyState(
       title: "Your kitchen is empty",
-      message: "Scan your fridge or add groceries to see what you have on hand.",
+      message: "Add groceries to start building a live view of what you have on hand.",
       systemImage: "refrigerator",
-      actionTitle: "Scan Fridge"
+      actionTitle: "Add Groceries"
     ) {
-      // TODO: Reuse the grocery scan capture flow for the empty kitchen CTA.
+      onOpenGroceriesFlow(.chooser)
+    }
+  }
+
+  private func handleStaplePickerDismiss() {
+    let pickedIDs = selectedStapleIDs
+    selectedStapleIDs = []
+
+    guard !pickedIDs.isEmpty else { return }
+    Task {
+      await viewModel.addPantryAssumptions(ingredientIDs: pickedIDs)
     }
   }
 }

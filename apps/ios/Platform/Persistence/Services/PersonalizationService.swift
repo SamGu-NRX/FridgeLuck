@@ -152,18 +152,27 @@ final class PersonalizationService: Sendable {
       let rows = try Streak.order(Streak.Columns.date.desc).fetchAll(db)
       guard !rows.isEmpty else { return 0 }
 
-      var streak = 0
       let calendar = Calendar.current
-      var expectedDate = calendar.startOfDay(for: Date())
-
-      for row in rows {
-        guard let rowDate = Self.parseDate(row.date) else { break }
+      let today = calendar.startOfDay(for: Date())
+      let yesterday = calendar.date(byAdding: .day, value: -1, to: today) ?? today
+      let recordedDays = rows.compactMap { row -> Date? in
+        guard row.mealsCookedCount > 0, let rowDate = Self.parseDate(row.date) else { return nil }
         let rowDay = calendar.startOfDay(for: rowDate)
+        return rowDay <= today ? rowDay : nil
+      }
 
+      guard let firstRecordedDay = recordedDays.first else { return 0 }
+      guard firstRecordedDay == today || firstRecordedDay == yesterday else { return 0 }
+
+      var streak = 1
+      var expectedDate =
+        calendar.date(byAdding: .day, value: -1, to: firstRecordedDay) ?? firstRecordedDay
+
+      for rowDay in recordedDays.dropFirst() {
         if rowDay == expectedDate {
           streak += 1
-          expectedDate = calendar.date(byAdding: .day, value: -1, to: expectedDate)!
-        } else {
+          expectedDate = calendar.date(byAdding: .day, value: -1, to: expectedDate) ?? expectedDate
+        } else if rowDay < expectedDate {
           break
         }
       }

@@ -1,6 +1,6 @@
 import Foundation
 
-enum SettingsRoute: Hashable {
+enum SettingsRoute: Hashable, CaseIterable {
   case overview
   case profileBasics
   case nutritionTargets

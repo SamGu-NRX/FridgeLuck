@@ -45,6 +45,7 @@ struct ProgressMacroRow: View {
       .offset(y: appeared ? 0 : 8)
     }
     .onAppear {
+      guard !appeared else { return }
       if reduceMotion {
         appeared = true
       } else {
@@ -63,6 +64,8 @@ struct ProgressMacroDetailCard: View {
   let proteinGoal: Double
   let carbsGoal: Double
   let fatGoal: Double
+
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   var body: some View {
     FLCard {
@@ -118,7 +121,7 @@ struct ProgressMacroDetailCard: View {
           RoundedRectangle(cornerRadius: 4, style: .continuous)
             .fill(color)
             .frame(width: geo.size.width * pct, height: 8)
-            .animation(AppMotion.chartReveal, value: pct)
+            .animation(reduceMotion ? nil : AppMotion.chartReveal, value: pct)
         }
       }
       .frame(height: 8)

@@ -87,6 +87,18 @@ private struct OnboardingHomeHandoffOverlay: View {
 }
 
 struct ContentView: View {
+  private struct HomeRecommendationRoute: Identifiable, Hashable, Sendable {
+    let ingredientIds: Set<Int64>
+    let ingredientNames: [String]
+    let preferredRecipeID: Int64?
+
+    var id: String {
+      let recipePart = preferredRecipeID.map(String.init) ?? "none"
+      let ingredientPart = ingredientIds.sorted().map(String.init).joined(separator: ",")
+      return "\(recipePart)|\(ingredientPart)|\(ingredientNames.joined(separator: ","))"
+    }
+  }
+
   private enum Timing {
     static let navAppearanceDelay = 0.22
     static let scanModeSelectionDelay = Duration.milliseconds(150)
@@ -106,7 +118,9 @@ struct ContentView: View {
   @State private var navigateToDemoMode = false
   @State private var navigateToDirectReview = false
   @State private var navigateToDirectResults = false
-  @State private var navigateToUpdateGroceries = false
+  @State private var homeUpdateGroceriesLaunchMode: UpdateGroceriesLaunchMode?
+  @State private var homeRecommendationRoute: HomeRecommendationRoute?
+  @State private var kitchenUpdateGroceriesLaunchMode: UpdateGroceriesLaunchMode?
   @State private var assistantRecipeContext: LiveAssistantRecipeContext?
   @State private var showOnboarding = false
   @State private var navCoordinator = NavigationCoordinator()
@@ -123,7 +137,10 @@ struct ContentView: View {
   @State private var directResultsImage: UIImage?
   @State private var onboardingHandoffToken: UUID?
   @State private var isOnboardingHandoffVisible = false
+  @State private var questCompletionTask: Task<Void, Never>?
   @State private var onboardingHandoffFallbackTask: Task<Void, Never>?
+  @State private var onboardingHandoffCleanupTask: Task<Void, Never>?
+  @State private var scanModeSelectionTask: Task<Void, Never>?
 
   @State private var showScanModeMenu = false
   @State private var highlightedScanMode: ScanMode?
@@ -136,11 +153,23 @@ struct ContentView: View {
 
   private var hasActiveHomeDestination: Bool {
     navigateToScan || navigateToReverseScan || navigateToDemoMode || navigateToDirectReview
-      || navigateToDirectResults || navigateToUpdateGroceries || assistantRecipeContext != nil
+      || navigateToDirectResults || homeUpdateGroceriesLaunchMode != nil
+      || homeRecommendationRoute != nil || assistantRecipeContext != nil
+  }
+
+  private var hasActiveKitchenDestination: Bool {
+    kitchenUpdateGroceriesLaunchMode != nil
   }
 
   private var shouldShowBottomNav: Bool {
-    selectedTab != .home || !hasActiveHomeDestination
+    switch selectedTab {
+    case .home:
+      !hasActiveHomeDestination
+    case .kitchen:
+      !hasActiveKitchenDestination
+    case .progress, .settings:
+      true
+    }
   }
 
   private var shouldShowSpotlightOverlay: Bool {
@@ -205,10 +234,14 @@ struct ContentView: View {
       markTutorialQuest(quest)
       let flowContext = tutorialFlowContext
 
-      Task {
+      questCompletionTask?.cancel()
+      questCompletionTask = Task { @MainActor in
         try? await Task.sleep(for: .milliseconds(reduceMotion ? 200 : 500))
+        guard !Task.isCancelled else { return }
+
         navCoordinator.returnHome()
         flowContext.reset()
+        questCompletionTask = nil
       }
     }
     .task {
@@ -257,8 +290,11 @@ struct ContentView: View {
           onQuestCTA: handleQuestCTA,
           onDemoMode: openDemoMode,
           onCompleteProfile: openProfileEditor,
+          onOpenRecommendation: openHomeRecommendation,
           onOpenAssistant: openLiveAssistant,
           onOpenVirtualFridge: openVirtualFridge,
+          onSwitchToKitchen: openKitchenTab,
+          onSwitchToProgress: openProgressTab,
           onReset: performFullReset,
           onOnboardingSpotlightWillPresent: releaseOnboardingHandoff,
           prefersAcceleratedOnboardingSpotlight: isOnboardingHandoffVisible,
@@ -289,8 +325,16 @@ struct ContentView: View {
             engine: deps.makeRecommendationEngine()
           )
         }
-        .navigationDestination(isPresented: $navigateToUpdateGroceries) {
-          UpdateGroceriesView()
+        .navigationDestination(item: $homeRecommendationRoute) { route in
+          RecipeResultsView(
+            ingredientIds: route.ingredientIds,
+            ingredientNames: route.ingredientNames,
+            preferredRecipeID: route.preferredRecipeID,
+            engine: deps.makeRecommendationEngine()
+          )
+        }
+        .navigationDestination(item: $homeUpdateGroceriesLaunchMode) { launchMode in
+          UpdateGroceriesView(launchMode: launchMode)
         }
         .navigationDestination(item: $assistantRecipeContext) { recipeContext in
           LiveAssistantView(
@@ -309,7 +353,13 @@ struct ContentView: View {
   private var kitchenTab: some View {
     tabHost(for: .kitchen) {
       NavigationStack {
-        KitchenView(deps: deps)
+        KitchenView(
+          deps: deps,
+          onOpenGroceriesFlow: openKitchenGroceries
+        )
+        .navigationDestination(item: $kitchenUpdateGroceriesLaunchMode) { launchMode in
+          UpdateGroceriesView(launchMode: launchMode)
+        }
       }
     }
   }
@@ -398,9 +448,13 @@ struct ContentView: View {
               if let mode = highlightedScanMode {
                 showScanModeMenu = false
                 AppPreferencesStore.haptic(.light)
-                Task { @MainActor in
+                scanModeSelectionTask?.cancel()
+                scanModeSelectionTask = Task { @MainActor in
                   try? await Task.sleep(for: Timing.scanModeSelectionDelay)
+                  guard !Task.isCancelled else { return }
+
                   handleScanModeSelection(mode)
+                  scanModeSelectionTask = nil
                 }
               }
             } else {
@@ -469,17 +523,68 @@ struct ContentView: View {
       showOnboarding = true
       return
     }
-    selectedTab = .kitchen
+    openKitchenTab()
   }
 
-  private func openUpdateGroceries() {
+  private func openUpdateGroceries(launchMode: UpdateGroceriesLaunchMode = .chooser) {
     switch AppFlowPolicy.scanEntryRoute(hasOnboarded: hasOnboarded) {
     case .scan:
-      selectedTab = .home
-      navigateToUpdateGroceries = true
+      let targetTab: AppTab = selectedTab == .kitchen ? .kitchen : .home
+      if targetTab == .home {
+        clearHomeNavigation()
+        selectedTab = .home
+        homeUpdateGroceriesLaunchMode = launchMode
+      } else {
+        selectedTab = .kitchen
+        kitchenUpdateGroceriesLaunchMode = launchMode
+      }
     case .onboarding:
       showOnboarding = true
     }
+  }
+
+  private func openKitchenGroceries(_ launchMode: UpdateGroceriesLaunchMode) {
+    openUpdateGroceries(launchMode: launchMode)
+  }
+
+  private func openKitchenTab() {
+    switch AppFlowPolicy.kitchenEntryRoute(hasOnboarded: hasOnboarded) {
+    case .kitchen:
+      selectedTab = .kitchen
+    case .emptyState:
+      showOnboarding = true
+    }
+  }
+
+  private func openProgressTab() {
+    switch AppFlowPolicy.progressEntryRoute(
+      hasOnboarded: hasOnboarded,
+      isTutorialComplete: TutorialProgress(storageString: tutorialStorageString).isComplete
+    ) {
+    case .progress:
+      selectedTab = .progress
+    case .emptyState:
+      if hasOnboarded {
+        selectedTab = .home
+      } else {
+        showOnboarding = true
+      }
+    }
+  }
+
+  private func openHomeRecommendation(_ recommendation: HomeRecommendation) {
+    guard hasOnboarded else {
+      showOnboarding = true
+      return
+    }
+
+    clearHomeNavigation()
+    selectedTab = .home
+    homeRecommendationRoute = HomeRecommendationRoute(
+      ingredientIds: recommendation.ingredientIDs,
+      ingredientNames: [],
+      preferredRecipeID: recommendation.recipeID
+    )
   }
 
   private func handleQuestCTA(_ quest: TutorialQuest) {
@@ -573,12 +678,22 @@ struct ContentView: View {
     navigateToDemoMode = false
     navigateToDirectReview = false
     navigateToDirectResults = false
-    navigateToUpdateGroceries = false
+    homeUpdateGroceriesLaunchMode = nil
+    homeRecommendationRoute = nil
     assistantRecipeContext = nil
   }
 
+  private func clearKitchenNavigation() {
+    kitchenUpdateGroceriesLaunchMode = nil
+  }
+
   private func returnToHomeRoot() {
+    questCompletionTask?.cancel()
+    questCompletionTask = nil
+    scanModeSelectionTask?.cancel()
+    scanModeSelectionTask = nil
     clearHomeNavigation()
+    clearKitchenNavigation()
     selectedTab = .home
   }
 
@@ -650,6 +765,7 @@ struct ContentView: View {
 
   private func beginOnboardingHandoff() {
     onboardingHandoffFallbackTask?.cancel()
+    onboardingHandoffCleanupTask?.cancel()
 
     let token = UUID()
     onboardingHandoffToken = token
@@ -676,6 +792,8 @@ struct ContentView: View {
   private func releaseOnboardingHandoff() {
     onboardingHandoffFallbackTask?.cancel()
     onboardingHandoffFallbackTask = nil
+    onboardingHandoffCleanupTask?.cancel()
+    onboardingHandoffCleanupTask = nil
 
     guard let token = onboardingHandoffToken else { return }
 
@@ -689,10 +807,12 @@ struct ContentView: View {
       isOnboardingHandoffVisible = false
     }
 
-    Task { @MainActor in
+    onboardingHandoffCleanupTask = Task { @MainActor in
       try? await Task.sleep(for: Timing.onboardingHandoffCleanupDelay)
+      guard !Task.isCancelled else { return }
       guard onboardingHandoffToken == token else { return }
       onboardingHandoffToken = nil
+      onboardingHandoffCleanupTask = nil
     }
   }
 

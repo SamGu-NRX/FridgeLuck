@@ -17,6 +17,26 @@ final class AppFlowPolicyTests: XCTestCase {
     )
   }
 
+  func testKitchenEntryRouteRequiresOnboardingBeforeShowingKitchen() {
+    XCTAssertEqual(AppFlowPolicy.kitchenEntryRoute(hasOnboarded: false), .emptyState)
+    XCTAssertEqual(AppFlowPolicy.kitchenEntryRoute(hasOnboarded: true), .kitchen)
+  }
+
+  func testProgressEntryRouteRequiresOnboardingAndTutorialCompletion() {
+    XCTAssertEqual(
+      AppFlowPolicy.progressEntryRoute(hasOnboarded: false, isTutorialComplete: false),
+      .emptyState
+    )
+    XCTAssertEqual(
+      AppFlowPolicy.progressEntryRoute(hasOnboarded: true, isTutorialComplete: false),
+      .emptyState
+    )
+    XCTAssertEqual(
+      AppFlowPolicy.progressEntryRoute(hasOnboarded: true, isTutorialComplete: true),
+      .progress
+    )
+  }
+
   func testResetPolicyKeepsProgressKeyWhileClearingOtherTutorialKeys() {
     let keys = ResetPolicy.tutorialKeysToClear(
       allKeys: ["progress", "spotlight_shown", "scan_hint"],

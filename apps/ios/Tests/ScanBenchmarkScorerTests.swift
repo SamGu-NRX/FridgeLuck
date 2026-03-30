@@ -177,29 +177,43 @@ final class ScanBenchmarkScorerTests: XCTestCase {
     XCTAssertEqual(report.summary.overallDetectionF1 ?? -1, 1, accuracy: 0.0001)
   }
 
-  func testBenchmarkRunnerDoesNotUseDemoFallbackPath() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Capability/Core/Recognition/ScanBenchmarkRunner.swift"
-      ),
-      encoding: .utf8
+  func testMakeReportWithoutImagesIsInvalid() {
+    let corpus = ScanBenchmarkCorpus(
+      iterations: 2,
+      gates: gates(),
+      images: [exactMatchEntry()]
     )
 
-    XCTAssertFalse(source.contains("DemoScanService"))
-    XCTAssertFalse(source.contains(".bundledFixture"))
-    XCTAssertFalse(source.contains(".starterFallback"))
+    let report = ScanBenchmarkScorer.makeReport(corpus: corpus, imageReports: [])
+
+    XCTAssertEqual(report.status, .invalid)
+    XCTAssertEqual(report.invalidReason, "No benchmark images were evaluated.")
+    XCTAssertEqual(report.summary.imageCount, 0)
   }
 
-  func testBenchmarkSheetNoLongerUsesBundledDemoButtonLabel() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Scan/ScanRunReportSheet.swift"
-      ),
-      encoding: .utf8
+  func testReliabilityRegressionUsesDisagreeingValidRuns() {
+    let report = ScanBenchmarkScorer.evaluateImage(
+      corpusEntry: exactMatchEntry(),
+      runs: [
+        run(
+          iteration: 0,
+          detections: [
+            detection(1, bucket: .auto),
+            detection(2, bucket: .confirm),
+          ]),
+        run(
+          iteration: 1,
+          detections: [
+            detection(1, bucket: .auto)
+          ]),
+      ],
+      gates: gates()
     )
 
-    XCTAssertFalse(source.contains("Run 5x Bundled Demo Benchmark"))
-    XCTAssertTrue(source.contains("Run Scan Quality Benchmark"))
+    XCTAssertEqual(report.status, .regressed)
+    XCTAssertEqual(report.reliabilityMetrics.status, .measured)
+    XCTAssertEqual(report.reliabilityMetrics.validRunCount, 2)
+    XCTAssertEqual(report.reliabilityMetrics.minJaccardVsFirstValid ?? -1, 0.5, accuracy: 0.0001)
   }
 
   private func exactMatchEntry() -> ScanBenchmarkCorpusEntry {
@@ -245,11 +259,5 @@ final class ScanBenchmarkScorerTests: XCTestCase {
       minimumReliabilityJaccard: 0.8,
       targetMedianElapsedMs: 8000
     )
-  }
-
-  private func sourceRoot() -> URL {
-    URL(fileURLWithPath: #filePath)
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
   }
 }

@@ -25,6 +25,7 @@ struct HomeDashboardView: View {
   @State private var heroAppeared = false
   @State private var showResetConfirmation = false
   @State private var showSkipConfirmation = false
+  @State private var spotlightScrollTask: Task<Void, Never>?
   @AppStorage(TutorialStorageKeys.hasSeenSpotlightTutorial) private var hasSeenSpotlightTutorial =
     false
   @AppStorage(TutorialStorageKeys.hasSeenCompletionSpotlight)
@@ -38,6 +39,7 @@ struct HomeDashboardView: View {
   let onQuestCTA: (TutorialQuest) -> Void
   let onDemoMode: () -> Void
   let onCompleteProfile: () -> Void
+  let onOpenRecommendation: (HomeRecommendation) -> Void
   let onOpenAssistant: () -> Void
   let onOpenVirtualFridge: () -> Void
   let onSwitchToKitchen: () -> Void
@@ -60,6 +62,7 @@ struct HomeDashboardView: View {
     onQuestCTA: @escaping (TutorialQuest) -> Void,
     onDemoMode: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
+    onOpenRecommendation: @escaping (HomeRecommendation) -> Void = { _ in },
     onOpenAssistant: @escaping () -> Void,
     onOpenVirtualFridge: @escaping () -> Void = {},
     onSwitchToKitchen: @escaping () -> Void = {},
@@ -74,6 +77,7 @@ struct HomeDashboardView: View {
     self.onQuestCTA = onQuestCTA
     self.onDemoMode = onDemoMode
     self.onCompleteProfile = onCompleteProfile
+    self.onOpenRecommendation = onOpenRecommendation
     self.onOpenAssistant = onOpenAssistant
     self.onOpenVirtualFridge = onOpenVirtualFridge
     self.onSwitchToKitchen = onSwitchToKitchen
@@ -162,6 +166,10 @@ struct HomeDashboardView: View {
       .onAppear {
         handleHeroAppearance()
         configureSpotlightCallbacks(using: scrollProxy)
+      }
+      .onDisappear {
+        spotlightScrollTask?.cancel()
+        spotlightScrollTask = nil
       }
       .task(id: pendingSpotlightKind) {
         guard let kind = pendingSpotlightKind else { return }
@@ -381,7 +389,8 @@ struct HomeDashboardView: View {
         cookTimeMinutes: snapshot.primaryRecommendation?.cookTimeMinutes,
         matchLabel: snapshot.primaryRecommendation?.matchLabel,
         onCook: {
-          // TODO: Route the primary recommendation into the cooking flow once Home can launch recipes directly.
+          guard let recommendation = snapshot.primaryRecommendation else { return }
+          onOpenRecommendation(recommendation)
         },
         onScan: onScan,
         hasRecommendation: snapshot.primaryRecommendation != nil
@@ -401,21 +410,30 @@ struct HomeDashboardView: View {
 
       if !snapshot.fallbackOptions.isEmpty {
         HomeFallbackOptionsRow(
-          options: snapshot.fallbackOptions.enumerated().map { index, rec in
+          options: snapshot.fallbackOptions.map { rec in
             HomeFallbackOption(
-              id: "\(index)-\(rec.recipeName)-\(rec.cookTimeMinutes ?? -1)",
+              id: rec.id,
               recipeName: rec.recipeName,
               cookTimeMinutes: rec.cookTimeMinutes,
               badgeLabel: rec.badgeLabel ?? "Option",
               badgeColor: AppTheme.sage
             )
           },
-          onSelect: { _ in
-            // TODO: Route fallback recommendations into the cooking flow once Home can launch recipes directly.
+          onSelect: { option in
+            guard let recommendation = snapshot.fallbackOptions.first(where: { $0.id == option.id })
+            else {
+              return
+            }
+            onOpenRecommendation(recommendation)
           }
         )
         .padding(.bottom, AppTheme.Space.sectionBreak)
       }
+
+      HomeMyRhythmSection(snapshot: snapshot)
+        .padding(.bottom, AppTheme.Space.sectionBreak)
+        .id("myRhythm")
+        .spotlightAnchor("myRhythm")
 
       if snapshot.ingredientCount == 0 {
         HomeGraduatedHeroSection(
@@ -476,10 +494,21 @@ struct HomeDashboardView: View {
 
   private func configureSpotlightCallbacks(using scrollProxy: ScrollViewProxy) {
     spotlightCoordinator.onScrollToAnchor = { anchorID in
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
+      spotlightScrollTask?.cancel()
+
+      guard !reduceMotion else {
+        scrollProxy.scrollTo(anchorID, anchor: .center)
+        return
+      }
+
+      spotlightScrollTask = Task { @MainActor in
+        try? await Task.sleep(for: .milliseconds(20))
+        guard !Task.isCancelled else { return }
+
         withAnimation(AppMotion.spotlightMove) {
           scrollProxy.scrollTo(anchorID, anchor: .center)
         }
+        spotlightScrollTask = nil
       }
     }
     spotlightCoordinator.onDismissPresentation = { presentation in

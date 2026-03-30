@@ -16,6 +16,7 @@ struct RecipeResultsView: View {
   let ingredientNames: [String]
   let fridgePhoto: UIImage?
   let scanConfidenceScore: Double?
+  let preferredRecipeID: Int64?
 
   @StateObject private var engine: RecommendationEngine
   @Namespace private var transitionNamespace
@@ -23,18 +24,21 @@ struct RecipeResultsView: View {
 
   @State private var selectedRecipe: ScoredRecipe?
   @State private var didPromoteRecipeMatchLesson = false
+  @State private var didPresentPreferredRecipe = false
 
   init(
     ingredientIds: Set<Int64>,
     ingredientNames: [String] = [],
     fridgePhoto: UIImage? = nil,
     scanConfidenceScore: Double? = nil,
+    preferredRecipeID: Int64? = nil,
     engine: RecommendationEngine
   ) {
     self.ingredientIds = ingredientIds
     self.ingredientNames = ingredientNames
     self.fridgePhoto = fridgePhoto
     self.scanConfidenceScore = scanConfidenceScore
+    self.preferredRecipeID = preferredRecipeID
     _engine = StateObject(wrappedValue: engine)
   }
 
@@ -87,6 +91,7 @@ struct RecipeResultsView: View {
     .flPageBackground()
     .task {
       await engine.findRecipes(for: ingredientIds)
+      autoPresentPreferredRecipeIfNeeded()
       if !ingredientNames.isEmpty {
         await engine.generateAIRecipe(
           ingredientNames: ingredientNames,
@@ -97,7 +102,11 @@ struct RecipeResultsView: View {
       await revealRecommendationsIfNeeded()
     }
     .onChange(of: engine.sections.exact.count) { _, _ in
+      autoPresentPreferredRecipeIfNeeded()
       Task { await revealRecommendationsIfNeeded() }
+    }
+    .onChange(of: engine.sections.nearMatch.count) { _, _ in
+      autoPresentPreferredRecipeIfNeeded()
     }
     .sheet(item: $selectedRecipe) { recipe in
       RecipePreviewDrawer(scoredRecipe: recipe) {
@@ -263,5 +272,20 @@ struct RecipeResultsView: View {
         revealedCount = index
       }
     }
+  }
+
+  private func autoPresentPreferredRecipeIfNeeded() {
+    guard
+      let preferredRecipeID,
+      !didPresentPreferredRecipe,
+      let preferredRecipe = engine.recommendations.first(where: {
+        $0.recipe.id == preferredRecipeID
+      })
+    else {
+      return
+    }
+
+    didPresentPreferredRecipe = true
+    selectedRecipe = preferredRecipe
   }
 }

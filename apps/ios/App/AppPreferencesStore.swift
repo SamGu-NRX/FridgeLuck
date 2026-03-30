@@ -58,6 +58,8 @@ final class AppPreferencesStore {
     static let hapticsEnabled = "appPref_hapticsEnabled"
   }
 
+  private static var hapticDefaults: UserDefaults = .standard
+
   private let defaults: UserDefaults
 
   var appearance: AppAppearance {
@@ -86,6 +88,7 @@ final class AppPreferencesStore {
 
   init(defaults: UserDefaults = .standard) {
     self.defaults = defaults
+    Self.hapticDefaults = defaults
 
     if let raw = defaults.string(forKey: Keys.appearance),
       let value = AppAppearance(rawValue: raw)
@@ -141,7 +144,7 @@ final class AppPreferencesStore {
 
   #if canImport(UIKit)
     static var isHapticsEnabled: Bool {
-      let defaults = UserDefaults.standard
+      let defaults = hapticDefaults
       if defaults.object(forKey: Keys.hapticsEnabled) != nil {
         return defaults.bool(forKey: Keys.hapticsEnabled)
       }

@@ -20,7 +20,8 @@ struct PantryAssumptionsSection: View {
           Image(systemName: "tray.full")
             .font(.system(size: 14, weight: .semibold))
             .foregroundStyle(AppTheme.accent)
-          Text("Always Have")
+            .accessibilityHidden(true)
+          Text("Pantry Staples")
             .font(AppTheme.Typography.displayCaption)
             .foregroundStyle(AppTheme.textPrimary)
 
@@ -33,6 +34,9 @@ struct PantryAssumptionsSection: View {
         }
       }
       .buttonStyle(.plain)
+      .accessibilityLabel("Pantry staples")
+      .accessibilityValue(isExpanded ? "Expanded" : "Collapsed")
+      .accessibilityHint("Shows ingredients the app can assume you keep on hand.")
 
       if isExpanded {
         if assumptions.isEmpty {
@@ -73,10 +77,20 @@ struct PantryAssumptionsSection: View {
             tintColor: AppTheme.oat
           )
 
-          FLSecondaryButton("Add Staple", systemImage: "plus.circle") {
+          FLSecondaryButton("Add Staples", systemImage: "plus.circle") {
             onAddStaple()
           }
         }
+      }
+    }
+    .onAppear {
+      if assumptions.isEmpty {
+        isExpanded = true
+      }
+    }
+    .onChange(of: assumptions.isEmpty) { _, isEmpty in
+      if isEmpty {
+        isExpanded = true
       }
     }
   }
@@ -106,12 +120,16 @@ struct PantryAssumptionsSection: View {
                 .foregroundStyle(tintColor)
                 .padding(.horizontal, AppTheme.Space.sm)
                 .padding(.vertical, AppTheme.Space.chipVertical)
+                .frame(minHeight: 44)
                 .background(tintColor.opacity(0.12), in: Capsule())
             }
             .buttonStyle(.plain)
             .accessibilityLabel(
               "\(item.ingredientName), \(item.tier == .alwaysHave ? "always have" : "usually have"). Tap to change tier."
             )
+            .accessibilityAction(named: "Remove") {
+              onRemove(item.ingredientId)
+            }
             .contextMenu {
               Button("Remove", role: .destructive) {
                 onRemove(item.ingredientId)

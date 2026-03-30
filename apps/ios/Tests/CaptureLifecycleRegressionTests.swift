@@ -1,60 +1,42 @@
+@preconcurrency import AVFoundation
 import Foundation
 import XCTest
 
+@testable import FridgeLuck
+
 final class CaptureLifecycleRegressionTests: XCTestCase {
-  private func sourceRoot() -> URL {
-    URL(fileURLWithPath: #filePath)
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
+  func testCapturePhotoReturnsNilWhenSessionIsNotRunning() async {
+    let coordinator = FLCaptureSessionCoordinator()
+
+    let image = await coordinator.capturePhoto(flashRequested: false)
+
+    XCTAssertNil(image)
+    XCTAssertFalse(coordinator.isCapturingPhoto)
   }
 
-  func testCaptureViewUsesUnifiedSessionStartup() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "DesignSystem/Components/FLCaptureView.swift"),
-      encoding: .utf8
-    )
+  func testShutdownSessionResetsPublishedCameraState() async throws {
+    let coordinator = FLCaptureSessionCoordinator()
+    coordinator.isCameraReady = true
+    coordinator.isFlashAvailable = true
+    coordinator.isFlashOn = true
+    coordinator.isCapturingPhoto = true
 
-    XCTAssertTrue(source.contains("@State private var hasStartedSession = false"))
-    XCTAssertTrue(source.contains("guard !hasStartedSession else { return }"))
-    XCTAssertTrue(source.contains("coordinator.startSessionIfNeeded()"))
-    XCTAssertFalse(source.contains("coordinator.configure()"))
-    XCTAssertFalse(source.contains("coordinator.startRunning()"))
+    coordinator.shutdownSession()
+    try await Task.sleep(for: .milliseconds(100))
+
+    XCTAssertFalse(coordinator.isCameraReady)
+    XCTAssertFalse(coordinator.isFlashAvailable)
+    XCTAssertFalse(coordinator.isFlashOn)
+    XCTAssertFalse(coordinator.isCapturingPhoto)
   }
 
-  func testCaptureViewTearsDownCameraAndGatesShutterOnReadiness() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "DesignSystem/Components/FLCaptureView.swift"),
-      encoding: .utf8
-    )
+  func testPreviewDismantleClearsAttachedSession() {
+    let session = AVCaptureSession()
+    let container = FLCapturePreviewContainer()
+    container.previewLayer.session = session
 
-    XCTAssertTrue(source.contains(".onDisappear {"))
-    XCTAssertTrue(source.contains("coordinator.shutdownSession()"))
-    XCTAssertTrue(source.contains("hasStartedSession = false"))
-    XCTAssertTrue(source.contains("|| !coordinator.isCameraReady"))
-  }
+    FLCapturePreviewView.dismantleUIView(container, coordinator: ())
 
-  func testCoordinatorExposesUnifiedStartupAndShutdownLifecycle() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "DesignSystem/Components/FLCaptureSessionCoordinator.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertTrue(source.contains("private enum SessionState"))
-    XCTAssertTrue(source.contains("case idle"))
-    XCTAssertTrue(source.contains("case configuring"))
-    XCTAssertTrue(source.contains("case running"))
-    XCTAssertTrue(source.contains("case failed"))
-    XCTAssertTrue(source.contains("func startSessionIfNeeded()"))
-    XCTAssertTrue(source.contains("func shutdownSession()"))
-    XCTAssertTrue(source.contains("self.captureSession.startRunning()"))
-    XCTAssertTrue(source.contains("captureSession.beginConfiguration()"))
-    XCTAssertTrue(source.contains("captureSession.commitConfiguration()"))
-    XCTAssertTrue(source.contains("static func dismantleUIView"))
-    XCTAssertFalse(source.contains("func configure()"))
-    XCTAssertFalse(source.contains("func startRunning()"))
-    XCTAssertFalse(source.contains("func stopRunning()"))
+    XCTAssertNil(container.previewLayer.session)
   }
 }

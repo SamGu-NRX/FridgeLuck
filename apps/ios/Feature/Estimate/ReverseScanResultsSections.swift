@@ -182,10 +182,9 @@ struct ReverseScanPortionControls: View {
 struct ReverseScanDeductionPreviewSection: View {
   let previews: [InventoryDeductionPreview]
 
+  @ViewBuilder
   var body: some View {
-    guard !previews.isEmpty else { return AnyView(EmptyView()) }
-
-    return AnyView(
+    if !previews.isEmpty {
       FLCard(tone: .warm) {
         VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
           HStack {
@@ -222,7 +221,7 @@ struct ReverseScanDeductionPreviewSection: View {
           }
         }
       }
-    )
+    }
   }
 
   private func deductionRow(_ preview: InventoryDeductionPreview) -> some View {

@@ -92,20 +92,24 @@ final class HomeDashboardViewModel: ObservableObject {
           let all = exact + near
           if let top = all.first {
             primary = HomeRecommendation(
+              recipeID: top.recipe.id,
               recipeName: top.recipe.title,
               explanation: top.rankingReasons.prefix(3).joined(separator: ". ") + ".",
               cookTimeMinutes: top.recipe.timeMinutes,
               matchLabel: top.matchTier == RecipeMatchTier.exact ? "Perfect match" : "Almost there",
-              badgeLabel: top.matchTier == RecipeMatchTier.exact ? "Perfect match" : nil
+              badgeLabel: top.matchTier == RecipeMatchTier.exact ? "Perfect match" : nil,
+              ingredientIDs: ingredientIds
             )
           }
           fallbacks = Array(all.dropFirst().prefix(3)).map { scored in
             HomeRecommendation(
+              recipeID: scored.recipe.id,
               recipeName: scored.recipe.title,
               explanation: scored.rankingReasons.prefix(2).joined(separator: ". "),
               cookTimeMinutes: scored.recipe.timeMinutes,
               matchLabel: nil,
-              badgeLabel: scored.rankingReasons.first
+              badgeLabel: scored.rankingReasons.first,
+              ingredientIDs: ingredientIds
             )
           }
         }

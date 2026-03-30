@@ -1,300 +1,6 @@
 import SwiftUI
 import UIKit
 
-// MARK: - Step Model
-
-struct SpotlightStep: Identifiable, Equatable {
-  let id: String
-  let anchorID: String?
-  let icon: String
-  let title: String
-  let message: String
-}
-
-struct SpotlightPresentation: Identifiable, Equatable {
-  let id = UUID()
-  let source: String
-  let steps: [SpotlightStep]
-}
-
-extension SpotlightStep {
-  static let onboarding: [SpotlightStep] = [
-    SpotlightStep(
-      id: "welcome",
-      anchorID: nil,
-      icon: "sparkles",
-      title: "Welcome to FridgeLuck",
-      message:
-        "This guided tour teaches the app itself. You already handled setup before entering \u{2014} now we\u{2019}ll show you where everything lives."
-    ),
-    SpotlightStep(
-      id: "setup",
-      anchorID: "progressView",
-      icon: "rectangle.stack",
-      title: "Your Guided Tour",
-      message:
-        "These 4 steps unlock one at a time: start with a demo scan, review uncertain ingredients, choose a recipe match, then cook with Le Chef."
-    ),
-    SpotlightStep(
-      id: "scan_first",
-      anchorID: "quest_0",
-      icon: "camera.viewfinder",
-      title: "Start With Demo Mode",
-      message:
-        "Use the demo scenarios first. They make it easy to understand the full scan-to-recipe loop before you use your own kitchen."
-    ),
-    SpotlightStep(
-      id: "wrapup",
-      anchorID: nil,
-      icon: "arrow.right.circle",
-      title: "Before You Begin",
-      message:
-        "After your demo scan, FridgeLuck will meet you inside ingredient review for the next lesson. Want to redo this tour later? Scroll to the bottom and tap \u{201C}Reset progress\u{201D}."
-    ),
-  ]
-
-  static let completion: [SpotlightStep] = [
-    SpotlightStep(
-      id: "congrats",
-      anchorID: nil,
-      icon: "party.popper.fill",
-      title: "Setup Complete!",
-      message:
-        "You\u{2019}ve finished the guided tour. Your personalized kitchen dashboard is now fully unlocked."
-    ),
-    SpotlightStep(
-      id: "rhythm",
-      anchorID: "myRhythm",
-      icon: "book.closed.fill",
-      title: "My Rhythm",
-      message:
-        "This is your cooking journal at a glance. Your latest recipes and cooking history live here \u{2014} tap through to view your full recipe book."
-    ),
-    SpotlightStep(
-      id: "explore_done",
-      anchorID: nil,
-      icon: "checkmark.seal.fill",
-      title: "You\u{2019}re All Set",
-      message:
-        "Use the scan button to photograph your fridge, try demo scenarios, or open Dashboard for full analytics. Happy cooking!"
-    ),
-  ]
-
-  static let ingredientReview: [SpotlightStep] = [
-    SpotlightStep(
-      id: "review_welcome",
-      anchorID: nil,
-      icon: "eyes.inverse",
-      title: "Review Your Ingredients",
-      message:
-        "This page shows everything the scan detected. Items are sorted by confidence \u{2014} review uncertain ones before finding recipes."
-    ),
-    SpotlightStep(
-      id: "review_confidence",
-      anchorID: "confidenceLevels",
-      icon: "gauge.with.dots.needle.33percent",
-      title: "Confidence Levels",
-      message:
-        "Auto = high confidence (auto-selected). Confirm = medium confidence (pick the right match). Maybe = low confidence (tap to include)."
-    ),
-    SpotlightStep(
-      id: "review_auto",
-      anchorID: "autoDetected",
-      icon: "checkmark.seal.fill",
-      title: "Auto-Detected Items",
-      message:
-        "These ingredients were detected with high confidence and are already selected. Tap any chip to deselect it, or tap the \u{24D8} icon to view nutrition details."
-    ),
-    SpotlightStep(
-      id: "review_confirm",
-      anchorID: "needsConfirmation",
-      icon: "questionmark.circle.fill",
-      title: "Needs Confirmation",
-      message:
-        "These items need your help. Pick the correct match from the options, tap \u{201C}Choose another\u{201D} to search, or \u{201C}Not this item\u{201D} to skip."
-    ),
-    SpotlightStep(
-      id: "review_bulk",
-      anchorID: "bulkActions",
-      icon: "checklist",
-      title: "Quick Actions & Add",
-      message:
-        "\u{201C}Select Auto\u{201D} accepts all high-confidence items at once. \u{201C}Clear Uncertain\u{201D} resets your choices. The \u{201C}+ Add\u{201D} button lets you manually add ingredients the scan missed."
-    ),
-    SpotlightStep(
-      id: "review_toolbar_add",
-      anchorID: "toolbarAdd",
-      icon: "plus.circle.fill",
-      title: "Toolbar Add Button",
-      message:
-        "You can also add ingredients from the toolbar \u{2014} same action, always accessible regardless of scroll position."
-    ),
-    SpotlightStep(
-      id: "review_find_recipes",
-      anchorID: "findRecipes",
-      icon: "fork.knife",
-      title: "Find Recipes",
-      message:
-        "When you\u{2019}re happy with your selection, tap this button. The count updates as you toggle ingredients \u{2014} aim for at least 3\u{2013}5 for better recipe matches."
-    ),
-  ]
-
-  static let demoMode: [SpotlightStep] = [
-    SpotlightStep(
-      id: "demo_welcome",
-      anchorID: nil,
-      icon: "play.rectangle.fill",
-      title: "Welcome to Demo Mode",
-      message:
-        "Each card is a different fridge scenario with real ingredients. Pick one to see how FridgeLuck scans and finds recipes."
-    ),
-    SpotlightStep(
-      id: "demo_scenarios",
-      anchorID: "scenarioGrid",
-      icon: "square.grid.2x2.fill",
-      title: "Pick a Scenario",
-      message:
-        "Tap any card to preview what\u{2019}s inside, then scan it. Everything here is safe to explore \u{2014} try as many as you like."
-    ),
-  ]
-
-  static let swapIngredients: [SpotlightStep] = [
-    SpotlightStep(
-      id: "swap_intro",
-      anchorID: "swapButton",
-      icon: "arrow.triangle.swap",
-      title: "Swap Ingredients",
-      message:
-        "Tap this swap button to open substitutions. Great for dietary needs, allergies, or using what you already have."
-    )
-  ]
-
-  static let liveAssistantLesson: [SpotlightStep] = [
-    SpotlightStep(
-      id: "live_lesson_intro",
-      anchorID: nil,
-      icon: "sparkles.rectangle.stack.fill",
-      title: "Your Recipe Match Is Ready",
-      message:
-        "Before you start cooking, FridgeLuck can turn that recipe into a hands-free kitchen guide from Home."
-    ),
-    SpotlightStep(
-      id: "live_lesson_entry",
-      anchorID: "liveAssistantEntry",
-      icon: "waveform.and.mic",
-      title: "Cook With Le Chef",
-      message:
-        "Place the phone on a counter stand near your prep area so Gemini can see your cutting board, ingredients, and pan while it guides you live."
-    ),
-    SpotlightStep(
-      id: "live_lesson_grounding",
-      anchorID: nil,
-      icon: "checkmark.shield.fill",
-      title: "Stay Grounded",
-      message:
-        "Use the assistant for step-by-step coaching, substitutions, and food-safety checks. You can skip this lesson now and reopen it from Home later."
-    ),
-  ]
-
-  static func questAdvance(for quest: TutorialQuest) -> [SpotlightStep] {
-    [
-      SpotlightStep(
-        id: "quest_advance_\(quest.rawValue)",
-        anchorID: "quest_\(quest.rawValue)",
-        icon: quest.icon,
-        title: "Next Up: \(quest.title)",
-        message: quest.subtitle
-      )
-    ]
-  }
-}
-
-// MARK: - Coordinator
-
-@MainActor
-@Observable
-final class SpotlightCoordinator {
-  var activePresentation: SpotlightPresentation? = nil
-  var anchors: [String: CGRect] = [:]
-  var onScrollToAnchor: ((String) -> Void)? = nil
-  var onDismissPresentation: ((SpotlightPresentation) -> Void)? = nil
-
-  func present(steps: [SpotlightStep], source: String) {
-    guard !steps.isEmpty else { return }
-    activePresentation = SpotlightPresentation(source: source, steps: steps)
-  }
-
-  func dismissActivePresentation() {
-    guard let activePresentation else { return }
-    onDismissPresentation?(activePresentation)
-    self.activePresentation = nil
-  }
-
-  func updateAnchors(
-    _ newAnchors: [String: CGRect],
-    retainingExistingValues: Bool = false
-  ) {
-    let normalizedAnchors = newAnchors.reduce(into: [String: CGRect]()) { partialResult, entry in
-      let normalizedRect = entry.value.normalizedForSpotlight
-      guard normalizedRect.isUsableSpotlightRect else { return }
-      partialResult[entry.key] = normalizedRect
-    }
-
-    Task { @MainActor [weak self, normalizedAnchors, retainingExistingValues] in
-      guard let self else { return }
-      var nextAnchors = retainingExistingValues ? self.anchors : [:]
-      for (anchorID, rect) in normalizedAnchors {
-        nextAnchors[anchorID] = rect
-      }
-      guard self.anchors != nextAnchors else { return }
-      self.anchors = nextAnchors
-    }
-  }
-}
-
-// MARK: - Preference Key
-
-struct SpotlightAnchorKey: PreferenceKey {
-  static let defaultValue: [String: CGRect] = [:]
-  static func reduce(value: inout [String: CGRect], nextValue: () -> [String: CGRect]) {
-    value.merge(nextValue(), uniquingKeysWith: { $1 })
-  }
-}
-
-extension CGRect {
-  fileprivate var isUsableSpotlightRect: Bool {
-    guard !isEmpty, !isNull, !isInfinite else { return false }
-    guard width > 0, height > 0 else { return false }
-    return minX.isFinite && minY.isFinite && maxX.isFinite && maxY.isFinite
-  }
-
-  fileprivate var normalizedForSpotlight: CGRect {
-    CGRect(
-      x: normalizedSpotlightCoordinate(minX),
-      y: normalizedSpotlightCoordinate(minY),
-      width: normalizedSpotlightCoordinate(width),
-      height: normalizedSpotlightCoordinate(height)
-    )
-  }
-
-  private func normalizedSpotlightCoordinate(_ value: CGFloat) -> CGFloat {
-    (value * 2).rounded() / 2
-  }
-}
-
-extension View {
-  func spotlightAnchor(_ id: String) -> some View {
-    background(
-      GeometryReader { geo in
-        Color.clear.preference(
-          key: SpotlightAnchorKey.self,
-          value: [id: geo.frame(in: .global)]
-        )
-      }
-    )
-  }
-}
-
 // MARK: - Overlay
 
 struct SpotlightTutorialOverlay: View {
@@ -308,6 +14,8 @@ struct SpotlightTutorialOverlay: View {
   @State private var stepIndex = 0
   @State private var appeared = false
   @State private var highlightGlow: CGFloat = 0
+  @State private var transitionTask: Task<Void, Never>?
+  @State private var dismissTask: Task<Void, Never>?
 
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -346,10 +54,14 @@ struct SpotlightTutorialOverlay: View {
       onStepChange?(step)
     }
     .onChange(of: presentationID) {
+      cancelPendingTasks()
       stepIndex = 0
       appeared = false
       highlightGlow = 0
       startEntrance()
+    }
+    .onDisappear {
+      cancelPendingTasks()
     }
     .accessibilityAddTraits(.isModal)
   }
@@ -588,6 +300,9 @@ struct SpotlightTutorialOverlay: View {
   private let skipBottomOffset: CGFloat = 24
   private let skipHorizontalPadding: CGFloat = AppTheme.Space.page
   private let skipButtonSize = CGSize(width: 132, height: 40)
+  private let scrollTransitionDelay: Duration = .milliseconds(250)
+  private let highlightPulseDelay: Duration = .milliseconds(80)
+  private let dismissDelay: Duration = .milliseconds(240)
 
   private enum SkipButtonPlacement {
     case topTrailing
@@ -753,25 +468,7 @@ struct SpotlightTutorialOverlay: View {
   private func goBack() {
     guard !isFirst else { return }
     let prevIndex = stepIndex - 1
-    let needsScroll = steps[prevIndex].anchorID != nil
-
-    if let anchorID = steps[prevIndex].anchorID {
-      onScrollToAnchor?(anchorID)
-    }
-
-    let stepDelay: Double = needsScroll && !reduceMotion ? 0.25 : 0
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + stepDelay) {
-      withAnimation(self.reduceMotion ? nil : AppMotion.spotlightMove) {
-        self.stepIndex = prevIndex
-      }
-      if !self.reduceMotion {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
-          self.highlightGlow = 1
-          withAnimation(.easeOut(duration: 0.5)) { self.highlightGlow = 0 }
-        }
-      }
-    }
+    transitionToStep(at: prevIndex)
   }
 
   private func advance() {
@@ -780,34 +477,65 @@ struct SpotlightTutorialOverlay: View {
       return
     }
     let nextIndex = stepIndex + 1
-    let needsScroll = steps[nextIndex].anchorID != nil
-
-    if let anchorID = steps[nextIndex].anchorID {
-      onScrollToAnchor?(anchorID)
-    }
-
-    let stepDelay: Double = needsScroll && !reduceMotion ? 0.25 : 0
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + stepDelay) {
-      withAnimation(self.reduceMotion ? nil : AppMotion.spotlightMove) {
-        self.stepIndex = nextIndex
-      }
-      if !self.reduceMotion {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
-          self.highlightGlow = 1
-          withAnimation(.easeOut(duration: 0.5)) { self.highlightGlow = 0 }
-        }
-      }
-    }
+    transitionToStep(at: nextIndex)
   }
 
   private func dismissOverlay() {
+    cancelPendingTasks()
     withAnimation(reduceMotion ? nil : AppMotion.spotlightDismiss) {
       appeared = false
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.24) {
+    dismissTask = Task { @MainActor in
+      try? await Task.sleep(for: dismissDelay)
+      guard !Task.isCancelled else { return }
       isPresented = false
     }
+  }
+
+  private func transitionToStep(at index: Int) {
+    guard steps.indices.contains(index) else { return }
+
+    dismissTask?.cancel()
+    transitionTask?.cancel()
+
+    let anchorID = steps[index].anchorID
+    let needsScrollDelay = anchorID != nil && !reduceMotion
+
+    if let anchorID {
+      onScrollToAnchor?(anchorID)
+    }
+
+    transitionTask = Task { @MainActor in
+      if needsScrollDelay {
+        try? await Task.sleep(for: scrollTransitionDelay)
+      }
+      guard !Task.isCancelled else { return }
+
+      withAnimation(reduceMotion ? nil : AppMotion.spotlightMove) {
+        stepIndex = index
+      }
+
+      await pulseHighlightGlow()
+    }
+  }
+
+  private func pulseHighlightGlow() async {
+    guard !reduceMotion else { return }
+
+    try? await Task.sleep(for: highlightPulseDelay)
+    guard !Task.isCancelled else { return }
+
+    highlightGlow = 1
+    withAnimation(.easeOut(duration: 0.5)) {
+      highlightGlow = 0
+    }
+  }
+
+  private func cancelPendingTasks() {
+    transitionTask?.cancel()
+    dismissTask?.cancel()
+    transitionTask = nil
+    dismissTask = nil
   }
 }
 

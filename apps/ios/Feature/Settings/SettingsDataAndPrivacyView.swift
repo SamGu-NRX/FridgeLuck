@@ -18,15 +18,6 @@ struct SettingsDataAndPrivacyView: View {
         }
       }
 
-      Section("About") {
-        HStack {
-          Text("App version")
-          Spacer()
-          Text(appVersion)
-            .foregroundStyle(AppTheme.textSecondary)
-        }
-      }
-
       Section {
         FLSettingsDestructiveGroup(
           title: "Reset FridgeLuck",
@@ -55,10 +46,4 @@ struct SettingsDataAndPrivacyView: View {
     }
   }
 
-  private var appVersion: String {
-    let shortVersion =
-      Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
-    let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"
-    return "\(shortVersion) (\(buildNumber))"
-  }
 }

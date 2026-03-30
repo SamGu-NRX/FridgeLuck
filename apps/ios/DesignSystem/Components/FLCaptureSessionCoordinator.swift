@@ -2,17 +2,19 @@
 import SwiftUI
 import UIKit
 
-/// Per-use still-photo capture via `AVCapturePhotoOutput` (session queue).
 final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked Sendable {
   let captureSession = AVCaptureSession()
 
   @Published var isCameraReady = false
   @Published var isFlashAvailable = false
   @Published var isFlashOn = false
+  @Published var isCapturingPhoto = false
 
   private let photoOutput = AVCapturePhotoOutput()
   private let sessionQueue = DispatchQueue(label: "samgu.FridgeLuck.fl-capture")
   private var sessionState: SessionState = .idle
+  private var sessionHasFlash = false
+  private var isCaptureInFlight = false
   private var photoContinuation: CheckedContinuation<UIImage?, Never>?
 
   private enum SessionState {
@@ -34,10 +36,11 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
       let hasConfiguredSession = self.configureSession()
       guard hasConfiguredSession else {
         self.sessionState = .failed
-        DispatchQueue.main.async { [weak self] in
+        Task { @MainActor [weak self] in
           self?.isFlashAvailable = false
           self?.isFlashOn = false
           self?.isCameraReady = false
+          self?.isCapturingPhoto = false
         }
         return
       }
@@ -66,10 +69,13 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
       let isReady = hasConfiguredSession
       let flashAvailable = hasFlash
 
-      DispatchQueue.main.async { [weak self] in
+      self.sessionHasFlash = flashAvailable
+
+      Task { @MainActor [weak self] in
         self?.isFlashAvailable = isReady ? flashAvailable : false
         self?.isFlashOn = false
         self?.isCameraReady = isReady
+        self?.isCapturingPhoto = false
       }
     }
 
@@ -99,6 +105,8 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
 
       self.photoContinuation?.resume(returning: nil)
       self.photoContinuation = nil
+      self.isCaptureInFlight = false
+      self.sessionHasFlash = false
 
       if self.captureSession.isRunning {
         self.captureSession.stopRunning()
@@ -115,17 +123,18 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
 
       self.sessionState = .idle
 
-      DispatchQueue.main.async { [weak self] in
+      Task { @MainActor [weak self] in
         self?.isCameraReady = false
         self?.isFlashAvailable = false
         self?.isFlashOn = false
+        self?.isCapturingPhoto = false
       }
     }
   }
 
   // MARK: - Capture
 
-  func capturePhoto() async -> UIImage? {
+  func capturePhoto(flashRequested: Bool) async -> UIImage? {
     await withCheckedContinuation { continuation in
       sessionQueue.async { [weak self] in
         guard let self else {
@@ -136,15 +145,22 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
           continuation.resume(returning: nil)
           return
         }
+        guard !self.isCaptureInFlight, self.photoContinuation == nil else {
+          continuation.resume(returning: nil)
+          return
+        }
 
+        self.isCaptureInFlight = true
         self.photoContinuation = continuation
+        let flashMode: AVCaptureDevice.FlashMode =
+          flashRequested && self.sessionHasFlash ? .on : .off
+
+        Task { @MainActor [weak self] in
+          self?.isCapturingPhoto = true
+        }
 
         let settings = AVCapturePhotoSettings()
-        if self.isFlashOn, self.isFlashAvailable {
-          settings.flashMode = .on
-        } else {
-          settings.flashMode = .off
-        }
+        settings.flashMode = flashMode
 
         self.photoOutput.capturePhoto(with: settings, delegate: self)
       }
@@ -154,6 +170,11 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
   private func resumePhotoContinuation(with image: UIImage?) {
     photoContinuation?.resume(returning: image)
     photoContinuation = nil
+    isCaptureInFlight = false
+
+    Task { @MainActor [weak self] in
+      self?.isCapturingPhoto = false
+    }
   }
 }
 

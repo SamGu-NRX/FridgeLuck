@@ -1,105 +1,5 @@
-import PhotosUI
 import SwiftUI
 import UIKit
-
-// MARK: - Demo Detection Provider
-
-/// Demo detections for the kitchen review onboarding step.
-enum OnboardingKitchenDemoDetections {
-  struct KitchenDetectionSet {
-    let fridgeItems: [Detection]
-    let pantryItems: [Detection]
-  }
-
-  static func load() -> KitchenDetectionSet {
-    KitchenDetectionSet(
-      fridgeItems: fridgeDetections(),
-      pantryItems: pantryDetections()
-    )
-  }
-
-  private static func fridgeDetections() -> [Detection] {
-    let items: [(id: Int64, confidence: Float)] = [
-      (1, 0.94),  // Egg
-      (3, 0.91),  // Milk
-      (15, 0.87),  // Chicken Breast
-      (8, 0.82),  // Bell Pepper
-      (7, 0.88),  // Spinach
-      (14, 0.78),  // Cheese
-      (10, 0.85),  // Carrot
-      (9, 0.73),  // Tomato
-    ]
-
-    return items.map { item in
-      Detection(
-        ingredientId: item.id,
-        label: IngredientLexicon.displayName(for: item.id),
-        confidence: item.confidence,
-        source: .vision,
-        originalVisionLabel: "onboarding_fridge_\(item.id)",
-        alternatives: [],
-        normalizedBoundingBox: nil,
-        evidenceTokens: ["onboarding_kitchen_capture"],
-        cropID: "kitchen_fridge",
-        captureIndex: 0,
-        ocrMatchKind: nil
-      )
-    }
-  }
-
-  private static func pantryDetections() -> [Detection] {
-    let items: [(id: Int64, confidence: Float)] = [
-      (2, 0.95),  // Rice
-      (4, 0.89),  // Pasta
-      (5, 0.92),  // Olive Oil
-      (11, 0.86),  // Canned Tomatoes
-      (6, 0.90),  // Garlic
-      (12, 0.83),  // Onion
-    ]
-
-    return items.map { item in
-      Detection(
-        ingredientId: item.id,
-        label: IngredientLexicon.displayName(for: item.id),
-        confidence: item.confidence,
-        source: .vision,
-        originalVisionLabel: "onboarding_pantry_\(item.id)",
-        alternatives: [],
-        normalizedBoundingBox: nil,
-        evidenceTokens: ["onboarding_kitchen_capture"],
-        cropID: "kitchen_pantry",
-        captureIndex: 0,
-        ocrMatchKind: nil
-      )
-    }
-  }
-}
-
-// MARK: - Stagger Entrance (Onboarding Variant)
-
-private struct InventoryStepStaggerIn: ViewModifier {
-  let index: Int
-  let appeared: Bool
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-  func body(content: Content) -> some View {
-    content
-      .opacity(reduceMotion || appeared ? 1 : 0)
-      .offset(y: reduceMotion || appeared ? 0 : 14)
-      .animation(
-        reduceMotion
-          ? nil
-          : AppMotion.staggerEntrance.delay(Double(index) * AppMotion.staggerInterval),
-        value: appeared
-      )
-  }
-}
-
-extension View {
-  fileprivate func inventoryStagger(index: Int, appeared: Bool) -> some View {
-    modifier(InventoryStepStaggerIn(index: index, appeared: appeared))
-  }
-}
 
 // MARK: - Step 1: Virtual Fridge Intro
 
@@ -201,168 +101,12 @@ struct OnboardingVirtualFridgeIntroStep: View {
 
 struct OnboardingFridgeCaptureStep: View {
   @Binding var capturedImages: [UIImage]
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  @State private var appeared = false
-  @State private var showCamera = false
-  @State private var selectedPhotoItem: PhotosPickerItem?
 
   var body: some View {
-    ScrollView {
-      VStack(spacing: AppTheme.Space.lg) {
-        Spacer(minLength: AppTheme.Space.md)
-
-        ZStack {
-          Circle()
-            .fill(AppTheme.accent.opacity(0.10))
-            .frame(width: 80, height: 80)
-
-          Image(systemName: "camera.fill")
-            .font(.system(size: 28, weight: .semibold))
-            .foregroundStyle(AppTheme.accent)
-        }
-        .inventoryStagger(index: 0, appeared: appeared)
-
-        VStack(spacing: AppTheme.Space.xs) {
-          Text("Photograph your fridge")
-            .font(.system(.title2, design: .serif, weight: .bold))
-            .foregroundStyle(AppTheme.textPrimary)
-            .multilineTextAlignment(.center)
-            .inventoryStagger(index: 1, appeared: appeared)
-
-          Text("Multiple close-ups work better than one wide shot.")
-            .font(AppTheme.Typography.bodySmall)
-            .foregroundStyle(AppTheme.textSecondary)
-            .multilineTextAlignment(.center)
-            .inventoryStagger(index: 2, appeared: appeared)
-        }
-
-        HStack(spacing: AppTheme.Space.md) {
-          Button {
-            showCamera = true
-          } label: {
-            Label("Camera", systemImage: "camera")
-              .font(AppTheme.Typography.label)
-              .foregroundStyle(AppTheme.accent)
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, AppTheme.Space.buttonVertical)
-              .background(
-                AppTheme.accent.opacity(0.08),
-                in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-              )
-              .overlay(
-                RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-                  .stroke(AppTheme.accent.opacity(0.20), lineWidth: 1)
-              )
-          }
-          .buttonStyle(FLPressableButtonStyle())
-
-          PhotosPicker(
-            selection: $selectedPhotoItem,
-            matching: .images,
-            photoLibrary: .shared()
-          ) {
-            Label("Library", systemImage: "photo.on.rectangle")
-              .font(AppTheme.Typography.label)
-              .foregroundStyle(AppTheme.textSecondary)
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, AppTheme.Space.buttonVertical)
-              .background(
-                AppTheme.surfaceMuted,
-                in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-              )
-              .overlay(
-                RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-                  .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
-              )
-          }
-        }
-        .inventoryStagger(index: 3, appeared: appeared)
-
-        if !capturedImages.isEmpty {
-          ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: AppTheme.Space.sm) {
-              ForEach(Array(capturedImages.prefix(3).enumerated()), id: \.offset) { index, image in
-                ZStack(alignment: .topTrailing) {
-                  Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 88, height: 88)
-                    .clipShape(
-                      RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                    )
-                    .overlay(
-                      RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                        .stroke(AppTheme.sage.opacity(0.30), lineWidth: 1)
-                    )
-
-                  Button {
-                    withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-                      _ = capturedImages.remove(at: index)
-                    }
-                  } label: {
-                    Image(systemName: "xmark.circle.fill")
-                      .font(.system(size: 18))
-                      .foregroundStyle(.white)
-                      .background(Circle().fill(AppTheme.textPrimary.opacity(0.6)))
-                  }
-                  .offset(x: 6, y: -6)
-                }
-              }
-            }
-            .padding(.horizontal, AppTheme.Space.xs)
-          }
-          .transition(.opacity.combined(with: .scale(scale: 0.95)))
-
-          Text("\(capturedImages.count) of 3 photos")
-            .font(AppTheme.Typography.labelSmall)
-            .foregroundStyle(AppTheme.sage)
-        }
-
-        Text("You can skip this step and add items later from the scan orb.")
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary)
-          .multilineTextAlignment(.center)
-          .inventoryStagger(index: 4, appeared: appeared)
-
-        Spacer(minLength: AppTheme.Space.xl)
-      }
-      .padding(.horizontal, AppTheme.Space.page)
-    }
-    .fullScreenCover(isPresented: $showCamera) {
-      FLCaptureView(
-        configuration: FLCaptureConfiguration(
-          title: "Photograph Your Fridge",
-          subtitle: "Multiple close-ups work best",
-          maxPhotos: 3
-        ),
-        capturedImages: $capturedImages,
-        onDone: {}
-      )
-    }
-    .onChange(of: selectedPhotoItem) { _, newItem in
-      guard let newItem else { return }
-      Task {
-        if let data = try? await newItem.loadTransferable(type: Data.self),
-          let image = UIImage(data: data),
-          capturedImages.count < 3
-        {
-          withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
-            capturedImages.append(image)
-          }
-        }
-        selectedPhotoItem = nil
-      }
-    }
-    .task {
-      guard !appeared else { return }
-      if reduceMotion {
-        appeared = true
-      } else {
-        withAnimation(AppMotion.staggerEntrance) {
-          appeared = true
-        }
-      }
-    }
+    OnboardingKitchenCaptureStep(
+      configuration: .fridge,
+      capturedImages: $capturedImages
+    )
   }
 }
 
@@ -370,168 +114,12 @@ struct OnboardingFridgeCaptureStep: View {
 
 struct OnboardingPantryCaptureStep: View {
   @Binding var capturedImages: [UIImage]
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  @State private var appeared = false
-  @State private var showCamera = false
-  @State private var selectedPhotoItem: PhotosPickerItem?
 
   var body: some View {
-    ScrollView {
-      VStack(spacing: AppTheme.Space.lg) {
-        Spacer(minLength: AppTheme.Space.md)
-
-        ZStack {
-          Circle()
-            .fill(AppTheme.oat.opacity(0.18))
-            .frame(width: 80, height: 80)
-
-          Image(systemName: "cabinet.fill")
-            .font(.system(size: 28, weight: .semibold))
-            .foregroundStyle(AppTheme.accent)
-        }
-        .inventoryStagger(index: 0, appeared: appeared)
-
-        VStack(spacing: AppTheme.Space.xs) {
-          Text("Photograph your pantry")
-            .font(.system(.title2, design: .serif, weight: .bold))
-            .foregroundStyle(AppTheme.textPrimary)
-            .multilineTextAlignment(.center)
-            .inventoryStagger(index: 1, appeared: appeared)
-
-          Text("Dry goods, cans, oils, spices \u{2014} anything on the shelves.")
-            .font(AppTheme.Typography.bodySmall)
-            .foregroundStyle(AppTheme.textSecondary)
-            .multilineTextAlignment(.center)
-            .inventoryStagger(index: 2, appeared: appeared)
-        }
-
-        HStack(spacing: AppTheme.Space.md) {
-          Button {
-            showCamera = true
-          } label: {
-            Label("Camera", systemImage: "camera")
-              .font(AppTheme.Typography.label)
-              .foregroundStyle(AppTheme.accent)
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, AppTheme.Space.buttonVertical)
-              .background(
-                AppTheme.accent.opacity(0.08),
-                in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-              )
-              .overlay(
-                RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-                  .stroke(AppTheme.accent.opacity(0.20), lineWidth: 1)
-              )
-          }
-          .buttonStyle(FLPressableButtonStyle())
-
-          PhotosPicker(
-            selection: $selectedPhotoItem,
-            matching: .images,
-            photoLibrary: .shared()
-          ) {
-            Label("Library", systemImage: "photo.on.rectangle")
-              .font(AppTheme.Typography.label)
-              .foregroundStyle(AppTheme.textSecondary)
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, AppTheme.Space.buttonVertical)
-              .background(
-                AppTheme.surfaceMuted,
-                in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-              )
-              .overlay(
-                RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
-                  .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
-              )
-          }
-        }
-        .inventoryStagger(index: 3, appeared: appeared)
-
-        if !capturedImages.isEmpty {
-          ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: AppTheme.Space.sm) {
-              ForEach(Array(capturedImages.prefix(3).enumerated()), id: \.offset) { index, image in
-                ZStack(alignment: .topTrailing) {
-                  Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 88, height: 88)
-                    .clipShape(
-                      RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                    )
-                    .overlay(
-                      RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                        .stroke(AppTheme.sage.opacity(0.30), lineWidth: 1)
-                    )
-
-                  Button {
-                    withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-                      _ = capturedImages.remove(at: index)
-                    }
-                  } label: {
-                    Image(systemName: "xmark.circle.fill")
-                      .font(.system(size: 18))
-                      .foregroundStyle(.white)
-                      .background(Circle().fill(AppTheme.textPrimary.opacity(0.6)))
-                  }
-                  .offset(x: 6, y: -6)
-                }
-              }
-            }
-            .padding(.horizontal, AppTheme.Space.xs)
-          }
-          .transition(.opacity.combined(with: .scale(scale: 0.95)))
-
-          Text("\(capturedImages.count) of 3 photos")
-            .font(AppTheme.Typography.labelSmall)
-            .foregroundStyle(AppTheme.sage)
-        }
-
-        Text("You can skip this step and add items later from the scan orb.")
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary)
-          .multilineTextAlignment(.center)
-          .inventoryStagger(index: 4, appeared: appeared)
-
-        Spacer(minLength: AppTheme.Space.xl)
-      }
-      .padding(.horizontal, AppTheme.Space.page)
-    }
-    .fullScreenCover(isPresented: $showCamera) {
-      FLCaptureView(
-        configuration: FLCaptureConfiguration(
-          title: "Photograph Your Pantry",
-          subtitle: "Dry goods, cans, oils, spices",
-          maxPhotos: 3
-        ),
-        capturedImages: $capturedImages,
-        onDone: {}
-      )
-    }
-    .onChange(of: selectedPhotoItem) { _, newItem in
-      guard let newItem else { return }
-      Task {
-        if let data = try? await newItem.loadTransferable(type: Data.self),
-          let image = UIImage(data: data),
-          capturedImages.count < 3
-        {
-          withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
-            capturedImages.append(image)
-          }
-        }
-        selectedPhotoItem = nil
-      }
-    }
-    .task {
-      guard !appeared else { return }
-      if reduceMotion {
-        appeared = true
-      } else {
-        withAnimation(AppMotion.staggerEntrance) {
-          appeared = true
-        }
-      }
-    }
+    OnboardingKitchenCaptureStep(
+      configuration: .pantry,
+      capturedImages: $capturedImages
+    )
   }
 }
 
@@ -561,6 +149,8 @@ struct OnboardingKitchenReviewStep: View {
   private var allDetections: [Detection] {
     fridgeDetections + pantryDetections
   }
+
+  private let placeholderWidths: [CGFloat] = [140, 116, 128, 102]
 
   var body: some View {
     ScrollView {
@@ -664,8 +254,11 @@ struct OnboardingKitchenReviewStep: View {
       guard demoData == nil else { return }
 
       isAnalyzing = true
-      let delayNanoseconds: UInt64 = reduceMotion ? 400_000_000 : 1_300_000_000
-      try? await Task.sleep(nanoseconds: delayNanoseconds)
+      do {
+        try await Task.sleep(for: reduceMotion ? .milliseconds(400) : .milliseconds(1300))
+      } catch {
+        return
+      }
 
       let data = OnboardingKitchenDemoDetections.load()
       demoData = data
@@ -811,8 +404,8 @@ struct OnboardingKitchenReviewStep: View {
       }
 
       VStack(spacing: AppTheme.Space.sm) {
-        ForEach(0..<4, id: \.self) { _ in
-          shimmerRow
+        ForEach(Array(placeholderWidths.enumerated()), id: \.offset) { _, width in
+          shimmerRow(width: width)
         }
       }
     }
@@ -820,7 +413,7 @@ struct OnboardingKitchenReviewStep: View {
     .padding(.vertical, AppTheme.Space.xl)
   }
 
-  private var shimmerRow: some View {
+  private func shimmerRow(width: CGFloat) -> some View {
     HStack(spacing: AppTheme.Space.sm) {
       RoundedRectangle(cornerRadius: 4, style: .continuous)
         .fill(AppTheme.oat.opacity(0.15))
@@ -829,7 +422,7 @@ struct OnboardingKitchenReviewStep: View {
       VStack(alignment: .leading, spacing: 4) {
         RoundedRectangle(cornerRadius: 3, style: .continuous)
           .fill(AppTheme.oat.opacity(0.12))
-          .frame(width: .random(in: 80...140), height: 12)
+          .frame(width: width, height: 12)
 
         RoundedRectangle(cornerRadius: 3, style: .continuous)
           .fill(AppTheme.oat.opacity(0.08))

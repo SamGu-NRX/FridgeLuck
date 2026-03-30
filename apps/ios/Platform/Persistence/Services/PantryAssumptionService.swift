@@ -36,6 +36,24 @@ final class PantryAssumptionService: Sendable {
     }
   }
 
+  func setAssumptions(
+    ingredientIDs: Set<Int64>,
+    tier: PantryAssumption.PantryTier
+  ) throws {
+    guard !ingredientIDs.isEmpty else { return }
+
+    try db.write { db in
+      for ingredientId in ingredientIDs {
+        let assumption = PantryAssumption(
+          ingredientId: ingredientId,
+          tier: tier,
+          addedAt: Date()
+        )
+        try assumption.save(db)
+      }
+    }
+  }
+
   func removeAssumption(ingredientId: Int64) throws {
     try db.write { db in
       _ = try PantryAssumption.deleteOne(db, key: ingredientId)

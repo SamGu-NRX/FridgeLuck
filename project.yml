@@ -38,6 +38,7 @@ targets:
     sources:
       - path: apps/ios/Tests
     dependencies:
+      - target: FridgeLuck
       - target: FLFeatureLogic
       - package: GRDB
         product: GRDB

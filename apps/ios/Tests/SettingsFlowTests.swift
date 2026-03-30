@@ -1,76 +1,68 @@
 import Foundation
 import XCTest
 
+@testable import FridgeLuck
+
 final class SettingsFlowTests: XCTestCase {
-  private func sourceRoot() -> URL {
-    URL(fileURLWithPath: #filePath)
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
+  func testSettingsRoutesCoverHubAndAllEditorDestinations() {
+    XCTAssertEqual(
+      SettingsRoute.allCases,
+      [
+        .overview,
+        .profileBasics,
+        .nutritionTargets,
+        .foodPreferences,
+        .integrations,
+        .permissions,
+        .appExperience,
+        .dataAndPrivacy,
+      ]
+    )
   }
 
-  func testSettingsRoutesCoverHubAndAllEditorDestinations() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent("Feature/Settings/SettingsRoute.swift"),
-      encoding: .utf8
-    )
+  @MainActor
+  func testSettingsCoordinatorOpenAndPushManageNavigationPath() {
+    let coordinator = SettingsCoordinator()
 
-    XCTAssertTrue(source.contains("case overview"))
-    XCTAssertTrue(source.contains("case profileBasics"))
-    XCTAssertTrue(source.contains("case nutritionTargets"))
-    XCTAssertTrue(source.contains("case foodPreferences"))
-    XCTAssertTrue(source.contains("case integrations"))
-    XCTAssertTrue(source.contains("case permissions"))
-    XCTAssertTrue(source.contains("case appExperience"))
-    XCTAssertTrue(source.contains("case dataAndPrivacy"))
+    coordinator.open(.profileBasics)
+    XCTAssertEqual(coordinator.path, [.profileBasics])
+
+    coordinator.push(.nutritionTargets)
+    XCTAssertEqual(coordinator.path, [.profileBasics, .nutritionTargets])
+
+    coordinator.open(.overview)
+    XCTAssertEqual(coordinator.path, [])
   }
 
-  func testSettingsViewUsesNavigationStackAndReplayOnboarding() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent("Feature/Settings/SettingsView.swift"),
-      encoding: .utf8
-    )
+  @MainActor
+  func testPreferencesStorePersistsValuesAndUsesInjectedDefaultsForHaptics() {
+    let defaults = makeIsolatedDefaults()
+    let store = AppPreferencesStore(defaults: defaults)
 
-    XCTAssertTrue(source.contains("NavigationStack(path: $coordinator.path)"))
-    XCTAssertTrue(source.contains(".navigationDestination(for: SettingsRoute.self)"))
-    XCTAssertTrue(source.contains("showReplayOnboarding = true"))
-    XCTAssertTrue(source.contains("OnboardingView(isRequired: false)"))
-    XCTAssertTrue(source.contains("applyAppleHealthAuthorizationRequest"))
+    store.appearance = .dark
+    store.measurementUnit = .imperial
+    store.defaultServings = 4
+    store.hapticsEnabled = false
+
+    let reloadedStore = AppPreferencesStore(defaults: defaults)
+    XCTAssertEqual(reloadedStore.appearance, .dark)
+    XCTAssertEqual(reloadedStore.measurementUnit, .imperial)
+    XCTAssertEqual(reloadedStore.defaultServings, 4)
+    XCTAssertFalse(reloadedStore.hapticsEnabled)
+    XCTAssertFalse(AppPreferencesStore.isHapticsEnabled)
+
+    reloadedStore.reset()
+    XCTAssertEqual(reloadedStore.appearance, .system)
+    XCTAssertEqual(reloadedStore.measurementUnit, .metric)
+    XCTAssertEqual(reloadedStore.defaultServings, 1)
+    XCTAssertTrue(reloadedStore.hapticsEnabled)
+    XCTAssertTrue(AppPreferencesStore.isHapticsEnabled)
   }
 
-  func testSettingsEditorsPersistThroughUserDataRepository() throws {
-    let root = sourceRoot()
-    let profileSource = try String(
-      contentsOf: root.appendingPathComponent("Feature/Settings/SettingsProfileBasicsView.swift"),
-      encoding: .utf8
-    )
-    let nutritionSource = try String(
-      contentsOf: root.appendingPathComponent(
-        "Feature/Settings/SettingsNutritionTargetsView.swift"),
-      encoding: .utf8
-    )
-    let foodSource = try String(
-      contentsOf: root.appendingPathComponent("Feature/Settings/SettingsFoodPreferencesView.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertTrue(profileSource.contains("try deps.userDataRepository.saveHealthProfile(profile)"))
-    XCTAssertTrue(
-      nutritionSource.contains("try deps.userDataRepository.saveHealthProfile(profile)"))
-    XCTAssertTrue(foodSource.contains("try deps.userDataRepository.saveHealthProfile(profile)"))
-    XCTAssertFalse(profileSource.contains("OnboardingView(isRequired: false)"))
-    XCTAssertFalse(nutritionSource.contains("OnboardingView(isRequired: false)"))
-    XCTAssertFalse(foodSource.contains("OnboardingView(isRequired: false)"))
-  }
-
-  func testDataAndPrivacyHandsResetBackToAppShell() throws {
-    let source = try String(
-      contentsOf: sourceRoot().appendingPathComponent(
-        "Feature/Settings/SettingsDataAndPrivacyView.swift"),
-      encoding: .utf8
-    )
-
-    XCTAssertTrue(source.contains("let onResetAllData: () -> Void"))
-    XCTAssertTrue(source.contains("onResetAllData()"))
-    XCTAssertTrue(source.contains("AppPermissionCenter.openAppSettings()"))
+  private func makeIsolatedDefaults() -> UserDefaults {
+    let suiteName = "SettingsFlowTests.\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defaults.removePersistentDomain(forName: suiteName)
+    return defaults
   }
 }
