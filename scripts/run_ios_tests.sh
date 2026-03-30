@@ -10,7 +10,7 @@ scheme="${SCHEME_NAME:-FridgeLuck}"
 if [[ -n "${DESTINATION:-}" ]]; then
   destination="$DESTINATION"
 else
-  destination="$("$repo_root/scripts/resolve_ios_sim_destination.sh" iPhone)"
+  destination="$("$repo_root/scripts/resolve_ios_sim_destination.sh")"
 fi
 
 xcodebuild test \

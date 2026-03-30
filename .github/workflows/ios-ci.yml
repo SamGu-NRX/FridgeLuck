@@ -31,7 +31,7 @@ jobs:
 
       - name: Resolve Simulator Destination
         id: sim
-        run: echo "destination=$(./scripts/resolve_ios_sim_destination.sh iPhone)" >> "$GITHUB_OUTPUT"
+        run: echo "destination=$(./scripts/resolve_ios_sim_destination.sh)" >> "$GITHUB_OUTPUT"
 
       - name: Build and Test
         env:
@@ -60,7 +60,7 @@ jobs:
 
       - name: Resolve Simulator Destination
         id: sim
-        run: echo "destination=$(./scripts/resolve_ios_sim_destination.sh iPhone)" >> "$GITHUB_OUTPUT"
+        run: echo "destination=$(./scripts/resolve_ios_sim_destination.sh)" >> "$GITHUB_OUTPUT"
 
       - name: Run Periphery (Advisory)
         id: periphery
