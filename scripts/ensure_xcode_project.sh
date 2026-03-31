@@ -11,15 +11,24 @@ required_outputs=(
   "$repo_root/Xcode/FridgeLuck.entitlements"
 )
 
-project_is_ready=1
-for output in "${required_outputs[@]}"; do
-  if [[ ! -e "$output" ]]; then
-    project_is_ready=0
-    break
-  fi
-done
+validate_required_outputs() {
+  local report_missing="${1:-1}"
+  local output
+  local missing_output=0
 
-if [[ "$project_is_ready" == "1" ]]; then
+  for output in "${required_outputs[@]}"; do
+    if [[ ! -e "$output" ]]; then
+      missing_output=1
+      if [[ "$report_missing" == "1" ]]; then
+        echo "error: generated Xcode project at $project_path is incomplete; missing required output: $output" >&2
+      fi
+    fi
+  done
+
+  return "$missing_output"
+}
+
+if validate_required_outputs 0; then
   exit 0
 fi
 
@@ -34,3 +43,5 @@ echo "Generating Xcode project from $project_spec..."
   cd "$repo_root"
   xcodegen generate --spec "$project_spec"
 )
+
+validate_required_outputs 1
