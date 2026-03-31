@@ -33,8 +33,9 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
     )
 
     XCTAssertTrue(source.contains("liveAssistantCoordinator.storeRecipeMatch"))
-    XCTAssertTrue(source.contains("progress.markCompleted(.pickRecipeMatch)"))
-    XCTAssertTrue(source.contains("navCoordinator.returnHome()"))
+    XCTAssertTrue(source.contains("context.completeObjective()"))
+    XCTAssertTrue(source.contains("didPromoteRecipeMatchLesson = true"))
+    XCTAssertTrue(source.contains("selectedRecipe = scored"))
   }
 
   func testContentViewUsesLiveAssistantAsOnlyCookingRoute() throws {

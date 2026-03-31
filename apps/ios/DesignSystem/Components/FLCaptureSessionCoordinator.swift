@@ -24,6 +24,26 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
     case failed
   }
 
+  private func updatePublishedState(
+    cameraReady: Bool,
+    flashAvailable: Bool,
+    flashOn: Bool,
+    isCapturingPhoto: Bool
+  ) {
+    let applyState = {
+      self.isCameraReady = cameraReady
+      self.isFlashAvailable = flashAvailable
+      self.isFlashOn = flashOn
+      self.isCapturingPhoto = isCapturingPhoto
+    }
+
+    if Thread.isMainThread {
+      applyState()
+    } else {
+      DispatchQueue.main.sync(execute: applyState)
+    }
+  }
+
   // MARK: - Configuration
 
   func startSessionIfNeeded() {
@@ -36,12 +56,12 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
       let hasConfiguredSession = self.configureSession()
       guard hasConfiguredSession else {
         self.sessionState = .failed
-        Task { @MainActor [weak self] in
-          self?.isFlashAvailable = false
-          self?.isFlashOn = false
-          self?.isCameraReady = false
-          self?.isCapturingPhoto = false
-        }
+        self.updatePublishedState(
+          cameraReady: false,
+          flashAvailable: false,
+          flashOn: false,
+          isCapturingPhoto: false
+        )
         return
       }
 
@@ -71,12 +91,12 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
 
       self.sessionHasFlash = flashAvailable
 
-      Task { @MainActor [weak self] in
-        self?.isFlashAvailable = isReady ? flashAvailable : false
-        self?.isFlashOn = false
-        self?.isCameraReady = isReady
-        self?.isCapturingPhoto = false
-      }
+      self.updatePublishedState(
+        cameraReady: isReady,
+        flashAvailable: isReady ? flashAvailable : false,
+        flashOn: false,
+        isCapturingPhoto: false
+      )
     }
 
     guard
@@ -100,6 +120,13 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
   // MARK: - Session Lifecycle
 
   func shutdownSession() {
+    updatePublishedState(
+      cameraReady: false,
+      flashAvailable: false,
+      flashOn: false,
+      isCapturingPhoto: false
+    )
+
     sessionQueue.async { [weak self] in
       guard let self else { return }
 
@@ -123,12 +150,12 @@ final class FLCaptureSessionCoordinator: NSObject, ObservableObject, @unchecked 
 
       self.sessionState = .idle
 
-      Task { @MainActor [weak self] in
-        self?.isCameraReady = false
-        self?.isFlashAvailable = false
-        self?.isFlashOn = false
-        self?.isCapturingPhoto = false
-      }
+      self.updatePublishedState(
+        cameraReady: false,
+        flashAvailable: false,
+        flashOn: false,
+        isCapturingPhoto: false
+      )
     }
   }
 

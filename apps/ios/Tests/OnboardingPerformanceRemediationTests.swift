@@ -95,7 +95,10 @@ final class OnboardingPerformanceRemediationTests: XCTestCase {
     XCTAssertTrue(backgroundSource.contains("@State private var stableSize: CGSize = .zero"))
     XCTAssertTrue(backgroundSource.contains("height: max(stableSize.height, size.height)"))
     XCTAssertTrue(backgroundSource.contains("label: \"samgu.FridgeLuck.cachedGrainTexture\""))
-    XCTAssertTrue(backgroundSource.contains("Task { @MainActor in"))
+    XCTAssertTrue(backgroundSource.contains(".task(id: cacheKey(for: geo.size))"))
+    XCTAssertTrue(
+      backgroundSource.contains(
+        "@MainActor\n  private func requestGrainImage(for size: CGSize) async"))
   }
 
   func testOnboardingCompletionBridgesIntoHomeBeforeSpotlight() throws {

@@ -7,10 +7,7 @@ scheme="${SCHEME_NAME:-FridgeLuck}"
 configuration="${CONFIGURATION:-Debug}"
 sdk="${SDK_NAME:-iphoneos}"
 
-if [[ ! -d "$project" ]]; then
-  echo "error: project not found at $project" >&2
-  exit 1
-fi
+"$repo_root/scripts/ensure_xcode_project.sh"
 
 build_settings="$(
   xcodebuild -project "$project" -scheme "$scheme" -configuration "$configuration" -sdk "$sdk" -showBuildSettings
