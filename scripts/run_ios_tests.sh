@@ -13,7 +13,15 @@ else
   destination="$("$repo_root/scripts/resolve_ios_sim_destination.sh")"
 fi
 
-xcodebuild test \
-  -project "$project" \
-  -scheme "$scheme" \
+xcodebuild_args=(
+  test
+  -project "$project"
+  -scheme "$scheme"
   -destination "$destination"
+)
+
+if [[ -n "${SIMULATOR_DEPLOYMENT_TARGET:-}" ]]; then
+  xcodebuild_args+=(IPHONEOS_DEPLOYMENT_TARGET="$SIMULATOR_DEPLOYMENT_TARGET")
+fi
+
+xcodebuild "${xcodebuild_args[@]}"

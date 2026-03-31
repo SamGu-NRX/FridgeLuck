@@ -31,12 +31,20 @@ rm -rf "$derived_data_path"
 mkdir -p "$derived_data_path"
 
 echo "Building index store for Periphery..."
-xcodebuild build \
-  -project "$project" \
-  -scheme "${schemes[0]}" \
-  -destination "$destination" \
-  -derivedDataPath "$derived_data_path" \
+xcodebuild_args=(
+  build
+  -project "$project"
+  -scheme "${schemes[0]}"
+  -destination "$destination"
+  -derivedDataPath "$derived_data_path"
   -quiet
+)
+
+if [[ -n "${SIMULATOR_DEPLOYMENT_TARGET:-}" ]]; then
+  xcodebuild_args+=(IPHONEOS_DEPLOYMENT_TARGET="$SIMULATOR_DEPLOYMENT_TARGET")
+fi
+
+xcodebuild "${xcodebuild_args[@]}"
 
 index_store_path="$derived_data_path/Index.noindex/DataStore"
 if [[ ! -d "$index_store_path" ]]; then
