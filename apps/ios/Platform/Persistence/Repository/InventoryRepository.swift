@@ -27,7 +27,7 @@ final class InventoryRepository: Sendable {
     let safeQuantity = max(0, quantityGrams)
     let safeConfidence = max(0, min(confidenceScore, 1.0))
 
-    return try db.write { db in
+    let lotID = try db.write { db in
       let resolvedExpiry: Date?
       if let expiresAt {
         resolvedExpiry = expiresAt
@@ -81,6 +81,8 @@ final class InventoryRepository: Sendable {
       try refreshInventoryItem(db: db, ingredientId: ingredientId)
       return lotID
     }
+    notifyInventoryDidChange()
+    return lotID
   }
 
   func upsertShelfLifeProfile(
@@ -109,6 +111,7 @@ final class InventoryRepository: Sendable {
         arguments: [ingredientId, fridgeDays, pantryDays, freezerDays]
       )
     }
+    notifyInventoryDidChange()
   }
 
   // MARK: - Consumption (Cooking + Reverse Scan Finalization)
@@ -121,7 +124,7 @@ final class InventoryRepository: Sendable {
     let safeServingsConsumed = max(0, servingsConsumed)
     guard safeServingsConsumed > 0 else { return [] }
 
-    return try db.write { db in
+    let results = try db.write { db in
       try applyConsumption(
         in: db,
         recipeId: recipeId,
@@ -129,6 +132,8 @@ final class InventoryRepository: Sendable {
         sourceRef: sourceRef
       )
     }
+    notifyInventoryDidChange()
+    return results
   }
 
   /// Transaction-scoped inventory consumption used by higher-level services that
@@ -374,7 +379,9 @@ final class InventoryRepository: Sendable {
           """,
         arguments: [ingredientId, locationRaw]
       )
+      try refreshInventoryItem(db: db, ingredientId: ingredientId)
     }
+    notifyInventoryDidChange()
   }
 
   /// Set confidence to 1.0 for all lots belonging to an active item.
@@ -392,7 +399,9 @@ final class InventoryRepository: Sendable {
           """,
         arguments: [ingredientId, locationRaw]
       )
+      try refreshInventoryItem(db: db, ingredientId: ingredientId)
     }
+    notifyInventoryDidChange()
   }
 
   /// Returns all active lots for a specific ingredient, ordered by expiry (soonest first).
@@ -659,5 +668,9 @@ final class InventoryRepository: Sendable {
         """,
       arguments: [ingredientId, totalRemaining, avgConfidence]
     )
+  }
+
+  private func notifyInventoryDidChange() {
+    NotificationCenter.default.post(name: .inventoryDidChange, object: nil)
   }
 }

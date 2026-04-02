@@ -343,8 +343,7 @@ private struct SettingsUnitPicker: View {
           let isSelected = selection == unit
 
           Button {
-            withAnimation(AppMotion.standard) { selection = unit }
-            AppPreferencesStore.haptic(.light)
+            select(unit)
           } label: {
             Text(unit.displayName)
               .font(.system(size: 13, weight: isSelected ? .semibold : .medium))
@@ -370,6 +369,12 @@ private struct SettingsUnitPicker: View {
     }
     .padding(.vertical, AppTheme.Space.xxxs)
   }
+
+  private func select(_ unit: AppMeasurementUnit) {
+    guard selection != unit else { return }
+    withAnimation(AppMotion.standard) { selection = unit }
+    AppPreferencesStore.haptic(.light)
+  }
 }
 
 private struct SettingsServingStepper: View {
@@ -386,7 +391,7 @@ private struct SettingsServingStepper: View {
 
       HStack(spacing: AppTheme.Space.xs) {
         stepButton(icon: "minus", enabled: value > range.lowerBound) {
-          value -= 1
+          adjustValue(by: -1)
         }
 
         Text("\(value)")
@@ -396,7 +401,7 @@ private struct SettingsServingStepper: View {
           .contentTransition(.numericText())
 
         stepButton(icon: "plus", enabled: value < range.upperBound) {
-          value += 1
+          adjustValue(by: 1)
         }
       }
     }
@@ -406,8 +411,10 @@ private struct SettingsServingStepper: View {
     .accessibilityValue("\(value)")
     .accessibilityAdjustableAction { direction in
       switch direction {
-      case .increment: if value < range.upperBound { value += 1 }
-      case .decrement: if value > range.lowerBound { value -= 1 }
+      case .increment:
+        adjustValue(by: 1)
+      case .decrement:
+        adjustValue(by: -1)
       @unknown default: break
       }
     }
@@ -433,5 +440,15 @@ private struct SettingsServingStepper: View {
     }
     .buttonStyle(.plain)
     .disabled(!enabled)
+  }
+
+  private func adjustValue(by delta: Int) {
+    let nextValue = min(range.upperBound, max(range.lowerBound, value + delta))
+    guard nextValue != value else { return }
+
+    withAnimation(AppMotion.quick) {
+      value = nextValue
+    }
+    AppPreferencesStore.haptic(.light)
   }
 }

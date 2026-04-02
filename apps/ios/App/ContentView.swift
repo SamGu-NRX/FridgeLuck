@@ -646,10 +646,8 @@ struct ContentView: View {
     }
 
     settingsCoordinator.reset()
-    selectedTab = .home
     tutorialFlowContext.reset()
-    clearHomeNavigation()
-    clearKitchenNavigation()
+    returnToHomeRoot()
 
     switch HelpTutorialReplayRoute.route(for: quest) {
     case .demoMode:
@@ -712,8 +710,7 @@ struct ContentView: View {
       return
     }
 
-    selectedTab = .home
-    liveAssistantRoute = LiveAssistantRoute(
+    presentLiveAssistant(
       recipeContext: recipeContext,
       replaySpotlightOnAppear: false,
       marksTutorialProgressOnComplete: true
@@ -743,12 +740,25 @@ struct ContentView: View {
         ingredients = []
       }
 
-      liveAssistantRoute = LiveAssistantRoute(
+      presentLiveAssistant(
         recipeContext: LiveAssistantRecipeContext(scoredRecipe: recipe, ingredients: ingredients),
         replaySpotlightOnAppear: true,
         marksTutorialProgressOnComplete: false
       )
     }
+  }
+
+  private func presentLiveAssistant(
+    recipeContext: LiveAssistantRecipeContext,
+    replaySpotlightOnAppear: Bool,
+    marksTutorialProgressOnComplete: Bool
+  ) {
+    selectedTab = .home
+    liveAssistantRoute = LiveAssistantRoute(
+      recipeContext: recipeContext,
+      replaySpotlightOnAppear: replaySpotlightOnAppear,
+      marksTutorialProgressOnComplete: marksTutorialProgressOnComplete
+    )
   }
 
   private func completeLiveAssistantLesson(marksTutorialProgress: Bool) {

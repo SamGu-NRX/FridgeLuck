@@ -4,11 +4,13 @@ import AVFoundation
 import FLFeatureLogic
 import Photos
 import UIKit
+import UserNotifications
 
 enum AppPermission: Equatable {
   case camera
   case microphone
   case photoLibraryReadWrite
+  case notifications
 }
 
 typealias AppPermissionStatus = PermissionStatus
@@ -31,7 +33,16 @@ enum AppPermissionCenter {
       return mapMicrophonePermission(MicrophonePermissionBridge.currentStatus())
     case .photoLibraryReadWrite:
       return mapPhotoAuthorizationStatus(PHPhotoLibrary.authorizationStatus(for: .readWrite))
+    case .notifications:
+      assertionFailure("Use notificationStatus() for notification permissions.")
+      return .notDetermined
     }
+  }
+
+  @MainActor
+  static func notificationStatus() async -> AppPermissionStatus {
+    let settings = await UNUserNotificationCenter.current().notificationSettings()
+    return mapNotificationSettings(settings)
   }
 
   @MainActor
@@ -87,6 +98,26 @@ enum AppPermissionCenter {
       case .denied, .restricted:
         return .denied
       @unknown default:
+        return .unavailable
+      }
+
+    case .notifications:
+      let settings = await UNUserNotificationCenter.current().notificationSettings()
+      switch mapNotificationSettings(settings) {
+      case .authorized, .limited:
+        return .granted
+      case .denied, .restricted:
+        return .denied
+      case .notDetermined:
+        do {
+          let granted = try await UNUserNotificationCenter.current().requestAuthorization(
+            options: [.alert, .badge, .sound]
+          )
+          return PermissionMapping.mapNotificationRequestResult(granted: granted)
+        } catch {
+          return .unavailable
+        }
+      case .unavailable:
         return .unavailable
       }
     }
@@ -149,6 +180,12 @@ enum AppPermissionCenter {
     PermissionMapping.mapPhotoRequestResult(mapPhotoAuthorizationState(status))
   }
 
+  static func mapNotificationSettings(_ settings: UNNotificationSettings) -> AppPermissionStatus {
+    PermissionMapping.mapNotificationStatus(
+      mapNotificationAuthorizationState(settings.authorizationStatus)
+    )
+  }
+
   static func mapLiDARAvailability(_ hasLiDARCapability: Bool) -> AppCapabilityStatus {
     PermissionMapping.mapLiDARAvailability(hasLiDARCapability)
   }
@@ -182,6 +219,25 @@ enum AppPermissionCenter {
       return .denied
     case .restricted:
       return .restricted
+    case .notDetermined:
+      return .notDetermined
+    @unknown default:
+      return .unknown
+    }
+  }
+
+  private static func mapNotificationAuthorizationState(
+    _ status: UNAuthorizationStatus
+  ) -> NotificationAuthorizationState {
+    switch status {
+    case .authorized:
+      return .authorized
+    case .provisional:
+      return .provisional
+    case .ephemeral:
+      return .ephemeral
+    case .denied:
+      return .denied
     case .notDetermined:
       return .notDetermined
     @unknown default:

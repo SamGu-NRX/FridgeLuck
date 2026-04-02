@@ -443,6 +443,42 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V15: Notification rules + freshness opportunities
+
+    migrator.registerMigration("v15_notification_rules_and_opportunities") { db in
+      try db.create(table: "notification_rules") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("kind", .text).notNull().unique()
+        t.column("enabled", .boolean).notNull().defaults(to: false)
+        t.column("hour", .integer).notNull()
+        t.column("minute", .integer).notNull()
+        t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+      }
+
+      try db.create(table: "notification_opportunities") { t in
+        t.primaryKey("id", .text)
+        t.column("kind", .text).notNull()
+        t.column("title", .text).notNull()
+        t.column("body", .text).notNull()
+        t.column("scheduled_at", .datetime).notNull()
+        t.column("payload_json", .text).notNull().defaults(to: "{}")
+        t.column("source", .text).notNull()
+        t.column("status", .text).notNull().defaults(to: "scheduled")
+        t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+      }
+
+      try db.create(
+        index: "idx_notification_rules_kind",
+        on: "notification_rules",
+        columns: ["kind"]
+      )
+      try db.create(
+        index: "idx_notification_opportunities_schedule",
+        on: "notification_opportunities",
+        columns: ["kind", "scheduled_at", "status"]
+      )
+    }
+
     try migrator.migrate(db)
   }
 }

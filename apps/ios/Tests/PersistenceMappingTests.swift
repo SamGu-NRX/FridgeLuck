@@ -273,6 +273,21 @@ final class PersistenceMappingTests: XCTestCase {
     XCTAssertTrue(inventoryModels.contains("case lastUpdatedAt = \"last_updated_at\""))
   }
 
+  func testNotificationModelsDeclareRequiredSnakeCaseCodingKeys() throws {
+    let root = URL(fileURLWithPath: #filePath)
+      .deletingLastPathComponent()
+      .deletingLastPathComponent()
+
+    let notificationModels = try String(
+      contentsOf: root.appendingPathComponent("Domain/Models/NotificationModels.swift"),
+      encoding: .utf8
+    )
+
+    XCTAssertTrue(notificationModels.contains("case updatedAt = \"updated_at\""))
+    XCTAssertTrue(notificationModels.contains("case scheduledAt = \"scheduled_at\""))
+    XCTAssertTrue(notificationModels.contains("case payloadJSON = \"payload_json\""))
+  }
+
   func testMigrationsDeclareInventoryTables() throws {
     let root = URL(fileURLWithPath: #filePath)
       .deletingLastPathComponent()
@@ -293,5 +308,8 @@ final class PersistenceMappingTests: XCTestCase {
     XCTAssertTrue(migrations.contains("v12_required_onboarding_identity"))
     XCTAssertTrue(migrations.contains("display_name"))
     XCTAssertTrue(migrations.contains("age"))
+    XCTAssertTrue(migrations.contains("v15_notification_rules_and_opportunities"))
+    XCTAssertTrue(migrations.contains("notification_rules"))
+    XCTAssertTrue(migrations.contains("notification_opportunities"))
   }
 }

@@ -40,8 +40,8 @@ final class HelpTutorialReplayTests: XCTestCase {
     )
 
     XCTAssertTrue(replayFunction.contains("settingsCoordinator.reset()"))
-    XCTAssertTrue(replayFunction.contains("clearHomeNavigation()"))
-    XCTAssertTrue(replayFunction.contains("clearKitchenNavigation()"))
+    XCTAssertTrue(replayFunction.contains("tutorialFlowContext.reset()"))
+    XCTAssertTrue(replayFunction.contains("returnToHomeRoot()"))
     XCTAssertTrue(replayFunction.contains("HelpTutorialReplayRoute.route(for: quest)"))
     XCTAssertFalse(replayFunction.contains("tutorialFlowContext.beginQuest"))
     XCTAssertFalse(replayFunction.contains("markTutorialQuest"))

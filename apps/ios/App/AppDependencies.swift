@@ -15,6 +15,7 @@ final class AppDependencies: ObservableObject {
   let ingredientRepository: IngredientRepository
   let inventoryRepository: InventoryRepository
   let userDataRepository: UserDataRepository
+  let notificationRuleRepository: NotificationRuleRepository
 
   let learningService: LearningService
   let ingredientCatalogResolver: IngredientCatalogResolving
@@ -36,6 +37,9 @@ final class AppDependencies: ObservableObject {
   let confidenceLearningService: ConfidenceLearningService
   let reverseScanService: ReverseScanService
   let geminiCloudAgent: GeminiCloudAgent
+  let notificationPermissionService: NotificationPermissionService
+  let notificationSyncService: NotificationSyncService
+  let notificationCoordinator: NotificationCoordinator
 
   let recipeGenerator: RecipeGenerating
 
@@ -72,12 +76,23 @@ final class AppDependencies: ObservableObject {
     self.ingredientRepository = IngredientRepository(db: db)
     self.inventoryRepository = InventoryRepository(db: db)
     self.userDataRepository = UserDataRepository(db: db)
+    self.notificationRuleRepository = NotificationRuleRepository(db: db)
     self.spoilageService = SpoilageService(inventoryRepository: inventoryRepository)
     self.inventoryIntakeService = InventoryIntakeService(
       ingredientRepository: ingredientRepository,
       inventoryRepository: inventoryRepository
     )
     self.geminiCloudAgent = GeminiCloudAgent()
+    self.notificationPermissionService = NotificationPermissionService()
+    self.notificationSyncService = NotificationSyncService()
+    self.notificationCoordinator = NotificationCoordinator(
+      ruleRepository: notificationRuleRepository,
+      permissionService: notificationPermissionService,
+      scheduler: NotificationScheduler(),
+      syncService: notificationSyncService,
+      inventoryRepository: inventoryRepository,
+      spoilageService: spoilageService
+    )
 
     self.recipeRepository = RecipeRepository(
       db: db,

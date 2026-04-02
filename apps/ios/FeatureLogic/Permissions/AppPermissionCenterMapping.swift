@@ -43,6 +43,15 @@ public enum PhotoAuthorizationState: Equatable, Sendable {
   case unknown
 }
 
+public enum NotificationAuthorizationState: Equatable, Sendable {
+  case authorized
+  case provisional
+  case ephemeral
+  case denied
+  case notDetermined
+  case unknown
+}
+
 public enum PermissionMapping {
   public static func mapCameraStatus(
     cameraAvailable: Bool,
@@ -111,6 +120,27 @@ public enum PermissionMapping {
     case .unknown:
       return .unavailable
     }
+  }
+
+  public static func mapNotificationStatus(
+    _ state: NotificationAuthorizationState
+  ) -> PermissionStatus {
+    switch state {
+    case .authorized:
+      return .authorized
+    case .provisional, .ephemeral:
+      return .limited
+    case .denied:
+      return .denied
+    case .notDetermined:
+      return .notDetermined
+    case .unknown:
+      return .unavailable
+    }
+  }
+
+  public static func mapNotificationRequestResult(granted: Bool) -> PermissionRequestResult {
+    granted ? .granted : .denied
   }
 
   public static func canProceed(_ result: PermissionRequestResult) -> Bool {

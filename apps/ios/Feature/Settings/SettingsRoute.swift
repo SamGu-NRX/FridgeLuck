@@ -5,6 +5,7 @@ enum SettingsRoute: Hashable, CaseIterable {
   case profileBasics
   case nutritionTargets
   case foodPreferences
+  case trackingReminders
   case integrations
   case permissions
   case help

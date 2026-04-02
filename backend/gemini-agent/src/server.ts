@@ -11,9 +11,11 @@ import { attachLiveSessionGateway } from "./services/liveSessionGateway.js";
 import { InventoryLedger } from "./inventory/inventoryLedger.js";
 import { createWebhookRouter } from "./api/webhooks.js";
 import { createLiveSessionStore } from "./session/liveSessionStore.js";
+import { buildNotificationPlan } from "./notifications/notificationPlan.js";
 import type {
   ConfidenceAssessRequest,
   ConfidenceOutcomeRequest,
+  NotificationPlanRequest,
   RecipeGenerationRequest,
   ReverseScanRankRequest,
 } from "./types/contracts.js";
@@ -115,6 +117,29 @@ app.get("/v1/confidence/snapshots", (_req: Request, res: Response) => {
 
 app.get("/v1/inventory", (_req: Request, res: Response) => {
   res.json({ inventory: ledger.snapshot() });
+});
+
+app.post("/v1/notifications/plan", (req: Request, res: Response) => {
+  try {
+    const payload = req.body as NotificationPlanRequest;
+    if (
+      !payload.installationId ||
+      !Array.isArray(payload.rules) ||
+      !Array.isArray(payload.inventorySnapshot)
+    ) {
+      res
+        .status(400)
+        .json({ error: "installationId, rules, and inventorySnapshot are required." });
+      return;
+    }
+
+    const plan = buildNotificationPlan(payload);
+    res.json(plan);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Notification planning failed.";
+    res.status(500).json({ error: message });
+  }
 });
 
 app.use("/v1/webhooks", createWebhookRouter(ledger, config));

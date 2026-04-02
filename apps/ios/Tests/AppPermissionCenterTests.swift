@@ -100,6 +100,37 @@ final class AppPermissionCenterTests: XCTestCase {
     )
   }
 
+  func testNotificationStatusAndRequestMapping() {
+    XCTAssertEqual(
+      PermissionMapping.mapNotificationStatus(.authorized),
+      .authorized
+    )
+    XCTAssertEqual(
+      PermissionMapping.mapNotificationStatus(.provisional),
+      .limited
+    )
+    XCTAssertEqual(
+      PermissionMapping.mapNotificationStatus(.ephemeral),
+      .limited
+    )
+    XCTAssertEqual(
+      PermissionMapping.mapNotificationStatus(.denied),
+      .denied
+    )
+    XCTAssertEqual(
+      PermissionMapping.mapNotificationStatus(.notDetermined),
+      .notDetermined
+    )
+    XCTAssertEqual(
+      PermissionMapping.mapNotificationRequestResult(granted: true),
+      .granted
+    )
+    XCTAssertEqual(
+      PermissionMapping.mapNotificationRequestResult(granted: false),
+      .denied
+    )
+  }
+
   func testCanProceedMapping() {
     XCTAssertTrue(PermissionMapping.canProceed(.granted))
     XCTAssertTrue(PermissionMapping.canProceed(.limited))

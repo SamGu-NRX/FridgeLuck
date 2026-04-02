@@ -3,6 +3,7 @@ import UIKit
 
 @main
 struct FridgeLuckApp: App {
+  @Environment(\.scenePhase) private var scenePhase
   @State private var dependencies: AppDependencies?
   @State private var loadError: Error?
   @State private var launchStarted = false
@@ -44,6 +45,12 @@ struct FridgeLuckApp: App {
       .task {
         await bootstrapIfNeeded()
       }
+      .onChange(of: scenePhase) { _, newPhase in
+        guard newPhase == .active, let dependencies else { return }
+        Task {
+          await dependencies.notificationCoordinator.handleAppDidBecomeActive()
+        }
+      }
     }
   }
 
@@ -71,6 +78,10 @@ struct FridgeLuckApp: App {
       dependencies = resolvedDependencies
       shouldShowFirstRunOnboarding = !firstRunExperienceStore.hasCompletedCurrentVersion
       warmBundledContentInBackground(using: appDB)
+      resolvedDependencies.notificationCoordinator.start()
+      Task {
+        await resolvedDependencies.notificationCoordinator.handleAppDidBecomeActive()
+      }
     } catch {
       loadError = error
     }
@@ -89,6 +100,7 @@ struct FridgeLuckApp: App {
     ] {
       defaults.removeObject(forKey: key)
     }
+    defaults.removeObject(forKey: "notificationSync_installationId")
   }
 
   private static var shouldResetTutorialStateForLaunch: Bool {

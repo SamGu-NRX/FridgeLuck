@@ -1,11 +1,13 @@
 // ─── Inventory ───────────────────────────────────────────────────────────────
 
 export interface InventoryItem {
+  ingredientId?: number;
   ingredientName: string;
   /** Quantity in grams */
   quantityGrams: number;
   /** ISO 8601 date string, e.g. "2026-03-12" */
   expiresAt?: string;
+  confidenceScore?: number;
   /** Source of the item: scan, manual, or restock */
   source?: "scan" | "manual" | "restock";
 }
@@ -43,6 +45,43 @@ export interface RestockPlanResponse {
   useSoonAlerts: UseSoonAlert[];
   restockList: string[];
   generatedAt: string;
+}
+
+export interface NotificationPlanRule {
+  kind: "use_soon_alerts";
+  enabled: boolean;
+  hour: number;
+  minute: number;
+  pushToken?: string;
+}
+
+export interface NotificationOpportunityPayload {
+  ingredientIds: number[];
+  ingredientNames: string[];
+  expiresAt: string[];
+}
+
+export interface NotificationOpportunity {
+  id: string;
+  kind: "use_soon_digest";
+  title: string;
+  body: string;
+  scheduledAt: string;
+  payload: NotificationOpportunityPayload;
+}
+
+export interface NotificationPlanRequest {
+  installationId: string;
+  timezone: string;
+  locale: string;
+  generatedAt: string;
+  rules: NotificationPlanRule[];
+  inventorySnapshot: InventoryItem[];
+}
+
+export interface NotificationPlanResponse {
+  generatedAt: string;
+  opportunities: NotificationOpportunity[];
 }
 
 // ─── Observability ───────────────────────────────────────────────────────────
