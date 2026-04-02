@@ -193,6 +193,76 @@ extension SpotlightStep {
     ),
   ]
 
+  static let recipeMatchReplay: [SpotlightStep] = [
+    SpotlightStep(
+      id: "recipe_match_intro",
+      anchorID: nil,
+      icon: "fork.knife.circle.fill",
+      title: "Pick A Recipe Match",
+      message:
+        "This screen turns confirmed ingredients into ranked meal options. Start with the summary, then inspect the strongest match before browsing the full list."
+    ),
+    SpotlightStep(
+      id: "recipe_match_summary",
+      anchorID: "recipeResultsSummary",
+      icon: "slider.horizontal.3",
+      title: "Read The Match Context",
+      message:
+        "This header explains how FridgeLuck ranked the results, which dietary rules were applied, and how many exact or near matches are available."
+    ),
+    SpotlightStep(
+      id: "recipe_match_best",
+      anchorID: "recipeResultsBestMatch",
+      icon: "star.circle.fill",
+      title: "Start With The Best Match",
+      message:
+        "The lead card is the fastest way into a strong option. Tap it when you want the most complete fit for your current ingredients."
+    ),
+    SpotlightStep(
+      id: "recipe_match_list",
+      anchorID: "recipeResultsList",
+      icon: "square.grid.2x2.fill",
+      title: "Browse Alternatives",
+      message:
+        "Use the grid and the near-match section to compare time, nutrition, and coverage before opening a recipe."
+    ),
+  ]
+
+  static let liveCookReplay: [SpotlightStep] = [
+    SpotlightStep(
+      id: "live_cook_intro",
+      anchorID: nil,
+      icon: "waveform.and.mic.circle.fill",
+      title: "Cook With Le Chef",
+      message:
+        "This is the hands-free cooking surface. Keep the setup simple: prop the phone nearby, glance when needed, and let the guide stay out of the way."
+    ),
+    SpotlightStep(
+      id: "live_cook_focus",
+      anchorID: "liveCookFocusFrame",
+      icon: "viewfinder.circle.fill",
+      title: "Frame Your Workspace",
+      message:
+        "Keep your board, ingredients, and pan inside this area so the assistant has stable visual context while you prep and cook."
+    ),
+    SpotlightStep(
+      id: "live_cook_controls",
+      anchorID: "liveCookControls",
+      icon: "mic.circle.fill",
+      title: "Use The Main Controls",
+      message:
+        "These controls let you reconnect, toggle the microphone, open the transcript, or end the session without leaving the cooking surface."
+    ),
+    SpotlightStep(
+      id: "live_cook_panel",
+      anchorID: "liveCookPanel",
+      icon: "list.bullet.rectangle.portrait.fill",
+      title: "Follow The Guidance Panel",
+      message:
+        "The bottom panel keeps the current step, progress, and extra guidance in one place. Swipe up when you need more detail."
+    ),
+  ]
+
   static func questAdvance(for quest: TutorialQuest) -> [SpotlightStep] {
     [
       SpotlightStep(

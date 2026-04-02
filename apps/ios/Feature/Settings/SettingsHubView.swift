@@ -14,14 +14,35 @@ struct SettingsHubView: View {
 
     Form {
       Section {
-        appearanceSelector(selection: $boundPrefs.appearance)
-          .listRowInsets(
-            EdgeInsets(
-              top: AppTheme.Space.sm, leading: AppTheme.Space.md,
-              bottom: AppTheme.Space.sm, trailing: AppTheme.Space.md
-            )
+        VStack(spacing: AppTheme.Space.sm) {
+          appearanceSelector(selection: $boundPrefs.appearance)
+
+          HStack(spacing: AppTheme.Space.xs) {
+            Image(systemName: "hand.tap.fill")
+              .font(.system(size: 11, weight: .medium))
+              .foregroundStyle(AppTheme.textSecondary.opacity(0.6))
+            Text("Haptics")
+              .font(AppTheme.Typography.settingsCaptionMedium)
+              .foregroundStyle(AppTheme.textSecondary)
+            Spacer()
+            Toggle("", isOn: $boundPrefs.hapticsEnabled)
+              .labelsHidden()
+              .tint(AppTheme.accent)
+          }
+          .accessibilityElement(children: .combine)
+          .accessibilityLabel("Haptic Feedback")
+          .accessibilityValue(boundPrefs.hapticsEnabled ? "On" : "Off")
+        }
+        .onChange(of: boundPrefs.hapticsEnabled) { _, newValue in
+          if newValue { AppPreferencesStore.haptic(.light) }
+        }
+        .listRowInsets(
+          EdgeInsets(
+            top: AppTheme.Space.sm, leading: AppTheme.Space.md,
+            bottom: AppTheme.Space.sm, trailing: AppTheme.Space.md
           )
-          .listRowBackground(Color.clear)
+        )
+        .listRowBackground(Color.clear)
       } header: {
         sectionHeader("Appearance")
       }
@@ -29,34 +50,8 @@ struct SettingsHubView: View {
       .offset(y: phase1Appeared ? 0 : 8)
 
       Section {
-        Picker("Units", selection: $boundPrefs.measurementUnit) {
-          ForEach(AppMeasurementUnit.allCases) { unit in
-            Text(unit.displayName).tag(unit)
-          }
-        }
-        .pickerStyle(.menu)
-        .onChange(of: boundPrefs.measurementUnit) { _, _ in
-          AppPreferencesStore.haptic(.light)
-        }
-
-        Stepper(value: $boundPrefs.defaultServings, in: 1...10) {
-          HStack {
-            Text("Default Servings")
-            Spacer()
-            Text("\(boundPrefs.defaultServings)")
-              .font(AppTheme.Typography.settingsDetail)
-              .foregroundStyle(AppTheme.textSecondary)
-          }
-        }
-        .onChange(of: boundPrefs.defaultServings) { _, _ in
-          AppPreferencesStore.haptic(.light)
-        }
-
-        Toggle("Haptic Feedback", isOn: $boundPrefs.hapticsEnabled)
-          .tint(AppTheme.accent)
-          .onChange(of: boundPrefs.hapticsEnabled) { _, newValue in
-            if newValue { AppPreferencesStore.haptic(.light) }
-          }
+        SettingsUnitPicker(selection: $boundPrefs.measurementUnit)
+        SettingsServingStepper(value: $boundPrefs.defaultServings)
       } header: {
         sectionHeader("Preferences")
       }
@@ -78,6 +73,16 @@ struct SettingsHubView: View {
       }
       .opacity(phase3Appeared ? 1 : 0)
       .offset(y: phase3Appeared ? 0 : 10)
+
+      Section {
+        NavigationLink(value: SettingsRoute.trackingReminders) {
+          iconRow(icon: "bell.fill", tint: AppTheme.oat, title: "Tracking Reminders")
+        }
+      } header: {
+        sectionHeader("Tracking")
+      }
+      .opacity(phase4Appeared ? 1 : 0)
+      .offset(y: phase4Appeared ? 0 : 10)
 
       Section {
         NavigationLink(value: SettingsRoute.integrations) {
@@ -107,12 +112,13 @@ struct SettingsHubView: View {
           .foregroundStyle(AppTheme.textSecondary.opacity(0.6))
           .frame(maxWidth: .infinity)
           .padding(.top, AppTheme.Space.lg)
-          .padding(.bottom, AppTheme.Home.navOrbLift)
+          .padding(.bottom, AppTheme.Space.sm)
       }
       .opacity(phase4Appeared ? 1 : 0)
       .offset(y: phase4Appeared ? 0 : 10)
     }
     .scrollContentBackground(.hidden)
+    .flSettingsBottomClearance()
     .navigationTitle("Settings")
     .navigationBarTitleDisplayMode(.large)
     .flPageBackground(renderMode: .interactive)
@@ -175,7 +181,7 @@ struct SettingsHubView: View {
     case .dark:
       SettingsMiniAppPreview().environment(\.colorScheme, .dark)
     case .system:
-      SettingsMiniAppPreview()
+      SettingsMiniAppPreviewSplit()
     }
   }
 
@@ -218,7 +224,7 @@ struct SettingsHubView: View {
 
 // MARK: - Mini App Preview
 
-private struct SettingsMiniAppPreview: View {
+private struct SettingsMiniPreviewContent: View {
   var body: some View {
     VStack(spacing: 0) {
       HStack {
@@ -270,12 +276,162 @@ private struct SettingsMiniAppPreview: View {
       }
       .padding(.bottom, 8)
     }
-    .frame(height: 86)
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(AppTheme.bg)
-    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-    .overlay(
-      RoundedRectangle(cornerRadius: 10, style: .continuous)
-        .stroke(AppTheme.oat.opacity(0.25), lineWidth: 0.5)
-    )
+  }
+}
+
+private struct SettingsMiniAppPreview: View {
+  private let shape = RoundedRectangle(cornerRadius: 10, style: .continuous)
+
+  var body: some View {
+    SettingsMiniPreviewContent()
+      .frame(height: 86)
+      .clipShape(shape)
+      .overlay(shape.stroke(AppTheme.oat.opacity(0.25), lineWidth: 0.5))
+  }
+}
+
+private struct SettingsMiniAppPreviewSplit: View {
+  private let shape = RoundedRectangle(cornerRadius: 10, style: .continuous)
+
+  var body: some View {
+    GeometryReader { proxy in
+      ZStack {
+        SettingsMiniPreviewContent()
+          .environment(\.colorScheme, .light)
+          .frame(width: proxy.size.width, height: proxy.size.height)
+          .mask(alignment: .leading) {
+            Rectangle().frame(width: proxy.size.width / 2)
+          }
+
+        SettingsMiniPreviewContent()
+          .environment(\.colorScheme, .dark)
+          .frame(width: proxy.size.width, height: proxy.size.height)
+          .mask(alignment: .trailing) {
+            Rectangle().frame(width: proxy.size.width / 2)
+          }
+
+        Rectangle()
+          .fill(.white.opacity(0.08))
+          .frame(width: 0.5)
+      }
+    }
+    .frame(height: 86)
+    .clipShape(shape)
+    .overlay(shape.stroke(AppTheme.oat.opacity(0.25), lineWidth: 0.5))
+  }
+}
+
+// MARK: - Settings Preference Controls
+
+private struct SettingsUnitPicker: View {
+  @Binding var selection: AppMeasurementUnit
+  @Namespace private var unitNamespace
+
+  var body: some View {
+    HStack {
+      Text("Units")
+        .font(AppTheme.Typography.settingsBody)
+        .foregroundStyle(AppTheme.textPrimary)
+        .accessibilityHidden(true)
+
+      Spacer()
+
+      HStack(spacing: 2) {
+        ForEach(AppMeasurementUnit.allCases) { unit in
+          let isSelected = selection == unit
+
+          Button {
+            withAnimation(AppMotion.standard) { selection = unit }
+            AppPreferencesStore.haptic(.light)
+          } label: {
+            Text(unit.displayName)
+              .font(.system(size: 13, weight: isSelected ? .semibold : .medium))
+              .foregroundStyle(isSelected ? AppTheme.textPrimary : AppTheme.textSecondary)
+              .padding(.horizontal, AppTheme.Space.sm)
+              .padding(.vertical, 6)
+              .background {
+                if isSelected {
+                  Capsule(style: .continuous)
+                    .fill(AppTheme.surface)
+                    .shadow(color: AppTheme.Shadow.color, radius: 4, y: 1.5)
+                    .matchedGeometryEffect(id: "unitPill", in: unitNamespace)
+                }
+              }
+          }
+          .buttonStyle(.plain)
+          .accessibilityLabel("\(unit.displayName) units")
+          .accessibilityAddTraits(isSelected ? .isSelected : [])
+        }
+      }
+      .padding(3)
+      .background(Capsule(style: .continuous).fill(AppTheme.surfaceMuted))
+    }
+    .padding(.vertical, AppTheme.Space.xxxs)
+  }
+}
+
+private struct SettingsServingStepper: View {
+  @Binding var value: Int
+  private let range = 1...10
+
+  var body: some View {
+    HStack {
+      Text("Default Servings")
+        .font(AppTheme.Typography.settingsBody)
+        .foregroundStyle(AppTheme.textPrimary)
+
+      Spacer()
+
+      HStack(spacing: AppTheme.Space.xs) {
+        stepButton(icon: "minus", enabled: value > range.lowerBound) {
+          value -= 1
+        }
+
+        Text("\(value)")
+          .font(AppTheme.Typography.dataSmall)
+          .foregroundStyle(AppTheme.textPrimary)
+          .frame(minWidth: 22)
+          .contentTransition(.numericText())
+
+        stepButton(icon: "plus", enabled: value < range.upperBound) {
+          value += 1
+        }
+      }
+    }
+    .padding(.vertical, AppTheme.Space.xxxs)
+    .accessibilityElement(children: .combine)
+    .accessibilityLabel("Default Servings")
+    .accessibilityValue("\(value)")
+    .accessibilityAdjustableAction { direction in
+      switch direction {
+      case .increment: if value < range.upperBound { value += 1 }
+      case .decrement: if value > range.lowerBound { value -= 1 }
+      @unknown default: break
+      }
+    }
+  }
+
+  private func stepButton(
+    icon: String,
+    enabled: Bool,
+    action: @escaping () -> Void
+  ) -> some View {
+    Button {
+      withAnimation(AppMotion.quick) { action() }
+      AppPreferencesStore.haptic(.light)
+    } label: {
+      Image(systemName: icon)
+        .font(.system(size: 11, weight: .bold))
+        .foregroundStyle(enabled ? AppTheme.accent : AppTheme.textSecondary.opacity(0.25))
+        .frame(width: 30, height: 30)
+        .background(
+          Circle()
+            .fill(enabled ? AppTheme.accentMuted : AppTheme.surfaceMuted.opacity(0.5))
+        )
+    }
+    .buttonStyle(.plain)
+    .disabled(!enabled)
   }
 }

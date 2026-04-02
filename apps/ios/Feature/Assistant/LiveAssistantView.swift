@@ -9,19 +9,24 @@ struct LiveAssistantView: View {
   let onCompleteLesson: () -> Void
   let onSkipLesson: () -> Void
 
+  @State private var replaySpotlightPending: Bool
   @StateObject private var viewModel: LiveAssistantViewModel
   @State private var panelDetent: LiveAssistantPanelDetent = .peek
   @GestureState private var panelDragOffset: CGFloat = 0
   @State private var showComposer = false
+  @State private var replaySpotlight = SpotlightCoordinator()
+  @State private var showReplaySpotlight = false
 
   init(
     recipeContext: LiveAssistantRecipeContext,
     onCompleteLesson: @escaping () -> Void,
-    onSkipLesson: @escaping () -> Void
+    onSkipLesson: @escaping () -> Void,
+    replaySpotlightOnAppear: Bool = false
   ) {
     self.recipeContext = recipeContext
     self.onCompleteLesson = onCompleteLesson
     self.onSkipLesson = onSkipLesson
+    _replaySpotlightPending = State(initialValue: replaySpotlightOnAppear)
     _viewModel = StateObject(wrappedValue: LiveAssistantViewModel(recipeContext: recipeContext))
   }
 
@@ -38,6 +43,7 @@ struct LiveAssistantView: View {
 
         focusGuide(in: geo.size)
           .allowsHitTesting(false)
+          .spotlightAnchor("liveCookFocusFrame")
 
         topChrome
 
@@ -48,12 +54,71 @@ struct LiveAssistantView: View {
       .ignoresSafeArea()
     }
     .navigationBarHidden(true)
+    .onPreferenceChange(SpotlightAnchorKey.self) {
+      replaySpotlight.updateAnchors($0, retainingExistingValues: true)
+    }
+    .overlay {
+      if showReplaySpotlight, let presentation = replaySpotlight.activePresentation {
+        SpotlightTutorialOverlay(
+          presentationID: presentation.id,
+          steps: presentation.steps,
+          anchors: replaySpotlight.anchors,
+          isPresented: Binding(
+            get: { showReplaySpotlight },
+            set: { isPresented in
+              if !isPresented {
+                showReplaySpotlight = false
+                replaySpotlight.activePresentation = nil
+              }
+            }
+          )
+        )
+        .id(presentation.id)
+        .ignoresSafeArea()
+      }
+    }
     .task {
       await viewModel.start()
+    }
+    .task(id: shouldPresentReplaySpotlight) {
+      guard shouldPresentReplaySpotlight else { return }
+      let delay = reduceMotion ? 0.2 : 0.6
+      try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+      guard !Task.isCancelled else { return }
+      guard shouldPresentReplaySpotlight else { return }
+      presentReplaySpotlight()
     }
     .onDisappear {
       viewModel.stop()
     }
+  }
+
+  private var shouldPresentReplaySpotlight: Bool {
+    guard replaySpotlightPending else { return false }
+    guard replaySpotlight.activePresentation == nil else { return false }
+    guard !showReplaySpotlight else { return false }
+    return isReplayAnchorReady("liveCookFocusFrame")
+      && isReplayAnchorReady("liveCookControls")
+      && isReplayAnchorReady("liveCookPanel")
+  }
+
+  private func isReplayAnchorReady(_ anchorID: String) -> Bool {
+    guard let rect = replaySpotlight.anchors[anchorID] else { return false }
+    guard !rect.isEmpty, !rect.isNull, !rect.isInfinite else { return false }
+    guard rect.width > 0, rect.height > 0 else { return false }
+    return rect.minX.isFinite && rect.minY.isFinite && rect.maxX.isFinite && rect.maxY.isFinite
+  }
+
+  private func presentReplaySpotlight() {
+    guard replaySpotlight.activePresentation == nil else { return }
+    if panelDetent == .peek {
+      withAnimation(reduceMotion ? nil : AppMotion.panelSnap) {
+        panelDetent = .step
+      }
+    }
+    replaySpotlight.present(steps: SpotlightStep.liveCookReplay, source: "liveCookReplay")
+    showReplaySpotlight = true
+    replaySpotlightPending = false
   }
 
   private var cameraLayer: some View {
@@ -288,6 +353,7 @@ struct LiveAssistantView: View {
         dismiss()
       }
     }
+    .spotlightAnchor("liveCookControls")
   }
 
   private func controlButton(
@@ -384,6 +450,7 @@ struct LiveAssistantView: View {
           }
         }
     )
+    .spotlightAnchor("liveCookPanel")
   }
 
   private var dragHandle: some View {

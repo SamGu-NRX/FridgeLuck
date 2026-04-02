@@ -5,6 +5,7 @@ struct SettingsHelpView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
 
+  let onReplayQuest: (TutorialQuest) -> Void
   let onReplayOnboarding: () -> Void
 
   private var tutorialProgress: TutorialProgress {
@@ -54,11 +55,11 @@ struct SettingsHelpView: View {
         }
       }
       .padding(.vertical, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Home.navOrbLift)
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 10)
     .scrollContentBackground(.hidden)
+    .flSettingsBottomClearance()
     .navigationTitle("Help")
     .navigationBarTitleDisplayMode(.large)
     .flPageBackground(renderMode: .interactive)
@@ -108,7 +109,7 @@ struct SettingsHelpView: View {
         .foregroundStyle(AppTheme.textSecondary)
         .fixedSize(horizontal: false, vertical: true)
 
-      Button(action: onReplayOnboarding) {
+      Button(action: { onReplayQuest(quest) }) {
         HStack(spacing: AppTheme.Space.xxs) {
           Image(systemName: quest.ctaIcon)
             .font(.system(size: 12, weight: .semibold))

@@ -28,6 +28,10 @@ struct SettingsNutritionTargetsView: View {
     GridItem(.flexible(), spacing: AppTheme.Space.sm),
   ]
 
+  private var customControlsTransition: AnyTransition {
+    reduceMotion ? .opacity : .nutritionCustomControls
+  }
+
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
@@ -53,27 +57,16 @@ struct SettingsNutritionTargetsView: View {
             .foregroundStyle(AppTheme.accent)
             .padding(.horizontal, AppTheme.Space.page)
         }
-
-        Button(action: save) {
-          Text("Save")
-            .font(AppTheme.Typography.settingsBodySemibold)
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, AppTheme.Space.sm)
-            .background(
-              Capsule().fill(saveEnabled ? AppTheme.accent : AppTheme.textSecondary.opacity(0.4))
-            )
-        }
-        .disabled(!saveEnabled)
-        .padding(.horizontal, AppTheme.Space.page)
-        .padding(.top, AppTheme.Space.xs)
       }
       .padding(.vertical, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Home.navOrbLift)
+      .padding(.bottom, AppTheme.Space.sm)
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 10)
     .scrollContentBackground(.hidden)
+    .flSettingsBottomActionBar {
+      FLPrimaryButton("Save", isEnabled: saveEnabled, action: save)
+    }
     .navigationTitle("Nutrition Targets")
     .navigationBarTitleDisplayMode(.large)
     .flPageBackground(renderMode: .interactive)
@@ -165,7 +158,7 @@ struct SettingsNutritionTargetsView: View {
         if isCustom {
           Image(systemName: "checkmark.circle.fill")
             .foregroundStyle(AppTheme.accent)
-            .transition(.scale.combined(with: .opacity))
+            .transition(.scale(scale: 0.92).combined(with: .opacity))
         }
       }
       .contentShape(Rectangle())
@@ -215,7 +208,7 @@ struct SettingsNutritionTargetsView: View {
           .font(AppTheme.Typography.settingsDetail)
           .foregroundStyle(AppTheme.accent)
         }
-        .transition(.opacity.combined(with: .move(edge: .top)))
+        .transition(customControlsTransition)
       }
     }
     .padding(AppTheme.Space.md)
@@ -228,7 +221,6 @@ struct SettingsNutritionTargetsView: View {
         .stroke(
           isCustom ? AppTheme.accent : AppTheme.oat.opacity(0.22), lineWidth: isCustom ? 2 : 1)
     )
-    .animation(AppMotion.standard, value: isCustom)
   }
 
   private func macroSlider(title: String, value: Binding<Int>, color: Color) -> some View {
@@ -256,7 +248,7 @@ struct SettingsNutritionTargetsView: View {
   }
 
   private func selectPreset(_ goal: HealthGoal) {
-    withAnimation(AppMotion.standard) {
+    withAnimation(reduceMotion ? AppMotion.colorTransition : AppMotion.settingsDisclosureCollapse) {
       selectedPreset = goal
       dailyCalories = goal.suggestedCalories
       let split = goal.defaultMacroSplit
@@ -268,7 +260,7 @@ struct SettingsNutritionTargetsView: View {
   }
 
   private func selectCustom() {
-    withAnimation(AppMotion.standard) {
+    withAnimation(reduceMotion ? AppMotion.colorTransition : AppMotion.settingsDisclosureExpand) {
       selectedPreset = nil
     }
     AppPreferencesStore.haptic(.light)
@@ -313,6 +305,33 @@ struct SettingsNutritionTargetsView: View {
     } catch {
       validationMessage = error.localizedDescription
     }
+  }
+}
+
+private struct NutritionDisclosurePhaseModifier: ViewModifier {
+  let opacity: Double
+  let verticalScale: CGFloat
+
+  func body(content: Content) -> some View {
+    content
+      .opacity(opacity)
+      .scaleEffect(x: 1, y: verticalScale, anchor: .top)
+      .clipped()
+  }
+}
+
+extension AnyTransition {
+  fileprivate static var nutritionCustomControls: AnyTransition {
+    .asymmetric(
+      insertion: .modifier(
+        active: NutritionDisclosurePhaseModifier(opacity: 0, verticalScale: 0.965),
+        identity: NutritionDisclosurePhaseModifier(opacity: 1, verticalScale: 1)
+      ),
+      removal: .modifier(
+        active: NutritionDisclosurePhaseModifier(opacity: 0, verticalScale: 0.985),
+        identity: NutritionDisclosurePhaseModifier(opacity: 1, verticalScale: 1)
+      )
+    )
   }
 }
 

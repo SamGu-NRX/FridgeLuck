@@ -239,3 +239,43 @@ struct FLSettingsDestructiveGroup: View {
     )
   }
 }
+
+struct FLSettingsBottomActionBar<Content: View>: View {
+  @ViewBuilder let content: Content
+
+  init(@ViewBuilder content: () -> Content) {
+    self.content = content()
+  }
+
+  var body: some View {
+    VStack(spacing: 0) {
+      FLActionBar {
+        content
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+
+      Color.clear
+        .frame(height: AppTheme.Space.bottomClearance)
+        .accessibilityHidden(true)
+    }
+    .background(AppTheme.bg)
+  }
+}
+
+extension View {
+  func flSettingsBottomClearance() -> some View {
+    safeAreaInset(edge: .bottom, spacing: 0) {
+      Color.clear
+        .frame(height: AppTheme.Space.bottomClearance)
+        .accessibilityHidden(true)
+    }
+  }
+
+  func flSettingsBottomActionBar<BarContent: View>(
+    @ViewBuilder content: () -> BarContent
+  ) -> some View {
+    safeAreaInset(edge: .bottom, spacing: 0) {
+      FLSettingsBottomActionBar(content: content)
+    }
+  }
+}

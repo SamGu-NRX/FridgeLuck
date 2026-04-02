@@ -11,6 +11,7 @@ struct SettingsView: View {
 
   let onProfileChanged: () -> Void
   let onResetAllData: () -> Void
+  let onReplayTutorialQuest: (TutorialQuest) -> Void
 
   @State private var showReplayOnboarding = false
   @State private var appleHealthRequestTrigger = 0
@@ -35,6 +36,8 @@ struct SettingsView: View {
             SettingsFoodPreferencesView {
               handleProfileMutation()
             }
+          case .trackingReminders:
+            SettingsTrackingRemindersView()
           case .integrations:
             SettingsIntegrationsView(
               refreshID: refreshID,
@@ -43,9 +46,12 @@ struct SettingsView: View {
           case .permissions:
             SettingsPermissionsView()
           case .help:
-            SettingsHelpView {
-              showReplayOnboarding = true
-            }
+            SettingsHelpView(
+              onReplayQuest: onReplayTutorialQuest,
+              onReplayOnboarding: {
+                showReplayOnboarding = true
+              }
+            )
           case .dataAndPrivacy:
             SettingsDataAndPrivacyView(onResetAllData: onResetAllData)
           }

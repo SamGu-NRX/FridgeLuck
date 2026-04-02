@@ -44,7 +44,7 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
       encoding: .utf8
     )
 
-    XCTAssertTrue(source.contains(".navigationDestination(item: $assistantRecipeContext)"))
+    XCTAssertTrue(source.contains(".navigationDestination(item: $liveAssistantRoute)"))
     XCTAssertFalse(source.contains("tutorialCookingRecipe"))
     XCTAssertTrue(source.contains("markTutorialQuest(.cookWithLeChef)"))
   }

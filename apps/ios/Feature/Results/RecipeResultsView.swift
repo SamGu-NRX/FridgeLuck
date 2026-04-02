@@ -11,13 +11,13 @@ struct RecipeResultsView: View {
   @Environment(NavigationCoordinator.self) private var navCoordinator
   @Environment(LiveAssistantCoordinator.self) private var liveAssistantCoordinator
   @Environment(TutorialFlowContext.self) private var tutorialFlowContext: TutorialFlowContext?
-  @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
   let ingredientIds: Set<Int64>
   let ingredientNames: [String]
   let fridgePhoto: UIImage?
   let scanConfidenceScore: Double?
   let preferredRecipeID: Int64?
 
+  @State private var replaySpotlightPending: Bool
   @StateObject private var engine: RecommendationEngine
   @Namespace private var transitionNamespace
   @State private var revealedCount: Int = 0
@@ -25,6 +25,8 @@ struct RecipeResultsView: View {
   @State private var selectedRecipe: ScoredRecipe?
   @State private var didPromoteRecipeMatchLesson = false
   @State private var didPresentPreferredRecipe = false
+  @State private var recipeMatchSpotlight = SpotlightCoordinator()
+  @State private var showRecipeMatchSpotlight = false
 
   init(
     ingredientIds: Set<Int64>,
@@ -32,55 +34,100 @@ struct RecipeResultsView: View {
     fridgePhoto: UIImage? = nil,
     scanConfidenceScore: Double? = nil,
     preferredRecipeID: Int64? = nil,
-    engine: RecommendationEngine
+    engine: RecommendationEngine,
+    replaySpotlightOnAppear: Bool = false
   ) {
     self.ingredientIds = ingredientIds
     self.ingredientNames = ingredientNames
     self.fridgePhoto = fridgePhoto
     self.scanConfidenceScore = scanConfidenceScore
     self.preferredRecipeID = preferredRecipeID
+    _replaySpotlightPending = State(initialValue: replaySpotlightOnAppear)
     _engine = StateObject(wrappedValue: engine)
   }
 
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: 0) {
-        contextHeader
-          .padding(.horizontal, AppTheme.Space.page)
-          .padding(.bottom, AppTheme.Space.lg)
-
-        if let generated = engine.aiGeneratedRecipe {
-          aiGeneratedRecipeCard(generated)
+    ScrollViewReader { scrollProxy in
+      ScrollView {
+        VStack(alignment: .leading, spacing: 0) {
+          contextHeader
             .padding(.horizontal, AppTheme.Space.page)
             .padding(.bottom, AppTheme.Space.lg)
-        }
+            .id("recipeResultsSummary")
+            .spotlightAnchor("recipeResultsSummary")
 
-        if engine.isLoading {
-          loadingView
-            .padding(.horizontal, AppTheme.Space.page)
-        } else if engine.recommendations.isEmpty {
-          emptyView
-            .padding(.horizontal, AppTheme.Space.page)
-        } else {
-          if let pick = engine.quickSuggestion {
-            bestMatchHero(pick)
-              .padding(.bottom, AppTheme.Space.sectionBreak)
-          }
-
-          FLWaveDivider()
-            .padding(.horizontal, AppTheme.Space.page)
-            .padding(.bottom, AppTheme.Space.lg)
-
-          if !engine.sections.exact.isEmpty {
-            allResultsGrid
+          if let generated = engine.aiGeneratedRecipe {
+            aiGeneratedRecipeCard(generated)
               .padding(.horizontal, AppTheme.Space.page)
               .padding(.bottom, AppTheme.Space.lg)
           }
 
-          if !engine.sections.nearMatch.isEmpty {
-            nearMatchSection
+          if engine.isLoading {
+            loadingView
               .padding(.horizontal, AppTheme.Space.page)
+          } else if engine.recommendations.isEmpty {
+            emptyView
+              .padding(.horizontal, AppTheme.Space.page)
+          } else {
+            if let pick = engine.quickSuggestion {
+              bestMatchHero(pick)
+                .padding(.bottom, AppTheme.Space.sectionBreak)
+                .id("recipeResultsBestMatch")
+                .spotlightAnchor("recipeResultsBestMatch")
+            }
+
+            FLWaveDivider()
+              .padding(.horizontal, AppTheme.Space.page)
+              .padding(.bottom, AppTheme.Space.lg)
+
+            VStack(alignment: .leading, spacing: 0) {
+              if !engine.sections.exact.isEmpty {
+                allResultsGrid
+                  .padding(.horizontal, AppTheme.Space.page)
+                  .padding(.bottom, AppTheme.Space.lg)
+              }
+
+              if !engine.sections.nearMatch.isEmpty {
+                nearMatchSection
+                  .padding(.horizontal, AppTheme.Space.page)
+              }
+            }
+            .id("recipeResultsList")
+            .spotlightAnchor("recipeResultsList")
           }
+        }
+        .onAppear {
+          recipeMatchSpotlight.onScrollToAnchor = { anchorID in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+              withAnimation(AppMotion.spotlightMove) {
+                scrollProxy.scrollTo(anchorID, anchor: .center)
+              }
+            }
+          }
+        }
+      }
+      .onPreferenceChange(SpotlightAnchorKey.self) {
+        recipeMatchSpotlight.updateAnchors($0, retainingExistingValues: true)
+      }
+      .overlay {
+        if showRecipeMatchSpotlight, let presentation = recipeMatchSpotlight.activePresentation {
+          SpotlightTutorialOverlay(
+            presentationID: presentation.id,
+            steps: presentation.steps,
+            anchors: recipeMatchSpotlight.anchors,
+            isPresented: Binding(
+              get: { showRecipeMatchSpotlight },
+              set: { isPresented in
+                if !isPresented {
+                  showRecipeMatchSpotlight = false
+                  recipeMatchSpotlight.activePresentation = nil
+                }
+              }
+            ),
+            onScrollToAnchor: recipeMatchSpotlight.onScrollToAnchor
+          )
+          .id(presentation.id)
+          .ignoresSafeArea()
         }
       }
       .padding(.top, AppTheme.Space.md)
@@ -108,6 +155,14 @@ struct RecipeResultsView: View {
     .onChange(of: engine.sections.nearMatch.count) { _, _ in
       autoPresentPreferredRecipeIfNeeded()
     }
+    .task(id: shouldPresentReplayRecipeMatchSpotlight) {
+      guard shouldPresentReplayRecipeMatchSpotlight else { return }
+      let delay = reduceMotion ? 0.3 : 0.8
+      try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+      guard !Task.isCancelled else { return }
+      guard shouldPresentReplayRecipeMatchSpotlight else { return }
+      presentReplayRecipeMatchSpotlight()
+    }
     .sheet(item: $selectedRecipe) { recipe in
       RecipePreviewDrawer(scoredRecipe: recipe) {
         handleStartCooking(recipe)
@@ -118,8 +173,30 @@ struct RecipeResultsView: View {
     }
   }
 
-  private var tutorialProgress: TutorialProgress {
-    TutorialProgress(storageString: tutorialStorageString)
+  private var shouldPresentReplayRecipeMatchSpotlight: Bool {
+    guard replaySpotlightPending else { return false }
+    guard recipeMatchSpotlight.activePresentation == nil else { return false }
+    guard !showRecipeMatchSpotlight else { return false }
+    return isRecipeMatchAnchorReady("recipeResultsSummary")
+      && isRecipeMatchAnchorReady("recipeResultsBestMatch")
+      && isRecipeMatchAnchorReady("recipeResultsList")
+  }
+
+  private func isRecipeMatchAnchorReady(_ anchorID: String) -> Bool {
+    guard let rect = recipeMatchSpotlight.anchors[anchorID] else { return false }
+    guard !rect.isEmpty, !rect.isNull, !rect.isInfinite else { return false }
+    guard rect.width > 0, rect.height > 0 else { return false }
+    return rect.minX.isFinite && rect.minY.isFinite && rect.maxX.isFinite && rect.maxY.isFinite
+  }
+
+  private func presentReplayRecipeMatchSpotlight() {
+    guard recipeMatchSpotlight.activePresentation == nil else { return }
+    recipeMatchSpotlight.present(
+      steps: SpotlightStep.recipeMatchReplay,
+      source: "recipeMatchReplay"
+    )
+    showRecipeMatchSpotlight = true
+    replaySpotlightPending = false
   }
 
   // MARK: - Context Header (card-free)

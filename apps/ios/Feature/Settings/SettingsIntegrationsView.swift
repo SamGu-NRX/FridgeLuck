@@ -28,11 +28,11 @@ struct SettingsIntegrationsView: View {
         .padding(.horizontal, AppTheme.Space.page)
       }
       .padding(.vertical, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Home.navOrbLift)
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 10)
     .scrollContentBackground(.hidden)
+    .flSettingsBottomClearance()
     .navigationTitle("Integrations")
     .navigationBarTitleDisplayMode(.large)
     .flPageBackground(renderMode: .interactive)

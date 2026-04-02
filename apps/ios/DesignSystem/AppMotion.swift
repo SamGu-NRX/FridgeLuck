@@ -47,6 +47,12 @@ enum AppMotion {
 
   // Color transitions — selection states, toggles, status changes
   static let colorTransition: Animation = .timingCurve(0.25, 0.1, 0.25, 1.0, duration: 0.15)
+  static let settingsDisclosureExpand: Animation = .timingCurve(
+    0.22, 1.0, 0.36, 1.0, duration: 0.24
+  )
+  static let settingsDisclosureCollapse: Animation = .timingCurve(
+    0.18, 1.0, 0.30, 1.0, duration: 0.18
+  )
 
   // Onboarding — staggered entrance system
   static let staggerEntrance: Animation = .spring(response: 0.45, dampingFraction: 0.82)

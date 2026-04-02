@@ -8,6 +8,7 @@ private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "Ingredient
 struct IngredientReviewView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @State private var replaySpotlightPending: Bool
   @State var detections: [Detection]
   let nutritionLabelOutcome: NutritionLabelParseOutcome?
   let scanProvenance: ScanProvenance
@@ -101,8 +102,10 @@ struct IngredientReviewView: View {
     scanProvenance: ScanProvenance = .realScan,
     scanDiagnostics: ScanDiagnostics? = nil,
     fridgeImage: UIImage? = nil,
-    dependencies: Dependencies? = nil
+    dependencies: Dependencies? = nil,
+    replaySpotlightOnAppear: Bool = false
   ) {
+    self._replaySpotlightPending = State(initialValue: replaySpotlightOnAppear)
     self._detections = State(initialValue: detections)
     self.nutritionLabelOutcome = nutritionLabelOutcome
     self.scanProvenance = scanProvenance
@@ -372,13 +375,13 @@ struct IngredientReviewView: View {
     .onChange(of: detectionIDs) { _, _ in
       refreshCategorization(seedSuggestions: false)
     }
-    .task(id: shouldAutoPresentReviewSpotlight) {
-      guard shouldAutoPresentReviewSpotlight else { return }
+    .task(id: pendingReviewSpotlightTrigger) {
+      guard pendingReviewSpotlightTrigger else { return }
       let delay = reduceMotion ? 0.3 : 0.8
       try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
       guard !Task.isCancelled else { return }
-      guard shouldAutoPresentReviewSpotlight else { return }
-      presentReviewSpotlight()
+      guard pendingReviewSpotlightTrigger else { return }
+      presentReviewSpotlight(markSeen: !replaySpotlightPending)
     }
   }
 
@@ -389,6 +392,15 @@ struct IngredientReviewView: View {
     guard reviewSpotlight.activePresentation == nil else { return false }
     guard !showReviewSpotlight else { return false }
     return isAnchorReady("confidenceLevels")
+  }
+
+  private var pendingReviewSpotlightTrigger: Bool {
+    guard reviewSpotlight.activePresentation == nil else { return false }
+    guard !showReviewSpotlight else { return false }
+    if replaySpotlightPending {
+      return isAnchorReady("confidenceLevels")
+    }
+    return shouldAutoPresentReviewSpotlight
   }
 
   private func isAnchorReady(_ anchorID: String) -> Bool {
@@ -402,12 +414,15 @@ struct IngredientReviewView: View {
     return rect.minX.isFinite && rect.minY.isFinite && rect.maxX.isFinite && rect.maxY.isFinite
   }
 
-  private func presentReviewSpotlight() {
+  private func presentReviewSpotlight(markSeen: Bool) {
     guard reviewSpotlight.activePresentation == nil else { return }
     reviewSpotlight.present(steps: SpotlightStep.ingredientReview, source: "ingredientReview")
     showReviewSpotlight = true
     reviewSpotlightStepID = SpotlightStep.ingredientReview.first?.id
-    hasSeenReviewSpotlight = true
+    replaySpotlightPending = false
+    if markSeen {
+      hasSeenReviewSpotlight = true
+    }
   }
 
   private func toolbarAddButton() -> some View {

@@ -87,6 +87,13 @@ private struct OnboardingHomeHandoffOverlay: View {
 }
 
 struct ContentView: View {
+  private struct LiveAssistantRoute: Identifiable, Hashable, Sendable {
+    let id = UUID()
+    let recipeContext: LiveAssistantRecipeContext
+    let replaySpotlightOnAppear: Bool
+    let marksTutorialProgressOnComplete: Bool
+  }
+
   private struct HomeRecommendationRoute: Identifiable, Hashable, Sendable {
     let ingredientIds: Set<Int64>
     let ingredientNames: [String]
@@ -121,7 +128,7 @@ struct ContentView: View {
   @State private var homeUpdateGroceriesLaunchMode: UpdateGroceriesLaunchMode?
   @State private var homeRecommendationRoute: HomeRecommendationRoute?
   @State private var kitchenUpdateGroceriesLaunchMode: UpdateGroceriesLaunchMode?
-  @State private var assistantRecipeContext: LiveAssistantRecipeContext?
+  @State private var liveAssistantRoute: LiveAssistantRoute?
   @State private var showOnboarding = false
   @State private var navCoordinator = NavigationCoordinator()
   @State private var navAppeared = false
@@ -130,6 +137,9 @@ struct ContentView: View {
   @State private var settingsCoordinator = SettingsCoordinator()
   @State private var tutorialFlowContext = TutorialFlowContext()
 
+  @State private var replayDemoModeSpotlight = false
+  @State private var replayDirectReviewSpotlight = false
+  @State private var replayDirectResultsSpotlight = false
   @State private var directReviewDetections: [Detection] = []
   @State private var directReviewImage: UIImage?
   @State private var directResultsIngredientIds: Set<Int64> = []
@@ -154,7 +164,7 @@ struct ContentView: View {
   private var hasActiveHomeDestination: Bool {
     navigateToScan || navigateToReverseScan || navigateToDemoMode || navigateToDirectReview
       || navigateToDirectResults || homeUpdateGroceriesLaunchMode != nil
-      || homeRecommendationRoute != nil || assistantRecipeContext != nil
+      || homeRecommendationRoute != nil || liveAssistantRoute != nil
   }
 
   private var hasActiveKitchenDestination: Bool {
@@ -308,22 +318,33 @@ struct ContentView: View {
           ReverseScanMealView()
         }
         .navigationDestination(isPresented: $navigateToDemoMode) {
-          DemoModeView()
+          DemoModeView(replaySpotlightOnAppear: replayDemoModeSpotlight)
+            .onAppear {
+              replayDemoModeSpotlight = false
+            }
         }
         .navigationDestination(isPresented: $navigateToDirectReview) {
           IngredientReviewView(
             detections: directReviewDetections,
             scanProvenance: .bundledFixture,
-            fridgeImage: directReviewImage
+            fridgeImage: directReviewImage,
+            replaySpotlightOnAppear: replayDirectReviewSpotlight
           )
+          .onAppear {
+            replayDirectReviewSpotlight = false
+          }
         }
         .navigationDestination(isPresented: $navigateToDirectResults) {
           RecipeResultsView(
             ingredientIds: directResultsIngredientIds,
             ingredientNames: directResultsIngredientNames,
             fridgePhoto: directResultsImage,
-            engine: deps.makeRecommendationEngine()
+            engine: deps.makeRecommendationEngine(),
+            replaySpotlightOnAppear: replayDirectResultsSpotlight
           )
+          .onAppear {
+            replayDirectResultsSpotlight = false
+          }
         }
         .navigationDestination(item: $homeRecommendationRoute) { route in
           RecipeResultsView(
@@ -336,11 +357,20 @@ struct ContentView: View {
         .navigationDestination(item: $homeUpdateGroceriesLaunchMode) { launchMode in
           UpdateGroceriesView(launchMode: launchMode)
         }
-        .navigationDestination(item: $assistantRecipeContext) { recipeContext in
+        .navigationDestination(item: $liveAssistantRoute) { route in
           LiveAssistantView(
-            recipeContext: recipeContext,
-            onCompleteLesson: completeLiveAssistantLesson,
-            onSkipLesson: skipLiveAssistantLesson
+            recipeContext: route.recipeContext,
+            onCompleteLesson: {
+              completeLiveAssistantLesson(
+                marksTutorialProgress: route.marksTutorialProgressOnComplete
+              )
+            },
+            onSkipLesson: {
+              skipLiveAssistantLesson(
+                clearsPendingLesson: route.marksTutorialProgressOnComplete
+              )
+            },
+            replaySpotlightOnAppear: route.replaySpotlightOnAppear
           )
         }
       }
@@ -380,7 +410,8 @@ struct ContentView: View {
         onProfileChanged: {
           Task { await refreshOnboardingGate() }
         },
-        onResetAllData: performFullReset
+        onResetAllData: performFullReset,
+        onReplayTutorialQuest: replayHelpTutorial
       )
       .environmentObject(deps)
     }
@@ -512,6 +543,7 @@ struct ContentView: View {
     switch AppFlowPolicy.scanEntryRoute(hasOnboarded: hasOnboarded) {
     case .scan:
       selectedTab = .home
+      replayDemoModeSpotlight = false
       navigateToDemoMode = true
     case .onboarding:
       showOnboarding = true
@@ -607,7 +639,35 @@ struct ContentView: View {
     }
   }
 
-  private func openDirectIngredientReview(scenario: DemoScenario) {
+  private func replayHelpTutorial(_ quest: TutorialQuest) {
+    guard hasOnboarded else {
+      showOnboarding = true
+      return
+    }
+
+    settingsCoordinator.reset()
+    selectedTab = .home
+    tutorialFlowContext.reset()
+    clearHomeNavigation()
+    clearKitchenNavigation()
+
+    switch HelpTutorialReplayRoute.route(for: quest) {
+    case .demoMode:
+      replayDemoModeSpotlight = true
+      navigateToDemoMode = true
+    case .ingredientReview(let scenario):
+      openDirectIngredientReview(scenario: scenario, replaySpotlightOnAppear: true)
+    case .recipeMatch(let scenario):
+      openDirectRecipeResults(scenario: scenario, replaySpotlightOnAppear: true)
+    case .liveAssistant(let scenario):
+      openReplayLiveAssistant(scenario: scenario)
+    }
+  }
+
+  private func openDirectIngredientReview(
+    scenario: DemoScenario,
+    replaySpotlightOnAppear: Bool = false
+  ) {
     selectedTab = .home
     Task {
       let payload = await DemoScanService.loadDemoPayload(
@@ -616,11 +676,15 @@ struct ContentView: View {
       )
       directReviewDetections = payload.detections
       directReviewImage = payload.image
+      replayDirectReviewSpotlight = replaySpotlightOnAppear
       navigateToDirectReview = true
     }
   }
 
-  private func openDirectRecipeResults(scenario: DemoScenario) {
+  private func openDirectRecipeResults(
+    scenario: DemoScenario,
+    replaySpotlightOnAppear: Bool = false
+  ) {
     selectedTab = .home
     Task {
       let payload = await DemoScanService.loadDemoPayload(
@@ -633,6 +697,7 @@ struct ContentView: View {
       directResultsIngredientIds = ids
       directResultsIngredientNames = names
       directResultsImage = payload.image
+      replayDirectResultsSpotlight = replaySpotlightOnAppear
       navigateToDirectResults = true
     }
   }
@@ -648,12 +713,51 @@ struct ContentView: View {
     }
 
     selectedTab = .home
-    assistantRecipeContext = recipeContext
+    liveAssistantRoute = LiveAssistantRoute(
+      recipeContext: recipeContext,
+      replaySpotlightOnAppear: false,
+      marksTutorialProgressOnComplete: true
+    )
   }
 
-  private func completeLiveAssistantLesson() {
-    liveAssistantCoordinator.clearPendingLesson()
-    assistantRecipeContext = nil
+  private func openReplayLiveAssistant(scenario: DemoScenario) {
+    selectedTab = .home
+    Task {
+      let payload = await DemoScanService.loadDemoPayload(
+        scenario: scenario,
+        using: deps.visionService
+      )
+      let ingredientIds = Set(payload.detections.map(\.ingredientId))
+      let engine = deps.makeRecommendationEngine()
+      await engine.findRecipes(for: ingredientIds)
+
+      guard let recipe = engine.quickSuggestion else {
+        logger.notice("Help replay requested live assistant without an available recipe match.")
+        return
+      }
+
+      let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
+      if let recipeID = recipe.recipe.id {
+        ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
+      } else {
+        ingredients = []
+      }
+
+      liveAssistantRoute = LiveAssistantRoute(
+        recipeContext: LiveAssistantRecipeContext(scoredRecipe: recipe, ingredients: ingredients),
+        replaySpotlightOnAppear: true,
+        marksTutorialProgressOnComplete: false
+      )
+    }
+  }
+
+  private func completeLiveAssistantLesson(marksTutorialProgress: Bool) {
+    if marksTutorialProgress {
+      liveAssistantCoordinator.clearPendingLesson()
+    }
+    liveAssistantRoute = nil
+
+    guard marksTutorialProgress else { return }
 
     if tutorialFlowContext.activeQuest == .cookWithLeChef {
       tutorialFlowContext.completeObjective()
@@ -662,9 +766,11 @@ struct ContentView: View {
     }
   }
 
-  private func skipLiveAssistantLesson() {
-    liveAssistantCoordinator.clearPendingLesson()
-    assistantRecipeContext = nil
+  private func skipLiveAssistantLesson(clearsPendingLesson: Bool) {
+    if clearsPendingLesson {
+      liveAssistantCoordinator.clearPendingLesson()
+    }
+    liveAssistantRoute = nil
   }
 
   private func openProfileEditor() {
@@ -680,7 +786,10 @@ struct ContentView: View {
     navigateToDirectResults = false
     homeUpdateGroceriesLaunchMode = nil
     homeRecommendationRoute = nil
-    assistantRecipeContext = nil
+    liveAssistantRoute = nil
+    replayDemoModeSpotlight = false
+    replayDirectReviewSpotlight = false
+    replayDirectResultsSpotlight = false
   }
 
   private func clearKitchenNavigation() {
@@ -731,7 +840,7 @@ struct ContentView: View {
     tutorialStorageString = ""
     spotlightCoordinator.activePresentation = nil
     tutorialFlowContext.reset()
-    assistantRecipeContext = nil
+    liveAssistantRoute = nil
     liveAssistantCoordinator.matchedRecipe = nil
     liveAssistantCoordinator.matchedRecipeContext = nil
     liveAssistantCoordinator.clearPendingLesson()

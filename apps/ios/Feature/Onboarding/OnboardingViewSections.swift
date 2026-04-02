@@ -479,7 +479,7 @@ struct HorizontalScrollRuler: View {
   @State private var baseValue: Int = 0
   @GestureState private var isDragging = false
 
-  private let tickSpacing: CGFloat = 9
+  private let tickSpacing: CGFloat = 12
   private let majorTickInterval = 5
 
   var body: some View {
@@ -1740,6 +1740,14 @@ struct OnboardingSetupBridgeStep: View {
     min(Int(progress * Double(messages.count)), messages.count - 1)
   }
 
+  private var isComplete: Bool {
+    progress >= 1
+  }
+
+  private var statusMessage: String {
+    isComplete ? "Setup complete." : messages[currentMessageIndex]
+  }
+
   var body: some View {
     VStack(spacing: AppTheme.Space.xl) {
       Spacer()
@@ -1766,6 +1774,8 @@ struct OnboardingSetupBridgeStep: View {
           .font(.system(size: 38, weight: .bold, design: .serif).monospacedDigit())
           .foregroundStyle(AppTheme.textPrimary)
       }
+      .scaleEffect(reduceMotion ? 1 : (isComplete ? 1.02 : 1))
+      .animation(reduceMotion ? nil : AppMotion.standard, value: isComplete)
       .modifier(StaggerIn(index: 0, appeared: appeared))
 
       VStack(spacing: AppTheme.Space.sm) {
@@ -1775,11 +1785,11 @@ struct OnboardingSetupBridgeStep: View {
           .multilineTextAlignment(.center)
           .modifier(StaggerIn(index: 1, appeared: appeared))
 
-        Text(messages[currentMessageIndex])
+        Text(statusMessage)
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
           .contentTransition(.opacity)
-          .animation(reduceMotion ? nil : AppMotion.messageCrossfade, value: currentMessageIndex)
+          .animation(reduceMotion ? nil : AppMotion.messageCrossfade, value: statusMessage)
           .modifier(StaggerIn(index: 2, appeared: appeared))
       }
       .padding(.horizontal, AppTheme.Space.page)
@@ -1991,8 +2001,6 @@ struct OnboardingBackButton: View {
 // MARK: - Onboarding Footer
 
 struct OnboardingFooter: View {
-  static let reservedHeight: CGFloat = 120
-
   let isSaving: Bool
   let isTransitioning: Bool
   let primaryButtonTitle: String

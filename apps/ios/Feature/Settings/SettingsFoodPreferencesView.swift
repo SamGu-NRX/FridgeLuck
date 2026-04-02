@@ -98,24 +98,16 @@ struct SettingsFoodPreferencesView: View {
             .foregroundStyle(AppTheme.accent)
             .padding(.horizontal, AppTheme.Space.page)
         }
-
-        Button(action: save) {
-          Text("Save")
-            .font(AppTheme.Typography.settingsBodySemibold)
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, AppTheme.Space.sm)
-            .background(Capsule().fill(AppTheme.accent))
-        }
-        .padding(.horizontal, AppTheme.Space.page)
-        .padding(.top, AppTheme.Space.xs)
       }
       .padding(.vertical, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Home.navOrbLift)
+      .padding(.bottom, AppTheme.Space.sm)
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 10)
     .scrollContentBackground(.hidden)
+    .flSettingsBottomActionBar {
+      FLPrimaryButton("Save", action: save)
+    }
     .navigationTitle("Food Preferences")
     .navigationBarTitleDisplayMode(.large)
     .flPageBackground(renderMode: .interactive)

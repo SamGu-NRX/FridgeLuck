@@ -121,6 +121,29 @@ final class OnboardingPerformanceRemediationTests: XCTestCase {
     XCTAssertTrue(homeSource.contains("handleSpotlightDismissal(for: presentation.source)"))
   }
 
+  func testKitchenReviewDoesNotReserveHiddenFooterSpace() throws {
+    let root = sourceRoot()
+
+    let onboardingViewSource = try String(
+      contentsOf: root.appendingPathComponent("Feature/Onboarding/OnboardingView.swift"),
+      encoding: .utf8
+    )
+    let inventoryStepsSource = try String(
+      contentsOf: root.appendingPathComponent("Feature/Onboarding/OnboardingInventorySteps.swift"),
+      encoding: .utf8
+    )
+    let sectionsSource = try String(
+      contentsOf: root.appendingPathComponent("Feature/Onboarding/OnboardingViewSections.swift"),
+      encoding: .utf8
+    )
+
+    XCTAssertTrue(onboardingViewSource.contains("if currentStep.showsFooterActions"))
+    XCTAssertFalse(onboardingViewSource.contains("EmptyView()"))
+    XCTAssertFalse(onboardingViewSource.contains("OnboardingFooter.reservedHeight"))
+    XCTAssertTrue(inventoryStepsSource.contains(".frame(height: AppTheme.Space.lg)"))
+    XCTAssertFalse(sectionsSource.contains("static let reservedHeight"))
+  }
+
   private func sourceRoot() -> URL {
     URL(fileURLWithPath: #filePath)
       .deletingLastPathComponent()

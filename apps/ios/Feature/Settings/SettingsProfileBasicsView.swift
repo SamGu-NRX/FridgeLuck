@@ -33,6 +33,7 @@ struct SettingsProfileBasicsView: View {
       }
     }
     .scrollContentBackground(.hidden)
+    .flSettingsBottomClearance()
     .navigationTitle("Profile Basics")
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {

@@ -32,6 +32,7 @@ struct SettingsDataAndPrivacyView: View {
       }
     }
     .scrollContentBackground(.hidden)
+    .flSettingsBottomClearance()
     .navigationTitle("Data & Privacy")
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground(renderMode: .interactive)

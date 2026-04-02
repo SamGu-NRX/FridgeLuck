@@ -9,6 +9,7 @@ struct DemoModeView: View {
 
   // MARK: - State
 
+  @State private var replaySpotlightPending: Bool
   @State private var appeared = false
   @State private var overlayPhase: OverlayPhase = .hidden
   @State private var activeScenario: DemoScenario?
@@ -51,6 +52,14 @@ struct DemoModeView: View {
     guard demoSpotlight.activePresentation == nil else { return false }
     guard !showDemoSpotlight else { return false }
     return true
+  }
+
+  private var pendingSpotlightTrigger: Bool {
+    replaySpotlightPending || shouldAutoPresentDemoSpotlight
+  }
+
+  init(replaySpotlightOnAppear: Bool = false) {
+    _replaySpotlightPending = State(initialValue: replaySpotlightOnAppear)
   }
 
   // MARK: - Body
@@ -171,13 +180,13 @@ struct DemoModeView: View {
         appeared = true
       }
     }
-    .task(id: shouldAutoPresentDemoSpotlight) {
-      guard shouldAutoPresentDemoSpotlight else { return }
+    .task(id: pendingSpotlightTrigger) {
+      guard pendingSpotlightTrigger else { return }
       let delay = reduceMotion ? 0.3 : 0.8
       try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
       guard !Task.isCancelled else { return }
-      guard shouldAutoPresentDemoSpotlight else { return }
-      presentDemoSpotlight()
+      guard pendingSpotlightTrigger else { return }
+      presentDemoSpotlight(markSeen: !replaySpotlightPending)
     }
   }
 
@@ -227,11 +236,14 @@ struct DemoModeView: View {
 
   // MARK: - Spotlight
 
-  private func presentDemoSpotlight() {
+  private func presentDemoSpotlight(markSeen: Bool) {
     guard demoSpotlight.activePresentation == nil else { return }
     demoSpotlight.present(steps: SpotlightStep.demoMode, source: "demoMode")
     showDemoSpotlight = true
-    hasSeenDemoSpotlight = true
+    replaySpotlightPending = false
+    if markSeen {
+      hasSeenDemoSpotlight = true
+    }
   }
 
   // MARK: - Actions

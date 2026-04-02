@@ -245,7 +245,8 @@ struct OnboardingKitchenReviewStep: View {
           .padding(.top, AppTheme.Space.sm)
         }
 
-        Spacer(minLength: AppTheme.Space.bottomClearance)
+        Color.clear
+          .frame(height: AppTheme.Space.lg)
       }
       .padding(.horizontal, AppTheme.Space.page)
       .padding(.top, AppTheme.Space.md)

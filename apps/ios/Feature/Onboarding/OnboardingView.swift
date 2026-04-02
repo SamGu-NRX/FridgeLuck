@@ -397,10 +397,6 @@ struct OnboardingView: View {
           onPrimaryAction: handlePrimaryAction,
           onSecondaryAction: handleSecondaryAction
         )
-      } else {
-        Color.clear
-          .frame(height: OnboardingFooter.reservedHeight)
-          .accessibilityHidden(true)
       }
     }
   }
