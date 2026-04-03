@@ -36,6 +36,7 @@ jobs:
       - name: Build and Test
         env:
           DESTINATION: ${{ steps.sim.outputs.destination }}
+          SIMULATOR_DEPLOYMENT_TARGET: "18.5"
         run: ./scripts/run_ios_tests.sh
 
   dead-code-advisory:
@@ -67,6 +68,7 @@ jobs:
         continue-on-error: true
         env:
           DESTINATION: ${{ steps.sim.outputs.destination }}
+          SIMULATOR_DEPLOYMENT_TARGET: "18.5"
           STRICT: "0"
         run: ./scripts/run_periphery_scan.sh
 
