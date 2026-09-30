@@ -20,4 +20,4 @@ links:
     href: https://github.com/SamGu-NRX/FridgeLuck
 ---
 
-FridgeLuck is a Swift iOS app. Apple Vision and OCR read the fridge on the device, Gemini Live looks at the whole scene, and recipes come from a bundled catalog of over 1,000 validated recipes with USDA nutrition data. The part I care about is the Bayesian confidence model: it decides which detections to trust, asks you to confirm only the doubtful ones, and learns from how you rate the meals you cook.
+FridgeLuck is a Swift iOS app. Apple Vision and OCR read the fridge on the device, Gemini Live looks at the whole scene, and recipes come from a bundled cookbook of 166 recipes with USDA nutrition data. The part I care about is the Bayesian confidence model: it decides which detections to trust, asks you to confirm only the doubtful ones, and learns from which recipe you pick when you log a meal.
