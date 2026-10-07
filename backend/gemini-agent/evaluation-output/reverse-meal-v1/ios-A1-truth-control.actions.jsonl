@@ -1,0 +1,16 @@
+{"action":"manual_pick","case_id":"RM-01","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-02","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"check_prompt","case_id":"RM-03","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"check_prompt","case_id":"RM-04","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-05","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"check_prompt","case_id":"RM-06","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-07","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-08","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-09","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-10","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-11","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-12","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"check_prompt","case_id":"RM-13","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"manual_pick","case_id":"RM-14","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"check_prompt","case_id":"RM-15","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
+{"action":"check_prompt","case_id":"RM-16","failure_containment":false,"policy_version":"meal-photo-confirmation-v1"}
