@@ -49,11 +49,13 @@ struct ScanDiagnostics: Sendable, Codable {
   let passErrors: [String]
   let elapsedMs: Int
   let requestFailures: [ScanRequestFailure]
+  // Travels through the existing recordRun diagnostics argument without changing its closure.
+  let outcome: ScanRunRecord.Outcome
 
   init(
     captureCount: Int, cropCount: Int, topRawLabels: [String], ocrCandidates: [String],
     bucketCounts: ScanBucketCounts, passErrors: [String], elapsedMs: Int,
-    requestFailures: [ScanRequestFailure] = []
+    requestFailures: [ScanRequestFailure] = [], outcome: ScanRunRecord.Outcome = .completed
   ) {
     self.captureCount = captureCount
     self.cropCount = cropCount
@@ -63,14 +65,16 @@ struct ScanDiagnostics: Sendable, Codable {
     self.passErrors = passErrors
     self.elapsedMs = elapsedMs
     self.requestFailures = requestFailures
+    self.outcome = outcome
   }
 
   private enum CodingKeys: String, CodingKey {
-    case captureCount, cropCount, topRawLabels, ocrCandidates, bucketCounts, passErrors, elapsedMs, requestFailures
+    case captureCount, cropCount, topRawLabels, ocrCandidates, bucketCounts, passErrors, elapsedMs, requestFailures, outcome
   }
 
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
+    outcome = try values.decodeIfPresent(ScanRunRecord.Outcome.self, forKey: .outcome) ?? .completed
     captureCount = try values.decode(Int.self, forKey: .captureCount)
     cropCount = try values.decode(Int.self, forKey: .cropCount)
     topRawLabels = try values.decode([String].self, forKey: .topRawLabels)
