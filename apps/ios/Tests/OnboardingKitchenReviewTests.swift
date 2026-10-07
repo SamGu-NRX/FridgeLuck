@@ -411,6 +411,29 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     XCTAssertEqual(try run.activeIngredientIDs(), [egg])
   }
 
+  /// The save fails (ingredient 999 has no row yet, so its lot breaks a foreign key), a late
+  /// import then publishes a scan with a sure tomato, and the cause is fixed before Try Again.
+  /// The retry saves what the user confirmed, not what the review now shows.
+  func testTryAgainSavesTheConfirmationNotTheLatestScan() throws {
+    var run = try OnboardingRun()
+    let confirmedVisit = session(fridge: scanned([detection(egg, 0.95), detection(999, 0.95)]))
+    run.show(confirmedVisit)
+    let confirmation = OnboardingKitchenConfirmation(session: confirmedVisit, choices: run.choices)
+    XCTAssertThrowsError(try run.save(confirmation))
+
+    run.show(session(fridge: scanned([detection(tomato, 0.95)])))
+    try run.db.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO ingredients (id, name, calories, protein, carbs, fat, typical_unit)
+          VALUES (999, 'saffron', 0, 0, 0, 0, '1 pinch (1g)')
+          """)
+    }
+    try run.save(confirmation)
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [egg, 999])
+  }
+
   func testRevisitingAndAddingAgainStoresOneCopy() throws {
     var run = try OnboardingRun()
     let visit = session(fridge: scanned([detection(egg, 0.95)]))
@@ -673,9 +696,14 @@ final class OnboardingKitchenReviewTests: XCTestCase {
       _ session: OnboardingKitchenScanSession, toggling: [Int64] = []
     ) throws {
       show(session, toggling: toggling)
+      try save(OnboardingKitchenConfirmation(session: session, choices: choices))
+    }
+
+    /// What `OnboardingView` does with a confirmation, first time or on Try Again.
+    mutating func save(_ confirmation: OnboardingKitchenConfirmation) throws {
       record = try OnboardingKitchenIntake.commit(
-        session: session, choices: choices, record: record,
-        sourceRef: "onboarding-kitchen-review:test", intake: intake)
+        confirmation, record: record, sourceRef: "onboarding-kitchen-review:test",
+        intake: intake)
     }
 
     func activeIngredientIDs() throws -> [Int64] {

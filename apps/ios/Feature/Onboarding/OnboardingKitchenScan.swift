@@ -315,6 +315,14 @@ struct OnboardingKitchenCommitRecord {
   fileprivate(set) var sectionByIngredient: [Int64: InventoryStorageLocation] = [:]
 }
 
+/// What the user confirmed: the scan the review showed and their checkmarks at that moment. A
+/// save that fails is retried with this, not with whatever the review shows by then, since a
+/// late import can publish a new scan with fresh preselections behind the error alert.
+struct OnboardingKitchenConfirmation {
+  let session: OnboardingKitchenScanSession
+  let choices: OnboardingKitchenChoices
+}
+
 /// Writes the review into the Kitchen as one intake call, so each confirmation is a single
 /// transaction under one session reference for the whole run. Ingredient identity and what was
 /// cooked are then shared across fridge and pantry: an item whose higher score moves from one
@@ -322,12 +330,13 @@ struct OnboardingKitchenCommitRecord {
 enum OnboardingKitchenIntake {
   /// Returns the record to keep for the next confirmation. Throws without changing the Kitchen.
   static func commit(
-    session: OnboardingKitchenScanSession,
-    choices: OnboardingKitchenChoices,
+    _ confirmation: OnboardingKitchenConfirmation,
     record: OnboardingKitchenCommitRecord,
     sourceRef: String,
     intake: InventoryIntakeService
   ) throws -> OnboardingKitchenCommitRecord {
+    let session = confirmation.session
+    let choices = confirmation.choices
     guard case .review(let fridge, let pantry) = session.reviewState else { return record }
 
     var sectionByIngredient: [Int64: InventoryStorageLocation] = [:]
