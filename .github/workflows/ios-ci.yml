@@ -13,7 +13,15 @@ concurrency:
 
 jobs:
   build-and-test:
-    runs-on: macos-15
+    # The app targets iOS 26.0. macos-15 tops out at Xcode 16.4 and the iOS 18.5 simulator,
+    # where the test launch hangs until GitHub's 6-hour default cancels the job.
+    runs-on: macos-26
+    # A clean build took about 2 minutes on macos-15 and the suite takes seconds, so a hang
+    # fails here instead of after 6 hours.
+    timeout-minutes: 20
+    env:
+      # Pinned so a change to the image's default Xcode can't silently change the toolchain.
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -39,8 +47,11 @@ jobs:
         run: ./scripts/run_ios_tests.sh
 
   dead-code-advisory:
-    runs-on: macos-15
+    runs-on: macos-26
     needs: build-and-test
+    timeout-minutes: 20
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
     steps:
       - name: Checkout
         uses: actions/checkout@v5
