@@ -8,7 +8,7 @@ const ios = fileURLToPath(new URL("../../../../apps/ios/", import.meta.url));
 const recordPath = "/tmp/fl-tc/reverse-meal/synthetic-build/build-record.json";
 function fixture() {
   const sources = ["Platform/Persistence/Services/ConfidenceLearningService.swift", "Platform/Persistence/Database/Migrations.swift", "Tools/reverse-meal-eval/main.swift"].map(path => ios + path);
-  const binaries = ["/tmp/fl-tc/reverse-meal/synthetic-build/reverse-meal-runner", "/tmp/fl-tc/grdb/libGRDB.dylib", "/tmp/fl-tc/grdb/GRDB.swiftmodule"];
+  const binaries = ["/tmp/fl-tc/reverse-meal/synthetic-build/reverse-meal-runner", "/tmp/fl-tc/reverse-meal/synthetic-build/grdb/libGRDB.dylib", "/tmp/fl-tc/reverse-meal/synthetic-build/grdb/GRDB.swiftmodule"];
   const files = new Map([...sources, ...binaries, ios + "Tools/reverse-meal-eval/run.sh"].map(path => [path, Buffer.from(`synthetic file ${path}`)]));
   const hashes = (paths: string[]) => Object.fromEntries(paths.map(path => [path, sha(files.get(path)!)]));
   const record = { sources: hashes(sources), binary_and_grdb: hashes(binaries), swift_version: "synthetic compiler", compile_admission: COMPILE_ADMISSION, build_script_sha256: sha(files.get(ios + "Tools/reverse-meal-eval/run.sh")!) };

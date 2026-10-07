@@ -120,7 +120,8 @@ export function validateBuildRecord(value: unknown, recordPath: string, readByte
   };
   const record = exactEntries(value, ["sources", "binary_and_grdb", "swift_version", "compile_admission", "build_script_sha256"], "build record");
   const sources = ["Platform/Persistence/Services/ConfidenceLearningService.swift", "Platform/Persistence/Database/Migrations.swift", "Tools/reverse-meal-eval/main.swift"].map(path => resolve(ROOT, "apps/ios", path));
-  const binaries = [resolve(dirname(resolve(recordPath)), "reverse-meal-runner"), "/tmp/fl-tc/grdb/libGRDB.dylib", "/tmp/fl-tc/grdb/GRDB.swiftmodule"];
+  const buildDir = dirname(resolve(recordPath));
+  const binaries = [resolve(buildDir, "reverse-meal-runner"), resolve(buildDir, "grdb/libGRDB.dylib"), resolve(buildDir, "grdb/GRDB.swiftmodule")];
   const verifyHash = (expected: unknown, path: string, name: string) => {
     if (typeof expected !== "string" || !/^[0-9a-f]{64}$/.test(expected)) throw new Error(`${name}: non-empty sha256 required for ${path}`);
     if (sha(readBytes(path)) !== expected) throw new Error(`${name}: sha256 mismatch for ${path}`);

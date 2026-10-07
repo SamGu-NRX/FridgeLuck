@@ -26,6 +26,10 @@ test("updated build script requires shell-owned lease, lock, release and raised 
   expect(script).toContain('df -k /');
   expect(script).toContain('8388608');
   expect(script).toContain('/usr/bin/lockf -k "$HOME/.long-run/locks/heavy.lock" swiftc');
+  expect(script).toContain('build_dir=$(mktemp -d /tmp/fl-tc/reverse-meal/build.XXXXXX)');
+  expect(script).toContain('echo "build_dir=$build_dir" >&2');
+  expect(script).toContain('"$build_dir/inputs/main.swift" -o "$build_dir/reverse-meal-runner"');
+  expect(script).toContain('snapshot-hashes.json');
 });
 test("all TypeScript candidates are reproducible and case-order independent", () => {
   for (const arm of ["ios-A0", "ios-A1-proxy", "ios-A1-truth-control"] as const) {
