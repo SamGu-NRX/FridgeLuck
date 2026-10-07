@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import PhotosUI
 import SwiftUI
 import os
@@ -32,6 +33,8 @@ struct ReverseScanMealView: View {
   @State private var isLoggingMeal = false
   @State private var showLogSuccess = false
   @State private var showRecipePicker = false
+  /// The fallback template is the app's guess, so its ranges show only after the user asks.
+  @State private var showsTemplateEstimate = false
   @State private var cameraPermissionStatus: AppPermissionStatus = .notDetermined
   @State private var manuallyPickedRecipe: Recipe?
   @State private var manuallyPickedMacros: RecipeMacros?
@@ -61,14 +64,15 @@ struct ReverseScanMealView: View {
     }
   }
 
+  /// Only an explicit selection counts. Preselection, when the verdict allows it, happens by
+  /// setting `selectedCandidateID` after analysis; see `MealPhotoConfirmationPolicy`.
   private var selectedCandidate: ReverseScanRecipeCandidate? {
-    guard let analysis else { return nil }
-    if let selectedCandidateID,
-      let selected = analysis.candidateRecipes.first(where: { $0.id == selectedCandidateID })
-    {
-      return selected
-    }
-    return analysis.candidateRecipes.first
+    guard let analysis, let selectedCandidateID else { return nil }
+    return analysis.candidateRecipes.first(where: { $0.id == selectedCandidateID })
+  }
+
+  private var confirmationVerdict: MealPhotoConfirmationPolicy.Verdict? {
+    analysis.map(verdict(for:))
   }
 
   private var fallbackEstimate: PreparedDishEstimate? {
@@ -523,10 +527,7 @@ struct ReverseScanMealView: View {
 
               Spacer()
 
-              let isSelected =
-                selectedCandidateID == candidate.id
-                || (selectedCandidateID == nil
-                  && analysis.candidateRecipes.first?.id == candidate.id)
+              let isSelected = selectedCandidateID == candidate.id
               Image(
                 systemName: isSelected
                   ? "checkmark.circle.fill" : "circle"
@@ -611,8 +612,18 @@ struct ReverseScanMealView: View {
       macroConfirmCard(
         title: candidate.recipe.recipe.title,
         macros: candidate.recipe.macros,
-        isHighConfidence: analysis?.confidenceAssessment.mode == .exact
+        isHighConfidence: confirmationVerdict.map {
+          !MealPhotoConfirmationPolicy.asksToCheckBeforeLogging(for: $0)
+        } ?? false
       )
+    }
+  }
+
+  private func verdict(for analysis: ReverseScanAnalysis) -> MealPhotoConfirmationPolicy.Verdict {
+    switch analysis.confidenceAssessment.mode {
+    case .exact: return .exact
+    case .reviewRequired: return .reviewRequired
+    case .estimateOnly: return .estimateOnly
     }
   }
 
@@ -626,6 +637,12 @@ struct ReverseScanMealView: View {
         Text("Macro Calculation")
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
+
+        if !isHighConfidence {
+          Text("Check the dish and portion before logging.")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
 
         HStack(spacing: AppTheme.Space.md) {
           macroMetric(
@@ -687,24 +704,38 @@ struct ReverseScanMealView: View {
         .foregroundStyle(AppTheme.textSecondary)
 
         if let template = analysis.fallbackTemplate {
-          Text("Template: \(template.name)")
-            .font(AppTheme.Typography.bodyMedium)
-            .foregroundStyle(AppTheme.textPrimary)
-        }
+          if showsTemplateEstimate {
+            Text("Template: \(template.name)")
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.textPrimary)
 
-        Picker("Portion", selection: $portionSize) {
-          ForEach(DishPortionSize.allCases, id: \.self) { size in
-            Text(size.displayName).tag(size)
-          }
-        }
-        .pickerStyle(.segmented)
+            Picker("Portion", selection: $portionSize) {
+              ForEach(DishPortionSize.allCases, id: \.self) { size in
+                Text(size.displayName).tag(size)
+              }
+            }
+            .pickerStyle(.segmented)
 
-        if let fallbackEstimate {
-          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-            estimateRow("Calories", range: fallbackEstimate.calories, unit: "kcal")
-            estimateRow("Protein", range: fallbackEstimate.protein, unit: "g")
-            estimateRow("Carbs", range: fallbackEstimate.carbs, unit: "g")
-            estimateRow("Fat", range: fallbackEstimate.fat, unit: "g")
+            if let fallbackEstimate {
+              VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+                estimateRow("Calories", range: fallbackEstimate.calories, unit: "kcal")
+                estimateRow("Protein", range: fallbackEstimate.protein, unit: "g")
+                estimateRow("Carbs", range: fallbackEstimate.carbs, unit: "g")
+                estimateRow("Fat", range: fallbackEstimate.fat, unit: "g")
+              }
+            }
+          } else {
+            Button {
+              withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+                showsTemplateEstimate = true
+              }
+            } label: {
+              Text("See a rough range for \(template.name.lowercased())")
+                .font(AppTheme.Typography.label)
+                .foregroundStyle(AppTheme.accent)
+                .frame(minHeight: 44)
+            }
+            .buttonStyle(.plain)
           }
         }
       }
@@ -915,7 +946,10 @@ struct ReverseScanMealView: View {
 
       withAnimation(reduceMotion ? nil : AppMotion.standard) {
         analysis = result
-        selectedCandidateID = result.candidateRecipes.first?.id
+        showsTemplateEstimate = false
+        selectedCandidateID =
+          MealPhotoConfirmationPolicy.preselectsTopCandidate(for: verdict(for: result))
+          ? result.candidateRecipes.first?.id : nil
       }
       logger.info(
         "Reverse scan UI analyze completed. candidates=\(result.candidateRecipes.count, privacy: .public), mode=\(result.confidenceAssessment.mode.rawValue, privacy: .public), deterministic=\(result.deterministicRecipeReady, privacy: .public)"
