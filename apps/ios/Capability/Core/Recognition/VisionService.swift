@@ -413,7 +413,7 @@ final class VisionService: Sendable {
   }
 
   /// The lock orders registration against cancellation, including cancellation before work starts.
-  private final class VisionRequestCancellation: @unchecked Sendable {
+  final class VisionRequestCancellation: @unchecked Sendable {
     private let lock = NSLock()
     private var request: VNRequest?
     private var cancelled = false
@@ -426,7 +426,12 @@ final class VisionService: Sendable {
       request?.cancel()
     }
 
-    func perform(_ request: VNRequest, on image: CGImage) throws {
+    func perform(
+      _ request: VNRequest, on image: CGImage,
+      using performRequest: (VNRequest, CGImage) throws -> Void = { request, image in
+        try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+      }
+    ) throws {
       lock.lock()
       if cancelled {
         lock.unlock()
@@ -441,12 +446,12 @@ final class VisionService: Sendable {
       }
 
       try Task.checkCancellation()
-      try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+      try performRequest(request, image)
       try Task.checkCancellation()
     }
   }
 
-  private static func runVisionRequest<Result: Sendable>(
+  static func runVisionRequest<Result: Sendable>(
     _ operation: @escaping @Sendable (VisionRequestCancellation) throws -> Result
   ) async throws -> Result {
     try Task.checkCancellation()

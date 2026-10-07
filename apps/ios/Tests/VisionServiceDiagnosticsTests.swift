@@ -10,6 +10,7 @@ final class VisionServiceDiagnosticsTests: XCTestCase {
   private enum RequestError: Error {
     case classificationUnavailable
     case textUnavailable
+    case barrierTimedOut
   }
 
   private func makeDatabase() throws -> DatabaseQueue {
@@ -306,6 +307,218 @@ final class VisionServiceDiagnosticsTests: XCTestCase {
     let textCalls = await calls.textCalls
     XCTAssertEqual(classificationCalls, 0)
     XCTAssertEqual(textCalls, 0)
+  }
+
+  // These barriers block only the detached Vision worker, never the test's async executor.
+  private final class WorkerBarrier: @unchecked Sendable {
+    let reached: XCTestExpectation
+    private let condition = NSCondition()
+    private var released = false
+
+    init(_ description: String) {
+      reached = XCTestExpectation(description: description)
+    }
+
+    func wait() throws {
+      condition.lock()
+      defer { condition.unlock() }
+      reached.fulfill()
+      let deadline = Date().addingTimeInterval(10)
+      while !released {
+        if !condition.wait(until: deadline), !released { throw RequestError.barrierTimedOut }
+      }
+    }
+
+    func release() {
+      condition.lock()
+      released = true
+      condition.broadcast()
+      condition.unlock()
+    }
+  }
+
+  private final class RecordingVisionRequest: VNClassifyImageRequest, @unchecked Sendable {
+    let cancelled = XCTestExpectation(description: "VNRequest.cancel() called")
+    private let lock = NSLock()
+    private var cancels = 0
+    private var performs = 0
+
+    var cancelCount: Int {
+      lock.lock()
+      defer { lock.unlock() }
+      return cancels
+    }
+
+    var performCount: Int {
+      lock.lock()
+      defer { lock.unlock() }
+      return performs
+    }
+
+    override func cancel() {
+      lock.lock()
+      cancels += 1
+      lock.unlock()
+      super.cancel()
+      cancelled.fulfill()
+    }
+
+    func recordPerform() {
+      lock.lock()
+      performs += 1
+      lock.unlock()
+    }
+  }
+
+  func testVisionBridgeCancelledBeforeRegistrationSkipsPerform() async throws {
+    let inputImage = try image()
+    let request = RecordingVisionRequest()
+    let barrier = WorkerBarrier("Worker reached the point before registration")
+    let operation = Task {
+      try await VisionService.runVisionRequest { cancellation in
+        try barrier.wait()
+        XCTAssertTrue(Task.isCancelled, "Cancellation must also reach the detached worker")
+        try cancellation.perform(request, on: inputImage) { _, _ in request.recordPerform() }
+        return 1
+      }
+    }
+    await fulfillment(of: [barrier.reached], timeout: 5)
+    operation.cancel()
+    barrier.release()
+    do {
+      _ = try await operation.value
+      XCTFail("The bridge must discard cancelled work")
+    } catch {
+      XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+    }
+    XCTAssertEqual(request.performCount, 0)
+    XCTAssertEqual(request.cancelCount, 0, "No request was registered to cancel")
+
+    // Test the registration latch separately from the detached worker's cancellation flag.
+    let cancellation = VisionService.VisionRequestCancellation()
+    cancellation.cancel()
+    XCTAssertThrowsError(
+      try cancellation.perform(request, on: inputImage) { _, _ in request.recordPerform() }
+    ) { XCTAssertTrue($0 is CancellationError) }
+    XCTAssertEqual(request.performCount, 0)
+  }
+
+  func testVisionBridgeCancellationAfterRegistrationBeforeHandlerWorkCancelsRequest() async throws {
+    let inputImage = try image()
+    let request = RecordingVisionRequest()
+    let barrier = WorkerBarrier("Request registered, handler work not started")
+    let operation = Task {
+      try await VisionService.runVisionRequest { cancellation in
+        try cancellation.perform(request, on: inputImage) { registered, _ in
+          XCTAssertTrue(registered === request)
+          try barrier.wait()
+          // Model a Vision handler rejecting a request cancelled before its work begins.
+          if request.cancelCount > 0 {
+            throw NSError(domain: VNErrorDomain, code: VNErrorCode.requestCancelled.rawValue)
+          }
+          request.recordPerform()
+        }
+        return 1
+      }
+    }
+    await fulfillment(of: [barrier.reached], timeout: 5)
+    operation.cancel()
+    await fulfillment(of: [request.cancelled], timeout: 5)
+    XCTAssertEqual(request.cancelCount, 1)
+    barrier.release()
+    do {
+      _ = try await operation.value
+      XCTFail("A registered request must not return a result after cancellation")
+    } catch {
+      XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+    }
+    XCTAssertEqual(request.performCount, 0)
+    XCTAssertEqual(request.cancelCount, 1)
+  }
+
+  func testVisionBridgeInFlightCancellationReachesRequestAndAbortsScan() async throws {
+    let db = try makeDatabase()
+    let inputImage = try image(side: 128)
+    let request = RecordingVisionRequest()
+    let barrier = WorkerBarrier("Vision handler is in flight")
+    let calls = RequestGate()
+    let service = VisionService(
+      learningService: LearningService(db: db),
+      ingredientResolver: IngredientCatalogResolver(db: db),
+      classificationRequest: { crop in
+        await calls.classify()
+        return try await VisionService.runVisionRequest { cancellation in
+          try cancellation.perform(request, on: crop) { registered, _ in
+            XCTAssertTrue(registered === request)
+            request.recordPerform()
+            try barrier.wait()
+            // An ordinary handler error after cancellation must not become scan diagnostics.
+            throw RequestError.classificationUnavailable
+          }
+          return []
+        }
+      },
+      textRequest: { _ in await calls.recognizeText(); return [] })
+    let scan = Task { try await service.scan(image: inputImage) }
+    await fulfillment(of: [barrier.reached], timeout: 5)
+    scan.cancel()
+    await fulfillment(of: [request.cancelled], timeout: 5)
+    XCTAssertEqual(request.cancelCount, 1, "Scan cancellation must reach VNRequest.cancel()")
+    barrier.release()
+    do {
+      _ = try await scan.value
+      XCTFail("Cancelled Vision work must not produce a scan result or failure diagnostics")
+    } catch {
+      XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+    }
+    XCTAssertEqual(request.performCount, 1)
+    XCTAssertEqual(request.cancelCount, 1)
+    let classificationCalls = await calls.classificationCalls
+    XCTAssertEqual(classificationCalls, 1, "No later crop may start")
+  }
+
+  func testVisionBridgeCancellationAfterCompletionDiscardsResult() async throws {
+    let inputImage = try image()
+    let request = RecordingVisionRequest()
+    let barrier = WorkerBarrier("Handler completed and unregistered, result not returned")
+    let operation = Task {
+      try await VisionService.runVisionRequest { cancellation in
+        try cancellation.perform(request, on: inputImage) { _, _ in request.recordPerform() }
+        try barrier.wait()
+        return 42
+      }
+    }
+    await fulfillment(of: [barrier.reached], timeout: 5)
+    operation.cancel()
+    barrier.release()
+    do {
+      _ = try await operation.value
+      XCTFail("A completed result must still be discarded after task cancellation")
+    } catch {
+      XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+    }
+    XCTAssertEqual(request.performCount, 1)
+    XCTAssertEqual(request.cancelCount, 0, "Completed requests must be unregistered")
+  }
+
+  func testVisionBridgeNormalizesVisionCancellationWithoutTaskCancellation() async throws {
+    let inputImage = try image()
+    let request = RecordingVisionRequest()
+    do {
+      _ = try await VisionService.runVisionRequest { cancellation in
+        try cancellation.perform(request, on: inputImage) { _, _ in
+          request.recordPerform()
+          throw NSError(domain: VNErrorDomain, code: VNErrorCode.requestCancelled.rawValue)
+        }
+        return 1
+      }
+      XCTFail("Vision's cancellation error must be normalized by the bridge")
+    } catch {
+      XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+    }
+    XCTAssertFalse(Task.isCancelled)
+    XCTAssertEqual(request.performCount, 1)
+    XCTAssertEqual(request.cancelCount, 0)
   }
 
   private func benchmarkReport(
