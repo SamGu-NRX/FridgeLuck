@@ -1,7 +1,6 @@
 import { expect, test } from "bun:test";
 import { readFileSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
-import { assessTS, assertLockAvailable, auditPolicySource, SPEC_POLICY_SHA256, SPEC_POLICY_REFERENCE_COMMIT, crossCheck, type SwiftDocument } from "../evaluation/runReverseMeal.js";
-import { spawnSync } from "node:child_process";
+import { assessTS, assertLockAvailable, auditPolicySource, SPEC_POLICY_SHA256, crossCheck, type SwiftDocument } from "../evaluation/runReverseMeal.js";
 import { fileURLToPath } from "node:url";
 import { parseStates, parseReplay, projectState } from "../evaluation/reverseMealProjection.js";
 import { canonicalJson } from "../evaluation/canonicalJson.js";
@@ -9,15 +8,14 @@ const fixtures = fileURLToPath(new URL("../../evaluation-fixtures", import.meta.
 const rows = parseStates(readFileSync(`${fixtures}/reverse-meal-states-v1.jsonl`, "utf8"));
 const replay = parseReplay(readFileSync(`${fixtures}/reverse-meal-replay-v1.json`, "utf8"), rows);
 test("policy freeze accepts documented comment-only drift but rejects executable changes", () => {
-  const reference = spawnSync("git", ["show", `${SPEC_POLICY_REFERENCE_COMMIT}:apps/ios/FeatureLogic/Recipe/MealPhotoConfirmationPolicy.swift`], { encoding: "utf8" });
-  expect(reference.status).toBe(0);
+  const reference = readFileSync(`${fixtures}/MealPhotoConfirmationPolicy.frozen.swift`, "utf8");
   const current = readFileSync(fileURLToPath(new URL("../../../../apps/ios/FeatureLogic/Recipe/MealPhotoConfirmationPolicy.swift", import.meta.url)), "utf8");
-  const audit = auditPolicySource(reference.stdout, current);
+  const audit = auditPolicySource(reference, current);
   expect(audit.reference_sha256).toBe(SPEC_POLICY_SHA256);
   expect(audit.source_bytes_identical).toBe(false);
   expect(audit.executable_lines_identical).toBe(true);
-  expect(() => auditPolicySource(reference.stdout, reference.stdout + "\n// authored test comment\n")).not.toThrow();
-  expect(() => auditPolicySource(reference.stdout, current.replace("verdict != .estimateOnly", "true"))).toThrow("Executable policy source changed");
+  expect(() => auditPolicySource(reference, reference + "\n// authored test comment\n")).not.toThrow();
+  expect(() => auditPolicySource(reference, current.replace("verdict != .estimateOnly", "true"))).toThrow("Executable policy source changed");
   expect(() => auditPolicySource("invalid reference", current)).toThrow("frozen hash");
 });
 test("updated build script requires shell-owned lease, lock, release and raised floor", () => {

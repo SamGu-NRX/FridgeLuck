@@ -4,6 +4,7 @@ This bundle is exposed diagnostic material. The two specs disclose expected outc
 
 | File | SHA256 | Source path |
 | --- | --- | --- |
+| `MealPhotoConfirmationPolicy.frozen.swift` | `62ebfa4cacb706046c29bec4690db57ee493692821838d26bb3028c688eed2aa` | Local git object `e18dafffd006b496975ba0d810d137b91ac7836d:apps/ios/FeatureLogic/Recipe/MealPhotoConfirmationPolicy.swift` |
 | `reverse-meal-spec-v1.md` | `0dd25fe99ccd86f552c8a0673407a2759435aba4788832d4f5350117442ffeb6` | `/Users/samgu/.t3/scratch/2026-10-07-all-right-i-want-you-f82246a0/fridgeluck-eval/reverse-meal-spec-v1.md` |
 | `reverse-meal-states-v1.jsonl` | `75a76b70bb53fb4dfa1feb14e8804cb907dc9c1dde7c64bca2259990f25f60d1` | `/Users/samgu/.t3/scratch/2026-10-07-all-right-i-want-you-f82246a0/fridgeluck-eval/reverse-meal-states-v1.jsonl` |
 | `reverse-meal-replay-v1.json` | `0012497ee2a001a03387bfdd07241b5f026ea01f28b66f269004259b0f8e2786` | `/Users/samgu/.t3/scratch/2026-10-07-all-right-i-want-you-f82246a0/fridgeluck-eval/reverse-meal-replay-v1.json` |

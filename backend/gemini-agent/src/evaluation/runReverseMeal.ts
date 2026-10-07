@@ -114,7 +114,7 @@ export function runReverseMeal(args: string[]) {
   assertLockAvailable(OUTPUT);
   const policyPath = "apps/ios/FeatureLogic/Recipe/MealPhotoConfirmationPolicy.swift";
   const policySource = readFileSync(resolve(ROOT, policyPath), "utf8");
-  const policyReference = git(["show", `${SPEC_POLICY_REFERENCE_COMMIT}:${policyPath}`]);
+  const policyReference = readFileSync(resolve(DEFAULT_FIXTURES, "MealPhotoConfirmationPolicy.frozen.swift"), "utf8");
   const policyAudit = auditPolicySource(policyReference, policySource);
   const policyHash = policyAudit.current_sha256;
   const inputHashes: Record<string, string> = {};
