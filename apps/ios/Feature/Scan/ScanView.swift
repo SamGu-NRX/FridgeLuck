@@ -378,26 +378,27 @@ struct ScanView: View {
         return
       }
 
-      do {
-        let imagesToScan: [UIImage] = {
-          if !capturedShots.isEmpty {
-            return Array(capturedShots.suffix(maxShots))
-          }
-          return [capturedImage]
-        }()
-
-        let inputs = imagesToScan.enumerated().compactMap { (index, image) -> ScanInput? in
-          guard let cgImage = image.cgImage else { return nil }
-          let source =
-            capturedShotSources.indices.contains(index)
-            ? capturedShotSources[index]
-            : pendingCaptureSource
-          return ScanInput(
-            image: cgImage,
-            source: source,
-            captureIndex: index
-          )
+      let imagesToScan: [UIImage] = {
+        if !capturedShots.isEmpty {
+          return Array(capturedShots.suffix(maxShots))
         }
+        return [capturedImage]
+      }()
+
+      let inputs = imagesToScan.enumerated().compactMap { (index, image) -> ScanInput? in
+        guard let cgImage = image.cgImage else { return nil }
+        let source =
+          capturedShotSources.indices.contains(index)
+          ? capturedShotSources[index]
+          : pendingCaptureSource
+        return ScanInput(
+          image: cgImage,
+          source: source,
+          captureIndex: index
+        )
+      }
+
+      do {
         let result = try await dependencies.scanInputs(inputs)
         detections = result.detections
         nutritionLabelOutcome = NutritionLabelParser.parse(ocrText: result.ocrText)
@@ -413,7 +414,15 @@ struct ScanView: View {
       } catch is CancellationError {
         return
       } catch {
-        // A scan that failed just as the user left isn't worth reporting on a gone screen.
+        // The scan genuinely failed, so its diagnostics are saved even if the user just left.
+        await dependencies.recordFailedRun(
+          error: error,
+          mode: .live,
+          inputSources: inputs.map(\.source),
+          provenance: .realScan,
+          elapsedMs: Int(Date().timeIntervalSince(startedAt) * 1000)
+        )
+        // Showing the error on a screen that's gone is pointless.
         guard !Task.isCancelled else { return }
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Scan failed. Try better lighting or continue manually."
@@ -580,5 +589,22 @@ struct ScanView: View {
       }
     }
     if !started { self.selectedPhotoItem = nil }
+  }
+}
+
+/// A failed scan is still saved to the run history, so the scan report can show why it failed.
+extension ScanView.Dependencies {
+  @MainActor
+  func recordFailedRun(
+    error: Error,
+    mode: ScanRunRecord.RunMode,
+    inputSources: [ScanInputSource],
+    provenance: ScanProvenance,
+    elapsedMs: Int
+  ) async {
+    guard let inputs = ScanRunRecord.failureInputs(
+      error: error, captureCount: inputSources.count, elapsedMs: elapsedMs
+    ) else { return }
+    await recordRun(mode, inputSources, provenance, inputs.diagnostics, inputs.detections)
   }
 }
