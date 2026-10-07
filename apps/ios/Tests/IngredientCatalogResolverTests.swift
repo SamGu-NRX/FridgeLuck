@@ -21,7 +21,8 @@ final class IngredientCatalogResolverTests: XCTestCase {
       ]
       for (id, name) in rows {
         try db.execute(
-          sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (?, ?, 0, 0, 0, 0)",
+          sql:
+            "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (?, ?, 0, 0, 0, 0)",
           arguments: [id, name])
       }
       let aliases: [(Int64, String)] = [
@@ -95,11 +96,13 @@ final class IngredientCatalogResolverTests: XCTestCase {
 
   func testClassificationUsesExactCatalogFallback() throws {
     let resolver = try makeResolver()
-    XCTAssertNil(IngredientIdentityResolution.resolveLabel(
-      "raw_glass", userCorrection: { _ in nil }, curated: IngredientLexicon.resolve,
-      catalog: resolver.resolve))
-    XCTAssertEqual(IngredientIdentityResolution.resolveLabel(
-      "kohlrabi", userCorrection: { _ in nil }, curated: IngredientLexicon.resolve,
-      catalog: resolver.resolve), 900)
+    XCTAssertNil(
+      IngredientIdentityResolution.resolveLabel(
+        "raw_glass", userCorrection: { _ in nil }, curated: IngredientLexicon.resolve,
+        catalog: resolver.resolve))
+    XCTAssertEqual(
+      IngredientIdentityResolution.resolveLabel(
+        "kohlrabi", userCorrection: { _ in nil }, curated: IngredientLexicon.resolve,
+        catalog: resolver.resolve), 900)
   }
 }

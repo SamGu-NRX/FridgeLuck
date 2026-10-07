@@ -28,9 +28,10 @@ enum IngredientOCRLineJoining {
       else { continue }
       let phrase = first.text + " " + second.text
       guard IngredientLexicon.resolveFromTextDetailed(phrase) != nil else { continue }
-      result.append(Line(
-        text: phrase, boundingBox: first.boundingBox.union(second.boundingBox),
-        joinedParts: [first.text, second.text]))
+      result.append(
+        Line(
+          text: phrase, boundingBox: first.boundingBox.union(second.boundingBox),
+          joinedParts: [first.text, second.text]))
       consumed.insert(i)
       consumed.insert(j)
     }
@@ -40,10 +41,13 @@ enum IngredientOCRLineJoining {
   }
 
   private static func readingOrder(_ lhs: Line, _ rhs: Line) -> Bool {
-    if lhs.boundingBox.minY != rhs.boundingBox.minY { return lhs.boundingBox.minY > rhs.boundingBox.minY }
-    if lhs.boundingBox.minX != rhs.boundingBox.minX { return lhs.boundingBox.minX < rhs.boundingBox.minX }
-    if lhs.boundingBox.width != rhs.boundingBox.width { return lhs.boundingBox.width < rhs.boundingBox.width }
-    if lhs.boundingBox.height != rhs.boundingBox.height { return lhs.boundingBox.height < rhs.boundingBox.height }
+    let a = lhs.boundingBox
+    let b = rhs.boundingBox
+    // Vision's origin is bottom-left, so a larger minY is higher on the page.
+    if a.minY != b.minY { return a.minY > b.minY }
+    if a.minX != b.minX { return a.minX < b.minX }
+    if a.width != b.width { return a.width < b.width }
+    if a.height != b.height { return a.height < b.height }
     return lhs.text < rhs.text
   }
 

@@ -51,7 +51,9 @@ final class IngredientOCRLineJoiningTests: XCTestCase {
   }
 
   func testObservationOrderDoesNotReverseThePhrase() {
-    let joined = IngredientOCRLineJoining.joinAdjacent([line("BEANS", y: 0.44), line("BLACK", y: 0.5)])
+    let joined = IngredientOCRLineJoining.joinAdjacent([
+      line("BEANS", y: 0.44), line("BLACK", y: 0.5),
+    ])
     XCTAssertEqual(joined.map(\.text), ["BLACK BEANS"])
   }
 
@@ -76,7 +78,8 @@ final class IngredientOCRLineJoiningTests: XCTestCase {
     XCTAssertEqual(joined?.text, "BLACK BEANS")
     XCTAssertEqual(joined?.joinedParts, ["BLACK", "BEANS"])
     for order in permutations {
-      XCTAssertEqual(IngredientOCRLineJoining.joinAdjacent(order.map { lines[$0] }), expected, "\(order)")
+      XCTAssertEqual(
+        IngredientOCRLineJoining.joinAdjacent(order.map { lines[$0] }), expected, "\(order)")
     }
   }
 
@@ -91,7 +94,8 @@ final class IngredientOCRLineJoiningTests: XCTestCase {
 
   func testZeroWidthCannotJoin() {
     let lines = [
-      IngredientOCRLineJoining.Line(text: "BLACK", boundingBox: CGRect(x: 0.2, y: 0.5, width: 0, height: 0.05)),
+      IngredientOCRLineJoining.Line(
+        text: "BLACK", boundingBox: CGRect(x: 0.2, y: 0.5, width: 0, height: 0.05)),
       line("BEANS", y: 0.44),
     ]
     XCTAssertEqual(IngredientOCRLineJoining.joinAdjacent(lines), lines)

@@ -8,7 +8,8 @@ final class IngredientOCRMatchAggregationTests: XCTestCase {
     _ text: String, id: Int64, capture: Int = 0, crop: String = "full",
     catalog: Bool = false, parts: [String] = []
   ) -> IngredientOCRMatchAggregation.Match {
-    .init(ingredientId: id, confidence: catalog ? 0.55 : 0.9, originalText: text,
+    .init(
+      ingredientId: id, confidence: catalog ? 0.55 : 0.9, originalText: text,
       matchedToken: text, kind: catalog ? .fuzzy : .exact,
       boundingBox: .zero, cropID: crop, captureIndex: capture,
       isCatalogFallback: catalog, joinedParts: parts)
@@ -20,7 +21,8 @@ final class IngredientOCRMatchAggregationTests: XCTestCase {
       match("BLACK BEANS", id: 27, crop: "topLeft", parts: ["BLACK", "BEANS"]),
       match("BLACK", id: 999, crop: "center", catalog: true),
     ]
-    XCTAssertEqual(IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.ingredientId), [27])
+    XCTAssertEqual(
+      IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.ingredientId), [27])
   }
 
   func testJoinedOliveOilSuppressesNormalizedLoneOlive() {
@@ -28,7 +30,8 @@ final class IngredientOCRMatchAggregationTests: XCTestCase {
       match("  Olive! ", id: 171413, catalog: true),
       match("OLIVE OIL", id: 16, crop: "center", parts: ["OLIVE", "OIL"]),
     ]
-    XCTAssertEqual(IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.ingredientId), [16])
+    XCTAssertEqual(
+      IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.ingredientId), [16])
   }
 
   func testSamePartInAnotherCaptureIsNotSuppressed() {
@@ -36,7 +39,8 @@ final class IngredientOCRMatchAggregationTests: XCTestCase {
       match("BEANS", id: 169960, capture: 1, catalog: true),
       match("BLACK BEANS", id: 27, parts: ["BLACK", "BEANS"]),
     ]
-    XCTAssertEqual(IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.ingredientId), [169960, 27])
+    XCTAssertEqual(
+      IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.ingredientId), [169960, 27])
   }
 
   func testCuratedMatchesAndLongerCatalogPhrasesAreUntouched() {
@@ -45,12 +49,15 @@ final class IngredientOCRMatchAggregationTests: XCTestCase {
       match("CANNED BEANS", id: 169960, catalog: true),
       match("BLACK BEANS", id: 27, parts: ["BLACK", "BEANS"]),
     ]
-    XCTAssertEqual(IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.originalText), matches.map(\.originalText))
+    XCTAssertEqual(
+      IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.originalText),
+      matches.map(\.originalText))
   }
 
   func testNoJoinedMatchLeavesCatalogFoodsUntouched() {
     let matches = [match("BEANS", id: 169960, catalog: true), match("BLACK BEANS", id: 27)]
-    XCTAssertEqual(IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.ingredientId), [169960, 27])
+    XCTAssertEqual(
+      IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.ingredientId), [169960, 27])
   }
 
   func testSuppressionDoesNotDependOnMatchOrder() {
@@ -58,6 +65,8 @@ final class IngredientOCRMatchAggregationTests: XCTestCase {
       match("BEANS", id: 169960, catalog: true),
       match("BLACK BEANS", id: 27, parts: ["BLACK", "BEANS"]),
     ]
-    XCTAssertEqual(IngredientOCRMatchAggregation.suppressJoinedParts(Array(matches.reversed())).map(\.ingredientId), [27])
+    XCTAssertEqual(
+      IngredientOCRMatchAggregation.suppressJoinedParts(Array(matches.reversed())).map(
+        \.ingredientId), [27])
   }
 }

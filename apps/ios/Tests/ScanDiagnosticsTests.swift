@@ -15,20 +15,27 @@ final class ScanDiagnosticsTests: XCTestCase {
       captureCount: 1, cropCount: 1, topRawLabels: [], ocrCandidates: ["BLACK BEANS"],
       bucketCounts: .init(auto: 1, confirm: 0, possible: 0),
       passErrors: ScanDiagnostics.cropPassErrors(
-        captureIndex: 2, cropID: "topLeft", classificationError: classificationError, ocrError: ocrError),
+        captureIndex: 2, cropID: "topLeft", classificationError: classificationError,
+        ocrError: ocrError),
       elapsedMs: 10,
       requestFailures: ScanDiagnostics.requestFailures(
-        captureIndex: 2, cropID: "topLeft", classificationError: classificationError, ocrError: ocrError))
+        captureIndex: 2, cropID: "topLeft", classificationError: classificationError,
+        ocrError: ocrError))
   }
 
   func testClassificationFailureRemainsVisibleWhenOCRSucceeds() {
-    let result = diagnostics(classificationError: RequestError.classificationUnavailable, ocrError: nil)
+    let result = diagnostics(
+      classificationError: RequestError.classificationUnavailable, ocrError: nil)
     XCTAssertEqual(result.classificationFailureCount, 1)
     XCTAssertEqual(result.ocrFailureCount, 0)
     XCTAssertTrue(result.passErrors.isEmpty)
-    XCTAssertEqual(result.requestFailures, [
-      .init(captureIndex: 2, cropID: "topLeft", kind: .classification, message: "classificationUnavailable")
-    ])
+    XCTAssertEqual(
+      result.requestFailures,
+      [
+        .init(
+          captureIndex: 2, cropID: "topLeft", kind: .classification,
+          message: "classificationUnavailable")
+      ])
   }
 
   func testOCRFailureRemainsVisibleWhenClassificationSucceeds() {
@@ -42,8 +49,11 @@ final class ScanDiagnosticsTests: XCTestCase {
 
   func testBothFailuresProduceTwoRequestsAndTheOriginalCropError() {
     let result = diagnostics(
-      classificationError: RequestError.classificationUnavailable, ocrError: RequestError.textUnavailable)
-    XCTAssertEqual(result.passErrors, ["capture=2,crop=topLeft:class=classificationUnavailable,ocr=textUnavailable"])
+      classificationError: RequestError.classificationUnavailable,
+      ocrError: RequestError.textUnavailable)
+    XCTAssertEqual(
+      result.passErrors,
+      ["capture=2,crop=topLeft:class=classificationUnavailable,ocr=textUnavailable"])
     XCTAssertEqual(result.requestFailures.count, 2)
     XCTAssertEqual(result.classificationFailureCount, 1)
     XCTAssertEqual(result.ocrFailureCount, 1)
@@ -58,7 +68,8 @@ final class ScanDiagnosticsTests: XCTestCase {
   }
 
   func testTypedFailuresSurviveCoding() throws {
-    let original = diagnostics(classificationError: RequestError.classificationUnavailable, ocrError: nil)
+    let original = diagnostics(
+      classificationError: RequestError.classificationUnavailable, ocrError: nil)
     let data = try JSONEncoder().encode(original)
     let decoded = try JSONDecoder().decode(ScanDiagnostics.self, from: data)
     XCTAssertEqual(decoded.requestFailures, original.requestFailures)
@@ -68,17 +79,21 @@ final class ScanDiagnosticsTests: XCTestCase {
 
   func testOldDiagnosticsDecodeWithNoRequestFailures() throws {
     let original = diagnostics(
-      classificationError: RequestError.classificationUnavailable, ocrError: RequestError.textUnavailable)
+      classificationError: RequestError.classificationUnavailable,
+      ocrError: RequestError.textUnavailable)
     let decoded = try JSONDecoder().decode(ScanDiagnostics.self, from: legacyData(original))
     XCTAssertEqual(decoded.passErrors, original.passErrors)
     XCTAssertTrue(decoded.requestFailures.isEmpty)
   }
 
   func testCountsAccumulateAcrossCropsAndCaptures() {
-    let failures = ScanDiagnostics.requestFailures(
-      captureIndex: 0, cropID: "full", classificationError: RequestError.classificationUnavailable, ocrError: nil)
+    let failures =
+      ScanDiagnostics.requestFailures(
+        captureIndex: 0, cropID: "full",
+        classificationError: RequestError.classificationUnavailable, ocrError: nil)
       + ScanDiagnostics.requestFailures(
-        captureIndex: 1, cropID: "center", classificationError: RequestError.classificationUnavailable,
+        captureIndex: 1, cropID: "center",
+        classificationError: RequestError.classificationUnavailable,
         ocrError: RequestError.textUnavailable)
     let result = ScanDiagnostics(
       captureCount: 2, cropCount: 2, topRawLabels: [], ocrCandidates: [],
@@ -94,20 +109,30 @@ final class ScanDiagnosticsTests: XCTestCase {
     let result = ScanDiagnostics(
       captureCount: 1, cropCount: 1, topRawLabels: [], ocrCandidates: [],
       bucketCounts: .init(auto: 0, confirm: 0, possible: 0), passErrors: [], elapsedMs: 0,
-      requestFailures: [.init(captureIndex: 0, cropID: "full", kind: .ocr,
-        message: ",request=classification:misleading error text")])
+      requestFailures: [
+        .init(
+          captureIndex: 0, cropID: "full", kind: .ocr,
+          message: ",request=classification:misleading error text")
+      ])
     XCTAssertEqual(result.classificationFailureCount, 0)
     XCTAssertEqual(result.ocrFailureCount, 1)
   }
 
   func testSiblingSuccessStillProducesAValidBenchmarkRun() {
-    let result = diagnostics(classificationError: RequestError.classificationUnavailable, ocrError: nil)
+    let result = diagnostics(
+      classificationError: RequestError.classificationUnavailable, ocrError: nil)
     let report = ScanBenchmarkScorer.evaluateImage(
-      corpusEntry: .init(id: "partial-request", resourceName: "unused", resourceExtension: "png",
+      corpusEntry: .init(
+        id: "partial-request", resourceName: "unused", resourceExtension: "png",
         scenarioTags: [], expectedIngredientIds: [27]),
-      runs: [.init(iteration: 0, detections: [.init(ingredientId: 27, bucket: .auto)],
-        elapsedMs: result.elapsedMs, passErrors: result.passErrors, requestFailures: result.requestFailures)],
-      gates: .init(minimumDetectionF1: 1, minimumCorrectionCoverage: 1,
+      runs: [
+        .init(
+          iteration: 0, detections: [.init(ingredientId: 27, bucket: .auto)],
+          elapsedMs: result.elapsedMs, passErrors: result.passErrors,
+          requestFailures: result.requestFailures)
+      ],
+      gates: .init(
+        minimumDetectionF1: 1, minimumCorrectionCoverage: 1,
         minimumOCRFieldAccuracy: 1, minimumReliabilityJaccard: 1, targetMedianElapsedMs: 1000))
     XCTAssertEqual(report.runs.first?.valid, true)
     XCTAssertEqual(report.runs.first?.requestFailures, result.requestFailures)
@@ -127,8 +152,10 @@ final class ScanDiagnosticsTests: XCTestCase {
     defer { try? FileManager.default.removeItem(at: directory) }
     let url = directory.appendingPathComponent("runs.json")
     let store = ScanRunStore(fileURL: url)
-    let original = diagnostics(classificationError: RequestError.classificationUnavailable, ocrError: nil)
-    await store.record(mode: .live, inputSources: [.photoLibrary], provenance: .realScan,
+    let original = diagnostics(
+      classificationError: RequestError.classificationUnavailable, ocrError: nil)
+    await store.record(
+      mode: .live, inputSources: [.photoLibrary], provenance: .realScan,
       diagnostics: original, detections: [])
     let records = await ScanRunStore(fileURL: url).recent()
     let record = try XCTUnwrap(records.first)
@@ -140,18 +167,23 @@ final class ScanDiagnosticsTests: XCTestCase {
 
   func testOldBenchmarkObservationAndReportDecodeWithNoRequestFailures() throws {
     let observation = ScanBenchmarkRunObservation(iteration: 0, detections: [], elapsedMs: 0)
-    let decoded = try JSONDecoder().decode(ScanBenchmarkRunObservation.self, from: legacyData(observation))
+    let decoded = try JSONDecoder().decode(
+      ScanBenchmarkRunObservation.self, from: legacyData(observation))
     XCTAssertTrue(decoded.requestFailures.isEmpty)
-    let report = ScanBenchmarkRunReport(iteration: 0, ingredientIds: [], alternativeIngredientIds: [],
+    let report = ScanBenchmarkRunReport(
+      iteration: 0, ingredientIds: [], alternativeIngredientIds: [],
       elapsedMs: 0, valid: true, invalidReason: nil, errorDescription: nil, passErrors: [])
-    let decodedReport = try JSONDecoder().decode(ScanBenchmarkRunReport.self, from: legacyData(report))
+    let decodedReport = try JSONDecoder().decode(
+      ScanBenchmarkRunReport.self, from: legacyData(report))
     XCTAssertTrue(decodedReport.requestFailures.isEmpty)
   }
 
   private func makeRecord() -> ScanRunRecord {
-    ScanRunRecord(id: UUID(), createdAt: Date(), runMode: .live, inputSources: [.camera],
+    ScanRunRecord(
+      id: UUID(), createdAt: Date(), runMode: .live, inputSources: [.camera],
       provenance: .realScan, captureCount: 1, cropCount: 1, elapsedMs: 0,
-      bucketCounts: .init(auto: 0, confirm: 0, possible: 0), passErrors: ["old crop error"], detections: [])
+      bucketCounts: .init(auto: 0, confirm: 0, possible: 0), passErrors: ["old crop error"],
+      detections: [])
   }
 
   private func legacyData<T: Encodable>(_ value: T) throws -> Data {
