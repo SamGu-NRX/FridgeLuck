@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { projectState, parseStates, parseReplay, SIGNAL_KEYS, SIGNAL_WEIGHTS, SIGNAL_REASONS, HARD_FAILS, type ProducerState } from "../evaluation/reverseMealProjection.js";
 import { decodeStrict } from "../evaluation/runRouting.js";
 import { canonicalJson } from "../evaluation/canonicalJson.js";
-const fixtures = "/Users/samgu/.t3/scratch/2026-10-07-all-right-i-want-you-f82246a0/fridgeluck-eval";
+const fixtures = fileURLToPath(new URL("../../evaluation-fixtures", import.meta.url));
 const rows = parseStates(readFileSync(`${fixtures}/reverse-meal-states-v1.jsonl`, "utf8"));
 const state = (id: string) => rows.find(r => r.case_id === id)!.producer_state;
 const empty: ProducerState = { detection_confidences: [], ranked_candidates: [] };

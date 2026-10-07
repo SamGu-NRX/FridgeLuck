@@ -5,7 +5,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { parseStates, parseReplay, projectState } from "../evaluation/reverseMealProjection.js";
 import { canonicalJson } from "../evaluation/canonicalJson.js";
-const fixtures = "/Users/samgu/.t3/scratch/2026-10-07-all-right-i-want-you-f82246a0/fridgeluck-eval";
+const fixtures = fileURLToPath(new URL("../../evaluation-fixtures", import.meta.url));
 const rows = parseStates(readFileSync(`${fixtures}/reverse-meal-states-v1.jsonl`, "utf8"));
 const replay = parseReplay(readFileSync(`${fixtures}/reverse-meal-replay-v1.json`, "utf8"), rows);
 test("policy freeze accepts documented comment-only drift but rejects executable changes", () => {

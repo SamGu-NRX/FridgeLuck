@@ -3,6 +3,7 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renam
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { canonicalJson } from "./canonicalJson.js";
+import { DEFAULT_FIXTURES, readNamedFixture } from "./fixtureFiles.js";
 import { buildDecisionsRequest, decide, MockDecisionsTransport, TransportTimeoutError, type DecisionResult } from "./decisionsAdapter.js";
 import { buildReverseMealDecisionsRequest, decideReverseMealMock, MockReverseMealTransport } from "./reverseMealDecisions.js";
 import { parseStates, projectState } from "./reverseMealProjection.js";
@@ -48,7 +49,7 @@ export function parseLiveOptions(args: string[]): Options {
   }
   if (!confirmed) throw new Error("Refusing live run without --confirm-live");
   if (values.get("--families") !== FAMILIES.join(",")) throw new Error("--families must be reverse-meal-v1,heldout18 in that order");
-  for (const name of ["--fixtures", "--out", "--spend-ceiling-usd"]) if (!values.has(name)) throw new Error(`Required option: ${name}`);
+  for (const name of ["--out", "--spend-ceiling-usd"]) if (!values.has(name)) throw new Error(`Required option: ${name}`);
   const number = (name: string, fallback?: number) => {
     const value = values.has(name) ? Number(values.get(name)) : fallback;
     if (value === undefined || !Number.isFinite(value) || value <= 0) throw new Error(`${name}: expected a finite positive number`);
@@ -59,7 +60,7 @@ export function parseLiveOptions(args: string[]): Options {
   const seed = values.get("--seed") ?? DEFAULT_SEED;
   if (!/^\d+$/.test(seed)) throw new Error("--seed: expected decimal digits, retained as a string");
   return {
-    fixtures: resolve(values.get("--fixtures")!), out: resolve(values.get("--out")!),
+    fixtures: resolve(values.get("--fixtures") ?? DEFAULT_FIXTURES), out: resolve(values.get("--out")!),
     keyFile: values.get("--key-file") ?? DEFAULT_KEY_FILE, keyVar: values.get("--key-var") ?? "OPENAI_API_KEY",
     seed, timeoutMs: number("--timeout-ms", DEFAULT_TIMEOUT_MS), maxRequests,
     spendCeilingUsd: number("--spend-ceiling-usd"), inputUsdPerMillion: number("--input-usd-per-million", 0.10),
@@ -88,8 +89,8 @@ export async function runLiveDecisions(args: string[], dependencies: { fetch: De
   const options = parseLiveOptions(args);
   if (existsSync(options.out)) throw new Error("Refusing to overwrite an existing run output directory");
   const inputHashes: Record<string, string> = {};
-  const read = (name: string) => {
-    const path = resolve(options.fixtures, name), bytes = readFileSync(path);
+  const read = (name: Parameters<typeof readNamedFixture>[1]) => {
+    const { path, bytes } = readNamedFixture(options.fixtures, name);
     inputHashes[path] = sha(bytes); return bytes.toString("utf8");
   };
   const plans = FAMILIES.map(family => {

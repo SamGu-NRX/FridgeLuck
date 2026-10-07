@@ -1,9 +1,10 @@
 import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { buildReverseMealDecisionsRequest, decideReverseMealMock, MockReverseMealTransport } from "../evaluation/reverseMealDecisions.js";
 import { projectState } from "../evaluation/reverseMealProjection.js";
 import { TransportTimeoutError, buildDecisionsRequest } from "../evaluation/decisionsAdapter.js";
-const question = JSON.parse(readFileSync("/Users/samgu/.t3/scratch/2026-10-07-all-right-i-want-you-f82246a0/fridgeluck-eval/reverse-meal-question-v1.json", "utf8"));
+const question = JSON.parse(readFileSync(fileURLToPath(new URL("../../evaluation-fixtures/reverse-meal-question-v1.json", import.meta.url)), "utf8"));
 const request = projectState({ detection_confidences: [], ranked_candidates: [] });
 const answer = (choice: unknown, name = "fridgeluck_reverse_meal_route") => ({ httpStatus: 200, body: { answers: [{ name, type: "choice", choice }] } });
 test("new question has exactly model/input/questions, and input is derived request only", async () => {

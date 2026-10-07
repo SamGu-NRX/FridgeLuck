@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { isDeepStrictEqual } from "node:util";
 import { canonicalJson } from "./canonicalJson.js";
+import { DEFAULT_FIXTURES, readNamedFixture } from "./fixtureFiles.js";
 import { decodeStrict } from "./runRouting.js";
 import { parseStates, parseReplay, projectState, type StateRow, type Replay } from "./reverseMealProjection.js";
 import { buildReverseMealDecisionsRequest, validateReverseMealQuestion } from "./reverseMealDecisions.js";
@@ -108,7 +109,8 @@ export function runReverseMeal(args: string[]) {
     if (!["--fixtures", "--swift-first", "--swift-second", "--build-record"].includes(key) || !value || options.has(key)) throw new Error(`Invalid option: ${key}`);
     options.set(key, value);
   }
-  if (options.size !== 4) throw new Error("required: --fixtures DIR --swift-first JSON --swift-second JSON --build-record JSON");
+  for (const key of ["--swift-first", "--swift-second", "--build-record"]) if (!options.has(key)) throw new Error(`required: ${key}`);
+  if (!options.has("--fixtures")) options.set("--fixtures", DEFAULT_FIXTURES);
   assertLockAvailable(OUTPUT);
   const policyPath = "apps/ios/FeatureLogic/Recipe/MealPhotoConfirmationPolicy.swift";
   const policySource = readFileSync(resolve(ROOT, policyPath), "utf8");
@@ -116,12 +118,11 @@ export function runReverseMeal(args: string[]) {
   const policyAudit = auditPolicySource(policyReference, policySource);
   const policyHash = policyAudit.current_sha256;
   const inputHashes: Record<string, string> = {};
-  const readFixture = (name: string) => {
-    const path = resolve(options.get("--fixtures")!, name), bytes = readFileSync(path);
+  const readFixture = (name: Parameters<typeof readNamedFixture>[1]) => {
+    const { path, bytes } = readNamedFixture(options.get("--fixtures")!, name);
     inputHashes[path] = sha(bytes);
     return bytes.toString("utf8");
   };
-  const spec = readFixture("reverse-meal-spec-v1.md");
   const statesText = readFixture("reverse-meal-states-v1.jsonl"), replayText = readFixture("reverse-meal-replay-v1.json"), questionText = readFixture("reverse-meal-question-v1.json");
   for (const [name, expected] of Object.entries({ "reverse-meal-states-v1.jsonl": "75a76b70bb53fb4dfa1feb14e8804cb907dc9c1dde7c64bca2259990f25f60d1", "reverse-meal-replay-v1.json": "0012497ee2a001a03387bfdd07241b5f026ea01f28b66f269004259b0f8e2786", "reverse-meal-question-v1.json": "f0720952307e61f904482a19c1b65424fc6e58378f11955c26c79997c0960807" })) {
     if (inputHashes[resolve(options.get("--fixtures")!, name)] !== expected) throw new Error(`Frozen input hash mismatch: ${name}`);
@@ -170,7 +171,7 @@ export function runReverseMeal(args: string[]) {
   for (const [path, hash] of Object.entries(build.sources)) if (path !== scriptPath && sourceHashes[path] !== hash) throw new Error(`Compiled Swift source changed during output preparation: ${path}`);
   const sourceDiffs = Object.fromEntries(sourcePaths.map(p => [resolve(ROOT, p), { status: git(["status", "--porcelain", "--", p]).trim(), diff: git(["diff", "HEAD", "--", p]) }]));
   const outputHashes = Object.fromEntries([...files].map(([name, text]) => [resolve(OUTPUT, name), sha(text)]));
-  const manifest = { version: "reverse-meal-v1", source_git_commit: git(["rev-parse", "HEAD"]).trim(), source_and_runner_sha256: sourceHashes, source_worktree_diffs: sourceDiffs, build_record: build, output_sha256: outputHashes, labels_accessed: false, label_hashes: "Not read or hashed by the label-blind candidate runner. The owner's separate scorer receives labels after locking.", question_name: question.name, ...metadata, cross_check_all_agree: parity.all_agree, spec_caveats_source_sha256: sha(spec), manifest_self_hash: "Excluded to avoid a self-referential hash; sha256 manifest.json externally." };
+  const manifest = { version: "reverse-meal-v1", source_git_commit: git(["rev-parse", "HEAD"]).trim(), source_and_runner_sha256: sourceHashes, source_worktree_diffs: sourceDiffs, build_record: build, output_sha256: outputHashes, labels_accessed: false, label_hashes: "Not read or hashed by the label-blind candidate runner. The owner's separate scorer receives labels after locking.", question_name: question.name, ...metadata, cross_check_all_agree: parity.all_agree, manifest_self_hash: "Excluded to avoid a self-referential hash; sha256 manifest.json externally." };
   mkdirSync(OUTPUT, { recursive: true });
   for (const [name, text] of files) writeFileSync(resolve(OUTPUT, name), text, { flag: "wx" });
   writeFileSync(resolve(OUTPUT, "manifest.json"), canonicalJson(manifest) + "\n", { flag: "wx" });

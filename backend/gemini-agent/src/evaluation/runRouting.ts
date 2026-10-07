@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { existsSync, writeFileSync } from "node:fs";
+import { basename, dirname, resolve } from "node:path";
+import { DEFAULT_FIXTURES, readNamedFixture } from "./fixtureFiles.js";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { isDeepStrictEqual } from "node:util";
@@ -120,15 +121,17 @@ export function runRouting(args: string[]) {
   const options = new Map<string, string>();
   for (let i = 0; i < args.length; i += 2) {
     const key = args[i]!;
-    if (!["--candidate", "--inputs", "--out", "--diagnostics"].includes(key) || !args[i + 1] || options.has(key)) throw new Error(`Invalid CLI option: ${key}`);
+    if (!["--candidate", "--inputs", "--fixtures", "--out", "--diagnostics"].includes(key) || !args[i + 1] || options.has(key)) throw new Error(`Invalid CLI option: ${key}`);
     options.set(key, args[i + 1]!);
   }
-  if (options.size !== 4) throw new Error("Required: --candidate --inputs --out --diagnostics");
+  for (const key of ["--candidate", "--out", "--diagnostics"]) if (!options.has(key)) throw new Error(`Required: ${key}`);
+  if (options.has("--inputs") && options.has("--fixtures")) throw new Error("Use --inputs or --fixtures, not both");
   const candidate = options.get("--candidate");
   validateCandidate(candidate);
-  const inputs = options.get("--inputs")!, out = options.get("--out")!, diagnostics = options.get("--diagnostics")!;
+  const inputs = options.get("--inputs") ?? resolve(options.get("--fixtures") ?? DEFAULT_FIXTURES, "heldout-inputs.jsonl"), out = options.get("--out")!, diagnostics = options.get("--diagnostics")!;
+  if (basename(inputs) !== "heldout-inputs.jsonl") throw new Error("Input must be named heldout-inputs.jsonl");
   assertOutputPathsAvailable(inputs, out, diagnostics);
-  const raw = readFileSync(inputs);
+  const { bytes: raw } = readNamedFixture(dirname(resolve(inputs)), "heldout-inputs.jsonl");
   const rows = parseRoutingInputs(raw.toString("utf8"));
   const rendered = renderRun(rows, candidate, {
     inputSha256: createHash("sha256").update(raw).digest("hex"),
