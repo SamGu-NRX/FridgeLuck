@@ -26,6 +26,10 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
     guard !candidates.isEmpty else { return nil }
 
     return try? db.read { db in
+      // Prefix matching mapped generic Vision labels such as "drink" to Strawberry Kefir.
+      if matching == .exact {
+        return try uniqueExactMatch(in: db, candidates: candidates)
+      }
       for candidate in candidates {
         if let id = try uniqueNameMatch(in: db, candidate: candidate) {
           return id
@@ -36,8 +40,6 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
           return id
         }
       }
-      // BRIEF-8 found prefix fallback mapped generic Vision labels such as "drink" to kefir.
-      guard matching == .allowPrefix else { return nil }
       for candidate in candidates where candidate.count >= 5 {
         if let id = try uniquePrefixNameMatch(in: db, candidate: candidate) {
           return id
@@ -84,6 +86,23 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
       }
       return Self.makeDisplayName(from: name)
     }
+  }
+
+  private func uniqueExactMatch(in db: Database, candidates: [String]) throws -> Int64? {
+    let placeholders = Array(repeating: "?", count: candidates.count).joined(separator: ",")
+    let ids = try Int64.fetchAll(
+      db,
+      sql: """
+        SELECT id FROM ingredients WHERE lower(name) IN (\(placeholders))
+        UNION
+        SELECT i.id FROM ingredients i
+        JOIN ingredient_aliases a ON a.ingredient_id = i.id
+        WHERE lower(a.alias) IN (\(placeholders))
+        LIMIT 2
+        """,
+      arguments: StatementArguments(candidates + candidates)
+    )
+    return Self.uniqueMatch(from: ids)
   }
 
   private func uniqueNameMatch(in db: Database, candidate: String) throws -> Int64? {

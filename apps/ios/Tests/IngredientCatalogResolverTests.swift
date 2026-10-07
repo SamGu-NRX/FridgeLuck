@@ -16,6 +16,8 @@ final class IngredientCatalogResolverTests: XCTestCase {
         (901, "Kohlrabi (Cooked)"),
         (902, "Squash"),
         (903, "SQUASH"),
+        (170193, "Beef Suet"),
+        (168605, "Beef Fat"),
       ]
       for (id, name) in rows {
         try db.execute(
@@ -29,6 +31,10 @@ final class IngredientCatalogResolverTests: XCTestCase {
         (900, "turnip cabbage"),
         (900, "ambiguous vegetable"),
         (901, "ambiguous vegetable"),
+        (170193, "beef suet"),
+        (168605, "beef suet"),
+        (902, "squash"),
+        (900, "kohlrabi"),
       ]
       for (id, alias) in aliases {
         try db.execute(
@@ -66,7 +72,25 @@ final class IngredientCatalogResolverTests: XCTestCase {
     XCTAssertNil(resolver.resolve("kefir", matching: .exact))
     XCTAssertEqual(resolver.resolve("kefir", matching: .allowPrefix), 171301)
     XCTAssertEqual(resolver.resolveFromText("DRINK"), 171301)
-    XCTAssertNil(resolver.resolve("kohlr", matching: .allowPrefix))
+    XCTAssertEqual(resolver.resolve("kohlr", matching: .allowPrefix), 900)
+    XCTAssertNil(resolver.resolve("ambiguous", matching: .allowPrefix))
+  }
+
+  func testExactRejectsANameThatCollidesWithAnotherIngredientsAlias() throws {
+    let resolver = try makeResolver()
+    XCTAssertNil(resolver.resolve("beef suet", matching: .exact))
+    XCTAssertEqual(resolver.resolve("beef suet", matching: .allowPrefix), 170193)
+  }
+
+  func testExactRejectsAnAmbiguousNameEvenWhenItsAliasIsUnique() throws {
+    let resolver = try makeResolver()
+    XCTAssertNil(resolver.resolve("squash", matching: .exact))
+    XCTAssertEqual(resolver.resolve("squash", matching: .allowPrefix), 902)
+  }
+
+  func testExactDeduplicatesTheSameIDFromNameAndAlias() throws {
+    let resolver = try makeResolver()
+    XCTAssertEqual(resolver.resolve("kohlrabi", matching: .exact), 900)
   }
 
   func testClassificationUsesExactCatalogFallback() throws {
