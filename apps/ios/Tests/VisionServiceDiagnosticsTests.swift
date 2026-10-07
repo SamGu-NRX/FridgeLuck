@@ -2,6 +2,7 @@ import CoreGraphics
 import FLFeatureLogic
 import GRDB
 import XCTest
+import Vision
 
 @testable import FridgeLuck
 
@@ -105,9 +106,206 @@ final class VisionServiceDiagnosticsTests: XCTestCase {
       })
     let result = try await service.scan(image: inputImage)
     XCTAssertEqual(result.diagnostics.cropCount, 6)
+    XCTAssertTrue(result.diagnostics.requestFailures.isEmpty)
+    XCTAssertTrue(result.diagnostics.passErrors.isEmpty)
     XCTAssertEqual(Set(result.detections.map(\.ingredientId)), [7, 27])
     XCTAssertEqual(result.detections.first { $0.ingredientId == 7 }?.source, .vision)
     XCTAssertEqual(result.detections.first { $0.ingredientId == 27 }?.source, .ocr)
+  }
+
+  private actor RequestGate {
+    private(set) var classificationCalls = 0
+    private(set) var textCalls = 0
+    private var waiting: [CheckedContinuation<Void, Never>] = []
+    private var released = false
+
+    func classify() { classificationCalls += 1 }
+    func recognizeText() { textCalls += 1 }
+
+    func wait() async {
+      if released { return }
+      await withCheckedContinuation { waiting.append($0) }
+    }
+
+    func release() {
+      released = true
+      waiting.forEach { $0.resume() }
+      waiting.removeAll()
+    }
+  }
+
+  private struct CancellingResolver: IngredientCatalogResolving {
+    func resolve(_ rawValue: String, matching: IngredientCatalogMatching) -> Int64? {
+      // Resolution runs after both requests return and before the next crop starts.
+      withUnsafeCurrentTask { $0?.cancel() }
+      return nil
+    }
+    func resolveFromText(_ rawText: String) -> Int64? { nil }
+    func displayName(for ingredientId: Int64) -> String? { nil }
+  }
+
+  func testCancellationDuringFirstCropStopsBothRequestsAndStartsNoFurtherCrop() async throws {
+    let db = try makeDatabase()
+    let inputImage = try image(side: 128)
+    let started = expectation(description: "Both first-crop requests started")
+    started.expectedFulfillmentCount = 2
+    let calls = RequestGate()
+    let service = VisionService(
+      learningService: LearningService(db: db),
+      ingredientResolver: IngredientCatalogResolver(db: db),
+      classificationRequest: { _ in
+        await calls.classify()
+        started.fulfill()
+        try await Task.sleep(for: .seconds(60))
+        return []
+      },
+      textRequest: { _ in
+        await calls.recognizeText()
+        started.fulfill()
+        try await Task.sleep(for: .seconds(60))
+        return []
+      })
+    let scan = Task { try await service.scan(image: inputImage) }
+    await fulfillment(of: [started], timeout: 5)
+    scan.cancel()
+    do {
+      _ = try await scan.value
+      XCTFail("Cancellation must not return a result")
+    } catch {
+      XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+    }
+    let classificationCalls = await calls.classificationCalls
+    let textCalls = await calls.textCalls
+    XCTAssertEqual(classificationCalls, 1)
+    XCTAssertEqual(textCalls, 1)
+  }
+
+  func testCancellationAfterRequestsReturnIgnoresSuccessAndOrdinaryFailures() async throws {
+    // Injected requests may ignore cancellation. The scan must still discard their results.
+    for requestsFail in [false, true] {
+      let db = try makeDatabase()
+      let inputImage = try image(side: 128)
+      let started = expectation(description: "Both requests reached the gate")
+      started.expectedFulfillmentCount = 2
+      let gate = RequestGate()
+      let service = VisionService(
+        learningService: LearningService(db: db),
+        ingredientResolver: IngredientCatalogResolver(db: db),
+        classificationRequest: { _ in
+          await gate.classify()
+          started.fulfill()
+          await gate.wait()
+          if requestsFail { throw RequestError.classificationUnavailable }
+          return [.init(identifier: "tomato", confidence: 0.8)]
+        },
+        textRequest: { _ in
+          await gate.recognizeText()
+          started.fulfill()
+          await gate.wait()
+          if requestsFail { throw RequestError.textUnavailable }
+          return []
+        })
+      let scan = Task { try await service.scan(image: inputImage) }
+      await fulfillment(of: [started], timeout: 5)
+      scan.cancel()
+      await gate.release()
+      do {
+        _ = try await scan.value
+        XCTFail("Cancelled requests must not produce a result or pipelineFailed")
+      } catch {
+        XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+      }
+      let classificationCalls = await gate.classificationCalls
+      let textCalls = await gate.textCalls
+      XCTAssertEqual(classificationCalls, 1)
+      XCTAssertEqual(textCalls, 1)
+    }
+  }
+
+  func testCancellationBetweenCropsStartsNoFurtherRequest() async throws {
+    let db = try makeDatabase()
+    let inputImage = try image(side: 128)
+    let calls = RequestGate()
+    let service = VisionService(
+      learningService: LearningService(db: db), ingredientResolver: CancellingResolver(),
+      classificationRequest: { _ in
+        await calls.classify()
+        return [.init(identifier: "unmapped cancellation test label", confidence: 0.8)]
+      },
+      textRequest: { _ in
+        await calls.recognizeText()
+        return []
+      })
+    let scan = Task { try await service.scan(image: inputImage) }
+    do {
+      _ = try await scan.value
+      XCTFail("Cancellation during crop resolution must stop the scan")
+    } catch {
+      XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+    }
+    let classificationCalls = await calls.classificationCalls
+    let textCalls = await calls.textCalls
+    XCTAssertEqual(classificationCalls, 1)
+    XCTAssertEqual(textCalls, 1)
+  }
+
+  func testRequestCancellationErrorsNeverBecomePipelineFailures() async throws {
+    for cancelClassification in [false, true] {
+      for visionError in [false, true] {
+        let db = try makeDatabase()
+        let inputImage = try image(side: 128)
+        let cancellation: any Error = visionError
+          ? NSError(domain: VNErrorDomain, code: VNErrorCode.requestCancelled.rawValue)
+          : CancellationError()
+        let service = VisionService(
+          learningService: LearningService(db: db),
+          ingredientResolver: IngredientCatalogResolver(db: db),
+          classificationRequest: { _ in
+            if cancelClassification { throw cancellation }
+            throw RequestError.classificationUnavailable
+          },
+          textRequest: { _ in
+            if !cancelClassification { throw cancellation }
+            throw RequestError.textUnavailable
+          })
+        do {
+          _ = try await service.scan(image: inputImage)
+          XCTFail("Request cancellation must throw CancellationError")
+        } catch {
+          XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+        }
+      }
+    }
+  }
+
+  func testAlreadyCancelledScanStartsNoRequestsEvenWithNoInputs() async throws {
+    let db = try makeDatabase()
+    let calls = RequestGate()
+    let inputImage = try image(side: 128)
+    let service = VisionService(
+      learningService: LearningService(db: db),
+      ingredientResolver: IngredientCatalogResolver(db: db),
+      classificationRequest: { _ in await calls.classify(); return [] },
+      textRequest: { _ in await calls.recognizeText(); return [] })
+    let sessions: [[ScanInput]] = [
+      [], [.init(image: inputImage, source: .camera, captureIndex: 0)],
+    ]
+    for inputs in sessions {
+      let scan = Task {
+        withUnsafeCurrentTask { $0?.cancel() }
+        return try await service.scan(inputs: inputs)
+      }
+      do {
+        _ = try await scan.value
+        XCTFail("An already-cancelled scan must not return a result")
+      } catch {
+        XCTAssertTrue(error is CancellationError, "Unexpected error: \(error)")
+      }
+    }
+    let classificationCalls = await calls.classificationCalls
+    let textCalls = await calls.textCalls
+    XCTAssertEqual(classificationCalls, 0)
+    XCTAssertEqual(textCalls, 0)
   }
 
   private func benchmarkReport(

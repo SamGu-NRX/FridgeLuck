@@ -94,6 +94,7 @@ final class VisionService: Sendable {
 
   /// Session API for multi-shot scan aggregation.
   func scan(inputs: [ScanInput]) async throws -> ScanResult {
+    try Task.checkCancellation()
     let startedAt = Date()
     logger.info("Starting scan session. captures=\(inputs.count, privacy: .public)")
     guard !inputs.isEmpty else {
@@ -127,11 +128,13 @@ final class VisionService: Sendable {
     var hadOCRSuccess = false
 
     for input in inputs {
+      try Task.checkCancellation()
       let crops = ScanImagePreprocessor.deterministicCrops(for: input.image)
       logger.debug(
         "Capture index=\(input.captureIndex, privacy: .public), source=\(input.source.rawValue, privacy: .public), crops=\(crops.count, privacy: .public)"
       )
       for crop in crops {
+        try Task.checkCancellation()
         cropCount += 1
 
         async let classPass = classificationRequest(crop.image)
@@ -149,6 +152,8 @@ final class VisionService: Sendable {
             "Classification pass succeeded. capture=\(input.captureIndex, privacy: .public), crop=\(crop.id, privacy: .public), labels=\(classifications.count, privacy: .public)"
           )
         } catch {
+          try Task.checkCancellation()
+          if Self.isCancellation(error) { throw CancellationError() }
           classifications = []
           classificationError = error
           if firstClassificationError == nil { firstClassificationError = error }
@@ -164,6 +169,8 @@ final class VisionService: Sendable {
             "OCR pass succeeded. capture=\(input.captureIndex, privacy: .public), crop=\(crop.id, privacy: .public), observations=\(textObservations.count, privacy: .public)"
           )
         } catch {
+          try Task.checkCancellation()
+          if Self.isCancellation(error) { throw CancellationError() }
           textObservations = []
           ocrError = error
           if firstOCRError == nil { firstOCRError = error }
@@ -172,6 +179,7 @@ final class VisionService: Sendable {
           )
         }
 
+        try Task.checkCancellation()
         requestFailures.append(contentsOf: ScanDiagnostics.requestFailures(
           captureIndex: input.captureIndex,
           cropID: crop.id,
@@ -256,6 +264,7 @@ final class VisionService: Sendable {
       }
     }
 
+    try Task.checkCancellation()
     var detections: [Detection] = []
 
     var bestByIngredient: [Int64: ResolvedClassification] = [:]
@@ -348,6 +357,7 @@ final class VisionService: Sendable {
 
     let deduplicated = bestDetectionByIngredient.values.sorted { $0.confidence > $1.confidence }
 
+    try Task.checkCancellation()
     if deduplicated.isEmpty, !hadClassificationSuccess, !hadOCRSuccess {
       logger.error(
         "Scan session failed: no successful passes. classError=\(firstClassificationError?.localizedDescription ?? "nil", privacy: .public), ocrError=\(firstOCRError?.localizedDescription ?? "nil", privacy: .public)"
@@ -384,6 +394,7 @@ final class VisionService: Sendable {
       logger.debug("Scan pass errors count=\(passErrors.count, privacy: .public)")
     }
 
+    try Task.checkCancellation()
     return ScanResult(
       detections: deduplicated,
       ocrText: ocrStrings,
@@ -392,27 +403,92 @@ final class VisionService: Sendable {
     )
   }
 
-  // MARK: - Vision Passes (synchronous, run on detached tasks)
+  // MARK: - Vision Passes
+
+  private static func isCancellation(_ error: Error) -> Bool {
+    let visionError = error as NSError
+    return error is CancellationError
+      || (visionError.domain == VNErrorDomain
+        && visionError.code == VNErrorCode.requestCancelled.rawValue)
+  }
+
+  /// The lock orders registration against cancellation, including cancellation before work starts.
+  private final class VisionRequestCancellation: @unchecked Sendable {
+    private let lock = NSLock()
+    private var request: VNRequest?
+    private var cancelled = false
+
+    func cancel() {
+      lock.lock()
+      defer { lock.unlock() }
+      cancelled = true
+      // VNRequest.cancel() aborts in-flight work and reports VNErrorRequestCancelled.
+      request?.cancel()
+    }
+
+    func perform(_ request: VNRequest, on image: CGImage) throws {
+      lock.lock()
+      if cancelled {
+        lock.unlock()
+        throw CancellationError()
+      }
+      self.request = request
+      lock.unlock()
+      defer {
+        lock.lock()
+        self.request = nil
+        lock.unlock()
+      }
+
+      try Task.checkCancellation()
+      try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+      try Task.checkCancellation()
+    }
+  }
+
+  private static func runVisionRequest<Result: Sendable>(
+    _ operation: @escaping @Sendable (VisionRequestCancellation) throws -> Result
+  ) async throws -> Result {
+    try Task.checkCancellation()
+    let cancellation = VisionRequestCancellation()
+    let worker = Task.detached(priority: .userInitiated) {
+      try Task.checkCancellation()
+      return try operation(cancellation)
+    }
+    return try await withTaskCancellationHandler {
+      do {
+        let result = try await worker.value
+        try Task.checkCancellation()
+        return result
+      } catch {
+        try Task.checkCancellation()
+        if isCancellation(error) { throw CancellationError() }
+        throw error
+      }
+    } onCancel: {
+      worker.cancel()
+      cancellation.cancel()
+    }
+  }
 
   /// Classify the image using VNClassifyImageRequest.
-  /// Runs synchronously on a background thread — no continuation needed.
+  /// Runs synchronously on a detached worker with cancellation forwarded to Vision.
   private static func classifyImage(_ image: CGImage) async throws -> [ClassificationResult] {
-    try await Task.detached(priority: .userInitiated) {
+    try await runVisionRequest { cancellation in
       let request = VNClassifyImageRequest()
-      let handler = VNImageRequestHandler(cgImage: image, options: [:])
-      try handler.perform([request])
+      try cancellation.perform(request, on: image)
 
       let observations = request.results ?? []
       return observations.map { obs in
         ClassificationResult(identifier: obs.identifier, confidence: obs.confidence)
       }
-    }.value
+    }
   }
 
   /// Recognize text in the image using VNRecognizeTextRequest.
-  /// Runs synchronously on a background thread — no continuation needed.
+  /// Runs synchronously on a detached worker with cancellation forwarded to Vision.
   private static func recognizeText(_ image: CGImage) async throws -> [RecognizedTextResult] {
-    try await Task.detached(priority: .userInitiated) {
+    try await runVisionRequest { cancellation in
       let request = VNRecognizeTextRequest()
       request.recognitionLevel = .accurate
       request.usesLanguageCorrection = true
@@ -421,15 +497,14 @@ final class VisionService: Sendable {
         "Calories", "Serving Size", "Servings per container", "kcal",
       ]
       request.minimumTextHeight = 0.01
-      let handler = VNImageRequestHandler(cgImage: image, options: [:])
-      try handler.perform([request])
+      try cancellation.perform(request, on: image)
 
       let observations = request.results ?? []
       return observations.map { obs in
         let strings = obs.topCandidates(3).map { $0.string }
         return RecognizedTextResult(candidates: strings, boundingBox: obs.boundingBox)
       }
-    }.value
+    }
   }
 
   private func sourcePriority(_ detection: Detection) -> Int {
