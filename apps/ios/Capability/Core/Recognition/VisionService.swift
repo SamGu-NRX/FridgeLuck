@@ -46,16 +46,7 @@ final class VisionService: Sendable {
     let captureIndex: Int
   }
 
-  private struct ResolvedOCR {
-    let ingredientId: Int64
-    let confidence: Float
-    let originalText: String
-    let matchedToken: String
-    let kind: OCRMatchKind
-    let boundingBox: CGRect
-    let cropID: String
-    let captureIndex: Int
-  }
+  private typealias ResolvedOCR = IngredientOCRMatchAggregation.Match
 
   init(
     learningService: LearningService,
@@ -211,7 +202,9 @@ final class VisionService: Sendable {
                 kind: matched.kind,
                 boundingBox: line.boundingBox,
                 cropID: crop.id,
-                captureIndex: input.captureIndex
+                captureIndex: input.captureIndex,
+                isCatalogFallback: false,
+                joinedParts: line.joinedParts
               )
             )
           } else if let resolvedId = IngredientIdentityResolution.resolveTextFromCatalog(
@@ -228,7 +221,9 @@ final class VisionService: Sendable {
                 kind: .fuzzy,
                 boundingBox: line.boundingBox,
                 cropID: crop.id,
-                captureIndex: input.captureIndex
+                captureIndex: input.captureIndex,
+                isCatalogFallback: true,
+                joinedParts: []
               )
             )
           }
@@ -290,7 +285,7 @@ final class VisionService: Sendable {
         ))
     }
 
-    for ocr in resolvedOCRMatches {
+    for ocr in IngredientOCRMatchAggregation.suppressJoinedParts(resolvedOCRMatches) {
       detections.append(
         Detection(
           ingredientId: ocr.ingredientId,

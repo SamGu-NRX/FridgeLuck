@@ -45,9 +45,9 @@ final class IngredientOCRLineJoiningTests: XCTestCase {
   func testThreeLinesNeverChainOrReuseAConsumedLine() {
     let lines = [line("BLACK", y: 0.5), line("BEANS", y: 0.44), line("BLACK", y: 0.38)]
     let joined = IngredientOCRLineJoining.joinAdjacent(lines)
-    XCTAssertEqual(joined.map(\.text), ["BLACK", "BLACK BEANS"])
-    XCTAssertEqual(joined[0], lines[2])
-    XCTAssertEqual(joined[1].boundingBox, lines[0].boundingBox.union(lines[1].boundingBox))
+    XCTAssertEqual(joined.map(\.text), ["BLACK BEANS", "BLACK"])
+    XCTAssertEqual(joined[1], lines[2])
+    XCTAssertEqual(joined[0].boundingBox, lines[0].boundingBox.union(lines[1].boundingBox))
   }
 
   func testObservationOrderDoesNotReverseThePhrase() {
@@ -58,6 +58,35 @@ final class IngredientOCRLineJoiningTests: XCTestCase {
   func testAlignedButUnresolvedPhraseStaysSeparate() {
     let lines = [line("BLACK", y: 0.5), line("LABEL", y: 0.44)]
     XCTAssertEqual(IngredientOCRLineJoining.joinAdjacent(lines), lines)
+  }
+
+  func testInterveningKidneyLinePreventsBlackBeansForEveryInputOrder() {
+    let lines = [line("BLACK", y: 0.5), line("KIDNEY", y: 0.48), line("BEANS", y: 0.44)]
+    for order in permutations {
+      let result = IngredientOCRLineJoining.joinAdjacent(order.map { lines[$0] })
+      XCTAssertEqual(result.map(\.text), ["BLACK", "KIDNEY", "BEANS"], "\(order)")
+      XCTAssertTrue(result.allSatisfy { $0.joinedParts.isEmpty })
+    }
+  }
+
+  func testValidJoinIsIdenticalForEveryInputOrder() {
+    let lines = [line("BLACK", y: 0.5), line("BEANS", y: 0.44), line("LABEL", x: 0.7, y: 0.48)]
+    let expected = IngredientOCRLineJoining.joinAdjacent(lines)
+    let joined = expected.first { !$0.joinedParts.isEmpty }
+    XCTAssertEqual(joined?.text, "BLACK BEANS")
+    XCTAssertEqual(joined?.joinedParts, ["BLACK", "BEANS"])
+    for order in permutations {
+      XCTAssertEqual(IngredientOCRLineJoining.joinAdjacent(order.map { lines[$0] }), expected, "\(order)")
+    }
+  }
+
+  func testNearestCuratedObservationCannotBeSkipped() {
+    let lines = [line("BLACK", y: 0.5), line("RICE", y: 0.48), line("BEANS", y: 0.44)]
+    XCTAssertEqual(IngredientOCRLineJoining.joinAdjacent(lines), lines)
+  }
+
+  private var permutations: [[Int]] {
+    [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]]
   }
 
   func testZeroWidthCannotJoin() {

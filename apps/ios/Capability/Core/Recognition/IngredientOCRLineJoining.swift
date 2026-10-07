@@ -1,45 +1,96 @@
 import CoreGraphics
+import Foundation
 
 /// Joins packaging text before catalog fallback can assign an identity to a partial line.
 enum IngredientOCRLineJoining {
   struct Line: Sendable, Equatable {
     let text: String
     let boundingBox: CGRect
+    var joinedParts: [String] = []
   }
 
-  static func joinAdjacent(_ lines: [Line]) -> [Line] {
+  static func joinAdjacent(_ observations: [Line]) -> [Line] {
+    let lines = observations.sorted(by: readingOrder)
     var consumed = Set<Int>()
-    var joined: [Line] = []
+    var result: [Line] = []
     for i in lines.indices where !consumed.contains(i) {
       let first = lines[i]
-      guard IngredientLexicon.resolveFromTextDetailed(first.text) == nil else { continue }
-      for j in lines.indices where i != j && !consumed.contains(j) {
-        let second = lines[j]
-        guard aligned(first.boundingBox, above: second.boundingBox),
-          IngredientLexicon.resolveFromTextDetailed(second.text) == nil
-        else { continue }
-        let phrase = first.text + " " + second.text
-        guard IngredientLexicon.resolveFromTextDetailed(phrase) != nil else { continue }
-        joined.append(Line(text: phrase, boundingBox: first.boundingBox.union(second.boundingBox)))
-        consumed.insert(i)
-        consumed.insert(j)
-        break
-      }
+      guard IngredientLexicon.resolveFromTextDetailed(first.text) == nil,
+        let j = lines.indices.first(where: {
+          lines[$0].boundingBox.minY < first.boundingBox.minY
+            && horizontallyAligned(first.boundingBox, lines[$0].boundingBox)
+        }),
+        !consumed.contains(j)
+      else { continue }
+      let second = lines[j]
+      guard adjacent(first.boundingBox, above: second.boundingBox),
+        IngredientLexicon.resolveFromTextDetailed(second.text) == nil
+      else { continue }
+      let phrase = first.text + " " + second.text
+      guard IngredientLexicon.resolveFromTextDetailed(phrase) != nil else { continue }
+      result.append(Line(
+        text: phrase, boundingBox: first.boundingBox.union(second.boundingBox),
+        joinedParts: [first.text, second.text]))
+      consumed.insert(i)
+      consumed.insert(j)
     }
     // Only original observations are considered for pairs; joined lines never form chains.
-    return lines.enumerated().filter { !consumed.contains($0.offset) }.map(\.element) + joined
+    result += lines.enumerated().filter { !consumed.contains($0.offset) }.map(\.element)
+    return result.sorted(by: readingOrder)
   }
 
-  private static func aligned(_ upper: CGRect, above lower: CGRect) -> Bool {
-    guard upper.width > 0, lower.width > 0, upper.height > 0, lower.height > 0,
-      upper.minY > lower.minY
-    else { return false }
+  private static func readingOrder(_ lhs: Line, _ rhs: Line) -> Bool {
+    if lhs.boundingBox.minY != rhs.boundingBox.minY { return lhs.boundingBox.minY > rhs.boundingBox.minY }
+    if lhs.boundingBox.minX != rhs.boundingBox.minX { return lhs.boundingBox.minX < rhs.boundingBox.minX }
+    if lhs.boundingBox.width != rhs.boundingBox.width { return lhs.boundingBox.width < rhs.boundingBox.width }
+    if lhs.boundingBox.height != rhs.boundingBox.height { return lhs.boundingBox.height < rhs.boundingBox.height }
+    return lhs.text < rhs.text
+  }
+
+  private static func horizontallyAligned(_ upper: CGRect, _ lower: CGRect) -> Bool {
+    guard upper.width > 0, lower.width > 0, upper.height > 0, lower.height > 0 else { return false }
     let overlap = max(0, min(upper.maxX, lower.maxX) - max(upper.minX, lower.minX))
+    return overlap / min(upper.width, lower.width) >= 0.7
+  }
+
+  private static func adjacent(_ upper: CGRect, above lower: CGRect) -> Bool {
     let height = max(upper.height, lower.height)
     let gap = upper.minY - lower.maxY
-    // BRIEF-8's measured rule uses Vision's bottom-left coordinates: overlap at least
-    // 70% of the narrower line, with a gap from -25% to 100% of the taller line's height.
-    return overlap / min(upper.width, lower.width) >= 0.7
-      && gap >= -0.25 * height && gap <= height
+    // On the five bundled demo photos, joins used at least 70% horizontal overlap and
+    // a gap from -25% to 100% of the taller line's height, in Vision's bottom-left coordinates.
+    // These limits have not been tuned beyond those photos.
+    return gap >= -0.25 * height && gap <= height
+  }
+}
+
+/// Prevents a complete curated phrase and its catalog-resolved parts from becoming separate foods.
+enum IngredientOCRMatchAggregation {
+  struct Match {
+    let ingredientId: Int64
+    let confidence: Float
+    let originalText: String
+    let matchedToken: String
+    let kind: OCRMatchKind
+    let boundingBox: CGRect
+    let cropID: String
+    let captureIndex: Int
+    let isCatalogFallback: Bool
+    let joinedParts: [String]
+  }
+
+  static func suppressJoinedParts(_ matches: [Match]) -> [Match] {
+    var partsByCapture: [Int: Set<String>] = [:]
+    for match in matches where !match.isCatalogFallback && !match.joinedParts.isEmpty {
+      partsByCapture[match.captureIndex, default: []].formUnion(match.joinedParts.map(normalize))
+    }
+    return matches.filter { match in
+      !match.isCatalogFallback
+        || !(partsByCapture[match.captureIndex]?.contains(normalize(match.originalText)) ?? false)
+    }
+  }
+
+  private static func normalize(_ text: String) -> String {
+    text.lowercased().components(separatedBy: CharacterSet.alphanumerics.inverted)
+      .filter { !$0.isEmpty }.joined(separator: " ")
   }
 }
