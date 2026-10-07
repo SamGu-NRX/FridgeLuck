@@ -32,12 +32,7 @@ struct ScanRunRecord: Identifiable, Sendable, Codable {
     case demo
   }
 
-  enum Outcome: Sendable, Codable, Equatable {
-    case completed
-    case failed(message: String)
-  }
-
-  let outcome: Outcome
+  let outcome: ScanOutcome
   let id: UUID
   let createdAt: Date
   let runMode: RunMode
@@ -64,7 +59,7 @@ struct ScanRunRecord: Identifiable, Sendable, Codable {
     passErrors: [String],
     detections: [ScanRunDetectionRecord],
     requestFailures: [ScanRequestFailure] = [],
-    outcome: Outcome = .completed
+    outcome: ScanOutcome = .completed
   ) {
     self.outcome = outcome
     self.id = id
@@ -88,7 +83,7 @@ struct ScanRunRecord: Identifiable, Sendable, Codable {
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     // History written before outcomes were recorded contains completed scans only.
-    outcome = try values.decodeIfPresent(Outcome.self, forKey: .outcome) ?? .completed
+    outcome = try values.decodeIfPresent(ScanOutcome.self, forKey: .outcome) ?? .completed
     id = try values.decode(UUID.self, forKey: .id)
     createdAt = try values.decode(Date.self, forKey: .createdAt)
     runMode = try values.decode(RunMode.self, forKey: .runMode)
@@ -127,22 +122,6 @@ struct ScanRunRecord: Identifiable, Sendable, Codable {
 
   var ocrFailureCount: Int {
     requestFailures.filter { $0.kind == .ocr }.count
-  }
-}
-
-extension ScanView.Dependencies {
-  @MainActor
-  func recordFailedRun(
-    error: Error,
-    mode: ScanRunRecord.RunMode,
-    inputSources: [ScanInputSource],
-    provenance: ScanProvenance,
-    elapsedMs: Int
-  ) async {
-    guard let inputs = ScanRunRecord.failureInputs(
-      error: error, captureCount: inputSources.count, elapsedMs: elapsedMs
-    ) else { return }
-    await recordRun(mode, inputSources, provenance, inputs.diagnostics, inputs.detections)
   }
 }
 

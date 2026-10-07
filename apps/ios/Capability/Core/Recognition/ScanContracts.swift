@@ -40,6 +40,12 @@ struct ScanBucketCounts: Sendable, Codable {
   let possible: Int
 }
 
+/// Whether a scan produced a result. A failed scan still has diagnostics worth keeping.
+enum ScanOutcome: Sendable, Codable, Equatable {
+  case completed
+  case failed(message: String)
+}
+
 struct ScanDiagnostics: Sendable, Codable {
   let captureCount: Int
   let cropCount: Int
@@ -49,13 +55,12 @@ struct ScanDiagnostics: Sendable, Codable {
   let passErrors: [String]
   let elapsedMs: Int
   let requestFailures: [ScanRequestFailure]
-  // Travels through the existing recordRun diagnostics argument without changing its closure.
-  let outcome: ScanRunRecord.Outcome
+  let outcome: ScanOutcome
 
   init(
     captureCount: Int, cropCount: Int, topRawLabels: [String], ocrCandidates: [String],
     bucketCounts: ScanBucketCounts, passErrors: [String], elapsedMs: Int,
-    requestFailures: [ScanRequestFailure] = [], outcome: ScanRunRecord.Outcome = .completed
+    requestFailures: [ScanRequestFailure] = [], outcome: ScanOutcome = .completed
   ) {
     self.captureCount = captureCount
     self.cropCount = cropCount
@@ -74,7 +79,7 @@ struct ScanDiagnostics: Sendable, Codable {
 
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
-    outcome = try values.decodeIfPresent(ScanRunRecord.Outcome.self, forKey: .outcome) ?? .completed
+    outcome = try values.decodeIfPresent(ScanOutcome.self, forKey: .outcome) ?? .completed
     captureCount = try values.decode(Int.self, forKey: .captureCount)
     cropCount = try values.decode(Int.self, forKey: .cropCount)
     topRawLabels = try values.decode([String].self, forKey: .topRawLabels)
