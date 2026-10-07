@@ -478,7 +478,7 @@ struct OnboardingKitchenReviewStep: View {
             .accessibilityAddTraits(.isHeader)
           Spacer()
           if case .items(let detections, _) = content, !detections.isEmpty {
-            Text("\(detections.count) items")
+            Text(detections.count == 1 ? "1 item" : "\(detections.count) items")
               .font(AppTheme.Typography.labelSmall)
               .foregroundStyle(AppTheme.textSecondary)
           }
