@@ -17,10 +17,10 @@ final class VisionServiceDiagnosticsTests: XCTestCase {
     return db
   }
 
-  private func image() throws -> CGImage {
+  private func image(side: Int = 64) throws -> CGImage {
     let context = try XCTUnwrap(
       CGContext(
-        data: nil, width: 64, height: 64, bitsPerComponent: 8,
+        data: nil, width: side, height: side, bitsPerComponent: 8,
         bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(),
         bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue))
     return try XCTUnwrap(context.makeImage())
@@ -77,6 +77,10 @@ final class VisionServiceDiagnosticsTests: XCTestCase {
   }
 
   func testMultiCropScanSuppressesCatalogBeanPartsButKeepsClassification() async throws {
+    // The crop schedule requires quadrants of at least 64 pixels, so a 64-pixel input tests only the full frame.
+    let inputImage = try image(side: 128)
+    let fullWidth = inputImage.width
+    XCTAssertEqual(ScanImagePreprocessor.deterministicCrops(for: inputImage).count, 6)
     let db = try makeDatabase()
     try await db.write { db in
       try db.execute(
@@ -91,7 +95,7 @@ final class VisionServiceDiagnosticsTests: XCTestCase {
       ingredientResolver: IngredientCatalogResolver(db: db),
       classificationRequest: { _ in [.init(identifier: "tomato", confidence: 0.8)] },
       textRequest: { crop in
-        if crop.width == 64 { return [.init(candidates: ["BEANS"], boundingBox: .zero)] }
+        if crop.width == fullWidth { return [.init(candidates: ["BEANS"], boundingBox: .zero)] }
         return [
           .init(
             candidates: ["BLACK"], boundingBox: CGRect(x: 0.2, y: 0.5, width: 0.2, height: 0.05)),
@@ -99,7 +103,8 @@ final class VisionServiceDiagnosticsTests: XCTestCase {
             candidates: ["BEANS"], boundingBox: CGRect(x: 0.2, y: 0.44, width: 0.2, height: 0.05)),
         ]
       })
-    let result = try await service.scan(image: image())
+    let result = try await service.scan(image: inputImage)
+    XCTAssertEqual(result.diagnostics.cropCount, 6)
     XCTAssertEqual(Set(result.detections.map(\.ingredientId)), [7, 27])
     XCTAssertEqual(result.detections.first { $0.ingredientId == 7 }?.source, .vision)
     XCTAssertEqual(result.detections.first { $0.ingredientId == 27 }?.source, .ocr)
