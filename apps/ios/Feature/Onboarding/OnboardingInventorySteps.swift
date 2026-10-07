@@ -100,12 +100,12 @@ struct OnboardingVirtualFridgeIntroStep: View {
 // MARK: - Step 2: Fridge Capture
 
 struct OnboardingFridgeCaptureStep: View {
-  @Binding var capturedImages: [UIImage]
+  @Binding var photos: [FLCapturedPhoto]
 
   var body: some View {
     OnboardingKitchenCaptureStep(
       configuration: .fridge,
-      capturedImages: $capturedImages
+      photos: $photos
     )
   }
 }
@@ -113,44 +113,70 @@ struct OnboardingFridgeCaptureStep: View {
 // MARK: - Step 3: Pantry Capture
 
 struct OnboardingPantryCaptureStep: View {
-  @Binding var capturedImages: [UIImage]
+  @Binding var photos: [FLCapturedPhoto]
 
   var body: some View {
     OnboardingKitchenCaptureStep(
       configuration: .pantry,
-      capturedImages: $capturedImages
+      photos: $photos
     )
   }
 }
 
 // MARK: - Step 4: Kitchen Review
 
+/// Scans the photos from the two capture steps and lets the user choose what goes into their
+/// Kitchen. Skipped photos, scans that find nothing and failed scans each say so; the review
+/// never fills in items the photos didn't show.
 struct OnboardingKitchenReviewStep: View {
-  let fridgeCapturedImages: [UIImage]
-  let pantryCapturedImages: [UIImage]
-  @Binding var detections: [Detection]
+  private enum Phase {
+    case scanning
+    case ready(OnboardingKitchenReviewState)
+  }
+
+  let fridgePhotos: [FLCapturedPhoto]
+  let pantryPhotos: [FLCapturedPhoto]
+  @Binding var scan: OnboardingKitchenScanSession?
   @Binding var confirmedIds: Set<Int64>
-  @Binding var isAnalyzing: Bool
+  /// Writes the selection through inventory intake, then moves on.
   let onConfirm: () -> Void
+  /// Moves on without touching the Kitchen.
+  let onSkip: () -> Void
 
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var appeared = false
-  @State private var demoData: OnboardingKitchenDemoDetections.KitchenDetectionSet?
-
-  private var fridgeDetections: [Detection] {
-    demoData?.fridgeItems ?? []
-  }
-
-  private var pantryDetections: [Detection] {
-    demoData?.pantryItems ?? []
-  }
-
-  private var allDetections: [Detection] {
-    fridgeDetections + pantryDetections
-  }
+  @State private var resultsAppeared = false
+  @State private var isScanning = false
+  /// 0 scans new photos when the step appears; each Try Again increments it to rescan the
+  /// locations whose scan failed.
+  @State private var scanRequest = 0
+  @AccessibilityFocusState private var isHeadingFocused: Bool
 
   private let placeholderWidths: [CGFloat] = [140, 116, 128, 102]
+
+  private var hasPhotos: Bool {
+    !fridgePhotos.isEmpty || !pantryPhotos.isEmpty
+  }
+
+  private var phase: Phase {
+    guard hasPhotos else { return .ready(.nothingCaptured) }
+    guard !isScanning, let scan,
+      scan.covers(fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos)
+    else { return .scanning }
+    return .ready(scan.reviewState)
+  }
+
+  private var subtitle: String? {
+    switch phase {
+    case .scanning:
+      return "Confirm what we found, adjust anything that\u{2019}s off."
+    case .ready(.review):
+      return "Items we\u{2019}re sure of are checked. Tap anything else you have."
+    case .ready:
+      return nil
+    }
+  }
 
   var body: some View {
     ScrollView {
@@ -159,90 +185,31 @@ struct OnboardingKitchenReviewStep: View {
           Text("Review Your Kitchen")
             .font(.system(.title2, design: .serif, weight: .bold))
             .foregroundStyle(AppTheme.textPrimary)
+            .accessibilityAddTraits(.isHeader)
+            .accessibilityFocused($isHeadingFocused)
             .inventoryStagger(index: 0, appeared: appeared)
 
-          Text("Confirm what we found, adjust anything that\u{2019}s off.")
-            .font(AppTheme.Typography.bodySmall)
-            .foregroundStyle(AppTheme.textSecondary)
-            .inventoryStagger(index: 1, appeared: appeared)
-        }
-
-        if !fridgeCapturedImages.isEmpty || !pantryCapturedImages.isEmpty {
-          ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: AppTheme.Space.xs) {
-              ForEach(
-                Array((fridgeCapturedImages + pantryCapturedImages).prefix(6).enumerated()),
-                id: \.offset
-              ) { _, image in
-                Image(uiImage: image)
-                  .resizable()
-                  .scaledToFill()
-                  .frame(width: 56, height: 56)
-                  .clipShape(
-                    RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                  )
-                  .overlay(
-                    RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-                      .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
-                  )
-              }
-            }
-          }
-          .inventoryStagger(index: 2, appeared: appeared)
-        }
-
-        if isAnalyzing {
-          analysingPlaceholder
-            .inventoryStagger(index: 3, appeared: appeared)
-        } else if allDetections.isEmpty {
-          FLEmptyState(
-            title: "No items detected",
-            message: "You can add inventory anytime from the scan orb.",
-            systemImage: "tray"
-          )
-          .inventoryStagger(index: 3, appeared: appeared)
-        } else {
-          if !fridgeDetections.isEmpty {
-            detectionSection(
-              title: "Fridge",
-              icon: "refrigerator.fill",
-              iconColor: AppTheme.sage,
-              detections: fridgeDetections,
-              location: .fridge,
-              staggerBase: 3
-            )
-          }
-
-          if !pantryDetections.isEmpty {
-            detectionSection(
-              title: "Pantry",
-              icon: "cabinet.fill",
-              iconColor: AppTheme.accent,
-              detections: pantryDetections,
-              location: .pantry,
-              staggerBase: 3 + (fridgeDetections.isEmpty ? 0 : 1)
-            )
-          }
-
-          let confirmedCount = confirmedIds.count
-          HStack(spacing: AppTheme.Space.xs) {
-            Image(systemName: "checkmark.circle.fill")
-              .foregroundStyle(AppTheme.sage)
-            Text("\(confirmedCount) of \(allDetections.count) items confirmed")
+          if let subtitle {
+            Text(subtitle)
               .font(AppTheme.Typography.bodySmall)
               .foregroundStyle(AppTheme.textSecondary)
-              .contentTransition(.numericText())
+              .inventoryStagger(index: 1, appeared: appeared)
           }
-          .padding(.top, AppTheme.Space.xs)
+        }
 
-          FLPrimaryButton(
-            "Add to My Kitchen",
-            systemImage: "plus.circle.fill",
-            isEnabled: !confirmedIds.isEmpty
-          ) {
-            onConfirm()
-          }
-          .padding(.top, AppTheme.Space.sm)
+        if hasPhotos {
+          photoStrip
+            .inventoryStagger(index: 2, appeared: appeared)
+        }
+
+        switch phase {
+        case .scanning:
+          analysingPlaceholder
+            .inventoryStagger(index: 3, appeared: appeared)
+            .transition(.opacity)
+        case .ready(let state):
+          content(for: state)
+            .transition(.opacity)
         }
 
         Color.clear
@@ -252,137 +219,386 @@ struct OnboardingKitchenReviewStep: View {
       .padding(.top, AppTheme.Space.md)
     }
     .task {
-      guard demoData == nil else { return }
-
-      isAnalyzing = true
-      do {
-        try await Task.sleep(for: reduceMotion ? .milliseconds(400) : .milliseconds(1300))
-      } catch {
-        return
-      }
-
-      let data = OnboardingKitchenDemoDetections.load()
-      demoData = data
-
-      let allItems = data.fridgeItems + data.pantryItems
-      let highConfidence = allItems.filter { $0.confidence >= 0.80 }
-      confirmedIds = Set(highConfidence.map(\.ingredientId))
-      detections = allItems
-
-      withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
-        isAnalyzing = false
-      }
-
-      if !appeared {
-        if reduceMotion {
+      guard !appeared else { return }
+      if reduceMotion {
+        appeared = true
+      } else {
+        withAnimation(AppMotion.staggerEntrance) {
           appeared = true
-        } else {
-          withAnimation(AppMotion.staggerEntrance) {
-            appeared = true
-          }
         }
       }
     }
-    .onAppear {
-      if !appeared, demoData != nil {
-        if reduceMotion {
-          appeared = true
-        } else {
-          withAnimation(AppMotion.staggerEntrance) {
-            appeared = true
+    .task(id: scanRequest) {
+      await runScan()
+    }
+  }
+
+  // MARK: - Scanning
+
+  private func runScan() async {
+    let retrying = scanRequest > 0
+    let previous = scan
+    let isSamePhotos =
+      previous?.covers(fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos) == true
+    let startedAt = Date()
+
+    if hasPhotos && (!isSamePhotos || retrying) {
+      withAnimation(reduceMotion ? nil : AppMotion.standard) {
+        isScanning = true
+        resultsAppeared = false
+      }
+    }
+
+    let vision = deps.visionService
+    let next = await OnboardingKitchenScanner.update(
+      fridgePhotos: fridgePhotos,
+      pantryPhotos: pantryPhotos,
+      previous: previous,
+      selection: confirmedIds,
+      retryFailed: retrying
+    ) { inputs in
+      try await vision.scan(inputs: inputs).detections
+    }
+    guard !Task.isCancelled else { return }
+
+    if let next {
+      if hasPhotos {
+        await holdAnalyzingState(since: startedAt)
+        guard !Task.isCancelled else { return }
+      }
+
+      confirmedIds = next.selection
+      withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
+        scan = next.session
+        isScanning = false
+      }
+      announce(next.session.reviewState, selectedCount: next.selection.count)
+    } else {
+      isScanning = false
+    }
+
+    if reduceMotion {
+      resultsAppeared = true
+    } else {
+      withAnimation(AppMotion.staggerEntrance) {
+        resultsAppeared = true
+      }
+    }
+  }
+
+  /// The results replace the placeholder in place, so VoiceOver hears the outcome and starts
+  /// from the heading. High priority keeps the focus move from cutting the announcement off.
+  private func announce(_ state: OnboardingKitchenReviewState, selectedCount: Int) {
+    isHeadingFocused = true
+    var message = AttributedString(
+      OnboardingKitchenReview.announcement(for: state, selectedCount: selectedCount))
+    message.accessibilitySpeechAnnouncementPriority = .high
+    AccessibilityNotification.Announcement(message).post()
+  }
+
+  /// Same floor as `ScanView.processImage()`, so a fast scan doesn't flash the placeholder.
+  private func holdAnalyzingState(since startedAt: Date) async {
+    let minimum: TimeInterval = reduceMotion ? 0.35 : 1.3
+    let remaining = minimum - Date().timeIntervalSince(startedAt)
+    guard remaining > 0 else { return }
+    try? await Task.sleep(for: .seconds(remaining))
+  }
+
+  private func retryFailedScans() {
+    scanRequest += 1
+  }
+
+  // MARK: - Content
+
+  @ViewBuilder
+  private func content(for state: OnboardingKitchenReviewState) -> some View {
+    switch state {
+    case .nothingCaptured:
+      emptyState(
+        title: "No photos to scan",
+        message: "You can add ingredients from Kitchen any time.",
+        systemImage: "camera"
+      )
+
+    case .nothingFound:
+      emptyState(
+        title: "No ingredients found",
+        message:
+          "We didn\u{2019}t find ingredients in these photos. You can add them from Kitchen any time.",
+        systemImage: "tray"
+      )
+
+    case .failed:
+      VStack(spacing: AppTheme.Space.md) {
+        FLEmptyState(
+          title: "Couldn\u{2019}t read your photos",
+          message: "Try again, or continue and add ingredients from Kitchen later.",
+          systemImage: "exclamationmark.triangle",
+          actionTitle: "Try Again",
+          action: retryFailedScans
+        )
+        .frame(maxWidth: .infinity)
+        .inventoryStagger(index: 0, appeared: resultsAppeared)
+
+        continueButton
+          .inventoryStagger(index: 1, appeared: resultsAppeared)
+      }
+
+    case .review(let fridge, let pantry):
+      reviewContent(fridge: fridge, pantry: pantry)
+    }
+  }
+
+  private func emptyState(title: String, message: String, systemImage: String) -> some View {
+    VStack(spacing: AppTheme.Space.md) {
+      FLEmptyState(title: title, message: message, systemImage: systemImage)
+        .frame(maxWidth: .infinity)
+        .inventoryStagger(index: 0, appeared: resultsAppeared)
+
+      continueButton
+        .inventoryStagger(index: 1, appeared: resultsAppeared)
+    }
+  }
+
+  private var continueButton: some View {
+    FLPrimaryButton("Continue", systemImage: "arrow.right") {
+      onSkip()
+    }
+  }
+
+  private func reviewContent(
+    fridge: OnboardingKitchenSectionContent,
+    pantry: OnboardingKitchenSectionContent
+  ) -> some View {
+    let shownIDs = Set((fridge.detections + pantry.detections).map(\.ingredientId))
+    let selectedCount = confirmedIds.intersection(shownIDs).count
+    // Section header, then up to nine staggered rows, per visible section.
+    let pantryStaggerBase = isVisible(fridge) ? 2 + min(fridge.detections.count, 8) : 0
+    let footerStaggerIndex =
+      isVisible(pantry)
+      ? pantryStaggerBase + 2 + min(pantry.detections.count, 8) : pantryStaggerBase
+
+    return VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+      locationSection(
+        title: "Fridge",
+        icon: "refrigerator.fill",
+        iconColor: AppTheme.sage,
+        content: fridge,
+        staggerBase: 0
+      )
+
+      locationSection(
+        title: "Pantry",
+        icon: "cabinet.fill",
+        iconColor: AppTheme.accent,
+        content: pantry,
+        staggerBase: pantryStaggerBase
+      )
+
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack(spacing: AppTheme.Space.xs) {
+          Image(systemName: "checkmark.circle.fill")
+            .foregroundStyle(AppTheme.sage)
+            .accessibilityHidden(true)
+          Text("\(selectedCount) of \(shownIDs.count) selected")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .contentTransition(.numericText())
+        }
+        .padding(.top, AppTheme.Space.xs)
+
+        // With nothing selected this still goes through intake: on a revisit it removes what
+        // an earlier visit added, which is what an empty selection means.
+        FLPrimaryButton(
+          selectedCount > 0 ? "Add to My Kitchen" : "Continue Without Adding",
+          systemImage: selectedCount > 0 ? "plus.circle.fill" : "arrow.right"
+        ) {
+          onConfirm()
+        }
+        .padding(.top, AppTheme.Space.sm)
+      }
+      .inventoryStagger(index: footerStaggerIndex, appeared: resultsAppeared)
+    }
+  }
+
+  // MARK: - Location Section
+
+  private func isVisible(_ content: OnboardingKitchenSectionContent) -> Bool {
+    switch content {
+    case .notCaptured: return false
+    case .items(let detections): return !detections.isEmpty
+    case .failed, .nothingFound: return true
+    }
+  }
+
+  @ViewBuilder
+  private func locationSection(
+    title: String,
+    icon: String,
+    iconColor: Color,
+    content: OnboardingKitchenSectionContent,
+    staggerBase: Int
+  ) -> some View {
+    if isVisible(content) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack(spacing: AppTheme.Space.xs) {
+          Image(systemName: icon)
+            .font(.system(size: 14, weight: .semibold))
+            .foregroundStyle(iconColor)
+            .accessibilityHidden(true)
+          Text(title)
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.textSecondary)
+            .accessibilityAddTraits(.isHeader)
+          Spacer()
+          if case .items(let detections) = content {
+            Text("\(detections.count) items")
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.textSecondary)
           }
+        }
+        .inventoryStagger(index: staggerBase, appeared: resultsAppeared)
+
+        switch content {
+        case .items(let detections):
+          VStack(spacing: AppTheme.Space.xs) {
+            ForEach(Array(detections.enumerated()), id: \.element.id) { index, detection in
+              detectionItemRow(
+                detection: detection,
+                staggerIndex: staggerBase + 1 + min(index, 8)
+              )
+            }
+          }
+
+        case .nothingFound:
+          Text("No ingredients found in these photos.")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .inventoryStagger(index: staggerBase + 1, appeared: resultsAppeared)
+
+        case .failed:
+          failedLocationNotice(title: title)
+            .inventoryStagger(index: staggerBase + 1, appeared: resultsAppeared)
+
+        case .notCaptured:
+          EmptyView()
         }
       }
     }
   }
 
-  // MARK: - Detection Section
+  /// One location's scan failed while the other found items. Those items stay reviewable;
+  /// this location can be retried on its own.
+  private func failedLocationNotice(title: String) -> some View {
+    FLCard(tone: .warning) {
+      HStack(spacing: AppTheme.Space.sm) {
+        Image(systemName: "exclamationmark.triangle")
+          .font(.system(size: 16, weight: .medium))
+          .foregroundStyle(AppTheme.warning)
+          .accessibilityHidden(true)
 
-  private func detectionSection(
-    title: String,
-    icon: String,
-    iconColor: Color,
-    detections: [Detection],
-    location: InventoryStorageLocation,
-    staggerBase: Int
-  ) -> some View {
-    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-      HStack(spacing: AppTheme.Space.xs) {
-        Image(systemName: icon)
-          .font(.system(size: 14, weight: .semibold))
-          .foregroundStyle(iconColor)
-        Text(title)
-          .font(AppTheme.Typography.label)
-          .foregroundStyle(AppTheme.textSecondary)
-        Spacer()
-        Text("\(detections.count) items")
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary)
-      }
-      .inventoryStagger(index: staggerBase, appeared: appeared)
+        Text("Couldn\u{2019}t read your \(title.lowercased()) photos.")
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textPrimary)
+          .fixedSize(horizontal: false, vertical: true)
 
-      VStack(spacing: AppTheme.Space.xs) {
-        ForEach(Array(detections.enumerated()), id: \.element.id) { index, detection in
-          detectionItemRow(
-            detection: detection,
-            location: location,
-            staggerIndex: staggerBase + 1 + min(index, 8)
-          )
+        Spacer(minLength: AppTheme.Space.xs)
+
+        Button(action: retryFailedScans) {
+          Text("Try Again")
+            .font(AppTheme.Typography.label)
+            .foregroundStyle(AppTheme.accent)
+            .frame(minWidth: 44, minHeight: 44)
+            .contentShape(Rectangle())
         }
+        .buttonStyle(FLPressableButtonStyle())
+        .accessibilityLabel("Try reading your \(title.lowercased()) photos again")
       }
     }
   }
 
   private func detectionItemRow(
     detection: Detection,
-    location: InventoryStorageLocation,
     staggerIndex: Int
   ) -> some View {
     let isConfirmed = confirmedIds.contains(detection.ingredientId)
-    let estimatedGrams = InventoryIntakeService.estimateGrams(forName: detection.label)
+    let estimatedGrams = Int(InventoryIntakeService.estimateGrams(forName: detection.label))
+    let percentage = Int((detection.confidence * 100).rounded())
+    let bucket = ConfidenceRouter.bucket(for: detection)
 
-    return FLCard(tone: isConfirmed ? .success : .normal) {
-      HStack(spacing: AppTheme.Space.sm) {
-        Button {
-          withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-            if isConfirmed {
-              confirmedIds.remove(detection.ingredientId)
-            } else {
-              confirmedIds.insert(detection.ingredientId)
-            }
-          }
-        } label: {
+    return Button {
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        if isConfirmed {
+          confirmedIds.remove(detection.ingredientId)
+        } else {
+          confirmedIds.insert(detection.ingredientId)
+        }
+      }
+    } label: {
+      FLCard(tone: isConfirmed ? .success : .normal) {
+        HStack(spacing: AppTheme.Space.sm) {
           Image(systemName: isConfirmed ? "checkmark.circle.fill" : "circle")
             .font(.system(size: 22, weight: .medium))
             .foregroundStyle(isConfirmed ? AppTheme.sage : AppTheme.oat.opacity(0.5))
             .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isConfirmed)
-        }
-        .buttonStyle(.plain)
 
-        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-          Text(detection.label)
-            .font(AppTheme.Typography.bodyMedium)
-            .foregroundStyle(AppTheme.textPrimary)
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+            Text(detection.label)
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.textPrimary)
 
-          HStack(spacing: AppTheme.Space.xs) {
-            Text("~\(Int(estimatedGrams))g")
-              .font(AppTheme.Typography.labelSmall)
-              .foregroundStyle(AppTheme.textSecondary)
+            HStack(spacing: AppTheme.Space.xs) {
+              Text("~\(estimatedGrams)g")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textSecondary)
 
-            confidencePill(detection.confidence)
+              FLStatusPill(text: "\(percentage)%", kind: pillKind(for: bucket))
+            }
           }
-        }
 
-        Spacer()
+          Spacer()
+        }
       }
     }
-    .inventoryStagger(index: staggerIndex, appeared: appeared)
+    .buttonStyle(FLPressableButtonStyle())
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel("\(detection.label), about \(estimatedGrams) grams")
+    .accessibilityValue("\(percentage) percent match, \(isConfirmed ? "selected" : "not selected")")
+    .accessibilityAddTraits(isConfirmed ? .isSelected : [])
+    .accessibilityHint(isConfirmed ? "Removes it from what you add." : "Adds it to your Kitchen.")
+    .inventoryStagger(index: staggerIndex, appeared: resultsAppeared)
   }
 
-  private func confidencePill(_ confidence: Float) -> some View {
-    let percentage = Int((confidence * 100).rounded())
-    let kind: FLStatusPill.Kind = confidence >= 0.80 ? .positive : .warning
-    return FLStatusPill(text: "\(percentage)%", kind: kind)
+  /// Colours follow `ConfidenceRouter`'s buckets, the same split that decides preselection.
+  private func pillKind(for bucket: ConfidenceBucket) -> FLStatusPill.Kind {
+    switch bucket {
+    case .auto: return .positive
+    case .confirm: return .warning
+    case .possible: return .neutral
+    }
+  }
+
+  // MARK: - Photos
+
+  private var photoStrip: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: AppTheme.Space.xs) {
+        ForEach(Array((fridgePhotos + pantryPhotos).prefix(6))) { photo in
+          Image(uiImage: photo.image)
+            .resizable()
+            .scaledToFill()
+            .frame(width: 56, height: 56)
+            .clipShape(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+            )
+            .overlay(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
+            )
+            .accessibilityHidden(true)
+        }
+      }
+    }
   }
 
   // MARK: - Analyzing Placeholder
@@ -409,9 +625,11 @@ struct OnboardingKitchenReviewStep: View {
           shimmerRow(width: width)
         }
       }
+      .accessibilityHidden(true)
     }
     .frame(maxWidth: .infinity)
     .padding(.vertical, AppTheme.Space.xl)
+    .accessibilityElement(children: .combine)
   }
 
   private func shimmerRow(width: CGFloat) -> some View {
