@@ -61,6 +61,9 @@ struct ScanView: View {
   @State private var selectedPhotoItem: PhotosPickerItem?
   @State private var showRunReports = false
   @State private var isProcessing = false
+  /// The running scan, cancelled when the screen goes away so Vision stops working on a result
+  /// nobody will see.
+  @State private var scanTask: Task<Void, Never>?
   @State private var detections: [Detection] = []
   @State private var capturedShots: [UIImage] = []
   @State private var capturedShotSources: [ScanInputSource] = []
@@ -181,6 +184,9 @@ struct ScanView: View {
       beginDemoFlowIfNeeded()
       refreshCameraPermissionState()
     }
+    // Scanning ends with navigation to the review, and the capture controls are hidden while it
+    // runs, so the only disappearance during a scan is the user leaving.
+    .onDisappear { scanTask?.cancel() }
     .onChange(of: selectedPhotoItem) { _, newValue in
       guard newValue != nil else { return }
       loadSelectedPhoto()
@@ -295,8 +301,9 @@ struct ScanView: View {
       capturedImage = DemoScanService.loadDemoImage()
     }
 
-    Task {
+    scanTask = Task {
       try? await Task.sleep(nanoseconds: 850_000_000)
+      guard !Task.isCancelled else { return }
       await processImage()
     }
   }
@@ -383,6 +390,8 @@ struct ScanView: View {
           diagnostics: result.diagnostics,
           inputSources: inputs.map(\.source)
         )
+      } catch is CancellationError {
+        return
       } catch {
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Scan failed. Try better lighting or continue manually."
@@ -397,6 +406,7 @@ struct ScanView: View {
       let remaining = minAnalyzeDuration - elapsed
       try? await Task.sleep(nanoseconds: UInt64(remaining * 1_000_000_000))
     }
+    guard !Task.isCancelled else { return }
 
     if detections.isEmpty {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -460,7 +470,7 @@ struct ScanView: View {
       capturedShotSources.append(.camera)
     }
     capturedImage = lastShot
-    Task { await processImage() }
+    scanTask = Task { await processImage() }
   }
 
   private func addLibraryShot(_ image: UIImage) {
@@ -473,7 +483,7 @@ struct ScanView: View {
       capturedShotSources.removeFirst(capturedShotSources.count - capturedShots.count)
     }
     capturedImage = image
-    Task { await processImage() }
+    scanTask = Task { await processImage() }
   }
 
   private func openCameraCapture() {
