@@ -54,6 +54,21 @@ final class IngredientOCRMatchAggregationTests: XCTestCase {
       matches.map(\.originalText))
   }
 
+  func testMixedLabelPreservesMultiWordCatalogFoodWhileSuppressingLoneBeans() {
+    let matches = [
+      match("GREEN BEANS AND BLACK", id: 169961, catalog: true),
+      match("GREEN BEANS", id: 169961, crop: "center", catalog: true),
+      match("  Beans! ", id: 169960, catalog: true),
+      match("BLACK", id: 999, catalog: true),
+      match(
+        "GREEN BEANS AND BLACK BEANS", id: 27, crop: "topLeft",
+        parts: ["GREEN BEANS AND BLACK", "BEANS"]),
+    ]
+    XCTAssertEqual(
+      IngredientOCRMatchAggregation.suppressJoinedParts(matches).map(\.originalText),
+      ["GREEN BEANS AND BLACK", "GREEN BEANS", "BLACK", "GREEN BEANS AND BLACK BEANS"])
+  }
+
   func testNoJoinedMatchLeavesCatalogFoodsUntouched() {
     let matches = [match("BEANS", id: 169960, catalog: true), match("BLACK BEANS", id: 27)]
     XCTAssertEqual(

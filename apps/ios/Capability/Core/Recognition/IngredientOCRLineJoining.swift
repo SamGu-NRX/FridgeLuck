@@ -91,16 +91,21 @@ enum IngredientOCRMatchAggregation {
   static func suppressJoinedParts(_ matches: [Match]) -> [Match] {
     var partsByCapture: [Int: Set<String>] = [:]
     for match in matches where !match.isCatalogFallback && !match.joinedParts.isEmpty {
-      partsByCapture[match.captureIndex, default: []].formUnion(match.joinedParts.map(normalize))
+      partsByCapture[match.captureIndex, default: []].formUnion(
+        match.joinedParts.compactMap(singleToken))
     }
     return matches.filter { match in
-      !match.isCatalogFallback
-        || !(partsByCapture[match.captureIndex]?.contains(normalize(match.originalText)) ?? false)
+      guard match.isCatalogFallback, let token = singleToken(match.originalText) else {
+        return true
+      }
+      return !(partsByCapture[match.captureIndex]?.contains(token) ?? false)
     }
   }
 
-  private static func normalize(_ text: String) -> String {
-    text.lowercased().components(separatedBy: CharacterSet.alphanumerics.inverted)
-      .filter { !$0.isEmpty }.joined(separator: " ")
+  private static func singleToken(_ text: String) -> String? {
+    let tokens = text.lowercased().components(separatedBy: CharacterSet.alphanumerics.inverted)
+      .filter { !$0.isEmpty }
+    // A multi-word part can name another real food, so only lone tokens suppress catalog matches.
+    return tokens.count == 1 ? tokens[0] : nil
   }
 }
