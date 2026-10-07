@@ -3,8 +3,13 @@ import GRDB
 
 /// Resolves ingredient names against the runtime catalog tables.
 /// Returns nil for ambiguous matches so curated fallbacks can take over.
+enum IngredientCatalogMatching: Sendable {
+  case exact
+  case allowPrefix
+}
+
 protocol IngredientCatalogResolving: Sendable {
-  func resolve(_ rawValue: String) -> Int64?
+  func resolve(_ rawValue: String, matching: IngredientCatalogMatching) -> Int64?
   func resolveFromText(_ rawText: String) -> Int64?
   func displayName(for ingredientId: Int64) -> String?
 }
@@ -16,7 +21,7 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
     self.db = db
   }
 
-  func resolve(_ rawValue: String) -> Int64? {
+  func resolve(_ rawValue: String, matching: IngredientCatalogMatching) -> Int64? {
     let candidates = Self.normalizedCandidates(for: rawValue)
     guard !candidates.isEmpty else { return nil }
 
@@ -31,6 +36,8 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
           return id
         }
       }
+      // BRIEF-8 found prefix fallback mapped generic Vision labels such as "drink" to kefir.
+      guard matching == .allowPrefix else { return nil }
       for candidate in candidates where candidate.count >= 5 {
         if let id = try uniquePrefixNameMatch(in: db, candidate: candidate) {
           return id
@@ -55,7 +62,7 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
     for window in stride(from: maxWindow, through: 1, by: -1) {
       for start in 0...(tokens.count - window) {
         let phrase = tokens[start..<(start + window)].joined(separator: " ")
-        if let id = resolve(phrase) {
+        if let id = resolve(phrase, matching: .allowPrefix) {
           return id
         }
       }

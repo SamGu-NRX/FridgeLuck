@@ -211,7 +211,7 @@ final class VisionService: Sendable {
             )
           } else if let resolvedId = IngredientIdentityResolution.resolveTextFromCatalog(
             topText,
-            catalogName: ingredientResolver.resolve,
+            catalogName: { ingredientResolver.resolve($0, matching: .allowPrefix) },
             catalogTokens: ingredientResolver.resolveFromText
           ) {
             resolvedOCRMatches.append(
