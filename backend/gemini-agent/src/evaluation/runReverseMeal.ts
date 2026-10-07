@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { isDeepStrictEqual } from "node:util";
@@ -102,6 +102,38 @@ export function auditPolicySource(reference: string, current: string) {
   if (executable(reference) !== executable(current)) throw new Error("Executable policy source changed: lead must freeze a new policy version before locking");
   return { reference_commit: SPEC_POLICY_REFERENCE_COMMIT, reference_sha256: sha(reference), current_sha256: sha(current), source_bytes_identical: reference === current, executable_lines_identical: true, differences_limited_to_whole_line_comments_or_blank_lines: true };
 }
+export const COMPILE_ADMISSION = "lr-lease heavy, lockf heavy.lock, 8 GiB floor on df -k /";
+interface BuildRecord {
+  sources: Record<string, string>;
+  binary_and_grdb: Record<string, string>;
+  swift_version: string;
+  compile_admission: string;
+  build_script_sha256: string;
+}
+export function validateBuildRecord(value: unknown, recordPath: string, readBytes: (path: string) => Buffer = readFileSync): BuildRecord {
+  const exactEntries = (value: unknown, expected: string[], name: string) => {
+    if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(`${name}: expected object`);
+    const entries = value as Record<string, unknown>;
+    for (const key of expected) if (!Object.hasOwn(entries, key)) throw new Error(`${name}: missing entry ${key}`);
+    for (const key of Object.keys(entries)) if (!expected.includes(key)) throw new Error(`${name}: extra entry ${key}`);
+    return entries;
+  };
+  const record = exactEntries(value, ["sources", "binary_and_grdb", "swift_version", "compile_admission", "build_script_sha256"], "build record");
+  const sources = ["Platform/Persistence/Services/ConfidenceLearningService.swift", "Platform/Persistence/Database/Migrations.swift", "Tools/reverse-meal-eval/main.swift"].map(path => resolve(ROOT, "apps/ios", path));
+  const binaries = [resolve(dirname(resolve(recordPath)), "reverse-meal-runner"), "/tmp/fl-tc/grdb/libGRDB.dylib", "/tmp/fl-tc/grdb/GRDB.swiftmodule"];
+  const verifyHash = (expected: unknown, path: string, name: string) => {
+    if (typeof expected !== "string" || !/^[0-9a-f]{64}$/.test(expected)) throw new Error(`${name}: non-empty sha256 required for ${path}`);
+    if (sha(readBytes(path)) !== expected) throw new Error(`${name}: sha256 mismatch for ${path}`);
+  };
+  for (const [name, paths] of [["sources", sources], ["binary_and_grdb", binaries]] as const) {
+    const hashes = exactEntries(record[name], paths, name);
+    for (const path of paths) verifyHash(hashes[path], path, name);
+  }
+  if (record.compile_admission !== COMPILE_ADMISSION) throw new Error("build record: compile_admission must attest lr-lease heavy, lockf heavy.lock, and the 8 GiB floor");
+  verifyHash(record.build_script_sha256, resolve(ROOT, "apps/ios/Tools/reverse-meal-eval/run.sh"), "build_script_sha256");
+  if (typeof record.swift_version !== "string" || !record.swift_version.trim()) throw new Error("build record: swift_version must be non-empty");
+  return record as unknown as BuildRecord;
+}
 export function runReverseMeal(args: string[]) {
   const options = new Map<string, string>();
   for (let i = 0; i < args.length; i += 2) {
@@ -136,10 +168,7 @@ export function runReverseMeal(args: string[]) {
   inputHashes[resolve(options.get("--swift-second")!)] = sha(second);
   const recordPath = resolve(options.get("--build-record")!), recordBytes = readFileSync(recordPath);
   inputHashes[recordPath] = sha(recordBytes);
-  const build = decodeStrict(recordBytes.toString("utf8")) as { sources: Record<string, string>; binary_and_grdb: Record<string, string>; swift_version: string; compile_admission?: string; build_script_sha256?: string };
-  const scriptPath = resolve(ROOT, "apps/ios/Tools/reverse-meal-eval/run.sh");
-  if (build.compile_admission !== "lr-lease heavy, lockf heavy.lock, 8 GiB floor on df -k /" || build.build_script_sha256 !== sha(readFileSync(scriptPath))) throw new Error("Current-source rebuild with the revised lease rules is required before locking");
-  for (const [path, hash] of Object.entries({ ...build.sources, ...build.binary_and_grdb })) if (sha(readFileSync(path)) !== hash) throw new Error(`Frozen compiled source/binary changed: ${path}`);
+  const build = validateBuildRecord(decodeStrict(recordBytes.toString("utf8")), recordPath);
   const admissionRecord = { completed_build_admission: build.compile_admission, build_script_sha256: build.build_script_sha256 };
   const swift = decodeStrict(first.toString("utf8")) as SwiftDocument;
   if (swift.checks.case_runs !== 192 || swift.checks.warm_case_runs !== 128 || swift.checks.warm_blended_reward_assertions !== 6144 || swift.checks.fresh_repeat_forward_reverse_seeded_shuffle !== true || swift.checks.suppressed_write_failure_detected !== true) throw new Error("Swift acceptance checks missing");
@@ -168,7 +197,7 @@ export function runReverseMeal(args: string[]) {
   const harnessFiles = [...readdirSync(resolve(ROOT, "backend/gemini-agent/src/evaluation")).filter(n => n.endsWith(".ts")).map(n => `backend/gemini-agent/src/evaluation/${n}`), ...readdirSync(resolve(ROOT, "backend/gemini-agent/src/__tests__")).filter(n => n.startsWith("reverseMeal")).map(n => `backend/gemini-agent/src/__tests__/${n}`), "apps/ios/Tools/reverse-meal-eval/main.swift", "apps/ios/Tools/reverse-meal-eval/run.sh"];
   const sourceHashes = Object.fromEntries([...sourcePaths, ...harnessFiles].map(p => [resolve(ROOT, p), sha(readFileSync(resolve(ROOT, p)))]));
   if (sourceHashes[resolve(ROOT, "apps/ios/FeatureLogic/Recipe/MealPhotoConfirmationPolicy.swift")] !== policyHash) throw new Error("Policy source changed during output preparation");
-  for (const [path, hash] of Object.entries(build.sources)) if (path !== scriptPath && sourceHashes[path] !== hash) throw new Error(`Compiled Swift source changed during output preparation: ${path}`);
+  for (const [path, hash] of Object.entries(build.sources)) if (sourceHashes[path] !== hash) throw new Error(`Compiled Swift source changed during output preparation: ${path}`);
   const sourceDiffs = Object.fromEntries(sourcePaths.map(p => [resolve(ROOT, p), { status: git(["status", "--porcelain", "--", p]).trim(), diff: git(["diff", "HEAD", "--", p]) }]));
   const outputHashes = Object.fromEntries([...files].map(([name, text]) => [resolve(OUTPUT, name), sha(text)]));
   const manifest = { version: "reverse-meal-v1", source_git_commit: git(["rev-parse", "HEAD"]).trim(), source_and_runner_sha256: sourceHashes, source_worktree_diffs: sourceDiffs, build_record: build, output_sha256: outputHashes, labels_accessed: false, label_hashes: "Not read or hashed by the label-blind candidate runner. The owner's separate scorer receives labels after locking.", question_name: question.name, ...metadata, cross_check_all_agree: parity.all_agree, manifest_self_hash: "Excluded to avoid a self-referential hash; sha256 manifest.json externally." };
