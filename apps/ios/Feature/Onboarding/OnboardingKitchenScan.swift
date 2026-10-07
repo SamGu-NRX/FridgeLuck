@@ -3,12 +3,34 @@ import UIKit
 /// What recognition returned for one capture step's photos.
 enum OnboardingKitchenScanResult {
   case notCaptured
-  case scanned([Detection])
+  case scanned(VisionService.ScanResult)
   case failed
 
-  var isFailed: Bool {
-    if case .failed = self { return true }
+  /// Crops where every recognition request failed. `ScanDiagnostics.passErrors` records only
+  /// those, so a crop where classification failed but OCR ran doesn't count.
+  var unreadCropCount: Int {
+    guard case .scanned(let result) = self else { return 0 }
+    return result.diagnostics.passErrors.count
+  }
+
+  /// The latest scan of these photos completed, so its results describe them.
+  var succeeded: Bool {
+    if case .scanned = self { return true }
     return false
+  }
+
+  /// Retry rescans locations that failed or that have photos (or parts) that were never read.
+  var needsRetry: Bool {
+    switch self {
+    case .notCaptured: return false
+    case .failed: return true
+    case .scanned: return unreadCropCount > 0
+    }
+  }
+
+  fileprivate var detections: [Detection] {
+    guard case .scanned(let result) = self else { return [] }
+    return result.detections
   }
 }
 
@@ -36,14 +58,15 @@ struct OnboardingKitchenScanSession {
 enum OnboardingKitchenSectionContent {
   case notCaptured
   case failed
-  /// The scan ran and recognized nothing in this location's photos.
+  /// The scan read every photo here and recognized nothing.
   case nothingFound
-  /// May be empty when every item here was also found, with a higher score, in the other
-  /// location; the section is then hidden rather than claiming nothing was found.
-  case items([Detection])
+  /// `someUnread` means part of these photos was never read, so the list may be incomplete.
+  /// The list may be empty when every item here was also found, with a higher score, in the
+  /// other location.
+  case items([Detection], someUnread: Bool)
 
   var detections: [Detection] {
-    if case .items(let detections) = self { return detections }
+    if case .items(let detections, _) = self { return detections }
     return []
   }
 }
@@ -51,9 +74,9 @@ enum OnboardingKitchenSectionContent {
 enum OnboardingKitchenReviewState {
   /// The user skipped both photo steps.
   case nothingCaptured
-  /// Every scan that ran succeeded and none recognized an ingredient.
+  /// Every photo was read and none showed an ingredient.
   case nothingFound
-  /// No scan produced items and at least one failed, so "nothing found" would be untrue.
+  /// Nothing was found and some photos were never read, so "nothing found" would be untrue.
   case failed
   case review(fridge: OnboardingKitchenSectionContent, pantry: OnboardingKitchenSectionContent)
 
@@ -61,6 +84,34 @@ enum OnboardingKitchenReviewState {
   var detections: [Detection] {
     guard case .review(let fridge, let pantry) = self else { return [] }
     return fridge.detections + pantry.detections
+  }
+}
+
+/// The user's checkmarks, kept by ingredient for the whole onboarding run rather than with the
+/// latest scan, so a failed scan, a rescan or new photos can't reset them.
+struct OnboardingKitchenChoices {
+  /// What the user tapped: true to keep, false to leave out.
+  private var decisions: [Int64: Bool] = [:]
+  /// How each ingredient started the first time it was shown: checked only if
+  /// `ConfidenceRouter` routed it to `.auto`. Uncertain and possible items wait for a tap.
+  private var initialStates: [Int64: Bool] = [:]
+
+  mutating func noteShown(_ detections: [Detection]) {
+    for detection in detections where initialStates[detection.ingredientId] == nil {
+      initialStates[detection.ingredientId] = ConfidenceRouter.bucket(for: detection) == .auto
+    }
+  }
+
+  func isSelected(_ ingredientID: Int64) -> Bool {
+    decisions[ingredientID] ?? initialStates[ingredientID] ?? false
+  }
+
+  mutating func toggle(_ ingredientID: Int64) {
+    decisions[ingredientID] = !isSelected(ingredientID)
+  }
+
+  func selectedIDs(in detections: [Detection]) -> Set<Int64> {
+    Set(detections.map(\.ingredientId).filter(isSelected))
   }
 }
 
@@ -73,9 +124,9 @@ enum OnboardingKitchenReview {
       return .nothingCaptured
     }
 
-    let split = sections(fridge: found(in: fridge), pantry: found(in: pantry))
+    let split = sections(fridge: fridge.detections, pantry: pantry.detections)
     if split.fridge.isEmpty && split.pantry.isEmpty {
-      return fridge.isFailed || pantry.isFailed ? .failed : .nothingFound
+      return fridge.needsRetry || pantry.needsRetry ? .failed : .nothingFound
     }
 
     return .review(
@@ -112,25 +163,6 @@ enum OnboardingKitchenReview {
     )
   }
 
-  /// Preselects only items `ConfidenceRouter` routes to `.auto`. Uncertain and possible items
-  /// start unchecked and need a tap. Ingredients the user already reviewed keep their state, so
-  /// a rescan can't re-check something they unchecked or clear something they checked.
-  static func selection(
-    for detections: [Detection],
-    keeping previousSelection: Set<Int64> = [],
-    reviewed previousDetections: [Detection] = []
-  ) -> Set<Int64> {
-    let reviewed = Set(previousDetections.map(\.ingredientId))
-    var selection = previousSelection.intersection(detections.map(\.ingredientId))
-    for detection in detections
-    where !reviewed.contains(detection.ingredientId)
-      && ConfidenceRouter.bucket(for: detection) == .auto
-    {
-      selection.insert(detection.ingredientId)
-    }
-    return selection
-  }
-
   /// What VoiceOver announces when a scan finishes.
   static func announcement(
     for state: OnboardingKitchenReviewState,
@@ -147,9 +179,22 @@ enum OnboardingKitchenReview {
       let found = fridge.detections.count + pantry.detections.count
       let noun = found == 1 ? "ingredient" : "ingredients"
       var message = "Found \(found) \(noun), \(selectedCount) selected."
-      if case .failed = fridge { message += " Couldn\u{2019}t read your fridge photos." }
-      if case .failed = pantry { message += " Couldn\u{2019}t read your pantry photos." }
+      for (name, content) in [("fridge", fridge), ("pantry", pantry)] {
+        if let notice = unreadNotice(for: content, place: name) { message += " \(notice)" }
+      }
       return message
+    }
+  }
+
+  /// The warning a section shows when some of its photos weren't read, or nil when all were.
+  static func unreadNotice(for content: OnboardingKitchenSectionContent, place: String) -> String? {
+    switch content {
+    case .failed:
+      return "Couldn\u{2019}t read your \(place) photos."
+    case .items(_, someUnread: true):
+      return "Some \(place) photos couldn\u{2019}t be read."
+    case .notCaptured, .nothingFound, .items:
+      return nil
     }
   }
 
@@ -162,11 +207,6 @@ enum OnboardingKitchenReview {
     }
   }
 
-  private static func found(in result: OnboardingKitchenScanResult) -> [Detection] {
-    if case .scanned(let detections) = result { return detections }
-    return []
-  }
-
   private static func content(
     for result: OnboardingKitchenScanResult,
     shown: [Detection]
@@ -176,8 +216,10 @@ enum OnboardingKitchenReview {
       return .notCaptured
     case .failed:
       return .failed
-    case .scanned(let recognized):
-      return recognized.isEmpty ? .nothingFound : .items(shown)
+    case .scanned(let scan):
+      let someUnread = result.unreadCropCount > 0
+      if scan.detections.isEmpty && !someUnread { return .nothingFound }
+      return .items(shown, someUnread: someUnread)
     }
   }
 
@@ -200,66 +242,35 @@ enum OnboardingKitchenReview {
   }
 }
 
-/// A finished scan and the selection the review should show for it.
-struct OnboardingKitchenScanUpdate {
-  let session: OnboardingKitchenScanSession
-  let selection: Set<Int64>
-}
-
 /// Runs recognition on the onboarding photos, fridge and pantry as separate scans so each item
 /// lands in the section of the photo it came from.
 @MainActor
 enum OnboardingKitchenScanner {
-  /// What the review step runs: `run`, then the selection for the new results. The user's
-  /// choices carry over even when the photos changed: an ingredient already shown keeps its
-  /// checked state, and only sure items seen for the first time are checked.
-  static func update(
-    fridgePhotos: [FLCapturedPhoto],
-    pantryPhotos: [FLCapturedPhoto],
-    previous: OnboardingKitchenScanSession?,
-    selection: Set<Int64>,
-    retryFailed: Bool,
-    scan: ([ScanInput]) async throws -> [Detection]
-  ) async -> OnboardingKitchenScanUpdate? {
-    guard
-      let session = await run(
-        fridgePhotos: fridgePhotos,
-        pantryPhotos: pantryPhotos,
-        previous: previous,
-        retryFailed: retryFailed,
-        scan: scan
-      )
-    else { return nil }
-
-    return OnboardingKitchenScanUpdate(
-      session: session,
-      selection: OnboardingKitchenReview.selection(
-        for: session.reviewState.detections,
-        keeping: selection,
-        reviewed: previous?.reviewState.detections ?? []
-      )
-    )
-  }
-
   /// Scans every captured location when the photos are new. When they match `previous`, scans
-  /// only failed locations and only if `retryFailed`; returns nil when there is nothing to do.
+  /// only locations that need a retry, and only if `retryFailed`. Returns nil when there is
+  /// nothing to do or the task was cancelled; a cancelled run starts no further scan.
   static func run(
     fridgePhotos: [FLCapturedPhoto],
     pantryPhotos: [FLCapturedPhoto],
     previous: OnboardingKitchenScanSession?,
     retryFailed: Bool,
-    scan: ([ScanInput]) async throws -> [Detection]
+    scan: ([ScanInput]) async throws -> VisionService.ScanResult
   ) async -> OnboardingKitchenScanSession? {
     let reused: OnboardingKitchenScanSession?
     if let previous, previous.covers(fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos) {
-      guard retryFailed, previous.fridge.isFailed || previous.pantry.isFailed else { return nil }
+      guard retryFailed, previous.fridge.needsRetry || previous.pantry.needsRetry else {
+        return nil
+      }
       reused = previous
     } else {
       reused = nil
     }
 
-    let fridge = await result(for: fridgePhotos, reusing: reused?.fridge, scan: scan)
-    let pantry = await result(for: pantryPhotos, reusing: reused?.pantry, scan: scan)
+    guard
+      let fridge = await result(for: fridgePhotos, reusing: reused?.fridge, scan: scan),
+      let pantry = await result(for: pantryPhotos, reusing: reused?.pantry, scan: scan)
+    else { return nil }
+
     return OnboardingKitchenScanSession(
       fridgePhotoIDs: fridgePhotos.map(\.id),
       pantryPhotoIDs: pantryPhotos.map(\.id),
@@ -268,21 +279,61 @@ enum OnboardingKitchenScanner {
     )
   }
 
+  /// Nil when cancelled.
   private static func result(
     for photos: [FLCapturedPhoto],
     reusing previous: OnboardingKitchenScanResult?,
-    scan: ([ScanInput]) async throws -> [Detection]
-  ) async -> OnboardingKitchenScanResult {
+    scan: ([ScanInput]) async throws -> VisionService.ScanResult
+  ) async -> OnboardingKitchenScanResult? {
+    guard !Task.isCancelled else { return nil }
     if photos.isEmpty { return .notCaptured }
-    if let previous, !previous.isFailed { return previous }
+    if let previous, !previous.needsRetry { return previous }
 
     let inputs = OnboardingKitchenReview.scanInputs(for: photos)
     // Photos that can't become scan input were never looked at; "nothing found" would be untrue.
     guard !inputs.isEmpty else { return .failed }
+
+    let outcome: OnboardingKitchenScanResult
     do {
-      return .scanned(try await scan(inputs))
+      outcome = .scanned(try await scan(inputs))
     } catch {
-      return .failed
+      outcome = .failed
+    }
+    return Task.isCancelled ? nil : outcome
+  }
+}
+
+/// Writes the review into the Kitchen with one intake session per location for the onboarding
+/// run, so each location reconciles only the lots it added, filed where the photo was taken.
+enum OnboardingKitchenIntake {
+  static func sourceRef(runID: String, place: InventoryStorageLocation) -> String {
+    "\(runID):\(place.rawValue)"
+  }
+
+  /// Only locations whose latest scan completed are reconciled. A location whose scan failed
+  /// keeps whatever an earlier visit added, since its photos say nothing about it now.
+  /// Intake receives only the visible detections the user has selected.
+  static func commit(
+    session: OnboardingKitchenScanSession,
+    choices: OnboardingKitchenChoices,
+    runID: String,
+    intake: InventoryIntakeService
+  ) throws {
+    guard case .review(let fridge, let pantry) = session.reviewState else { return }
+
+    let locations: [(InventoryStorageLocation, OnboardingKitchenScanResult, [Detection])] = [
+      (.fridge, session.fridge, fridge.detections),
+      (.pantry, session.pantry, pantry.detections),
+    ]
+    for (place, result, shown) in locations where result.succeeded {
+      let selected = choices.selectedIDs(in: shown)
+      try intake.ingestConfirmedScan(
+        detections: shown.filter { selected.contains($0.ingredientId) },
+        confirmedIngredientIDs: selected,
+        selectedIngredientByDetection: [:],
+        sourceRef: sourceRef(runID: runID, place: place),
+        location: .photographed(place)
+      )
     }
   }
 }

@@ -134,10 +134,20 @@ struct OnboardingKitchenReviewStep: View {
     case ready(OnboardingKitchenReviewState)
   }
 
-  let fridgePhotos: [FLCapturedPhoto]
-  let pantryPhotos: [FLCapturedPhoto]
+  /// A library import can finish after the review opens, so the scan restarts whenever either
+  /// location's photos change, as well as on Try Again.
+  private struct ScanTaskKey: Hashable {
+    let fridgePhotoIDs: [UUID]
+    let pantryPhotoIDs: [UUID]
+    let request: Int
+  }
+
+  /// Bindings rather than values so a scan that finishes late can check the photos as they are
+  /// now, not as they were when it started.
+  @Binding var fridgePhotos: [FLCapturedPhoto]
+  @Binding var pantryPhotos: [FLCapturedPhoto]
   @Binding var scan: OnboardingKitchenScanSession?
-  @Binding var confirmedIds: Set<Int64>
+  @Binding var choices: OnboardingKitchenChoices
   /// Writes the selection through inventory intake, then moves on.
   let onConfirm: () -> Void
   /// Moves on without touching the Kitchen.
@@ -149,7 +159,7 @@ struct OnboardingKitchenReviewStep: View {
   @State private var resultsAppeared = false
   @State private var isScanning = false
   /// 0 scans new photos when the step appears; each Try Again increments it to rescan the
-  /// locations whose scan failed.
+  /// locations whose photos weren't all read.
   @State private var scanRequest = 0
   @AccessibilityFocusState private var isHeadingFocused: Bool
 
@@ -228,7 +238,13 @@ struct OnboardingKitchenReviewStep: View {
         }
       }
     }
-    .task(id: scanRequest) {
+    .task(
+      id: ScanTaskKey(
+        fridgePhotoIDs: fridgePhotos.map(\.id),
+        pantryPhotoIDs: pantryPhotos.map(\.id),
+        request: scanRequest
+      )
+    ) {
       await runScan()
     }
   }
@@ -238,8 +254,11 @@ struct OnboardingKitchenReviewStep: View {
   private func runScan() async {
     let retrying = scanRequest > 0
     let previous = scan
+    let scannedFridgePhotos = fridgePhotos
+    let scannedPantryPhotos = pantryPhotos
     let isSamePhotos =
-      previous?.covers(fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos) == true
+      previous?.covers(fridgePhotos: scannedFridgePhotos, pantryPhotos: scannedPantryPhotos)
+      == true
     let startedAt = Date()
 
     if hasPhotos && (!isSamePhotos || retrying) {
@@ -250,30 +269,35 @@ struct OnboardingKitchenReviewStep: View {
     }
 
     let vision = deps.visionService
-    let next = await OnboardingKitchenScanner.update(
-      fridgePhotos: fridgePhotos,
-      pantryPhotos: pantryPhotos,
+    let next = await OnboardingKitchenScanner.run(
+      fridgePhotos: scannedFridgePhotos,
+      pantryPhotos: scannedPantryPhotos,
       previous: previous,
-      selection: confirmedIds,
       retryFailed: retrying
     ) { inputs in
-      try await vision.scan(inputs: inputs).detections
+      try await vision.scan(inputs: inputs)
     }
-    guard !Task.isCancelled else { return }
 
     if let next {
       if hasPhotos {
         await holdAnalyzingState(since: startedAt)
-        guard !Task.isCancelled else { return }
       }
+      // Photos added while this scan ran restart the task; these results describe the old set.
+      guard !Task.isCancelled,
+        next.covers(fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos)
+      else { return }
 
-      confirmedIds = next.selection
+      choices.noteShown(next.reviewState.detections)
       withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
-        scan = next.session
+        scan = next
         isScanning = false
       }
-      announce(next.session.reviewState, selectedCount: next.selection.count)
+      announce(
+        next.reviewState,
+        selectedCount: choices.selectedIDs(in: next.reviewState.detections).count
+      )
     } else {
+      guard !Task.isCancelled else { return }
       isScanning = false
     }
 
@@ -370,13 +394,13 @@ struct OnboardingKitchenReviewStep: View {
     fridge: OnboardingKitchenSectionContent,
     pantry: OnboardingKitchenSectionContent
   ) -> some View {
-    let shownIDs = Set((fridge.detections + pantry.detections).map(\.ingredientId))
-    let selectedCount = confirmedIds.intersection(shownIDs).count
-    // Section header, then up to nine staggered rows, per visible section.
-    let pantryStaggerBase = isVisible(fridge) ? 2 + min(fridge.detections.count, 8) : 0
+    let shown = fridge.detections + pantry.detections
+    let selectedCount = choices.selectedIDs(in: shown).count
+    // Per visible section: its header, up to nine staggered rows, and a possible notice.
+    let pantryStaggerBase = isVisible(fridge) ? 3 + min(fridge.detections.count, 8) : 0
     let footerStaggerIndex =
       isVisible(pantry)
-      ? pantryStaggerBase + 2 + min(pantry.detections.count, 8) : pantryStaggerBase
+      ? pantryStaggerBase + 3 + min(pantry.detections.count, 8) : pantryStaggerBase
 
     return VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
       locationSection(
@@ -397,10 +421,12 @@ struct OnboardingKitchenReviewStep: View {
 
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         HStack(spacing: AppTheme.Space.xs) {
-          Image(systemName: "checkmark.circle.fill")
-            .foregroundStyle(AppTheme.sage)
+          // Matches the rows: a filled sage check only once something is selected.
+          Image(systemName: selectedCount > 0 ? "checkmark.circle.fill" : "circle")
+            .foregroundStyle(selectedCount > 0 ? AppTheme.sage : AppTheme.oat.opacity(0.5))
+            .animation(reduceMotion ? nil : AppMotion.colorTransition, value: selectedCount > 0)
             .accessibilityHidden(true)
-          Text("\(selectedCount) of \(shownIDs.count) selected")
+          Text("\(selectedCount) of \(shown.count) selected")
             .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
             .contentTransition(.numericText())
@@ -408,7 +434,7 @@ struct OnboardingKitchenReviewStep: View {
         .padding(.top, AppTheme.Space.xs)
 
         // With nothing selected this still goes through intake: on a revisit it removes what
-        // an earlier visit added, which is what an empty selection means.
+        // an earlier visit added from each location whose scan completed.
         FLPrimaryButton(
           selectedCount > 0 ? "Add to My Kitchen" : "Continue Without Adding",
           systemImage: selectedCount > 0 ? "plus.circle.fill" : "arrow.right"
@@ -426,7 +452,7 @@ struct OnboardingKitchenReviewStep: View {
   private func isVisible(_ content: OnboardingKitchenSectionContent) -> Bool {
     switch content {
     case .notCaptured: return false
-    case .items(let detections): return !detections.isEmpty
+    case .items(let detections, let someUnread): return !detections.isEmpty || someUnread
     case .failed, .nothingFound: return true
     }
   }
@@ -451,7 +477,7 @@ struct OnboardingKitchenReviewStep: View {
             .foregroundStyle(AppTheme.textSecondary)
             .accessibilityAddTraits(.isHeader)
           Spacer()
-          if case .items(let detections) = content {
+          if case .items(let detections, _) = content, !detections.isEmpty {
             Text("\(detections.count) items")
               .font(AppTheme.Typography.labelSmall)
               .foregroundStyle(AppTheme.textSecondary)
@@ -460,7 +486,7 @@ struct OnboardingKitchenReviewStep: View {
         .inventoryStagger(index: staggerBase, appeared: resultsAppeared)
 
         switch content {
-        case .items(let detections):
+        case .items(let detections, _):
           VStack(spacing: AppTheme.Space.xs) {
             ForEach(Array(detections.enumerated()), id: \.element.id) { index, detection in
               detectionItemRow(
@@ -476,20 +502,26 @@ struct OnboardingKitchenReviewStep: View {
             .foregroundStyle(AppTheme.textSecondary)
             .inventoryStagger(index: staggerBase + 1, appeared: resultsAppeared)
 
-        case .failed:
-          failedLocationNotice(title: title)
-            .inventoryStagger(index: staggerBase + 1, appeared: resultsAppeared)
-
-        case .notCaptured:
+        case .failed, .notCaptured:
           EmptyView()
+        }
+
+        if let notice = OnboardingKitchenReview.unreadNotice(
+          for: content, place: title.lowercased())
+        {
+          unreadNotice(notice, place: title.lowercased())
+            .inventoryStagger(
+              index: staggerBase + 2 + min(content.detections.count, 8),
+              appeared: resultsAppeared
+            )
         }
       }
     }
   }
 
-  /// One location's scan failed while the other found items. Those items stay reviewable;
-  /// this location can be retried on its own.
-  private func failedLocationNotice(title: String) -> some View {
+  /// Some of this location's photos weren't read, while other items stay reviewable. The
+  /// location can be retried on its own.
+  private func unreadNotice(_ notice: String, place: String) -> some View {
     FLCard(tone: .warning) {
       HStack(spacing: AppTheme.Space.sm) {
         Image(systemName: "exclamationmark.triangle")
@@ -497,7 +529,7 @@ struct OnboardingKitchenReviewStep: View {
           .foregroundStyle(AppTheme.warning)
           .accessibilityHidden(true)
 
-        Text("Couldn\u{2019}t read your \(title.lowercased()) photos.")
+        Text(notice)
           .font(AppTheme.Typography.bodySmall)
           .foregroundStyle(AppTheme.textPrimary)
           .fixedSize(horizontal: false, vertical: true)
@@ -512,7 +544,7 @@ struct OnboardingKitchenReviewStep: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(FLPressableButtonStyle())
-        .accessibilityLabel("Try reading your \(title.lowercased()) photos again")
+        .accessibilityLabel("Try reading your \(place) photos again")
       }
     }
   }
@@ -521,18 +553,14 @@ struct OnboardingKitchenReviewStep: View {
     detection: Detection,
     staggerIndex: Int
   ) -> some View {
-    let isConfirmed = confirmedIds.contains(detection.ingredientId)
+    let isConfirmed = choices.isSelected(detection.ingredientId)
     let estimatedGrams = Int(InventoryIntakeService.estimateGrams(forName: detection.label))
     let percentage = Int((detection.confidence * 100).rounded())
     let bucket = ConfidenceRouter.bucket(for: detection)
 
     return Button {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-        if isConfirmed {
-          confirmedIds.remove(detection.ingredientId)
-        } else {
-          confirmedIds.insert(detection.ingredientId)
-        }
+        choices.toggle(detection.ingredientId)
       }
     } label: {
       FLCard(tone: isConfirmed ? .success : .normal) {

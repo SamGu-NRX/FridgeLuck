@@ -19,6 +19,14 @@ enum IntakeError: LocalizedError {
   }
 }
 
+/// Where scan intake files the lots it adds.
+enum ScanLotLocation: Sendable {
+  /// From the ingredient's storage tip. The main scan doesn't know where its photo was taken.
+  case inferredFromIngredient
+  /// Where the photo was taken, as onboarding's fridge and pantry steps know.
+  case photographed(InventoryStorageLocation)
+}
+
 /// Converts confirmed scan detections into inventory lot updates.
 /// This keeps scan confidence and ingredient-level accounting linked.
 final class InventoryIntakeService: Sendable {
@@ -40,12 +48,14 @@ final class InventoryIntakeService: Sendable {
   /// added, lots for foods the user no longer confirms are emptied, and a lot emptied that way
   /// comes back if the user confirms the food again. Lots already cooked from are never
   /// retired, restored or re-added, so a revisit can't bring back eaten food.
+  /// `location` applies to newly added lots; restored lots keep the place they were filed.
   @discardableResult
   func ingestConfirmedScan(
     detections: [Detection],
     confirmedIngredientIDs: Set<Int64>,
     selectedIngredientByDetection: [UUID: Int64],
     sourceRef: String,
+    location: ScanLotLocation,
     acquiredAt: Date = Date()
   ) throws -> InventoryScanIngestionSummary {
     let normalizedSourceRef = sourceRef.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -116,7 +126,7 @@ final class InventoryIntakeService: Sendable {
           in: db,
           ingredientId: ingredientID,
           quantityGrams: quantityGrams,
-          location: Self.inferredLocation(for: ingredient),
+          location: Self.lotLocation(location, for: ingredient),
           confidenceScore: max(0.35, min(averageConfidence, 1.0)),
           source: .scan,
           acquiredAt: acquiredAt,
@@ -135,6 +145,16 @@ final class InventoryIntakeService: Sendable {
         lotsRestored: lotsRestored,
         skippedAsDuplicate: false
       )
+    }
+  }
+
+  private static func lotLocation(
+    _ location: ScanLotLocation,
+    for ingredient: Ingredient?
+  ) -> InventoryStorageLocation {
+    switch location {
+    case .inferredFromIngredient: return Self.inferredLocation(for: ingredient)
+    case .photographed(let place): return place
     }
   }
 

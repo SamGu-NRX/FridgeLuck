@@ -90,11 +90,11 @@ struct OnboardingView: View {
   @State private var fridgePhotos: [FLCapturedPhoto] = []
   @State private var pantryPhotos: [FLCapturedPhoto] = []
   @State private var kitchenScan: OnboardingKitchenScanSession?
-  @State private var kitchenConfirmedIds: Set<Int64> = []
-  /// One intake session per onboarding run, like `IngredientReviewView`'s `inventorySourceRef`.
-  /// Coming back to the review (even with new photos) and adding again reconciles the lots this
-  /// session added instead of adding a second copy.
-  @State private var kitchenReviewSourceRef = "onboarding-kitchen-review:\(UUID().uuidString)"
+  @State private var kitchenChoices = OnboardingKitchenChoices()
+  /// Names this onboarding run's intake sessions, one per location (see
+  /// `OnboardingKitchenIntake`). Coming back to the review, even with new photos, and adding
+  /// again reconciles the lots this run added instead of adding a second copy.
+  @State private var kitchenReviewRunID = "onboarding-kitchen-review:\(UUID().uuidString)"
 
   @FocusState private var isNameFocused: Bool
 
@@ -343,10 +343,10 @@ struct OnboardingView: View {
 
         case .kitchenReview:
           OnboardingKitchenReviewStep(
-            fridgePhotos: fridgePhotos,
-            pantryPhotos: pantryPhotos,
+            fridgePhotos: $fridgePhotos,
+            pantryPhotos: $pantryPhotos,
             scan: $kitchenScan,
-            confirmedIds: $kitchenConfirmedIds,
+            choices: $kitchenChoices,
             onConfirm: commitKitchenInventory,
             onSkip: {
               setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
@@ -497,9 +497,9 @@ struct OnboardingView: View {
     } else {
       guard isReadyForPrimaryAction else { return }
     }
-    guard stepIndex > 0 else { return }
+    guard let backStep = currentStep.backStep else { return }
     clearNameFocus()
-    setStep(stepIndex - 1, direction: .backward)
+    setStep(backStep.rawValue, direction: .backward)
   }
 
   private func setStep(_ newValue: Int, direction: StepDirection) {
@@ -802,19 +802,18 @@ struct OnboardingView: View {
   /// Only the review's own detections reach intake, so nothing the photos didn't show can be
   /// written. Called with an empty selection too, so a revisit can take back earlier additions.
   private func commitKitchenInventory() {
-    let reviewedDetections = kitchenScan?.reviewState.detections ?? []
-    guard !reviewedDetections.isEmpty else {
+    guard let kitchenScan else {
       setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
       return
     }
 
     Task {
       do {
-        _ = try deps.inventoryIntakeService.ingestConfirmedScan(
-          detections: reviewedDetections,
-          confirmedIngredientIDs: kitchenConfirmedIds,
-          selectedIngredientByDetection: [:],
-          sourceRef: kitchenReviewSourceRef
+        try OnboardingKitchenIntake.commit(
+          session: kitchenScan,
+          choices: kitchenChoices,
+          runID: kitchenReviewRunID,
+          intake: deps.inventoryIntakeService
         )
       } catch {
         // Non-blocking: inventory seeding failure shouldn't stop onboarding

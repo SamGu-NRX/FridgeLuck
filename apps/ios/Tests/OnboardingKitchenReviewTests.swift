@@ -7,10 +7,18 @@ import XCTest
 
 /// Onboarding's kitchen review used to show 14 hard-coded ingredients whatever the photos held,
 /// and "Add to My Kitchen" wrote them into the real Kitchen. These pin the replacement: the
-/// review shows only what recognition returned for the user's own photos, and says so plainly
-/// when there were no photos, nothing was found, or the scan failed.
+/// review shows only what recognition returned for the user's own photos, says so plainly when
+/// there were no photos, nothing was found, or photos weren't read, and writes only what the
+/// user kept, filed where the photo was taken.
 @MainActor
 final class OnboardingKitchenReviewTests: XCTestCase {
+  private struct ScanFailure: Error {}
+
+  @MainActor
+  private final class ScanCounter {
+    var count = 0
+  }
+
   private let tomato: Int64 = 1
   private let pepper: Int64 = 2
   private let egg: Int64 = 3
@@ -24,23 +32,25 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     XCTAssertTrue(state.detections.isEmpty)
   }
 
-  func testScansThatRecognizeNothingShowNothingFound() {
+  func testScansThatReadEverythingAndRecognizeNothingShowNothingFound() {
     for (fridge, pantry) in [
-      (OnboardingKitchenScanResult.scanned([]), OnboardingKitchenScanResult.notCaptured),
-      (.notCaptured, .scanned([])),
-      (.scanned([]), .scanned([])),
+      (scanned([]), OnboardingKitchenScanResult.notCaptured),
+      (.notCaptured, scanned([])),
+      (scanned([]), scanned([])),
     ] {
       let state = OnboardingKitchenReview.state(fridge: fridge, pantry: pantry)
       guard case .nothingFound = state else { return XCTFail("got \(state)") }
     }
   }
 
-  func testAFailedScanWithNothingFoundElsewhereIsAnErrorNotAnEmptyResult() {
+  func testUnreadPhotosWithNothingFoundElsewhereAreAnErrorNotAnEmptyResult() {
     for (fridge, pantry) in [
       (OnboardingKitchenScanResult.failed, OnboardingKitchenScanResult.notCaptured),
-      (.failed, .scanned([])),
-      (.scanned([]), .failed),
+      (.failed, scanned([])),
+      (scanned([]), .failed),
       (.failed, .failed),
+      (scanned([], unreadCrops: 2), .notCaptured),
+      (scanned([]), scanned([], unreadCrops: 1)),
     ] {
       let state = OnboardingKitchenReview.state(fridge: fridge, pantry: pantry)
       guard case .failed = state else { return XCTFail("got \(state)") }
@@ -49,16 +59,42 @@ final class OnboardingKitchenReviewTests: XCTestCase {
 
   func testOneLocationFailingKeepsTheOtherLocationsItemsReviewable() {
     let state = OnboardingKitchenReview.state(
-      fridge: .scanned([detection(egg, 0.9)]), pantry: .failed)
+      fridge: scanned([detection(egg, 0.9)]), pantry: .failed)
 
     guard case .review(let fridge, let pantry) = state else { return XCTFail("got \(state)") }
     XCTAssertEqual(fridge.detections.map(\.ingredientId), [egg])
     guard case .failed = pantry else { return XCTFail("pantry: \(pantry)") }
+    XCTAssertEqual(
+      OnboardingKitchenReview.unreadNotice(for: pantry, place: "pantry"),
+      "Couldn\u{2019}t read your pantry photos.")
+  }
+
+  func testPartlyUnreadPhotosShowTheirItemsWithAWarning() {
+    let state = OnboardingKitchenReview.state(
+      fridge: scanned([detection(egg, 0.9)], unreadCrops: 2), pantry: .notCaptured)
+
+    guard case .review(let fridge, _) = state,
+      case .items(let items, someUnread: true) = fridge
+    else { return XCTFail("got \(state)") }
+    XCTAssertEqual(items.map(\.ingredientId), [egg])
+    XCTAssertEqual(
+      OnboardingKitchenReview.unreadNotice(for: fridge, place: "fridge"),
+      "Some fridge photos couldn\u{2019}t be read.")
+  }
+
+  /// `passErrors` lists only crops where every request failed. On the simulator classification
+  /// always fails while OCR works, which leaves it empty and must not warn.
+  func testFullyReadPhotosShowNoWarning() {
+    let state = OnboardingKitchenReview.state(
+      fridge: scanned([detection(egg, 0.9)]), pantry: .notCaptured)
+
+    guard case .review(let fridge, _) = state else { return XCTFail("got \(state)") }
+    XCTAssertNil(OnboardingKitchenReview.unreadNotice(for: fridge, place: "fridge"))
   }
 
   func testALocationThatFoundNothingSaysSoNextToTheOther() {
     let state = OnboardingKitchenReview.state(
-      fridge: .scanned([detection(egg, 0.9)]), pantry: .scanned([]))
+      fridge: scanned([detection(egg, 0.9)]), pantry: scanned([]))
 
     guard case .review(_, let pantry) = state else { return XCTFail("got \(state)") }
     guard case .nothingFound = pantry else { return XCTFail("pantry: \(pantry)") }
@@ -68,13 +104,15 @@ final class OnboardingKitchenReviewTests: XCTestCase {
 
   func testIngredientFoundInBothPhotosIsListedOnceWhereItScoredHigher() {
     let state = OnboardingKitchenReview.state(
-      fridge: .scanned([detection(egg, 0.6)]),
-      pantry: .scanned([detection(egg, 0.9), detection(tomato, 0.85)])
+      fridge: scanned([detection(egg, 0.6)]),
+      pantry: scanned([detection(egg, 0.9), detection(tomato, 0.85)])
     )
 
     guard case .review(let fridge, let pantry) = state else { return XCTFail("got \(state)") }
     // The fridge did recognize something, so it is hidden rather than labeled "nothing found".
-    guard case .items(let fridgeItems) = fridge else { return XCTFail("fridge: \(fridge)") }
+    guard case .items(let fridgeItems, someUnread: false) = fridge else {
+      return XCTFail("fridge: \(fridge)")
+    }
     XCTAssertTrue(fridgeItems.isEmpty)
     XCTAssertEqual(pantry.detections.map(\.ingredientId), [egg, tomato])
     XCTAssertEqual(pantry.detections.first?.confidence, 0.9)
@@ -97,43 +135,67 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     XCTAssertEqual(split.fridge.map(\.ingredientId), [egg, pepper, tomato])
   }
 
-  // MARK: - Selection
+  // MARK: - Choices
 
   func testOnlyItemsTheRouterIsSureOfStartSelected() {
     let sure = detection(egg, ConfidenceRouter.Thresholds.visionAuto)
     let uncertain = detection(pepper, ConfidenceRouter.Thresholds.visionConfirmMin)
     let possible = detection(tomato, ConfidenceRouter.Thresholds.visionConfirmMin - 0.01)
+    var choices = OnboardingKitchenChoices()
 
-    XCTAssertEqual(
-      OnboardingKitchenReview.selection(for: [sure, uncertain, possible]), [egg])
+    choices.noteShown([sure, uncertain, possible])
+
+    XCTAssertEqual(choices.selectedIDs(in: [sure, uncertain, possible]), [egg])
   }
 
-  func testRescanKeepsTheUsersChoicesForItemsAlreadyReviewed() {
-    let reviewed = [detection(egg, 0.95), detection(pepper, 0.6)]
-    // The user unchecked the egg and checked the pepper; a retried pantry scan then finds the
-    // egg again with a high score, and a new sure tomato.
-    let rescanned = reviewed + [detection(tomato, 0.9)]
+  func testAnItemFirstShownAsUncertainIsNotCheckedWhenItReturnsAsSure() {
+    var choices = OnboardingKitchenChoices()
+    choices.noteShown([detection(pepper, 0.6)])
 
-    let selection = OnboardingKitchenReview.selection(
-      for: rescanned, keeping: [pepper], reviewed: reviewed)
+    choices.noteShown([detection(pepper, 0.95)])
 
-    XCTAssertEqual(selection, [pepper, tomato])
+    XCTAssertFalse(choices.isSelected(pepper))
   }
 
-  func testSelectionDropsIngredientsNoLongerShown() {
-    let selection = OnboardingKitchenReview.selection(
-      for: [detection(egg, 0.6)], keeping: [egg, tomato], reviewed: [detection(egg, 0.6)])
+  /// Uncheck a sure item and check an uncertain one; new photos then fail to scan, and a retry
+  /// succeeds. Both choices must survive the scan that showed neither item.
+  func testExplicitChoicesSurviveAFailedScanAndRetry() async {
+    var choices = OnboardingKitchenChoices()
+    let fridgePhotos = [photo(.camera)]
+    let first = await OnboardingKitchenScanner.run(
+      fridgePhotos: fridgePhotos, pantryPhotos: [], previous: nil, retryFailed: false
+    ) { _ in
+      self.scanResult(self.detection(self.egg, 0.95), self.detection(self.pepper, 0.6))
+    }
+    choices.noteShown(first?.reviewState.detections ?? [])
+    choices.toggle(egg)
+    choices.toggle(pepper)
 
-    XCTAssertEqual(selection, [egg])
+    let pantryPhotos = [photo(.photoLibrary)]
+    let failed = await OnboardingKitchenScanner.run(
+      fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos, previous: first, retryFailed: false
+    ) { inputs in
+      guard inputs.first?.source == .photoLibrary else { throw ScanFailure() }
+      return self.scanResult(self.detection(self.tomato, 0.9))
+    }
+    choices.noteShown(failed?.reviewState.detections ?? [])
+    XCTAssertEqual(failed?.reviewState.detections.map(\.ingredientId), [tomato])
+
+    let retried = await OnboardingKitchenScanner.run(
+      fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos, previous: failed, retryFailed: true
+    ) { _ in
+      self.scanResult(self.detection(self.egg, 0.95), self.detection(self.pepper, 0.6))
+    }
+    let shown = retried?.reviewState.detections ?? []
+    choices.noteShown(shown)
+
+    XCTAssertEqual(choices.selectedIDs(in: shown), [pepper, tomato])
   }
 
   // MARK: - Photos and scan inputs
 
   func testScanInputsKeepEachPhotosSourceAndOrder() {
-    let photos = [
-      FLCapturedPhoto(image: drawnImage(), source: .camera),
-      FLCapturedPhoto(image: drawnImage(), source: .photoLibrary),
-    ]
+    let photos = [photo(.camera), photo(.photoLibrary)]
 
     let inputs = OnboardingKitchenReview.scanInputs(for: photos)
 
@@ -144,15 +206,16 @@ final class OnboardingKitchenReviewTests: XCTestCase {
   // MARK: - Scanner
 
   func testFridgeAndPantryPhotosAreScannedSeparately() async {
-    let fridgePhotos = [photo(.camera), photo(.camera)]
-    let pantryPhotos = [photo(.photoLibrary)]
     var calls: [[ScanInputSource]] = []
 
     let session = await OnboardingKitchenScanner.run(
-      fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos, previous: nil, retryFailed: false
+      fridgePhotos: [photo(.camera), photo(.camera)], pantryPhotos: [photo(.photoLibrary)],
+      previous: nil, retryFailed: false
     ) { inputs in
       calls.append(inputs.map(\.source))
-      return calls.count == 1 ? [self.detection(self.egg, 0.9)] : [self.detection(self.tomato, 0.9)]
+      return calls.count == 1
+        ? self.scanResult(self.detection(self.egg, 0.9))
+        : self.scanResult(self.detection(self.tomato, 0.9))
     }
 
     XCTAssertEqual(calls, [[.camera, .camera], [.photoLibrary]])
@@ -170,7 +233,7 @@ final class OnboardingKitchenReviewTests: XCTestCase {
       fridgePhotos: [], pantryPhotos: [photo(.camera)], previous: nil, retryFailed: false
     ) { _ in
       callCount += 1
-      return []
+      return self.scanResult()
     }
 
     XCTAssertEqual(callCount, 1)
@@ -181,8 +244,7 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     let session = await OnboardingKitchenScanner.run(
       fridgePhotos: [photo(.camera)], pantryPhotos: [], previous: nil, retryFailed: false
     ) { _ in
-      throw VisionService.VisionServiceError.pipelineFailed(
-        classificationError: nil, ocrError: nil)
+      throw ScanFailure()
     }
 
     guard case .failed = session?.reviewState else {
@@ -202,7 +264,7 @@ final class OnboardingKitchenReviewTests: XCTestCase {
       fridgePhotos: [unreadable], pantryPhotos: [], previous: nil, retryFailed: false
     ) { _ in
       callCount += 1
-      return []
+      return self.scanResult()
     }
 
     XCTAssertEqual(callCount, 0)
@@ -211,9 +273,7 @@ final class OnboardingKitchenReviewTests: XCTestCase {
 
   func testReturningToTheSamePhotosDoesNotRescan() async {
     let fridgePhotos = [photo(.camera)]
-    let previous = OnboardingKitchenScanSession(
-      fridgePhotoIDs: fridgePhotos.map(\.id), pantryPhotoIDs: [],
-      fridge: .scanned([detection(egg, 0.9)]), pantry: .notCaptured)
+    let previous = session(fridgePhotos: fridgePhotos, fridge: scanned([detection(egg, 0.9)]))
     var callCount = 0
 
     for retry in [false, true] {
@@ -221,7 +281,7 @@ final class OnboardingKitchenReviewTests: XCTestCase {
         fridgePhotos: fridgePhotos, pantryPhotos: [], previous: previous, retryFailed: retry
       ) { _ in
         callCount += 1
-        return []
+        return self.scanResult()
       }
       XCTAssertNil(session)
     }
@@ -229,28 +289,27 @@ final class OnboardingKitchenReviewTests: XCTestCase {
   }
 
   func testChangedPhotosAreScannedAgain() async {
-    let previous = OnboardingKitchenScanSession(
-      fridgePhotoIDs: [UUID()], pantryPhotoIDs: [],
-      fridge: .scanned([detection(egg, 0.9)]), pantry: .notCaptured)
+    let previous = session(
+      fridgePhotos: [photo(.camera)], fridge: scanned([detection(egg, 0.9)]))
     var callCount = 0
 
     let session = await OnboardingKitchenScanner.run(
       fridgePhotos: [photo(.camera)], pantryPhotos: [], previous: previous, retryFailed: false
     ) { _ in
       callCount += 1
-      return []
+      return self.scanResult()
     }
 
     XCTAssertEqual(callCount, 1)
     guard case .nothingFound = session?.reviewState else { return XCTFail("stale result kept") }
   }
 
-  func testRetryRescansOnlyTheFailedLocation() async {
+  func testRetryRescansOnlyLocationsWithUnreadPhotos() async {
     let fridgePhotos = [photo(.camera)]
     let pantryPhotos = [photo(.photoLibrary)]
-    let previous = OnboardingKitchenScanSession(
-      fridgePhotoIDs: fridgePhotos.map(\.id), pantryPhotoIDs: pantryPhotos.map(\.id),
-      fridge: .scanned([detection(egg, 0.9)]), pantry: .failed)
+    let previous = session(
+      fridgePhotos: fridgePhotos, fridge: scanned([detection(egg, 0.9)], unreadCrops: 1),
+      pantryPhotos: pantryPhotos, pantry: .failed)
     var calls: [[ScanInputSource]] = []
 
     let skipped = await OnboardingKitchenScanner.run(
@@ -258,79 +317,146 @@ final class OnboardingKitchenReviewTests: XCTestCase {
       retryFailed: false
     ) { inputs in
       calls.append(inputs.map(\.source))
-      return []
+      return self.scanResult()
     }
-    XCTAssertNil(skipped, "a failure is retried only when the user asks")
+    XCTAssertNil(skipped, "unread photos are rescanned only when the user asks")
 
-    let session = await OnboardingKitchenScanner.run(
+    let retried = await OnboardingKitchenScanner.run(
       fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos, previous: previous,
       retryFailed: true
     ) { inputs in
       calls.append(inputs.map(\.source))
-      return [self.detection(self.tomato, 0.9)]
+      return self.scanResult(self.detection(self.tomato, 0.9))
+    }
+
+    XCTAssertEqual(calls, [[.camera], [.photoLibrary]])
+    XCTAssertEqual(retried?.reviewState.detections.map(\.ingredientId), [tomato])
+  }
+
+  func testRetryLeavesACompletelyReadLocationAlone() async {
+    let fridgePhotos = [photo(.camera)]
+    let pantryPhotos = [photo(.photoLibrary)]
+    let previous = session(
+      fridgePhotos: fridgePhotos, fridge: scanned([detection(egg, 0.9)]),
+      pantryPhotos: pantryPhotos, pantry: .failed)
+    var calls: [[ScanInputSource]] = []
+
+    let retried = await OnboardingKitchenScanner.run(
+      fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos, previous: previous,
+      retryFailed: true
+    ) { inputs in
+      calls.append(inputs.map(\.source))
+      return self.scanResult(self.detection(self.tomato, 0.9))
     }
 
     XCTAssertEqual(calls, [[.photoLibrary]])
-    XCTAssertEqual(session?.reviewState.detections.map(\.ingredientId).sorted(), [tomato, egg])
+    XCTAssertEqual(
+      retried?.reviewState.detections.map(\.ingredientId).sorted(), [tomato, egg])
   }
 
-  // MARK: - What the review step runs
+  func testACancelledRunStartsNoScanAndPublishesNothing() async {
+    let scans = ScanCounter()
+    let task = Task { @MainActor in
+      await OnboardingKitchenScanner.run(
+        fridgePhotos: [self.photo(.camera)], pantryPhotos: [self.photo(.camera)],
+        previous: nil, retryFailed: false
+      ) { _ in
+        scans.count += 1
+        return self.scanResult(self.detection(self.egg, 0.9))
+      }
+    }
+    task.cancel()
 
-  /// Uncheck a sure item and check an uncertain one, go back, add a pantry photo, return: the
-  /// rescan must not re-check the first or clear the second.
-  func testChangingPhotosKeepsChoicesForIngredientsAlreadyShown() async {
-    let fridgePhoto = photo(.camera)
-    let previous = OnboardingKitchenScanSession(
-      fridgePhotoIDs: [fridgePhoto.id], pantryPhotoIDs: [],
-      fridge: .scanned([detection(egg, 0.95), detection(pepper, 0.6)]), pantry: .notCaptured)
-    let userSelection: Set<Int64> = [pepper]
+    let session = await task.value
 
-    let update = await OnboardingKitchenScanner.update(
-      fridgePhotos: [fridgePhoto], pantryPhotos: [photo(.photoLibrary)], previous: previous,
-      selection: userSelection, retryFailed: false
-    ) { inputs in
-      inputs.first?.source == .camera
-        ? [self.detection(self.egg, 0.95), self.detection(self.pepper, 0.6)]
-        : [self.detection(self.tomato, 0.9)]
+    XCTAssertNil(session)
+    XCTAssertEqual(scans.count, 0)
+  }
+
+  func testCancellingDuringTheFridgeScanSkipsThePantry() async {
+    let scans = ScanCounter()
+    let task = Task { @MainActor in
+      await OnboardingKitchenScanner.run(
+        fridgePhotos: [self.photo(.camera)], pantryPhotos: [self.photo(.photoLibrary)],
+        previous: nil, retryFailed: false
+      ) { _ in
+        scans.count += 1
+        withUnsafeCurrentTask { $0?.cancel() }
+        return self.scanResult(self.detection(self.egg, 0.9))
+      }
     }
 
-    XCTAssertEqual(update?.selection, [pepper, tomato])
-    XCTAssertEqual(update?.session.reviewState.detections.count, 3)
+    let session = await task.value
+
+    XCTAssertNil(session)
+    XCTAssertEqual(scans.count, 1)
   }
 
-  func testFirstScanChecksOnlySureItems() async {
-    let update = await OnboardingKitchenScanner.update(
-      fridgePhotos: [photo(.camera)], pantryPhotos: [], previous: nil, selection: [],
-      retryFailed: false
-    ) { _ in
-      [self.detection(self.egg, 0.95), self.detection(self.pepper, 0.6)]
-    }
+  // MARK: - Into the Kitchen (OnboardingView.commitKitchenInventory's path)
 
-    XCTAssertEqual(update?.selection, [egg])
+  func testLotsAreFiledWhereThePhotoWasTaken() throws {
+    let (db, intake, _) = try makeIntake()
+    let session = session(
+      fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)]))
+
+    try commit(session, choices: untouchedChoices(for: session), intake: intake)
+
+    XCTAssertEqual(try lotLocations(db), [egg: "fridge", tomato: "pantry"])
   }
 
-  func testRetryKeepsChoicesInTheLocationThatAlreadyScanned() async {
-    let fridgePhotos = [photo(.camera)]
-    let pantryPhotos = [photo(.photoLibrary)]
-    let previous = OnboardingKitchenScanSession(
-      fridgePhotoIDs: fridgePhotos.map(\.id), pantryPhotoIDs: pantryPhotos.map(\.id),
-      fridge: .scanned([detection(egg, 0.95)]), pantry: .failed)
+  func testOnlyVisibleItemsTheUserKeptReachTheKitchen() throws {
+    let (_, intake, inventory) = try makeIntake()
+    let session = session(fridge: scanned([detection(egg, 0.95), detection(pepper, 0.6)]))
 
-    let update = await OnboardingKitchenScanner.update(
-      fridgePhotos: fridgePhotos, pantryPhotos: pantryPhotos, previous: previous,
-      selection: [], retryFailed: true
-    ) { _ in
-      [self.detection(self.tomato, 0.9)]
-    }
+    try commit(session, choices: untouchedChoices(for: session), intake: intake)
 
-    XCTAssertEqual(update?.selection, [tomato], "the unchecked egg stays unchecked")
+    XCTAssertEqual(try activeIngredientIDs(inventory), [egg])
   }
 
-  // MARK: - Announcements
+  func testAFailedLocationKeepsWhatAnEarlierVisitAdded() throws {
+    let (_, intake, inventory) = try makeIntake()
+    let firstVisit = session(
+      fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)]))
+    try commit(firstVisit, choices: untouchedChoices(for: firstVisit), intake: intake)
+
+    let revisit = session(fridge: .failed, pantry: scanned([detection(tomato, 0.95)]))
+    try commit(revisit, choices: untouchedChoices(for: revisit), intake: intake)
+
+    XCTAssertEqual(try activeIngredientIDs(inventory), [tomato, egg])
+  }
+
+  func testContinuingWithoutAddingRetiresOnlyThatLocationsLots() throws {
+    let (_, intake, inventory) = try makeIntake()
+    let firstVisit = session(
+      fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)]))
+    var choices = untouchedChoices(for: firstVisit)
+    try commit(firstVisit, choices: choices, intake: intake)
+
+    let revisit = session(fridge: scanned([detection(egg, 0.95)]), pantry: .failed)
+    choices.noteShown(revisit.reviewState.detections)
+    choices.toggle(egg)
+    XCTAssertTrue(choices.selectedIDs(in: revisit.reviewState.detections).isEmpty)
+    try commit(revisit, choices: choices, intake: intake)
+
+    XCTAssertEqual(try activeIngredientIDs(inventory), [tomato])
+  }
+
+  func testRevisitingAndAddingAgainStoresOneCopy() throws {
+    let (db, intake, _) = try makeIntake()
+    let session = session(fridge: scanned([detection(egg, 0.95)]))
+
+    try commit(session, choices: untouchedChoices(for: session), intake: intake)
+    try commit(session, choices: untouchedChoices(for: session), intake: intake)
+
+    let lotCount = try db.read { try Int.fetchOne($0, sql: "SELECT COUNT(*) FROM inventory_lots") }
+    XCTAssertEqual(lotCount, 1)
+  }
+
+  // MARK: - Announcements and navigation
 
   func testAnnouncementStatesWhatTheScanFound() {
     let partial = OnboardingKitchenReview.state(
-      fridge: .scanned([detection(egg, 0.95)]), pantry: .failed)
+      fridge: scanned([detection(egg, 0.95)]), pantry: .failed)
 
     XCTAssertEqual(
       OnboardingKitchenReview.announcement(for: partial, selectedCount: 1),
@@ -343,23 +469,13 @@ final class OnboardingKitchenReviewTests: XCTestCase {
       "Couldn\u{2019}t read your photos. Try again, or continue.")
   }
 
-  // MARK: - Into the Kitchen
-
-  func testOnlyRecognizedItemsTheUserKeptReachTheKitchen() async throws {
-    let (intake, inventory) = try makeIntake()
-    let session = await OnboardingKitchenScanner.run(
-      fridgePhotos: [photo(.camera)], pantryPhotos: [], previous: nil, retryFailed: false
-    ) { _ in
-      [self.detection(self.egg, 0.95), self.detection(self.pepper, 0.6)]
-    }
-    let reviewed = try XCTUnwrap(session).reviewState.detections
-    let selection = OnboardingKitchenReview.selection(for: reviewed)
-
-    try intake.ingestConfirmedScan(
-      detections: reviewed, confirmedIngredientIDs: selection,
-      selectedIngredientByDetection: [:], sourceRef: "onboarding-kitchen-review:test")
-
-    XCTAssertEqual(try inventory.fetchAllActiveItems().map(\.ingredientId), [egg])
+  /// The setup bridge replays and moves on by itself, so stepping back onto it from the final
+  /// step made the kitchen review unreachable.
+  func testBackFromTheFinalStepReturnsToTheKitchenReview() {
+    XCTAssertEqual(OnboardingStep.handoff.backStep, .kitchenReview)
+    XCTAssertEqual(OnboardingStep.setupBridge.backStep, .kitchenReview)
+    XCTAssertEqual(OnboardingStep.name.backStep, .welcome)
+    XCTAssertNil(OnboardingStep.welcome.backStep)
   }
 
   // MARK: - Helpers
@@ -368,6 +484,63 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     Detection(
       ingredientId: ingredientID, label: "item \(ingredientID)", confidence: confidence,
       source: .vision, originalVisionLabel: "item_\(ingredientID)")
+  }
+
+  /// `unreadCrops` crops where every recognition request failed, as `VisionService` reports.
+  private func scanned(
+    _ detections: [Detection], unreadCrops: Int = 0
+  ) -> OnboardingKitchenScanResult {
+    .scanned(scanResult(detections, unreadCrops: unreadCrops))
+  }
+
+  private func scanResult(_ detections: Detection...) -> VisionService.ScanResult {
+    scanResult(detections, unreadCrops: 0)
+  }
+
+  private func scanResult(
+    _ detections: [Detection], unreadCrops: Int
+  ) -> VisionService.ScanResult {
+    VisionService.ScanResult(
+      detections: detections,
+      ocrText: [],
+      diagnostics: ScanDiagnostics(
+        captureCount: 1, cropCount: 6, topRawLabels: [], ocrCandidates: [],
+        bucketCounts: ScanBucketCounts(auto: 0, confirm: 0, possible: 0),
+        passErrors: Array(repeating: "class=failed,ocr=failed", count: unreadCrops),
+        elapsedMs: 0
+      ),
+      provenance: .realScan
+    )
+  }
+
+  private func session(
+    fridgePhotos: [FLCapturedPhoto] = [],
+    fridge: OnboardingKitchenScanResult = .notCaptured,
+    pantryPhotos: [FLCapturedPhoto] = [],
+    pantry: OnboardingKitchenScanResult = .notCaptured
+  ) -> OnboardingKitchenScanSession {
+    OnboardingKitchenScanSession(
+      fridgePhotoIDs: fridgePhotos.map(\.id), pantryPhotoIDs: pantryPhotos.map(\.id),
+      fridge: fridge, pantry: pantry)
+  }
+
+  /// Choices as they stand once the review has shown this session, before any tap.
+  private func untouchedChoices(
+    for session: OnboardingKitchenScanSession
+  ) -> OnboardingKitchenChoices {
+    var choices = OnboardingKitchenChoices()
+    choices.noteShown(session.reviewState.detections)
+    return choices
+  }
+
+  private func commit(
+    _ session: OnboardingKitchenScanSession,
+    choices: OnboardingKitchenChoices,
+    intake: InventoryIntakeService
+  ) throws {
+    try OnboardingKitchenIntake.commit(
+      session: session, choices: choices, runID: "onboarding-kitchen-review:test",
+      intake: intake)
   }
 
   private func photo(_ source: ScanInputSource) -> FLCapturedPhoto {
@@ -381,7 +554,22 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     }
   }
 
-  private func makeIntake() throws -> (InventoryIntakeService, InventoryRepository) {
+  private func activeIngredientIDs(_ inventory: InventoryRepository) throws -> [Int64] {
+    try inventory.fetchAllActiveItems().map(\.ingredientId).sorted()
+  }
+
+  private func lotLocations(_ db: DatabaseQueue) throws -> [Int64: String] {
+    try db.read { db in
+      let rows = try Row.fetchAll(
+        db, sql: "SELECT ingredient_id, storage_location FROM inventory_lots")
+      return Dictionary(
+        uniqueKeysWithValues: rows.map {
+          ($0["ingredient_id"] as Int64, $0["storage_location"] as String)
+        })
+    }
+  }
+
+  private func makeIntake() throws -> (DatabaseQueue, InventoryIntakeService, InventoryRepository) {
     let db = try DatabaseQueue()
     try DatabaseMigrations.migrate(db)
     try db.write { db in
@@ -397,6 +585,6 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     let inventory = InventoryRepository(db: db)
     let intake = InventoryIntakeService(
       ingredientRepository: IngredientRepository(db: db), inventoryRepository: inventory)
-    return (intake, inventory)
+    return (db, intake, inventory)
   }
 }

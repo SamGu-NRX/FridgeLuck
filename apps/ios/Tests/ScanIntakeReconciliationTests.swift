@@ -17,10 +17,12 @@ final class ScanIntakeReconciliationTests: XCTestCase {
 
     try intake.ingestConfirmedScan(
       detections: detections, confirmedIngredientIDs: [tomato],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
     let second = try intake.ingestConfirmedScan(
       detections: detections, confirmedIngredientIDs: [tomato],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     XCTAssertEqual(second.lotsAdded, 0)
     XCTAssertEqual(try activeIngredientIDs(inventory), [tomato])
@@ -33,10 +35,12 @@ final class ScanIntakeReconciliationTests: XCTestCase {
 
     try intake.ingestConfirmedScan(
       detections: [tomatoDetection], confirmedIngredientIDs: [tomato],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
     let revisit = try intake.ingestConfirmedScan(
       detections: [tomatoDetection], confirmedIngredientIDs: [pepper],
-      selectedIngredientByDetection: [tomatoDetection.id: pepper], sourceRef: "s1")
+      selectedIngredientByDetection: [tomatoDetection.id: pepper], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     XCTAssertEqual(revisit.lotsAdded, 1)
     XCTAssertEqual(revisit.lotsRetired, 1)
@@ -48,14 +52,17 @@ final class ScanIntakeReconciliationTests: XCTestCase {
     let tomatoDetection = detection(tomato)
     try intake.ingestConfirmedScan(
       detections: [tomatoDetection], confirmedIngredientIDs: [tomato],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
     try intake.ingestConfirmedScan(
       detections: [tomatoDetection], confirmedIngredientIDs: [pepper],
-      selectedIngredientByDetection: [tomatoDetection.id: pepper], sourceRef: "s1")
+      selectedIngredientByDetection: [tomatoDetection.id: pepper], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     let third = try intake.ingestConfirmedScan(
       detections: [tomatoDetection], confirmedIngredientIDs: [tomato],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     XCTAssertEqual(third.lotsRestored, 1)
     XCTAssertEqual(third.lotsRetired, 1)
@@ -67,13 +74,15 @@ final class ScanIntakeReconciliationTests: XCTestCase {
     let (_, intake, inventory) = try makeServices()
     try intake.ingestConfirmedScan(
       detections: [detection(egg)], confirmedIngredientIDs: [egg],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
     let item = try XCTUnwrap(inventory.fetchAllActiveItems().first)
     try inventory.removeActiveItem(id: item.id)
 
     let revisit = try intake.ingestConfirmedScan(
       detections: [detection(egg)], confirmedIngredientIDs: [egg],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     XCTAssertEqual(revisit.lotsRestored, 0)
     XCTAssertEqual(try activeIngredientIDs(inventory), [])
@@ -85,10 +94,12 @@ final class ScanIntakeReconciliationTests: XCTestCase {
 
     try intake.ingestConfirmedScan(
       detections: [tomatoDetection], confirmedIngredientIDs: [tomato],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
     try intake.ingestConfirmedScan(
       detections: [tomatoDetection, detection(egg)], confirmedIngredientIDs: [tomato, egg],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     XCTAssertEqual(try activeIngredientIDs(inventory), [tomato, egg])
   }
@@ -98,12 +109,14 @@ final class ScanIntakeReconciliationTests: XCTestCase {
     let detections = [detection(egg)]
     try intake.ingestConfirmedScan(
       detections: detections, confirmedIngredientIDs: [egg],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
     try consumeEverything(egg, db: db)
 
     let revisit = try intake.ingestConfirmedScan(
       detections: detections, confirmedIngredientIDs: [egg],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     XCTAssertEqual(revisit.lotsAdded, 0)
     XCTAssertEqual(try activeIngredientIDs(inventory), [])
@@ -113,12 +126,14 @@ final class ScanIntakeReconciliationTests: XCTestCase {
     let (db, intake, inventory) = try makeServices()
     try intake.ingestConfirmedScan(
       detections: [detection(egg)], confirmedIngredientIDs: [egg],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
     try consumeHalf(egg, db: db)
 
     let revisit = try intake.ingestConfirmedScan(
       detections: [detection(egg)], confirmedIngredientIDs: [],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     XCTAssertEqual(revisit.lotsRetired, 0)
     XCTAssertEqual(try activeIngredientIDs(inventory), [egg])
@@ -128,11 +143,13 @@ final class ScanIntakeReconciliationTests: XCTestCase {
     let (_, intake, inventory) = try makeServices()
     try intake.ingestConfirmedScan(
       detections: [detection(tomato)], confirmedIngredientIDs: [tomato],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     try intake.ingestConfirmedScan(
       detections: [detection(egg)], confirmedIngredientIDs: [egg],
-      selectedIngredientByDetection: [:], sourceRef: "s2")
+      selectedIngredientByDetection: [:], sourceRef: "s2",
+      location: .inferredFromIngredient)
 
     XCTAssertEqual(try activeIngredientIDs(inventory), [tomato, egg])
   }
@@ -143,7 +160,8 @@ final class ScanIntakeReconciliationTests: XCTestCase {
     XCTAssertThrowsError(
       try intake.ingestConfirmedScan(
         detections: [detection(tomato), detection(999)], confirmedIngredientIDs: [tomato, 999],
-        selectedIngredientByDetection: [:], sourceRef: "s1"))
+        selectedIngredientByDetection: [:], sourceRef: "s1",
+        location: .inferredFromIngredient))
 
     XCTAssertEqual(try lotCount(db), 0)
   }
@@ -158,7 +176,8 @@ final class ScanIntakeReconciliationTests: XCTestCase {
 
     try intake.ingestConfirmedScan(
       detections: [eggDetection, garlicDetection], confirmedIngredientIDs: [egg, tomato],
-      selectedIngredientByDetection: [:], sourceRef: "s1")
+      selectedIngredientByDetection: [:], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     let grams = Dictionary(
       uniqueKeysWithValues: try inventory.fetchAllActiveItems().map {
@@ -180,7 +199,8 @@ final class ScanIntakeReconciliationTests: XCTestCase {
 
     try intake.ingestConfirmedScan(
       detections: [detection], confirmedIngredientIDs: [egg],
-      selectedIngredientByDetection: [detection.id: egg], sourceRef: "s1")
+      selectedIngredientByDetection: [detection.id: egg], sourceRef: "s1",
+      location: .inferredFromIngredient)
 
     let item = try XCTUnwrap(inventory.fetchAllActiveItems().first)
     XCTAssertEqual(item.ingredientId, egg)
