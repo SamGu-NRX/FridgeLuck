@@ -127,8 +127,8 @@ final class MockNotificationCenter: @unchecked Sendable, UserNotificationCenterC
     self.pendingRequests = pendingRequests
   }
 
-  func pendingNotificationRequests() async -> [UNNotificationRequest] {
-    pendingRequests
+  func pendingNotificationIdentifiers() async -> [String] {
+    pendingRequests.map(\.identifier)
   }
 
   func add(_ request: UNNotificationRequest) async throws {
