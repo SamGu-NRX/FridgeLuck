@@ -1,4 +1,5 @@
 import Foundation
+import CryptoKit
 import GRDB
 
 struct EvaluationFailure: Error, CustomStringConvertible {
@@ -200,8 +201,21 @@ func assertSuppressedFailureDetected(_ state: ProducerState) throws {
   catch let error as EvaluationFailure { detected = error.description.contains("event row count") }
   try require(detected, "SQL assertions failed to catch suppressed write error")
 }
+func sha256(_ data: Data) -> String {
+  SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+}
 func run() throws {
-  try require(CommandLine.arguments.count == 3, "usage: reverse-meal-runner STATES_JSONL REPLAY_JSON")
+  let startedAt = Date()
+  try require(CommandLine.arguments.count == 5 && CommandLine.arguments[3] == "--result",
+    "usage: reverse-meal-runner STATES_JSONL REPLAY_JSON --result RESULT_JSON")
+  let resultURL = URL(fileURLWithPath: CommandLine.arguments[4]).standardizedFileURL
+  let recordURL = resultURL.deletingLastPathComponent().appendingPathComponent("execution-record.json")
+  try require(resultURL != recordURL, "result must not be named execution-record.json")
+  for url in [resultURL, recordURL] {
+    try require(!FileManager.default.fileExists(atPath: url.path), "Refusing to overwrite existing output: \(url.path)")
+  }
+  let executableURL = URL(fileURLWithPath: CommandLine.arguments[0]).standardizedFileURL.resolvingSymlinksInPath()
+  let executableHash = sha256(try Data(contentsOf: executableURL))
   let decoder = JSONDecoder()
   let statesText = try String(contentsOfFile: CommandLine.arguments[1], encoding: .utf8)
   let rows = try statesText.split(separator: "\n").map { try decoder.decode(StateRow.self, from: Data($0.utf8)) }
@@ -237,8 +251,20 @@ func run() throws {
     "checks": ["case_runs": 192, "warm_case_runs": 128, "warm_blended_reward_assertions": 6144,
       "fresh_repeat_forward_reverse_seeded_shuffle": true, "shuffle_seed_hex": "7265766572736531",
       "suppressed_write_failure_detected": true, "timestamps_excluded_from_reproducibility": true]]
-  FileHandle.standardOutput.write(try jsonData(document))
-  FileHandle.standardOutput.write(Data([10]))
+  var resultBytes = try jsonData(document)
+  resultBytes.append(10)
+  try resultBytes.write(to: resultURL, options: .withoutOverwriting)
+  let formatter = ISO8601DateFormatter()
+  formatter.timeZone = TimeZone(secondsFromGMT: 0)
+  formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+  let record: [String: Any] = [
+    "schema": "reverse-meal-execution-record-v1", "executable_sha256": executableHash,
+    "started_at": formatter.string(from: startedAt), "finished_at": formatter.string(from: Date()),
+    "result_sha256": sha256(resultBytes), "argv": CommandLine.arguments
+  ]
+  var recordBytes = try jsonData(record)
+  recordBytes.append(10)
+  try recordBytes.write(to: recordURL, options: .withoutOverwriting)
 }
 do { try run() }
 catch {

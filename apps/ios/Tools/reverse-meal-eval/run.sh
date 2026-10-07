@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
-# Invoke with bash run.sh STATES_JSONL REPLAY_JSON. Build products stay in our scratch directory.
-if [ "$#" -ne 2 ]; then echo 'usage: bash run.sh STATES_JSONL REPLAY_JSON' >&2; exit 1; fi
+# Result and execution record go to the caller's fresh directory; each build has its own directory.
+if [ "$#" -ne 4 ] || [ "$3" != '--result' ]; then echo 'usage: bash run.sh STATES_JSONL REPLAY_JSON --result RESULT_JSON' >&2; exit 1; fi
 TOOL_DIR="$(dirname "$(realpath "$0")")"
 IOS_DIR="$(realpath "$TOOL_DIR/../..")"
 LEASE_TOOL="$HOME/.long-run/bin/lr-lease"
@@ -88,4 +88,4 @@ paths = [build/'reverse-meal-runner', build/'grdb/libGRDB.dylib', build/'grdb/GR
 record = {**inputs, 'binary_and_grdb': {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}, 'swift_version': subprocess.check_output(['swiftc', '--version'], text=True), 'compile_admission': 'lr-lease heavy, lockf heavy.lock, 8 GiB floor on df -k /'}
 (build/'build-record.json').write_text(json.dumps(record, sort_keys=True, separators=(',', ':')) + '\n')
 PY
-"$build_dir/reverse-meal-runner" "$1" "$2"
+"$build_dir/reverse-meal-runner" "$1" "$2" --result "$4"

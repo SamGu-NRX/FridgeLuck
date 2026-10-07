@@ -10,6 +10,7 @@ import { decodeStrict } from "./runRouting.js";
 import { parseStates, parseReplay, projectState, type StateRow, type Replay } from "./reverseMealProjection.js";
 import { buildReverseMealDecisionsRequest, validateReverseMealQuestion } from "./reverseMealDecisions.js";
 import { ConfidenceService } from "../services/confidenceService.js";
+import { exactObject } from "./routingInput.js";
 import { actionFor, POLICY_VERSION, type Prediction } from "./scoreReverseMeal.js";
 
 export const ARMS = ["ios-A0", "ios-A1-proxy", "ios-A1-truth-control"] as const;
@@ -135,6 +136,19 @@ export function validateBuildRecord(value: unknown, recordPath: string, readByte
   if (typeof record.swift_version !== "string" || !record.swift_version.trim()) throw new Error("build record: swift_version must be non-empty");
   return record as unknown as BuildRecord;
 }
+export function validateExecutionRecord(value: unknown, resultBytes: Buffer, executableHash: string) {
+  const record = exactObject(value, ["schema", "executable_sha256", "started_at", "finished_at", "result_sha256", "argv"], "execution record");
+  if (record.schema !== "reverse-meal-execution-record-v1") throw new Error("execution record: expected schema reverse-meal-execution-record-v1");
+  if (record.result_sha256 !== sha(resultBytes)) throw new Error("execution record: result_sha256 does not match the supplied Swift result bytes");
+  if (record.executable_sha256 !== executableHash) throw new Error("execution record: executable_sha256 does not match the build record's runner hash");
+  const utc = (value: unknown, field: string) => {
+    if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(value) || !Number.isFinite(Date.parse(value))) throw new Error(`execution record: ${field} must be ISO-8601 UTC`);
+    return Date.parse(value);
+  };
+  if (utc(record.finished_at, "finished_at") < utc(record.started_at, "started_at")) throw new Error("execution record: finished_at precedes started_at");
+  if (!Array.isArray(record.argv) || !record.argv.length || record.argv.some(arg => typeof arg !== "string" || !arg)) throw new Error("execution record: argv must be a nonempty string array");
+  return record;
+}
 export function runReverseMeal(args: string[]) {
   const options = new Map<string, string>();
   for (let i = 0; i < args.length; i += 2) {
@@ -171,6 +185,14 @@ export function runReverseMeal(args: string[]) {
   const recordPath = resolve(options.get("--build-record")!), recordBytes = readFileSync(recordPath);
   inputHashes[recordPath] = sha(recordBytes);
   const build = validateBuildRecord(decodeStrict(recordBytes.toString("utf8")), recordPath);
+  const executableHash = build.binary_and_grdb[resolve(dirname(recordPath), "reverse-meal-runner")]!;
+  for (const [option, bytes] of [["--swift-first", first], ["--swift-second", second]] as const) {
+    const executionPath = resolve(dirname(resolve(options.get(option)!)), "execution-record.json");
+    if (!existsSync(executionPath)) throw new Error(`Required execution record for ${option}: ${executionPath}`);
+    const executionBytes = readFileSync(executionPath);
+    validateExecutionRecord(decodeStrict(executionBytes.toString("utf8")), bytes, executableHash);
+    inputHashes[executionPath] = sha(executionBytes);
+  }
   const admissionRecord = { completed_build_admission: build.compile_admission, build_script_sha256: build.build_script_sha256 };
   const swift = decodeStrict(first.toString("utf8")) as SwiftDocument;
   if (swift.checks.case_runs !== 192 || swift.checks.warm_case_runs !== 128 || swift.checks.warm_blended_reward_assertions !== 6144 || swift.checks.fresh_repeat_forward_reverse_seeded_shuffle !== true || swift.checks.suppressed_write_failure_detected !== true) throw new Error("Swift acceptance checks missing");
