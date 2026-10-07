@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
-import { readFileSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
-import { assessTS, assertLockAvailable, auditPolicySource, SPEC_POLICY_SHA256, crossCheck, type SwiftDocument } from "../evaluation/runReverseMeal.js";
+import { readFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { runReverseMeal, assessTS, assertLockAvailable, auditPolicySource, SPEC_POLICY_SHA256, crossCheck, type SwiftDocument } from "../evaluation/runReverseMeal.js";
 import { fileURLToPath } from "node:url";
 import { parseStates, parseReplay, projectState } from "../evaluation/reverseMealProjection.js";
 import { canonicalJson } from "../evaluation/canonicalJson.js";
@@ -43,10 +43,19 @@ test("proxy and truth control use different reward columns without evaluation fe
 test("locking refuses existing artifacts and does not overwrite bytes", () => {
   mkdirSync("/tmp/fl-tc/reverse-meal", { recursive: true });
   const dir = mkdtempSync("/tmp/fl-tc/reverse-meal/lock-test-");
-  expect(() => assertLockAvailable(dir)).not.toThrow();
-  writeFileSync(`${dir}/manifest.json`, "sentinel");
-  expect(() => assertLockAvailable(dir)).toThrow("Refusing to overwrite");
-  expect(readFileSync(`${dir}/manifest.json`, "utf8")).toBe("sentinel");
+  try {
+    expect(() => assertLockAvailable(`${dir}/fresh-output`)).not.toThrow();
+    expect(() => assertLockAvailable(dir)).toThrow("Refusing to overwrite");
+    writeFileSync(`${dir}/manifest.json`, "sentinel");
+    expect(() => assertLockAvailable(dir)).toThrow("Refusing to overwrite");
+    expect(readFileSync(`${dir}/manifest.json`, "utf8")).toBe("sentinel");
+    expect(() => assertLockAvailable(fileURLToPath(new URL("../../evaluation-output/reverse-meal-v1", import.meta.url)))).toThrow("Refusing to overwrite");
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+test("runner requires --out and refuses an existing directory before reading inputs", () => {
+  const inputs = ["--swift-first", "not-opened", "--swift-second", "not-opened", "--build-record", "not-opened"];
+  expect(() => runReverseMeal(inputs)).toThrow("required: --out");
+  expect(() => runReverseMeal([...inputs, "--out", fixtures])).toThrow("Refusing to overwrite");
 });
 test("cross-check reports mismatches without reconciling scores or raw modes", () => {
   const one = [rows[0]!];

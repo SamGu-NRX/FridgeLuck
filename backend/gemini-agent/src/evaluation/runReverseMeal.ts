@@ -15,7 +15,7 @@ import { actionFor, POLICY_VERSION, type Prediction } from "./scoreReverseMeal.j
 export const ARMS = ["ios-A0", "ios-A1-proxy", "ios-A1-truth-control"] as const;
 export type Arm = typeof ARMS[number];
 const ROOT = resolve(fileURLToPath(new URL(".", import.meta.url)), "../../../..");
-const OUTPUT = resolve(ROOT, "backend/gemini-agent/evaluation-output/reverse-meal-v1");
+const LOCKED_OUTPUT = resolve(ROOT, "backend/gemini-agent/evaluation-output/reverse-meal-v1");
 const sha = (bytes: string | Buffer) => createHash("sha256").update(bytes).digest("hex");
 interface SwiftResult {
   case_id: string;
@@ -85,7 +85,7 @@ export function crossCheck(rows: StateRow[], replay: Replay, swift: SwiftDocumen
   return { tolerance: 1e-12, all_agree: mismatches.length === 0, comparison_count: comparisons.length, projection_count: projectionChecks.length, max_absolute_score_difference: Math.max(...comparisons.map(c => c.absolute_score_difference as number)), projection_checks: projectionChecks, comparisons, mismatches };
 }
 export function assertLockAvailable(directory: string) {
-  if (existsSync(directory) && readdirSync(directory).length) throw new Error(`Refusing to overwrite nonempty locked output directory: ${directory}`);
+  if (resolve(directory) === LOCKED_OUTPUT || existsSync(directory)) throw new Error(`Refusing to overwrite existing or committed output directory: ${directory}`);
 }
 function git(args: string[]) {
   const result = spawnSync("git", args, { cwd: ROOT, encoding: "utf8" });
@@ -138,11 +138,12 @@ export function runReverseMeal(args: string[]) {
   const options = new Map<string, string>();
   for (let i = 0; i < args.length; i += 2) {
     const key = args[i]!, value = args[i + 1];
-    if (!["--fixtures", "--swift-first", "--swift-second", "--build-record"].includes(key) || !value || options.has(key)) throw new Error(`Invalid option: ${key}`);
+    if (!["--fixtures", "--swift-first", "--swift-second", "--build-record", "--out"].includes(key) || !value || options.has(key)) throw new Error(`Invalid option: ${key}`);
     options.set(key, value);
   }
-  for (const key of ["--swift-first", "--swift-second", "--build-record"]) if (!options.has(key)) throw new Error(`required: ${key}`);
+  for (const key of ["--out", "--swift-first", "--swift-second", "--build-record"]) if (!options.has(key)) throw new Error(`required: ${key}`);
   if (!options.has("--fixtures")) options.set("--fixtures", DEFAULT_FIXTURES);
+  const OUTPUT = resolve(options.get("--out")!);
   assertLockAvailable(OUTPUT);
   const policyPath = "apps/ios/FeatureLogic/Recipe/MealPhotoConfirmationPolicy.swift";
   const policySource = readFileSync(resolve(ROOT, policyPath), "utf8");
@@ -201,7 +202,8 @@ export function runReverseMeal(args: string[]) {
   const sourceDiffs = Object.fromEntries(sourcePaths.map(p => [resolve(ROOT, p), { status: git(["status", "--porcelain", "--", p]).trim(), diff: git(["diff", "HEAD", "--", p]) }]));
   const outputHashes = Object.fromEntries([...files].map(([name, text]) => [resolve(OUTPUT, name), sha(text)]));
   const manifest = { version: "reverse-meal-v1", source_git_commit: git(["rev-parse", "HEAD"]).trim(), source_and_runner_sha256: sourceHashes, source_worktree_diffs: sourceDiffs, build_record: build, output_sha256: outputHashes, labels_accessed: false, label_hashes: "Not read or hashed by the label-blind candidate runner. The owner's separate scorer receives labels after locking.", question_name: question.name, ...metadata, cross_check_all_agree: parity.all_agree, manifest_self_hash: "Excluded to avoid a self-referential hash; sha256 manifest.json externally." };
-  mkdirSync(OUTPUT, { recursive: true });
+  mkdirSync(dirname(OUTPUT), { recursive: true });
+  mkdirSync(OUTPUT);
   for (const [name, text] of files) writeFileSync(resolve(OUTPUT, name), text, { flag: "wx" });
   writeFileSync(resolve(OUTPUT, "manifest.json"), canonicalJson(manifest) + "\n", { flag: "wx" });
   console.log(canonicalJson({ locked_directory: OUTPUT, outputs: files.size + 1, manifest_sha256: sha(readFileSync(resolve(OUTPUT, "manifest.json"))), comparison_count: parity.comparison_count, projection_count: parity.projection_count, max_score_difference: parity.max_absolute_score_difference, mismatches: parity.mismatches }));
