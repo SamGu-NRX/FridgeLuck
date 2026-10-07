@@ -17,7 +17,7 @@ enum IngredientOCRLineJoining {
       let first = lines[i]
       guard IngredientLexicon.resolveFromTextDetailed(first.text) == nil,
         let j = lines.indices.first(where: {
-          lines[$0].boundingBox.minY < first.boundingBox.minY
+          startsLowerRow(first.boundingBox, above: lines[$0].boundingBox)
             && horizontallyAligned(first.boundingBox, lines[$0].boundingBox)
         }),
         !consumed.contains(j)
@@ -55,6 +55,12 @@ enum IngredientOCRLineJoining {
     guard upper.width > 0, lower.width > 0, upper.height > 0, lower.height > 0 else { return false }
     let overlap = max(0, min(upper.maxX, lower.maxX) - max(upper.minX, lower.minX))
     return overlap / min(upper.width, lower.width) >= 0.7
+  }
+
+  private static func startsLowerRow(_ upper: CGRect, above lower: CGRect) -> Bool {
+    let height = max(upper.height, lower.height)
+    // Overlap beyond the adjacency allowance is the same row, not an intervening row.
+    return lower.minY < upper.minY && upper.minY - lower.maxY >= -0.25 * height
   }
 
   private static func adjacent(_ upper: CGRect, above lower: CGRect) -> Bool {

@@ -4,8 +4,10 @@ import XCTest
 @testable import FridgeLuck
 
 final class IngredientOCRLineJoiningTests: XCTestCase {
-  private func line(_ text: String, x: Double = 0.2, y: Double) -> IngredientOCRLineJoining.Line {
-    .init(text: text, boundingBox: CGRect(x: x, y: y, width: 0.2, height: 0.05))
+  private func line(_ text: String, x: Double = 0.2, y: Double, height: Double = 0.05)
+    -> IngredientOCRLineJoining.Line
+  {
+    .init(text: text, boundingBox: CGRect(x: x, y: y, width: 0.2, height: height))
   }
 
   func testAlignedLinesRecoverCuratedBlackBeansAndUnionTheirBoxes() {
@@ -63,7 +65,9 @@ final class IngredientOCRLineJoiningTests: XCTestCase {
   }
 
   func testInterveningKidneyLinePreventsBlackBeansForEveryInputOrder() {
-    let lines = [line("BLACK", y: 0.5), line("KIDNEY", y: 0.48), line("BEANS", y: 0.44)]
+    let lines = [
+      line("BLACK", y: 0.5), line("KIDNEY", y: 0.46, height: 0.01), line("BEANS", y: 0.44),
+    ]
     for order in permutations {
       let result = IngredientOCRLineJoining.joinAdjacent(order.map { lines[$0] })
       XCTAssertEqual(result.map(\.text), ["BLACK", "KIDNEY", "BEANS"], "\(order)")
@@ -83,8 +87,24 @@ final class IngredientOCRLineJoiningTests: XCTestCase {
     }
   }
 
+  func testSameRowOverlapDoesNotBlockAJoinForEveryInputOrder() {
+    let lines = [line("BLACK", y: 0.5), line("LABEL", y: 0.49), line("BEANS", y: 0.44)]
+    let expected = [
+      lines[1],
+      IngredientOCRLineJoining.Line(
+        text: "BLACK BEANS", boundingBox: lines[0].boundingBox.union(lines[2].boundingBox),
+        joinedParts: ["BLACK", "BEANS"]),
+    ]
+    for order in permutations {
+      XCTAssertEqual(
+        IngredientOCRLineJoining.joinAdjacent(order.map { lines[$0] }), expected, "\(order)")
+    }
+  }
+
   func testNearestCuratedObservationCannotBeSkipped() {
-    let lines = [line("BLACK", y: 0.5), line("RICE", y: 0.48), line("BEANS", y: 0.44)]
+    let lines = [
+      line("BLACK", y: 0.5), line("RICE", y: 0.46, height: 0.01), line("BEANS", y: 0.44),
+    ]
     XCTAssertEqual(IngredientOCRLineJoining.joinAdjacent(lines), lines)
   }
 
