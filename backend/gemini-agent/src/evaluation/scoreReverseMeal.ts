@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { createHash } from "node:crypto";
+import { basename, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { canonicalJson } from "./canonicalJson.js";
 import { decodeStrict } from "./runRouting.js";
@@ -174,24 +175,59 @@ export function validateV1Family(states: StateRow[], labels: OutcomeLabel[]) {
   const outcomes = labels.filter(l => l.stratum === "outcome");
   if (outcomes.length !== 12 || outcomes.filter(l => l.original_proposal_correct === true).length !== 8 || outcomes.filter(l => l.original_proposal_correct === false).length !== 4 || new Set(outcomes.map(l => l.group_id)).size !== 7 || new Set(labels.map(l => l.group_id)).size !== 11) throw new Error("reverse-meal-v1: expected 12 known outcomes in 7 groups, 8 correct/4 incorrect, and 11 total groups");
 }
-export function runScorer(args: string[]) {
-  let statesPath: string | undefined, labelsPath: string | undefined, crossCheckPath: string | undefined;
+export function runScorer(args: string[], readBytes: (path: string) => Buffer = readFileSync) {
+  let statesPath: string | undefined, labelsPath: string | undefined, crossCheckPath: string | undefined, manifestPath: string | undefined;
+  let synthetic = false;
   const outputs: string[] = [];
-  for (let i = 0; i < args.length; i += 2) {
-    const key = args[i], value = args[i + 1];
-    if (!value) throw new Error(`missing value for ${key}`);
+  for (let i = 0; i < args.length; i++) {
+    const key = args[i];
+    if (key === "--unverified-synthetic" && !synthetic) { synthetic = true; continue; }
+    const value = args[++i];
+    if (!value || value.startsWith("--")) throw new Error(`missing value for ${key}`);
     if (key === "--states" && !statesPath) statesPath = value;
     else if (key === "--labels" && !labelsPath) labelsPath = value;
     else if (key === "--outputs") outputs.push(value);
     else if (key === "--cross-check" && !crossCheckPath) crossCheckPath = value;
+    else if (key === "--manifest" && !manifestPath) manifestPath = value;
     else throw new Error(`unknown/duplicate option: ${key}`);
   }
-  if (!statesPath || !labelsPath || !outputs.length) throw new Error("required: --states STATES --outputs NORMALIZED_JSONL [--outputs ...] --labels LABELS [--cross-check PARITY_JSON]");
-  const states = parseStates(readFileSync(statesPath, "utf8")), labels = parseLabels(readFileSync(labelsPath, "utf8"));
+  if (!statesPath || !labelsPath || !outputs.length) throw new Error("required: --states STATES --outputs NORMALIZED_JSONL [--outputs ...] --labels LABELS [--cross-check PARITY_JSON] --manifest MANIFEST");
+  if (!manifestPath && !synthetic) throw new Error("required: --manifest PATH, or --unverified-synthetic for authored test data only");
+  let manifest: Record<string, unknown> | undefined;
+  if (!synthetic) {
+    const value = decodeStrict(readBytes(manifestPath!).toString("utf8"));
+    if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("manifest: expected object");
+    manifest = value as Record<string, unknown>;
+  }
+  const readVerified = (path: string, section: "input_sha256" | "output_sha256") => {
+    const bytes = readBytes(path);
+    if (manifest) {
+      const hashes = manifest[section];
+      if (!hashes || typeof hashes !== "object" || Array.isArray(hashes)) throw new Error(`manifest: missing ${section}`);
+      // Locked manifests contain absolute paths from the original checkout. A unique
+      // filename also identifies the same artifact after copying the checkout elsewhere.
+      const matches = Object.entries(hashes).filter(([key]) => basename(key) === basename(path));
+      if (matches.length !== 1) throw new Error(`manifest: expected exactly one ${section} entry for ${path}`);
+      const expected = matches[0]![1];
+      if (typeof expected !== "string" || !/^[a-f0-9]{64}$/.test(expected)) throw new Error(`manifest: invalid sha256 for ${path}`);
+      const actual = createHash("sha256").update(bytes).digest("hex");
+      if (actual !== expected) throw new Error(`manifest: sha256 mismatch for ${path}`);
+    }
+    return bytes.toString("utf8");
+  };
+  // Retain the verified bytes; never reopen artifacts after opening labels.
+  const statesText = readVerified(statesPath, "input_sha256");
+  const predictionTexts = outputs.map(path => readVerified(path, "output_sha256"));
+  const parityText = crossCheckPath ? readVerified(crossCheckPath, "output_sha256") : undefined;
+  const states = parseStates(statesText);
+  const parity = parityText === undefined ? undefined : parseParity(parityText, states);
+  const predictions = predictionTexts.map(parsePredictions);
+  const labels = parseLabels(readBytes(labelsPath).toString("utf8"));
   validateV1Family(states, labels);
-  const parity = crossCheckPath ? parseParity(readFileSync(crossCheckPath, "utf8"), states) : undefined;
-  const results = outputs.map(path => ({ outputs_path: path, ...scoreReverseMeal(states, parsePredictions(readFileSync(path, "utf8")), labels, parity) }));
-  console.log(canonicalJson({ header: { caveats: CAVEATS, policy_version: POLICY_VERSION }, results }));
+  const results = outputs.map((path, i) => ({ outputs_path: path, ...scoreReverseMeal(states, predictions[i]!, labels, parity) }));
+  const scored = { header: { caveats: CAVEATS, policy_version: POLICY_VERSION, ...(synthetic ? { verification: "synthetic, unverified" } : {}) }, results };
+  console.log(canonicalJson(scored));
+  return scored;
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try { runScorer(process.argv.slice(2)); }

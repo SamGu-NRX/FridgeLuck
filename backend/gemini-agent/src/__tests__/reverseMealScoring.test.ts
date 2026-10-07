@@ -1,8 +1,9 @@
-import { expect, test } from "bun:test";
+import { expect, test, spyOn } from "bun:test";
+import { createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
-import { scoreReverseMeal, parseLabels, parsePredictions, parseParity, validateV1Family, CAVEATS, actionFor, type OutcomeLabel, type Prediction } from "../evaluation/scoreReverseMeal.js";
+import { runScorer, scoreReverseMeal, parseLabels, parsePredictions, parseParity, validateV1Family, CAVEATS, actionFor, type OutcomeLabel, type Prediction } from "../evaluation/scoreReverseMeal.js";
 import { projectState, type StateRow } from "../evaluation/reverseMealProjection.js";
 // Authored synthetic labels only. These do not mirror or read the real outcome-label file.
 const id = (i: number) => `RM-${String(i).padStart(2, "0")}`;
@@ -114,7 +115,7 @@ test("optional synthetic parity reports score and mode denominators, guard separ
   expect(() => parseParity(JSON.stringify({ comparisons: [...comparisons, comparisons[0]] }), states)).toThrow("duplicate");
 });
 test("all scorer caveats are verbatim passages of the read-only spec", () => {
-  const spec = readFileSync("/Users/samgu/.t3/scratch/2026-10-07-all-right-i-want-you-f82246a0/fridgeluck-eval/reverse-meal-spec-v1.md", "utf8");
+  const spec = readFileSync(fileURLToPath(new URL("../../evaluation-fixtures/reverse-meal-spec-v1.md", import.meta.url)), "utf8");
   for (const caveat of CAVEATS) expect(spec).toContain(caveat);
 });
 test("scorer executable accepts paths and scores authored synthetic data only", () => {
@@ -124,9 +125,63 @@ test("scorer executable accepts paths and scores authored synthetic data only", 
   writeFileSync(`${dir}/states.jsonl`, jsonl(states));
   writeFileSync(`${dir}/labels-synthetic.jsonl`, jsonl(labels));
   writeFileSync(`${dir}/outputs.jsonl`, jsonl(predictions));
-  const result = spawnSync("/usr/bin/env", ["-i", `PATH=${process.env.PATH ?? ""}`, `HOME=${process.env.HOME ?? ""}`, "bun", fileURLToPath(new URL("../evaluation/scoreReverseMeal.ts", import.meta.url)), "--states", `${dir}/states.jsonl`, "--outputs", `${dir}/outputs.jsonl`, "--labels", `${dir}/labels-synthetic.jsonl`], { encoding: "utf8", env: { PATH: process.env.PATH, HOME: process.env.HOME } });
+  const result = spawnSync("/usr/bin/env", ["-i", `PATH=${process.env.PATH ?? ""}`, `HOME=${process.env.HOME ?? ""}`, "bun", fileURLToPath(new URL("../evaluation/scoreReverseMeal.ts", import.meta.url)), "--states", `${dir}/states.jsonl`, "--outputs", `${dir}/outputs.jsonl`, "--labels", `${dir}/labels-synthetic.jsonl`, "--unverified-synthetic"], { encoding: "utf8", env: { PATH: process.env.PATH, HOME: process.env.HOME } });
   expect(result.status).toBe(0);
   const output = JSON.parse(result.stdout);
   expect(output.results[0].known_outcome.attempts).toBe(12);
   expect(output.header.caveats).toEqual(CAVEATS);
+  expect(output.header.verification).toBe("synthetic, unverified");
+});
+
+function scoringLock() {
+  const jsonl = (rows: unknown[]) => rows.map(row => JSON.stringify(row)).join("\n") + "\n";
+  const files = new Map<string, Buffer>([
+    ["states.jsonl", Buffer.from(jsonl(states))], ["labels-synthetic.jsonl", Buffer.from(jsonl(labels))],
+    ["first.outputs.jsonl", Buffer.from(jsonl(predictions))], ["second.outputs.jsonl", Buffer.from(jsonl(predictions))],
+    ["ts-cross-check.json", Buffer.from(JSON.stringify({ comparisons: states.map(s => ({ case_id: s.case_id, swift_candidate: "synthetic-arm", swift_mode: "exact", ts_mode: "exact", swift_score: 0.7, ts_score: 0.7 })) }))]
+  ]);
+  const hash = (name: string) => createHash("sha256").update(files.get(name)!).digest("hex");
+  // Exercise a manifest copied from another checkout without changing its original path keys.
+  const manifest = { input_sha256: { "/original/checkout/states.jsonl": hash("states.jsonl") }, output_sha256: Object.fromEntries(["first.outputs.jsonl", "second.outputs.jsonl", "ts-cross-check.json"].map(name => [`/original/checkout/${name}`, hash(name)])) };
+  files.set("manifest.json", Buffer.from(JSON.stringify(manifest)));
+  const reads: string[] = [];
+  const read = (name: string) => { reads.push(name); const bytes = files.get(name); if (!bytes) throw new Error(`unexpected read: ${name}`); return bytes; };
+  const args = ["--states", "states.jsonl", "--labels", "labels-synthetic.jsonl", "--outputs", "first.outputs.jsonl", "--outputs", "second.outputs.jsonl", "--cross-check", "ts-cross-check.json", "--manifest", "manifest.json"];
+  return { files, reads, read, args, manifest };
+}
+test("verified scoring checks states, every prediction and cross-check before opening labels", () => {
+  const f = scoringLock(), log = spyOn(console, "log").mockImplementation(() => {});
+  try {
+    const result = runScorer(f.args, f.read);
+    expect(f.reads).toEqual(["manifest.json", "states.jsonl", "first.outputs.jsonl", "second.outputs.jsonl", "ts-cross-check.json", "labels-synthetic.jsonl"]);
+    expect(result.results[0]!.known_outcome).toEqual(score().known_outcome);
+    expect(result.results).toHaveLength(2);
+  } finally { log.mockRestore(); }
+});
+test.each(["states.jsonl", "first.outputs.jsonl", "second.outputs.jsonl", "ts-cross-check.json"])("hash mismatch in %s refuses scoring without reading labels", name => {
+  const f = scoringLock(); f.files.set(name, Buffer.concat([f.files.get(name)!, Buffer.from("\n")]));
+  expect(() => runScorer(f.args, f.read)).toThrow(`sha256 mismatch for ${name}`);
+  expect(f.reads).not.toContain("labels-synthetic.jsonl");
+});
+test("scoring requires a manifest and rejects missing or ambiguous lock entries before labels", () => {
+  const f = scoringLock();
+  expect(() => runScorer(f.args.slice(0, -2), f.read)).toThrow("required: --manifest");
+  expect(f.reads).toEqual([]);
+  delete f.manifest.output_sha256["/original/checkout/second.outputs.jsonl"];
+  f.files.set("manifest.json", Buffer.from(JSON.stringify(f.manifest)));
+  expect(() => runScorer(f.args, f.read)).toThrow("exactly one output_sha256 entry for second.outputs.jsonl");
+  expect(f.reads).not.toContain("labels-synthetic.jsonl");
+  f.manifest.input_sha256["/other/states.jsonl" as keyof typeof f.manifest.input_sha256] = f.manifest.input_sha256["/original/checkout/states.jsonl"];
+  f.files.set("manifest.json", Buffer.from(JSON.stringify(f.manifest)));
+  expect(() => runScorer(f.args, f.read)).toThrow("exactly one input_sha256 entry");
+});
+test("unverified synthetic scoring skips the lock and stamps the header", () => {
+  const f = scoringLock(), log = spyOn(console, "log").mockImplementation(() => {});
+  f.files.set("manifest.json", Buffer.from("invalid manifest is not read"));
+  try {
+    const result = runScorer([...f.args, "--unverified-synthetic"], f.read);
+    expect(result.header.verification).toBe("synthetic, unverified");
+    expect(f.reads).not.toContain("manifest.json");
+    expect(result.results[0]!.known_outcome).toEqual(score().known_outcome);
+  } finally { log.mockRestore(); }
 });
