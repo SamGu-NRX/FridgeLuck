@@ -160,11 +160,12 @@ final class VisionService: Sendable {
           )
         }
 
-        if let classificationError, let ocrError {
-          passErrors.append(
-            "capture=\(input.captureIndex),crop=\(crop.id):class=\(String(describing: classificationError)),ocr=\(String(describing: ocrError))"
-          )
-        }
+        passErrors.append(contentsOf: ScanDiagnostics.requestFailures(
+          captureIndex: input.captureIndex,
+          cropID: crop.id,
+          classificationError: classificationError,
+          ocrError: ocrError
+        ))
 
         for obs in classifications where obs.confidence > 0.1 {
           rawLabels.append(obs.identifier)

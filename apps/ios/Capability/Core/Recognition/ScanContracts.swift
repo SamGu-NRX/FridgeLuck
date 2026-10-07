@@ -45,6 +45,34 @@ struct ScanDiagnostics: Sendable, Codable {
   let bucketCounts: ScanBucketCounts
   let passErrors: [String]
   let elapsedMs: Int
+
+  var classificationFailureCount: Int {
+    passErrors.filter { $0.contains(",request=classification:") }.count
+  }
+
+  var ocrFailureCount: Int {
+    passErrors.filter { $0.contains(",request=ocr:") }.count
+  }
+
+  /// A successful sibling request must not hide a failure. Keep strings so existing
+  /// scan records and the report sheet's pass-error count need no format migration.
+  static func requestFailures(
+    captureIndex: Int,
+    cropID: String,
+    classificationError: Error?,
+    ocrError: Error?
+  ) -> [String] {
+    var failures: [String] = []
+    if let classificationError {
+      failures.append(
+        "capture=\(captureIndex),crop=\(cropID),request=classification:\(String(describing: classificationError))")
+    }
+    if let ocrError {
+      failures.append(
+        "capture=\(captureIndex),crop=\(cropID),request=ocr:\(String(describing: ocrError))")
+    }
+    return failures
+  }
 }
 
 enum ScanDemoGate {
