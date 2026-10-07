@@ -666,8 +666,6 @@ struct IngredientPickerView: View {
 // MARK: - Row Button Style
 
 private struct IngredientRowButtonStyle: ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .background(
@@ -676,7 +674,6 @@ private struct IngredientRowButtonStyle: ButtonStyle {
           : Color.clear,
         in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
       )
-      .scaleEffect(configuration.isPressed ? 0.985 : 1)
-      .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
+      .pressFeedback(isPressed: configuration.isPressed, scale: 0.985, animation: AppMotion.press)
   }
 }
