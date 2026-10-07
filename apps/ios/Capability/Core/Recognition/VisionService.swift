@@ -189,9 +189,13 @@ final class VisionService: Sendable {
           )
         }
 
-        for obs in textObservations {
-          guard let topText = obs.candidates.first else { continue }
-          ocrStrings.append(topText)
+        let ocrLines = textObservations.compactMap { obs -> IngredientOCRLineJoining.Line? in
+          guard let topText = obs.candidates.first else { return nil }
+          return .init(text: topText, boundingBox: obs.boundingBox)
+        }
+        ocrStrings.append(contentsOf: ocrLines.map(\.text))
+        for line in IngredientOCRLineJoining.joinAdjacent(ocrLines) {
+          let topText = line.text
           if let matched = IngredientLexicon.resolveFromTextDetailed(topText) {
             let confidence: Float =
               matched.kind == .exact
@@ -204,7 +208,7 @@ final class VisionService: Sendable {
                 originalText: topText,
                 matchedToken: matched.matchedToken,
                 kind: matched.kind,
-                boundingBox: obs.boundingBox,
+                boundingBox: line.boundingBox,
                 cropID: crop.id,
                 captureIndex: input.captureIndex
               )
@@ -221,7 +225,7 @@ final class VisionService: Sendable {
                 originalText: topText,
                 matchedToken: topText,
                 kind: .fuzzy,
-                boundingBox: obs.boundingBox,
+                boundingBox: line.boundingBox,
                 cropID: crop.id,
                 captureIndex: input.captureIndex
               )
