@@ -53,16 +53,22 @@ final class InventoryIntakeService: Sendable {
       throw IntakeError.missingSourceRef
     }
 
-    var observations: [Int64: (count: Int, confidenceSum: Double)] = [:]
+    // `estimateLabel` is the name the review showed its estimate for, so the stored amount is
+    // the amount the user confirmed. A corrected detection's label names the wrong food, so
+    // those use the chosen ingredient's name instead.
+    var observations: [Int64: (count: Int, confidenceSum: Double, estimateLabel: String?)] = [:]
     for detection in detections {
       let selectedIngredientID =
         selectedIngredientByDetection[detection.id] ?? detection.ingredientId
       guard confirmedIngredientIDs.contains(selectedIngredientID) else { continue }
 
-      let existing = observations[selectedIngredientID] ?? (count: 0, confidenceSum: 0)
+      let existing =
+        observations[selectedIngredientID] ?? (count: 0, confidenceSum: 0, estimateLabel: nil)
+      let wasCorrected = selectedIngredientID != detection.ingredientId
       observations[selectedIngredientID] = (
         count: existing.count + 1,
-        confidenceSum: existing.confidenceSum + max(0, min(Double(detection.confidence), 1.0))
+        confidenceSum: existing.confidenceSum + max(0, min(Double(detection.confidence), 1.0)),
+        estimateLabel: existing.estimateLabel ?? (wasCorrected ? nil : detection.label)
       )
     }
 
@@ -98,8 +104,12 @@ final class InventoryIntakeService: Sendable {
       var lotsAdded = 0
       for (ingredientID, observation) in observations where !alreadyAdded.contains(ingredientID) {
         let ingredient = ingredientByID[ingredientID]
-        let gramsPerDetection = Self.estimatedGrams(for: ingredient)
-        let quantityGrams = max(30, gramsPerDetection * Double(max(1, observation.count)))
+        // Same estimator and input the review screens display, with no extra floor, so the
+        // Kitchen stores what the user confirmed. The catalog-unit estimate it replaced stored
+        // e.g. 120 g for an egg the review had shown as ~50 g.
+        let gramsPerDetection = Self.estimatedGrams(
+          forName: observation.estimateLabel ?? ingredient?.displayName ?? ingredient?.name)
+        let quantityGrams = gramsPerDetection * Double(max(1, observation.count))
         let averageConfidence = observation.confidenceSum / Double(max(1, observation.count))
 
         try inventoryRepository.addLot(
@@ -200,10 +210,6 @@ final class InventoryIntakeService: Sendable {
     inferredLocation(forName: ingredientName)
   }
 
-  static func estimateGrams(for ingredient: Ingredient?) -> Double {
-    estimatedGrams(for: ingredient)
-  }
-
   static func estimateGrams(forName ingredientName: String?) -> Double {
     estimatedGrams(forName: ingredientName)
   }
@@ -240,26 +246,6 @@ final class InventoryIntakeService: Sendable {
     }
 
     return .unknown
-  }
-
-  private static func estimatedGrams(for ingredient: Ingredient?) -> Double {
-    guard let typicalUnit = ingredient?.typicalUnit?.lowercased() else { return 120 }
-
-    if let grams = extractNumber(from: typicalUnit, unitTokens: ["g", "gram", "grams"]) {
-      return max(20, grams)
-    }
-
-    if let ounces = extractNumber(from: typicalUnit, unitTokens: ["oz", "ounce", "ounces"]) {
-      return max(20, ounces * 28.3495)
-    }
-
-    if typicalUnit.contains("cup") { return 240 }
-    if typicalUnit.contains("tbsp") || typicalUnit.contains("tablespoon") { return 15 }
-    if typicalUnit.contains("tsp") || typicalUnit.contains("teaspoon") { return 5 }
-    if typicalUnit.contains("slice") { return 35 }
-    if typicalUnit.contains("piece") || typicalUnit.contains("whole") { return 90 }
-
-    return 120
   }
 
   private static func estimatedGrams(forName ingredientName: String?) -> Double {
@@ -318,21 +304,4 @@ final class InventoryIntakeService: Sendable {
     "onion", "tomato", "pepper", "potato", "carrot", "mushroom", "broccoli", "cucumber",
     "avocado", "apple", "banana", "lemon", "lime", "zucchini", "celery",
   ]
-
-  private static func extractNumber(from text: String, unitTokens: [String]) -> Double? {
-    let pattern = "([0-9]+(?:\\.[0-9]+)?)\\s*(\\b(?:" + unitTokens.joined(separator: "|") + ")\\b)"
-    guard let regex = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else {
-      return nil
-    }
-
-    let fullRange = NSRange(text.startIndex..<text.endIndex, in: text)
-    guard let match = regex.firstMatch(in: text, options: [], range: fullRange),
-      match.numberOfRanges >= 2,
-      let numberRange = Range(match.range(at: 1), in: text)
-    else {
-      return nil
-    }
-
-    return Double(text[numberRange])
-  }
 }
