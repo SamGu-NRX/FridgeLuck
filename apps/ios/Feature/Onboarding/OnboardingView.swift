@@ -91,10 +91,12 @@ struct OnboardingView: View {
   @State private var pantryPhotos: [FLCapturedPhoto] = []
   @State private var kitchenScan: OnboardingKitchenScanSession?
   @State private var kitchenChoices = OnboardingKitchenChoices()
-  /// Names this onboarding run's intake sessions, one per location (see
-  /// `OnboardingKitchenIntake`). Coming back to the review, even with new photos, and adding
-  /// again reconciles the lots this run added instead of adding a second copy.
-  @State private var kitchenReviewRunID = "onboarding-kitchen-review:\(UUID().uuidString)"
+  @State private var kitchenCommitRecord = OnboardingKitchenCommitRecord()
+  /// One intake session for the whole onboarding run, like `IngredientReviewView`'s
+  /// `inventorySourceRef`. Coming back to the review, even with new photos, and adding again
+  /// reconciles the lots this run added instead of adding a second copy.
+  @State private var kitchenReviewSourceRef = "onboarding-kitchen-review:\(UUID().uuidString)"
+  @State private var kitchenSaveError: String?
 
   @FocusState private var isNameFocused: Bool
 
@@ -352,6 +354,21 @@ struct OnboardingView: View {
               setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
             }
           )
+          // Same choices as the main scan review's save failure.
+          .alert(
+            "Couldn't save to your Kitchen",
+            isPresented: Binding(
+              get: { kitchenSaveError != nil },
+              set: { if !$0 { kitchenSaveError = nil } }
+            )
+          ) {
+            Button("Try Again") { commitKitchenInventory() }
+            Button("Continue Without Saving", role: .cancel) {
+              setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
+            }
+          } message: {
+            Text(kitchenSaveError ?? "")
+          }
 
         case .setupBridge:
           OnboardingSetupBridgeStep(
@@ -807,20 +824,21 @@ struct OnboardingView: View {
       return
     }
 
-    Task {
-      do {
-        try OnboardingKitchenIntake.commit(
-          session: kitchenScan,
-          choices: kitchenChoices,
-          runID: kitchenReviewRunID,
-          intake: deps.inventoryIntakeService
-        )
-      } catch {
-        // Non-blocking: inventory seeding failure shouldn't stop onboarding
-        errorMessage = nil
-      }
-      setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
+    do {
+      kitchenCommitRecord = try OnboardingKitchenIntake.commit(
+        session: kitchenScan,
+        choices: kitchenChoices,
+        record: kitchenCommitRecord,
+        sourceRef: kitchenReviewSourceRef,
+        intake: deps.inventoryIntakeService
+      )
+    } catch {
+      // Intake is one transaction, so nothing was saved; the user picks retry or continue.
+      kitchenSaveError =
+        "Your selected ingredients weren\u{2019}t added. Try again, or continue and add them later from Kitchen."
+      return
     }
+    setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
   }
 
   // MARK: - Completion

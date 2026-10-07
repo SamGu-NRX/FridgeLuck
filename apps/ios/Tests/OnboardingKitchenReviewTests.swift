@@ -395,61 +395,144 @@ final class OnboardingKitchenReviewTests: XCTestCase {
   // MARK: - Into the Kitchen (OnboardingView.commitKitchenInventory's path)
 
   func testLotsAreFiledWhereThePhotoWasTaken() throws {
-    let (db, intake, _) = try makeIntake()
-    let session = session(
-      fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)]))
+    var run = try OnboardingRun()
 
-    try commit(session, choices: untouchedChoices(for: session), intake: intake)
+    try run.confirm(
+      session(fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)])))
 
-    XCTAssertEqual(try lotLocations(db), [egg: "fridge", tomato: "pantry"])
+    XCTAssertEqual(try lotLocations(run.db), [egg: "fridge", tomato: "pantry"])
   }
 
   func testOnlyVisibleItemsTheUserKeptReachTheKitchen() throws {
-    let (_, intake, inventory) = try makeIntake()
-    let session = session(fridge: scanned([detection(egg, 0.95), detection(pepper, 0.6)]))
+    var run = try OnboardingRun()
 
-    try commit(session, choices: untouchedChoices(for: session), intake: intake)
+    try run.confirm(session(fridge: scanned([detection(egg, 0.95), detection(pepper, 0.6)])))
 
-    XCTAssertEqual(try activeIngredientIDs(inventory), [egg])
-  }
-
-  func testAFailedLocationKeepsWhatAnEarlierVisitAdded() throws {
-    let (_, intake, inventory) = try makeIntake()
-    let firstVisit = session(
-      fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)]))
-    try commit(firstVisit, choices: untouchedChoices(for: firstVisit), intake: intake)
-
-    let revisit = session(fridge: .failed, pantry: scanned([detection(tomato, 0.95)]))
-    try commit(revisit, choices: untouchedChoices(for: revisit), intake: intake)
-
-    XCTAssertEqual(try activeIngredientIDs(inventory), [tomato, egg])
-  }
-
-  func testContinuingWithoutAddingRetiresOnlyThatLocationsLots() throws {
-    let (_, intake, inventory) = try makeIntake()
-    let firstVisit = session(
-      fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)]))
-    var choices = untouchedChoices(for: firstVisit)
-    try commit(firstVisit, choices: choices, intake: intake)
-
-    let revisit = session(fridge: scanned([detection(egg, 0.95)]), pantry: .failed)
-    choices.noteShown(revisit.reviewState.detections)
-    choices.toggle(egg)
-    XCTAssertTrue(choices.selectedIDs(in: revisit.reviewState.detections).isEmpty)
-    try commit(revisit, choices: choices, intake: intake)
-
-    XCTAssertEqual(try activeIngredientIDs(inventory), [tomato])
+    XCTAssertEqual(try run.activeIngredientIDs(), [egg])
   }
 
   func testRevisitingAndAddingAgainStoresOneCopy() throws {
-    let (db, intake, _) = try makeIntake()
-    let session = session(fridge: scanned([detection(egg, 0.95)]))
+    var run = try OnboardingRun()
+    let visit = session(fridge: scanned([detection(egg, 0.95)]))
 
-    try commit(session, choices: untouchedChoices(for: session), intake: intake)
-    try commit(session, choices: untouchedChoices(for: session), intake: intake)
+    try run.confirm(visit)
+    try run.confirm(visit)
 
-    let lotCount = try db.read { try Int.fetchOne($0, sql: "SELECT COUNT(*) FROM inventory_lots") }
-    XCTAssertEqual(lotCount, 1)
+    XCTAssertEqual(try lotCount(run.db), 1)
+  }
+
+  /// The egg scores higher in the pantry on a rescan, so the review moves it there. It is the
+  /// same food: one lot, still where it was first filed.
+  func testItemMovingToTheOtherSectionKeepsItsOneLot() throws {
+    var run = try OnboardingRun()
+    try run.confirm(session(fridge: scanned([detection(egg, 0.9)])))
+
+    try run.confirm(movedEggVisit())
+
+    XCTAssertEqual(try lotCount(run.db), 1)
+    XCTAssertEqual(try lotLocations(run.db), [egg: "fridge"])
+  }
+
+  func testItemMovingAfterSomeWasCookedAddsNoFreshEstimate() throws {
+    var run = try OnboardingRun()
+    try run.confirm(session(fridge: scanned([detection(egg, 0.9)])))
+    try cook(egg, grams: 25, db: run.db)
+    let remainingAfterCooking = try remainingGrams(run.db)
+
+    try run.confirm(movedEggVisit())
+
+    XCTAssertEqual(try lotCount(run.db), 1)
+    XCTAssertEqual(try remainingGrams(run.db), remainingAfterCooking)
+    XCTAssertLessThan(
+      remainingAfterCooking, InventoryIntakeService.estimateGrams(forName: "item \(egg)"))
+  }
+
+  func testItemMovingAfterAllOfItWasCookedIsNotAddedBack() throws {
+    var run = try OnboardingRun()
+    try run.confirm(session(fridge: scanned([detection(egg, 0.9)])))
+    try cook(egg, grams: 10_000, db: run.db)
+
+    try run.confirm(movedEggVisit())
+
+    XCTAssertEqual(try lotCount(run.db), 1)
+    XCTAssertEqual(try run.activeIngredientIDs(), [])
+  }
+
+  func testAFailedFridgeScanKeepsWhatAnEarlierVisitAdded() throws {
+    var run = try OnboardingRun()
+    try run.confirm(
+      session(fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)])))
+
+    try run.confirm(session(fridge: .failed, pantry: scanned([detection(tomato, 0.95)])))
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [tomato, egg])
+  }
+
+  func testPartlyUnreadFridgeKeepsAnEarlierItemItNoLongerShows() throws {
+    var run = try OnboardingRun()
+    try run.confirm(session(fridge: scanned([detection(egg, 0.95)])))
+
+    try run.confirm(session(fridge: scanned([detection(tomato, 0.95)], unreadCrops: 1)))
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [tomato, egg])
+  }
+
+  func testPartlyUnreadFridgeRetiresAnEarlierItemTheUserUnchecked() throws {
+    var run = try OnboardingRun()
+    try run.confirm(session(fridge: scanned([detection(egg, 0.95)])))
+    // Seen again and unchecked, then the user went back for new photos instead of confirming.
+    run.show(session(fridge: scanned([detection(egg, 0.95)])), toggling: [egg])
+
+    try run.confirm(session(fridge: scanned([detection(tomato, 0.95)], unreadCrops: 1)))
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [tomato])
+  }
+
+  func testFullyReadPhotosRetireAnEarlierItemTheyNoLongerShow() throws {
+    var run = try OnboardingRun()
+    try run.confirm(session(fridge: scanned([detection(egg, 0.95)])))
+
+    try run.confirm(session(fridge: scanned([detection(tomato, 0.95)])))
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [tomato])
+  }
+
+  func testShownAndUncheckedIsRetired() throws {
+    var run = try OnboardingRun()
+    let visit = session(fridge: scanned([detection(egg, 0.95)]))
+    try run.confirm(visit)
+
+    try run.confirm(visit, toggling: [egg])
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [])
+  }
+
+  func testContinuingWithoutAddingLeavesTheUnreadSectionAlone() throws {
+    var run = try OnboardingRun()
+    try run.confirm(
+      session(fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)])))
+
+    try run.confirm(
+      session(fridge: scanned([detection(egg, 0.95)]), pantry: .failed), toggling: [egg])
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [tomato])
+  }
+
+  /// Unchecking the egg retires its lot before the unknown ingredient's lot fails its foreign
+  /// key, so a partial write would leave the egg retired.
+  func testAFailedSaveChangesNothing() throws {
+    var run = try OnboardingRun()
+    try run.confirm(session(fridge: scanned([detection(egg, 0.95)])))
+    let recordBefore = run.record.sectionByIngredient
+
+    XCTAssertThrowsError(
+      try run.confirm(
+        session(fridge: scanned([detection(egg, 0.95), detection(999, 0.95)])),
+        toggling: [egg]))
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [egg])
+    XCTAssertEqual(try lotCount(run.db), 1)
+    XCTAssertEqual(run.record.sectionByIngredient, recordBefore)
   }
 
   // MARK: - Announcements and navigation
@@ -524,23 +607,86 @@ final class OnboardingKitchenReviewTests: XCTestCase {
       fridge: fridge, pantry: pantry)
   }
 
-  /// Choices as they stand once the review has shown this session, before any tap.
-  private func untouchedChoices(
-    for session: OnboardingKitchenScanSession
-  ) -> OnboardingKitchenChoices {
-    var choices = OnboardingKitchenChoices()
-    choices.noteShown(session.reviewState.detections)
-    return choices
+  /// A fridge scan that scores the egg lower than a pantry scan, so the review lists it under
+  /// the pantry.
+  private func movedEggVisit() -> OnboardingKitchenScanSession {
+    session(fridge: scanned([detection(egg, 0.6)]), pantry: scanned([detection(egg, 0.9)]))
   }
 
-  private func commit(
-    _ session: OnboardingKitchenScanSession,
-    choices: OnboardingKitchenChoices,
-    intake: InventoryIntakeService
-  ) throws {
-    try OnboardingKitchenIntake.commit(
-      session: session, choices: choices, runID: "onboarding-kitchen-review:test",
-      intake: intake)
+  /// One onboarding run against a real database. Choices and the commit record carry across
+  /// visits, as `OnboardingView` keeps them.
+  private struct OnboardingRun {
+    let db: DatabaseQueue
+    let intake: InventoryIntakeService
+    let inventory: InventoryRepository
+    var choices = OnboardingKitchenChoices()
+    var record = OnboardingKitchenCommitRecord()
+
+    init() throws {
+      db = try DatabaseQueue()
+      try DatabaseMigrations.migrate(db)
+      try db.write { db in
+        try db.execute(
+          sql: """
+            INSERT INTO ingredients (id, name, calories, protein, carbs, fat, typical_unit) VALUES
+              (1, 'tomato', 0.18, 0.01, 0.04, 0, '1 medium (120g)'),
+              (2, 'bell_pepper', 0.2, 0.01, 0.05, 0, '1 medium (120g)'),
+              (3, 'egg', 1.4, 0.13, 0.01, 0.1, '1 large (50g)')
+            """
+        )
+      }
+      inventory = InventoryRepository(db: db)
+      intake = InventoryIntakeService(
+        ingredientRepository: IngredientRepository(db: db), inventoryRepository: inventory)
+    }
+
+    /// The review shows `session` and the user taps `toggling`, without confirming.
+    mutating func show(_ session: OnboardingKitchenScanSession, toggling: [Int64] = []) {
+      choices.noteShown(session.reviewState.detections)
+      for ingredientID in toggling { choices.toggle(ingredientID) }
+    }
+
+    /// As `show`, then "Add to My Kitchen" (or "Continue Without Adding").
+    mutating func confirm(
+      _ session: OnboardingKitchenScanSession, toggling: [Int64] = []
+    ) throws {
+      show(session, toggling: toggling)
+      record = try OnboardingKitchenIntake.commit(
+        session: session, choices: choices, record: record,
+        sourceRef: "onboarding-kitchen-review:test", intake: intake)
+    }
+
+    func activeIngredientIDs() throws -> [Int64] {
+      try inventory.fetchAllActiveItems().map(\.ingredientId).sorted()
+    }
+  }
+
+  /// Cooks through the real consumption path so consume events exist, as after a meal.
+  private func cook(_ ingredientID: Int64, grams: Double, db: DatabaseQueue) throws {
+    try db.write { db in
+      try db.execute(
+        sql: """
+          INSERT OR IGNORE INTO recipes (id, title, time_minutes, servings, instructions)
+          VALUES (100, 'Test Dish', 5, 1, 'Cook.');
+          DELETE FROM recipe_ingredients WHERE recipe_id = 100;
+          INSERT INTO recipe_ingredients
+            (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+          VALUES (100, ?, 1, ?, 'some');
+          """,
+        arguments: [ingredientID, grams]
+      )
+    }
+    _ = try InventoryRepository(db: db).applyConsumption(recipeId: 100, servingsConsumed: 1)
+  }
+
+  private func lotCount(_ db: DatabaseQueue) throws -> Int {
+    try db.read { try Int.fetchOne($0, sql: "SELECT COUNT(*) FROM inventory_lots") ?? 0 }
+  }
+
+  private func remainingGrams(_ db: DatabaseQueue) throws -> Double {
+    try db.read {
+      try Double.fetchOne($0, sql: "SELECT SUM(remaining_grams) FROM inventory_lots") ?? 0
+    }
   }
 
   private func photo(_ source: ScanInputSource) -> FLCapturedPhoto {
@@ -554,10 +700,6 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     }
   }
 
-  private func activeIngredientIDs(_ inventory: InventoryRepository) throws -> [Int64] {
-    try inventory.fetchAllActiveItems().map(\.ingredientId).sorted()
-  }
-
   private func lotLocations(_ db: DatabaseQueue) throws -> [Int64: String] {
     try db.read { db in
       let rows = try Row.fetchAll(
@@ -567,24 +709,5 @@ final class OnboardingKitchenReviewTests: XCTestCase {
           ($0["ingredient_id"] as Int64, $0["storage_location"] as String)
         })
     }
-  }
-
-  private func makeIntake() throws -> (DatabaseQueue, InventoryIntakeService, InventoryRepository) {
-    let db = try DatabaseQueue()
-    try DatabaseMigrations.migrate(db)
-    try db.write { db in
-      try db.execute(
-        sql: """
-          INSERT INTO ingredients (id, name, calories, protein, carbs, fat, typical_unit) VALUES
-            (1, 'tomato', 0.18, 0.01, 0.04, 0, '1 medium (120g)'),
-            (2, 'bell_pepper', 0.2, 0.01, 0.05, 0, '1 medium (120g)'),
-            (3, 'egg', 1.4, 0.13, 0.01, 0.1, '1 large (50g)')
-          """
-      )
-    }
-    let inventory = InventoryRepository(db: db)
-    let intake = InventoryIntakeService(
-      ingredientRepository: IngredientRepository(db: db), inventoryRepository: inventory)
-    return (db, intake, inventory)
   }
 }

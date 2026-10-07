@@ -13,12 +13,6 @@ enum OnboardingKitchenScanResult {
     return result.diagnostics.passErrors.count
   }
 
-  /// The latest scan of these photos completed, so its results describe them.
-  var succeeded: Bool {
-    if case .scanned = self { return true }
-    return false
-  }
-
   /// Retry rescans locations that failed or that have photos (or parts) that were never read.
   var needsRetry: Bool {
     switch self {
@@ -112,6 +106,11 @@ struct OnboardingKitchenChoices {
 
   func selectedIDs(in detections: [Detection]) -> Set<Int64> {
     Set(detections.map(\.ingredientId).filter(isSelected))
+  }
+
+  /// The user unchecked it themselves, as opposed to it never having been checked.
+  func hasRejected(_ ingredientID: Int64) -> Bool {
+    decisions[ingredientID] == false
   }
 }
 
@@ -303,37 +302,58 @@ enum OnboardingKitchenScanner {
   }
 }
 
-/// Writes the review into the Kitchen with one intake session per location for the onboarding
-/// run, so each location reconciles only the lots it added, filed where the photo was taken.
-enum OnboardingKitchenIntake {
-  static func sourceRef(runID: String, place: InventoryStorageLocation) -> String {
-    "\(runID):\(place.rawValue)"
-  }
+/// What earlier confirmations in this onboarding run put in the Kitchen, and from which
+/// section, so a later confirmation can tell which of those its own scan can't speak for.
+struct OnboardingKitchenCommitRecord {
+  fileprivate(set) var sectionByIngredient: [Int64: InventoryStorageLocation] = [:]
+}
 
-  /// Only locations whose latest scan completed are reconciled. A location whose scan failed
-  /// keeps whatever an earlier visit added, since its photos say nothing about it now.
-  /// Intake receives only the visible detections the user has selected.
+/// Writes the review into the Kitchen as one intake call, so each confirmation is a single
+/// transaction under one session reference for the whole run. Ingredient identity and what was
+/// cooked are then shared across fridge and pantry: an item whose higher score moves from one
+/// section to the other on a rescan keeps its one lot.
+enum OnboardingKitchenIntake {
+  /// Returns the record to keep for the next confirmation. Throws without changing the Kitchen.
   static func commit(
     session: OnboardingKitchenScanSession,
     choices: OnboardingKitchenChoices,
-    runID: String,
+    record: OnboardingKitchenCommitRecord,
+    sourceRef: String,
     intake: InventoryIntakeService
-  ) throws {
-    guard case .review(let fridge, let pantry) = session.reviewState else { return }
+  ) throws -> OnboardingKitchenCommitRecord {
+    guard case .review(let fridge, let pantry) = session.reviewState else { return record }
 
-    let locations: [(InventoryStorageLocation, OnboardingKitchenScanResult, [Detection])] = [
-      (.fridge, session.fridge, fridge.detections),
-      (.pantry, session.pantry, pantry.detections),
-    ]
-    for (place, result, shown) in locations where result.succeeded {
-      let selected = choices.selectedIDs(in: shown)
-      try intake.ingestConfirmedScan(
-        detections: shown.filter { selected.contains($0.ingredientId) },
-        confirmedIngredientIDs: selected,
-        selectedIngredientByDetection: [:],
-        sourceRef: sourceRef(runID: runID, place: place),
-        location: .photographed(place)
-      )
+    var sectionByIngredient: [Int64: InventoryStorageLocation] = [:]
+    for detection in fridge.detections { sectionByIngredient[detection.ingredientId] = .fridge }
+    for detection in pantry.detections { sectionByIngredient[detection.ingredientId] = .pantry }
+    let shown = fridge.detections + pantry.detections
+    let selected = choices.selectedIDs(in: shown)
+
+    // Earlier confirmations from a section whose photos weren't all read this time stay as they
+    // are, unless the review shows them again (then the user's current choice applies) or the
+    // user unchecked them.
+    var unread: Set<InventoryStorageLocation> = []
+    if session.fridge.needsRetry { unread.insert(.fridge) }
+    if session.pantry.needsRetry { unread.insert(.pantry) }
+    let preserved = record.sectionByIngredient.filter { ingredientID, section in
+      unread.contains(section)
+        && sectionByIngredient[ingredientID] == nil
+        && !choices.hasRejected(ingredientID)
     }
+
+    try intake.ingestConfirmedScan(
+      detections: shown.filter { selected.contains($0.ingredientId) },
+      confirmedIngredientIDs: selected,
+      selectedIngredientByDetection: [:],
+      sourceRef: sourceRef,
+      location: .photographed(byIngredient: sectionByIngredient),
+      preserving: Set(preserved.keys)
+    )
+
+    var next = OnboardingKitchenCommitRecord()
+    next.sectionByIngredient = preserved.merging(
+      sectionByIngredient.filter { selected.contains($0.key) }
+    ) { _, current in current }
+    return next
   }
 }

@@ -68,7 +68,8 @@ struct IngredientReviewView: View {
           confirmedIngredientIDs: confirmedIngredientIDs,
           selectedIngredientByDetection: selectedIngredientByDetection,
           sourceRef: sourceRef,
-          location: .inferredFromIngredient
+          location: .inferredFromIngredient,
+          preserving: []
         )
       }
     )

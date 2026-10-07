@@ -9,12 +9,17 @@ struct InventoryScanIngestionSummary: Sendable {
   let skippedAsDuplicate: Bool
 }
 
-enum IntakeError: LocalizedError {
+enum IntakeError: LocalizedError, Equatable {
   case missingSourceRef
+  /// `ScanLotLocation.photographed` had no place for an ingredient intake was about to add.
+  case missingLocation(ingredientID: Int64)
 
   var errorDescription: String? {
     switch self {
-    case .missingSourceRef: return "Scan intake needs a review-session reference."
+    case .missingSourceRef:
+      return "Scan intake needs a review-session reference."
+    case .missingLocation(let ingredientID):
+      return "Scan intake has no location for ingredient \(ingredientID)."
     }
   }
 }
@@ -23,8 +28,9 @@ enum IntakeError: LocalizedError {
 enum ScanLotLocation: Sendable {
   /// From the ingredient's storage tip. The main scan doesn't know where its photo was taken.
   case inferredFromIngredient
-  /// Where the photo was taken, as onboarding's fridge and pantry steps know.
-  case photographed(InventoryStorageLocation)
+  /// Where each ingredient's photo was taken, as onboarding's fridge and pantry steps know.
+  /// Adding a lot for an ingredient missing from the map throws rather than guessing.
+  case photographed(byIngredient: [Int64: InventoryStorageLocation])
 }
 
 /// Converts confirmed scan detections into inventory lot updates.
@@ -48,7 +54,10 @@ final class InventoryIntakeService: Sendable {
   /// added, lots for foods the user no longer confirms are emptied, and a lot emptied that way
   /// comes back if the user confirms the food again. Lots already cooked from are never
   /// retired, restored or re-added, so a revisit can't bring back eaten food.
-  /// `location` applies to newly added lots; restored lots keep the place they were filed.
+  ///
+  /// `location` applies to newly added lots; restored and existing lots keep their place.
+  /// `preserving` names ingredients this scan can't speak for, such as food from photos that
+  /// weren't read this time: their session lots are left exactly as they are, and none is added.
   @discardableResult
   func ingestConfirmedScan(
     detections: [Detection],
@@ -56,6 +65,7 @@ final class InventoryIntakeService: Sendable {
     selectedIngredientByDetection: [UUID: Int64],
     sourceRef: String,
     location: ScanLotLocation,
+    preserving: Set<Int64>,
     acquiredAt: Date = Date()
   ) throws -> InventoryScanIngestionSummary {
     let normalizedSourceRef = sourceRef.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -95,7 +105,7 @@ final class InventoryIntakeService: Sendable {
 
       var lotsRetired = 0
       var lotsRestored = 0
-      for lot in sessionLots where !lot.wasConsumed {
+      for lot in sessionLots where !lot.wasConsumed && !preserving.contains(lot.ingredientId) {
         let isConfirmed = observations[lot.ingredientId] != nil
         if !isConfirmed && lot.remainingGrams > 0 {
           try inventoryRepository.retireLot(
@@ -112,7 +122,8 @@ final class InventoryIntakeService: Sendable {
       }
 
       var lotsAdded = 0
-      for (ingredientID, observation) in observations where !alreadyAdded.contains(ingredientID) {
+      for (ingredientID, observation) in observations
+      where !alreadyAdded.contains(ingredientID) && !preserving.contains(ingredientID) {
         let ingredient = ingredientByID[ingredientID]
         // Same estimator and input the review screens display, with no extra floor, so the
         // Kitchen stores what the user confirmed. The catalog-unit estimate it replaced stored
@@ -126,7 +137,7 @@ final class InventoryIntakeService: Sendable {
           in: db,
           ingredientId: ingredientID,
           quantityGrams: quantityGrams,
-          location: Self.lotLocation(location, for: ingredient),
+          location: try Self.lotLocation(location, for: ingredientID, ingredient: ingredient),
           confidenceScore: max(0.35, min(averageConfidence, 1.0)),
           source: .scan,
           acquiredAt: acquiredAt,
@@ -150,11 +161,17 @@ final class InventoryIntakeService: Sendable {
 
   private static func lotLocation(
     _ location: ScanLotLocation,
-    for ingredient: Ingredient?
-  ) -> InventoryStorageLocation {
+    for ingredientID: Int64,
+    ingredient: Ingredient?
+  ) throws -> InventoryStorageLocation {
     switch location {
-    case .inferredFromIngredient: return Self.inferredLocation(for: ingredient)
-    case .photographed(let place): return place
+    case .inferredFromIngredient:
+      return inferredLocation(for: ingredient)
+    case .photographed(let byIngredient):
+      guard let place = byIngredient[ingredientID] else {
+        throw IntakeError.missingLocation(ingredientID: ingredientID)
+      }
+      return place
     }
   }
 
