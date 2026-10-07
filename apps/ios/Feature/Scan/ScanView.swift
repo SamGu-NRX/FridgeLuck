@@ -61,8 +61,8 @@ struct ScanView: View {
   @State private var selectedPhotoItem: PhotosPickerItem?
   @State private var showRunReports = false
   @State private var isProcessing = false
-  /// The running scan, cancelled when the screen goes away so Vision stops working on a result
-  /// nobody will see.
+  /// The screen's one scan task, which loads a picked photo and runs the scan. It's cancelled
+  /// when the screen goes away so Vision stops working on a result nobody will see.
   @State private var scanTask: Task<Void, Never>?
   @State private var detections: [Detection] = []
   @State private var capturedShots: [UIImage] = []
@@ -184,8 +184,9 @@ struct ScanView: View {
       beginDemoFlowIfNeeded()
       refreshCameraPermissionState()
     }
-    // Scanning ends with navigation to the review, and the capture controls are hidden while it
-    // runs, so the only disappearance during a scan is the user leaving.
+    // While the scan task runs, the capture controls are hidden and the reports button is
+    // disabled, and the scan ends by navigating to the review. So a disappearance during the task
+    // is the user leaving.
     .onDisappear { scanTask?.cancel() }
     .onChange(of: selectedPhotoItem) { _, newValue in
       guard newValue != nil else { return }
@@ -198,6 +199,7 @@ struct ScanView: View {
         } label: {
           Image(systemName: "doc.text.magnifyingglass")
         }
+        .disabled(scanTask != nil)
       }
     }
   }
@@ -301,11 +303,23 @@ struct ScanView: View {
       capturedImage = DemoScanService.loadDemoImage()
     }
 
-    scanTask = Task {
+    startScanTask {
       try? await Task.sleep(nanoseconds: 850_000_000)
       guard !Task.isCancelled else { return }
       await processImage()
     }
+  }
+
+  /// Starts `work` as the screen's scan task unless one is already running, so a late or repeated
+  /// trigger can't replace the handle of a scan that's still going.
+  @discardableResult
+  private func startScanTask(_ work: @escaping @MainActor () async -> Void) -> Bool {
+    guard scanTask == nil else { return false }
+    scanTask = Task {
+      await work()
+      scanTask = nil
+    }
+    return true
   }
 
   private func processImage() async {
@@ -327,6 +341,9 @@ struct ScanView: View {
 
     if mode == .demo {
       let payload = await dependencies.loadDemoPayload(demoScenario)
+      // The demo loader turns a cancelled scan into its fallback payload, which must not be
+      // shown or saved as a completed run.
+      guard !Task.isCancelled else { return }
       detections = payload.detections
       nutritionLabelOutcome = nil
       scanProvenance = payload.provenance
@@ -393,6 +410,8 @@ struct ScanView: View {
       } catch is CancellationError {
         return
       } catch {
+        // A scan that failed just as the user left isn't worth reporting on a gone screen.
+        guard !Task.isCancelled else { return }
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Scan failed. Try better lighting or continue manually."
         }
@@ -470,7 +489,7 @@ struct ScanView: View {
       capturedShotSources.append(.camera)
     }
     capturedImage = lastShot
-    scanTask = Task { await processImage() }
+    startScanTask { await processImage() }
   }
 
   private func addLibraryShot(_ image: UIImage) {
@@ -483,7 +502,6 @@ struct ScanView: View {
       capturedShotSources.removeFirst(capturedShotSources.count - capturedShots.count)
     }
     capturedImage = image
-    scanTask = Task { await processImage() }
   }
 
   private func openCameraCapture() {
@@ -530,23 +548,28 @@ struct ScanView: View {
     }
   }
 
+  /// Loading runs inside the scan task, so leaving while a slow photo loads cancels both.
   private func loadSelectedPhoto() {
     guard let selectedPhotoItem else { return }
 
-    Task {
+    let started = startScanTask {
       defer { self.selectedPhotoItem = nil }
 
       do {
         guard let data = try await selectedPhotoItem.loadTransferable(type: Data.self),
           let image = UIImage(data: data)
         else { return }
+        guard !Task.isCancelled else { return }
 
         addLibraryShot(ScanImagePreprocessor.prepare(image))
+        await processImage()
       } catch {
+        guard !Task.isCancelled else { return }
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Could not load the selected photo. Try another image."
         }
       }
     }
+    if !started { self.selectedPhotoItem = nil }
   }
 }
