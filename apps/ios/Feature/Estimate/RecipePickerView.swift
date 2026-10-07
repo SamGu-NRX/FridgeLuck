@@ -240,7 +240,7 @@ struct RecipePickerView: View {
             Text("·")
               .foregroundStyle(AppTheme.textSecondary)
 
-            Text("\(recipe.servings) servings")
+            Text("\(recipe.servings) serving\(recipe.servings == 1 ? "" : "s")")
               .font(AppTheme.Typography.labelSmall)
               .foregroundStyle(AppTheme.textSecondary)
 

@@ -153,7 +153,7 @@ extension View {
 }
 
 private struct PressFeedback: ViewModifier {
-  /// Under Reduce Motion a press dims to at least this much. Styles that already dim further
+  /// Under Reduce Motion a press dims to at most this opacity. Styles that already dim further
   /// keep their own value, so the two never multiply.
   private static let reducedMotionPressedOpacity = 0.7
 

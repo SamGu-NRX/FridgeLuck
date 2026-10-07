@@ -510,9 +510,8 @@ struct HomeLiveAssistantSection: View {
         }
 
         HStack(spacing: AppTheme.Space.xs) {
-          liveDetailPill(
-            "\(recipeContext.ingredients.count) item"
-              + (recipeContext.ingredients.count == 1 ? "" : "s"))
+          let ingredientCount = recipeContext.ingredients.count
+          liveDetailPill("\(ingredientCount) item\(ingredientCount == 1 ? "" : "s")")
           liveDetailPill("\(recipeContext.timeMinutes) min")
           liveDetailPill("Camera-first")
         }

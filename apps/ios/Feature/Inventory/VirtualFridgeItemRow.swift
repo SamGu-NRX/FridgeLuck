@@ -25,7 +25,7 @@ struct VirtualFridgeItemRow: View {
             )
 
             if item.lotCount > 1 {
-              Text("\(item.lotCount) lot\(item.lotCount == 1 ? "" : "s")")
+              Text("\(item.lotCount) lots")
                 .font(AppTheme.Typography.labelSmall)
                 .foregroundStyle(AppTheme.textSecondary)
             }
