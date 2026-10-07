@@ -232,7 +232,8 @@ public enum ScanBenchmarkScorer {
       valid: invalidReason == nil,
       invalidReason: invalidReason,
       errorDescription: run.errorDescription,
-      passErrors: run.passErrors
+      passErrors: run.passErrors,
+      requestFailures: run.requestFailures
     )
   }
 

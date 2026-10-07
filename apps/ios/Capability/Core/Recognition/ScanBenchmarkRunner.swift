@@ -26,6 +26,7 @@ enum ScanBenchmarkRunner {
     let elapsedMs: Int
     let passErrors: [String]
     let errorDescription: String?
+    var requestFailures: [ScanRequestFailure] = []
   }
 
   typealias ScanClosure =
@@ -72,7 +73,8 @@ enum ScanBenchmarkRunner {
             nutrition: mapNutrition(observation.nutrition),
             elapsedMs: observation.elapsedMs,
             passErrors: observation.passErrors,
-            errorDescription: observation.errorDescription
+            errorDescription: observation.errorDescription,
+            requestFailures: observation.requestFailures
           )
         )
       }
@@ -107,20 +109,22 @@ enum ScanBenchmarkRunner {
           nutrition: NutritionLabelParser.parse(ocrText: result.ocrText),
           elapsedMs: result.diagnostics.elapsedMs,
           passErrors: result.diagnostics.passErrors,
-          errorDescription: nil
+          errorDescription: nil,
+          requestFailures: result.diagnostics.requestFailures
         )
       } catch {
         let elapsedMs = Int(Date().timeIntervalSince(startedAt) * 1000)
-        let errorDescription = error.localizedDescription
-        return AppRunObservation(
-          detections: [],
-          nutrition: nil,
-          elapsedMs: elapsedMs,
-          passErrors: [],
-          errorDescription: errorDescription
-        )
+        return failedObservation(error: error, elapsedMs: elapsedMs)
       }
     }
+  }
+
+  static func failedObservation(error: Error, elapsedMs: Int) -> AppRunObservation {
+    let pipelineError = error as? VisionService.VisionServiceError
+    return AppRunObservation(
+      detections: [], nutrition: nil, elapsedMs: elapsedMs,
+      passErrors: pipelineError?.passErrors ?? [], errorDescription: error.localizedDescription,
+      requestFailures: pipelineError?.requestFailures ?? [])
   }
 
   static func writeReport(_ report: ScanBenchmarkReport, to url: URL) throws {

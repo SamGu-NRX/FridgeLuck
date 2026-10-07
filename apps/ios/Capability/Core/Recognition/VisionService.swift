@@ -12,9 +12,25 @@ private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "VisionServ
 final class VisionService: Sendable {
   private let learningService: LearningService
   private let ingredientResolver: IngredientCatalogResolving
+  private let classificationRequest: @Sendable (CGImage) async throws -> [ClassificationResult]
+  private let textRequest: @Sendable (CGImage) async throws -> [RecognizedTextResult]
 
   enum VisionServiceError: LocalizedError {
-    case pipelineFailed(classificationError: Error?, ocrError: Error?)
+    case pipelineFailed(
+      classificationError: Error?, ocrError: Error?,
+      passErrors: [String], requestFailures: [ScanRequestFailure])
+
+    var passErrors: [String] {
+      switch self {
+      case .pipelineFailed(_, _, let passErrors, _): return passErrors
+      }
+    }
+
+    var requestFailures: [ScanRequestFailure] {
+      switch self {
+      case .pipelineFailed(_, _, _, let requestFailures): return requestFailures
+      }
+    }
 
     var errorDescription: String? {
       "Image recognition failed. Please try another photo."
@@ -50,10 +66,14 @@ final class VisionService: Sendable {
 
   init(
     learningService: LearningService,
-    ingredientResolver: IngredientCatalogResolving
+    ingredientResolver: IngredientCatalogResolving,
+    classificationRequest: @escaping @Sendable (CGImage) async throws -> [ClassificationResult] = VisionService.classifyImage,
+    textRequest: @escaping @Sendable (CGImage) async throws -> [RecognizedTextResult] = VisionService.recognizeText
   ) {
     self.learningService = learningService
     self.ingredientResolver = ingredientResolver
+    self.classificationRequest = classificationRequest
+    self.textRequest = textRequest
   }
 
   // MARK: - Public API
@@ -99,6 +119,7 @@ final class VisionService: Sendable {
     var rawLabels: [String] = []
     var ocrStrings: [String] = []
     var passErrors: [String] = []
+    var requestFailures: [ScanRequestFailure] = []
     var cropCount = 0
     var firstClassificationError: Error?
     var firstOCRError: Error?
@@ -113,8 +134,8 @@ final class VisionService: Sendable {
       for crop in crops {
         cropCount += 1
 
-        async let classPass = classifyImage(crop.image)
-        async let ocrPass = recognizeText(crop.image)
+        async let classPass = classificationRequest(crop.image)
+        async let ocrPass = textRequest(crop.image)
 
         let classifications: [ClassificationResult]
         let textObservations: [RecognizedTextResult]
@@ -151,11 +172,15 @@ final class VisionService: Sendable {
           )
         }
 
-        passErrors.append(contentsOf: ScanDiagnostics.requestFailures(
+        requestFailures.append(contentsOf: ScanDiagnostics.requestFailures(
           captureIndex: input.captureIndex,
           cropID: crop.id,
           classificationError: classificationError,
           ocrError: ocrError
+        ))
+        passErrors.append(contentsOf: ScanDiagnostics.cropPassErrors(
+          captureIndex: input.captureIndex, cropID: crop.id,
+          classificationError: classificationError, ocrError: ocrError
         ))
 
         for obs in classifications where obs.confidence > 0.1 {
@@ -329,7 +354,9 @@ final class VisionService: Sendable {
       )
       throw VisionServiceError.pipelineFailed(
         classificationError: firstClassificationError,
-        ocrError: firstOCRError
+        ocrError: firstOCRError,
+        passErrors: passErrors,
+        requestFailures: requestFailures
       )
     }
 
@@ -346,7 +373,8 @@ final class VisionService: Sendable {
         possible: categorized.possible.count
       ),
       passErrors: passErrors,
-      elapsedMs: elapsedMs
+      elapsedMs: elapsedMs,
+      requestFailures: requestFailures
     )
 
     logger.info(
@@ -368,7 +396,7 @@ final class VisionService: Sendable {
 
   /// Classify the image using VNClassifyImageRequest.
   /// Runs synchronously on a background thread — no continuation needed.
-  private func classifyImage(_ image: CGImage) async throws -> [ClassificationResult] {
+  private static func classifyImage(_ image: CGImage) async throws -> [ClassificationResult] {
     try await Task.detached(priority: .userInitiated) {
       let request = VNClassifyImageRequest()
       let handler = VNImageRequestHandler(cgImage: image, options: [:])
@@ -383,7 +411,7 @@ final class VisionService: Sendable {
 
   /// Recognize text in the image using VNRecognizeTextRequest.
   /// Runs synchronously on a background thread — no continuation needed.
-  private func recognizeText(_ image: CGImage) async throws -> [RecognizedTextResult] {
+  private static func recognizeText(_ image: CGImage) async throws -> [RecognizedTextResult] {
     try await Task.detached(priority: .userInitiated) {
       let request = VNRecognizeTextRequest()
       request.recognitionLevel = .accurate
