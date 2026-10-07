@@ -161,7 +161,7 @@ struct KitchenView: View {
           .foregroundStyle(AppTheme.textPrimary)
 
         if viewModel.itemCount > 0 {
-          Text("\(viewModel.itemCount) items on hand")
+          Text("\(viewModel.itemCount) item\(viewModel.itemCount == 1 ? "" : "s") on hand")
             .font(AppTheme.Typography.bodyMedium)
             .foregroundStyle(AppTheme.textSecondary)
             .contentTransition(.numericText())

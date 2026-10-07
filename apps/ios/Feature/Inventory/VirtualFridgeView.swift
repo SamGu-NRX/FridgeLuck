@@ -77,7 +77,7 @@ struct VirtualFridgeView: View {
             .font(AppTheme.Typography.displayLarge)
             .foregroundStyle(AppTheme.textPrimary)
 
-          Text("\(items.count) items on hand")
+          Text("\(items.count) item\(items.count == 1 ? "" : "s") on hand")
             .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
             .contentTransition(.numericText())

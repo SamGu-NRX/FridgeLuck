@@ -257,7 +257,7 @@ struct RecipePreviewIngredientSection: View {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         FLSectionHeader(
           "Ingredients",
-          subtitle: "\(ingredients.count) items",
+          subtitle: "\(ingredients.count) item\(ingredients.count == 1 ? "" : "s")",
           icon: "carrot.fill"
         )
 
