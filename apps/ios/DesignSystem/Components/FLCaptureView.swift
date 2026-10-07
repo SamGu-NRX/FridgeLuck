@@ -294,12 +294,17 @@ struct FLCaptureView: View {
                   }
                 }
               } label: {
+                // A 44 pt target kept inside the thumbnail, so neighbouring targets can't
+                // overlap and the scroll view can't clip it.
                 Image(systemName: "xmark.circle.fill")
                   .font(.system(size: 16))
                   .foregroundStyle(.white)
                   .background(Circle().fill(Color.black.opacity(0.5)).frame(width: 16, height: 16))
+                  .padding(AppTheme.Space.xxs)
+                  .frame(width: 44, height: 44, alignment: .topTrailing)
+                  .contentShape(Rectangle())
               }
-              .offset(x: 4, y: -4)
+              .accessibilityLabel("Remove photo \(item.index + 1)")
             }
             .transition(.scale(scale: 0.6).combined(with: .opacity))
           }
