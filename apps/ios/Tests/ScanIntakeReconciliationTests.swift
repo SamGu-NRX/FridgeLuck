@@ -148,6 +148,45 @@ final class ScanIntakeReconciliationTests: XCTestCase {
     XCTAssertEqual(try lotCount(db), 0)
   }
 
+  func testStoredAmountIsTheEstimateTheReviewShowed() throws {
+    let (_, intake, inventory) = try makeServices()
+    let eggDetection = Detection(
+      ingredientId: egg, label: "Egg", confidence: 0.9, source: .vision, originalVisionLabel: "egg")
+    let garlicDetection = Detection(
+      ingredientId: tomato, label: "Garlic", confidence: 0.9, source: .vision,
+      originalVisionLabel: "garlic")
+
+    try intake.ingestConfirmedScan(
+      detections: [eggDetection, garlicDetection], confirmedIngredientIDs: [egg, tomato],
+      selectedIngredientByDetection: [:], sourceRef: "s1")
+
+    let grams = Dictionary(
+      uniqueKeysWithValues: try inventory.fetchAllActiveItems().map {
+        ($0.ingredientId, $0.totalRemainingGrams)
+      })
+    XCTAssertEqual(grams[egg], InventoryIntakeService.estimateGrams(forName: "Egg"))
+    XCTAssertEqual(grams[egg], 50)
+    // No floor: a 20 g garlic estimate stays 20 g.
+    XCTAssertEqual(grams[tomato], InventoryIntakeService.estimateGrams(forName: "Garlic"))
+    XCTAssertEqual(grams[tomato], 20)
+  }
+
+  func testCorrectedDetectionIsEstimatedFromTheChosenIngredient() throws {
+    let (_, intake, inventory) = try makeServices()
+    // Vision said "Garlic" (20 g estimate); the user corrected it to egg.
+    let detection = Detection(
+      ingredientId: tomato, label: "Garlic", confidence: 0.6, source: .vision,
+      originalVisionLabel: "garlic")
+
+    try intake.ingestConfirmedScan(
+      detections: [detection], confirmedIngredientIDs: [egg],
+      selectedIngredientByDetection: [detection.id: egg], sourceRef: "s1")
+
+    let item = try XCTUnwrap(inventory.fetchAllActiveItems().first)
+    XCTAssertEqual(item.ingredientId, egg)
+    XCTAssertEqual(item.totalRemainingGrams, 50)
+  }
+
   // MARK: - Helpers
 
   /// Cooks through the real consumption path so consume events exist, as after a meal.
