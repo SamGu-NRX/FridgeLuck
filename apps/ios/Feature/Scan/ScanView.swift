@@ -61,6 +61,9 @@ struct ScanView: View {
   @State private var selectedPhotoItem: PhotosPickerItem?
   @State private var showRunReports = false
   @State private var isProcessing = false
+  /// A picked photo is loading. The screen shows the analyzing state so a second pick can't
+  /// start while the first is still on its way.
+  @State private var isLoadingPhoto = false
   /// The screen's one scan task, which loads a picked photo and runs the scan. It's cancelled
   /// when the screen goes away so Vision stops working on a result nobody will see.
   @State private var scanTask: Task<Void, Never>?
@@ -103,7 +106,7 @@ struct ScanView: View {
   }
 
   private var stage: ScanStage {
-    if isProcessing { return .analyze }
+    if isProcessing || isLoadingPhoto { return .analyze }
     if navigateToReview || errorMessage != nil { return .review }
     return .capture
   }
@@ -126,7 +129,7 @@ struct ScanView: View {
 
       ZStack {
         Group {
-          if isProcessing {
+          if isProcessing || isLoadingPhoto {
             analyzingView
           } else if capturedImage != nil, errorMessage != nil {
             errorView
@@ -184,9 +187,9 @@ struct ScanView: View {
       beginDemoFlowIfNeeded()
       refreshCameraPermissionState()
     }
-    // While the scan task runs, the capture controls are hidden and the reports button is
-    // disabled, and the scan ends by navigating to the review. So a disappearance during the task
-    // is the user leaving.
+    // While the scan task loads a photo or scans, the capture controls are hidden; the reports
+    // button is disabled for the whole task, and the scan ends by navigating to the review. So a
+    // disappearance during the task is the user leaving.
     .onDisappear { scanTask?.cancel() }
     .onChange(of: selectedPhotoItem) { _, newValue in
       guard newValue != nil else { return }
@@ -553,7 +556,13 @@ struct ScanView: View {
     guard let selectedPhotoItem else { return }
 
     let started = startScanTask {
-      defer { self.selectedPhotoItem = nil }
+      // Held until the scan finishes, so the capture prompt doesn't flash between loading and
+      // the scan's own analyzing state.
+      isLoadingPhoto = true
+      defer {
+        isLoadingPhoto = false
+        self.selectedPhotoItem = nil
+      }
 
       do {
         guard let data = try await selectedPhotoItem.loadTransferable(type: Data.self),
