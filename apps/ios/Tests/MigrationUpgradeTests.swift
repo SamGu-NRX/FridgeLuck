@@ -49,7 +49,7 @@ final class MigrationUpgradeTests: XCTestCase {
       try Row.fetchAll(db, sql: "SELECT id, quantity_is_estimate FROM inventory_lots ORDER BY id")
         .map { (row: Row) -> (Int64, Bool) in (row["id"], row["quantity_is_estimate"]) }
     }
-    XCTAssertEqual(flags.map(\.0), [1, 2, 3, 4, 5])
+    XCTAssertEqual(flags.map { $0.0 }, [1, 2, 3, 4, 5])
     XCTAssertEqual(
       Dictionary(uniqueKeysWithValues: flags),
       [
