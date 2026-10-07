@@ -13,6 +13,13 @@ enum OnboardingKitchenScanResult {
     return result.diagnostics.passErrors.count
   }
 
+  /// Every photo of this section was scanned and read, so food it doesn't show isn't there.
+  /// No photos, a failed scan or unread photos say nothing about the section's food.
+  var readEveryPhoto: Bool {
+    guard case .scanned = self else { return false }
+    return unreadCropCount == 0
+  }
+
   /// Retry rescans locations that failed or that have photos (or parts) that were never read.
   var needsRetry: Bool {
     switch self {
@@ -329,14 +336,15 @@ enum OnboardingKitchenIntake {
     let shown = fridge.detections + pantry.detections
     let selected = choices.selectedIDs(in: shown)
 
-    // Earlier confirmations from a section whose photos weren't all read this time stay as they
-    // are, unless the review shows them again (then the user's current choice applies) or the
-    // user unchecked them.
-    var unread: Set<InventoryStorageLocation> = []
-    if session.fridge.needsRetry { unread.insert(.fridge) }
-    if session.pantry.needsRetry { unread.insert(.pantry) }
+    // Earlier confirmations from a section this scan can't speak for (no photos now, a failed
+    // scan, or unread photos) stay as they are, unless the review shows them again (then the
+    // user's current choice applies) or the user unchecked them. Removing a section's photos
+    // must not empty that part of the Kitchen.
+    var silentSections: Set<InventoryStorageLocation> = []
+    if !session.fridge.readEveryPhoto { silentSections.insert(.fridge) }
+    if !session.pantry.readEveryPhoto { silentSections.insert(.pantry) }
     let preserved = record.sectionByIngredient.filter { ingredientID, section in
-      unread.contains(section)
+      silentSections.contains(section)
         && sectionByIngredient[ingredientID] == nil
         && !choices.hasRejected(ingredientID)
     }

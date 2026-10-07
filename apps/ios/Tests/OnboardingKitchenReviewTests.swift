@@ -488,6 +488,28 @@ final class OnboardingKitchenReviewTests: XCTestCase {
     XCTAssertEqual(try run.activeIngredientIDs(), [tomato])
   }
 
+  func testRemovingAllFridgePhotosKeepsWhatTheFridgeAdded() throws {
+    var run = try OnboardingRun()
+    try run.confirm(
+      session(fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)])))
+
+    try run.confirm(session(fridge: .notCaptured, pantry: scanned([detection(tomato, 0.95)])))
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [tomato, egg])
+  }
+
+  func testRemovingFridgePhotosStillRetiresAnEggTheUserUnchecked() throws {
+    var run = try OnboardingRun()
+    let firstVisit = session(
+      fridge: scanned([detection(egg, 0.95)]), pantry: scanned([detection(tomato, 0.95)]))
+    try run.confirm(firstVisit)
+    run.show(firstVisit, toggling: [egg])
+
+    try run.confirm(session(fridge: .notCaptured, pantry: scanned([detection(tomato, 0.95)])))
+
+    XCTAssertEqual(try run.activeIngredientIDs(), [tomato])
+  }
+
   func testFullyReadPhotosRetireAnEarlierItemTheyNoLongerShow() throws {
     var run = try OnboardingRun()
     try run.confirm(session(fridge: scanned([detection(egg, 0.95)])))
