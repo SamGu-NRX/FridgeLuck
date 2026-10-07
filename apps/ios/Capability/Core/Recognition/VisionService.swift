@@ -170,14 +170,14 @@ final class VisionService: Sendable {
           rawLabels.append(obs.identifier)
 
           let originalLabel = obs.identifier
-          var resolvedId = learningService.correctedIngredientId(for: originalLabel)
-          if resolvedId == nil {
-            resolvedId = ingredientResolver.resolve(originalLabel)
-          }
-          if resolvedId == nil {
-            resolvedId = IngredientLexicon.resolve(originalLabel)
-          }
-          guard let ingredientId = resolvedId else { continue }
+          guard
+            let ingredientId = IngredientIdentityResolution.resolveLabel(
+              originalLabel,
+              userCorrection: learningService.correctedIngredientId(for:),
+              curated: IngredientLexicon.resolve,
+              catalog: ingredientResolver.resolve
+            )
+          else { continue }
           resolvedClassifications.append(
             ResolvedClassification(
               ingredientId: ingredientId,
@@ -209,7 +209,11 @@ final class VisionService: Sendable {
                 captureIndex: input.captureIndex
               )
             )
-          } else if let resolvedId = ingredientResolver.resolveFromText(topText) {
+          } else if let resolvedId = IngredientIdentityResolution.resolveTextFromCatalog(
+            topText,
+            catalogName: ingredientResolver.resolve,
+            catalogTokens: ingredientResolver.resolveFromText
+          ) {
             resolvedOCRMatches.append(
               ResolvedOCR(
                 ingredientId: resolvedId,

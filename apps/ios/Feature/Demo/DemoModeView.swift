@@ -162,7 +162,8 @@ struct DemoModeView: View {
       IngredientReviewView(
         detections: loadedDetections,
         scanProvenance: loadedProvenance,
-        fridgeImage: demoImage
+        fridgeImage: demoImage,
+        savesToInventory: false
       )
     }
     .navigationDestination(isPresented: $navigateToScan) {

@@ -12,30 +12,29 @@ enum IngredientLexicon {
   // MARK: - Vision label → ingredient ID
 
   /// Maps VNClassifyImageRequest taxonomy labels to ingredient database IDs.
-  /// Covers ~150 food-related labels from the 1,303-label taxonomy.
+  /// Only labels that identify a supported food are mapped.
   private static let labelToId: [String: Int64] = [
     // Eggs
     "egg": 1, "fried_egg": 1,
 
     // Grains
-    "rice": 2, "grain": 2,
+    "rice": 2,
     "pasta": 9,
-    "oatmeal": 31, "cereal": 31,
+    "oatmeal": 31,
     "bread": 15, "naan": 15,
     "tortilla": 28,
 
     // Protein
     "chicken": 4, "grilled_chicken": 4, "fried_chicken": 4,
-    "beef": 38, "meat": 38, "meatball": 38,
-    "salmon": 36, "fish": 36, "mackerel": 36,
+    "beef": 38,
+    "salmon": 36,
     "tofu": 23,
-    "ham": 38,
 
     // Vegetables
     "onion": 5,
     "garlic": 6,
     "tomato": 7,
-    "bell_pepper": 8, "pepper_veggie": 8, "habanero": 8, "jalapeno": 8,
+    "bell_pepper": 8, "pepper_veggie": 8,
     "potato": 10, "sweet_potato": 37,
     "carrot": 11,
     "mushroom": 18,
@@ -46,7 +45,6 @@ enum IngredientLexicon {
     "celery": 44,
     "zucchini": 45,
     "corn": 34,
-    "green_beans": 42, "edamame": 42,
     "pea": 42,
     "avocado": 26,
 
@@ -54,36 +52,33 @@ enum IngredientLexicon {
     "banana": 20,
     "apple": 40,
     "lemon": 17, "lime": 29,
-    "oranges": 17, "citrus_fruit": 17,
 
     // Dairy
-    "cheese": 12, "caprese": 12,
-    "milk": 13, "milkshake": 13,
+    "cheese": 12,
+    "milk": 13,
     "butter": 14,
     "yogurt": 32,
 
     // Legumes
-    "bean": 27,
-    "chickpea": 35, "hummus": 35, "falafel": 35,
+    "black_beans": 27,
+    "chickpea": 35,
 
     // Condiments & oils
-    "condiment": 3,
-    "mustard": 3,
     "soy_sauce": 3,
     "olive_oil": 16,
     "sesame_oil": 22,
     "honey": 33,
-    "peanut": 41,
+    "peanut_butter": 41,
 
     // Herbs & spices
-    "herb": 48, "cilantro": 48, "dill": 48, "chives": 21,
+    "cilantro": 48, "green_onion": 21,
     "ginger": 30,
 
     // Canned
     "canned_tuna": 43,
 
     // Coconut
-    "coconut": 49,
+    "coconut_milk": 49,
   ]
 
   // MARK: - Synonym normalization
@@ -106,9 +101,9 @@ enum IngredientLexicon {
     "capsicum": "bell_pepper",
     "red pepper": "bell_pepper",
     "green pepper": "bell_pepper",
-    "scallion": "chives",
-    "spring onion": "chives",
-    "green onion": "chives",
+    "scallion": "green_onion",
+    "spring onion": "green_onion",
+    "green onion": "green_onion",
     "courgette": "zucchini",
 
     // Brand / packaging text
@@ -122,26 +117,27 @@ enum IngredientLexicon {
     "2% milk": "milk",
     "whole milk": "milk",
     "skim milk": "milk",
-    "oat milk": "milk",
-    "soy milk": "milk",
     "soy sauce": "soy_sauce",
     "olive oil": "olive_oil",
     "sesame oil": "sesame_oil",
-    "vegetable oil": "olive_oil",
-    "peanut butter": "peanut",
-    "almond butter": "peanut",
+    "peanut butter": "peanut_butter",
     "canned tuna": "canned_tuna",
     "tuna": "canned_tuna",
     "ground beef": "beef",
     "chicken breast": "chicken",
-    "chicken thigh": "chicken",
     "frozen peas": "pea",
     "sweet potato": "sweet_potato",
-    "black beans": "bean",
-    "kidney beans": "bean",
+    "black beans": "black_beans",
     "chickpeas": "chickpea",
     "garbanzo beans": "chickpea",
-    "coconut milk": "coconut",
+    "coconut milk": "coconut_milk",
+  ]
+
+  // These foods have no curated ingredient. Mask whole phrases before OCR lookup so
+  // "oat milk" cannot fall through to an exact match for dairy "milk".
+  private static let unsupportedFoodPhrases = [
+    "green beans", "citrus fruit", "oat milk", "soy milk",
+    "vegetable oil", "almond butter", "chicken thigh", "kidney beans",
   ]
 
   // MARK: - Display names (ingredient ID → human-readable name)
@@ -209,7 +205,7 @@ enum IngredientLexicon {
 
   /// Resolve OCR text with match quality for source-aware confidence routing.
   static func resolveFromTextDetailed(_ ocrText: String) -> OCRTextMatch? {
-    let normalizedText = normalizeOCRText(ocrText)
+    let normalizedText = maskingUnsupportedFoodPhrases(ocrText)
     guard !normalizedText.isEmpty else { return nil }
 
     let synonymCandidates = synonyms.keys.sorted { lhs, rhs in
@@ -248,6 +244,48 @@ enum IngredientLexicon {
   /// Get a human-readable display name for an ingredient ID.
   static func displayName(for ingredientId: Int64) -> String {
     displayNames[ingredientId] ?? "Unknown"
+  }
+
+  /// Unsupported food phrases (singular or plural) that appear in `text`, in reading order.
+  static func unsupportedFoodPhrases(in text: String) -> [String] {
+    scanUnsupportedPhrases(in: text).found
+  }
+
+  /// Normalized `text` with every unsupported food phrase removed, so "oat milk" can't fall
+  /// through to a single-word match for dairy "milk". Token-based, so repeats and plurals
+  /// ("oat milk oat milk", "chicken thighs") are masked too.
+  static func maskingUnsupportedFoodPhrases(_ text: String) -> String {
+    scanUnsupportedPhrases(in: text).kept.joined(separator: " ")
+  }
+
+  private static func scanUnsupportedPhrases(in text: String) -> (kept: [String], found: [String]) {
+    let tokens = normalizeOCRText(text).split(separator: " ").map(String.init)
+    let phrases = unsupportedFoodPhrases.map { $0.split(separator: " ").map(String.init) }
+    var kept: [String] = []
+    var found: [String] = []
+    var index = 0
+    while index < tokens.count {
+      let match = phrases.first { phrase in
+        guard index + phrase.count <= tokens.count else { return false }
+        for (offset, word) in phrase.enumerated() {
+          let token = tokens[index + offset]
+          let isLast = offset == phrase.count - 1
+          if token == word || (isLast && (token == word + "s" || token == word + "es")) {
+            continue
+          }
+          return false
+        }
+        return true
+      }
+      if let match {
+        found.append(match.joined(separator: " "))
+        index += match.count
+      } else {
+        kept.append(tokens[index])
+        index += 1
+      }
+    }
+    return (kept, found)
   }
 
   private static func normalizeOCRText(_ text: String) -> String {

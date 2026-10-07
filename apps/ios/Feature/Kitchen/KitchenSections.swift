@@ -52,7 +52,6 @@ struct KitchenUseSoonSection: View {
 struct KitchenNeedsReviewSection: View {
   let items: [InventoryActiveItem]
 
-  @Environment(AppPreferencesStore.self) private var prefs
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var pulseActive = false
 
@@ -87,9 +86,11 @@ struct KitchenNeedsReviewSection: View {
 
                 Spacer()
 
-                Text(prefs.formatWeight(grams: item.totalRemainingGrams))
-                  .font(AppTheme.Typography.dataSmall)
-                  .foregroundStyle(AppTheme.textSecondary)
+                InventoryQuantityText(
+                  item: item,
+                  font: AppTheme.Typography.dataSmall,
+                  color: AppTheme.textSecondary
+                )
               }
             }
           }
@@ -153,7 +154,6 @@ struct KitchenOnHandSection: View {
 struct KitchenItemRow: View {
   let item: InventoryActiveItem
 
-  @Environment(AppPreferencesStore.self) private var prefs
 
   var body: some View {
     HStack(spacing: AppTheme.Space.sm) {
@@ -164,10 +164,11 @@ struct KitchenItemRow: View {
 
       Spacer()
 
-      Text(prefs.formatWeight(grams: item.totalRemainingGrams))
-        .font(AppTheme.Typography.labelSmall)
-        .foregroundStyle(AppTheme.textSecondary)
-        .contentTransition(.numericText())
+      InventoryQuantityText(
+        item: item,
+        font: AppTheme.Typography.labelSmall,
+        color: AppTheme.textSecondary
+      )
 
       if item.lotCount > 1 {
         Text("\(item.lotCount) lots")

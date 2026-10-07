@@ -954,6 +954,7 @@ struct ReverseScanMealView: View {
         rating: nil,
         capturedImage: capturedImage,
         servingsConsumed: servings,
+        portionMultiplier: portionMultiplier,
         sourceRefPrefix: "reverse_scan"
       )
 
@@ -961,7 +962,8 @@ struct ReverseScanMealView: View {
         historyId: mealOutcome.historyId,
         recipeId: mealOutcome.recipeId,
         mealTitle: recipeToLog.title,
-        servingsConsumed: servings
+        servingsConsumed: servings,
+        portionMultiplier: portionMultiplier
       )
 
       if let analysis {

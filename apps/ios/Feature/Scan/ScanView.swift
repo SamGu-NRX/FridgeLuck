@@ -65,6 +65,7 @@ struct ScanView: View {
   @State private var capturedShots: [UIImage] = []
   @State private var capturedShotSources: [ScanInputSource] = []
   @State private var pendingCaptureSource: ScanInputSource = .camera
+  private let maxShots = 3
   @State private var nutritionLabelOutcome: NutritionLabelParseOutcome?
   @State private var scanProvenance: ScanProvenance = .realScan
   @State private var scanDiagnostics: ScanDiagnostics?
@@ -150,9 +151,7 @@ struct ScanView: View {
         ),
         capturedImages: $capturedShots,
         onDone: {
-          if let lastShot = capturedShots.last {
-            capturedImage = lastShot
-          }
+          finishCameraCapture()
         },
         onManualEntry: {
           beginManualEntry()
@@ -174,24 +173,13 @@ struct ScanView: View {
         nutritionLabelOutcome: nutritionLabelOutcome,
         scanProvenance: scanProvenance,
         scanDiagnostics: scanDiagnostics,
-        fridgeImage: capturedImage
+        fridgeImage: capturedImage,
+        savesToInventory: mode == .live
       )
     }
     .onAppear {
       beginDemoFlowIfNeeded()
       refreshCameraPermissionState()
-    }
-    .onChange(of: capturedImage) { _, newValue in
-      guard mode == .live, newValue != nil else { return }
-      if let newValue {
-        capturedShots.append(newValue)
-        capturedShotSources.append(pendingCaptureSource)
-        if capturedShots.count > 3 {
-          capturedShots.removeFirst(capturedShots.count - 3)
-          capturedShotSources.removeFirst(max(0, capturedShotSources.count - 3))
-        }
-      }
-      Task { await processImage() }
     }
     .onChange(of: selectedPhotoItem) { _, newValue in
       guard newValue != nil else { return }
@@ -366,7 +354,7 @@ struct ScanView: View {
       do {
         let imagesToScan: [UIImage] = {
           if !capturedShots.isEmpty {
-            return Array(capturedShots.suffix(3))
+            return Array(capturedShots.suffix(maxShots))
           }
           return [capturedImage]
         }()
@@ -458,6 +446,36 @@ struct ScanView: View {
     }
   }
 
+  /// FLCaptureView appends and removes shots in `capturedShots` itself, so the camera path
+  /// only re-aligns the source labels and starts the scan. Appending the last shot again here
+  /// used to scan it twice and push the first photo out of the three-shot window.
+  private func finishCameraCapture() {
+    guard let lastShot = capturedShots.last else { return }
+    // Sources only label run diagnostics. Shots added or removed inside the capture view are
+    // counted as camera shots.
+    if capturedShotSources.count > capturedShots.count {
+      capturedShotSources.removeLast(capturedShotSources.count - capturedShots.count)
+    }
+    while capturedShotSources.count < capturedShots.count {
+      capturedShotSources.append(.camera)
+    }
+    capturedImage = lastShot
+    Task { await processImage() }
+  }
+
+  private func addLibraryShot(_ image: UIImage) {
+    capturedShots.append(image)
+    capturedShotSources.append(.photoLibrary)
+    if capturedShots.count > maxShots {
+      capturedShots.removeFirst(capturedShots.count - maxShots)
+    }
+    if capturedShotSources.count > capturedShots.count {
+      capturedShotSources.removeFirst(capturedShotSources.count - capturedShots.count)
+    }
+    capturedImage = image
+    Task { await processImage() }
+  }
+
   private func openCameraCapture() {
     pendingCaptureSource = .camera
     Task {
@@ -513,7 +531,7 @@ struct ScanView: View {
           let image = UIImage(data: data)
         else { return }
 
-        capturedImage = ScanImagePreprocessor.prepare(image)
+        addLibraryShot(ScanImagePreprocessor.prepare(image))
       } catch {
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Could not load the selected photo. Try another image."

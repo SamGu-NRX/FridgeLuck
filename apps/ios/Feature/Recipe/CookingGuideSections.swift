@@ -55,6 +55,7 @@ struct CookingGuideTopBar: View {
 }
 
 struct CookingGuideIngredientsPage: View {
+  @Environment(AppPreferencesStore.self) private var prefs
   let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
   @Binding var checkedIngredients: Set<Int64>
   @Binding var activeSubstitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
@@ -159,9 +160,14 @@ struct CookingGuideIngredientsPage: View {
 
           Spacer()
 
-          Text(quantity.displayQuantity)
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.textSecondary)
+          // A substitute uses its own amount (recipe grams × ratio), the amount that gets logged.
+          Text(
+            activeSub.map {
+              prefs.formatWeight(grams: quantity.quantityGrams * $0.substitution.ratio)
+            } ?? quantity.displayQuantity
+          )
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
         }
       }
       .buttonStyle(.plain)

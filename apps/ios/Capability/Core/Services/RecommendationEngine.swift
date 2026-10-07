@@ -27,6 +27,7 @@ final class RecommendationEngine: ObservableObject {
   private let recipeGenerator: RecipeGenerating
   private let geminiCloudAgent: GeminiCloudAgent?
   private let confidenceLearningService: ConfidenceLearningService?
+  private let kitchenIngredientIDs: (() throws -> Set<Int64>)?
 
   @Published var recommendations: [ScoredRecipe] = []
   @Published var sections: RecommendationSections = .empty
@@ -38,6 +39,8 @@ final class RecommendationEngine: ObservableObject {
     activeDietaryBadges: []
   )
   @Published var aiEnhancementNotice: String?
+  /// Size of the ingredient set the last search used, including Kitchen items when requested.
+  @Published var searchedIngredientCount: Int?
   @Published var isLoading = false
   @Published var error: Error?
 
@@ -46,23 +49,41 @@ final class RecommendationEngine: ObservableObject {
     healthScoringService: HealthScoringService,
     recipeGenerator: RecipeGenerating,
     geminiCloudAgent: GeminiCloudAgent? = nil,
-    confidenceLearningService: ConfidenceLearningService? = nil
+    confidenceLearningService: ConfidenceLearningService? = nil,
+    kitchenIngredientIDs: (() throws -> Set<Int64>)? = nil
   ) {
     self.recipeRepository = recipeRepository
     self.healthScoringService = healthScoringService
     self.recipeGenerator = recipeGenerator
     self.geminiCloudAgent = geminiCloudAgent
     self.confidenceLearningService = confidenceLearningService
+    self.kitchenIngredientIDs = kitchenIngredientIDs
     self.aiEnhancementNotice = recipeGenerator.enhancementAvailability.noticeText
   }
 
   // MARK: - Find Recipes
 
   /// Given a set of detected/confirmed ingredient IDs, find all matching recipes.
-  func findRecipes(for ingredientIds: Set<Int64>) async {
+  /// `includingKitchen` adds the active Kitchen inventory, so a scan of one shelf still matches
+  /// recipes that need food confirmed earlier. Home already recommends from that inventory.
+  func findRecipes(for scannedIngredientIds: Set<Int64>, includingKitchen: Bool = false) async {
     isLoading = true
     error = nil
-    logger.info("Finding recipes. ingredientIds=\(ingredientIds.count, privacy: .public)")
+
+    var ingredientIds = scannedIngredientIds
+    if includingKitchen, let kitchenIngredientIDs {
+      do {
+        ingredientIds.formUnion(try kitchenIngredientIDs())
+      } catch {
+        logger.error(
+          "Kitchen inventory read failed; matching scanned ingredients only: \(error.localizedDescription, privacy: .public)"
+        )
+      }
+    }
+    searchedIngredientCount = ingredientIds.count
+    logger.info(
+      "Finding recipes. scanned=\(scannedIngredientIds.count, privacy: .public), total=\(ingredientIds.count, privacy: .public)"
+    )
 
     defer { isLoading = false }
 

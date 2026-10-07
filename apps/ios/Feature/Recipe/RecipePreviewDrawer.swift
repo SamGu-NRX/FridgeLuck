@@ -2,13 +2,15 @@ import SwiftUI
 
 /// A drawer-style sheet for browsing a recipe's details before deciding to cook.
 /// Covers ~92% of the screen. Shows hero visual, title, macros, health score,
-/// ingredients, and a live-cook CTA. Does NOT show step-by-step instructions.
+/// ingredients, and the cooking CTAs. Does NOT show step-by-step instructions.
 struct RecipePreviewDrawer: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let scoredRecipe: ScoredRecipe
-  var onStartCooking: () -> Void
+  /// Receives the swaps chosen here so the cooking guide starts with them.
+  var onStartCooking: ([Int64: (substitution: Substitution, ingredient: Ingredient)]) -> Void
+  var onCookWithLeChef: () -> Void
 
   @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
   @State private var selectedIngredientForDetail: Ingredient?
@@ -83,7 +85,10 @@ struct RecipePreviewDrawer: View {
       }
     }
     .safeAreaInset(edge: .bottom) {
-      RecipePreviewBottomCTA(onStartCooking: onStartCooking)
+      RecipePreviewBottomCTA(
+        onStartCooking: { onStartCooking(activeSubstitutions) },
+        onCookWithLeChef: onCookWithLeChef
+      )
     }
     .background(AppTheme.bg)
     .task {

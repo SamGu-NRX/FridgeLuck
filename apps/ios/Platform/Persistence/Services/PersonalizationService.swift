@@ -1,6 +1,18 @@
 import Foundation
 import GRDB
 
+enum CookingLogError: LocalizedError {
+  case swapNotForRequiredIngredient(recipeId: Int64, ingredientId: Int64)
+
+  var errorDescription: String? {
+    switch self {
+    case .swapNotForRequiredIngredient(let recipeId, let ingredientId):
+      return
+        "Swap for ingredient \(ingredientId) isn't a required ingredient of recipe \(recipeId); it would not count toward the meal."
+    }
+  }
+}
+
 /// Computes a personalization score for recipes based on user history.
 /// Factors: past ratings, cuisine affinity, variety (recency penalty).
 final class PersonalizationService: Sendable {
@@ -63,7 +75,9 @@ final class PersonalizationService: Sendable {
     recipeId: Int64,
     rating: Int? = nil,
     imagePath: String? = nil,
-    servingsConsumed: Int? = nil
+    servingsConsumed: Int? = nil,
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = []
   ) throws -> Int64 {
     try db.write { db in
       try recordCooking(
@@ -71,7 +85,9 @@ final class PersonalizationService: Sendable {
         recipeId: recipeId,
         rating: rating,
         imagePath: imagePath,
-        servingsConsumed: servingsConsumed
+        servingsConsumed: servingsConsumed,
+        portionMultiplier: portionMultiplier,
+        swaps: swaps
       )
     }
   }
@@ -83,15 +99,45 @@ final class PersonalizationService: Sendable {
     recipeId: Int64,
     rating: Int? = nil,
     imagePath: String? = nil,
-    servingsConsumed: Int? = nil
+    servingsConsumed: Int? = nil,
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = []
   ) throws -> Int64 {
     let history = CookingHistory(
       recipeId: recipeId,
       rating: rating,
       imagePath: imagePath,
-      servingsConsumed: servingsConsumed
+      servingsConsumed: servingsConsumed,
+      portionMultiplier: portionMultiplier
     )
     try history.insert(db)
+    // Read before the streak write below, which replaces the connection's last insert ID.
+    let historyID = db.lastInsertedRowID
+
+    if !swaps.isEmpty {
+      let requiredIDs = try Set(
+        Int64.fetchAll(
+          db,
+          sql: "SELECT ingredient_id FROM recipe_ingredients WHERE recipe_id = ? AND is_required = 1",
+          arguments: [recipeId]
+        ))
+      for swap in swaps where !requiredIDs.contains(swap.originalIngredientId) {
+        throw CookingLogError.swapNotForRequiredIngredient(
+          recipeId: recipeId, ingredientId: swap.originalIngredientId)
+      }
+    }
+    for swap in swaps {
+      try db.execute(
+        sql: """
+          INSERT INTO cooking_history_swaps
+            (history_id, original_ingredient_id, substitute_ingredient_id, ratio)
+          VALUES (?, ?, ?, ?)
+          """,
+        arguments: [
+          historyID, swap.originalIngredientId, swap.substituteIngredientId, swap.ratio,
+        ]
+      )
+    }
 
     let today = Self.todayString()
     let existing = try Streak.fetchOne(db, key: today)
@@ -103,7 +149,7 @@ final class PersonalizationService: Sendable {
       try streak.insert(db)
     }
 
-    return db.lastInsertedRowID
+    return historyID
   }
 
   /// Rate a previously cooked recipe.

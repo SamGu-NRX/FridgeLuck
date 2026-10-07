@@ -1,3 +1,4 @@
+import GRDB
 import SwiftUI
 
 @MainActor
@@ -12,10 +13,19 @@ final class KitchenViewModel {
 
   private let inventoryRepository: InventoryRepository
   private let pantryAssumptionService: PantryAssumptionService
+  @ObservationIgnored private var inventoryObserver: AnyDatabaseCancellable?
+  @ObservationIgnored private var isLoadInFlight = false
+  @ObservationIgnored private var needsReload = false
 
   init(deps: AppDependencies) {
     self.inventoryRepository = deps.inventoryRepository
     self.pantryAssumptionService = PantryAssumptionService(db: deps.appDatabase.dbQueue)
+    // The Kitchen tab stays mounted while hidden, so its initial `.task` load goes stale after
+    // a scan or a cooked meal changes inventory elsewhere.
+    inventoryObserver = deps.inventoryRepository.observeInventoryChanges { [weak self] in
+      guard let self else { return }
+      Task { await self.load() }
+    }
   }
 
   // MARK: - Derived Collections
@@ -48,10 +58,21 @@ final class KitchenViewModel {
   // MARK: - Data Loading
 
   func load() async {
+    // Coalesce overlapping loads so an observer burst can't land an older snapshot last.
+    if isLoadInFlight {
+      needsReload = true
+      return
+    }
+    isLoadInFlight = true
     isLoading = true
     defer {
       isLoading = false
       hasLoaded = true
+      isLoadInFlight = false
+      if needsReload {
+        needsReload = false
+        Task { await self.load() }
+      }
     }
 
     let repo = inventoryRepository

@@ -4,7 +4,19 @@ struct InventoryScanIngestionSummary: Sendable {
   let sourceRef: String
   let ingredientCount: Int
   let lotsAdded: Int
+  var lotsRetired: Int = 0
+  var lotsRestored: Int = 0
   let skippedAsDuplicate: Bool
+}
+
+enum IntakeError: LocalizedError {
+  case missingSourceRef
+
+  var errorDescription: String? {
+    switch self {
+    case .missingSourceRef: return "Scan intake needs a review-session reference."
+    }
+  }
 }
 
 /// Converts confirmed scan detections into inventory lot updates.
@@ -21,6 +33,13 @@ final class InventoryIntakeService: Sendable {
     self.inventoryRepository = inventoryRepository
   }
 
+  /// Makes the Kitchen match what the user confirmed in one scan-review session.
+  ///
+  /// The review can be revisited (back from recipes, correct a tomato to a pepper, search again),
+  /// so each call reconciles the session's lots in one transaction: newly confirmed foods are
+  /// added, lots for foods the user no longer confirms are emptied, and a lot emptied that way
+  /// comes back if the user confirms the food again. Lots already cooked from are never
+  /// retired, restored or re-added, so a revisit can't bring back eaten food.
   @discardableResult
   func ingestConfirmedScan(
     detections: [Detection],
@@ -31,25 +50,10 @@ final class InventoryIntakeService: Sendable {
   ) throws -> InventoryScanIngestionSummary {
     let normalizedSourceRef = sourceRef.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !normalizedSourceRef.isEmpty else {
-      return InventoryScanIngestionSummary(
-        sourceRef: sourceRef,
-        ingredientCount: 0,
-        lotsAdded: 0,
-        skippedAsDuplicate: false
-      )
-    }
-
-    if try inventoryRepository.hasEvent(eventType: .add, sourceRef: normalizedSourceRef) {
-      return InventoryScanIngestionSummary(
-        sourceRef: normalizedSourceRef,
-        ingredientCount: 0,
-        lotsAdded: 0,
-        skippedAsDuplicate: true
-      )
+      throw IntakeError.missingSourceRef
     }
 
     var observations: [Int64: (count: Int, confidenceSum: Double)] = [:]
-
     for detection in detections {
       let selectedIngredientID =
         selectedIngredientByDetection[detection.id] ?? detection.ingredientId
@@ -62,52 +66,66 @@ final class InventoryIntakeService: Sendable {
       )
     }
 
-    guard !observations.isEmpty else {
+    let ingredients = try ingredientRepository.fetch(ids: Set(observations.keys))
+    let ingredientByID: [Int64: Ingredient] = Dictionary(
+      uniqueKeysWithValues: ingredients.compactMap { ingredient in
+        ingredient.id.map { ($0, ingredient) }
+      }
+    )
+
+    return try inventoryRepository.write { db in
+      let sessionLots = try inventoryRepository.lots(in: db, addedBy: normalizedSourceRef)
+      let alreadyAdded = Set(sessionLots.map(\.ingredientId))
+
+      var lotsRetired = 0
+      var lotsRestored = 0
+      for lot in sessionLots where !lot.wasConsumed {
+        let isConfirmed = observations[lot.ingredientId] != nil
+        if !isConfirmed && lot.remainingGrams > 0 {
+          try inventoryRepository.retireLot(
+            in: db,
+            lot,
+            reason: InventoryRepository.reviewRetirementReason,
+            sourceRef: normalizedSourceRef
+          )
+          lotsRetired += 1
+        } else if isConfirmed && lot.wasRetiredByReview {
+          try inventoryRepository.restoreRetiredLot(in: db, lot, sourceRef: normalizedSourceRef)
+          lotsRestored += 1
+        }
+      }
+
+      var lotsAdded = 0
+      for (ingredientID, observation) in observations where !alreadyAdded.contains(ingredientID) {
+        let ingredient = ingredientByID[ingredientID]
+        let gramsPerDetection = Self.estimatedGrams(for: ingredient)
+        let quantityGrams = max(30, gramsPerDetection * Double(max(1, observation.count)))
+        let averageConfidence = observation.confidenceSum / Double(max(1, observation.count))
+
+        try inventoryRepository.addLot(
+          in: db,
+          ingredientId: ingredientID,
+          quantityGrams: quantityGrams,
+          location: Self.inferredLocation(for: ingredient),
+          confidenceScore: max(0.35, min(averageConfidence, 1.0)),
+          source: .scan,
+          acquiredAt: acquiredAt,
+          reason: "Scan-confirmed inventory intake",
+          sourceRef: normalizedSourceRef,
+          quantityIsEstimate: true
+        )
+        lotsAdded += 1
+      }
+
       return InventoryScanIngestionSummary(
         sourceRef: normalizedSourceRef,
-        ingredientCount: 0,
-        lotsAdded: 0,
+        ingredientCount: observations.count,
+        lotsAdded: lotsAdded,
+        lotsRetired: lotsRetired,
+        lotsRestored: lotsRestored,
         skippedAsDuplicate: false
       )
     }
-
-    let ingredientIDs = Set(observations.keys)
-    let ingredients = try ingredientRepository.fetch(ids: ingredientIDs)
-    let ingredientPairs: [(Int64, Ingredient)] = ingredients.compactMap { ingredient in
-      guard let id = ingredient.id else { return nil }
-      return (id, ingredient)
-    }
-    let ingredientByID: [Int64: Ingredient] = Dictionary(uniqueKeysWithValues: ingredientPairs)
-
-    var lotsAdded = 0
-    for (ingredientID, observation) in observations {
-      let ingredient = ingredientByID[ingredientID]
-      let gramsPerDetection = Self.estimatedGrams(for: ingredient)
-      let quantityGrams = max(30, gramsPerDetection * Double(max(1, observation.count)))
-
-      let averageConfidence = observation.confidenceSum / Double(max(1, observation.count))
-      let confidence = max(0.35, min(averageConfidence, 1.0))
-      let location = Self.inferredLocation(for: ingredient)
-
-      _ = try inventoryRepository.addLot(
-        ingredientId: ingredientID,
-        quantityGrams: quantityGrams,
-        location: location,
-        confidenceScore: confidence,
-        source: .scan,
-        acquiredAt: acquiredAt,
-        reason: "Scan-confirmed inventory intake",
-        sourceRef: normalizedSourceRef
-      )
-      lotsAdded += 1
-    }
-
-    return InventoryScanIngestionSummary(
-      sourceRef: normalizedSourceRef,
-      ingredientCount: observations.count,
-      lotsAdded: lotsAdded,
-      skippedAsDuplicate: false
-    )
   }
 
   // MARK: - Grocery Intake (explicit quantities + locations)

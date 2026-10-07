@@ -10,6 +10,7 @@ struct CookingGuideView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let scoredRecipe: ScoredRecipe
+  let logsMeal: Bool
   private let scopedDependencies: Dependencies?
   var onComplete: () -> Void
 
@@ -21,10 +22,14 @@ struct CookingGuideView: View {
 
   init(
     scoredRecipe: ScoredRecipe,
+    logsMeal: Bool,
+    initialSubstitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:],
     dependencies: Dependencies? = nil,
     onComplete: @escaping () -> Void
   ) {
     self.scoredRecipe = scoredRecipe
+    self.logsMeal = logsMeal
+    self._activeSubstitutions = State(initialValue: initialSubstitutions)
     self.scopedDependencies = dependencies
     self.onComplete = onComplete
   }
@@ -41,6 +46,21 @@ struct CookingGuideView: View {
     [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:]
 
   private var recipe: Recipe { scoredRecipe.recipe }
+
+  /// Substitutions of required ingredients, in the form the meal log records. Optional
+  /// ingredients never count toward logged nutrition or consumption, so their swaps aren't saved.
+  private var swaps: [IngredientSwap] {
+    let requiredIDs = Set(ingredients.filter(\.quantity.isRequired).map(\.quantity.ingredientId))
+    return activeSubstitutions.compactMap { originalId, chosen in
+      guard requiredIDs.contains(originalId) else { return nil }
+      return IngredientSwap(
+        originalIngredientId: originalId,
+        substituteIngredientId: chosen.substitution.substituteId,
+        ratio: chosen.substitution.ratio
+      )
+    }
+    .sorted { $0.originalIngredientId < $1.originalIngredientId }
+  }
 
   private var instructionSteps: [String] {
     recipe.instructions
@@ -116,6 +136,8 @@ struct CookingGuideView: View {
       if showCelebration {
         CookingCelebrationView(
           scoredRecipe: scoredRecipe,
+          logsMeal: logsMeal,
+          swaps: swaps,
           onDismiss: {
             dismiss()
             onComplete()

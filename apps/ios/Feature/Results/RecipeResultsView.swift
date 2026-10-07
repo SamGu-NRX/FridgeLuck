@@ -1,10 +1,12 @@
+import FLFeatureLogic
 import SwiftUI
 import UIKit
 
 /// Shows recipe recommendations based on the user's available ingredients.
-/// Tapping a recipe opens a preview drawer (sheet), which leads to the recipe book
-/// (fullScreenCover), then the cooking celebration, and finally dismisses back to Home
-/// via the NavigationCoordinator.
+/// Tapping a recipe opens a preview drawer (sheet). "Start cooking" opens the offline
+/// step-by-step guide (fullScreenCover), whose celebration logs the meal and consumes
+/// inventory, then returns Home. "Cook with Le Chef" hands the recipe to the live assistant,
+/// which needs the Gemini Live backend.
 struct RecipeResultsView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -16,6 +18,10 @@ struct RecipeResultsView: View {
   let fridgePhoto: UIImage?
   let scanConfidenceScore: Double?
   let preferredRecipeID: Int64?
+  let includesKitchenInventory: Bool
+  /// False for demo and tutorial results: cooking through them is practice and must not add a
+  /// meal to history or take food out of the real Kitchen.
+  let logsMeals: Bool
 
   @State private var replaySpotlightPending: Bool
   @StateObject private var engine: RecommendationEngine
@@ -23,6 +29,7 @@ struct RecipeResultsView: View {
   @State private var revealedCount: Int = 0
 
   @State private var selectedRecipe: ScoredRecipe?
+  @State private var cookingFlow = CookingLaunchFlow<CookingSession>()
   @State private var didPromoteRecipeMatchLesson = false
   @State private var didPresentPreferredRecipe = false
   @State private var recipeMatchSpotlight = SpotlightCoordinator()
@@ -34,6 +41,8 @@ struct RecipeResultsView: View {
     fridgePhoto: UIImage? = nil,
     scanConfidenceScore: Double? = nil,
     preferredRecipeID: Int64? = nil,
+    includesKitchenInventory: Bool = false,
+    logsMeals: Bool,
     engine: RecommendationEngine,
     replaySpotlightOnAppear: Bool = false
   ) {
@@ -42,6 +51,8 @@ struct RecipeResultsView: View {
     self.fridgePhoto = fridgePhoto
     self.scanConfidenceScore = scanConfidenceScore
     self.preferredRecipeID = preferredRecipeID
+    self.includesKitchenInventory = includesKitchenInventory
+    self.logsMeals = logsMeals
     _replaySpotlightPending = State(initialValue: replaySpotlightOnAppear)
     _engine = StateObject(wrappedValue: engine)
   }
@@ -137,7 +148,7 @@ struct RecipeResultsView: View {
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground()
     .task {
-      await engine.findRecipes(for: ingredientIds)
+      await engine.findRecipes(for: ingredientIds, includingKitchen: includesKitchenInventory)
       autoPresentPreferredRecipeIfNeeded()
       if !ingredientNames.isEmpty {
         await engine.generateAIRecipe(
@@ -163,13 +174,26 @@ struct RecipeResultsView: View {
       guard shouldPresentReplayRecipeMatchSpotlight else { return }
       presentReplayRecipeMatchSpotlight()
     }
-    .sheet(item: $selectedRecipe) { recipe in
-      RecipePreviewDrawer(scoredRecipe: recipe) {
-        handleStartCooking(recipe)
-      }
+    .sheet(item: $selectedRecipe, onDismiss: { cookingFlow.previewDidDismiss() }) { recipe in
+      RecipePreviewDrawer(
+        scoredRecipe: recipe,
+        onStartCooking: { substitutions in
+          handleStartCooking(CookingSession(recipe: recipe, substitutions: substitutions))
+        },
+        onCookWithLeChef: { handleCookWithLeChef(recipe) }
+      )
       .presentationDetents([.fraction(0.92)])
       .presentationDragIndicator(.visible)
       .presentationCornerRadius(AppTheme.Radius.xl)
+    }
+    .fullScreenCover(item: $cookingFlow.cooking, onDismiss: finishCooking) { session in
+      CookingGuideView(
+        scoredRecipe: session.recipe,
+        logsMeal: logsMeals,
+        initialSubstitutions: session.substitutions
+      ) {
+        cookingFlow.guideCompleted()
+      }
     }
   }
 
@@ -203,7 +227,7 @@ struct RecipeResultsView: View {
 
   private var contextHeader: some View {
     RecipeResultsContextHeader(
-      ingredientCount: ingredientIds.count,
+      ingredientCount: engine.searchedIngredientCount ?? ingredientIds.count,
       policySummary: engine.explanationPayload.policySummary,
       activeDietaryBadges: engine.explanationPayload.activeDietaryBadges,
       exactCount: engine.sections.exact.count,
@@ -259,7 +283,9 @@ struct RecipeResultsView: View {
       systemImage: "tray.fill",
       actionTitle: "Retry Search",
       action: {
-        Task { await engine.findRecipes(for: ingredientIds) }
+        Task {
+          await engine.findRecipes(for: ingredientIds, includingKitchen: includesKitchenInventory)
+        }
       }
     )
   }
@@ -307,7 +333,18 @@ struct RecipeResultsView: View {
     selectedRecipe = scored
   }
 
-  private func handleStartCooking(_ scored: ScoredRecipe) {
+  private func handleStartCooking(_ session: CookingSession) {
+    cookingFlow.requestStart(session)
+    selectedRecipe = nil
+  }
+
+  private func finishCooking() {
+    if cookingFlow.guideDidDismiss() {
+      navCoordinator.returnHome()
+    }
+  }
+
+  private func handleCookWithLeChef(_ scored: ScoredRecipe) {
     storeRecipeForAssistant(scored)
     selectedRecipe = nil
     Task {
@@ -365,4 +402,12 @@ struct RecipeResultsView: View {
     didPresentPreferredRecipe = true
     selectedRecipe = preferredRecipe
   }
+}
+
+/// The recipe the guide cooks plus any swaps chosen in the preview, so they carry into cooking.
+private struct CookingSession: Identifiable {
+  let recipe: ScoredRecipe
+  let substitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
+
+  var id: ScoredRecipe.ID { recipe.id }
 }

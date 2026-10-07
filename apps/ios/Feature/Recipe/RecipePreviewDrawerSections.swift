@@ -245,6 +245,7 @@ struct RecipePreviewMacroSection: View {
 }
 
 struct RecipePreviewIngredientSection: View {
+  @Environment(AppPreferencesStore.self) private var prefs
   let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
   let activeSubstitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
   let hasSubstitutions: (Int64) -> Bool
@@ -337,9 +338,14 @@ struct RecipePreviewIngredientSection: View {
 
           Spacer()
 
-          Text(quantity.displayQuantity)
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.textSecondary)
+          // A substitute uses its own amount (recipe grams × ratio), the amount that gets logged.
+          Text(
+            activeSub.map {
+              prefs.formatWeight(grams: quantity.quantityGrams * $0.substitution.ratio)
+            } ?? quantity.displayQuantity
+          )
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
         }
       }
       .buttonStyle(.plain)
@@ -389,14 +395,31 @@ struct RecipePreviewIngredientSection: View {
   }
 }
 
+/// "Start cooking" is primary because the offline guide always works and ends in the meal
+/// log; Le Chef needs the live backend, so it stays one quiet tap away.
 struct RecipePreviewBottomCTA: View {
   let onStartCooking: () -> Void
+  let onCookWithLeChef: () -> Void
 
   var body: some View {
-    VStack(spacing: AppTheme.Space.xs) {
-      FLPrimaryButton("Cook with Le Chef", systemImage: "waveform.and.mic") {
+    VStack(spacing: AppTheme.Space.xxs) {
+      FLPrimaryButton("Start cooking", systemImage: "list.number") {
         onStartCooking()
       }
+
+      Button(action: onCookWithLeChef) {
+        HStack(spacing: AppTheme.Space.xs) {
+          Image(systemName: "waveform.and.mic")
+            .foregroundStyle(AppTheme.accent)
+          Text("Cook hands-free with Le Chef")
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+        .font(AppTheme.Typography.bodyMedium)
+        .frame(maxWidth: .infinity, minHeight: 44)
+        .contentShape(Rectangle())
+      }
+      .buttonStyle(FLPressableButtonStyle())
+      .accessibilityHint("Opens the live voice assistant from Home")
     }
     .padding(.horizontal, AppTheme.Space.page)
     .padding(.top, AppTheme.Space.xs)
