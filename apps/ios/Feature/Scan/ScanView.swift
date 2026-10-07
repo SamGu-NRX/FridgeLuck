@@ -61,6 +61,12 @@ struct ScanView: View {
   @State private var selectedPhotoItem: PhotosPickerItem?
   @State private var showRunReports = false
   @State private var isProcessing = false
+  /// A picked photo is loading. The screen shows the analyzing state so a second pick can't
+  /// start while the first is still on its way.
+  @State private var isLoadingPhoto = false
+  /// The screen's one scan task, which loads a picked photo and runs the scan. It's cancelled
+  /// when the screen goes away so Vision stops working on a result nobody will see.
+  @State private var scanTask: Task<Void, Never>?
   @State private var detections: [Detection] = []
   @State private var capturedShots: [UIImage] = []
   @State private var capturedShotSources: [ScanInputSource] = []
@@ -100,7 +106,7 @@ struct ScanView: View {
   }
 
   private var stage: ScanStage {
-    if isProcessing { return .analyze }
+    if isProcessing || isLoadingPhoto { return .analyze }
     if navigateToReview || errorMessage != nil { return .review }
     return .capture
   }
@@ -123,7 +129,7 @@ struct ScanView: View {
 
       ZStack {
         Group {
-          if isProcessing {
+          if isProcessing || isLoadingPhoto {
             analyzingView
           } else if capturedImage != nil, errorMessage != nil {
             errorView
@@ -181,6 +187,10 @@ struct ScanView: View {
       beginDemoFlowIfNeeded()
       refreshCameraPermissionState()
     }
+    // While the scan task loads a photo or scans, the capture controls are hidden; the reports
+    // button is disabled for the whole task, and the scan ends by navigating to the review. So a
+    // disappearance during the task is the user leaving.
+    .onDisappear { scanTask?.cancel() }
     .onChange(of: selectedPhotoItem) { _, newValue in
       guard newValue != nil else { return }
       loadSelectedPhoto()
@@ -192,6 +202,7 @@ struct ScanView: View {
         } label: {
           Image(systemName: "doc.text.magnifyingglass")
         }
+        .disabled(scanTask != nil)
       }
     }
   }
@@ -295,10 +306,23 @@ struct ScanView: View {
       capturedImage = DemoScanService.loadDemoImage()
     }
 
-    Task {
+    startScanTask {
       try? await Task.sleep(nanoseconds: 850_000_000)
+      guard !Task.isCancelled else { return }
       await processImage()
     }
+  }
+
+  /// Starts `work` as the screen's scan task unless one is already running, so a late or repeated
+  /// trigger can't replace the handle of a scan that's still going.
+  @discardableResult
+  private func startScanTask(_ work: @escaping @MainActor () async -> Void) -> Bool {
+    guard scanTask == nil else { return false }
+    scanTask = Task {
+      await work()
+      scanTask = nil
+    }
+    return true
   }
 
   private func processImage() async {
@@ -320,6 +344,9 @@ struct ScanView: View {
 
     if mode == .demo {
       let payload = await dependencies.loadDemoPayload(demoScenario)
+      // The demo loader turns a cancelled scan into its fallback payload, which must not be
+      // shown or saved as a completed run.
+      guard !Task.isCancelled else { return }
       detections = payload.detections
       nutritionLabelOutcome = nil
       scanProvenance = payload.provenance
@@ -383,7 +410,11 @@ struct ScanView: View {
           diagnostics: result.diagnostics,
           inputSources: inputs.map(\.source)
         )
+      } catch is CancellationError {
+        return
       } catch {
+        // A scan that failed just as the user left isn't worth reporting on a gone screen.
+        guard !Task.isCancelled else { return }
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Scan failed. Try better lighting or continue manually."
         }
@@ -397,6 +428,7 @@ struct ScanView: View {
       let remaining = minAnalyzeDuration - elapsed
       try? await Task.sleep(nanoseconds: UInt64(remaining * 1_000_000_000))
     }
+    guard !Task.isCancelled else { return }
 
     if detections.isEmpty {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -460,7 +492,7 @@ struct ScanView: View {
       capturedShotSources.append(.camera)
     }
     capturedImage = lastShot
-    Task { await processImage() }
+    startScanTask { await processImage() }
   }
 
   private func addLibraryShot(_ image: UIImage) {
@@ -473,7 +505,6 @@ struct ScanView: View {
       capturedShotSources.removeFirst(capturedShotSources.count - capturedShots.count)
     }
     capturedImage = image
-    Task { await processImage() }
   }
 
   private func openCameraCapture() {
@@ -520,23 +551,34 @@ struct ScanView: View {
     }
   }
 
+  /// Loading runs inside the scan task, so leaving while a slow photo loads cancels both.
   private func loadSelectedPhoto() {
     guard let selectedPhotoItem else { return }
 
-    Task {
-      defer { self.selectedPhotoItem = nil }
+    let started = startScanTask {
+      // Held until the scan finishes, so the capture prompt doesn't flash between loading and
+      // the scan's own analyzing state.
+      isLoadingPhoto = true
+      defer {
+        isLoadingPhoto = false
+        self.selectedPhotoItem = nil
+      }
 
       do {
         guard let data = try await selectedPhotoItem.loadTransferable(type: Data.self),
           let image = UIImage(data: data)
         else { return }
+        guard !Task.isCancelled else { return }
 
         addLibraryShot(ScanImagePreprocessor.prepare(image))
+        await processImage()
       } catch {
+        guard !Task.isCancelled else { return }
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Could not load the selected photo. Try another image."
         }
       }
     }
+    if !started { self.selectedPhotoItem = nil }
   }
 }
