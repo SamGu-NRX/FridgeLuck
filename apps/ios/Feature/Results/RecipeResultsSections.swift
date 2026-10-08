@@ -117,6 +117,12 @@ struct RecipeResultsBestMatchHero: View {
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textSecondary)
 
+        // A near-match hero leaves "Almost there", so it names what's missing itself.
+        let missingNames = RecipeMissingIngredientChips.names(for: scored)
+        if !missingNames.isEmpty {
+          RecipeMissingIngredientChips(names: missingNames, leadingLabel: "Missing")
+        }
+
         MacroSummaryBar(macros: scored.macros)
 
         if !scored.rankingReasons.isEmpty {
@@ -272,19 +278,9 @@ struct RecipeResultsNearMatchSection: View {
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.textSecondary)
 
-            if !scored.missingIngredientIds.isEmpty {
-              ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: AppTheme.Space.xs) {
-                  ForEach(scored.missingIngredientIds, id: \.self) { ingredientID in
-                    Text(IngredientLexicon.displayName(for: ingredientID))
-                      .font(AppTheme.Typography.labelSmall)
-                      .foregroundStyle(AppTheme.textSecondary)
-                      .padding(.horizontal, AppTheme.Space.sm)
-                      .padding(.vertical, AppTheme.Space.chipVertical)
-                      .background(AppTheme.surfaceMuted, in: Capsule())
-                  }
-                }
-              }
+            let missingNames = RecipeMissingIngredientChips.names(for: scored)
+            if !missingNames.isEmpty {
+              RecipeMissingIngredientChips(names: missingNames)
             }
 
             if !scored.rankingReasons.isEmpty {
@@ -305,6 +301,40 @@ struct RecipeResultsNearMatchSection: View {
           )
         }
         .buttonStyle(.plain)
+      }
+    }
+  }
+}
+
+/// The muted chips naming a near match's missing required ingredients, shared by the Best Match
+/// hero and "Almost there".
+struct RecipeMissingIngredientChips: View {
+  let names: [String]
+  var leadingLabel: String? = nil
+
+  static func names(
+    for scored: ScoredRecipe,
+    displayName: (Int64) -> String = IngredientLexicon.displayName(for:)
+  ) -> [String] {
+    scored.missingIngredientIds.map(displayName)
+  }
+
+  var body: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: AppTheme.Space.xs) {
+        if let leadingLabel {
+          Label(leadingLabel, systemImage: "exclamationmark.circle")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+        ForEach(Array(names.enumerated()), id: \.offset) { _, name in
+          Text(name)
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .padding(.horizontal, AppTheme.Space.sm)
+            .padding(.vertical, AppTheme.Space.chipVertical)
+            .background(AppTheme.surfaceMuted, in: Capsule())
+        }
       }
     }
   }
