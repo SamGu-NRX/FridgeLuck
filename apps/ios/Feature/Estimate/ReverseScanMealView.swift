@@ -42,6 +42,9 @@ struct ReverseScanMealView: View {
   @State private var resultsAppeared = false
   @State private var mealPortionSize: MealPortionSize = .normal
   @State private var deductionPreviews: [InventoryDeductionPreview] = []
+  /// `chosenRecipe` after `RecipeRepository.resolveForLogging`, tagged with the choice it
+  /// resolved so a stale result is never shown for a new choice.
+  @State private var resolvedChoice: (key: String, recipe: Recipe, macros: RecipeMacros)?
 
   // MARK: - Derived
 
@@ -70,6 +73,33 @@ struct ReverseScanMealView: View {
   private var selectedCandidate: ReverseScanRecipeCandidate? {
     guard let analysis, let selectedCandidateID else { return nil }
     return analysis.candidateRecipes.first(where: { $0.id == selectedCandidateID })
+  }
+
+  /// The recipe the user chose, from the manual picker or the match list.
+  private var chosenRecipe: (recipe: Recipe, macros: RecipeMacros)? {
+    if let manuallyPickedRecipe, let manuallyPickedMacros {
+      return (manuallyPickedRecipe, manuallyPickedMacros)
+    }
+    if let selectedCandidate {
+      return (selectedCandidate.recipe.recipe, selectedCandidate.recipe.macros)
+    }
+    return nil
+  }
+
+  private var chosenRecipeKey: String? {
+    chosenRecipe.map { "\($0.recipe.id ?? -1)|\($0.recipe.title)" }
+  }
+
+  /// The recipe this screen shows, previews and logs. Logging re-resolves the chosen recipe
+  /// (an ingredientless row falls back to a same-title recipe with ingredients), so the screen
+  /// resolves it the same way first. Falls back to the choice itself when logging would
+  /// create a new row, which has no ingredients to preview.
+  private var mealRecipe: (recipe: Recipe, macros: RecipeMacros)? {
+    guard let chosenRecipe else { return nil }
+    if let resolvedChoice, resolvedChoice.key == chosenRecipeKey {
+      return (resolvedChoice.recipe, resolvedChoice.macros)
+    }
+    return chosenRecipe
   }
 
   private var confirmationVerdict: MealPhotoConfirmationPolicy.Verdict? {
@@ -280,7 +310,7 @@ struct ReverseScanMealView: View {
             )
 
           ReverseScanIngredientBreakdownSection(
-            recipe: manuallyPickedRecipe ?? selectedCandidate?.recipe.recipe,
+            recipe: mealRecipe?.recipe,
             portionMultiplier: portionMultiplier,
             servings: servings
           )
@@ -379,10 +409,10 @@ struct ReverseScanMealView: View {
           }
         }
       }
-      .task(
-        id:
-          "\(selectedCandidateID ?? 0)_\(manuallyPickedRecipe?.id ?? 0)_\(servings)_\(mealPortionSize.rawValue)"
-      ) {
+      .onChange(of: chosenRecipeKey, initial: true) { _, _ in
+        resolveChosenRecipe()
+      }
+      .task(id: "\(mealRecipe?.recipe.id ?? 0)_\(servings)_\(mealPortionSize.rawValue)") {
         await loadDeductionPreviews()
       }
     }
@@ -390,8 +420,23 @@ struct ReverseScanMealView: View {
 
   /// Previews what logging the chosen recipe takes out of the Kitchen. It used to list each
   /// detection at 100 g, which the log never deducts. No recipe means no preview.
+  private func resolveChosenRecipe() {
+    guard let chosenRecipe, let key = chosenRecipeKey else {
+      resolvedChoice = nil
+      return
+    }
+    do {
+      resolvedChoice = try deps.recipeRepository.resolveForLogging(chosenRecipe.recipe).map {
+        (key: key, recipe: $0.recipe, macros: $0.macros)
+      }
+    } catch {
+      logger.error("Failed to resolve chosen recipe: \(error.localizedDescription)")
+      resolvedChoice = nil
+    }
+  }
+
   private func loadDeductionPreviews() async {
-    guard let recipeID = (manuallyPickedRecipe ?? selectedCandidate?.recipe.recipe)?.id else {
+    guard let recipeID = mealRecipe?.recipe.id else {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         deductionPreviews = []
       }
@@ -606,19 +651,14 @@ struct ReverseScanMealView: View {
 
   @ViewBuilder
   private var macrosSection: some View {
-    if let manuallyPickedRecipe, let macros = manuallyPickedMacros {
+    if let mealRecipe {
       macroConfirmCard(
-        title: manuallyPickedRecipe.title,
-        macros: macros,
-        isHighConfidence: true
-      )
-    } else if let candidate = selectedCandidate {
-      macroConfirmCard(
-        title: candidate.recipe.recipe.title,
-        macros: candidate.recipe.macros,
-        isHighConfidence: confirmationVerdict.map {
-          !MealPhotoConfirmationPolicy.asksToCheckBeforeLogging(for: $0)
-        } ?? false
+        title: mealRecipe.recipe.title,
+        macros: mealRecipe.macros,
+        isHighConfidence: manuallyPickedRecipe != nil
+          || confirmationVerdict.map {
+            !MealPhotoConfirmationPolicy.asksToCheckBeforeLogging(for: $0)
+          } ?? false
       )
     }
   }
@@ -976,12 +1016,7 @@ struct ReverseScanMealView: View {
     guard !isLoggingMeal else { return }
     logger.info("Reverse scan meal log requested.")
 
-    let recipeToLog: Recipe
-    if let manuallyPickedRecipe {
-      recipeToLog = manuallyPickedRecipe
-    } else if let candidate = selectedCandidate {
-      recipeToLog = candidate.recipe.recipe
-    } else {
+    guard let recipeToLog = mealRecipe?.recipe else {
       errorMessage = "Select a recipe before logging."
       logger.notice("Meal log blocked: no recipe selected.")
       return
