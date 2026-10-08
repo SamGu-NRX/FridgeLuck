@@ -255,14 +255,19 @@ struct SpotlightTutorialOverlay: View {
           Spacer()
         }
       }
-      .padding(.top, placement == .bottomLeading ? 0 : skipTopOffset)
+      .padding(
+        .top,
+        placement == .bottomLeading
+          ? 0
+          : SpotlightSkipLayout.topOffset(safeAreaTop: geo.safeAreaInsets.top)
+      )
       .padding(
         .bottom,
         placement == .bottomLeading
-          ? geo.safeAreaInsets.bottom + skipBottomOffset
+          ? geo.safeAreaInsets.bottom + SpotlightSkipLayout.bottomOffset
           : 0
       )
-      .padding(.horizontal, skipHorizontalPadding)
+      .padding(.horizontal, SpotlightSkipLayout.horizontalPadding)
 
       if placement != .bottomLeading {
         Spacer()
@@ -296,19 +301,9 @@ struct SpotlightTutorialOverlay: View {
   // MARK: - Positioning
 
   private let tooltipCardHeight: CGFloat = 260
-  private let skipTopOffset: CGFloat = 88
-  private let skipBottomOffset: CGFloat = 24
-  private let skipHorizontalPadding: CGFloat = AppTheme.Space.page
-  private let skipButtonSize = CGSize(width: 132, height: 40)
   private let scrollTransitionDelay: Duration = .milliseconds(250)
   private let highlightPulseDelay: Duration = .milliseconds(80)
   private let dismissDelay: Duration = .milliseconds(240)
-
-  private enum SkipButtonPlacement {
-    case topTrailing
-    case topLeading
-    case bottomLeading
-  }
 
   private struct HighlightMetrics {
     let width: CGFloat
@@ -409,19 +404,13 @@ struct SpotlightTutorialOverlay: View {
     }
   }
 
-  private func skipButtonPlacement(in geo: GeometryProxy) -> SkipButtonPlacement {
-    let placements: [SkipButtonPlacement] = [.topTrailing, .topLeading, .bottomLeading]
-    let tooltipFrame = tooltipFrame(in: geo)
-    let highlightFrame = highlightFrame(in: geo)
-
-    for placement in placements {
-      let skipFrame = skipButtonFrame(for: placement, in: geo)
-      if skipFrame.intersects(tooltipFrame) { continue }
-      if let highlightFrame, skipFrame.intersects(highlightFrame) { continue }
-      return placement
-    }
-
-    return .bottomLeading
+  private func skipButtonPlacement(in geo: GeometryProxy) -> SpotlightSkipLayout.Placement {
+    SpotlightSkipLayout.placement(
+      containerSize: geo.size,
+      safeAreaInsets: geo.safeAreaInsets,
+      tooltipFrame: tooltipFrame(in: geo),
+      highlightFrame: highlightFrame(in: geo)
+    )
   }
 
   private func tooltipFrame(in geo: GeometryProxy) -> CGRect {
@@ -441,26 +430,6 @@ struct SpotlightTutorialOverlay: View {
       width: metrics.width,
       height: metrics.height
     )
-  }
-
-  private func skipButtonFrame(for placement: SkipButtonPlacement, in geo: GeometryProxy) -> CGRect
-  {
-    let x: CGFloat
-    let y: CGFloat
-
-    switch placement {
-    case .topTrailing:
-      x = geo.size.width - skipHorizontalPadding - skipButtonSize.width
-      y = skipTopOffset
-    case .topLeading:
-      x = skipHorizontalPadding
-      y = skipTopOffset
-    case .bottomLeading:
-      x = skipHorizontalPadding
-      y = geo.size.height - geo.safeAreaInsets.bottom - skipBottomOffset - skipButtonSize.height
-    }
-
-    return CGRect(origin: CGPoint(x: x, y: y), size: skipButtonSize)
   }
 
   // MARK: - Actions
@@ -536,6 +505,74 @@ struct SpotlightTutorialOverlay: View {
     dismissTask?.cancel()
     transitionTask = nil
     dismissTask = nil
+  }
+}
+
+// MARK: - Skip Layout
+
+/// Where the tour's Skip button sits, in the overlay's coordinates (the full screen).
+///
+/// The overlay ignores the safe area, but on a pushed screen the navigation bar still receives
+/// every tap inside the top safe area, even where the overlay draws over it. A Skip button in
+/// that band is visible and dead (Review Ingredients, 2026-10-07 walk, screenshots 15 and 15b).
+/// So the top placements start below `safeAreaInsets.top`, which on a pushed screen includes
+/// the navigation bar and on Home is only the status bar.
+struct SpotlightSkipLayout {
+  enum Placement: CaseIterable {
+    case topTrailing
+    case topLeading
+    case bottomLeading
+  }
+
+  static let buttonSize = CGSize(width: 132, height: 40)
+  /// The offset Home has always used; it already clears the status bar there.
+  static let minimumTopOffset: CGFloat = 88
+  static let gapBelowTopBar: CGFloat = AppTheme.Space.xs
+  static let bottomOffset: CGFloat = 24
+  static let horizontalPadding: CGFloat = AppTheme.Space.page
+
+  static func topOffset(safeAreaTop: CGFloat) -> CGFloat {
+    max(minimumTopOffset, safeAreaTop + gapBelowTopBar)
+  }
+
+  static func frame(
+    for placement: Placement,
+    containerSize: CGSize,
+    safeAreaInsets: EdgeInsets
+  ) -> CGRect {
+    let x: CGFloat
+    let y: CGFloat
+
+    switch placement {
+    case .topTrailing:
+      x = containerSize.width - horizontalPadding - buttonSize.width
+      y = topOffset(safeAreaTop: safeAreaInsets.top)
+    case .topLeading:
+      x = horizontalPadding
+      y = topOffset(safeAreaTop: safeAreaInsets.top)
+    case .bottomLeading:
+      x = horizontalPadding
+      y = containerSize.height - safeAreaInsets.bottom - bottomOffset - buttonSize.height
+    }
+
+    return CGRect(origin: CGPoint(x: x, y: y), size: buttonSize)
+  }
+
+  /// The first placement that covers neither the tooltip card nor the highlighted element.
+  static func placement(
+    containerSize: CGSize,
+    safeAreaInsets: EdgeInsets,
+    tooltipFrame: CGRect,
+    highlightFrame: CGRect?
+  ) -> Placement {
+    for placement in Placement.allCases {
+      let skipFrame = frame(
+        for: placement, containerSize: containerSize, safeAreaInsets: safeAreaInsets)
+      if skipFrame.intersects(tooltipFrame) { continue }
+      if let highlightFrame, skipFrame.intersects(highlightFrame) { continue }
+      return placement
+    }
+    return .bottomLeading
   }
 }
 
