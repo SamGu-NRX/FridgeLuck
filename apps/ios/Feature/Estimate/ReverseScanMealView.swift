@@ -279,8 +279,7 @@ struct ReverseScanMealView: View {
             )
 
           ReverseScanIngredientBreakdownSection(
-            analysis: analysis,
-            candidateRecipe: selectedCandidate,
+            recipe: manuallyPickedRecipe ?? selectedCandidate?.recipe.recipe,
             portionMultiplier: portionMultiplier,
             servings: servings
           )

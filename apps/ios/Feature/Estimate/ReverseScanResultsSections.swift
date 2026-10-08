@@ -34,13 +34,79 @@ enum MealPortionSize: String, CaseIterable {
 
 // MARK: - Ingredient Breakdown Section
 
+/// One ingredient of the meal being logged, in the amount the log will count.
+struct MealBreakdownRow: Equatable {
+  let ingredientId: Int64
+  let name: String
+  let grams: Double
+}
+
+/// What the Ingredient Breakdown card can truthfully say. It used to list each detection at an
+/// invented 100 g whether or not a recipe was chosen, and "No ingredient details available for
+/// this recipe" when nothing was detected, even before a recipe existed.
+enum MealBreakdownContent: Equatable {
+  case noRecipe
+  case loading
+  case noIngredientList
+  case ingredients([MealBreakdownRow])
+
+  var message: String? {
+    switch self {
+    case .noRecipe: return "Choose a recipe to see what's in it."
+    case .loading: return nil
+    case .noIngredientList: return "No ingredient amounts to show for this recipe."
+    case .ingredients: return "Scaled to your servings and portion."
+    }
+  }
+
+  /// `loadedIngredients` is nil until the chosen recipe's ingredients have been read.
+  /// Only required ingredients are listed, with the scaling `InventoryRepository.applyConsumption`
+  /// uses, because macros (`NutritionService`) and deduction count only those.
+  static func make(
+    recipe: Recipe?,
+    loadedIngredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]?,
+    servingsConsumed: Int,
+    portionMultiplier: Double
+  ) -> MealBreakdownContent {
+    guard let recipe else { return .noRecipe }
+    guard recipe.id != nil else { return .noIngredientList }
+    guard let loadedIngredients else { return .loading }
+
+    let factor =
+      Double(max(1, servingsConsumed)) * portionMultiplier / Double(max(recipe.servings, 1))
+    let rows = loadedIngredients
+      .filter { $0.quantity.isRequired }
+      .map {
+        MealBreakdownRow(
+          ingredientId: $0.quantity.ingredientId,
+          name: $0.ingredient.displayName,
+          grams: $0.quantity.quantityGrams * factor
+        )
+      }
+    return rows.isEmpty ? .noIngredientList : .ingredients(rows)
+  }
+}
+
 struct ReverseScanIngredientBreakdownSection: View {
-  let analysis: ReverseScanAnalysis
-  let candidateRecipe: ReverseScanRecipeCandidate?
+  /// The recipe the user chose, from the match list or the manual picker.
+  let recipe: Recipe?
   let portionMultiplier: Double
   let servings: Int
 
   @EnvironmentObject var deps: AppDependencies
+  @Environment(AppPreferencesStore.self) private var prefs
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @State private var loaded:
+    (recipeID: Int64, ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)])?
+
+  private var content: MealBreakdownContent {
+    MealBreakdownContent.make(
+      recipe: recipe,
+      loadedIngredients: loaded.flatMap { $0.recipeID == recipe?.id ? $0.ingredients : nil },
+      servingsConsumed: servings,
+      portionMultiplier: portionMultiplier
+    )
+  }
 
   var body: some View {
     FLCard {
@@ -50,21 +116,25 @@ struct ReverseScanIngredientBreakdownSection: View {
             .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.textSecondary)
           Spacer()
-          Text("\(ingredientRows.count) items")
-            .font(AppTheme.Typography.labelSmall)
+          if case .ingredients(let rows) = content {
+            Text("\(rows.count) item\(rows.count == 1 ? "" : "s")")
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.textSecondary)
+              .contentTransition(.numericText())
+          }
+        }
+
+        if let message = content.message {
+          Text(message)
+            .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
         }
 
-        if ingredientRows.isEmpty {
-          Text("No ingredient details available for this recipe.")
-            .font(AppTheme.Typography.bodySmall)
-            .foregroundStyle(AppTheme.textSecondary)
-        } else {
+        if case .ingredients(let rows) = content {
           VStack(spacing: AppTheme.Space.xs) {
-            ForEach(Array(ingredientRows.enumerated()), id: \.element.ingredientId) {
-              index, row in
+            ForEach(Array(rows.enumerated()), id: \.element.ingredientId) { index, row in
               ingredientRow(row)
-              if index < ingredientRows.count - 1 {
+              if index < rows.count - 1 {
                 Divider()
               }
             }
@@ -72,71 +142,35 @@ struct ReverseScanIngredientBreakdownSection: View {
         }
       }
     }
-  }
-
-  private struct IngredientRowData {
-    let ingredientId: Int64
-    let name: String
-    let baseGrams: Double
-    let scaledGrams: Double
-    let confidence: Float
-  }
-
-  private var ingredientRows: [IngredientRowData] {
-    guard candidateRecipe != nil else {
-      return analysis.detections.prefix(12).map { detection in
-        IngredientRowData(
-          ingredientId: detection.ingredientId,
-          name: detection.label,
-          baseGrams: 100,
-          scaledGrams: 100 * portionMultiplier * Double(servings),
-          confidence: detection.confidence
-        )
-      }
-    }
-
-    return analysis.detections.prefix(12).map { detection in
-      let baseGrams: Double = 100
-      let scaledGrams = baseGrams * portionMultiplier * Double(servings)
-      return IngredientRowData(
-        ingredientId: detection.ingredientId,
-        name: detection.label,
-        baseGrams: baseGrams,
-        scaledGrams: scaledGrams,
-        confidence: detection.confidence
-      )
+    .task(id: recipe?.id) {
+      await loadIngredients()
     }
   }
 
-  private func ingredientRow(_ row: IngredientRowData) -> some View {
+  private func loadIngredients() async {
+    guard let recipeID = recipe?.id else { return }
+    let ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
+    withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+      loaded = (recipeID, ingredients)
+    }
+  }
+
+  private func ingredientRow(_ row: MealBreakdownRow) -> some View {
     HStack(spacing: AppTheme.Space.sm) {
-      VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-        Text(row.name)
-          .font(AppTheme.Typography.bodyMedium)
-          .foregroundStyle(AppTheme.textPrimary)
-          .lineLimit(1)
-      }
+      Text(row.name)
+        .font(AppTheme.Typography.bodyMedium)
+        .foregroundStyle(AppTheme.textPrimary)
+        .lineLimit(1)
 
       Spacer()
 
-      HStack(spacing: AppTheme.Space.xs) {
-        Text("\(Int(row.scaledGrams.rounded()))g")
-          .font(AppTheme.Typography.dataSmall)
-          .foregroundStyle(AppTheme.textPrimary)
-          .contentTransition(.numericText())
-
-        confidenceIndicator(row.confidence)
-      }
+      Text(prefs.formatWeight(grams: row.grams))
+        .font(AppTheme.Typography.dataSmall)
+        .foregroundStyle(AppTheme.textPrimary)
+        .contentTransition(.numericText())
     }
     .padding(.vertical, AppTheme.Space.xxxs)
-  }
-
-  private func confidenceIndicator(_ confidence: Float) -> some View {
-    Circle()
-      .fill(
-        confidence >= 0.8 ? AppTheme.sage : confidence >= 0.5 ? AppTheme.oat : AppTheme.dustyRose
-      )
-      .frame(width: 6, height: 6)
+    .accessibilityElement(children: .combine)
   }
 }
 
