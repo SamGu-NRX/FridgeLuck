@@ -99,7 +99,7 @@ struct RecipePreviewTitleSection: View {
       if !recipe.recipeTags.labels.isEmpty {
         FlowLayout(spacing: AppTheme.Space.xs) {
           ForEach(recipe.recipeTags.labels, id: \.self) { tag in
-            Text(tag.replacingOccurrences(of: "_", with: " "))
+            Text(tag)
               .font(AppTheme.Typography.labelSmall)
               .padding(.horizontal, AppTheme.Space.sm)
               .padding(.vertical, AppTheme.Space.chipVertical)

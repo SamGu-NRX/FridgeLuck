@@ -34,9 +34,10 @@ struct RecipeTags: OptionSet, Sendable, Codable {
     ("one_pot", .onePot),
   ]
 
+  /// Tag names as people read them ("high protein", not the stored key "high_protein").
   var labels: [String] {
-    Self.allTags.compactMap { name, tag in
-      self.contains(tag) ? name : nil
+    Self.allTags.compactMap { key, tag in
+      self.contains(tag) ? key.replacingOccurrences(of: "_", with: " ") : nil
     }
   }
 }
