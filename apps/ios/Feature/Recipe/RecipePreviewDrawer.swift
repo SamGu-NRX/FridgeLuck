@@ -53,6 +53,7 @@ struct RecipePreviewDrawer: View {
             RecipePreviewIngredientSection(
               ingredients: ingredients,
               activeSubstitutions: activeSubstitutions,
+              missingIngredientIDs: Set(scoredRecipe.missingIngredientIds),
               hasSubstitutions: { ingredientID in
                 deps.substitutionService.hasSubstitutions(for: ingredientID)
               },
