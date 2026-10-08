@@ -7,6 +7,9 @@ import XCTest
 /// back to All on the next refresh instead of hiding everything else.
 @MainActor
 final class KitchenSelectionTests: XCTestCase {
+  private let blackBeans: Int64 = 1
+  private let oliveOil: Int64 = 2
+
   func testSelectionKeepsALocationThatStillHasItems() {
     XCTAssertEqual(KitchenLocationOrder.selection(.unknown, counts: [.unknown: 1]), .unknown)
   }
@@ -38,7 +41,7 @@ final class KitchenSelectionTests: XCTestCase {
     )
     await viewModel.load()
     viewModel.selectedLocation = .unknown
-    XCTAssertEqual(viewModel.filteredItems.map(\.ingredientName), ["olive oil"])
+    XCTAssertEqual(viewModel.filteredItems.map(\.ingredientId), [oliveOil])
 
     // Cooking uses up the olive oil; the inventory observer refreshes the Kitchen.
     try await db.write { db in
@@ -47,7 +50,7 @@ final class KitchenSelectionTests: XCTestCase {
     try await waitUntil { viewModel.allItems.count == 1 && !viewModel.isLoading }
 
     XCTAssertNil(viewModel.selectedLocation)
-    XCTAssertEqual(viewModel.filteredItems.map(\.ingredientName), ["black beans"])
+    XCTAssertEqual(viewModel.filteredItems.map(\.ingredientId), [blackBeans])
   }
 
   private func waitUntil(_ condition: () -> Bool) async throws {
