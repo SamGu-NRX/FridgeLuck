@@ -189,3 +189,15 @@ final class KitchenViewModel {
     }
   }
 }
+
+/// Display order for the Kitchen's storage sections and filter chips. "Other" holds items with
+/// no known storage location (olive oil, which has no storage tip) and comes last.
+enum KitchenLocationOrder {
+  static let all: [InventoryStorageLocation] = [.fridge, .pantry, .freezer, .unknown]
+
+  /// One chip per location that has items. The chip row used to skip "Other", so its section
+  /// had no chip (2026-10-07 walk, screenshot 41).
+  static func chipLocations(counts: [InventoryStorageLocation: Int]) -> [InventoryStorageLocation] {
+    all.filter { counts[$0, default: 0] > 0 }
+  }
+}

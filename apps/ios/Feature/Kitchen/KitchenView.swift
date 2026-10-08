@@ -13,8 +13,6 @@ struct KitchenView: View {
   @State private var showStaplePicker = false
   @State private var selectedStapleIDs: Set<Int64> = []
 
-  private let locationOrder: [InventoryStorageLocation] = [.fridge, .pantry, .freezer]
-
   init(
     deps: AppDependencies,
     onOpenGroceriesFlow: @escaping (UpdateGroceriesLaunchMode) -> Void = { _ in }
@@ -66,7 +64,7 @@ struct KitchenView: View {
 
             KitchenOnHandSection(
               groupedItems: viewModel.groupedByLocation,
-              locationOrder: effectiveLocationOrder
+              locationOrder: KitchenLocationOrder.all
             )
             .opacity(sectionsAppeared ? 1 : 0)
             .offset(y: sectionsAppeared ? 0 : 12)
@@ -142,11 +140,6 @@ struct KitchenView: View {
     }
   }
 
-  private var effectiveLocationOrder: [InventoryStorageLocation] {
-    let hasUnknown = viewModel.filteredItems.contains { $0.storageLocation == .unknown }
-    return hasUnknown ? locationOrder + [.unknown] : locationOrder
-  }
-
   private var hasKitchenContent: Bool {
     !viewModel.allItems.isEmpty || !viewModel.pantryAssumptions.isEmpty
   }
@@ -195,18 +188,17 @@ struct KitchenView: View {
             viewModel.selectedLocation = nil
           }
         }
-        ForEach(locationOrder, id: \.self) { location in
-          let count = viewModel.locationCounts[location, default: 0]
-          if count > 0 {
-            locationChip(
-              title: location.displayLabel,
-              count: count,
-              isActive: selectedLocation == location
-            ) {
-              withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-                selectedLocation = location
-                viewModel.selectedLocation = location
-              }
+        ForEach(
+          KitchenLocationOrder.chipLocations(counts: viewModel.locationCounts), id: \.self
+        ) { location in
+          locationChip(
+            title: location.displayLabel,
+            count: viewModel.locationCounts[location, default: 0],
+            isActive: selectedLocation == location
+          ) {
+            withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+              selectedLocation = location
+              viewModel.selectedLocation = location
             }
           }
         }
