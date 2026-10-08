@@ -11,9 +11,9 @@ enum IngredientIdentityResolution {
     _ label: String,
     userCorrection: (String) -> Int64?,
     curated: (String) -> Int64?,
-    catalog: (String) -> Int64?
+    catalog: (String, IngredientCatalogMatching) -> Int64?
   ) -> Int64? {
-    userCorrection(label) ?? curated(label) ?? catalog(label)
+    userCorrection(label) ?? curated(label) ?? catalog(label, .exact)
   }
 
   /// Catalog fallback for OCR text the curated lexicon couldn't place. An unsupported phrase

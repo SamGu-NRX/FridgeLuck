@@ -43,15 +43,72 @@ struct ScanRunRecord: Identifiable, Sendable, Codable {
   let bucketCounts: ScanBucketCounts
   let passErrors: [String]
   let detections: [ScanRunDetectionRecord]
+  let requestFailures: [ScanRequestFailure]
+
+  init(
+    id: UUID,
+    createdAt: Date,
+    runMode: RunMode,
+    inputSources: [ScanInputSource],
+    provenance: ScanProvenance,
+    captureCount: Int,
+    cropCount: Int,
+    elapsedMs: Int,
+    bucketCounts: ScanBucketCounts,
+    passErrors: [String],
+    detections: [ScanRunDetectionRecord],
+    requestFailures: [ScanRequestFailure] = []
+  ) {
+    self.id = id
+    self.createdAt = createdAt
+    self.runMode = runMode
+    self.inputSources = inputSources
+    self.provenance = provenance
+    self.captureCount = captureCount
+    self.cropCount = cropCount
+    self.elapsedMs = elapsedMs
+    self.bucketCounts = bucketCounts
+    self.passErrors = passErrors
+    self.detections = detections
+    self.requestFailures = requestFailures
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case id, createdAt, runMode, inputSources, provenance, captureCount, cropCount, elapsedMs, bucketCounts, passErrors, detections, requestFailures
+  }
+
+  init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    id = try values.decode(UUID.self, forKey: .id)
+    createdAt = try values.decode(Date.self, forKey: .createdAt)
+    runMode = try values.decode(RunMode.self, forKey: .runMode)
+    inputSources = try values.decode([ScanInputSource].self, forKey: .inputSources)
+    provenance = try values.decode(ScanProvenance.self, forKey: .provenance)
+    captureCount = try values.decode(Int.self, forKey: .captureCount)
+    cropCount = try values.decode(Int.self, forKey: .cropCount)
+    elapsedMs = try values.decode(Int.self, forKey: .elapsedMs)
+    bucketCounts = try values.decode(ScanBucketCounts.self, forKey: .bucketCounts)
+    passErrors = try values.decode([String].self, forKey: .passErrors)
+    detections = try values.decode([ScanRunDetectionRecord].self, forKey: .detections)
+    requestFailures = try values.decodeIfPresent([ScanRequestFailure].self, forKey: .requestFailures) ?? []
+  }
+
+  var classificationFailureCount: Int {
+    requestFailures.filter { $0.kind == .classification }.count
+  }
+
+  var ocrFailureCount: Int {
+    requestFailures.filter { $0.kind == .ocr }.count
+  }
 }
 
 actor ScanRunStore {
   private let fileURL: URL
   private let maxRecords: Int
 
-  init(maxRecords: Int = 80) {
+  init(maxRecords: Int = 80, fileURL: URL? = nil) {
     self.maxRecords = maxRecords
-    self.fileURL = ScanRunStore.resolveFileURL()
+    self.fileURL = fileURL ?? ScanRunStore.resolveFileURL()
   }
 
   func record(
@@ -79,7 +136,8 @@ actor ScanRunStore {
           possible: derivedBuckets.possible.count
         ),
       passErrors: diagnostics?.passErrors ?? [],
-      detections: detections.map(ScanRunDetectionRecord.init(detection:))
+      detections: detections.map(ScanRunDetectionRecord.init(detection:)),
+      requestFailures: diagnostics?.requestFailures ?? []
     )
 
     all.insert(record, at: 0)
