@@ -188,10 +188,9 @@ enum MealLoggedMessage {
       return
         "Your meal has been recorded, and \(used) ingredient\(used == 1 ? "" : "s") came out of your Kitchen."
     }
-    if consumption.isEmpty {
-      return "Your meal has been recorded. This recipe has no ingredient list, so your Kitchen didn't change."
-    }
-    return "Your meal has been recorded. None of its ingredients were in your Kitchen, so nothing came out."
+    // Empty or all-zero consumption has several causes (no ingredients, only optional ones,
+    // zero-gram rows, nothing in stock) that the results can't tell apart, so don't name one.
+    return "Your meal has been recorded. Your Kitchen didn't change."
   }
 }
 
