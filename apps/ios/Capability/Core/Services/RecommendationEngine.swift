@@ -11,6 +11,22 @@ struct RecommendationSections: Sendable {
   static let empty = RecommendationSections(exact: [], nearMatch: [])
 
   var all: [ScoredRecipe] { exact + nearMatch }
+
+  var isEmpty: Bool { exact.isEmpty && nearMatch.isEmpty }
+
+  /// The Best Match hero: the first exact match, else the first near match.
+  var bestMatch: ScoredRecipe? { exact.first ?? nearMatch.first }
+
+  /// The lists shown under the Best Match hero. Repeating the hero under "Almost there" read
+  /// as a duplicate result (2026-10-07 walk), so the lists leave it out. The header's exact
+  /// and near counts still describe the full sections.
+  var belowBestMatch: RecommendationSections {
+    guard let heroID = bestMatch?.recipe.id else { return self }
+    return RecommendationSections(
+      exact: exact.filter { $0.recipe.id != heroID },
+      nearMatch: nearMatch.filter { $0.recipe.id != heroID }
+    )
+  }
 }
 
 struct RecommendationExplanationPayload: Sendable {
@@ -117,7 +133,7 @@ final class RecommendationEngine: ObservableObject {
 
       sections = RecommendationSections(exact: exact, nearMatch: near)
       recommendations = sections.all
-      quickSuggestion = exact.first ?? near.first
+      quickSuggestion = sections.bestMatch
       let totalResults = exact.count + near.count
       logger.info(
         "Recipe search completed. exact=\(exact.count, privacy: .public), near=\(near.count, privacy: .public), total=\(totalResults, privacy: .public)"
