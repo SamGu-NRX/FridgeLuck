@@ -7,7 +7,6 @@ struct KitchenView: View {
   private let onOpenGroceriesFlow: (UpdateGroceriesLaunchMode) -> Void
 
   @State private var viewModel: KitchenViewModel
-  @State private var selectedLocation: InventoryStorageLocation? = nil
   @State private var headerAppeared = false
   @State private var sectionsAppeared = false
   @State private var showStaplePicker = false
@@ -181,10 +180,9 @@ struct KitchenView: View {
         locationChip(
           title: "All",
           count: viewModel.allItems.count,
-          isActive: selectedLocation == nil
+          isActive: viewModel.selectedLocation == nil
         ) {
           withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-            selectedLocation = nil
             viewModel.selectedLocation = nil
           }
         }
@@ -194,10 +192,9 @@ struct KitchenView: View {
           locationChip(
             title: location.displayLabel,
             count: viewModel.locationCounts[location, default: 0],
-            isActive: selectedLocation == location
+            isActive: viewModel.selectedLocation == location
           ) {
             withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-              selectedLocation = location
               viewModel.selectedLocation = location
             }
           }

@@ -17,12 +17,19 @@ final class KitchenViewModel {
   @ObservationIgnored private var isLoadInFlight = false
   @ObservationIgnored private var needsReload = false
 
-  init(deps: AppDependencies) {
-    self.inventoryRepository = deps.inventoryRepository
-    self.pantryAssumptionService = PantryAssumptionService(db: deps.appDatabase.dbQueue)
+  convenience init(deps: AppDependencies) {
+    self.init(
+      inventoryRepository: deps.inventoryRepository,
+      pantryAssumptionService: PantryAssumptionService(db: deps.appDatabase.dbQueue)
+    )
+  }
+
+  init(inventoryRepository: InventoryRepository, pantryAssumptionService: PantryAssumptionService) {
+    self.inventoryRepository = inventoryRepository
+    self.pantryAssumptionService = pantryAssumptionService
     // The Kitchen tab stays mounted while hidden, so its initial `.task` load goes stale after
     // a scan or a cooked meal changes inventory elsewhere.
-    inventoryObserver = deps.inventoryRepository.observeInventoryChanges { [weak self] in
+    inventoryObserver = inventoryRepository.observeInventoryChanges { [weak self] in
       guard let self else { return }
       Task { await self.load() }
     }
@@ -84,6 +91,7 @@ final class KitchenViewModel {
         return (items, assumptions)
       }.value
       allItems = fetched
+      keepSelectionVisible()
       pantryAssumptions = rawAssumptions.map { assumption in
         PantryAssumptionDisplay(
           ingredientId: assumption.ingredientId,
@@ -97,6 +105,13 @@ final class KitchenViewModel {
     }
   }
 
+  /// A filter whose location just ran out of items has no chip left to clear it, and would
+  /// hide everything else, so it falls back to All.
+  private func keepSelectionVisible() {
+    let kept = KitchenLocationOrder.selection(selectedLocation, counts: locationCounts)
+    if kept != selectedLocation { selectedLocation = kept }
+  }
+
   // MARK: - Item Actions
 
   func removeItem(_ item: InventoryActiveItem) async {
@@ -106,6 +121,7 @@ final class KitchenViewModel {
         try repo.removeActiveItem(id: item.id)
       }.value
       allItems.removeAll { $0.id == item.id }
+      keepSelectionVisible()
       errorMessage = nil
     } catch {
       await load()
@@ -197,6 +213,15 @@ enum KitchenLocationOrder {
 
   /// One chip per location that has items. The chip row used to skip "Other", so its section
   /// had no chip (2026-10-07 walk, screenshot 41).
+  /// The selection to keep after items change: nil (All) once its location has no items.
+  static func selection(
+    _ selected: InventoryStorageLocation?,
+    counts: [InventoryStorageLocation: Int]
+  ) -> InventoryStorageLocation? {
+    guard let selected, counts[selected, default: 0] > 0 else { return nil }
+    return selected
+  }
+
   static func chipLocations(counts: [InventoryStorageLocation: Int]) -> [InventoryStorageLocation] {
     all.filter { counts[$0, default: 0] > 0 }
   }
