@@ -279,42 +279,14 @@ final class InventoryRepository: Sendable {
     swaps: [IngredientSwap] = [],
     sourceRef: String? = nil
   ) throws -> [InventoryConsumptionResult] {
-    let safeServingsConsumed = max(0, servingsConsumed)
-    guard safeServingsConsumed > 0 else { return [] }
-    let swapByOriginal = Dictionary(
-      swaps.map { ($0.originalIngredientId, $0) }, uniquingKeysWith: { _, last in last })
-
-    guard
-      let recipeServings = try Int.fetchOne(
-        db,
-        sql: "SELECT servings FROM recipes WHERE id = ?",
-        arguments: [recipeId]
-      )
-    else {
-      return []
-    }
-
-    let servingFactor =
-      Double(safeServingsConsumed) * portionMultiplier / Double(max(recipeServings, 1))
-    let rows = try Row.fetchAll(
-      db,
-      sql: """
-        SELECT ingredient_id, quantity_grams
-        FROM recipe_ingredients
-        WHERE recipe_id = ? AND is_required = 1
-        """,
-      arguments: [recipeId]
-    )
-
     var results: [InventoryConsumptionResult] = []
-    for row in rows {
-      let recipeIngredientId: Int64 = row["ingredient_id"]
-      let baseGrams: Double = row["quantity_grams"]
-      // A swap takes the substitute out of the Kitchen instead of the original.
-      let swap = swapByOriginal[recipeIngredientId]
-      let ingredientId = swap?.substituteIngredientId ?? recipeIngredientId
-      let requiredGrams = max(0, baseGrams * (swap?.ratio ?? 1.0) * servingFactor)
-
+    for (ingredientId, requiredGrams) in try consumptionRequests(
+      in: db,
+      recipeId: recipeId,
+      servingsConsumed: servingsConsumed,
+      portionMultiplier: portionMultiplier,
+      swaps: swaps
+    ) {
       let consumedGrams = try consumeIngredientLots(
         db: db,
         ingredientId: ingredientId,
@@ -333,6 +305,64 @@ final class InventoryRepository: Sendable {
     }
 
     return results
+  }
+
+  /// The share of a recipe one log covers. Consumption, its preview and the meal-photo
+  /// ingredient breakdown all scale recipe grams by this, so they agree on amounts.
+  static func servingFactor(
+    servingsConsumed: Int,
+    portionMultiplier: Double,
+    recipeServings: Int
+  ) -> Double {
+    Double(max(0, servingsConsumed)) * portionMultiplier / Double(max(recipeServings, 1))
+  }
+
+  /// Ingredients and grams a log of this recipe asks the Kitchen for: required ingredients
+  /// only, scaled by `servingFactor`, with a swap taking the substitute out instead of the
+  /// original. Shared by `applyConsumption` and `previewConsumption(recipeId:...)`.
+  private func consumptionRequests(
+    in db: Database,
+    recipeId: Int64,
+    servingsConsumed: Int,
+    portionMultiplier: Double,
+    swaps: [IngredientSwap]
+  ) throws -> [(ingredientId: Int64, requiredGrams: Double)] {
+    guard servingsConsumed > 0,
+      let recipeServings = try Int.fetchOne(
+        db,
+        sql: "SELECT servings FROM recipes WHERE id = ?",
+        arguments: [recipeId]
+      )
+    else {
+      return []
+    }
+
+    let factor = Self.servingFactor(
+      servingsConsumed: servingsConsumed,
+      portionMultiplier: portionMultiplier,
+      recipeServings: recipeServings
+    )
+    let swapByOriginal = Dictionary(
+      swaps.map { ($0.originalIngredientId, $0) }, uniquingKeysWith: { _, last in last })
+    let rows = try Row.fetchAll(
+      db,
+      sql: """
+        SELECT ingredient_id, quantity_grams
+        FROM recipe_ingredients
+        WHERE recipe_id = ? AND is_required = 1
+        """,
+      arguments: [recipeId]
+    )
+
+    return rows.map { row in
+      let recipeIngredientId: Int64 = row["ingredient_id"]
+      let baseGrams: Double = row["quantity_grams"]
+      let swap = swapByOriginal[recipeIngredientId]
+      return (
+        ingredientId: swap?.substituteIngredientId ?? recipeIngredientId,
+        requiredGrams: max(0, baseGrams * (swap?.ratio ?? 1.0) * factor)
+      )
+    }
   }
 
   // MARK: - Read Models
@@ -566,15 +596,26 @@ final class InventoryRepository: Sendable {
     }
   }
 
-  /// Read-only consumption preview (reverse-scan deduction UI).
+  /// Read-only preview of what `applyConsumption` would take out for the same recipe, servings
+  /// and portion: the same requests, each capped at what the Kitchen holds. Ingredients with
+  /// nothing in stock are left out, since nothing of them would come out.
   func previewConsumption(
-    ingredientGrams: [(ingredientId: Int64, grams: Double)]
+    recipeId: Int64,
+    servingsConsumed: Int,
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = []
   ) throws -> [InventoryDeductionPreview] {
     try db.read { db in
       var results: [InventoryDeductionPreview] = []
-      for (ingredientId, proposedGrams) in ingredientGrams {
-        let safeProposed = max(0, proposedGrams)
-
+      // Tracks stock already claimed, in case two requests draw on the same ingredient.
+      var claimedGrams: [Int64: Double] = [:]
+      for (ingredientId, requiredGrams) in try consumptionRequests(
+        in: db,
+        recipeId: recipeId,
+        servingsConsumed: servingsConsumed,
+        portionMultiplier: portionMultiplier,
+        swaps: swaps
+      ) {
         let row = try Row.fetchOne(
           db,
           sql: """
@@ -593,15 +634,20 @@ final class InventoryRepository: Sendable {
         let ingredientName = (row?["ingredient_name"] as? String ?? "Unknown")
           .replacingOccurrences(of: "_", with: " ")
           .localizedCapitalized
-        let availableGrams: Double = row?["available_grams"] as? Double ?? 0
+        let stockGrams: Double = row?["available_grams"] as? Double ?? 0
+        let availableGrams = max(0, stockGrams - claimedGrams[ingredientId, default: 0])
+        let deductedGrams = min(requiredGrams, availableGrams)
+        guard deductedGrams > 0 else { continue }
+        claimedGrams[ingredientId, default: 0] += deductedGrams
 
         results.append(
           InventoryDeductionPreview(
             ingredientId: ingredientId,
             ingredientName: ingredientName,
-            proposedGrams: safeProposed,
+            proposedGrams: requiredGrams,
             availableGrams: availableGrams,
-            shortfallGrams: max(0, safeProposed - availableGrams)
+            deductedGrams: deductedGrams,
+            shortfallGrams: max(0, requiredGrams - availableGrams)
           )
         )
       }
