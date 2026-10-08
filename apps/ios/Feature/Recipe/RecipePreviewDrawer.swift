@@ -76,13 +76,13 @@ struct RecipePreviewDrawer: View {
         swapSpotlight.updateAnchors($0)
       }
       .onAppear {
-        swapSpotlight.onScrollToAnchor = { anchorID in
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
-            withAnimation(AppMotion.spotlightScroll(reduceMotion: reduceMotion)) {
-              scrollProxy.scrollTo(anchorID, anchor: .center)
-            }
-          }
-        }
+        swapSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion, after: 0.02)
+      }
+      .onChange(of: reduceMotion) { _, reduceMotion in
+        swapSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion, after: 0.02)
+      }
+      .onDisappear {
+        swapSpotlight.stopScrolling()
       }
     }
     .safeAreaInset(edge: .bottom) {

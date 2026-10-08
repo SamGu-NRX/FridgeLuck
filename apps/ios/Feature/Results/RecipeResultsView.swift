@@ -110,13 +110,13 @@ struct RecipeResultsView: View {
           }
         }
         .onAppear {
-          recipeMatchSpotlight.onScrollToAnchor = { anchorID in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-              withAnimation(AppMotion.spotlightScroll(reduceMotion: reduceMotion)) {
-                scrollProxy.scrollTo(anchorID, anchor: .center)
-              }
-            }
-          }
+          recipeMatchSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onChange(of: reduceMotion) { _, reduceMotion in
+          recipeMatchSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onDisappear {
+          recipeMatchSpotlight.stopScrolling()
         }
       }
       .onPreferenceChange(SpotlightAnchorKey.self) {

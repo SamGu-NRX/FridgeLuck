@@ -96,13 +96,13 @@ struct DemoModeView: View {
           .padding(.bottom, AppTheme.Space.bottomClearance)
         }
         .onAppear {
-          demoSpotlight.onScrollToAnchor = { anchorID in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-              withAnimation(AppMotion.spotlightScroll(reduceMotion: reduceMotion)) {
-                scrollProxy.scrollTo(anchorID, anchor: .center)
-              }
-            }
-          }
+          demoSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onChange(of: reduceMotion) { _, reduceMotion in
+          demoSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onDisappear {
+          demoSpotlight.stopScrolling()
         }
       }
 
