@@ -50,7 +50,7 @@ struct ReverseScanIngredientBreakdownSection: View {
             .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.textSecondary)
           Spacer()
-          Text("\(ingredientRows.count) items")
+          Text("\(ingredientRows.count) item\(ingredientRows.count == 1 ? "" : "s")")
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.textSecondary)
         }
@@ -195,7 +195,7 @@ struct ReverseScanDeductionPreviewSection: View {
               .font(AppTheme.Typography.label)
               .foregroundStyle(AppTheme.textSecondary)
             Spacer()
-            Text("\(previews.count) items")
+            Text("\(previews.count) item\(previews.count == 1 ? "" : "s")")
               .font(AppTheme.Typography.labelSmall)
               .foregroundStyle(AppTheme.textSecondary)
           }
