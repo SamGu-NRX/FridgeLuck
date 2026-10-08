@@ -244,8 +244,11 @@ struct ScanSessionLot: Sendable, Equatable {
 struct InventoryDeductionPreview: Identifiable, Sendable {
   let ingredientId: Int64
   let ingredientName: String
+  /// What the recipe asks for.
   let proposedGrams: Double
   let availableGrams: Double
+  /// What logging takes out: `proposedGrams` capped at `availableGrams`.
+  let deductedGrams: Double
   let shortfallGrams: Double
 
   var id: Int64 { ingredientId }

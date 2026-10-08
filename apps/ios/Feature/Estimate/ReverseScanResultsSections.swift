@@ -72,8 +72,11 @@ enum MealBreakdownContent: Equatable {
     guard recipe.id != nil else { return .noIngredientList }
     guard let loadedIngredients else { return .loading }
 
-    let factor =
-      Double(max(1, servingsConsumed)) * portionMultiplier / Double(max(recipe.servings, 1))
+    let factor = InventoryRepository.servingFactor(
+      servingsConsumed: max(1, servingsConsumed),
+      portionMultiplier: portionMultiplier,
+      recipeServings: recipe.servings
+    )
     let rows = loadedIngredients
       .filter { $0.quantity.isRequired }
       .map {
@@ -285,7 +288,7 @@ struct ReverseScanDeductionPreviewSection: View {
           .lineLimit(1)
 
         HStack(spacing: AppTheme.Space.xxs) {
-          Text("Deduct \(Int(preview.proposedGrams.rounded()))g")
+          Text("Deduct \(Int(preview.deductedGrams.rounded()))g")
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.accent)
             .contentTransition(.numericText())

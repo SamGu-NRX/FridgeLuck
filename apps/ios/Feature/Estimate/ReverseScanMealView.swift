@@ -379,26 +379,30 @@ struct ReverseScanMealView: View {
           }
         }
       }
-      .task(id: "\(selectedCandidateID ?? 0)_\(servings)_\(mealPortionSize.rawValue)") {
+      .task(
+        id:
+          "\(selectedCandidateID ?? 0)_\(manuallyPickedRecipe?.id ?? 0)_\(servings)_\(mealPortionSize.rawValue)"
+      ) {
         await loadDeductionPreviews()
       }
     }
   }
 
+  /// Previews what logging the chosen recipe takes out of the Kitchen. It used to list each
+  /// detection at 100 g, which the log never deducts. No recipe means no preview.
   private func loadDeductionPreviews() async {
-    guard let analysis else {
-      deductionPreviews = []
+    guard let recipeID = (manuallyPickedRecipe ?? selectedCandidate?.recipe.recipe)?.id else {
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        deductionPreviews = []
+      }
       return
     }
-    let ingredientGrams: [(ingredientId: Int64, grams: Double)] = analysis.detections.prefix(12)
-      .map { detection in
-        let baseGrams: Double = 100
-        let scaledGrams = baseGrams * portionMultiplier * Double(servings)
-        return (ingredientId: detection.ingredientId, grams: scaledGrams)
-      }
     do {
       let previews = try deps.inventoryRepository.previewConsumption(
-        ingredientGrams: ingredientGrams)
+        recipeId: recipeID,
+        servingsConsumed: servings,
+        portionMultiplier: portionMultiplier
+      )
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         deductionPreviews = previews
       }
