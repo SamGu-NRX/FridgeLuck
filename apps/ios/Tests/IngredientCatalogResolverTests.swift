@@ -18,6 +18,8 @@ final class IngredientCatalogResolverTests: XCTestCase {
         (903, "SQUASH"),
         (170193, "Beef Suet"),
         (168605, "Beef Fat"),
+        (168194, "Pineapple (Extra Sweet Variety, Raw)"),
+        (904, "Turnip"),
       ]
       for (id, name) in rows {
         try db.execute(
@@ -33,9 +35,12 @@ final class IngredientCatalogResolverTests: XCTestCase {
         (900, "ambiguous vegetable"),
         (901, "ambiguous vegetable"),
         (170193, "beef suet"),
+        (170193, "suet"),
         (168605, "beef suet"),
         (902, "squash"),
         (900, "kohlrabi"),
+        (168194, "extra sweet pineapple"),
+        (900, "turnip"),
       ]
       for (id, alias) in aliases {
         try db.execute(
@@ -68,13 +73,40 @@ final class IngredientCatalogResolverTests: XCTestCase {
     XCTAssertNil(resolver.resolve("", matching: .exact))
   }
 
-  func testPrefixNameAndOCRFallbackKeepTheirPreviousBehavior() throws {
+  func testPrefixNamesAndMultiWordOCRKeepTheirPreviousBehavior() throws {
     let resolver = try makeResolver()
     XCTAssertNil(resolver.resolve("kefir", matching: .exact))
     XCTAssertEqual(resolver.resolve("kefir", matching: .allowPrefix), 171301)
-    XCTAssertEqual(resolver.resolveFromText("DRINK"), 171301)
+    XCTAssertEqual(resolver.resolveFromText("EXTRA SWEET"), 168194)
     XCTAssertEqual(resolver.resolve("kohlr", matching: .allowPrefix), 900)
     XCTAssertNil(resolver.resolve("ambiguous", matching: .allowPrefix))
+  }
+
+  func testSingleWordOCRRejectsDescriptorAndTruncatedPrefixes() throws {
+    let resolver = try makeResolver()
+    for text in ["EXTRA", "DRINK", "kefir", "kohlr", "EXTRA 250 g"] {
+      XCTAssertNil(resolver.resolveFromText(text), text)
+    }
+    XCTAssertNil(
+      IngredientIdentityResolution.resolveTextFromCatalog(
+        "EXTRA",
+        catalogName: { resolver.resolve($0, matching: .allowPrefix) },
+        catalogTokens: resolver.resolveFromText))
+  }
+
+  func testSingleWordOCRResolvesUniqueExactNamesAndAliases() throws {
+    let resolver = try makeResolver()
+    XCTAssertEqual(resolver.resolveFromText("KOHLRABI"), 900)
+    XCTAssertEqual(resolver.resolveFromText("KOHLRABI 250 g"), 900)
+    XCTAssertEqual(resolver.resolveFromText("SUET"), 170193)
+    XCTAssertNil(resolver.resolveFromText("squash"))
+    XCTAssertNil(resolver.resolveFromText("turnip"))
+  }
+
+  func testOliveOilAndBrief8BlackBeansStillUseCuratedOCR() {
+    XCTAssertEqual(
+      IngredientLexicon.resolveFromTextDetailed("EXTRA VIRGIN OLIVE OIL")?.ingredientId, 16)
+    XCTAssertEqual(IngredientLexicon.resolveFromTextDetailed("BLACK BEANS")?.ingredientId, 27)
   }
 
   func testExactRejectsANameThatCollidesWithAnotherIngredientsAlias() throws {
