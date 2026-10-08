@@ -697,8 +697,12 @@ struct ReverseScanMealView: View {
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
 
+        // A template exists only when a detection named its dish (ReverseScanService), so
+        // the copy offers a rough range only when one follows.
         Text(
-          "No strong recipe match found. Select a recipe manually for accurate macros, or use the template estimate below."
+          analysis.fallbackTemplate == nil
+            ? "No strong recipe match found. Pick the recipe you made to log its macros."
+            : "No strong recipe match found. Select a recipe manually for accurate macros, or use the template estimate below."
         )
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textSecondary)
