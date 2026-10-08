@@ -234,8 +234,12 @@ struct KitchenView: View {
         Capsule()
           .stroke(isActive ? Color.clear : AppTheme.oat.opacity(0.25), lineWidth: 1)
       )
+      // The capsule stays compact; the tappable area grows to the 44 pt minimum around it.
+      .frame(minHeight: 44)
+      .contentShape(Rectangle())
     }
     .buttonStyle(.plain)
+    .accessibilityAddTraits(isActive ? .isSelected : [])
     .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isActive)
   }
 
