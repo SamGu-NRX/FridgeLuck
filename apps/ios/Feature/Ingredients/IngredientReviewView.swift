@@ -252,7 +252,7 @@ struct IngredientReviewView: View {
         .onAppear {
           reviewSpotlight.onScrollToAnchor = { anchorID in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-              withAnimation(AppMotion.spotlightMove) {
+              withAnimation(AppMotion.spotlightScroll(reduceMotion: reduceMotion)) {
                 scrollProxy.scrollTo(anchorID, anchor: .center)
               }
             }

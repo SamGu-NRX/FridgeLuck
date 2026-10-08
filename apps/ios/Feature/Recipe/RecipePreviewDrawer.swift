@@ -78,7 +78,7 @@ struct RecipePreviewDrawer: View {
       .onAppear {
         swapSpotlight.onScrollToAnchor = { anchorID in
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
-            withAnimation(AppMotion.spotlightMove) {
+            withAnimation(AppMotion.spotlightScroll(reduceMotion: reduceMotion)) {
               scrollProxy.scrollTo(anchorID, anchor: .center)
             }
           }
