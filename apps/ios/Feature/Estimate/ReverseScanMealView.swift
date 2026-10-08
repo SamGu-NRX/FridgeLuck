@@ -32,6 +32,7 @@ struct ReverseScanMealView: View {
   @State private var errorMessage: String?
   @State private var isLoggingMeal = false
   @State private var showLogSuccess = false
+  @State private var logSuccessMessage = ""
   @State private var showRecipePicker = false
   /// The fallback template is the app's guess, so its ranges show only after the user asks.
   @State private var showsTemplateEstimate = false
@@ -149,7 +150,7 @@ struct ReverseScanMealView: View {
     .alert("Meal logged", isPresented: $showLogSuccess) {
       Button("OK", role: .cancel) {}
     } message: {
-      Text("Your meal has been recorded and inventory updated.")
+      Text(logSuccessMessage)
     }
     .onAppear {
       cameraPermissionStatus = AppPermissionCenter.status(for: .camera)
@@ -1026,6 +1027,7 @@ struct ReverseScanMealView: View {
         )
       }
 
+      logSuccessMessage = MealLoggedMessage.text(for: mealOutcome.inventoryConsumption)
       showLogSuccess = true
       logger.info("Meal log succeeded.")
     } catch {

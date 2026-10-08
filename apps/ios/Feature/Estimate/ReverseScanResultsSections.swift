@@ -174,6 +174,24 @@ struct ReverseScanIngredientBreakdownSection: View {
   }
 }
 
+// MARK: - Logged Message
+
+/// The "Meal logged" alert text, built from what `MealLogService.logMeal` actually took out of
+/// inventory. It used to say "inventory updated" even when nothing was consumed.
+enum MealLoggedMessage {
+  static func text(for consumption: [InventoryConsumptionResult]) -> String {
+    let used = consumption.filter { $0.consumedGrams > 0 }.count
+    if used > 0 {
+      return
+        "Your meal has been recorded, and \(used) ingredient\(used == 1 ? "" : "s") came out of your Kitchen."
+    }
+    if consumption.isEmpty {
+      return "Your meal has been recorded. This recipe has no ingredient list, so your Kitchen didn't change."
+    }
+    return "Your meal has been recorded. None of its ingredients were in your Kitchen, so nothing came out."
+  }
+}
+
 // MARK: - Portion Controls
 
 struct ReverseScanPortionControls: View {
