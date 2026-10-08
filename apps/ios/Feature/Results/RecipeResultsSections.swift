@@ -312,7 +312,8 @@ struct RecipeMissingIngredientChips: View {
   let names: [String]
   var leadingLabel: String? = nil
 
-  static func names(
+  /// Pure, so it stays off the main actor that View conformance would otherwise impose.
+  nonisolated static func names(
     for scored: ScoredRecipe,
     displayName: (Int64) -> String = IngredientLexicon.displayName(for:)
   ) -> [String] {
