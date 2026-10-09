@@ -136,7 +136,8 @@ final class AppDependencies: ObservableObject {
       confidenceLearningService: confidenceLearningService,
       kitchenIngredientIDs: { [inventoryRepository] in
         Set(try inventoryRepository.fetchAllActiveItems().map(\.ingredientId))
-      }
+      },
+      ingredientRepository: ingredientRepository
     )
   }
 }
