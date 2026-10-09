@@ -82,6 +82,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
   func generateRecipe(
     ingredientNames: [String],
     dietaryRestrictions: [String],
+    avoidIngredients: [String],
     photoJPEGData: Data?,
     scanConfidenceScore: Double?
   ) async throws -> GeneratedRecipeResult? {
@@ -104,6 +105,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
           config: config,
           ingredientNames: ingredientNames,
           dietaryRestrictions: dietaryRestrictions,
+          avoidIngredients: avoidIngredients,
           photoJPEGData: photoJPEGData,
           scanConfidenceScore: scanConfidenceScore
         ) {
@@ -121,6 +123,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
       }
     }
 
+#if DEBUG
     let ingredients = ingredientNames.joined(separator: ", ")
     let restrictions =
       dietaryRestrictions.isEmpty
@@ -141,6 +144,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
       Inputs:
       - ingredients_from_scan: \(ingredients)
       - dietary_restrictions: \(restrictions)
+      - avoid_ingredients: \(avoidIngredients.isEmpty ? "none" : avoidIngredients.joined(separator: ", "))
       - scan_confidence_score: \(scanConfidenceScore ?? 0.0)
       - has_photo: \(photoJPEGData != nil)
 
@@ -148,6 +152,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
       - Use scanned ingredients first.
       - Keep instructions concise and executable.
       - Keep calories realistic.
+      - HARD EXCLUSION: never include, garnish with, or mention any avoid_ingredients in the title or instructions, including as substitutes.
       """
 
     guard let text = try await generateJSONText(prompt: prompt, imageJPEGData: photoJPEGData) else {
@@ -172,6 +177,14 @@ final class GeminiCloudAgent: @unchecked Sendable {
       estimatedCaloriesPerServing: max(50, payload.estimatedCaloriesPerServing),
       isAIGenerated: true
     )
+#else
+    if config.apiKey != nil {
+      logger.notice(
+        "Direct Gemini API path disabled in release builds; keys in Info.plist ship in the app bundle."
+      )
+    }
+    return nil
+#endif
   }
 
   func rankReverseScanCandidates(
@@ -216,6 +229,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
       }
     }
 
+#if DEBUG
     let detectionSummary = detections.prefix(16).map {
       "\($0.label):\(Int(($0.confidence * 100).rounded()))"
     }.joined(separator: ", ")
@@ -272,8 +286,17 @@ final class GeminiCloudAgent: @unchecked Sendable {
         reason: $0.reason
       )
     }
+#else
+    if config.apiKey != nil {
+      logger.notice(
+        "Direct Gemini API path disabled in release builds; keys in Info.plist ship in the app bundle."
+      )
+    }
+    return nil
+#endif
   }
 
+  #if DEBUG
   private func generateJSONText(
     prompt: String,
     imageJPEGData: Data?
@@ -339,6 +362,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
       .compactMap(\.text)
       .joined(separator: "\n")
   }
+  #endif
 
   private func decodeJSON<T: Decodable>(_ type: T.Type, from text: String) -> T? {
     let sanitized = sanitizeJSONBlock(text)
@@ -362,6 +386,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
     config: Config,
     ingredientNames: [String],
     dietaryRestrictions: [String],
+    avoidIngredients: [String],
     photoJPEGData: Data?,
     scanConfidenceScore: Double?
   ) async throws -> GeneratedRecipeResult? {
@@ -371,6 +396,7 @@ final class GeminiCloudAgent: @unchecked Sendable {
     let requestBody = BackendRecipeGenerateRequest(
       ingredientNames: ingredientNames,
       dietaryRestrictions: dietaryRestrictions,
+      avoidIngredients: avoidIngredients,
       scanConfidenceScore: scanConfidenceScore,
       photoBase64JPEG: photoJPEGData?.base64EncodedString()
     )
@@ -569,6 +595,7 @@ private struct RankingItem: Decodable {
 private struct BackendRecipeGenerateRequest: Encodable {
   let ingredientNames: [String]
   let dietaryRestrictions: [String]
+  let avoidIngredients: [String]
   let scanConfidenceScore: Double?
   let photoBase64JPEG: String?
 }
