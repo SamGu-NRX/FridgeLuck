@@ -61,16 +61,44 @@ def nutrient_value(nutrients: list[dict[str, Any]], targets: set[int], *, as_gra
 
 
 def extract_macros(food: dict[str, Any]) -> MacroSet:
-    nutrients = _get_field(food, "foodNutrients", default=[]) or []
-    return MacroSet(
-        calories=nutrient_value(nutrients, NUTRIENT_TARGETS["calories"]),
-        protein_g=nutrient_value(nutrients, NUTRIENT_TARGETS["protein_g"]),
-        carbs_g=nutrient_value(nutrients, NUTRIENT_TARGETS["carbs_g"]),
-        fat_g=nutrient_value(nutrients, NUTRIENT_TARGETS["fat_g"]),
-        fiber_g=nutrient_value(nutrients, NUTRIENT_TARGETS["fiber_g"]),
-        sugar_g=nutrient_value(nutrients, NUTRIENT_TARGETS["sugar_g"]),
-        sodium_g=nutrient_value(nutrients, NUTRIENT_TARGETS["sodium_g"], as_grams=True),
+    """Presence-aware macro extraction (shared policy with usda_core.nutrients).
+
+    Energy uses the FDC energy precedence (1008/208, Atwater Specific 2048,
+    Atwater General 2047, kJ 1062/268 converted); missing observations are
+    reported by :func:`extract_macros_with_gaps` so callers can flag
+    placeholders instead of mistaking them for measured zeros. This function
+    keeps the historical ``MacroSet`` contract (0.0 fill) for scoring use.
+    """
+
+    macros, _ = extract_macros_with_gaps(food)
+    return macros
+
+
+def extract_macros_with_gaps(food: dict[str, Any]) -> tuple[MacroSet, list[str]]:
+    observations = collect_observations(food.get("foodNutrients") or [])
+    energy = select_energy(observations)
+    values: dict[str, float] = {}
+    gaps: list[str] = []
+    if energy.status == "ok" and energy.value is not None:
+        values["calories"] = energy.value
+    else:
+        gaps.append("calories")
+    for field in MACRO_SPECS:
+        selection = select_macro(field, observations)
+        if selection.status == "ok" and selection.value is not None:
+            values[field] = selection.value
+        else:
+            gaps.append(field)
+    macros = MacroSet(
+        calories=values.get("calories", 0.0),
+        protein_g=values.get("protein_g", 0.0),
+        carbs_g=values.get("carbs_g", 0.0),
+        fat_g=values.get("fat_g", 0.0),
+        fiber_g=values.get("fiber_g", 0.0),
+        sugar_g=values.get("sugar_g", 0.0),
+        sodium_g=values.get("sodium_g", 0.0),
     )
+    return macros, gaps
 
 
 def infer_category_label(description: str, food_category: str) -> str:
@@ -325,6 +353,7 @@ def row_from_food(food: dict[str, Any]) -> CuratedIngredientRow | None:
     sprite_group = infer_sprite_group(category_label)
     sprite_key = infer_sprite_key(display_name, description)
     description_text = infer_description(category_label, description)
+    macros, macro_gaps = extract_macros_with_gaps(food)
 
     return CuratedIngredientRow(
         fdc_id=fdc_id,
@@ -340,6 +369,7 @@ def row_from_food(food: dict[str, Any]) -> CuratedIngredientRow | None:
             food_category=food_category,
             verified_at_utc=utc_now_iso(),
             verification_source="USDA FoodData Central API",
+            macro_gaps=macro_gaps,
         ),
-        macros=extract_macros(food),
+        macros=macros,
     )
