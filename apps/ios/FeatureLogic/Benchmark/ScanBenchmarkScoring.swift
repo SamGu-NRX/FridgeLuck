@@ -289,11 +289,13 @@ public enum ScanBenchmarkScorer {
 
     for observation in observations {
       let observedIds = Set(observation.detections.map(\.ingredientId))
-      let matchedTop = observation.detections.filter { expectedIds.contains($0.ingredientId) }.count
+      // Deduplicate like detectionMetrics precision: a repeated detection of
+      // the same ingredient is one top prediction, not several acceptance
+      // opportunities, so raw instance counting inflated the rate.
       let topAcceptance =
-        observation.detections.isEmpty
+        observedIds.isEmpty
         ? 0
-        : Double(matchedTop) / Double(observation.detections.count)
+        : Double(observedIds.intersection(expectedIds).count) / Double(observedIds.count)
       topAcceptanceSamples.append(topAcceptance)
 
       let missedExpected = expectedIds.subtracting(observedIds)
