@@ -2,6 +2,17 @@ import Foundation
 import GRDB
 import UIKit
 
+enum MealLogError: LocalizedError {
+  case invalidPortionMultiplier(Double)
+
+  var errorDescription: String? {
+    switch self {
+    case .invalidPortionMultiplier(let value):
+      return "Portion multiplier must be a positive number, got \(value)."
+    }
+  }
+}
+
 /// Coordinates meal logging so cooking history + inventory mutations are persisted
 /// atomically inside a single database transaction.
 final class MealLogService: Sendable {
@@ -38,6 +49,8 @@ final class MealLogService: Sendable {
     rating: Int? = nil,
     capturedImage: UIImage? = nil,
     servingsConsumed: Int,
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = [],
     sourceRefPrefix: String? = nil
   ) throws -> Outcome {
     let imagePath = capturedImage.flatMap { try? imageStorageService.save($0) }
@@ -46,6 +59,8 @@ final class MealLogService: Sendable {
       rating: rating,
       imagePath: imagePath,
       servingsConsumed: servingsConsumed,
+      portionMultiplier: portionMultiplier,
+      swaps: swaps,
       sourceRefPrefix: sourceRefPrefix
     )
   }
@@ -56,9 +71,14 @@ final class MealLogService: Sendable {
     rating: Int? = nil,
     imagePath: String? = nil,
     servingsConsumed: Int,
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = [],
     sourceRefPrefix: String? = nil
   ) throws -> Outcome {
     let safeServings = max(1, servingsConsumed)
+    guard portionMultiplier.isFinite, portionMultiplier > 0 else {
+      throw MealLogError.invalidPortionMultiplier(portionMultiplier)
+    }
 
     return try db.write { db in
       let recipeId = try recipeRepository.resolvePersistedRecipeID(in: db, for: recipe)
@@ -67,13 +87,17 @@ final class MealLogService: Sendable {
         recipeId: recipeId,
         rating: rating,
         imagePath: imagePath,
-        servingsConsumed: safeServings
+        servingsConsumed: safeServings,
+        portionMultiplier: portionMultiplier,
+        swaps: swaps
       )
       let sourceRef = normalizedSourceRef(sourceRefPrefix, recipeId: recipeId)
       let inventoryConsumption = try inventoryRepository.applyConsumption(
         in: db,
         recipeId: recipeId,
         servingsConsumed: safeServings,
+        portionMultiplier: portionMultiplier,
+        swaps: swaps,
         sourceRef: sourceRef
       )
 

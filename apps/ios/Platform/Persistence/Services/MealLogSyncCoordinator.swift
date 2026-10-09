@@ -21,13 +21,15 @@ final class MealLogSyncCoordinator {
     recipeId: Int64,
     mealTitle: String,
     servingsConsumed: Int,
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = [],
     loggedAt: Date = Date()
   ) async {
     guard appleHealthService.authorizationStatus() == .authorized else { return }
 
     do {
-      let macros = try nutritionService.macros(for: recipeId)
-      let scale = Double(max(1, servingsConsumed))
+      let macros = try nutritionService.macros(for: recipeId, swaps: swaps)
+      let scale = Double(max(1, servingsConsumed)) * portionMultiplier
       let record = AppleHealthMealRecord(
         syncIdentifier: "samgu.FridgeLuck.cooking_history.\(historyId)",
         syncVersion: 1,

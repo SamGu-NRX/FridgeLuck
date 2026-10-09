@@ -45,6 +45,55 @@ final class PersonalizationServiceTests: XCTestCase {
     XCTAssertEqual(try service.currentStreak(), 1)
   }
 
+  func testRecordCookingStoresTimestampVisibleToTodayQueries() throws {
+    let dbQueue = try makeMigratedDatabaseWithRecipe()
+    let service = PersonalizationService(db: dbQueue)
+
+    let historyID = try service.recordCooking(recipeId: 1, servingsConsumed: 2)
+
+    try dbQueue.read { db in
+      let cookedToday = try Int.fetchOne(
+        db,
+        sql: """
+          SELECT COUNT(*) FROM cooking_history
+          WHERE id = ? AND date(cooked_at, 'localtime') = date('now', 'localtime')
+          """,
+        arguments: [historyID]
+      )
+      XCTAssertEqual(cookedToday, 1)
+    }
+  }
+
+  func testRecordCookingReturnsHistoryIDWhenItAlsoCreatesTodaysStreak() throws {
+    let dbQueue = try makeMigratedDatabaseWithRecipe()
+    let service = PersonalizationService(db: dbQueue)
+    // Earlier streak rows make a streak row ID differ from the history row ID.
+    try insertStreak(on: Date(timeIntervalSinceNow: -2 * 86_400), into: dbQueue)
+    try insertStreak(on: Date(timeIntervalSinceNow: -86_400), into: dbQueue)
+
+    let firstID = try service.recordCooking(recipeId: 1)
+    let secondID = try service.recordCooking(recipeId: 1)
+
+    let storedIDs = try dbQueue.read { db in
+      try Int64.fetchAll(db, sql: "SELECT id FROM cooking_history ORDER BY id")
+    }
+    XCTAssertEqual(storedIDs, [firstID, secondID])
+  }
+
+  private func makeMigratedDatabaseWithRecipe() throws -> DatabaseQueue {
+    let dbQueue = try DatabaseQueue()
+    try DatabaseMigrations.migrate(dbQueue)
+    try dbQueue.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO recipes (id, title, time_minutes, servings, instructions)
+          VALUES (1, 'Test Rice', 10, 1, 'Cook.')
+          """
+      )
+    }
+    return dbQueue
+  }
+
   private func makeDatabase() throws -> DatabaseQueue {
     let dbQueue = try DatabaseQueue()
     try dbQueue.write { db in

@@ -16,6 +16,7 @@ final class HomeDashboardViewModel: ObservableObject {
 
   private let deps: AppDependencies
   private var cookingHistoryObserver: AnyDatabaseCancellable?
+  private var inventoryObserver: AnyDatabaseCancellable?
 
   init(deps: AppDependencies) {
     self.deps = deps
@@ -151,6 +152,17 @@ final class HomeDashboardViewModel: ObservableObject {
     cookingHistoryObserver = deps.userDataRepository.observeCookingHistoryChanges(
       onError: { error in
         logger.error("Cooking history observer failed: \(error.localizedDescription)")
+      },
+      onChange: { [weak self] in
+        guard let self else { return }
+        Task { await self.load() }
+      }
+    )
+    // Recommendations and use-soon alerts come from inventory, which a scan can change without
+    // touching cooking history.
+    inventoryObserver = deps.inventoryRepository.observeInventoryChanges(
+      onError: { error in
+        logger.error("Inventory observer failed: \(error.localizedDescription)")
       },
       onChange: { [weak self] in
         guard let self else { return }

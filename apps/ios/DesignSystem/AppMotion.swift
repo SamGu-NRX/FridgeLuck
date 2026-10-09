@@ -15,6 +15,12 @@ enum AppMotion {
   static let spotlightCardEntry: Animation = .spring(response: 0.40, dampingFraction: 0.84)
   static let spotlightDismiss: Animation = .timingCurve(0.4, 0.0, 0.2, 1.0, duration: 0.20)
   static let spotlightMove: Animation = .spring(response: 0.30, dampingFraction: 0.88)
+
+  /// How a tutorial scrolls its next highlighted element into view. With Reduce Motion on, the
+  /// scroll jumps instead of moving the whole screen under a dimmed overlay.
+  static func spotlightScroll(reduceMotion: Bool) -> Animation? {
+    reduceMotion ? nil : spotlightMove
+  }
   static let staggerDelay: Double = 0.035
 
   static let cardSpring: Animation = .spring(response: 0.35, dampingFraction: 0.72)

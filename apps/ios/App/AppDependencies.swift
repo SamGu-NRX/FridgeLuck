@@ -133,7 +133,10 @@ final class AppDependencies: ObservableObject {
       healthScoringService: healthScoringService,
       recipeGenerator: recipeGenerator,
       geminiCloudAgent: geminiCloudAgent,
-      confidenceLearningService: confidenceLearningService
+      confidenceLearningService: confidenceLearningService,
+      kitchenIngredientIDs: { [inventoryRepository] in
+        Set(try inventoryRepository.fetchAllActiveItems().map(\.ingredientId))
+      }
     )
   }
 }
