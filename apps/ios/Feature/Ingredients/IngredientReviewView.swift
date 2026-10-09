@@ -91,6 +91,7 @@ struct IngredientReviewView: View {
   @State private var didInitialize = false
   @State private var inventorySourceRef = "scan-review:\(UUID().uuidString)"
   @State private var kitchenSaveError: String?
+  @State private var rejectedDetectionIds: Set<UUID> = []
 
   // MARK: - Tutorial Integration
   @Environment(TutorialFlowContext.self) private var tutorialFlowContext: TutorialFlowContext?
@@ -161,7 +162,7 @@ struct IngredientReviewView: View {
             IngredientReviewSummarySection(
               confirmedCount: confirmedIds.count,
               categorizedConfirmedCount: categorized.confirmed.count,
-              categorizedNeedsConfirmationCount: categorized.needsConfirmation.count,
+              categorizedNeedsConfirmationCount: reviewableNeedsConfirmation.count,
               categorizedPossibleCount: categorized.possible.count,
               unresolvedCount: unresolvedCount,
               confirmationCompletion: confirmationCompletion,
@@ -207,7 +208,7 @@ struct IngredientReviewView: View {
             }
 
             IngredientReviewNeedsConfirmationSection(
-              detections: categorized.needsConfirmation,
+              detections: reviewableNeedsConfirmation,
               selectedIngredientId: selectedIngredient,
               optionsForDetection: candidateOptions,
               onChoose: choose,
@@ -228,7 +229,7 @@ struct IngredientReviewView: View {
             .id("needsConfirmation")
             .spotlightAnchor("needsConfirmation")
 
-            if !categorized.needsConfirmation.isEmpty && !categorized.possible.isEmpty {
+            if !reviewableNeedsConfirmation.isEmpty && !categorized.possible.isEmpty {
               FLWaveDivider()
                 .padding(.horizontal, AppTheme.Space.page)
                 .padding(.bottom, AppTheme.Space.lg)
@@ -483,12 +484,19 @@ struct IngredientReviewView: View {
     detections.map(\.id)
   }
 
+  /// Needs-confirmation rows still under review: everything the user has not dismissed
+  /// with "Not this item". A dismissed row had no confirmed ingredient and was never
+  /// going to be ingested, so rejection is purely review-screen state.
+  private var reviewableNeedsConfirmation: [Detection] {
+    categorized.needsConfirmation.filter { !rejectedDetectionIds.contains($0.id) }
+  }
+
   private var unresolvedCount: Int {
-    categorized.needsConfirmation.filter { selectedIngredient(for: $0) == nil }.count
+    reviewableNeedsConfirmation.filter { selectedIngredient(for: $0) == nil }.count
   }
 
   private var confirmationCompletion: Double {
-    let total = max(1, categorized.needsConfirmation.count)
+    let total = max(1, reviewableNeedsConfirmation.count)
     return Double(total - unresolvedCount) / Double(total)
   }
 
@@ -556,7 +564,7 @@ struct IngredientReviewView: View {
   }
 
   private func confidenceHealthPill() -> (text: String, kind: FLStatusPill.Kind) {
-    if categorized.needsConfirmation.isEmpty {
+    if reviewableNeedsConfirmation.isEmpty {
       return ("All clear", .positive)
     }
     if unresolvedCount == 0 {
@@ -682,16 +690,55 @@ struct IngredientReviewView: View {
   }
 
   private func clearSelection(for detection: Detection) {
+    let outcome = Self.notThisItemOutcome(
+      detection: detection,
+      selectedIngredientId: selectedIngredientForDetection[detection.id],
+      suggestedIngredientId: dependencies.suggestedCorrection(detection.originalVisionLabel)
+    )
+
     withAnimation(reduceMotion ? nil : AppMotion.quick) {
-      if let previous = selectedIngredient(for: detection) {
+      if let previous = outcome.removedConfirmedIngredientId {
         confirmedIds.remove(previous)
       }
-      selectedIngredientForDetection.removeValue(forKey: detection.id)
+      if outcome.didClearSelection {
+        selectedIngredientForDetection.removeValue(forKey: detection.id)
+      }
+      if outcome.didRejectDetection {
+        rejectedDetectionIds.insert(detection.id)
+      }
     }
 
-    if let suggestion = dependencies.suggestedCorrection(detection.originalVisionLabel) {
-      suggestedOutcomeByDetection[detection.id] = (suggestion == detection.ingredientId)
+    if let recorded = outcome.recordedSuggestedOutcome {
+      suggestedOutcomeByDetection[detection.id] = recorded
     }
+  }
+
+  // MARK: - Not This Item (pure state transition)
+
+  /// What tapping "Not this item" on one needs-confirmation row means.
+  /// Pure data so the review rule is unit-testable without SwiftUI state.
+  struct NotThisItemOutcome: Equatable {
+    /// Ingredient to remove from the confirmed set; nil when nothing was selected.
+    let removedConfirmedIngredientId: Int64?
+    /// Whether the selected-candidate entry was cleared for this detection.
+    let didClearSelection: Bool
+    /// Whether the row leaves the review list.
+    let didRejectDetection: Bool
+    /// Learning outcome to record for the shown suggestion; nil when none was shown.
+    let recordedSuggestedOutcome: Bool?
+  }
+
+  static func notThisItemOutcome(
+    detection: Detection,
+    selectedIngredientId: Int64?,
+    suggestedIngredientId: Int64?
+  ) -> NotThisItemOutcome {
+    NotThisItemOutcome(
+      removedConfirmedIngredientId: selectedIngredientId,
+      didClearSelection: true,
+      didRejectDetection: false,
+      recordedSuggestedOutcome: suggestedIngredientId.map { $0 == detection.ingredientId }
+    )
   }
 
   private func choose(option: DetectionAlternative, for detection: Detection) {
