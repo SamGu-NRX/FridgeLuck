@@ -627,7 +627,7 @@ struct ReverseScanMealView: View {
           Text("\(recipe.timeMinutes) min")
             .font(AppTheme.Typography.labelSmall)
           Text("·")
-          Text("\(recipe.servings) servings")
+          Text("\(recipe.servings) serving\(recipe.servings == 1 ? "" : "s")")
             .font(AppTheme.Typography.labelSmall)
         }
         .foregroundStyle(AppTheme.textSecondary)

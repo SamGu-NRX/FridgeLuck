@@ -296,8 +296,9 @@ struct DemoScenarioScanningOverlay: View {
   private func scanStatusText() -> String {
     if scanComplete {
       let prefix = isFirstVisit ? "All done! " : ""
+      let found = scenario.ingredientNames.count
       return
-        "\(prefix)Found \(scenario.ingredientNames.count) ingredients. Preparing review\u{2026}"
+        "\(prefix)Found \(found) ingredient\(found == 1 ? "" : "s"). Preparing review\u{2026}"
     }
     if discoveredCount > 0 {
       return "Found \(discoveredCount) ingredient\(discoveredCount == 1 ? "" : "s") so far\u{2026}"
