@@ -106,6 +106,20 @@ enum InventoryInvariantSupport {
       refPrefix: String?, isRetry: Bool, slot: Int)
     case retireSession(sourceRef: String, slot: Int)
     case restoreSession(sourceRef: String, slot: Int)
+    // Composite probe: retire a session lot, then immediately attempt consumption of a recipe
+    // requiring the same ingredient — the retired lot must be invisible to the allocator.
+    case consumeAfterRetire(sourceRef: String, servings: Int, portion: Double, slot: Int)
+    // Composite probe: restore a review-retired lot, then consume the ingredient again — the
+    // lot must rejoin the FEFO rotation and the ledger must reconcile.
+    case restoreThenReconsume(sourceRef: String, servings: Int, portion: Double, slot: Int)
+    // Composite probe: two scan sessions restock the same ingredient with meal logs
+    // interleaved between and after the adds.
+    case sessionInterleave(
+      ingredientId: Int64, gramsA: Double, gramsB: Double, servings: Int, portion: Double,
+      slot: Int)
+    // Composite probe: adds sized to exactly the recipe's request, then one consumption —
+    // every shelf must land on exactly zero.
+    case consumeExactTotalAfterAdds(recipeId: Int64, servings: Int, portion: Double, slot: Int)
 
     var description: String {
       switch self {
@@ -131,6 +145,22 @@ enum InventoryInvariantSupport {
         return "retireSession(sourceRef: \(sourceRef), slot: \(slot))"
       case .restoreSession(let sourceRef, let slot):
         return "restoreSession(sourceRef: \(sourceRef), slot: \(slot))"
+      case .consumeAfterRetire(let sourceRef, let servings, let portion, let slot):
+        return
+          "consumeAfterRetire(sourceRef: \(sourceRef), servings: \(servings), portion: \(portion), "
+          + "slot: \(slot))"
+      case .restoreThenReconsume(let sourceRef, let servings, let portion, let slot):
+        return
+          "restoreThenReconsume(sourceRef: \(sourceRef), servings: \(servings), portion: \(portion), "
+          + "slot: \(slot))"
+      case .sessionInterleave(let ingredientId, let gramsA, let gramsB, let servings, let portion, let slot):
+        return
+          "sessionInterleave(ingredientId: \(ingredientId), gramsA: \(gramsA), gramsB: \(gramsB), "
+          + "servings: \(servings), portion: \(portion), slot: \(slot))"
+      case .consumeExactTotalAfterAdds(let recipeId, let servings, let portion, let slot):
+        return
+          "consumeExactTotalAfterAdds(recipeId: \(recipeId), servings: \(servings), "
+          + "portion: \(portion), slot: \(slot))"
       }
     }
   }
@@ -146,7 +176,7 @@ enum InventoryInvariantSupport {
     while ops.count < opCount {
       let slot = ops.count
       switch Int(rng.next() % 100) {
-      case 0..<27:
+      case 0..<25:
         let grams = Double(rng.next() % 9001) / 10.0
         let sessionRef: String?
         if rng.pickBool(0.5) {
@@ -163,7 +193,7 @@ enum InventoryInvariantSupport {
             expires: rng.pickBool(0.6), acquiredSlot: slot,
             confidence: Double(rng.next() % 1001) / 1000.0, estimate: rng.pickBool(0.3),
             sourceRef: sessionRef))
-      case 27..<35:
+      case 25..<33:
         let ref: String
         if !groceryRefs.isEmpty && rng.pickBool(0.5) {
           ref = groceryRefs[Int(rng.next() % UInt64(groceryRefs.count))]
@@ -175,7 +205,7 @@ enum InventoryInvariantSupport {
           .reingest(
             sourceRef: ref, item: Int64(rng.pickInt(1, 6)),
             grams: Double(rng.next() % 6001) / 10.0, slot: slot))
-      case 35..<80:
+      case 33..<70:
         let recipeId = Int64(rng.pickInt(1, 3))
         let servings = rng.pickInt(1, 3)
         let portion = rng.pick(portions)
@@ -213,7 +243,7 @@ enum InventoryInvariantSupport {
               recipeId: recipeId, servings: servings, portion: portion, swaps: swaps,
               refPrefix: prefix, isRetry: false, slot: slot))
         }
-      case 80..<90:
+      case 70..<78:
         let ref: String
         if !sessionRefs.isEmpty && rng.pickBool(0.6) {
           ref = sessionRefs[Int(rng.next() % UInt64(sessionRefs.count))]
@@ -221,7 +251,7 @@ enum InventoryInvariantSupport {
           ref = "session:\(rng.next() % 3)"
         }
         ops.append(.retireSession(sourceRef: ref, slot: slot))
-      default:
+      case 78..<86:
         let ref: String
         if !sessionRefs.isEmpty && rng.pickBool(0.6) {
           ref = sessionRefs[Int(rng.next() % UInt64(sessionRefs.count))]
@@ -229,6 +259,42 @@ enum InventoryInvariantSupport {
           ref = "session:\(rng.next() % 3)"
         }
         ops.append(.restoreSession(sourceRef: ref, slot: slot))
+      case 86..<90:
+        // Retire a session lot, then immediately attempt consumption of the same ingredient.
+        let ref: String
+        if !sessionRefs.isEmpty && rng.pickBool(0.6) {
+          ref = sessionRefs[Int(rng.next() % UInt64(sessionRefs.count))]
+        } else {
+          ref = "session:\(rng.next() % 3)"
+        }
+        ops.append(
+          .consumeAfterRetire(
+            sourceRef: ref, servings: rng.pickInt(1, 3), portion: rng.pick(portions), slot: slot))
+      case 90..<94:
+        // Restore a review-retired lot, then consume the ingredient again.
+        let ref: String
+        if !sessionRefs.isEmpty && rng.pickBool(0.6) {
+          ref = sessionRefs[Int(rng.next() % UInt64(sessionRefs.count))]
+        } else {
+          ref = "session:\(rng.next() % 3)"
+        }
+        ops.append(
+          .restoreThenReconsume(
+            sourceRef: ref, servings: rng.pickInt(1, 3), portion: rng.pick(portions), slot: slot))
+      case 94..<97:
+        // Two sessions restock one ingredient around meal logs; only ingredients some recipe
+        // requires are eligible, so the interleaved consumption always runs.
+        ops.append(
+          .sessionInterleave(
+            ingredientId: rng.pick([Int64(1), 2, 3, 5, 6]),
+            gramsA: Double(rng.next() % 4001) / 10.0, gramsB: Double(rng.next() % 4001) / 10.0,
+            servings: rng.pickInt(1, 3), portion: rng.pick(portions), slot: slot))
+      default:
+        // Adds sized to exactly the recipe request, then a single consumption.
+        ops.append(
+          .consumeExactTotalAfterAdds(
+            recipeId: Int64(rng.pickInt(1, 3)), servings: rng.pickInt(1, 3),
+            portion: rng.pick(portions), slot: slot))
       }
     }
     return ops
@@ -383,6 +449,207 @@ enum InventoryInvariantSupport {
           expectedDelta: lot.quantityGrams, expectedReason: "Restored during scan review",
           expectedSourceRef: "review:\(sourceRef)", expectedConfidence: 1.0)
       }
+
+    case .consumeAfterRetire(let sourceRef, let servings, let portion, _):
+      // Scan review retires a lot, then a cook immediately attempts consumption of a recipe
+      // requiring the same ingredient. The retired lot is invisible to the allocator: it must
+      // never show up in a consume event, and when it was the ingredient's last stock the
+      // attempt deducts zero and writes no consume event at all.
+      let retired = try dbQueue.write { db -> ScanSessionLot? in
+        let sessionLots = try repository.lots(in: db, addedBy: sourceRef)
+        guard let lot = sessionLots.first(where: { $0.remainingGrams > 0 }) else {
+          return nil
+        }
+        try repository.retireLot(
+          in: db, lot, reason: InventoryRepository.reviewRetirementReason,
+          sourceRef: "review:\(sourceRef)")
+        return lot
+      }
+      guard let lot = retired else { break }
+      violations += try checkBalanceDelta(
+        dbQueue, before: before, ingredientId: lot.ingredientId, delta: -lot.remainingGrams)
+      violations += try checkLatestEvent(
+        dbQueue, ingredientId: lot.ingredientId, lotId: lot.lotId, type: "adjust",
+        expectedDelta: -lot.remainingGrams,
+        expectedReason: InventoryRepository.reviewRetirementReason,
+        expectedSourceRef: "review:\(sourceRef)", expectedConfidence: 1.0)
+      guard let recipeId = try recipeRequiring(dbQueue, lot.ingredientId) else { break }
+      let beforeConsume = try snapshot(dbQueue)
+      violations += try performMealLog(
+        repository: repository, dbQueue: dbQueue, before: beforeConsume, recipeId: recipeId,
+        servings: servings, portion: portion, swaps: [], refPrefix: nil, isRetry: false)
+      let afterConsume = try snapshot(dbQueue)
+      let newConsumeEvents = afterConsume.events.filter {
+        $0.id > beforeConsume.eventMaxId && $0.type == "consume"
+      }
+      if newConsumeEvents.contains(where: { $0.lotId == lot.lotId }) {
+        violations.append("retired lot \(lot.lotId) was consumed after retirement")
+      }
+      if (beforeConsume.balances[lot.ingredientId] ?? 0) < 1e-9 {
+        // The retired lot was the ingredient's last stock.
+        if !sameGrams(afterConsume.balances[lot.ingredientId] ?? 0, 0) {
+          violations.append(
+            "ingredient \(lot.ingredientId) moved to \(afterConsume.balances[lot.ingredientId] ?? 0)"
+              + " by a consumption attempt against an empty shelf")
+        }
+        if newConsumeEvents.contains(where: { $0.ingredientId == lot.ingredientId }) {
+          violations.append(
+            "consume event written for ingredient \(lot.ingredientId) with nothing in stock")
+        }
+      }
+
+    case .restoreThenReconsume(let sourceRef, let servings, let portion, _):
+      // Scan review restores a retired lot, then a cook consumes the ingredient again: the
+      // lot must rejoin the FEFO rotation at its full quantity and the ledger must reconcile
+      // across the restore and the new consumption (meal-log identities plus the sweep).
+      let restored = try dbQueue.write { db -> ScanSessionLot? in
+        let sessionLots = try repository.lots(in: db, addedBy: sourceRef)
+        guard let lot = sessionLots.first(where: { $0.wasRetiredByReview }) else {
+          return nil
+        }
+        try repository.restoreRetiredLot(in: db, lot, sourceRef: "review:\(sourceRef)")
+        return lot
+      }
+      guard let lot = restored else { break }
+      violations += try checkBalanceDelta(
+        dbQueue, before: before, ingredientId: lot.ingredientId, delta: lot.quantityGrams)
+      violations += try checkLatestEvent(
+        dbQueue, ingredientId: lot.ingredientId, lotId: lot.lotId, type: "adjust",
+        expectedDelta: lot.quantityGrams, expectedReason: "Restored during scan review",
+        expectedSourceRef: "review:\(sourceRef)", expectedConfidence: 1.0)
+      guard let recipeId = try recipeRequiring(dbQueue, lot.ingredientId) else { break }
+      violations += try performMealLog(
+        repository: repository, dbQueue: dbQueue, before: try snapshot(dbQueue),
+        recipeId: recipeId, servings: servings, portion: portion, swaps: [], refPrefix: nil,
+        isRetry: false)
+
+    case .sessionInterleave(
+      let ingredientId, let gramsA, let gramsB, let servings, let portion, let slot):
+      // Two scan sessions restock the same ingredient with a meal log interleaved between the
+      // adds and another after the second: FEFO must span lots from different sessions and the
+      // ledger must reconcile across all four writes. Session B acquires later with a later
+      // explicit expiry, so A's lot always sorts first once both are in play.
+      let refA = "session:interleave:\(slot):a"
+      let refB = "session:interleave:\(slot):b"
+      guard let recipeId = try recipeRequiring(dbQueue, ingredientId) else { break }
+      let beforeA = try snapshot(dbQueue)
+      let lotA = try repository.addLot(
+        ingredientId: ingredientId, quantityGrams: gramsA, location: .fridge, confidenceScore: 0.9,
+        source: .scan, acquiredAt: acquiredDate(slot: slot), expiresAt: explicitExpiry(slot: slot),
+        reason: "Scan session restock", sourceRef: refA)
+      violations += try checkBalanceDelta(
+        dbQueue, before: beforeA, ingredientId: ingredientId, delta: gramsA)
+      violations += try checkLatestEvent(
+        dbQueue, ingredientId: ingredientId, lotId: lotA, type: "add", expectedDelta: gramsA,
+        expectedReason: "Scan session restock", expectedSourceRef: refA, expectedConfidence: 0.9)
+      violations += try performMealLog(
+        repository: repository, dbQueue: dbQueue, before: try snapshot(dbQueue),
+        recipeId: recipeId, servings: servings, portion: portion, swaps: [], refPrefix: nil,
+        isRetry: false)
+      let beforeB = try snapshot(dbQueue)
+      let lotB = try repository.addLot(
+        ingredientId: ingredientId, quantityGrams: gramsB, location: .fridge, confidenceScore: 0.9,
+        source: .scan, acquiredAt: acquiredDate(slot: slot + 1),
+        expiresAt: explicitExpiry(slot: slot + 7), reason: "Scan session restock", sourceRef: refB)
+      violations += try checkBalanceDelta(
+        dbQueue, before: beforeB, ingredientId: ingredientId, delta: gramsB)
+      violations += try checkLatestEvent(
+        dbQueue, ingredientId: ingredientId, lotId: lotB, type: "add", expectedDelta: gramsB,
+        expectedReason: "Scan session restock", expectedSourceRef: refB, expectedConfidence: 0.9)
+      violations += try performMealLog(
+        repository: repository, dbQueue: dbQueue, before: try snapshot(dbQueue),
+        recipeId: recipeId, servings: servings, portion: portion, swaps: [], refPrefix: nil,
+        isRetry: false)
+
+    case .consumeExactTotalAfterAdds(let recipeId, let servings, let portion, let slot):
+      // Empties every required shelf the audited way first — scan-review retirement of each
+      // live lot — then adds two lots per required ingredient sized so their sum is exactly
+      // the recipe's request at this factor, then consumes once: every added lot must drain
+      // completely and every required shelf must land on exactly zero.
+      let (recipeServings, requiredRows): (Int, [(Int64, Double)]) = try dbQueue.read { db in
+        let servingsRow = try Int.fetchOne(
+          db, sql: "SELECT servings FROM recipes WHERE id = ?", arguments: [recipeId])
+        let rows = try Row.fetchAll(
+          db,
+          sql: "SELECT ingredient_id, quantity_grams FROM recipe_ingredients "
+            + "WHERE recipe_id = ? AND is_required = 1 ORDER BY ingredient_id",
+          arguments: [recipeId])
+        return (servingsRow ?? 0, rows.map { row -> (Int64, Double) in
+          let id: Int64 = row["ingredient_id"]
+          let grams: Double = row["quantity_grams"]
+          return (id, grams)
+        })
+      }
+      let servingFactor = Double(servings) * portion / Double(max(recipeServings, 1))
+      var requiredTotals: [Int64: Double] = [:]
+      for (ingredientId, baseGrams) in requiredRows {
+        requiredTotals[ingredientId, default: 0] += baseGrams * servingFactor
+      }
+      var addedLotIds: [Int64] = []
+      for (ingredientId, total) in requiredTotals.sorted(by: { $0.key < $1.key }) {
+        // Clear the shelf through the repository (scan-review retirement of every live lot),
+        // so the exact-total adds are the only stock the consumption can draw from.
+        let beforeRetire = try snapshot(dbQueue)
+        try dbQueue.write { db in
+          let rows = try Row.fetchAll(
+            db,
+            sql: "SELECT id, quantity_grams, remaining_grams FROM inventory_lots "
+              + "WHERE ingredient_id = ? AND remaining_grams > 0",
+            arguments: [ingredientId])
+          for row in rows {
+            let id: Int64 = row["id"]
+            let quantity: Double = row["quantity_grams"]
+            let remaining: Double = row["remaining_grams"]
+            try repository.retireLot(
+              in: db,
+              ScanSessionLot(
+                lotId: id, ingredientId: ingredientId, quantityGrams: quantity,
+                remainingGrams: remaining, wasConsumed: false, wasRetiredByReview: false),
+              reason: InventoryRepository.reviewRetirementReason,
+              sourceRef: "review:exact:\(slot):\(ingredientId)")
+          }
+        }
+        violations += try checkBalanceDelta(
+          dbQueue, before: beforeRetire, ingredientId: ingredientId,
+          delta: -(beforeRetire.balances[ingredientId] ?? 0))
+        for share in [0.4, 0.6] {
+          let beforeAdd = try snapshot(dbQueue)
+          let lotId = try repository.addLot(
+            ingredientId: ingredientId, quantityGrams: total * share, location: .fridge,
+            confidenceScore: 0.9, source: .scan, acquiredAt: acquiredDate(slot: slot),
+            expiresAt: explicitExpiry(slot: slot), reason: "Exact-total restock")
+          addedLotIds.append(lotId)
+          violations += try checkBalanceDelta(
+            dbQueue, before: beforeAdd, ingredientId: ingredientId, delta: total * share)
+          violations += try checkLatestEvent(
+            dbQueue, ingredientId: ingredientId, lotId: lotId, type: "add",
+            expectedDelta: total * share, expectedReason: "Exact-total restock",
+            expectedSourceRef: nil, expectedConfidence: 0.9)
+        }
+      }
+      violations += try performMealLog(
+        repository: repository, dbQueue: dbQueue, before: try snapshot(dbQueue),
+        recipeId: recipeId, servings: servings, portion: portion, swaps: [], refPrefix: nil,
+        isRetry: false)
+      let afterConsume = try snapshot(dbQueue)
+      for (ingredientId, total) in requiredTotals {
+        let remaining = afterConsume.balances[ingredientId] ?? 0
+        if !sameGrams(remaining, 0) {
+          violations.append(
+            "ingredient \(ingredientId) holds \(remaining) after consuming exactly the added "
+              + "\(total)")
+        }
+      }
+      for lotId in addedLotIds {
+        guard let lot = afterConsume.lots.first(where: { $0.id == lotId }) else {
+          violations.append("added lot \(lotId) disappeared from inventory_lots")
+          continue
+        }
+        if !sameGrams(lot.remaining, 0) {
+          violations.append(
+            "added lot \(lotId) holds \(lot.remaining) after an exact-total consumption")
+        }
+      }
     }
 
     violations += try sweepInvariants(repository: repository, dbQueue: dbQueue)
@@ -390,6 +657,18 @@ enum InventoryInvariantSupport {
       return violations.map { "op #\(index) (\(op)): \($0)" }
     }
     return []
+  }
+
+  /// The lowest-id recipe with a required row for the ingredient, from the migrated fixture;
+  /// nil when the ingredient only ever appears as an optional row (basil).
+  static func recipeRequiring(_ dbQueue: DatabaseQueue, _ ingredientId: Int64) throws -> Int64? {
+    try dbQueue.read { db in
+      try Int64.fetchOne(
+        db,
+        sql: "SELECT recipe_id FROM recipe_ingredients WHERE ingredient_id = ? AND is_required = 1 "
+          + "ORDER BY recipe_id LIMIT 1",
+        arguments: [ingredientId])
+    }
   }
 
   static func performMealLog(
