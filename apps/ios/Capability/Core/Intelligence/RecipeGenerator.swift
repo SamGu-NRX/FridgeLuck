@@ -130,7 +130,7 @@ final class FallbackRecipeGenerator: RecipeGenerating, @unchecked Sendable {
   ) async throws -> GeneratedRecipeResult? {
     let ids: Set<Int64> = Set(
       ingredientNames.compactMap { name in
-        ingredientResolver.resolve(name) ?? IngredientLexicon.resolve(name)
+        ingredientResolver.resolve(name, matching: .allowPrefix) ?? IngredientLexicon.resolve(name)
       }
     )
 
