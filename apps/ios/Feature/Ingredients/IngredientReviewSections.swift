@@ -317,6 +317,8 @@ struct IngredientReviewNeedsConfirmationSection: View {
         }
         .font(AppTheme.Typography.label)
         .foregroundStyle(AppTheme.accent)
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
 
         Spacer()
 
@@ -325,6 +327,9 @@ struct IngredientReviewNeedsConfirmationSection: View {
         }
         .font(AppTheme.Typography.label)
         .foregroundStyle(AppTheme.textSecondary)
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
+        .accessibilityIdentifier("ingredient_review_not_this_item")
       }
 
       Divider()
