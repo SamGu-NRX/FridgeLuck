@@ -366,6 +366,41 @@ final class VisionService: Sendable {
 
   // MARK: - Vision Passes (synchronous, run on detached tasks)
 
+  /// Ordered OCR lines for receipt-style photos.
+  ///
+  /// The scan pipeline deduplicates OCR text into an unordered set, which is right for
+  /// packaging text but destroys receipt reading order — and a receipt's line order is what
+  /// tells item lines apart from totals. This returns the raw recognized lines, top
+  /// candidate per observation, sorted top-to-bottom then left-to-right, without identity
+  /// resolution or dedupe; the grocery receipt parser owns the rest.
+  func recognizeTextLines(image: CGImage) async throws -> [RecognizedTextResult] {
+    try await Task.detached(priority: .userInitiated) {
+      let request = VNRecognizeTextRequest()
+      request.recognitionLevel = .accurate
+      request.usesLanguageCorrection = true
+      request.recognitionLanguages = ["en-US"]
+      request.minimumTextHeight = 0.01
+      let handler = VNImageRequestHandler(cgImage: image, options: [:])
+      try handler.perform([request])
+
+      let observations = request.results ?? []
+      return observations
+        .map { obs in
+          RecognizedTextResult(
+            candidates: obs.topCandidates(3).map { $0.string },
+            boundingBox: obs.boundingBox
+          )
+        }
+        .sorted { lhs, rhs in
+          // Vision boxes use bottom-left origin: sort by descending minY.
+          if lhs.boundingBox.minY != rhs.boundingBox.minY {
+            return lhs.boundingBox.minY > rhs.boundingBox.minY
+          }
+          return lhs.boundingBox.minX < rhs.boundingBox.minX
+        }
+    }.value
+  }
+
   /// Classify the image using VNClassifyImageRequest.
   /// Runs synchronously on a background thread — no continuation needed.
   private func classifyImage(_ image: CGImage) async throws -> [ClassificationResult] {

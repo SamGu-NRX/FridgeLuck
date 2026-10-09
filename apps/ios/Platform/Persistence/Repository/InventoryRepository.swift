@@ -38,7 +38,8 @@ final class InventoryRepository: Sendable {
     expiresAt: Date? = nil,
     reason: String? = nil,
     sourceRef: String? = nil,
-    quantityIsEstimate: Bool = false
+    quantityIsEstimate: Bool = false,
+    quantityProvenance: QuantityProvenance? = nil
   ) throws -> Int64 {
     let lotID = try db.write { db in
       try addLot(
@@ -52,7 +53,8 @@ final class InventoryRepository: Sendable {
         expiresAt: expiresAt,
         reason: reason,
         sourceRef: sourceRef,
-        quantityIsEstimate: quantityIsEstimate
+        quantityIsEstimate: quantityIsEstimate,
+        quantityProvenance: quantityProvenance
       )
     }
     notifyInventoryDidChange()
@@ -72,10 +74,16 @@ final class InventoryRepository: Sendable {
     expiresAt: Date? = nil,
     reason: String? = nil,
     sourceRef: String? = nil,
-    quantityIsEstimate: Bool = false
+    quantityIsEstimate: Bool = false,
+    quantityProvenance: QuantityProvenance? = nil
   ) throws -> Int64 {
     let safeQuantity = max(0, quantityGrams)
     let safeConfidence = max(0, min(confidenceScore, 1.0))
+    // Provenance is the source of truth for how the amount was established; the legacy
+    // boolean estimate flag is derived from it so existing readers keep working.
+    let resolvedProvenance =
+      quantityProvenance ?? (quantityIsEstimate ? QuantityProvenance.estimate : .entered)
+    let resolvedIsEstimate = resolvedProvenance == .estimate
 
     let resolvedExpiry: Date?
     if let expiresAt {
@@ -100,8 +108,9 @@ final class InventoryRepository: Sendable {
           source,
           acquired_at,
           expires_at,
-          quantity_is_estimate
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+          quantity_is_estimate,
+          quantity_provenance
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
       arguments: [
         ingredientId,
@@ -112,7 +121,8 @@ final class InventoryRepository: Sendable {
         source.rawValue,
         acquiredAt,
         resolvedExpiry,
-        quantityIsEstimate,
+        resolvedIsEstimate,
+        resolvedProvenance.rawValue,
       ]
     )
 
@@ -614,20 +624,33 @@ final class InventoryRepository: Sendable {
     guard !normalizedRef.isEmpty else { return false }
 
     return try db.read { db in
-      try Bool.fetchOne(
-        db,
-        sql: """
-          SELECT EXISTS(
-            SELECT 1
-            FROM inventory_events
-            WHERE event_type = ?
-              AND source_ref = ?
-            LIMIT 1
-          )
-          """,
-        arguments: [eventType.rawValue, normalizedRef]
-      ) ?? false
+      try hasEvent(in: db, eventType: eventType, sourceRef: normalizedRef)
     }
+  }
+
+  /// Transaction-scoped duplicate check, so a commit can verify its session reference and
+/// insert in the same write transaction with no window in between.
+  func hasEvent(
+    in db: Database,
+    eventType: InventoryEventType,
+    sourceRef: String
+  ) throws -> Bool {
+    let normalizedRef = sourceRef.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !normalizedRef.isEmpty else { return false }
+
+    return try Bool.fetchOne(
+      db,
+      sql: """
+        SELECT EXISTS(
+          SELECT 1
+          FROM inventory_events
+          WHERE event_type = ?
+            AND source_ref = ?
+          LIMIT 1
+        )
+        """,
+      arguments: [eventType.rawValue, normalizedRef]
+    ) ?? false
   }
 
   // MARK: - Internal helpers

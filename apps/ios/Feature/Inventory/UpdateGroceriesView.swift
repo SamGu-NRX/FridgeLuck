@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import SwiftUI
 import os
 
@@ -47,6 +48,18 @@ struct UpdateGroceriesView: View {
   @State private var successDismissTask: Task<Void, Never>?
   @State private var stageAppearanceTask: Task<Void, Never>?
 
+  // Real analysis and commit state.
+  @State private var analysisTask: Task<Void, Never>?
+  @State private var analysisFailure: String?
+  @State private var commitTask: Task<Void, Never>?
+  @State private var commitFailure: String?
+  @State private var sessionRef: String?
+  @State private var committedItems: [GroceryPendingItem] = []
+  @State private var committedDuplicates = false
+  /// Which review item the ingredient picker is choosing a food for; nil means the
+  /// picker is in add-more mode.
+  @State private var identityPickTarget: UUID?
+
   init(launchMode: UpdateGroceriesLaunchMode = .chooser) {
     self.launchMode = launchMode
   }
@@ -67,6 +80,10 @@ struct UpdateGroceriesView: View {
       subtitle: mode.captureSubtitle,
       maxPhotos: 1
     )
+  }
+
+  private var activeMode: UpdateGroceriesLaunchMode {
+    selectedMode ?? launchMode
   }
 
   // MARK: - Body
@@ -94,14 +111,7 @@ struct UpdateGroceriesView: View {
           case .analyze:
             analyzeView
           case .review:
-            GroceryReviewSection(
-              items: $pendingItems,
-              isCommitting: isCommitting,
-              onCommit: commitGroceries,
-              onAddMore: {
-                showIngredientPicker = true
-              }
-            )
+            reviewView
           }
         }
         .transition(
@@ -124,6 +134,18 @@ struct UpdateGroceriesView: View {
         successOverlay
       }
     }
+    .alert(
+      "Couldn't add these",
+      isPresented: Binding(
+        get: { commitFailure != nil },
+        set: { if !$0 { commitFailure = nil } }
+      )
+    ) {
+      Button("Try Again") { commitGroceries() }
+      Button("OK", role: .cancel) {}
+    } message: {
+      Text(commitFailure ?? "")
+    }
     .fullScreenCover(isPresented: $showCamera) {
       FLCaptureView(
         configuration: captureConfiguration,
@@ -136,10 +158,21 @@ struct UpdateGroceriesView: View {
       )
     }
     .sheet(isPresented: $showIngredientPicker, onDismiss: onIngredientPickerDismiss) {
-      IngredientPickerView(
-        title: "Add Ingredients",
-        selectedIDs: $selectedIngredientIDs
-      )
+      if let target = identityPickTarget {
+        IngredientPickerView(
+          title: "Which food is this?",
+          onPickSingle: { ingredient in
+            applyPickedIdentity(ingredient, to: target)
+            identityPickTarget = nil
+            showIngredientPicker = false
+          }
+        )
+      } else {
+        IngredientPickerView(
+          title: "Add Ingredients",
+          selectedIDs: $selectedIngredientIDs
+        )
+      }
     }
     .task {
       applyLaunchModeIfNeeded()
@@ -271,28 +304,94 @@ struct UpdateGroceriesView: View {
 
   // MARK: - Analyze View
 
+  @ViewBuilder
   private var analyzeView: some View {
-    ScanAnalyzingView(
-      capturedImage: capturedImage,
-      fallbackStateText: nil,
-      reduceMotion: reduceMotion,
-      title: "Identifying groceries",
-      subtitle: "Matching items and estimating quantities."
-    )
-    .padding(.horizontal, AppTheme.Space.page)
-    .task {
-      try? await Task.sleep(for: reduceMotion ? .milliseconds(500) : .milliseconds(1300))
-      guard !Task.isCancelled else { return }
-
-      let demoItems = generateDemoGroceryItems()
-      pendingItems = demoItems
-
-      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-        stage = .review
-        stageAppeared = false
+    if let analysisFailure {
+      analyzeFailureView(message: analysisFailure)
+    } else {
+      ScanAnalyzingView(
+        capturedImage: capturedImage,
+        fallbackStateText: nil,
+        reduceMotion: reduceMotion,
+        title: "Identifying groceries",
+        subtitle:
+          (selectedMode ?? launchMode) == .receipt
+          ? "Reading your receipt, line by line."
+          : "Matching items and estimating quantities."
+      )
+      .padding(.horizontal, AppTheme.Space.page)
+      .task {
+        startAnalysis()
       }
-      triggerStageAppearance()
     }
+  }
+
+  private func analyzeFailureView(message: String) -> some View {
+    VStack(spacing: AppTheme.Space.lg) {
+      Spacer()
+
+      VStack(spacing: AppTheme.Space.md) {
+        Image(systemName: "questionmark.circle")
+          .font(.system(size: 40, weight: .medium))
+          .foregroundStyle(AppTheme.oat.opacity(0.6))
+
+        Text(message)
+          .font(AppTheme.Typography.bodyMedium)
+          .foregroundStyle(AppTheme.textPrimary)
+          .multilineTextAlignment(.center)
+
+        VStack(spacing: AppTheme.Space.sm) {
+          FLPrimaryButton("Try Again", systemImage: "arrow.clockwise", isEnabled: true) {
+            analysisFailure = nil
+            withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+              stage = .analyze
+              stageAppeared = false
+            }
+          }
+
+          Button {
+            showIngredientPicker = true
+          } label: {
+            HStack(spacing: AppTheme.Space.sm) {
+              Image(systemName: "list.star")
+              Text("Add items manually instead")
+            }
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(AppTheme.accent)
+            .frame(maxWidth: .infinity)
+          }
+          .buttonStyle(FLPressableButtonStyle())
+        }
+        .padding(.top, AppTheme.Space.xs)
+      }
+      .padding(AppTheme.Space.lg)
+      .background(
+        AppTheme.surface,
+        in: RoundedRectangle(cornerRadius: AppTheme.Radius.lg, style: .continuous)
+      )
+      .padding(.horizontal, AppTheme.Space.page)
+
+      Spacer()
+    }
+  }
+
+  // MARK: - Review
+
+  private var reviewView: some View {
+    GroceryReviewSection(
+      items: $pendingItems,
+      isCommitting: isCommitting,
+      onCommit: commitGroceries,
+      onAddMore: {
+        identityPickTarget = nil
+        selectedIngredientIDs = []
+        showIngredientPicker = true
+      },
+      onPickIdentity: { itemID in
+        identityPickTarget = itemID
+        showIngredientPicker = true
+      }
+    )
   }
 
   // MARK: - Success Overlay
@@ -327,15 +426,213 @@ struct UpdateGroceriesView: View {
             .font(.system(.title2, design: .serif, weight: .bold))
             .foregroundStyle(AppTheme.textPrimary)
 
-          Text("Your virtual fridge has been updated.")
-            .font(AppTheme.Typography.bodyLarge)
-            .foregroundStyle(AppTheme.textSecondary)
+          Text(
+            committedDuplicates
+              ? "These were already in your kitchen, so nothing was added twice."
+              : "Your virtual fridge has been updated."
+          )
+          .font(AppTheme.Typography.bodyLarge)
+          .foregroundStyle(AppTheme.textSecondary)
+          .multilineTextAlignment(.center)
+        }
+
+        if !committedItems.isEmpty {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+            ForEach(committedItems.prefix(6)) { item in
+              HStack(spacing: AppTheme.Space.sm) {
+                Image(systemName: "checkmark")
+                  .font(.system(size: 12, weight: .semibold))
+                  .foregroundStyle(AppTheme.sage)
+
+                Text(item.ingredientName)
+                  .font(AppTheme.Typography.bodyMedium)
+                  .foregroundStyle(AppTheme.textPrimary)
+                  .lineLimit(1)
+
+                Spacer()
+
+                if let grams = item.quantityGrams {
+                  Text(committedAmountSummary(for: item, grams: grams))
+                    .font(AppTheme.Typography.labelSmall)
+                    .foregroundStyle(AppTheme.textSecondary)
+                }
+              }
+            }
+
+            if committedItems.count > 6 {
+              Text("+\(committedItems.count - 6) more")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+          }
+          .padding(AppTheme.Space.md)
+          .background(
+            AppTheme.surface,
+            in: RoundedRectangle(cornerRadius: AppTheme.Radius.md, style: .continuous)
+          )
+          .padding(.horizontal, AppTheme.Space.page)
         }
       }
     }
     .transition(.opacity.combined(with: .scale(scale: 0.98)))
     .onAppear {
       scheduleSuccessDismiss()
+    }
+  }
+
+  private func committedAmountSummary(for item: GroceryPendingItem, grams: Double) -> String {
+    var parts = ["\(Int(grams.rounded()))g"]
+    switch item.storageLocation {
+    case .fridge: parts.append("Fridge")
+    case .pantry: parts.append("Pantry")
+    case .freezer: parts.append("Freezer")
+    case .unknown: break
+    }
+    if item.quantityProvenance == .estimate {
+      parts.append("est.")
+    }
+    return parts.joined(separator: " \u{00B7} ")
+  }
+
+  // MARK: - Analysis
+
+  private func startAnalysis() {
+    guard let image = capturedImage, let cgImage = image.cgImage, analysisTask == nil else {
+      return
+    }
+    analysisFailure = nil
+
+    let mode: GroceryCaptureAnalyzer.Mode =
+      activeMode == .receipt ? .receipt : .photo
+
+    analysisTask = Task {
+      do {
+        let items = try await makeAnalyzer().analyze(image: cgImage, mode: mode)
+        guard !Task.isCancelled else { return }
+
+        if items.isEmpty {
+          analysisFailure =
+            "No foods found yet. Try again with the item filling more of the frame, or add them manually."
+          return
+        }
+
+        pendingItems = items
+        sessionRef = GroceryIntakeNormalizer.newSessionRef()
+
+        withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+          stage = .review
+          stageAppeared = false
+        }
+        triggerStageAppearance()
+      } catch is CancellationError {
+      } catch {
+        guard !Task.isCancelled else { return }
+        logger.error("Grocery analysis failed: \(error.localizedDescription)")
+        analysisFailure =
+          "Something went wrong reading the photo. Try again, or add the items manually."
+      }
+      analysisTask = nil
+    }
+  }
+
+  /// Production wiring: the app's VisionService for recognition, the ingredient catalog for
+  /// identity, and the honest-amount estimator for unit masses.
+  private func makeAnalyzer() -> GroceryCaptureAnalyzer {
+    let vision = deps.visionService
+    let repository = deps.ingredientRepository
+    let resolver = deps.ingredientCatalogResolver
+
+    return GroceryCaptureAnalyzer(
+      passes: .init(
+        photo: { cgImage in
+          let result = try await vision.scan(image: cgImage)
+          return (
+            detections: result.detections.map { detection in
+              GroceryDetectionInput(
+                ingredientId: detection.ingredientId,
+                label: detection.label,
+                confidence: detection.confidence,
+                count: 1,
+                alternatives: detection.alternatives.map {
+                  GroceryAlternative(id: $0.ingredientId, name: $0.label)
+                }
+              )
+            },
+            ocrText: result.ocrText
+          )
+        },
+        receipt: { cgImage in
+          try await vision.recognizeTextLines(image: cgImage)
+            .compactMap(\.candidates.first)
+        }
+      ),
+      glue: .init(
+        resolveLine: { text in
+          if let match = IngredientLexicon.resolveFromTextDetailed(text) {
+            let confidence =
+              match.kind == .exact
+              ? Double(ConfidenceRouter.Thresholds.ocrExactAuto)
+              : Double(ConfidenceRouter.Thresholds.ocrExactConfirmMin)
+            return (match.ingredientId, confidence)
+          }
+          if let id = IngredientIdentityResolution.resolveTextFromCatalog(
+            text,
+            catalogName: resolver.resolve,
+            catalogTokens: resolver.resolveFromText
+          ) {
+            return (id, Double(ConfidenceRouter.Thresholds.ocrFuzzyConfirmMin))
+          }
+          return nil
+        },
+        alternativesFor: { text in
+          let query =
+            GroceryIntakeNormalizer.displayTitle(text)
+            .components(separatedBy: CharacterSet.letters.inverted)
+            .filter { $0.count >= 3 }
+            .first ?? ""
+          guard !query.isEmpty else { return [] }
+          return repository.search(query: query, limit: 3)
+            .compactMap { ingredient in
+              guard let id = ingredient.id else { return nil }
+              return GroceryAlternative(id: id, name: ingredient.displayName)
+            }
+        },
+        displayName: { id in
+          resolver.displayName(for: id) ?? IngredientLexicon.displayName(for: id)
+        },
+        estimateUnitGrams: { id in
+          guard let ingredient = (try? repository.fetch(id: id)) ?? nil else { return nil }
+          return InventoryIntakeService.estimateGramsIfKnown(forName: ingredient.displayName)
+        },
+        estimateGramsForName: { name in
+          InventoryIntakeService.estimateGramsIfKnown(forName: name)
+        },
+        inferLocation: { id in
+          guard let ingredient = (try? repository.fetch(id: id)) ?? nil else { return .unknown }
+          return InventoryIntakeService.inferLocation(forName: ingredient.displayName)
+        }
+      )
+    )
+  }
+
+  // MARK: - Identity Correction
+
+  private func applyPickedIdentity(_ ingredient: Ingredient, to itemID: UUID) {
+    guard let id = ingredient.id,
+      let index = pendingItems.firstIndex(where: { $0.id == itemID })
+    else { return }
+
+    let estimatedGrams = InventoryIntakeService.estimateGramsIfKnown(
+      forName: ingredient.displayName)
+    let location = InventoryIntakeService.inferLocation(forName: ingredient.displayName)
+
+    pendingItems[index].replaceIdentity(
+      ingredientId: id,
+      name: ingredient.displayName,
+      estimatedGrams: estimatedGrams
+    )
+    if pendingItems[index].storageLocation == .unknown {
+      pendingItems[index].storageLocation = location
     }
   }
 
@@ -355,6 +652,10 @@ struct UpdateGroceriesView: View {
     successDismissTask = nil
     stageAppearanceTask?.cancel()
     stageAppearanceTask = nil
+    analysisTask?.cancel()
+    analysisTask = nil
+    commitTask?.cancel()
+    commitTask = nil
   }
 
   private func scheduleCameraLaunch() {
@@ -401,6 +702,9 @@ struct UpdateGroceriesView: View {
   }
 
   private func onIngredientPickerDismiss() {
+    // Single-pick (identity correction) resolves in applyPickedIdentity.
+    guard identityPickTarget == nil else { return }
+
     guard !selectedIngredientIDs.isEmpty else {
       if launchMode.isDirectEntry, pendingItems.isEmpty {
         dismiss()
@@ -411,19 +715,22 @@ struct UpdateGroceriesView: View {
     let ingredients = (try? deps.ingredientRepository.fetch(ids: selectedIngredientIDs)) ?? []
     let newItems = ingredients.compactMap { ingredient -> GroceryPendingItem? in
       guard let id = ingredient.id else { return nil }
+      let estimatedGrams = InventoryIntakeService.estimateGramsIfKnown(
+        forName: ingredient.displayName)
       return GroceryPendingItem(
         ingredientId: id,
         ingredientName: ingredient.displayName,
-        quantityGrams: InventoryIntakeService.estimateGrams(forName: ingredient.displayName),
+        quantityGrams: estimatedGrams,
         storageLocation: InventoryIntakeService.inferLocation(forName: ingredient.displayName),
         confidenceScore: 1.0,
         source: .manual,
-        isConfirmed: true
+        isConfirmed: true,
+        quantityProvenance: estimatedGrams.map { _ in .estimate }
       )
     }
 
-    let existingIDs = Set(pendingItems.map(\.ingredientId))
-    let uniqueNew = newItems.filter { !existingIDs.contains($0.ingredientId) }
+    let existingIDs = Set(pendingItems.compactMap(\.ingredientId))
+    let uniqueNew = newItems.filter { !existingIDs.contains($0.ingredientId ?? -1) }
     pendingItems.append(contentsOf: uniqueNew)
 
     withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -463,65 +770,47 @@ struct UpdateGroceriesView: View {
 
   private func commitGroceries() {
     let confirmed = pendingItems.filter(\.isConfirmed)
-    guard !confirmed.isEmpty else { return }
+    guard !confirmed.isEmpty, confirmed.allSatisfy(\.isResolvedForCommit) else { return }
+
+    if sessionRef == nil {
+      sessionRef = GroceryIntakeNormalizer.newSessionRef()
+    }
+    guard let sessionRef else { return }
 
     isCommitting = true
+    commitFailure = nil
 
-    Task {
+    commitTask = Task {
       let groceryItems = confirmed.map { item in
         InventoryIntakeService.GroceryIngestItem(
-          ingredientId: item.ingredientId,
-          quantityGrams: item.quantityGrams,
+          ingredientId: item.ingredientId!,
+          quantityGrams: item.quantityGrams!,
           storageLocation: item.storageLocation,
           confidenceScore: item.confidenceScore,
-          source: item.source
+          source: item.source,
+          quantityProvenance: item.quantityProvenance ?? .estimate
         )
       }
 
       do {
-        _ = try deps.inventoryIntakeService.ingestGroceryItems(
+        let summary = try deps.inventoryIntakeService.ingestGrocerySession(
           items: groceryItems,
-          sourceRef: "grocery_update_\(UUID().uuidString)"
+          sourceRef: sessionRef
         )
+
+        committedItems = confirmed
+        committedDuplicates = summary.skippedAsDuplicate
 
         withAnimation(reduceMotion ? nil : AppMotion.celebration) {
           showSuccess = true
         }
       } catch {
         logger.error("Failed to commit groceries: \(error.localizedDescription)")
-        isCommitting = false
+        commitFailure =
+          "Your kitchen wasn't updated — nothing was saved. Check your connection and try again."
       }
-    }
-  }
 
-  // MARK: - Demo Grocery Items
-
-  private func generateDemoGroceryItems() -> [GroceryPendingItem] {
-    let demoItems: [(id: Int64, confidence: Double)] = [
-      (3, 0.93),
-      (1, 0.96),
-      (15, 0.88),
-      (8, 0.82),
-      (9, 0.85),
-      (10, 0.79),
-      (7, 0.91),
-      (6, 0.94),
-    ]
-
-    return demoItems.map { item in
-      GroceryPendingItem(
-        ingredientId: item.id,
-        ingredientName: IngredientLexicon.displayName(for: item.id),
-        quantityGrams: InventoryIntakeService.estimateGrams(
-          forName: IngredientLexicon.displayName(for: item.id)
-        ),
-        storageLocation: InventoryIntakeService.inferLocation(
-          forName: IngredientLexicon.displayName(for: item.id)
-        ),
-        confidenceScore: item.confidence,
-        source: .scan,
-        isConfirmed: item.confidence >= 0.80
-      )
+      isCommitting = false
     }
   }
 }

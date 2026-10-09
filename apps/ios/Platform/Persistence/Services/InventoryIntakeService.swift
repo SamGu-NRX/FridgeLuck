@@ -143,7 +143,7 @@ final class InventoryIntakeService: Sendable {
           acquiredAt: acquiredAt,
           reason: "Scan-confirmed inventory intake",
           sourceRef: normalizedSourceRef,
-          quantityIsEstimate: true
+          quantityProvenance: .estimate
         )
         lotsAdded += 1
       }
@@ -183,58 +183,82 @@ final class InventoryIntakeService: Sendable {
     let storageLocation: InventoryStorageLocation
     let confidenceScore: Double
     let source: InventoryLotSource
+    /// How this amount was established. An estimate marks the lot so the Kitchen shows
+    /// "≈ N g est."; entered and measured amounts read plainly.
+    var quantityProvenance: QuantityProvenance = .estimate
   }
 
-  /// Explicit gram amounts (not scan-count estimation).
+  enum GroceryIntakeError: LocalizedError {
+    case invalidAmount(ingredientId: Int64)
+
+    var errorDescription: String? {
+      switch self {
+      case .invalidAmount(let ingredientId):
+        return "Grocery item \(ingredientId) needs a positive amount in grams."
+      }
+    }
+  }
+
+  /// Saves a grocery review session in one transaction: every confirmed item lands, or
+  /// nothing does.
+  ///
+  /// The review can be retried after a failure, and the UI can fire the commit twice (double
+  /// tap, reconnect), so the session reference does two jobs: it makes a retry re-run the
+  /// whole batch (the first attempt wrote nothing), and it makes a duplicate commit a no-op
+  /// instead of a second copy of the food. Amounts are stored exactly as confirmed — no
+  /// minimum floor; the 20 g floor this section used to apply turned a confirmed 10 g into
+  /// 20 g. Items without a positive gram amount are rejected rather than silently clamped.
   @discardableResult
-  func ingestGroceryItems(
+  func ingestGrocerySession(
     items: [GroceryIngestItem],
     sourceRef: String,
     acquiredAt: Date = Date()
   ) throws -> InventoryScanIngestionSummary {
     let normalizedSourceRef = sourceRef.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !normalizedSourceRef.isEmpty else {
+      throw IntakeError.missingSourceRef
+    }
+
+    for item in items where !(item.quantityGrams.isFinite && item.quantityGrams > 0) {
+      throw GroceryIntakeError.invalidAmount(ingredientId: item.ingredientId)
+    }
+
+    return try inventoryRepository.write { db in
+      if try inventoryRepository.hasEvent(
+        in: db, eventType: .add, sourceRef: normalizedSourceRef)
+      {
+        return InventoryScanIngestionSummary(
+          sourceRef: normalizedSourceRef,
+          ingredientCount: 0,
+          lotsAdded: 0,
+          skippedAsDuplicate: true
+        )
+      }
+
+      var lotsAdded = 0
+      for item in items {
+        try inventoryRepository.addLot(
+          in: db,
+          ingredientId: item.ingredientId,
+          quantityGrams: item.quantityGrams,
+          location: item.storageLocation,
+          confidenceScore: item.confidenceScore,
+          source: item.source,
+          acquiredAt: acquiredAt,
+          reason: "Grocery update intake",
+          sourceRef: normalizedSourceRef,
+          quantityProvenance: item.quantityProvenance
+        )
+        lotsAdded += 1
+      }
+
       return InventoryScanIngestionSummary(
-        sourceRef: sourceRef,
-        ingredientCount: 0,
-        lotsAdded: 0,
+        sourceRef: normalizedSourceRef,
+        ingredientCount: items.count,
+        lotsAdded: lotsAdded,
         skippedAsDuplicate: false
       )
     }
-
-    if try inventoryRepository.hasEvent(eventType: .add, sourceRef: normalizedSourceRef) {
-      return InventoryScanIngestionSummary(
-        sourceRef: normalizedSourceRef,
-        ingredientCount: 0,
-        lotsAdded: 0,
-        skippedAsDuplicate: true
-      )
-    }
-
-    var lotsAdded = 0
-    for item in items {
-      let safeQuantity = max(20, item.quantityGrams)
-      let safeConfidence = max(0.35, min(item.confidenceScore, 1.0))
-
-      _ = try inventoryRepository.addLot(
-        ingredientId: item.ingredientId,
-        quantityGrams: safeQuantity,
-        location: item.storageLocation,
-        confidenceScore: safeConfidence,
-        source: item.source,
-        acquiredAt: acquiredAt,
-        reason: "Grocery update intake",
-        sourceRef: normalizedSourceRef
-      )
-      lotsAdded += 1
-    }
-
-    return InventoryScanIngestionSummary(
-      sourceRef: normalizedSourceRef,
-      ingredientCount: items.count,
-      lotsAdded: lotsAdded,
-      skippedAsDuplicate: false
-    )
   }
 
   // MARK: - Location + Gram Estimation (shared)
@@ -286,7 +310,14 @@ final class InventoryIntakeService: Sendable {
   }
 
   private static func estimatedGrams(forName ingredientName: String?) -> Double {
-    guard let normalizedName = normalizeIngredientName(ingredientName) else { return 120 }
+    estimateGramsIfKnown(forName: ingredientName) ?? 120
+  }
+
+  /// The per-name estimate when a keyword table matches, or nil when nothing is known.
+  /// Grocery draft review uses this to leave truly unknown amounts to the user instead of
+  /// presenting the 120 g fallback as if it were knowledge.
+  static func estimateGramsIfKnown(forName ingredientName: String?) -> Double? {
+    guard let normalizedName = normalizeIngredientName(ingredientName) else { return nil }
 
     if normalizedName.contains("egg") { return 50 }
     if liquidMassKeywords.contains(where: normalizedName.contains) { return 240 }
@@ -298,7 +329,7 @@ final class InventoryIntakeService: Sendable {
     if breadKeywords.contains(where: normalizedName.contains) { return 60 }
     if produceKeywords.contains(where: normalizedName.contains) { return 120 }
 
-    return 120
+    return nil
   }
 
   private static func normalizeIngredientName(_ ingredientName: String?) -> String? {
