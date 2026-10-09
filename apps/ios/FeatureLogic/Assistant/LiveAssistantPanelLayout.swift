@@ -1,4 +1,12 @@
+// CoreGraphics exists on iOS/macOS; Linux supplies CGRect and CGFloat through
+// Foundation instead, so the import is guarded and the geometry types below
+// resolve from Foundation there.
+#if canImport(CoreGraphics)
 import CoreGraphics
+#else
+// Linux: Foundation supplies CGFloat and the rest of the geometry types.
+import Foundation
+#endif
 
 public enum LiveAssistantPanelDetent: CaseIterable {
   case peek
