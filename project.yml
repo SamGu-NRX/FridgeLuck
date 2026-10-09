@@ -68,6 +68,12 @@ targets:
       - path: apps/ios/Integration
       - path: apps/ios/Platform
       - path: apps/ios/Resources
+        excludes:
+          - "LegacyBundles"
+      # Shipped as a folder reference (blue folder) so the legacy pin corpus
+      # keeps its directory layout; the refresh loads it as one unit.
+      - path: apps/ios/Resources/LegacyBundles
+        type: folder
     dependencies:
       - target: FLFeatureLogic
       - package: GRDB

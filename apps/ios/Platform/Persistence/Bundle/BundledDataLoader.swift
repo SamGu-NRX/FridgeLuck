@@ -121,17 +121,20 @@ enum BundledDataLoader {
 
     try await appDB.dbQueue.write { db in
       for (idString, raw) in bundled.ingredients {
-        guard let id = Int64(idString) else { continue }
+        guard let id = Int64(idString), let bundleId = Int(idString) else { continue }
         try db.execute(
           sql: """
             INSERT INTO ingredients
                 (id, name, calories, protein, carbs, fat, fiber, sugar, sodium,
-                 typical_unit, storage_tip, description, category_label, sprite_group, sprite_key)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL)
+                 typical_unit, storage_tip, description, category_label, sprite_group, sprite_key,
+                 ownership_key, bundle_content_hash)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, ?, ?)
             """,
           arguments: [
             id, raw.name, raw.calories, raw.protein, raw.carbs, raw.fat,
             raw.fiber, raw.sugar, raw.sodium, raw.typicalUnit, raw.storageTip,
+            BundleOwnership.ingredientKey(bundleIngredientId: bundleId),
+            CanonicalHash.hash(fields: BundleRowProjection.dataJsonIngredientFields(raw)),
           ]
         )
       }
@@ -142,12 +145,15 @@ enum BundledDataLoader {
         try db.execute(
           sql: """
             INSERT INTO recipes
-                (id, title, time_minutes, servings, instructions, tags, source)
-            VALUES (?, ?, ?, ?, ?, ?, 'bundled')
+                (id, title, time_minutes, servings, instructions, tags, source,
+                 ownership_key, bundle_content_hash)
+            VALUES (?, ?, ?, ?, ?, ?, 'bundled', ?, ?)
             """,
           arguments: [
             raw.id, raw.title, raw.timeMinutes, raw.servings,
             raw.instructions, raw.tagBitmask,
+            BundleOwnership.recipeKey(bundleRecipeId: raw.id),
+            CanonicalHash.hash(fields: BundleRowProjection.recipeFields(raw)),
           ]
         )
 
@@ -267,14 +273,28 @@ enum BundledDataLoader {
           guard let titleKey = normalizedTitleKey(raw.title) else { continue }
           guard !existingTitleKeys.contains(titleKey) else { continue }
 
+          // The same bundle entry may already be owned by a row with a different
+          // title (an adopted row from a payload where the recipe was retitled).
+          // Ownership is unique; never stamp a second row with the same key.
+          let bundleKey = BundleOwnership.recipeKey(bundleRecipeId: raw.id)
+          let keyOwned: Int = try Int.fetchOne(
+            db,
+            sql: "SELECT COUNT(*) FROM recipes WHERE ownership_key = ?",
+            arguments: [bundleKey]
+          ) ?? 0
+          guard keyOwned == 0 else { continue }
+
           try db.execute(
             sql: """
               INSERT INTO recipes
-                  (title, time_minutes, servings, instructions, tags, source)
-              VALUES (?, ?, ?, ?, ?, 'bundled')
+                  (title, time_minutes, servings, instructions, tags, source,
+                   ownership_key, bundle_content_hash)
+              VALUES (?, ?, ?, ?, ?, 'bundled', ?, ?)
               """,
             arguments: [
               raw.title, raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask,
+              bundleKey,
+              CanonicalHash.hash(fields: BundleRowProjection.recipeFields(raw)),
             ]
           )
           let newRecipeId = db.lastInsertedRowID

@@ -79,19 +79,30 @@ extension BundledDataLoader {
         continue
       }
 
-      let existingRow = try Row.fetchOne(
+      // Repair only rows that no bundle entry owns and that hydration wrote
+      // (source = 'bundled'): a user-created or user-modified same-title recipe
+      // must never be reclassified as bundle content, and a row the refresh
+      // already owns is the refresher's to fix.
+      let bundleSourcedUnownedRow = try Row.fetchOne(
         db,
         sql: """
           SELECT id, time_minutes, servings, instructions
           FROM recipes
-          WHERE LOWER(TRIM(title)) = ?
+          WHERE LOWER(TRIM(title)) = ? AND ownership_key IS NULL AND source = 'bundled'
           ORDER BY id ASC
           LIMIT 1
           """,
         arguments: [key]
       )
 
-      if let existingRow {
+      let sameTitleCount =
+        try Int.fetchOne(
+          db,
+          sql: "SELECT COUNT(*) FROM recipes WHERE LOWER(TRIM(title)) = ?",
+          arguments: [key]
+        ) ?? 0
+
+      if let existingRow = bundleSourcedUnownedRow {
         let recipeID: Int64 = existingRow["id"]
         let ingredientCount =
           try Int.fetchOne(
@@ -103,21 +114,37 @@ extension BundledDataLoader {
         let servings: Int = existingRow["servings"]
         let instructions: String = existingRow["instructions"]
 
+        let bundleKey = BundleOwnership.recipeKey(bundleRecipeId: raw.id)
+        let keyTaken: Int = try Int.fetchOne(
+          db,
+          sql: "SELECT COUNT(*) FROM recipes WHERE ownership_key = ? AND id <> ?",
+          arguments: [bundleKey, recipeID]
+        ) ?? 0
+
         let needsRepair =
-          ingredientCount == 0
-          || timeMinutes <= 0
-          || servings <= 0
-          || instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+          keyTaken == 0
+          && (
+            ingredientCount == 0
+              || timeMinutes <= 0
+              || servings <= 0
+              || instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+          )
 
         guard needsRepair else { continue }
 
         try db.execute(
           sql: """
             UPDATE recipes
-            SET time_minutes = ?, servings = ?, instructions = ?, tags = ?, source = 'bundled'
+            SET time_minutes = ?, servings = ?, instructions = ?, tags = ?, source = 'bundled',
+                ownership_key = ?, bundle_content_hash = ?
             WHERE id = ?
             """,
-          arguments: [raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask, recipeID]
+          arguments: [
+            raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask,
+            bundleKey,
+            CanonicalHash.hash(fields: BundleRowProjection.recipeFields(raw)),
+            recipeID,
+          ]
         )
         try db.execute(
           sql: "DELETE FROM recipe_ingredients WHERE recipe_id = ?",
@@ -129,14 +156,20 @@ extension BundledDataLoader {
           bundledIngredients: bundledIngredients,
           into: db
         )
-      } else {
+      } else if sameTitleCount == 0 {
+        let bundleKey = BundleOwnership.recipeKey(bundleRecipeId: raw.id)
         try db.execute(
           sql: """
             INSERT INTO recipes
-                (title, time_minutes, servings, instructions, tags, source)
-            VALUES (?, ?, ?, ?, ?, 'bundled')
+                (title, time_minutes, servings, instructions, tags, source,
+                 ownership_key, bundle_content_hash)
+            VALUES (?, ?, ?, ?, ?, 'bundled', ?, ?)
             """,
-          arguments: [raw.title, raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask]
+          arguments: [
+            raw.title, raw.timeMinutes, raw.servings, raw.instructions, raw.tagBitmask,
+            bundleKey,
+            CanonicalHash.hash(fields: BundleRowProjection.recipeFields(raw)),
+          ]
         )
         let recipeID = db.lastInsertedRowID
         try insertRecipeIngredients(
@@ -146,6 +179,8 @@ extension BundledDataLoader {
           into: db
         )
       }
+      // else: the only same-title rows are user-owned, user-modified, or already
+      // bundle-owned; leave them alone and let the refresh reconcile the entry.
     }
   }
 

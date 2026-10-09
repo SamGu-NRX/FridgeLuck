@@ -19,6 +19,7 @@ extension BundledDataLoader {
           src,
           sql: """
             SELECT
+              id,
               name,
               calories,
               protein,
@@ -40,6 +41,7 @@ extension BundledDataLoader {
           src,
           sql: """
             SELECT
+              id,
               name,
               calories,
               protein,
@@ -98,6 +100,25 @@ extension BundledDataLoader {
           row["sprite_key"],
         ]
       )
+      // Stamp provenance only on rows this call actually inserted: an ignored
+      // insert means an existing row (data.json content or user-created) that
+      // must keep its own provenance. The source catalog's ingredient id is the
+      // USDA FDC id, so the key restores the identity the import used to drop.
+      if db.changesCount == 1, let fdcId: Int64 = row["id"] {
+        let insertedId = db.lastInsertedRowID
+        if let written = try Row.fetchOne(
+          db, sql: "SELECT * FROM ingredients WHERE id = ?", arguments: [insertedId])
+        {
+          try db.execute(
+            sql: "UPDATE ingredients SET ownership_key = ?, bundle_content_hash = ? WHERE id = ?",
+            arguments: [
+              BundleOwnership.usdaIngredientKey(fdcId: fdcId),
+              CanonicalHash.hash(
+                fields: BundleRowProjection.rowFields(written, projection: .catalogIngredient)),
+              insertedId,
+            ])
+        }
+      }
       if let name: String = row["name"],
         let id = try Int64.fetchOne(
           db, sql: "SELECT id FROM ingredients WHERE name = ?", arguments: [name])
