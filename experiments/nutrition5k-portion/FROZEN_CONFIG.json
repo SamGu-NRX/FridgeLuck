@@ -1,0 +1,112 @@
+{
+  "frozen_before_test_run": true,
+  "seed": 20261009,
+  "view_policy": "single calibrated overhead realsense frame (rgb.png; + depth_raw.png for the rgbd arm); side-angle videos unused",
+  "targets": {
+    "mass_g": {
+      "unit": "grams",
+      "plausible_range": [
+        0,
+        2000
+      ],
+      "fit_exclusions": "outside range"
+    },
+    "energy_kcal": {
+      "unit": "kcal",
+      "plausible_range": [
+        0,
+        5000
+      ],
+      "fit_exclusions": "outside range"
+    }
+  },
+  "arms": {
+    "median": {
+      "kind": "baseline",
+      "train_medians": {
+        "mass_g": 177.0,
+        "energy_kcal": 206.369995
+      }
+    },
+    "rgb": {
+      "features": "134 handcrafted RGB",
+      "candidates": [
+        "ridge",
+        "hgbr"
+      ]
+    },
+    "rgbd": {
+      "features": "134 RGB + 12 depth",
+      "candidates": [
+        "ridge",
+        "hgbr"
+      ],
+      "note": "fit and evaluated only where raw depth exists (official depth split)"
+    },
+    "foodlist": {
+      "features": "multi-hot of 196 train-vocab ingredient names + count + n_ingredients",
+      "candidates": [
+        "ridge",
+        "hgbr"
+      ],
+      "privileged": true,
+      "privileged_reason": "requires the ingredient list, which a meal photo does not contain"
+    }
+  },
+  "estimators": {
+    "ridge": {
+      "alphas_logspace": [
+        -2,
+        4,
+        13
+      ],
+      "cv": 5,
+      "imputer": "median",
+      "scaler": "standard"
+    },
+    "hgbr": {
+      "loss": "absolute_error",
+      "learning_rate": 0.05,
+      "max_iter": 400,
+      "max_leaf_nodes": 31,
+      "l2_regularization": 1.0,
+      "early_stopping": true,
+      "n_iter_no_change": 15,
+      "validation_fraction": 0.1,
+      "random_state": 20261009
+    }
+  },
+  "selection_rule": "per (family, target): lowest dev MAE; refit chosen estimator on train+dev",
+  "splits": {
+    "official": "rgb_train/rgb_test + depth_train/depth_test from the nutrition5k_dataset bucket",
+    "dev": "plate clusters carved from official rgb_train (seed 20261009); clusters straddling official splits excluded from dev"
+  },
+  "scoring": {
+    "nmae": "sum|err|/sum(y); NOT MAPE",
+    "rel_tols": [
+      0.1,
+      0.25,
+      0.5
+    ],
+    "mass_abs_tols_g": [
+      25,
+      50,
+      100
+    ],
+    "zero_targets": "kept in MAE/bias/nMAE; excluded from rel-err and coverage; counted",
+    "bootstrap": {
+      "type": "cluster (plate) level",
+      "B": 2000,
+      "seed": 20261009
+    }
+  },
+  "vision_endpoint": {
+    "model_default": "gemini-2.5-flash",
+    "budget_declared": {
+      "max_images": 250,
+      "spend_ceiling_usd": 2.0
+    },
+    "status": "NOT EXECUTED - no GEMINI_API_KEY / Vertex credentials in the environment",
+    "note": "reported separately from local arms when run"
+  }
+}

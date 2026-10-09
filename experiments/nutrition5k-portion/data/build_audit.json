@@ -1,0 +1,107 @@
+{
+  "rows": {
+    "cafe1": 4768,
+    "cafe2": 238
+  },
+  "format": {
+    "cafe1_prefix_len_seen": {
+      "6": 4768
+    },
+    "cafe1_chunk_pad_errors": 0,
+    "cafe2_prefix_len_seen": {
+      "6": 238
+    },
+    "cafe2_chunk_pad_errors": 0
+  },
+  "zero_targets": {
+    "mass_leq_zero": 0,
+    "calories_leq_zero": 240,
+    "examples_mass_zero": [],
+    "examples_cal_zero": [
+      "dish_1557861216",
+      "dish_1556575700",
+      "dish_1572974428",
+      "dish_1572464692",
+      "dish_1571931594",
+      "dish_1575478635",
+      "dish_1572887017",
+      "dish_1572984706",
+      "dish_1572453726",
+      "dish_1572540238"
+    ],
+    "mass_zero_in_test": []
+  },
+  "totals_vs_ingredients": {
+    "max_abs_mass_gap": 7935.0,
+    "max_abs_cal_gap": 7935.0
+  },
+  "split_integrity": {
+    "rgb_train": 4059,
+    "rgb_test": 709,
+    "depth_train": 2758,
+    "depth_test": 507,
+    "dishes_with_metadata_missing_from_rgb_split": [
+      "dish_1571931457",
+      "dish_1571931482",
+      "dish_1571931594",
+      "dish_1571931623",
+      "dish_1571931648",
+      "dish_1571931678",
+      "dish_1571931763",
+      "dish_1571931782",
+      "dish_1571931809",
+      "dish_1571932341",
+      "dish_1571932375",
+      "dish_1571932398",
+      "dish_1571932448",
+      "dish_1571934124",
+      "dish_1571934154",
+      "dish_1571934465",
+      "dish_1571934494",
+      "dish_1571935085",
+      "dish_1571935895",
+      "dish_1571944214"
+    ],
+    "count_metadata_missing_from_rgb_split": 238,
+    "rgb_split_ids_missing_metadata": 0,
+    "depth_test_subset_of_rgb_test": true,
+    "depth_train_subset_of_rgb_train": true,
+    "rgb_train_test_overlap": 0,
+    "clusters_straddling_official_split": 2
+  },
+  "dev_carve": {
+    "seed": 20261009,
+    "dev_fraction": 0.15,
+    "clusters_fully_inside_official_train": 3991,
+    "dev_plate_clusters": 599,
+    "dev_dishes": 607
+  },
+  "implausible_targets": {
+    "mass_outside_(0,2000g]": 6,
+    "calories_outside_(0,5000kcal]": 243,
+    "examples": [
+      "dish_1551138237",
+      "dish_1551232973",
+      "dish_1551381990",
+      "dish_1551389458",
+      "dish_1551567508",
+      "dish_1551567573",
+      "dish_1551567604",
+      "dish_1556575700",
+      "dish_1557861216",
+      "dish_1560974769"
+    ],
+    "policy": "flagged; excluded from model fitting; still evaluated in the official test set with a sensitivity breakdown"
+  },
+  "plate_clusters": {
+    "n_clusters": 4922,
+    "size_histogram": {
+      "1": 4851,
+      "2": 62,
+      "3": 7,
+      "4": 1,
+      "6": 1
+    },
+    "gap_seconds": 20
+  }
+}

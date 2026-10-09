@@ -1,0 +1,15 @@
+arm,estimator,target,fit_n,dev_mae,note
+median,constant,mass_g,2360,,fit on my-train median
+median,constant,energy_kcal,2359,,fit on my-train median
+rgb,ridge,mass_g,2360,73.14025555621585,
+rgb,hgbr,mass_g,2360,59.781693960461325,
+rgb,ridge,energy_kcal,2359,117.10072623076196,
+rgb,hgbr,energy_kcal,2359,90.3201347348477,
+rgbd,ridge,mass_g,2359,74.5454060572755,
+rgbd,hgbr,mass_g,2359,49.01357346214161,
+rgbd,ridge,energy_kcal,2358,113.72444507429974,
+rgbd,hgbr,energy_kcal,2358,81.89335694678965,
+foodlist,ridge,mass_g,2360,71.56435082766498,
+foodlist,hgbr,mass_g,2360,61.84213057251006,
+foodlist,ridge,energy_kcal,2359,91.35222585675751,
+foodlist,hgbr,energy_kcal,2359,83.89908438438064,

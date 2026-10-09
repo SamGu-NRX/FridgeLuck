@@ -1,0 +1,14 @@
+{
+  "python": "3.13.14",
+  "machine": "x86_64",
+  "cpu_count": 8,
+  "processor": "x86_64",
+  "numpy": "2.5.2",
+  "pillow": "12.3.0",
+  "per_image_feature_ms_single_thread": 55.1,
+  "n_rgb": 3262,
+  "n_rgb_and_depth": 3261,
+  "rgb_feature_dim": 134,
+  "depth_feature_dim": 12,
+  "nan_depth_fraction": 0.00030656039239730225
+}
