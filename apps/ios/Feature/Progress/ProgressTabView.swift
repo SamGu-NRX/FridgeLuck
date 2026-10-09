@@ -166,7 +166,7 @@ struct ProgressTabView: View {
         showReverseScan = true
       }
       .accessibilityLabel("Log a Meal")
-      .accessibilityHint("Double tap to photograph a meal and log it")
+      .accessibilityHint("Opens the camera to photograph a meal and log it.")
 
       if snapshot.hasOnboarded {
         FLSecondaryButton("Edit Profile", systemImage: "pencil") {
