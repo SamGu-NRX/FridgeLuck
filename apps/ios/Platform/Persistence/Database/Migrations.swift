@@ -528,6 +528,24 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V19: Grocery Amount Provenance
+
+    // "How much do we have?" and "how sure are we?" are different questions. A grocery update
+    // can carry a heuristic guess, a value the user set, or an explicit weight read from the
+    // package or receipt, and the Kitchen should treat those differently. This replaces the
+    // boolean estimate flag with a provenance (the flag stays in sync for existing readers).
+    migrator.registerMigration("v19_grocery_amount_provenance") { db in
+      try db.alter(table: "inventory_lots") { t in
+        t.add(column: "quantity_provenance", .text)
+      }
+      try db.execute(
+        sql: """
+          UPDATE inventory_lots SET quantity_provenance =
+            CASE WHEN quantity_is_estimate = 1 THEN 'estimate' ELSE 'entered' END
+          """
+      )
+    }
+
     if let target {
       try migrator.migrate(db, upTo: target)
     } else {

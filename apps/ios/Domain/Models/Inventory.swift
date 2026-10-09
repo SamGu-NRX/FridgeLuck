@@ -15,6 +15,20 @@ enum InventoryLotSource: String, Sendable, Codable, DatabaseValueConvertible {
   case system
 }
 
+/// How an inventory lot's stored amount was established. Confidence says how sure recognition
+/// was about the identity; provenance says how much the amount itself can be trusted. A
+/// heuristic guess the system invented, a value the user set by hand, and an explicit weight
+/// read from a package or receipt are three different things, so they stay distinguishable.
+enum QuantityProvenance: String, Sendable, Codable {
+  /// Heuristic guess (typical unit, per-name table). Shown as "est." in the Kitchen.
+  case estimate
+  /// A value the user typed or stepped to.
+  case entered
+  /// An explicit weight read from the source: package net weight, receipt line, or a value
+  /// the user read from the packaging and set with its unit.
+  case measured
+}
+
 enum InventoryEventType: String, Sendable, Codable, DatabaseValueConvertible {
   case add
   case consume
@@ -63,6 +77,9 @@ struct InventoryLot: Identifiable, Sendable, Codable {
   var expiresAt: Date?
   var createdAt: Date?
   var updatedAt: Date?
+  /// Where the stored amount came from: a heuristic guess, a value the user set, or an
+  /// explicit weight read from the package or receipt. Legacy rows predate the column.
+  var quantityProvenance: QuantityProvenance?
 
   enum CodingKeys: String, CodingKey {
     case id
@@ -76,6 +93,7 @@ struct InventoryLot: Identifiable, Sendable, Codable {
     case expiresAt = "expires_at"
     case createdAt = "created_at"
     case updatedAt = "updated_at"
+    case quantityProvenance = "quantity_provenance"
   }
 }
 
