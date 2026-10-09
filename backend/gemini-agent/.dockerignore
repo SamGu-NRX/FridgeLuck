@@ -1,5 +1,32 @@
+# Dependencies and build outputs — rebuilt inside the image, never shipped from context.
 node_modules
 dist
-.env
-.DS_Store
 coverage
+
+# Tests and evaluation fixtures/outputs — never runtime assets.
+# (tsconfig already excludes src/__tests__ from the production build; this keeps
+# them out of the build context entirely, including any future nested copies.)
+src/__tests__
+**/__tests__
+**/*.test.ts
+**/fixtures/
+**/eval/
+**/outputs/
+
+# Credentials and local environment files — secrets must never enter the build
+# context. dotenv reads only `.env` at runtime, and the image relies on runtime
+# env vars (Cloud Run), so nothing matching these patterns is a runtime asset.
+# This deliberately includes the *.example files too.
+.env*
+*.pem
+*.key
+*.p12
+*service-account*.json
+
+# Repo tooling and docs — not referenced by any COPY in the Dockerfile.
+# (cloudbuild.yaml is materialized by Cloud Build outside the docker context.)
+.git
+README.md
+PROOF_CHECKLIST.md
+cloudbuild.yaml
+scripts
