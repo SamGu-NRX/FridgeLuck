@@ -23,6 +23,11 @@ jobs:
       # Pinned so a change to the image's default Swift can't silently change the toolchain.
       image: swift:6.2.4-noble
     steps:
+      - name: Install SQLite development headers
+        # GRDB's GRDBSQLite C module needs sqlite3.h; the container ships the
+        # runtime library but not the headers. (Container runs as root.)
+        run: apt-get update && apt-get install -y --no-install-recommends libsqlite3-dev
+
       - name: Checkout
         uses: actions/checkout@v5
 
