@@ -43,7 +43,6 @@ struct FLPrimaryButton: View {
           Image(systemName: systemImage)
         }
         Text(title)
-          .lineLimit(1)
       }
       .font(.system(.headline, design: .serif, weight: .semibold))
       .frame(maxWidth: .infinity)
@@ -104,7 +103,6 @@ struct FLSecondaryButton: View {
           Image(systemName: systemImage)
         }
         Text(title)
-          .lineLimit(1)
       }
       .font(.system(.headline, design: .serif, weight: .medium))
       .frame(maxWidth: .infinity)
