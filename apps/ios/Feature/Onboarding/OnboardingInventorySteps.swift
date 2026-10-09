@@ -27,6 +27,7 @@ struct OnboardingVirtualFridgeIntroStep: View {
           Image(systemName: "refrigerator.fill")
             .font(.system(size: 48, weight: .semibold))
             .foregroundStyle(AppTheme.sage)
+            .accessibilityHidden(true)
         }
         .inventoryStagger(index: 0, appeared: appeared)
 
@@ -266,6 +267,7 @@ struct OnboardingKitchenReviewStep: View {
         isScanning = true
         resultsAppeared = false
       }
+      announceScanStart()
     }
 
     let vision = deps.visionService
@@ -317,6 +319,17 @@ struct OnboardingKitchenReviewStep: View {
     var message = AttributedString(
       OnboardingKitchenReview.announcement(for: state, selectedCount: selectedCount))
     message.accessibilitySpeechAnnouncementPriority = .high
+    AccessibilityNotification.Announcement(message).post()
+  }
+
+  /// A scan just started and the placeholder is about to replace what was on screen, so
+  /// VoiceOver's focus has nowhere to stay: anchor it on the heading and say what is being
+  /// read. Default priority, so the result announcement can interrupt it when the scan ends.
+  private func announceScanStart() {
+    isHeadingFocused = true
+    let message = AttributedString(
+      OnboardingKitchenReview.scanStartedAnnouncement(
+        fridgePhotos: fridgePhotos.count, pantryPhotos: pantryPhotos.count))
     AccessibilityNotification.Announcement(message).post()
   }
 
@@ -429,7 +442,8 @@ struct OnboardingKitchenReviewStep: View {
           Text("\(selectedCount) of \(shown.count) selected")
             .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
-            .contentTransition(.numericText())
+            .contentTransition(reduceMotion ? .identity : .numericText())
+            .accessibilityLiveRegion(.polite)
         }
         .padding(.top, AppTheme.Space.xs)
 
@@ -475,7 +489,6 @@ struct OnboardingKitchenReviewStep: View {
           Text(title)
             .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.textSecondary)
-            .accessibilityAddTraits(.isHeader)
           Spacer()
           if case .items(let detections, _) = content, !detections.isEmpty {
             Text(detections.count == 1 ? "1 item" : "\(detections.count) items")
@@ -483,6 +496,9 @@ struct OnboardingKitchenReviewStep: View {
               .foregroundStyle(AppTheme.textSecondary)
           }
         }
+        // One focus stop, so the rotor's header navigation reads the section with its count.
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isHeader)
         .inventoryStagger(index: staggerBase, appeared: resultsAppeared)
 
         switch content {
@@ -591,7 +607,8 @@ struct OnboardingKitchenReviewStep: View {
     .buttonStyle(FLPressableButtonStyle())
     .accessibilityElement(children: .ignore)
     .accessibilityLabel("\(detection.label), about \(estimatedGrams) grams")
-    .accessibilityValue("\(percentage) percent match, \(isConfirmed ? "selected" : "not selected")")
+    // The trait speaks "selected"; the value would say it twice.
+    .accessibilityValue("\(percentage) percent match")
     .accessibilityAddTraits(isConfirmed ? .isSelected : [])
     .accessibilityHint(isConfirmed ? "Removes it from what you add." : "Adds it to your Kitchen.")
     .inventoryStagger(index: staggerIndex, appeared: resultsAppeared)
@@ -608,11 +625,27 @@ struct OnboardingKitchenReviewStep: View {
 
   // MARK: - Photos
 
+  private struct PhotoStripItem: Identifiable {
+    let id: UUID
+    let image: UIImage
+    let label: String
+  }
+
+  /// The review's thumbnails, fridge photos first, each with the VoiceOver label naming its
+  /// place and slot; `photoStripLabels` caps the count the same way the strip shows them.
+  private var photoStripItems: [PhotoStripItem] {
+    let labels = OnboardingKitchenReview.photoStripLabels(
+      fridgeCount: fridgePhotos.count, pantryCount: pantryPhotos.count)
+    return zip(labels, (fridgePhotos + pantryPhotos).prefix(6)).map { label, photo in
+      PhotoStripItem(id: photo.id, image: photo.image, label: label)
+    }
+  }
+
   private var photoStrip: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: AppTheme.Space.xs) {
-        ForEach(Array((fridgePhotos + pantryPhotos).prefix(6))) { photo in
-          Image(uiImage: photo.image)
+        ForEach(photoStripItems) { item in
+          Image(uiImage: item.image)
             .resizable()
             .scaledToFill()
             .frame(width: 56, height: 56)
@@ -623,7 +656,7 @@ struct OnboardingKitchenReviewStep: View {
               RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
                 .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
             )
-            .accessibilityHidden(true)
+            .accessibilityLabel(item.label)
         }
       }
     }
