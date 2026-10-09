@@ -1,6 +1,7 @@
 import FLFeatureLogic
 import Foundation
 import XCTest
+import Testing
 
 @testable import FridgeLuck
 
@@ -141,6 +142,7 @@ final class ScanDiagnosticsTests: XCTestCase {
   func testOldScanRunRecordDecodesWithNoRequestFailures() throws {
     let record = makeRecord()
     let decoded = try JSONDecoder().decode(ScanRunRecord.self, from: legacyData(record))
+    XCTAssertEqual(decoded.outcome, .completed)
     XCTAssertEqual(decoded.passErrors, record.passErrors)
     XCTAssertTrue(decoded.requestFailures.isEmpty)
     XCTAssertEqual(decoded.classificationFailureCount, 0)
@@ -159,6 +161,7 @@ final class ScanDiagnosticsTests: XCTestCase {
       diagnostics: original, detections: [])
     let records = await ScanRunStore(fileURL: url).recent()
     let record = try XCTUnwrap(records.first)
+    XCTAssertEqual(record.outcome, .completed)
     XCTAssertEqual(record.requestFailures, original.requestFailures)
     XCTAssertTrue(record.passErrors.isEmpty)
     XCTAssertEqual(record.classificationFailureCount, 1)
@@ -190,6 +193,130 @@ final class ScanDiagnosticsTests: XCTestCase {
     let data = try JSONEncoder().encode(value)
     var json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
     json.removeValue(forKey: "requestFailures")
+    json.removeValue(forKey: "outcome")
     return try JSONSerialization.data(withJSONObject: json)
+  }
+}
+
+struct FailedScanRecordingTests {
+  private struct ScanError: LocalizedError {
+    var errorDescription: String? { "Test scan failed" }
+  }
+
+  private func pipelineError() -> VisionService.VisionServiceError {
+    let failures = [0, 1].flatMap { captureIndex in
+      ["full", "center"].flatMap { cropID in
+        ScanDiagnostics.requestFailures(
+          captureIndex: captureIndex, cropID: cropID,
+          classificationError: ScanError(), ocrError: ScanError())
+      }
+    }
+    return .pipelineFailed(
+      classificationError: ScanError(), ocrError: ScanError(),
+      passErrors: ["both requests failed"], requestFailures: failures)
+  }
+
+  @Test func legacyRecordWithoutOutcomeDecodesAsCompleted() throws {
+    let original = ScanRunRecord(
+      id: UUID(), createdAt: Date(), runMode: .live, inputSources: [.camera],
+      provenance: .realScan, captureCount: 1, cropCount: 1, elapsedMs: 17,
+      bucketCounts: .init(auto: 0, confirm: 0, possible: 0),
+      passErrors: ["old crop error"], detections: [],
+      requestFailures: pipelineError().requestFailures)
+    let data = try JSONEncoder().encode(original)
+    var json = try #require(JSONSerialization.jsonObject(with: data) as? [String: Any])
+    json.removeValue(forKey: "outcome")
+    let legacyData = try JSONSerialization.data(withJSONObject: json)
+    let decoded = try JSONDecoder().decode(ScanRunRecord.self, from: legacyData)
+    #expect(decoded.outcome == .completed)
+    #expect(decoded.requestFailures == original.requestFailures)
+    #expect(decoded.passErrors == original.passErrors)
+  }
+
+  @Test func pipelineFailureProducesRecordInputs() throws {
+    let error = pipelineError()
+    let inputs = try #require(ScanRunRecord.failureInputs(
+      error: error, captureCount: 2, elapsedMs: 123))
+    #expect(inputs.diagnostics.outcome == .failed(message: error.localizedDescription))
+    #expect(inputs.diagnostics.passErrors == error.passErrors)
+    #expect(inputs.diagnostics.requestFailures == error.requestFailures)
+    #expect(inputs.diagnostics.captureCount == 2)
+    #expect(inputs.diagnostics.cropCount == 4)
+    #expect(inputs.diagnostics.elapsedMs == 123)
+    #expect(inputs.diagnostics.topRawLabels.isEmpty)
+    #expect(inputs.diagnostics.ocrCandidates.isEmpty)
+    #expect(inputs.diagnostics.bucketCounts.auto == 0)
+    #expect(inputs.diagnostics.bucketCounts.confirm == 0)
+    #expect(inputs.diagnostics.bucketCounts.possible == 0)
+    #expect(inputs.detections.isEmpty)
+  }
+
+  @Test func cancellationProducesNoRecordInputs() {
+    #expect(ScanRunRecord.failureInputs(
+      error: CancellationError(), captureCount: 1, elapsedMs: 12) == nil)
+  }
+
+  @Test func otherErrorProducesFailedRecordWithoutRequestFailures() throws {
+    let inputs = try #require(ScanRunRecord.failureInputs(
+      error: ScanError(), captureCount: 1, elapsedMs: 17))
+    #expect(inputs.diagnostics.outcome == .failed(message: "Test scan failed"))
+    #expect(inputs.diagnostics.passErrors.isEmpty)
+    #expect(inputs.diagnostics.requestFailures.isEmpty)
+    #expect(inputs.diagnostics.cropCount == 0)
+    #expect(inputs.diagnostics.elapsedMs == 17)
+    #expect(inputs.detections.isEmpty)
+  }
+
+  @Test @MainActor func dependencyRecordsFailureAcrossStoreReload() async throws {
+    let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: directory) }
+    let url = directory.appendingPathComponent("runs.json")
+    let store = ScanRunStore(fileURL: url)
+    let dependencies = ScanView.Dependencies(
+      loadDemoPayload: { _ in fatalError("This test must not load demo data") },
+      scanInputs: { _ in fatalError("This test must not run Vision") },
+      recordRun: { mode, sources, provenance, diagnostics, detections in
+        await store.record(
+          mode: mode, inputSources: sources, provenance: provenance,
+          diagnostics: diagnostics, detections: detections)
+      })
+    let error = pipelineError()
+    await dependencies.recordFailedRun(
+      error: error, mode: .live, inputSources: [.camera, .photoLibrary],
+      provenance: .realScan, elapsedMs: 123)
+    let records = await ScanRunStore(fileURL: url).recent()
+    #expect(records.count == 1)
+    let record = try #require(records.first)
+    #expect(record.outcome == .failed(message: error.localizedDescription))
+    #expect(record.passErrors == error.passErrors)
+    #expect(record.requestFailures == error.requestFailures)
+    #expect(record.classificationFailureCount == 4)
+    #expect(record.ocrFailureCount == 4)
+    #expect(record.runMode == .live)
+    #expect(record.inputSources == [.camera, .photoLibrary])
+    #expect(record.provenance == .realScan)
+    #expect(record.captureCount == 2)
+    #expect(record.cropCount == 4)
+    #expect(record.elapsedMs == 123)
+    #expect(record.detections.isEmpty)
+    #expect(record.bucketCounts.auto == 0)
+    #expect(record.bucketCounts.confirm == 0)
+    #expect(record.bucketCounts.possible == 0)
+
+    await dependencies.recordFailedRun(
+      error: CancellationError(), mode: .live, inputSources: [.camera],
+      provenance: .realScan, elapsedMs: 10)
+    #expect(await ScanRunStore(fileURL: url).recent().count == 1)
+
+    await dependencies.recordFailedRun(
+      error: ScanError(), mode: .live, inputSources: [.camera],
+      provenance: .realScan, elapsedMs: 17)
+    let reloaded = await ScanRunStore(fileURL: url).recent()
+    #expect(reloaded.count == 2)
+    let genericFailure = try #require(reloaded.first)
+    #expect(genericFailure.outcome == .failed(message: "Test scan failed"))
+    #expect(genericFailure.requestFailures.isEmpty)
+    #expect(genericFailure.detections.isEmpty)
   }
 }

@@ -70,6 +70,12 @@ struct ScanRunReportSheet: View {
                 .font(AppTheme.Typography.labelSmall)
                 .foregroundStyle(AppTheme.textSecondary)
 
+                if case .failed(let message) = run.outcome {
+                  Text("Scan failed: \(message)")
+                    .font(AppTheme.Typography.labelSmall)
+                    .foregroundStyle(AppTheme.accent)
+                }
+
                 if !run.passErrors.isEmpty {
                   Text("Pass errors: \(run.passErrors.count)")
                     .font(AppTheme.Typography.labelSmall)
