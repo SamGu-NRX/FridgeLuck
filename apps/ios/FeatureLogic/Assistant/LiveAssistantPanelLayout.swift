@@ -1,4 +1,11 @@
-import CoreGraphics
+// CGFloat and CoreGraphics exist only on Apple platforms; the package builds this target on
+// Linux for lightweight tooling (see Package.swift), where CGFloat falls back to Double (its
+// 64-bit underlying type). Apple builds are unchanged.
+#if canImport(CoreGraphics)
+  import CoreGraphics
+#else
+  public typealias CGFloat = Double
+#endif
 
 public enum LiveAssistantPanelDetent: CaseIterable {
   case peek
