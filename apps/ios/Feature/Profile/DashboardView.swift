@@ -123,7 +123,7 @@ struct DashboardView: View {
           showReverseScan = true
         }
         .accessibilityLabel("Log a Meal")
-        .accessibilityHint("Double tap to photograph a meal and log it")
+        .accessibilityHint("Opens the camera to photograph a meal and log it.")
         .flPagePadding()
         .padding(.bottom, AppTheme.Space.md)
 
