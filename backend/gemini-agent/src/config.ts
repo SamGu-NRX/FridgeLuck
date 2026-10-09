@@ -48,6 +48,90 @@ function asSessionStoreMode(value: string | undefined): SessionStoreMode {
   }
 }
 
+/** Echoes an offending env value in error text, capped so a stray large value cannot bloat logs. */
+function describeEnvValue(value: string): string {
+  const capped = value.length > 60 ? `${value.slice(0, 57)}...` : value;
+  return JSON.stringify(capped);
+}
+
+/**
+ * Validates that a numeric env var is neither empty/whitespace-only nor
+ * non-numeric or non-finite, then returns the parsed value. Range and
+ * integrality checks stay with the named wrappers below.
+ */
+function requireFiniteEnvNumber(name: string, requirement: string, value: string): number {
+  const trimmed = value.trim();
+  if (trimmed === "") {
+    throw new Error(
+      `${name} must be ${requirement}, but its value is empty or whitespace-only.`
+    );
+  }
+  const parsed = Number(trimmed);
+  if (Number.isNaN(parsed)) {
+    throw new Error(
+      `${name} must be ${requirement}, but ${describeEnvValue(value)} is not a number.`
+    );
+  }
+  if (!Number.isFinite(parsed)) {
+    throw new Error(
+      `${name} must be ${requirement}, but ${describeEnvValue(value)} is not finite.`
+    );
+  }
+  return parsed;
+}
+
+/** PORT: integer 1..65535 (unset -> 8080). */
+function parsePortEnv(value: string | undefined): number {
+  if (value === undefined) return 8080;
+  const requirement = "an integer between 1 and 65535";
+  const parsed = requireFiniteEnvNumber("PORT", requirement, value);
+  if (!Number.isInteger(parsed)) {
+    throw new Error(
+      `PORT must be ${requirement}, but ${describeEnvValue(value)} is not an integer.`
+    );
+  }
+  if (parsed < 1 || parsed > 65535) {
+    throw new Error(
+      `PORT must be ${requirement}, but ${describeEnvValue(value)} is out of range.`
+    );
+  }
+  return parsed;
+}
+
+/** Positive safe integer (no arbitrary upper cap). */
+function parsePositiveSafeIntegerEnv(
+  name: string,
+  value: string | undefined,
+  fallback: number
+): number {
+  if (value === undefined) return fallback;
+  const requirement = "a positive safe integer";
+  const parsed = requireFiniteEnvNumber(name, requirement, value);
+  if (!Number.isSafeInteger(parsed) || parsed < 1) {
+    throw new Error(
+      `${name} must be ${requirement}, but ${describeEnvValue(value)} is not a positive safe integer.`
+    );
+  }
+  return parsed;
+}
+
+/** Finite non-negative measurement; fractions allowed (e.g. 2.5 days, 0.75 grams). */
+function parseNonNegativeEnvNumber(
+  name: string,
+  value: string | undefined,
+  fallback: number
+): number {
+  if (value === undefined) return fallback;
+  const requirement = "a finite non-negative number";
+  const parsed = requireFiniteEnvNumber(name, requirement, value);
+  if (parsed < 0) {
+    throw new Error(
+      `${name} must be ${requirement}, but ${describeEnvValue(value)} is negative.`
+    );
+  }
+  return parsed;
+}
+
 export function assertSupportedLiveModel(model: string): string {
   const normalized = model.trim();
   if (!normalized) {
@@ -65,10 +149,8 @@ export function assertSupportedLiveModel(model: string): string {
 
 export function loadConfig(): AppConfig {
   const useVertexAi = asBool(process.env.GOOGLE_GENAI_USE_VERTEXAI);
-  const port = Number(process.env.PORT ?? "8080");
-
   const config: AppConfig = {
-    port,
+    port: parsePortEnv(process.env.PORT),
     useVertexAi,
     projectId: process.env.GOOGLE_CLOUD_PROJECT,
     location: process.env.GOOGLE_CLOUD_LOCATION ?? "us-central1",
@@ -78,9 +160,21 @@ export function loadConfig(): AppConfig {
     liveModel: assertSupportedLiveModel(
       process.env.GEMINI_LIVE_MODEL ?? "gemini-2.5-flash-native-audio-preview-12-2025"
     ),
-    restockThresholdDays: Number(process.env.RESTOCK_THRESHOLD_DAYS ?? "3"),
-    idempotencyTtlSeconds: Number(process.env.IDEMPOTENCY_TTL_SECONDS ?? "3600"),
-    restockBelowGrams: Number(process.env.RESTOCK_BELOW_GRAMS ?? "50"),
+    restockThresholdDays: parseNonNegativeEnvNumber(
+      "RESTOCK_THRESHOLD_DAYS",
+      process.env.RESTOCK_THRESHOLD_DAYS,
+      3
+    ),
+    idempotencyTtlSeconds: parsePositiveSafeIntegerEnv(
+      "IDEMPOTENCY_TTL_SECONDS",
+      process.env.IDEMPOTENCY_TTL_SECONDS,
+      3600
+    ),
+    restockBelowGrams: parseNonNegativeEnvNumber(
+      "RESTOCK_BELOW_GRAMS",
+      process.env.RESTOCK_BELOW_GRAMS,
+      50
+    ),
     firestoreEmulator: process.env.FIRESTORE_EMULATOR_HOST,
     sessionStoreMode: asSessionStoreMode(process.env.LIVE_SESSION_STORE_MODE),
     firestoreCollection: process.env.FIRESTORE_COLLECTION ?? "liveSessions",
