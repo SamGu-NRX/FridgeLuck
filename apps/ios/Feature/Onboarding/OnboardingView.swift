@@ -66,6 +66,14 @@ struct OnboardingView: View {
   @State private var dailyCalories: Int = HealthGoal.general.suggestedCalories
   @State private var selectedDiet: String = "classic"
   @State private var selectedAllergens: Set<Int64> = []
+  // Explicit allergen group selection — persisted as-is, never derived from
+  // selectedAllergens. `confirmedNoAllergenGroups` records an explicit "no groups"
+  // choice so an untouched step is never silently read as "no allergies".
+  @State private var selectedAllergenGroups: Set<String> = []
+  @State private var confirmedNoAllergenGroups = false
+  // Preferences version as loaded from the stored profile; below
+  // AllergenExclusions.currentPreferencesVersion means the groups need reconfirmation.
+  @State private var loadedAllergenPreferencesVersion = 0
   @State private var allergenCatalog: AllergenCatalogIndex = .empty
 
   @State private var stepIndex = 0
@@ -134,6 +142,14 @@ struct OnboardingView: View {
 
   private var selectedAllergenIngredients: [Ingredient] {
     allergenCatalog.selectedIngredients(from: selectedAllergens)
+  }
+
+  /// True when the stored profile predates explicit group confirmation, so the
+  /// allergens step shows the reconfirmation path instead of treating the loaded state
+  /// as settled.
+  private var needsAllergenGroupReconfirmation: Bool {
+    AllergenExclusions.needsGroupConfirmation(
+      preferencesVersion: loadedAllergenPreferencesVersion)
   }
 
   private var normalizedName: String {
@@ -311,10 +327,13 @@ struct OnboardingView: View {
         case .allergens:
           OnboardingAllergenStep(
             isCatalogReady: isAllergenCatalogLoaded,
-            allergenGroupMatchesByID: allergenCatalog.groupMatchesByID,
             selectedAllergens: selectedAllergens,
             selectedAllergenIngredients: selectedAllergenIngredients,
+            selectedGroups: selectedAllergenGroups,
+            confirmedNoGroups: confirmedNoAllergenGroups,
+            needsGroupConfirmation: needsAllergenGroupReconfirmation,
             onToggleGroup: toggleAllergenGroup,
+            onConfirmNoGroups: confirmNoAllergenGroups,
             onOpenPicker: { showAllergenPicker = true }
           )
 
@@ -473,6 +492,13 @@ struct OnboardingView: View {
     case .handoff:
       completeFlow()
 
+    case .allergens:
+      if !validateAllergenConfirmation() {
+        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        return
+      }
+      setStep(stepIndex + 1, direction: .forward)
+
     default:
       setStep(stepIndex + 1, direction: .forward)
     }
@@ -589,17 +615,42 @@ struct OnboardingView: View {
   }
 
   private func toggleAllergenGroup(_ group: AllergenGroupDefinition) {
-    let ids = allergenCatalog.groupMatchesByID[group.id] ?? []
-    guard !ids.isEmpty else { return }
-
     withAnimation(reduceMotion ? nil : AppMotion.chipReflow) {
-      let selectedCount = selectedAllergens.intersection(ids).count
-      if selectedCount == ids.count {
-        selectedAllergens.subtract(ids)
+      // Explicit selection: the group identifier itself is the record of intent. This
+      // never touches selectedAllergens (individual exclusions) and never derives
+      // groups from keyword-matched ingredient IDs.
+      if selectedAllergenGroups.contains(group.id) {
+        selectedAllergenGroups.remove(group.id)
       } else {
-        selectedAllergens.formUnion(ids)
+        selectedAllergenGroups.insert(group.id)
+        confirmedNoAllergenGroups = false
       }
     }
+  }
+
+  private func confirmNoAllergenGroups() {
+    withAnimation(reduceMotion ? nil : AppMotion.chipReflow) {
+      selectedAllergenGroups = []
+      confirmedNoAllergenGroups = true
+    }
+  }
+
+  /// Completing the allergens step requires an explicit choice: at least one group
+  /// selected, or "no allergen groups" confirmed. Silence is never read as
+  /// "no allergies" — for new profiles and for reconfirmation alike.
+  private func validateAllergenConfirmation() -> Bool {
+    guard selectedAllergenGroups.isEmpty else {
+      validationMessage = nil
+      return true
+    }
+    guard !confirmedNoAllergenGroups else {
+      validationMessage = nil
+      return true
+    }
+
+    validationMessage =
+      "Choose the allergen groups to avoid, or confirm you have none to flag."
+    return false
   }
 
   // MARK: - Data Loading
@@ -623,6 +674,12 @@ struct OnboardingView: View {
       dailyCalories = profile.dailyCalories ?? profile.goal.suggestedCalories
       selectedDiet = profile.selectedDietID ?? "classic"
       selectedAllergens = Set(profile.parsedAllergenIds)
+      selectedAllergenGroups = profile.parsedAllergenSelectedGroups
+      loadedAllergenPreferencesVersion = profile.allergenPreferencesVersion
+      // A loaded profile whose groups were explicitly confirmed ("none" included)
+      // starts with that confirmation already recorded; anything else reconfirms.
+      confirmedNoAllergenGroups =
+        selectedAllergenGroups.isEmpty && !profile.allergenNeedsGroupConfirmation
     } catch {
       errorMessage = error.localizedDescription
     }
@@ -775,6 +832,11 @@ struct OnboardingView: View {
     let allergensJSON = try encodeJSON(selectedAllergens)
     let split = selectedGoal.defaultMacroSplit
 
+    // Explicit group intent and the confirmation version are persisted alongside the
+    // individual exclusions; the group list is never derived from ingredient IDs.
+    let selectedGroups = Array(selectedAllergenGroups).sorted()
+    let groupsJSON = try encodeJSON(selectedGroups)
+
     let profile = HealthProfile(
       displayName: selectedName,
       age: selectedAge,
@@ -784,7 +846,9 @@ struct OnboardingView: View {
       carbsPct: split.carbs,
       fatPct: split.fat,
       dietaryRestrictions: restrictionsJSON,
-      allergenIngredientIds: allergensJSON
+      allergenIngredientIds: allergensJSON,
+      allergenSelectedGroups: groupsJSON,
+      allergenPreferencesVersion: AllergenExclusions.currentPreferencesVersion
     )
 
     try await Task.detached(priority: .userInitiated) {

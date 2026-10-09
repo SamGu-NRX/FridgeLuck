@@ -1209,10 +1209,18 @@ struct OnboardingFeatureChefStep: View {
 
 struct OnboardingAllergenStep: View {
   let isCatalogReady: Bool
-  let allergenGroupMatchesByID: [String: Set<Int64>]
   let selectedAllergens: Set<Int64>
   let selectedAllergenIngredients: [Ingredient]
+  /// Explicitly selected allergen group identifiers — the single source of chip state.
+  /// Never derived from `selectedAllergens`.
+  let selectedGroups: Set<String>
+  /// True once the user has explicitly confirmed they have no allergen groups to flag.
+  let confirmedNoGroups: Bool
+  /// True when the loaded profile predates explicit group confirmation (legacy
+  /// profiles), so the step shows the reconfirmation notice.
+  let needsGroupConfirmation: Bool
   let onToggleGroup: (AllergenGroupDefinition) -> Void
+  let onConfirmNoGroups: () -> Void
   let onOpenPicker: () -> Void
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Namespace private var selectedAllergenChipNamespace
@@ -1242,6 +1250,29 @@ struct OnboardingAllergenStep: View {
         }
         .modifier(StaggerIn(index: 0, appeared: appeared))
 
+        if needsGroupConfirmation {
+          VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+            Label("Please reconfirm your allergen groups", systemImage: "arrow.triangle.2.circlepath")
+              .font(AppTheme.Typography.label)
+              .foregroundStyle(AppTheme.accent)
+            Text(
+              "We updated how allergen preferences are saved. Your individually flagged "
+                + "ingredients are kept — please confirm your groups below so your "
+                + "exclusions are complete."
+            )
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+          }
+          .padding(AppTheme.Space.sm)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .background(AppTheme.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous))
+          .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+              .stroke(AppTheme.accent.opacity(0.3), lineWidth: 1)
+          )
+          .modifier(StaggerIn(index: 0, appeared: appeared))
+        }
+
         if isCatalogReady {
           LazyVGrid(
             columns: [
@@ -1255,6 +1286,33 @@ struct OnboardingAllergenStep: View {
             }
           }
           .modifier(StaggerIn(index: 1, appeared: appeared))
+
+          Button(action: onConfirmNoGroups) {
+            HStack(spacing: AppTheme.Space.xxs) {
+              Image(
+                systemName: confirmedNoGroups
+                  ? "checkmark.circle.fill" : "circle")
+              Text("I have no allergen groups to flag")
+                .font(AppTheme.Typography.label)
+            }
+            .foregroundStyle(confirmedNoGroups ? AppTheme.sage : AppTheme.textSecondary)
+            .padding(.horizontal, AppTheme.Space.sm)
+            .padding(.vertical, AppTheme.Space.chipVertical)
+            .background(
+              confirmedNoGroups ? AppTheme.sage.opacity(0.12) : AppTheme.surface,
+              in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+            )
+            .overlay(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                .stroke(
+                  confirmedNoGroups ? AppTheme.sage : AppTheme.oat.opacity(0.25), lineWidth: 1)
+            )
+            .contentShape(Rectangle())
+          }
+          .buttonStyle(.plain)
+          .accessibilityHint(
+            "Records that you have no allergen groups to avoid. You can still flag "
+              + "individual ingredients.")
 
           Button(action: onOpenPicker) {
             Label("Refine Specific Ingredients", systemImage: "magnifyingglass")
@@ -1290,16 +1348,21 @@ struct OnboardingAllergenStep: View {
               .kerning(1.2)
           }
 
-          Text("\(selectedAllergens.count) selected")
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.textSecondary)
+          Text(
+            confirmedNoGroups
+              ? "No allergen groups flagged."
+              : "\(selectedGroups.count) group\(selectedGroups.count == 1 ? "" : "s"), "
+                + "\(selectedAllergens.count) ingredient\(selectedAllergens.count == 1 ? "" : "s")"
+          )
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
 
           if !isCatalogReady {
             Text("Preparing your ingredient list…")
               .font(AppTheme.Typography.bodyMedium)
               .foregroundStyle(AppTheme.textSecondary)
-          } else if selectedAllergenIngredients.isEmpty {
-            Text("No allergens selected yet.")
+          } else if selectedAllergenIngredients.isEmpty && selectedGroups.isEmpty {
+            Text("Nothing flagged yet.")
               .font(AppTheme.Typography.bodyMedium)
               .foregroundStyle(AppTheme.textSecondary)
           } else {
@@ -1336,11 +1399,9 @@ struct OnboardingAllergenStep: View {
   }
 
   private func allergenGroupChip(_ group: AllergenGroupDefinition) -> some View {
-    let matchedIDs = allergenGroupMatchesByID[group.id] ?? []
-    let selectedCount = selectedAllergens.intersection(matchedIDs).count
-    let isFullySelected = !matchedIDs.isEmpty && selectedCount == matchedIDs.count
-    let isPartiallySelected = selectedCount > 0 && !isFullySelected
-    let isSelected = isFullySelected || isPartiallySelected
+    // Selection is the explicit group identifier, full stop. It is never inferred from
+    // keyword-matched ingredient IDs.
+    let isSelected = selectedGroups.contains(group.id)
 
     return Button {
       onToggleGroup(group)
@@ -1352,7 +1413,7 @@ struct OnboardingAllergenStep: View {
             .font(AppTheme.Typography.label)
             .lineLimit(1)
             .foregroundStyle(AppTheme.textPrimary)
-          Text(isSelected ? "\(selectedCount) selected" : group.subtitle)
+          Text(group.subtitle)
             .font(AppTheme.Typography.labelSmall)
             .lineLimit(2)
             .multilineTextAlignment(.leading)
@@ -1361,9 +1422,7 @@ struct OnboardingAllergenStep: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(minHeight: 34, alignment: .topLeading)
         Spacer(minLength: 0)
-        Image(
-          systemName: isFullySelected
-            ? "checkmark.circle.fill" : (isPartiallySelected ? "minus.circle.fill" : "circle"))
+        Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
       }
       .padding(.horizontal, AppTheme.Space.sm)
       .padding(.vertical, AppTheme.Space.sm)
@@ -1381,11 +1440,10 @@ struct OnboardingAllergenStep: View {
         RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
           .stroke(isSelected ? AppTheme.accent : AppTheme.oat.opacity(0.25), lineWidth: 1)
       )
-      .opacity(matchedIDs.isEmpty ? 0.75 : 1)
       .contentShape(Rectangle())
     }
     .buttonStyle(.plain)
-    .disabled(matchedIDs.isEmpty)
+    .accessibilityAddTraits(isSelected ? [.isSelected] : [])
   }
 }
 

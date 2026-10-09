@@ -11,6 +11,8 @@ struct ProfileView: View {
   @State private var totalRecipes: Int = 0
   @State private var streak: Int = 0
   @State private var allergenIngredients: [Ingredient] = []
+  @State private var selectedAllergenGroups: Set<String> = []
+  @State private var needsAllergenGroupConfirmation = false
   @State private var showEditProfile = false
 
   var body: some View {
@@ -218,22 +220,52 @@ struct ProfileView: View {
         .foregroundStyle(AppTheme.textSecondary)
         .kerning(1.5)
 
-      if allergenIngredients.isEmpty {
-        Text("No allergens flagged.")
+      if needsAllergenGroupConfirmation {
+        // Legacy profile: its exclusions were never explicitly confirmed, so they are
+        // not presented as complete.
+        Label(
+          "Allergen groups need confirmation. Review them in Food Preferences.",
+          systemImage: "exclamationmark.triangle"
+        )
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(AppTheme.accent)
+      } else if selectedAllergenGroups.isEmpty && allergenIngredients.isEmpty {
+        Text("No allergen groups flagged.")
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
       } else {
-        FlowLayout(spacing: AppTheme.Space.xs) {
-          ForEach(Array(allergenIngredients.prefix(30)), id: \.id) { ingredient in
-            Text(ingredient.displayName)
-              .font(AppTheme.Typography.bodySmall)
-              .padding(.horizontal, AppTheme.Space.sm)
-              .padding(.vertical, AppTheme.Space.chipVertical)
-              .foregroundStyle(AppTheme.accent)
-              .background(
-                FLOrganicBlob(seed: ingredient.displayName.hashValue)
-                  .fill(AppTheme.accent.opacity(0.10))
-              )
+        if !selectedAllergenGroups.isEmpty {
+          FlowLayout(spacing: AppTheme.Space.xs) {
+            ForEach(
+              AllergenSupport.groups.filter { selectedAllergenGroups.contains($0.id) },
+              id: \.id
+            ) { group in
+              Text(group.title)
+                .font(AppTheme.Typography.bodySmall)
+                .padding(.horizontal, AppTheme.Space.sm)
+                .padding(.vertical, AppTheme.Space.chipVertical)
+                .foregroundStyle(AppTheme.sage)
+                .background(
+                  FLOrganicBlob(seed: group.title.hashValue)
+                    .fill(AppTheme.sage.opacity(0.12))
+                )
+            }
+          }
+        }
+
+        if !allergenIngredients.isEmpty {
+          FlowLayout(spacing: AppTheme.Space.xs) {
+            ForEach(Array(allergenIngredients.prefix(30)), id: \.id) { ingredient in
+              Text(ingredient.displayName)
+                .font(AppTheme.Typography.bodySmall)
+                .padding(.horizontal, AppTheme.Space.sm)
+                .padding(.vertical, AppTheme.Space.chipVertical)
+                .foregroundStyle(AppTheme.accent)
+                .background(
+                  FLOrganicBlob(seed: ingredient.displayName.hashValue)
+                    .fill(AppTheme.accent.opacity(0.10))
+                )
+            }
           }
         }
       }
@@ -297,6 +329,8 @@ struct ProfileView: View {
       streak = calculateStreak(from: days)
 
       let allIngredients = (try? deps.ingredientRepository.fetchAll()) ?? []
+      selectedAllergenGroups = profile.parsedAllergenSelectedGroups
+      needsAllergenGroupConfirmation = profile.allergenNeedsGroupConfirmation
       let allergenIds = Set(profile.parsedAllergenIds)
       allergenIngredients = allIngredients.filter { ingredient in
         guard let id = ingredient.id else { return false }
