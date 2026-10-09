@@ -110,7 +110,7 @@ enum AppTheme {
   )
   static let sageLight = dynamic(
     light: RGB(red: 0.72, green: 0.78, blue: 0.68),  // #B8C7AD
-    dark: RGB(red: 0.44, green: 0.54, blue: 0.41)  // #708A68
+    dark: RGB(red: 0.71, green: 0.78, blue: 0.67)  // #B5C6AA
   )
 
   // MARK: Warm neutrals
