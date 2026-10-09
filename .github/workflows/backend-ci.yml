@@ -64,7 +64,8 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Setup uv
-        uses: astral-sh/setup-uv@v10
+        # setup-uv publishes only exact version tags (no floating major tag).
+        uses: astral-sh/setup-uv@v10.2.0
 
       - name: Sync dependencies (locked lockfile)
         run: uv sync --locked
