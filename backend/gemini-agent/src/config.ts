@@ -8,6 +8,13 @@ export interface AppConfig {
   projectId?: string;
   location?: string;
   apiKey?: string;
+  /**
+   * True when model credentials are complete for the chosen mode. When
+   * false the server boots into a degraded, fail-safe mode: paid-model
+   * routes and the live gateway answer with stable unavailable codes while
+   * free routes and webhooks keep working.
+   */
+  genaiConfigured: boolean;
   recipeModel: string;
   rankingModel: string;
   liveModel: string;
@@ -15,6 +22,27 @@ export interface AppConfig {
   restockThresholdDays: number;
   /** Seconds before an idempotency key expires and the same key can re-apply (default: 3600) */
   idempotencyTtlSeconds: number;
+  /**
+   * Lifetime of a pending inventory-mutation proposal, in seconds
+   * (default: 300). Unapproved proposals expire; the model may re-propose.
+   */
+  mutationProposalTtlSeconds: number;
+  /**
+   * Maximum concurrent live gateway sessions (default: 20). Connections
+   * beyond the cap are refused with close code 1013.
+   */
+  maxLiveSessions: number;
+  /**
+   * Maximum lifetime of one live gateway connection, in seconds
+   * (default: 3600). The server closes the session when the cap is reached.
+   */
+  maxSessionSeconds: number;
+  /**
+   * Per-connection budget of client envelopes per minute on the live
+   * gateway (default: 300). Cost containment for realtime audio/video
+   * forwarding — not authentication.
+   */
+  liveClientMessagesPerMinute: number;
   /** Firestore emulator host, e.g. "localhost:8080" — if set, SDK uses emulator */
   firestoreEmulator?: string;
   /** How live session state is persisted. */
@@ -149,12 +177,19 @@ export function assertSupportedLiveModel(model: string): string {
 
 export function loadConfig(): AppConfig {
   const useVertexAi = asBool(process.env.GOOGLE_GENAI_USE_VERTEXAI);
+  const apiKey = process.env.GEMINI_API_KEY;
+  const projectId = process.env.GOOGLE_CLOUD_PROJECT;
+  const genaiConfigured = useVertexAi
+    ? Boolean(projectId && (process.env.GOOGLE_CLOUD_LOCATION ?? "us-central1"))
+    : Boolean(apiKey);
+
   const config: AppConfig = {
     port: parsePortEnv(process.env.PORT),
     useVertexAi,
-    projectId: process.env.GOOGLE_CLOUD_PROJECT,
+    projectId,
     location: process.env.GOOGLE_CLOUD_LOCATION ?? "us-central1",
-    apiKey: process.env.GEMINI_API_KEY,
+    apiKey,
+    genaiConfigured,
     recipeModel: process.env.GEMINI_RECIPE_MODEL ?? "gemini-2.5-flash",
     rankingModel: process.env.GEMINI_RANKING_MODEL ?? "gemini-2.5-flash",
     liveModel: assertSupportedLiveModel(
@@ -169,6 +204,26 @@ export function loadConfig(): AppConfig {
       "IDEMPOTENCY_TTL_SECONDS",
       process.env.IDEMPOTENCY_TTL_SECONDS,
       3600
+    ),
+    mutationProposalTtlSeconds: parsePositiveSafeIntegerEnv(
+      "MUTATION_PROPOSAL_TTL_SECONDS",
+      process.env.MUTATION_PROPOSAL_TTL_SECONDS,
+      300
+    ),
+    maxLiveSessions: parsePositiveSafeIntegerEnv(
+      "MAX_LIVE_SESSIONS",
+      process.env.MAX_LIVE_SESSIONS,
+      20
+    ),
+    maxSessionSeconds: parsePositiveSafeIntegerEnv(
+      "MAX_SESSION_SECONDS",
+      process.env.MAX_SESSION_SECONDS,
+      3600
+    ),
+    liveClientMessagesPerMinute: parsePositiveSafeIntegerEnv(
+      "LIVE_CLIENT_MESSAGES_PER_MINUTE",
+      process.env.LIVE_CLIENT_MESSAGES_PER_MINUTE,
+      300
     ),
     restockBelowGrams: parseNonNegativeEnvNumber(
       "RESTOCK_BELOW_GRAMS",
@@ -185,9 +240,12 @@ export function loadConfig(): AppConfig {
     if (!config.projectId || !config.location) {
       throw new Error("Vertex AI mode requires GOOGLE_CLOUD_PROJECT and GOOGLE_CLOUD_LOCATION.");
     }
-  } else if (!config.apiKey) {
-    throw new Error("Developer API mode requires GEMINI_API_KEY.");
   }
+  // Developer API mode with no GEMINI_API_KEY no longer throws: the server
+  // boots unconfigured (genaiConfigured=false) and every model-dependent
+  // surface answers with a stable unavailable code. Failing SAFE here beats
+  // failing the whole container — a prototype without keys keeps its free
+  // routes, webhooks, and health checks.
 
   if (config.sessionStoreMode === "firestore" && !config.projectId && !config.firestoreEmulator) {
     throw new Error(

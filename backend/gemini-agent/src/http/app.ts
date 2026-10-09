@@ -59,12 +59,32 @@ export interface HttpServices {
 
 export interface AppDeps {
   config: AppConfig;
-  /** Model client used by the paid-model routes (fakes are welcome here). */
-  ai: GoogleGenAI;
+  /**
+   * Model client used by the paid-model routes; fakes are welcome here.
+   * Null when the deployment has no model credentials: paid routes then
+   * answer 503 model_unavailable (fail-safe boot) while free routes and
+   * webhooks keep working.
+   */
+  ai: GoogleGenAI | null;
+  /**
+   * The webhook/debug ledger. Deliberately SEPARATE from live-session
+   * inventory: live sessions use per-session ledgers (see
+   * inventory/sessionLedgers.ts), so this global store no longer receives
+   * live-session writes. It exists to preserve the webhook router's
+   * calling interface and the debug route; in production it stays empty —
+   * the phone owns the user's real ledger and the backend holds no
+   * cross-session inventory.
+   */
   ledger: InventoryLedger;
   confidenceService: ConfidenceService;
   /** Service functions; production defaults, replaceable in tests. */
   services?: Partial<HttpServices>;
+  /**
+   * Optional webhook verifier seam (packet 024): forwarded to
+   * createWebhookRouter so tests can inject a permissive verifier without
+   * env manipulation.
+   */
+  webhookOptions?: import("../api/webhooks.js").WebhookRouterOptions;
 }
 
 interface RouteLocals {
@@ -182,6 +202,10 @@ export function createApp(deps: AppDeps): Express {
     rateLimiter.middleware,
     photoRouteParser,
     asyncHandler(async (req, res) => {
+      if (!deps.ai) {
+        sendError(res, 503, "model_unavailable");
+        return;
+      }
       const payload = parseRecipeGenerationRequest(req.body);
       const result = await services.generateRecipe(deps.ai, deps.config, payload);
       res.json(result);
@@ -194,6 +218,10 @@ export function createApp(deps: AppDeps): Express {
     rateLimiter.middleware,
     photoRouteParser,
     asyncHandler(async (req, res) => {
+      if (!deps.ai) {
+        sendError(res, 503, "model_unavailable");
+        return;
+      }
       const payload = parseReverseScanRankRequest(req.body);
       const result = await services.rankReverseScanCandidates(deps.ai, deps.config, payload);
       res.json(result);
@@ -216,7 +244,11 @@ export function createApp(deps: AppDeps): Express {
   // createWebhookRouter's calling interface is preserved exactly so an
   // optional verifier seam can be added independently (packet024).
 
-  const webhookRouter: Router = createWebhookRouter(deps.ledger, deps.config);
+  const webhookRouter: Router = createWebhookRouter(
+    deps.ledger,
+    deps.config,
+    deps.webhookOptions
+  );
   app.use(
     "/v1/webhooks",
     stampRoute("/v1/webhooks"),
