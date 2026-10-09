@@ -2,66 +2,6 @@ import PhotosUI
 import SwiftUI
 import UIKit
 
-enum OnboardingKitchenDemoDetections {
-  struct KitchenDetectionSet {
-    let fridgeItems: [Detection]
-    let pantryItems: [Detection]
-  }
-
-  static func load() -> KitchenDetectionSet {
-    KitchenDetectionSet(
-      fridgeItems: detections(
-        items: [
-          (1, 0.94),
-          (3, 0.91),
-          (15, 0.87),
-          (8, 0.82),
-          (7, 0.88),
-          (14, 0.78),
-          (10, 0.85),
-          (9, 0.73),
-        ],
-        labelPrefix: "onboarding_fridge",
-        cropID: "kitchen_fridge"
-      ),
-      pantryItems: detections(
-        items: [
-          (2, 0.95),
-          (4, 0.89),
-          (5, 0.92),
-          (11, 0.86),
-          (6, 0.90),
-          (12, 0.83),
-        ],
-        labelPrefix: "onboarding_pantry",
-        cropID: "kitchen_pantry"
-      )
-    )
-  }
-
-  private static func detections(
-    items: [(id: Int64, confidence: Float)],
-    labelPrefix: String,
-    cropID: String
-  ) -> [Detection] {
-    items.map { item in
-      Detection(
-        ingredientId: item.id,
-        label: IngredientLexicon.displayName(for: item.id),
-        confidence: item.confidence,
-        source: .vision,
-        originalVisionLabel: "\(labelPrefix)_\(item.id)",
-        alternatives: [],
-        normalizedBoundingBox: nil,
-        evidenceTokens: ["onboarding_kitchen_capture"],
-        cropID: cropID,
-        captureIndex: 0,
-        ocrMatchKind: nil
-      )
-    }
-  }
-}
-
 private struct InventoryStepStaggerIn: ViewModifier {
   let index: Int
   let appeared: Bool
@@ -96,6 +36,8 @@ struct OnboardingKitchenCaptureConfiguration {
   let cameraTitle: String
   let cameraSubtitle: String
   let maxPhotos: Int
+  /// Names one photo for VoiceOver, as in "Remove fridge photo 2".
+  let photoName: String
 }
 
 extension OnboardingKitchenCaptureConfiguration {
@@ -107,7 +49,8 @@ extension OnboardingKitchenCaptureConfiguration {
     subtitle: "Multiple close-ups work better than one wide shot.",
     cameraTitle: "Photograph Your Fridge",
     cameraSubtitle: "Multiple close-ups work best",
-    maxPhotos: 3
+    maxPhotos: 3,
+    photoName: "fridge photo"
   )
 
   static let pantry = OnboardingKitchenCaptureConfiguration(
@@ -118,19 +61,20 @@ extension OnboardingKitchenCaptureConfiguration {
     subtitle: "Dry goods, cans, oils, spices — anything on the shelves.",
     cameraTitle: "Photograph Your Pantry",
     cameraSubtitle: "Dry goods, cans, oils, spices",
-    maxPhotos: 3
+    maxPhotos: 3,
+    photoName: "pantry photo"
   )
 }
 
 struct OnboardingKitchenCaptureStep: View {
   private struct ThumbnailItem: Identifiable {
-    let id: ObjectIdentifier
+    let id: UUID
     let index: Int
     let image: UIImage
   }
 
   let configuration: OnboardingKitchenCaptureConfiguration
-  @Binding var capturedImages: [UIImage]
+  @Binding var photos: [FLCapturedPhoto]
 
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var appeared = false
@@ -138,8 +82,8 @@ struct OnboardingKitchenCaptureStep: View {
   @State private var selectedPhotoItem: PhotosPickerItem?
 
   private var thumbnailItems: [ThumbnailItem] {
-    Array(capturedImages.prefix(configuration.maxPhotos)).enumerated().map { index, image in
-      ThumbnailItem(id: ObjectIdentifier(image), index: index, image: image)
+    Array(photos.prefix(configuration.maxPhotos)).enumerated().map { index, photo in
+      ThumbnailItem(id: photo.id, index: index, image: photo.image)
     }
   }
 
@@ -234,17 +178,22 @@ struct OnboardingKitchenCaptureStep: View {
 
                   Button {
                     withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-                      if item.index < capturedImages.count {
-                        capturedImages.remove(at: item.index)
+                      if item.index < photos.count {
+                        photos.remove(at: item.index)
                       }
                     }
                   } label: {
+                    // A 44 pt target kept inside the thumbnail, so neighbouring targets can't
+                    // overlap and the scroll view can't clip it.
                     Image(systemName: "xmark.circle.fill")
                       .font(.system(size: 18))
                       .foregroundStyle(.white)
                       .background(Circle().fill(AppTheme.textPrimary.opacity(0.6)))
+                      .padding(AppTheme.Space.xxs)
+                      .frame(width: 44, height: 44, alignment: .topTrailing)
+                      .contentShape(Rectangle())
                   }
-                  .offset(x: 6, y: -6)
+                  .accessibilityLabel("Remove \(configuration.photoName) \(item.index + 1)")
                 }
               }
             }
@@ -252,7 +201,7 @@ struct OnboardingKitchenCaptureStep: View {
           }
           .transition(.opacity.combined(with: .scale(scale: 0.95)))
 
-          Text("\(capturedImages.count) of \(configuration.maxPhotos) photos")
+          Text("\(photos.count) of \(configuration.maxPhotos) photos")
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.sage)
         }
@@ -274,7 +223,7 @@ struct OnboardingKitchenCaptureStep: View {
           subtitle: configuration.cameraSubtitle,
           maxPhotos: configuration.maxPhotos
         ),
-        capturedImages: $capturedImages,
+        photos: $photos,
         onDone: {}
       )
     }
@@ -283,10 +232,15 @@ struct OnboardingKitchenCaptureStep: View {
       Task {
         if let data = try? await newItem.loadTransferable(type: Data.self),
           let image = UIImage(data: data),
-          capturedImages.count < configuration.maxPhotos
+          photos.count < configuration.maxPhotos
         {
           withAnimation(reduceMotion ? nil : AppMotion.cardSpring) {
-            capturedImages.append(image)
+            photos.append(
+              FLCapturedPhoto(
+                image: ScanImagePreprocessor.prepare(image),
+                source: .photoLibrary
+              )
+            )
           }
         }
         selectedPhotoItem = nil
