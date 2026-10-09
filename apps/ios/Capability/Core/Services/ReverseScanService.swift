@@ -60,7 +60,7 @@ final class ReverseScanService: Sendable {
       throw NSError(
         domain: "ReverseScanService",
         code: 1001,
-        userInfo: [NSLocalizedDescriptionKey: "Unable to read image data for reverse scan."]
+        userInfo: [NSLocalizedDescriptionKey: "Couldn't read that photo. Try another image."]
       )
     }
     logger.info(

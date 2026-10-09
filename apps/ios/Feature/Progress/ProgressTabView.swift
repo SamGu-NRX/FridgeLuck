@@ -162,9 +162,11 @@ struct ProgressTabView: View {
 
   private func actionsSection(snapshot: ProgressSnapshot) -> some View {
     VStack(spacing: AppTheme.Space.sm) {
-      FLSecondaryButton("Reverse Scan a Meal", systemImage: "camera.macro") {
+      FLSecondaryButton("Log a Meal", systemImage: "fork.knife") {
         showReverseScan = true
       }
+      .accessibilityLabel("Log a Meal")
+      .accessibilityHint("Opens the camera to photograph a meal and log it.")
 
       if snapshot.hasOnboarded {
         FLSecondaryButton("Edit Profile", systemImage: "pencil") {
