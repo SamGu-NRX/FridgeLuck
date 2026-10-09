@@ -53,7 +53,7 @@ let package = Package(
       ],
       path: "Tests",
       sources: [
-        "InventoryInvariantOperationTests.swift"
+        "InventoryInvariants"
       ]
     ),
   ]
