@@ -5,6 +5,14 @@ import type {
   RecipeGenerationResponse
 } from "../types/contracts.js";
 
+/** Staple allowances the model may use even when they were not scanned. */
+export const RECIPE_STAPLE_INGREDIENTS: readonly string[] = [];
+
+/**
+ * Limited lexicon of common whole foods for the lexical text screen.
+ */
+export const RECIPE_RECOGNIZED_FOOD_LEXICON: readonly string[] = [];
+
 function toInlineImagePart(photoBase64JPEG?: string) {
   if (!photoBase64JPEG) return [];
   return [
