@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import SwiftUI
 
 struct GroceryReviewSection: View {

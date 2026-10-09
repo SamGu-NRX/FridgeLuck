@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import XCTest
 
 @testable import FridgeLuck

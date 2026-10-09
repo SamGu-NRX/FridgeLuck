@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 
 /// One food in the grocery review. Amounts may be unknown (`quantityGrams == nil`) when the

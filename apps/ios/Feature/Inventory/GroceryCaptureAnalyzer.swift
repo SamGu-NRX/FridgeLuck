@@ -2,6 +2,8 @@ import Foundation
 import UIKit
 import os
 
+import FLFeatureLogic
+
 private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "GroceryCaptureAnalyzer")
 
 /// Runs the recognition pipeline for one captured grocery photo and returns review drafts
