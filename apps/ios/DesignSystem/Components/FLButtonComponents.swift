@@ -32,8 +32,17 @@ struct FLPrimaryButton: View {
     self.action = action
   }
 
-  private var labelKey: String {
-    "\(title)|\(systemImage ?? "none")"
+  /// Unambiguous change-key for the label blend animation.
+  /// The previous `"\(title)|\(systemImage ?? "none")"` string collided with a literal
+  /// "none" image name (and with "|" inside titles/images), leaving subtleBlend dead
+  /// for those transitions.
+  struct LabelKey: Equatable {
+    let title: String
+    let systemImage: String?
+  }
+
+  private var labelKey: LabelKey {
+    LabelKey(title: title, systemImage: systemImage)
   }
 
   var body: some View {
@@ -136,9 +145,14 @@ struct FLSecondaryButton: View {
 struct FLPressableButtonStyle: ButtonStyle {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+  /// Press-state scale; pure and internal so tests can pin the state math.
+  static func scale(isPressed: Bool) -> CGFloat {
+    isPressed ? 0.96 : 1.0
+  }
+
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+      .scaleEffect(Self.scale(isPressed: configuration.isPressed))
       .animation(reduceMotion ? nil : AppMotion.buttonSpring, value: configuration.isPressed)
   }
 }
@@ -148,9 +162,14 @@ struct FLPressableButtonStyle: ButtonStyle {
 struct FLHeroCardButtonStyle: ButtonStyle {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+  /// Press-state scale; pure and internal so tests can pin the state math.
+  static func scale(isPressed: Bool) -> CGFloat {
+    isPressed ? 0.975 : 1.0
+  }
+
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.975 : 1.0)
+      .scaleEffect(Self.scale(isPressed: configuration.isPressed))
       .animation(reduceMotion ? nil : AppMotion.cardSpring, value: configuration.isPressed)
   }
 }
@@ -160,10 +179,20 @@ struct FLHeroCardButtonStyle: ButtonStyle {
 struct FLAddChipButtonStyle: ButtonStyle {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+  /// Press-state scale; pure and internal so tests can pin the state math.
+  static func scale(isPressed: Bool) -> CGFloat {
+    isPressed ? 0.92 : 1
+  }
+
+  /// Press-state opacity; pure and internal so tests can pin the state math.
+  static func opacity(isPressed: Bool) -> Double {
+    isPressed ? 0.85 : 1
+  }
+
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.92 : 1)
-      .opacity(configuration.isPressed ? 0.85 : 1)
+      .scaleEffect(Self.scale(isPressed: configuration.isPressed))
+      .opacity(Self.opacity(isPressed: configuration.isPressed))
       .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
   }
 }
