@@ -100,6 +100,7 @@ struct OnboardingKitchenCaptureStep: View {
           Image(systemName: configuration.heroIcon)
             .font(.system(size: 28, weight: .semibold))
             .foregroundStyle(configuration.heroIconTint)
+            .accessibilityHidden(true)
         }
         .inventoryStagger(index: 0, appeared: appeared)
 
@@ -108,6 +109,7 @@ struct OnboardingKitchenCaptureStep: View {
             .font(.system(.title2, design: .serif, weight: .bold))
             .foregroundStyle(AppTheme.textPrimary)
             .multilineTextAlignment(.center)
+            .accessibilityAddTraits(.isHeader)
             .inventoryStagger(index: 1, appeared: appeared)
 
           Text(configuration.subtitle)
@@ -175,6 +177,8 @@ struct OnboardingKitchenCaptureStep: View {
                       RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
                         .stroke(AppTheme.sage.opacity(0.30), lineWidth: 1)
                     )
+                    .accessibilityLabel(
+                      "\(configuration.photoName) \(item.index + 1) of \(configuration.maxPhotos)")
 
                   Button {
                     withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -204,6 +208,7 @@ struct OnboardingKitchenCaptureStep: View {
           Text("\(photos.count) of \(configuration.maxPhotos) photos")
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.sage)
+            .accessibilityLiveRegion(.polite)
         }
 
         Text("You can skip this step and add items later from the scan orb.")

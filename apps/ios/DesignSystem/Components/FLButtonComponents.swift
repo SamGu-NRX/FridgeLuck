@@ -40,7 +40,9 @@ struct FLPrimaryButton: View {
     Button(action: action) {
       HStack(spacing: AppTheme.Space.xs) {
         if let systemImage {
+          // Decorative; the title carries the label, so the symbol name isn't spoken.
           Image(systemName: systemImage)
+            .accessibilityHidden(true)
         }
         Text(title)
       }
@@ -100,7 +102,9 @@ struct FLSecondaryButton: View {
     Button(action: action) {
       HStack(spacing: AppTheme.Space.xs) {
         if let systemImage {
+          // Decorative; the title carries the label, so the symbol name isn't spoken.
           Image(systemName: systemImage)
+            .accessibilityHidden(true)
         }
         Text(title)
       }

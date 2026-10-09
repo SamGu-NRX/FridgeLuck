@@ -27,6 +27,7 @@ struct OnboardingVirtualFridgeIntroStep: View {
           Image(systemName: "refrigerator.fill")
             .font(.system(size: 48, weight: .semibold))
             .foregroundStyle(AppTheme.sage)
+            .accessibilityHidden(true)
         }
         .inventoryStagger(index: 0, appeared: appeared)
 
@@ -442,6 +443,7 @@ struct OnboardingKitchenReviewStep: View {
             .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
             .contentTransition(.numericText())
+            .accessibilityLiveRegion(.polite)
         }
         .padding(.top, AppTheme.Space.xs)
 
@@ -487,7 +489,6 @@ struct OnboardingKitchenReviewStep: View {
           Text(title)
             .font(AppTheme.Typography.label)
             .foregroundStyle(AppTheme.textSecondary)
-            .accessibilityAddTraits(.isHeader)
           Spacer()
           if case .items(let detections, _) = content, !detections.isEmpty {
             Text(detections.count == 1 ? "1 item" : "\(detections.count) items")
@@ -495,6 +496,9 @@ struct OnboardingKitchenReviewStep: View {
               .foregroundStyle(AppTheme.textSecondary)
           }
         }
+        // One focus stop, so the rotor's header navigation reads the section with its count.
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isHeader)
         .inventoryStagger(index: staggerBase, appeared: resultsAppeared)
 
         switch content {
@@ -603,7 +607,8 @@ struct OnboardingKitchenReviewStep: View {
     .buttonStyle(FLPressableButtonStyle())
     .accessibilityElement(children: .ignore)
     .accessibilityLabel("\(detection.label), about \(estimatedGrams) grams")
-    .accessibilityValue("\(percentage) percent match, \(isConfirmed ? "selected" : "not selected")")
+    // The trait speaks "selected"; the value would say it twice.
+    .accessibilityValue("\(percentage) percent match")
     .accessibilityAddTraits(isConfirmed ? .isSelected : [])
     .accessibilityHint(isConfirmed ? "Removes it from what you add." : "Adds it to your Kitchen.")
     .inventoryStagger(index: staggerIndex, appeared: resultsAppeared)
