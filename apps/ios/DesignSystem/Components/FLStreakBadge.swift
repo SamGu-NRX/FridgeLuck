@@ -2,7 +2,10 @@ import SwiftUI
 
 struct FLStreakBadge: View {
   static let milestoneThresholds: Set<Int> = [7, 14, 30, 60, 100]
-  static let dayLabels = ["S", "M", "T", "W", "T", "F", "S"]
+  // Monday-first: weekActivity producers (PersonalizationService, HomeDashboard)
+  // index day 0 as Monday, so captions must start at "M" or every dot reads as
+  // the previous weekday.
+  static let dayLabels = ["M", "T", "W", "T", "F", "S", "S"]
 
   let currentStreak: Int
   let weekActivity: [Bool]
@@ -11,7 +14,9 @@ struct FLStreakBadge: View {
   /// Pure summary behind the VoiceOver label; kept here so the string and the
   /// rendered 7-dot window stay in sync. Testable without rendering.
   static func accessibilitySummary(currentStreak: Int, weekActivity: [Bool]) -> String {
-    let activeDays = weekActivity.filter { $0 }.count
+    // Only the displayed 7-day window counts; otherwise the label could claim
+    // more active days than the badge renders ("8 of 7 days active").
+    let activeDays = weekActivity.prefix(7).filter { $0 }.count
     return "\(currentStreak) day streak, \(activeDays) of 7 days active this week"
   }
 
