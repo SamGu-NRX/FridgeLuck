@@ -9,7 +9,7 @@ struct FLScanAnnotationOverlay: View {
   @State private var visibleCount = 0
 
   private var annotated: [Detection] {
-    Array(detections.filter { $0.normalizedBoundingBox != nil }.prefix(8))
+    FLScanPinLayout.annotatedDetections(detections)
   }
 
   var body: some View {
@@ -33,10 +33,7 @@ struct FLScanAnnotationOverlay: View {
           if index < visibleCount, let bbox = detection.normalizedBoundingBox {
             AnnotationPin(
               label: detection.label,
-              normalizedCenter: CGPoint(
-                x: bbox.midX,
-                y: 1.0 - bbox.midY
-              ),
+              normalizedCenter: FLScanPinLayout.normalizedPinCenter(forBoundingBox: bbox),
               containerSize: geo.size
             )
             .transition(
@@ -76,6 +73,42 @@ struct FLScanAnnotationOverlay: View {
   }
 }
 
+// MARK: - Pin Layout Math
+
+/// Pure placement math for scan annotation pins, kept free of view state for testability.
+/// Vision bounding boxes are normalized with a bottom-left origin; pin centers are flipped
+/// into SwiftUI's top-left origin space and clamped to the unit square so malformed
+/// detections (zero-size, negative, or out-of-frame boxes) still land inside the photo.
+enum FLScanPinLayout {
+  /// Detections with a bounding box, capped at 8, preserving scan order.
+  static func annotatedDetections(_ detections: [Detection]) -> [Detection] {
+    Array(detections.filter { $0.normalizedBoundingBox != nil }.prefix(8))
+  }
+
+  /// Vision midpoint -> SwiftUI normalized center, flipped vertically and clamped to [0, 1].
+  static func normalizedPinCenter(forBoundingBox boundingBox: CGRect) -> CGPoint {
+    CGPoint(
+      x: min(max(boundingBox.midX, 0), 1),
+      y: min(max(1 - boundingBox.midY, 0), 1)
+    )
+  }
+
+  static func dotPosition(pinCenter: CGPoint, containerSize: CGSize) -> CGPoint {
+    CGPoint(
+      x: pinCenter.x * containerSize.width,
+      y: pinCenter.y * containerSize.height
+    )
+  }
+
+  /// Label anchor nudged inward from the dot so edge pins keep their caption in frame.
+  static func labelPosition(pinCenter: CGPoint, containerSize: CGSize) -> CGPoint {
+    let dot = dotPosition(pinCenter: pinCenter, containerSize: containerSize)
+    let dx: CGFloat = pinCenter.x > 0.5 ? -56 : 56
+    let dy: CGFloat = pinCenter.y > 0.5 ? -32 : 32
+    return CGPoint(x: dot.x + dx, y: dot.y + dy)
+  }
+}
+
 // MARK: - Annotation Pin
 
 private struct AnnotationPin: View {
@@ -84,16 +117,11 @@ private struct AnnotationPin: View {
   let containerSize: CGSize
 
   private var dotPos: CGPoint {
-    CGPoint(
-      x: normalizedCenter.x * containerSize.width,
-      y: normalizedCenter.y * containerSize.height
-    )
+    FLScanPinLayout.dotPosition(pinCenter: normalizedCenter, containerSize: containerSize)
   }
 
   private var labelOffset: CGPoint {
-    let dx: CGFloat = normalizedCenter.x > 0.5 ? -56 : 56
-    let dy: CGFloat = normalizedCenter.y > 0.5 ? -32 : 32
-    return CGPoint(x: dotPos.x + dx, y: dotPos.y + dy)
+    FLScanPinLayout.labelPosition(pinCenter: normalizedCenter, containerSize: containerSize)
   }
 
   var body: some View {

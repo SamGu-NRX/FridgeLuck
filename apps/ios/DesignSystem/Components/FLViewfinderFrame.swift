@@ -42,51 +42,57 @@ struct FLViewfinderFrame: View {
     width: CGFloat,
     height: CGFloat
   ) -> some View {
-    let path = bracketPath(for: alignment)
+    let path = bracketPath(for: alignment, in: CGSize(width: width, height: height))
 
     path
       .stroke(color, style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round, lineJoin: .round))
       .frame(width: width, height: height)
   }
 
-  private func bracketPath(for alignment: Alignment) -> Path {
-    Path { path in
+  /// Bracket outline anchored at its own corner of `size`, with arm lengths clamped to the
+  /// available sides so tight or degenerate frames never push a bracket outside.
+  func bracketPath(for alignment: Alignment, in size: CGSize) -> Path {
+    let armX = min(bracketLength, size.width)
+    let armY = min(bracketLength, size.height)
+    let radius = min(cornerRadius, armX, armY)
+
+    return Path { path in
       switch alignment {
       case .topLeading:
-        path.move(to: CGPoint(x: 0, y: bracketLength))
-        path.addLine(to: CGPoint(x: 0, y: cornerRadius))
+        path.move(to: CGPoint(x: 0, y: armY))
+        path.addLine(to: CGPoint(x: 0, y: radius))
         path.addQuadCurve(
-          to: CGPoint(x: cornerRadius, y: 0),
+          to: CGPoint(x: radius, y: 0),
           control: CGPoint(x: 0, y: 0)
         )
-        path.addLine(to: CGPoint(x: bracketLength, y: 0))
+        path.addLine(to: CGPoint(x: armX, y: 0))
 
       case .topTrailing:
-        path.move(to: CGPoint(x: -bracketLength, y: 0))
-        path.addLine(to: CGPoint(x: -cornerRadius, y: 0))
+        path.move(to: CGPoint(x: size.width - armX, y: 0))
+        path.addLine(to: CGPoint(x: size.width - radius, y: 0))
         path.addQuadCurve(
-          to: CGPoint(x: 0, y: cornerRadius),
-          control: CGPoint(x: 0, y: 0)
+          to: CGPoint(x: size.width, y: radius),
+          control: CGPoint(x: size.width, y: 0)
         )
-        path.addLine(to: CGPoint(x: 0, y: bracketLength))
+        path.addLine(to: CGPoint(x: size.width, y: armY))
 
       case .bottomLeading:
-        path.move(to: CGPoint(x: bracketLength, y: 0))
-        path.addLine(to: CGPoint(x: cornerRadius, y: 0))
+        path.move(to: CGPoint(x: armX, y: size.height))
+        path.addLine(to: CGPoint(x: radius, y: size.height))
         path.addQuadCurve(
-          to: CGPoint(x: 0, y: -cornerRadius),
-          control: CGPoint(x: 0, y: 0)
+          to: CGPoint(x: 0, y: size.height - radius),
+          control: CGPoint(x: 0, y: size.height)
         )
-        path.addLine(to: CGPoint(x: 0, y: -bracketLength))
+        path.addLine(to: CGPoint(x: 0, y: size.height - armY))
 
       case .bottomTrailing:
-        path.move(to: CGPoint(x: 0, y: -bracketLength))
-        path.addLine(to: CGPoint(x: 0, y: -cornerRadius))
+        path.move(to: CGPoint(x: size.width, y: size.height - armY))
+        path.addLine(to: CGPoint(x: size.width, y: size.height - radius))
         path.addQuadCurve(
-          to: CGPoint(x: -cornerRadius, y: 0),
-          control: CGPoint(x: 0, y: 0)
+          to: CGPoint(x: size.width - radius, y: size.height),
+          control: CGPoint(x: size.width, y: size.height)
         )
-        path.addLine(to: CGPoint(x: -bracketLength, y: 0))
+        path.addLine(to: CGPoint(x: size.width - armX, y: size.height))
 
       default:
         break
