@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import PhotosUI
 import SwiftUI
 import os
@@ -31,13 +32,19 @@ struct ReverseScanMealView: View {
   @State private var errorMessage: String?
   @State private var isLoggingMeal = false
   @State private var showLogSuccess = false
+  @State private var logSuccessMessage = ""
   @State private var showRecipePicker = false
+  /// The fallback template is the app's guess, so its ranges show only after the user asks.
+  @State private var showsTemplateEstimate = false
   @State private var cameraPermissionStatus: AppPermissionStatus = .notDetermined
   @State private var manuallyPickedRecipe: Recipe?
   @State private var manuallyPickedMacros: RecipeMacros?
   @State private var resultsAppeared = false
   @State private var mealPortionSize: MealPortionSize = .normal
   @State private var deductionPreviews: [InventoryDeductionPreview] = []
+  /// `chosenRecipe` after `RecipeRepository.resolveForLogging`, tagged with the choice it
+  /// resolved so a stale result is never shown for a new choice.
+  @State private var resolvedChoice: (key: String, recipe: Recipe, macros: RecipeMacros)?
 
   // MARK: - Derived
 
@@ -61,14 +68,42 @@ struct ReverseScanMealView: View {
     }
   }
 
+  /// Only an explicit selection counts. Preselection, when the verdict allows it, happens by
+  /// setting `selectedCandidateID` after analysis; see `MealPhotoConfirmationPolicy`.
   private var selectedCandidate: ReverseScanRecipeCandidate? {
-    guard let analysis else { return nil }
-    if let selectedCandidateID,
-      let selected = analysis.candidateRecipes.first(where: { $0.id == selectedCandidateID })
-    {
-      return selected
+    guard let analysis, let selectedCandidateID else { return nil }
+    return analysis.candidateRecipes.first(where: { $0.id == selectedCandidateID })
+  }
+
+  /// The recipe the user chose, from the manual picker or the match list.
+  private var chosenRecipe: (recipe: Recipe, macros: RecipeMacros)? {
+    if let manuallyPickedRecipe, let manuallyPickedMacros {
+      return (manuallyPickedRecipe, manuallyPickedMacros)
     }
-    return analysis.candidateRecipes.first
+    if let selectedCandidate {
+      return (selectedCandidate.recipe.recipe, selectedCandidate.recipe.macros)
+    }
+    return nil
+  }
+
+  private var chosenRecipeKey: String? {
+    chosenRecipe.map { "\($0.recipe.id ?? -1)|\($0.recipe.title)" }
+  }
+
+  /// The recipe this screen shows, previews and logs. Logging re-resolves the chosen recipe
+  /// (an ingredientless row falls back to a same-title recipe with ingredients), so the screen
+  /// resolves it the same way first. Falls back to the choice itself when logging would
+  /// create a new row, which has no ingredients to preview.
+  private var mealRecipe: (recipe: Recipe, macros: RecipeMacros)? {
+    guard let chosenRecipe else { return nil }
+    if let resolvedChoice, resolvedChoice.key == chosenRecipeKey {
+      return (resolvedChoice.recipe, resolvedChoice.macros)
+    }
+    return chosenRecipe
+  }
+
+  private var confirmationVerdict: MealPhotoConfirmationPolicy.Verdict? {
+    analysis.map(verdict(for:))
   }
 
   private var fallbackEstimate: PreparedDishEstimate? {
@@ -145,7 +180,7 @@ struct ReverseScanMealView: View {
     .alert("Meal logged", isPresented: $showLogSuccess) {
       Button("OK", role: .cancel) {}
     } message: {
-      Text("Your meal has been recorded and inventory updated.")
+      Text(logSuccessMessage)
     }
     .onAppear {
       cameraPermissionStatus = AppPermissionCenter.status(for: .camera)
@@ -275,8 +310,7 @@ struct ReverseScanMealView: View {
             )
 
           ReverseScanIngredientBreakdownSection(
-            analysis: analysis,
-            candidateRecipe: selectedCandidate,
+            recipe: mealRecipe?.recipe,
             portionMultiplier: portionMultiplier,
             servings: servings
           )
@@ -375,26 +409,45 @@ struct ReverseScanMealView: View {
           }
         }
       }
-      .task(id: "\(selectedCandidateID ?? 0)_\(servings)_\(mealPortionSize.rawValue)") {
+      .onChange(of: chosenRecipeKey, initial: true) { _, _ in
+        resolveChosenRecipe()
+      }
+      .task(id: "\(mealRecipe?.recipe.id ?? 0)_\(servings)_\(mealPortionSize.rawValue)") {
         await loadDeductionPreviews()
       }
     }
   }
 
-  private func loadDeductionPreviews() async {
-    guard let analysis else {
-      deductionPreviews = []
+  /// Previews what logging the chosen recipe takes out of the Kitchen. It used to list each
+  /// detection at 100 g, which the log never deducts. No recipe means no preview.
+  private func resolveChosenRecipe() {
+    guard let chosenRecipe, let key = chosenRecipeKey else {
+      resolvedChoice = nil
       return
     }
-    let ingredientGrams: [(ingredientId: Int64, grams: Double)] = analysis.detections.prefix(12)
-      .map { detection in
-        let baseGrams: Double = 100
-        let scaledGrams = baseGrams * portionMultiplier * Double(servings)
-        return (ingredientId: detection.ingredientId, grams: scaledGrams)
+    do {
+      resolvedChoice = try deps.recipeRepository.resolveForLogging(chosenRecipe.recipe).map {
+        (key: key, recipe: $0.recipe, macros: $0.macros)
       }
+    } catch {
+      logger.error("Failed to resolve chosen recipe: \(error.localizedDescription)")
+      resolvedChoice = nil
+    }
+  }
+
+  private func loadDeductionPreviews() async {
+    guard let recipeID = mealRecipe?.recipe.id else {
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        deductionPreviews = []
+      }
+      return
+    }
     do {
       let previews = try deps.inventoryRepository.previewConsumption(
-        ingredientGrams: ingredientGrams)
+        recipeId: recipeID,
+        servingsConsumed: servings,
+        portionMultiplier: portionMultiplier
+      )
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         deductionPreviews = previews
       }
@@ -523,10 +576,7 @@ struct ReverseScanMealView: View {
 
               Spacer()
 
-              let isSelected =
-                selectedCandidateID == candidate.id
-                || (selectedCandidateID == nil
-                  && analysis.candidateRecipes.first?.id == candidate.id)
+              let isSelected = selectedCandidateID == candidate.id
               Image(
                 systemName: isSelected
                   ? "checkmark.circle.fill" : "circle"
@@ -601,18 +651,23 @@ struct ReverseScanMealView: View {
 
   @ViewBuilder
   private var macrosSection: some View {
-    if let manuallyPickedRecipe, let macros = manuallyPickedMacros {
+    if let mealRecipe {
       macroConfirmCard(
-        title: manuallyPickedRecipe.title,
-        macros: macros,
-        isHighConfidence: true
+        title: mealRecipe.recipe.title,
+        macros: mealRecipe.macros,
+        isHighConfidence: manuallyPickedRecipe != nil
+          || confirmationVerdict.map {
+            !MealPhotoConfirmationPolicy.asksToCheckBeforeLogging(for: $0)
+          } ?? false
       )
-    } else if let candidate = selectedCandidate {
-      macroConfirmCard(
-        title: candidate.recipe.recipe.title,
-        macros: candidate.recipe.macros,
-        isHighConfidence: analysis?.confidenceAssessment.mode == .exact
-      )
+    }
+  }
+
+  private func verdict(for analysis: ReverseScanAnalysis) -> MealPhotoConfirmationPolicy.Verdict {
+    switch analysis.confidenceAssessment.mode {
+    case .exact: return .exact
+    case .reviewRequired: return .reviewRequired
+    case .estimateOnly: return .estimateOnly
     }
   }
 
@@ -626,6 +681,12 @@ struct ReverseScanMealView: View {
         Text("Macro Calculation")
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
+
+        if !isHighConfidence {
+          Text("Check the dish and portion before logging.")
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
 
         HStack(spacing: AppTheme.Space.md) {
           macroMetric(
@@ -680,31 +741,49 @@ struct ReverseScanMealView: View {
           .font(AppTheme.Typography.label)
           .foregroundStyle(AppTheme.textSecondary)
 
+        // A template exists only when a detection named its dish (ReverseScanService), so
+        // the copy offers a rough range only when one follows.
         Text(
-          "No strong recipe match found. Select a recipe manually for accurate macros, or use the template estimate below."
+          analysis.fallbackTemplate == nil
+            ? "No strong recipe match found. Pick the recipe you made to log its macros."
+            : "No strong recipe match found. Select a recipe manually for accurate macros, or use the template estimate below."
         )
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textSecondary)
 
         if let template = analysis.fallbackTemplate {
-          Text("Template: \(template.name)")
-            .font(AppTheme.Typography.bodyMedium)
-            .foregroundStyle(AppTheme.textPrimary)
-        }
+          if showsTemplateEstimate {
+            Text("Template: \(template.name)")
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(AppTheme.textPrimary)
 
-        Picker("Portion", selection: $portionSize) {
-          ForEach(DishPortionSize.allCases, id: \.self) { size in
-            Text(size.displayName).tag(size)
-          }
-        }
-        .pickerStyle(.segmented)
+            Picker("Portion", selection: $portionSize) {
+              ForEach(DishPortionSize.allCases, id: \.self) { size in
+                Text(size.displayName).tag(size)
+              }
+            }
+            .pickerStyle(.segmented)
 
-        if let fallbackEstimate {
-          VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-            estimateRow("Calories", range: fallbackEstimate.calories, unit: "kcal")
-            estimateRow("Protein", range: fallbackEstimate.protein, unit: "g")
-            estimateRow("Carbs", range: fallbackEstimate.carbs, unit: "g")
-            estimateRow("Fat", range: fallbackEstimate.fat, unit: "g")
+            if let fallbackEstimate {
+              VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+                estimateRow("Calories", range: fallbackEstimate.calories, unit: "kcal")
+                estimateRow("Protein", range: fallbackEstimate.protein, unit: "g")
+                estimateRow("Carbs", range: fallbackEstimate.carbs, unit: "g")
+                estimateRow("Fat", range: fallbackEstimate.fat, unit: "g")
+              }
+            }
+          } else {
+            Button {
+              withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+                showsTemplateEstimate = true
+              }
+            } label: {
+              Text("See a rough range for \(template.name.lowercased())")
+                .font(AppTheme.Typography.label)
+                .foregroundStyle(AppTheme.accent)
+                .frame(minHeight: 44)
+            }
+            .buttonStyle(.plain)
           }
         }
       }
@@ -915,7 +994,10 @@ struct ReverseScanMealView: View {
 
       withAnimation(reduceMotion ? nil : AppMotion.standard) {
         analysis = result
-        selectedCandidateID = result.candidateRecipes.first?.id
+        showsTemplateEstimate = false
+        selectedCandidateID =
+          MealPhotoConfirmationPolicy.preselectsTopCandidate(for: verdict(for: result))
+          ? result.candidateRecipes.first?.id : nil
       }
       logger.info(
         "Reverse scan UI analyze completed. candidates=\(result.candidateRecipes.count, privacy: .public), mode=\(result.confidenceAssessment.mode.rawValue, privacy: .public), deterministic=\(result.deterministicRecipeReady, privacy: .public)"
@@ -934,12 +1016,7 @@ struct ReverseScanMealView: View {
     guard !isLoggingMeal else { return }
     logger.info("Reverse scan meal log requested.")
 
-    let recipeToLog: Recipe
-    if let manuallyPickedRecipe {
-      recipeToLog = manuallyPickedRecipe
-    } else if let candidate = selectedCandidate {
-      recipeToLog = candidate.recipe.recipe
-    } else {
+    guard let recipeToLog = mealRecipe?.recipe else {
       errorMessage = "Select a recipe before logging."
       logger.notice("Meal log blocked: no recipe selected.")
       return
@@ -989,6 +1066,7 @@ struct ReverseScanMealView: View {
         )
       }
 
+      logSuccessMessage = MealLoggedMessage.text(for: mealOutcome.inventoryConsumption)
       showLogSuccess = true
       logger.info("Meal log succeeded.")
     } catch {
