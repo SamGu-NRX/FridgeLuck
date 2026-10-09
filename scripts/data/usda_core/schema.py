@@ -46,6 +46,17 @@ class SourceMeta(BaseModel):
     food_category: str = ""
     verified_at_utc: str = ""
     verification_source: str = "USDA FoodData Central API"
+    # Reference-audit provenance (additive, optional):
+    # - reference_edition: the public FDC bulk edition the row was audited
+    #   against (e.g. "SR Legacy 2021-10-28" / "Foundation Foods 2024-04-18").
+    # - macro_gaps: canonical macro fields where FDC publishes no usable
+    #   observation for this food. The stored 0.0 is an explicit placeholder,
+    #   not a measured zero.
+    # - macro_freeze_exception: controlled-migration note when this row's
+    #   macros were corrected under the sanctioned macro-freeze exception.
+    reference_edition: str = ""
+    macro_gaps: list[str] = Field(default_factory=list)
+    macro_freeze_exception: str | None = None
 
 
 class CuratedIngredientRow(BaseModel):
