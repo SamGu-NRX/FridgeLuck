@@ -115,6 +115,21 @@ public struct ScanBenchmarkObservedDetection: Sendable, Codable, Equatable {
     self.alternativeIngredientIds = alternativeIngredientIds
     self.bucket = bucket
   }
+
+  private enum CodingKeys: String, CodingKey {
+    case ingredientId, alternativeIngredientIds, bucket
+  }
+
+  /// The public init defaults `alternativeIngredientIds` to `[]`, so decoding tolerates the
+  /// key being omitted instead of throwing keyNotFound (synthesized Decodable is stricter
+  /// than the initializer for defaulted arrays).
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    ingredientId = try container.decode(Int64.self, forKey: .ingredientId)
+    alternativeIngredientIds =
+      try container.decodeIfPresent([Int64].self, forKey: .alternativeIngredientIds) ?? []
+    bucket = try container.decode(ScanBenchmarkDetectionBucket.self, forKey: .bucket)
+  }
 }
 
 public struct ScanBenchmarkObservedNutrition: Sendable, Codable, Equatable {
@@ -155,6 +170,24 @@ public struct ScanBenchmarkRunObservation: Sendable, Codable, Equatable {
     self.elapsedMs = elapsedMs
     self.passErrors = passErrors
     self.errorDescription = errorDescription
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case iteration, detections, nutrition, elapsedMs, passErrors, errorDescription
+  }
+
+  /// The public init defaults `passErrors` to `[]`, so decoding tolerates the key being
+  /// omitted instead of throwing keyNotFound (synthesized Decodable is stricter than the
+  /// initializer for defaulted arrays); true optionals already decode-if-present.
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    iteration = try container.decode(Int.self, forKey: .iteration)
+    detections = try container.decode([ScanBenchmarkObservedDetection].self, forKey: .detections)
+    nutrition = try container.decodeIfPresent(
+      ScanBenchmarkObservedNutrition.self, forKey: .nutrition)
+    elapsedMs = try container.decode(Int.self, forKey: .elapsedMs)
+    passErrors = try container.decodeIfPresent([String].self, forKey: .passErrors) ?? []
+    errorDescription = try container.decodeIfPresent(String.self, forKey: .errorDescription)
   }
 }
 
