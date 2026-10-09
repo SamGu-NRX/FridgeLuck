@@ -552,10 +552,10 @@ enum SpotlightOverlayStateTransitions {
       guard (0..<stepCount).contains(index) else { return state }
       var next = state
       next.stepIndex = index
-      // Navigation cancels the scheduled unmount (the dismiss task) but leaves `appeared`
-      // untouched. When a dismissal was pending, that combination strands the overlay
-      // mounted at opacity 0 — see SpotlightOverlayStateTransitionsTests.
-      next.isDismissalPending = false
+      // Once dismissal begins the scheduled unmount runs to completion: navigation must
+      // not cancel it. Cancelling here without restoring `appeared` left the overlay
+      // mounted at opacity 0 (Skip → Next/Back inside the 240 ms dismiss delay) — see
+      // SpotlightOverlayStateTransitionsTests.
       return next
 
     case .dismissDelayElapsed:
