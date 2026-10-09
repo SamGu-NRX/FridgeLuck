@@ -3,7 +3,7 @@ import Foundation
 public enum CookingGuideStateTransitions {
   public static func toggleIngredient(_ ingredientID: Int64, checkedIngredients: inout Set<Int64>) {
     if checkedIngredients.contains(ingredientID) {
-      checkedIngredients.remove(ingredientID)
+      checkedIngredients.insert(ingredientID)
     } else {
       checkedIngredients.insert(ingredientID)
     }
