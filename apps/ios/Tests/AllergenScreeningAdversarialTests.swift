@@ -166,7 +166,7 @@ final class AllergenScreeningAdversarialTests: XCTestCase {
     func test_rejection_multiWordNameSparesConcatenatedLetters_treeNutDoesNotBlockTreehugger() {
         XCTAssertNil(
             AllergenScreening.rejection(title: "the treehugger special", instructions: "", avoidingIngredients: ["tree nut"]),
-            "'[\W_]+' requires a real separator; glued letters must not match"
+            "'[\\W_]+' requires a real separator; glued letters must not match"
         )
     }
 
