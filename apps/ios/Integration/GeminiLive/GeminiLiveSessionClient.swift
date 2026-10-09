@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 
 @MainActor
@@ -62,6 +63,25 @@ final class GeminiLiveSessionClient: NSObject {
     recipeContext: LiveAssistantRecipeContext,
     latestConfidence: [String: Any]? = nil
   ) async {
+    await sendEnvelope(
+      type: "session_context",
+      payload: Self.sessionContextPayload(
+        recipeContext: recipeContext,
+        latestConfidence: latestConfidence
+      )
+    )
+  }
+
+  /// Builds the `session_context` payload the backend already accepts: `instructions` stays a
+  /// single string (`StoredRecipeContext.instructions`), but cleaned with the same parser the
+  /// cooking guide uses so the raw `Source: …` line and the recipe's own numbering never reach
+  /// the model. The source rides separately as `sourceAttribution` inside `selectedRecipe`.
+  static func sessionContextPayload(
+    recipeContext: LiveAssistantRecipeContext,
+    latestConfidence: [String: Any]?
+  ) -> [String: Any] {
+    let guide = CookingGuideSteps(instructions: recipeContext.instructions)
+
     let recipeIngredients = recipeContext.ingredients.map { ingredient -> [String: Any] in
       var payload: [String: Any] = ["name": ingredient.name]
       if let quantityText = ingredient.quantityText {
@@ -84,15 +104,25 @@ final class GeminiLiveSessionClient: NSObject {
       return payload
     }
 
+    var selectedRecipe: [String: Any] = [
+      "id": recipeContext.recipeID.map(String.init) ?? recipeContext.id,
+      "title": recipeContext.title,
+      "timeMinutes": recipeContext.timeMinutes,
+      "servings": recipeContext.servings,
+      "instructions": guide.steps.joined(separator: "\n"),
+      "ingredients": recipeIngredients,
+    ]
+
+    if let attribution = guide.attribution {
+      var attributionText = "Recipe from \(attribution.label)"
+      if let url = attribution.url {
+        attributionText += " (\(url.absoluteString))"
+      }
+      selectedRecipe["sourceAttribution"] = attributionText
+    }
+
     var payload: [String: Any] = [
-      "selectedRecipe": [
-        "id": recipeContext.recipeID.map(String.init) ?? recipeContext.id,
-        "title": recipeContext.title,
-        "timeMinutes": recipeContext.timeMinutes,
-        "servings": recipeContext.servings,
-        "instructions": recipeContext.instructions,
-        "ingredients": recipeIngredients,
-      ],
+      "selectedRecipe": selectedRecipe,
       "confirmedIngredients": confirmedIngredients,
     ]
 
@@ -100,7 +130,7 @@ final class GeminiLiveSessionClient: NSObject {
       payload["latestConfidence"] = latestConfidence
     }
 
-    await sendEnvelope(type: "session_context", payload: payload)
+    return payload
   }
 
   func sendTextTurn(_ text: String) async {
