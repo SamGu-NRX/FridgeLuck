@@ -36,8 +36,29 @@ protocol RecipeGenerating: Sendable {
 
   func generate(
     from ingredientNames: [String],
-    dietaryRestrictions: [String]
+    dietaryRestrictions: [String],
+    avoidIngredients: [String]
   ) async throws -> GeneratedRecipeResult?
+}
+
+// MARK: - Prompt Builder
+
+/// Builds the on-device recipe prompt; kept outside FoundationModels gating so tests can exercise it on every platform.
+enum RecipePromptBuilder {
+  static func buildPrompt(
+    ingredientNames: [String],
+    dietaryRestrictions: [String],
+    avoidIngredients: [String]
+  ) -> String {
+    var prompt = "Create one recipe using these ingredients: \(ingredientNames.joined(separator: ", "))."
+    if !dietaryRestrictions.isEmpty {
+      prompt += " Respect dietary restrictions: \(dietaryRestrictions.joined(separator: ", "))."
+    }
+    if !avoidIngredients.isEmpty {
+      prompt += " HARD EXCLUSION: The recipe must not include, garnish with, or mention any of these allergens: \(avoidIngredients.joined(separator: ", ")). Never suggest them as substitutes."
+    }
+    return prompt
+  }
 }
 
 // MARK: - AI Generator (iOS 26+)
@@ -77,15 +98,16 @@ protocol RecipeGenerating: Sendable {
 
     func generate(
       from ingredientNames: [String],
-      dietaryRestrictions: [String]
+      dietaryRestrictions: [String],
+      avoidIngredients: [String]
     ) async throws -> GeneratedRecipeResult? {
       guard case .available = model.availability else { return nil }
 
-      let ingredientLine = ingredientNames.joined(separator: ", ")
-      var prompt = "Create one recipe using these ingredients: \(ingredientLine)."
-      if !dietaryRestrictions.isEmpty {
-        prompt += " Respect dietary restrictions: \(dietaryRestrictions.joined(separator: ", "))."
-      }
+      let prompt = RecipePromptBuilder.buildPrompt(
+        ingredientNames: ingredientNames,
+        dietaryRestrictions: dietaryRestrictions,
+        avoidIngredients: avoidIngredients
+      )
 
       let response = try await session.respond(
         to: prompt,
@@ -126,8 +148,10 @@ final class FallbackRecipeGenerator: RecipeGenerating, @unchecked Sendable {
 
   func generate(
     from ingredientNames: [String],
-    dietaryRestrictions: [String]
+    dietaryRestrictions: [String],
+    avoidIngredients: [String]
   ) async throws -> GeneratedRecipeResult? {
+    // Does not use the avoid list (the engine screens its result too).
     let ids: Set<Int64> = Set(
       ingredientNames.compactMap { name in
         ingredientResolver.resolve(name) ?? IngredientLexicon.resolve(name)
