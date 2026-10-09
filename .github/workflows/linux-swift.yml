@@ -1,0 +1,43 @@
+name: Linux Swift CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux-logic-tests:
+    # Runs the Foundation/GRDB-only logic subset declared in apps/ios/Package.swift
+    # (and its tests) on Linux. The UI-coupled remainder of the app and its tests
+    # run on macos-26 in ios-ci.yml; the coverage boundary is documented in
+    # apps/ios/README.md.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      # Pinned so a change to the image's default Swift can't silently change the toolchain.
+      image: swift:6.2.4-noble
+    steps:
+      - name: Install SQLite development headers
+        # GRDB's GRDBSQLite C module needs sqlite3.h; the container ships the
+        # runtime library but not the headers. (Container runs as root.)
+        run: apt-get update && apt-get install -y --no-install-recommends libsqlite3-dev
+
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Swift Version
+        run: swift --version
+
+      - name: Build
+        working-directory: apps/ios
+        run: swift build
+
+      - name: Test
+        working-directory: apps/ios
+        run: swift test
