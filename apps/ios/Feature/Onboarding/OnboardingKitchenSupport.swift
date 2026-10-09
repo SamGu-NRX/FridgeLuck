@@ -203,7 +203,7 @@ struct OnboardingKitchenCaptureStep: View {
             }
             .padding(.horizontal, AppTheme.Space.xs)
           }
-          .transition(.opacity.combined(with: .scale(scale: 0.95)))
+          .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.95)))
 
           Text("\(photos.count) of \(configuration.maxPhotos) photos")
             .font(AppTheme.Typography.labelSmall)
