@@ -266,6 +266,7 @@ struct OnboardingKitchenReviewStep: View {
         isScanning = true
         resultsAppeared = false
       }
+      announceScanStart()
     }
 
     let vision = deps.visionService
@@ -317,6 +318,17 @@ struct OnboardingKitchenReviewStep: View {
     var message = AttributedString(
       OnboardingKitchenReview.announcement(for: state, selectedCount: selectedCount))
     message.accessibilitySpeechAnnouncementPriority = .high
+    AccessibilityNotification.Announcement(message).post()
+  }
+
+  /// A scan just started and the placeholder is about to replace what was on screen, so
+  /// VoiceOver's focus has nowhere to stay: anchor it on the heading and say what is being
+  /// read. Default priority, so the result announcement can interrupt it when the scan ends.
+  private func announceScanStart() {
+    isHeadingFocused = true
+    let message = AttributedString(
+      OnboardingKitchenReview.scanStartedAnnouncement(
+        fridgePhotos: fridgePhotos.count, pantryPhotos: pantryPhotos.count))
     AccessibilityNotification.Announcement(message).post()
   }
 
@@ -608,11 +620,27 @@ struct OnboardingKitchenReviewStep: View {
 
   // MARK: - Photos
 
+  private struct PhotoStripItem: Identifiable {
+    let id: UUID
+    let image: UIImage
+    let label: String
+  }
+
+  /// The review's thumbnails, fridge photos first, each with the VoiceOver label naming its
+  /// place and slot; `photoStripLabels` caps the count the same way the strip shows them.
+  private var photoStripItems: [PhotoStripItem] {
+    let labels = OnboardingKitchenReview.photoStripLabels(
+      fridgeCount: fridgePhotos.count, pantryCount: pantryPhotos.count)
+    return zip(labels, (fridgePhotos + pantryPhotos).prefix(6)).map { label, photo in
+      PhotoStripItem(id: photo.id, image: photo.image, label: label)
+    }
+  }
+
   private var photoStrip: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: AppTheme.Space.xs) {
-        ForEach(Array((fridgePhotos + pantryPhotos).prefix(6))) { photo in
-          Image(uiImage: photo.image)
+        ForEach(photoStripItems) { item in
+          Image(uiImage: item.image)
             .resizable()
             .scaledToFill()
             .frame(width: 56, height: 56)
@@ -623,7 +651,7 @@ struct OnboardingKitchenReviewStep: View {
               RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
                 .stroke(AppTheme.oat.opacity(0.25), lineWidth: 1)
             )
-            .accessibilityHidden(true)
+            .accessibilityLabel(item.label)
         }
       }
     }
