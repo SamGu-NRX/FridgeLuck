@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import UIKit
 import os
@@ -71,7 +72,9 @@ final class ReverseScanService: Sendable {
     let categorized = ConfidenceRouter.categorize(scanResult.detections)
 
     let detections = scanResult.detections
-    let overallDetectionConfidence = averageConfidence(for: detections)
+    let overallDetectionConfidence = ReverseScanFeatureLogic.meanDetectionConfidence(
+      detections.map(\.confidence)
+    )
     logger.info(
       "Reverse scan detections ready. total=\(detections.count, privacy: .public), auto=\(categorized.confirmed.count, privacy: .public), confirm=\(categorized.needsConfirmation.count, privacy: .public), possible=\(categorized.possible.count, privacy: .public), overall=\(overallDetectionConfidence, privacy: .public)"
     )
@@ -191,12 +194,28 @@ final class ReverseScanService: Sendable {
       dishEstimateService.estimate(template: $0, size: .normal)
     }
 
+    let candidateFacts = candidates.map { candidate in
+      ReverseScanCandidateFacts(
+        confidenceScore: candidate.confidenceScore,
+        matchedRequired: candidate.recipe.matchedRequired,
+        totalRequired: candidate.recipe.totalRequired,
+        missingRequiredCount: candidate.recipe.missingRequiredCount
+      )
+    }
+
     let confidenceAssessment = confidenceLearningService.assess(
-      signals: confidenceSignals(
+      signals: ReverseScanFeatureLogic.confidenceSignals(
         overallDetectionConfidence: overallDetectionConfidence,
-        candidates: candidates
-      ),
-      hardFailReasons: confidenceHardFailReasons(candidates: candidates)
+        candidates: candidateFacts
+      ).map { signal in
+        ConfidenceSignalInput(
+          key: signal.key,
+          rawScore: signal.rawScore,
+          weight: signal.weight,
+          reason: signal.reason
+        )
+      },
+      hardFailReasons: ReverseScanFeatureLogic.hardFailReasons(candidates: candidateFacts)
     )
 
     let deterministicReady =
@@ -241,14 +260,6 @@ final class ReverseScanService: Sendable {
     return deduped
   }
 
-  private func averageConfidence(for detections: [Detection]) -> Double {
-    guard !detections.isEmpty else { return 0 }
-    let sum = detections.reduce(0.0) { partial, detection in
-      partial + max(0, min(Double(detection.confidence), 1.0))
-    }
-    return sum / Double(detections.count)
-  }
-
   private func confidenceScore(
     for scoredRecipe: ScoredRecipe,
     overallDetectionConfidence: Double,
@@ -267,78 +278,6 @@ final class ReverseScanService: Sendable {
       - missingPenalty
 
     return max(0, min(rawScore, 1.0))
-  }
-
-  private func confidenceSignals(
-    overallDetectionConfidence: Double,
-    candidates: [ReverseScanRecipeCandidate]
-  ) -> [ConfidenceSignalInput] {
-    let topCandidate = candidates.first
-    let topScore = topCandidate?.confidenceScore ?? 0
-
-    let requiredCoverage: Double
-    if let top = topCandidate {
-      requiredCoverage =
-        Double(top.recipe.matchedRequired) / Double(max(top.recipe.totalRequired, 1))
-    } else {
-      requiredCoverage = 0
-    }
-
-    let marginScore: Double
-    if candidates.count >= 2 {
-      let margin = max(0, (candidates[0].confidenceScore - candidates[1].confidenceScore))
-      marginScore = max(0, min(0.5 + margin, 1.0))
-    } else if candidates.count == 1 {
-      marginScore = 0.82
-    } else {
-      marginScore = 0
-    }
-
-    return [
-      ConfidenceSignalInput(
-        key: "reverse_scan.vision_detection",
-        rawScore: overallDetectionConfidence,
-        weight: 0.32,
-        reason: "ingredient detection"
-      ),
-      ConfidenceSignalInput(
-        key: "reverse_scan.recipe_match",
-        rawScore: topScore,
-        weight: 0.30,
-        reason: "recipe match"
-      ),
-      ConfidenceSignalInput(
-        key: "reverse_scan.required_coverage",
-        rawScore: requiredCoverage,
-        weight: 0.23,
-        reason: "required ingredient coverage"
-      ),
-      ConfidenceSignalInput(
-        key: "reverse_scan.candidate_margin",
-        rawScore: marginScore,
-        weight: 0.15,
-        reason: "candidate ambiguity"
-      ),
-    ]
-  }
-
-  private func confidenceHardFailReasons(candidates: [ReverseScanRecipeCandidate]) -> [String] {
-    guard let top = candidates.first else {
-      return ["No confident recipe candidate."]
-    }
-
-    if top.recipe.missingRequiredCount > 2 {
-      return ["Too many required ingredients are missing."]
-    }
-
-    if candidates.count >= 2 {
-      let gap = top.confidenceScore - candidates[1].confidenceScore
-      if gap < 0.06 {
-        return ["Top recipe candidates are highly ambiguous."]
-      }
-    }
-
-    return []
   }
 
   private func isDeterministicReady(
