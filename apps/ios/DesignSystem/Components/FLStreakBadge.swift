@@ -2,11 +2,18 @@ import SwiftUI
 
 struct FLStreakBadge: View {
   static let milestoneThresholds: Set<Int> = [7, 14, 30, 60, 100]
-  private static let dayLabels = ["S", "M", "T", "W", "T", "F", "S"]
+  static let dayLabels = ["S", "M", "T", "W", "T", "F", "S"]
 
   let currentStreak: Int
   let weekActivity: [Bool]
   var isMilestone: Bool = false
+
+  /// Pure summary behind the VoiceOver label; kept here so the string and the
+  /// rendered 7-dot window stay in sync. Testable without rendering.
+  static func accessibilitySummary(currentStreak: Int, weekActivity: [Bool]) -> String {
+    let activeDays = weekActivity.filter { $0 }.count
+    return "\(currentStreak) day streak, \(activeDays) of 7 days active this week"
+  }
 
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var milestoneScale: CGFloat = 1.0
@@ -62,8 +69,6 @@ struct FLStreakBadge: View {
       }
     }
     .accessibilityElement(children: .ignore)
-    .accessibilityLabel(
-      "\(currentStreak) day streak, \(weekActivity.filter { $0 }.count) of 7 days active this week"
-    )
+    .accessibilityLabel(Self.accessibilitySummary(currentStreak: currentStreak, weekActivity: weekActivity))
   }
 }

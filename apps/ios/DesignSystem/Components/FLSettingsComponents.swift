@@ -4,7 +4,7 @@ struct FLSettingsSummaryCard: View {
   let title: String
   let subtitle: String
 
-  private var initial: String {
+  var initial: String {
     String(title.trimmingCharacters(in: .whitespacesAndNewlines).prefix(1)).uppercased()
   }
 
