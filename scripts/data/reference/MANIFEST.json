@@ -1,0 +1,29 @@
+{
+  "extract_file": "fdc_reference_extracts.json",
+  "extract_record_count": 798,
+  "extract_sha256": "c7b8840e371ed9df654ce073bc9895832cbe653f2ec02ad16e05278a27d44fe2",
+  "generated_at_utc": "2026-10-09T21:45:19Z",
+  "license": "USDA FoodData Central bulk releases are public domain (no API key required).",
+  "missing_fdc_ids": [
+    2710824,
+    2747652
+  ],
+  "sources": [
+    {
+      "bytes": 12566612,
+      "dataset": "sr_legacy",
+      "edition": "SR Legacy 2021-10-28",
+      "filename": "FoodData_Central_sr_legacy_food_json_2021-10-28.zip",
+      "sha256": "789240d42d51640b931782310403c415eb4aa03383d8f0a52f6315db80f96bc7",
+      "url": "https://fdc.nal.usda.gov/fdc-datasets/foodDataCentral.srLegacyJson.2021-10-28.zip"
+    },
+    {
+      "bytes": 425494,
+      "dataset": "foundation",
+      "edition": "Foundation Foods 2024-04-18",
+      "filename": "FoodData_Central_foundation_food_json_2024-04-18.zip",
+      "sha256": "4884bcfc32496f514037019346fe34aa436c195bd2cc3ce41bc67d521e867be0",
+      "url": "https://fdc.nal.usda.gov/fdc-datasets/foodDataCentral.foundationJson.2024-04-18.zip"
+    }
+  ]
+}
