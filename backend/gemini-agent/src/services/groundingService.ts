@@ -2,17 +2,45 @@ import type { GoogleGenAI } from "@google/genai";
 import type { AppConfig } from "../config.js";
 
 export interface GroundedAnswer {
-  answer: string;
+  /**
+   * The model's answer text, or null when the service could not provide
+   * one at all (grounding disabled, no model client configured).
+   */
+  answer: string | null;
   sources: Array<{ title: string; url: string }>;
+  /**
+   * True only when Google Search grounding returned at least one source for
+   * THIS answer. Search links are passed through verbatim; nothing here
+   * verifies a source actually supports the sentence it sits next to —
+   * that distinction (citation display vs. truth) is a documented boundary
+   * in HARDENING.md, and `grounded: false` is how the model/client can tell
+   * the user the answer is unverified.
+   */
+  grounded: boolean;
+  unavailableReason?: "grounding_disabled" | "model_unavailable";
 }
 
 export async function answerFoodSafetyQuestion(
-  ai: GoogleGenAI,
+  ai: GoogleGenAI | null,
   config: Pick<AppConfig, "recipeModel" | "groundingEnabled">,
   question: string
 ): Promise<GroundedAnswer> {
   if (!config.groundingEnabled) {
-    throw new Error("Google grounding is disabled for this environment.");
+    return {
+      answer: null,
+      sources: [],
+      grounded: false,
+      unavailableReason: "grounding_disabled"
+    };
+  }
+
+  if (!ai) {
+    return {
+      answer: null,
+      sources: [],
+      grounded: false,
+      unavailableReason: "model_unavailable"
+    };
   }
 
   const response = await ai.models.generateContent({
@@ -46,6 +74,7 @@ export async function answerFoodSafetyQuestion(
 
   return {
     answer: response.text ?? "I could not find grounded guidance for that question.",
-    sources
+    sources,
+    grounded: sources.length > 0
   };
 }
