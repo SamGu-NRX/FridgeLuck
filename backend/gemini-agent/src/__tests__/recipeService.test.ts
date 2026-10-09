@@ -202,6 +202,8 @@ describe("generateRecipe — grounded behavior", () => {
     const calls: unknown[] = [];
     const ai = fakeAi(
       recipePayload({
+        title: "Sesame Tofu",
+        instructions: "Pan-fry the tofu, then glaze it.",
         ingredientsUsed: ["tofu", "water", "salt", "black pepper", "cooking oil"]
       }),
       calls
