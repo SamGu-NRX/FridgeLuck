@@ -540,6 +540,7 @@ struct UpdateGroceriesView: View {
   private func makeAnalyzer() -> GroceryCaptureAnalyzer {
     let vision = deps.visionService
     let repository = deps.ingredientRepository
+    let resolver = deps.ingredientCatalogResolver
 
     return GroceryCaptureAnalyzer(
       passes: .init(
@@ -576,8 +577,8 @@ struct UpdateGroceriesView: View {
           }
           if let id = IngredientIdentityResolution.resolveTextFromCatalog(
             text,
-            catalogName: repository.resolve,
-            catalogTokens: repository.resolveFromText
+            catalogName: resolver.resolve,
+            catalogTokens: resolver.resolveFromText
           ) {
             return (id, Double(ConfidenceRouter.Thresholds.ocrFuzzyConfirmMin))
           }
@@ -597,7 +598,7 @@ struct UpdateGroceriesView: View {
             }
         },
         displayName: { id in
-          repository.displayName(for: id) ?? IngredientLexicon.displayName(for: id)
+          resolver.displayName(for: id) ?? IngredientLexicon.displayName(for: id)
         },
         estimateUnitGrams: { id in
           guard let ingredient = (try? repository.fetch(id: id)) ?? nil else { return nil }
