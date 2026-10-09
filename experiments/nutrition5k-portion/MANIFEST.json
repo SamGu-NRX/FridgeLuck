@@ -1,0 +1,53 @@
+{
+  "experiment": "nutrition5k-portion",
+  "dataset": {
+    "name": "Nutrition5k",
+    "source": "gs://nutrition5k (public Google Cloud Storage bucket)",
+    "fetched_on": "2026-10-09",
+    "fetch_mode": "selective per-file fetch, no archive download",
+    "files_fetched": 6524,
+    "files_fetched_breakdown": {"rgb.png": 3262, "depth_raw.png": 3262},
+    "fetch_errors": 0,
+    "integrity": "sha256 recorded per file at fetch time (imagery_manifest.jsonl)",
+    "imagery_bytes_on_disk": "1.9 GB",
+    "known_corrupt_source_files": [
+      {"path": "dish_1564159636/depth_raw.png", "issue": "0 bytes in bucket (empty-string sha256 e3b0c442...)", "policy": "counted as depth-unavailable for that dish"}
+    ],
+    "license": "CC BY 4.0 (bucket README.md, quoted in ATTRIBUTION.md)",
+    "citation": "thames2021nutrition5k (see ATTRIBUTION.md)"
+  },
+  "official_files_used_unmodified": [
+    "dish_metadata_cafe1.csv", "dish_metadata_cafe2.csv", "ingredients_metadata.csv",
+    "rgb_train_ids.txt", "rgb_test_ids.txt", "depth_train_ids.txt", "depth_test_ids.txt",
+    "dish_ids_all.txt", "dish_ids_cafe1.txt", "dish_ids_cafe2.txt",
+    "README", "README.md", "compute_eval_statistics.py"
+  ],
+  "official_split_sizes": {"rgb_train": 4059, "rgb_test": 709, "depth_train": 2758, "depth_test": 507},
+  "overhead_imagery_available": {"dishes_in_bucket": 3490, "in_official_rgb_splits": 3262, "official_rgb_test": 507},
+  "protocol": {
+    "frozen_config": "FROZEN_CONFIG.json",
+    "dev_carve": "2,360 train / 395 dev, clustered by plate (20 s scan-timestamp gap), candidates wholly inside official rgb train",
+    "test_usage": "official RGB test with overhead imagery (507 dishes = official depth test), evaluated once",
+    "arms": ["median", "rgb", "rgbd", "foodlist (privileged)"],
+    "estimator_selection": "dev-only; HistGradientBoostingRegressor selected for every arm",
+    "zero_target_policy": "zeros kept in MAE/bias/nMAE, excluded from relative-error and coverage, counted in n_zero"
+  },
+  "results_headline": {
+    "mass_g_mae": {"median": 115.31, "foodlist": 69.97, "rgb": 53.19, "rgbd": 43.50},
+    "energy_kcal_mae": {"median": 167.41, "foodlist": 101.74, "rgb": 88.42, "rgbd": 82.52},
+    "official_crosscheck_rgb": {"calories_MAE": 88.42, "calories_MAE_%": 34.61, "mass_MAE": 53.19, "mass_MAE_%": 26.79}
+  },
+  "environment": {
+    "python": "3.13.14",
+    "numpy": "2.5.2",
+    "pillow": "12.3.0",
+    "machine": "8-core x86_64 container, CPU only",
+    "feature_extraction_ms_per_image_single_thread": 55.1
+  },
+  "tests": {"suite": "src/test_pipeline.py", "result": "11 passed", "includes": "official compute_eval_statistics.py parity test"},
+  "not_executed": [
+    "vision-LLM endpoint arm (src/vision_endpoint.py) - no authorized GEMINI_API_KEY in environment; budget-gated, refused to run without credential",
+    "learned-backbone arms (no CUDA in environment)",
+    "iOS on-device runtime validation (numpy reference implementation only)"
+  ]
+}
