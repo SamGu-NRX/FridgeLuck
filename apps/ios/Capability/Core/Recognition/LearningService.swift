@@ -39,6 +39,12 @@ final class LearningService: @unchecked Sendable {
     loadCache()
   }
 
+  // Labels arrive from Vision text output with stray spaces; corrections must
+  // share one key regardless of casing or surrounding whitespace.
+  private static func normalizedLabel(_ label: String) -> String {
+    label.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+  }
+
   // MARK: - Cache Management
 
   private func loadCache() {
@@ -49,7 +55,7 @@ final class LearningService: @unchecked Sendable {
           sql: """
             SELECT vision_label, corrected_ingredient_id, correction_count
             FROM user_corrections
-            ORDER BY correction_count DESC
+            ORDER BY correction_count DESC, last_used_at DESC, rowid DESC
             """)
 
         lock.lock()
@@ -57,7 +63,7 @@ final class LearningService: @unchecked Sendable {
 
         for row in rows {
           let label: String = row["vision_label"]
-          let key = label.lowercased()
+          let key = Self.normalizedLabel(label)
           let candidate = CachedCorrection(
             ingredientId: row["corrected_ingredient_id"],
             count: row["correction_count"]
@@ -76,7 +82,7 @@ final class LearningService: @unchecked Sendable {
 
   /// Record that the user corrected a Vision label to a specific ingredient.
   func recordCorrection(visionLabel: String, correctedIngredientId: Int64) {
-    let key = visionLabel.lowercased()
+    let key = Self.normalizedLabel(visionLabel)
 
     do {
       try db.write { db in
@@ -102,7 +108,7 @@ final class LearningService: @unchecked Sendable {
               SELECT corrected_ingredient_id, correction_count
               FROM user_corrections
               WHERE vision_label = ?
-              ORDER BY correction_count DESC, last_used_at DESC
+              ORDER BY correction_count DESC, last_used_at DESC, rowid DESC
               LIMIT 1
               """, arguments: [key])
         else {
@@ -129,7 +135,7 @@ final class LearningService: @unchecked Sendable {
   /// Returns the corrected ingredient ID if the user has corrected this label
   /// at least 2 times (threshold prevents accidental auto-correction).
   func correctedIngredientId(for visionLabel: String) -> Int64? {
-    let key = visionLabel.lowercased()
+    let key = Self.normalizedLabel(visionLabel)
     lock.lock()
     defer { lock.unlock() }
 
@@ -142,7 +148,7 @@ final class LearningService: @unchecked Sendable {
   /// Returns the suggested correction even with count == 1.
   /// Used to pre-select the right option in medium-confidence prompts.
   func suggestedCorrection(for visionLabel: String) -> Int64? {
-    let key = visionLabel.lowercased()
+    let key = Self.normalizedLabel(visionLabel)
     lock.lock()
     defer { lock.unlock() }
     return cache[key]?.ingredientId
