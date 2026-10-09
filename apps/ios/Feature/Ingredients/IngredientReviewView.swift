@@ -736,7 +736,7 @@ struct IngredientReviewView: View {
     NotThisItemOutcome(
       removedConfirmedIngredientId: selectedIngredientId,
       didClearSelection: true,
-      didRejectDetection: false,
+      didRejectDetection: true,
       recordedSuggestedOutcome: suggestedIngredientId.map { $0 == detection.ingredientId }
     )
   }
