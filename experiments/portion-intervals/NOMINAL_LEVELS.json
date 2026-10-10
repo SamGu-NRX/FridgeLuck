@@ -1,0 +1,16 @@
+{
+  "declared_before_test_scoring": true,
+  "declaration_record": "This file is committed in Milestone 1, before any test-set scoring exists in git history. No width, level, or arm choice may derive from official-test rows.",
+  "nominal_levels": [0.5, 0.8, 0.9],
+  "nominal_levels_rationale": "50/80/90% - the p50/p90 error-quantile flavor of the locked scorer plus an intermediate 80%; coverage promises a UI would plausibly make.",
+  "fixed_widths": {
+    "mass_g": [25.0, 50.0, 100.0],
+    "energy_kcal": [100.0, 250.0, 500.0]
+  },
+  "fixed_width_rationale": "mass grid mirrors the locked scorer's absolute tolerance bands (25/50/100 g, FROZEN_CONFIG scoring.mass_abs_tols_g); energy grid brackets the committed development aggregate MAEs across arms (dev_metrics.csv: 90.3-167.4 kcal) - development-informed, test-free.",
+  "conformal_calibration_fraction": 0.5,
+  "dev_residual_definition": "interval = pred +/- q, q = empirical |y_dev - pred_dev| quantile at the nominal level (linear interpolation, no finite-sample correction), over ALL eligible development rows.",
+  "grouped_split_conformal_definition": "dev plate clusters split by seed into calibration/holdout halves (grouped: no plate spans both); cluster score = mean |residual| within cluster; half-width = conformal_quantile(cluster scores, level) with finite-sample correction ceil((n+1)*level) counting clusters.",
+  "population_discipline": "official-test predictions are consumed read-only for scoring only; calibration uses development rows only.",
+  "unavailable_arm_policy": "methods requiring per-record development predictions that are not committed get an explicit unavailable entry with a machine-readable reason; the study does NOT re-fit or re-acquire PR41's models."
+}
