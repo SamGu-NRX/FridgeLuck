@@ -162,7 +162,8 @@ struct ContentView: View {
   private let orbLongPressThreshold: TimeInterval = 0.35
 
   private var hasActiveHomeDestination: Bool {
-    navigateToScan || navigateToReverseScan || navigateToDemoMode || navigateToDirectReview
+    navigateToScan || navigateToSearch || navigateToReverseScan || navigateToDemoMode
+      || navigateToDirectReview
       || navigateToDirectResults || homeUpdateGroceriesLaunchMode != nil
       || homeRecommendationRoute != nil || liveAssistantRoute != nil
   }
@@ -793,6 +794,7 @@ struct ContentView: View {
 
   private func clearHomeNavigation() {
     navigateToScan = false
+    navigateToSearch = false
     navigateToReverseScan = false
     navigateToDemoMode = false
     navigateToDirectReview = false

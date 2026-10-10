@@ -130,6 +130,26 @@ final class AppDependencies: ObservableObject {
       recipeRepository: recipeRepository,
       ingredientResolver: ingredientCatalogResolver
     )
+
+    let searchSources = SearchSources(
+      db: db,
+      ingredientRepository: ingredientRepository,
+      inventoryRepository: inventoryRepository,
+      recipeRepository: recipeRepository,
+      userDataRepository: userDataRepository
+    )
+    let appDatabasePath = appDatabase.path
+    let searchIndexPath = (appDatabasePath as NSString)
+      .deletingLastPathComponent
+      .appendingPathComponent("fridgeluck-search-index.sqlite")
+    self.searchIndexService = SearchIndexService(
+      indexPath: searchIndexPath,
+      sources: searchSources,
+      sourceEpochProvider: {
+        SearchIndexService.sourceEpoch(forDatabaseAtPath: appDatabasePath)
+      }
+    )
+    self.searchRestoreToken = searchIndexService.observeRestoreNotifications()
   }
 
   func makeRecommendationEngine() -> RecommendationEngine {
