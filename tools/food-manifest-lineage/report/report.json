@@ -1,0 +1,911 @@
+{
+  "audit_head": "148c6e7a4ee63d4b8c31433a74c643001c1e04b6",
+  "audit_branch": "obv/fl-l3-source-reuse-audit",
+  "scope": "read-only; reads only files committed in this repository; repairs are proposals and nothing is modified",
+  "totals": {
+    "manifests": 25,
+    "records": 1992,
+    "multi_member_clusters": 801,
+    "singletons": 64,
+    "unknown_source_id_records": 1,
+    "unknown_content_hash_records": 1988
+  },
+  "census": [
+    {
+      "path": "apps/ios/Resources/benchmark_manifest.json",
+      "records": 4,
+      "image_records": 4,
+      "product_records": 0,
+      "distinct_source_ids": 4,
+      "distinct_declared_groups": 4,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 0
+    },
+    {
+      "path": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 49,
+      "distinct_declared_groups": 0,
+      "unknown_source_id_records": 1,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/catalog/usda_curated_ingredients.json",
+      "records": 800,
+      "image_records": 0,
+      "product_records": 800,
+      "distinct_source_ids": 800,
+      "distinct_declared_groups": 9,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 800
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_001.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 4,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_002.json",
+      "records": 10,
+      "image_records": 0,
+      "product_records": 10,
+      "distinct_source_ids": 10,
+      "distinct_declared_groups": 3,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 10
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_003.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 5,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_004.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 4,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_005.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 4,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_006.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 4,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_007.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 4,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_008.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 4,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_009.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 3,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_010.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 4,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_011.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 6,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_012.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 7,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_013.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 8,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_014.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 7,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_015.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 6,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_016.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 7,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_017.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 5,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_018.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 7,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_019.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 9,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_020.json",
+      "records": 50,
+      "image_records": 0,
+      "product_records": 50,
+      "distinct_source_ids": 50,
+      "distinct_declared_groups": 5,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 50
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_021.json",
+      "records": 30,
+      "image_records": 0,
+      "product_records": 30,
+      "distinct_source_ids": 30,
+      "distinct_declared_groups": 7,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 30
+    },
+    {
+      "path": "scripts/data/usda_manual_overrides.json",
+      "records": 148,
+      "image_records": 0,
+      "product_records": 148,
+      "distinct_source_ids": 148,
+      "distinct_declared_groups": 0,
+      "unknown_source_id_records": 0,
+      "unknown_hash_records": 148
+    }
+  ],
+  "proposed_repairs": {
+    "align_group": {
+      "count": 138,
+      "examples": [
+        {
+          "cluster_id": "cl-00e2c64dc24f",
+          "canonical_group": [
+            "nut_seed"
+          ],
+          "declared_groups": [
+            "nut_seed",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_008.json",
+              "item_id": "batch8-rec-000041",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-01677013d38d",
+          "canonical_group": [
+            "dairy_egg"
+          ],
+          "declared_groups": [
+            "dairy_egg",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_005.json",
+              "item_id": "batch5-rec-000045",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-0411c89ec2c3",
+          "canonical_group": [
+            "oil_fat"
+          ],
+          "declared_groups": [
+            "oil_fat",
+            "protein"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_011.json",
+              "item_id": "batch11-rec-000044",
+              "declared_group": "protein"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-0435e988eefd",
+          "canonical_group": [
+            "dairy_egg"
+          ],
+          "declared_groups": [
+            "dairy_egg",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_005.json",
+              "item_id": "batch5-rec-000049",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-07d84b94ff63",
+          "canonical_group": [
+            "grain_legume"
+          ],
+          "declared_groups": [
+            "grain_legume",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_001.json",
+              "item_id": "batch1-rec-000039",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-09dc29c85498",
+          "canonical_group": [
+            "nut_seed"
+          ],
+          "declared_groups": [
+            "nut_seed",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_008.json",
+              "item_id": "batch8-rec-000039",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-0c62a9d916a5",
+          "canonical_group": [
+            "dairy_egg"
+          ],
+          "declared_groups": [
+            "dairy_egg",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_007.json",
+              "item_id": "batch7-rec-000010",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-0cf28ae4a758",
+          "canonical_group": [
+            "grain_legume"
+          ],
+          "declared_groups": [
+            "grain_legume",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_006.json",
+              "item_id": "batch6-rec-000032",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-0e07186ba455",
+          "canonical_group": [
+            "grain_legume"
+          ],
+          "declared_groups": [
+            "grain_legume",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_006.json",
+              "item_id": "batch6-rec-000041",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-1085ddbd0495",
+          "canonical_group": [
+            "grain_legume"
+          ],
+          "declared_groups": [
+            "grain_legume",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_006.json",
+              "item_id": "batch6-rec-000034",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-10f04dd8e604",
+          "canonical_group": [
+            "dairy_egg"
+          ],
+          "declared_groups": [
+            "dairy_egg",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_005.json",
+              "item_id": "batch5-rec-000043",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-13648a8635b3",
+          "canonical_group": [
+            "condiment"
+          ],
+          "declared_groups": [
+            "condiment",
+            "fruit"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_009.json",
+              "item_id": "batch9-rec-000009",
+              "declared_group": "fruit"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-15e9fc387cd6",
+          "canonical_group": [
+            "dairy_egg"
+          ],
+          "declared_groups": [
+            "dairy_egg",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_008.json",
+              "item_id": "batch8-rec-000009",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-19366e7f003d",
+          "canonical_group": [
+            "grain_legume"
+          ],
+          "declared_groups": [
+            "grain_legume",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_004.json",
+              "item_id": "batch4-rec-000006",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-1bfac9e9e4f0",
+          "canonical_group": [
+            "dairy_egg"
+          ],
+          "declared_groups": [
+            "dairy_egg",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_005.json",
+              "item_id": "batch5-rec-000048",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-1c183b10f4fe",
+          "canonical_group": [
+            "nut_seed"
+          ],
+          "declared_groups": [
+            "nut_seed",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_008.json",
+              "item_id": "batch8-rec-000044",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-1d3700fff00a",
+          "canonical_group": [
+            "nut_seed"
+          ],
+          "declared_groups": [
+            "nut_seed",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_008.json",
+              "item_id": "batch8-rec-000036",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-2217ec820f38",
+          "canonical_group": [
+            "nut_seed"
+          ],
+          "declared_groups": [
+            "nut_seed",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_008.json",
+              "item_id": "batch8-rec-000031",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-22cd9cb0f4cd",
+          "canonical_group": [
+            "oil_fat"
+          ],
+          "declared_groups": [
+            "oil_fat",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_008.json",
+              "item_id": "batch8-rec-000049",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        },
+        {
+          "cluster_id": "cl-2600fd970763",
+          "canonical_group": [
+            "grain_legume"
+          ],
+          "declared_groups": [
+            "grain_legume",
+            "other"
+          ],
+          "conflicts": [
+            {
+              "manifest": "scripts/data/review_batches/manual_batch_003.json",
+              "item_id": "batch3-rec-000022",
+              "declared_group": "other"
+            }
+          ],
+          "conflict_count": 1
+        }
+      ],
+      "note": "same upstream product declared under different groups; canonical group is the catalog's when present"
+    },
+    "within_manifest_duplicate": {
+      "count": 0,
+      "examples": [],
+      "note": "same source id appears on multiple rows inside one manifest; candidate for upsert-style dedupe"
+    },
+    "orphan_source": {
+      "count": 64,
+      "examples": [
+        {
+          "source_id": "167535",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "tortilla"
+          ]
+        },
+        {
+          "source_id": "167614",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "canned tuna"
+          ]
+        },
+        {
+          "source_id": "167647",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "salmon"
+          ]
+        },
+        {
+          "source_id": "167943",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "bread"
+          ]
+        },
+        {
+          "source_id": "168218",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "168219",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "168404",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "black beans"
+          ]
+        },
+        {
+          "source_id": "168479",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "168483",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "sweet potato"
+          ]
+        },
+        {
+          "source_id": "168651",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "ground beef"
+          ]
+        },
+        {
+          "source_id": "168663",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "168878",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "rice"
+          ]
+        },
+        {
+          "source_id": "168926",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "169082",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "169127",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "apple"
+          ]
+        },
+        {
+          "source_id": "169179",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "169291",
+          "first_manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "labels": [
+            "zucchini"
+          ]
+        },
+        {
+          "source_id": "169416",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "169430",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        },
+        {
+          "source_id": "169483",
+          "first_manifest": "scripts/data/usda_manual_overrides.json",
+          "labels": []
+        }
+      ],
+      "note": "source ids referenced outside the catalog but absent from it; add to the catalog or drop the reference"
+    },
+    "label_drift": {
+      "count": 166,
+      "examples": [
+        {
+          "source_id": "167722",
+          "labels": [
+            "Tofu Yogurt",
+            "tofu"
+          ]
+        },
+        {
+          "source_id": "167737",
+          "labels": [
+            "Corn-Peanut-Olive Oil Blend",
+            "olive oil"
+          ]
+        },
+        {
+          "source_id": "167746",
+          "labels": [
+            "Lemons (Without Peel, Raw)",
+            "lemon"
+          ]
+        },
+        {
+          "source_id": "167764",
+          "labels": [
+            "Tropical Fruit Salad (Heavy Syrup)",
+            "banana"
+          ]
+        },
+        {
+          "source_id": "167782",
+          "labels": [
+            "Abiyuch Fruit",
+            "Abiyuch Fruit (Raw)"
+          ]
+        },
+        {
+          "source_id": "167845",
+          "labels": [
+            "Pork Shoulder (Lean, Raw)",
+            "Pork Shoulder (Raw, Lean)"
+          ]
+        },
+        {
+          "source_id": "168129",
+          "labels": [
+            "Jellyfish (Salted, Dried)",
+            "Salted Dried Jellyfish"
+          ]
+        },
+        {
+          "source_id": "168149",
+          "labels": [
+            "Mackerel (Salted)",
+            "Salted Mackerel"
+          ]
+        },
+        {
+          "source_id": "168151",
+          "labels": [
+            "Jujube",
+            "Jujube (Raw)"
+          ]
+        },
+        {
+          "source_id": "168154",
+          "labels": [
+            "Kumquats",
+            "Kumquats (Raw)"
+          ]
+        },
+        {
+          "source_id": "168155",
+          "labels": [
+            "Limes",
+            "Limes (Raw)",
+            "lime"
+          ]
+        },
+        {
+          "source_id": "168160",
+          "labels": [
+            "Prunes (Dehydrated, Low-Moisture)",
+            "Prunes (Low-Moisture, Dried)"
+          ]
+        },
+        {
+          "source_id": "168169",
+          "labels": [
+            "Rhubarb (Frozen, Cooked with Sugar)",
+            "Rhubarb (Frozen, Cooked, Sugared)"
+          ]
+        },
+        {
+          "source_id": "168171",
+          "labels": [
+            "Rose Apple (Raw)",
+            "Rose Apples (Raw)"
+          ]
+        },
+        {
+          "source_id": "168176",
+          "labels": [
+            "Feijoa",
+            "Feijoa (Raw)"
+          ]
+        },
+        {
+          "source_id": "168195",
+          "labels": [
+            "Clementines",
+            "Clementines (Raw)"
+          ]
+        },
+        {
+          "source_id": "168299",
+          "labels": [
+            "Pork Back Ribs (Raw)",
+            "Pork Backribs (Raw)"
+          ]
+        },
+        {
+          "source_id": "168361",
+          "labels": [
+            "Pork Tenderloin (Lean, Raw)",
+            "Pork Tenderloin (Raw, Lean)"
+          ]
+        },
+        {
+          "source_id": "168376",
+          "labels": [
+            "Pork Loin Backribs (Lean, Raw)",
+            "Pork Loin Backribs (Raw, Lean)"
+          ]
+        },
+        {
+          "source_id": "168384",
+          "labels": [
+            "Alfalfa Sprouts",
+            "Alfalfa Sprouts (Raw)"
+          ]
+        }
+      ],
+      "note": "same source id declared under multiple labels; pick a canonical display name"
+    }
+  }
+}

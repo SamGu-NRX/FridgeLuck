@@ -31,8 +31,12 @@ lineage/graph.py      Union-find clustering over composite (origin, key-type, ke
 lineage/detectors.py  Per-cluster categories: exact-duplicate, renamed-url,
                       source-reuse, transitive-source, cross-manifest, cross-group
 check.py              Contract-fixture check (expectations + false-positive controls)
+report.py             Compact census + proposed repairs; --verify-report checks
+                      byte-identical regeneration
+audit/                Pinned inputs.json + read-only audit runner + committed results
 fixtures/             Synthetic contracts: 11 manifests, 32 records, 15 controls
-tests/                pytest suite (adapters, engine semantics, check integration)
+tests/                pytest suite (adapters, engine semantics, check integration,
+                      harness mutation tests)
 ```
 
 ### Record schema
@@ -103,6 +107,12 @@ python3 -m pytest tools/food-manifest-lineage/tests -q
 # Pinned read-only audit of the repository's committed manifests
 # (verifies audit/inputs.json pins, writes audit/results.json)
 python3 tools/food-manifest-lineage/audit/audit.py
+
+# Compact report with proposed (never applied) repairs
+python3 tools/food-manifest-lineage/report.py
+
+# Verify the committed report still regenerates byte-identically
+python3 tools/food-manifest-lineage/report.py --verify-report
 ```
 
 ### Contract fixtures
@@ -151,10 +161,28 @@ separate) and `audit/summary.md` interprets it. The audit is read-only and
 offline: it hashes committed files, fetches nothing, and never treats a
 declared perceptual hash as evidence of duplication.
 
+## Report milestone
+
+`report.py` runs the same pinned scan and writes `report/report.json` plus a
+deterministic `report/summary.md`: a compact per-manifest census and four
+repair categories derived mechanically from the findings — align-group
+conflicts (catalog group as canonical), within-manifest duplicate rows,
+orphan source references, and label drift. Proposals are informational; the
+tool never modifies a manifest or dataset. `--verify-report` regenerates
+both files and requires a byte-identical match, so a committed report acts
+as a regression gate.
+
+Mutation tests (`tests/test_mutation.py`) run check.py as a subprocess on
+mutated fixture copies and prove the harness catches violations: a dropped
+expectation, a broken planted duplicate, a newly planted duplicate or
+source-reuse relationship on a quiet control all fail the check, while
+record-order permutation (content-derived ids) and group-label similarity
+still pass.
+
 ## Known limitation
 
-`audit.py` (census + per-manifest verification over the repository's real
-committed manifests) is implemented and its results are committed under
-`audit/`; see the Audit milestone section. The dataset families not committed
-to this repository remain out of scope for the audit even though their
-adapter shapes are contract-tested.
+`audit.py` (pinned read-only audit) and `report.py` (compact census with
+proposed repairs) are implemented over the repository's real committed
+manifests; results are committed under `audit/` and `report/`. The dataset
+families not committed to this repository remain out of scope for the audit
+even though their adapter shapes are contract-tested.
