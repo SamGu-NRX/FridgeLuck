@@ -1,0 +1,131 @@
+{
+ "arm_status": {
+  "swift_replay": "unrun: swift toolchain unavailable in this environment"
+ },
+ "arms": {
+  "pinned_cpu_baseline": {
+   "outcomes": {
+    "abstain": 211,
+    "correct": 749,
+    "correct_abstain": 112,
+    "wrong_state": 303
+   },
+   "per_family": {
+    "identity": {
+     "abstain": 54,
+     "correct_incl_abstain": 467,
+     "curated_cross": 0,
+     "n": 521,
+     "wrong_identity": 0,
+     "wrong_state": 0
+    },
+    "state": {
+     "abstain": 157,
+     "correct_incl_abstain": 282,
+     "curated_cross": 0,
+     "n": 439,
+     "wrong_identity": 0,
+     "wrong_state": 0
+    },
+    "unknown_state": {
+     "abstain": 0,
+     "correct_incl_abstain": 112,
+     "curated_cross": 0,
+     "n": 415,
+     "wrong_identity": 0,
+     "wrong_state": 303
+    }
+   },
+   "probe_count": 1375,
+   "ran": true,
+   "state_confusion": {
+    "cooked->canned": 24,
+    "cooked->dried": 29,
+    "cooked->frozen": 8,
+    "cooked->raw": 212,
+    "raw->cooked": 26,
+    "raw->cooked,canned": 1,
+    "raw->frozen,cooked": 3
+   },
+   "timing_ms": {
+    "mean": 0.0564,
+    "p50": 0.0584,
+    "p95": 0.0996
+   }
+  },
+  "production_replay": {
+   "outcomes": {
+    "abstain": 26,
+    "correct": 867,
+    "correct_abstain": 37,
+    "curated_cross": 23,
+    "wrong_identity": 53,
+    "wrong_state": 369
+   },
+   "per_family": {
+    "identity": {
+     "abstain": 12,
+     "correct_incl_abstain": 473,
+     "curated_cross": 23,
+     "n": 521,
+     "wrong_identity": 13,
+     "wrong_state": 0
+    },
+    "state": {
+     "abstain": 14,
+     "correct_incl_abstain": 394,
+     "curated_cross": 0,
+     "n": 439,
+     "wrong_identity": 18,
+     "wrong_state": 13
+    },
+    "unknown_state": {
+     "abstain": 0,
+     "correct_incl_abstain": 37,
+     "curated_cross": 0,
+     "n": 415,
+     "wrong_identity": 22,
+     "wrong_state": 356
+    }
+   },
+   "probe_count": 1375,
+   "ran": true,
+   "state_confusion": {
+    "canned->raw": 2,
+    "cooked->canned": 26,
+    "cooked->dried": 28,
+    "cooked->frozen": 10,
+    "cooked->raw": 258,
+    "cooked->stateless": 1,
+    "dried->raw": 8,
+    "frozen->raw": 4,
+    "raw->cooked": 26,
+    "raw->cooked,canned": 1,
+    "raw->dried": 1,
+    "raw->frozen,cooked": 3,
+    "raw->stateless": 1
+   },
+   "timing_ms": {
+    "mean": 1.6723,
+    "p50": 0.8506,
+    "p95": 5.5532
+   }
+  },
+  "swift_replay": {
+   "ran": false,
+   "status": "unrun: swift toolchain unavailable in this environment"
+  }
+ },
+ "benchmark": "preparation-state-v1",
+ "environment": {
+  "catalog_sha256": "d0ad639c059af58ae1be71c771dbaca3824f8b371537e5569176ae2a3ce9a15d",
+  "cpu_model": "Intel(R) Xeon(R) Processor @ 2.60GHz",
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.41",
+  "python": "3.13.14",
+  "sqlite_version": "3.46.1"
+ },
+ "generated_at_utc": "2026-10-10T19:54:26Z",
+ "manifest_sha256": "4204714c69b3a20669e75e26351f042382dc3b456588b0241b2dbffc806da674",
+ "predictions_sha256": "edfab1915abf7d427630ce48e8ddfc5a4558e607bb121e214dfbd60537644b9c",
+ "wall_seconds": 2.388
+}
