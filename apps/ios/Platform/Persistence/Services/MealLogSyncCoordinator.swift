@@ -21,14 +21,14 @@ import Foundation
 @MainActor
 final class MealLogSyncCoordinator {
   private let appleHealthService: AppleHealthServicing
-  private let nutritionService: NutritionService
+  private let nutritionSnapshotService: NutritionSnapshotService
 
   init(
     appleHealthService: AppleHealthServicing,
-    nutritionService: NutritionService
+    nutritionSnapshotService: NutritionSnapshotService
   ) {
     self.appleHealthService = appleHealthService
-    self.nutritionService = nutritionService
+    self.nutritionSnapshotService = nutritionSnapshotService
   }
 
   func syncLoggedMeal(
@@ -43,7 +43,12 @@ final class MealLogSyncCoordinator {
     guard appleHealthService.authorizationStatus() == .authorized else { return }
 
     do {
-      let macros = try nutritionService.macros(for: recipeId, swaps: swaps)
+      // Report the meal's frozen snapshot so catalog corrections after
+      // logging cannot change what was written to Apple Health. The scale
+      // arithmetic (per-serving × consumed × portion) is unchanged. A missing
+      // snapshot skips the sync (logged) rather than writing values derived
+      // from the mutable catalog.
+      let macros = try nutritionSnapshotService.capturedMacros(historyId: historyId)
       let scale = Double(max(1, servingsConsumed)) * portionMultiplier
       let record = AppleHealthMealRecord(
         syncIdentifier: "samgu.FridgeLuck.cooking_history.\(historyId)",

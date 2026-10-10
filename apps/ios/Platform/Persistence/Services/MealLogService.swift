@@ -18,8 +18,9 @@ enum MealLogError: LocalizedError {
   }
 }
 
-/// Coordinates meal logging so cooking history + inventory mutations are persisted
-/// atomically inside a single database transaction.
+/// Coordinates meal logging so cooking history, swap, streak, inventory, and
+/// nutrition-snapshot mutations are persisted atomically inside a single
+/// database transaction.
 ///
 /// When a consumption plan is passed, display, deduction preview and this deduction all
 /// read that one object. The accepted plan is stored on the cooking_history row and is
@@ -38,8 +39,10 @@ final class MealLogService: Sendable {
   private let recipeRepository: RecipeRepository
   private let personalizationService: PersonalizationService
   private let inventoryRepository: InventoryRepository
-  /// Historical-nutrition seam, unimplemented on this branch — nil keeps today's
-  /// live-catalog nutrition behavior. See `MealNutritionSnapshotting`.
+  /// Historical-nutrition writer (fl-next-historical-nutrition-r1), integrated through
+  /// this seam: the accepted plan's applied grams and per-100g nutrition are frozen in
+  /// the same transaction. Nil (tests, portable harness) keeps nutrition behavior
+  /// catalog-live at read time for rows without snapshots.
   private let nutritionSnapshotting: (any MealNutritionSnapshotting)?
 
   init(
@@ -129,6 +132,7 @@ final class MealLogService: Sendable {
         sourceRef: sourceRef
       )
 
+<<<<<<< HEAD
       var acceptedPlan = plan
       for (index, appliedLine) in appliedLines.enumerated() {
         acceptedPlan.lines[index].appliedGrams = appliedLine.appliedGrams
@@ -148,13 +152,27 @@ final class MealLogService: Sendable {
         ]
       )
 
-      // Historical-nutrition seam (fl-next-historical-nutrition-r1), unimplemented on
-      // this branch: when provided, the first acceptance captures a versioned snapshot
-      // in the same transaction.
+      // Historical-nutrition writer (fl-next-historical-nutrition-r1), integrated
+      // through this seam: the first acceptance freezes the accepted plan's applied
+      // grams and per-100g nutrition inside this same transaction. When the writer
+      // is absent (portable harness, tests), rows keep live-catalog nutrition at
+      // read time exactly as before this integration.
       if let snapshotting = nutritionSnapshotting {
         try snapshotting.captureSnapshot(in: db, historyId: historyId, plan: acceptedPlan, revision: 1)
       }
 
+=======
+      // Freeze the meal's nutrition from the catalog as it exists at logging
+      // time, inside the same transaction as the history, swap, streak, and
+      // inventory rows. Later catalog corrections cannot rewrite what was
+      // consumed, and a failed log leaves no partial snapshot behind.
+      try nutritionSnapshotService.captureSnapshot(
+        in: db,
+        historyId: historyId,
+        recipeId: recipeId
+      )
+
+>>>>>>> 8988d2a (feat(ios): read meal history and Apple Health macros from frozen snapshots)
       return Outcome(
         historyId: historyId,
         recipeId: recipeId,

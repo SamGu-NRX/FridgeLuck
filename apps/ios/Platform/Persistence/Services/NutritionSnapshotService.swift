@@ -248,6 +248,72 @@ final class NutritionSnapshotService: Sendable {
     }
   }
 
+  /// Plan-aware capture for meals accepted through a consumption plan
+  /// (`MealNutritionSnapshotting` seam, meal-corrections stream). The frozen lines
+  /// carry the plan's APPLIED grams — the amounts the user verified and the Kitchen
+  /// actually deducted — instead of recipe-reference grams scaled by a swap ratio:
+  /// the plan already folded substitution and user edits into `appliedGrams`, so
+  /// `swap_ratio` freezes at 1.0 and read arithmetic (`grams × ratio`) reproduces
+  /// exactly the accepted state. Swap identity is still preserved in the id columns.
+  ///
+  /// The same tables, format version, and provenance discipline as the recipe-based
+  /// capture; `revision` is accepted for seam symmetry and intentionally not stored —
+  /// the snapshot always reflects the latest accepted state, so correcting a meal
+  /// re-freezes it under the same `history_id` (the previous rows are removed first;
+  /// deleting the history row cascades them).
+  func captureSnapshot(
+    in db: Database, historyId: Int64, plan: MealConsumptionPlan, revision: Int
+  ) throws {
+    try db.execute(
+      sql: "DELETE FROM \(NutritionSnapshot.linesTable) WHERE history_id = ?",
+      arguments: [historyId]
+    )
+    try db.execute(
+      sql: "DELETE FROM \(NutritionSnapshot.snapshotsTable) WHERE history_id = ?",
+      arguments: [historyId]
+    )
+
+    try db.execute(
+      sql: """
+        INSERT INTO \(NutritionSnapshot.snapshotsTable) (
+          history_id, recipe_servings, snapshot_version, provenance
+        )
+        VALUES (?, ?, ?, ?)
+        """,
+      arguments: [
+        historyId, plan.recipeServings, NutritionSnapshot.currentVersion,
+        NutritionSnapshot.provenanceLoggedAtCapture,
+      ]
+    )
+
+    for (index, line) in plan.lines.enumerated() {
+      try db.execute(
+        sql: """
+          INSERT INTO \(NutritionSnapshot.linesTable) (
+            history_id, line_index, original_ingredient_id, substitute_ingredient_id,
+            swap_ratio, quantity_grams, calories, protein, carbs, fat, fiber, sugar, sodium
+          )
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          """,
+        arguments: [
+          historyId,
+          index,
+          line.originalIngredientId ?? line.resolvedIngredientId,
+          line.originalIngredientId != nil ? line.resolvedIngredientId : nil,
+          1.0,
+          line.appliedGrams,
+          line.nutritionPer100g.calories,
+          line.nutritionPer100g.protein,
+          line.nutritionPer100g.carbs,
+          line.nutritionPer100g.fat,
+          line.nutritionPer100g.fiber,
+          line.nutritionPer100g.sugar,
+          line.nutritionPer100g.sodium,
+        ]
+      )
+    }
+  }
+
   /// Per-serving macros for a logged meal, from its frozen snapshot.
   ///
   /// Mirrors NutritionService.macros(for:swaps:) operation for operation —

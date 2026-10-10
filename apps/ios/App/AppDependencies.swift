@@ -22,6 +22,7 @@ final class AppDependencies: ObservableObject {
   let visionService: VisionService
 
   let nutritionService: NutritionService
+  let nutritionSnapshotService: NutritionSnapshotService
   let healthScoringService: HealthScoringService
   let appleHealthService: AppleHealthServicing
   let appleHealthAuthorizationContext: AppleHealthAuthorizationContext?
@@ -49,6 +50,7 @@ final class AppDependencies: ObservableObject {
     let db = appDatabase.dbQueue
 
     self.nutritionService = NutritionService(db: db)
+    self.nutritionSnapshotService = NutritionSnapshotService(db: db)
     self.personalizationService = PersonalizationService(db: db)
     self.learningService = LearningService(db: db)
     self.ingredientCatalogResolver = IngredientCatalogResolver(db: db)
@@ -66,7 +68,7 @@ final class AppDependencies: ObservableObject {
     )
     self.mealLogSyncCoordinator = MealLogSyncCoordinator(
       appleHealthService: self.appleHealthService,
-      nutritionService: nutritionService
+      nutritionSnapshotService: nutritionSnapshotService
     )
     self.dishEstimateService = DishEstimateService(db: db)
     self.imageStorageService = ImageStorageService()
@@ -105,9 +107,16 @@ final class AppDependencies: ObservableObject {
       db: db,
       recipeRepository: recipeRepository,
       personalizationService: personalizationService,
-      inventoryRepository: inventoryRepository
+      nutritionSnapshotting: nutritionSnapshotService
     )
-    self.mealCorrectionService = MealCorrectionService(db: db)
+    self.mealCorrectionService = MealCorrectionService(
+      db: db,
+      // fl-next-historical-nutrition-r1's writer, integrated: accepted corrections
+      // re-freeze the corrected plan as a new snapshot revision in-transaction.
+      // Inventory compensation (fl-next-inventory-maintenance-r1) is still
+      // explicitly unintegrated — nil, no blind stock updates.
+      nutritionSnapshotting: nutritionSnapshotService
+    )
 
     self.visionService = VisionService(
       learningService: learningService,

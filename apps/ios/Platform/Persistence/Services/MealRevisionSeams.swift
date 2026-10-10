@@ -8,9 +8,12 @@ import GRDB
 // MARK: - Historical nutrition snapshots (fl-next-historical-nutrition-r1)
 
 /// Captures a versioned nutrition snapshot when an accepted meal state is persisted, so
-/// later catalog edits can no longer rewrite history. Unimplemented on this branch: while
-/// the seam is nil, nutrition keeps being computed live from the current catalog at read
-/// time — the pre-snapshot behavior, unchanged.
+/// later catalog edits can no longer rewrite history. INTEGRATED: NutritionSnapshotService
+/// (cherry-picked from the owning branch) implements this seam with a plan-aware capture —
+/// frozen lines carry the accepted plan's applied grams and per-100g nutrition — and is
+/// injected at both acceptance (MealLogService) and correction (MealCorrectionService) in
+/// AppDependencies. Passing nil keeps the pre-integration behavior for tests and the
+/// portable harness.
 protocol MealNutritionSnapshotting: Sendable {
   /// Called inside the same transaction that persists the accepted plan (first acceptance
   /// and every accepted correction). `revision` matches cooking_history.accepted_revision.
@@ -18,6 +21,8 @@ protocol MealNutritionSnapshotting: Sendable {
     in db: Database, historyId: Int64, plan: MealConsumptionPlan, revision: Int
   ) throws
 }
+
+extension NutritionSnapshotService: MealNutritionSnapshotting {}
 
 // MARK: - Inventory compensation (fl-next-inventory-maintenance-r1)
 
