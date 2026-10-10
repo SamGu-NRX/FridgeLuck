@@ -94,7 +94,18 @@ The live replay takes ~19 minutes (5,200 states × migrate + seed + query).
 
 ## Also in this diff
 
-- Test-only fix to `apps/ios/Tests/AllergenExclusionPolicyTests.swift`: migration
-  calls run on the `DatabaseQueue` outside `db.write` blocks (the inherited code
-  passed the write closure's `Database` to `DatabaseMigrations.migrate`, which
-  requires a `DatabaseQueue` — this was the PR #54 CI compile failure).
+- Test-only fixes for CI failures this PR's run exposed; all are pre-existing
+  debt on the base branch (`obv/fridgeluck-001`), whose own latest CI run fails
+  at compile before reaching them:
+  - `AllergenExclusionPolicyTests.swift`: migration calls run on the
+    `DatabaseQueue` outside `db.write` blocks (the inherited code passed the
+    write closure's `Database` to `DatabaseMigrations.migrate`, which requires a
+    `DatabaseQueue` — the same compile error red on the base branch's CI).
+  - `MigrationUpgradeTests.swift`: the expected newest-three migration list was
+    not updated when `v19_explicit_allergen_groups` landed (commit c18ece18);
+    it now expects v17-v19.
+  - `OnboardingGatePolicyTests.swift`: the hand-rolled `health_profile` fixture
+    lacked the v19 columns `allergen_selected_groups` and
+    `allergen_preferences_version`; added with the production defaults.
+  The iOS test changes were compiled and run only by the hosted macOS CI — no
+  Xcode in this environment.
