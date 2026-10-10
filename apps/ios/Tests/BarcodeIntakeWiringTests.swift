@@ -1,4 +1,5 @@
 import FLBarcode
+import Synchronization
 import XCTest
 @testable import FridgeLuck
 
@@ -50,7 +51,7 @@ final class BarcodeIntakeWiringTests: XCTestCase {
 
   // MARK: - Catalog resolver
 
-  private func ingredient(_ id: Int64, _ name: String) -> Ingredient {
+  private static func ingredient(_ id: Int64, _ name: String) -> Ingredient {
     Ingredient(
       id: id, name: name, calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0,
       sodium: 0, typicalUnit: nil, storageTip: nil, pairsWith: nil, notes: nil,
@@ -58,18 +59,22 @@ final class BarcodeIntakeWiringTests: XCTestCase {
   }
 
   func testResolverProbesLongestTokensAndRanksBestFirst() {
-    var probes: [String] = []
+    // The resolver's search closure is @Sendable, so probes are recorded through a
+    // Sendable Mutex instead of a captured local var.
+    let probes = Mutex<[String]>([])
     let resolver = IngredientCatalogBarcodeResolver(search: { query in
-      probes.append(query)
+      probes.withLock { $0.append(query) }
       if query.contains("yogurt") {
-        return [self.ingredient(11, "Greek yogurt"), self.ingredient(12, "Yogurt")]
+        return [Self.ingredient(11, "Greek yogurt"), Self.ingredient(12, "Yogurt")]
       }
       return []
     })
 
     let candidates = resolver.candidates(for: "Greek yogurt", brands: "Fage")
 
-    XCTAssertTrue(probes.contains("yogurt"), "the resolver must probe on product tokens")
+    XCTAssertTrue(
+      probes.withLock { $0 }.contains("yogurt"),
+      "the resolver must probe on product tokens")
     XCTAssertGreaterThanOrEqual(candidates.count, 2)
     XCTAssertEqual(candidates.first?.id, 11, "better token overlap ranks first")
     for pair in zip(candidates, candidates.dropFirst()) {
@@ -89,7 +94,7 @@ final class BarcodeIntakeWiringTests: XCTestCase {
   func testResolverNearTieStaysAmbiguousThroughTheBinder() {
     let resolver = IngredientCatalogBarcodeResolver(search: { _ in
       // Two candidates whose names both contain every query token — a near tie.
-      [self.ingredient(21, "Almond butter"), self.ingredient(22, "Almond butter spread")]
+      [Self.ingredient(21, "Almond butter"), Self.ingredient(22, "Almond butter spread")]
     })
 
     let binding = CatalogBinder.bind(
@@ -104,7 +109,7 @@ final class BarcodeIntakeWiringTests: XCTestCase {
   func testResolverStrongLeaderBinds() {
     let resolver = IngredientCatalogBarcodeResolver(search: { _ in
       // The runner-up misses the "butter" token entirely — a clear leader.
-      [self.ingredient(31, "Almond butter"), self.ingredient(32, "Almond")]
+      [Self.ingredient(31, "Almond butter"), Self.ingredient(32, "Almond")]
     })
 
     let binding = CatalogBinder.bind(
