@@ -38,17 +38,22 @@ final class MealLogService: Sendable {
   private let recipeRepository: RecipeRepository
   private let personalizationService: PersonalizationService
   private let inventoryRepository: InventoryRepository
+  /// Historical-nutrition seam, unimplemented on this branch — nil keeps today's
+  /// live-catalog nutrition behavior. See `MealNutritionSnapshotting`.
+  private let nutritionSnapshotting: (any MealNutritionSnapshotting)?
 
   init(
     db: DatabaseQueue,
     recipeRepository: RecipeRepository,
     personalizationService: PersonalizationService,
-    inventoryRepository: InventoryRepository
+    inventoryRepository: InventoryRepository,
+    nutritionSnapshotting: (any MealNutritionSnapshotting)? = nil
   ) {
     self.db = db
     self.recipeRepository = recipeRepository
     self.personalizationService = personalizationService
     self.inventoryRepository = inventoryRepository
+    self.nutritionSnapshotting = nutritionSnapshotting
   }
 
   /// Logs a meal. With `plan` nil, the plan is built inside the transaction from live
@@ -133,7 +138,7 @@ final class MealLogService: Sendable {
       try db.execute(
         sql: """
           UPDATE cooking_history
-          SET accepted_plan_json = ?, accepted_plan_identity = ?
+          SET accepted_plan_json = ?, accepted_plan_identity = ?, accepted_revision = 1
           WHERE id = ?
           """,
         arguments: [
@@ -142,6 +147,13 @@ final class MealLogService: Sendable {
           historyId,
         ]
       )
+
+      // Historical-nutrition seam (fl-next-historical-nutrition-r1), unimplemented on
+      // this branch: when provided, the first acceptance captures a versioned snapshot
+      // in the same transaction.
+      if let snapshotting = nutritionSnapshotting {
+        try snapshotting.captureSnapshot(in: db, historyId: historyId, plan: acceptedPlan, revision: 1)
+      }
 
       return Outcome(
         historyId: historyId,

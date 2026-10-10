@@ -30,6 +30,8 @@ link_src RecipeScoring.swift "Platform/Persistence/Repository/RecipeScoring.swif
 link_src UserDataRepository.swift "Platform/Persistence/Repository/UserDataRepository.swift"
 link_src MealConsumptionPlan.swift "Platform/Persistence/Services/MealConsumptionPlan.swift"
 link_src MealLogService.swift "Platform/Persistence/Services/MealLogService.swift"
+link_src MealCorrectionService.swift "Platform/Persistence/Services/MealCorrectionService.swift"
+link_src MealRevisionSeams.swift "Platform/Persistence/Services/MealRevisionSeams.swift"
 link_src NutritionService.swift "Platform/Persistence/Services/NutritionService.swift"
 link_src HealthScoringService.swift "Platform/Persistence/Services/HealthScoringService.swift"
 link_src PersonalizationService.swift "Platform/Persistence/Services/PersonalizationService.swift"

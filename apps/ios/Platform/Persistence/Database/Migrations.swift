@@ -546,6 +546,18 @@ enum DatabaseMigrations {
       )
     }
 
+    // MARK: - V20: Accepted Meal Revisions
+
+    // Corrections and deletions persist as accepted revisions of the meal's plan.
+    // Additive only: 1 for the original acceptance (set when the plan is stored), each
+    // deliberate correction bumps it. Pre-plan rows keep the default; they have no
+    // accepted plan to revise, so correcting them is refused (deletion still works).
+    migrator.registerMigration("v20_accepted_meal_revision") { db in
+      try db.alter(table: "cooking_history") { t in
+        t.add(column: "accepted_revision", .integer).defaults(to: 1)
+      }
+    }
+
     if let target {
       try migrator.migrate(db, upTo: target)
     } else {
