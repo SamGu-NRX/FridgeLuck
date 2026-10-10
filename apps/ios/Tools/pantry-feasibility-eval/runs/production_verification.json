@@ -1,0 +1,8 @@
+{
+ "production_live_states": 5200,
+ "makeable_set_agreement": 5200,
+ "near_match_set_agreement": 5200,
+ "agreement_rate": 1.0,
+ "note": "live RecipeRepository.findMakeable/findNearMatch on real migrated in-memory databases vs the transcribed production arm",
+ "mismatches": []
+}

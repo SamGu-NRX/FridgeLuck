@@ -1,4 +1,9 @@
 {
+ "arms": {
+  "oracle": "data-model feasibility (Python oracle, Swift-corroborated)",
+  "production_live": "real RecipeRepository.findMakeable/findNearMatch on real migrated in-memory databases",
+  "production_transcribed": "Swift transcription of RecipeRepository.findMakeable (per-pair rows; corroborated live by the production arm)"
+ },
  "false_block_by_family": {},
  "false_block_pairs": 0,
  "false_complete_by_family": {
@@ -15,5 +20,11 @@
  "oracle_feasible_recall": 1.0,
  "pairs_evaluated": 863200,
  "planted_false_complete_rate": 0.64186,
+ "production_live": {
+  "agreement_rate": 1.0,
+  "makeable_set_agreement": 5200,
+  "near_match_set_agreement": 5200,
+  "states": 5200
+ },
  "production_makeable_pairs": 25524
 }

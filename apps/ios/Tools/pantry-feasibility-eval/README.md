@@ -74,6 +74,13 @@ cd swift && swift build
 - The two implementations (Swift replay and Python oracle) agree on all
   863,200 rows, and the vendored allergen membership table is identical to
   the oracle transcription (50 rows).
+- Live production arm: the real `RecipeRepository.findMakeable` /
+  `findNearMatch`, running on real migrated in-memory databases seeded from
+  the frozen corpus, agrees with the transcribed arm on every one of the
+  5,200 states — the makeable and near-match ID sets are identical
+  (`runs/production_verification.json`, agreement rate 1.0). The 46.4%
+  false-complete finding is therefore not a transcription artifact: the
+  production code itself over-promises on exactly those pairs.
 
 ## Caveats
 

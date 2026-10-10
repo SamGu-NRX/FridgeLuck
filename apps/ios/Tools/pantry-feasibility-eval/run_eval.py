@@ -67,7 +67,26 @@ def main() -> int:
 
     total_false_complete = sum(false_complete_by_family.values())
     total_makeable = sum(production_makeable_by_family.values())
+
+    # Live production arm: real RecipeRepository on real migrated databases
+    # (production/), verified against the transcribed arm by
+    # verify_production.py. Per-pair metrics above stay computed from the
+    # transcribed rows; the live arm corroborates them.
+    live = None
+    live_path = args.tool_dir / "runs" / "production_verification.json"
+    if live_path.exists():
+        live = json.loads(live_path.read_text(encoding="utf-8"))
+
     report = {
+        "arms": {
+            "oracle": "data-model feasibility (Python oracle, Swift-corroborated)",
+            "production_transcribed": (
+                "Swift transcription of RecipeRepository.findMakeable "
+                "(per-pair rows; corroborated live by the production arm)"),
+            "production_live": (
+                "real RecipeRepository.findMakeable/findNearMatch on real "
+                "migrated in-memory databases") if live else "not run",
+        },
         "pairs_evaluated": total,
         "production_makeable_pairs": total_makeable,
         "false_complete_pairs": total_false_complete,
@@ -84,6 +103,13 @@ def main() -> int:
                   / max(production_makeable_by_family.get("planted_false_complete", 1),
                         1), 6),
     }
+    if live:
+        report["production_live"] = {
+            "states": live.get("production_live_states"),
+            "makeable_set_agreement": live.get("makeable_set_agreement"),
+            "near_match_set_agreement": live.get("near_match_set_agreement"),
+            "agreement_rate": live.get("agreement_rate"),
+        }
 
     out_path = args.tool_dir / "runs" / "report.json"
     out_path.write_text(json.dumps(report, indent=1, sort_keys=True) + "\n",
