@@ -20,6 +20,7 @@
       "adopted_correct_identity": 0,
       "adopt_precision": null,
       "adopt_precision_wilson95": null,
+      "adopt_precision_grouped_ci95": null,
       "top1_among_adjudicable_with_candidates": {
         "n": 408,
         "correct": 310,
@@ -27,6 +28,10 @@
         "wilson95": [
           0.7160506723536155,
           0.7987105190209995
+        ],
+        "grouped_ci95": [
+          0.7181372549019608,
+          0.8014705882352942
         ]
       },
       "top3_among_adjudicable_with_candidates": {
@@ -36,6 +41,10 @@
         "wilson95": [
           0.8099709843762002,
           0.8796147625596049
+        ],
+        "grouped_ci95": [
+          0.8112745098039216,
+          0.8823529411764706
         ]
       }
     },
@@ -55,6 +64,7 @@
       "adopted_correct_identity": 0,
       "adopt_precision": null,
       "adopt_precision_wilson95": null,
+      "adopt_precision_grouped_ci95": null,
       "top1_among_adjudicable_with_candidates": {
         "n": 408,
         "correct": 310,
@@ -62,6 +72,10 @@
         "wilson95": [
           0.7160506723536155,
           0.7987105190209995
+        ],
+        "grouped_ci95": [
+          0.7181372549019608,
+          0.8014705882352942
         ]
       },
       "top3_among_adjudicable_with_candidates": {
@@ -71,6 +85,10 @@
         "wilson95": [
           0.8099709843762002,
           0.8796147625596049
+        ],
+        "grouped_ci95": [
+          0.8112745098039216,
+          0.8823529411764706
         ]
       }
     },
@@ -93,6 +111,10 @@
         0.9270913855391012,
         0.9778626881105166
       ],
+      "adopt_precision_grouped_ci95": [
+        0.9352226720647774,
+        0.9838056680161943
+      ],
       "top1_among_adjudicable_with_candidates": {
         "n": 408,
         "correct": 310,
@@ -100,6 +122,10 @@
         "wilson95": [
           0.7160506723536155,
           0.7987105190209995
+        ],
+        "grouped_ci95": [
+          0.7181372549019608,
+          0.8014705882352942
         ]
       },
       "top3_among_adjudicable_with_candidates": {
@@ -109,6 +135,10 @@
         "wilson95": [
           0.8099709843762002,
           0.8796147625596049
+        ],
+        "grouped_ci95": [
+          0.8112745098039216,
+          0.8823529411764706
         ]
       }
     },
@@ -128,6 +158,7 @@
       "adopted_correct_identity": 0,
       "adopt_precision": null,
       "adopt_precision_wilson95": null,
+      "adopt_precision_grouped_ci95": null,
       "top1_among_adjudicable_with_candidates": {
         "n": 408,
         "correct": 310,
@@ -135,6 +166,10 @@
         "wilson95": [
           0.7160506723536155,
           0.7987105190209995
+        ],
+        "grouped_ci95": [
+          0.7181372549019608,
+          0.8014705882352942
         ]
       },
       "top3_among_adjudicable_with_candidates": {
@@ -144,6 +179,10 @@
         "wilson95": [
           0.8099709843762002,
           0.8796147625596049
+        ],
+        "grouped_ci95": [
+          0.8112745098039216,
+          0.8823529411764706
         ]
       }
     }
@@ -156,7 +195,11 @@
         "coverage": 0.4037698412698413,
         "adjudicated": 245,
         "correct": 236,
-        "risk": 0.03673469387755102
+        "risk": 0.03673469387755102,
+        "precision_grouped_ci95": [
+          0.9387755102040817,
+          0.9836734693877551
+        ]
       },
       {
         "threshold": 0.4,
@@ -164,7 +207,11 @@
         "coverage": 0.3819444444444444,
         "adjudicated": 242,
         "correct": 236,
-        "risk": 0.024793388429752095
+        "risk": 0.024793388429752095,
+        "precision_grouped_ci95": [
+          0.9545454545454546,
+          0.9917355371900827
+        ]
       },
       {
         "threshold": 0.5,
@@ -172,7 +219,11 @@
         "coverage": 0.2777777777777778,
         "adjudicated": 224,
         "correct": 218,
-        "risk": 0.0267857142857143
+        "risk": 0.0267857142857143,
+        "precision_grouped_ci95": [
+          0.9508928571428571,
+          0.9910714285714286
+        ]
       },
       {
         "threshold": 0.6,
@@ -180,7 +231,11 @@
         "coverage": 0.24305555555555555,
         "adjudicated": 218,
         "correct": 212,
-        "risk": 0.02752293577981646
+        "risk": 0.02752293577981646,
+        "precision_grouped_ci95": [
+          0.9495412844036697,
+          0.9908256880733946
+        ]
       },
       {
         "threshold": 0.7,
@@ -188,7 +243,11 @@
         "coverage": 0.24305555555555555,
         "adjudicated": 218,
         "correct": 212,
-        "risk": 0.02752293577981646
+        "risk": 0.02752293577981646,
+        "precision_grouped_ci95": [
+          0.9495412844036697,
+          0.9908256880733946
+        ]
       },
       {
         "threshold": 0.8,
@@ -196,7 +255,11 @@
         "coverage": 0.22817460317460317,
         "adjudicated": 203,
         "correct": 198,
-        "risk": 0.024630541871921152
+        "risk": 0.024630541871921152,
+        "precision_grouped_ci95": [
+          0.9507389162561576,
+          0.9950738916256158
+        ]
       },
       {
         "threshold": 0.9,
@@ -204,7 +267,8 @@
         "coverage": 0,
         "adjudicated": 0,
         "correct": 0,
-        "risk": null
+        "risk": null,
+        "precision_grouped_ci95": null
       }
     ],
     "learner-cold": [
@@ -214,7 +278,11 @@
         "coverage": 0.39285714285714285,
         "adjudicated": 244,
         "correct": 236,
-        "risk": 0.032786885245901676
+        "risk": 0.032786885245901676,
+        "precision_grouped_ci95": [
+          0.9426229508196722,
+          0.9877049180327869
+        ]
       },
       {
         "threshold": 0.4,
@@ -222,7 +290,11 @@
         "coverage": 0.38095238095238093,
         "adjudicated": 242,
         "correct": 236,
-        "risk": 0.024793388429752095
+        "risk": 0.024793388429752095,
+        "precision_grouped_ci95": [
+          0.9545454545454546,
+          0.9917355371900827
+        ]
       },
       {
         "threshold": 0.5,
@@ -230,7 +302,11 @@
         "coverage": 0.24801587301587302,
         "adjudicated": 222,
         "correct": 216,
-        "risk": 0.027027027027026973
+        "risk": 0.027027027027026973,
+        "precision_grouped_ci95": [
+          0.9504504504504504,
+          0.990990990990991
+        ]
       },
       {
         "threshold": 0.6,
@@ -238,7 +314,11 @@
         "coverage": 0.24305555555555555,
         "adjudicated": 218,
         "correct": 212,
-        "risk": 0.02752293577981646
+        "risk": 0.02752293577981646,
+        "precision_grouped_ci95": [
+          0.9495412844036697,
+          0.9908256880733946
+        ]
       },
       {
         "threshold": 0.7,
@@ -246,7 +326,11 @@
         "coverage": 0.2371031746031746,
         "adjudicated": 212,
         "correct": 207,
-        "risk": 0.02358490566037741
+        "risk": 0.02358490566037741,
+        "precision_grouped_ci95": [
+          0.9528301886792453,
+          0.9952830188679245
+        ]
       },
       {
         "threshold": 0.8,
@@ -254,7 +338,8 @@
         "coverage": 0,
         "adjudicated": 0,
         "correct": 0,
-        "risk": null
+        "risk": null,
+        "precision_grouped_ci95": null
       },
       {
         "threshold": 0.9,
@@ -262,7 +347,8 @@
         "coverage": 0,
         "adjudicated": 0,
         "correct": 0,
-        "risk": null
+        "risk": null,
+        "precision_grouped_ci95": null
       }
     ],
     "learner-devwarm": [
@@ -272,7 +358,11 @@
         "coverage": 0.25496031746031744,
         "adjudicated": 225,
         "correct": 219,
-        "risk": 0.026666666666666616
+        "risk": 0.026666666666666616,
+        "precision_grouped_ci95": [
+          0.9511111111111111,
+          0.9911111111111112
+        ]
       },
       {
         "threshold": 0.4,
@@ -280,7 +370,11 @@
         "coverage": 0.24305555555555555,
         "adjudicated": 218,
         "correct": 212,
-        "risk": 0.02752293577981646
+        "risk": 0.02752293577981646,
+        "precision_grouped_ci95": [
+          0.9495412844036697,
+          0.9908256880733946
+        ]
       },
       {
         "threshold": 0.5,
@@ -288,7 +382,11 @@
         "coverage": 0.24305555555555555,
         "adjudicated": 218,
         "correct": 212,
-        "risk": 0.02752293577981646
+        "risk": 0.02752293577981646,
+        "precision_grouped_ci95": [
+          0.9495412844036697,
+          0.9908256880733946
+        ]
       },
       {
         "threshold": 0.6,
@@ -296,7 +394,11 @@
         "coverage": 0.0248015873015873,
         "adjudicated": 25,
         "correct": 25,
-        "risk": 0
+        "risk": 0,
+        "precision_grouped_ci95": [
+          1,
+          1
+        ]
       },
       {
         "threshold": 0.7,
@@ -304,7 +406,8 @@
         "coverage": 0,
         "adjudicated": 0,
         "correct": 0,
-        "risk": null
+        "risk": null,
+        "precision_grouped_ci95": null
       },
       {
         "threshold": 0.8,
@@ -312,7 +415,8 @@
         "coverage": 0,
         "adjudicated": 0,
         "correct": 0,
-        "risk": null
+        "risk": null,
+        "precision_grouped_ci95": null
       },
       {
         "threshold": 0.9,
@@ -320,7 +424,8 @@
         "coverage": 0,
         "adjudicated": 0,
         "correct": 0,
-        "risk": null
+        "risk": null,
+        "precision_grouped_ci95": null
       }
     ]
   },
@@ -336,6 +441,10 @@
         "empty_evidence": true
       }
     ]
+  },
+  "identity_evidence": {
+    "kind": "synthetic-mapped-proxy",
+    "note": "Naming correction (review of PR #46): Food-101 case 'detections' are synthesized from the mapped recipe's own required/optional ingredient list (build_cases.py draw_detections, food101-photo stratum); the native_recipe_identity target names the recipe that generated the evidence. No Food-101 photograph was downloaded or used. Every identity metric in this summary therefore measures mapped-recipe recovery from synthetic mapped evidence, not photograph recipe recognition. The frozen field name is historical; frozen inputs are hash-locked and unchanged."
   },
   "amount_outcomes": {
     "weighed_mass_truth_cases": 600,

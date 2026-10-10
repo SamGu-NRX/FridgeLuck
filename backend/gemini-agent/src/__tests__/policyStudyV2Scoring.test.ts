@@ -4,10 +4,12 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
   checkParity,
+  groupedCi95,
   loadVerifiedStudy,
   riskCoverageSweep,
   scoreStudy,
   StudyVerificationError,
+  wilson95,
   type SweepPoint,
 } from "../evaluation/policyStudyV2Scoring";
 
@@ -147,6 +149,104 @@ describe("policy-study-v2 scoring: honest-outcome guards", () => {
     expect(summary.study_arms_sha256).toBe(
       "f2fac4f969ac89cb2b05af7801d078cbd6dcb328e648d4d0027c4e0e9294385f"
     );
+  });
+});
+
+describe("policy-study-v2 scoring: identity evidence relabeling", () => {
+  const summary = scoreStudy(FIXTURES);
+
+  test("identity evidence is declared a synthetic mapped proxy, not photograph truth", () => {
+    expect(summary.identity_evidence.kind).toBe("synthetic-mapped-proxy");
+    expect(summary.identity_evidence.note).toMatch(/synthesized from the mapped recipe/);
+    expect(summary.identity_evidence.note).toMatch(/No Food-101 photograph/);
+  });
+
+  test("every arm carries grouped intervals on identity and adoption precision", () => {
+    for (const arm of Object.values(summary.arms)) {
+      if (arm.top1_among_adjudicable_with_candidates.n === 0) {
+        expect(arm.top1_among_adjudicable_with_candidates.grouped_ci95).toBeNull();
+      } else {
+        expect(arm.top1_among_adjudicable_with_candidates.grouped_ci95).toBeArrayOfSize(2);
+        expect(arm.top1_among_adjudicable_with_candidates.grouped_ci95![0]).toBeLessThanOrEqual(
+          arm.top1_among_adjudicable_with_candidates.grouped_ci95![1]
+        );
+      }
+      if (arm.top3_among_adjudicable_with_candidates.n === 0) {
+        expect(arm.top3_among_adjudicable_with_candidates.grouped_ci95).toBeNull();
+      } else {
+        expect(arm.top3_among_adjudicable_with_candidates.grouped_ci95).toBeArrayOfSize(2);
+      }
+      if (arm.adopt_precision != null) {
+        expect(arm.adopt_precision_grouped_ci95).toBeArrayOfSize(2);
+      } else {
+        expect(arm.adopt_precision_grouped_ci95).toBeNull();
+      }
+    }
+  });
+
+  test("sweep points carry grouped precision intervals where any adjudicated case was adopted", () => {
+    for (const points of Object.values(summary.risk_coverage)) {
+      for (const p of points) {
+        if (p.adjudicated === 0) expect(p.precision_grouped_ci95).toBeNull();
+        else {
+          expect(p.precision_grouped_ci95).toBeArrayOfSize(2);
+          expect(p.precision_grouped_ci95![0]).toBeLessThanOrEqual(p.precision_grouped_ci95![1]);
+        }
+      }
+    }
+  });
+
+  test("grouped intervals stay inside the degenerate bounds and round-trip deterministically", () => {
+    const cold = summary.arms["learner-cold"].top1_among_adjudicable_with_candidates;
+    const [lo, hi] = cold.grouped_ci95!;
+    expect(lo).toBeGreaterThanOrEqual(0);
+    expect(hi).toBeLessThanOrEqual(1);
+    const again = scoreStudy(FIXTURES).arms["learner-cold"].top1_among_adjudicable_with_candidates;
+    expect(again.grouped_ci95).toEqual(cold.grouped_ci95);
+  });
+});
+
+describe("policy-study-v2 scoring: grouped bootstrap behavior", () => {
+  test("within-cluster correlation widens the interval beyond the naive Wilson band", () => {
+    // 100 clusters of 10 cases; each cluster is perfectly correlated
+    // (all-success or all-failure). Pooled counts are 500/1000, whose naive
+    // Wilson band is narrow; the cluster bootstrap must be wider.
+    const clusters: string[][] = [];
+    const indicator = new Map<string, boolean>();
+    for (let g = 0; g < 100; g++) {
+      const members: string[] = [];
+      for (let c = 0; c < 10; c++) {
+        const id = `g${g}-c${c}`;
+        members.push(id);
+        indicator.set(id, g < 50);
+      }
+      clusters.push(members);
+    }
+    const [lo, hi] = groupedCi95(clusters, indicator)!;
+    const [wLo, wHi] = wilson95(500, 1000);
+    expect(lo).toBeLessThan(wLo);
+    expect(hi).toBeGreaterThan(wHi);
+  });
+
+  test("grouped bootstrap on singleton clusters is exact and repeats the seed", () => {
+    const clusters: string[][] = [];
+    const indicator = new Map<string, boolean>();
+    for (let i = 0; i < 200; i++) {
+      const id = `s${i}`;
+      clusters.push([id]);
+      indicator.set(id, i < 100);
+    }
+    const [lo1, hi1] = groupedCi95(clusters, indicator)!;
+    const [lo2, hi2] = groupedCi95(clusters, indicator)!;
+    expect(lo1).toBe(lo2);
+    expect(hi1).toBe(hi2);
+    // With singletons the bootstrap rate concentrates near the point estimate.
+    expect(lo1).toBeLessThanOrEqual(0.5 + 1e-9);
+    expect(hi1).toBeGreaterThanOrEqual(0.5 - 1e-9);
+  });
+
+  test("an empty cluster list yields null rather than a fabricated interval", () => {
+    expect(groupedCi95([], new Map())).toBeNull();
   });
 });
 

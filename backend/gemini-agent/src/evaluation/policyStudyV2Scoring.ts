@@ -264,6 +264,68 @@ export function wilson95(successes: number, n: number): [number, number] {
   return [Math.max(0, center - spread), Math.min(1, center + spread)];
 }
 
+// --- Grouped (cluster) bootstrap confidence intervals ---
+//
+// Evaluation cases are not independent: cases with byte-identical producer
+// evidence (producer-equivalence groups) necessarily share outcomes, so the
+// study protocol requires grouped intervals. We resample producer-equivalence
+// groups with replacement (cluster bootstrap) and recompute the rate over all
+// cases in the sampled groups. Deterministic: seeded mulberry32, fixed
+// iteration count, so the committed summary is byte-reproducible.
+
+export const GROUPED_BOOTSTRAP_ITERATIONS = 10000;
+export const GROUPED_BOOTSTRAP_SEED = 20261010;
+
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+export function groupedCi95(
+  clusters: string[][],
+  indicator: Map<string, boolean>,
+  iterations: number = GROUPED_BOOTSTRAP_ITERATIONS,
+  seed: number = GROUPED_BOOTSTRAP_SEED
+): [number, number] | null {
+  if (clusters.length === 0) return null;
+  const rand = mulberry32(seed);
+  const rates = new Array<number>(iterations);
+  for (let it = 0; it < iterations; it++) {
+    let succ = 0;
+    let n = 0;
+    for (let g = 0; g < clusters.length; g++) {
+      for (const id of clusters[(rand() * clusters.length) | 0]) {
+        const v = indicator.get(id);
+        if (v === undefined) continue;
+        n += 1;
+        if (v) succ += 1;
+      }
+    }
+    rates[it] = n === 0 ? 0 : succ / n;
+  }
+  rates.sort((a, b) => a - b);
+  return [rates[Math.floor(0.025 * iterations)], rates[Math.ceil(0.975 * iterations) - 1]];
+}
+
+// Cluster the given case ids by producer-equivalence group (singletons when
+// no group map is supplied).
+export function clustersFor(ids: Iterable<string>, groupKeys?: Map<string, string>): string[][] {
+  if (!groupKeys) return [...ids].map((id) => [id]);
+  const byKey = new Map<string, string[]>();
+  for (const id of ids) {
+    const key = groupKeys.get(id) ?? id;
+    const bucket = byKey.get(key) ?? [];
+    if (bucket.length === 0) byKey.set(key, bucket);
+    bucket.push(id);
+  }
+  return [...byKey.values()];
+}
+
 export type ArmMetrics = {
   policy: string;
   cases: number;
@@ -275,15 +337,17 @@ export type ArmMetrics = {
   adopted_correct_identity: number;
   adopt_precision: number | null;
   adopt_precision_wilson95: [number, number] | null;
-  top1_among_adjudicable_with_candidates: { n: number; correct: number; rate: number; wilson95: [number, number] };
-  top3_among_adjudicable_with_candidates: { n: number; correct: number; rate: number; wilson95: [number, number] };
+  adopt_precision_grouped_ci95: [number, number] | null;
+  top1_among_adjudicable_with_candidates: { n: number; correct: number; rate: number; wilson95: [number, number]; grouped_ci95: [number, number] | null };
+  top3_among_adjudicable_with_candidates: { n: number; correct: number; rate: number; wilson95: [number, number]; grouped_ci95: [number, number] | null };
 };
 
 export function scoreArm(
   policyName: string,
   decide: (row: CaseOutcome) => Decision,
   rows: CaseOutcome[],
-  labels: Map<string, LabelRow>
+  labels: Map<string, LabelRow>,
+  groupKeys?: Map<string, string>
 ): ArmMetrics {
   const decisions: Record<Decision, number> = {
     adopt_top_pick: 0,
@@ -298,6 +362,9 @@ export function scoreArm(
   let top1Correct = 0;
   let top3N = 0;
   let top3Correct = 0;
+  const top1Indicator = new Map<string, boolean>();
+  const top3Indicator = new Map<string, boolean>();
+  const adoptIndicator = new Map<string, boolean>();
   for (const row of rows) {
     const d = decide(row);
     decisions[d] += 1;
@@ -306,14 +373,20 @@ export function scoreArm(
     if (trueId != null) adjudicable += 1;
     if (row.candidates.length > 0 && trueId != null) {
       top1N += 1;
-      if (row.candidates[0].recipe_id === trueId) top1Correct += 1;
+      const ok1 = row.candidates[0].recipe_id === trueId;
+      top1Indicator.set(row.case_id, ok1);
+      if (ok1) top1Correct += 1;
       const top3 = new Set(row.candidates.slice(0, 3).map((c) => c.recipe_id));
+      const ok3 = top3.has(trueId);
+      top3Indicator.set(row.case_id, ok3);
       top3N += 1;
-      if (top3.has(trueId)) top3Correct += 1;
+      if (ok3) top3Correct += 1;
     }
     if (d === "adopt_top_pick" && trueId != null) {
       adoptedKnown += 1;
-      if (row.candidates[0].recipe_id === trueId) adoptedCorrect += 1;
+      const ok = row.candidates[0].recipe_id === trueId;
+      adoptIndicator.set(row.case_id, ok);
+      if (ok) adoptedCorrect += 1;
     }
   }
   const n = rows.length;
@@ -330,17 +403,20 @@ export function scoreArm(
     adopted_correct_identity: adoptedCorrect,
     adopt_precision: adoptedKnown === 0 ? null : adoptedCorrect / adoptedKnown,
     adopt_precision_wilson95: adoptedKnown === 0 ? null : wilson95(adoptedCorrect, adoptedKnown),
+    adopt_precision_grouped_ci95: groupedCi95(clustersFor(adoptIndicator.keys(), groupKeys), adoptIndicator),
     top1_among_adjudicable_with_candidates: {
       n: top1N,
       correct: top1Correct,
       rate: top1N === 0 ? 0 : top1Correct / top1N,
       wilson95: wilson95(top1Correct, top1N),
+      grouped_ci95: groupedCi95(clustersFor(top1Indicator.keys(), groupKeys), top1Indicator),
     },
     top3_among_adjudicable_with_candidates: {
       n: top3N,
       correct: top3Correct,
       rate: top3N === 0 ? 0 : top3Correct / top3N,
       wilson95: wilson95(top3Correct, top3N),
+      grouped_ci95: groupedCi95(clustersFor(top3Indicator.keys(), groupKeys), top3Indicator),
     },
   };
 }
@@ -356,18 +432,21 @@ export type SweepPoint = {
   adjudicated: number;
   correct: number;
   risk: number | null;
+  precision_grouped_ci95: [number, number] | null;
 };
 
 export function riskCoverageSweep(
   rows: CaseOutcome[],
   labels: Map<string, LabelRow>,
-  scoreSource: "producer_top_confidence" | "learner_overall" = "producer_top_confidence"
+  scoreSource: "producer_top_confidence" | "learner_overall" = "producer_top_confidence",
+  groupKeys?: Map<string, string>
 ): SweepPoint[] {
   const points: SweepPoint[] = [];
   for (const t of [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]) {
     let adopted = 0;
     let adjudicated = 0;
     let correct = 0;
+    const precIndicator = new Map<string, boolean>();
     for (const row of rows) {
       const top = row.candidates[0];
       if (!top) continue;
@@ -378,7 +457,9 @@ export function riskCoverageSweep(
       const trueId = labels.get(row.case_id)?.targets?.native_recipe_identity?.mapped_recipe_id ?? null;
       if (trueId != null) {
         adjudicated += 1;
-        if (top.recipe_id === trueId) correct += 1;
+        const ok = top.recipe_id === trueId;
+        precIndicator.set(row.case_id, ok);
+        if (ok) correct += 1;
       }
     }
     points.push({
@@ -388,6 +469,10 @@ export function riskCoverageSweep(
       adjudicated,
       correct,
       risk: adjudicated === 0 ? null : 1 - correct / adjudicated,
+      precision_grouped_ci95: groupedCi95(
+        clustersFor(precIndicator.keys(), groupKeys),
+        precIndicator
+      ),
     });
   }
   return points;
@@ -396,6 +481,27 @@ export function riskCoverageSweep(
 // --- Collision groups (producer level): canonical 4-signal request including
 // hard-fail reasons; groups with distinct label signatures are information
 // limits -- arm differences inside them are chance, reported separately. ---
+
+// Producer-equivalence group key per case. Shared by the collision report and
+// the grouped bootstrap intervals.
+export function producerGroupKeys(
+  rows: CaseOutcome[],
+  requests: Map<string, RequestRow>
+): Map<string, string> {
+  const out = new Map<string, string>();
+  const groups = new Map<string, string[]>();
+  for (const row of rows) {
+    const req = requests.get(row.case_id);
+    const dets: Det[] = (req?.detections ?? []).map(([id, conf]) => ({ id, conf: Math.fround(conf) }));
+    const p = project(dets, row.candidates);
+    const key = JSON.stringify([p.signals.map((s) => s.rawScore), p.hardFailReasons]);
+    const bucket = groups.get(key) ?? [];
+    if (bucket.length === 0) groups.set(key, bucket);
+    bucket.push(row.case_id);
+  }
+  for (const [key, members] of groups) for (const id of members) out.set(id, key);
+  return out;
+}
 
 export type CollisionReport = {
   producer_groups: number;
@@ -414,12 +520,10 @@ export function producerCollisions(
   requests: Map<string, RequestRow>,
   labels: Map<string, LabelRow>
 ): CollisionReport {
+  const groupKeys = producerGroupKeys(rows, requests);
   const groups = new Map<string, string[]>();
   for (const row of rows) {
-    const req = requests.get(row.case_id);
-    const dets: Det[] = (req?.detections ?? []).map(([id, conf]) => ({ id, conf: Math.fround(conf) }));
-    const p = project(dets, row.candidates);
-    const key = JSON.stringify([p.signals.map((s) => s.rawScore), p.hardFailReasons]);
+    const key = groupKeys.get(row.case_id) ?? row.case_id;
     const bucket = groups.get(key) ?? [];
     if (bucket.length === 0) groups.set(key, bucket);
     bucket.push(row.case_id);
@@ -463,6 +567,7 @@ export type StudySummary = {
   arms: Record<string, ArmMetrics>;
   risk_coverage: Record<string, SweepPoint[]>;
   collisions: CollisionReport;
+  identity_evidence: { kind: string; note: string };
   amount_outcomes: {
     weighed_mass_truth_cases: number;
     adjudicable_amount_decisions: number;
@@ -493,9 +598,12 @@ export function scoreStudy(fixturesRoot: string): StudySummary {
     ["fixed-rule-top-pick", coldEval],
     ["always-check", coldEval],
   ];
+  // Producer-equivalence groups (eval slice): shared by the collision report
+  // and every grouped interval below.
+  const groupKeys = producerGroupKeys(coldEval, requests);
   const scored: Record<string, ArmMetrics> = {};
   for (const [name, rows] of armPairs) {
-    scored[name] = scoreArm(name, POLICIES[name], rows, labels);
+    scored[name] = scoreArm(name, POLICIES[name], rows, labels, groupKeys);
   }
 
   let massTruth = 0;
@@ -517,11 +625,15 @@ export function scoreStudy(fixturesRoot: string): StudySummary {
     dev_cases_excluded: arms.arms["learner-cold"].length - evalIds.size,
     arms: scored,
     risk_coverage: {
-      "fixed-rule-top-pick": riskCoverageSweep(coldEval, labels, "producer_top_confidence"),
-      "learner-cold": riskCoverageSweep(coldEval, labels, "learner_overall"),
-      "learner-devwarm": riskCoverageSweep(warmEval, labels, "learner_overall"),
+      "fixed-rule-top-pick": riskCoverageSweep(coldEval, labels, "producer_top_confidence", groupKeys),
+      "learner-cold": riskCoverageSweep(coldEval, labels, "learner_overall", groupKeys),
+      "learner-devwarm": riskCoverageSweep(warmEval, labels, "learner_overall", groupKeys),
     },
     collisions: producerCollisions(coldEval, requests, labels),
+    identity_evidence: {
+      kind: "synthetic-mapped-proxy",
+      note: "Naming correction (review of PR #46): Food-101 case 'detections' are synthesized from the mapped recipe's own required/optional ingredient list (build_cases.py draw_detections, food101-photo stratum); the native_recipe_identity target names the recipe that generated the evidence. No Food-101 photograph was downloaded or used. Every identity metric in this summary therefore measures mapped-recipe recovery from synthetic mapped evidence, not photograph recipe recognition. The frozen field name is historical; frozen inputs are hash-locked and unchanged.",
+    },
     amount_outcomes: {
       weighed_mass_truth_cases: massTruth,
       adjudicable_amount_decisions: 0,
