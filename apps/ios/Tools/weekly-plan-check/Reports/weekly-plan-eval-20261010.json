@@ -13,15 +13,15 @@
     "states" : 1000,
     "substitutionsUsed" : 96
   },
-  "generatedAt" : "2026-10-10T20:21:48Z",
+  "generatedAt" : "2026-10-10T21:33:13Z",
   "objective" : {
     "maxFeasibleScore" : 16.58514805450342,
-    "meanShortageRowsFeasible" : 0.256,
+    "meanShortageRowsFeasible" : 0.258,
     "medianFeasibleScore" : -1.9500000000000002,
     "minFeasibleScore" : -16.9
   },
   "runtime" : {
-    "engineMillis" : 82.30948448181152,
+    "engineMillis" : 81.15971088409424,
     "oracleMillis" : 0
   },
   "seed" : 20261010,

@@ -211,6 +211,22 @@ enum WeeklyPlanSearch {
         acc.recipes.insert(row.recipeId)
         acc.substitute = row.resolvedIngredientId
         grouped[key(row.ingredientId, .substituted)] = acc
+
+        // A substituted row can still be short: when nothing fully covers,
+        // the first allowed candidate (often the substitute, primary being
+        // hard-excluded) inherits the need and its known stock falls short.
+        // Surface the substitute's own shortfall so the group list never
+        // hides missing grams behind the substitution note.
+        if row.shortfallGrams > 1e-9 {
+          let substituteKey = key(row.resolvedIngredientId, .shortQuantity)
+          var sub = grouped[substituteKey] ?? Accumulator()
+          let subStock = stock[row.resolvedIngredientId]
+          sub.needed += row.grams + row.shortfallGrams
+          sub.available = subStock?.quantityIsKnown == true ? (subStock?.availableGrams ?? 0) : 0
+          sub.shortfall += row.shortfallGrams
+          sub.recipes.insert(row.recipeId)
+          grouped[substituteKey] = sub
+        }
         continue
       }
 
