@@ -1,0 +1,736 @@
+{
+ "observations": "observations/openmodel_validation_curated_absorberson.jsonl.gz",
+ "split": "validation",
+ "images_scored": 2135,
+ "images_with_detections": 1942,
+ "instance_recall": {
+  "exact": 0.1457688338493292,
+  "all": 0.17508538558331835,
+  "coarse": 0.35517970401691334,
+  "ambiguous": 0.09851551956815115
+ },
+ "instance_counts": {
+  "exact": 3876,
+  "all": 5563,
+  "coarse": 946,
+  "ambiguous": 741
+ },
+ "detection_precision": 0.3452,
+ "detections_total": 2819,
+ "detections_correct": 973,
+ "detections_by_label_provenance": {
+  "curated": 3259
+ },
+ "abstain_images_with_mapped_gt": 172,
+ "no_claim_images": 254,
+ "no_claim_violations": 233,
+ "unjustified_detections": 1846,
+ "unjustified_examples": [
+  {
+   "image_id": 0,
+   "ingredient_id": 37,
+   "confidence": 0.189018,
+   "original_label": "Sweet Potato",
+   "gt_classes": [
+    "dried cranberries",
+    "shrimp",
+    "rice",
+    "carrot",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 1,
+   "ingredient_id": 33,
+   "confidence": 0.111235,
+   "original_label": "Honey",
+   "gt_classes": [
+    "shrimp",
+    "carrot",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 2,
+   "ingredient_id": 23,
+   "confidence": 0.24387,
+   "original_label": "Tofu",
+   "gt_classes": [
+    "olives",
+    "pineapple",
+    "sauce",
+    "bread",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 32,
+   "confidence": 0.513284,
+   "original_label": "Yogurt",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 8,
+   "ingredient_id": 43,
+   "confidence": 0.504658,
+   "original_label": "Canned Tuna",
+   "gt_classes": [
+    "chicken duck",
+    "carrot"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 45,
+   "confidence": 0.194415,
+   "original_label": "Zucchini",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 21,
+   "confidence": 0.122124,
+   "original_label": "Green Onion",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 11,
+   "ingredient_id": 28,
+   "confidence": 0.161899,
+   "original_label": "Tortilla",
+   "gt_classes": [
+    "wine",
+    "sausage",
+    "pie",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 11,
+   "ingredient_id": 2,
+   "confidence": 0.159478,
+   "original_label": "Rice",
+   "gt_classes": [
+    "wine",
+    "sausage",
+    "pie",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 12,
+   "ingredient_id": 42,
+   "confidence": 0.24099,
+   "original_label": "Frozen Peas",
+   "gt_classes": [
+    "fish",
+    "corn",
+    "broccoli",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 13,
+   "ingredient_id": 3,
+   "confidence": 0.354274,
+   "original_label": "Soy Sauce",
+   "gt_classes": [
+    "shrimp",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 13,
+   "ingredient_id": 12,
+   "confidence": 0.197132,
+   "original_label": "Cheese",
+   "gt_classes": [
+    "shrimp",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 14,
+   "ingredient_id": 28,
+   "confidence": 0.22887,
+   "original_label": "Tortilla",
+   "gt_classes": [
+    "french fries",
+    "steak",
+    "sauce",
+    "bread",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 18,
+   "ingredient_id": 29,
+   "confidence": 0.937708,
+   "original_label": "Lime",
+   "gt_classes": [
+    "lemon",
+    "chicken duck",
+    "rice",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 19,
+   "ingredient_id": 4,
+   "confidence": 0.220479,
+   "original_label": "Chicken Breast",
+   "gt_classes": [
+    "egg",
+    "steak",
+    "sauce",
+    "asparagus",
+    "white button mushroom"
+   ]
+  },
+  {
+   "image_id": 20,
+   "ingredient_id": 4,
+   "confidence": 0.986687,
+   "original_label": "Chicken Breast",
+   "gt_classes": [
+    "cheese butter",
+    "fish",
+    "tomato",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 23,
+   "ingredient_id": 34,
+   "confidence": 0.558124,
+   "original_label": "Corn",
+   "gt_classes": [
+    "french fries",
+    "steak",
+    "bread",
+    "tomato",
+    "cucumber",
+    "onion",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 24,
+   "ingredient_id": 43,
+   "confidence": 0.48565,
+   "original_label": "Canned Tuna",
+   "gt_classes": [
+    "cheese butter",
+    "pork",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 24,
+   "ingredient_id": 41,
+   "confidence": 0.367229,
+   "original_label": "Peanut Butter",
+   "gt_classes": [
+    "cheese butter",
+    "pork",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 27,
+   "ingredient_id": 14,
+   "confidence": 0.316356,
+   "original_label": "Butter",
+   "gt_classes": [
+    "ice cream",
+    "fried meat"
+   ]
+  },
+  {
+   "image_id": 27,
+   "ingredient_id": 33,
+   "confidence": 0.129481,
+   "original_label": "Honey",
+   "gt_classes": [
+    "ice cream",
+    "fried meat"
+   ]
+  },
+  {
+   "image_id": 28,
+   "ingredient_id": 32,
+   "confidence": 0.647425,
+   "original_label": "Yogurt",
+   "gt_classes": [
+    "french fries",
+    "ice cream"
+   ]
+  },
+  {
+   "image_id": 28,
+   "ingredient_id": 28,
+   "confidence": 0.119032,
+   "original_label": "Tortilla",
+   "gt_classes": [
+    "french fries",
+    "ice cream"
+   ]
+  },
+  {
+   "image_id": 29,
+   "ingredient_id": 32,
+   "confidence": 0.172063,
+   "original_label": "Yogurt",
+   "gt_classes": [
+    "wine",
+    "cherry",
+    "raspberry",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 30,
+   "ingredient_id": 27,
+   "confidence": 0.154453,
+   "original_label": "Black Beans",
+   "gt_classes": [
+    "steak",
+    "corn",
+    "tomato",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 31,
+   "ingredient_id": 28,
+   "confidence": 0.22198,
+   "original_label": "Tortilla",
+   "gt_classes": [
+    "avocado",
+    "chicken duck",
+    "tomato",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 36,
+   "ingredient_id": 32,
+   "confidence": 0.529471,
+   "original_label": "Yogurt",
+   "gt_classes": [
+    "ice cream",
+    "cucumber",
+    "carrot",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 37,
+   "ingredient_id": 12,
+   "confidence": 0.12882,
+   "original_label": "Cheese",
+   "gt_classes": [
+    "chicken duck",
+    "bread",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 39,
+   "ingredient_id": 45,
+   "confidence": 0.767353,
+   "original_label": "Zucchini",
+   "gt_classes": [
+    "soup",
+    "cucumber"
+   ]
+  },
+  {
+   "image_id": 40,
+   "ingredient_id": 42,
+   "confidence": 0.35978,
+   "original_label": "Frozen Peas",
+   "gt_classes": [
+    "shrimp",
+    "potato",
+    "carrot",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 42,
+   "ingredient_id": 37,
+   "confidence": 0.10205,
+   "original_label": "Sweet Potato",
+   "gt_classes": [
+    "pork",
+    "sausage",
+    "sauce",
+    "bread",
+    "potato",
+    "carrot",
+    "cabbage"
+   ]
+  },
+  {
+   "image_id": 45,
+   "ingredient_id": 9,
+   "confidence": 0.979892,
+   "original_label": "Pasta",
+   "gt_classes": [
+    "pork",
+    "tomato",
+    "lettuce",
+    "carrot",
+    "onion",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 47,
+   "ingredient_id": 14,
+   "confidence": 0.206419,
+   "original_label": "Butter",
+   "gt_classes": [
+    "bread",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 48,
+   "ingredient_id": 23,
+   "confidence": 0.266986,
+   "original_label": "Tofu",
+   "gt_classes": [
+    "cheese butter",
+    "sauce",
+    "bread",
+    "potato"
+   ]
+  },
+  {
+   "image_id": 48,
+   "ingredient_id": 9,
+   "confidence": 0.246338,
+   "original_label": "Pasta",
+   "gt_classes": [
+    "cheese butter",
+    "sauce",
+    "bread",
+    "potato"
+   ]
+  },
+  {
+   "image_id": 51,
+   "ingredient_id": 9,
+   "confidence": 0.42425,
+   "original_label": "Pasta",
+   "gt_classes": [
+    "cheese butter",
+    "pizza",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 51,
+   "ingredient_id": 38,
+   "confidence": 0.193329,
+   "original_label": "Ground Beef",
+   "gt_classes": [
+    "cheese butter",
+    "pizza",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 51,
+   "ingredient_id": 28,
+   "confidence": 0.10913,
+   "original_label": "Tortilla",
+   "gt_classes": [
+    "cheese butter",
+    "pizza",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 55,
+   "ingredient_id": 4,
+   "confidence": 0.759857,
+   "original_label": "Chicken Breast",
+   "gt_classes": [
+    "steak",
+    "rice",
+    "tomato",
+    "snow peas",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 56,
+   "ingredient_id": 4,
+   "confidence": 0.865618,
+   "original_label": "Chicken Breast",
+   "gt_classes": [
+    "egg",
+    "sausage",
+    "French beans",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 59,
+   "ingredient_id": 23,
+   "confidence": 0.268766,
+   "original_label": "Tofu",
+   "gt_classes": [
+    "lemon",
+    "fish",
+    "tomato",
+    "cilantro mint",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 59,
+   "ingredient_id": 4,
+   "confidence": 0.186809,
+   "original_label": "Chicken Breast",
+   "gt_classes": [
+    "lemon",
+    "fish",
+    "tomato",
+    "cilantro mint",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 60,
+   "ingredient_id": 12,
+   "confidence": 0.357496,
+   "original_label": "Cheese",
+   "gt_classes": [
+    "egg",
+    "tomato",
+    "cucumber"
+   ]
+  },
+  {
+   "image_id": 61,
+   "ingredient_id": 14,
+   "confidence": 0.328992,
+   "original_label": "Butter",
+   "gt_classes": [
+    "lemon",
+    "rice",
+    "cucumber",
+    "carrot",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 61,
+   "ingredient_id": 12,
+   "confidence": 0.129665,
+   "original_label": "Cheese",
+   "gt_classes": [
+    "lemon",
+    "rice",
+    "cucumber",
+    "carrot",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 65,
+   "ingredient_id": 38,
+   "confidence": 0.599309,
+   "original_label": "Ground Beef",
+   "gt_classes": [
+    "sausage",
+    "carrot",
+    "cabbage"
+   ]
+  },
+  {
+   "image_id": 65,
+   "ingredient_id": 43,
+   "confidence": 0.299917,
+   "original_label": "Canned Tuna",
+   "gt_classes": [
+    "sausage",
+    "carrot",
+    "cabbage"
+   ]
+  },
+  {
+   "image_id": 66,
+   "ingredient_id": 37,
+   "confidence": 0.109198,
+   "original_label": "Sweet Potato",
+   "gt_classes": [
+    "steak",
+    "carrot",
+    "broccoli",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 67,
+   "ingredient_id": 45,
+   "confidence": 0.322365,
+   "original_label": "Zucchini",
+   "gt_classes": [
+    "cucumber",
+    "carrot",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 70,
+   "ingredient_id": 14,
+   "confidence": 0.392644,
+   "original_label": "Butter",
+   "gt_classes": [
+    "ice cream",
+    "garlic",
+    "tomato",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 70,
+   "ingredient_id": 12,
+   "confidence": 0.140358,
+   "original_label": "Cheese",
+   "gt_classes": [
+    "ice cream",
+    "garlic",
+    "tomato",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 70,
+   "ingredient_id": 18,
+   "confidence": 0.117869,
+   "original_label": "Mushroom",
+   "gt_classes": [
+    "ice cream",
+    "garlic",
+    "tomato",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 72,
+   "ingredient_id": 2,
+   "confidence": 0.159832,
+   "original_label": "Rice",
+   "gt_classes": [
+    "sauce",
+    "bread",
+    "carrot"
+   ]
+  },
+  {
+   "image_id": 72,
+   "ingredient_id": 1,
+   "confidence": 0.128861,
+   "original_label": "Egg",
+   "gt_classes": [
+    "sauce",
+    "bread",
+    "carrot"
+   ]
+  },
+  {
+   "image_id": 76,
+   "ingredient_id": 36,
+   "confidence": 0.285972,
+   "original_label": "Salmon",
+   "gt_classes": [
+    "lemon",
+    "sauce",
+    "shrimp"
+   ]
+  },
+  {
+   "image_id": 77,
+   "ingredient_id": 37,
+   "confidence": 0.566725,
+   "original_label": "Sweet Potato",
+   "gt_classes": [
+    "chicken duck",
+    "pasta",
+    "carrot",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 78,
+   "ingredient_id": 15,
+   "confidence": 0.320295,
+   "original_label": "Bread",
+   "gt_classes": [
+    "biscuit",
+    "milk"
+   ]
+  },
+  {
+   "image_id": 78,
+   "ingredient_id": 28,
+   "confidence": 0.125011,
+   "original_label": "Tortilla",
+   "gt_classes": [
+    "biscuit",
+    "milk"
+   ]
+  },
+  {
+   "image_id": 83,
+   "ingredient_id": 4,
+   "confidence": 0.917679,
+   "original_label": "Chicken Breast",
+   "gt_classes": [
+    "pork",
+    "corn",
+    "potato"
+   ]
+  },
+  {
+   "image_id": 85,
+   "ingredient_id": 41,
+   "confidence": 0.514159,
+   "original_label": "Peanut Butter",
+   "gt_classes": [
+    "steak",
+    "bread",
+    "pasta",
+    "rice",
+    "rape"
+   ]
+  }
+ ]
+}
