@@ -66,6 +66,15 @@ final class NutritionReportingTests: XCTestCase {
           """,
         arguments: [servingsConsumed]
       )
+      // v20 reporting reads only through completed snapshots, captured in the
+      // same transaction the meal is logged in — mirror recordCooking here.
+      let historyId = try Int64.fetchOne(
+        db, sql: "SELECT last_insert_rowid()")!
+      try NutritionSnapshotService(db: queue).captureSnapshot(
+        in: db,
+        historyId: historyId,
+        recipeId: 1
+      )
     }
     return queue
   }
