@@ -1153,10 +1153,4 @@ struct ReverseScanMealView: View {
     }
   }
 }
-cceeded.")
-    } catch {
-      errorMessage = error.localizedDescription
-      logger.error("Meal log failed: \(error.localizedDescription, privacy: .public)")
-    }
-  }
-}
+
