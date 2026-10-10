@@ -1,0 +1,124 @@
+{
+  "tool": "m1-variant-counts",
+  "generatedBy": "bun test tools/offline/confidence-contract/tests",
+  "hypothesis": "Priors are chosen from the lowercased key but learned state is stored under the verbatim key.",
+  "variants": [
+    {
+      "label": "exact",
+      "key": "vision.scan",
+      "priorClass": "vision"
+    },
+    {
+      "label": "mixed-case",
+      "key": "Vision.Scan",
+      "priorClass": "vision"
+    },
+    {
+      "label": "upper-case",
+      "key": "VISION.SCAN",
+      "priorClass": "vision"
+    },
+    {
+      "label": "surrounding-whitespace",
+      "key": " vision.scan ",
+      "priorClass": "vision"
+    },
+    {
+      "label": "tab-newline-whitespace",
+      "key": "\tvision.scan\n",
+      "priorClass": "vision"
+    },
+    {
+      "label": "fullwidth-unicode",
+      "key": "ＶＩＳＩＯＮ.scan",
+      "priorClass": "default"
+    }
+  ],
+  "counts": {
+    "variants": 6,
+    "totalPairs": 15,
+    "priorEquivalent": 10,
+    "priorDistinct": 5,
+    "learnedStateDistinct": 15,
+    "learnedStateShared": 0,
+    "priorEquivalentButStateDistinct": 10,
+    "priorEquivalentPairs": [
+      [
+        "exact",
+        "mixed-case"
+      ],
+      [
+        "exact",
+        "upper-case"
+      ],
+      [
+        "exact",
+        "surrounding-whitespace"
+      ],
+      [
+        "exact",
+        "tab-newline-whitespace"
+      ],
+      [
+        "mixed-case",
+        "upper-case"
+      ],
+      [
+        "mixed-case",
+        "surrounding-whitespace"
+      ],
+      [
+        "mixed-case",
+        "tab-newline-whitespace"
+      ],
+      [
+        "upper-case",
+        "surrounding-whitespace"
+      ],
+      [
+        "upper-case",
+        "tab-newline-whitespace"
+      ],
+      [
+        "surrounding-whitespace",
+        "tab-newline-whitespace"
+      ]
+    ],
+    "priorDistinctPairs": [
+      [
+        "exact",
+        "fullwidth-unicode"
+      ],
+      [
+        "mixed-case",
+        "fullwidth-unicode"
+      ],
+      [
+        "upper-case",
+        "fullwidth-unicode"
+      ],
+      [
+        "surrounding-whitespace",
+        "fullwidth-unicode"
+      ],
+      [
+        "tab-newline-whitespace",
+        "fullwidth-unicode"
+      ]
+    ]
+  },
+  "expected": {
+    "variants": 6,
+    "totalPairs": 15,
+    "priorEquivalent": 10,
+    "priorDistinct": 5,
+    "learnedStateDistinct": 15,
+    "learnedStateShared": 0,
+    "priorEquivalentButStateDistinct": 10
+  },
+  "priorMeanAnchors": {
+    "vision": 0.7142857142857143,
+    "ocrExact": 0.7777777777777778,
+    "default": 0.5714285714285714
+  }
+}
