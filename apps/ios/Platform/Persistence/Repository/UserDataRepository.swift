@@ -284,14 +284,17 @@ final class UserDataRepository: Sendable {
 
         // Typed extraction preserves the stored count; an `as? Int` cast fell back to all servings.
         let storedServingsConsumed: Int? = row["servings_consumed"]
-        let servingsConsumed = storedServingsConsumed ?? recipe.servings
-        let recipeId: Int64 = row["recipe_id"]
 
         let portionMultiplier: Double = row["portion_multiplier"] ?? 1.0
         let historyId: Int64 = row["history_id"]
-        let macros = try Self.computeConsumedMacros(
-          db: db, historyId: historyId, recipeId: recipeId,
-          recipeServings: recipe.servings, servingsConsumed: servingsConsumed,
+
+        // Macros come from the meal's frozen nutrition snapshot. The fallback
+        // serving count is the frozen recipe servings, not the mutable
+        // catalog value, so later corrections cannot rewrite what was logged.
+        let frozenServings = try NutritionSnapshot.frozenServings(in: db, historyId: historyId)
+        let servingsConsumed = storedServingsConsumed ?? frozenServings
+        let macros = try NutritionSnapshot.consumedTotals(
+          in: db, historyId: historyId, storedServingsConsumed: storedServingsConsumed,
           portionMultiplier: portionMultiplier
         )
 
@@ -311,38 +314,52 @@ final class UserDataRepository: Sendable {
   // MARK: - Daily Macro Totals (for charting)
 
   /// Compute total macros consumed per day for the last N days.
-  /// Each day sums: (nutrient_per_100g / 100 * quantity_grams / recipe_servings) * servings_consumed
+  /// Each day sums frozen per-line values:
+  /// (nutrient / 100 * quantity_grams * swap_ratio / frozen recipe_servings)
+  /// * servings_consumed * portion_multiplier. Servings consumed and the
+  /// denominator come from the meal's snapshot, so catalog corrections after
+  /// logging cannot rewrite the totals.
+  ///
+  /// Every visible meal must carry a current-version snapshot; a missing one
+  /// throws instead of silently re-deriving nutrition from the mutable
+  /// catalog. Meals whose recipe row is gone stay excluded, matching the
+  /// recipes join this query has always used.
   func dailyMacroTotals(lastDays: Int) throws -> [DailyMacroPoint] {
     let safeDays = max(1, lastDays)
     let modifier = "-\(safeDays - 1) days"
 
     return try db.read { db in
+      try NutritionSnapshot.requireCurrentSnapshots(
+        in: db,
+        visibleWhere: "datetime(ch.cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))",
+        arguments: [modifier]
+      )
+
       let rows = try Row.fetchAll(
         db,
         sql: """
           SELECT date(ch.cooked_at, 'localtime') AS day,
                  SUM(
-                   (i.calories / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
+                   (l.calories / 100.0 * l.quantity_grams * l.swap_ratio / s.recipe_servings)
+                   * COALESCE(ch.servings_consumed, s.recipe_servings) * ch.portion_multiplier
                  ) AS total_cal,
                  SUM(
-                   (i.protein / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
+                   (l.protein / 100.0 * l.quantity_grams * l.swap_ratio / s.recipe_servings)
+                   * COALESCE(ch.servings_consumed, s.recipe_servings) * ch.portion_multiplier
                  ) AS total_pro,
                  SUM(
-                   (i.carbs / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
+                   (l.carbs / 100.0 * l.quantity_grams * l.swap_ratio / s.recipe_servings)
+                   * COALESCE(ch.servings_consumed, s.recipe_servings) * ch.portion_multiplier
                  ) AS total_carb,
                  SUM(
-                   (i.fat / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
+                   (l.fat / 100.0 * l.quantity_grams * l.swap_ratio / s.recipe_servings)
+                   * COALESCE(ch.servings_consumed, s.recipe_servings) * ch.portion_multiplier
                  ) AS total_fat
           FROM cooking_history ch
           JOIN recipes r ON r.id = ch.recipe_id
-          JOIN recipe_ingredients ri ON ri.recipe_id = r.id AND ri.is_required = 1
-          LEFT JOIN cooking_history_swaps sw
-            ON sw.history_id = ch.id AND sw.original_ingredient_id = ri.ingredient_id
-          JOIN ingredients i ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
+          JOIN cooking_history_nutrition_snapshots s
+            ON s.history_id = ch.id AND s.snapshot_version = \(NutritionSnapshot.currentVersion)
+          JOIN cooking_history_nutrition_lines l ON l.history_id = ch.id
           WHERE datetime(ch.cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))
           GROUP BY day
           ORDER BY day ASC
@@ -380,35 +397,44 @@ final class UserDataRepository: Sendable {
 
   // MARK: - Today's Macros
 
-  /// Get total macros consumed today.
+  /// Get total macros consumed today, from frozen nutrition snapshots.
+  ///
+  /// Every visible meal must carry a current-version snapshot; a missing one
+  /// throws instead of silently re-deriving nutrition from the mutable
+  /// catalog. Meals whose recipe row is gone stay excluded, matching the
+  /// recipes join this query has always used.
   func todayMacros() throws -> MacroTotals {
     try db.read { db in
+      try NutritionSnapshot.requireCurrentSnapshots(
+        in: db,
+        visibleWhere: "date(ch.cooked_at, 'localtime') = date('now', 'localtime')"
+      )
+
       let row = try Row.fetchOne(
         db,
         sql: """
           SELECT
             COALESCE(SUM(
-              (i.calories / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
+              (l.calories / 100.0 * l.quantity_grams * l.swap_ratio / s.recipe_servings)
+              * COALESCE(ch.servings_consumed, s.recipe_servings) * ch.portion_multiplier
             ), 0) AS total_cal,
             COALESCE(SUM(
-              (i.protein / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
+              (l.protein / 100.0 * l.quantity_grams * l.swap_ratio / s.recipe_servings)
+              * COALESCE(ch.servings_consumed, s.recipe_servings) * ch.portion_multiplier
             ), 0) AS total_pro,
             COALESCE(SUM(
-              (i.carbs / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
+              (l.carbs / 100.0 * l.quantity_grams * l.swap_ratio / s.recipe_servings)
+              * COALESCE(ch.servings_consumed, s.recipe_servings) * ch.portion_multiplier
             ), 0) AS total_carb,
             COALESCE(SUM(
-              (i.fat / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
+              (l.fat / 100.0 * l.quantity_grams * l.swap_ratio / s.recipe_servings)
+              * COALESCE(ch.servings_consumed, s.recipe_servings) * ch.portion_multiplier
             ), 0) AS total_fat
           FROM cooking_history ch
           JOIN recipes r ON r.id = ch.recipe_id
-          JOIN recipe_ingredients ri ON ri.recipe_id = r.id AND ri.is_required = 1
-          LEFT JOIN cooking_history_swaps sw
-            ON sw.history_id = ch.id AND sw.original_ingredient_id = ri.ingredient_id
-          JOIN ingredients i ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
+          JOIN cooking_history_nutrition_snapshots s
+            ON s.history_id = ch.id AND s.snapshot_version = \(NutritionSnapshot.currentVersion)
+          JOIN cooking_history_nutrition_lines l ON l.history_id = ch.id
           WHERE date(ch.cooked_at, 'localtime') = date('now', 'localtime')
           """
       )
@@ -445,45 +471,6 @@ final class UserDataRepository: Sendable {
         arguments: [rating, historyId]
       )
     }
-  }
-
-  // MARK: - Macro Helpers
-
-  /// Compute absolute macros consumed for a single cooking event.
-  private static func computeConsumedMacros(
-    db: Database, historyId: Int64, recipeId: Int64, recipeServings: Int, servingsConsumed: Int,
-    portionMultiplier: Double
-  ) throws -> MacroTotals {
-    let row = try Row.fetchOne(
-      db,
-      sql: """
-        SELECT
-          COALESCE(SUM(i.calories / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0)), 0)
-            AS total_cal,
-          COALESCE(SUM(i.protein / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0)), 0)
-            AS total_pro,
-          COALESCE(SUM(i.carbs / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0)), 0)
-            AS total_carb,
-          COALESCE(SUM(i.fat / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0)), 0)
-            AS total_fat
-        FROM recipe_ingredients ri
-        LEFT JOIN cooking_history_swaps sw
-          ON sw.history_id = ? AND sw.original_ingredient_id = ri.ingredient_id
-        JOIN ingredients i ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
-        WHERE ri.recipe_id = ? AND ri.is_required = 1
-        """,
-      arguments: [historyId, recipeId]
-    )
-
-    guard let row else { return .zero }
-    let servingsFactor =
-      Double(servingsConsumed) * portionMultiplier / Double(max(recipeServings, 1))
-    return MacroTotals(
-      calories: (row["total_cal"] as? Double ?? 0) * servingsFactor,
-      protein: (row["total_pro"] as? Double ?? 0) * servingsFactor,
-      carbs: (row["total_carb"] as? Double ?? 0) * servingsFactor,
-      fat: (row["total_fat"] as? Double ?? 0) * servingsFactor
-    )
   }
 }
 

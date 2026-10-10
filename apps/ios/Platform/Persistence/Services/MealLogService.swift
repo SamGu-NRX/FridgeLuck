@@ -13,8 +13,9 @@ enum MealLogError: LocalizedError {
   }
 }
 
-/// Coordinates meal logging so cooking history + inventory mutations are persisted
-/// atomically inside a single database transaction.
+/// Coordinates meal logging so cooking history, swap, streak, inventory, and
+/// nutrition-snapshot mutations are persisted atomically inside a single
+/// database transaction.
 final class MealLogService: Sendable {
   struct Outcome: Sendable {
     let historyId: Int64
@@ -28,19 +29,22 @@ final class MealLogService: Sendable {
   private let personalizationService: PersonalizationService
   private let inventoryRepository: InventoryRepository
   private let imageStorageService: ImageStorageService
+  private let nutritionSnapshotService: NutritionSnapshotService
 
   init(
     db: DatabaseQueue,
     recipeRepository: RecipeRepository,
     personalizationService: PersonalizationService,
     inventoryRepository: InventoryRepository,
-    imageStorageService: ImageStorageService
+    imageStorageService: ImageStorageService,
+    nutritionSnapshotService: NutritionSnapshotService
   ) {
     self.db = db
     self.recipeRepository = recipeRepository
     self.personalizationService = personalizationService
     self.inventoryRepository = inventoryRepository
     self.imageStorageService = imageStorageService
+    self.nutritionSnapshotService = nutritionSnapshotService
   }
 
   @discardableResult
@@ -99,6 +103,16 @@ final class MealLogService: Sendable {
         portionMultiplier: portionMultiplier,
         swaps: swaps,
         sourceRef: sourceRef
+      )
+
+      // Freeze the meal's nutrition from the catalog as it exists at logging
+      // time, inside the same transaction as the history, swap, streak, and
+      // inventory rows. Later catalog corrections cannot rewrite what was
+      // consumed, and a failed log leaves no partial snapshot behind.
+      try nutritionSnapshotService.captureSnapshot(
+        in: db,
+        historyId: historyId,
+        recipeId: recipeId
       )
 
       return Outcome(
