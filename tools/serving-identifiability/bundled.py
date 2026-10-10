@@ -18,13 +18,15 @@ from __future__ import annotations
 import hashlib
 import json
 from fractions import Fraction
+from functools import lru_cache
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_JSON = REPO_ROOT / "apps" / "ios" / "Resources" / "data.json"
 
 
-def load_bundled_recipes(path=DATA_JSON) -> list[dict]:
+@lru_cache(maxsize=8)
+def load_bundled_recipes(path: Path = DATA_JSON) -> list[dict]:
     raw = json.loads(Path(path).read_text(encoding="utf-8"))
     recipes = []
     for r in raw["recipes"]:

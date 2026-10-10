@@ -1,0 +1,728 @@
+{
+  "family": {
+    "consumed": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "cook_scales": [
+      "1/2",
+      "1",
+      "3/2",
+      "2"
+    ],
+    "portions": [
+      "1/2",
+      "1",
+      "3/2",
+      "2"
+    ],
+    "recipes": 166,
+    "scale_resolution_g": "5",
+    "worlds": 10624
+  },
+  "milestone": "M2 enumeration",
+  "regimes": {
+    "R1_plate_only": {
+      "ambiguous_examples": [
+        {
+          "members": 2,
+          "observation": [
+            "2415",
+            null,
+            null,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "2145/2",
+              "consumed": 3,
+              "portion": "3/2",
+              "recipe": "#133 Somerset stew with cheddar & parsley mash",
+              "rendered_g": "19305/8"
+            },
+            {
+              "batch_g": "604",
+              "consumed": 4,
+              "portion": "2",
+              "recipe": "#166 Zesty haddock with crushed potatoes & peas",
+              "rendered_g": "2416"
+            }
+          ],
+          "targets": [
+            3,
+            4
+          ]
+        },
+        {
+          "members": 2,
+          "observation": [
+            "2440",
+            null,
+            null,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "610",
+              "consumed": 4,
+              "portion": "2",
+              "recipe": "#42 Cauliflower, paneer & pea curry",
+              "rendered_g": "2440"
+            },
+            {
+              "batch_g": "2169/2",
+              "consumed": 3,
+              "portion": "3/2",
+              "recipe": "#164 Venetian duck ragu",
+              "rendered_g": "19521/8"
+            }
+          ],
+          "targets": [
+            3,
+            4
+          ]
+        },
+        {
+          "members": 2,
+          "observation": [
+            "3090",
+            null,
+            null,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "2745/2",
+              "consumed": 3,
+              "portion": "3/2",
+              "recipe": "#125 Sesame chicken salad",
+              "rendered_g": "24705/8"
+            },
+            {
+              "batch_g": "772",
+              "consumed": 4,
+              "portion": "2",
+              "recipe": "#128 Smoky beans on toast",
+              "rendered_g": "3088"
+            }
+          ],
+          "targets": [
+            3,
+            4
+          ]
+        },
+        {
+          "members": 3,
+          "observation": [
+            "1100",
+            null,
+            null,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "550",
+              "consumed": 2,
+              "portion": "2",
+              "recipe": "#135 Spiced carrot & lentil soup",
+              "rendered_g": "1100"
+            },
+            {
+              "batch_g": "550",
+              "consumed": 4,
+              "portion": "1",
+              "recipe": "#135 Spiced carrot & lentil soup",
+              "rendered_g": "1100"
+            },
+            {
+              "batch_g": "275",
+              "consumed": 4,
+              "portion": "2",
+              "recipe": "#135 Spiced carrot & lentil soup",
+              "rendered_g": "1100"
+            }
+          ],
+          "targets": [
+            2,
+            4
+          ]
+        },
+        {
+          "members": 3,
+          "observation": [
+            "1170",
+            null,
+            null,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "520",
+              "consumed": 3,
+              "portion": "3/2",
+              "recipe": "#50 Chicken korma",
+              "rendered_g": "1170"
+            },
+            {
+              "batch_g": "390",
+              "consumed": 3,
+              "portion": "2",
+              "recipe": "#50 Chicken korma",
+              "rendered_g": "1170"
+            },
+            {
+              "batch_g": "390",
+              "consumed": 4,
+              "portion": "3/2",
+              "recipe": "#50 Chicken korma",
+              "rendered_g": "1170"
+            }
+          ],
+          "targets": [
+            3,
+            4
+          ]
+        }
+      ],
+      "ambiguous_keys": 543,
+      "identifiable_keys": 102,
+      "keys": 645,
+      "max_class_size": 120,
+      "max_target_spread": 3
+    },
+    "R2_identity_and_declared": {
+      "ambiguous_examples": [
+        {
+          "members": 3,
+          "observation": [
+            "100",
+            100,
+            2,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "395",
+              "consumed": 1,
+              "portion": "1/2",
+              "recipe": "#100 Moroccan chicken",
+              "rendered_g": "395/4"
+            },
+            {
+              "batch_g": "395/2",
+              "consumed": 1,
+              "portion": "1",
+              "recipe": "#100 Moroccan chicken",
+              "rendered_g": "395/4"
+            },
+            {
+              "batch_g": "395/2",
+              "consumed": 2,
+              "portion": "1/2",
+              "recipe": "#100 Moroccan chicken",
+              "rendered_g": "395/4"
+            }
+          ],
+          "targets": [
+            1,
+            2
+          ]
+        },
+        {
+          "members": 3,
+          "observation": [
+            "100",
+            107,
+            2,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "132",
+              "consumed": 1,
+              "portion": "3/2",
+              "recipe": "#107 One-pot garlicky chicken thighs & giant cous cous",
+              "rendered_g": "99"
+            },
+            {
+              "batch_g": "132",
+              "consumed": 3,
+              "portion": "1/2",
+              "recipe": "#107 One-pot garlicky chicken thighs & giant cous cous",
+              "rendered_g": "99"
+            },
+            {
+              "batch_g": "44",
+              "consumed": 3,
+              "portion": "3/2",
+              "recipe": "#107 One-pot garlicky chicken thighs & giant cous cous",
+              "rendered_g": "99"
+            }
+          ],
+          "targets": [
+            1,
+            3
+          ]
+        },
+        {
+          "members": 3,
+          "observation": [
+            "100",
+            116,
+            2,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "400",
+              "consumed": 1,
+              "portion": "1/2",
+              "recipe": "#116 Prawn & salmon burgers with spicy mayo",
+              "rendered_g": "100"
+            },
+            {
+              "batch_g": "200",
+              "consumed": 1,
+              "portion": "1",
+              "recipe": "#116 Prawn & salmon burgers with spicy mayo",
+              "rendered_g": "100"
+            },
+            {
+              "batch_g": "200",
+              "consumed": 2,
+              "portion": "1/2",
+              "recipe": "#116 Prawn & salmon burgers with spicy mayo",
+              "rendered_g": "100"
+            }
+          ],
+          "targets": [
+            1,
+            2
+          ]
+        },
+        {
+          "members": 3,
+          "observation": [
+            "100",
+            13,
+            2,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "401",
+              "consumed": 1,
+              "portion": "1/2",
+              "recipe": "#13 Vegetable Stir-Fry with Tofu",
+              "rendered_g": "401/4"
+            },
+            {
+              "batch_g": "401/2",
+              "consumed": 1,
+              "portion": "1",
+              "recipe": "#13 Vegetable Stir-Fry with Tofu",
+              "rendered_g": "401/4"
+            },
+            {
+              "batch_g": "401/2",
+              "consumed": 2,
+              "portion": "1/2",
+              "recipe": "#13 Vegetable Stir-Fry with Tofu",
+              "rendered_g": "401/4"
+            }
+          ],
+          "targets": [
+            1,
+            2
+          ]
+        },
+        {
+          "members": 3,
+          "observation": [
+            "100",
+            149,
+            2,
+            null,
+            null,
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "783/2",
+              "consumed": 1,
+              "portion": "1/2",
+              "recipe": "#149 Superhealthy salmon burgers",
+              "rendered_g": "783/8"
+            },
+            {
+              "batch_g": "261/2",
+              "consumed": 1,
+              "portion": "3/2",
+              "recipe": "#149 Superhealthy salmon burgers",
+              "rendered_g": "783/8"
+            },
+            {
+              "batch_g": "261/2",
+              "consumed": 3,
+              "portion": "1/2",
+              "recipe": "#149 Superhealthy salmon burgers",
+              "rendered_g": "783/8"
+            }
+          ],
+          "targets": [
+            1,
+            3
+          ]
+        }
+      ],
+      "ambiguous_keys": 2155,
+      "identifiable_keys": 498,
+      "keys": 2653,
+      "max_class_size": 9,
+      "max_target_spread": 3
+    },
+    "R3_plus_reference": {
+      "ambiguous_examples": [
+        {
+          "members": 2,
+          "observation": [
+            "100",
+            100,
+            2,
+            null,
+            "395/4",
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "395/2",
+              "consumed": 1,
+              "portion": "1",
+              "recipe": "#100 Moroccan chicken",
+              "rendered_g": "395/4"
+            },
+            {
+              "batch_g": "395/2",
+              "consumed": 2,
+              "portion": "1/2",
+              "recipe": "#100 Moroccan chicken",
+              "rendered_g": "395/4"
+            }
+          ],
+          "targets": [
+            1,
+            2
+          ]
+        },
+        {
+          "members": 2,
+          "observation": [
+            "100",
+            107,
+            2,
+            null,
+            "66",
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "132",
+              "consumed": 1,
+              "portion": "3/2",
+              "recipe": "#107 One-pot garlicky chicken thighs & giant cous cous",
+              "rendered_g": "99"
+            },
+            {
+              "batch_g": "132",
+              "consumed": 3,
+              "portion": "1/2",
+              "recipe": "#107 One-pot garlicky chicken thighs & giant cous cous",
+              "rendered_g": "99"
+            }
+          ],
+          "targets": [
+            1,
+            3
+          ]
+        },
+        {
+          "members": 2,
+          "observation": [
+            "100",
+            112,
+            2,
+            null,
+            "195/2",
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "195",
+              "consumed": 1,
+              "portion": "1",
+              "recipe": "#112 Peanut lime salad",
+              "rendered_g": "195/2"
+            },
+            {
+              "batch_g": "195",
+              "consumed": 2,
+              "portion": "1/2",
+              "recipe": "#112 Peanut lime salad",
+              "rendered_g": "195/2"
+            }
+          ],
+          "targets": [
+            1,
+            2
+          ]
+        },
+        {
+          "members": 2,
+          "observation": [
+            "100",
+            112,
+            2,
+            null,
+            "65",
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "130",
+              "consumed": 1,
+              "portion": "3/2",
+              "recipe": "#112 Peanut lime salad",
+              "rendered_g": "195/2"
+            },
+            {
+              "batch_g": "130",
+              "consumed": 3,
+              "portion": "1/2",
+              "recipe": "#112 Peanut lime salad",
+              "rendered_g": "195/2"
+            }
+          ],
+          "targets": [
+            1,
+            3
+          ]
+        },
+        {
+          "members": 2,
+          "observation": [
+            "100",
+            112,
+            2,
+            null,
+            "65/2",
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "65",
+              "consumed": 2,
+              "portion": "3/2",
+              "recipe": "#112 Peanut lime salad",
+              "rendered_g": "195/2"
+            },
+            {
+              "batch_g": "65",
+              "consumed": 3,
+              "portion": "1",
+              "recipe": "#112 Peanut lime salad",
+              "rendered_g": "195/2"
+            }
+          ],
+          "targets": [
+            2,
+            3
+          ]
+        }
+      ],
+      "ambiguous_keys": 3981,
+      "identifiable_keys": 1992,
+      "keys": 5973,
+      "max_class_size": 4,
+      "max_target_spread": 3
+    },
+    "R4_plus_portion": {
+      "ambiguous_examples": [
+        {
+          "members": 2,
+          "observation": [
+            "10",
+            159,
+            2,
+            "1/2",
+            "15/2",
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "15",
+              "consumed": 2,
+              "portion": "1/2",
+              "recipe": "#159 The ultimate makeover: Chicken pie",
+              "rendered_g": "15/2"
+            },
+            {
+              "batch_g": "15",
+              "consumed": 3,
+              "portion": "1/2",
+              "recipe": "#159 The ultimate makeover: Chicken pie",
+              "rendered_g": "45/4"
+            }
+          ],
+          "targets": [
+            2,
+            3
+          ]
+        },
+        {
+          "members": 2,
+          "observation": [
+            "10",
+            55,
+            2,
+            "1/2",
+            "15/2",
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "15",
+              "consumed": 2,
+              "portion": "1/2",
+              "recipe": "#55 Chicken parmesan",
+              "rendered_g": "15/2"
+            },
+            {
+              "batch_g": "15",
+              "consumed": 3,
+              "portion": "1/2",
+              "recipe": "#55 Chicken parmesan",
+              "rendered_g": "45/4"
+            }
+          ],
+          "targets": [
+            2,
+            3
+          ]
+        },
+        {
+          "members": 2,
+          "observation": [
+            "10",
+            80,
+            2,
+            "1/2",
+            "15/2",
+            "5"
+          ],
+          "sample_worlds": [
+            {
+              "batch_g": "15",
+              "consumed": 2,
+              "portion": "1/2",
+              "recipe": "#80 Halloumi pasta",
+              "rendered_g": "15/2"
+            },
+            {
+              "batch_g": "15",
+              "consumed": 3,
+              "portion": "1/2",
+              "recipe": "#80 Halloumi pasta",
+              "rendered_g": "45/4"
+            }
+          ],
+          "targets": [
+            2,
+            3
+          ]
+        }
+      ],
+      "ambiguous_keys": 3,
+      "identifiable_keys": 10618,
+      "keys": 10621,
+      "max_class_size": 2,
+      "max_target_spread": 1
+    }
+  },
+  "study": "serving-identifiability",
+  "witness_membership": [
+    {
+      "hand_targets": [
+        1,
+        2
+      ],
+      "ok": true,
+      "regime": "R2_identity_and_declared",
+      "targets_in_class": [
+        1,
+        2,
+        4
+      ],
+      "witness": "same_evidence_different_allocations"
+    },
+    {
+      "hand_targets": [
+        1,
+        3
+      ],
+      "ok": true,
+      "regime": "R1_plate_only",
+      "targets_in_class": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "witness": "unknown_recipe_identity"
+    },
+    {
+      "hand_targets": [
+        2,
+        1
+      ],
+      "ok": true,
+      "regime": "R3_plus_reference",
+      "targets_in_class": [
+        1,
+        2,
+        4
+      ],
+      "witness": "portion_reference_tradeoff"
+    },
+    {
+      "hand_targets": [
+        2
+      ],
+      "ok": true,
+      "regime": "R4_plus_portion",
+      "targets_in_class": [
+        2
+      ],
+      "witness": "resolved_by_portion_confirmation"
+    }
+  ]
+}

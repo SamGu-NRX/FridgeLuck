@@ -51,6 +51,7 @@ import math
 from collections import defaultdict
 from dataclasses import dataclass
 from fractions import Fraction
+from functools import lru_cache
 from typing import Callable, Iterable
 
 TARGET_FIELD = "consumed_servings"
@@ -267,6 +268,7 @@ def serving_factor(
     )
 
 
+@lru_cache(maxsize=None)
 def rendered_plate_grams(world: World) -> Fraction:
     """Modeled plate total the world produces (required ingredients only, the
     scaling consumptionRequests and MealBreakdownContent.make use)."""
@@ -284,6 +286,7 @@ def observed_plate_grams(world: World, scale_resolution_g=DEFAULT_RESOLUTION) ->
     return Fraction(step) * res
 
 
+@lru_cache(maxsize=None)
 def evidence_from_world(
     world: World,
     *,
