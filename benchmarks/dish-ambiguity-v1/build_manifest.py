@@ -7,8 +7,10 @@ Usage:
 Produces (committed artifacts, dataset itself is NOT committed):
     manifest.json      25 images per class from the OFFICIAL test split  (2525 total)
     dev_manifest.json  6 images per class from the OFFICIAL train split,
-                       minus near-duplicates of any test image (dev-only threshold
-                       choices must not be tuned on test-lookalike data)
+                       where each kept image is not a near-duplicate of any test
+                       image (dev-only threshold choices must not be tuned on
+                       test-lookalike data). Dropped candidates are refilled from
+                       the same seeded shuffle so stratification stays exact.
 
 Both files record, per image: path (relative to dataset root), class, official-split
 membership, sha256 of the file bytes, and a 64-bit dHash for near-duplicate checks.
@@ -50,7 +52,7 @@ def sha256(path: Path) -> str:
 
 
 def read_split(root: Path, split: str) -> dict[str, list[str]]:
-    txt = root / "meta" / f"{split}_list.txt"
+    txt = root / "meta" / f"{split}.txt"
     per_class: dict[str, list[str]] = defaultdict(list)
     for line in txt.read_text().splitlines():
         line = line.strip()
@@ -71,15 +73,51 @@ def build(root: Path, split: str, per_class_n: int, rng: np.random.Generator) ->
         idx = rng.permutation(len(rels))[:per_class_n]
         for i in idx:
             rel = rels[int(i)]
-            full = root / "images" / f"{rel}.jpg"
+            full = root / "images" / cls / f"{rel}.jpg"
             out.append({
-                "path": f"images/{rel}.jpg",
+                "path": f"images/{cls}/{rel}.jpg",
                 "class": cls,
                 "split": split,
                 "sha256": sha256(full),
                 "dhash": dhash(full),
             })
     return out
+
+
+def build_dev(root: Path, per_class_n: int, rng: np.random.Generator,
+              test_hashes: list[int], threshold: int) -> tuple[list[dict], list[dict]]:
+    """Dev sample: per class, walk the seeded shuffle and keep the first per_class_n
+    images that are not near-duplicates of any test image (or an earlier dev pick).
+    Keeps stratification exact even when drops occur; records every exclusion."""
+    per_class = read_split(root, "train")
+    classes = sorted((root / "meta" / "classes.txt").read_text().splitlines())
+    kept, dropped = [], []
+    for cls in classes:
+        rels = sorted(per_class[cls])
+        order = rng.permutation(len(rels))
+        n_kept = 0
+        for i in order:
+            if n_kept >= per_class_n:
+                break
+            rel = rels[int(i)]
+            full = root / "images" / cls / f"{rel}.jpg"
+            h = dhash(full)
+            dists = [bin(h ^ th).count("1") for th in test_hashes]
+            min_dist = min(dists) if dists else 1 << 32
+            if min_dist <= threshold:
+                dropped.append({"path": f"images/{cls}/{rel}.jpg", "minHamming": min_dist,
+                                "reason": "near-duplicate of a test image"})
+                continue
+            kept.append({
+                "path": f"images/{cls}/{rel}.jpg",
+                "class": cls,
+                "split": "train",
+                "sha256": sha256(full),
+                "dhash": h,
+            })
+            n_kept += 1
+        assert n_kept == per_class_n, f"class {cls}: only {n_kept}/{per_class_n} clean dev images"
+    return kept, dropped
 
 
 def main() -> int:
@@ -90,17 +128,9 @@ def main() -> int:
 
     # Test sample first (fixed seed), then dev sample from the train split.
     test = build(root, "test", TEST_PER_CLASS, np.random.default_rng(SEED))
-    dev = build(root, "train", DEV_PER_CLASS, np.random.default_rng(SEED + 1))
-
-    # Near-duplicate discipline: drop dev images too close to ANY test image.
     test_hashes = [img["dhash"] for img in test]
-    kept, dropped = [], []
-    for img in dev:
-        dists = [bin(img["dhash"] ^ th).count("1") for th in test_hashes]
-        if min(dists) <= NEAR_DUP_HAMMING_THRESHOLD:
-            dropped.append({"path": img["path"], "minHamming": min(dists)})
-        else:
-            kept.append(img)
+    kept, dropped = build_dev(root, DEV_PER_CLASS, np.random.default_rng(SEED + 1),
+                              test_hashes, NEAR_DUP_HAMMING_THRESHOLD)
 
     for name, images, split in (("manifest.json", test, "test"), ("dev_manifest.json", kept, "train")):
         payload = {
@@ -125,6 +155,9 @@ def main() -> int:
     print(f"dev near-duplicates of test dropped: {len(dropped)}")
     return 0
 
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 
 if __name__ == "__main__":
     raise SystemExit(main())
