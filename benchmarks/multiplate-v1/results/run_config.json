@@ -1,0 +1,67 @@
+{
+ "pinned": {
+  "detector": {
+   "model": "facebook/detr-resnet-50",
+   "revision": "1d5f47bd3bdd2c4bbfa585418ffe6da5028b4c0b",
+   "score_threshold": 0.3,
+   "device": "cpu"
+  },
+  "classifier": {
+   "model": "ViT-B-32",
+   "pretrained": "laion2b_s34b_b79k",
+   "food_prob_threshold": 0.2,
+   "absorber_margin": 0.0,
+   "nms_class_iou": 0.5,
+   "nms_cross_iou": 0.7,
+   "prompts": "a photo of {name}"
+  },
+  "proposals": {
+   "felzenszwalb": {
+    "scale": 100,
+    "sigma": 0.8,
+    "min_size": 200
+   },
+   "min_segment_area_frac": 0.005,
+   "grid_scales": [
+    0.35,
+    0.55,
+    0.8
+   ],
+   "grid_positions": 3,
+   "max_proposals": 120
+  },
+  "absorber_prompts": [
+   "a photo of a kitchen counter",
+   "a photo of a wooden table",
+   "a photo of an empty plate",
+   "a photo of a person",
+   "a photo of a restaurant interior"
+  ],
+  "detector_class_map": {
+   "banana": "Fruit",
+   "apple": "Apple",
+   "orange": "Orange",
+   "sandwich": "Sandwich",
+   "broccoli": "Vegetable",
+   "carrot": "Vegetable",
+   "hot dog": "Fast food",
+   "pizza": "Pizza",
+   "donut": "Dessert",
+   "cake": "Cake"
+  },
+  "libs": {
+   "numpy": "2.5.2",
+   "pillow": "12.3.0",
+   "scipy": "1.17.1",
+   "scikit-image": "0.25.2",
+   "torch": "2.14.1+cpu",
+   "torchvision": "0.29.1+cpu",
+   "transformers": "5.19.0",
+   "open_clip": "3.3.0"
+  }
+ },
+ "manifest_sha256": "c6b106817ea0fd1861f5e7438b6ea88fbafaad3c9d2d609ee6521262c8ab1ce4",
+ "images": 668,
+ "small_region_frac": 0.04,
+ "note": "oracle-crops sees target boxes; upper bound only. GT food boxes count categories, not servings or plates."
+}
