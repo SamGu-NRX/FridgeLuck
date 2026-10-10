@@ -1,0 +1,268 @@
+{
+  "pair_count": 27,
+  "pairs": [
+    {
+      "note": "Use 75% the weight in olive oil. Best for sauteing; less suited for baking.",
+      "originalId": 14,
+      "ratio": 0.75,
+      "reasons": [
+        "vegan",
+        "dairyFree",
+        "lighter"
+      ],
+      "substituteId": 16
+    },
+    {
+      "note": "Mashed avocado works well in baking and spreads.",
+      "originalId": 14,
+      "ratio": 1.0,
+      "reasons": [
+        "vegan",
+        "dairyFree"
+      ],
+      "substituteId": 26
+    },
+    {
+      "note": "Full-fat coconut milk adds richness. Shake well before measuring.",
+      "originalId": 13,
+      "ratio": 1.0,
+      "reasons": [
+        "vegan",
+        "dairyFree"
+      ],
+      "substituteId": 49
+    },
+    {
+      "note": "Crumbled firm tofu mimics ricotta or feta. Season well.",
+      "originalId": 12,
+      "ratio": 1.2,
+      "reasons": [
+        "vegan",
+        "dairyFree",
+        "lighter"
+      ],
+      "substituteId": 23
+    },
+    {
+      "note": "Thick coconut cream works as a yogurt stand-in for sauces and dressings.",
+      "originalId": 32,
+      "ratio": 0.9,
+      "reasons": [
+        "vegan",
+        "dairyFree"
+      ],
+      "substituteId": 49
+    },
+    {
+      "note": "Plain yogurt is a lighter, tangier alternative.",
+      "originalId": 50,
+      "ratio": 1.0,
+      "reasons": [
+        "lighter"
+      ],
+      "substituteId": 32
+    },
+    {
+      "note": "Blended avocado gives creamy richness without dairy.",
+      "originalId": 50,
+      "ratio": 0.8,
+      "reasons": [
+        "vegan",
+        "dairyFree"
+      ],
+      "substituteId": 26
+    },
+    {
+      "note": "Press tofu well and season generously for best results.",
+      "originalId": 4,
+      "ratio": 1.0,
+      "reasons": [
+        "vegan",
+        "vegetarian"
+      ],
+      "substituteId": 23
+    },
+    {
+      "note": "Chickpeas bring protein and hearty texture. Works great in stews and salads.",
+      "originalId": 4,
+      "ratio": 1.3,
+      "reasons": [
+        "vegan",
+        "vegetarian"
+      ],
+      "substituteId": 35
+    },
+    {
+      "note": "Mashed black beans mimic ground meat texture in tacos and chili.",
+      "originalId": 38,
+      "ratio": 1.2,
+      "reasons": [
+        "vegan",
+        "vegetarian"
+      ],
+      "substituteId": 27
+    },
+    {
+      "note": "Crumbled firm tofu, well-seasoned, works as a ground meat substitute.",
+      "originalId": 38,
+      "ratio": 1.0,
+      "reasons": [
+        "vegan",
+        "vegetarian"
+      ],
+      "substituteId": 23
+    },
+    {
+      "note": "Marinated tofu steaks are a good stand-in. Add nori for a seafood hint.",
+      "originalId": 36,
+      "ratio": 1.0,
+      "reasons": [
+        "vegan",
+        "vegetarian"
+      ],
+      "substituteId": 23
+    },
+    {
+      "note": "Mashed chickpeas with lemon and seasoning make a great 'tuna' salad.",
+      "originalId": 43,
+      "ratio": 1.2,
+      "reasons": [
+        "vegan",
+        "vegetarian"
+      ],
+      "substituteId": 35
+    },
+    {
+      "note": "Spiralized zucchini (zoodles) \u00e2\u0080\u0094 lighter and gluten-free.",
+      "originalId": 9,
+      "ratio": 1.5,
+      "reasons": [
+        "glutenFree",
+        "lowCarb"
+      ],
+      "substituteId": 45
+    },
+    {
+      "note": "Cubed sweet potato adds body to sauces. Different but delicious.",
+      "originalId": 9,
+      "ratio": 1.0,
+      "reasons": [
+        "glutenFree"
+      ],
+      "substituteId": 37
+    },
+    {
+      "note": "Sliced sweet potato rounds, toasted, work as bread for open sandwiches.",
+      "originalId": 15,
+      "ratio": 1.0,
+      "reasons": [
+        "glutenFree"
+      ],
+      "substituteId": 37
+    },
+    {
+      "note": "Lettuce wraps are a fresh, carb-free alternative to bread.",
+      "originalId": 15,
+      "ratio": 0.5,
+      "reasons": [
+        "glutenFree",
+        "lowCarb"
+      ],
+      "substituteId": 39
+    },
+    {
+      "note": "Large lettuce leaves make excellent taco or wrap shells.",
+      "originalId": 28,
+      "ratio": 0.5,
+      "reasons": [
+        "glutenFree",
+        "lowCarb"
+      ],
+      "substituteId": 39
+    },
+    {
+      "note": "Cooked rice or rice flakes as a porridge base.",
+      "originalId": 31,
+      "ratio": 1.0,
+      "reasons": [
+        "glutenFree"
+      ],
+      "substituteId": 2
+    },
+    {
+      "note": "Half a banana replaces one egg in baking. Adds mild sweetness.",
+      "originalId": 1,
+      "ratio": 0.6,
+      "reasons": [
+        "vegan"
+      ],
+      "substituteId": 20
+    },
+    {
+      "note": "Mashed banana provides natural sweetness. Adjust to taste.",
+      "originalId": 33,
+      "ratio": 1.5,
+      "reasons": [
+        "vegan"
+      ],
+      "substituteId": 20
+    },
+    {
+      "note": "Interchangeable for most recipes. Lime is slightly more floral.",
+      "originalId": 17,
+      "ratio": 1.0,
+      "reasons": [
+        "similar"
+      ],
+      "substituteId": 29
+    },
+    {
+      "note": "Lemon is a bit brighter than lime. Works as a direct swap.",
+      "originalId": 29,
+      "ratio": 1.0,
+      "reasons": [
+        "similar"
+      ],
+      "substituteId": 17
+    },
+    {
+      "note": "Green onion is milder. Use less and add near end of cooking.",
+      "originalId": 5,
+      "ratio": 0.7,
+      "reasons": [
+        "similar"
+      ],
+      "substituteId": 21
+    },
+    {
+      "note": "Regular onion is stronger. Use a bit more and cook longer.",
+      "originalId": 21,
+      "ratio": 1.4,
+      "reasons": [
+        "similar"
+      ],
+      "substituteId": 5
+    },
+    {
+      "note": "Sweet potato has more fiber and vitamins. Similar cooking method.",
+      "originalId": 10,
+      "ratio": 1.0,
+      "reasons": [
+        "lighter"
+      ],
+      "substituteId": 37
+    },
+    {
+      "note": "Riced broccoli is a low-carb base. Pulse raw broccoli in a food processor.",
+      "originalId": 2,
+      "ratio": 1.0,
+      "reasons": [
+        "lowCarb",
+        "lighter"
+      ],
+      "substituteId": 24
+    }
+  ],
+  "source_file": "apps/ios/Platform/Persistence/Services/SubstitutionService.swift",
+  "source_region_sha256": "96b76d6078c0cfb40a162d3979f7b19daea02cef912d28e65e86abafd32f1627"
+}

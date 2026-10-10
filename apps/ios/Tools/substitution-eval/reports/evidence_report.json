@@ -1,0 +1,466 @@
+{
+  "caveats": [
+    "Source agreement proves neither taste quality nor allergen cross-contact safety.",
+    "Function labels are keyword-based over bundled recipe steps; 'unknown' functions are left unverified.",
+    "USDA household-mass tables are referenced, not duplicated."
+  ],
+  "contexts_total": 227,
+  "function_counts": {
+    "acid": 18,
+    "aromatic": 6,
+    "binding": 17,
+    "fat": 15,
+    "garnish": 59,
+    "liquid": 17,
+    "main": 57,
+    "sweetener": 7,
+    "thickening": 12,
+    "unknown": 19
+  },
+  "function_supported_ratio": {
+    "fraction": "88/227",
+    "supported": 88,
+    "total": 227
+  },
+  "pairs_evidence_rows": 27,
+  "pairs_total": 27,
+  "per_pair": [
+    {
+      "contexts": 14,
+      "functions": {
+        "binding": 1,
+        "garnish": 4,
+        "main": 9
+      },
+      "original": "egg",
+      "pair_id": "1-20",
+      "production_ratio": 0.6,
+      "substitute": "banana",
+      "verdicts": {
+        "partial": 1,
+        "unsupported": 9,
+        "unverified": 4
+      }
+    },
+    {
+      "contexts": 3,
+      "functions": {
+        "main": 3
+      },
+      "original": "potato",
+      "pair_id": "10-37",
+      "production_ratio": 1.0,
+      "substitute": "sweet_potato",
+      "verdicts": {
+        "partial": 3
+      }
+    },
+    {
+      "contexts": 11,
+      "functions": {
+        "garnish": 5,
+        "liquid": 6
+      },
+      "original": "cheese",
+      "pair_id": "12-23",
+      "production_ratio": 1.2,
+      "substitute": "tofu",
+      "verdicts": {
+        "unverified": 11
+      }
+    },
+    {
+      "contexts": 3,
+      "functions": {
+        "liquid": 2,
+        "thickening": 1
+      },
+      "original": "milk",
+      "pair_id": "13-49",
+      "production_ratio": 1.0,
+      "substitute": "coconut_milk",
+      "verdicts": {
+        "partial": 2,
+        "unverified": 1
+      }
+    },
+    {
+      "contexts": 7,
+      "functions": {
+        "fat": 7
+      },
+      "original": "butter",
+      "pair_id": "14-16",
+      "production_ratio": 0.75,
+      "substitute": "olive_oil",
+      "verdicts": {
+        "verified": 7
+      }
+    },
+    {
+      "contexts": 7,
+      "functions": {
+        "fat": 7
+      },
+      "original": "butter",
+      "pair_id": "14-26",
+      "production_ratio": 1.0,
+      "substitute": "avocado",
+      "verdicts": {
+        "partial": 7
+      }
+    },
+    {
+      "contexts": 11,
+      "functions": {
+        "binding": 3,
+        "garnish": 4,
+        "main": 4
+      },
+      "original": "bread",
+      "pair_id": "15-37",
+      "production_ratio": 1.0,
+      "substitute": "sweet_potato",
+      "verdicts": {
+        "unverified": 11
+      }
+    },
+    {
+      "contexts": 11,
+      "functions": {
+        "binding": 3,
+        "garnish": 4,
+        "main": 4
+      },
+      "original": "bread",
+      "pair_id": "15-39",
+      "production_ratio": 0.5,
+      "substitute": "lettuce",
+      "verdicts": {
+        "unverified": 11
+      }
+    },
+    {
+      "contexts": 14,
+      "functions": {
+        "acid": 9,
+        "garnish": 2,
+        "thickening": 2,
+        "unknown": 1
+      },
+      "original": "lemon",
+      "pair_id": "17-29",
+      "production_ratio": 1.0,
+      "substitute": "lime",
+      "verdicts": {
+        "unverified": 3,
+        "verified": 11
+      }
+    },
+    {
+      "contexts": 14,
+      "functions": {
+        "binding": 3,
+        "garnish": 2,
+        "main": 9
+      },
+      "original": "rice",
+      "pair_id": "2-24",
+      "production_ratio": 1.0,
+      "substitute": "broccoli",
+      "verdicts": {
+        "partial": 9,
+        "unverified": 5
+      }
+    },
+    {
+      "contexts": 14,
+      "functions": {
+        "aromatic": 1,
+        "garnish": 4,
+        "unknown": 9
+      },
+      "original": "green_onion",
+      "pair_id": "21-5",
+      "production_ratio": 1.4,
+      "substitute": "onion",
+      "verdicts": {
+        "unverified": 14
+      }
+    },
+    {
+      "contexts": 6,
+      "functions": {
+        "garnish": 2,
+        "main": 4
+      },
+      "original": "tortilla",
+      "pair_id": "28-39",
+      "production_ratio": 0.5,
+      "substitute": "lettuce",
+      "verdicts": {
+        "unverified": 6
+      }
+    },
+    {
+      "contexts": 14,
+      "functions": {
+        "acid": 9,
+        "garnish": 4,
+        "thickening": 1
+      },
+      "original": "lime",
+      "pair_id": "29-17",
+      "production_ratio": 1.0,
+      "substitute": "lemon",
+      "verdicts": {
+        "unverified": 1,
+        "verified": 13
+      }
+    },
+    {
+      "contexts": 3,
+      "functions": {
+        "binding": 1,
+        "main": 2
+      },
+      "original": "oats",
+      "pair_id": "31-2",
+      "production_ratio": 1.0,
+      "substitute": "rice",
+      "verdicts": {
+        "unverified": 3
+      }
+    },
+    {
+      "contexts": 14,
+      "functions": {
+        "fat": 1,
+        "garnish": 6,
+        "liquid": 3,
+        "thickening": 3,
+        "unknown": 1
+      },
+      "original": "yogurt",
+      "pair_id": "32-49",
+      "production_ratio": 0.9,
+      "substitute": "coconut_milk",
+      "verdicts": {
+        "partial": 4,
+        "unverified": 10
+      }
+    },
+    {
+      "contexts": 11,
+      "functions": {
+        "garnish": 1,
+        "sweetener": 7,
+        "thickening": 1,
+        "unknown": 2
+      },
+      "original": "honey",
+      "pair_id": "33-20",
+      "production_ratio": 1.5,
+      "substitute": "banana",
+      "verdicts": {
+        "partial": 7,
+        "unverified": 4
+      }
+    },
+    {
+      "contexts": 1,
+      "functions": {
+        "main": 1
+      },
+      "original": "salmon",
+      "pair_id": "36-23",
+      "production_ratio": 1.0,
+      "substitute": "tofu",
+      "verdicts": {
+        "partial": 1
+      }
+    },
+    {
+      "contexts": 3,
+      "functions": {
+        "main": 2,
+        "thickening": 1
+      },
+      "original": "ground_beef",
+      "pair_id": "38-23",
+      "production_ratio": 1.0,
+      "substitute": "tofu",
+      "verdicts": {
+        "partial": 2,
+        "unverified": 1
+      }
+    },
+    {
+      "contexts": 3,
+      "functions": {
+        "main": 2,
+        "thickening": 1
+      },
+      "original": "ground_beef",
+      "pair_id": "38-27",
+      "production_ratio": 1.2,
+      "substitute": "black_beans",
+      "verdicts": {
+        "partial": 2,
+        "unverified": 1
+      }
+    },
+    {
+      "contexts": 14,
+      "functions": {
+        "binding": 1,
+        "garnish": 6,
+        "main": 6,
+        "thickening": 1
+      },
+      "original": "chicken_breast",
+      "pair_id": "4-23",
+      "production_ratio": 1.0,
+      "substitute": "tofu",
+      "verdicts": {
+        "partial": 6,
+        "unverified": 8
+      }
+    },
+    {
+      "contexts": 14,
+      "functions": {
+        "binding": 1,
+        "garnish": 6,
+        "main": 6,
+        "thickening": 1
+      },
+      "original": "chicken_breast",
+      "pair_id": "4-35",
+      "production_ratio": 1.3,
+      "substitute": "chickpea",
+      "verdicts": {
+        "partial": 6,
+        "unverified": 8
+      }
+    },
+    {
+      "contexts": 2,
+      "functions": {
+        "garnish": 1,
+        "main": 1
+      },
+      "original": "canned_tuna",
+      "pair_id": "43-35",
+      "production_ratio": 1.2,
+      "substitute": "chickpea",
+      "verdicts": {
+        "partial": 1,
+        "unverified": 1
+      }
+    },
+    {
+      "contexts": 5,
+      "functions": {
+        "aromatic": 5
+      },
+      "original": "onion",
+      "pair_id": "5-21",
+      "production_ratio": 0.7,
+      "substitute": "green_onion",
+      "verdicts": {
+        "unverified": 5
+      }
+    },
+    {
+      "contexts": 7,
+      "functions": {
+        "garnish": 1,
+        "liquid": 3,
+        "unknown": 3
+      },
+      "original": "sour_cream",
+      "pair_id": "50-26",
+      "production_ratio": 0.8,
+      "substitute": "avocado",
+      "verdicts": {
+        "unverified": 7
+      }
+    },
+    {
+      "contexts": 7,
+      "functions": {
+        "garnish": 1,
+        "liquid": 3,
+        "unknown": 3
+      },
+      "original": "sour_cream",
+      "pair_id": "50-32",
+      "production_ratio": 1.0,
+      "substitute": "yogurt",
+      "verdicts": {
+        "unverified": 3,
+        "verified": 4
+      }
+    },
+    {
+      "contexts": 7,
+      "functions": {
+        "binding": 2,
+        "garnish": 3,
+        "main": 2
+      },
+      "original": "pasta",
+      "pair_id": "9-37",
+      "production_ratio": 1.0,
+      "substitute": "sweet_potato",
+      "verdicts": {
+        "unverified": 7
+      }
+    },
+    {
+      "contexts": 7,
+      "functions": {
+        "binding": 2,
+        "garnish": 3,
+        "main": 2
+      },
+      "original": "pasta",
+      "pair_id": "9-45",
+      "production_ratio": 1.5,
+      "substitute": "zucchini",
+      "verdicts": {
+        "partial": 2,
+        "unverified": 5
+      }
+    }
+  ],
+  "ratio_conflicts": [
+    {
+      "expected_ratio": "1.2",
+      "note": "Extensions support 1/4 cup (about 60 g) mashed ripe banana per large egg (about 50 g) - a ratio near 1.2 by weight; production ships 0.6 and under-doses by about half. Support is for binder/moisture in moist baked goods (cakes; muffins; pancakes); banana does not aerate; coagulate; or leaven like egg and is unsuitable where egg is the main protein.",
+      "pair_id": "1-20",
+      "production_ratio": "0.6"
+    },
+    {
+      "expected_ratio": "",
+      "note": "Bundled USDA-derived sugars: honey 82.1 g/100g vs banana 12.2 g/100g; at a 1.5 weight ratio the swap delivers about one fifth of the sugar so sweetness equivalence is unsupported; the note itself says adjust to taste.",
+      "pair_id": "33-20",
+      "production_ratio": "1.5"
+    }
+  ],
+  "schema": "fl-substitution-eval/v1",
+  "source_region_sha256": "96b76d6078c0cfb40a162d3979f7b19daea02cef912d28e65e86abafd32f1627",
+  "sourced_ratio": {
+    "fraction": "35/227",
+    "total": 227,
+    "verified": 35
+  },
+  "unverified_or_unsupported": 139,
+  "verdict_counts": {
+    "partial": 53,
+    "unsupported": 9,
+    "unverified": 130,
+    "verified": 35
+  }
+}
