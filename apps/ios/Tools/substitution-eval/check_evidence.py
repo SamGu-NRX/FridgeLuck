@@ -53,6 +53,18 @@ def check_pair_level(errors):
         fail(errors, "pairs.snapshot.json does not match SubstitutionService.swift (drift)")
     if snap.get("pair_count") != len(service_pairs):
         fail(errors, "pair_count field disagrees with pairs list")
+    # The generated Swift fixture must match the snapshot byte-for-byte, or the
+    # Swift replay tests and the Python evidence set disagree.
+    from render_swift_fixture import render  # noqa: PLC0415
+
+    fixture_path = REPO_ROOT / "apps/ios/Tests/SubstitutionEvidencePairs+Generated.swift"
+    if not fixture_path.exists():
+        fail(errors, "generated Swift fixture missing: run render_swift_fixture.py")
+    else:
+        rendered = render(snap)
+        actual = fixture_path.read_text(encoding="utf-8")
+        if rendered != actual:
+            fail(errors, "generated Swift fixture is stale; rerun render_swift_fixture.py")
     return service_pairs
 
 

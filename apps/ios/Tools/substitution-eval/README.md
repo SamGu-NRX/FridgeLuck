@@ -26,9 +26,12 @@ reports/
 tools/
   extract_production_map.py  re-parses SubstitutionService.swift
   build_cases.py             regenerates context_cases.csv from bundled data
+  render_swift_fixture.py    renders the generated Swift replay fixture
 check_evidence.py         validator: schema, references, drift, controls
 score.py                  report writer / verifier
 tests/                    pytest suite (validator controls, ratio math)
+Tests/SubstitutionEvidenceReplayTests.swift   Swift production replay
+Tests/SubstitutionEvidencePairs+Generated.swift  generated fixture
 ```
 
 ## Commands
@@ -97,5 +100,9 @@ evidence:
 - USDA FoodData Central household-mass tables are referenced, not duplicated.
 - Some bundled USDA FDC identity matches are poor; they are not treated as
   composition evidence without further checking (flagged in pair assessments).
-- No Swift replay here: the harness is Python-only by design. Production
-  behavior is frozen via `pairs.snapshot.json` and its source-region hash.
+- Swift replay: `SubstitutionEvidenceReplayTests` re-parses the live
+  `SubstitutionService.swift` source and compares it against the generated
+  fixture (pairs, ratios, reasons, region SHA-256), so a change to production
+  without regenerating the evidence fails CI. The tests are portable XCTests
+  in the existing `AppModuleTests` target; they were not compiled in this
+  environment (no Swift toolchain) and run on hosted macOS CI.
