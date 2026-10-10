@@ -154,10 +154,11 @@ def main():
     os.makedirs(args.out_dir, exist_ok=True)
     con = duckdb.connect()
     # Bounded footprint: full parquet scans have starved the sandbox before.
-    con.execute("SET enable_object_cache=true")
-    con.execute("SET memory_limit='1500MB'")
-    con.execute("SET threads=4")
-    con.execute("SET temp_directory='/tmp/duckdb-spill'")
+    # Spill MUST live on real disk, not tmpfs (tmpfs spill is just RAM with
+    # extra steps and deadlocked the first materialized run).
+    con.execute("SET memory_limit='1000MB'")
+    con.execute("SET threads=2")
+    con.execute(f"SET temp_directory='{os.path.join(args.out_dir, 'duckdb-spill')}'")
 
     beauty = read_with_retry(
         con,
@@ -175,17 +176,15 @@ def main():
         """,
         [])
 
-    # Materialize the filtered universe ONCE so the counts query and the
-    # selection query each scan the temp table, not the 7.9 GB parquet.
-    con.execute(f"CREATE TEMP TABLE stratified AS {base_sql(salt_sql, args.food_url or FOOD_URL)} SELECT * FROM stratified")
-
+    # Two STREAMING passes (no temp-table materialization — that spilled
+    # multi-GB intermediates). Each query streams the parquet with the cap.
     universe = read_with_retry(
-        con, "SELECT stratum, count(*) AS n FROM stratified GROUP BY 1 ORDER BY 1",
+        con, f"{base_sql(salt_sql, args.food_url or FOOD_URL)} SELECT stratum, count(*) AS n FROM stratified GROUP BY 1 ORDER BY 1",
         [])
 
     rows = read_with_retry(
         con,
-        "SELECT * FROM (SELECT *, row_number() OVER (PARTITION BY stratum ORDER BY bucket, code) AS rn FROM stratified) WHERE rn <= ? ORDER BY stratum, rn",
+        f"{base_sql(salt_sql, args.food_url or FOOD_URL)} SELECT * FROM (SELECT *, row_number() OVER (PARTITION BY stratum ORDER BY bucket, code) AS rn FROM stratified) WHERE rn <= ? ORDER BY stratum, rn",
         [MAX_PER_STRATUM])
     cols = [d[0] for d in con.description]
     by_stratum = {}
