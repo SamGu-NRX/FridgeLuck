@@ -67,7 +67,9 @@ struct MealPlanEditorSection: View {
   }
 
   private func planRow(index: Int, line: MealConsumptionPlanLine) -> some View {
-    let quantityFormat = .number.precision(.fractionLength(0...2))
+    // Typed explicitly: a bare `.number` has no contextual base to infer from.
+    let quantityFormat = FloatingPointFormatStyle<Double>.number
+      .precision(.fractionLength(0...2))
     let gramsBinding = Binding<Double>(
       get: { max(0, plan?.lines[index].plannedGrams ?? 0) },
       set: { newValue in
@@ -76,6 +78,12 @@ struct MealPlanEditorSection: View {
         onLineEdited(index, clamped)
       }
     )
+    // Plain String concatenation: Text's LocalizedStringKey interpolation has no
+    // RangeReplaceable `+`, so the value is composed here and passed as a String.
+    let gramsValue = quantityFormat.format(gramsBinding.wrappedValue)
+    let provenanceNote =
+      line.provenance == .userVerified ? "corrected by you" : "suggested by the recipe"
+    let gramsAccessibility = gramsValue + " grams, " + provenanceNote
 
     return HStack(spacing: AppTheme.Space.sm) {
       VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
@@ -97,10 +105,7 @@ struct MealPlanEditorSection: View {
         .frame(width: 88)
         .textFieldStyle(.roundedBorder)
         .accessibilityLabel("Planned \(line.displayName) quantity")
-        .accessibilityValue(
-          "\(gramsBinding.wrappedValue, format: quantityFormat) grams, "
-            + (line.provenance == .userVerified ? "corrected by you" : "suggested by the recipe")
-        )
+        .accessibilityValue(gramsAccessibility)
     }
     .padding(.vertical, AppTheme.Space.xxxs)
   }
