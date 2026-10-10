@@ -55,8 +55,7 @@ struct SearchSources: Sendable {
     db: DatabaseQueue,
     ingredientRepository: IngredientRepository,
     inventoryRepository: InventoryRepository,
-    recipeRepository: RecipeRepository,
-    userDataRepository: UserDataRepository
+    recipeRepository: RecipeRepository
   ) {
     kitchen = KitchenSearchAdapter(
       db: db,
@@ -67,9 +66,7 @@ struct SearchSources: Sendable {
       db: db,
       recipeRepository: recipeRepository
     )
-    journal = JournalSearchAdapter(
-      userDataRepository: userDataRepository
-    )
+    journal = JournalSearchAdapter(db: db)
   }
 
   func documents() throws -> [SearchDocument] {
@@ -231,35 +228,50 @@ struct RecipeSearchAdapter: Sendable {
 
 // MARK: - Journal
 
-/// Reads logged meals through UserDataRepository.cookingJournal(), which
-/// already folds in the frozen nutrition snapshots. Each cooking_history row
-/// is one document keyed by its own primary key.
+/// Reads logged meals directly from cooking_history joined to recipes, with
+/// typed GRDB extraction (a conditional `as? Date` cast on the row value
+/// does not decode GRDB database values). Each cooking_history row is one
+/// document keyed by its own primary key.
 struct JournalSearchAdapter: Sendable {
-  private let userDataRepository: UserDataRepository
+  private let db: DatabaseQueue
 
-  init(userDataRepository: UserDataRepository) {
-    self.userDataRepository = userDataRepository
+  init(db: DatabaseQueue) {
+    self.db = db
   }
 
   func documents() throws -> [SearchDocument] {
-    let entries = try userDataRepository.cookingJournal()
+    let rows = try db.read { db in
+      try Row.fetchAll(
+        db,
+        sql: """
+          SELECT ch.id AS history_id, ch.cooked_at, ch.rating, r.title
+          FROM cooking_history ch
+          JOIN recipes r ON r.id = ch.recipe_id
+          ORDER BY ch.cooked_at DESC
+          """
+      )
+    }
     let formatter = DateFormatter()
     formatter.dateFormat = "EEE, MMM d, yyyy"
     formatter.locale = Locale(identifier: "en_US_POSIX")
     formatter.timeZone = TimeZone(identifier: "UTC") ?? .current
 
-    return entries.map { entry in
-      let ratingPart = entry.rating.map { " · rated \($0)" } ?? ""
-      let dateLabel = formatter.string(from: entry.cookedAt)
+    return rows.map { row in
+      let historyId: Int64 = row["history_id"]
+      let title: String = row["title"]
+      let rating: Int? = row["rating"]
+      let cookedAt: Date = row["cooked_at"] ?? Date()
+      let ratingPart = rating.map { " · rated \($0)" } ?? ""
+      let dateLabel = formatter.string(from: cookedAt)
       let revision =
-        Int64(entry.cookedAt.timeIntervalSince1970) * 10
-        + Int64(entry.rating ?? 0)
+        Int64(cookedAt.timeIntervalSince1970) * 10
+        + Int64(rating ?? 0)
       return SearchDocument(
-        canonicalID: SearchCanonicalID(kind: .journal, rawID: String(entry.id)),
-        title: entry.recipe.title,
+        canonicalID: SearchCanonicalID(kind: .journal, rawID: String(historyId)),
+        title: title,
         subtitle: "Cooked \(dateLabel)\(ratingPart)",
         keywords: "journal meal logged",
-        dateTokens: SearchDateTokens.tokens(for: entry.cookedAt),
+        dateTokens: SearchDateTokens.tokens(for: cookedAt),
         revision: revision
       )
     }

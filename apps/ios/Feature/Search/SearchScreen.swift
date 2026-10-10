@@ -44,7 +44,7 @@ final class SearchScreenModel {
 
 // MARK: - Kind Filter
 
-enum SearchKindFilter: CaseIterable, Sendable {
+enum SearchKindFilter: CaseIterable, Hashable, Sendable {
   case all
   case inventory
   case ingredients
@@ -132,7 +132,7 @@ struct SearchScreen: View {
   private var resultList: some View {
     List {
       if model.results.isEmpty && !model.isSearching && !model.query.isEmpty {
-        ContentUnavailableView.search(text: Text(model.query))
+        ContentUnavailableView.search(text: model.query)
       } else {
         ForEach(model.results) { hit in
           Button {

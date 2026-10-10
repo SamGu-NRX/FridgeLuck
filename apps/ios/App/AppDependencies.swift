@@ -44,6 +44,16 @@ final class AppDependencies: ObservableObject {
 
   let recipeGenerator: RecipeGenerating
 
+  /// Shared unified-search index. Owns its own SQLite file; revalidates
+  /// lazily against the app database's epoch at each search. Stored as a
+  /// var (never mutated after init) because @EnvironmentObject member
+  /// lookup resolves through a ReferenceWritableKeyPath, which `let`
+  /// properties do not provide.
+  private(set) var searchIndexService: SearchIndexService
+  /// Kept for the process lifetime so the restore notification observer
+  /// (which triggers a full index rebuild) is never deallocated.
+  private(set) var searchRestoreToken: Any
+
   init(appDatabase: AppDatabase) {
     self.appDatabase = appDatabase
     let db = appDatabase.dbQueue
@@ -135,8 +145,7 @@ final class AppDependencies: ObservableObject {
       db: db,
       ingredientRepository: ingredientRepository,
       inventoryRepository: inventoryRepository,
-      recipeRepository: recipeRepository,
-      userDataRepository: userDataRepository
+      recipeRepository: recipeRepository
     )
     let appDatabasePath = appDatabase.path
     let searchIndexPath = (appDatabasePath as NSString)
@@ -149,7 +158,7 @@ final class AppDependencies: ObservableObject {
         SearchIndexService.sourceEpoch(forDatabaseAtPath: appDatabasePath)
       }
     )
-    self.searchRestoreToken = searchIndexService.observeRestoreNotifications()
+    self.searchRestoreToken = self.searchIndexService.observeRestoreNotifications()
   }
 
   func makeRecommendationEngine() -> RecommendationEngine {
