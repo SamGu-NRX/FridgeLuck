@@ -1,0 +1,61 @@
+{
+  "description": "Hand-verified rank swap: profile P1, plausible_both arm, draw 0. R38 rises above R06 because its protein crosses the 24 g ranking bonus threshold. All macros copied from the committed raw sample outputs/20261010-swift/raw/sample__plausible_both__P1.json.",
+  "arm": "plausible_both",
+  "profile_id": "P1",
+  "evidence_draw": 0,
+  "expected_delta_points": 4.0,
+  "kept": {
+    "recipe_id": "R06",
+    "control_macros": {
+      "calories": 471.3333333333333,
+      "protein_g": 29.458333333333332,
+      "carbs_g": 53.025,
+      "fat_g": 15.711111111111109,
+      "fiber_g": 3.0,
+      "sugar_g": 8.0,
+      "sodium_mg": 400.0
+    },
+    "perturbed_macros": {
+      "calories": 509.90361176033616,
+      "protein_g": 28.993932709551085,
+      "carbs_g": 58.74146335947335,
+      "fat_g": 12.251280180938526,
+      "fiber_g": 2.5608839686499993,
+      "sugar_g": 7.359931930588149,
+      "sodium_mg": 373.7929455111599
+    },
+    "control_score": 113.5,
+    "control_rank": 33,
+    "control_rating": 5,
+    "perturbed_score": 113.5,
+    "perturbed_rank": 25,
+    "perturbed_rating": 5
+  },
+  "risen": {
+    "recipe_id": "R38",
+    "control_macros": {
+      "calories": 600.0,
+      "protein_g": 23.9,
+      "carbs_g": 75.0,
+      "fat_g": 20.0,
+      "fiber_g": 3.0,
+      "sugar_g": 8.0,
+      "sodium_mg": 400.0
+    },
+    "perturbed_macros": {
+      "calories": 611.6207334267098,
+      "protein_g": 27.4028264839938,
+      "carbs_g": 70.1676364190052,
+      "fat_g": 25.27664050192623,
+      "fiber_g": 3.7461094446136207,
+      "sugar_g": 7.625793582573654,
+      "sodium_mg": 393.6504663917006
+    },
+    "control_score": 112.5,
+    "control_rank": 34,
+    "control_rating": 5,
+    "perturbed_score": 116.5,
+    "perturbed_rank": 13,
+    "perturbed_rating": 5
+  }
+}

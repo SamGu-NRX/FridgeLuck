@@ -484,12 +484,42 @@ public struct ArmProfileSummary: Codable {
   }
 }
 
+/// Aggregates over the first `draws` draws of one arm-profile cell, also
+/// recorded as raw output so the report verifier can recompute them from the
+/// committed samples alone.
+public struct WindowSummary: Codable {
+  public var arm: String
+  public var profile: String
+  public var draws: Int
+  public var rankMovingDraws: Int
+  public var rankMovesTotal: Int
+  public var ratingFlipsTotal: Int
+  public var reasoningChangesTotal: Int
+  public var boundaryFlips: [String: Int]
+  public var pairwiseOverlappingIntervals: Int
+  public var pairwiseTotal: Int
+  public var pairwiseSkippedIntervals: Int
+
+  enum CodingKeys: String, CodingKey {
+    case arm, profile, draws
+    case rankMovingDraws = "rank_moving_draws"
+    case rankMovesTotal = "rank_moves_total"
+    case ratingFlipsTotal = "rating_flips_total"
+    case reasoningChangesTotal = "reasoning_changes_total"
+    case boundaryFlips = "boundary_flips"
+    case pairwiseOverlappingIntervals = "pairwise_overlapping_intervals"
+    case pairwiseTotal = "pairwise_total"
+    case pairwiseSkippedIntervals = "pairwise_skipped_intervals"
+  }
+}
+
 public struct RunMeta: Codable {
   public var baseCommit: String
   public var drawSeed: UInt64
   public var recipeCount: Int
   public var profileCount: Int
   public var armSummaries: [ArmProfileSummary]
+  public var windowSummaries: [WindowSummary]
   public var controlVerifiedNotes: [String]
   public var failureCount: Int
   public var runtimeNote: String
@@ -500,6 +530,7 @@ public struct RunMeta: Codable {
     case recipeCount = "recipe_count"
     case profileCount = "profile_count"
     case armSummaries = "arm_summaries"
+    case windowSummaries = "window_summaries"
     case controlVerifiedNotes = "control_verified_notes"
     case failureCount = "failure_count"
     case runtimeNote = "runtime_note"
@@ -514,6 +545,38 @@ func writeJSON<T: Encodable>(_ value: T, to path: URL) throws {
   try data.write(to: path)
 }
 
+/// Compact variant for the larger per-draw sample files.
+func writeJSONCompact<T: Encodable>(_ value: T, to path: URL) throws {
+  let enc = JSONEncoder()
+  enc.outputFormatting = [.sortedKeys]
+  var data = try enc.encode(value)
+  data.append(0x0A)
+  try data.write(to: path)
+}
+
+/// Overlapping-pair count over per-recipe score intervals.
+func pairwiseIntervalStats(
+  _ minScore: [String: Double], _ maxScore: [String: Double], _ ids: [String]
+) -> (overlaps: Int, pairs: Int, skipped: Int) {
+  var overlaps = 0
+  var pairs = 0
+  var skipped = 0
+  for i in 0..<ids.count {
+    for j in (i + 1)..<ids.count {
+      guard
+        let loI = minScore[ids[i]], let hiI = maxScore[ids[i]],
+        let loJ = minScore[ids[j]], let hiJ = maxScore[ids[j]]
+      else {
+        skipped += 1  // interval missing => failures already recorded above
+        continue
+      }
+      pairs += 1
+      if max(loI, loJ) <= min(hiI, hiJ) { overlaps += 1 }
+    }
+  }
+  return (overlaps, pairs, skipped)
+}
+
 // MARK: - Output container types
 
 public struct ControlOutput: Codable {
@@ -526,20 +589,59 @@ public struct ControlOutput: Codable {
   }
 }
 
-public struct DrawOutput: Codable {
+/// Sample records additionally carry the perturbed macros actually used, so
+/// every window aggregate is recomputable from committed raw outputs alone.
+public struct SampleRecord: Codable {
+  public var recipeId: String
+  public var rank: Int
+  public var rating: Int
+  public var label: String
+  public var reasoning: String
+  public var rankingScore: Double
+  public var rankingScoreBits: String
+  public var rankingReasons: [String]
+  public var macrosUsed: MatrixMacros
+
+  enum CodingKeys: String, CodingKey {
+    case rank, rating, label, reasoning
+    case recipeId = "recipe_id"
+    case rankingScore = "ranking_score"
+    case rankingScoreBits = "ranking_score_bits"
+    case rankingReasons = "ranking_reasons"
+    case macrosUsed = "macros_used"
+  }
+
+  init(record: EvalRecord, macros: MatrixMacros) {
+    recipeId = record.recipeId
+    rank = record.rank
+    rating = record.rating
+    label = record.label
+    reasoning = record.reasoning
+    rankingScore = record.rankingScore
+    rankingScoreBits = record.rankingScoreBits
+    rankingReasons = record.rankingReasons
+    macrosUsed = macros
+  }
+}
+
+public struct SampleDraw: Codable {
   public var draw: Int
-  public var records: [EvalRecord]
+  public var records: [SampleRecord]
+
+  enum CodingKeys: String, CodingKey { case draw, records }
 }
 
 public struct RawSampleOutput: Codable {
   public var arm: String
   public var profile: String
-  public var draws: [DrawOutput]
+  public var windowDraws: Int
+  public var draws: [SampleDraw]
 
   enum CodingKeys: String, CodingKey {
     case draws
     case arm = "arm_id"
     case profile = "profile_id"
+    case windowDraws = "window_draws"
   }
 }
 
@@ -566,12 +668,13 @@ public enum ReplayEngine {
     matrix: FrozenMatrix,
     bounds: BoundsFile,
     outputDir: String,
-    rawSampleDraws: Int = 20
+    windowDraws: Int = 10
   ) throws -> RunMeta {
     let fm = FileManager.default
     try fm.createDirectory(atPath: outputDir + "/raw", withIntermediateDirectories: true)
 
     var summaries: [ArmProfileSummary] = []
+    var windowSummaries: [WindowSummary] = []
     var notes: [String] = []
     var failureCount = 0
 
@@ -611,7 +714,17 @@ public enum ReplayEngine {
         var failures: [String] = []
         var minScore: [String: Double] = [:]
         var maxScore: [String: Double] = [:]
-        var rawSample: [DrawOutput] = []
+        var rawSample: [SampleDraw] = []
+        // Window accumulators mirror the full-run ones over the first
+        // `windowDraws` draws; they are recomputed from raw samples by the
+        // report verifier.
+        var wRankMovingDraws = 0
+        var wRankMovesTotal = 0
+        var wRatingFlipsTotal = 0
+        var wReasoningChangesTotal = 0
+        var wBoundaryFlips: [String: Int] = [:]
+        var wMinScore: [String: Double] = [:]
+        var wMaxScore: [String: Double] = [:]
 
         for draw in 0..<arm.spec.draws {
           // Perturb and evaluate every recipe this draw.
@@ -652,10 +765,15 @@ public enum ReplayEngine {
             }
             minScore[rec.recipeId] = min(minScore[rec.recipeId] ?? .infinity, rec.rankingScore)
             maxScore[rec.recipeId] = max(maxScore[rec.recipeId] ?? -.infinity, rec.rankingScore)
+            if draw < windowDraws {
+              wMinScore[rec.recipeId] = min(wMinScore[rec.recipeId] ?? .infinity, rec.rankingScore)
+              wMaxScore[rec.recipeId] = max(wMaxScore[rec.recipeId] ?? -.infinity, rec.rankingScore)
+            }
 
             if rec.rank != ctrl.rank {
               anyRankMove = true
               rankMovesTotal += 1
+              if draw < windowDraws { wRankMovesTotal += 1 }
               if firstRankSwaps.count < 12 {
                 let nowAbove = rec.rank > 1
                   ? (recordByRecipe.first { $0.value.rank == rec.rank - 1 }?.value.recipeId ?? "?")
@@ -667,9 +785,11 @@ public enum ReplayEngine {
             if rec.rating != ctrl.rating {
               ratingFlipsTotal += 1
               ratingFlipsByRecipe[rec.recipeId, default: 0] += 1
+              if draw < windowDraws { wRatingFlipsTotal += 1 }
             }
             if rec.reasoning != ctrl.reasoning {
               reasoningChangesTotal += 1
+              if draw < windowDraws { wReasoningChangesTotal += 1 }
               if reasoningChangeExamples.count < 10 {
                 reasoningChangeExamples.append(
                   "draw=\(draw) recipe=\(rec.recipeId): '\(ctrl.reasoning)' -> '\(rec.reasoning)'")
@@ -681,35 +801,46 @@ public enum ReplayEngine {
             for (key, value) in nowInd where ctrlInd[key] != value {
               boundaryFlips["\(key):\(ctrlInd[key] ?? "?")->\(value)"] =
                 (boundaryFlips["\(key):\(ctrlInd[key] ?? "?")->\(value)"] ?? 0) + 1
+              if draw < windowDraws {
+                wBoundaryFlips["\(key):\(ctrlInd[key] ?? "?")->\(value)"] =
+                  (wBoundaryFlips["\(key):\(ctrlInd[key] ?? "?")->\(value)"] ?? 0) + 1
+              }
             }
           }
           if anyRankMove { rankMovingDraws += 1 }
+          if anyRankMove && draw < windowDraws { wRankMovingDraws += 1 }
 
-          if arm.spec.id == "plausible_both" && draw < rawSampleDraws {
-            rawSample.append(DrawOutput(draw: draw, records: records))
+          if draw < windowDraws {
+            rawSample.append(
+              SampleDraw(
+                draw: draw,
+                records: records.map { rec in
+                  SampleRecord(record: rec, macros: perturbedMacrosByRecipe[rec.recipeId]!)
+                }))
           }
         }
 
-        // Pairwise interval overlaps (Monte-Carlo min/max per recipe).
+        // Pairwise interval overlaps (Monte-Carlo min/max per recipe),
+        // full run and first-window variant (the verifier recomputes the
+        // window variant from the committed raw samples).
         let ids = matrix.recipes.map(\.id)
-        var overlaps = 0
-        var pairs = 0
-        var skippedPairs = 0
-        for i in 0..<ids.count {
-          for j in (i + 1)..<ids.count {
-            guard
-              let loI = minScore[ids[i]], let hiI = maxScore[ids[i]],
-              let loJ = minScore[ids[j]], let hiJ = maxScore[ids[j]]
-            else {
-              skippedPairs += 1  // interval missing => failures already recorded above
-              continue
-            }
-            pairs += 1
-            if max(loI, loJ) <= min(hiI, hiJ) { overlaps += 1 }
-          }
-        }
+        let (overlaps, pairs, skippedPairs) = pairwiseIntervalStats(minScore, maxScore, ids)
+        let windowStats = pairwiseIntervalStats(wMinScore, wMaxScore, ids)
 
         let wallMs = -started.timeIntervalSinceNow * 1000.0
+        windowSummaries.append(
+          WindowSummary(
+            arm: arm.spec.id,
+            profile: profile.id,
+            draws: min(windowDraws, arm.spec.draws),
+            rankMovingDraws: wRankMovingDraws,
+            rankMovesTotal: wRankMovesTotal,
+            ratingFlipsTotal: wRatingFlipsTotal,
+            reasoningChangesTotal: wReasoningChangesTotal,
+            boundaryFlips: wBoundaryFlips,
+            pairwiseOverlappingIntervals: windowStats.overlaps,
+            pairwiseTotal: windowStats.pairs,
+            pairwiseSkippedIntervals: windowStats.skipped))
         summaries.append(
           ArmProfileSummary(
             arm: arm.spec.id,
@@ -733,8 +864,12 @@ public enum ReplayEngine {
         failureCount += failures.count
 
         if !rawSample.isEmpty {
-          try writeJSON(
-            RawSampleOutput(arm: arm.spec.id, profile: profile.id, draws: rawSample),
+          try writeJSONCompact(
+            RawSampleOutput(
+              arm: arm.spec.id,
+              profile: profile.id,
+              windowDraws: min(windowDraws, arm.spec.draws),
+              draws: rawSample),
             to: URL(fileURLWithPath: "\(outputDir)/raw/sample__\(arm.spec.id)__\(profile.id).json"))
         }
       }
@@ -746,6 +881,7 @@ public enum ReplayEngine {
       recipeCount: matrix.recipes.count,
       profileCount: matrix.profiles.count,
       armSummaries: summaries,
+      windowSummaries: windowSummaries,
       controlVerifiedNotes: notes,
       failureCount: failureCount,
       runtimeNote: "Swift replay, Linux x86_64, deterministic SplitMix64 draws"
