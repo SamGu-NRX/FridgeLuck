@@ -1,0 +1,694 @@
+{
+  "schemaVersion": "dish-ambiguity-mapping-v1",
+  "dataset": "food-101",
+  "catalog": "apps/ios/Resources/data.json",
+  "frozenAt": "2026-10-10",
+  "curationProtocol": "- source of truth for dishes: the 166 bundled recipe titles in apps/ios/Resources/data.json\n  (recipes 1-25 are the hand-curated starter set with meaningful ingredient lists; 26-166 are\n  imported from a BBC GoodFood scrape whose ingredient arrays are known-unreliable per the\n  recipe-import-fidelity audit, so plausibility judgments rest on titles and dish identity).\n- a class is exact when one bundled recipe is a plausible rendering of the photographed dish;\n  coarse when >= 2 bundled recipes are interchangeable renderings of that one dish;\n  ambiguous when plausible candidates exist but are non-equivalent (suggesting one specific\n  recipe would be over-specific); unsupported when no bundled recipe could be offered without\n  misleading the user. nearMiss names the closest rejected candidates and why they were rejected.\n- uniqueness: exact/coarse recipes serve exactly one class; ambiguous candidates must not\n  overlap any exact/coarse answer; candidate sets may be shared when two classes name the\n  same dish family (hamburger / cheeseburger).",
+  "statusCountsExpected": {
+    "unsupported": 85,
+    "exact": 11,
+    "ambiguous": 2,
+    "coarse": 3
+  },
+  "thresholds": {
+    "nearDuplicate": {
+      "hash": "64-bit dHash (9x8 grayscale horizontal gradient)",
+      "hammingThreshold": 10,
+      "developmentOnly": true,
+      "reason": "chosen during development by inspecting dev-pool dHash distribution; dev images within threshold of any official-test image are excluded from dev selection so thresholds never touch test-lookalike data"
+    },
+    "abstention": {
+      "policy": "suggest one specific recipe only when the predicted class maps to exactly one recipe (status=exact) and top1 probability >= tau",
+      "precisionTarget": 0.9,
+      "tauSource": "tau is chosen on dev_manifest.json predictions as the smallest tau whose suggestion precision reaches the target; the chosen value is recorded in results/dev-threshold.json and never tuned on test data",
+      "developmentOnly": true
+    },
+    "sampling": {
+      "testPerClass": 25,
+      "devPerClass": 6
+    }
+  },
+  "classes": {
+    "apple_pie": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "baby_back_ribs": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist",
+      "nearMiss": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist"
+    },
+    "baklava": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "beef_carpaccio": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist",
+      "nearMiss": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist"
+    },
+    "beef_tartare": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist",
+      "nearMiss": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist"
+    },
+    "beet_salad": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no beetroot recipe; nearest salads (14 Mediterranean chickpea, 26 couscous, 165 warm cauliflower) use different vegetables and are not renderings",
+      "nearMiss": "no beetroot recipe; nearest salads (14 Mediterranean chickpea, 26 couscous, 165 warm cauliflower) use different vegetables and are not renderings"
+    },
+    "beignets": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "bibimbap": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no Korean rice-bowl recipes; fried rice (1) lacks the mixed-topping structure",
+      "nearMiss": "no Korean rice-bowl recipes; fried rice (1) lacks the mixed-topping structure"
+    },
+    "bread_pudding": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "breakfast_burrito": {
+      "status": "exact",
+      "recipes": [
+        24
+      ],
+      "reason": "photo of an egg-and-vegetable filled tortilla; bundled recipe 24 'Egg & Veggie Breakfast Wrap' (tortilla, egg, bell pepper, cheese, spinach) is a plausible rendering of the same dish",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "bruschetta": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes); 87 hummus flatbread pizzas is a pizza, not toasted topped bread",
+      "nearMiss": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes); 87 hummus flatbread pizzas is a pizza, not toasted topped bread"
+    },
+    "caesar_salad": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no caesar recipe; nearest salads (10 caprese, 14 Mediterranean chickpea) lack the dressing/crouton structure and are not renderings",
+      "nearMiss": "no caesar recipe; nearest salads (10 caprese, 14 Mediterranean chickpea) lack the dressing/crouton structure and are not renderings"
+    },
+    "cannoli": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "caprese_salad": {
+      "status": "exact",
+      "recipes": [
+        10
+      ],
+      "reason": "bundled recipe 10 'Caprese Salad' (tomato, cheese, olive oil) is the dish itself",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "carrot_cake": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "ceviche": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no citrus-cured raw fish recipe; cooked-fish recipes (61, 67, 152, 156) are different dishes",
+      "nearMiss": "no citrus-cured raw fish recipe; cooked-fish recipes (61, 67, 152, 156) are different dishes"
+    },
+    "cheesecake": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "cheese_plate": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no cheese-course recipe; cheese appears only as an ingredient",
+      "nearMiss": "no cheese-course recipe; cheese appears only as an ingredient"
+    },
+    "chicken_curry": {
+      "status": "ambiguous",
+      "recipes": [
+        49,
+        50,
+        53,
+        58
+      ],
+      "reason": "the label names a family, not a dish: bundled recipes 49 'Chicken jalfrezi', 50 'Chicken korma', 53 'Chicken madras' and 58 'Chinese chicken curry' are distinct curries, so suggesting one specific recipe is over-specific; a dish label cannot pick between them",
+      "nearMiss": [
+        "42 Cauliflower paneer & pea curry and 60 Coconut & squash dhansak rejected: no chicken"
+      ]
+    },
+    "chicken_quesadilla": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "only quesadilla is 137 'Spicy bean & avocado quesadillas', which has no chicken; offering it for a chicken-quesadilla photo would be misleading",
+      "nearMiss": "only quesadilla is 137 'Spicy bean & avocado quesadillas', which has no chicken; offering it for a chicken-quesadilla photo would be misleading"
+    },
+    "chicken_wings": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no wing or roasted-chicken-piece recipes; chicken recipes use breast fillets (4, 9, 22, 30, 39, ...) or whole-stew formats",
+      "nearMiss": "no wing or roasted-chicken-piece recipes; chicken recipes use breast fillets (4, 9, 22, 30, 39, ...) or whole-stew formats"
+    },
+    "chocolate_cake": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "chocolate_mousse": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "churros": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "clam_chowder": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no shellfish soup; soups are vegetable/bean/tomato/lentil based (35, 44, 90, 109, 130, 135, 136, 155)",
+      "nearMiss": "no shellfish soup; soups are vegetable/bean/tomato/lentil based (35, 44, 90, 109, 130, 135, 136, 155)"
+    },
+    "club_sandwich": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes)",
+      "nearMiss": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes)"
+    },
+    "crab_cakes": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist"
+    },
+    "creme_brulee": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "croque_madame": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes); no ham, bechamel or fried-egg-on-sandwich recipes",
+      "nearMiss": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes); no ham, bechamel or fried-egg-on-sandwich recipes"
+    },
+    "cup_cakes": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "deviled_eggs": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no stuffed-egg recipe; egg recipes are omelette/scramble/wrap formats (2, 5, 18, 24, 36, 94)",
+      "nearMiss": "no stuffed-egg recipe; egg recipes are omelette/scramble/wrap formats (2, 5, 18, 24, 36, 94)"
+    },
+    "donuts": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "dumplings": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no dumpling recipes; nearest are noodle dishes (74, 98, 150) which are structurally different",
+      "nearMiss": "no dumpling recipes; nearest are noodle dishes (74, 98, 150) which are structurally different"
+    },
+    "edamame": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no plain-prepared vegetable side recipes; edamame appears nowhere in the catalog",
+      "nearMiss": "no plain-prepared vegetable side recipes; edamame appears nowhere in the catalog"
+    },
+    "eggs_benedict": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no brunch/egg-sauce recipes; nearest egg dishes (2, 18) lack the muffin and hollandaise structure",
+      "nearMiss": "no brunch/egg-sauce recipes; nearest egg dishes (2, 18) lack the muffin and hollandaise structure"
+    },
+    "escargots": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no snail recipes",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no snail recipes"
+    },
+    "falafel": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no fried croquette recipes; chickpea recipes are salads/soups/stews (14, 88, 99, 102, 129)",
+      "nearMiss": "no fried croquette recipes; chickpea recipes are salads/soups/stews (14, 88, 99, 102, 129)"
+    },
+    "filet_mignon": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist",
+      "nearMiss": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist"
+    },
+    "fish_and_chips": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no fried-fish recipe; nearest is 166 'Zesty haddock with crushed potatoes & peas', but crushed boiled potatoes are not chips, so it is a near-miss only",
+      "nearMiss": "no fried-fish recipe; nearest is 166 'Zesty haddock with crushed potatoes & peas', but crushed boiled potatoes are not chips, so it is a near-miss only"
+    },
+    "foie_gras": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no pate or offal recipes",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no pate or offal recipes"
+    },
+    "french_fries": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no fried-potato recipe; potato recipes are baked/stewed (11, 19, 134, 160, 166)",
+      "nearMiss": "no fried-potato recipe; potato recipes are baked/stewed (11, 19, 134, 160, 166)"
+    },
+    "french_onion_soup": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no onion soup; soup set is (35, 44, 90, 109, 130, 135, 136, 155) with no broth-and-cheese format",
+      "nearMiss": "no onion soup; soup set is (35, 44, 90, 109, 130, 135, 136, 155) with no broth-and-cheese format"
+    },
+    "french_toast": {
+      "status": "exact",
+      "recipes": [
+        21
+      ],
+      "reason": "bundled recipe 21 'Classic French Toast' (bread, egg, milk, butter) is the dish itself",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "fried_calamari": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no fried squid recipes",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no fried squid recipes"
+    },
+    "fried_rice": {
+      "status": "exact",
+      "recipes": [
+        1
+      ],
+      "reason": "bundled recipe 1 'Classic Egg Fried Rice' (egg, rice, soy sauce) is the dish itself",
+      "nearMiss": [
+        "74 Egg-fried noodles with beansprouts is the noodle analogue, not rice, so it is not interchangeable"
+      ]
+    },
+    "frozen_yogurt": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "garlic_bread": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no bread recipes; garlic + butter appear only in pasta (3)",
+      "nearMiss": "no bread recipes; garlic + butter appear only in pasta (3)"
+    },
+    "gnocchi": {
+      "status": "exact",
+      "recipes": [
+        85
+      ],
+      "reason": "bundled recipe 85 'Healthy gnocchi' is the dish itself",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "greek_salad": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no feta or olive salad; nearest is 14 'Mediterranean Chickpea Salad' (chickpea/cucumber/tomato), a different dish",
+      "nearMiss": "no feta or olive salad; nearest is 14 'Mediterranean Chickpea Salad' (chickpea/cucumber/tomato), a different dish"
+    },
+    "grilled_cheese_sandwich": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes)",
+      "nearMiss": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes)"
+    },
+    "grilled_salmon": {
+      "status": "exact",
+      "recipes": [
+        15
+      ],
+      "reason": "bundled recipe 15 'Simple Salmon with Veggies' (salmon, broccoli, lemon) is a plausible rendering of a plated cooked salmon fillet",
+      "nearMiss": [
+        "120 Salmon salad with sesame dressing rejected: salad, not a plated fillet"
+      ]
+    },
+    "guacamole": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "guacamole appears only as a component (7, 20, 34, 95, 137); no standalone dip recipe exists",
+      "nearMiss": "guacamole appears only as a component (7, 20, 34, 95, 137); no standalone dip recipe exists"
+    },
+    "gyoza": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no dumpling recipes; nearest are noodle dishes (74, 98, 150)",
+      "nearMiss": "no dumpling recipes; nearest are noodle dishes (74, 98, 150)"
+    },
+    "hamburger": {
+      "status": "ambiguous",
+      "recipes": [
+        91,
+        116,
+        149
+      ],
+      "reason": "bundled recipes 91 'Jerk chicken burger', 116 'Prawn & salmon burgers with spicy mayo' and 149 'Superhealthy salmon burgers' are the only burgers and are non-equivalent (different proteins), so a specific suggestion would be a guess. Note: this Food-101 distribution's classes.txt carries no 'cheeseburger' class (verified 2026-10-10: absent from meta/classes.txt and images/), so the burger family is represented by 'hamburger' alone",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "hot_and_sour_soup": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "nearest soup is 5 'Tomato Egg Drop Soup', which is egg-drop but neither hot-and-sour nor Asian-styled; rejected as not a rendering",
+      "nearMiss": "nearest soup is 5 'Tomato Egg Drop Soup', which is egg-drop but neither hot-and-sour nor Asian-styled; rejected as not a rendering"
+    },
+    "hot_dog": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes); no sausage-in-bun recipes (114 sausage traybake is a traybake)",
+      "nearMiss": "no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes); no sausage-in-bun recipes (114 sausage traybake is a traybake)"
+    },
+    "huevos_rancheros": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no eggs-on-sauce recipes; nearest is 24 'Egg & Veggie Breakfast Wrap', a wrap format, rejected as not a rendering",
+      "nearMiss": "no eggs-on-sauce recipes; nearest is 24 'Egg & Veggie Breakfast Wrap', a wrap format, rejected as not a rendering"
+    },
+    "hummus": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "hummus appears only as a component (87, 118, 155); no standalone dip recipe",
+      "nearMiss": "hummus appears only as a component (87, 118, 155); no standalone dip recipe"
+    },
+    "ice_cream": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "lasagna": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no layered baked-pasta recipe; nearest is 84 'Healthy chicken pasta bake', a different structure",
+      "nearMiss": "no layered baked-pasta recipe; nearest is 84 'Healthy chicken pasta bake', a different structure"
+    },
+    "lobster_bisque": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist"
+    },
+    "lobster_roll_sandwich": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes)",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no sandwich or bread-based savory recipes exist (21 french toast and 87 hummus flatbread pizzas are the only bread dishes)"
+    },
+    "macaroni_and_cheese": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no cheese-sauce pasta; nearest are 3 'Garlic Butter Pasta' and 80 'Halloumi pasta', which are different dishes",
+      "nearMiss": "no cheese-sauce pasta; nearest are 3 'Garlic Butter Pasta' and 80 'Halloumi pasta', which are different dishes"
+    },
+    "macarons": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "miso_soup": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no broth-only soup; 98 'Miso noodles with fried eggs' is a noodle dish, not soup",
+      "nearMiss": "no broth-only soup; 98 'Miso noodles with fried eggs' is a noodle dish, not soup"
+    },
+    "mussels": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist"
+    },
+    "nachos": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no nacho or tortilla-chip recipe; tortilla recipes are wraps/tacos/soup garnish (7, 24, 33, 35)",
+      "nearMiss": "no nacho or tortilla-chip recipe; tortilla recipes are wraps/tacos/soup garnish (7, 24, 33, 35)"
+    },
+    "omelette": {
+      "status": "coarse",
+      "recipes": [
+        2,
+        18
+      ],
+      "reason": "bundled recipes 2 'Simple Cheese Omelette' and 18 'Spinach Mushroom Scramble' are interchangeable renderings of a folded/scrambled egg plate; Food-101 omelette photos span both forms",
+      "nearMiss": [
+        "36 Bombay potato frittata and 94 Masala frittata rejected: baked open-faced frittatas are structurally different from the omelette photos in Food-101"
+      ]
+    },
+    "onion_rings": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no fried snack or street-food recipes exist; bundled dishes are plated one-pan meals, soups, salads and pastas",
+      "nearMiss": "no fried snack or street-food recipes exist; bundled dishes are plated one-pan meals, soups, salads and pastas"
+    },
+    "oysters": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist"
+    },
+    "pad_thai": {
+      "status": "exact",
+      "recipes": [
+        83
+      ],
+      "reason": "bundled recipe 83 'Healthy pad Thai' is the dish itself",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "paella": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "nearest is 72 'Easiest ever seafood rice', but a one-pot seafood rice is not a paella rendering (no socarrat, different format); near-miss only",
+      "nearMiss": "nearest is 72 'Easiest ever seafood rice', but a one-pot seafood rice is not a paella rendering (no socarrat, different format); near-miss only"
+    },
+    "pancakes": {
+      "status": "exact",
+      "recipes": [
+        25
+      ],
+      "reason": "bundled recipe 25 'Banana Oat Pancakes' is a plausible rendering of a plated stack of pancakes",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "panna_cotta": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "peking_duck": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no duck or roast recipes except ragu formats (71, 164), which are stews not roasts",
+      "nearMiss": "no duck or roast recipes except ragu formats (71, 164), which are stews not roasts"
+    },
+    "pho": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no pho recipe; nearest is 162 'Vegetarian ramen' (claimed by 'ramen'), a different noodle soup with different broth",
+      "nearMiss": "no pho recipe; nearest is 162 'Vegetarian ramen' (claimed by 'ramen'), a different noodle soup with different broth"
+    },
+    "pizza": {
+      "status": "exact",
+      "recipes": [
+        87
+      ],
+      "reason": "bundled recipe 87 'Hummus flatbread pizzas with roasted veg' is the only pizza recipe in the catalog and a plausible rendering",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "pork_chop": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist",
+      "nearMiss": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist"
+    },
+    "poutine": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no fries or gravy recipe; potato dishes are baked/stewed (11, 19, 134, 160, 166)",
+      "nearMiss": "no fries or gravy recipe; potato dishes are baked/stewed (11, 19, 134, 160, 166)"
+    },
+    "prime_rib": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist",
+      "nearMiss": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist"
+    },
+    "pulled_pork_sandwich": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no pork recipes; nearest is 117 'Pulled chicken & black bean chilli' (different protein and format); also no sandwiches",
+      "nearMiss": "no pork recipes; nearest is 117 'Pulled chicken & black bean chilli' (different protein and format); also no sandwiches"
+    },
+    "ramen": {
+      "status": "exact",
+      "recipes": [
+        162
+      ],
+      "reason": "bundled recipe 162 'Vegetarian ramen' is the dish itself",
+      "nearMiss": [
+        "98 Miso noodles with fried eggs rejected: no broth, so not a ramen rendering"
+      ]
+    },
+    "ravioli": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no filled-pasta recipe; all pasta recipes are tossed/baked formats",
+      "nearMiss": "no filled-pasta recipe; all pasta recipes are tossed/baked formats"
+    },
+    "red_velvet_cake": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "risotto": {
+      "status": "coarse",
+      "recipes": [
+        23,
+        64,
+        73
+      ],
+      "reason": "bundled recipes 23 'Mushroom Risotto', 64 'Creamy tomato risotto' and 73 'Easy risotto with bacon & peas' are all risotto variants; any is a defensible rendering of a photographed risotto",
+      "nearMiss": "none rejected beyond those listed in the reason"
+    },
+    "samosa": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no fried snack or street-food recipes exist; bundled dishes are plated one-pan meals, soups, salads and pastas; no filled-pastry recipes",
+      "nearMiss": "no fried snack or street-food recipes exist; bundled dishes are plated one-pan meals, soups, salads and pastas; no filled-pastry recipes"
+    },
+    "sashimi": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no raw-fish recipes",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no raw-fish recipes"
+    },
+    "scallops": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist"
+    },
+    "seaweed_salad": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no seaweed or Japanese-style salad recipes",
+      "nearMiss": "no seaweed or Japanese-style salad recipes"
+    },
+    "shrimp_and_grits": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no grits or porridge recipes",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no grits or porridge recipes"
+    },
+    "spaghetti_bolognese": {
+      "status": "coarse",
+      "recipes": [
+        81,
+        132
+      ],
+      "reason": "bundled recipes 81 'Healthy bolognese' and 132 'Healthy spaghetti bolognese' are the same dish; either rendering fits a photographed spaghetti with meat sauce",
+      "nearMiss": [
+        "47 Chicken & chorizo ragu rejected: ragu with different protein is a different dish"
+      ]
+    },
+    "spaghetti_carbonara": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no egg-sauce pasta; nearest is 32 'Aubergine, chilli & bacon pasta' (bacon but no egg emulsion); rejected as not a rendering",
+      "nearMiss": "no egg-sauce pasta; nearest is 32 'Aubergine, chilli & bacon pasta' (bacon but no egg emulsion); rejected as not a rendering"
+    },
+    "spring_rolls": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no fried snack or street-food recipes exist; bundled dishes are plated one-pan meals, soups, salads and pastas; no rolled or wrapped fried recipes",
+      "nearMiss": "no fried snack or street-food recipes exist; bundled dishes are plated one-pan meals, soups, salads and pastas; no rolled or wrapped fried recipes"
+    },
+    "steak": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist; a stew or goulash is not a rendering of a whole-cut steak",
+      "nearMiss": "only ground-beef mains are bundled (59 chilli con carne, 106 beef stew, 108 goulash pasta); no whole-cut beef/pork/rib recipes exist; a stew or goulash is not a rendering of a whole-cut steak"
+    },
+    "strawberry_shortcake": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "sushi": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no raw-fish or vinegared-rice recipes",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no raw-fish or vinegared-rice recipes"
+    },
+    "tacos": {
+      "status": "exact",
+      "recipes": [
+        7
+      ],
+      "reason": "bundled recipe 7 'Black Bean Tacos' (black beans, tortilla, avocado, lime) is the only filled-taco recipe and a plausible rendering",
+      "nearMiss": [
+        "151 Taco salad and 153 Tomato & black bean taco salad rejected: salads are a different dish; 17 Beef Taco Bowl rejected: bowl format, and uniqueness gives tacos the claim"
+      ]
+    },
+    "takoyaki": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no griddled ball recipes",
+      "nearMiss": "seafood recipes are cod/salmon/sardine/tuna/haddock only (15, 61, 67, 111, 116, 120, 127, 134, 152, 156, 158, 166); no shellfish or raw-fish recipes exist; no griddled ball recipes"
+    },
+    "tiramisu": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    },
+    "tuna_tartare": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "no raw-fish recipes; tuna recipes are salads/pasta (16, 27, 134, 157, 158), all cooked formats",
+      "nearMiss": "no raw-fish recipes; tuna recipes are salads/pasta (16, 27, 134, 157, 158), all cooked formats"
+    },
+    "waffles": {
+      "status": "unsupported",
+      "recipes": [],
+      "reason": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist",
+      "nearMiss": "catalog holds only savory one-pan, soup, salad, pasta and curry recipes (166 bundled titles scanned 2026-10-10); no baking or dessert recipes exist"
+    }
+  }
+}
