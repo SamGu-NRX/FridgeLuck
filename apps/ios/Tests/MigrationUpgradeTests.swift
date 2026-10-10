@@ -16,10 +16,11 @@ final class MigrationUpgradeTests: XCTestCase {
 
     let applied = try db.read { try String.fetchAll($0, sql: "SELECT identifier FROM grdb_migrations") }
     XCTAssertEqual(
-      Array(applied.suffix(3)),
+      Array(applied.suffix(5)),
       [
         "v16_inventory_quantity_estimates", "v17_cooking_portion_multiplier",
-        "v18_cooking_history_swaps",
+        "v18_cooking_history_swaps", "v19_accepted_meal_consumption_plan",
+        "v20_accepted_meal_revision",
       ])
   }
 
