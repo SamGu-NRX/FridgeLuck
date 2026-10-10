@@ -100,9 +100,14 @@ evidence:
 - USDA FoodData Central household-mass tables are referenced, not duplicated.
 - Some bundled USDA FDC identity matches are poor; they are not treated as
   composition evidence without further checking (flagged in pair assessments).
-- Swift replay: `SubstitutionEvidenceReplayTests` re-parses the live
-  `SubstitutionService.swift` source and compares it against the generated
-  fixture (pairs, ratios, reasons, region SHA-256), so a change to production
-  without regenerating the evidence fails CI. The tests are portable XCTests
-  in the existing `AppModuleTests` target; they were not compiled in this
-  environment (no Swift toolchain) and run on hosted macOS CI.
+- Swift replay (SwiftReplay): `SubstitutionEvidenceReplayTests` instantiates
+  the real `SubstitutionService` on an in-memory GRDB queue and runs actual
+  production suggestions over all 27 frozen pairs and all 227 context cases,
+  including a dietary-restrictions pass, asserting substitute, ratio, and
+  reasons against the fixtures. A source-region SHA-256 test guards against
+  silent edits to `SubstitutionService.swift`; the hashed region excludes the
+  `private static func buildMap()` marker on both the Python and Swift sides
+  so they hash an identical byte range. The tests are portable XCTests in the
+  existing `AppModuleTests` target; they were not compiled in this
+  environment (no Swift toolchain) and run on hosted macOS CI. See
+  `HANDOFF.md` for the full state.

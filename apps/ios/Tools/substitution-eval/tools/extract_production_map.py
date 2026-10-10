@@ -37,9 +37,14 @@ ADD_RE = re.compile(
 
 def parse_service(path: Path):
     text = path.read_text(encoding="utf-8")
-    # Only the buildMap() region is authoritative.
-    start = text.index("private static func buildMap()")
-    region = text[start:]
+    # Only the buildMap() region is authoritative. The hashed region EXCLUDES
+    # the leading `private static func buildMap()` marker itself — the Swift
+    # replay (Tests/SubstitutionEvidenceReplayTests.swift) slices the same way
+    # (everything after the marker, up to `return map`), so both sides hash an
+    # identical byte range.
+    marker = "private static func buildMap()"
+    start = text.index(marker)
+    region = text[start + len(marker):]
     region_end = region.index("return map")
     region = region[:region_end]
 

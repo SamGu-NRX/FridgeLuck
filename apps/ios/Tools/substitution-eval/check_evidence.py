@@ -31,6 +31,7 @@ from extract_production_map import parse_service  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parents[4]  # file -> substitution-eval -> Tools -> ios -> apps -> repo
 TOOL_DIR = Path(__file__).resolve().parent
 EVIDENCE_DIR = TOOL_DIR / "evidence"
+CONTEXTS_CSV = EVIDENCE_DIR / "context_cases.csv"
 
 
 def fail(errors: list, msg: str):
@@ -53,18 +54,29 @@ def check_pair_level(errors):
         fail(errors, "pairs.snapshot.json does not match SubstitutionService.swift (drift)")
     if snap.get("pair_count") != len(service_pairs):
         fail(errors, "pair_count field disagrees with pairs list")
-    # The generated Swift fixture must match the snapshot byte-for-byte, or the
-    # Swift replay tests and the Python evidence set disagree.
-    from render_swift_fixture import render  # noqa: PLC0415
+    # The generated Swift fixtures must match the evidence byte-for-byte, or
+    # the Swift replay tests and the Python evidence set disagree.
+    from render_swift_fixture import render, render_contexts  # noqa: PLC0415
 
-    fixture_path = REPO_ROOT / "apps/ios/Tests/SubstitutionEvidencePairs+Generated.swift"
-    if not fixture_path.exists():
-        fail(errors, "generated Swift fixture missing: run render_swift_fixture.py")
-    else:
-        rendered = render(snap)
+    fixtures = [
+        (REPO_ROOT / "apps/ios/Tests/SubstitutionEvidencePairs+Generated.swift", render(snap)),
+        (None, None),  # placeholder replaced below
+    ]
+    import csv  # noqa: PLC0415
+
+    with open(CONTEXTS_CSV, newline="", encoding="utf-8") as f:
+        contexts = list(csv.DictReader(f))
+    fixtures[1] = (
+        REPO_ROOT / "apps/ios/Tests/SubstitutionEvidenceContexts+Generated.swift",
+        render_contexts(contexts),
+    )
+    for fixture_path, rendered in fixtures:
+        if not fixture_path.exists():
+            fail(errors, f"generated Swift fixture missing: {fixture_path.name}; run render_swift_fixture.py")
+            continue
         actual = fixture_path.read_text(encoding="utf-8")
         if rendered != actual:
-            fail(errors, "generated Swift fixture is stale; rerun render_swift_fixture.py")
+            fail(errors, f"generated Swift fixture is stale: {fixture_path.name}; rerun render_swift_fixture.py")
     return service_pairs
 
 

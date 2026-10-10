@@ -12,7 +12,7 @@ struct SubstitutionEvidencePair: Equatable {
 }
 
 enum SubstitutionEvidenceSnapshot {
-  static let sourceRegionSHA256 = "96b76d6078c0cfb40a162d3979f7b19daea02cef912d28e65e86abafd32f1627"
+  static let sourceRegionSHA256 = "1868a2650e94897892c489f9c07b0ca2c9f86db2f8a38448ba9cd65bb11250d4"
   static let pairs: [SubstitutionEvidencePair] = [
     SubstitutionEvidencePair(originalId: 14, substituteId: 16, ratio: 0.75, reasons: ["vegan", "dairyFree", "lighter"]),
     SubstitutionEvidencePair(originalId: 14, substituteId: 26, ratio: 1.0, reasons: ["vegan", "dairyFree"]),
