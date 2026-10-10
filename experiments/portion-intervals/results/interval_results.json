@@ -1,0 +1,4140 @@
+{
+  "arm_status": {
+    "dev_residual": {
+      "dev_counts": {
+        "energy_kcal": {
+          "calibration_clusters": 599,
+          "calibration_records": 607,
+          "n_dev_rows": 607,
+          "n_eligible": 607,
+          "n_implausible_excluded": 0,
+          "n_zero_excluded": 0
+        },
+        "mass_g": {
+          "calibration_clusters": 598,
+          "calibration_records": 606,
+          "n_dev_rows": 607,
+          "n_eligible": 606,
+          "n_implausible_excluded": 1,
+          "n_zero_excluded": 0
+        }
+      },
+      "status": "ok"
+    },
+    "dev_residual[foodlist]": {
+      "reason": "PR41 commits no per-record development predictions for the foodlist estimator (test-only estimates, aggregate dev metrics, and no fitted model artifact), so calibration scores cannot be derived without re-fitting the owned model, which this study refuses to do.",
+      "status": "unavailable"
+    },
+    "dev_residual[rgb]": {
+      "reason": "PR41 commits no per-record development predictions for the rgb estimator (test-only estimates, aggregate dev metrics, and no fitted model artifact), so calibration scores cannot be derived without re-fitting the owned model, which this study refuses to do.",
+      "status": "unavailable"
+    },
+    "dev_residual[rgbd]": {
+      "reason": "PR41 commits no per-record development predictions for the rgbd estimator (test-only estimates, aggregate dev metrics, and no fitted model artifact), so calibration scores cannot be derived without re-fitting the owned model, which this study refuses to do.",
+      "status": "unavailable"
+    },
+    "fixed_width": {
+      "note": "no nominal level; undercoverage is None",
+      "status": "ok"
+    },
+    "split_conformal": {
+      "dev_counts": {
+        "energy_kcal": {
+          "calibration_clusters": 300,
+          "calibration_records": 302,
+          "holdout_clusters": 299,
+          "holdout_records": 305,
+          "n_dev_rows": 607,
+          "n_eligible": 607,
+          "n_implausible_excluded": 0,
+          "n_zero_excluded": 0
+        },
+        "mass_g": {
+          "calibration_clusters": 299,
+          "calibration_records": 302,
+          "holdout_clusters": 299,
+          "holdout_records": 304,
+          "n_dev_rows": 607,
+          "n_eligible": 606,
+          "n_implausible_excluded": 1,
+          "n_zero_excluded": 0
+        }
+      },
+      "n_calibration_clusters_energy_kcal": 300,
+      "n_calibration_clusters_mass_g": 299,
+      "status": "ok"
+    },
+    "split_conformal[foodlist]": {
+      "reason": "PR41 commits no per-record development predictions for the foodlist estimator (test-only estimates, aggregate dev metrics, and no fitted model artifact), so calibration scores cannot be derived without re-fitting the owned model, which this study refuses to do.",
+      "status": "unavailable"
+    },
+    "split_conformal[rgb]": {
+      "reason": "PR41 commits no per-record development predictions for the rgb estimator (test-only estimates, aggregate dev metrics, and no fitted model artifact), so calibration scores cannot be derived without re-fitting the owned model, which this study refuses to do.",
+      "status": "unavailable"
+    },
+    "split_conformal[rgbd]": {
+      "reason": "PR41 commits no per-record development predictions for the rgbd estimator (test-only estimates, aggregate dev metrics, and no fitted model artifact), so calibration scores cannot be derived without re-fitting the owned model, which this study refuses to do.",
+      "status": "unavailable"
+    }
+  },
+  "experiment": "portion-intervals",
+  "interval_results": [
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.650197628458498,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.650197628458498,
+      "estimator_arm": "foodlist",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9110671936758893,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9110671936758893,
+      "estimator_arm": "foodlist",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9881422924901185,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9881422924901185,
+      "estimator_arm": "foodlist",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.27613412228796846,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.27613412228796846,
+      "estimator_arm": "foodlist",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.504930966469428,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.504930966469428,
+      "estimator_arm": "foodlist",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7712031558185405,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.7712031558185405,
+      "estimator_arm": "foodlist",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4644268774703557,
+          "mean_width": 266.85965,
+          "median_width": 266.85965,
+          "n_eval": 506,
+          "undercoverage": 0.035573122529644285
+        }
+      },
+      "coverage": 0.4644268774703557,
+      "estimator_arm": "median",
+      "half_width": 133.429825,
+      "mean_width": 266.85965,
+      "median_width": 266.85965,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.5,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.035573122529644285,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7391304347826086,
+          "mean_width": 385.29999,
+          "median_width": 385.29999,
+          "n_eval": 506,
+          "undercoverage": 0.0608695652173914
+        }
+      },
+      "coverage": 0.7391304347826086,
+      "estimator_arm": "median",
+      "half_width": 192.649995,
+      "mean_width": 385.29999,
+      "median_width": 385.29999,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.8,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.0608695652173914,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8656126482213439,
+          "mean_width": 554.3321051999999,
+          "median_width": 554.3321051999999,
+          "n_eval": 506,
+          "undercoverage": 0.03438735177865615
+        }
+      },
+      "coverage": 0.8656126482213439,
+      "estimator_arm": "median",
+      "half_width": 277.16605259999994,
+      "mean_width": 554.3321051999999,
+      "median_width": 554.3321051999999,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.9,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.03438735177865615,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4723320158102767,
+          "mean_width": 270.099976,
+          "median_width": 270.099976,
+          "n_eval": 506,
+          "undercoverage": 0.027667984189723327
+        }
+      },
+      "coverage": 0.4723320158102767,
+      "estimator_arm": "median",
+      "half_width": 135.049988,
+      "mean_width": 270.099976,
+      "median_width": 270.099976,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.5,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.027667984189723327,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7272727272727273,
+          "mean_width": 379.21997000000005,
+          "median_width": 379.21997000000005,
+          "n_eval": 506,
+          "undercoverage": 0.07272727272727275
+        }
+      },
+      "coverage": 0.7272727272727273,
+      "estimator_arm": "median",
+      "half_width": 189.60998500000002,
+      "mean_width": 379.21997000000005,
+      "median_width": 379.21997000000005,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.8,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.07272727272727275,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.857707509881423,
+          "mean_width": 518.8068860000001,
+          "median_width": 518.8068860000001,
+          "n_eval": 506,
+          "undercoverage": 0.04229249011857705
+        }
+      },
+      "coverage": 0.857707509881423,
+      "estimator_arm": "median",
+      "half_width": 259.40344300000004,
+      "mean_width": 518.8068860000001,
+      "median_width": 518.8068860000001,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.9,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.04229249011857705,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.32806324110671936,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.32806324110671936,
+      "estimator_arm": "median",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8458498023715415,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.8458498023715415,
+      "estimator_arm": "median",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9525691699604744,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9525691699604744,
+      "estimator_arm": "median",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5207100591715976,
+          "mean_width": 202.0,
+          "median_width": 202.0,
+          "n_eval": 507,
+          "undercoverage": -0.020710059171597628
+        }
+      },
+      "coverage": 0.5207100591715976,
+      "estimator_arm": "median",
+      "half_width": 101.0,
+      "mean_width": 202.0,
+      "median_width": 202.0,
+      "method": "dev_residual",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": -0.020710059171597628,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7869822485207101,
+          "mean_width": 298.0,
+          "median_width": 298.0,
+          "n_eval": 507,
+          "undercoverage": 0.013017751479289963
+        }
+      },
+      "coverage": 0.7869822485207101,
+      "estimator_arm": "median",
+      "half_width": 149.0,
+      "mean_width": 298.0,
+      "median_width": 298.0,
+      "method": "dev_residual",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": 0.013017751479289963,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8915187376725838,
+          "mean_width": 415.0,
+          "median_width": 415.0,
+          "n_eval": 507,
+          "undercoverage": 0.008481262327416195
+        }
+      },
+      "coverage": 0.8915187376725838,
+      "estimator_arm": "median",
+      "half_width": 207.5,
+      "mean_width": 415.0,
+      "median_width": 415.0,
+      "method": "dev_residual",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": 0.008481262327416195,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5029585798816568,
+          "mean_width": 196.0,
+          "median_width": 196.0,
+          "n_eval": 507,
+          "undercoverage": -0.00295857988165682
+        }
+      },
+      "coverage": 0.5029585798816568,
+      "estimator_arm": "median",
+      "half_width": 98.0,
+      "mean_width": 196.0,
+      "median_width": 196.0,
+      "method": "split_conformal",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": -0.00295857988165682,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7633136094674556,
+          "mean_width": 286.0,
+          "median_width": 286.0,
+          "n_eval": 507,
+          "undercoverage": 0.03668639053254441
+        }
+      },
+      "coverage": 0.7633136094674556,
+      "estimator_arm": "median",
+      "half_width": 143.0,
+      "mean_width": 286.0,
+      "median_width": 286.0,
+      "method": "split_conformal",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": 0.03668639053254441,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.873767258382643,
+          "mean_width": 378.0,
+          "median_width": 378.0,
+          "n_eval": 507,
+          "undercoverage": 0.026232741617357003
+        }
+      },
+      "coverage": 0.873767258382643,
+      "estimator_arm": "median",
+      "half_width": 189.0,
+      "mean_width": 378.0,
+      "median_width": 378.0,
+      "method": "split_conformal",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": 0.026232741617357003,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.1222879684418146,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.1222879684418146,
+      "estimator_arm": "median",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.2504930966469428,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.2504930966469428,
+      "estimator_arm": "median",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5187376725838264,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.5187376725838264,
+      "estimator_arm": "median",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.66600790513834,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.66600790513834,
+      "estimator_arm": "rgb",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9347826086956522,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9347826086956522,
+      "estimator_arm": "rgb",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9940711462450593,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9940711462450593,
+      "estimator_arm": "rgb",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.3629191321499014,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.3629191321499014,
+      "estimator_arm": "rgb",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.6291913214990138,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.6291913214990138,
+      "estimator_arm": "rgb",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8481262327416174,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.8481262327416174,
+      "estimator_arm": "rgb",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.717391304347826,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.717391304347826,
+      "estimator_arm": "rgbd",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9426877470355731,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9426877470355731,
+      "estimator_arm": "rgbd",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9960474308300395,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9960474308300395,
+      "estimator_arm": "rgbd",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4477317554240631,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.4477317554240631,
+      "estimator_arm": "rgbd",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7199211045364892,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.7199211045364892,
+      "estimator_arm": "rgbd",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9013806706114399,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9013806706114399,
+      "estimator_arm": "rgbd",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "depth_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.650197628458498,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.650197628458498,
+      "estimator_arm": "foodlist",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9110671936758893,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9110671936758893,
+      "estimator_arm": "foodlist",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9881422924901185,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9881422924901185,
+      "estimator_arm": "foodlist",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.27613412228796846,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.27613412228796846,
+      "estimator_arm": "foodlist",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.504930966469428,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.504930966469428,
+      "estimator_arm": "foodlist",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7712031558185405,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.7712031558185405,
+      "estimator_arm": "foodlist",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4644268774703557,
+          "mean_width": 266.85965,
+          "median_width": 266.85965,
+          "n_eval": 506,
+          "undercoverage": 0.035573122529644285
+        }
+      },
+      "coverage": 0.4644268774703557,
+      "estimator_arm": "median",
+      "half_width": 133.429825,
+      "mean_width": 266.85965,
+      "median_width": 266.85965,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.5,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.035573122529644285,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7391304347826086,
+          "mean_width": 385.29999,
+          "median_width": 385.29999,
+          "n_eval": 506,
+          "undercoverage": 0.0608695652173914
+        }
+      },
+      "coverage": 0.7391304347826086,
+      "estimator_arm": "median",
+      "half_width": 192.649995,
+      "mean_width": 385.29999,
+      "median_width": 385.29999,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.8,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.0608695652173914,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8656126482213439,
+          "mean_width": 554.3321051999999,
+          "median_width": 554.3321051999999,
+          "n_eval": 506,
+          "undercoverage": 0.03438735177865615
+        }
+      },
+      "coverage": 0.8656126482213439,
+      "estimator_arm": "median",
+      "half_width": 277.16605259999994,
+      "mean_width": 554.3321051999999,
+      "median_width": 554.3321051999999,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.9,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.03438735177865615,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4723320158102767,
+          "mean_width": 270.099976,
+          "median_width": 270.099976,
+          "n_eval": 506,
+          "undercoverage": 0.027667984189723327
+        }
+      },
+      "coverage": 0.4723320158102767,
+      "estimator_arm": "median",
+      "half_width": 135.049988,
+      "mean_width": 270.099976,
+      "median_width": 270.099976,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.5,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.027667984189723327,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7272727272727273,
+          "mean_width": 379.21997000000005,
+          "median_width": 379.21997000000005,
+          "n_eval": 506,
+          "undercoverage": 0.07272727272727275
+        }
+      },
+      "coverage": 0.7272727272727273,
+      "estimator_arm": "median",
+      "half_width": 189.60998500000002,
+      "mean_width": 379.21997000000005,
+      "median_width": 379.21997000000005,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.8,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.07272727272727275,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.857707509881423,
+          "mean_width": 518.8068860000001,
+          "median_width": 518.8068860000001,
+          "n_eval": 506,
+          "undercoverage": 0.04229249011857705
+        }
+      },
+      "coverage": 0.857707509881423,
+      "estimator_arm": "median",
+      "half_width": 259.40344300000004,
+      "mean_width": 518.8068860000001,
+      "median_width": 518.8068860000001,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.9,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": 0.04229249011857705,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.32806324110671936,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.32806324110671936,
+      "estimator_arm": "median",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8458498023715415,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.8458498023715415,
+      "estimator_arm": "median",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9525691699604744,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9525691699604744,
+      "estimator_arm": "median",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5207100591715976,
+          "mean_width": 202.0,
+          "median_width": 202.0,
+          "n_eval": 507,
+          "undercoverage": -0.020710059171597628
+        }
+      },
+      "coverage": 0.5207100591715976,
+      "estimator_arm": "median",
+      "half_width": 101.0,
+      "mean_width": 202.0,
+      "median_width": 202.0,
+      "method": "dev_residual",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": -0.020710059171597628,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7869822485207101,
+          "mean_width": 298.0,
+          "median_width": 298.0,
+          "n_eval": 507,
+          "undercoverage": 0.013017751479289963
+        }
+      },
+      "coverage": 0.7869822485207101,
+      "estimator_arm": "median",
+      "half_width": 149.0,
+      "mean_width": 298.0,
+      "median_width": 298.0,
+      "method": "dev_residual",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": 0.013017751479289963,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8915187376725838,
+          "mean_width": 415.0,
+          "median_width": 415.0,
+          "n_eval": 507,
+          "undercoverage": 0.008481262327416195
+        }
+      },
+      "coverage": 0.8915187376725838,
+      "estimator_arm": "median",
+      "half_width": 207.5,
+      "mean_width": 415.0,
+      "median_width": 415.0,
+      "method": "dev_residual",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": 0.008481262327416195,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5029585798816568,
+          "mean_width": 196.0,
+          "median_width": 196.0,
+          "n_eval": 507,
+          "undercoverage": -0.00295857988165682
+        }
+      },
+      "coverage": 0.5029585798816568,
+      "estimator_arm": "median",
+      "half_width": 98.0,
+      "mean_width": 196.0,
+      "median_width": 196.0,
+      "method": "split_conformal",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": -0.00295857988165682,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7633136094674556,
+          "mean_width": 286.0,
+          "median_width": 286.0,
+          "n_eval": 507,
+          "undercoverage": 0.03668639053254441
+        }
+      },
+      "coverage": 0.7633136094674556,
+      "estimator_arm": "median",
+      "half_width": 143.0,
+      "mean_width": 286.0,
+      "median_width": 286.0,
+      "method": "split_conformal",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": 0.03668639053254441,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.873767258382643,
+          "mean_width": 378.0,
+          "median_width": 378.0,
+          "n_eval": 507,
+          "undercoverage": 0.026232741617357003
+        }
+      },
+      "coverage": 0.873767258382643,
+      "estimator_arm": "median",
+      "half_width": 189.0,
+      "mean_width": 378.0,
+      "median_width": 378.0,
+      "method": "split_conformal",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": 0.026232741617357003,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.1222879684418146,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.1222879684418146,
+      "estimator_arm": "median",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.2504930966469428,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.2504930966469428,
+      "estimator_arm": "median",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5187376725838264,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.5187376725838264,
+      "estimator_arm": "median",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.66600790513834,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.66600790513834,
+      "estimator_arm": "rgb",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9347826086956522,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9347826086956522,
+      "estimator_arm": "rgb",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9940711462450593,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9940711462450593,
+      "estimator_arm": "rgb",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.3629191321499014,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.3629191321499014,
+      "estimator_arm": "rgb",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.6291913214990138,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.6291913214990138,
+      "estimator_arm": "rgb",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8481262327416174,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 507,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.8481262327416174,
+      "estimator_arm": "rgb",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 507,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.650197628458498,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.650197628458498,
+      "estimator_arm": "foodlist",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9110671936758893,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9110671936758893,
+      "estimator_arm": "foodlist",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9881422924901185,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9881422924901185,
+      "estimator_arm": "foodlist",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.2766798418972332,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.2766798418972332,
+      "estimator_arm": "foodlist",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5059288537549407,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.5059288537549407,
+      "estimator_arm": "foodlist",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7707509881422925,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.7707509881422925,
+      "estimator_arm": "foodlist",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4644268774703557,
+          "mean_width": 266.85965,
+          "median_width": 266.85965,
+          "n_eval": 506,
+          "undercoverage": 0.035573122529644285
+        }
+      },
+      "coverage": 0.4644268774703557,
+      "estimator_arm": "median",
+      "half_width": 133.429825,
+      "mean_width": 266.85965,
+      "median_width": 266.85965,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": 0.035573122529644285,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7391304347826086,
+          "mean_width": 385.29999,
+          "median_width": 385.29999,
+          "n_eval": 506,
+          "undercoverage": 0.0608695652173914
+        }
+      },
+      "coverage": 0.7391304347826086,
+      "estimator_arm": "median",
+      "half_width": 192.649995,
+      "mean_width": 385.29999,
+      "median_width": 385.29999,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": 0.0608695652173914,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8656126482213439,
+          "mean_width": 554.3321051999999,
+          "median_width": 554.3321051999999,
+          "n_eval": 506,
+          "undercoverage": 0.03438735177865615
+        }
+      },
+      "coverage": 0.8656126482213439,
+      "estimator_arm": "median",
+      "half_width": 277.16605259999994,
+      "mean_width": 554.3321051999999,
+      "median_width": 554.3321051999999,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": 0.03438735177865615,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4723320158102767,
+          "mean_width": 270.099976,
+          "median_width": 270.099976,
+          "n_eval": 506,
+          "undercoverage": 0.027667984189723327
+        }
+      },
+      "coverage": 0.4723320158102767,
+      "estimator_arm": "median",
+      "half_width": 135.049988,
+      "mean_width": 270.099976,
+      "median_width": 270.099976,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": 0.027667984189723327,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7272727272727273,
+          "mean_width": 379.21997000000005,
+          "median_width": 379.21997000000005,
+          "n_eval": 506,
+          "undercoverage": 0.07272727272727275
+        }
+      },
+      "coverage": 0.7272727272727273,
+      "estimator_arm": "median",
+      "half_width": 189.60998500000002,
+      "mean_width": 379.21997000000005,
+      "median_width": 379.21997000000005,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": 0.07272727272727275,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.857707509881423,
+          "mean_width": 518.8068860000001,
+          "median_width": 518.8068860000001,
+          "n_eval": 506,
+          "undercoverage": 0.04229249011857705
+        }
+      },
+      "coverage": 0.857707509881423,
+      "estimator_arm": "median",
+      "half_width": 259.40344300000004,
+      "mean_width": 518.8068860000001,
+      "median_width": 518.8068860000001,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": 0.04229249011857705,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.32806324110671936,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.32806324110671936,
+      "estimator_arm": "median",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8458498023715415,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.8458498023715415,
+      "estimator_arm": "median",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9525691699604744,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9525691699604744,
+      "estimator_arm": "median",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5217391304347826,
+          "mean_width": 202.0,
+          "median_width": 202.0,
+          "n_eval": 506,
+          "undercoverage": -0.021739130434782594
+        }
+      },
+      "coverage": 0.5217391304347826,
+      "estimator_arm": "median",
+      "half_width": 101.0,
+      "mean_width": 202.0,
+      "median_width": 202.0,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": -0.021739130434782594,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7885375494071146,
+          "mean_width": 298.0,
+          "median_width": 298.0,
+          "n_eval": 506,
+          "undercoverage": 0.01146245059288542
+        }
+      },
+      "coverage": 0.7885375494071146,
+      "estimator_arm": "median",
+      "half_width": 149.0,
+      "mean_width": 298.0,
+      "median_width": 298.0,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": 0.01146245059288542,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8913043478260869,
+          "mean_width": 415.0,
+          "median_width": 415.0,
+          "n_eval": 506,
+          "undercoverage": 0.008695652173913104
+        }
+      },
+      "coverage": 0.8913043478260869,
+      "estimator_arm": "median",
+      "half_width": 207.5,
+      "mean_width": 415.0,
+      "median_width": 415.0,
+      "method": "dev_residual",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": 0.008695652173913104,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5039525691699605,
+          "mean_width": 196.0,
+          "median_width": 196.0,
+          "n_eval": 506,
+          "undercoverage": -0.0039525691699604515
+        }
+      },
+      "coverage": 0.5039525691699605,
+      "estimator_arm": "median",
+      "half_width": 98.0,
+      "mean_width": 196.0,
+      "median_width": 196.0,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": -0.0039525691699604515,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7648221343873518,
+          "mean_width": 286.0,
+          "median_width": 286.0,
+          "n_eval": 506,
+          "undercoverage": 0.03517786561264824
+        }
+      },
+      "coverage": 0.7648221343873518,
+      "estimator_arm": "median",
+      "half_width": 143.0,
+      "mean_width": 286.0,
+      "median_width": 286.0,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": 0.03517786561264824,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8735177865612648,
+          "mean_width": 378.0,
+          "median_width": 378.0,
+          "n_eval": 506,
+          "undercoverage": 0.026482213438735247
+        }
+      },
+      "coverage": 0.8735177865612648,
+      "estimator_arm": "median",
+      "half_width": 189.0,
+      "mean_width": 378.0,
+      "median_width": 378.0,
+      "method": "split_conformal",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": 0.026482213438735247,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.1225296442687747,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.1225296442687747,
+      "estimator_arm": "median",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.2509881422924901,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.2509881422924901,
+      "estimator_arm": "median",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5197628458498024,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.5197628458498024,
+      "estimator_arm": "median",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.66600790513834,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.66600790513834,
+      "estimator_arm": "rgb",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9347826086956522,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9347826086956522,
+      "estimator_arm": "rgb",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9940711462450593,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9940711462450593,
+      "estimator_arm": "rgb",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.36363636363636365,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.36363636363636365,
+      "estimator_arm": "rgb",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.6284584980237155,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.6284584980237155,
+      "estimator_arm": "rgb",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8478260869565217,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 506,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.8478260869565217,
+      "estimator_arm": "rgb",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 506,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_plausible",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.6488095238095238,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.6488095238095238,
+      "estimator_arm": "foodlist",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9107142857142857,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9107142857142857,
+      "estimator_arm": "foodlist",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9880952380952381,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9880952380952381,
+      "estimator_arm": "foodlist",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.27722772277227725,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.27722772277227725,
+      "estimator_arm": "foodlist",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5069306930693069,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.5069306930693069,
+      "estimator_arm": "foodlist",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7702970297029703,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.7702970297029703,
+      "estimator_arm": "foodlist",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4642857142857143,
+          "mean_width": 266.85965,
+          "median_width": 266.85965,
+          "n_eval": 504,
+          "undercoverage": 0.0357142857142857
+        }
+      },
+      "coverage": 0.4642857142857143,
+      "estimator_arm": "median",
+      "half_width": 133.429825,
+      "mean_width": 266.85965,
+      "median_width": 266.85965,
+      "method": "dev_residual",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.5,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": 0.0357142857142857,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7400793650793651,
+          "mean_width": 385.29999,
+          "median_width": 385.29999,
+          "n_eval": 504,
+          "undercoverage": 0.05992063492063493
+        }
+      },
+      "coverage": 0.7400793650793651,
+      "estimator_arm": "median",
+      "half_width": 192.649995,
+      "mean_width": 385.29999,
+      "median_width": 385.29999,
+      "method": "dev_residual",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.8,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": 0.05992063492063493,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8650793650793651,
+          "mean_width": 554.3321051999999,
+          "median_width": 554.3321051999999,
+          "n_eval": 504,
+          "undercoverage": 0.03492063492063491
+        }
+      },
+      "coverage": 0.8650793650793651,
+      "estimator_arm": "median",
+      "half_width": 277.16605259999994,
+      "mean_width": 554.3321051999999,
+      "median_width": 554.3321051999999,
+      "method": "dev_residual",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.9,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": 0.03492063492063491,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.4722222222222222,
+          "mean_width": 270.099976,
+          "median_width": 270.099976,
+          "n_eval": 504,
+          "undercoverage": 0.02777777777777779
+        }
+      },
+      "coverage": 0.4722222222222222,
+      "estimator_arm": "median",
+      "half_width": 135.049988,
+      "mean_width": 270.099976,
+      "median_width": 270.099976,
+      "method": "split_conformal",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.5,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": 0.02777777777777779,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7281746031746031,
+          "mean_width": 379.21997000000005,
+          "median_width": 379.21997000000005,
+          "n_eval": 504,
+          "undercoverage": 0.0718253968253969
+        }
+      },
+      "coverage": 0.7281746031746031,
+      "estimator_arm": "median",
+      "half_width": 189.60998500000002,
+      "mean_width": 379.21997000000005,
+      "median_width": 379.21997000000005,
+      "method": "split_conformal",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.8,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": 0.0718253968253969,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8571428571428571,
+          "mean_width": 518.8068860000001,
+          "median_width": 518.8068860000001,
+          "n_eval": 504,
+          "undercoverage": 0.04285714285714293
+        }
+      },
+      "coverage": 0.8571428571428571,
+      "estimator_arm": "median",
+      "half_width": 259.40344300000004,
+      "mean_width": 518.8068860000001,
+      "median_width": 518.8068860000001,
+      "method": "split_conformal",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": 0.9,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": 0.04285714285714293,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.3273809523809524,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.3273809523809524,
+      "estimator_arm": "median",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8452380952380952,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.8452380952380952,
+      "estimator_arm": "median",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9523809523809523,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9523809523809523,
+      "estimator_arm": "median",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5207920792079208,
+          "mean_width": 202.0,
+          "median_width": 202.0,
+          "n_eval": 505,
+          "undercoverage": -0.02079207920792081
+        }
+      },
+      "coverage": 0.5207920792079208,
+      "estimator_arm": "median",
+      "half_width": 101.0,
+      "mean_width": 202.0,
+      "median_width": 202.0,
+      "method": "dev_residual",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": -0.02079207920792081,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7881188118811882,
+          "mean_width": 298.0,
+          "median_width": 298.0,
+          "n_eval": 505,
+          "undercoverage": 0.011881188118811892
+        }
+      },
+      "coverage": 0.7881188118811882,
+      "estimator_arm": "median",
+      "half_width": 149.0,
+      "mean_width": 298.0,
+      "median_width": 298.0,
+      "method": "dev_residual",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": 0.011881188118811892,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8910891089108911,
+          "mean_width": 415.0,
+          "median_width": 415.0,
+          "n_eval": 505,
+          "undercoverage": 0.008910891089108919
+        }
+      },
+      "coverage": 0.8910891089108911,
+      "estimator_arm": "median",
+      "half_width": 207.5,
+      "mean_width": 415.0,
+      "median_width": 415.0,
+      "method": "dev_residual",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": 0.008910891089108919,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.502970297029703,
+          "mean_width": 196.0,
+          "median_width": 196.0,
+          "n_eval": 505,
+          "undercoverage": -0.002970297029702973
+        }
+      },
+      "coverage": 0.502970297029703,
+      "estimator_arm": "median",
+      "half_width": 98.0,
+      "mean_width": 196.0,
+      "median_width": 196.0,
+      "method": "split_conformal",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.5,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": -0.002970297029702973,
+      "width_label": "0.5"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.7643564356435644,
+          "mean_width": 286.0,
+          "median_width": 286.0,
+          "n_eval": 505,
+          "undercoverage": 0.035643564356435675
+        }
+      },
+      "coverage": 0.7643564356435644,
+      "estimator_arm": "median",
+      "half_width": 143.0,
+      "mean_width": 286.0,
+      "median_width": 286.0,
+      "method": "split_conformal",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.8,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": 0.035643564356435675,
+      "width_label": "0.8"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8732673267326733,
+          "mean_width": 378.0,
+          "median_width": 378.0,
+          "n_eval": 505,
+          "undercoverage": 0.026732673267326756
+        }
+      },
+      "coverage": 0.8732673267326733,
+      "estimator_arm": "median",
+      "half_width": 189.0,
+      "mean_width": 378.0,
+      "median_width": 378.0,
+      "method": "split_conformal",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": 0.9,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": 0.026732673267326756,
+      "width_label": "0.9"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.12079207920792079,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.12079207920792079,
+      "estimator_arm": "median",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.2495049504950495,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.2495049504950495,
+      "estimator_arm": "median",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.5188118811881188,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.5188118811881188,
+      "estimator_arm": "median",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.6646825396825397,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.6646825396825397,
+      "estimator_arm": "rgb",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "100.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9345238095238095,
+          "mean_width": 500.0,
+          "median_width": 500.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9345238095238095,
+      "estimator_arm": "rgb",
+      "half_width": 250.0,
+      "mean_width": 500.0,
+      "median_width": 500.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "250.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.9940476190476191,
+          "mean_width": 1000.0,
+          "median_width": 1000.0,
+          "n_eval": 504,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.9940476190476191,
+      "estimator_arm": "rgb",
+      "half_width": 500.0,
+      "mean_width": 1000.0,
+      "median_width": 1000.0,
+      "method": "fixed_width",
+      "n_eval": 504,
+      "n_zero_excluded": 1,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "energy_kcal",
+      "undercoverage": null,
+      "width_label": "500.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.36237623762376237,
+          "mean_width": 50.0,
+          "median_width": 50.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.36237623762376237,
+      "estimator_arm": "rgb",
+      "half_width": 25.0,
+      "mean_width": 50.0,
+      "median_width": 50.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "25.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.6297029702970297,
+          "mean_width": 100.0,
+          "median_width": 100.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.6297029702970297,
+      "estimator_arm": "rgb",
+      "half_width": 50.0,
+      "mean_width": 100.0,
+      "median_width": 100.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "50.0"
+    },
+    {
+      "by_stratum": {
+        "size1": {
+          "coverage": null,
+          "mean_width": null,
+          "median_width": null,
+          "n_eval": 0,
+          "undercoverage": null
+        },
+        "size_ge2": {
+          "coverage": 0.8475247524752475,
+          "mean_width": 200.0,
+          "median_width": 200.0,
+          "n_eval": 505,
+          "undercoverage": null
+        }
+      },
+      "coverage": 0.8475247524752475,
+      "estimator_arm": "rgb",
+      "half_width": 100.0,
+      "mean_width": 200.0,
+      "median_width": 200.0,
+      "method": "fixed_width",
+      "n_eval": 505,
+      "n_zero_excluded": 0,
+      "nominal_level": null,
+      "population": "rgb_test_straddle_excluded",
+      "target": "mass_g",
+      "undercoverage": null,
+      "width_label": "100.0"
+    }
+  ],
+  "point_metrics": {
+    "depth_test|foodlist|energy_kcal": {
+      "mae": 101.73769686390533,
+      "median_abs_error": 62.65980100000001,
+      "n": 507,
+      "rmse": 153.24523198662325
+    },
+    "depth_test|foodlist|mass_g": {
+      "mae": 69.97172662721893,
+      "median_abs_error": 49.284000000000006,
+      "n": 507,
+      "rmse": 99.02149952177132
+    },
+    "depth_test|median|energy_kcal": {
+      "mae": 167.41216879684418,
+      "median_abs_error": 141.756129,
+      "n": 507,
+      "rmse": 217.64236540864763
+    },
+    "depth_test|median|mass_g": {
+      "mae": 115.3076923076923,
+      "median_abs_error": 98.0,
+      "n": 507,
+      "rmse": 153.02212007016905
+    },
+    "depth_test|rgbd|energy_kcal": {
+      "mae": 82.52106110848126,
+      "median_abs_error": 57.930775,
+      "n": 507,
+      "rmse": 119.44610191909271
+    },
+    "depth_test|rgbd|mass_g": {
+      "mae": 43.500269230769234,
+      "median_abs_error": 28.843500000000006,
+      "n": 507,
+      "rmse": 65.39900153141858
+    },
+    "depth_test|rgb|energy_kcal": {
+      "mae": 88.42017257593689,
+      "median_abs_error": 57.37609500000001,
+      "n": 507,
+      "rmse": 127.64735148405336
+    },
+    "depth_test|rgb|mass_g": {
+      "mae": 53.18768382642998,
+      "median_abs_error": 34.56570000000001,
+      "n": 507,
+      "rmse": 76.59742074971594
+    },
+    "rgb_test_plausible|foodlist|energy_kcal": {
+      "mae": 101.80605654150197,
+      "median_abs_error": 62.4471505,
+      "n": 506,
+      "rmse": 153.3675379434586
+    },
+    "rgb_test_plausible|foodlist|mass_g": {
+      "mae": 69.96492490118577,
+      "median_abs_error": 49.27920000000001,
+      "n": 506,
+      "rmse": 99.06555459293074
+    },
+    "rgb_test_plausible|median|energy_kcal": {
+      "mae": 167.3351770355731,
+      "median_abs_error": 141.60306549999999,
+      "n": 506,
+      "rmse": 217.66406482142537
+    },
+    "rgb_test_plausible|median|mass_g": {
+      "mae": 115.18774703557312,
+      "median_abs_error": 98.0,
+      "n": 506,
+      "rmse": 152.973291993214
+    },
+    "rgb_test_plausible|rgb|energy_kcal": {
+      "mae": 88.5479903083004,
+      "median_abs_error": 57.491273,
+      "n": 506,
+      "rmse": 127.7690627493722
+    },
+    "rgb_test_plausible|rgb|mass_g": {
+      "mae": 53.233496837944664,
+      "median_abs_error": 34.844150000000006,
+      "n": 506,
+      "rmse": 76.66146782934543
+    },
+    "rgb_test|foodlist|energy_kcal": {
+      "mae": 101.73769686390533,
+      "median_abs_error": 62.65980100000001,
+      "n": 507,
+      "rmse": 153.24523198662325
+    },
+    "rgb_test|foodlist|mass_g": {
+      "mae": 69.97172662721893,
+      "median_abs_error": 49.284000000000006,
+      "n": 507,
+      "rmse": 99.02149952177132
+    },
+    "rgb_test|median|energy_kcal": {
+      "mae": 167.41216879684418,
+      "median_abs_error": 141.756129,
+      "n": 507,
+      "rmse": 217.64236540864763
+    },
+    "rgb_test|median|mass_g": {
+      "mae": 115.3076923076923,
+      "median_abs_error": 98.0,
+      "n": 507,
+      "rmse": 153.02212007016905
+    },
+    "rgb_test|rgb|energy_kcal": {
+      "mae": 88.42017257593689,
+      "median_abs_error": 57.37609500000001,
+      "n": 507,
+      "rmse": 127.64735148405336
+    },
+    "rgb_test|rgb|mass_g": {
+      "mae": 53.18768382642998,
+      "median_abs_error": 34.56570000000001,
+      "n": 507,
+      "rmse": 76.59742074971594
+    }
+  },
+  "protocol": {
+    "conformal_calibration_fraction": 0.5,
+    "declaration_record": "This file is committed in Milestone 1, before any test-set scoring exists in git history. No width, level, or arm choice may derive from official-test rows.",
+    "declared_before_test_scoring": true,
+    "dev_residual_definition": "interval = pred +/- q, q = empirical |y_dev - pred_dev| quantile at the nominal level (linear interpolation, no finite-sample correction), over ALL eligible development rows.",
+    "fixed_width_rationale": "mass grid mirrors the locked scorer's absolute tolerance bands (25/50/100 g, FROZEN_CONFIG scoring.mass_abs_tols_g); energy grid brackets the committed development aggregate MAEs across arms (dev_metrics.csv: 90.3-167.4 kcal) - development-informed, test-free.",
+    "fixed_widths": {
+      "energy_kcal": [
+        100.0,
+        250.0,
+        500.0
+      ],
+      "mass_g": [
+        25.0,
+        50.0,
+        100.0
+      ]
+    },
+    "grouped_split_conformal_definition": "dev plate clusters split by seed into calibration/holdout halves (grouped: no plate spans both); cluster score = mean |residual| within cluster; half-width = conformal_quantile(cluster scores, level) with finite-sample correction ceil((n+1)*level) counting clusters.",
+    "nominal_levels": [
+      0.5,
+      0.8,
+      0.9
+    ],
+    "nominal_levels_rationale": "50/80/90% - the p50/p90 error-quantile flavor of the locked scorer plus an intermediate 80%; coverage promises a UI would plausibly make.",
+    "population_discipline": "official-test predictions are consumed read-only for scoring only; calibration uses development rows only.",
+    "unavailable_arm_policy": "methods requiring per-record development predictions that are not committed get an explicit unavailable entry with a machine-readable reason; the study does NOT re-fit or re-acquire PR41's models."
+  },
+  "seed": 20261010
+}
