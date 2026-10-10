@@ -52,6 +52,22 @@ public struct ReplayReport: Codable, Equatable {
     public var families: [String: FamilyReport]
 }
 
+/// One record's raw production-parser output, un-scored. Committed verbatim
+/// (as `reports/replay_predictions.jsonl`) so Python tooling never re-runs Swift.
+public struct ReplayPrediction: Codable, Equatable {
+    public var record_id: String
+    public var family: String
+    public var variant_kind: String
+    /// Whether the parser's keyword gate let it attempt extraction at all.
+    public var keyword_positive: Bool
+    /// `parsed != nil` for the production parser (whole-record abstention
+    /// otherwise: when false, all three value fields are null).
+    public var parsed: Bool
+    public var calories_per_serving: Double?
+    public var serving_size: String?
+    public var servings_per_container: Double?
+}
+
 /// Runs the production `NutritionLabelParser` over every corpus record and
 /// scores its extractions against the corpus truth tables.
 public enum CorpusReplay {
@@ -118,6 +134,35 @@ public enum CorpusReplay {
             groups: Set(records.map(\.group_id)).count,
             families: families
         )
+    }
+
+    /// Raw, un-scored per-record parser outputs in corpus order.
+    public static func predictions(records: [CorpusRecord]) -> [ReplayPrediction] {
+        records.map { record in
+            let outcome = NutritionLabelParser.parse(ocrText: record.lines)
+            return ReplayPrediction(
+                record_id: record.record_id,
+                family: record.family,
+                variant_kind: record.variant_kind,
+                keyword_positive: outcome.hadNutritionKeywords,
+                parsed: outcome.parsed != nil,
+                calories_per_serving: outcome.parsed?.caloriesPerServing,
+                serving_size: outcome.parsed?.servingSize,
+                servings_per_container: outcome.parsed?.servingsPerContainer
+            )
+        }
+    }
+
+    /// Compact JSONL (one prediction per line, sorted keys) for committing.
+    public static func predictionsJSONL(_ predictions: [ReplayPrediction]) throws -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        var lines: [String] = []
+        for prediction in predictions {
+            let data = try encoder.encode(prediction)
+            lines.append(String(data: data, encoding: .utf8) ?? "")
+        }
+        return lines.joined(separator: "\n") + (lines.isEmpty ? "" : "\n")
     }
 
     /// First observable truth entry for `fid` on a serving-like basis, else the

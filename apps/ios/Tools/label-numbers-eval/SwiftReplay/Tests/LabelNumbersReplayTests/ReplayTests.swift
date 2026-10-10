@@ -56,6 +56,34 @@ final class ReplayTests: XCTestCase {
         XCTAssertEqual(usClean.caloriesMatched, 60)
     }
 
+    /// The prediction dump covers every record in corpus order and keeps the
+    /// abstention contract: when the parser returns nothing, every value is null.
+    func testPredictionsCoverEveryRecordInOrder() throws {
+        let predictions = CorpusReplay.predictions(records: Self.corpus)
+        XCTAssertEqual(predictions.count, Self.corpus.count)
+        for (prediction, record) in zip(predictions, Self.corpus) {
+            XCTAssertEqual(prediction.record_id, record.record_id)
+            XCTAssertEqual(prediction.family, record.family)
+            XCTAssertEqual(prediction.variant_kind, record.variant_kind)
+            if !prediction.parsed {
+                XCTAssertNil(prediction.calories_per_serving, prediction.record_id)
+                XCTAssertNil(prediction.serving_size, prediction.record_id)
+                XCTAssertNil(prediction.servings_per_container, prediction.record_id)
+            }
+            if !prediction.keyword_positive {
+                XCTAssertFalse(prediction.parsed, prediction.record_id)
+            }
+        }
+    }
+
+    func testPredictionsJSONLIsDeterministicAndComplete() throws {
+        let first = try CorpusReplay.predictionsJSONL(CorpusReplay.predictions(records: Self.corpus))
+        let second = try CorpusReplay.predictionsJSONL(CorpusReplay.predictions(records: Self.corpus))
+        XCTAssertEqual(first, second)
+        XCTAssertEqual(first.split(separator: "\n").count, 480)
+        XCTAssertTrue(first.contains("\"LN-0001\""))
+        XCTAssertTrue(first.contains("keyword_positive"))
+    }
     /// Known production-parser gaps the corpus pins, so any parser change that
     /// alters them shows up here:
     /// - the serving-size capture is greedy and runs into the text that follows
