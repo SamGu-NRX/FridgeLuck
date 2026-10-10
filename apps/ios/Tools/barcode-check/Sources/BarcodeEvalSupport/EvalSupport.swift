@@ -83,31 +83,19 @@ public struct TokenMatchResolver: BarcodeCatalogResolver {
   }
 
   public func candidates(for productName: String?, brands: String?) -> [CatalogCandidate] {
-    let query = Self.tokens(in: [productName, brands].compactMap { $0 }.joined(separator: " "))
+    let query = CatalogScoring.tokens(in: [productName, brands].compactMap { $0 }.joined(separator: " "))
     guard !query.isEmpty else { return [] }
 
     var scored: [CatalogCandidate] = []
     for item in items {
-      let target = Self.tokens(in: item.name)
-      guard !target.isEmpty else { continue }
-      let overlap = Double(query.intersection(target).count)
-      let smaller = Double(min(query.count, target.count))
-      let score = overlap / smaller
-      if score >= 0.3 {
-        scored.append(CatalogCandidate(id: item.id, name: item.name, score: score))
-      }
+      let target = CatalogScoring.tokens(in: item.name)
+      guard let score = CatalogScoring.score(query: query, target: target) else { continue }
+      scored.append(CatalogCandidate(id: item.id, name: item.name, score: score))
     }
     return scored.sorted { lhs, rhs in
       if lhs.score != rhs.score { return lhs.score > rhs.score }
       return lhs.id < rhs.id
     }
-  }
-
-  public static func tokens(in text: String) -> Set<String> {
-    let lowered = text.lowercased()
-    return Set(
-      lowered.split(whereSeparator: { !$0.isLetter && !$0.isNumber }).map(String.init)
-    ).filter { $0.count > 1 }
   }
 }
 

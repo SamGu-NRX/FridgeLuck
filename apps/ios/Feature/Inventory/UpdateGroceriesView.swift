@@ -47,6 +47,7 @@ struct UpdateGroceriesView: View {
   @State private var cameraLaunchTask: Task<Void, Never>?
   @State private var successDismissTask: Task<Void, Never>?
   @State private var stageAppearanceTask: Task<Void, Never>?
+  @State private var showBarcodeIntake = false
 
   // Real analysis and commit state.
   @State private var analysisTask: Task<Void, Never>?
@@ -156,6 +157,9 @@ struct UpdateGroceriesView: View {
           }
         }
       )
+    }
+    .fullScreenCover(isPresented: $showBarcodeIntake) {
+      BarcodeIntakeView()
     }
     .sheet(isPresented: $showIngredientPicker, onDismiss: onIngredientPickerDismiss) {
       if let target = identityPickTarget {
@@ -696,6 +700,8 @@ struct UpdateGroceriesView: View {
     case .manual:
       selectedIngredientIDs = []
       showIngredientPicker = true
+    case .barcode:
+      showBarcodeIntake = true
     case .chooser:
       break
     }
