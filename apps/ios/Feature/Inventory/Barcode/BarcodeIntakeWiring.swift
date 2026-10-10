@@ -21,6 +21,9 @@ enum BarcodeIntakeWiring {
     return PinnedLookupCache(transport: transport)
   }
 
+  /// MainActor: BarcodeIntakeCoordinator is a @MainActor state machine and intake
+  /// screens construct it from SwiftUI onAppear/task contexts.
+  @MainActor
   static func makeCoordinator(deps: AppDependencies) -> BarcodeIntakeCoordinator {
     BarcodeIntakeCoordinator(
       lookup: makeLookup(),

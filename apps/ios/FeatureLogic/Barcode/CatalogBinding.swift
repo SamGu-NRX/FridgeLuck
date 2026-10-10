@@ -2,7 +2,7 @@ import Foundation
 
 /// A food the product could resolve to, scored by the injected resolver. Scores are the
 /// resolver's own confidence (0...1); the binder only classifies, it never rescores.
-public struct CatalogCandidate: Sendable, Equatable, Hashable {
+public struct CatalogCandidate: Identifiable, Sendable, Equatable, Hashable {
   public let id: Int64
   public let name: String
   public let score: Double

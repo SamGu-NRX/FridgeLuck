@@ -28,7 +28,7 @@ struct BarcodeScannerView: UIViewControllerRepresentable {
     init(onScan: @escaping (String) -> Void) {
       self.scanner = DataScannerViewController(
         recognizedDataTypes: [.barcode()],
-        qualityMode: .balanced,
+        qualityLevel: .balanced,
         isHighlightingEnabled: true
       )
       self.observer = ScanObserver()
