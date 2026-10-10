@@ -153,7 +153,11 @@ def main():
 
     os.makedirs(args.out_dir, exist_ok=True)
     con = duckdb.connect()
+    # Bounded footprint: full parquet scans have starved the sandbox before.
     con.execute("SET enable_object_cache=true")
+    con.execute("SET memory_limit='1500MB'")
+    con.execute("SET threads=4")
+    con.execute("SET temp_directory='/tmp/duckdb-spill'")
 
     beauty = read_with_retry(
         con,
@@ -171,13 +175,17 @@ def main():
         """,
         [])
 
+    # Materialize the filtered universe ONCE so the counts query and the
+    # selection query each scan the temp table, not the 7.9 GB parquet.
+    con.execute(f"CREATE TEMP TABLE stratified AS {base_sql(salt_sql, args.food_url or FOOD_URL)} SELECT * FROM stratified")
+
     universe = read_with_retry(
-        con, f"{base_sql(salt_sql, args.food_url or FOOD_URL)} SELECT stratum, count(*) AS n FROM stratified GROUP BY 1 ORDER BY 1",
+        con, "SELECT stratum, count(*) AS n FROM stratified GROUP BY 1 ORDER BY 1",
         [])
 
     rows = read_with_retry(
         con,
-        f"{base_sql(salt_sql, args.food_url or FOOD_URL)} SELECT * FROM (SELECT *, row_number() OVER (PARTITION BY stratum ORDER BY bucket, code) AS rn FROM stratified) WHERE rn <= ? ORDER BY stratum, rn",
+        "SELECT * FROM (SELECT *, row_number() OVER (PARTITION BY stratum ORDER BY bucket, code) AS rn FROM stratified) WHERE rn <= ? ORDER BY stratum, rn",
         [MAX_PER_STRATUM])
     cols = [d[0] for d in con.description]
     by_stratum = {}
