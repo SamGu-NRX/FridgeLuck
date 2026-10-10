@@ -1,0 +1,61 @@
+{
+  "regions": [
+    {
+      "end_line": 11,
+      "file": "apps/ios/Platform/Persistence/Services/HealthScoringService.swift",
+      "id": "HealthScore_struct",
+      "sha256": "9dc997f0208b647ddf2b9cc69f69311093d34783b72e83304e9832c89af1a9b4",
+      "start_line": 5
+    },
+    {
+      "end_line": 77,
+      "file": "apps/ios/Platform/Persistence/Services/HealthScoringService.swift",
+      "id": "computeScore_func",
+      "sha256": "47153fa06e53f2a0803ea568e8c66ba73be70a27af86d12f50aa767038b28709",
+      "start_line": 40
+    },
+    {
+      "end_line": 104,
+      "file": "apps/ios/Platform/Persistence/Services/HealthScoringService.swift",
+      "id": "buildReasoning_func",
+      "sha256": "380c5297de83cd7f8814fba8ae463ae28e9bf3c53637fa8e5a7d91e70bc322c5",
+      "start_line": 81
+    },
+    {
+      "end_line": 33,
+      "file": "apps/ios/Platform/Persistence/Services/NutritionService.swift",
+      "id": "RecipeMacros_struct",
+      "sha256": "0b9166a37a5a1a75311b5bb0481d592e43c42832acb8e59dd2c2b4f54cff2b2e",
+      "start_line": 5
+    },
+    {
+      "end_line": 42,
+      "file": "apps/ios/Domain/Models/Recipe.swift",
+      "id": "RecipeTags_struct",
+      "sha256": "6b381b12d369e20449dd183cda2ea6b10ba90c7c2e1027d7a5638b05a0a31a53",
+      "start_line": 6
+    },
+    {
+      "end_line": 78,
+      "file": "apps/ios/Domain/Models/Recipe.swift",
+      "id": "Recipe_struct",
+      "sha256": "955be8523606357e33839c3167070759ad293ffce937314d2003467f689095a6",
+      "start_line": 54
+    },
+    {
+      "end_line": 100,
+      "file": "apps/ios/Domain/Models/HealthProfile.swift",
+      "id": "HealthProfile_struct",
+      "sha256": "e389bf74d913efb291855a081dbb5794e06f9744009f7ef3b85bd5232f6fcb41",
+      "start_line": 51
+    },
+    {
+      "end_line": 136,
+      "file": "apps/ios/Platform/Persistence/Repository/RecipeScoring.swift",
+      "id": "sharedRankingScore_and_rankingReasons",
+      "sha256": "69b3da80723eadf9f0c02c7bef9198d1f08d774f281c08c8640516418196079e",
+      "start_line": 44
+    }
+  ],
+  "schema_version": 1
+}
