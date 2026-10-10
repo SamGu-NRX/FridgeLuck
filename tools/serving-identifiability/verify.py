@@ -206,7 +206,11 @@ def minimum_amount(regimes: dict, sensitivity: list[dict]) -> dict:
     by_res = {r["resolution_g"]: r for r in sensitivity}
     return {
         "per_regime_identifiable_share": {
-            name: (stats["identifiable_keys"], stats["keys"], stats["ambiguous_worlds"])
+            name: [
+                stats["identifiable_keys"],
+                stats["keys"],
+                stats["ambiguous_worlds"],
+            ]
             for name, stats in regimes.items()
         },
         "decisive_observation": (
