@@ -1,0 +1,193 @@
+{
+  "study": "serving-identifiability",
+  "base_branch": "feat/meal-photo-confirmation-v1",
+  "base_commit": "30f341847cec43b2788301ee07ee1e6a8cddb568",
+  "data_json_sha256": "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be",
+  "schema_registry": {
+    "target": {
+      "field": "consumed_servings",
+      "type": "positive int",
+      "source": "MealFinalizationViewModel.servings -> servingsConsumed"
+    },
+    "observations": [
+      {
+        "field": "plate_weight_g",
+        "absent_value": "None",
+        "role": "weighed plate total (external observation; exact grams at the scale resolution)"
+      },
+      {
+        "field": "recipe_identity",
+        "absent_value": "None",
+        "role": "revealed Recipe.id, or None when the recipe is unknown"
+      },
+      {
+        "field": "declared_servings",
+        "absent_value": "None",
+        "role": "revealed Recipe.servings, or None when not revealed"
+      },
+      {
+        "field": "portion_multiplier",
+        "absent_value": "None",
+        "role": "user-confirmed portion, or None when unconfirmed"
+      },
+      {
+        "field": "reference_weight_g",
+        "absent_value": "None",
+        "role": "explicit per-serving weight of this cook, or None"
+      },
+      {
+        "field": "scale_resolution_g",
+        "absent_value": "None",
+        "role": "kitchen-scale readout resolution (constructed: 5 g)"
+      }
+    ],
+    "world_facts": [
+      "recipe_id",
+      "title",
+      "declared_servings",
+      "batch_grams",
+      "consumed_servings (target)",
+      "portion_multiplier"
+    ],
+    "leak_rule": "observation keys may never contain the target field; enforced by schema.find_outcome_leak"
+  },
+  "source_bindings": [
+    {
+      "concept": "declared recipe servings",
+      "source_field": "Recipe.servings",
+      "file": "apps/ios/Domain/Models/Recipe.swift",
+      "line": 58,
+      "token": "var servings: Int",
+      "role": "denominator (recipe metadata)",
+      "schema_field": "declared_servings"
+    },
+    {
+      "concept": "consumed servings (confirmation state)",
+      "source_field": "MealFinalizationViewModel.servings",
+      "file": "apps/ios/Feature/Finalization/MealFinalizationViewModel.swift",
+      "line": 9,
+      "token": "var servings: Int = 1",
+      "role": "target (what the plate weight must identify)",
+      "schema_field": "consumed_servings"
+    },
+    {
+      "concept": "consumed servings passed to the log",
+      "source_field": "servingsConsumed: servings",
+      "file": "apps/ios/Feature/Finalization/MealFinalizationViewModel.swift",
+      "line": 58,
+      "token": "servingsConsumed: servings",
+      "role": "target (flows into recordCooking/applyConsumption)",
+      "schema_field": "consumed_servings"
+    },
+    {
+      "concept": "portion multiplier (user-confirmed)",
+      "source_field": "MealLogService.logMeal portionMultiplier",
+      "file": "apps/ios/Platform/Persistence/Services/MealLogService.swift",
+      "line": 74,
+      "token": "portionMultiplier: Double = 1.0,",
+      "role": "observation (confirmed at log time, not observable from the plate)",
+      "schema_field": "portion_multiplier"
+    },
+    {
+      "concept": "portion multiplier validity guard",
+      "source_field": "MealLogError.invalidPortionMultiplier",
+      "file": "apps/ios/Platform/Persistence/Services/MealLogService.swift",
+      "line": 79,
+      "token": "guard portionMultiplier.isFinite, portionMultiplier > 0 else {",
+      "role": "validity rule (mirrored as InvalidPortionMultiplier)",
+      "schema_field": "portion_multiplier"
+    },
+    {
+      "concept": "servings clamp at log time",
+      "source_field": "safeServings",
+      "file": "apps/ios/Platform/Persistence/Services/MealLogService.swift",
+      "line": 78,
+      "token": "let safeServings = max(1, servingsConsumed)",
+      "role": "validity rule (target domain is positive integers)",
+      "schema_field": "consumed_servings"
+    },
+    {
+      "concept": "forward model: share of the recipe one log covers",
+      "source_field": "InventoryRepository.servingFactor",
+      "file": "apps/ios/Platform/Persistence/Repository/InventoryRepository.swift",
+      "line": 317,
+      "token": "Double(max(0, servingsConsumed)) * portionMultiplier / Double(max(recipeServings, 1))",
+      "role": "forward model (transcribed exactly in schema.serving_factor)",
+      "schema_field": "(forward model)"
+    },
+    {
+      "concept": "consumption clamp",
+      "source_field": "safeServingsConsumed",
+      "file": "apps/ios/Platform/Persistence/Repository/InventoryRepository.swift",
+      "line": 255,
+      "token": "let safeServingsConsumed = max(0, servingsConsumed)",
+      "role": "validity rule",
+      "schema_field": "consumed_servings"
+    },
+    {
+      "concept": "batch grams per ingredient (required)",
+      "source_field": "RecipeIngredient.quantityGrams",
+      "file": "apps/ios/Domain/Models/Recipe.swift",
+      "line": 97,
+      "token": "var quantityGrams: Double",
+      "role": "world fact (bundled per-ingredient grams; sum = declared batch)",
+      "schema_field": "batch_grams (latent)"
+    },
+    {
+      "concept": "required-only scaling",
+      "source_field": "MealBreakdownContent.make doc comment",
+      "file": "apps/ios/Feature/Estimate/ReverseScanResultsSections.swift",
+      "line": 63,
+      "token": "Only required ingredients are listed, with the scaling `InventoryRepository.applyConsumption`",
+      "role": "modeling decision (batch = sum of required ingredient grams)",
+      "schema_field": "batch_grams (latent)"
+    },
+    {
+      "concept": "bundled declared servings",
+      "source_field": "RecipeArray.servings",
+      "file": "apps/ios/Platform/Persistence/Bundle/BundledDataLoader.swift",
+      "line": 51,
+      "token": "let servings: Int",
+      "role": "denominator (bundled metadata; data.json values are 1..3)",
+      "schema_field": "declared_servings"
+    },
+    {
+      "concept": "confirmation policy statement",
+      "source_field": "MealPhotoConfirmationPolicy doc comment",
+      "file": "apps/ios/FeatureLogic/Recipe/MealPhotoConfirmationPolicy.swift",
+      "line": 6,
+      "token": "logged amounts follow the dish, servings and portion the user confirms.",
+      "role": "observation model statement (dish/servings/portion are the confirmable evidence)",
+      "schema_field": "recipe_identity, consumed_servings, portion_multiplier"
+    },
+    {
+      "concept": "bundled recipe metadata",
+      "source_field": "data.json recipes array",
+      "file": "apps/ios/Resources/data.json",
+      "line": 604,
+      "token": "\"recipes\": [",
+      "role": "family metadata source (166 recipes with ingredient gram quantities)",
+      "schema_field": "batch_grams, declared_servings"
+    },
+    {
+      "concept": "weighed plate total",
+      "source_field": "(absent from app source)",
+      "file": null,
+      "line": null,
+      "token": null,
+      "role": "external observation: no scale/plate-weight input exists in the app source on this branch, so the plate weight enters only as this study's external observation",
+      "schema_field": "plate_weight_g"
+    }
+  ],
+  "witness_counts": {
+    "witness_pairs": {
+      "same_evidence_different_allocations": 1,
+      "unknown_recipe_identity": 1,
+      "portion_reference_tradeoff": 1,
+      "resolved_by_portion_confirmation": 1
+    },
+    "invalid_observation_cases": 11,
+    "note": "hand-computed pairs; every number is asserted against the bundled recipe metadata before the witness is returned"
+  },
+  "verification": "pass"
+}
