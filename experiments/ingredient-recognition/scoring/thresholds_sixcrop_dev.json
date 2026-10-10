@@ -88,8 +88,7 @@
    "abstain_images": 19
   }
  ],
- "note": "Threshold developed on the train-split development run only; the validation split was never touched during selection. Final runs use chosen_threshold frozen here.",
+ "note": "Threshold developed on the train-split development run only; the validation split was never touched during selection. Final runs use frozen_threshold (chosen_threshold when the raw argmax was kept).",
  "frozen_threshold": 0.25,
- "choice_note": "Dev protocol: deterministic random sample of 300 train images (seed 0), not the shard-ordered head. Strict max-F1 on the dev sweep is 0.25 (F1 0.4048), an interior peak (0.2 -> 0.3958, 0.3 -> 0.3966). Frozen as the six-crop baseline threshold for the final validation runs.",
- "final_runs_use": "observe.py --crop-schedule six --threshold 0.25"
+ "frozen_rationale": "Frozen by decision rather than raw argmax; see REPORT.md (threshold development section) for the reasoning."
 }

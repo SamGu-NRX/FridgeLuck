@@ -96,6 +96,11 @@ def main() -> None:
     ap.add_argument("--manifest", default=str(EXPERIMENT_ROOT / "manifest.json"))
     ap.add_argument("--thresholds", default="0.05,0.1,0.15,0.2,0.25,0.3,0.4,0.5")
     ap.add_argument("--out", default=str(EXPERIMENT_ROOT / "scoring" / "thresholds.json"))
+    ap.add_argument(
+        "--frozen-threshold", type=float, default=None,
+        help="threshold actually frozen for final runs, when the deliberate "
+             "choice differs from the raw argmax (recorded in the artifact)",
+    )
     args = ap.parse_args()
 
     taxonomy = load_taxonomy()
@@ -135,11 +140,18 @@ def main() -> None:
         "note": (
             "Threshold developed on the train-split development run only; the "
             "validation split was never touched during selection. Final runs "
-            "use chosen_threshold frozen here."
+            "use frozen_threshold (chosen_threshold when the raw argmax was "
+            "kept)."
         ),
     }
+    if args.frozen_threshold is not None:
+        out["frozen_threshold"] = args.frozen_threshold
+        out["frozen_rationale"] = (
+            "Frozen by decision rather than raw argmax; see REPORT.md "
+            "(threshold development section) for the reasoning."
+        )
     Path(args.out).write_text(json.dumps(out, indent=1) + "\n")
-    print(f"chosen threshold: {best['threshold']} -> {args.out}")
+    print(f"chosen threshold: {best['threshold']} (frozen: {out.get('frozen_threshold', best['threshold'])}) -> {args.out}")
 
 
 if __name__ == "__main__":

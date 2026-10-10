@@ -24,11 +24,29 @@ Over milestone 1 (frozen manifest, taxonomy, resolution port) this milestone:
 There is no Apple silicon in this environment, so the app's Vision classifier is
 substituted by **CLIP ViT-B-32 (laion2b_s34b_b79k) zero-shot softmax** over the
 curated label set. The app's entire surrounding pipeline is reproduced faithfully:
-downscaling, the six-crop schedule from `ScanImagePreprocessor.swift`, the curated
-lexicon → catalog resolution (differentially verified against 186 Swift probe cases,
-zero differences), best-per-ingredient deduplication, and optional absorber labels.
-What this measures is the *pipeline around the classifier*; the classifier itself is
-a stand-in. Apple-device and macOS-Vision replay remain unrun (see "Not checked").
+downscaling, the six-crop schedule from `ScanImagePreprocessor.swift`, best-per-ingredient
+deduplication, and optional absorber labels. What this measures is the *pipeline around
+the classifier*; the classifier itself is a stand-in. Apple-device and macOS-Vision
+replay remain unrun (see "Not checked").
+
+### What was actually executed vs what was not
+
+Precision about the resolution path matters for interpreting these numbers:
+
+- **Executed — the lexicon port.** The curated-lexicon half of resolution
+  (`resolution/app_resolution.py`) is a direct Python port of the Swift
+  `IngredientLexicon`, and it **was executed differentially against 186 genuine Swift
+  probe runs with zero differences**. Every resolution decision that produced a
+  detection in the tables below went through this verified port.
+- **Not executed — the production GRDB resolver.** The app's real
+  `IngredientCatalogResolver` is GRDB/SQLite-backed and **was never executed in this
+  environment**. The benchmark's catalog lookups go through a sqlite3 replica of the
+  resolver's SQL semantics, validated by golden tests over the same SQL strings
+  (`tests/test_resolution_port.py`). That replica covers the resolver's lookup
+  semantics, but not GRDB's runtime behavior (type affinity, query planning, migrations)
+  — treat catalog-path resolutions as semantics-equivalent, not execution-verified.
+- **Executed — the open-model classifier** (CLIP ViT-B/32) and **not executed — the
+  app's Vision classifier**, as documented throughout.
 
 ## Ground truth and scoring definitions
 
@@ -137,9 +155,12 @@ dev embeds 300 full-resolution images (hence 3.9 GB RSS vs 1.5 GB for crops).
 - **No Apple inference**: Vision classification, the true on-device model, and
   iOS-side integration were not exercised. There is no Xcode/macOS here; iOS changes
   would be checked by the repo's hosted CI and portable tests only. The genuine
-  Apple-observation replay adapter (ingesting observation exports from the device)
-  is still not implemented — the observation schema (`crops`/`detections` records)
-  is the intended contract for it.
+  Apple-observation replay adapter (`runner/apple_replay.py`) is implemented and
+  unit-tested against clearly-labeled synthetic schema fixtures, but **no genuine
+  Apple run exists**: the adapter converts a device export and invents nothing, and
+  no device export has been captured or committed. Its observation schema
+  (`crops`/`detections` records, `source: "apple_device"` in run metadata) is the
+  contract a device capture should meet.
 - **CLIP zero-shot is a classifier substitute.** Absolute numbers bound the
   *pipeline*, not the product; the app's Vision model may be materially better or
   worse.
@@ -179,8 +200,15 @@ python3 scoring/score.py --split validation \
 python3 scoring/score.py --split validation \
   --observations observations/openmodel_validation_curated_absorberson_wholecrop.jsonl.gz
 
-# tests (35 pass)
+# tests (40 pass)
 python3 -m pytest experiments/ingredient-recognition/tests -q
+
+# byte-stable report verification (scoring determinism + REPORT.md agreement)
+python3 scoring/verify_report.py
+
+# (when a genuine device export exists) Apple-observation replay:
+# python3 runner/apple_replay.py --export <device-export.json> --split validation \
+#   --threshold 0.1 --out observations/apple_validation.jsonl.gz
 ```
 
 ## License and data notes
