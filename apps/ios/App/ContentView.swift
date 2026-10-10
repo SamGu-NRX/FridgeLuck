@@ -121,6 +121,7 @@ struct ContentView: View {
   @State private var selectedTab: AppTab = .home
   @State private var hasOnboarded = false
   @State private var navigateToScan = false
+  @State private var navigateToSearch = false
   @State private var navigateToReverseScan = false
   @State private var navigateToDemoMode = false
   @State private var navigateToDirectReview = false
@@ -312,8 +313,22 @@ struct ContentView: View {
           spotlightCoordinator: spotlightCoordinator
         )
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+          ToolbarItem(placement: .topBarTrailing) {
+            Button {
+              openSearch()
+            } label: {
+              Image(systemName: "magnifyingglass")
+            }
+            .accessibilityLabel(Text("Search"))
+          }
+        }
         .navigationDestination(isPresented: $navigateToScan) {
           ScanView()
+        }
+        .navigationDestination(isPresented: $navigateToSearch) {
+          SearchScreen()
+            .environmentObject(deps)
         }
         .navigationDestination(isPresented: $navigateToReverseScan) {
           ReverseScanMealView()
@@ -531,6 +546,11 @@ struct ContentView: View {
     case .onboarding:
       showOnboarding = true
     }
+  }
+
+  private func openSearch() {
+    selectedTab = .home
+    navigateToSearch = true
   }
 
   private func openReverseScan() {

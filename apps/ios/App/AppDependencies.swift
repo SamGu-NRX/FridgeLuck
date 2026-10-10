@@ -148,9 +148,12 @@ final class AppDependencies: ObservableObject {
       recipeRepository: recipeRepository
     )
     let appDatabasePath = appDatabase.path
-    let searchIndexPath = (appDatabasePath as NSString)
-      .deletingLastPathComponent
-      .appendingPathComponent("fridgeluck-search-index.sqlite")
+    // Plain concatenation: on macOS, UniformTypeIdentifiers adds
+    // appendingPathComponent(_:conformingTo:) to String and that overload
+    // wins over the NSString one, breaking the build.
+    let searchIndexPath =
+      (appDatabasePath as NSString).deletingLastPathComponent
+      + "/fridgeluck-search-index.sqlite"
     self.searchIndexService = SearchIndexService(
       indexPath: searchIndexPath,
       sources: searchSources,
