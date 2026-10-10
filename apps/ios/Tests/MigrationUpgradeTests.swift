@@ -14,14 +14,95 @@ final class MigrationUpgradeTests: XCTestCase {
 
     try DatabaseMigrations.migrate(db)
 
+    // The FULL ordered chain: a v15-upgraded database must apply every migration in
+    // registration order, ending with the historical-nutrition snapshot cutover.
     let applied = try db.read { try String.fetchAll($0, sql: "SELECT identifier FROM grdb_migrations") }
     XCTAssertEqual(
-      Array(applied.suffix(5)),
+      applied,
       [
-        "v16_inventory_quantity_estimates", "v17_cooking_portion_multiplier",
-        "v18_cooking_history_swaps", "v19_accepted_meal_consumption_plan",
-        "v20_accepted_meal_revision",
+        "v1_initial", "v2_ingredient_education_fields", "v3_dish_templates",
+        "v4_ingredient_aliases", "v5_ingredient_display_metadata",
+        "v6_cooking_photo_servings", "v7_usda_catalog_state", "v8_bundled_recipe_state",
+        "v9_smart_fridge_inventory", "v10_confidence_learning",
+        "v11_reconcile_ingredientless_recipe_links", "v12_required_onboarding_identity",
+        "v13_ingredient_favorites", "v14_pantry_assumptions_saved_winners",
+        "v15_notification_rules_and_opportunities", "v16_inventory_quantity_estimates",
+        "v17_cooking_portion_multiplier", "v18_cooking_history_swaps",
+        "v19_accepted_meal_consumption_plan", "v20_accepted_meal_revision",
+        "v21_historical_nutrition_snapshots",
       ])
+  }
+
+  func testUpgradePreservesLegacyMealsAndBackfillsTheirSnapshots() throws {
+    let db = try makeV15Database()
+
+    try DatabaseMigrations.migrate(db)
+
+    // Pre-existing meals keep their data; the accepted-plan columns read as
+    // "no stored plan, accepted revision 1" for rows written before plans existed.
+    let legacy = try db.read { db in
+      try Row.fetchAll(
+        db,
+        sql: """
+          SELECT id, accepted_plan_json, accepted_plan_identity, accepted_revision
+          FROM cooking_history ORDER BY id
+          """
+      ).map { row in
+        (
+          id: row["id"] as Int64,
+          hasPlan: (row["accepted_plan_json"] as String?) != nil,
+          hasIdentity: (row["accepted_plan_identity"] as String?) != nil,
+          revision: row["accepted_revision"] as Int
+        )
+      }
+    }
+    XCTAssertEqual(legacy.map { $0.id }, [1, 2, 3])
+    XCTAssertTrue(legacy.allSatisfy { !$0.hasPlan && !$0.hasIdentity && $0.revision == 1 })
+
+    // Every pre-existing meal gains an upgrade-backfilled snapshot header (the
+    // join is on the recipe, so the NULL-timestamp meal is backfilled too).
+    let headers = try db.read { db in
+      try Row.fetchAll(
+        db,
+        sql: "SELECT history_id, recipe_servings, snapshot_version, provenance FROM cooking_history_nutrition_snapshots ORDER BY history_id"
+      ).map { row -> (Int64, Int, Int, String) in
+        (row["history_id"], row["recipe_servings"], row["snapshot_version"], row["provenance"])
+      }
+    }
+    XCTAssertEqual(headers.map { $0.0 }, [1, 2, 3])
+    XCTAssertTrue(headers.allSatisfy { $0.1 == 2 && $0.2 == 1 && $0.3 == "upgrade_backfill" })
+
+    // Frozen lines are the recipe's reference grams with per-100 g nutrients from
+    // the catalog at upgrade time (meal 2): egg line index 0, rice line index 1 —
+    // the fold with the meal's servings factor is asserted by the journal test.
+    let lines = try db.read { db in
+      try Row.fetchAll(
+        db,
+        sql: """
+          SELECT line_index, original_ingredient_id, substitute_ingredient_id, swap_ratio,
+                 quantity_grams, calories
+          FROM cooking_history_nutrition_lines WHERE history_id = 2 ORDER BY line_index
+          """
+      ).map { row -> (Int, Int64, Int?, Double, Double, Double) in
+        (
+          row["line_index"], row["original_ingredient_id"], row["substitute_ingredient_id"] as Int?,
+          row["swap_ratio"], row["quantity_grams"], row["calories"]
+        )
+      }
+    }
+    XCTAssertEqual(lines.count, 2)
+    XCTAssertEqual(lines[0].0, 0)
+    XCTAssertEqual(lines[0].1, 1)
+    XCTAssertNil(lines[0].2)
+    XCTAssertEqual(lines[0].3, 1.0, accuracy: 0.001)
+    XCTAssertEqual(lines[0].4, 100, accuracy: 0.001)
+    XCTAssertEqual(lines[0].5, 140, accuracy: 0.001)
+    XCTAssertEqual(lines[1].0, 1)
+    XCTAssertEqual(lines[1].1, 2)
+    XCTAssertNil(lines[1].2)
+    XCTAssertEqual(lines[1].3, 1.0, accuracy: 0.001)
+    XCTAssertEqual(lines[1].4, 200, accuracy: 0.001)
+    XCTAssertEqual(lines[1].5, 130, accuracy: 0.001)
   }
 
   func testExistingMealsSurviveUnchangedAsFullPortionsWithoutSwaps() throws {
