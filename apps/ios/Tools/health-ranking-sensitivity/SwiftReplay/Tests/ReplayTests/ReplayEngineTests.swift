@@ -97,10 +97,10 @@ final class ReplayEngineTests: XCTestCase {
     let (matrix, bounds) = Self.makeFixture()
     let a = try ReplayEngine.runExperiment(
       matrix: matrix, bounds: bounds, outputDir: NSTemporaryDirectory() + "/replay-a",
-      rawSampleDraws: 3)
+      windowDraws: 3)
     let b = try ReplayEngine.runExperiment(
       matrix: matrix, bounds: bounds, outputDir: NSTemporaryDirectory() + "/replay-b",
-      rawSampleDraws: 3)
+      windowDraws: 3)
     // wallMs is timing metadata, not a measurement: strip it before comparing.
     var a2 = a
     var b2 = b
