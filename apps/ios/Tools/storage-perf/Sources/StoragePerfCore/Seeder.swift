@@ -345,11 +345,8 @@ enum WorkloadSeeder {
 
           func pickRecentLot() -> Int64? {
             guard !recent.isEmpty else { return nil }
-            for _ in 0..<4 {
-              let candidate = recent[rng.int(recent.count)]
-              return candidate.id
-            }
-            return nil
+            let candidate = recent[rng.int(recent.count)]
+            return candidate.id
           }
 
           func lotIndex(_ lotId: Int64) -> Int? {
