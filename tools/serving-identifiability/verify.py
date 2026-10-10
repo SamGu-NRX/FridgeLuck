@@ -159,13 +159,22 @@ def exhibit_r4_ambiguities(family: list[schema.World]) -> list[dict]:
 
 
 def resolution_sensitivity(family: list[schema.World]) -> list[dict]:
-    """R4 ambiguity as the scale readout coarsens/finens."""
+    """R4 ambiguity as the scale readout coarsens/finens.
+
+    Worlds whose readout rounds to zero at a given resolution have no valid
+    plate observation there (make_evidence refuses a non-positive plate) and
+    are counted as unmeasurable instead of grouped.
+    """
     rows = []
     for res in SENSITIVITY_RESOLUTIONS:
         kwargs = dict(en.REGIMES["R4_plus_portion"])
         kwargs["scale_resolution_g"] = res
         groups: dict[tuple, list[schema.World]] = {}
+        unmeasurable = 0
         for w in family:
+            if schema.observed_plate_grams(w, res) <= 0:
+                unmeasurable += 1
+                continue
             ev = schema.evidence_from_world(w, **kwargs)
             groups.setdefault(schema.observation_key(ev), []).append(w)
         ambiguous = {k: v for k, v in groups.items() if len(en.class_targets(v)) > 1}
@@ -175,9 +184,21 @@ def resolution_sensitivity(family: list[schema.World]) -> list[dict]:
                 "keys": len(groups),
                 "ambiguous_keys": len(ambiguous),
                 "ambiguous_worlds": sum(len(v) for v in ambiguous.values()),
+                "unmeasurable_worlds": unmeasurable,
             }
         )
     return rows
+
+
+def one_g_clause(sensitivity: list[dict]) -> str:
+    """Data-driven 1 g sentence — never hardcode the outcome here."""
+    exact = [r for r in sensitivity if r["resolution_g"] == "1"][0]
+    if exact["ambiguous_keys"] == 0:
+        return "; at 1 g resolution the measurable family is fully identifiable"
+    return (
+        f"; at 1 g resolution {exact['ambiguous_keys']} keys "
+        f"({exact['ambiguous_worlds']} worlds) remain ambiguous"
+    )
 
 
 def minimum_amount(regimes: dict, sensitivity: list[dict]) -> dict:
@@ -195,13 +216,16 @@ def minimum_amount(regimes: dict, sensitivity: list[dict]) -> dict:
         "residual_at_5g": {
             "ambiguous_keys": by_res["5"]["ambiguous_keys"],
             "ambiguous_worlds": by_res["5"]["ambiguous_worlds"],
+            "unmeasurable_worlds": by_res["5"]["unmeasurable_worlds"],
             "cause": "5 g readout rounds plates a few grams apart onto one step",
         },
         "identifiable_at_1g": {
             "ambiguous_keys": by_res["1"]["ambiguous_keys"],
             "ambiguous_worlds": by_res["1"]["ambiguous_worlds"],
-            "note": "finer readout + confirmed portion resolves the residual",
+            "unmeasurable_worlds": by_res["1"]["unmeasurable_worlds"],
+            "note": one_g_clause(sensitivity).lstrip("; "),
         },
+        "one_g_clause": one_g_clause(sensitivity),
     }
 
 
@@ -271,9 +295,14 @@ keys remain ambiguous:
 Cause: the 5 g readout rounds rendered plates that are a few grams apart onto
 the same step. Finer readouts dissolve them:
 
-| scale resolution | R4 ambiguous keys | R4 ambiguous worlds |
-|---|---|---|
+| scale resolution | R4 ambiguous keys | R4 ambiguous worlds | unmeasurable (reads 0 g) |
+|---|---|---|---|
 {sensitivity_rows}
+
+At coarse readouts some legitimately tiny plates round to zero grams - no
+valid plate observation exists for those worlds at that resolution
+(`make_evidence` refuses a non-positive plate), so they are counted
+unmeasurable rather than grouped.
 
 ## Leak canary
 
@@ -288,8 +317,8 @@ run, not just in unit tests.
 The **confirmed portion multiplier** is the decisive observation: adding it
 (R3 -> R4) collapses ambiguity by roughly three orders of magnitude at the key
 level and cuts ambiguous worlds to the readout floor. With portion confirmed,
-the only residual is the 5 g readout artifact (the exhibits above); at 1 g
-resolution the family is fully identifiable. Recipe identity and declared
+the only residual is the 5 g readout artifact (the exhibits above){one_g_clause}.
+Recipe identity and declared
 servings alone (R2) leave the cook-size x portion trade-off wide open - the
 same plate is one serving of a double cook or two servings of a single cook -
 which is exactly witness 1. A per-serving reference weight (R3) pins the
@@ -344,7 +373,8 @@ def render_markdown(doc: dict) -> str:
         for i, ex in enumerate(doc["r4_surviving_ambiguities"])
     )
     sensitivity_rows = "\n".join(
-        f"| {r['resolution_g']} g | {r['ambiguous_keys']} | {r['ambiguous_worlds']} |"
+        f"| {r['resolution_g']} g | {r['ambiguous_keys']} | {r['ambiguous_worlds']} | "
+        f"{r['unmeasurable_worlds']} |"
         for r in doc["resolution_sensitivity_r4"]
     )
     canary = doc["leak_canary"]
@@ -355,6 +385,7 @@ def render_markdown(doc: dict) -> str:
         r4_ambiguous=len(doc["r4_surviving_ambiguities"]),
         r4_exhibits=r4_exhibits,
         sensitivity_rows=sensitivity_rows,
+        one_g_clause=doc["minimum_amount"]["one_g_clause"],
         honest_clean=canary["honest_key_clean"],
         mutated_flagged=canary["mutated_key_flagged"],
     )
