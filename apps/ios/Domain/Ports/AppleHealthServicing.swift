@@ -1,4 +1,8 @@
+// Guarded for portable check harnesses: this port only needs PermissionStatus, which the
+// harness provides directly; the app gets it from the FLFeatureLogic module.
+#if canImport(FLFeatureLogic)
 import FLFeatureLogic
+#endif
 import Foundation
 
 enum AppleHealthAuthorizationRequestStatus: Sendable {

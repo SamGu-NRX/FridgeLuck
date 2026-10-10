@@ -365,6 +365,73 @@ final class InventoryRepository: Sendable {
     }
   }
 
+  // MARK: - Accepted-Plan Consumption
+
+  /// Transaction-scoped consumption of an accepted plan: walks the lines in plan order and
+  /// takes exactly each line's planned grams (capped at stock) with events attributed to
+  /// the meal's sourceRef. Returns the lines with `appliedGrams` filled, so the accepted
+  /// record shows what actually came out of the Kitchen.
+  func applyPlanConsumption(
+    in db: Database,
+    plan: MealConsumptionPlan,
+    sourceRef: String
+  ) throws -> [MealConsumptionPlanLine] {
+    var appliedLines: [MealConsumptionPlanLine] = []
+    for line in plan.lines {
+      var appliedLine = line
+      appliedLine.appliedGrams = try consumeIngredientLots(
+        db: db,
+        ingredientId: line.resolvedIngredientId,
+        requiredGrams: max(0, line.plannedGrams),
+        sourceRef: sourceRef
+      )
+      appliedLines.append(appliedLine)
+    }
+    return appliedLines
+  }
+
+  /// Read-only preview of what applying this plan takes out, line by line in plan order —
+  /// the same walk `applyPlanConsumption(in:plan:sourceRef:)` does, so the preview is what
+  /// logging does even when two lines resolve to the same ingredient.
+  func previewPlanConsumption(plan: MealConsumptionPlan) throws -> [MealPlanLinePreview] {
+    try db.read { db in
+      var stockById: [Int64: Double] = [:]
+      return try plan.lines.map { line in
+        let requested = max(0, line.plannedGrams)
+        if stockById[line.resolvedIngredientId] == nil {
+          stockById[line.resolvedIngredientId] = try availableStockGrams(
+            db: db,
+            ingredientId: line.resolvedIngredientId
+          )
+        }
+        let available = max(0, stockById[line.resolvedIngredientId] ?? 0)
+        let deducted = min(requested, available)
+        stockById[line.resolvedIngredientId] = available - deducted
+        return MealPlanLinePreview(
+          lineKey: line.lineKey,
+          resolvedIngredientId: line.resolvedIngredientId,
+          ingredientName: line.displayName,
+          plannedGrams: requested,
+          availableGrams: available,
+          deductedGrams: deducted,
+          shortfallGrams: max(0, requested - deducted)
+        )
+      }
+    }
+  }
+
+  private func availableStockGrams(db: Database, ingredientId: Int64) throws -> Double {
+    try Double.fetchOne(
+      db,
+      sql: """
+        SELECT COALESCE(SUM(remaining_grams), 0)
+        FROM inventory_lots
+        WHERE ingredient_id = ? AND remaining_grams > 0
+        """,
+      arguments: [ingredientId]
+    ) ?? 0
+  }
+
   // MARK: - Read Models
 
   func totalRemainingGrams(for ingredientId: Int64) throws -> Double {

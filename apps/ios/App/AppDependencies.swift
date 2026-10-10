@@ -104,8 +104,7 @@ final class AppDependencies: ObservableObject {
       db: db,
       recipeRepository: recipeRepository,
       personalizationService: personalizationService,
-      inventoryRepository: inventoryRepository,
-      imageStorageService: imageStorageService
+      inventoryRepository: inventoryRepository
     )
 
     self.visionService = VisionService(

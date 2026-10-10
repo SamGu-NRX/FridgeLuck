@@ -309,10 +309,21 @@ struct ReverseScanMealView: View {
               value: resultsAppeared
             )
 
-          ReverseScanIngredientBreakdownSection(
-            recipe: mealRecipe?.recipe,
-            portionMultiplier: portionMultiplier,
-            servings: servings
+          MealPlanEditorSection(
+            plan: consumptionPlan,
+            recipeId: mealRecipe?.recipe.id,
+            onLineEdited: { index, grams in
+              guard var updated = consumptionPlan, updated.lines.indices.contains(index) else {
+                return
+              }
+              let clamped = grams.isFinite ? max(0, grams) : 0
+              updated.lines[index].plannedGrams = clamped
+              // Editing a line is the user's own correction of the recipe's estimate.
+              updated.lines[index].provenance = .userVerified
+              withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+                consumptionPlan = updated
+              }
+            }
           )
           .opacity(resultsAppeared ? 1 : 0)
           .offset(y: resultsAppeared ? 0 : 12)
@@ -423,31 +434,70 @@ struct ReverseScanMealView: View {
   private func resolveChosenRecipe() {
     guard let chosenRecipe, let key = chosenRecipeKey else {
       resolvedChoice = nil
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        consumptionPlan = nil
+      }
       return
     }
     do {
       resolvedChoice = try deps.recipeRepository.resolveForLogging(chosenRecipe.recipe).map {
         (key: key, recipe: $0.recipe, macros: $0.macros)
       }
+      rebuildPlan()
     } catch {
       logger.error("Failed to resolve chosen recipe: \(error.localizedDescription)")
       resolvedChoice = nil
+      consumptionPlan = nil
+    }
+  }
+
+  /// Builds the plan from the resolved recipe's real ingredient rows. Rebuilding the same
+  /// recipe keeps the plan's identity and any user-verified grams; a new recipe starts a
+  /// fresh plan.
+  private func rebuildPlan() {
+    guard let recipeId = mealRecipe?.recipe.id else {
+      consumptionPlan = nil
+      return
+    }
+    do {
+      let plan = try MealConsumptionPlanBuilder.build(
+        from: deps.appDatabase.dbQueue,
+        recipeId: recipeId,
+        servingsConsumed: servings,
+        portionMultiplier: portionMultiplier,
+        previous: consumptionPlan
+      )
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        consumptionPlan = plan
+      }
+    } catch {
+      logger.error("Failed to build the meal plan: \(error.localizedDescription)")
+      consumptionPlan = nil
+    }
+  }
+
+  /// Servings and portion changes rescale suggested lines; user-verified lines keep their
+  /// absolute grams and the plan keeps its identity.
+  private func rescalePlan() {
+    guard let plan = consumptionPlan else { return }
+    withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+      consumptionPlan = plan.rescaled(
+        servingsConsumed: servings,
+        portionMultiplier: portionMultiplier
+      )
     }
   }
 
   private func loadDeductionPreviews() async {
-    guard let recipeID = mealRecipe?.recipe.id else {
+    guard let plan = consumptionPlan, plan.recipeId == mealRecipe?.recipe.id else {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         deductionPreviews = []
       }
       return
     }
     do {
-      let previews = try deps.inventoryRepository.previewConsumption(
-        recipeId: recipeID,
-        servingsConsumed: servings,
-        portionMultiplier: portionMultiplier
-      )
+      let linePreviews = try deps.inventoryRepository.previewPlanConsumption(plan: plan)
+      let previews = MealPlanLinePreview.ingredientPreviews(from: linePreviews)
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         deductionPreviews = previews
       }
@@ -654,13 +704,35 @@ struct ReverseScanMealView: View {
     if let mealRecipe {
       macroConfirmCard(
         title: mealRecipe.recipe.title,
-        macros: mealRecipe.macros,
+        calories: plannedMacros.calories,
+        protein: plannedMacros.protein,
+        carbs: plannedMacros.carbs,
+        fat: plannedMacros.fat,
         isHighConfidence: manuallyPickedRecipe != nil
           || confirmationVerdict.map {
             !MealPhotoConfirmationPolicy.asksToCheckBeforeLogging(for: $0)
           } ?? false
       )
     }
+  }
+
+  /// Totals for what the plan will actually log: the plan's line-by-line nutrition when a
+  /// plan is shown (which respects corrected quantities), otherwise the recipe's scaled
+  /// macros — the same arithmetic the plan reproduces for unedited lines.
+  private var plannedMacros: (calories: Double, protein: Double, carbs: Double, fat: Double) {
+    if let plan = consumptionPlan, plan.recipeId == mealRecipe?.recipe.id {
+      let totals = plan.totalMacros
+      return (totals.calories, totals.protein, totals.carbs, totals.fat)
+    }
+    guard let mealRecipe else { return (0, 0, 0, 0) }
+    let scaled = Double(servings) * portionMultiplier
+    let macros = mealRecipe.macros
+    return (
+      macros.caloriesPerServing * scaled,
+      macros.proteinPerServing * scaled,
+      macros.carbsPerServing * scaled,
+      macros.fatPerServing * scaled
+    )
   }
 
   private func verdict(for analysis: ReverseScanAnalysis) -> MealPhotoConfirmationPolicy.Verdict {
@@ -962,6 +1034,8 @@ struct ReverseScanMealView: View {
       manuallyPickedMacros = nil
       resultsAppeared = false
       servings = 1
+      // A new scan is a new meal, so its plan gets a fresh identity.
+      consumptionPlan = nil
     }
   }
 
@@ -1068,7 +1142,18 @@ struct ReverseScanMealView: View {
 
       logSuccessMessage = MealLoggedMessage.text(for: mealOutcome.inventoryConsumption)
       showLogSuccess = true
+      // This meal is consumed and its plan accepted; a further log from this screen is a
+      // new meal with a fresh plan identity.
+      consumptionPlan = nil
+      rebuildPlan()
       logger.info("Meal log succeeded.")
+    } catch {
+      errorMessage = error.localizedDescription
+      logger.error("Meal log failed: \(error.localizedDescription, privacy: .public)")
+    }
+  }
+}
+cceeded.")
     } catch {
       errorMessage = error.localizedDescription
       logger.error("Meal log failed: \(error.localizedDescription, privacy: .public)")

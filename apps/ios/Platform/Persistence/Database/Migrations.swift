@@ -528,6 +528,24 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V19: Accepted Meal Consumption Plans
+
+    // The meal-photo flow proposes per-ingredient quantities the user can correct before
+    // logging. The accepted plan is stored on the log so the same object previews the
+    // deduction, performs it, and later corrects the meal. Nullable: rows logged before
+    // plans existed keep logging and correcting as before.
+    migrator.registerMigration("v19_accepted_meal_consumption_plan") { db in
+      try db.alter(table: "cooking_history") { t in
+        t.add(column: "accepted_plan_json", .text)
+        t.add(column: "accepted_plan_identity", .text)
+      }
+      try db.create(
+        index: "idx_cooking_history_plan_identity",
+        on: "cooking_history",
+        columns: ["accepted_plan_identity"]
+      )
+    }
+
     if let target {
       try migrator.migrate(db, upTo: target)
     } else {

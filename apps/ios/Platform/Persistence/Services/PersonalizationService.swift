@@ -227,7 +227,8 @@ final class PersonalizationService: Sendable {
     }
   }
 
-  private static func formatDate(_ date: Date) -> String {
+  /// The canonical local-day string ("yyyy-MM-dd") streaks and accepted meal plans key on.
+  static func formatDate(_ date: Date) -> String {
     let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
     guard
       let year = components.year,
