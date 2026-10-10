@@ -108,8 +108,9 @@ final class BarcodeIntakeWiringTests: XCTestCase {
 
   func testResolverStrongLeaderBinds() {
     let resolver = IngredientCatalogBarcodeResolver(search: { _ in
-      // The runner-up misses the "butter" token entirely — a clear leader.
-      [Self.ingredient(31, "Almond butter"), Self.ingredient(32, "Almond")]
+      // The runner-up shares only "almond" — 0.5 under the shared overlap/min scoring
+      // against the leader's 1.0, a clear leader over the 0.08 minimum separation.
+      [Self.ingredient(31, "Almond butter"), Self.ingredient(32, "Almond flour")]
     })
 
     let binding = CatalogBinder.bind(
