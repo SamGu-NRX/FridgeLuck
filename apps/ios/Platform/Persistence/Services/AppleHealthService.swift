@@ -33,7 +33,9 @@ enum AppleHealthTypeRegistry {
       HKCorrelationType.correlationType(forIdentifier: .food)
     }
 
-    private static let quantityIdentifiers: [HKQuantityTypeIdentifier] = [
+    // Not private: meal deletion walks these identifiers for the suffixed
+    // sync-identifier metadata each sample was written with.
+    static let quantityIdentifiers: [HKQuantityTypeIdentifier] = [
       .dietaryEnergyConsumed,
       .dietaryProtein,
       .dietaryCarbohydrates,
@@ -192,7 +194,7 @@ final class AppleHealthService: AppleHealthServicing, @unchecked Sendable {
           withMetadataKey: HKMetadataKeySyncIdentifier, allowedValues: [metadataIdentifier])
         try await withCheckedThrowingContinuation {
           (continuation: CheckedContinuation<Void, Error>) in
-          healthStore.deleteObjects(ofType: type, predicate: predicate) { _, _, error in
+          healthStore.deleteObjects(of: type, predicate: predicate) { _, _, error in
             if let error {
               continuation.resume(throwing: error)
             } else {
