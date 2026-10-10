@@ -42,7 +42,7 @@ final class MealRecipeResolutionTests: XCTestCase {
 
     let outcome = try MealLogService(
       db: db, recipeRepository: recipes, personalizationService: PersonalizationService(db: db),
-      inventoryRepository: InventoryRepository(db: db), imageStorageService: ImageStorageService()
+      inventoryRepository: InventoryRepository(db: db)
     ).logMeal(recipe: chosen, imagePath: nil, servingsConsumed: 1)
 
     XCTAssertEqual(outcome.recipeId, 2)
