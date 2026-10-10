@@ -12,12 +12,33 @@ packages:
     from: 7.10.0
 
 targets:
+  FLBarcode:
+    type: framework
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: apps/ios/FeatureLogic/Barcode
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        DEVELOPMENT_TEAM: DWGXWVUR2B
+        GENERATE_INFOPLIST_FILE: "YES"
+        IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+        MARKETING_VERSION: 1.0
+        PRODUCT_BUNDLE_IDENTIFIER: samgu.FridgeLuck.FLBarcode
+        PRODUCT_NAME: FLBarcode
+        SKIP_INSTALL: "YES"
+        SWIFT_VERSION: 6.0
+
   FLFeatureLogic:
     type: framework
     platform: iOS
     deploymentTarget: "26.0"
     sources:
       - path: apps/ios/FeatureLogic
+        excludes:
+          - "Barcode/**"
     settings:
       base:
         CODE_SIGN_STYLE: Automatic
@@ -40,6 +61,7 @@ targets:
     dependencies:
       - target: FridgeLuck
       - target: FLFeatureLogic
+      - target: FLBarcode
       - package: GRDB
         product: GRDB
     settings:
@@ -70,6 +92,7 @@ targets:
       - path: apps/ios/Resources
     dependencies:
       - target: FLFeatureLogic
+      - target: FLBarcode
       - package: GRDB
         product: GRDB
     info:
