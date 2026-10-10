@@ -68,7 +68,7 @@ struct CookingCelebrationView: View {
       },
       logMeal: { recipe, rating, capturedImage, servings, swaps in
         let imagePath = capturedImage.flatMap { try? deps.imageStorageService.save($0) }
-        try deps.mealLogService.logMeal(
+        return try deps.mealLogService.logMeal(
           recipe: recipe,
           rating: rating,
           imagePath: imagePath,
