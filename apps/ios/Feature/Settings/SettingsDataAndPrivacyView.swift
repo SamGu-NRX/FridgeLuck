@@ -18,6 +18,16 @@ struct SettingsDataAndPrivacyView: View {
         }
       }
 
+      Section("Backup") {
+        NavigationLink(value: SettingsRoute.backup) {
+          Text("Backup & Restore")
+        }
+        FLSettingsFootnote(
+          text:
+            "Export your data to a file, or restore from a previous backup. Restore replaces all data and keeps a safety copy first."
+        )
+      }
+
       Section {
         FLSettingsDestructiveGroup(
           title: "Reset FridgeLuck",
