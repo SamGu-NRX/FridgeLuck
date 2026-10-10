@@ -1,0 +1,144 @@
+{
+ "ingredient_names": {
+  "1": "eggs",
+  "10": "scallions",
+  "12": "mozzarella",
+  "13": "butter",
+  "14": "parmesan",
+  "2": "rice",
+  "22": "sesame seeds",
+  "23": "miso paste",
+  "3": "soy sauce",
+  "4": "chicken breast",
+  "40": "salmon (farmed)",
+  "43": "salmon fillet",
+  "44": "nori sheets",
+  "5": "canned tomatoes",
+  "6": "olive oil",
+  "7": "frozen peas",
+  "8": "garlic",
+  "9": "penne"
+ },
+ "provenance": {
+  "source": "pinned corpus (see manifest.parent)",
+  "tag_bits": {
+   "asian": 8,
+   "breakfast": 16,
+   "budget": 32,
+   "comfort": 64,
+   "high_protein": 512,
+   "low_carb": 1024,
+   "mediterranean": 128,
+   "mexican": 256,
+   "one_pot": 2048,
+   "quick": 1,
+   "vegan": 4,
+   "vegetarian": 2
+  }
+ },
+ "recipes": {
+  "101": {
+   "optional": [
+    [
+     22,
+     10
+    ],
+    [
+     7,
+     15
+    ]
+   ],
+   "required": [
+    [
+     2,
+     400
+    ],
+    [
+     1,
+     150
+    ],
+    [
+     3,
+     30
+    ],
+    [
+     10,
+     50
+    ]
+   ],
+   "tags": 2091,
+   "time_minutes": 25,
+   "title": "Weeknight Veggie Fried Rice"
+  },
+  "102": {
+   "optional": [
+    [
+     8,
+     5
+    ],
+    [
+     13,
+     30
+    ]
+   ],
+   "required": [
+    [
+     9,
+     350
+    ],
+    [
+     14,
+     120
+    ],
+    [
+     12,
+     80
+    ],
+    [
+     5,
+     300
+    ],
+    [
+     6,
+     40
+    ]
+   ],
+   "tags": 2114,
+   "time_minutes": 30,
+   "title": "Creamy Tomato Penne"
+  },
+  "103": {
+   "optional": [
+    [
+     44,
+     5
+    ],
+    [
+     22,
+     5
+    ]
+   ],
+   "required": [
+    [
+     2,
+     300
+    ],
+    [
+     43,
+     200
+    ],
+    [
+     23,
+     25
+    ],
+    [
+     10,
+     30
+    ]
+   ],
+   "tags": 521,
+   "time_minutes": 20,
+   "title": "Miso Salmon Bowl"
+  }
+ }
+}
