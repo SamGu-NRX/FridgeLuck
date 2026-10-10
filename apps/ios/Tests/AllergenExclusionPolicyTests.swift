@@ -156,8 +156,10 @@ final class AllergenExclusionPolicyTests: XCTestCase {
   func testV19UpgradeAddsExplicitGroupColumnsWithSafeDefaults() throws {
     let db = try DatabaseQueue()
 
+    // migrate() takes a DatabaseQueue, not the Database inside a write
+    // closure (inherited from the base branch; minimal scope fix).
+    try DatabaseMigrations.migrate(db, upTo: "v18_cooking_history_swaps")
     try db.write { db in
-      try DatabaseMigrations.migrate(db, upTo: "v18_cooking_history_swaps")
       try db.execute(
         sql: """
           INSERT INTO health_profile (
@@ -167,9 +169,7 @@ final class AllergenExclusionPolicyTests: XCTestCase {
           """)
     }
 
-    try db.write { db in
-      try DatabaseMigrations.migrate(db)
-    }
+    try DatabaseMigrations.migrate(db)
 
     try db.read { db in
       let groups = try String.fetchOne(
