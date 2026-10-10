@@ -1,0 +1,19 @@
+{
+  "gates": {"minimumDetectionF1": 0.45},
+  "images": [
+    {
+      "id": "fixture_breakfast",
+      "resourceName": "fixture_breakfast",
+      "resourceExtension": "png",
+      "resourceSubdirectory": "demo",
+      "scenarioTags": ["tutorial", "breakfast"]
+    },
+    {
+      "id": "fixture_lunch",
+      "resourceName": "fixture_lunch",
+      "resourceExtension": "png",
+      "resourceSubdirectory": "demo",
+      "scenarioTags": ["lunch"]
+    }
+  ]
+}

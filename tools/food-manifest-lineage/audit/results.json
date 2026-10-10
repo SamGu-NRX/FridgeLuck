@@ -1,0 +1,1863 @@
+{
+  "audit_head": "148c6e7a4ee63d4b8c31433a74c643001c1e04b6",
+  "audit_branch": "obv/fl-l3-source-reuse-audit",
+  "pins_verified": true,
+  "scope": "offline; reads only files committed in this repository; no image acquisition, no recognition, datasets untouched",
+  "totals": {
+    "manifests": 25,
+    "records": 1992,
+    "multi_member_clusters": 801,
+    "singletons": 64,
+    "exact_duplicate_clusters": 0,
+    "renamed_url_clusters": 0,
+    "source_reuse_clusters": 801,
+    "transitive_source_clusters": 0,
+    "cross_manifest_clusters": 801,
+    "cross_group_clusters": 249,
+    "unknown_content_hash_records": 1988,
+    "unknown_source_id_records": 1,
+    "declared_dhash_records": 0,
+    "approximate_dhash_flags": 0
+  },
+  "cluster_size_distribution": {
+    "2": 492,
+    "3": 293,
+    "4": 15,
+    "5": 1
+  },
+  "manifest_census": [
+    {
+      "path": "apps/ios/Resources/benchmark_manifest.json",
+      "adapter": "bundled-demo",
+      "kind": "image",
+      "git_blob_sha": "df4aa180a4e8b2a65d8cd3ba567ece5f43daef97",
+      "file_sha256": "a4fe7a9cc70248e9f405a7159c696c479625dd897fac22f2713a93b10950036c",
+      "last_modified_commit": "7af419d5aa8a6624cd0fec6347d13dc885b267ec",
+      "census": {
+        "records": 4,
+        "distinct_content_hashes": 4,
+        "distinct_source_ids": 4,
+        "distinct_declared_groups": 4,
+        "image_records": 4,
+        "product_records": 0,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 0,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+      "adapter": "nutrition-compact",
+      "kind": "product",
+      "git_blob_sha": "b4d60ad6b9c75a828ae008a405dbc047cb37923b",
+      "file_sha256": "7c80f8e909318f96cb2c3cc7227537f4a900d23bad5ab5041b77bb607c228f02",
+      "last_modified_commit": "e5f804dacb191bd9e9403919fa8198977028b042",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 49,
+        "distinct_declared_groups": 0,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 1,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/catalog/usda_curated_ingredients.json",
+      "adapter": "usda-catalog",
+      "kind": "product",
+      "git_blob_sha": "7dfe0398383b41f3e12952990bffdd51cdd36c17",
+      "file_sha256": "363bfad9ff10341b0258571f60b31741b8d18dcf2b3eff80d1acd6dd7e0fd7dc",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 800,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 800,
+        "distinct_declared_groups": 9,
+        "image_records": 0,
+        "product_records": 800,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 800,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/usda_manual_overrides.json",
+      "adapter": "usda-manual-overrides",
+      "kind": "product",
+      "git_blob_sha": "473793dcf441167bc5e9f7a78bd72379513093e3",
+      "file_sha256": "d313885cee4b3e208353720c1c02ed37323d3e776939da7ab165ee6cc88fdd97",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 148,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 148,
+        "distinct_declared_groups": 0,
+        "image_records": 0,
+        "product_records": 148,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 148,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_001.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "f282b4302717c5cf23686f34eb95d4d41e3fc6b6",
+      "file_sha256": "b7d8a8362a7543275437a1c599ba5f7ce6015e0acd3c186228f8d3c51f86cb87",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 4,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_002.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "cb7f925516262c0783d84484fb0423f24f352ddb",
+      "file_sha256": "b0bac1380720cacf18e21e5439d05cfa2bfcfd371ed57a0aa52a5585d1dc1790",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 10,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 10,
+        "distinct_declared_groups": 3,
+        "image_records": 0,
+        "product_records": 10,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 10,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_003.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "5e730b8c8b21f8222b625eb8229c19d86beaa3c6",
+      "file_sha256": "00111680a271cfb82c77903556ab20b75dc556c8c9d089c06e814012a1292802",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 5,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_004.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "aa7b5ddad9dcf7055f79064721dbc3fb56250d3e",
+      "file_sha256": "7861da4dc54b7e3833752fe685bf5eaad83ee36f5581f935671a7cd749519ace",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 4,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_005.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "f696351b5e20b183d7db06216f64ca7247afc8ee",
+      "file_sha256": "4b8b7a35fa95eb7a8e8dc0bc767b300ebdd041520dd11d7f4cad19c0ceb7cee5",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 4,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_006.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "fc15aa9427935819b593e7fd7e25930b7f450770",
+      "file_sha256": "2d43080fc205e2d73c7aa4ee5da04f86fcbb095451ebcf211e98f50b3c0e872b",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 4,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_007.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "118c599372a21f96703d0d9e0a917abea82b4814",
+      "file_sha256": "a68d4074ee365f7a0ab1099f80546ffea07e741dea5ab9a9392f24b36460fb0b",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 4,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_008.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "10725d45eb8a326fe38bac1a4dd7281130a8919a",
+      "file_sha256": "920265cbc4c3be050be038e8e0fc2112108fcbb72f3ba595a755061bd05bf979",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 4,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_009.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "c7bdb87c0c294221661aec7562d0577ef36e49e3",
+      "file_sha256": "c4a44ef80f894c850d27359655a824e0fe9a72a2689b13ab9e9dd82b1fa90f43",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 3,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_010.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "a237c4185e7f5ded28c11194925d5df7e27093fc",
+      "file_sha256": "ce50eee48201d27d11b3e49b2e6ca9674bbe15e6f2838f41f517fb65a95b53de",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 4,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_011.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "efeffaba10a95d133e79e8a75cf6a42e26d109c6",
+      "file_sha256": "1f22d4a1a5132c91f82bda3cca7246d75b16818cbe8c2b45f3f5a7d1556e43c2",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 6,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_012.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "a564c3d5e96b7e76f1399443a2e2ffa180eaaf0a",
+      "file_sha256": "3444423a4e9fd86921abd4e37a8c7dda15d94b6d52dca337de034bf915a3b562",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 7,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_013.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "ff4c0392ff58c0798f9b3490e3f5dda2cf5a0f9a",
+      "file_sha256": "3f3ba06b404d36afa4f9d7cec41c8d1c233af0982e84e8fcde5b75d36b448d30",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 8,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_014.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "343f0921b8e4fe55786a4dfe4d15951dca69a392",
+      "file_sha256": "c80b9c6fbfde22ab2b53cf1c7b505de13bfbf71e8a0546493356bc3de7d4afec",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 7,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_015.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "8c60873d4117aad323155328845e75600a0a6170",
+      "file_sha256": "cd5388b432173a7f17cc71fd6ec02d5f001350dd234860777eb22d49ab39d6cd",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 6,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_016.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "d8a21de809c1e3ade67dd5bb7679e4dc82f33e41",
+      "file_sha256": "35a8594f3cbac4904773fcc9ab29ef295cca728fc130993ce83fce23bd124a55",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 7,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_017.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "0fa00cd0235d80f9ea7139646e59945eb737a2e3",
+      "file_sha256": "59bca745bae0beeff195e922ddb1dbff0dd58a06073d4ea9a02d5b0bca14ef08",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 5,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_018.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "9f8a0a5c08d470fc6f9fad90cac12c23c009f641",
+      "file_sha256": "cde3403e4269afe66c6fc6c1ad8d8dbdb81a6642a45e587275f2b90ad2ee0b1c",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 7,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_019.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "5fb44ef8f35fc6541e1482b33c3a55f862b9b2a4",
+      "file_sha256": "67301623da6b803fdb1eadeed1e941018877663ee733644da8c6597108b19ae8",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 9,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_020.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "e094b0008665f385a56f11e5b717778db2ffa000",
+      "file_sha256": "27489877396f6521e9276c2069b6be5942f2b0469bfb87e7f4a5d47279a54a78",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 50,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 50,
+        "distinct_declared_groups": 5,
+        "image_records": 0,
+        "product_records": 50,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 50,
+        "records_with_declared_dhash": 0
+      }
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_021.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "a13c5f477cfd2ae085bb24de093f4c3a18a71d69",
+      "file_sha256": "f46986c62a1c0e8c8444da3619c048fe3dbbcedc1acfbed99c61922bd5ae96ea",
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "census": {
+        "records": 30,
+        "distinct_content_hashes": 0,
+        "distinct_source_ids": 30,
+        "distinct_declared_groups": 7,
+        "image_records": 0,
+        "product_records": 30,
+        "unknown_source_id_records": 0,
+        "unknown_hash_records": 30,
+        "records_with_declared_dhash": 0
+      }
+    }
+  ],
+  "example_findings": [
+    {
+      "cluster_id": "cl-a2632c4bba55",
+      "size": 5,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_011.json",
+        "scripts/data/review_batches/manual_batch_021.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "herb_spice",
+        "other",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:46",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "46",
+          "label": "red pepper flakes",
+          "declared_group": null,
+          "source_id": "170932"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170932",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170932",
+          "label": "Red Pepper (Cayenne / Flakes)",
+          "declared_group": "herb_spice",
+          "source_id": "170932"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_011.json:batch11-rec-000043",
+          "manifest": "scripts/data/review_batches/manual_batch_011.json",
+          "item_id": "batch11-rec-000043",
+          "label": "Red Pepper (Cayenne/Flakes)",
+          "declared_group": "other",
+          "source_id": "170932"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_021.json:batch21-rec-000014",
+          "manifest": "scripts/data/review_batches/manual_batch_021.json",
+          "item_id": "batch21-rec-000014",
+          "label": "Red Pepper (Cayenne / Flakes)",
+          "declared_group": "herb_spice",
+          "source_id": "170932"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000128",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000128",
+          "label": "Red Pepper (Cayenne/Flakes)",
+          "declared_group": null,
+          "source_id": "170932"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-0411c89ec2c3",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_011.json",
+        "scripts/data/review_batches/manual_batch_018.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "oil_fat",
+        "protein",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-168324",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-168324",
+          "label": "Rendered Bacon Fat",
+          "declared_group": "oil_fat",
+          "source_id": "168324"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_011.json:batch11-rec-000044",
+          "manifest": "scripts/data/review_batches/manual_batch_011.json",
+          "item_id": "batch11-rec-000044",
+          "label": "Rendered Bacon Fat",
+          "declared_group": "protein",
+          "source_id": "168324"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_018.json:batch18-rec-000002",
+          "manifest": "scripts/data/review_batches/manual_batch_018.json",
+          "item_id": "batch18-rec-000002",
+          "label": "Rendered Bacon Fat",
+          "declared_group": "oil_fat",
+          "source_id": "168324"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000013",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000013",
+          "label": "Rendered Bacon Fat",
+          "declared_group": null,
+          "source_id": "168324"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-0dfd3fe97c57",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_011.json",
+        "scripts/data/review_batches/manual_batch_020.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:10",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "10",
+          "label": "potato",
+          "declared_group": null,
+          "source_id": "170026"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170026",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170026",
+          "label": "Potatoes (Raw, Flesh and Skin)",
+          "declared_group": "vegetable",
+          "source_id": "170026"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_011.json:batch11-rec-000011",
+          "manifest": "scripts/data/review_batches/manual_batch_011.json",
+          "item_id": "batch11-rec-000011",
+          "label": "Potatoes (Raw, Flesh and Skin)",
+          "declared_group": "vegetable",
+          "source_id": "170026"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_020.json:batch20-rec-000013",
+          "manifest": "scripts/data/review_batches/manual_batch_020.json",
+          "item_id": "batch20-rec-000013",
+          "label": "Potatoes (Raw, Flesh and Skin)",
+          "declared_group": "vegetable",
+          "source_id": "170026"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-0f47bc283c0f",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_011.json",
+        "scripts/data/review_batches/manual_batch_017.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "protein",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-167845",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-167845",
+          "label": "Pork Shoulder (Lean, Raw)",
+          "declared_group": "protein",
+          "source_id": "167845"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_011.json:batch11-rec-000004",
+          "manifest": "scripts/data/review_batches/manual_batch_011.json",
+          "item_id": "batch11-rec-000004",
+          "label": "Pork Shoulder (Raw, Lean)",
+          "declared_group": "protein",
+          "source_id": "167845"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_017.json:batch17-rec-000019",
+          "manifest": "scripts/data/review_batches/manual_batch_017.json",
+          "item_id": "batch17-rec-000019",
+          "label": "Pork Shoulder (Lean, Raw)",
+          "declared_group": "protein",
+          "source_id": "167845"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000005",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000005",
+          "label": "Pork Shoulder (Lean, Raw)",
+          "declared_group": null,
+          "source_id": "167845"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-167c368ed7b6",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_001.json",
+        "scripts/data/review_batches/manual_batch_020.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:5",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "5",
+          "label": "onion",
+          "declared_group": null,
+          "source_id": "170000"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170000",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170000",
+          "label": "Onions (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170000"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_001.json:batch1-rec-000045",
+          "manifest": "scripts/data/review_batches/manual_batch_001.json",
+          "item_id": "batch1-rec-000045",
+          "label": "Onions",
+          "declared_group": "vegetable",
+          "source_id": "170000"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_020.json:batch20-rec-000010",
+          "manifest": "scripts/data/review_batches/manual_batch_020.json",
+          "item_id": "batch20-rec-000010",
+          "label": "Onions (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170000"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-1adb97ceff56",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_001.json",
+        "scripts/data/review_batches/manual_batch_019.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:6",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "6",
+          "label": "garlic",
+          "declared_group": null,
+          "source_id": "169230"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-169230",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-169230",
+          "label": "Garlic (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "169230"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_001.json:batch1-rec-000028",
+          "manifest": "scripts/data/review_batches/manual_batch_001.json",
+          "item_id": "batch1-rec-000028",
+          "label": "Garlic",
+          "declared_group": "vegetable",
+          "source_id": "169230"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_019.json:batch19-rec-000001",
+          "manifest": "scripts/data/review_batches/manual_batch_019.json",
+          "item_id": "batch19-rec-000001",
+          "label": "Garlic (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "169230"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-2634b2abf7f0",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_009.json",
+        "scripts/data/review_batches/manual_batch_013.json"
+      ],
+      "declared_groups": [
+        "oil_fat",
+        "other",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:22",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "22",
+          "label": "sesame oil",
+          "declared_group": null,
+          "source_id": "171016"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-171016",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-171016",
+          "label": "Sesame Oil",
+          "declared_group": "oil_fat",
+          "source_id": "171016"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_009.json:batch9-rec-000001",
+          "manifest": "scripts/data/review_batches/manual_batch_009.json",
+          "item_id": "batch9-rec-000001",
+          "label": "Sesame Oil",
+          "declared_group": "other",
+          "source_id": "171016"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_013.json:batch13-rec-000016",
+          "manifest": "scripts/data/review_batches/manual_batch_013.json",
+          "item_id": "batch13-rec-000016",
+          "label": "Sesame Oil",
+          "declared_group": "oil_fat",
+          "source_id": "171016"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-2d9091c6bc22",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_004.json",
+        "scripts/data/review_batches/manual_batch_016.json"
+      ],
+      "declared_groups": [
+        "grain_legume",
+        "other",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:23",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "23",
+          "label": "tofu",
+          "declared_group": null,
+          "source_id": "167722"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-167722",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-167722",
+          "label": "Tofu Yogurt",
+          "declared_group": "grain_legume",
+          "source_id": "167722"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_004.json:batch4-rec-000003",
+          "manifest": "scripts/data/review_batches/manual_batch_004.json",
+          "item_id": "batch4-rec-000003",
+          "label": "Tofu Yogurt",
+          "declared_group": "other",
+          "source_id": "167722"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_016.json:batch16-rec-000044",
+          "manifest": "scripts/data/review_batches/manual_batch_016.json",
+          "item_id": "batch16-rec-000044",
+          "label": "Tofu Yogurt",
+          "declared_group": "grain_legume",
+          "source_id": "167722"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-460c0762be8e",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_007.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "dairy_egg",
+        "other",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:13",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "13",
+          "label": "milk",
+          "declared_group": null,
+          "source_id": "170872"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170872",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170872",
+          "label": "Milk (1% Low Fat)",
+          "declared_group": "dairy_egg",
+          "source_id": "170872"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_007.json:batch7-rec-000038",
+          "manifest": "scripts/data/review_batches/manual_batch_007.json",
+          "item_id": "batch7-rec-000038",
+          "label": "Milk (1% Low Fat)",
+          "declared_group": "other",
+          "source_id": "170872"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000115",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000115",
+          "label": null,
+          "declared_group": null,
+          "source_id": "170872"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-66dffa0ab5dd",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_020.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:21",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "21",
+          "label": "green onion",
+          "declared_group": null,
+          "source_id": "170005"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170005",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170005",
+          "label": "Green Onions (Scallions, Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170005"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_020.json:batch20-rec-000011",
+          "manifest": "scripts/data/review_batches/manual_batch_020.json",
+          "item_id": "batch20-rec-000011",
+          "label": "Green Onions (Scallions, Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170005"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000077",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000077",
+          "label": "Green Onions (Scallions)",
+          "declared_group": null,
+          "source_id": "170005"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-805ea21283bf",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_001.json",
+        "scripts/data/review_batches/manual_batch_020.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:11",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "11",
+          "label": "carrot",
+          "declared_group": null,
+          "source_id": "170393"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170393",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170393",
+          "label": "Carrots (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170393"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_001.json:batch1-rec-000010",
+          "manifest": "scripts/data/review_batches/manual_batch_001.json",
+          "item_id": "batch1-rec-000010",
+          "label": "Carrots",
+          "declared_group": "vegetable",
+          "source_id": "170393"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_020.json:batch20-rec-000043",
+          "manifest": "scripts/data/review_batches/manual_batch_020.json",
+          "item_id": "batch20-rec-000043",
+          "label": "Carrots (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170393"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-8ddc2288d79e",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_001.json",
+        "scripts/data/review_batches/manual_batch_020.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:24",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "24",
+          "label": "broccoli",
+          "declared_group": null,
+          "source_id": "170379"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170379",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170379",
+          "label": "Broccoli (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170379"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_001.json:batch1-rec-000006",
+          "manifest": "scripts/data/review_batches/manual_batch_001.json",
+          "item_id": "batch1-rec-000006",
+          "label": "Broccoli",
+          "declared_group": "vegetable",
+          "source_id": "170379"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_020.json:batch20-rec-000040",
+          "manifest": "scripts/data/review_batches/manual_batch_020.json",
+          "item_id": "batch20-rec-000040",
+          "label": "Broccoli (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170379"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-8e3a5773733a",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_001.json",
+        "scripts/data/review_batches/manual_batch_002.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:44",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "44",
+          "label": "celery",
+          "declared_group": null,
+          "source_id": "169988"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-169988",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-169988",
+          "label": "Celery (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "169988"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_001.json:batch1-rec-000014",
+          "manifest": "scripts/data/review_batches/manual_batch_001.json",
+          "item_id": "batch1-rec-000014",
+          "label": "Celery",
+          "declared_group": "vegetable",
+          "source_id": "169988"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_002.json:batch2-rec-000002",
+          "manifest": "scripts/data/review_batches/manual_batch_002.json",
+          "item_id": "batch2-rec-000002",
+          "label": "Celery (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "169988"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-9e1f233b345e",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_010.json",
+        "scripts/data/review_batches/manual_batch_014.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:8",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "8",
+          "label": "bell pepper",
+          "declared_group": null,
+          "source_id": "170108"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170108",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170108",
+          "label": "Sweet Red Peppers (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170108"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_010.json:batch10-rec-000013",
+          "manifest": "scripts/data/review_batches/manual_batch_010.json",
+          "item_id": "batch10-rec-000013",
+          "label": "Sweet Red Peppers (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170108"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_014.json:batch14-rec-000030",
+          "manifest": "scripts/data/review_batches/manual_batch_014.json",
+          "item_id": "batch14-rec-000030",
+          "label": "Sweet Red Peppers (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170108"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-a2ee3d2c5ccd",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_001.json",
+        "scripts/data/review_batches/manual_batch_017.json"
+      ],
+      "declared_groups": [
+        "fruit",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:29",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "29",
+          "label": "lime",
+          "declared_group": null,
+          "source_id": "168155"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-168155",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-168155",
+          "label": "Limes (Raw)",
+          "declared_group": "fruit",
+          "source_id": "168155"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_001.json:batch1-rec-000034",
+          "manifest": "scripts/data/review_batches/manual_batch_001.json",
+          "item_id": "batch1-rec-000034",
+          "label": "Limes",
+          "declared_group": "fruit",
+          "source_id": "168155"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_017.json:batch17-rec-000030",
+          "manifest": "scripts/data/review_batches/manual_batch_017.json",
+          "item_id": "batch17-rec-000030",
+          "label": "Limes (Raw)",
+          "declared_group": "fruit",
+          "source_id": "168155"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-ac94cdb005b1",
+      "size": 4,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_003.json",
+        "scripts/data/review_batches/manual_batch_016.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "unknown",
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-168556",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-168556",
+          "label": "Ketchup (Catsup)",
+          "declared_group": "vegetable",
+          "source_id": "168556"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_003.json:batch3-rec-000045",
+          "manifest": "scripts/data/review_batches/manual_batch_003.json",
+          "item_id": "batch3-rec-000045",
+          "label": "Ketchup (Catsup)",
+          "declared_group": "vegetable",
+          "source_id": "168556"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_016.json:batch16-rec-000035",
+          "manifest": "scripts/data/review_batches/manual_batch_016.json",
+          "item_id": "batch16-rec-000035",
+          "label": "Ketchup (Catsup)",
+          "declared_group": "vegetable",
+          "source_id": "168556"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000021",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000021",
+          "label": "Ketchup",
+          "declared_group": null,
+          "source_id": "168556"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-003def7bb65e",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": false,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_011.json",
+        "scripts/data/review_batches/manual_batch_020.json"
+      ],
+      "declared_groups": [
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170118",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170118",
+          "label": "French Fries (Frozen, Oven-Heated)",
+          "declared_group": "vegetable",
+          "source_id": "170118"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_011.json:batch11-rec-000012",
+          "manifest": "scripts/data/review_batches/manual_batch_011.json",
+          "item_id": "batch11-rec-000012",
+          "label": "French Fries (Frozen, Oven-Heated)",
+          "declared_group": "vegetable",
+          "source_id": "170118"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_020.json:batch20-rec-000029",
+          "manifest": "scripts/data/review_batches/manual_batch_020.json",
+          "item_id": "batch20-rec-000029",
+          "label": "French Fries (Frozen, Oven-Heated)",
+          "declared_group": "vegetable",
+          "source_id": "170118"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-00e2c64dc24f",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_008.json",
+        "scripts/data/review_batches/manual_batch_010.json"
+      ],
+      "declared_groups": [
+        "nut_seed",
+        "other"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170590",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170590",
+          "label": "Pilinuts (Dried)",
+          "declared_group": "nut_seed",
+          "source_id": "170590"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_008.json:batch8-rec-000041",
+          "manifest": "scripts/data/review_batches/manual_batch_008.json",
+          "item_id": "batch8-rec-000041",
+          "label": "Pilinuts (Dried)",
+          "declared_group": "other",
+          "source_id": "170590"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_010.json:batch10-rec-000023",
+          "manifest": "scripts/data/review_batches/manual_batch_010.json",
+          "item_id": "batch10-rec-000023",
+          "label": "Pilinuts (Dried)",
+          "declared_group": "nut_seed",
+          "source_id": "170590"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-0336923badbf",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_021.json"
+      ],
+      "declared_groups": [
+        "dairy_egg",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "apps/ios/Resources/usda_ingredient_nutrition_compact.json:1",
+          "manifest": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "item_id": "1",
+          "label": "egg",
+          "declared_group": null,
+          "source_id": "170893"
+        },
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170893",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170893",
+          "label": "Egg (Whole, Raw, Frozen, Salted)",
+          "declared_group": "dairy_egg",
+          "source_id": "170893"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_021.json:batch21-rec-000011",
+          "manifest": "scripts/data/review_batches/manual_batch_021.json",
+          "item_id": "batch21-rec-000011",
+          "label": "Egg (Whole, Raw, Frozen, Salted)",
+          "declared_group": "dairy_egg",
+          "source_id": "170893"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-0570a84fae18",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": false,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_011.json",
+        "scripts/data/review_batches/manual_batch_020.json"
+      ],
+      "declared_groups": [
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170081",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170081",
+          "label": "White Icicle Radish (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170081"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_011.json:batch11-rec-000037",
+          "manifest": "scripts/data/review_batches/manual_batch_011.json",
+          "item_id": "batch11-rec-000037",
+          "label": "Radishes (White Icicle, Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170081"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_020.json:batch20-rec-000022",
+          "manifest": "scripts/data/review_batches/manual_batch_020.json",
+          "item_id": "batch20-rec-000022",
+          "label": "White Icicle Radish (Raw)",
+          "declared_group": "vegetable",
+          "source_id": "170081"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-05bfe5a6731f",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_004.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "protein",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-168694",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-168694",
+          "label": "Beef Round Steak (Raw)",
+          "declared_group": "protein",
+          "source_id": "168694"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_004.json:batch4-rec-000034",
+          "manifest": "scripts/data/review_batches/manual_batch_004.json",
+          "item_id": "batch4-rec-000034",
+          "label": "Beef Round Steak (Raw)",
+          "declared_group": "protein",
+          "source_id": "168694"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000033",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000033",
+          "label": "Beef Round Steak",
+          "declared_group": null,
+          "source_id": "168694"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-07d84b94ff63",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_001.json",
+        "scripts/data/review_batches/manual_batch_019.json"
+      ],
+      "declared_groups": [
+        "grain_legume",
+        "other"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-169702",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-169702",
+          "label": "Millet (Raw)",
+          "declared_group": "grain_legume",
+          "source_id": "169702"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_001.json:batch1-rec-000039",
+          "manifest": "scripts/data/review_batches/manual_batch_001.json",
+          "item_id": "batch1-rec-000039",
+          "label": "Millet",
+          "declared_group": "other",
+          "source_id": "169702"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_019.json:batch19-rec-000027",
+          "manifest": "scripts/data/review_batches/manual_batch_019.json",
+          "item_id": "batch19-rec-000027",
+          "label": "Millet (Raw)",
+          "declared_group": "grain_legume",
+          "source_id": "169702"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-08a7fda6df41",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": false,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_011.json",
+        "scripts/data/review_batches/manual_batch_020.json"
+      ],
+      "declared_groups": [
+        "vegetable"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-170112",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-170112",
+          "label": "Potato Flesh (Baked, Salted)",
+          "declared_group": "vegetable",
+          "source_id": "170112"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_011.json:batch11-rec-000010",
+          "manifest": "scripts/data/review_batches/manual_batch_011.json",
+          "item_id": "batch11-rec-000010",
+          "label": "Potato Flesh (Baked, Salted)",
+          "declared_group": "vegetable",
+          "source_id": "170112"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_020.json:batch20-rec-000025",
+          "manifest": "scripts/data/review_batches/manual_batch_020.json",
+          "item_id": "batch20-rec-000025",
+          "label": "Potato Flesh (Baked, Salted)",
+          "declared_group": "vegetable",
+          "source_id": "170112"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-0971e2a33543",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_018.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "protein",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-168608",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-168608",
+          "label": "Ground Beef (Grass-Fed, Raw)",
+          "declared_group": "protein",
+          "source_id": "168608"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_018.json:batch18-rec-000033",
+          "manifest": "scripts/data/review_batches/manual_batch_018.json",
+          "item_id": "batch18-rec-000033",
+          "label": "Ground Beef (Grass-Fed, Raw)",
+          "declared_group": "protein",
+          "source_id": "168608"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000025",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000025",
+          "label": "Ground Beef (Grass-Fed)",
+          "declared_group": null,
+          "source_id": "168608"
+        }
+      ]
+    },
+    {
+      "cluster_id": "cl-0abcfccf94ca",
+      "size": 3,
+      "categories": [
+        "source-reuse"
+      ],
+      "transitive": false,
+      "cross_manifest": true,
+      "cross_group": true,
+      "manifests": [
+        "scripts/data/catalog/usda_curated_ingredients.json",
+        "scripts/data/review_batches/manual_batch_019.json",
+        "scripts/data/usda_manual_overrides.json"
+      ],
+      "declared_groups": [
+        "grain_legume",
+        "unknown"
+      ],
+      "join_key_types": [
+        "source"
+      ],
+      "examples": [
+        {
+          "item_ref": "scripts/data/catalog/usda_curated_ingredients.json:fdc-169727",
+          "manifest": "scripts/data/catalog/usda_curated_ingredients.json",
+          "item_id": "fdc-169727",
+          "label": "Fresh Refrigerated Pasta (Plain)",
+          "declared_group": "grain_legume",
+          "source_id": "169727"
+        },
+        {
+          "item_ref": "scripts/data/review_batches/manual_batch_019.json:batch19-rec-000032",
+          "manifest": "scripts/data/review_batches/manual_batch_019.json",
+          "item_id": "batch19-rec-000032",
+          "label": "Fresh Refrigerated Pasta (Plain)",
+          "declared_group": "grain_legume",
+          "source_id": "169727"
+        },
+        {
+          "item_ref": "scripts/data/usda_manual_overrides.json:override-000067",
+          "manifest": "scripts/data/usda_manual_overrides.json",
+          "item_id": "override-000067",
+          "label": "Fresh Refrigerated Pasta",
+          "declared_group": null,
+          "source_id": "169727"
+        }
+      ]
+    }
+  ],
+  "approximate_dhash_flags": []
+}

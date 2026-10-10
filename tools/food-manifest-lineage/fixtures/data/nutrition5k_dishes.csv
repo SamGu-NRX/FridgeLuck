@@ -1,0 +1,4 @@
+"dish_id","cafe","scan_ts","official_rgb_split","official_depth_split","plate_cluster","my_split","total_mass_g","total_calories_kcal","n_ingredients","ingredient_names"
+"dish_1000000001","cafe1","1000000001","train","none","cafe1_c00001","train","83.0","136.9","1","chicken"
+"dish_1000000002","cafe1","1000000002","test","none","cafe1_c00002","test","76.0","30.4","1","bell peppers"
+"dish_1000000003","cafe2","1000000003","train","none","cafe2_c00001","train","100.0","77.0","1","potatoes"

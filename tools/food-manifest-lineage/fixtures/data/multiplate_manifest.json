@@ -1,0 +1,32 @@
+{
+  "schema_version": "multiplate-v1",
+  "created_utc": "2026-10-10",
+  "dataset": {
+    "name": "Open Images fixture (2018_04 validation)",
+    "sources": {"annotations": "https://fixture.invalid/openimages/2018_04/"}
+  },
+  "images": [
+    {
+      "image_id": "cafe000000000003",
+      "role": "multi",
+      "series_group": "cafe000000000003",
+      "sha256": "aa07070707070707070707070707070707070707070707070707070707070707",
+      "source_url": "https://fixture.invalid/s3/validation/cafe000000000003.jpg",
+      "dhash": "37b30949d4dcc964"
+    },
+    {
+      "image_id": "dead000000000004",
+      "role": "control",
+      "series_group": "dead000000000004",
+      "sha256": "aa08080808080808080808080808080808080808080808080808080808080808",
+      "source_url": "https://fixture.invalid/s3/validation/dead000000000004.jpg"
+    },
+    {
+      "image_id": "face000000000005",
+      "role": "control",
+      "series_group": "face000000000005",
+      "sha256": "aa08080808080808080808080808080808080808080808080808080808080808",
+      "source_url": "https://fixture.invalid/s3/validation/face000000000005.jpg"
+    }
+  ]
+}
