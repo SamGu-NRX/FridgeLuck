@@ -1,6 +1,13 @@
 import Foundation
 import GRDB
 
+/// The accepted plan a logged meal carries, with the revision it reached — the entry
+/// point for correcting that meal.
+struct AcceptedMealState: Sendable {
+  let plan: MealConsumptionPlan
+  let acceptedRevision: Int
+}
+
 /// Repository for user-specific data: health profile, badges, preferences.
 final class UserDataRepository: Sendable {
   private static let onboardingAgeRange = 13...100
@@ -444,6 +451,26 @@ final class UserDataRepository: Sendable {
         sql: "UPDATE cooking_history SET rating = ? WHERE id = ?",
         arguments: [rating, historyId]
       )
+    }
+  }
+
+  // MARK: - Accepted Meal State
+
+  /// The accepted plan and revision a logged meal carries, for correcting it. Nil for
+  /// meals logged before plans were persisted — those cannot be corrected, only deleted.
+  func acceptedMealState(historyId: Int64) throws -> AcceptedMealState? {
+    try db.read { db in
+      guard
+        let row = try Row.fetchOne(
+          db,
+          sql: "SELECT accepted_plan_json, accepted_revision FROM cooking_history WHERE id = ?",
+          arguments: [historyId]),
+        let plan = MealConsumptionPlan.decode(from: row["accepted_plan_json"])
+      else {
+        return nil
+      }
+      return AcceptedMealState(
+        plan: plan, acceptedRevision: row["accepted_revision"] as Int? ?? 1)
     }
   }
 

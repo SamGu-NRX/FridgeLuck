@@ -47,6 +47,10 @@ protocol AppleHealthServicing: Sendable {
   func authorizationStatus() -> PermissionStatus
   func authorizationRequestStatus() async -> AppleHealthAuthorizationRequestStatus
   func writeMeal(_ record: AppleHealthMealRecord) async throws
+  /// Deletes the meal correlation and its suffixed quantity samples for the record with
+  /// this sync identifier. Deleting when nothing matches is not an error, so retries and
+  /// repeated deletions are idempotent.
+  func deleteMeal(withSyncIdentifier syncIdentifier: String) async throws
   func fetchNutritionTotals(in interval: DateInterval) async throws -> AppleHealthNutritionTotals?
   func fetchDailyNutritionTotals(lastDays: Int, endingOn endDate: Date) async throws
     -> [AppleHealthNutritionDay]

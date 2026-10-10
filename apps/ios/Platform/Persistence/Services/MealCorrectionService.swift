@@ -15,6 +15,9 @@ final class MealCorrectionService: Sendable {
   struct RevisionOutcome: Sendable {
     /// The accepted revision after the operation. Unchanged on no-op retries.
     let acceptedRevision: Int
+    /// The corrected meal's exact stored timestamp, for Health re-sync with the same
+    /// recorded date. Nil when nothing changed (the caller has nothing to re-sync).
+    let acceptedCookedAt: Date?
     /// True when the compensating seam ran (its result is reflected in the stored plan's
     /// applied grams). False means the inventory integration is not wired yet: inventory
     /// is untouched, nothing pretends otherwise.
@@ -60,6 +63,10 @@ final class MealCorrectionService: Sendable {
   private let inventoryCompensating: (any InventoryCompensating)?
   /// Unimplemented on this branch — see `MealNutritionSnapshotting`.
   private let nutritionSnapshotting: (any MealNutritionSnapshotting)?
+
+  /// True when the compensating inventory operation is wired in. While false,
+  /// corrections and deletions never touch stock, and UI copy must not claim they do.
+  var isInventoryCompensationIntegrated: Bool { inventoryCompensating != nil }
 
   init(
     db: DatabaseQueue,
@@ -121,8 +128,8 @@ final class MealCorrectionService: Sendable {
         && newCookedAt == current.cookedAt
       if noOp {
         return RevisionOutcome(
-          acceptedRevision: current.revision, compensationIntegrated: false,
-          requestedDeltas: [], changed: false)
+          acceptedRevision: current.revision, acceptedCookedAt: current.cookedAt,
+          compensationIntegrated: false, requestedDeltas: [], changed: false)
       }
 
       let newRevision = current.revision + 1
@@ -173,7 +180,8 @@ final class MealCorrectionService: Sendable {
       }
 
       return RevisionOutcome(
-        acceptedRevision: newRevision, compensationIntegrated: compensationIntegrated,
+        acceptedRevision: newRevision, acceptedCookedAt: newCookedAt,
+        compensationIntegrated: compensationIntegrated,
         requestedDeltas: deltas, changed: true)
     }
   }
@@ -189,7 +197,8 @@ final class MealCorrectionService: Sendable {
     try db.write { db in
       guard let current = try Self.maybeLoadAcceptedState(db: db, historyId: historyId) else {
         return RevisionOutcome(
-          acceptedRevision: 0, compensationIntegrated: false, requestedDeltas: [], changed: false)
+          acceptedRevision: 0, acceptedCookedAt: nil, compensationIntegrated: false,
+          requestedDeltas: [], changed: false)
       }
 
       // This meal's own claims, positive = what the Kitchen should get back. Meals logged
@@ -216,7 +225,8 @@ final class MealCorrectionService: Sendable {
 
       try db.execute(sql: "DELETE FROM cooking_history WHERE id = ?", arguments: [historyId])
       return RevisionOutcome(
-        acceptedRevision: current.revision, compensationIntegrated: compensationIntegrated,
+        acceptedRevision: current.revision, acceptedCookedAt: current.cookedAt,
+        compensationIntegrated: compensationIntegrated,
         requestedDeltas: deltas, changed: true)
     }
   }

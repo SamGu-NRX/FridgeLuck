@@ -11,6 +11,11 @@ struct RecipeJournalDetailView: View {
 
   @State private var rating: Int
   @State private var hasChangedRating = false
+  @State private var acceptedState: AcceptedMealState?
+  @State private var showCorrection = false
+  @State private var showDeleteConfirmation = false
+  @State private var isDeleting = false
+  @State private var actionMessage: String?
 
   init(entry: CookingJournalEntry, isPushed: Bool = false) {
     self.entry = entry
@@ -52,6 +57,10 @@ struct RecipeJournalDetailView: View {
           .padding(.horizontal, AppTheme.Space.page)
           .padding(.bottom, AppTheme.Space.lg)
 
+        correctionSection
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.lg)
+
         FLWaveDivider()
           .padding(.horizontal, AppTheme.Space.page)
           .padding(.bottom, AppTheme.Space.sectionBreak)
@@ -78,8 +87,26 @@ struct RecipeJournalDetailView: View {
     .navigationTitle("Meal Detail")
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground()
+    .onAppear { reloadAcceptedState() }
     .onDisappear {
       saveRatingIfNeeded()
+    }
+    .sheet(isPresented: $showCorrection) {
+      if let acceptedState {
+        MealCorrectionSheet(entry: entry, acceptedState: acceptedState) {
+          reloadAcceptedState()
+        }
+      }
+    }
+    .confirmationDialog(
+      "Delete this meal?",
+      isPresented: $showDeleteConfirmation,
+      titleVisibility: .visible
+    ) {
+      Button("Delete Entry", role: .destructive, action: deleteEntry)
+      Button("Cancel", role: .cancel) {}
+    } message: {
+      Text(deleteConsequenceMessage)
     }
   }
 
@@ -291,6 +318,107 @@ struct RecipeJournalDetailView: View {
         .font(AppTheme.Typography.bodyMedium)
         .foregroundStyle(AppTheme.textPrimary)
         .fontWeight(.medium)
+    }
+  }
+
+  // MARK: - Correction & Deletion
+
+  /// Correct and delete act on the accepted plan this entry carries; entries logged
+  /// before quantity plans were kept cannot be corrected, only deleted.
+  private var correctionSection: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      Text("THIS ENTRY")
+        .font(AppTheme.Typography.labelSmall)
+        .foregroundStyle(AppTheme.textSecondary)
+        .kerning(1.5)
+
+      FLCard {
+        VStack(alignment: .leading, spacing: AppTheme.Space.md) {
+          if let acceptedState {
+            Text(revisionLine(for: acceptedState))
+              .font(AppTheme.Typography.bodySmall)
+              .foregroundStyle(AppTheme.textSecondary)
+              .accessibilityLabel("Accepted entry status")
+              .accessibilityValue(revisionLine(for: acceptedState))
+          } else {
+            Text("Logged before quantity plans were kept. You can delete this entry, but not correct its quantities.")
+              .font(AppTheme.Typography.bodySmall)
+              .foregroundStyle(AppTheme.textSecondary)
+              .accessibilityLabel("Entry correction availability")
+              .accessibilityValue("Correction unavailable, deletion available")
+          }
+
+          if let actionMessage {
+            Text(actionMessage)
+              .font(AppTheme.Typography.bodySmall)
+              .foregroundStyle(AppTheme.warning)
+          }
+
+          HStack(spacing: AppTheme.Space.sm) {
+            FLSecondaryButton(
+              "Correct Entry",
+              systemImage: "pencil.and.outline",
+              isEnabled: acceptedState != nil && !isDeleting
+            ) {
+              showCorrection = true
+            }
+
+            FLSecondaryButton(
+              isDeleting ? "Deleting…" : "Delete Entry",
+              systemImage: "trash",
+              isEnabled: !isDeleting
+            ) {
+              showDeleteConfirmation = true
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /// Provenance line: which accepted revision this entry carries and whether any
+  /// quantity in it was corrected by hand.
+  private func revisionLine(for state: AcceptedMealState) -> String {
+    let correctedByYou = state.plan.lines.contains { $0.provenance == .userVerified }
+    if correctedByYou {
+      return "Accepted revision \(state.acceptedRevision) · quantity corrected by you"
+    }
+    return "Accepted revision \(state.acceptedRevision) · suggested quantities"
+  }
+
+  private var deleteConsequenceMessage: String {
+    // Honest copy: while the compensating inventory operation is not wired in,
+    // deletion does not put anything back in the Kitchen — say so instead of promising it.
+    let itemsBack =
+      deps.mealCorrectionService.isInventoryCompensationIntegrated
+      && acceptedState != nil
+    let itemsClause = itemsBack
+      ? "its ingredients go back to your Kitchen"
+      : "Kitchen totals stay as they are for now"
+    return
+      "“\(entry.recipe.title)” is removed from your journal, \(itemsClause), its Health sample is removed, and the streak day is adjusted."
+  }
+
+  private func reloadAcceptedState() {
+    acceptedState = try? deps.userDataRepository.acceptedMealState(historyId: entry.id)
+  }
+
+  private func deleteEntry() {
+    isDeleting = true
+    actionMessage = nil
+    do {
+      let outcome = try deps.mealCorrectionService.deleteMeal(historyId: entry.id)
+      if outcome.changed {
+        let historyId = entry.id
+        Task { @MainActor in
+          await deps.mealLogSyncCoordinator.removeLoggedMeal(historyId: historyId)
+        }
+      }
+      saveRatingIfNeeded()
+      dismiss()
+    } catch {
+      actionMessage = "Could not delete this entry: \(error.localizedDescription)"
+      isDeleting = false
     }
   }
 

@@ -34,6 +34,7 @@ final class AppDependencies: ObservableObject {
   let spoilageService: SpoilageService
   let inventoryIntakeService: InventoryIntakeService
   let mealLogService: MealLogService
+  let mealCorrectionService: MealCorrectionService
   let confidenceLearningService: ConfidenceLearningService
   let reverseScanService: ReverseScanService
   let geminiCloudAgent: GeminiCloudAgent
@@ -106,6 +107,7 @@ final class AppDependencies: ObservableObject {
       personalizationService: personalizationService,
       inventoryRepository: inventoryRepository
     )
+    self.mealCorrectionService = MealCorrectionService(db: db)
 
     self.visionService = VisionService(
       learningService: learningService,
