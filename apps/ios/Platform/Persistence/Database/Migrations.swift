@@ -558,6 +558,116 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V20: Historical nutrition snapshots
+    //
+    // A logged meal keeps the nutrition it had when it was cooked. Two tables
+    // freeze the meal's nutrition inputs at capture (or upgrade) time:
+    //
+    // - `cooking_history_nutrition_snapshots`: per meal — recipe servings at
+    //   capture, an explicit format version, and a provenance label.
+    // - `cooking_history_nutrition_lines`: per required recipe ingredient —
+    //   effective ingredient values (substitute applied), quantity, swap
+    //   ratio, and all seven nutrient columns, in a stable line order
+    //   (ascending original ingredient id at capture time).
+    //
+    // The v21 backfill labels existing meals 'upgrade_backfill': those values
+    // are what the catalog said when the app upgraded, NOT recovered
+    // measurements of the original meal. Meals logged after the upgrade are
+    // captured in the logging transaction with provenance
+    // 'logged_at_capture'. Either way, later catalog corrections cannot
+    // rewrite what was logged.
+    //
+    // One transaction covers schema + backfill: a meal reports only through a
+    // completed snapshot, so a partially-migrated database is impossible.
+    // Reporting refuses to fall back to the mutable catalog.
+    migrator.registerMigration("v21_historical_nutrition_snapshots") { db in
+      try db.create(table: "cooking_history_nutrition_snapshots") { t in
+        t.column("history_id", .integer)
+          .notNull()
+          .references("cooking_history", onDelete: .cascade)
+        t.column("recipe_servings", .integer).notNull()
+        t.column("snapshot_version", .integer).notNull().defaults(to: 1)
+        t.column("provenance", .text)
+          .notNull()
+          .check(
+            sql:
+              "provenance IN ('logged_at_capture', 'upgrade_backfill')")
+        t.primaryKey(["history_id"])
+      }
+
+      try db.create(table: "cooking_history_nutrition_lines") { t in
+        t.column("history_id", .integer)
+          .notNull()
+          .references("cooking_history_nutrition_snapshots", onDelete: .cascade)
+        t.column("line_index", .integer).notNull()
+        t.column("original_ingredient_id", .integer).notNull()
+        t.column("substitute_ingredient_id", .integer)
+        t.column("swap_ratio", .double).notNull()
+        t.column("quantity_grams", .double).notNull()
+        // Nutrients are the EFFECTIVE per-100g values (substitute applied).
+        // NULL means the effective ingredient row was unavailable at capture
+        // time; the line then contributes nothing to reports, matching the
+        // catalog join it replaced.
+        t.column("calories", .double)
+        t.column("protein", .double)
+        t.column("carbs", .double)
+        t.column("fat", .double)
+        t.column("fiber", .double)
+        t.column("sugar", .double)
+        t.column("sodium", .double)
+        t.primaryKey(["history_id", "line_index"])
+      }
+
+      // Backfill meal headers from the catalog as it exists during the
+      // upgrade. Meals whose recipe row is gone (legacy orphaned history)
+      // get no snapshot and stay excluded from dated reports, matching the
+      // recipes join those reports have always used.
+      try db.execute(
+        sql: """
+          INSERT INTO cooking_history_nutrition_snapshots (
+            history_id, recipe_servings, snapshot_version, provenance
+          )
+          SELECT ch.id, r.servings, 1, 'upgrade_backfill'
+          FROM cooking_history ch
+          JOIN recipes r ON r.id = ch.recipe_id
+          """
+      )
+
+      // Backfill per-line values from the catalog as it exists during the
+      // upgrade. line_index is a dense index over required lines ordered by
+      // recipe_ingredients rowid (insertion order): the plan the journal and
+      // Health folds ran on (idx_ri_recipe) visits equal-recipe entries by
+      // rowid, so this reproduces their exact accumulation order at cutover.
+      // Missing substitute ingredients (pre-foreign-key legacy rows) freeze
+      // NULL nutrients instead of failing the upgrade.
+      try db.execute(
+        sql: """
+          INSERT INTO cooking_history_nutrition_lines (
+            history_id, line_index, original_ingredient_id, substitute_ingredient_id,
+            swap_ratio, quantity_grams, calories, protein, carbs, fat, fiber, sugar, sodium
+          )
+          SELECT
+            s.history_id,
+            (SELECT COUNT(*) FROM recipe_ingredients ri2
+             WHERE ri2.recipe_id = ch.recipe_id
+               AND ri2.is_required = 1
+               AND ri2.rowid < ri.rowid),
+            ri.ingredient_id, sw.substitute_ingredient_id,
+            COALESCE(sw.ratio, 1.0), ri.quantity_grams,
+            i.calories, i.protein, i.carbs, i.fat, i.fiber, i.sugar, i.sodium
+          FROM cooking_history_nutrition_snapshots s
+          JOIN cooking_history ch ON ch.id = s.history_id
+          JOIN recipe_ingredients ri
+            ON ri.recipe_id = ch.recipe_id AND ri.is_required = 1
+          LEFT JOIN cooking_history_swaps sw
+            ON sw.history_id = s.history_id
+            AND sw.original_ingredient_id = ri.ingredient_id
+          LEFT JOIN ingredients i
+            ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
+          """
+      )
+    }
+
     if let target {
       try migrator.migrate(db, upTo: target)
     } else {
