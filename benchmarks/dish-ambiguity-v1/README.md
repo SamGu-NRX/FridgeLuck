@@ -54,6 +54,45 @@ python3 benchmarks/dish-ambiguity-v1/score.py --verify-report
 python3 -m pytest benchmarks/dish-ambiguity-v1/tests -q
 ```
 
+## Results (2026-10-10 run, both models, 0 recorded failures)
+
+Two headline findings drive the recommendation:
+
+1. **`nateraw/vit-base-food101` is the only viable pin.** Top1 0.8075 /
+   top5 0.9620 over the 2,525-image test manifest. With the dev-selected
+   abstention threshold (tau 0.1 on top1 probability), it emits specific
+   recipe suggestions at **1.000 precision with 0.500 coverage** over the 350
+   eligible test images (true class exact/coarse) - i.e. it suggests a
+   specific bundled recipe for half of the dishes where one exists, and it
+   has not been observed to suggest the wrong recipe there.
+2. **`rajkr/mobilenet-v2-food101` @ 0dea82e7 is broken.** Top1 0.0614
+   (101-way random is 0.0099). The failure mode is a confident collapse, not
+   uncertainty: five labels (hamburger, ramen, bruschetta, prime_rib,
+   chicken_wings) absorb 2,196 of 2,525 predictions, often with top1
+   probability approaching 1.0, so no probability threshold can separate
+   right from wrong. Verified against the canonical HF
+   `image-classification` pipeline at the same revision: identical outputs
+   (0/30 agreement with ground truth on a spot check), so this is the
+   checkpoint, not our runner. Its dev set cannot reach the 0.90
+   suggestion-precision target at any tested tau; the report marks its tau
+   as unvalidated.
+
+Confidence regime matters: even the good ViT is underconfident (most
+correct predictions sit far below 0.5), so the abstention threshold is
+selected on dev (target 0.90 suggestion precision, maximizing coverage) and
+re-measured on test rather than hand-picked. The selection and its
+non-transfer risk are recorded in `results/scored.json`. A threshold-only
+abstention policy cannot rescue a collapsed model: MobileNet's confident
+wrong predictions clear any tau, which is why tau selection failed for it
+on dev while ViT passes.
+
+Reproduce:
+
+```bash
+python3 benchmarks/dish-ambiguity-v1/run.py --dataset-root <food-101> --out benchmarks/dish-ambiguity-v1/results
+python3 benchmarks/dish-ambiguity-v1/score.py --verify-report   # byte-compares committed artifacts
+```
+
 ## What is committed
 
 - `mapping.food101-v1.json`, `food101-classes.txt` - frozen taxonomy

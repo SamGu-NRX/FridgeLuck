@@ -1,0 +1,38 @@
+{
+ "schemaVersion": "dish-ambiguity-run-metadata-v1",
+ "startedUtc": "2026-10-10T20:20:29Z",
+ "finishedUtc": "2026-10-10T20:29:50Z",
+ "device": "cpu",
+ "python": "3.13.14",
+ "torch": "2.14.1+cpu",
+ "transformers": "5.19.0",
+ "numpy": "2.5.2",
+ "torchNumThreads": 4,
+ "datasetTarball": {
+  "path": "/home/user/work/food101-dl/food-101.tar.gz",
+  "sha256": "d97d15e438b7f4498f96086a4f7e2fa42a32f2712e87d3295441b2b6314053a4"
+ },
+ "models": {
+  "vit-base-food101": {
+   "repo": "nateraw/vit-base-food101",
+   "revision": "55859a2a13495f714060e34f150031e616fce549",
+   "weights_sha256": "61f707d9d423461b8d1b8fc5cfc2500d0cc34675c19d3e91ae97b282fc925a95"
+  },
+  "mobilenet-v2-food101": {
+   "repo": "rajkr/mobilenet-v2-food101",
+   "revision": "0dea82e70d00f786f2029d8487d845a5cfc2d64a",
+   "weights_sha256": "4f972e3ea524f678eb42e41498cf76539a567d086cd9ac12b86fa6d9f4ca0eef"
+  }
+ },
+ "peakRssKb": 865680,
+ "manifests": {
+  "test": {
+   "path": "/home/user/work/fridgeluck-dish-amb/benchmarks/dish-ambiguity-v1/manifest.json",
+   "sha256": "85ae3fb06242bf542df026ba03e9e2e53faae690fe50b53eba7e12a984a12ec2"
+  },
+  "dev_manifest": {
+   "path": "/home/user/work/fridgeluck-dish-amb/benchmarks/dish-ambiguity-v1/dev_manifest.json",
+   "sha256": "90dd25dbc785a22a90b5efd6b98608ef25b38b62d36311f9a96b6701d71615c6"
+  }
+ }
+}

@@ -193,3 +193,84 @@ def test_manifest_validation_requires_stratification(tmp_path):
     assert any(">= 2000" in e for e in errs.items), errs.items
     assert any("does not cover all 101 classes" in e or "stratification" in e
                for e in errs.items), errs.items
+
+
+# ---------------------------------------------------------------------------
+# scoring hand controls: fake predictions over a hand-built mapping
+# ---------------------------------------------------------------------------
+
+import score as sc  # noqa: E402
+
+HAND_MAPPING = {"classes": {
+    "cls_a": {"status": "exact", "recipes": [10], "reason": "r", "nearMiss": "n"},
+    "cls_b": {"status": "unsupported", "recipes": [], "reason": "r", "nearMiss": "n"},
+}}
+
+
+def pred(path, cls, top1, prob, top5=None):
+    return {"path": path, "class": cls, "top1Label": top1, "top1Prob": prob,
+            "top5": top5 or [{"label": top1, "prob": prob}]}
+
+
+def test_suggestion_stats_counts_only_exact_status():
+    preds = [
+        pred("1.jpg", "cls_a", "cls_a", 0.95),   # suggested, correct
+        pred("2.jpg", "cls_a", "cls_b", 0.95),   # suggested via wrong class? cls_b unsupported -> no suggestion
+        pred("3.jpg", "cls_a", "cls_a", 0.10),   # below tau -> abstain
+        pred("4.jpg", "cls_b", "cls_a", 0.90),   # suggested, wrong truth class
+    ]
+    s = sc.suggestion_stats(preds, HAND_MAPPING, tau=0.5)
+    assert s["evaluatedImages"] == 4
+    assert s["suggestions"] == 2
+    assert s["suggestionPrecision"] == 0.5  # 1 correct of 2
+    assert s["coverage"] == 0.5
+
+
+def test_suggestion_stats_zero_suggestions_precision_none():
+    s = sc.suggestion_stats([pred("1.jpg", "cls_b", "cls_b", 0.99)], HAND_MAPPING, tau=0.5)
+    assert s["suggestions"] == 0 and s["suggestionPrecision"] is None
+
+
+def test_choose_tau_smallest_tau_meeting_target():
+    # at tau>=0.5 all suggestions correct; at 0.3 precision drops
+    preds = [pred("a.jpg", "cls_a", "cls_a", 0.9), pred("b.jpg", "cls_a", "cls_a", 0.6),
+             pred("c.jpg", "cls_a", "cls_a", 0.4), pred("d.jpg", "cls_b", "cls_a", 0.35)]
+    choice = sc.choose_tau(preds, HAND_MAPPING)
+    assert choice["targetMet"] is True
+    assert choice["tau"] == 0.4  # smallest grid tau with precision >= 0.9
+    assert choice["devSuggestionPrecision"] >= 0.9
+
+
+def test_choose_tau_reports_target_not_met():
+    preds = [pred("a.jpg", "cls_a", "cls_a", 0.9), pred("b.jpg", "cls_b", "cls_a", 0.95)]
+    choice = sc.choose_tau(preds, HAND_MAPPING)
+    assert choice["targetMet"] is False
+    assert "NOT a validated" in choice["note"]
+
+
+def test_top1_top5_hand_control():
+    preds = [pred("1.jpg", "cls_a", "cls_a", 0.9,
+                  top5=[{"label": "cls_a", "prob": 0.9}]),
+             pred("2.jpg", "cls_a", "cls_b", 0.1,
+                  top5=[{"label": "cls_b", "prob": 0.1}, {"label": "cls_a", "prob": 0.05}])]
+    r = sc.top1_top5(preds)
+    assert r == {"images": 2, "top1Accuracy": 0.5, "top5Accuracy": 1.0}
+
+
+def test_score_model_rejects_missing_test_image(tmp_path):
+    (tmp_path / "predictions-test-t.json").write_text(json.dumps({
+        "model": "t", "repo": "r", "revision": "s", "weights_sha256": "w",
+        "predictions": [pred("1.jpg", "cls_a", "cls_a", 0.9)], "failures": []}))
+    (tmp_path / "predictions-dev_manifest-t.json").write_text(json.dumps({
+        "model": "t", "repo": "r", "revision": "s", "weights_sha256": "w",
+        "predictions": [pred("d1.jpg", "cls_a", "cls_a", 0.9)], "failures": []}))
+    test_manifest = {"images": [{"path": "1.jpg", "class": "cls_a"},
+                                {"path": "2.jpg", "class": "cls_b"}]}
+    dev_manifest = {"images": [{"path": "d1.jpg", "class": "cls_a"}]}
+    try:
+        sc.score_model("t", tmp_path, HAND_MAPPING, dev_manifest, test_manifest)
+        raised = False
+    except SystemExit as e:
+        raised = True
+        assert "neither a prediction nor a retained failure" in str(e)
+    assert raised, "score_model accepted a manifest with unexplained missing images"
