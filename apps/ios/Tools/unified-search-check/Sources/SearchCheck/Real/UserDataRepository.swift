@@ -298,15 +298,10 @@ final class UserDataRepository: Sendable {
           portionMultiplier: portionMultiplier
         )
 
-        // Typed extraction decodes the GRDB datetime directly. A conditional
-        // cast (`as? Date`) on the row value instantiates the subscript with
-        // DatabaseValue and always fails, silently falling back to now.
-        let cookedAt: Date = row["cooked_at"] ?? Date()
-
         return CookingJournalEntry(
           id: row["history_id"],
           recipe: recipe,
-          cookedAt: cookedAt,
+          cookedAt: row["cooked_at"] as? Date ?? Date(),
           rating: row["rating"],
           imagePath: row["image_path"],
           servingsConsumed: servingsConsumed,

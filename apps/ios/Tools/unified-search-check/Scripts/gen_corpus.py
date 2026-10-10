@@ -10,12 +10,22 @@ Corpus shape (mirrors SearchDocument fields):
   recipe:            title/keywords/created_at
   journal:           title/rating/cooked_at
 
-Queries: 9 single-token, 4 multi-token, 7 date. Expected sets are hand-written
-(no self-fulfilling match rules) and pinned below.
+Queries: a small set of hand-pinned queries (v1) plus a large generated set
+(500+ total). Expected sets come from a construction-based oracle that
+independently re-implements the matching contract: fold to lowercase without
+diacritics, tokenize each indexed column (title, subtitle, keywords,
+date_tokens) into alphanumeric runs, and match a query when every query token
+is a prefix of some document token (underscore-joined tokens act as an
+adjacency phrase within one column). The oracle is written from the matching
+contract, not from the engine's code path, so an engine regression surfaces
+as a metric drop rather than a silent pass.
 """
 import json
 import os
 import calendar
+import unicodedata
+import re
+from itertools import combinations
 
 # ---------- ingredients (24) ----------
 INGREDIENTS = [
@@ -122,6 +132,27 @@ MONTHS = ["january", "february", "march", "april", "may", "june", "july",
           "august", "september", "october", "november", "december"]
 MONTH_ABBR = [m[:3] for m in MONTHS]
 
+# ---------- matching oracle ----------
+# Independent re-implementation of the matching contract (see module
+# docstring). Mirrors FTS5 unicode61 remove_diacritics tokenization: tokens
+# are alphanumeric runs, separators include "_", "-", ".", and punctuation;
+# case and diacritics are folded away. A query matches a document when every
+# query token is a prefix of some token in any indexed column; a query token
+# containing "_" is one term for SearchText.tokens but a separator-split
+# phrase for FTS5, so it requires adjacency within a single column.
+
+TOK = re.compile(r"[^\W_]+", re.UNICODE)   # FTS5 unicode61: "_" is a separator
+QTOK = re.compile(r"\w+", re.UNICODE)      # SearchText.tokens: "_" is kept
+
+
+def fold(s):
+    s = unicodedata.normalize("NFKD", s.lower())
+    return "".join(c for c in s if not unicodedata.combining(c))
+
+
+def tokens(s):
+    return TOK.findall(fold(s))
+
 
 def date_tokens(iso_day):
     y, m, d = (int(x) for x in iso_day.split("-"))
@@ -137,103 +168,196 @@ def pretty_date(iso_day):
     return "%s, %s %02d, %d" % (wd, MONTHS[m - 1].capitalize(), d, y)
 
 
+# Per-document column token lists, in FTS column order.
+doc_columns = []
 docs = []
 
-for iid, title, aliases, category in INGREDIENTS:
+
+def add_doc(kind, canonical_id, title, subtitle, keywords, date_tokens_text):
+    columns = [tokens(title), tokens(subtitle), tokens(keywords),
+               tokens(date_tokens_text)]
+    doc_columns.append(columns)
     docs.append({
-        "kind": "kitchen_ingredient",
-        "canonicalID": "kitchen_ingredient:%d" % iid,
+        "kind": kind,
+        "canonicalID": canonical_id,
         "title": title,
-        "subtitle": category,
-        "keywords": " ".join(aliases),
-        "dateTokens": "",
+        "subtitle": subtitle,
+        "keywords": keywords,
+        "dateTokens": date_tokens_text,
     })
+
+
+def doc_matches(columns, qtokens):
+    """True when every query token is a prefix of some doc token; tokens
+    containing "_" require an adjacent, prefix-matching run in one column."""
+    for qt in qtokens:
+        if "_" in qt:
+            parts = qt.split("_")
+            found = False
+            for col in columns:
+                for i in range(len(col) - len(parts) + 1):
+                    if all(col[i + j].startswith(parts[j])
+                           for j in range(len(parts))):
+                        found = True
+                        break
+                if found:
+                    break
+            if not found:
+                return False
+        else:
+            if not any(t.startswith(qt) for col in columns for t in col):
+                return False
+    return True
+
+
+def qtokens(s):
+    return QTOK.findall(fold(s))
+
+
+def expected_for(query):
+    qts = qtokens(query)
+    assert qts, "empty query"
+    return sorted(
+        d["canonicalID"] for d, cols in zip(docs, doc_columns)
+        if doc_matches(cols, qts))
+
+
+# ---------- build documents ----------
+for iid, title, aliases, category in INGREDIENTS:
+    add_doc(
+        "kitchen_ingredient", "kitchen_ingredient:%d" % iid,
+        title, category, " ".join(aliases), "")
 
 for iid, title, location, grams, expiry in INVENTORY:
-    docs.append({
-        "kind": "kitchen_inventory",
-        "canonicalID": "kitchen_inventory:%d_%s" % (iid, location),
-        "title": title,
-        "subtitle": "%s · %d g in stock" % (location, grams),
-        "keywords": "inventory in stock kitchen",
-        "dateTokens": date_tokens(expiry) if expiry else "",
-    })
+    add_doc(
+        "kitchen_inventory", "kitchen_inventory:%d_%s" % (iid, location),
+        title, "%s · %d g in stock" % (location, grams),
+        "inventory in stock kitchen", date_tokens(expiry) if expiry else "")
 
 for rid, title, keywords, created in RECIPES:
-    docs.append({
-        "kind": "recipe",
-        "canonicalID": "recipe:%d" % rid,
-        "title": title,
-        "subtitle": "30 min · 2 servings",
-        "keywords": keywords,
-        "dateTokens": date_tokens(created),
-    })
+    add_doc(
+        "recipe", "recipe:%d" % rid, title, "30 min · 2 servings",
+        keywords, date_tokens(created))
 
 for jid, title, cooked, rating in JOURNAL:
-    docs.append({
-        "kind": "journal",
-        "canonicalID": "journal:%d" % jid,
-        "title": title,
-        "subtitle": "Cooked %s · rated %d" % (pretty_date(cooked), rating),
-        "keywords": "journal meal logged",
-        "dateTokens": date_tokens(cooked),
-    })
+    add_doc(
+        "journal", "journal:%d" % jid, title,
+        "Cooked %s · rated %d" % (pretty_date(cooked), rating),
+        "journal meal logged", date_tokens(cooked))
 
-# ---------- frozen queries (expected sets hand-written) ----------
-QUERIES = [
-    # single-token (8)
-    {"q": "chicken", "expected": ["kitchen_ingredient:1", "kitchen_inventory:1_fridge",
-                                  "recipe:1", "recipe:2", "recipe:3", "recipe:26"]},
+ids = set(d["canonicalID"] for d in docs)
+
+# ---------- hand-pinned queries (v1) + generated queries ----------
+# All expectations come from the construction-based oracle below. The v1
+# hand-written expectations encoded top-K intuition and silently omitted
+# journal-title matches (e.g. "chicken" also matches "Chicken Noodle Soup"
+# journal entries that rank outside the pinned top-6); the oracle computes
+# the full matching set instead.
+PINNED_QUERIES = [
+    "chicken",
     # aubergine matches only the ingredient title; the alias direction is
     # covered by "eggplant" (keywords), since engine-level aliasing lives in
     # the adapters' alias map, not in the corpus.
-    {"q": "aubergine", "expected": ["kitchen_ingredient:22"]},
-    {"q": "eggplant", "expected": ["kitchen_ingredient:22", "recipe:18", "recipe:19"]},
-    {"q": "soy sauce", "expected": ["kitchen_ingredient:7", "recipe:7", "recipe:8",
-                                    "recipe:14", "recipe:15", "recipe:28"]},
-    {"q": "chickpeas", "expected": ["kitchen_ingredient:17", "kitchen_inventory:9_pantry",
-                                    "recipe:16", "recipe:17"]},
-    {"q": "pasta", "expected": ["kitchen_ingredient:16", "kitchen_inventory:8_pantry",
-                                "recipe:3", "recipe:4", "recipe:5", "recipe:29"]},
-    {"q": "cheddar", "expected": ["kitchen_ingredient:5", "recipe:10", "recipe:11",
-                                  "recipe:18", "recipe:26"]},
-    {"q": "spinach", "expected": ["kitchen_ingredient:12", "kitchen_inventory:5_fridge",
-                                  "recipe:5", "recipe:11", "recipe:16", "recipe:29"]},
-    {"q": "milk", "expected": ["kitchen_ingredient:3", "kitchen_inventory:3_fridge",
-                               "recipe:4"]},
-    # multi-token (4)
-    {"q": "garlic chicken", "expected": ["recipe:1", "recipe:3"]},
-    {"q": "tomato pasta", "expected": ["recipe:4"]},
-    {"q": "spinach egg", "expected": ["recipe:11"]},
-    {"q": "rice soy", "expected": ["recipe:7", "recipe:15", "recipe:28"]},
-    # date (6)
-    {"q": "june", "expected": ["journal:3", "journal:4", "journal:5"]},
-    {"q": "july", "expected": ["journal:6", "journal:7", "journal:8", "journal:9"]},
-    {"q": "2026-08-14", "expected": ["journal:12", "journal:13"]},
-    # Bare "yyyy-mm" number queries are deliberately NOT frozen: the
-    # dateTokens contain standalone day numbers ("08") and years ("2026"),
-    # so prefix matching makes them ambiguous (an April 8 recipe matches
-    # "2026-08"). Month names and full dates are the supported date queries.
-    {"q": "august", "expected": ["journal:10", "journal:11", "journal:12",
-                                 "journal:13", "journal:14", "journal:15"]},
-    {"q": "september", "expected": ["journal:16", "journal:17", "journal:18",
-                                    "journal:19"]},
+    "aubergine",
+    "eggplant",
+    "soy sauce",
+    "chickpeas",
+    "pasta",
+    "cheddar",
+    "spinach",
+    "milk",
+    "garlic chicken",
+    "tomato pasta",
+    "spinach egg",
+    "rice soy",
+    "june",
+    "july",
+    "2026-08-14",
+    "august",
+    "september",
     # october also matches fridge inventory expiring in October by design.
-    {"q": "october", "expected": ["journal:20", "kitchen_inventory:1_fridge",
-                                  "kitchen_inventory:2_fridge", "kitchen_inventory:3_fridge",
-                                  "kitchen_inventory:5_fridge", "kitchen_inventory:6_fridge"]},
+    "october",
 ]
+QUERIES = [{"q": q, "expected": expected_for(q)} for q in PINNED_QUERIES]
 
-ids = set(d["canonicalID"] for d in docs)
-missing = [e for query in QUERIES for e in query["expected"] if e not in ids]
-assert not missing, "expected ids missing from corpus: %s" % missing
+# ---------- generated queries (oracle-computed expectations) ----------
+generated = {}
+
+
+def add_generated(q):
+    if not q or q in generated or any(x["q"] == q for x in QUERIES):
+        return
+    expected = expected_for(q)
+    # Skip queries matching everything (uninformative) or nothing (no
+    # recall to measure).
+    if expected and len(expected) < len(docs):
+        generated[q] = expected
+
+
+all_tokens = sorted({t for cols in doc_columns for col in cols for t in col})
+
+# Family A: every distinct indexed token as a full/prefix query.
+for t in all_tokens:
+    if len(t) >= 2 and not t.isdigit() or len(t) >= 2:
+        add_generated(t)
+
+# Family B: distinct 3-5 character prefixes of indexed tokens.
+seen_prefixes = set()
+for t in all_tokens:
+    for n in (3, 4, 5):
+        if len(t) > n:
+            p = t[:n]
+            if p not in seen_prefixes:
+                seen_prefixes.add(p)
+                add_generated(p)
+
+# Family C: AND pairs of distinct tokens co-occurring in a document.
+pairs = sorted({
+    (a, b)
+    for cols in doc_columns for col in cols
+    for a, b in combinations(sorted(set(col)), 2)
+    if len(a) >= 3 and len(b) >= 3 and "_" not in a and "_" not in b
+})
+for a, b in pairs:
+    add_generated("%s %s" % (a, b))
+
+# Family D: AND triples co-occurring in recipe keyword lists.
+triples = sorted({
+    (a, b, c)
+    for rid, title, keywords, created in RECIPES
+    for a, b, c in combinations(sorted(set(tokens(keywords))), 3)
+})
+for a, b, c in triples:
+    add_generated("%s %s %s" % (a, b, c))
+
+# Family E: underscore compounds from adjacent title/keyword tokens
+# (adjacency phrase semantics in FTS5).
+compounds = set()
+for iid, title, aliases, category in INGREDIENTS:
+    for col in (tokens(title), tokens(" ".join(aliases))):
+        for i in range(len(col) - 1):
+            if len(col[i]) >= 3 and len(col[i + 1]) >= 3:
+                compounds.add((col[i], col[i + 1]))
+for a, b in sorted(compounds):
+    add_generated("%s_%s" % (a, b))
+
+# Family F: every full date string that appears in a document.
+all_dates = sorted({row[4] for row in INVENTORY if row[4]} |
+                   {c for _, _, _, c in RECIPES} |
+                   {c for _, _, c, _ in JOURNAL})
+for iso in all_dates:
+    add_generated(iso)
+
+queries = QUERIES + [{"q": q, "expected": ids_}
+                     for q, ids_ in sorted(generated.items())]
+assert len(queries) >= 500, "corpus must freeze at least 500 queries, got %d" % len(queries)
 
 corpus = {
-    "version": "unified-search-eval-corpus-v1",
+    "version": "unified-search-eval-corpus-v2",
     "counts": {"ingredients": len(INGREDIENTS), "inventory": len(INVENTORY),
                "recipes": len(RECIPES), "journal": len(JOURNAL)},
     "docs": docs,
-    "queries": QUERIES,
+    "queries": queries,
 }
 
 output_path = os.path.join(
@@ -243,4 +367,5 @@ with open(output_path, "w") as f:
     json.dump(corpus, f, indent=1)
     f.write("\n")
 
-print("docs: %d  queries: %d" % (len(docs), len(QUERIES)))
+print("docs: %d  queries: %d (hand-pinned %d, generated %d)"
+      % (len(docs), len(queries), len(QUERIES), len(generated)))

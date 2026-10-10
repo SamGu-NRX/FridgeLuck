@@ -130,8 +130,7 @@ enum SearchFixtures {
       db: db,
       ingredientRepository: ingredientRepository,
       inventoryRepository: inventoryRepository,
-      recipeRepository: recipeRepository,
-      userDataRepository: userDataRepository)
+      recipeRepository: recipeRepository)
 
     return World(
       db: db,
