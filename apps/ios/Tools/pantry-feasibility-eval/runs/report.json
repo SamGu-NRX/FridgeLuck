@@ -1,0 +1,19 @@
+{
+ "false_block_by_family": {},
+ "false_block_pairs": 0,
+ "false_complete_by_family": {
+  "agreement_probe": 843,
+  "all_unknown_quantities": 220,
+  "boundary_quantities": 4961,
+  "diet_allergen_matrix": 155,
+  "near_match_surfaces": 1190,
+  "planted_false_complete": 3174,
+  "realistic_mix": 1303
+ },
+ "false_complete_pairs": 11846,
+ "false_complete_rate_overall": 0.464112,
+ "oracle_feasible_recall": 1.0,
+ "pairs_evaluated": 863200,
+ "planted_false_complete_rate": 0.64186,
+ "production_makeable_pairs": 25524
+}
