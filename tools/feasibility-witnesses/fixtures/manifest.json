@@ -1,0 +1,15 @@
+{
+  "files": {
+    "catalog.json": "f994a25cf68d75076840031ce56fd867f97f61ed6b6706bfc522e6c045dfc8e1",
+    "claims.jsonl": "91716a5093956a4b67fd0e430d9a7c6c08bfc88db4ae6957e472061e0e6631ae",
+    "states.jsonl": "761328e57bac4968972f6aca657dfb3e9acd5531528e53a232697401413aa00b"
+  },
+  "parent": {
+    "base_commit": "c18ece18eaa3c769d55c3e2c29ca7d6e780d45e2",
+    "branch": "obv/fridgeluck-001",
+    "claims_source_branch": "obv/fl-l2-pantry-feasibility",
+    "claims_source_pr": 54,
+    "repo": "SamGu-NRX/FridgeLuck"
+  },
+  "selection_rule": "4 states x 3 recipes; claims rows pinned for states 1-3 only (state 4 exercises claim_not_in_source); state 2 near_match_ids includes 103."
+}

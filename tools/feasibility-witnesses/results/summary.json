@@ -1,0 +1,19 @@
+{
+  "accepted": 9,
+  "fixtures": {
+    "catalog_sha256": "f994a25cf68d75076840031ce56fd867f97f61ed6b6706bfc522e6c045dfc8e1",
+    "claims_sha256": "91716a5093956a4b67fd0e430d9a7c6c08bfc88db4ae6957e472061e0e6631ae",
+    "states_sha256": "761328e57bac4968972f6aca657dfb3e9acd5531528e53a232697401413aa00b"
+  },
+  "records": 27,
+  "rejected": 18,
+  "rejected_by_class": {
+    "claim_not_in_source": 3,
+    "incomplete_witness": 3,
+    "source_binding": 4,
+    "structure": 4,
+    "unsupported_witness": 4
+  },
+  "supported": 9,
+  "unsupported": 0
+}
