@@ -118,6 +118,29 @@ enum BundledDataRefresher {
     try verifyPostConditions(db: db, pass: pass)
     return outcome
   }
+  // MARK: - Pass construction
+
+  /// Builds the pass for the currently shipped bundle. The catalog payload rides
+  /// with the pins: the app has shipped exactly one catalog (pinned as v1), whose
+  /// verified export describes the same rows the bundled catalog SQLite contains.
+  /// When the current data.json matches a pin exactly, that pin's catalog is used;
+  /// otherwise the most recent pin's catalog is the best available description of
+  /// the catalog this app build ships.
+  static func loadCurrentPass(
+    current: BundledData,
+    currentDataSha256: String,
+    pins: [PinnedBundlePayload]
+  ) -> Pass {
+    let catalog =
+      pins.first { $0.dataSha256 == currentDataSha256 }?.catalog
+      ?? pins.last?.catalog
+      ?? []
+    return Pass(
+      current: current,
+      currentDataSha256: currentDataSha256,
+      catalog: catalog,
+      pins: pins)
+  }
 
   private static func validate(_ payload: BundledData) -> [String]? {
     do {
@@ -224,9 +247,9 @@ enum BundledDataRefresher {
       // unless two entries genuinely reproduce the row, in which case the keys
       // differ and the row is ambiguous rather than guessed.
       let liveDataJsonHash = CanonicalHash.hash(
-        fields: rowFields(row, projection: .dataJsonIngredient))
+        fields: BundleRowProjection.rowFields(row, projection: .dataJsonIngredient))
       let liveCatalogHash = CanonicalHash.hash(
-        fields: rowFields(row, projection: .catalogIngredient))
+        fields: BundleRowProjection.rowFields(row, projection: .catalogIngredient))
       let matching = (dataJsonPins[normalized] ?? []).filter { $0.contentHash == liveDataJsonHash }
         + (catalogPins[normalized] ?? []).filter { $0.contentHash == liveCatalogHash }
       try adoptRow(
@@ -257,7 +280,7 @@ enum BundledDataRefresher {
           detail: "recipe \(rowId) has a blank title and cannot be matched")
         continue
       }
-      let liveHash = CanonicalHash.hash(fields: rowFields(row, projection: .recipe))
+      let liveHash = CanonicalHash.hash(fields: BundleRowProjection.rowFields(row, projection: .recipe))
       let relationships = try Row.fetchAll(
         db,
         sql: """
@@ -374,8 +397,9 @@ enum BundledDataRefresher {
   /// - owned row whose live content equals the payload: marker-only touch at most
   /// - owned row carrying its stored hash while the payload changed: update in place
   /// - owned row whose live content differs from its stored hash: modified, skip
-  /// - no owned row and no unowned name-twin: insert new
+  /// - no owned row and no same-named row at all: insert new
   /// - no owned row but an unowned name-twin exists: blocked, diagnostic
+  /// - no owned row but the name is held by a differently-owned row: blocked, diagnostic
   private static func upsertIngredient(
     db: Database,
     key: String,
@@ -428,6 +452,23 @@ enum BundledDataRefresher {
       try recordDiagnostic(
         db, entityType: "ingredient", entityRef: key, code: "blocked_by_unadopted_row",
         detail: "\(payloadRef): an unadopted row with the same name exists; it stays unowned")
+      return
+    }
+    // A name held by a row owned by a different bundle entry would make this
+    // insert hit the name UNIQUE constraint and fail the pass; skip and explain.
+    let conflictingNames: Int = try Int.fetchOne(
+      db,
+      sql: """
+        SELECT COUNT(*) FROM ingredients
+        WHERE name = ? COLLATE NOCASE AND ownership_key IS NOT NULL AND ownership_key != ?
+        """,
+      arguments: [name, key]) ?? 0
+    if conflictingNames > 0 {
+      try recordDiagnostic(
+        db, entityType: "ingredient", entityRef: key, code: "name_conflict",
+        detail:
+          "\(payloadRef): the name is held by a row owned by another bundle entry; no second row was created"
+      )
       return
     }
     try insertIngredient(db, fields: writeFields, key: key, hash: payloadHash)
@@ -603,8 +644,12 @@ enum BundledDataRefresher {
       let entryOk: Bool
       if ownedKeysByTable.recipes.contains(key) {
         let liveHash = try liveRecipeHashByKey(db, key: key)
+        // An owned-but-modified row is a legitimate permanent state (user
+        // content wins), explained by the diagnostic the pass records when it
+        // declines to touch the row.
         entryOk =
           liveHash == CanonicalHash.hash(fields: BundleRowProjection.recipeFields(raw))
+          || try hasDiagnostic("recipe", key, "modified_row")
       } else {
         entryOk = try hasDiagnostic("recipe", key, "blocked_by_unadopted_row")
           || try hasDiagnostic("recipe", key, "unresolved_ingredient_dependency")
@@ -621,8 +666,10 @@ enum BundledDataRefresher {
         let liveHash = try liveIngredientHashByKey(db, key: key)
         entryOk =
           liveHash == CanonicalHash.hash(fields: BundleRowProjection.dataJsonIngredientFields(raw))
+          || try hasDiagnostic("ingredient", key, "modified_row")
       } else {
         entryOk = try hasDiagnostic("ingredient", key, "blocked_by_unadopted_row")
+          || try hasDiagnostic("ingredient", key, "name_conflict")
       }
       if !entryOk {
         throw BundledDataRefreshError.postConditionFailed("ingredient entry \(key)")
@@ -635,8 +682,10 @@ enum BundledDataRefresher {
         let liveHash = try liveIngredientHashByKey(db, key: key)
         entryOk =
           liveHash == CanonicalHash.hash(fields: BundleRowProjection.catalogIngredientFields(raw))
+          || try hasDiagnostic("ingredient", key, "modified_row")
       } else {
         entryOk = try hasDiagnostic("ingredient", key, "blocked_by_unadopted_row")
+          || try hasDiagnostic("ingredient", key, "name_conflict")
       }
       if !entryOk {
         throw BundledDataRefreshError.postConditionFailed("catalog entry \(key)")
@@ -646,18 +695,12 @@ enum BundledDataRefresher {
 
   // MARK: - Live hashing
 
-  private enum RowProjection {
-    case recipe
-    case dataJsonIngredient
-    case catalogIngredient
-  }
-
   private static func liveRecipeHash(db: Database, rowId: Int64) throws -> String {
     guard let row = try Row.fetchOne(db, sql: "SELECT * FROM recipes WHERE id = ?", arguments: [rowId])
     else {
       throw BundledDataRefreshError.postConditionFailed("recipe row \(rowId) disappeared")
     }
-    return CanonicalHash.hash(fields: rowFields(row, projection: .recipe))
+    return CanonicalHash.hash(fields: BundleRowProjection.rowFields(row, projection: .recipe))
   }
 
   private static func liveRecipeHashByKey(db: Database, key: String) throws -> String {
@@ -665,7 +708,7 @@ enum BundledDataRefresher {
     else {
       throw BundledDataRefreshError.postConditionFailed("recipe \(key) disappeared")
     }
-    return CanonicalHash.hash(fields: rowFields(row, projection: .recipe))
+    return CanonicalHash.hash(fields: BundleRowProjection.rowFields(row, projection: .recipe))
   }
 
   private static func liveIngredientHash(db: Database, rowId: Int64, ownershipKey: String) throws
@@ -677,7 +720,7 @@ enum BundledDataRefresher {
       throw BundledDataRefreshError.postConditionFailed("ingredient row \(rowId) disappeared")
     }
     return CanonicalHash.hash(
-      fields: rowFields(row, projection: ingredientProjection(for: ownershipKey)))
+      fields: BundleRowProjection.rowFields(row, projection: ingredientProjection(for: ownershipKey)))
   }
 
   private static func liveIngredientHashByKey(db: Database, key: String) throws -> String {
@@ -687,67 +730,15 @@ enum BundledDataRefresher {
       throw BundledDataRefreshError.postConditionFailed("ingredient \(key) disappeared")
     }
     return CanonicalHash.hash(
-      fields: rowFields(row, projection: ingredientProjection(for: key)))
+      fields: BundleRowProjection.rowFields(row, projection: ingredientProjection(for: key)))
   }
 
   /// Provenance by key namespace: usda.fdc/* rows were written by the catalog
   /// importer, fridgeluck.bundle.ingredient/* rows by the data.json loader.
-  private static func ingredientProjection(for ownershipKey: String) -> RowProjection {
-    ownershipKey.hasPrefix("usda.") ? .catalogIngredient : .dataJsonIngredient
-  }
-
-  private static func rowFields(_ row: Row, projection: RowProjection)
-    -> [(name: String, value: String?)]
+  private static func ingredientProjection(for ownershipKey: String)
+    -> BundleRowProjection.RowSource
   {
-    switch projection {
-    case .recipe:
-      return [
-        ("title", row["title"]),
-        ("time_minutes", CanonicalHash.integer(row["time_minutes"] ?? 0)),
-        ("servings", CanonicalHash.integer(row["servings"] ?? 1)),
-        ("instructions", row["instructions"]),
-        ("tags", CanonicalHash.integer(row["tags"] ?? 0)),
-        ("source", row["source"] ?? "bundled"),
-      ]
-    case .dataJsonIngredient:
-      return [
-        ("name", row["name"]),
-        ("calories", CanonicalHash.real(row["calories"] ?? 0)),
-        ("protein", CanonicalHash.real(row["protein"] ?? 0)),
-        ("carbs", CanonicalHash.real(row["carbs"] ?? 0)),
-        ("fat", CanonicalHash.real(row["fat"] ?? 0)),
-        ("fiber", CanonicalHash.real(row["fiber"] ?? 0)),
-        ("sugar", CanonicalHash.real(row["sugar"] ?? 0)),
-        ("sodium", CanonicalHash.real(row["sodium"] ?? 0)),
-        ("typical_unit", row["typical_unit"]),
-        ("storage_tip", row["storage_tip"]),
-        ("pairs_with", nil),
-        ("notes", nil),
-        ("description", nil),
-        ("category_label", nil),
-        ("sprite_group", nil),
-        ("sprite_key", nil),
-      ]
-    case .catalogIngredient:
-      return [
-        ("name", row["name"]),
-        ("calories", CanonicalHash.real(row["calories"] ?? 0)),
-        ("protein", CanonicalHash.real(row["protein"] ?? 0)),
-        ("carbs", CanonicalHash.real(row["carbs"] ?? 0)),
-        ("fat", CanonicalHash.real(row["fat"] ?? 0)),
-        ("fiber", CanonicalHash.real(row["fiber"] ?? 0)),
-        ("sugar", CanonicalHash.real(row["sugar"] ?? 0)),
-        ("sodium", CanonicalHash.real(row["sodium"] ?? 0)),
-        ("typical_unit", nil),
-        ("storage_tip", nil),
-        ("pairs_with", nil),
-        ("notes", row["notes"]),
-        ("description", row["description"] ?? ""),
-        ("category_label", row["category_label"]),
-        ("sprite_group", row["sprite_group"]),
-        ("sprite_key", row["sprite_key"]),
-      ]
-    }
+    ownershipKey.hasPrefix("usda.") ? .catalogIngredient : .dataJsonIngredient
   }
 
   // MARK: - Write helpers

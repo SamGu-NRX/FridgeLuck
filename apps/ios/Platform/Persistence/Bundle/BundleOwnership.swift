@@ -1,5 +1,6 @@
 import CryptoKit
 import Foundation
+import GRDB
 
 /// Namespaced ownership keys tying installed rows to the bundle entries they came from.
 ///
@@ -130,5 +131,71 @@ enum BundleRowProjection {
       ("sprite_group", raw.spriteGroup),
       ("sprite_key", raw.spriteKey),
     ]
+  }
+
+  // MARK: - Row-side projections
+
+  /// Selects which writer's column set to read a row back with. The two ingredient
+  /// projections differ in which columns each writer produced, so the choice must
+  /// follow the row's provenance, not trial and error.
+  enum RowSource {
+    case recipe
+    case dataJsonIngredient
+    case catalogIngredient
+  }
+
+  /// Reads a row with the named projection. Field names, order, and canonical
+  /// encodings are identical to the payload-side functions above — that is the
+  /// invariant that lets a row hash be compared against a payload hash.
+  static func rowFields(_ row: Row, projection: RowSource) -> [(name: String, value: String?)] {
+    switch projection {
+    case .recipe:
+      return [
+        ("title", row["title"]),
+        ("time_minutes", CanonicalHash.integer(row["time_minutes"] ?? 0)),
+        ("servings", CanonicalHash.integer(row["servings"] ?? 1)),
+        ("instructions", row["instructions"]),
+        ("tags", CanonicalHash.integer(row["tags"] ?? 0)),
+        ("source", row["source"] ?? "bundled"),
+      ]
+    case .dataJsonIngredient:
+      return [
+        ("name", row["name"]),
+        ("calories", CanonicalHash.real(row["calories"] ?? 0)),
+        ("protein", CanonicalHash.real(row["protein"] ?? 0)),
+        ("carbs", CanonicalHash.real(row["carbs"] ?? 0)),
+        ("fat", CanonicalHash.real(row["fat"] ?? 0)),
+        ("fiber", CanonicalHash.real(row["fiber"] ?? 0)),
+        ("sugar", CanonicalHash.real(row["sugar"] ?? 0)),
+        ("sodium", CanonicalHash.real(row["sodium"] ?? 0)),
+        ("typical_unit", row["typical_unit"]),
+        ("storage_tip", row["storage_tip"]),
+        ("pairs_with", nil),
+        ("notes", nil),
+        ("description", nil),
+        ("category_label", nil),
+        ("sprite_group", nil),
+        ("sprite_key", nil),
+      ]
+    case .catalogIngredient:
+      return [
+        ("name", row["name"]),
+        ("calories", CanonicalHash.real(row["calories"] ?? 0)),
+        ("protein", CanonicalHash.real(row["protein"] ?? 0)),
+        ("carbs", CanonicalHash.real(row["carbs"] ?? 0)),
+        ("fat", CanonicalHash.real(row["fat"] ?? 0)),
+        ("fiber", CanonicalHash.real(row["fiber"] ?? 0)),
+        ("sugar", CanonicalHash.real(row["sugar"] ?? 0)),
+        ("sodium", CanonicalHash.real(row["sodium"] ?? 0)),
+        ("typical_unit", nil),
+        ("storage_tip", nil),
+        ("pairs_with", nil),
+        ("notes", row["notes"]),
+        ("description", row["description"] ?? ""),
+        ("category_label", row["category_label"] ?? ""),
+        ("sprite_group", row["sprite_group"] ?? ""),
+        ("sprite_key", row["sprite_key"] ?? ""),
+      ]
+    }
   }
 }
