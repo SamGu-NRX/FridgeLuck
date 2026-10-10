@@ -434,6 +434,63 @@ def adapt_fdc_reference(inp: AdapterInput, data: ManifestData, ctx) -> List[Line
     return out
 
 
+def adapt_usda_manual_overrides(inp: AdapterInput, data: ManifestData, ctx) -> List[LineageRecord]:
+    """scripts/data/usda_manual_overrides.json — curation overrides keyed by FDC id.
+
+    Each override targets an upstream FDC product (source identity) but
+    declares no group, revision, or hash of its own; only a curated label.
+    """
+    doc = data.json()
+    out: List[LineageRecord] = []
+    for i, (fdc_id, entry) in enumerate(
+        sorted(doc.get("overrides", {}).items(), key=lambda kv: str(kv[0]))
+    ):
+        if not isinstance(entry, dict):
+            continue
+        out.append(
+            LineageRecord(
+                manifest=inp.name,
+                item_id=f"override-{i:06d}",
+                kind=inp.kind,
+                origin=USDA_FDC,
+                source_id=norm(fdc_id),
+                product_revision=UNKNOWN,
+                declared_group=UNKNOWN,
+                content_hash=UNKNOWN,
+                label=norm(entry.get("display_name")),
+            )
+        )
+    return out
+
+
+def adapt_nutrition_compact(inp: AdapterInput, data: ManifestData, ctx) -> List[LineageRecord]:
+    """apps/ios/Resources/usda_ingredient_nutrition_compact.json — ingredient map.
+
+    Declares, per app ingredient: ingredient_key/name and the matched FDC
+    product (matched_fdc_id) with its upstream data type. Source identity is
+    the matched fdc_id; no bytes/hash are available.
+    """
+    doc = data.json()
+    out: List[LineageRecord] = []
+    for i, row in enumerate(doc.get("records", [])):
+        if not isinstance(row, dict):
+            continue
+        out.append(
+            LineageRecord(
+                manifest=inp.name,
+                item_id=norm(row.get("ingredient_key")) or f"ing-{i:06d}",
+                kind=inp.kind,
+                origin=USDA_FDC,
+                source_id=norm(row.get("matched_fdc_id")),
+                product_revision=norm(row.get("matched_data_type")),
+                declared_group=UNKNOWN,
+                content_hash=UNKNOWN,
+                label=norm(row.get("ingredient_name")),
+            )
+        )
+    return out
+
+
 ADAPTERS: Dict[str, Callable[[AdapterInput, ManifestData, object], List[LineageRecord]]] = {
     "dish-ambiguity": adapt_dish_ambiguity,
     "nonfood-rejection": adapt_nonfood_rejection,
@@ -444,6 +501,8 @@ ADAPTERS: Dict[str, Callable[[AdapterInput, ManifestData, object], List[LineageR
     "nutrition5k-dishes": adapt_nutrition5k_dishes,
     "usda-catalog": adapt_usda_catalog,
     "usda-review-batches": adapt_usda_review_batches,
+    "usda-manual-overrides": adapt_usda_manual_overrides,
+    "nutrition-compact": adapt_nutrition_compact,
     "preparation-state": adapt_preparation_state,
     "fdc-reference": adapt_fdc_reference,
 }

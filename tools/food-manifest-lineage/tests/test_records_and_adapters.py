@@ -16,6 +16,44 @@ def load(adapter: str, name: str, kind: str, file: str, **kwargs):
     return run_adapter(inp, (FIXTURES / file).read_bytes(), blob_resolver=None)
 
 
+def test_usda_manual_overrides_adapter():
+    recs = load(
+        "usda-manual-overrides",
+        "fx-usda-overrides",
+        "product",
+        "data/usda_manual_overrides.json",
+    )
+    assert [r.item_id for r in recs] == ["override-000000", "override-000001"]
+    first = recs[0]
+    assert first.origin == "usda-fdc"
+    assert first.source_id == "167599"
+    assert first.label == "Fixture Butter Override"
+    # Overrides declare no group, revision, or hash of their own.
+    assert first.product_revision == UNKNOWN
+    assert first.declared_group == UNKNOWN
+    assert first.content_hash == UNKNOWN
+
+
+def test_nutrition_compact_adapter():
+    recs = load(
+        "nutrition-compact",
+        "fx-nutrition-compact",
+        "product",
+        "data/usda_nutrition_compact.json",
+    )
+    assert [r.item_id for r in recs] == ["1", "2"]
+    assert recs[0].origin == "usda-fdc"
+    assert recs[0].source_id == "170893"
+    assert recs[0].product_revision == "SR Legacy"
+    assert recs[0].label == "egg"
+    assert recs[0].declared_group == UNKNOWN
+    assert recs[0].content_hash == UNKNOWN
+    # Unmatched ingredient keeps its unknown source id.
+    assert recs[1].source_id == UNKNOWN
+    assert recs[1].product_revision == UNKNOWN
+
+
+
 def test_dish_ambiguity_adapter_fields():
     recs = load("dish-ambiguity", "fx-dish-a", "image", "data/dish_manifest_a.json")
     assert len(recs) == 3

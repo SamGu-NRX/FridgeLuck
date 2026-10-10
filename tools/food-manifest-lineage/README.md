@@ -72,6 +72,24 @@ Every manifest row becomes a `LineageRecord`:
 Order-independent and id-independent: shuffling input records or renaming
 manifests/items does not change any count (`tests/test_engine.py` proves both).
 
+## Families: audited here vs. modeled by contract
+
+Two tiers, kept explicit so neither borrows evidence from the other:
+
+- **Real, audited by the pinned audit** (`audit/audit.py` over
+  `audit/inputs.json`): the bundled demo benchmark manifest (whose referenced
+  images are committed and hashed read-only), the USDA catalogue
+  (`usda_curated_ingredients.json`), the 21 USDA review batches, the manual
+  overrides, and the compact nutrition map. These are files committed in this
+  repository at the audit head.
+- **Modeled shapes, validated only by the synthetic contract** (`check.py`):
+  Food-101-style dish-ambiguity manifests, the Open Images-style nonfood
+  rejection manifest, the multiplate manifest, the FoodSeg103-style CSV,
+  preparation-state groups, and Nutrition5k experiment artifacts. None of
+  those manifests are committed to this repository at the audit head, so the
+  audit says nothing about them; their adapters are exercised purely by the
+  synthetic fixture (all ids, hashes, and hosts in it are synthetic).
+
 ## Usage
 
 ```bash
@@ -81,6 +99,10 @@ python3 tools/food-manifest-lineage/check.py \
 
 # Tests
 python3 -m pytest tools/food-manifest-lineage/tests -q
+
+# Pinned read-only audit of the repository's committed manifests
+# (verifies audit/inputs.json pins, writes audit/results.json)
+python3 tools/food-manifest-lineage/audit/audit.py
 ```
 
 ### Contract fixtures
@@ -118,8 +140,21 @@ Planted relationships in the fixtures:
   one record with unknown keys; it exists so the checker can prove such
   manifests stay quiet rather than vanish.
 
+## Audit milestone
+
+`audit/inputs.json` pins every permitted manifest committed at the audit head
+(path, git blob SHA, file sha256, byte count, last-modifying commit) and
+`audit/audit.py` verifies each pin before scanning — a drifted pin is a hard
+failure, not a warning. It writes `audit/results.json` (per-manifest census,
+cluster counts, example findings with item ids, approximate-dHash flags kept
+separate) and `audit/summary.md` interprets it. The audit is read-only and
+offline: it hashes committed files, fetches nothing, and never treats a
+declared perceptual hash as evidence of duplication.
+
 ## Known limitation
 
-`report.py` (census + per-manifest verification over the repository's real
-public manifests) is planned as the follow-on milestone; `check.py` currently
-validates the scanner itself against the synthetic contract.
+`audit.py` (census + per-manifest verification over the repository's real
+committed manifests) is implemented and its results are committed under
+`audit/`; see the Audit milestone section. The dataset families not committed
+to this repository remain out of scope for the audit even though their
+adapter shapes are contract-tested.
