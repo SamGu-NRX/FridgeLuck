@@ -42,6 +42,8 @@ import argparse
 import gzip
 import io
 import json
+import random
+import resource
 import sys
 import time
 from pathlib import Path
@@ -132,6 +134,12 @@ def build_label_space(label_space: str, lexicon: IngredientLexicon, catalog: Ing
     return list(entries.values())
 
 
+def crop_schedule_crops(image: Image.Image, schedule: str) -> list[tuple[str, Image.Image]]:
+    if schedule == "whole":
+        return [("full", image)]
+    return deterministic_crops(image)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", choices=["validation", "train"], required=True)
@@ -139,7 +147,19 @@ def main() -> None:
     ap.add_argument("--pretrained", default="laion2b_s34b_b79k")
     ap.add_argument("--label-space", choices=["curated", "curated+usda"], default="curated")
     ap.add_argument("--absorbers", choices=["on", "off"], default="on")
+    ap.add_argument("--crop-schedule", choices=["six", "whole"], default="six",
+                    help="six = app's deterministic six-crop schedule; whole = single full-image crop")
+    ap.add_argument("--threshold", type=float, default=0.1,
+                    help="classifier confidence threshold applied to detections (app constant: 0.1)")
+    ap.add_argument("--record-floor", type=float, default=0.01,
+                    help="probability floor for recorded per-crop labels, so threshold sweeps "
+                         "can re-derive detections offline without re-running inference")
     ap.add_argument("--limit", type=int, default=0, help="cap rows (0 = all); for smoke runs only")
+    ap.add_argument("--sample", type=int, default=0,
+                    help="deterministic random sample of N manifest ids (seed 0) instead of "
+                         "the first --limit rows; use for development runs so the dev slice "
+                         "is not the shard's id-ordered head")
+    ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default="")
     args = ap.parse_args()
 
@@ -149,13 +169,17 @@ def main() -> None:
     if args.absorbers == "on":
         labels = labels + [{"name": a, "raw": a, "prompt": f"a photo of {a}"} for a in ABSORBERS]
     print(f"label space: {len(labels)} classes")
+    t_run_start = time.time()
 
     import open_clip
 
     model_id = f"{args.model}-{args.pretrained.replace('/', '_')}"
+    cache_key = f"{args.split}-{model_id}-{args.crop_schedule}"
+    if args.sample:
+        cache_key += f"-smp{args.sample}seed{args.seed}"
     EMBED_DIR.mkdir(parents=True, exist_ok=True)
-    embed_path = EMBED_DIR / f"{args.split}-{model_id}.npy"
-    ids_path = EMBED_DIR / f"{args.split}-{model_id}-ids.json"
+    embed_path = EMBED_DIR / f"{cache_key}.npy"
+    ids_path = EMBED_DIR / f"{cache_key}-ids.json"
 
     device = "cpu"
     model, _, preprocess = open_clip.create_model_and_transforms(args.model, pretrained=args.pretrained)
@@ -163,8 +187,8 @@ def main() -> None:
     tokenizer = open_clip.get_tokenizer(args.model)
 
     # ---- image embeddings (cached)
-    geom_path = EMBED_DIR / f"{args.split}-{model_id}-geoms.json"
-    meta_path = EMBED_DIR / f"{args.split}-{model_id}-meta.json"
+    geom_path = EMBED_DIR / f"{cache_key}-geoms.json"
+    meta_path = EMBED_DIR / f"{cache_key}-meta.json"
     cache_complete = False
     if meta_path.exists():
         try:
@@ -197,14 +221,23 @@ def main() -> None:
             feats.append(f_emb.cpu().numpy())
             batch_imgs.clear()
 
+        sample_ids: set[int] | None = None
+        if args.sample:
+            manifest = json.loads((EXPERIMENT_ROOT / "manifest.json").read_text())
+            pool = sorted(int(r["image_id"]) for r in manifest["images"] if r["split"] == args.split)
+            rng = random.Random(args.seed)
+            sample_ids = set(rng.sample(pool, min(args.sample, len(pool))))
+            print(f"sampled {len(sample_ids)} manifest ids (seed {args.seed})")
         outer: bool = False
         for shard in parquets:
             table = pq.read_table(shard, columns=["image", "id"])
             for i in range(table.num_rows):
                 payload = table.column("image")[i].as_py()
                 img_id = table.column("id")[i].as_py()
+                if sample_ids is not None and img_id not in sample_ids:
+                    continue
                 img = prepare(Image.open(io.BytesIO(payload["bytes"])).convert("RGB"))
-                for crop_id, crop in deterministic_crops(img):
+                for crop_id, crop in crop_schedule_crops(img, args.crop_schedule):
                     batch_imgs.append(preprocess(crop))
                     image_ids.append(img_id)
                     crop_geoms.append(crop_id)
@@ -245,65 +278,107 @@ def main() -> None:
     probs = (torch.from_numpy(embeddings) @ torch.from_numpy(text_feats.T)) * logit_scale
     probs = torch.softmax(probs.float(), dim=-1).numpy()
 
-    out_path = Path(args.out) if args.out else EXPERIMENT_ROOT / "observations" / f"openmodel_{args.split}_{args.label_space.replace('+','_')}_absorbers{args.absorbers}.jsonl.gz"
+    out_path = Path(args.out) if args.out else EXPERIMENT_ROOT / "observations" / f"openmodel_{args.split}_{args.label_space.replace('+','_')}_absorbers{args.absorbers}_{args.crop_schedule}crop.jsonl.gz"
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    failures_path = out_path.with_suffix("").with_suffix(".failures.jsonl")
 
     rows_by_id: dict[int, dict] = {}
+    failures: list[dict] = []
+    t_inference = 0.0
     for crop_index in range(embeddings.shape[0]):
         img_id = image_ids[crop_index]
         crop_geom = crop_geoms[crop_index]
         crop_row = probs[crop_index]
-        top = np.argsort(-crop_row)[:8]
-        record_labels = []
-        kept = []
-        for cls_idx in top:
-            prob = float(crop_row[cls_idx])
-            if prob <= 0.1:  # app threshold: confidence > 0.1 only continues
-                continue
-            label = labels[int(cls_idx)]
-            resolved = resolve_label(label["raw"], lex, catalog)
-            entry = {
-                "name": label["name"],
-                "prob": round(prob, 6),
-                "resolved_id": resolved.ingredient_id if resolved else None,
-                "provenance": resolved.provenance if resolved else None,
-                "is_absorber": label["name"] in ABSORBERS,
-            }
-            record_labels.append(entry)
-            if resolved is not None:
-                kept.append((prob, resolved.ingredient_id, label["name"], resolved.provenance))
-        rows_by_id.setdefault(img_id, {"crops": []})
-        crop_pos = len(rows_by_id[img_id]["crops"])
+        try:
+            t_img = time.time()
+            top = np.argsort(-crop_row)[:8]
+            record_labels = []
+            kept = []
+            for cls_idx in top:
+                prob = float(crop_row[cls_idx])
+                if prob <= args.record_floor:
+                    continue
+                label = labels[int(cls_idx)]
+                resolved = resolve_label(label["raw"], lex, catalog)
+                entry = {
+                    "name": label["name"],
+                    "prob": round(prob, 6),
+                    "resolved_id": resolved.ingredient_id if resolved else None,
+                    "provenance": resolved.provenance if resolved else None,
+                    "is_absorber": label["name"] in ABSORBERS,
+                }
+                record_labels.append(entry)
+                if prob > args.threshold and resolved is not None:
+                    kept.append((prob, resolved.ingredient_id, label["name"], resolved.provenance))
+            t_inference += time.time() - t_img
+        except Exception as e:  # noqa: BLE001 — record, never crash the run
+            failures.append({"image_id": img_id, "crop_id": crop_geom, "error": repr(e)})
+            continue
+        rows_by_id.setdefault(img_id, {"crops": [], "best": {}})
         rows_by_id[img_id]["crops"].append(
             {"id": crop_geom, "labels": record_labels}
         )
-        # app dedup: best confidence per ingredient across crops (ties: first wins)
-        best: dict[int, tuple] = {}
+        # app dedup: best confidence per ingredient across ALL crops of the
+        # image (ties: first wins) — accumulated, not per-crop
+        best = rows_by_id[img_id]["best"]
         for prob, ing_id, name, prov in kept:
             if ing_id not in best or prob > best[ing_id][0]:
                 best[ing_id] = (prob, name, prov)
-        detections = sorted(
-            (
-                {
-                    "ingredient_id": ing_id,
-                    "confidence": round(b[0], 6),
-                    "original_label": b[1],
-                    "provenance": b[2],
-                }
-                for ing_id, b in best.items()
-            ),
-            key=lambda d: -d["confidence"],
-        )
-        rows_by_id[img_id]["detections"] = detections
 
     with gzip.open(out_path, "wt") as f:
         for img_id in sorted(rows_by_id):
+            row = rows_by_id[img_id]
+            best = row.pop("best")
+            row["detections"] = sorted(
+                (
+                    {
+                        "ingredient_id": ing_id,
+                        "confidence": round(b[0], 6),
+                        "original_label": b[1],
+                        "provenance": b[2],
+                    }
+                    for ing_id, b in best.items()
+                ),
+                key=lambda d: -d["confidence"],
+            )
             rec = {"split": args.split, "image_id": img_id}
-            rec.update(rows_by_id[img_id])
+            rec.update(row)
             f.write(json.dumps(rec) + "\n")
+    with failures_path.open("w") as f:
+        for fail in failures:
+            f.write(json.dumps(fail) + "\n")
     n_det = sum(len(r["detections"]) for r in rows_by_id.values())
-    print(f"wrote {out_path}: {len(rows_by_id)} images, {n_det} detections")
+    peak_rss_mb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0  # Linux: KiB
+    run_meta = {
+        "split": args.split,
+        "model": args.model,
+        "pretrained": args.pretrained,
+        "label_space": args.label_space,
+        "absorbers": args.absorbers,
+        "crop_schedule": args.crop_schedule,
+        "detection_threshold": args.threshold,
+        "record_floor": args.record_floor,
+        "images_observed": len(rows_by_id),
+        "detections": n_det,
+        "failures": len(failures),
+        "elapsed_seconds": {
+            "inference_resolution": round(t_inference, 3),
+            "total_wall": round(time.time() - t_run_start, 3),
+        },
+        "peak_rss_mb": round(peak_rss_mb, 1),
+        "device": "cpu",
+        "note": (
+            "elapsed_seconds measures wall-clock of real image inference (embedding, "
+            "softmax, resolution); no crop-count figure is reported as latency. "
+            "Authored-name replay runs are excluded by construction: this runner "
+            "embeds actual dataset images."
+        ),
+    }
+    (out_path.with_suffix("").with_suffix(".meta.json")).write_text(json.dumps(run_meta, indent=1) + "\n")
+    print(f"wrote {out_path}: {len(rows_by_id)} images, {n_det} detections, {len(failures)} failures")
+    print(json.dumps(run_meta, indent=1))
 
 
 if __name__ == "__main__":
     main()
+

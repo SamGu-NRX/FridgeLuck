@@ -1,0 +1,775 @@
+{
+ "observations": "observations/openmodel_validation_curated_usda_absorberson.jsonl.gz",
+ "split": "validation",
+ "images_scored": 2135,
+ "images_with_detections": 2086,
+ "instance_recall": {
+  "exact": 0.16666666666666666,
+  "all": 0.1425489843609563,
+  "coarse": 0.1427061310782241,
+  "ambiguous": 0.016194331983805668
+ },
+ "instance_counts": {
+  "exact": 3876,
+  "all": 5563,
+  "coarse": 946,
+  "ambiguous": 741
+ },
+ "detection_precision": 0.1058,
+ "detections_total": 7479,
+ "detections_correct": 791,
+ "detections_by_label_provenance": {
+  "catalog": 7120,
+  "curated": 1114
+ },
+ "abstain_images_with_mapped_gt": 30,
+ "no_claim_images": 254,
+ "no_claim_violations": 235,
+ "unjustified_detections": 6688,
+ "unjustified_examples": [
+  {
+   "image_id": 0,
+   "ingredient_id": 169068,
+   "confidence": 0.163345,
+   "original_label": "Vegetarian Fillets",
+   "gt_classes": [
+    "dried cranberries",
+    "shrimp",
+    "rice",
+    "carrot",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 0,
+   "ingredient_id": 168904,
+   "confidence": 0.151115,
+   "original_label": "Vegetable Macaroni (Cooked)",
+   "gt_classes": [
+    "dried cranberries",
+    "shrimp",
+    "rice",
+    "carrot",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 1,
+   "ingredient_id": 169875,
+   "confidence": 0.309877,
+   "original_label": "Sweet And Sour Dressing",
+   "gt_classes": [
+    "shrimp",
+    "carrot",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 2,
+   "ingredient_id": 168324,
+   "confidence": 0.261107,
+   "original_label": "Rendered Bacon Fat",
+   "gt_classes": [
+    "olives",
+    "pineapple",
+    "sauce",
+    "bread",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 2,
+   "ingredient_id": 173443,
+   "confidence": 0.134592,
+   "original_label": "Sour Cream (Light)",
+   "gt_classes": [
+    "olives",
+    "pineapple",
+    "sauce",
+    "bread",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 2,
+   "ingredient_id": 171009,
+   "confidence": 0.126531,
+   "original_label": "Mayonnaise Dressing",
+   "gt_classes": [
+    "olives",
+    "pineapple",
+    "sauce",
+    "bread",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 2,
+   "ingredient_id": 167780,
+   "confidence": 0.124832,
+   "original_label": "Prune Puree",
+   "gt_classes": [
+    "olives",
+    "pineapple",
+    "sauce",
+    "bread",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 2,
+   "ingredient_id": 168176,
+   "confidence": 0.105784,
+   "original_label": "Feijoa (Raw)",
+   "gt_classes": [
+    "olives",
+    "pineapple",
+    "sauce",
+    "bread",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 2,
+   "ingredient_id": 170889,
+   "confidence": 0.105266,
+   "original_label": "Fruit Yogurt (Nonfat)",
+   "gt_classes": [
+    "olives",
+    "pineapple",
+    "sauce",
+    "bread",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 3,
+   "ingredient_id": 169103,
+   "confidence": 0.219012,
+   "original_label": "Orange Peel (Raw)",
+   "gt_classes": [
+    "chocolate",
+    "banana",
+    "grape"
+   ]
+  },
+  {
+   "image_id": 3,
+   "ingredient_id": 167749,
+   "confidence": 0.108644,
+   "original_label": "Lemon Peel (Raw)",
+   "gt_classes": [
+    "chocolate",
+    "banana",
+    "grape"
+   ]
+  },
+  {
+   "image_id": 4,
+   "ingredient_id": 168383,
+   "confidence": 0.499877,
+   "original_label": "Canadian Bacon (Pan-Fried)",
+   "gt_classes": [
+    "sauce",
+    "fish",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 4,
+   "ingredient_id": 167780,
+   "confidence": 0.305636,
+   "original_label": "Prune Puree",
+   "gt_classes": [
+    "sauce",
+    "fish",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 4,
+   "ingredient_id": 167704,
+   "confidence": 0.286134,
+   "original_label": "Bacon And Tomato Dressing",
+   "gt_classes": [
+    "sauce",
+    "fish",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 4,
+   "ingredient_id": 171100,
+   "confidence": 0.232698,
+   "original_label": "Foie Gras Pate (Smoked, Canned)",
+   "gt_classes": [
+    "sauce",
+    "fish",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 4,
+   "ingredient_id": 169157,
+   "confidence": 0.135506,
+   "original_label": "Pickled Pork Hocks",
+   "gt_classes": [
+    "sauce",
+    "fish",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 5,
+   "ingredient_id": 169157,
+   "confidence": 0.381744,
+   "original_label": "Pickled Pork Hocks",
+   "gt_classes": [
+    "chicken duck",
+    "rice"
+   ]
+  },
+  {
+   "image_id": 5,
+   "ingredient_id": 3,
+   "confidence": 0.30161,
+   "original_label": "Soy Sauce (Tamari)",
+   "gt_classes": [
+    "chicken duck",
+    "rice"
+   ]
+  },
+  {
+   "image_id": 5,
+   "ingredient_id": 168148,
+   "confidence": 0.128286,
+   "original_label": "Frog Legs (Raw)",
+   "gt_classes": [
+    "chicken duck",
+    "rice"
+   ]
+  },
+  {
+   "image_id": 5,
+   "ingredient_id": 167780,
+   "confidence": 0.111808,
+   "original_label": "Prune Puree",
+   "gt_classes": [
+    "chicken duck",
+    "rice"
+   ]
+  },
+  {
+   "image_id": 6,
+   "ingredient_id": 169157,
+   "confidence": 0.176523,
+   "original_label": "Pickled Pork Hocks",
+   "gt_classes": [
+    "biscuit",
+    "cheese butter",
+    "apple",
+    "grape",
+    "bread",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 6,
+   "ingredient_id": 170048,
+   "confidence": 0.134429,
+   "original_label": "Potato Puffs (Frozen, Oven-Heated)",
+   "gt_classes": [
+    "biscuit",
+    "cheese butter",
+    "apple",
+    "grape",
+    "bread",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 168719,
+   "confidence": 0.366416,
+   "original_label": "Beef Loin Steak (Raw)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 170889,
+   "confidence": 0.322379,
+   "original_label": "Fruit Yogurt (Nonfat)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 168672,
+   "confidence": 0.24673,
+   "original_label": "Beef Chuck Roast (Raw)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 168742,
+   "confidence": 0.24486,
+   "original_label": "Beef Chuck Eye Roast (Raw, Lean)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 169481,
+   "confidence": 0.1335,
+   "original_label": "Beef Shoulder Pot Roast (Raw, Lean)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 171021,
+   "confidence": 0.131345,
+   "original_label": "French Dressing Dressing",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 168621,
+   "confidence": 0.110402,
+   "original_label": "Beef Ribeye Steak (Raw, Lean)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 8,
+   "ingredient_id": 169888,
+   "confidence": 0.241927,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "chicken duck",
+    "carrot"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 169892,
+   "confidence": 0.48147,
+   "original_label": "Pickled Eggplant",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 169895,
+   "confidence": 0.313674,
+   "original_label": "Buttermilk Dressing",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 169547,
+   "confidence": 0.27805,
+   "original_label": "Beef Tenderloin (Raw)",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 168093,
+   "confidence": 0.272168,
+   "original_label": "Peppercorn Dressing Dressing",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 169186,
+   "confidence": 0.241482,
+   "original_label": "Pork Leg Cap Steak (Boneless, Raw)",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 170802,
+   "confidence": 0.147635,
+   "original_label": "Beef Chuck Eye Steak (Raw, Lean)",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 168605,
+   "confidence": 0.107322,
+   "original_label": "Beef Fat Trimmings (Raw)",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 11,
+   "ingredient_id": 3,
+   "confidence": 0.405391,
+   "original_label": "Soy Sauce (Tamari)",
+   "gt_classes": [
+    "wine",
+    "sausage",
+    "pie",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 11,
+   "ingredient_id": 169068,
+   "confidence": 0.395425,
+   "original_label": "Vegetarian Fillets",
+   "gt_classes": [
+    "wine",
+    "sausage",
+    "pie",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 11,
+   "ingredient_id": 168605,
+   "confidence": 0.254333,
+   "original_label": "Beef Fat Trimmings (Raw)",
+   "gt_classes": [
+    "wine",
+    "sausage",
+    "pie",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 11,
+   "ingredient_id": 169888,
+   "confidence": 0.133682,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "wine",
+    "sausage",
+    "pie",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 12,
+   "ingredient_id": 169068,
+   "confidence": 0.361643,
+   "original_label": "Vegetarian Fillets",
+   "gt_classes": [
+    "fish",
+    "corn",
+    "broccoli",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 12,
+   "ingredient_id": 170561,
+   "confidence": 0.23172,
+   "original_label": "Sesame Meal (Partially Defatted)",
+   "gt_classes": [
+    "fish",
+    "corn",
+    "broccoli",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 12,
+   "ingredient_id": 169300,
+   "confidence": 0.221148,
+   "original_label": "Succotash (Canned, Cream-Style)",
+   "gt_classes": [
+    "fish",
+    "corn",
+    "broccoli",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 12,
+   "ingredient_id": 169888,
+   "confidence": 0.149791,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "fish",
+    "corn",
+    "broccoli",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 12,
+   "ingredient_id": 171116,
+   "confidence": 0.149733,
+   "original_label": "Ground Chicken (Raw)",
+   "gt_classes": [
+    "fish",
+    "corn",
+    "broccoli",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 13,
+   "ingredient_id": 169717,
+   "confidence": 0.379329,
+   "original_label": "Tapioca Pearls (Dry)",
+   "gt_classes": [
+    "shrimp",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 13,
+   "ingredient_id": 168909,
+   "confidence": 0.16207,
+   "original_label": "Somen Noodles (Cooked)",
+   "gt_classes": [
+    "shrimp",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 13,
+   "ingredient_id": 169083,
+   "confidence": 0.120662,
+   "original_label": "Soy Curd Cheese",
+   "gt_classes": [
+    "shrimp",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 13,
+   "ingredient_id": 2,
+   "confidence": 0.114078,
+   "original_label": "Rice",
+   "gt_classes": [
+    "shrimp",
+    "green beans"
+   ]
+  },
+  {
+   "image_id": 14,
+   "ingredient_id": 168742,
+   "confidence": 0.573264,
+   "original_label": "Beef Chuck Eye Roast (Raw, Lean)",
+   "gt_classes": [
+    "french fries",
+    "steak",
+    "sauce",
+    "bread",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 14,
+   "ingredient_id": 168556,
+   "confidence": 0.282731,
+   "original_label": "Ketchup (Catsup)",
+   "gt_classes": [
+    "french fries",
+    "steak",
+    "sauce",
+    "bread",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 14,
+   "ingredient_id": 3,
+   "confidence": 0.25908,
+   "original_label": "Soy Sauce",
+   "gt_classes": [
+    "french fries",
+    "steak",
+    "sauce",
+    "bread",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 16,
+   "ingredient_id": 167762,
+   "confidence": 0.294813,
+   "original_label": "Strawberries (Raw)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "raspberry",
+    "pork",
+    "chicken duck",
+    "corn"
+   ]
+  },
+  {
+   "image_id": 16,
+   "ingredient_id": 170889,
+   "confidence": 0.132252,
+   "original_label": "Fruit Yogurt (Nonfat)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "raspberry",
+    "pork",
+    "chicken duck",
+    "corn"
+   ]
+  },
+  {
+   "image_id": 17,
+   "ingredient_id": 168904,
+   "confidence": 0.506929,
+   "original_label": "Vegetable Macaroni (Cooked)",
+   "gt_classes": [
+    "pork",
+    "pasta",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 17,
+   "ingredient_id": 170561,
+   "confidence": 0.250455,
+   "original_label": "Sesame Meal (Partially Defatted)",
+   "gt_classes": [
+    "pork",
+    "pasta",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 17,
+   "ingredient_id": 169904,
+   "confidence": 0.216601,
+   "original_label": "Scrambled Eggs (Frozen Mix)",
+   "gt_classes": [
+    "pork",
+    "pasta",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 17,
+   "ingredient_id": 169888,
+   "confidence": 0.171501,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "pork",
+    "pasta",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 17,
+   "ingredient_id": 171073,
+   "confidence": 0.108119,
+   "original_label": "Chicken Back (Meat Only, Raw)",
+   "gt_classes": [
+    "pork",
+    "pasta",
+    "French beans"
+   ]
+  }
+ ],
+ "mapping_coverage": {
+  "classes_total": 103,
+  "classes_with_targets": 51,
+  "classes_by_kind": {
+   "unsupported": 52,
+   "ambiguous": 5,
+   "exact": 38,
+   "coarse": 8
+  },
+  "gt_instances_with_targets": 5563,
+  "gt_instances_unsupported": 2134,
+  "detections_with_resolved_provenance": 8234,
+  "detections_total": 7479
+ },
+ "observation_failures": []
+}

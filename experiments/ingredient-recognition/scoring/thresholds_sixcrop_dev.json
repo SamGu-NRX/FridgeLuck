@@ -1,0 +1,95 @@
+{
+ "dev_observations": "observations/dev_train_smp300_sixcrop.jsonl.gz",
+ "dev_split": "train",
+ "dev_images": 300,
+ "criterion": "max detection F1 on development data",
+ "app_reference_threshold": 0.1,
+ "chosen_threshold": 0.25,
+ "sweep": [
+  {
+   "threshold": 0.05,
+   "instance_recall": 0.544,
+   "detection_precision": 0.2554,
+   "detection_f1": 0.3476,
+   "instances": 739,
+   "detections": 1609,
+   "abstain_images": 1
+  },
+  {
+   "threshold": 0.1,
+   "instance_recall": 0.4696,
+   "detection_precision": 0.3052,
+   "detection_f1": 0.37,
+   "instances": 739,
+   "detections": 1150,
+   "abstain_images": 2
+  },
+  {
+   "threshold": 0.15,
+   "instance_recall": 0.433,
+   "detection_precision": 0.3419,
+   "detection_f1": 0.3821,
+   "instances": 739,
+   "detections": 939,
+   "abstain_images": 2
+  },
+  {
+   "threshold": 0.2,
+   "instance_recall": 0.4127,
+   "detection_precision": 0.3801,
+   "detection_f1": 0.3958,
+   "instances": 739,
+   "detections": 805,
+   "abstain_images": 2
+  },
+  {
+   "threshold": 0.25,
+   "instance_recall": 0.3965,
+   "detection_precision": 0.4135,
+   "detection_f1": 0.4048,
+   "instances": 739,
+   "detections": 711,
+   "abstain_images": 2
+  },
+  {
+   "threshold": 0.3,
+   "instance_recall": 0.3708,
+   "detection_precision": 0.4264,
+   "detection_f1": 0.3966,
+   "instances": 739,
+   "detections": 645,
+   "abstain_images": 3
+  },
+  {
+   "threshold": 0.35,
+   "instance_recall": 0.3505,
+   "detection_precision": 0.4388,
+   "detection_f1": 0.3897,
+   "instances": 739,
+   "detections": 588,
+   "abstain_images": 6
+  },
+  {
+   "threshold": 0.4,
+   "instance_recall": 0.3315,
+   "detection_precision": 0.4595,
+   "detection_f1": 0.3852,
+   "instances": 739,
+   "detections": 531,
+   "abstain_images": 10
+  },
+  {
+   "threshold": 0.5,
+   "instance_recall": 0.2991,
+   "detection_precision": 0.4889,
+   "detection_f1": 0.3711,
+   "instances": 739,
+   "detections": 450,
+   "abstain_images": 19
+  }
+ ],
+ "note": "Threshold developed on the train-split development run only; the validation split was never touched during selection. Final runs use chosen_threshold frozen here.",
+ "frozen_threshold": 0.25,
+ "choice_note": "Dev protocol: deterministic random sample of 300 train images (seed 0), not the shard-ordered head. Strict max-F1 on the dev sweep is 0.25 (F1 0.4048), an interior peak (0.2 -> 0.3958, 0.3 -> 0.3966). Frozen as the six-crop baseline threshold for the final validation runs.",
+ "final_runs_use": "observe.py --crop-schedule six --threshold 0.25"
+}

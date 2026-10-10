@@ -1,0 +1,86 @@
+{
+ "dev_observations": "observations/dev_train_smp300_wholecrop.jsonl.gz",
+ "dev_split": "train",
+ "dev_images": 300,
+ "criterion": "max detection F1 on development data",
+ "app_reference_threshold": 0.1,
+ "chosen_threshold": 0.001,
+ "sweep": [
+  {
+   "threshold": 0.001,
+   "instance_recall": 0.4181,
+   "detection_precision": 0.2403,
+   "detection_f1": 0.3052,
+   "instances": 739,
+   "detections": 1340,
+   "abstain_images": 5
+  },
+  {
+   "threshold": 0.002,
+   "instance_recall": 0.3829,
+   "detection_precision": 0.2467,
+   "detection_f1": 0.3001,
+   "instances": 739,
+   "detections": 1196,
+   "abstain_images": 7
+  },
+  {
+   "threshold": 0.005,
+   "instance_recall": 0.3342,
+   "detection_precision": 0.2678,
+   "detection_f1": 0.2973,
+   "instances": 739,
+   "detections": 956,
+   "abstain_images": 13
+  },
+  {
+   "threshold": 0.01,
+   "instance_recall": 0.3004,
+   "detection_precision": 0.2932,
+   "detection_f1": 0.2968,
+   "instances": 739,
+   "detections": 781,
+   "abstain_images": 21
+  },
+  {
+   "threshold": 0.02,
+   "instance_recall": 0.2558,
+   "detection_precision": 0.3227,
+   "detection_f1": 0.2854,
+   "instances": 739,
+   "detections": 598,
+   "abstain_images": 32
+  },
+  {
+   "threshold": 0.05,
+   "instance_recall": 0.1962,
+   "detection_precision": 0.3659,
+   "detection_f1": 0.2554,
+   "instances": 739,
+   "detections": 399,
+   "abstain_images": 50
+  },
+  {
+   "threshold": 0.1,
+   "instance_recall": 0.1597,
+   "detection_precision": 0.4126,
+   "detection_f1": 0.2302,
+   "instances": 739,
+   "detections": 286,
+   "abstain_images": 62
+  },
+  {
+   "threshold": 0.2,
+   "instance_recall": 0.1231,
+   "detection_precision": 0.451,
+   "detection_f1": 0.1935,
+   "instances": 739,
+   "detections": 204,
+   "abstain_images": 88
+  }
+ ],
+ "note": "Threshold developed on the train-split development run only; the validation split was never touched during selection. Final runs use chosen_threshold frozen here.",
+ "frozen_threshold": 0.005,
+ "choice_note": "Dev protocol: deterministic random sample of 300 train images (seed 0). Strict max-F1 is 0.001 (F1 0.3052), the grid boundary, with F1 flat within 0.8 points across 0.001-0.01 (0.3052/0.3001/0.2973/0.2968) - within noise for 739 dev instances. Frozen at 0.005 (F1 0.2973) to avoid boundary-of-grid overfit; the flatness means the choice is not load-bearing.",
+ "final_runs_use": "observe.py --crop-schedule whole --threshold 0.005"
+}
