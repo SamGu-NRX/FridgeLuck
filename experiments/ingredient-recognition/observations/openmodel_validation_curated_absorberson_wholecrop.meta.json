@@ -1,0 +1,20 @@
+{
+ "split": "validation",
+ "model": "ViT-B-32",
+ "pretrained": "laion2b_s34b_b79k",
+ "label_space": "curated",
+ "absorbers": "on",
+ "crop_schedule": "whole",
+ "detection_threshold": 0.005,
+ "record_floor": 0.001,
+ "images_observed": 2135,
+ "detections": 8136,
+ "failures": 0,
+ "elapsed_seconds": {
+  "inference_resolution": 1.57,
+  "total_wall": 5.652
+ },
+ "peak_rss_mb": 1548.1,
+ "device": "cpu",
+ "note": "elapsed_seconds measures wall-clock of real image inference (embedding, softmax, resolution); no crop-count figure is reported as latency. Authored-name replay runs are excluded by construction: this runner embeds actual dataset images."
+}

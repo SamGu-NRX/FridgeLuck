@@ -90,3 +90,6 @@ playground.xcworkspace
 
 # Carthage (if ever used)
 Carthage/Build/
+experiments/ingredient-recognition/differential/probe_resolver
+experiments/ingredient-recognition/__pycache__/
+experiments/ingredient-recognition/**/__pycache__/

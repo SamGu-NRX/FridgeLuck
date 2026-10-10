@@ -1,0 +1,748 @@
+{
+ "observations": "observations/openmodel_validation_curated_usda_absorberson.jsonl.gz",
+ "split": "validation",
+ "images_scored": 2135,
+ "images_with_detections": 1472,
+ "instance_recall": {
+  "exact": 0.05108359133126935,
+  "all": 0.04440050332554377,
+  "coarse": 0.048625792811839326,
+  "ambiguous": 0.004048582995951417
+ },
+ "instance_counts": {
+  "exact": 3876,
+  "all": 5563,
+  "coarse": 946,
+  "ambiguous": 741
+ },
+ "detection_precision": 0.1313,
+ "detections_total": 1881,
+ "detections_correct": 247,
+ "detections_by_label_provenance": {
+  "curated": 327,
+  "catalog": 1757
+ },
+ "abstain_images_with_mapped_gt": 556,
+ "no_claim_images": 254,
+ "no_claim_violations": 147,
+ "unjustified_detections": 1634,
+ "unjustified_examples": [
+  {
+   "image_id": 2,
+   "ingredient_id": 168324,
+   "confidence": 0.261107,
+   "original_label": "Rendered Bacon Fat",
+   "gt_classes": [
+    "olives",
+    "pineapple",
+    "sauce",
+    "bread",
+    "tomato"
+   ]
+  },
+  {
+   "image_id": 3,
+   "ingredient_id": 169103,
+   "confidence": 0.219012,
+   "original_label": "Orange Peel (Raw)",
+   "gt_classes": [
+    "chocolate",
+    "banana",
+    "grape"
+   ]
+  },
+  {
+   "image_id": 3,
+   "ingredient_id": 167749,
+   "confidence": 0.108644,
+   "original_label": "Lemon Peel (Raw)",
+   "gt_classes": [
+    "chocolate",
+    "banana",
+    "grape"
+   ]
+  },
+  {
+   "image_id": 4,
+   "ingredient_id": 167780,
+   "confidence": 0.296631,
+   "original_label": "Prune Puree",
+   "gt_classes": [
+    "sauce",
+    "fish",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 7,
+   "ingredient_id": 170889,
+   "confidence": 0.322379,
+   "original_label": "Fruit Yogurt (Nonfat)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "blueberry",
+    "kiwi",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 8,
+   "ingredient_id": 169888,
+   "confidence": 0.241927,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "chicken duck",
+    "carrot"
+   ]
+  },
+  {
+   "image_id": 9,
+   "ingredient_id": 169892,
+   "confidence": 0.48147,
+   "original_label": "Pickled Eggplant",
+   "gt_classes": [
+    "steak",
+    "cucumber",
+    "cilantro mint",
+    "onion",
+    "shiitake",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 14,
+   "ingredient_id": 168742,
+   "confidence": 0.573264,
+   "original_label": "Beef Chuck Eye Roast (Raw, Lean)",
+   "gt_classes": [
+    "french fries",
+    "steak",
+    "sauce",
+    "bread",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 18,
+   "ingredient_id": 29,
+   "confidence": 0.152716,
+   "original_label": "Lime",
+   "gt_classes": [
+    "lemon",
+    "chicken duck",
+    "rice",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 18,
+   "ingredient_id": 168287,
+   "confidence": 0.115423,
+   "original_label": "Salt Pork (Raw, Cured)",
+   "gt_classes": [
+    "lemon",
+    "chicken duck",
+    "rice",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 20,
+   "ingredient_id": 4,
+   "confidence": 0.264728,
+   "original_label": "Chicken Breast (Boneless, Skinless, Raw)",
+   "gt_classes": [
+    "cheese butter",
+    "fish",
+    "tomato",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 22,
+   "ingredient_id": 169888,
+   "confidence": 0.578938,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "chicken duck",
+    "rice",
+    "cauliflower",
+    "broccoli",
+    "shiitake"
+   ]
+  },
+  {
+   "image_id": 23,
+   "ingredient_id": 168583,
+   "confidence": 0.130676,
+   "original_label": "Wasabi Root (Raw)",
+   "gt_classes": [
+    "french fries",
+    "steak",
+    "bread",
+    "tomato",
+    "cucumber",
+    "onion",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 23,
+   "ingredient_id": 170048,
+   "confidence": 0.10792,
+   "original_label": "Potato Puffs (Frozen, Oven-Heated)",
+   "gt_classes": [
+    "french fries",
+    "steak",
+    "bread",
+    "tomato",
+    "cucumber",
+    "onion",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 24,
+   "ingredient_id": 169157,
+   "confidence": 0.44706,
+   "original_label": "Pickled Pork Hocks",
+   "gt_classes": [
+    "cheese butter",
+    "pork",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 24,
+   "ingredient_id": 168742,
+   "confidence": 0.176767,
+   "original_label": "Beef Chuck Eye Roast (Raw, Lean)",
+   "gt_classes": [
+    "cheese butter",
+    "pork",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 27,
+   "ingredient_id": 170048,
+   "confidence": 0.763818,
+   "original_label": "Potato Puffs (Frozen, Oven-Heated)",
+   "gt_classes": [
+    "ice cream",
+    "fried meat"
+   ]
+  },
+  {
+   "image_id": 28,
+   "ingredient_id": 173443,
+   "confidence": 0.789308,
+   "original_label": "Sour Cream (Light)",
+   "gt_classes": [
+    "french fries",
+    "ice cream"
+   ]
+  },
+  {
+   "image_id": 30,
+   "ingredient_id": 169222,
+   "confidence": 0.165448,
+   "original_label": "Yardlong Bean (Raw)",
+   "gt_classes": [
+    "steak",
+    "corn",
+    "tomato",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 31,
+   "ingredient_id": 169904,
+   "confidence": 0.226678,
+   "original_label": "Scrambled Eggs (Frozen Mix)",
+   "gt_classes": [
+    "avocado",
+    "chicken duck",
+    "tomato",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 31,
+   "ingredient_id": 170002,
+   "confidence": 0.181333,
+   "original_label": "Onion Flakes (Dehydrated)",
+   "gt_classes": [
+    "avocado",
+    "chicken duck",
+    "tomato",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 35,
+   "ingredient_id": 167747,
+   "confidence": 0.116399,
+   "original_label": "Lemon Juice (Raw)",
+   "gt_classes": [
+    "lemon",
+    "steak",
+    "potato",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 35,
+   "ingredient_id": 167749,
+   "confidence": 0.106885,
+   "original_label": "Lemon Peel (Raw)",
+   "gt_classes": [
+    "lemon",
+    "steak",
+    "potato",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 36,
+   "ingredient_id": 169895,
+   "confidence": 0.482468,
+   "original_label": "Buttermilk Dressing",
+   "gt_classes": [
+    "ice cream",
+    "cucumber",
+    "carrot",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 36,
+   "ingredient_id": 169876,
+   "confidence": 0.198877,
+   "original_label": "Blue Or Roquefort Cheese Dressing",
+   "gt_classes": [
+    "ice cream",
+    "cucumber",
+    "carrot",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 36,
+   "ingredient_id": 167692,
+   "confidence": 0.193334,
+   "original_label": "Blue Or Roquefort Cheese Dressing Dressing",
+   "gt_classes": [
+    "ice cream",
+    "cucumber",
+    "carrot",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 38,
+   "ingredient_id": 169395,
+   "confidence": 0.199579,
+   "original_label": "Serrano Pepper (Raw)",
+   "gt_classes": [
+    "steak",
+    "pie",
+    "broccoli",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 38,
+   "ingredient_id": 169394,
+   "confidence": 0.160486,
+   "original_label": "Banana Pepper (Raw)",
+   "gt_classes": [
+    "steak",
+    "pie",
+    "broccoli",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 39,
+   "ingredient_id": 169875,
+   "confidence": 0.698699,
+   "original_label": "Sweet And Sour Dressing",
+   "gt_classes": [
+    "soup",
+    "cucumber"
+   ]
+  },
+  {
+   "image_id": 39,
+   "ingredient_id": 171043,
+   "confidence": 0.125362,
+   "original_label": "Honey Mustard Dressing",
+   "gt_classes": [
+    "soup",
+    "cucumber"
+   ]
+  },
+  {
+   "image_id": 41,
+   "ingredient_id": 171079,
+   "confidence": 0.296741,
+   "original_label": "Squab (Pigeon, Raw)",
+   "gt_classes": [
+    "chicken duck",
+    "cucumber",
+    "carrot",
+    "celery stick",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 41,
+   "ingredient_id": 169157,
+   "confidence": 0.16232,
+   "original_label": "Pickled Pork Hocks",
+   "gt_classes": [
+    "chicken duck",
+    "cucumber",
+    "carrot",
+    "celery stick",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 43,
+   "ingredient_id": 171079,
+   "confidence": 0.242644,
+   "original_label": "Squab (Light Meat, Raw)",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "chicken duck",
+    "seaweed",
+    "lettuce",
+    "cilantro mint",
+    "green beans",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 43,
+   "ingredient_id": 169157,
+   "confidence": 0.202901,
+   "original_label": "Pickled Pork Hocks",
+   "gt_classes": [
+    "banana",
+    "strawberry",
+    "chicken duck",
+    "seaweed",
+    "lettuce",
+    "cilantro mint",
+    "green beans",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 47,
+   "ingredient_id": 169083,
+   "confidence": 0.230089,
+   "original_label": "Soy Curd Cheese",
+   "gt_classes": [
+    "bread",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 48,
+   "ingredient_id": 169068,
+   "confidence": 0.162692,
+   "original_label": "Vegetarian Fillets",
+   "gt_classes": [
+    "cheese butter",
+    "sauce",
+    "bread",
+    "potato"
+   ]
+  },
+  {
+   "image_id": 49,
+   "ingredient_id": 168904,
+   "confidence": 0.212877,
+   "original_label": "Vegetable Macaroni (Cooked)",
+   "gt_classes": [
+    "chicken duck",
+    "pasta",
+    "tomato",
+    "cabbage"
+   ]
+  },
+  {
+   "image_id": 52,
+   "ingredient_id": 169888,
+   "confidence": 0.196378,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "steak",
+    "rice",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 54,
+   "ingredient_id": 169892,
+   "confidence": 0.199549,
+   "original_label": "Pickled Eggplant",
+   "gt_classes": [
+    "cheese butter",
+    "grape"
+   ]
+  },
+  {
+   "image_id": 54,
+   "ingredient_id": 167780,
+   "confidence": 0.164923,
+   "original_label": "Prune Puree",
+   "gt_classes": [
+    "cheese butter",
+    "grape"
+   ]
+  },
+  {
+   "image_id": 54,
+   "ingredient_id": 169083,
+   "confidence": 0.140239,
+   "original_label": "Soy Curd Cheese",
+   "gt_classes": [
+    "cheese butter",
+    "grape"
+   ]
+  },
+  {
+   "image_id": 56,
+   "ingredient_id": 167813,
+   "confidence": 0.585645,
+   "original_label": "Pork Fat (Raw)",
+   "gt_classes": [
+    "egg",
+    "sausage",
+    "French beans",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 57,
+   "ingredient_id": 169904,
+   "confidence": 0.244413,
+   "original_label": "Scrambled Eggs (Frozen Mix)",
+   "gt_classes": [
+    "chicken duck",
+    "rice",
+    "potato",
+    "other ingredients"
+   ]
+  },
+  {
+   "image_id": 59,
+   "ingredient_id": 170494,
+   "confidence": 0.740959,
+   "original_label": "Spinach Souffle",
+   "gt_classes": [
+    "lemon",
+    "fish",
+    "tomato",
+    "cilantro mint",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 59,
+   "ingredient_id": 169888,
+   "confidence": 0.108742,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "lemon",
+    "fish",
+    "tomato",
+    "cilantro mint",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 63,
+   "ingredient_id": 169895,
+   "confidence": 0.115133,
+   "original_label": "Buttermilk Dressing",
+   "gt_classes": [
+    "sauce",
+    "bread",
+    "tomato",
+    "cilantro mint",
+    "pepper",
+    "French beans"
+   ]
+  },
+  {
+   "image_id": 64,
+   "ingredient_id": 167737,
+   "confidence": 0.103889,
+   "original_label": "Corn-Peanut-Olive Oil Blend",
+   "gt_classes": [
+    "steak",
+    "corn",
+    "potato",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 65,
+   "ingredient_id": 168605,
+   "confidence": 0.105636,
+   "original_label": "Beef Fat Trimmings (Raw)",
+   "gt_classes": [
+    "sausage",
+    "carrot",
+    "cabbage"
+   ]
+  },
+  {
+   "image_id": 66,
+   "ingredient_id": 169888,
+   "confidence": 0.321881,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "steak",
+    "carrot",
+    "broccoli",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 67,
+   "ingredient_id": 169892,
+   "confidence": 0.845409,
+   "original_label": "Pickled Eggplant",
+   "gt_classes": [
+    "cucumber",
+    "carrot",
+    "onion"
+   ]
+  },
+  {
+   "image_id": 69,
+   "ingredient_id": 171100,
+   "confidence": 0.120394,
+   "original_label": "Foie Gras Pate (Smoked, Canned)",
+   "gt_classes": [
+    "cheese butter",
+    "juice",
+    "bread",
+    "tomato",
+    "cucumber"
+   ]
+  },
+  {
+   "image_id": 70,
+   "ingredient_id": 170582,
+   "confidence": 0.122793,
+   "original_label": "Blanched Hazelnuts",
+   "gt_classes": [
+    "ice cream",
+    "garlic",
+    "tomato",
+    "pepper"
+   ]
+  },
+  {
+   "image_id": 72,
+   "ingredient_id": 169904,
+   "confidence": 0.619015,
+   "original_label": "Scrambled Eggs (Frozen Mix)",
+   "gt_classes": [
+    "sauce",
+    "bread",
+    "carrot"
+   ]
+  },
+  {
+   "image_id": 73,
+   "ingredient_id": 168933,
+   "confidence": 0.195377,
+   "original_label": "Semolina (Enriched)",
+   "gt_classes": [
+    "strawberry",
+    "bread"
+   ]
+  },
+  {
+   "image_id": 76,
+   "ingredient_id": 168148,
+   "confidence": 0.157469,
+   "original_label": "Frog Legs (Raw)",
+   "gt_classes": [
+    "lemon",
+    "sauce",
+    "shrimp"
+   ]
+  },
+  {
+   "image_id": 78,
+   "ingredient_id": 171100,
+   "confidence": 0.128744,
+   "original_label": "Foie Gras Pate (Smoked, Canned)",
+   "gt_classes": [
+    "biscuit",
+    "milk"
+   ]
+  },
+  {
+   "image_id": 80,
+   "ingredient_id": 169134,
+   "confidence": 0.421718,
+   "original_label": "Pomegranate (Raw)",
+   "gt_classes": [
+    "chicken duck",
+    "rice",
+    "broccoli"
+   ]
+  },
+  {
+   "image_id": 81,
+   "ingredient_id": 169888,
+   "confidence": 0.10437,
+   "original_label": "Vegetarian Meatloaf or Patties",
+   "gt_classes": [
+    "steak",
+    "bread",
+    "tomato",
+    "lettuce",
+    "cucumber"
+   ]
+  },
+  {
+   "image_id": 82,
+   "ingredient_id": 169992,
+   "confidence": 0.313477,
+   "original_label": "Chicory Greens (Raw)",
+   "gt_classes": [
+    "juice",
+    "garlic",
+    "carrot",
+    "celery stick",
+    "cilantro mint"
+   ]
+  },
+  {
+   "image_id": 82,
+   "ingredient_id": 168491,
+   "confidence": 0.107605,
+   "original_label": "Chrysanthemum Leaves (Raw)",
+   "gt_classes": [
+    "juice",
+    "garlic",
+    "carrot",
+    "celery stick",
+    "cilantro mint"
+   ]
+  }
+ ]
+}

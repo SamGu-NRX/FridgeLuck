@@ -1,0 +1,186 @@
+{"input":"candy","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"egg tart","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"french fries","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"chocolate","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"biscuit","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"popcorn","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"pudding","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"ice cream","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"cheese butter","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"cake","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"wine","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"milkshake","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"coffee","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"juice","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"milk","kind":"label","lexiconResolve":"13","resolveLabel_curatedOnly":"13"}
+{"input":"tea","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"almond","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"red beans","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"cashew","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"dried cranberries","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"soy","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"walnut","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"peanut","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"egg","kind":"label","lexiconResolve":"1","resolveLabel_curatedOnly":"1"}
+{"input":"apple","kind":"label","lexiconResolve":"40","resolveLabel_curatedOnly":"40"}
+{"input":"date","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"apricot","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"avocado","kind":"label","lexiconResolve":"26","resolveLabel_curatedOnly":"26"}
+{"input":"banana","kind":"label","lexiconResolve":"20","resolveLabel_curatedOnly":"20"}
+{"input":"strawberry","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"cherry","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"blueberry","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"raspberry","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"mango","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"olives","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"peach","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"lemon","kind":"label","lexiconResolve":"17","resolveLabel_curatedOnly":"17"}
+{"input":"pear","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"fig","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"pineapple","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"grape","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"kiwi","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"melon","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"orange","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"watermelon","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"steak","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"pork","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"chicken duck","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"sausage","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"fried meat","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"lamb","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"sauce","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"crab","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"fish","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"shellfish","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"shrimp","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"soup","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"hamburg","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"pizza","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":" hanamaki baozi","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"wonton dumplings","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"noodles","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"pie","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"eggplant","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"potato","kind":"label","lexiconResolve":"10","resolveLabel_curatedOnly":"10"}
+{"input":"garlic","kind":"label","lexiconResolve":"6","resolveLabel_curatedOnly":"6"}
+{"input":"cauliflower","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"tomato","kind":"label","lexiconResolve":"7","resolveLabel_curatedOnly":"7"}
+{"input":"kelp","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"seaweed","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"spring onion","kind":"label","lexiconResolve":"21","resolveLabel_curatedOnly":"21"}
+{"input":"rape","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"ginger","kind":"label","lexiconResolve":"30","resolveLabel_curatedOnly":"30"}
+{"input":"okra","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"lettuce","kind":"label","lexiconResolve":"39","resolveLabel_curatedOnly":"39"}
+{"input":"pumpkin","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"cucumber","kind":"label","lexiconResolve":"25","resolveLabel_curatedOnly":"25"}
+{"input":"white radish","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"carrot","kind":"label","lexiconResolve":"11","resolveLabel_curatedOnly":"11"}
+{"input":"asparagus","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"bamboo shoots","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"broccoli","kind":"label","lexiconResolve":"24","resolveLabel_curatedOnly":"24"}
+{"input":"celery stick","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"cilantro mint","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"snow peas","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":" cabbage","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"bean sprouts","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"pepper","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"green beans","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"French beans","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"king oyster mushroom","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"shiitake","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"enoki mushroom","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"oyster mushroom","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"white button mushroom","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"salad","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"other ingredients","kind":"label","lexiconResolve":null,"resolveLabel_curatedOnly":null}
+{"input":"rice","kind":"label","lexiconResolve":"2","resolveLabel_curatedOnly":"2"}
+{"input":"pasta","kind":"label","lexiconResolve":"9","resolveLabel_curatedOnly":"9"}
+{"input":"tofu","kind":"label","lexiconResolve":"23","resolveLabel_curatedOnly":"23"}
+{"input":"bread","kind":"label","lexiconResolve":"15","resolveLabel_curatedOnly":"15"}
+{"input":"corn","kind":"label","lexiconResolve":"34","resolveLabel_curatedOnly":"34"}
+{"input":"onion","kind":"label","lexiconResolve":"5","resolveLabel_curatedOnly":"5"}
+{"input":"scallion","kind":"label","lexiconResolve":"21","resolveLabel_curatedOnly":"21"}
+{"input":"egg","kind":"lexicon","lexiconResolve":"1"}
+{"input":"Egg","kind":"lexicon","lexiconResolve":"1"}
+{"input":"eggs","kind":"lexicon","lexiconResolve":"1"}
+{"input":"tomato","kind":"lexicon","lexiconResolve":"7"}
+{"input":"tomatoes","kind":"lexicon","lexiconResolve":"7"}
+{"input":"bell_pepper","kind":"lexicon","lexiconResolve":"8"}
+{"input":"bell pepper","kind":"lexicon","lexiconResolve":"8"}
+{"input":"green_onion","kind":"lexicon","lexiconResolve":"21"}
+{"input":"green onion","kind":"lexicon","lexiconResolve":"21"}
+{"input":"spring onion","kind":"lexicon","lexiconResolve":"21"}
+{"input":"frozen peas","kind":"lexicon","lexiconResolve":"42"}
+{"input":"frozen_peas","kind":"lexicon","lexiconResolve":null}
+{"input":"ground beef","kind":"lexicon","lexiconResolve":"38"}
+{"input":"ground_beef","kind":"lexicon","lexiconResolve":null}
+{"input":"canned_tuna","kind":"lexicon","lexiconResolve":"43"}
+{"input":"tuna","kind":"lexicon","lexiconResolve":"43"}
+{"input":"red pepper flakes","kind":"lexicon","lexiconResolve":null}
+{"input":"red_pepper_flakes","kind":"lexicon","lexiconResolve":null}
+{"input":"olive oil","kind":"lexicon","lexiconResolve":"16"}
+{"input":"olive_oil","kind":"lexicon","lexiconResolve":"16"}
+{"input":"yogurt","kind":"lexicon","lexiconResolve":"32"}
+{"input":"yoghurt","kind":"lexicon","lexiconResolve":null}
+{"input":"sweet potato","kind":"lexicon","lexiconResolve":"37"}
+{"input":"sweet_potato","kind":"lexicon","lexiconResolve":"37"}
+{"input":"sweet potatoes","kind":"lexicon","lexiconResolve":"37"}
+{"input":"coconut milk","kind":"lexicon","lexiconResolve":"49"}
+{"input":"sour cream","kind":"lexicon","lexiconResolve":null}
+{"input":"soy sauce","kind":"lexicon","lexiconResolve":"3"}
+{"input":"soy_sauce","kind":"lexicon","lexiconResolve":"3"}
+{"input":"chickpea","kind":"lexicon","lexiconResolve":"35"}
+{"input":"chickpeas","kind":"lexicon","lexiconResolve":"35"}
+{"input":"oats","kind":"lexicon","lexiconResolve":null}
+{"input":"oat","kind":"lexicon","lexiconResolve":null}
+{"input":"lime","kind":"lexicon","lexiconResolve":"29"}
+{"input":"tortilla","kind":"lexicon","lexiconResolve":"28"}
+{"input":"tortillas","kind":"lexicon","lexiconResolve":"28"}
+{"input":"black beans","kind":"lexicon","lexiconResolve":"27"}
+{"input":"black_beans","kind":"lexicon","lexiconResolve":"27"}
+{"input":"honey","kind":"lexicon","lexiconResolve":"33"}
+{"input":"cumin","kind":"lexicon","lexiconResolve":null}
+{"input":"cilantro","kind":"lexicon","lexiconResolve":"48"}
+{"input":"zucchini","kind":"lexicon","lexiconResolve":"45"}
+{"input":"zucchinis","kind":"lexicon","lexiconResolve":"45"}
+{"input":"apple","kind":"lexicon","lexiconResolve":"40"}
+{"input":"apples","kind":"lexicon","lexiconResolve":"40"}
+{"input":"dairy","kind":"lexicon","lexiconResolve":null}
+{"input":"chocolate","kind":"lexicon","lexiconResolve":null}
+{"input":"s","kind":"lexicon","lexiconResolve":null}
+{"input":"es","kind":"lexicon","lexiconResolve":null}
+{"input":"ies","kind":"lexicon","lexiconResolve":null}
+{"input":"","kind":"lexicon","lexiconResolve":null}
+{"input":"  egg  ","kind":"lexicon","lexiconResolve":"1"}
+{"input":"EGG","kind":"lexicon","lexiconResolve":"1"}
+{"input":"FrEgGs","kind":"lexicon","lexiconResolve":null}
+{"input":"FRESH GREEN BEANS","kind":"ocr","masked":"fresh","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":"green beans"}
+{"input":"green beans","kind":"ocr","masked":"","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":"green beans"}
+{"input":"Organic Green Beans 12oz","kind":"ocr","masked":"organic 12oz","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":"green beans"}
+{"input":"celery stick","kind":"ocr","masked":"celery stick","matchId":"44","matchKind":"exact","matchToken":"celery","resolveFromText":"44","unsupportedPhrases":""}
+{"input":"celery sticks on the shelf","kind":"ocr","masked":"celery sticks on the shelf","matchId":"44","matchKind":"exact","matchToken":"celery","resolveFromText":"44","unsupportedPhrases":""}
+{"input":"oat milk","kind":"ocr","masked":"","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":"oat milk"}
+{"input":"oat milk carton","kind":"ocr","masked":"carton","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":"oat milk"}
+{"input":"free range eggs","kind":"ocr","masked":"free range eggs","matchId":"1","matchKind":"exact","matchToken":"eggs","resolveFromText":"1","unsupportedPhrases":""}
+{"input":"spring onions","kind":"ocr","masked":"spring onions","matchId":"5","matchKind":"exact","matchToken":"onions","resolveFromText":"5","unsupportedPhrases":""}
+{"input":"SIITRAKE","kind":"ocr","masked":"siitrake","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"french fries with ketchup","kind":"ocr","masked":"french fries with ketchup","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"peanut butter creamy","kind":"ocr","masked":"peanut butter creamy","matchId":"41","matchKind":"exact","matchToken":"peanut butter","resolveFromText":"41","unsupportedPhrases":""}
+{"input":"low fat yogurt","kind":"ocr","masked":"low fat yogurt","matchId":"32","matchKind":"exact","matchToken":"yogurt","resolveFromText":"32","unsupportedPhrases":""}
+{"input":"edamame","kind":"ocr","masked":"edamame","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"1% milk","kind":"ocr","masked":"1 milk","matchId":"13","matchKind":"exact","matchToken":"milk","resolveFromText":"13","unsupportedPhrases":""}
+{"input":"garlic bread","kind":"ocr","masked":"garlic bread","matchId":"6","matchKind":"exact","matchToken":"garlic","resolveFromText":"6","unsupportedPhrases":""}
+{"input":"sweet chili sauce","kind":"ocr","masked":"sweet chili sauce","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"nothing edible here","kind":"ocr","masked":"nothing edible here","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"123","kind":"ocr","masked":"123","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"tomato, carrot & garlic","kind":"ocr","masked":"tomato carrot garlic","matchId":"11","matchKind":"exact","matchToken":"carrot","resolveFromText":"11","unsupportedPhrases":""}
+{"input":"extra-firm tofu","kind":"ocr","masked":"extra firm tofu","matchId":"23","matchKind":"exact","matchToken":"tofu","resolveFromText":"23","unsupportedPhrases":""}
+{"input":"cottage cheese","kind":"ocr","masked":"cottage cheese","matchId":"12","matchKind":"exact","matchToken":"cheese","resolveFromText":"12","unsupportedPhrases":""}
+{"input":"olive oil extra virgin","kind":"ocr","masked":"olive oil extra virgin","matchId":"16","matchKind":"exact","matchToken":"olive oil","resolveFromText":"16","unsupportedPhrases":""}
+{"input":"sea salt","kind":"ocr","masked":"sea salt","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"black pepper","kind":"ocr","masked":"black pepper","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"hot dog buns","kind":"ocr","masked":"hot dog buns","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"kimchi","kind":"ocr","masked":"kimchi","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
+{"input":"napkin","kind":"ocr","masked":"napkin","matchId":null,"matchKind":null,"matchToken":null,"resolveFromText":null,"unsupportedPhrases":""}
