@@ -1,0 +1,4 @@
+data/
+imgcache/
+harness/.build/
+__pycache__/
