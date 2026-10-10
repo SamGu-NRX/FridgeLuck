@@ -1,0 +1,132 @@
+{
+ "arms": {
+  "detector": {
+   "overall": {
+    "gt_boxes": 2361,
+    "detections": 2279,
+    "true_positives": 286,
+    "precision": 0.1255,
+    "recall": 0.1211
+   },
+   "multi_role": {
+    "gt_boxes": 1986,
+    "detections": 1466,
+    "true_positives": 258,
+    "precision": 0.176,
+    "recall": 0.1299
+   },
+   "control_role": {
+    "gt_boxes": 375,
+    "detections": 813,
+    "true_positives": 28,
+    "precision": 0.0344,
+    "recall": 0.0747
+   },
+   "missed_small_regions": {
+    "small_gt_total": 620,
+    "missed": 598,
+    "missed_frac": 0.9645
+   },
+   "duplicates_on_matched_gt": 86,
+   "category_confusion_top": {
+    "Sandwich -> Baked goods": 66,
+    "Cake -> Dessert": 64,
+    "Cake -> Baked goods": 61,
+    "Sandwich -> Hamburger": 44,
+    "Dessert -> Baked goods": 34,
+    "Apple -> Fruit": 30,
+    "Pizza -> Baked goods": 27,
+    "Orange -> Fruit": 26,
+    "Sandwich -> Dessert": 25,
+    "Sandwich -> Fast food": 24
+   },
+   "region_count_error": {
+    "mean_abs": 3.156,
+    "mean_signed": -0.123
+   }
+  },
+  "oracle-crops": {
+   "overall": {
+    "gt_boxes": 0,
+    "detections": 0,
+    "true_positives": 0,
+    "precision": null,
+    "recall": null
+   },
+   "multi_role": {
+    "gt_boxes": 0,
+    "detections": 0,
+    "true_positives": 0,
+    "precision": null,
+    "recall": null
+   },
+   "control_role": {
+    "gt_boxes": 0,
+    "detections": 0,
+    "true_positives": 0,
+    "precision": null,
+    "recall": null
+   },
+   "missed_small_regions": {
+    "small_gt_total": 0,
+    "missed": 0,
+    "missed_frac": null
+   },
+   "duplicates_on_matched_gt": 0,
+   "category_confusion_top": {},
+   "region_count_error": {
+    "mean_abs": null,
+    "mean_signed": null
+   },
+   "oracle_crop_accuracy": 0.3149,
+   "oracle_crops_classified": 2283,
+   "oracle_gt_total": 2361,
+   "oracle_coverage": 0.967
+  },
+  "proposals": {
+   "overall": {
+    "gt_boxes": 2361,
+    "detections": 27680,
+    "true_positives": 655,
+    "precision": 0.0237,
+    "recall": 0.2774
+   },
+   "multi_role": {
+    "gt_boxes": 1986,
+    "detections": 20962,
+    "true_positives": 560,
+    "precision": 0.0267,
+    "recall": 0.282
+   },
+   "control_role": {
+    "gt_boxes": 375,
+    "detections": 6718,
+    "true_positives": 95,
+    "precision": 0.0141,
+    "recall": 0.2533
+   },
+   "missed_small_regions": {
+    "small_gt_total": 620,
+    "missed": 559,
+    "missed_frac": 0.9016
+   },
+   "duplicates_on_matched_gt": 564,
+   "category_confusion_top": {
+    "Dessert -> Baked goods": 53,
+    "Ice cream -> Dessert": 48,
+    "Pizza -> Baked goods": 44,
+    "Sandwich -> Baked goods": 42,
+    "Cake -> Dessert": 37,
+    "Sandwich -> Fast food": 34,
+    "Snack -> Baked goods": 34,
+    "Cake -> Baked goods": 30,
+    "Ice cream -> Dairy": 30,
+    "Bread -> Baked goods": 28
+   },
+   "region_count_error": {
+    "mean_abs": 37.903,
+    "mean_signed": 37.903
+   }
+  }
+ }
+}
