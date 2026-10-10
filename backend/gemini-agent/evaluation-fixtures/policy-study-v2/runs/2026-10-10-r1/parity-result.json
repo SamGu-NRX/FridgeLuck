@@ -1,0 +1,11 @@
+{
+  "version": "policy-study-v2",
+  "arms_checked": [
+    "degenerate-input",
+    "learner-cold",
+    "learner-devwarm"
+  ],
+  "cases_checked": 2428,
+  "parity_failures": 0,
+  "failures": []
+}
