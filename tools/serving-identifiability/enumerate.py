@@ -105,7 +105,6 @@ def summarize_regime(worlds: list[schema.World], regime: str) -> dict:
     examples = []
     for key in sorted(ambiguous, key=lambda k: (len(ambiguous[k]), repr(k)))[:5]:
         members = ambiguous[key]
-        ev = schema.evidence_from_world(members[0], **REGIMES[regime])
         examples.append(
             {
                 "observation": key_to_jsonable(key),
@@ -130,6 +129,7 @@ def summarize_regime(worlds: list[schema.World], regime: str) -> dict:
         "keys": len(groups),
         "identifiable_keys": sum(1 for v in groups.values() if len(class_targets(v)) == 1),
         "ambiguous_keys": len(ambiguous),
+        "ambiguous_worlds": sum(len(v) for v in ambiguous.values()),
         "max_class_size": sizes[-1],
         "max_target_spread": spreads[-1] if spreads else 0,
         "ambiguous_examples": examples,

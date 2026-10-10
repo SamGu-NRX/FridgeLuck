@@ -197,6 +197,7 @@
         }
       ],
       "ambiguous_keys": 543,
+      "ambiguous_worlds": 10501,
       "identifiable_keys": 102,
       "keys": 645,
       "max_class_size": 120,
@@ -396,6 +397,7 @@
         }
       ],
       "ambiguous_keys": 2155,
+      "ambiguous_worlds": 10126,
       "identifiable_keys": 498,
       "keys": 2653,
       "max_class_size": 9,
@@ -560,6 +562,7 @@
         }
       ],
       "ambiguous_keys": 3981,
+      "ambiguous_worlds": 8632,
       "identifiable_keys": 1992,
       "keys": 5973,
       "max_class_size": 4,
@@ -662,6 +665,7 @@
         }
       ],
       "ambiguous_keys": 3,
+      "ambiguous_worlds": 6,
       "identifiable_keys": 10618,
       "keys": 10621,
       "max_class_size": 2,

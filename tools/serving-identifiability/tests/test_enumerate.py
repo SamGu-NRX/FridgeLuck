@@ -31,13 +31,17 @@ def test_all_four_hand_witnesses_appear_in_their_regimes():
     assert all(c["ok"] for c in checks)
 
 
-def test_more_evidence_never_increases_ambiguity():
+def test_more_evidence_never_moves_worlds_into_ambiguity():
+    # refinement splits classes, so the ambiguous-key COUNT is not monotone
+    # (two children of one ambiguous parent may both be ambiguous); what is
+    # monotone: identifiable keys never decrease, and the number of worlds
+    # living in ambiguous classes never grows as evidence is added
     stats = en.build()["regimes"]
     order = list(en.REGIMES)
     ident = [stats[r]["identifiable_keys"] for r in order]
-    ambig = [stats[r]["ambiguous_keys"] for r in order]
+    amb_worlds = [stats[r]["ambiguous_worlds"] for r in order]
     assert all(x <= y for x, y in zip(ident, ident[1:])), f"identifiable {ident}"
-    assert all(x >= y for x, y in zip(ambig, ambig[1:])), f"ambiguous {ambig}"
+    assert all(x >= y for x, y in zip(amb_worlds, amb_worlds[1:])), f"amb worlds {amb_worlds}"
 
 
 def test_ambiguous_examples_hold_two_or_more_targets():
@@ -52,10 +56,15 @@ def test_regime_keys_refine_each_other():
     # every pair of worlds sharing an R3 key must share the R2 key: richer
     # evidence strictly refines the partition
     worlds = en.build_family()
-    for regime, refined in (("R2_identity_and_declared", "R1_plate_only"), ("R4_plus_portion", "R3_plus_reference")):
-        g_course, g_fine = en.group_by_key(worlds, refined), en.group_by_key(worlds, regime)
-        course_keys = {schema.observation_key(schema.evidence_from_world(w, **en.REGIMES[refined])) for w in g_fine[0]}
-        _ = course_keys  # structural spot check below on sampled classes
+    for fine, coarse in (
+        ("R2_identity_and_declared", "R1_plate_only"),
+        ("R3_plus_reference", "R2_identity_and_declared"),
+        ("R4_plus_portion", "R3_plus_reference"),
+    ):
+        g_fine = en.group_by_key(worlds, fine)
         for key, members in list(g_fine.items())[:50]:
-            course = {schema.observation_key(schema.evidence_from_world(w, **en.REGIMES[refined])) for w in members}
-            assert len(course) == 1, (regime, refined, key)
+            parents = {
+                schema.observation_key(schema.evidence_from_world(w, **en.REGIMES[coarse]))
+                for w in members
+            }
+            assert len(parents) == 1, (fine, coarse, key)
