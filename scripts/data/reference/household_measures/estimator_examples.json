@@ -1,0 +1,1241 @@
+{
+  "source": {
+    "estimatorFile": "apps/ios/Platform/Persistence/Services/InventoryIntakeService.swift",
+    "estimatorCommit": "5e3eae7276f5bf5d7c16e749d7b0331d1da5ec2a",
+    "unitsTable": "scripts/data/reference/household_measures/fndds_household_units.csv"
+  },
+  "examples": [
+    {
+      "fdcId": 2705383,
+      "food": "Milk, human",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 246.0
+    },
+    {
+      "fdcId": 2705766,
+      "food": "Cheese, American, nonfat or fat free",
+      "portion": "1 cup, melted",
+      "unit": "cup",
+      "usdaGrams": 244.0
+    },
+    {
+      "fdcId": 2706147,
+      "food": "Dove, cooked, NS as to cooking method",
+      "portion": "1 cup, diced, cooked",
+      "unit": "cup",
+      "usdaGrams": 140.0
+    },
+    {
+      "fdcId": 2706497,
+      "food": "Beef and rice with soy-based sauce",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 244.0
+    },
+    {
+      "fdcId": 2706836,
+      "food": "Tuna salad, made with any type of fat free dressing",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 238.0
+    },
+    {
+      "fdcId": 2707464,
+      "food": "Soup, mulligatawany",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 245.0
+    },
+    {
+      "fdcId": 2708226,
+      "food": "Popcorn, microwave, low sodium",
+      "portion": "1 cup, popped",
+      "unit": "cup",
+      "usdaGrams": 11.0
+    },
+    {
+      "fdcId": 2708590,
+      "food": "Quesadilla, NFS",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 95.0
+    },
+    {
+      "fdcId": 2709038,
+      "food": "Rice, brown, with corn, no added fat",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 188.0
+    },
+    {
+      "fdcId": 2709464,
+      "food": "Potato, french fries, school",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 60.0
+    },
+    {
+      "fdcId": 2709793,
+      "food": "Mushrooms, raw",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 70.0
+    },
+    {
+      "fdcId": 2710150,
+      "food": "Fruit and vegetable smoothie, bottled",
+      "portion": "1 cup",
+      "unit": "cup",
+      "usdaGrams": 248.0
+    },
+    {
+      "fdcId": 2705444,
+      "food": "Chipotle dip, yogurt based",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 15.0
+    },
+    {
+      "fdcId": 2705624,
+      "food": "Ranch dip, light",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 15.0
+    },
+    {
+      "fdcId": 2705903,
+      "food": "Baby Toddler ham",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 15.0
+    },
+    {
+      "fdcId": 2707538,
+      "food": "Peanut butter, lower sodium",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 16.0
+    },
+    {
+      "fdcId": 2709308,
+      "food": "Guacamole with tomatoes",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 15.0
+    },
+    {
+      "fdcId": 2709733,
+      "food": "Ketchup",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 17.0
+    },
+    {
+      "fdcId": 2710093,
+      "food": "Hot pepper sauce",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 16.0
+    },
+    {
+      "fdcId": 2710155,
+      "food": "Butter, stick",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 14.0
+    },
+    {
+      "fdcId": 2710180,
+      "food": "Vegetable oil, NFS",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 14.0
+    },
+    {
+      "fdcId": 2710205,
+      "food": "Vegan mayonnaise",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 14.1
+    },
+    {
+      "fdcId": 2710230,
+      "food": "Caesar dressing, fat free",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 14.0
+    },
+    {
+      "fdcId": 2710288,
+      "food": "Topping, nuts and syrup",
+      "portion": "1 tablespoon",
+      "unit": "tbsp",
+      "usdaGrams": 20.0
+    },
+    {
+      "fdcId": 2709786,
+      "food": "Garlic, raw",
+      "portion": "1 teaspoon",
+      "unit": "tsp",
+      "usdaGrams": 5.0
+    },
+    {
+      "fdcId": 2710006,
+      "food": "Yeast extract spread",
+      "portion": "1 teaspoon",
+      "unit": "tsp",
+      "usdaGrams": 6.0
+    },
+    {
+      "fdcId": 2710258,
+      "food": "Sugar, white, granulated or lump",
+      "portion": "1 teaspoon",
+      "unit": "tsp",
+      "usdaGrams": 4.2
+    },
+    {
+      "fdcId": 2710260,
+      "food": "Sugar, brown",
+      "portion": "1 teaspoon, NFS",
+      "unit": "tsp",
+      "usdaGrams": 4.6
+    },
+    {
+      "fdcId": 2710262,
+      "food": "Sugar substitute and sugar blend",
+      "portion": "1 teaspoon",
+      "unit": "tsp",
+      "usdaGrams": 2.0
+    },
+    {
+      "fdcId": 2710264,
+      "food": "Sugar substitute, stevia, powder",
+      "portion": "1 teaspoon",
+      "unit": "tsp",
+      "usdaGrams": 3.0
+    },
+    {
+      "fdcId": 2710266,
+      "food": "Sugar substitute, monk fruit, powder",
+      "portion": "1 teaspoon",
+      "unit": "tsp",
+      "usdaGrams": 0.5
+    },
+    {
+      "fdcId": 2710268,
+      "food": "Sugar substitute, liquid, NFS",
+      "portion": "1 teaspoon",
+      "unit": "tsp",
+      "usdaGrams": 5.0
+    },
+    {
+      "fdcId": 2710270,
+      "food": "Sugar substitute, saccharin, liquid",
+      "portion": "1 teaspoon",
+      "unit": "tsp",
+      "usdaGrams": 5.0
+    },
+    {
+      "fdcId": 2710480,
+      "food": "Coffee, instant, not reconstituted",
+      "portion": "1 teaspoon, dry",
+      "unit": "tsp",
+      "usdaGrams": 0.9
+    },
+    {
+      "fdcId": 2710482,
+      "food": "Coffee, instant, pre-sweetened with sugar, not reconstituted",
+      "portion": "1 teaspoon, dry",
+      "unit": "tsp",
+      "usdaGrams": 3.4
+    },
+    {
+      "fdcId": 2710484,
+      "food": "Coffee, instant, decaffeinated, pre-lightened and pre-sweetened with sugar, not reconstituted",
+      "portion": "1 teaspoon, dry",
+      "unit": "tsp",
+      "usdaGrams": 3.4
+    },
+    {
+      "fdcId": 2705383,
+      "food": "Milk, human",
+      "portion": "1 fl oz",
+      "unit": "floz",
+      "usdaGrams": 30.8
+    },
+    {
+      "fdcId": 2705522,
+      "food": "Infant formula, Similac Advance, ready-to-feed",
+      "portion": "1 fl oz",
+      "unit": "floz",
+      "usdaGrams": 30.5
+    },
+    {
+      "fdcId": 2707573,
+      "food": "Coconut water, sweetened",
+      "portion": "1 fl oz (with ice)",
+      "unit": "floz",
+      "usdaGrams": 23.0
+    },
+    {
+      "fdcId": 2709324,
+      "food": "Cranberry juice, 100%, not a blend",
+      "portion": "1 fl oz (with ice)",
+      "unit": "floz",
+      "usdaGrams": 23.0
+    },
+    {
+      "fdcId": 2709730,
+      "food": "Tomato juice cocktail",
+      "portion": "1 fl oz (no ice)",
+      "unit": "floz",
+      "usdaGrams": 31.0
+    },
+    {
+      "fdcId": 2710432,
+      "food": "Coffee, Iced Latte, nonfat",
+      "portion": "1 fl oz",
+      "unit": "floz",
+      "usdaGrams": 30.0
+    },
+    {
+      "fdcId": 2710507,
+      "food": "Tea, ginger",
+      "portion": "1 fl oz",
+      "unit": "floz",
+      "usdaGrams": 30.0
+    },
+    {
+      "fdcId": 2710541,
+      "food": "Soft drink, cola",
+      "portion": "1 fl oz (no ice)",
+      "unit": "floz",
+      "usdaGrams": 31.0
+    },
+    {
+      "fdcId": 2710570,
+      "food": "Lemonade, fruit juice drink",
+      "portion": "1 fl oz (no ice)",
+      "unit": "floz",
+      "usdaGrams": 31.0
+    },
+    {
+      "fdcId": 2710605,
+      "food": "Atole de avena",
+      "portion": "1 fl oz",
+      "unit": "floz",
+      "usdaGrams": 31.0
+    },
+    {
+      "fdcId": 2710695,
+      "food": "Sangria, red",
+      "portion": "1 fl oz",
+      "unit": "floz",
+      "usdaGrams": 30.0
+    },
+    {
+      "fdcId": 2710784,
+      "food": "Fish fillet, fried as ingredient in sandwiches",
+      "portion": "1 fl oz (NFS)",
+      "unit": "floz",
+      "usdaGrams": 31.0
+    },
+    {
+      "fdcId": 2705730,
+      "food": "Cheese, Parmesan, hard",
+      "portion": "1 oz",
+      "unit": "oz",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2705857,
+      "food": "Beef, bacon, reduced sodium, cooked",
+      "portion": "1 oz, cooked",
+      "unit": "oz",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2705909,
+      "food": "Veal, chop",
+      "portion": "1 oz yields",
+      "unit": "oz",
+      "usdaGrams": 20.0
+    },
+    {
+      "fdcId": 2705972,
+      "food": "Chicken breast, sauteed, skin not eaten",
+      "portion": "1 oz, cooked",
+      "unit": "oz",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2706017,
+      "food": "Chicken drumstick, sauteed, skin not eaten",
+      "portion": "1 oz, cooked",
+      "unit": "oz",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2706108,
+      "food": "Turkey, light meat, breaded, baked or fried, skin eaten",
+      "portion": "1 oz, boneless, cooked",
+      "unit": "oz",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2706224,
+      "food": "Fish, NFS",
+      "portion": "1 oz yields",
+      "unit": "oz",
+      "usdaGrams": 20.0
+    },
+    {
+      "fdcId": 2706275,
+      "food": "Fish, perch, steamed",
+      "portion": "1 oz yields",
+      "unit": "oz",
+      "usdaGrams": 20.0
+    },
+    {
+      "fdcId": 2706326,
+      "food": "Fish, white, mixed species, baked or broiled, coated",
+      "portion": "1 oz yields",
+      "unit": "oz",
+      "usdaGrams": 20.0
+    },
+    {
+      "fdcId": 2707516,
+      "food": "Peanuts, roasted, unsalted",
+      "portion": "1 oz, in shell, yields",
+      "unit": "oz",
+      "usdaGrams": 21.0
+    },
+    {
+      "fdcId": 2707583,
+      "food": "Sunflower seeds, plain, salted",
+      "portion": "1 oz, without shell",
+      "unit": "oz",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2708388,
+      "food": "Oatmeal, instant, plain, made with water, fat added",
+      "portion": "1 oz, cooked",
+      "unit": "oz",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2705629,
+      "food": "Ice cream, NFS",
+      "portion": "1 slice",
+      "unit": "slice",
+      "usdaGrams": 66.0
+    },
+    {
+      "fdcId": 2705766,
+      "food": "Cheese, American, nonfat or fat free",
+      "portion": "1 slice",
+      "unit": "slice",
+      "usdaGrams": 21.0
+    },
+    {
+      "fdcId": 2705933,
+      "food": "Chicken, NS as to part, baked, broiled, or roasted, skin eaten",
+      "portion": "1 slice",
+      "unit": "slice",
+      "usdaGrams": 60.0
+    },
+    {
+      "fdcId": 2706182,
+      "food": "Mortadella",
+      "portion": "1 slice (15 per 8 oz package)",
+      "unit": "slice",
+      "usdaGrams": 15.0
+    },
+    {
+      "fdcId": 2706215,
+      "food": "Turkey, prepackaged or deli, luncheon meat",
+      "portion": "1 slice, NFS",
+      "unit": "slice",
+      "usdaGrams": 28.0
+    },
+    {
+      "fdcId": 2707603,
+      "food": "Bread, white with whole wheat swirl, toasted",
+      "portion": "1 slice, crust not eaten",
+      "unit": "slice",
+      "usdaGrams": 12.0
+    },
+    {
+      "fdcId": 2707633,
+      "food": "Bread, onion",
+      "portion": "1 slice, snack-size",
+      "unit": "slice",
+      "usdaGrams": 10.0
+    },
+    {
+      "fdcId": 2707651,
+      "food": "Bread, vegetable, toasted",
+      "portion": "1 slice",
+      "unit": "slice",
+      "usdaGrams": 40.0
+    },
+    {
+      "fdcId": 2707727,
+      "food": "Bread, wheat or cracked wheat, reduced calorie and/or high fiber, toasted",
+      "portion": "1 slice, crust not eaten",
+      "unit": "slice",
+      "usdaGrams": 12.0
+    },
+    {
+      "fdcId": 2707777,
+      "food": "Bread, multigrain",
+      "portion": "1 slice, crust not eaten",
+      "unit": "slice",
+      "usdaGrams": 16.0
+    },
+    {
+      "fdcId": 2708003,
+      "food": "Pie, strawberry",
+      "portion": "1 slice, any size",
+      "unit": "slice",
+      "usdaGrams": 150.0
+    },
+    {
+      "fdcId": 2709562,
+      "food": "Plantain, cooked with butter or margarine",
+      "portion": "1 slice",
+      "unit": "slice",
+      "usdaGrams": 25.0
+    },
+    {
+      "fdcId": 2705700,
+      "food": "Barfi or Burfi, Indian dessert",
+      "portion": "1 piece",
+      "unit": "piece",
+      "usdaGrams": 45.0
+    },
+    {
+      "fdcId": 2707683,
+      "food": "Bread, Spanish coffee",
+      "portion": "1 piece",
+      "unit": "piece",
+      "usdaGrams": 85.0
+    },
+    {
+      "fdcId": 2708617,
+      "food": "Pizza, cheese, from restaurant or fast food, thick crust",
+      "portion": "1 piece, NFS",
+      "unit": "piece",
+      "usdaGrams": 132.0
+    },
+    {
+      "fdcId": 2708630,
+      "food": "Pizza with cheese and extra vegetables, medium crust",
+      "portion": "1 piece, medium pizza",
+      "unit": "piece",
+      "usdaGrams": 108.0
+    },
+    {
+      "fdcId": 2708642,
+      "food": "Pizza with pepperoni, stuffed crust",
+      "portion": "1 piece, large pizza",
+      "unit": "piece",
+      "usdaGrams": 164.0
+    },
+    {
+      "fdcId": 2708659,
+      "food": "Pizza with extra meat, thick crust",
+      "portion": "1 piece, large pizza",
+      "unit": "piece",
+      "usdaGrams": 166.0
+    },
+    {
+      "fdcId": 2708671,
+      "food": "Pizza with meat and fruit, thick crust",
+      "portion": "1 piece, NFS",
+      "unit": "piece",
+      "usdaGrams": 157.0
+    },
+    {
+      "fdcId": 2708680,
+      "food": "White pizza, cheese, with meat, thin crust",
+      "portion": "1 piece, extra-large pizza",
+      "unit": "piece",
+      "usdaGrams": 114.0
+    },
+    {
+      "fdcId": 2708692,
+      "food": "Pizza, cheese and vegetables, whole wheat thick crust",
+      "portion": "1 piece, large pizza",
+      "unit": "piece",
+      "usdaGrams": 149.0
+    },
+    {
+      "fdcId": 2708752,
+      "food": "Lasagna with meat, from restaurant",
+      "portion": "1 piece (1/8 of 7\" x 12\", approx 3-1/2\" x 3\")",
+      "unit": "piece",
+      "usdaGrams": 232.0
+    },
+    {
+      "fdcId": 2709381,
+      "food": "Baby Toddler yogurt melts",
+      "portion": "1 piece",
+      "unit": "piece",
+      "usdaGrams": 0.5
+    },
+    {
+      "fdcId": 2709903,
+      "food": "Cauliflower, fresh, cooked with butter or margarine",
+      "portion": "1 piece",
+      "unit": "piece",
+      "usdaGrams": 13.0
+    },
+    {
+      "fdcId": 2707152,
+      "food": "Egg, whole, raw",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707161,
+      "food": "Egg, whole, fried with cooking spray",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707174,
+      "food": "Egg, yolk only, cooked, no added fat",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 17.0
+    },
+    {
+      "fdcId": 2707183,
+      "food": "Egg salad, made with light mayonnaise",
+      "portion": "1 egg, NS as to size",
+      "unit": "egg",
+      "usdaGrams": 74.0
+    },
+    {
+      "fdcId": 2707198,
+      "food": "Egg omelet or scrambled egg, NS as to fat",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 55.0
+    },
+    {
+      "fdcId": 2707207,
+      "food": "Egg omelet or scrambled egg, with cheese, made with margarine",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 65.0
+    },
+    {
+      "fdcId": 2707216,
+      "food": "Egg omelet or scrambled egg, with meat, made with butter",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 75.0
+    },
+    {
+      "fdcId": 2707225,
+      "food": "Egg omelet or scrambled egg, with cheese and meat, made with animal fat or meat drippings",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 85.0
+    },
+    {
+      "fdcId": 2707234,
+      "food": "Egg omelet or scrambled egg, with dark-green vegetables, NS as to fat",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 75.0
+    },
+    {
+      "fdcId": 2707243,
+      "food": "Egg omelet or scrambled egg, with cheese and tomatoes, NS as to fat",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 85.0
+    },
+    {
+      "fdcId": 2707252,
+      "food": "Egg omelet or scrambled egg, with cheese and vegetables other than dark green and/or tomatoes, NS as to fat",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 85.0
+    },
+    {
+      "fdcId": 2707261,
+      "food": "Egg omelet or scrambled egg, with meat, tomatoes, and dark-green vegetables, NS as to fat",
+      "portion": "1 egg",
+      "unit": "egg",
+      "usdaGrams": 95.0
+    },
+    {
+      "fdcId": 2705704,
+      "food": "Cheese, NFS",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 28.0
+    },
+    {
+      "fdcId": 2705711,
+      "food": "Cheese, Cheddar, nonfat or fat free",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2705722,
+      "food": "Cheese, Mozzarella, NFS",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2705725,
+      "food": "Cheese, Mozzarella, nonfat or fat free",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2705766,
+      "food": "Cheese, American, nonfat or fat free",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 28.35
+    },
+    {
+      "fdcId": 2706231,
+      "food": "Fish, stick",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 20.0
+    },
+    {
+      "fdcId": 2707967,
+      "food": "Pocky",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 4.0
+    },
+    {
+      "fdcId": 2708314,
+      "food": "Waffle, plain, reduced fat",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 35.0
+    },
+    {
+      "fdcId": 2708317,
+      "food": "Waffle, whole grain, frozen",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 35.0
+    },
+    {
+      "fdcId": 2708338,
+      "food": "French toast sticks",
+      "portion": "1 stick",
+      "unit": "stick",
+      "usdaGrams": 45.0
+    },
+    {
+      "fdcId": 2708715,
+      "food": "Cornmeal stick, Puerto Rican style",
+      "portion": "1 stick (3\" x 3/4\")",
+      "unit": "stick",
+      "usdaGrams": 20.0
+    },
+    {
+      "fdcId": 2709446,
+      "food": "Potato sticks, fry shaped",
+      "portion": "10 sticks",
+      "unit": "stick",
+      "usdaGrams": 3.0
+    },
+    {
+      "fdcId": 2710153,
+      "food": "Table fat, NFS",
+      "portion": "1 pat",
+      "unit": "pat",
+      "usdaGrams": 7.0
+    },
+    {
+      "fdcId": 2710154,
+      "food": "Butter, NFS",
+      "portion": "1 pat",
+      "unit": "pat",
+      "usdaGrams": 7.0
+    },
+    {
+      "fdcId": 2710155,
+      "food": "Butter, stick",
+      "portion": "1 pat",
+      "unit": "pat",
+      "usdaGrams": 7.0
+    },
+    {
+      "fdcId": 2710156,
+      "food": "Butter, tub",
+      "portion": "1 pat",
+      "unit": "pat",
+      "usdaGrams": 7.0
+    },
+    {
+      "fdcId": 2710157,
+      "food": "Butter, light",
+      "portion": "1 pat",
+      "unit": "pat",
+      "usdaGrams": 7.0
+    },
+    {
+      "fdcId": 2710158,
+      "food": "Margarine, NFS",
+      "portion": "1 pat",
+      "unit": "pat",
+      "usdaGrams": 7.0
+    },
+    {
+      "fdcId": 2710159,
+      "food": "Margarine, stick",
+      "portion": "1 pat",
+      "unit": "pat",
+      "usdaGrams": 7.0
+    },
+    {
+      "fdcId": 2710162,
+      "food": "Margarine, light",
+      "portion": "1 pat",
+      "unit": "pat",
+      "usdaGrams": 7.0
+    },
+    {
+      "fdcId": 2705508,
+      "food": "Milk shake, fast food, chocolate",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 526.0
+    },
+    {
+      "fdcId": 2707814,
+      "food": "Cornbread muffin, stick, round, made from home recipe",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 113.0
+    },
+    {
+      "fdcId": 2707843,
+      "food": "Muffin, pumpkin",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 130.0
+    },
+    {
+      "fdcId": 2707933,
+      "food": "Cookie, granola",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 30.0
+    },
+    {
+      "fdcId": 2707981,
+      "food": "Cookie, vanilla wafer",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 4.0
+    },
+    {
+      "fdcId": 2709384,
+      "food": "Potato, baked, peel not eaten",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 285.0
+    },
+    {
+      "fdcId": 2709407,
+      "food": "Potato, roasted, from fresh, peel eaten, made with butter",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 170.0
+    },
+    {
+      "fdcId": 2709522,
+      "food": "Potato, baked, peel not eaten, with chili",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 315.0
+    },
+    {
+      "fdcId": 2710151,
+      "food": "Fruit and vegetable smoothie, no dairy",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 864.0
+    },
+    {
+      "fdcId": 2710399,
+      "food": "Frozen coffee drink, nonfat",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 496.0
+    },
+    {
+      "fdcId": 2710419,
+      "food": "Frozen mocha coffee drink, with whipped cream",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 496.0
+    },
+    {
+      "fdcId": 2710439,
+      "food": "Coffee, Iced Latte, decaffeinated, with non-dairy milk",
+      "portion": "1 medium",
+      "unit": "medium",
+      "usdaGrams": 480.0
+    },
+    {
+      "fdcId": 2705508,
+      "food": "Milk shake, fast food, chocolate",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 690.0
+    },
+    {
+      "fdcId": 2706989,
+      "food": "Chicken deli sandwich or sub, with cheese, restaurant",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 240.0
+    },
+    {
+      "fdcId": 2707312,
+      "food": "Egg sandwich on wheat bread, with cheese",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 205.0
+    },
+    {
+      "fdcId": 2707666,
+      "food": "Roll, sweet, no frosting",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 153.0
+    },
+    {
+      "fdcId": 2707832,
+      "food": "Muffin, chocolate chip",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 180.0
+    },
+    {
+      "fdcId": 2707949,
+      "food": "Cookie, oatmeal, with chocolate chips",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 45.0
+    },
+    {
+      "fdcId": 2708275,
+      "food": "Pretzels, soft, ready-to-eat, topped with meat",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 175.0
+    },
+    {
+      "fdcId": 2708544,
+      "food": "Burrito, chicken, with rice, cheese",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 330.0
+    },
+    {
+      "fdcId": 2709395,
+      "food": "Potato, boiled, from fresh,  peel eaten, no added fat",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 300.0
+    },
+    {
+      "fdcId": 2709527,
+      "food": "Potato, baked, peel eaten, with cheese",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 445.0
+    },
+    {
+      "fdcId": 2710398,
+      "food": "Frozen coffee drink",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 620.0
+    },
+    {
+      "fdcId": 2710432,
+      "food": "Coffee, Iced Latte, nonfat",
+      "portion": "1 large",
+      "unit": "large",
+      "usdaGrams": 600.0
+    },
+    {
+      "fdcId": 2705508,
+      "food": "Milk shake, fast food, chocolate",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 405.0
+    },
+    {
+      "fdcId": 2707708,
+      "food": "Bagel, whole grain white",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 69.0
+    },
+    {
+      "fdcId": 2707832,
+      "food": "Muffin, chocolate chip",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 70.0
+    },
+    {
+      "fdcId": 2707915,
+      "food": "Cookie, chocolate or fudge",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 20.0
+    },
+    {
+      "fdcId": 2707979,
+      "food": "Cookie, butter or sugar, with icing or filling other than chocolate",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 28.0
+    },
+    {
+      "fdcId": 2708347,
+      "food": "Dosa, plain",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 35.0
+    },
+    {
+      "fdcId": 2709397,
+      "food": "Potato, boiled, from fresh, peel eaten, made with butter",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 130.0
+    },
+    {
+      "fdcId": 2709459,
+      "food": "Potato, french fries, from fresh, baked",
+      "portion": "1 small, raw, yields",
+      "unit": "small",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2710147,
+      "food": "Fruit and vegetable smoothie, added protein",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 540.0
+    },
+    {
+      "fdcId": 2710398,
+      "food": "Frozen coffee drink",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 372.0
+    },
+    {
+      "fdcId": 2710420,
+      "food": "Frozen mocha coffee drink, nonfat, with whipped cream",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 372.0
+    },
+    {
+      "fdcId": 2710442,
+      "food": "Coffee, Iced Latte, decaffeinated, with non-dairy milk, flavored",
+      "portion": "1 small",
+      "unit": "small",
+      "usdaGrams": 372.0
+    },
+    {
+      "fdcId": 2705776,
+      "food": "Cheese spread, pressurized can",
+      "portion": "1 can (4.75 oz)",
+      "unit": "can",
+      "usdaGrams": 135.0
+    },
+    {
+      "fdcId": 2707131,
+      "food": "Soup, pork or ham",
+      "portion": "1 can",
+      "unit": "can",
+      "usdaGrams": 525.0
+    },
+    {
+      "fdcId": 2707463,
+      "food": "Soup, lentil, with meat",
+      "portion": "1 can",
+      "unit": "can",
+      "usdaGrams": 525.0
+    },
+    {
+      "fdcId": 2708845,
+      "food": "Pasta with tomato-based sauce and poultry, ready-to-heat",
+      "portion": "1 can",
+      "unit": "can",
+      "usdaGrams": 425.0
+    },
+    {
+      "fdcId": 2708881,
+      "food": "Pasta, whole grain, with tomato-based sauce, ready-to-heat",
+      "portion": "1 can",
+      "unit": "can",
+      "usdaGrams": 425.0
+    },
+    {
+      "fdcId": 2708917,
+      "food": "Pasta, whole grain, with cream sauce and poultry, ready-to-heat",
+      "portion": "1 can",
+      "unit": "can",
+      "usdaGrams": 425.0
+    },
+    {
+      "fdcId": 2709718,
+      "food": "Soup, pumpkin",
+      "portion": "1 can",
+      "unit": "can",
+      "usdaGrams": 525.0
+    },
+    {
+      "fdcId": 2710537,
+      "food": "Soft drink, NFS, diet",
+      "portion": "1 can (12 fl oz)",
+      "unit": "can",
+      "usdaGrams": 360.0
+    },
+    {
+      "fdcId": 2710549,
+      "food": "Soft drink, cream soda",
+      "portion": "1 can (12 fl oz)",
+      "unit": "can",
+      "usdaGrams": 372.0
+    },
+    {
+      "fdcId": 2710561,
+      "food": "Soft drink, cola, fruit or vanilla flavored",
+      "portion": "1 can (12 fl oz)",
+      "unit": "can",
+      "usdaGrams": 372.0
+    },
+    {
+      "fdcId": 2710725,
+      "food": "Nutritional drink or shake, ready-to-drink, NFS",
+      "portion": "1 can (12 fl oz)",
+      "unit": "can",
+      "usdaGrams": 372.0
+    },
+    {
+      "fdcId": 2710752,
+      "food": "Energy drink (Red Bull)",
+      "portion": "1 can (16.9 fl oz)",
+      "unit": "can",
+      "usdaGrams": 524.0
+    },
+    {
+      "fdcId": 2705708,
+      "food": "Cheese, Brie",
+      "portion": "1 package (4.5 oz)",
+      "unit": "package",
+      "usdaGrams": 128.0
+    },
+    {
+      "fdcId": 2706481,
+      "food": "Beef and macaroni with cheese sauce",
+      "portion": "1 package, prepared",
+      "unit": "package",
+      "usdaGrams": 1245.0
+    },
+    {
+      "fdcId": 2707485,
+      "food": "Almonds, NFS",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707491,
+      "food": "Almonds, honey roasted",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707498,
+      "food": "Cashews, honey roasted",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707507,
+      "food": "Mixed nuts, with peanuts, lightly salted",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707513,
+      "food": "Peanuts, boiled",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707519,
+      "food": "Peanuts, dry roasted, unsalted",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707525,
+      "food": "Pecans, honey roasted",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707532,
+      "food": "Walnuts, honey roasted",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707579,
+      "food": "Pumpkin seeds, NFS",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    },
+    {
+      "fdcId": 2707585,
+      "food": "Sunflower seeds, NFS",
+      "portion": "1 package",
+      "unit": "package",
+      "usdaGrams": 50.0
+    }
+  ]
+}
