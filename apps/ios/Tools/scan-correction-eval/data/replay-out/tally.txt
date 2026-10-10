@@ -1,0 +1,30 @@
+histories: 300  total scans committed: 2650
+seed-results: 1200  scans replayed: 10600
+
+family            arm               scans  wrong  correct  abstain
+changed           conflict_abstain    550     50      300      200
+changed           current             550    150      300      100
+changed           no_learning         550      0        0      550
+changed           recency_window      550    100      350      100
+clean             conflict_abstain    450     26      192      232
+clean             current             450    100      225      125
+clean             no_learning         450      0        0      450
+clean             recency_window      450    100      225      125
+conflict          conflict_abstain    400      0        0      400
+conflict          current             400    250        0      150
+conflict          no_learning         400      0        0      400
+conflict          recency_window      400    250        0      150
+delay             conflict_abstain    400      0      300      100
+delay             current             400      0      300      100
+delay             no_learning         400      0        0      400
+delay             recency_window      400      0      300      100
+heldout-combined  conflict_abstain    450     21      200      229
+heldout-combined  current             450    121      229      100
+heldout-combined  no_learning         450      0        0      450
+heldout-combined  recency_window      450    100      250      100
+noisy             conflict_abstain    400      2      221      177
+noisy             current             400      9      268      123
+noisy             no_learning         400      0        0      400
+noisy             recency_window      400      9      268      123
+
+all checks passed: current arm matches hand-computed reference; restart and db-reopen agreement hold everywhere

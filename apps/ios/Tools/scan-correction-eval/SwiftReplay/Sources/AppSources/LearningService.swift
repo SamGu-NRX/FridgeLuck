@@ -1,0 +1,186 @@
+import Foundation
+import GRDB
+
+/// Continual learning system that records and applies user corrections
+/// to Vision label misclassifications.
+///
+/// Design: Corrections are stored in SQLite and cached in-memory.
+/// Auto-correction requires count >= 2 to prevent accidental taps
+/// from permanently misclassifying items. Single corrections only
+/// influence suggestion order in medium-confidence prompts.
+final class LearningService: @unchecked Sendable {
+  private let db: DatabaseQueue
+  private var cache: [String: CachedCorrection] = [:]
+  private let lock = NSLock()
+  private let defaults = UserDefaults.standard
+
+  private enum TelemetryKeys {
+    static let suggestionsShown = "learning_suggestions_shown"
+    static let suggestionsAccepted = "learning_suggestions_accepted"
+  }
+
+  private struct CachedCorrection {
+    let ingredientId: Int64
+    let count: Int
+  }
+
+  struct CorrectionTelemetry: Sendable {
+    let suggestionsShown: Int
+    let suggestionsAccepted: Int
+
+    var hitRate: Double {
+      guard suggestionsShown > 0 else { return 0 }
+      return Double(suggestionsAccepted) / Double(suggestionsShown)
+    }
+  }
+
+  init(db: DatabaseQueue) {
+    self.db = db
+    loadCache()
+  }
+
+  // Labels arrive from Vision text output with stray spaces; corrections must
+  // share one key regardless of casing or surrounding whitespace.
+  private static func normalizedLabel(_ label: String) -> String {
+    label.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+  }
+
+  // MARK: - Cache Management
+
+  private func loadCache() {
+    do {
+      try db.read { db in
+        let rows = try Row.fetchAll(
+          db,
+          sql: """
+            SELECT vision_label, corrected_ingredient_id, correction_count
+            FROM user_corrections
+            ORDER BY correction_count DESC, last_used_at DESC, rowid DESC
+            """)
+
+        lock.lock()
+        defer { lock.unlock() }
+
+        for row in rows {
+          let label: String = row["vision_label"]
+          let key = Self.normalizedLabel(label)
+          let candidate = CachedCorrection(
+            ingredientId: row["corrected_ingredient_id"],
+            count: row["correction_count"]
+          )
+
+          if let existing = cache[key], existing.count >= candidate.count {
+            continue
+          }
+          cache[key] = candidate
+        }
+      }
+    } catch {}
+  }
+
+  // MARK: - Record Corrections
+
+  /// Record that the user corrected a Vision label to a specific ingredient.
+  func recordCorrection(visionLabel: String, correctedIngredientId: Int64) {
+    let key = Self.normalizedLabel(visionLabel)
+
+    do {
+      try db.write { db in
+        try db.execute(
+          sql: """
+            INSERT INTO user_corrections
+                (vision_label, corrected_ingredient_id, correction_count, last_used_at)
+            VALUES (?, ?, 1, CURRENT_TIMESTAMP)
+            ON CONFLICT(vision_label, corrected_ingredient_id)
+            DO UPDATE SET
+                correction_count = correction_count + 1,
+                last_used_at = CURRENT_TIMESTAMP
+            """, arguments: [key, correctedIngredientId])
+      }
+    } catch {}
+
+    do {
+      let top = try db.read { db -> CachedCorrection? in
+        guard
+          let row = try Row.fetchOne(
+            db,
+            sql: """
+              SELECT corrected_ingredient_id, correction_count
+              FROM user_corrections
+              WHERE vision_label = ?
+              ORDER BY correction_count DESC, last_used_at DESC, rowid DESC
+              LIMIT 1
+              """, arguments: [key])
+        else {
+          return nil
+        }
+        return CachedCorrection(
+          ingredientId: row["corrected_ingredient_id"],
+          count: row["correction_count"]
+        )
+      }
+
+      lock.lock()
+      if let top {
+        cache[key] = top
+      } else {
+        cache.removeValue(forKey: key)
+      }
+      lock.unlock()
+    } catch {}
+  }
+
+  // MARK: - Query Corrections
+
+  /// Returns the corrected ingredient ID if the user has corrected this label
+  /// at least 2 times (threshold prevents accidental auto-correction).
+  func correctedIngredientId(for visionLabel: String) -> Int64? {
+    let key = Self.normalizedLabel(visionLabel)
+    lock.lock()
+    defer { lock.unlock() }
+
+    guard let cached = cache[key], cached.count >= 2 else {
+      return nil
+    }
+    return cached.ingredientId
+  }
+
+  /// Returns the suggested correction even with count == 1.
+  /// Used to pre-select the right option in medium-confidence prompts.
+  func suggestedCorrection(for visionLabel: String) -> Int64? {
+    let key = Self.normalizedLabel(visionLabel)
+    lock.lock()
+    defer { lock.unlock() }
+    return cache[key]?.ingredientId
+  }
+
+  // MARK: - Telemetry
+
+  func recordSuggestionShown() {
+    lock.lock()
+    defaults.set(
+      defaults.integer(forKey: TelemetryKeys.suggestionsShown) + 1,
+      forKey: TelemetryKeys.suggestionsShown
+    )
+    lock.unlock()
+  }
+
+  func recordSuggestionOutcome(accepted: Bool) {
+    guard accepted else { return }
+    lock.lock()
+    defaults.set(
+      defaults.integer(forKey: TelemetryKeys.suggestionsAccepted) + 1,
+      forKey: TelemetryKeys.suggestionsAccepted
+    )
+    lock.unlock()
+  }
+
+  func telemetry() -> CorrectionTelemetry {
+    lock.lock()
+    defer { lock.unlock() }
+    return CorrectionTelemetry(
+      suggestionsShown: defaults.integer(forKey: TelemetryKeys.suggestionsShown),
+      suggestionsAccepted: defaults.integer(forKey: TelemetryKeys.suggestionsAccepted)
+    )
+  }
+}

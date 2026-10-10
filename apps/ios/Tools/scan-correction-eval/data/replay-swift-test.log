@@ -1,0 +1,38 @@
+sync check OK
+[0/1] Planning build
+Building for debugging...
+[0/3] Write sources
+[1/3] Write swift-version--302D9064505F0220.txt
+[3/5] Emitting module ReplayTests
+[4/5] Compiling ReplayTests ReplayTests.swift
+[5/11] /home/user/work/fl-correction-drift/apps/ios/Tools/scan-correction-eval/SwiftReplay/.build/x86_64-unknown-linux-gnu/debug/SwiftReplayPackageDiscoveredTests.derived/all-discovered-tests.swift
+[6/12] Write sources
+[8/15] Compiling SwiftReplayPackageDiscoveredTests all-discovered-tests.swift
+[9/15] Emitting module SwiftReplayPackageDiscoveredTests
+[10/15] Compiling SwiftReplayPackageDiscoveredTests ReplayTests.swift
+[11/13] Write Objects.LinkFileList
+[12/13] Linking SwiftReplayPackageTests.xctest
+Build complete! (3.62s)
+Test Suite 'All tests' started at 2026-10-10 20:18:15.405
+Test Suite 'debug.xctest' started at 2026-10-10 20:18:15.486
+Test Suite 'ReplayTests' started at 2026-10-10 20:18:15.486
+Test Case 'ReplayTests.testConflictAbstainRequiresMarginAndRecovers' started at 2026-10-10 20:18:15.486
+Test Case 'ReplayTests.testConflictAbstainRequiresMarginAndRecovers' passed (0.014 seconds)
+Test Case 'ReplayTests.testCurrentMatchesReferenceSemantics' started at 2026-10-10 20:18:15.500
+Test Case 'ReplayTests.testCurrentMatchesReferenceSemantics' passed (0.006 seconds)
+Test Case 'ReplayTests.testFullReplayAllFamiliesAllArms' started at 2026-10-10 20:18:15.506
+replay results written to /home/user/work/fl-correction-drift/apps/ios/Tools/scan-correction-eval/data/replay-out/replay-results.json (1200 seed-results)
+Test Case 'ReplayTests.testFullReplayAllFamiliesAllArms' passed (159.678 seconds)
+Test Case 'ReplayTests.testRecencyWindowAgesOutStaleChoice' started at 2026-10-10 20:20:55.184
+Test Case 'ReplayTests.testRecencyWindowAgesOutStaleChoice' passed (0.011 seconds)
+Test Suite 'ReplayTests' passed at 2026-10-10 20:20:55.194
+	 Executed 4 tests, with 0 failures (0 unexpected) in 159.708 (159.708) seconds
+Test Suite 'debug.xctest' passed at 2026-10-10 20:20:55.195
+	 Executed 4 tests, with 0 failures (0 unexpected) in 159.708 (159.708) seconds
+Test Suite 'All tests' passed at 2026-10-10 20:20:55.195
+	 Executed 4 tests, with 0 failures (0 unexpected) in 159.708 (159.708) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.1.2 (d6b70f9ef9eb207)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests passed after 0.001 seconds.
+EXIT:0
