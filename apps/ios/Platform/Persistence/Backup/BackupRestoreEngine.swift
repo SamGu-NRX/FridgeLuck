@@ -33,7 +33,10 @@ struct BackupRestoreEngine: Sendable {
   let documentsDirectory: URL?
   /// Directory that holds safety copies between staging and completion.
   let stagingRoot: URL
-  let fileManager: FileManager
+  /// `FileManager` is not Sendable, so it is never stored: each operation
+  /// reaches `.default` locally (thread-safe to access, and all this
+  /// engine does with it is ordinary file operations).
+  private var fileManager: FileManager { .default }
   let center: NotificationCenter
 
   init(
@@ -41,7 +44,6 @@ struct BackupRestoreEngine: Sendable {
     databasePath: String,
     documentsDirectory: URL? = nil,
     stagingRoot: URL? = nil,
-    fileManager: FileManager = .default,
     center: NotificationCenter = .default
   ) {
     self.writer = writer
@@ -55,7 +57,6 @@ struct BackupRestoreEngine: Sendable {
         .deletingLastPathComponent()
         .appendingPathComponent("backup-staging", isDirectory: true)
     }
-    self.fileManager = fileManager
     self.center = center
   }
 
