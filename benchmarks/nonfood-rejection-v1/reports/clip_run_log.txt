@@ -1,0 +1,1 @@
+wrote reports/raw/clip-zeroshot.json (1200 images)
