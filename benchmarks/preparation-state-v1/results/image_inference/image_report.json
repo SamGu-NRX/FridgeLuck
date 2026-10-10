@@ -1,0 +1,41 @@
+{
+ "arm": "image_inference",
+ "environment": {
+  "absorbers": "on",
+  "device": "cpu",
+  "label_space": "curated+usda",
+  "model": "ViT-B-32",
+  "open_clip": "3.3.0",
+  "pretrained": "laion2b_s34b_b79k",
+  "split": "validation",
+  "torch": "2.14.1+cpu"
+ },
+ "generated_at_utc": "2026-10-10T21:04:00Z",
+ "inputs": {
+  "ingredient_recognition_manifest_sha256": "265b1bb512f39505926c0e6e8655721f959610b8da9f733f6cbee1f1420fe0f1",
+  "observations_sha256": "47c939c3b9b244aecde4440e7d640598606dd67a4e5878a3d91a5027a3f9f94f",
+  "preparation_state_manifest_sha256": "4204714c69b3a20669e75e26351f042382dc3b456588b0241b2dbffc806da674",
+  "taxonomy_sha256": "414d202946c90fc8ec87726d051402ce08e1b3cf489304da6e870e8dc5cbb987"
+ },
+ "metrics": {
+  "ambiguous_group_overlaps": 2,
+  "curated_space_detections": 327,
+  "expected_groups": 503,
+  "expected_groups_detected": 37,
+  "group_detection_recall": 0.0736,
+  "image_any_hit_rate": 0.0173,
+  "images_any_expected_group_detected": 37,
+  "images_with_expected_groups": 2135,
+  "spurious_group_detections": 1720,
+  "state_binding": {
+   "multi_member_group_detections": 128,
+   "multi_member_groups_with_binding": 15,
+   "note": "FoodSeg103 has no preparation-state labels, so state correctness is unverifiable on image. stateful_binding_ungrounded counts detections on multi-alternative groups that bound a concrete stateful record with no image evidence for that state.",
+   "single_member_group_stateful_bindings": 725,
+   "stateful_binding_rate_on_multi": 0.5391,
+   "stateful_binding_ungrounded": 69
+  },
+  "validation_images": 2135
+ },
+ "predictions_sha256": "a9f8c76170c85b9b1632336eb2b12d6ea452bc53fc5efbb8dcf81bab17c17ecc"
+}

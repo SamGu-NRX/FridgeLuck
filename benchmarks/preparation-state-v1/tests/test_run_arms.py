@@ -85,14 +85,23 @@ def test_baseline_abstains_on_ambiguous_state_group(baseline):
 
 
 # ------------------------------------------------------------- committed run
+TEXT_RESULTS = RESULTS / "text_arms"
+IMAGE_RESULTS = RESULTS / "image_inference"
+
+
 def test_committed_results_exist():
-    assert (RESULTS / "report.json").exists()
-    assert (RESULTS / "predictions.jsonl").exists()
+    assert (TEXT_RESULTS / "report.json").exists()
+    assert (TEXT_RESULTS / "predictions.jsonl").exists()
+    # image arm and nutrient-consequence artifacts are committed alongside
+    assert (IMAGE_RESULTS / "image_report.json").exists()
+    assert (IMAGE_RESULTS / "image_predictions.jsonl").exists()
+    assert (IMAGE_RESULTS / "observations.jsonl.gz").exists()
+    assert (RESULTS / "nutrient_consequences.json").exists()
 
 
 def test_report_predictions_hash_matches_committed_file():
-    report = json.loads((RESULTS / "report.json").read_text())
-    digest = hashlib.sha256((RESULTS / "predictions.jsonl").read_bytes()).hexdigest()
+    report = json.loads((TEXT_RESULTS / "report.json").read_text())
+    digest = hashlib.sha256((TEXT_RESULTS / "predictions.jsonl").read_bytes()).hexdigest()
     assert report["predictions_sha256"] == digest
     assert report["manifest_sha256"] == hashlib.sha256(
         (BENCH / "manifest.json").read_bytes()
@@ -100,22 +109,33 @@ def test_report_predictions_hash_matches_committed_file():
 
 
 def test_report_records_unrun_swift_arm():
-    report = json.loads((RESULTS / "report.json").read_text())
+    report = json.loads((TEXT_RESULTS / "report.json").read_text())
     swift = report["arms"]["swift_replay"]
     assert swift["ran"] is False
     assert "unrun" in swift["status"]
 
 
 def test_predictions_cover_every_probe_per_ran_arm():
-    report = json.loads((RESULTS / "report.json").read_text())
-    lines = (RESULTS / "predictions.jsonl").read_text().splitlines()
+    report = json.loads((TEXT_RESULTS / "report.json").read_text())
+    lines = (TEXT_RESULTS / "predictions.jsonl").read_text().splitlines()
     by_arm: dict[str, int] = {}
     for line in lines:
         rec = json.loads(line)
         by_arm[rec["arm"]] = by_arm.get(rec["arm"], 0) + 1
     for arm, data in report["arms"].items():
         if data.get("ran"):
-            assert by_arm.get(arm) == data["probe_count"] == len(MANIFEST["probes"])
+            assert by_arm.get(arm) == data["probe_count"]
+
+
+def test_heldout_alternative_arm_is_committed_with_summary():
+    report = json.loads((TEXT_RESULTS / "report.json").read_text())
+    held = report["arms"]["heldout_alternative"]
+    assert held["ran"] is True
+    assert "alternative_selection" in held
+    # unknown-state probes on multi-member test groups must not all be
+    # counted as exact matches; the wrong-state mass is the finding
+    sel = held["alternative_selection"]
+    assert sel["unknown_state_wrong_state"] > 0
 
 
 def test_run_is_deterministic(tmp_path):

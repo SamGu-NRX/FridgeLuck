@@ -191,6 +191,15 @@ def run_probe(arm: str, text: str, ctx: dict) -> tuple[int | None, str, float]:
         else:
             rid = ctx["port"].resolve_text_from_catalog(text, ctx["lexicon"], ctx["resolver"])
             prov = "catalog" if rid is not None else "none"
+    elif arm == "heldout_alternative":
+        # Same production resolver as production_replay; the arm differs only in
+        # which probes are scored (held-out multi-alternative test groups).
+        resolved = ctx["port"].resolve_label(text, ctx["lexicon"], ctx["resolver"])
+        if resolved is not None:
+            rid, prov = resolved.ingredient_id, resolved.provenance
+        else:
+            rid = ctx["port"].resolve_text_from_catalog(text, ctx["lexicon"], ctx["resolver"])
+            prov = "catalog" if rid is not None else "none"
     else:
         raise ValueError(arm)
     elapsed_ms = (time.perf_counter_ns() - t0) / 1e6
@@ -235,9 +244,9 @@ def percentile(values: list[float], q: float) -> float:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=str(BENCH_ROOT / "results"))
+    ap.add_argument("--out", default=str(BENCH_ROOT / "results" / "text_arms"))
     ap.add_argument("--manifest", default=str(BENCH_ROOT / "manifest.json"))
-    ap.add_argument("--arms", default="pinned_cpu_baseline,production_replay,swift_replay")
+    ap.add_argument("--arms", default="pinned_cpu_baseline,production_replay,swift_replay,heldout_alternative")
     args = ap.parse_args()
 
     out = Path(args.out)
@@ -261,7 +270,7 @@ def main() -> int:
     arm_status: dict[str, str] = {}
     if "pinned_cpu_baseline" in arms_requested:
         ctx["baseline"] = BaselineCatalog(rows)
-    if "production_replay" in arms_requested:
+    if "production_replay" in arms_requested or "heldout_alternative" in arms_requested:
         port = load_port()
         ctx["lexicon"] = port.IngredientLexicon()
         ctx["resolver"] = port.IngredientCatalogResolver()
@@ -281,6 +290,33 @@ def main() -> int:
     for arm in arms_requested:
         if arm == "swift_replay":
             continue  # unrun arm; status recorded in the report
+        if arm == "heldout_alternative":
+            # Held-out preparation alternatives: only probes on TEST-split groups
+            # that have >= 2 distinct records (state alternatives). The arm asks
+            # whether the resolver can pick the correct alternative record when
+            # the group identity is held out of anything tunable — same resolver
+            # behavior as production_replay, different scoring slice.
+            for probe in probes:
+                grp = groups_by_base[probe["probe_id"].split("::", 1)[0]]
+                if probe["split"] != "test" or len(grp["members"]) < 2:
+                    continue
+                rid, prov, elapsed = run_probe(arm, probe["text"], ctx)
+                group_of_probe = probe["probe_id"].split("::", 1)[0]
+                rec = {
+                    "arm": arm,
+                    "probe_id": probe["probe_id"],
+                    "family": probe["family"],
+                    "split": probe["split"],
+                    "text": probe["text"],
+                    "target_record_id": probe["target"]["record_id"],
+                    "target_state": probe["target"]["state"],
+                    "predicted_record_id": rid,
+                    "provenance": prov,
+                    "elapsed_ms": round(elapsed, 4),
+                    "outcome": classify(rid, probe, group_of_probe, id_to_group, usda_ids),
+                }
+                all_records.append(rec)
+            continue
         for probe in probes:
             rid, prov, elapsed = run_probe(arm, probe["text"], ctx)
             group_of_probe = probe["probe_id"].split("::", 1)[0]
@@ -341,6 +377,30 @@ def main() -> int:
                 "curated_cross": sum(1 for r in fr if r["outcome"] == "curated_cross"),
             }
         arm_report["per_family"] = per_family
+        if arm == "heldout_alternative":
+            multi = [r for r in recs if r["family"] in ("state", "unknown_state")]
+            arm_report["alternative_selection"] = {
+                "probes_on_multi_member_test_groups": len(multi),
+                "group_correct": sum(
+                    1 for r in multi if r["outcome"] not in ("abstain", "wrong_identity", "curated_cross")
+                ),
+                "exact_record": sum(1 for r in multi if r["outcome"] == "correct"),
+                "state_family_exact": sum(
+                    1 for r in multi if r["family"] == "state" and r["outcome"] == "correct"
+                ),
+                "state_family_wrong_state": sum(
+                    1 for r in multi if r["family"] == "state" and r["outcome"] == "wrong_state"
+                ),
+                "unknown_state_correct_abstain": sum(
+                    1
+                    for r in multi
+                    if r["family"] == "unknown_state" and r["outcome"] == "correct_abstain"
+                ),
+                "unknown_state_wrong_state": sum(
+                    1 for r in multi if r["family"] == "unknown_state" and r["outcome"] == "wrong_state"
+                ),
+            }
+
         times = [r["elapsed_ms"] for r in recs]
         arm_report["timing_ms"] = {
             "p50": round(percentile(times, 0.50), 4),

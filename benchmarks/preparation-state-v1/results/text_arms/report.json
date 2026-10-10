@@ -3,6 +3,54 @@
   "swift_replay": "unrun: swift toolchain unavailable in this environment"
  },
  "arms": {
+  "heldout_alternative": {
+   "alternative_selection": {
+    "exact_record": 11,
+    "group_correct": 21,
+    "probes_on_multi_member_test_groups": 22,
+    "state_family_exact": 11,
+    "state_family_wrong_state": 0,
+    "unknown_state_correct_abstain": 4,
+    "unknown_state_wrong_state": 6
+   },
+   "outcomes": {
+    "correct": 11,
+    "correct_abstain": 4,
+    "wrong_identity": 1,
+    "wrong_state": 6
+   },
+   "per_family": {
+    "state": {
+     "abstain": 0,
+     "correct_incl_abstain": 11,
+     "curated_cross": 0,
+     "n": 11,
+     "wrong_identity": 0,
+     "wrong_state": 0
+    },
+    "unknown_state": {
+     "abstain": 0,
+     "correct_incl_abstain": 4,
+     "curated_cross": 0,
+     "n": 11,
+     "wrong_identity": 1,
+     "wrong_state": 6
+    }
+   },
+   "probe_count": 22,
+   "ran": true,
+   "state_confusion": {
+    "cooked->frozen": 2,
+    "cooked->raw": 2,
+    "dried->raw": 1,
+    "raw->cooked": 1
+   },
+   "timing_ms": {
+    "mean": 4.6697,
+    "p50": 1.4788,
+    "p95": 20.8387
+   }
+  },
   "pinned_cpu_baseline": {
    "outcomes": {
     "abstain": 211,
@@ -48,9 +96,9 @@
     "raw->frozen,cooked": 3
    },
    "timing_ms": {
-    "mean": 0.0564,
-    "p50": 0.0584,
-    "p95": 0.0996
+    "mean": 0.0625,
+    "p50": 0.0614,
+    "p95": 0.1176
    }
   },
   "production_replay": {
@@ -106,9 +154,9 @@
     "raw->stateless": 1
    },
    "timing_ms": {
-    "mean": 1.6723,
-    "p50": 0.8506,
-    "p95": 5.5532
+    "mean": 1.8552,
+    "p50": 0.9716,
+    "p95": 5.9851
    }
   },
   "swift_replay": {
@@ -124,8 +172,8 @@
   "python": "3.13.14",
   "sqlite_version": "3.46.1"
  },
- "generated_at_utc": "2026-10-10T19:54:26Z",
+ "generated_at_utc": "2026-10-10T20:41:49Z",
  "manifest_sha256": "4204714c69b3a20669e75e26351f042382dc3b456588b0241b2dbffc806da674",
- "predictions_sha256": "edfab1915abf7d427630ce48e8ddfc5a4558e607bb121e214dfbd60537644b9c",
- "wall_seconds": 2.388
+ "predictions_sha256": "82bb421b671353cf9a4345e95710353f7088b8a22963576367b0468de1a87ca4",
+ "wall_seconds": 2.755
 }
