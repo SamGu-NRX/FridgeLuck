@@ -23,7 +23,7 @@ behavior. Nothing here is a human study, and `ConfidenceLearningService`
 | `check_histories.py` | Validates shape, closed-form expected decisions, structural invariants, restart equivalence, and the dev/held-out split; writes `data/expected_current.json`. |
 | `tests/` | pytest suite over counts, determinism, stream independence, split controls, reference units, and checker mutations. |
 | `SwiftReplay/` | Swift package that replays the **real** `LearningService` and `ConfidenceRouter` in fresh GRDB databases over these histories (milestone 2). Built and passing; see below. |
-| `score.py` | Scores replay output: dev-family selection, held-out scoring, grouped bootstrap intervals, `--verify-report` (milestone 3, not yet built). |
+| `score.py` | Formal scoring (milestone 3, built): dev-only policy selection, held-out scoring with seed-grouped bootstrap intervals, `--verify-report` tamper check. |
 | `data/` | Committed histories, manifest (seed/family counts), expected outcomes, and replay results. |
 
 ## Families (committed counts)
@@ -53,6 +53,10 @@ python3 -m pytest apps/ios/Tools/scan-correction-eval/tests -q
 # Swift replay (milestone 2): sync + build + all 300 histories x 4 arms (~3 min)
 bash apps/ios/Tools/scan-correction-eval/SwiftReplay/Scripts/run_replay.sh
 python3 apps/ios/Tools/scan-correction-eval/SwiftReplay/Scripts/tally_replay.py
+
+# Formal scoring (milestone 3) and tamper check
+python3 apps/ios/Tools/scan-correction-eval/score.py
+python3 apps/ios/Tools/scan-correction-eval/score.py --verify-report
 ```
 
 ### Swift replay (milestone 2)
@@ -77,8 +81,32 @@ Full-run results (committed under `data/replay-out/`, 2,650 scans x 4 arms):
 (250 -> 0) at the cost of never auto-correcting there; `recency_window` cuts
 wrong auto-corrections in the changed family by a third (150 -> 100) and adds
 correct auto-corrections (300 -> 350); `current` and `noisy`/`clean` families
-behave as the Python reference predicted. Formal dev/held-out scoring with
-intervals is milestone 3 (`score.py`).
+behave as the Python reference predicted.
+
+### Formal scoring (milestone 3)
+
+`score.py` turns the frozen replay results into `data/replay-out/score-report.json`:
+
+- **Selection** uses development families only. Rule, fixed in advance:
+  maximize net auto-corrections (`correctAuto - wrongAuto`); tie-break fewer
+  wrong, then arm name. On this run it selects **conflict_abstain**
+  (dev net 935 vs 684 recency_window, 584 current, 0 no_learning). The rule
+  prices one wrong silent auto-correction equal to one correct one —
+  conservative; the full trade-off table is in the report.
+- **Held-out** (`heldout-combined`) is scored after selection, never during.
+  With 95% seed-grouped bootstrap intervals (1,000 resamples, seed
+  20261010): conflict_abstain wrong 21 CI [14, 28] vs current wrong 121
+  CI [114, 128]; current correct 229 CI [222, 236] vs conflict_abstain 200.
+  Degenerate CIs (e.g. recency_window wrong [100, 100]) mean every held-out
+  seed carries exactly the same count — the family construction is that
+  regular, not a resampling bug (the tally's per-seed rows show it).
+- **`--verify-report`** re-hashes the frozen results and recomputes every
+  number in the stored report; edited results, dropped cases, or an edited
+  report refuse to verify.
+
+Scorer tests: `tests/test_score.py` (synthetic data only) — selection
+isolation from held-out, tie-breaks, bootstrap determinism, and tamper /
+dropped-case / edited-report refusals. Full suite: 21 pytest cases pass.
 
 ## Status / handoff
 
