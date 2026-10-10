@@ -21,7 +21,8 @@ final class MealHealthSyncTests: XCTestCase {
     inventory = InventoryRepository(db: db)
     try PlanFixture.stock(inventory, pairs: [(1, 2_000), (2, 1_200), (3, 200)])
     log = PlanFixture.makeMealLogService(db: db, inventory: inventory)
-    corrections = MealCorrectionService(db: db)
+    corrections = MealCorrectionService(
+      db: db, nutritionSnapshotting: NutritionSnapshotService(db: db))
     health = FakeAppleHealthServicing()
   }
 
@@ -29,7 +30,7 @@ final class MealHealthSyncTests: XCTestCase {
   private func makeCoordinator() -> MealLogSyncCoordinator {
     MealLogSyncCoordinator(
       appleHealthService: health,
-      nutritionService: NutritionService(db: db))
+      nutritionSnapshotService: NutritionSnapshotService(db: db))
   }
 
   /// Logs one meal from a freshly built plan and returns both the outcome and the

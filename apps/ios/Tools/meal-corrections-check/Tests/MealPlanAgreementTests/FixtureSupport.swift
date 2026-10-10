@@ -49,7 +49,11 @@ enum PlanFixture {
         personalizationService: personalization
       ),
       personalizationService: personalization,
-      inventoryRepository: inventory
+      inventoryRepository: inventory,
+      // The integrated historical-nutrition writer: accepted plans freeze their
+      // applied grams and per-100g nutrition, so Health/journal reads see the
+      // accepted state exactly.
+      nutritionSnapshotting: NutritionSnapshotService(db: db)
     )
   }
 

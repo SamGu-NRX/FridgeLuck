@@ -33,6 +33,7 @@ link_src MealLogService.swift "Platform/Persistence/Services/MealLogService.swif
 link_src MealLogSyncCoordinator.swift "Platform/Persistence/Services/MealLogSyncCoordinator.swift"
 link_src MealCorrectionService.swift "Platform/Persistence/Services/MealCorrectionService.swift"
 link_src MealRevisionSeams.swift "Platform/Persistence/Services/MealRevisionSeams.swift"
+link_src NutritionSnapshotService.swift "Platform/Persistence/Services/NutritionSnapshotService.swift"
 link_src NutritionService.swift "Platform/Persistence/Services/NutritionService.swift"
 link_src HealthScoringService.swift "Platform/Persistence/Services/HealthScoringService.swift"
 link_src PersonalizationService.swift "Platform/Persistence/Services/PersonalizationService.swift"
