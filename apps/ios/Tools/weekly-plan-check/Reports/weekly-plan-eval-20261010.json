@@ -1,0 +1,29 @@
+{
+  "corpusDigest" : "e8090d73f8739f48a418a6021e89a526",
+  "counts" : {
+    "feasible" : 183,
+    "hardExclusionViolations" : 0,
+    "infeasible" : 817,
+    "infeasibleControlFailures" : 0,
+    "oraclePairsChecked" : 719,
+    "oracleScoreDisagreements" : 0,
+    "oracleSelectionDisagreements" : 0,
+    "oracleVerdictDisagreements" : 0,
+    "repetitionUsed" : 74,
+    "states" : 1000,
+    "substitutionsUsed" : 96
+  },
+  "generatedAt" : "2026-10-10T20:21:48Z",
+  "objective" : {
+    "maxFeasibleScore" : 16.58514805450342,
+    "meanShortageRowsFeasible" : 0.256,
+    "medianFeasibleScore" : -1.9500000000000002,
+    "minFeasibleScore" : -16.9
+  },
+  "runtime" : {
+    "engineMillis" : 82.30948448181152,
+    "oracleMillis" : 0
+  },
+  "seed" : 20261010,
+  "statesRequested" : 1000
+}
