@@ -1,0 +1,499 @@
+{
+  "counts": {
+    "cafe": {
+      "cafe1": 4768,
+      "cafe2": 238
+    },
+    "cluster_straddles": [
+      {
+        "members": [
+          {
+            "dish_id": "dish_1558641200",
+            "my_split": "test",
+            "official_rgb_split": "test"
+          },
+          {
+            "dish_id": "dish_1558641211",
+            "my_split": "train",
+            "official_rgb_split": "train"
+          }
+        ],
+        "official_rgb_splits": [
+          "test",
+          "train"
+        ],
+        "plate_cluster": "cafe1_c01732",
+        "test_dishes": [
+          "dish_1558641200"
+        ]
+      },
+      {
+        "members": [
+          {
+            "dish_id": "dish_1559844479",
+            "my_split": "train",
+            "official_rgb_split": "train"
+          },
+          {
+            "dish_id": "dish_1559844490",
+            "my_split": "test",
+            "official_rgb_split": "test"
+          },
+          {
+            "dish_id": "dish_1559844506",
+            "my_split": "train",
+            "official_rgb_split": "train"
+          }
+        ],
+        "official_rgb_splits": [
+          "test",
+          "train"
+        ],
+        "plate_cluster": "cafe1_c02052",
+        "test_dishes": [
+          "dish_1559844490"
+        ]
+      }
+    ],
+    "dishes_total": 5006,
+    "eligible_calibration_records_median_arm": {
+      "energy_kcal": {
+        "n_dev_rows": 607,
+        "n_eligible": 607,
+        "n_implausible_excluded": 0,
+        "n_zero_excluded": 0
+      },
+      "mass_g": {
+        "n_dev_rows": 607,
+        "n_eligible": 606,
+        "n_implausible_excluded": 1,
+        "n_zero_excluded": 0
+      }
+    },
+    "eligible_test_records": {
+      "depth_test/foodlist/energy_kcal": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 1
+      },
+      "depth_test/foodlist/mass_g": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "depth_test/median/energy_kcal": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 1
+      },
+      "depth_test/median/mass_g": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "depth_test/rgb/energy_kcal": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 1
+      },
+      "depth_test/rgb/mass_g": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "depth_test/rgbd/energy_kcal": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 1
+      },
+      "depth_test/rgbd/mass_g": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test/foodlist/energy_kcal": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 1
+      },
+      "rgb_test/foodlist/mass_g": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test/median/energy_kcal": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 1
+      },
+      "rgb_test/median/mass_g": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test/rgb/energy_kcal": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 1
+      },
+      "rgb_test/rgb/mass_g": {
+        "n_clusters": 494,
+        "n_records": 507,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test_plausible/foodlist/energy_kcal": {
+        "n_clusters": 493,
+        "n_records": 506,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test_plausible/foodlist/mass_g": {
+        "n_clusters": 493,
+        "n_records": 506,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test_plausible/median/energy_kcal": {
+        "n_clusters": 493,
+        "n_records": 506,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test_plausible/median/mass_g": {
+        "n_clusters": 493,
+        "n_records": 506,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test_plausible/rgb/energy_kcal": {
+        "n_clusters": 493,
+        "n_records": 506,
+        "n_zero_excluded_from_coverage": 0
+      },
+      "rgb_test_plausible/rgb/mass_g": {
+        "n_clusters": 493,
+        "n_records": 506,
+        "n_zero_excluded_from_coverage": 0
+      }
+    },
+    "estimates_rows_total": 10134,
+    "my_split": {
+      "dev": 607,
+      "no_rgb_split": 238,
+      "test": 709,
+      "train": 3452
+    },
+    "official_rgb_split": {
+      "no_rgb_split": 238,
+      "test": 709,
+      "train": 4059
+    },
+    "split_provenance": {
+      "cluster_size_histogram_on_scored_set": {
+        "120": 1,
+        "14": 1,
+        "20": 484,
+        "40": 8
+      },
+      "dev_clusters": 599,
+      "populations": {
+        "depth_test": {
+          "n_clusters": 494,
+          "n_dishes": 507
+        },
+        "rgb_test": {
+          "n_clusters": 494,
+          "n_dishes": 507
+        },
+        "rgb_test_plausible": {
+          "n_clusters": 493,
+          "n_dishes": 506
+        }
+      },
+      "scored_test_clusters": 494,
+      "strata_on_scored_set": {
+        "size1": 0,
+        "size_ge2": 494
+      },
+      "test_dishes_in_targets": 709,
+      "test_dishes_with_predictions": 507,
+      "test_dishes_without_predictions_unknown": 202
+    },
+    "unknown": {
+      "dev_dishes_committed": 607,
+      "dev_dishes_imagery_membership_unknown": 212,
+      "dev_dishes_with_imagery_implied_by_manifest": 395,
+      "no_rgb_split_dishes": 238,
+      "straddle_clusters_inherited": [
+        "cafe1_c01732",
+        "cafe1_c02052"
+      ],
+      "straddle_test_dishes_inherited": [
+        "dish_1558641200",
+        "dish_1559844490"
+      ],
+      "test_dishes_without_predictions": 202
+    }
+  },
+  "cross_checks": [
+    {
+      "actual": 3452,
+      "expected": 3452,
+      "name": "my_split.train == rgb_train - dev_dishes",
+      "ok": true
+    },
+    {
+      "actual": 709,
+      "expected": 709,
+      "name": "my_split.test == official rgb_test",
+      "ok": true
+    },
+    {
+      "actual": 607,
+      "expected": 607,
+      "name": "my_split.dev == audit dev_dishes",
+      "ok": true
+    },
+    {
+      "actual": 238,
+      "expected": 238,
+      "name": "my_split.no_rgb_split == dishes missing from rgb splits",
+      "ok": true
+    },
+    {
+      "actual": 4059,
+      "expected": 4059,
+      "name": "official_rgb_split.train",
+      "ok": true
+    },
+    {
+      "actual": 709,
+      "expected": 709,
+      "name": "official_rgb_split.test",
+      "ok": true
+    },
+    {
+      "actual": 238,
+      "expected": 238,
+      "name": "official_rgb_split.no_rgb_split",
+      "ok": true
+    },
+    {
+      "actual": 4768,
+      "expected": 4768,
+      "name": "rows.cafe1",
+      "ok": true
+    },
+    {
+      "actual": 238,
+      "expected": 238,
+      "name": "rows.cafe2",
+      "ok": true
+    },
+    {
+      "actual": 5006,
+      "expected": 5006,
+      "name": "total rows == dishes 5006 (manifest dishes_in_bucket + metadata-only dishes)",
+      "ok": true
+    },
+    {
+      "actual": 0,
+      "expected": 0,
+      "name": "zero_targets.mass_leq_zero",
+      "ok": true
+    },
+    {
+      "actual": 240,
+      "expected": 240,
+      "name": "zero_targets.calories_leq_zero",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=rgb_test arm=median target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=rgb_test arm=median target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=rgb_test arm=rgb target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=rgb_test arm=rgb target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=rgb_test arm=foodlist target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=rgb_test arm=foodlist target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 506,
+      "expected": 506,
+      "name": "estimates rows population=rgb_test_plausible arm=median target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 506,
+      "expected": 506,
+      "name": "estimates rows population=rgb_test_plausible arm=median target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 506,
+      "expected": 506,
+      "name": "estimates rows population=rgb_test_plausible arm=rgb target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 506,
+      "expected": 506,
+      "name": "estimates rows population=rgb_test_plausible arm=rgb target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 506,
+      "expected": 506,
+      "name": "estimates rows population=rgb_test_plausible arm=foodlist target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 506,
+      "expected": 506,
+      "name": "estimates rows population=rgb_test_plausible arm=foodlist target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=depth_test arm=median target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=depth_test arm=median target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=depth_test arm=rgb target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=depth_test arm=rgb target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=depth_test arm=rgbd target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=depth_test arm=rgbd target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=depth_test arm=foodlist target=mass_g",
+      "ok": true
+    },
+    {
+      "actual": 507,
+      "expected": 507,
+      "name": "estimates rows population=depth_test arm=foodlist target=energy_kcal",
+      "ok": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "name": "median anchor energy_kcal == FROZEN train_medians (2-decimal rounding)",
+      "ok": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "name": "median anchor mass_g == FROZEN train_medians (2-decimal rounding)",
+      "ok": true
+    },
+    {
+      "actual": 2755,
+      "expected": 2755,
+      "name": "imagery dishes in official rgb train == fit_n(rgb,mass_g) + 395 dev (manifest dev carve)",
+      "ok": true
+    }
+  ],
+  "experiment": "portion-intervals",
+  "inputs": {
+    "experiments/nutrition5k-portion/FROZEN_CONFIG.json": {
+      "sha256": "b0d2f5fdcda16263d999387c07db409054a095ce536f7880db78befdad2e338c"
+    },
+    "experiments/nutrition5k-portion/MANIFEST.json": {
+      "sha256": "bb4e73a78e2ab6ef69442fcfc4848eef028d5e12344b671cadb1a9c12a4cc6da"
+    },
+    "experiments/nutrition5k-portion/data/build_audit.json": {
+      "sha256": "c87d718891d55cd716e5d9d2dffbb3e2a503490db1f7a7ab8ce3a5b0b09f497b"
+    },
+    "experiments/nutrition5k-portion/data/dish_targets.csv": {
+      "sha256": "5e678e632a3cc513a01a2131ffa51ca62ad69fc792704bce7bbdfa8435620703"
+    },
+    "experiments/nutrition5k-portion/outputs/estimates_test.csv": {
+      "sha256": "aa3a681421edf0bc9dfa01ee764f94d4fa8641c9fb0b72864ed4ce2b158cf1af"
+    }
+  },
+  "median_anchors": {
+    "energy_kcal": {
+      "expected": 206.369995,
+      "max_abs_deviation": 5.000000015797923e-06,
+      "observed": 206.37,
+      "status": "ok",
+      "tolerance": "estimates file stores median predictions rounded to 2 decimals"
+    },
+    "mass_g": {
+      "expected": 177.0,
+      "max_abs_deviation": 0.0,
+      "observed": 177.0,
+      "status": "ok",
+      "tolerance": "estimates file stores median predictions rounded to 2 decimals"
+    }
+  },
+  "role": "read-only validation of PR41 locked outputs",
+  "unit_flags": {
+    "energy_kcal": {
+      "implausible_fraction": 0.048541749900119856,
+      "implausible_outside_range": 243,
+      "n": 5006,
+      "n_leq_zero": 240,
+      "policy": "flagged and kept (locked policy); excluded from fitting by PR41",
+      "unit": "kcal"
+    },
+    "mass_g": {
+      "implausible_fraction": 0.0011985617259288853,
+      "implausible_outside_range": 6,
+      "n": 5006,
+      "n_leq_zero": 0,
+      "policy": "flagged and kept (locked policy); excluded from fitting by PR41",
+      "unit": "grams"
+    }
+  }
+}

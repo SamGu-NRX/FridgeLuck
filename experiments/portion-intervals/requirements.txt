@@ -1,0 +1,3 @@
+# The study code is Python standard library only.
+# pytest is needed for tests/test_*.py; everything else runs on stdlib.
+pytest>=8.0
