@@ -59,12 +59,14 @@ python3 -m pytest benchmarks/dish-ambiguity-v1/tests -q
 Two headline findings drive the recommendation:
 
 1. **`nateraw/vit-base-food101` is the only viable pin.** Top1 0.8075 /
-   top5 0.9620 over the 2,525-image test manifest. With the dev-selected
-   abstention threshold (tau 0.1 on top1 probability), it emits specific
-   recipe suggestions at **1.000 precision with 0.500 coverage** over the 350
-   eligible test images (true class exact/coarse) - i.e. it suggests a
-   specific bundled recipe for half of the dishes where one exists, and it
-   has not been observed to suggest the wrong recipe there.
+   top5 0.9620 over the 2,525-image test manifest. At the dev-selected
+   threshold (tau 0.1), unrestricted suggestion precision is
+   **175/183 = 0.9563** (coverage 0.0725) across all test images.
+   Restricted to the 350 eligible test images (true class exact/coarse),
+   precision is **175/175 = 1.000** at 0.500 coverage - i.e. among the
+   dishes where a specific bundled recipe exists, it suggests the right
+   recipe half the time and was never observed suggesting a wrong one
+   there.
 2. **`rajkr/mobilenet-v2-food101` @ 0dea82e7 is broken.** Top1 0.0614
    (101-way random is 0.0099). The failure mode is a confident collapse, not
    uncertainty: five labels (hamburger, ramen, bruschetta, prime_rib,

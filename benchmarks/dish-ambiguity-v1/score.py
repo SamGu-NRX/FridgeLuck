@@ -30,6 +30,15 @@ import sys
 from pathlib import Path
 
 BENCH_DIR = Path(__file__).resolve().parent
+REPO_ROOT = BENCH_DIR.parents[1]
+
+
+def canonical_path(p: Path) -> str:
+    """Repo-relative path when inside the checkout; bare name otherwise."""
+    try:
+        return str(p.resolve().relative_to(REPO_ROOT))
+    except ValueError:
+        return p.name
 MODEL_TAGS = ["mobilenet-v2-food101", "vit-base-food101"]
 TAU_GRID = [round(x, 3) for x in [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]]
 PRECISION_TARGET = 0.9
@@ -77,6 +86,7 @@ def suggestion_stats(preds: list[dict], mapping: dict, tau: float,
     return {
         "evaluatedImages": n,
         "suggestions": suggestions,
+        "correct": correct,
         "suggestionPrecision": round(correct / suggestions, 4) if suggestions else None,
         "coverage": round(suggestions / n, 4) if n else 0.0,
     }
@@ -170,7 +180,7 @@ def render_report(results: list[dict], mapping_path: Path, results_dir: Path) ->
         "# dish-ambiguity-v1 report",
         "",
         f"Mapping: `{mapping_path.name}` (sha256 {sha256_file(mapping_path)[:16]}...)",
-        f"Results: {results_dir}",
+        f"Results: {canonical_path(results_dir)}",
         "",
         "Food-101 dish labels vs the bundled 166-recipe catalog. A specific recipe",
         "suggestion is emitted only when the predicted class maps to exactly one",
@@ -196,11 +206,14 @@ def render_report(results: list[dict], mapping_path: Path, results_dir: Path) ->
             f"({ap['devSuggestionPrecision']} dev suggestion precision, "
             f"{ap['devCoverage']} dev coverage)"
             + ("" if ap["targetMet"] else f" - TARGET NOT MET ({ap['note']})"),
-            f"- test suggestions at tau: {ts['suggestions']}/{ts['evaluatedImages']} images, "
-            f"precision {ts['suggestionPrecision']}, coverage {ts['coverage']}",
-            f"- over the {r['eligibleTestImages']} eligible test images "
-            f"(true class exact/coarse): {es['suggestions']} suggestions, "
-            f"precision {es['suggestionPrecision']}, coverage {es['coverage']}",
+            f"- unrestricted suggestions at tau: {ts['suggestions']} of "
+            f"{ts['evaluatedImages']} test images, precision "
+            f"{ts['correct']}/{ts['suggestions']} = {ts['suggestionPrecision']}, "
+            f"coverage {ts['coverage']}",
+            f"- eligible-only ({r['eligibleTestImages']} images whose true class "
+            f"is exact/coarse): {es['suggestions']} suggestions, precision "
+            f"{es['correct']}/{es['suggestions']} = {es['suggestionPrecision']}, "
+            f"coverage {es['coverage']}",
             "",
         ]
     return "\n".join(lines) + "\n"

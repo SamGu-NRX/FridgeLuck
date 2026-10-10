@@ -4,7 +4,7 @@
  "repo": "nateraw/vit-base-food101",
  "revision": "55859a2a13495f714060e34f150031e616fce549",
  "weights_sha256": "61f707d9d423461b8d1b8fc5cfc2500d0cc34675c19d3e91ae97b282fc925a95",
- "manifest": "/home/user/work/fridgeluck-dish-amb/benchmarks/dish-ambiguity-v1/dev_manifest.json",
+ "manifest": "benchmarks/dish-ambiguity-v1/dev_manifest.json",
  "manifestSha256": "90dd25dbc785a22a90b5efd6b98608ef25b38b62d36311f9a96b6701d71615c6",
  "device": "cpu",
  "numImages": 606,

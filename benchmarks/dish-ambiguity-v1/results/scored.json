@@ -30,6 +30,7 @@
       "tau": 0.05,
       "evaluatedImages": 606,
       "suggestions": 139,
+      "correct": 6,
       "suggestionPrecision": 0.0432,
       "coverage": 0.2294
      },
@@ -37,6 +38,7 @@
       "tau": 0.1,
       "evaluatedImages": 606,
       "suggestions": 139,
+      "correct": 6,
       "suggestionPrecision": 0.0432,
       "coverage": 0.2294
      },
@@ -44,6 +46,7 @@
       "tau": 0.15,
       "evaluatedImages": 606,
       "suggestions": 139,
+      "correct": 6,
       "suggestionPrecision": 0.0432,
       "coverage": 0.2294
      },
@@ -51,6 +54,7 @@
       "tau": 0.2,
       "evaluatedImages": 606,
       "suggestions": 139,
+      "correct": 6,
       "suggestionPrecision": 0.0432,
       "coverage": 0.2294
      },
@@ -58,6 +62,7 @@
       "tau": 0.25,
       "evaluatedImages": 606,
       "suggestions": 139,
+      "correct": 6,
       "suggestionPrecision": 0.0432,
       "coverage": 0.2294
      },
@@ -65,6 +70,7 @@
       "tau": 0.3,
       "evaluatedImages": 606,
       "suggestions": 137,
+      "correct": 6,
       "suggestionPrecision": 0.0438,
       "coverage": 0.2261
      },
@@ -72,6 +78,7 @@
       "tau": 0.4,
       "evaluatedImages": 606,
       "suggestions": 128,
+      "correct": 6,
       "suggestionPrecision": 0.0469,
       "coverage": 0.2112
      },
@@ -79,6 +86,7 @@
       "tau": 0.5,
       "evaluatedImages": 606,
       "suggestions": 118,
+      "correct": 6,
       "suggestionPrecision": 0.0508,
       "coverage": 0.1947
      },
@@ -86,6 +94,7 @@
       "tau": 0.6,
       "evaluatedImages": 606,
       "suggestions": 102,
+      "correct": 6,
       "suggestionPrecision": 0.0588,
       "coverage": 0.1683
      },
@@ -93,6 +102,7 @@
       "tau": 0.7,
       "evaluatedImages": 606,
       "suggestions": 89,
+      "correct": 6,
       "suggestionPrecision": 0.0674,
       "coverage": 0.1469
      },
@@ -100,6 +110,7 @@
       "tau": 0.8,
       "evaluatedImages": 606,
       "suggestions": 80,
+      "correct": 6,
       "suggestionPrecision": 0.075,
       "coverage": 0.132
      },
@@ -107,6 +118,7 @@
       "tau": 0.9,
       "evaluatedImages": 606,
       "suggestions": 57,
+      "correct": 6,
       "suggestionPrecision": 0.1053,
       "coverage": 0.0941
      }
@@ -118,12 +130,14 @@
    "testSuggestions": {
     "evaluatedImages": 2525,
     "suggestions": 265,
+    "correct": 22,
     "suggestionPrecision": 0.083,
     "coverage": 0.105
    },
    "testSuggestionsEligibleOnly": {
     "evaluatedImages": 350,
     "suggestions": 57,
+    "correct": 22,
     "suggestionPrecision": 0.386,
     "coverage": 0.1629
    },
@@ -156,6 +170,7 @@
       "tau": 0.05,
       "evaluatedImages": 606,
       "suggestions": 61,
+      "correct": 52,
       "suggestionPrecision": 0.8525,
       "coverage": 0.1007
      },
@@ -163,6 +178,7 @@
       "tau": 0.1,
       "evaluatedImages": 606,
       "suggestions": 45,
+      "correct": 41,
       "suggestionPrecision": 0.9111,
       "coverage": 0.0743
      },
@@ -170,6 +186,7 @@
       "tau": 0.15,
       "evaluatedImages": 606,
       "suggestions": 26,
+      "correct": 24,
       "suggestionPrecision": 0.9231,
       "coverage": 0.0429
      },
@@ -177,6 +194,7 @@
       "tau": 0.2,
       "evaluatedImages": 606,
       "suggestions": 14,
+      "correct": 13,
       "suggestionPrecision": 0.9286,
       "coverage": 0.0231
      },
@@ -184,6 +202,7 @@
       "tau": 0.25,
       "evaluatedImages": 606,
       "suggestions": 8,
+      "correct": 8,
       "suggestionPrecision": 1.0,
       "coverage": 0.0132
      },
@@ -191,6 +210,7 @@
       "tau": 0.3,
       "evaluatedImages": 606,
       "suggestions": 1,
+      "correct": 1,
       "suggestionPrecision": 1.0,
       "coverage": 0.0017
      },
@@ -198,6 +218,7 @@
       "tau": 0.4,
       "evaluatedImages": 606,
       "suggestions": 0,
+      "correct": 0,
       "suggestionPrecision": null,
       "coverage": 0.0
      },
@@ -205,6 +226,7 @@
       "tau": 0.5,
       "evaluatedImages": 606,
       "suggestions": 0,
+      "correct": 0,
       "suggestionPrecision": null,
       "coverage": 0.0
      },
@@ -212,6 +234,7 @@
       "tau": 0.6,
       "evaluatedImages": 606,
       "suggestions": 0,
+      "correct": 0,
       "suggestionPrecision": null,
       "coverage": 0.0
      },
@@ -219,6 +242,7 @@
       "tau": 0.7,
       "evaluatedImages": 606,
       "suggestions": 0,
+      "correct": 0,
       "suggestionPrecision": null,
       "coverage": 0.0
      },
@@ -226,6 +250,7 @@
       "tau": 0.8,
       "evaluatedImages": 606,
       "suggestions": 0,
+      "correct": 0,
       "suggestionPrecision": null,
       "coverage": 0.0
      },
@@ -233,6 +258,7 @@
       "tau": 0.9,
       "evaluatedImages": 606,
       "suggestions": 0,
+      "correct": 0,
       "suggestionPrecision": null,
       "coverage": 0.0
      }
@@ -243,12 +269,14 @@
    "testSuggestions": {
     "evaluatedImages": 2525,
     "suggestions": 183,
+    "correct": 175,
     "suggestionPrecision": 0.9563,
     "coverage": 0.0725
    },
    "testSuggestionsEligibleOnly": {
     "evaluatedImages": 350,
     "suggestions": 175,
+    "correct": 175,
     "suggestionPrecision": 1.0,
     "coverage": 0.5
    },

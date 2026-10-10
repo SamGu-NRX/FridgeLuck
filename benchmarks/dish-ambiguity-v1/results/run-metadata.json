@@ -9,7 +9,7 @@
  "numpy": "2.5.2",
  "torchNumThreads": 4,
  "datasetTarball": {
-  "path": "/home/user/work/food101-dl/food-101.tar.gz",
+  "path": "food-101.tar.gz",
   "sha256": "d97d15e438b7f4498f96086a4f7e2fa42a32f2712e87d3295441b2b6314053a4"
  },
  "models": {
@@ -27,11 +27,11 @@
  "peakRssKb": 865680,
  "manifests": {
   "test": {
-   "path": "/home/user/work/fridgeluck-dish-amb/benchmarks/dish-ambiguity-v1/manifest.json",
+   "path": "benchmarks/dish-ambiguity-v1/manifest.json",
    "sha256": "85ae3fb06242bf542df026ba03e9e2e53faae690fe50b53eba7e12a984a12ec2"
   },
   "dev_manifest": {
-   "path": "/home/user/work/fridgeluck-dish-amb/benchmarks/dish-ambiguity-v1/dev_manifest.json",
+   "path": "benchmarks/dish-ambiguity-v1/dev_manifest.json",
    "sha256": "90dd25dbc785a22a90b5efd6b98608ef25b38b62d36311f9a96b6701d71615c6"
   }
  }

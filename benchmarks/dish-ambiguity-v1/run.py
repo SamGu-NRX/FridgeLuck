@@ -28,6 +28,15 @@ import transformers
 from PIL import Image
 
 BENCH_DIR = Path(__file__).resolve().parent
+REPO_ROOT = BENCH_DIR.parents[1]
+
+
+def canonical_path(p: Path) -> str:
+    """Repo-relative path when inside the checkout; bare name otherwise."""
+    try:
+        return str(p.resolve().relative_to(REPO_ROOT))
+    except ValueError:
+        return p.name
 
 MODELS = {
     "vit-base-food101": {
@@ -129,7 +138,7 @@ def main() -> int:
     for mp in args.manifests:
         path = Path(mp)
         manifests[path.stem if path.stem != "manifest" else "test"] = {
-            "path": str(path.resolve()),
+            "path": canonical_path(path),
             "sha256": sha256_file(path),
         }
 
@@ -173,7 +182,7 @@ def main() -> int:
         "transformers": transformers.__version__,
         "numpy": np.__version__,
         "torchNumThreads": torch.get_num_threads(),
-        "datasetTarball": {"path": str(tarball) if tarball.exists() else None,
+        "datasetTarball": {"path": canonical_path(tarball) if tarball.exists() else None,
                             "sha256": tarball_sha},
         "models": MODELS,
         "peakRssKb": max(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss, rss0),

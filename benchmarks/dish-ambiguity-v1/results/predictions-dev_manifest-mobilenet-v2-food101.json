@@ -4,7 +4,7 @@
  "repo": "rajkr/mobilenet-v2-food101",
  "revision": "0dea82e70d00f786f2029d8487d845a5cfc2d64a",
  "weights_sha256": "4f972e3ea524f678eb42e41498cf76539a567d086cd9ac12b86fa6d9f4ca0eef",
- "manifest": "/home/user/work/fridgeluck-dish-amb/benchmarks/dish-ambiguity-v1/dev_manifest.json",
+ "manifest": "benchmarks/dish-ambiguity-v1/dev_manifest.json",
  "manifestSha256": "90dd25dbc785a22a90b5efd6b98608ef25b38b62d36311f9a96b6701d71615c6",
  "device": "cpu",
  "numImages": 606,
