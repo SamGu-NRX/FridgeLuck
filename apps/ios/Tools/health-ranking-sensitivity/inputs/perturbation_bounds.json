@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "locked": true,
+  "lock_statement": "These perturbation bounds were fixed and committed BEFORE any experiment output existed (no outputs/ directory at lock time). The outputs manifest records the sha256 of this file; check_inputs.py fails if this file changes after outputs were generated.",
+  "locked_at": "2026-10-10",
+  "locked_before_outputs": true,
+  "source_of_ranges": "inputs/uncertainty_assumptions.json (check_inputs.py enforces that every value here equals the corresponding bound there)",
+  "perturbation_model": "multiplicative symmetric: perturbed = nominal * factor, factor = 1 + U(-b, +b) where b is the bound as a fraction; exact zero nominal values stay exactly zero; all seven macro fields scale independently per draw unless the arm is portion-only",
+  "draw_seed": 20261010,
+  "draws": {
+    "plausible_per_recipe_profile": 400,
+    "stress_per_recipe_profile": 200
+  },
+  "plausible": {
+    "description": "Plausible nutrient-uncertainty envelope (typical error). NOT adversarial.",
+    "nutrients_pct": {
+      "calories": 16.5,
+      "protein": 20.2,
+      "carbs": 20.7,
+      "fat": 22.6,
+      "fiber": 20.0,
+      "sugar": 20.0,
+      "sodium": 20.0
+    },
+    "portion_scale_pct": 10.6
+  },
+  "stress": {
+    "description": "STRESS / ADVERSARIAL envelope - upper-envelope judgment anchored to cited tails. NEVER report these as plausible daily error; arms are labeled stress in all outputs.",
+    "nutrients_pct": {
+      "calories": 35.0,
+      "protein": 40.0,
+      "carbs": 40.0,
+      "fat": 40.0,
+      "fiber": 40.0,
+      "sugar": 40.0,
+      "sodium": 40.0
+    },
+    "portion_scale_pct": 48.0
+  },
+  "arms": [
+    { "id": "control", "description": "unchanged inputs (bit-exact reproduction arm)", "nutrient_bounds": null, "portion_scale": null, "draws": 1 },
+    { "id": "plausible_macros", "description": "each macro field independently perturbed, plausible bounds", "nutrient_bounds": "plausible.nutrients_pct", "portion_scale": null, "draws": 400 },
+    { "id": "plausible_portion", "description": "single common per-serving scale factor, plausible bound", "nutrient_bounds": null, "portion_scale": "plausible.portion_scale_pct", "draws": 400 },
+    { "id": "plausible_both", "description": "macros + portion jointly, plausible bounds", "nutrient_bounds": "plausible.nutrients_pct", "portion_scale": "plausible.portion_scale_pct", "draws": 400 },
+    { "id": "stress_macros", "description": "each macro field independently perturbed, STRESS bounds", "nutrient_bounds": "stress.nutrients_pct", "portion_scale": null, "draws": 200, "stress": true },
+    { "id": "stress_portion", "description": "single common per-serving scale factor, STRESS bound", "nutrient_bounds": null, "portion_scale": "stress.portion_scale_pct", "draws": 200, "stress": true },
+    { "id": "stress_both", "description": "macros + portion jointly, STRESS bounds", "nutrient_bounds": "stress.nutrients_pct", "portion_scale": "stress.portion_scale_pct", "draws": 200, "stress": true }
+  ],
+  "never_perturbed": [
+    "ranking weights and constants (72.0, 2.5, 6.5, 8.0, time +6.0/+3.0, goal +5.0/-3.0/+3.0, high-protein +4.0, missing-required 24.0, bonus +10.0, rating divisor 20.0)",
+    "user profile values (dailyCalories, proteinPct/carbsPct/fatPct, goal)",
+    "match inputs (matchedRequired, totalRequired, matchedOptional, missingRequiredCount)",
+    "timeMinutes, tags, personalScore"
+  ]
+}
