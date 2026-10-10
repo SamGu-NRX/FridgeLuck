@@ -16,10 +16,25 @@ let package = Package(
     .package(path: "../..")
   ],
   targets: [
+    .target(
+      name: "BarcodeEvalSupport",
+      dependencies: [
+        .product(name: "FLBarcode", package: "ios")
+      ],
+      path: "Sources/BarcodeEvalSupport"
+    ),
+    .executableTarget(
+      name: "barcode-eval",
+      dependencies: [
+        "BarcodeEvalSupport"
+      ],
+      path: "Sources/barcode-eval"
+    ),
     .testTarget(
       name: "BarcodeCheckTests",
       dependencies: [
-        .product(name: "FLBarcode", package: "ios")
+        .product(name: "FLBarcode", package: "ios"),
+        "BarcodeEvalSupport",
       ],
       path: "Tests/BarcodeCheckTests"
     ),
