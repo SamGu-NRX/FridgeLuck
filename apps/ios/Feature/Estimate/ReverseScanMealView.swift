@@ -45,6 +45,9 @@ struct ReverseScanMealView: View {
   /// `chosenRecipe` after `RecipeRepository.resolveForLogging`, tagged with the choice it
   /// resolved so a stale result is never shown for a new choice.
   @State private var resolvedChoice: (key: String, recipe: Recipe, macros: RecipeMacros)?
+  /// The accepted consumption plan: what the editor shows, what previews deduct, and
+  /// what logging persists. Nil while no recipe resolves or the plan failed to build.
+  @State private var consumptionPlan: MealConsumptionPlan?
 
   // MARK: - Derived
 
@@ -704,10 +707,7 @@ struct ReverseScanMealView: View {
     if let mealRecipe {
       macroConfirmCard(
         title: mealRecipe.recipe.title,
-        calories: plannedMacros.calories,
-        protein: plannedMacros.protein,
-        carbs: plannedMacros.carbs,
-        fat: plannedMacros.fat,
+        macros: plannedMacros,
         isHighConfidence: manuallyPickedRecipe != nil
           || confirmationVerdict.map {
             !MealPhotoConfirmationPolicy.asksToCheckBeforeLogging(for: $0)
@@ -719,19 +719,40 @@ struct ReverseScanMealView: View {
   /// Totals for what the plan will actually log: the plan's line-by-line nutrition when a
   /// plan is shown (which respects corrected quantities), otherwise the recipe's scaled
   /// macros — the same arithmetic the plan reproduces for unedited lines.
-  private var plannedMacros: (calories: Double, protein: Double, carbs: Double, fat: Double) {
+  private var plannedMacros: RecipeMacros {
     if let plan = consumptionPlan, plan.recipeId == mealRecipe?.recipe.id {
       let totals = plan.totalMacros
-      return (totals.calories, totals.protein, totals.carbs, totals.fat)
+      return RecipeMacros(
+        caloriesPerServing: totals.calories,
+        proteinPerServing: totals.protein,
+        carbsPerServing: totals.carbs,
+        fatPerServing: totals.fat,
+        fiberPerServing: totals.fiber,
+        sugarPerServing: totals.sugar,
+        sodiumPerServing: totals.sodium
+      )
     }
-    guard let mealRecipe else { return (0, 0, 0, 0) }
+    guard let mealRecipe else {
+      return RecipeMacros(
+        caloriesPerServing: 0,
+        proteinPerServing: 0,
+        carbsPerServing: 0,
+        fatPerServing: 0,
+        fiberPerServing: 0,
+        sugarPerServing: 0,
+        sodiumPerServing: 0
+      )
+    }
     let scaled = Double(servings) * portionMultiplier
     let macros = mealRecipe.macros
-    return (
-      macros.caloriesPerServing * scaled,
-      macros.proteinPerServing * scaled,
-      macros.carbsPerServing * scaled,
-      macros.fatPerServing * scaled
+    return RecipeMacros(
+      caloriesPerServing: macros.caloriesPerServing * scaled,
+      proteinPerServing: macros.proteinPerServing * scaled,
+      carbsPerServing: macros.carbsPerServing * scaled,
+      fatPerServing: macros.fatPerServing * scaled,
+      fiberPerServing: macros.fiberPerServing * scaled,
+      sugarPerServing: macros.sugarPerServing * scaled,
+      sodiumPerServing: macros.sodiumPerServing * scaled
     )
   }
 
@@ -1100,13 +1121,19 @@ struct ReverseScanMealView: View {
     defer { isLoggingMeal = false }
 
     do {
+      // The service is UI-free, so the capture is saved here and only its path is
+      // handed over. A plan for a different recipe (stale state) is never logged.
+      let imagePath = capturedImage.flatMap { try? deps.imageStorageService.save($0) }
+      let planForLog =
+        (consumptionPlan?.recipeId == recipeToLog.id) ? consumptionPlan : nil
       let mealOutcome = try deps.mealLogService.logMeal(
         recipe: recipeToLog,
         rating: nil,
-        capturedImage: capturedImage,
+        imagePath: imagePath,
         servingsConsumed: servings,
         portionMultiplier: portionMultiplier,
-        sourceRefPrefix: "reverse_scan"
+        sourceRefPrefix: "reverse_scan",
+        plan: planForLog
       )
 
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
