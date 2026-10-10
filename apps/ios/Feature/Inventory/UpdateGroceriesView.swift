@@ -47,6 +47,7 @@ struct UpdateGroceriesView: View {
   @State private var cameraLaunchTask: Task<Void, Never>?
   @State private var successDismissTask: Task<Void, Never>?
   @State private var stageAppearanceTask: Task<Void, Never>?
+  @State private var showBarcodeIntake = false
 
   // Real analysis and commit state.
   @State private var analysisTask: Task<Void, Never>?
@@ -156,6 +157,9 @@ struct UpdateGroceriesView: View {
           }
         }
       )
+    }
+    .fullScreenCover(isPresented: $showBarcodeIntake) {
+      BarcodeIntakeView()
     }
     .sheet(isPresented: $showIngredientPicker, onDismiss: onIngredientPickerDismiss) {
       if let target = identityPickTarget {
@@ -591,7 +595,10 @@ struct UpdateGroceriesView: View {
             .filter { $0.count >= 3 }
             .first ?? ""
           guard !query.isEmpty else { return [] }
-          return repository.search(query: query, limit: 3)
+          // IngredientRepository.search throws; degrade to no alternatives on failure
+          // (matches the try? fallbacks used for fetch below). Inherited base-branch
+          // compile fix — see PR notes.
+          return ((try? repository.search(query: query, limit: 3)) ?? [])
             .compactMap { ingredient in
               guard let id = ingredient.id else { return nil }
               return GroceryAlternative(id: id, name: ingredient.displayName)
@@ -696,6 +703,8 @@ struct UpdateGroceriesView: View {
     case .manual:
       selectedIngredientIDs = []
       showIngredientPicker = true
+    case .barcode:
+      showBarcodeIntake = true
     case .chooser:
       break
     }

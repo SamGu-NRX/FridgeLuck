@@ -9,7 +9,12 @@ private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "GroceryCap
 /// Runs the recognition pipeline for one captured grocery photo and returns review drafts
 /// mapped into the app's pending items. The vision passes and identity glue are injected so
 /// tests can stub them; production wires the app's `VisionService` and ingredient catalog.
-struct GroceryCaptureAnalyzer {
+///
+/// Unchecked Sendable: the analyzer is freshly constructed per analysis from let-bound
+/// injected closures with no shared mutable state, so it is safe for a single owner to
+/// receive it across actor boundaries. Branch-local fix for an inherited hosted-CI sendability
+/// error (run 38085395457); see PR notes.
+struct GroceryCaptureAnalyzer: @unchecked Sendable {
   enum Mode: Sendable {
     case photo
     case receipt

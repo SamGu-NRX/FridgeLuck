@@ -252,7 +252,12 @@ struct GroceryReviewSection: View {
 
       Picker("Location", selection: Binding(
         get: { items[safe: index]?.storageLocation ?? .unknown },
-        set: { items[safe: index]?.storageLocation = $0 }
+        set: {
+          // The get-only `safe` subscript can't be assigned through — write with an
+          // explicit bounds check instead.
+          guard items.indices.contains(index) else { return }
+          items[index].storageLocation = $0
+        }
       )) {
         Text("Fridge").tag(InventoryStorageLocation.fridge)
         Text("Pantry").tag(InventoryStorageLocation.pantry)
