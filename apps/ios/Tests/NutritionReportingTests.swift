@@ -66,6 +66,12 @@ final class NutritionReportingTests: XCTestCase {
           """,
         arguments: [servingsConsumed]
       )
+      // The strict snapshot read path serves history macros only from frozen
+      // snapshots, so this fixture must capture one in the same transaction —
+      // exactly what recordCooking does for real meals.
+      try NutritionSnapshotService(db: queue).captureSnapshot(
+        in: db, historyId: db.lastInsertedRowID, recipeId: 1
+      )
     }
     return queue
   }
