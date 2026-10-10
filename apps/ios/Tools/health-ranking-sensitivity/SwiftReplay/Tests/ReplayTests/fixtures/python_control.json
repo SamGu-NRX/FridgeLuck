@@ -1,0 +1,5054 @@
+{
+ "matrix_sha256": "b8316a2dcdea56ab2b77cd64f9bbcd0a2f9a50196981660b7af1881d695417e7",
+ "note": "Control-arm fixture produced by ref_impl.py (Python mirror of production scoring at base 8c9c88f) for bit-exact cross-language comparison with the vendored Swift replay.",
+ "profiles": {
+  "P1": {
+   "recipes": [
+    {
+     "id": "R61",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 1,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 124.5,
+     "ranking_score_bits": "4638461325586989056",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R07",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 2,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 15
+    },
+    {
+     "id": "R08",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 3,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 16
+    },
+    {
+     "id": "R13",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 4,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R14",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 5,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R15",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 6,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R22",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 7,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R23",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 8,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R24",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 9,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R25",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 10,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R26",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 11,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R28",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 12,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R29",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 13,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R33",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 14,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R34",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 15,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R39",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 16,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R40",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 17,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R41",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 18,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R42",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 19,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R43",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 20,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R44",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 21,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R48",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 22,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R49",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 23,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R50",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 24,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R51",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 25,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R52",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 26,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R54",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 27,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R58",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 28,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R59",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 29,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R05",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 30,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 21
+    },
+    {
+     "id": "R53",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 31,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 114.0,
+     "ranking_score_bits": "4637722453773123584",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R55",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 32,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 114.0,
+     "ranking_score_bits": "4637722453773123584",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R06",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 33,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 113.5,
+     "ranking_score_bits": "4637687269401034752",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 35
+    },
+    {
+     "id": "R38",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 34,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 112.5,
+     "ranking_score_bits": "4637616900656857088",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R04",
+     "label": "Good",
+     "missing": 0,
+     "rank": 35,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R11",
+     "label": "Good",
+     "missing": 0,
+     "rank": 36,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R16",
+     "label": "Good",
+     "missing": 0,
+     "rank": 37,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R17",
+     "label": "Good",
+     "missing": 0,
+     "rank": 38,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R18",
+     "label": "Good",
+     "missing": 0,
+     "rank": 39,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R19",
+     "label": "Good",
+     "missing": 0,
+     "rank": 40,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R20",
+     "label": "Good",
+     "missing": 0,
+     "rank": 41,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R21",
+     "label": "Good",
+     "missing": 0,
+     "rank": 42,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R27",
+     "label": "Good",
+     "missing": 0,
+     "rank": 43,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R30",
+     "label": "Good",
+     "missing": 0,
+     "rank": 44,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R35",
+     "label": "Good",
+     "missing": 0,
+     "rank": 45,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Higher sugar",
+     "time": 20
+    },
+    {
+     "id": "R36",
+     "label": "Good",
+     "missing": 0,
+     "rank": 46,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R37",
+     "label": "Good",
+     "missing": 0,
+     "rank": 47,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High sodium",
+     "time": 20
+    },
+    {
+     "id": "R45",
+     "label": "Good",
+     "missing": 0,
+     "rank": 48,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R46",
+     "label": "Good",
+     "missing": 0,
+     "rank": 49,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R47",
+     "label": "Good",
+     "missing": 0,
+     "rank": 50,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R12",
+     "label": "Good",
+     "missing": 0,
+     "rank": 51,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 21
+    },
+    {
+     "id": "R09",
+     "label": "Good",
+     "missing": 0,
+     "rank": 52,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 30
+    },
+    {
+     "id": "R62",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 53,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 108.5,
+     "ranking_score_bits": "4637335425680146432",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R10",
+     "label": "Good",
+     "missing": 0,
+     "rank": 54,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 31
+    },
+    {
+     "id": "R01",
+     "label": "Good",
+     "missing": 0,
+     "rank": 55,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 16
+    },
+    {
+     "id": "R31",
+     "label": "Good",
+     "missing": 0,
+     "rank": 56,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 20
+    },
+    {
+     "id": "R32",
+     "label": "Good",
+     "missing": 0,
+     "rank": 57,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R57",
+     "label": "Good",
+     "missing": 0,
+     "rank": 58,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R02",
+     "label": "Good",
+     "missing": 0,
+     "rank": 59,
+     "ranking_reasons": [
+      "Complete match",
+      "High health score"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 30
+    },
+    {
+     "id": "R03",
+     "label": "Good",
+     "missing": 0,
+     "rank": 60,
+     "ranking_reasons": [
+      "Complete match",
+      "High health score"
+     ],
+     "ranking_score": 103.0,
+     "ranking_score_bits": "4636948397587169280",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 31
+    },
+    {
+     "id": "R56",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 61,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 99.5,
+     "ranking_score_bits": "4636702106982547456",
+     "rating": 3,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R60",
+     "label": "Great match",
+     "missing": 1,
+     "rank": 62,
+     "ranking_reasons": [
+      "Almost there (missing 1)",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 68.5,
+     "ranking_score_bits": "4634520675913039872",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    }
+   ]
+  },
+  "P2": {
+   "recipes": [
+    {
+     "id": "R61",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 1,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 129.5,
+     "ranking_score_bits": "4638760392749744128",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R04",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 2,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R13",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 3,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R14",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 4,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R16",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 5,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R17",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 6,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R18",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 7,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R22",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 8,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R23",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 9,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R24",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 10,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R25",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 11,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R26",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 12,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R28",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 13,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R29",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 14,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R48",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 15,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R49",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 16,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R50",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 17,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R51",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 18,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R52",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 19,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R58",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 20,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R59",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 21,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R05",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 22,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.5,
+     "ranking_score_bits": "4638250219354456064",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 21
+    },
+    {
+     "id": "R53",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 23,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.0,
+     "ranking_score_bits": "4638074297494011904",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R06",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 24,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 118.5,
+     "ranking_score_bits": "4638039113121923072",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 35
+    },
+    {
+     "id": "R57",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 25,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal"
+     ],
+     "ranking_score": 117.5,
+     "ranking_score_bits": "4637968744377745408",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R27",
+     "label": "Good",
+     "missing": 0,
+     "rank": 26,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R30",
+     "label": "Good",
+     "missing": 0,
+     "rank": 27,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R35",
+     "label": "Good",
+     "missing": 0,
+     "rank": 28,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "Higher sugar",
+     "time": 20
+    },
+    {
+     "id": "R36",
+     "label": "Good",
+     "missing": 0,
+     "rank": 29,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R37",
+     "label": "Good",
+     "missing": 0,
+     "rank": 30,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "High sodium",
+     "time": 20
+    },
+    {
+     "id": "R41",
+     "label": "Good",
+     "missing": 0,
+     "rank": 31,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R42",
+     "label": "Good",
+     "missing": 0,
+     "rank": 32,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R15",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 33,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 113.5,
+     "ranking_score_bits": "4637687269401034752",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R62",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 34,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.5,
+     "ranking_score_bits": "4637687269401034752",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R01",
+     "label": "Good",
+     "missing": 0,
+     "rank": 35,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal"
+     ],
+     "ranking_score": 111.0,
+     "ranking_score_bits": "4637511347540590592",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 16
+    },
+    {
+     "id": "R31",
+     "label": "Good",
+     "missing": 0,
+     "rank": 36,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal"
+     ],
+     "ranking_score": 111.0,
+     "ranking_score_bits": "4637511347540590592",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 20
+    },
+    {
+     "id": "R32",
+     "label": "Good",
+     "missing": 0,
+     "rank": 37,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal"
+     ],
+     "ranking_score": 111.0,
+     "ranking_score_bits": "4637511347540590592",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R02",
+     "label": "Good",
+     "missing": 0,
+     "rank": 38,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal"
+     ],
+     "ranking_score": 111.0,
+     "ranking_score_bits": "4637511347540590592",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 30
+    },
+    {
+     "id": "R07",
+     "label": "Good",
+     "missing": 0,
+     "rank": 39,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 15
+    },
+    {
+     "id": "R03",
+     "label": "Good",
+     "missing": 0,
+     "rank": 40,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal"
+     ],
+     "ranking_score": 108.0,
+     "ranking_score_bits": "4637300241308057600",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 31
+    },
+    {
+     "id": "R08",
+     "label": "Good",
+     "missing": 0,
+     "rank": 41,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 16
+    },
+    {
+     "id": "R19",
+     "label": "Good",
+     "missing": 0,
+     "rank": 42,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R20",
+     "label": "Good",
+     "missing": 0,
+     "rank": 43,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R21",
+     "label": "Good",
+     "missing": 0,
+     "rank": 44,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R33",
+     "label": "Good",
+     "missing": 0,
+     "rank": 45,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R34",
+     "label": "Good",
+     "missing": 0,
+     "rank": 46,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R39",
+     "label": "Good",
+     "missing": 0,
+     "rank": 47,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R40",
+     "label": "Good",
+     "missing": 0,
+     "rank": 48,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R43",
+     "label": "Good",
+     "missing": 0,
+     "rank": 49,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R44",
+     "label": "Good",
+     "missing": 0,
+     "rank": 50,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R47",
+     "label": "Good",
+     "missing": 0,
+     "rank": 51,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R54",
+     "label": "Good",
+     "missing": 0,
+     "rank": 52,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R09",
+     "label": "Good",
+     "missing": 0,
+     "rank": 53,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 30
+    },
+    {
+     "id": "R55",
+     "label": "Good",
+     "missing": 0,
+     "rank": 54,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 104.5,
+     "ranking_score_bits": "4637053950703435776",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R38",
+     "label": "Good",
+     "missing": 0,
+     "rank": 55,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 103.0,
+     "ranking_score_bits": "4636948397587169280",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R11",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 56,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 100.5,
+     "ranking_score_bits": "4636772475726725120",
+     "rating": 3,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R45",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 57,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 100.5,
+     "ranking_score_bits": "4636772475726725120",
+     "rating": 3,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R46",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 58,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 100.5,
+     "ranking_score_bits": "4636772475726725120",
+     "rating": 3,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R12",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 59,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 100.5,
+     "ranking_score_bits": "4636772475726725120",
+     "rating": 3,
+     "reasoning": "Hearty portion",
+     "time": 21
+    },
+    {
+     "id": "R10",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 60,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 97.5,
+     "ranking_score_bits": "4636561369494192128",
+     "rating": 3,
+     "reasoning": "Hearty portion",
+     "time": 31
+    },
+    {
+     "id": "R56",
+     "label": "Indulgent",
+     "missing": 0,
+     "rank": 61,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 90.0,
+     "ranking_score_bits": "4636033603912859648",
+     "rating": 2,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R60",
+     "label": "Great match",
+     "missing": 1,
+     "rank": 62,
+     "ranking_reasons": [
+      "Almost there (missing 1)",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 73.5,
+     "ranking_score_bits": "4634872519633928192",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    }
+   ]
+  },
+  "P3": {
+   "recipes": [
+    {
+     "id": "R07",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 1,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 125.171875,
+     "ranking_score_bits": "4638508604586983424",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 15
+    },
+    {
+     "id": "R46",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 2,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 124.5,
+     "ranking_score_bits": "4638461325586989056",
+     "rating": 5,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R47",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 3,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 124.5,
+     "ranking_score_bits": "4638461325586989056",
+     "rating": 5,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R45",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 4,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 124.4875,
+     "ranking_score_bits": "4638460445977686835",
+     "rating": 5,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R21",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 5,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 123.540625,
+     "ranking_score_bits": "4638393815573043610",
+     "rating": 5,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R20",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 6,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 123.53125,
+     "ranking_score_bits": "4638393155866066944",
+     "rating": 5,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R19",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 7,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 123.521875,
+     "ranking_score_bits": "4638392496159090278",
+     "rating": 5,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R61",
+     "label": "Good",
+     "missing": 0,
+     "rank": 8,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 122.875,
+     "ranking_score_bits": "4638346976377700352",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R09",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 9,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 122.28645833333333,
+     "ranking_score_bits": "4638305561439720789",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 30
+    },
+    {
+     "id": "R08",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 10,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 122.22916666666667,
+     "ranking_score_bits": "4638301529897085611",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 16
+    },
+    {
+     "id": "R33",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 11,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.9765625,
+     "ranking_score_bits": "4638283754459103232",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R34",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 12,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 121.9609375,
+     "ranking_score_bits": "4638282654947475456",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R54",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 13,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 120.875,
+     "ranking_score_bits": "4638206238889345024",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R23",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 14,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 120.40625,
+     "ranking_score_bits": "4638173253540511744",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R24",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 15,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 120.40625,
+     "ranking_score_bits": "4638173253540511744",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R55",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 16,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 118.375,
+     "ranking_score_bits": "4638030317028900864",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R12",
+     "label": "Good",
+     "missing": 0,
+     "rank": 17,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 117.36458333333333,
+     "ranking_score_bits": "4637959215276971349",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 21
+    },
+    {
+     "id": "R11",
+     "label": "Good",
+     "missing": 0,
+     "rank": 18,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 117.29166666666667,
+     "ranking_score_bits": "4637954084222708395",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R15",
+     "label": "Good",
+     "missing": 0,
+     "rank": 19,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 116.0265625,
+     "ranking_score_bits": "4637865060431246131",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R14",
+     "label": "Good",
+     "missing": 0,
+     "rank": 20,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 116.015625,
+     "ranking_score_bits": "4637864290773106688",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R13",
+     "label": "Good",
+     "missing": 0,
+     "rank": 21,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 116.0046875,
+     "ranking_score_bits": "4637863521114967245",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R52",
+     "label": "Good",
+     "missing": 0,
+     "rank": 22,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R59",
+     "label": "Good",
+     "missing": 0,
+     "rank": 23,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 115.0,
+     "ranking_score_bits": "4637792822517301248",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R50",
+     "label": "Good",
+     "missing": 0,
+     "rank": 24,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 114.6890625,
+     "ranking_score_bits": "4637770942235908506",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R51",
+     "label": "Good",
+     "missing": 0,
+     "rank": 25,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 114.6859375,
+     "ranking_score_bits": "4637770722333582950",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R18",
+     "label": "Good",
+     "missing": 0,
+     "rank": 26,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 114.228125,
+     "ranking_score_bits": "4637738506642889114",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R17",
+     "label": "Good",
+     "missing": 0,
+     "rank": 27,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 114.21875,
+     "ranking_score_bits": "4637737846935912448",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R10",
+     "label": "Good",
+     "missing": 0,
+     "rank": 28,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 114.21875,
+     "ranking_score_bits": "4637737846935912448",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 31
+    },
+    {
+     "id": "R16",
+     "label": "Good",
+     "missing": 0,
+     "rank": 29,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 114.209375,
+     "ranking_score_bits": "4637737187228935782",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R48",
+     "label": "Good",
+     "missing": 0,
+     "rank": 30,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.9078125,
+     "ranking_score_bits": "4637715966654519706",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R22",
+     "label": "Good",
+     "missing": 0,
+     "rank": 31,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R25",
+     "label": "Good",
+     "missing": 0,
+     "rank": 32,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R26",
+     "label": "Good",
+     "missing": 0,
+     "rank": 33,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R27",
+     "label": "Good",
+     "missing": 0,
+     "rank": 34,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R28",
+     "label": "Good",
+     "missing": 0,
+     "rank": 35,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R29",
+     "label": "Good",
+     "missing": 0,
+     "rank": 36,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R30",
+     "label": "Good",
+     "missing": 0,
+     "rank": 37,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R35",
+     "label": "Good",
+     "missing": 0,
+     "rank": 38,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Higher sugar",
+     "time": 20
+    },
+    {
+     "id": "R36",
+     "label": "Good",
+     "missing": 0,
+     "rank": 39,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R37",
+     "label": "Good",
+     "missing": 0,
+     "rank": 40,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "High sodium",
+     "time": 20
+    },
+    {
+     "id": "R58",
+     "label": "Good",
+     "missing": 0,
+     "rank": 41,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.90625,
+     "ranking_score_bits": "4637715856703356928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R49",
+     "label": "Good",
+     "missing": 0,
+     "rank": 42,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.9046875,
+     "ranking_score_bits": "4637715746752194150",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R05",
+     "label": "Good",
+     "missing": 0,
+     "rank": 43,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.64583333333333,
+     "ranking_score_bits": "4637697531509560661",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 21
+    },
+    {
+     "id": "R04",
+     "label": "Good",
+     "missing": 0,
+     "rank": 44,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.609375,
+     "ranking_score_bits": "4637694965982429184",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R42",
+     "label": "Good",
+     "missing": 0,
+     "rank": 45,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.25,
+     "ranking_score_bits": "4637669677214990336",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R44",
+     "label": "Good",
+     "missing": 0,
+     "rank": 46,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.125,
+     "ranking_score_bits": "4637660881121968128",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R43",
+     "label": "Good",
+     "missing": 0,
+     "rank": 47,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 113.1125,
+     "ranking_score_bits": "4637660001512665907",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R40",
+     "label": "Good",
+     "missing": 0,
+     "rank": 48,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 113.0125,
+     "ranking_score_bits": "4637652964638248141",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R39",
+     "label": "Good",
+     "missing": 0,
+     "rank": 49,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R41",
+     "label": "Good",
+     "missing": 0,
+     "rank": 50,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 112.5,
+     "ranking_score_bits": "4637616900656857088",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R53",
+     "label": "Good",
+     "missing": 0,
+     "rank": 51,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 112.5,
+     "ranking_score_bits": "4637616900656857088",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R06",
+     "label": "Good",
+     "missing": 0,
+     "rank": 52,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 110.68229166666667,
+     "ranking_score_bits": "4637488990804159147",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 35
+    },
+    {
+     "id": "R38",
+     "label": "Good",
+     "missing": 0,
+     "rank": 53,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 108.9875,
+     "ranking_score_bits": "4637369730442933043",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R62",
+     "label": "Good",
+     "missing": 0,
+     "rank": 54,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 106.875,
+     "ranking_score_bits": "4637221076470857728",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R32",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 55,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 102.2421875,
+     "ranking_score_bits": "4636895071273222144",
+     "rating": 3,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R31",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 56,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 102.2265625,
+     "ranking_score_bits": "4636893971761594368",
+     "rating": 3,
+     "reasoning": "Light meal",
+     "time": 20
+    },
+    {
+     "id": "R02",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 57,
+     "ranking_reasons": [
+      "Complete match"
+     ],
+     "ranking_score": 102.10416666666667,
+     "ranking_score_bits": "4636885358920510123",
+     "rating": 3,
+     "reasoning": "Light meal",
+     "time": 30
+    },
+    {
+     "id": "R01",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 58,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 102.078125,
+     "ranking_score_bits": "4636883526401130496",
+     "rating": 3,
+     "reasoning": "Light meal",
+     "time": 16
+    },
+    {
+     "id": "R56",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 59,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 100.125,
+     "ranking_score_bits": "4636746087447658496",
+     "rating": 3,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R57",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 60,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 99.5,
+     "ranking_score_bits": "4636702106982547456",
+     "rating": 3,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R03",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 61,
+     "ranking_reasons": [
+      "Complete match"
+     ],
+     "ranking_score": 99.13020833333333,
+     "ranking_score_bits": "4636676085207356757",
+     "rating": 3,
+     "reasoning": "Light meal",
+     "time": 31
+    },
+    {
+     "id": "R60",
+     "label": "Good",
+     "missing": 1,
+     "rank": 62,
+     "ranking_reasons": [
+      "Almost there (missing 1)",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 66.875,
+     "ranking_score_bits": "4634406326703751168",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    }
+   ]
+  },
+  "P4": {
+   "recipes": [
+    {
+     "id": "R61",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 1,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 127.5,
+     "ranking_score_bits": "4638672431819522048",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R07",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 2,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 122.5,
+     "ranking_score_bits": "4638320588098633728",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 15
+    },
+    {
+     "id": "R08",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 3,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 16
+    },
+    {
+     "id": "R13",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 4,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R14",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 5,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R15",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 6,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R19",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 7,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R20",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 8,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R23",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 9,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R24",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 10,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R33",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 11,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R34",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 12,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R42",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 13,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R43",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 14,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R44",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 15,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R52",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 16,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R54",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 17,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R09",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 18,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 119.5,
+     "ranking_score_bits": "4638109481866100736",
+     "rating": 5,
+     "reasoning": "Hearty portion",
+     "time": 30
+    },
+    {
+     "id": "R53",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 19,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 117.0,
+     "ranking_score_bits": "4637933560005656576",
+     "rating": 5,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R55",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 20,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 117.0,
+     "ranking_score_bits": "4637933560005656576",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R21",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 21,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R04",
+     "label": "Good",
+     "missing": 0,
+     "rank": 22,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R17",
+     "label": "Good",
+     "missing": 0,
+     "rank": 23,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R18",
+     "label": "Good",
+     "missing": 0,
+     "rank": 24,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R22",
+     "label": "Good",
+     "missing": 0,
+     "rank": 25,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R25",
+     "label": "Good",
+     "missing": 0,
+     "rank": 26,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R26",
+     "label": "Good",
+     "missing": 0,
+     "rank": 27,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R27",
+     "label": "Good",
+     "missing": 0,
+     "rank": 28,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R28",
+     "label": "Good",
+     "missing": 0,
+     "rank": 29,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R29",
+     "label": "Good",
+     "missing": 0,
+     "rank": 30,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R30",
+     "label": "Good",
+     "missing": 0,
+     "rank": 31,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R35",
+     "label": "Good",
+     "missing": 0,
+     "rank": 32,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Higher sugar",
+     "time": 20
+    },
+    {
+     "id": "R36",
+     "label": "Good",
+     "missing": 0,
+     "rank": 33,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R37",
+     "label": "Good",
+     "missing": 0,
+     "rank": 34,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "High sodium",
+     "time": 20
+    },
+    {
+     "id": "R39",
+     "label": "Good",
+     "missing": 0,
+     "rank": 35,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R40",
+     "label": "Good",
+     "missing": 0,
+     "rank": 36,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R41",
+     "label": "Good",
+     "missing": 0,
+     "rank": 37,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R48",
+     "label": "Good",
+     "missing": 0,
+     "rank": 38,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R49",
+     "label": "Good",
+     "missing": 0,
+     "rank": 39,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R50",
+     "label": "Good",
+     "missing": 0,
+     "rank": 40,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R51",
+     "label": "Good",
+     "missing": 0,
+     "rank": 41,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R58",
+     "label": "Good",
+     "missing": 0,
+     "rank": 42,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R59",
+     "label": "Good",
+     "missing": 0,
+     "rank": 43,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R05",
+     "label": "Good",
+     "missing": 0,
+     "rank": 44,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 21
+    },
+    {
+     "id": "R62",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 45,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 111.5,
+     "ranking_score_bits": "4637546531912679424",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R11",
+     "label": "Good",
+     "missing": 0,
+     "rank": 46,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R16",
+     "label": "Good",
+     "missing": 0,
+     "rank": 47,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R45",
+     "label": "Good",
+     "missing": 0,
+     "rank": 48,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R46",
+     "label": "Good",
+     "missing": 0,
+     "rank": 49,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R47",
+     "label": "Good",
+     "missing": 0,
+     "rank": 50,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R12",
+     "label": "Good",
+     "missing": 0,
+     "rank": 51,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 21
+    },
+    {
+     "id": "R06",
+     "label": "Good",
+     "missing": 0,
+     "rank": 52,
+     "ranking_reasons": [
+      "Complete match",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 35
+    },
+    {
+     "id": "R38",
+     "label": "Good",
+     "missing": 0,
+     "rank": 53,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal"
+     ],
+     "ranking_score": 109.0,
+     "ranking_score_bits": "4637370610052235264",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R10",
+     "label": "Good",
+     "missing": 0,
+     "rank": 54,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 31
+    },
+    {
+     "id": "R01",
+     "label": "Good",
+     "missing": 0,
+     "rank": 55,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 16
+    },
+    {
+     "id": "R31",
+     "label": "Good",
+     "missing": 0,
+     "rank": 56,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 20
+    },
+    {
+     "id": "R32",
+     "label": "Good",
+     "missing": 0,
+     "rank": 57,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R57",
+     "label": "Good",
+     "missing": 0,
+     "rank": 58,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R02",
+     "label": "Good",
+     "missing": 0,
+     "rank": 59,
+     "ranking_reasons": [
+      "Complete match",
+      "High health score"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 30
+    },
+    {
+     "id": "R03",
+     "label": "Good",
+     "missing": 0,
+     "rank": 60,
+     "ranking_reasons": [
+      "Complete match",
+      "High health score"
+     ],
+     "ranking_score": 103.0,
+     "ranking_score_bits": "4636948397587169280",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 31
+    },
+    {
+     "id": "R56",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 61,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "Fits your goal"
+     ],
+     "ranking_score": 102.5,
+     "ranking_score_bits": "4636913213215080448",
+     "rating": 3,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R60",
+     "label": "Great match",
+     "missing": 1,
+     "rank": 62,
+     "ranking_reasons": [
+      "Almost there (missing 1)",
+      "Quick cook",
+      "Fits your goal",
+      "High protein"
+     ],
+     "ranking_score": 71.5,
+     "ranking_score_bits": "4634731782145572864",
+     "rating": 5,
+     "reasoning": "Good protein",
+     "time": 20
+    }
+   ]
+  },
+  "P5": {
+   "recipes": [
+    {
+     "id": "R61",
+     "label": "Good",
+     "missing": 0,
+     "rank": 1,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 118.0,
+     "ranking_score_bits": "4638003928749834240",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R23",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 2,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R24",
+     "label": "Great match",
+     "missing": 0,
+     "rank": 3,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 116.5,
+     "ranking_score_bits": "4637898375633567744",
+     "rating": 5,
+     "reasoning": "Good fiber",
+     "time": 20
+    },
+    {
+     "id": "R07",
+     "label": "Good",
+     "missing": 0,
+     "rank": 4,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 113.0,
+     "ranking_score_bits": "4637652085028945920",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 15
+    },
+    {
+     "id": "R08",
+     "label": "Good",
+     "missing": 0,
+     "rank": 5,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 16
+    },
+    {
+     "id": "R04",
+     "label": "Good",
+     "missing": 0,
+     "rank": 6,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R11",
+     "label": "Good",
+     "missing": 0,
+     "rank": 7,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R13",
+     "label": "Good",
+     "missing": 0,
+     "rank": 8,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R14",
+     "label": "Good",
+     "missing": 0,
+     "rank": 9,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R15",
+     "label": "Good",
+     "missing": 0,
+     "rank": 10,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R16",
+     "label": "Good",
+     "missing": 0,
+     "rank": 11,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R17",
+     "label": "Good",
+     "missing": 0,
+     "rank": 12,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R18",
+     "label": "Good",
+     "missing": 0,
+     "rank": 13,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R19",
+     "label": "Good",
+     "missing": 0,
+     "rank": 14,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R20",
+     "label": "Good",
+     "missing": 0,
+     "rank": 15,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R21",
+     "label": "Good",
+     "missing": 0,
+     "rank": 16,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R22",
+     "label": "Good",
+     "missing": 0,
+     "rank": 17,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R25",
+     "label": "Good",
+     "missing": 0,
+     "rank": 18,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R26",
+     "label": "Good",
+     "missing": 0,
+     "rank": 19,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R27",
+     "label": "Good",
+     "missing": 0,
+     "rank": 20,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R28",
+     "label": "Good",
+     "missing": 0,
+     "rank": 21,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R29",
+     "label": "Good",
+     "missing": 0,
+     "rank": 22,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R30",
+     "label": "Good",
+     "missing": 0,
+     "rank": 23,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R33",
+     "label": "Good",
+     "missing": 0,
+     "rank": 24,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R34",
+     "label": "Good",
+     "missing": 0,
+     "rank": 25,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R35",
+     "label": "Good",
+     "missing": 0,
+     "rank": 26,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Higher sugar",
+     "time": 20
+    },
+    {
+     "id": "R36",
+     "label": "Good",
+     "missing": 0,
+     "rank": 27,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R37",
+     "label": "Good",
+     "missing": 0,
+     "rank": 28,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High sodium",
+     "time": 20
+    },
+    {
+     "id": "R39",
+     "label": "Good",
+     "missing": 0,
+     "rank": 29,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R40",
+     "label": "Good",
+     "missing": 0,
+     "rank": 30,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R41",
+     "label": "Good",
+     "missing": 0,
+     "rank": 31,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R42",
+     "label": "Good",
+     "missing": 0,
+     "rank": 32,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R43",
+     "label": "Good",
+     "missing": 0,
+     "rank": 33,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R44",
+     "label": "Good",
+     "missing": 0,
+     "rank": 34,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R45",
+     "label": "Good",
+     "missing": 0,
+     "rank": 35,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R46",
+     "label": "Good",
+     "missing": 0,
+     "rank": 36,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R47",
+     "label": "Good",
+     "missing": 0,
+     "rank": 37,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein \u00b7 Hearty portion",
+     "time": 20
+    },
+    {
+     "id": "R48",
+     "label": "Good",
+     "missing": 0,
+     "rank": 38,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R49",
+     "label": "Good",
+     "missing": 0,
+     "rank": 39,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R50",
+     "label": "Good",
+     "missing": 0,
+     "rank": 40,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R51",
+     "label": "Good",
+     "missing": 0,
+     "rank": 41,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R52",
+     "label": "Good",
+     "missing": 0,
+     "rank": 42,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R54",
+     "label": "Good",
+     "missing": 0,
+     "rank": 43,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R58",
+     "label": "Good",
+     "missing": 0,
+     "rank": 44,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R59",
+     "label": "Good",
+     "missing": 0,
+     "rank": 45,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R05",
+     "label": "Good",
+     "missing": 0,
+     "rank": 46,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 21
+    },
+    {
+     "id": "R12",
+     "label": "Good",
+     "missing": 0,
+     "rank": 47,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 21
+    },
+    {
+     "id": "R09",
+     "label": "Good",
+     "missing": 0,
+     "rank": 48,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 110.0,
+     "ranking_score_bits": "4637440978796412928",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 30
+    },
+    {
+     "id": "R53",
+     "label": "Good",
+     "missing": 0,
+     "rank": 49,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.5,
+     "ranking_score_bits": "4637265056935968768",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R55",
+     "label": "Good",
+     "missing": 0,
+     "rank": 50,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 107.5,
+     "ranking_score_bits": "4637265056935968768",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R10",
+     "label": "Good",
+     "missing": 0,
+     "rank": 51,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Hearty portion",
+     "time": 31
+    },
+    {
+     "id": "R06",
+     "label": "Good",
+     "missing": 0,
+     "rank": 52,
+     "ranking_reasons": [
+      "Complete match",
+      "High protein"
+     ],
+     "ranking_score": 107.0,
+     "ranking_score_bits": "4637229872563879936",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 35
+    },
+    {
+     "id": "R01",
+     "label": "Good",
+     "missing": 0,
+     "rank": 53,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 16
+    },
+    {
+     "id": "R31",
+     "label": "Good",
+     "missing": 0,
+     "rank": 54,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 20
+    },
+    {
+     "id": "R32",
+     "label": "Good",
+     "missing": 0,
+     "rank": 55,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R38",
+     "label": "Good",
+     "missing": 0,
+     "rank": 56,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R57",
+     "label": "Good",
+     "missing": 0,
+     "rank": 57,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "High protein",
+     "time": 20
+    },
+    {
+     "id": "R02",
+     "label": "Good",
+     "missing": 0,
+     "rank": 58,
+     "ranking_reasons": [
+      "Complete match",
+      "High health score"
+     ],
+     "ranking_score": 106.0,
+     "ranking_score_bits": "4637159503819702272",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 30
+    },
+    {
+     "id": "R03",
+     "label": "Good",
+     "missing": 0,
+     "rank": 59,
+     "ranking_reasons": [
+      "Complete match",
+      "High health score"
+     ],
+     "ranking_score": 103.0,
+     "ranking_score_bits": "4636948397587169280",
+     "rating": 4,
+     "reasoning": "Light meal",
+     "time": 31
+    },
+    {
+     "id": "R62",
+     "label": "Good",
+     "missing": 0,
+     "rank": 60,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 102.0,
+     "ranking_score_bits": "4636878028842991616",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    },
+    {
+     "id": "R56",
+     "label": "Moderate",
+     "missing": 0,
+     "rank": 61,
+     "ranking_reasons": [
+      "Complete match",
+      "Quick cook"
+     ],
+     "ranking_score": 99.5,
+     "ranking_score_bits": "4636702106982547456",
+     "rating": 3,
+     "reasoning": "Balanced",
+     "time": 20
+    },
+    {
+     "id": "R60",
+     "label": "Good",
+     "missing": 1,
+     "rank": 62,
+     "ranking_reasons": [
+      "Almost there (missing 1)",
+      "Quick cook",
+      "High protein"
+     ],
+     "ranking_score": 62.0,
+     "ranking_score_bits": "4633922541587529728",
+     "rating": 4,
+     "reasoning": "Good protein",
+     "time": 20
+    }
+   ]
+  }
+ }
+}
