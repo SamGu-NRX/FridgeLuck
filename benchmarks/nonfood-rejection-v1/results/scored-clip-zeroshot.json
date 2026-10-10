@@ -4,6 +4,7 @@
   "version": "openclip:ViT-B-32-quickgelu:laion2b_s34b_b79k@ac4f8c4b88af",
   "path": "arms/clip_zeroshot.py"
  },
+ "policy": "measured",
  "manifest_name": "nonfood-rejection-v1",
  "manifest_sha256": "adffd27b5cb2bdcbe5999fb18edab086f4167a4cc69a2e17819932666f5f3714",
  "tau_high": 0.5,
@@ -24,9 +25,9 @@
    "false_addition_groups": 227,
    "false_addition_rate_groups": 0.879845,
    "false_addition_images": 261,
-   "certain_empty_groups": 26,
-   "certain_empty_rate_groups": 0.100775,
-   "unknown_neg_groups": 5,
+   "certain_empty_groups": 31,
+   "certain_empty_rate_groups": 0.120155,
+   "unknown_neg_groups": 0,
    "control_groups": 229,
    "control_recall_groups": 0.9869,
    "control_recall_images": 0.99,
@@ -41,9 +42,9 @@
    "false_addition_groups": 228,
    "false_addition_rate_groups": 0.901186,
    "false_addition_images": 270,
-   "certain_empty_groups": 22,
-   "certain_empty_rate_groups": 0.086957,
-   "unknown_neg_groups": 3,
+   "certain_empty_groups": 24,
+   "certain_empty_rate_groups": 0.094862,
+   "unknown_neg_groups": 1,
    "control_groups": 209,
    "control_recall_groups": 1.0,
    "control_recall_images": 1.0,
@@ -3454,7 +3455,7 @@
    "food_score": 0.49520930647850037,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "35cc8702907229d4",
@@ -4512,7 +4513,7 @@
    "food_score": 0.48001137375831604,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "488ab15e2780bec9",
@@ -10136,7 +10137,7 @@
    "food_score": 0.4967043697834015,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9e28b4db66a3e783",
@@ -10568,7 +10569,7 @@
    "food_score": 0.4913429915904999,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a554636b4f77bec3",
@@ -11862,7 +11863,7 @@
    "food_score": 0.49531781673431396,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b6705b5755f3dfc9",
@@ -12446,7 +12447,7 @@
    "food_score": 0.49852150678634644,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c0dfd1c1a44e2fa3",
@@ -12598,7 +12599,7 @@
    "food_score": 0.4956101179122925,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c2af77e086aab8d0",
@@ -14008,7 +14009,7 @@
    "food_score": 0.4886174499988556,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d83dcdb92fa65c56",
@@ -14282,7 +14283,7 @@
    "food_score": 0.48143428564071655,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dbdbcfdebaf2f408",
@@ -15058,7 +15059,7 @@
    "food_score": 0.4972088932991028,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e6d7fb394c8909a8",
@@ -15998,7 +15999,7 @@
    "food_score": 0.4960082471370697,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f5b09fbe99e13691",

@@ -87,13 +87,27 @@ def test_group_level_false_additions():
     assert dev["false_addition_rate_groups"] == pytest.approx(1.0)
 
 
-def test_opaque_never_counts_as_certain_empty_even_at_zero():
+def test_oracle_opaque_never_counts_as_certain_empty_even_at_zero():
+    # ORACLE policy: closed containers are protected by the privileged
+    # stratum input, so only the empty_visible negatives may be certain-empty
     manifest = fake_manifest()
     report = report_of(manifest, lambda r: r.update(food_score=0.0))
-    metrics, _ = evaluate(manifest, report, TAU_HIGH, TAU_LOW)
-    # only the empty_visible negatives (one per split) may be certain-empty
+    metrics, _ = evaluate(manifest, report, TAU_HIGH, TAU_LOW, "oracle")
     assert metrics["dev"]["certain_empty_groups"] == 1
     assert metrics["test"]["certain_empty_groups"] == 1
+
+
+def test_measured_opaque_at_zero_score_is_certain_empty():
+    # MEASURED policy: the stratum is invisible at prediction time, so a
+    # zero score on an opaque container IS called certainly empty. That is
+    # the risk the oracle upper bound guards against, stated plainly.
+    manifest = fake_manifest()
+    report = report_of(manifest, lambda r: r.update(food_score=0.0))
+    metrics, _ = evaluate(manifest, report, TAU_HIGH, TAU_LOW, "measured")
+    # every negative group with score <= tau_low is certain-empty: the
+    # empty_visible one and the opaque_unknown one, per split
+    assert metrics["dev"]["certain_empty_groups"] == 2
+    assert metrics["test"]["certain_empty_groups"] == 2
 
 
 def test_control_recall_counts_only_admitted_food():

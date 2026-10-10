@@ -4,6 +4,7 @@
   "version": "baseline:constant-0.5",
   "path": "arms/constant_baseline.py"
  },
+ "policy": "measured",
  "manifest_name": "nonfood-rejection-v1",
  "manifest_sha256": "adffd27b5cb2bdcbe5999fb18edab086f4167a4cc69a2e17819932666f5f3714",
  "tau_high": 0.51,
@@ -24,9 +25,9 @@
    "false_addition_groups": 0,
    "false_addition_rate_groups": 0.0,
    "false_addition_images": 0,
-   "certain_empty_groups": 127,
-   "certain_empty_rate_groups": 0.492248,
-   "unknown_neg_groups": 131,
+   "certain_empty_groups": 258,
+   "certain_empty_rate_groups": 1.0,
+   "unknown_neg_groups": 0,
    "control_groups": 229,
    "control_recall_groups": 0.0,
    "control_recall_images": 0.0,
@@ -40,9 +41,9 @@
    "false_addition_groups": 0,
    "false_addition_rate_groups": 0.0,
    "false_addition_images": 0,
-   "certain_empty_groups": 116,
-   "certain_empty_rate_groups": 0.458498,
-   "unknown_neg_groups": 137,
+   "certain_empty_groups": 253,
+   "certain_empty_rate_groups": 1.0,
+   "unknown_neg_groups": 0,
    "control_groups": 209,
    "control_recall_groups": 0.0,
    "control_recall_images": 0.0,
@@ -86,7 +87,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0055371c2eb7e9dd",
@@ -122,7 +123,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "00fcc4c5d0dd04c4",
@@ -134,7 +135,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "01576dfc4f3e2c24",
@@ -146,7 +147,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "015a56e05d757b69",
@@ -182,7 +183,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "01f92a05010cabe0",
@@ -194,7 +195,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "023cf16f573e5c1c",
@@ -206,7 +207,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "02a928e9906086a3",
@@ -218,7 +219,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "02deba0102b5ce2a",
@@ -230,7 +231,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "030c89169770601e",
@@ -242,7 +243,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0339d9cff7ea0af4",
@@ -254,7 +255,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "037015b5b6520ed1",
@@ -266,7 +267,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "03d5b26dcb81b3c6",
@@ -278,7 +279,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "03f4adcebcf3f439",
@@ -302,7 +303,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "049d05502c21067e",
@@ -314,7 +315,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "04e310af546ec9d0",
@@ -326,7 +327,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "057677f8b281e963",
@@ -338,7 +339,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "058cff262efe83de",
@@ -350,7 +351,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "05ca3422aa670ef0",
@@ -362,7 +363,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "05f0082489033db8",
@@ -386,7 +387,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0651508b388d5ff9",
@@ -398,7 +399,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0678bfe0bfce8376",
@@ -410,7 +411,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0707e1dbf59046ac",
@@ -434,7 +435,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0790092f10116349",
@@ -446,7 +447,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0804e479f3848a5a",
@@ -458,7 +459,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "083e7253a5c2ca31",
@@ -482,7 +483,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "089f139ac3ecde3b",
@@ -506,7 +507,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "094280157e036eb0",
@@ -530,7 +531,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "09b27cac767ccc61",
@@ -542,7 +543,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "09e1a28309aa620b",
@@ -554,7 +555,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "09eb9f5005da8815",
@@ -566,7 +567,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "09f3e35b642c26f3",
@@ -614,7 +615,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0b6927daf4ec8091",
@@ -626,7 +627,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0b6a55f2f634455c",
@@ -662,7 +663,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0cfbbbd8457b64a1",
@@ -674,7 +675,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0d12b8d16b4ac1ec",
@@ -686,7 +687,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0d8806337b963d80",
@@ -698,7 +699,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0dc2a0a1bbe4f527",
@@ -710,7 +711,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0dfd223b59953d5d",
@@ -722,7 +723,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0e42b381c50a007d",
@@ -734,7 +735,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0e4a61f7fd743f1e",
@@ -758,7 +759,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0e92795272dfd1af",
@@ -770,7 +771,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0ea1549299380eec",
@@ -794,7 +795,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0eb32611b755d91c",
@@ -806,7 +807,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0f2a98ecb311c693",
@@ -830,7 +831,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0f7b5fade6eceafa",
@@ -842,7 +843,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0f91f8ccef2ed9f6",
@@ -854,7 +855,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0f9a09c029575e12",
@@ -890,7 +891,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "0fdd4416d20dadad",
@@ -902,7 +903,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "105433f9d808d18e",
@@ -914,7 +915,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1078d9a1bbc00ab4",
@@ -962,7 +963,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "116435800b3c6d90",
@@ -986,7 +987,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1179a4c1249fc4d4",
@@ -998,7 +999,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "11e636d22f2e9bd4",
@@ -1010,7 +1011,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1261ee8a4e014368",
@@ -1022,7 +1023,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "128c93eeddb45299",
@@ -1034,7 +1035,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "12f6118ac360737b",
@@ -1046,7 +1047,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "130dbe0782251957",
@@ -1058,7 +1059,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "138bce62418c0d11",
@@ -1070,7 +1071,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "13af85d451edaf21",
@@ -1094,7 +1095,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "13d3287c4cac61c1",
@@ -1106,7 +1107,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "13eaa1219788ced5",
@@ -1118,7 +1119,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "140bcbf466ec81ba",
@@ -1142,7 +1143,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1439fd60f717b626",
@@ -1154,7 +1155,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "14516a229d784e57",
@@ -1166,7 +1167,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "14a15a80b628f709",
@@ -1178,7 +1179,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "14aa272d69e9a966",
@@ -1190,7 +1191,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "14f6e0abac25e540",
@@ -1202,7 +1203,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "15077497161532b3",
@@ -1214,7 +1215,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "150ac3375682187d",
@@ -1250,7 +1251,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "157484e597020b2d",
@@ -1262,7 +1263,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "15820339efb88eb9",
@@ -1274,7 +1275,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "158aee7a7959f647",
@@ -1286,7 +1287,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "15b376e472318a69",
@@ -1298,7 +1299,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1600765ea14a05eb",
@@ -1310,7 +1311,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1602934b52b119cc",
@@ -1322,7 +1323,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "16407cf2533cf584",
@@ -1334,7 +1335,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1669e43ee806f539",
@@ -1346,7 +1347,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "16a0dd2290c02bad",
@@ -1358,7 +1359,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "16b3073189f603bd",
@@ -1370,7 +1371,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1766bf861f517394",
@@ -1382,7 +1383,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "176eb2a1dbb9ec83",
@@ -1394,7 +1395,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "17c9526627461ae5",
@@ -1406,7 +1407,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "17dfc891e3988bc6",
@@ -1418,7 +1419,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "17e34a78955fd929",
@@ -1430,7 +1431,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "180ad2c19b534392",
@@ -1442,7 +1443,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "18853abb4c860a27",
@@ -1466,7 +1467,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "18bfe09ecd125d3a",
@@ -1478,7 +1479,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "18eedb7aeb04344a",
@@ -1490,7 +1491,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "191be1e1778cea24",
@@ -1502,7 +1503,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "19349d4334093e00",
@@ -1526,7 +1527,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "197d6d46a493a45d",
@@ -1538,7 +1539,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "197ebf00b7231853",
@@ -1562,7 +1563,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1a05eb586401aba8",
@@ -1574,7 +1575,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1a46b46b9e4a5dbf",
@@ -1586,7 +1587,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1a9d5f7cc9a88a1d",
@@ -1598,7 +1599,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1aa3acb3e0b57865",
@@ -1610,7 +1611,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1ac2857ef4ff28f2",
@@ -1622,7 +1623,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1b16cb29d5fbfed9",
@@ -1646,7 +1647,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1b3811b2ebf55426",
@@ -1658,7 +1659,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1b9eb52c0e2cf93c",
@@ -1670,7 +1671,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1beb688e19c67ca0",
@@ -1682,7 +1683,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1c1cd205b908bf5c",
@@ -1694,7 +1695,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1d5087d4cffd6faf",
@@ -1718,7 +1719,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1e116f903657e017",
@@ -1730,7 +1731,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1e1283c785486215",
@@ -1742,7 +1743,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1e2c50b991a82ee8",
@@ -1766,7 +1767,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1e82f3fb2cf385a1",
@@ -1778,7 +1779,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1ed5f9c21c8f9b9a",
@@ -1814,7 +1815,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1f3fbfe665f0c663",
@@ -1826,7 +1827,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "1f6886454432c317",
@@ -1838,7 +1839,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "203050447809dbfc",
@@ -1850,7 +1851,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "209792909aa42e32",
@@ -1862,7 +1863,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "20aed0110df54daa",
@@ -1874,7 +1875,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "214be2a2e920e4c4",
@@ -1886,7 +1887,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "216b55d42645d011",
@@ -1898,7 +1899,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2172cda969653b88",
@@ -1910,7 +1911,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "218fd63442dff679",
@@ -1946,7 +1947,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2238541e783605c0",
@@ -2018,7 +2019,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "24e3ee52ac1821a9",
@@ -2042,7 +2043,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2537579ba36604b1",
@@ -2054,7 +2055,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2539fec9a85a63f2",
@@ -2066,7 +2067,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2540d6d0d881c2ba",
@@ -2090,7 +2091,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "25dbac1d53ac2fd3",
@@ -2102,7 +2103,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2651151ae23bb6f8",
@@ -2114,7 +2115,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "267824553a0b080a",
@@ -2126,7 +2127,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "26ab8d725027bed2",
@@ -2138,7 +2139,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "26ade69b776615b9",
@@ -2150,7 +2151,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "26c4922f39ba3313",
@@ -2162,7 +2163,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "26f0f3be06101352",
@@ -2174,7 +2175,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "26f0f9d71b11a879",
@@ -2186,7 +2187,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "270ce982277b7d23",
@@ -2198,7 +2199,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2734da9934561133",
@@ -2210,7 +2211,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "274b93016f1073da",
@@ -2234,7 +2235,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "27622c023dc85d0e",
@@ -2258,7 +2259,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "27d1d9bd0848b352",
@@ -2270,7 +2271,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "27dcd544fbd8fbc2",
@@ -2282,7 +2283,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "27e7b4b11cad3557",
@@ -2306,7 +2307,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "282171b79b7ede6c",
@@ -2330,7 +2331,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "283028bb9c3f5c38",
@@ -2342,7 +2343,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "283c1b234fb2cf16",
@@ -2366,7 +2367,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "28ba1a3819fc7149",
@@ -2378,7 +2379,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "290d3bfc65be167d",
@@ -2390,7 +2391,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "299eb1de8c1879fc",
@@ -2402,7 +2403,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "29d6d8b90e19a3b6",
@@ -2414,7 +2415,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "29d87f8571b3a797",
@@ -2426,7 +2427,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "29e009944806350c",
@@ -2438,7 +2439,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2a26ab4f43340093",
@@ -2450,7 +2451,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2a3ab4239291c1f8",
@@ -2462,7 +2463,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2afcec1f707608d2",
@@ -2474,7 +2475,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2b1281e5d7bbd2d2",
@@ -2486,7 +2487,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2b12a56cf441f87d",
@@ -2498,7 +2499,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2b4539fd83dbbcc4",
@@ -2510,7 +2511,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2c091488adcffc85",
@@ -2534,7 +2535,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2c545fde3284b462",
@@ -2546,7 +2547,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2c5681a1d46ea716",
@@ -2558,7 +2559,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2c9817c8076a3fd4",
@@ -2570,7 +2571,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2d042826ea39a23e",
@@ -2582,7 +2583,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2d60c6e47844d893",
@@ -2594,7 +2595,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2d6232bf7f8c117e",
@@ -2606,7 +2607,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2d6eef206095ba72",
@@ -2642,7 +2643,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2e1ba5d780612dd2",
@@ -2678,7 +2679,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2ebea253f54ba55f",
@@ -2702,7 +2703,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2efc03661e7c4e60",
@@ -2714,7 +2715,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "2fcccb91c647caf7",
@@ -2738,7 +2739,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "301b39048779e41a",
@@ -2750,7 +2751,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3052a50294089b14",
@@ -2846,7 +2847,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3362b1fb10ac7c7f",
@@ -2858,7 +2859,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "336457da833beb9d",
@@ -2870,7 +2871,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "33829b9881fc348c",
@@ -2882,7 +2883,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "33a50ada2523c2b8",
@@ -2894,7 +2895,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "33fe330771f69844",
@@ -2906,7 +2907,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "340d7d29dcbe278d",
@@ -2918,7 +2919,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "34512dec5f8b826a",
@@ -2930,7 +2931,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3451cc0fb5b19993",
@@ -2954,7 +2955,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "34b67dd221506af4",
@@ -2966,7 +2967,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "352da330812dab57",
@@ -2990,7 +2991,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "35cc8702907229d4",
@@ -3002,7 +3003,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "364d058a3fe54efe",
@@ -3014,7 +3015,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "36e89995930d3c47",
@@ -3050,7 +3051,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "374ab50ca7383ce6",
@@ -3062,7 +3063,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "375780c2cc630038",
@@ -3074,7 +3075,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "375f7232ffebd659",
@@ -3098,7 +3099,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3803d461edbbd596",
@@ -3110,7 +3111,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "380a9b20acca9651",
@@ -3122,7 +3123,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3811569d936c2a66",
@@ -3146,7 +3147,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "387816f1ce44651d",
@@ -3158,7 +3159,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "39e39937b3e4884c",
@@ -3170,7 +3171,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "39fb433297c958e1",
@@ -3182,7 +3183,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3a3864a83984ddbb",
@@ -3194,7 +3195,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3a687890e967e639",
@@ -3206,7 +3207,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3a695e9f558559db",
@@ -3218,7 +3219,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3a6bdb5c5d4e545e",
@@ -3230,7 +3231,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3a6c18b8f0808dd7",
@@ -3242,7 +3243,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3a959dcaa12481df",
@@ -3254,7 +3255,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3abc5258119aea73",
@@ -3266,7 +3267,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3acc680e6c36812a",
@@ -3290,7 +3291,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3b2ad72f79a67af1",
@@ -3302,7 +3303,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3b2f249d2151c23f",
@@ -3314,7 +3315,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3b6ad7a035027cb1",
@@ -3326,7 +3327,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3b9ed18e06272793",
@@ -3350,7 +3351,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3cf987ac62a42adf",
@@ -3362,7 +3363,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3d67a2695df3ac22",
@@ -3374,7 +3375,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3d6fa58c80d2421e",
@@ -3386,7 +3387,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3d76574f1dec8b0a",
@@ -3410,7 +3411,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3dab4983c5513daf",
@@ -3434,7 +3435,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3e82b85685e4b90f",
@@ -3446,7 +3447,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3e97457907892103",
@@ -3470,7 +3471,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3ef5a2893b3df4a4",
@@ -3482,7 +3483,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3efcf37784ed1977",
@@ -3494,7 +3495,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3f3a69141e70f9ce",
@@ -3506,7 +3507,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "3f47c2345874fa8c",
@@ -3518,7 +3519,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4036a8676a59acf8",
@@ -3530,7 +3531,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4050cda8fba567d1",
@@ -3554,7 +3555,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "40fbc3abe221f821",
@@ -3566,7 +3567,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "414abf4caa4448da",
@@ -3578,7 +3579,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "41afd75ada0a9549",
@@ -3590,7 +3591,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "41e2356b97f775c4",
@@ -3602,7 +3603,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4248f3c361967ac3",
@@ -3614,7 +3615,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4295f627daa59863",
@@ -3638,7 +3639,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "42ec12757421b33b",
@@ -3650,7 +3651,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "42f1e6eb38f85e6a",
@@ -3662,7 +3663,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "430a64b82dc2b155",
@@ -3686,7 +3687,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "439d1d045612e2c8",
@@ -3698,7 +3699,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "440460bcbdfe4fa2",
@@ -3722,7 +3723,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "44c0cf1e47d3f848",
@@ -3734,7 +3735,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "456cef43d0338c50",
@@ -3746,7 +3747,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4587d0449b06d261",
@@ -3758,7 +3759,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4593e37d15bc3c68",
@@ -3770,7 +3771,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "45cdc827afb98951",
@@ -3782,7 +3783,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "45ef29400ff28025",
@@ -3794,7 +3795,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4637bb57abbff61b",
@@ -3806,7 +3807,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "466d28e6ef43ae07",
@@ -3818,7 +3819,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "46bf3fc2fdbf2f7c",
@@ -3830,7 +3831,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "46f71098842bce08",
@@ -3854,7 +3855,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4736100d6746b54f",
@@ -3866,7 +3867,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "47ef01cdba40af4e",
@@ -3902,7 +3903,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "488ab15e2780bec9",
@@ -3914,7 +3915,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "48addb7ef1c334a0",
@@ -3926,7 +3927,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "48af8e8a08f66a84",
@@ -3962,7 +3963,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4982ce377b7d283f",
@@ -3974,7 +3975,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4985fc247e2c095e",
@@ -3986,7 +3987,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4994d58bb45b803a",
@@ -3998,7 +3999,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "49c530b6d3acea4d",
@@ -4010,7 +4011,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "49d825bb58eed4f3",
@@ -4022,7 +4023,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4a6e62fc95013696",
@@ -4034,7 +4035,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4ad07599e010125e",
@@ -4046,7 +4047,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4b5e056cdd09bcde",
@@ -4082,7 +4083,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4bd7aa532a371bde",
@@ -4094,7 +4095,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4bfc2b44808d6401",
@@ -4106,7 +4107,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4c84c36d624d251b",
@@ -4118,7 +4119,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4c95834d778cf9b8",
@@ -4130,7 +4131,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4cb9ce10bca1ed2f",
@@ -4154,7 +4155,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4ce448635c113f11",
@@ -4166,7 +4167,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4d055f3b130bd514",
@@ -4190,7 +4191,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4d8a12086f072bfc",
@@ -4202,7 +4203,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4df834b424dc549b",
@@ -4226,7 +4227,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4dffda05f2be005f",
@@ -4238,7 +4239,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4e026f59bb3ace23",
@@ -4262,7 +4263,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4e68439f7fa34300",
@@ -4274,7 +4275,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4eb2de34e6b5682a",
@@ -4286,7 +4287,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4ec5f097dbba95ab",
@@ -4310,7 +4311,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4f5d4fcaddf54730",
@@ -4334,7 +4335,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4f7d7633cb229392",
@@ -4346,7 +4347,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4f9f79a762012129",
@@ -4382,7 +4383,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "4fe58fa52bee7b93",
@@ -4394,7 +4395,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5040efe3a171dff9",
@@ -4406,7 +4407,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "505a374744c9d131",
@@ -4418,7 +4419,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "506bd74062053978",
@@ -4442,7 +4443,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5171c7320fef988c",
@@ -4454,7 +4455,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "520eea671a33f7f0",
@@ -4514,7 +4515,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5339d7acea25b7ed",
@@ -4538,7 +4539,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5390b14e76fa6eab",
@@ -4550,7 +4551,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "53fb8eeae13923c0",
@@ -4562,7 +4563,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "541750198e8ce193",
@@ -4574,7 +4575,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "543cda9104aa4d6b",
@@ -4586,7 +4587,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "545b3d107b6c6139",
@@ -4622,7 +4623,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "54ac5e813836a2df",
@@ -4634,7 +4635,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "54c46956e9b03ce7",
@@ -4646,7 +4647,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5500c021375abb01",
@@ -4670,7 +4671,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5563f792d702bdbd",
@@ -4682,7 +4683,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "55e3326b5849710b",
@@ -4694,7 +4695,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5639acda47f69209",
@@ -4706,7 +4707,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "56578e312e04853a",
@@ -4718,7 +4719,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "56ed95fda2f31b1e",
@@ -4742,7 +4743,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "57347d9806925721",
@@ -4754,7 +4755,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5751e84a7dba2611",
@@ -4802,7 +4803,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "57c36e26c8309c74",
@@ -4838,7 +4839,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "58af4f99affa7ff9",
@@ -4850,7 +4851,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "58b50dce36e63205",
@@ -4862,7 +4863,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "58da58c91a4d44f7",
@@ -4874,7 +4875,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "58ff5f159820709c",
@@ -4886,7 +4887,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5902e975fb1e2d3d",
@@ -4898,7 +4899,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "597f27f1d0bb088a",
@@ -4910,7 +4911,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5989fb934598c1a7",
@@ -4922,7 +4923,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "599cb8a8f9930712",
@@ -4934,7 +4935,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "59a442f27683faf5",
@@ -4946,7 +4947,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "59da9db80188fc1f",
@@ -4958,7 +4959,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "59f5431d9e2c3b1d",
@@ -5018,7 +5019,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5b6f186dac09581b",
@@ -5030,7 +5031,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5b7ad959f3a142f0",
@@ -5042,7 +5043,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5bd16b3f0072c0bf",
@@ -5054,7 +5055,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5be61ff693d252a0",
@@ -5066,7 +5067,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5c9223a2cf0c8536",
@@ -5078,7 +5079,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5ccec7b05490898a",
@@ -5102,7 +5103,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5d243c8b853294f6",
@@ -5114,7 +5115,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5d57eb3290eeb424",
@@ -5126,7 +5127,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5d8cc4393fbb5063",
@@ -5138,7 +5139,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5da3973038c955ba",
@@ -5162,7 +5163,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5ebb76d6b7ae6024",
@@ -5174,7 +5175,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5ec5448c6bc4e86d",
@@ -5198,7 +5199,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5f2675ea5a0b89ba",
@@ -5222,7 +5223,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5f90073850dc0025",
@@ -5234,7 +5235,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5fc5f0be44e49931",
@@ -5246,7 +5247,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "5ff6ec615076f068",
@@ -5270,7 +5271,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "60052635ddbabc33",
@@ -5294,7 +5295,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "602385822f60d8f8",
@@ -5306,7 +5307,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "60629fac076b9ba6",
@@ -5318,7 +5319,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6062dfff25e037c4",
@@ -5330,7 +5331,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6076acb6b42a2ce9",
@@ -5342,7 +5343,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6087af01b65c06a6",
@@ -5354,7 +5355,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "60b87855808a995b",
@@ -5366,7 +5367,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "60ce75aad82073f2",
@@ -5378,7 +5379,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6100e4d81194c50d",
@@ -5390,7 +5391,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6132887c65412a9e",
@@ -5414,7 +5415,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "61bbb62f0aa9c07b",
@@ -5426,7 +5427,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "620a6f268e368d7e",
@@ -5438,7 +5439,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "62205fa98ca5cdee",
@@ -5450,7 +5451,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "622b460b4da64875",
@@ -5462,7 +5463,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "62870ad135fa2e5a",
@@ -5474,7 +5475,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "628a5d5812f1af80",
@@ -5486,7 +5487,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "62ffa1253465066a",
@@ -5498,7 +5499,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6330b50e38316f83",
@@ -5522,7 +5523,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6378fabd522e9f1d",
@@ -5534,7 +5535,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "63b5adbb9c09b8f8",
@@ -5570,7 +5571,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "63fb674f70016fba",
@@ -5582,7 +5583,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "656f864dafb7a88a",
@@ -5594,7 +5595,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6574ec9eab26ed05",
@@ -5630,7 +5631,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6705d844431e597d",
@@ -5642,7 +5643,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6711c99331a74fce",
@@ -5654,7 +5655,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "672f5e3a053797e7",
@@ -5678,7 +5679,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6748701b7c7a38c8",
@@ -5702,7 +5703,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "677f20d1afd00552",
@@ -5714,7 +5715,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6819b229e20ddff1",
@@ -5726,7 +5727,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "682adedccb306378",
@@ -5738,7 +5739,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "68c2b7fa454da837",
@@ -5798,7 +5799,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "69cc9b1b49e4c6c3",
@@ -5810,7 +5811,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "69d4899d910c1478",
@@ -5822,7 +5823,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "69d490fb96c2c481",
@@ -5858,7 +5859,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6a39def4ca81a7c9",
@@ -5870,7 +5871,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6ad78bbc4b44e3c6",
@@ -5894,7 +5895,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6b3be66ee526c1b2",
@@ -5906,7 +5907,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6b3cb699855d02fa",
@@ -5918,7 +5919,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6b81421cedd46adb",
@@ -5930,7 +5931,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6bd0310b1fac352d",
@@ -5942,7 +5943,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6c5d18cf5e6d36d6",
@@ -5966,7 +5967,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6cc124896eccc77f",
@@ -5978,7 +5979,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6d1a5fd80ae9c458",
@@ -6002,7 +6003,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6d261123912ce177",
@@ -6026,7 +6027,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6e3b69ea7f539ba7",
@@ -6038,7 +6039,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6e655a12b156c357",
@@ -6050,7 +6051,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6e82322d9b1e2e47",
@@ -6062,7 +6063,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "6ee4f0408749f539",
@@ -6098,7 +6099,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "701d9d6ae09d5c41",
@@ -6110,7 +6111,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "701d9f182fd8b979",
@@ -6134,7 +6135,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "71087ede06f771a0",
@@ -6146,7 +6147,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7119e2a9a3832d36",
@@ -6170,7 +6171,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7191f2afdfccea20",
@@ -6182,7 +6183,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "71b3bea110ee810c",
@@ -6218,7 +6219,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7205007f14fc14fd",
@@ -6230,7 +6231,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "72b66b6e74193b78",
@@ -6242,7 +6243,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "731e999acdb6ae99",
@@ -6254,7 +6255,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7340dff01ca8a4d9",
@@ -6266,7 +6267,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "73b9e2490d36cb81",
@@ -6278,7 +6279,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "73f4ddc64280003b",
@@ -6302,7 +6303,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "747731547153335f",
@@ -6314,7 +6315,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "749be615ee004221",
@@ -6326,7 +6327,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "74d2755797f4cef5",
@@ -6338,7 +6339,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "74e72569d51941ae",
@@ -6350,7 +6351,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "74f1ce13a4c4eeeb",
@@ -6362,7 +6363,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "75a77c00f2ac629c",
@@ -6374,7 +6375,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "75f17f3961792986",
@@ -6386,7 +6387,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "75fb349b57aabdf7",
@@ -6398,7 +6399,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7645bae264564eef",
@@ -6410,7 +6411,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "76c907cbd9ff7422",
@@ -6422,7 +6423,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "76d737619acb800a",
@@ -6434,7 +6435,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "77153a3efa75f4a4",
@@ -6446,7 +6447,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "77cd18e2d912c2f2",
@@ -6482,7 +6483,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "78378c97001a907e",
@@ -6494,7 +6495,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7838a0761553f178",
@@ -6506,7 +6507,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7869fb39d11ac515",
@@ -6518,7 +6519,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7873a296434e2545",
@@ -6530,7 +6531,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "792df257e39f4750",
@@ -6542,7 +6543,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "794f7cd9d39efc04",
@@ -6554,7 +6555,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7980877f26b2b5ed",
@@ -6566,7 +6567,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "798865de41edb8bd",
@@ -6578,7 +6579,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "79b6b6e1b5187c0d",
@@ -6590,7 +6591,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7a18cc3a0bb314fe",
@@ -6602,7 +6603,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7a5bff1db55e0f8a",
@@ -6626,7 +6627,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7acbf7be29f38c37",
@@ -6650,7 +6651,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7b4c9a7760c55a0c",
@@ -6662,7 +6663,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7b5ea5c852c71236",
@@ -6674,7 +6675,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7c1c3a5a55bb8ae5",
@@ -6686,7 +6687,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7cc7da6a5ee70d59",
@@ -6698,7 +6699,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7cf9458f30645774",
@@ -6734,7 +6735,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7d19c6655ae82c10",
@@ -6746,7 +6747,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7d20d839e811150c",
@@ -6770,7 +6771,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7d8f2c53272be3c5",
@@ -6782,7 +6783,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7da0424ec57888c8",
@@ -6794,7 +6795,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7da1274d1ca076ac",
@@ -6806,7 +6807,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7db5db2dd2d1850d",
@@ -6818,7 +6819,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7e295288b9607043",
@@ -6842,7 +6843,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7e8ea1af5d0de096",
@@ -6854,7 +6855,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7e9e88ec1fafa715",
@@ -6866,7 +6867,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7ec584a1da31a439",
@@ -6878,7 +6879,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7ed6de335ebb5f63",
@@ -6890,7 +6891,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7f65e0bc93eee624",
@@ -6902,7 +6903,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7f962ce4d36bc502",
@@ -6926,7 +6927,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7fdcdc8213e8824f",
@@ -6938,7 +6939,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "7ff76c84761e761e",
@@ -6950,7 +6951,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "801c870080e2adf3",
@@ -6962,7 +6963,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8051e086d86a7ea7",
@@ -6986,7 +6987,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "80958162625ec483",
@@ -6998,7 +6999,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "80a43738fe330c87",
@@ -7022,7 +7023,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "80c7a700290a3fba",
@@ -7034,7 +7035,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "80e08f2851fe5793",
@@ -7046,7 +7047,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "80ecbf644aa6455f",
@@ -7058,7 +7059,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8110c58c9dcfba36",
@@ -7070,7 +7071,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "81128490f0aaabaa",
@@ -7082,7 +7083,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "81b0376fb82b2fe1",
@@ -7094,7 +7095,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "81d20a4401006ab2",
@@ -7130,7 +7131,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "82cb2a0da16335a3",
@@ -7142,7 +7143,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "831fe22210a29850",
@@ -7154,7 +7155,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "833c4f7da4bc2e96",
@@ -7166,7 +7167,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "837ed699750238dc",
@@ -7190,7 +7191,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "83d4e7afd10210de",
@@ -7202,7 +7203,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "840237bed22924e9",
@@ -7226,7 +7227,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "842643c82621ec8b",
@@ -7250,7 +7251,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "84ab4adfbd0683e5",
@@ -7274,7 +7275,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8622a0fa4101915c",
@@ -7286,7 +7287,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "86389117eb778754",
@@ -7298,7 +7299,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8638c2d2d511ebad",
@@ -7310,7 +7311,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8638f05fa3765b3a",
@@ -7334,7 +7335,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8698c03dbf514db3",
@@ -7346,7 +7347,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8699eb0c161f691c",
@@ -7358,7 +7359,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "86d8d20eef7d6360",
@@ -7370,7 +7371,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "871c30e4326e5ea4",
@@ -7382,7 +7383,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8735c5b4555acd5e",
@@ -7394,7 +7395,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "874f0a9275b8ed9b",
@@ -7406,7 +7407,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "875338d0d45abc20",
@@ -7418,7 +7419,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "875349078c8c6701",
@@ -7430,7 +7431,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8791a4d459a9a174",
@@ -7442,7 +7443,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "87abb9cde514bf49",
@@ -7454,7 +7455,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "87c93aa31d513a05",
@@ -7466,7 +7467,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "885c9b3c209754aa",
@@ -7478,7 +7479,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "886f21dbc8f7c07c",
@@ -7502,7 +7503,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "88fc9d01a56ef413",
@@ -7514,7 +7515,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "88fdf2aa6c791383",
@@ -7526,7 +7527,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "892b1c9821e1be83",
@@ -7550,7 +7551,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "89a4800c3a92e422",
@@ -7562,7 +7563,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "89c47114693e063e",
@@ -7574,7 +7575,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8a3890c9fcd43797",
@@ -7586,7 +7587,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8ace3fad991eff10",
@@ -7598,7 +7599,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8b0c4624fca0df21",
@@ -7622,7 +7623,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8b3e222235dfdb48",
@@ -7646,7 +7647,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8ba1eddf57c8c0ba",
@@ -7658,7 +7659,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8ba2a53001aeba10",
@@ -7682,7 +7683,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8bedc0fda34446f3",
@@ -7694,7 +7695,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8c14ddb3fba8c7fc",
@@ -7706,7 +7707,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8c2c909e40c82ff8",
@@ -7718,7 +7719,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8cad1e5c3ea76a2f",
@@ -7730,7 +7731,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8cb74f2517f0a7ae",
@@ -7754,7 +7755,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8d64f99a385e1c11",
@@ -7766,7 +7767,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8da3d7c3edb36065",
@@ -7790,7 +7791,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8e284b671c6add7f",
@@ -7802,7 +7803,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8e6166bc2a8878b8",
@@ -7814,7 +7815,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "8e8fe8ba500d4af3",
@@ -7826,7 +7827,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9014b160ff0251d1",
@@ -7850,7 +7851,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9049ffbfd7d976d9",
@@ -7862,7 +7863,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "90a35ace03da9909",
@@ -7886,7 +7887,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "90e2812847aa52c1",
@@ -7898,7 +7899,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "90f394d308ac4e46",
@@ -7910,7 +7911,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9133b173feb0a59a",
@@ -7934,7 +7935,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9185f5179784f98e",
@@ -7994,7 +7995,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "92a9654333dcfc03",
@@ -8006,7 +8007,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "92ae659dee3ba6d7",
@@ -8042,7 +8043,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "92c9b28dd6c046fe",
@@ -8066,7 +8067,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "931ed492caaf5091",
@@ -8078,7 +8079,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "933d115ec6cc4393",
@@ -8090,7 +8091,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "93641625fc063e6c",
@@ -8114,7 +8115,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "939a0917339b7783",
@@ -8138,7 +8139,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9409dc10c1a6ab99",
@@ -8150,7 +8151,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "940bb01fa454b0c5",
@@ -8162,7 +8163,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "94881faf6cc10e7a",
@@ -8174,7 +8175,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "94e31b0871578e52",
@@ -8186,7 +8187,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9536a1064477cc1a",
@@ -8210,7 +8211,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9569f03b1d996fab",
@@ -8222,7 +8223,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "958cffaf3962a91f",
@@ -8234,7 +8235,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "959011be4f54cd79",
@@ -8258,7 +8259,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "95d927b803efd670",
@@ -8270,7 +8271,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "963025dfa6be4618",
@@ -8294,7 +8295,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "966ca10a7907662a",
@@ -8306,7 +8307,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9685d11149d6eb2e",
@@ -8330,7 +8331,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "96ec58822b37756a",
@@ -8342,7 +8343,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9737ccbf5f908064",
@@ -8354,7 +8355,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "974ae17fb029a956",
@@ -8366,7 +8367,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9767a7da39fbbf96",
@@ -8378,7 +8379,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9777fcdfab06f16e",
@@ -8390,7 +8391,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "977c739538c46d64",
@@ -8402,7 +8403,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "978919fe64f8723a",
@@ -8414,7 +8415,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "97eb4a59bd8d4eb5",
@@ -8426,7 +8427,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "97fbb53367e9bf04",
@@ -8438,7 +8439,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "98059ca90ad80ef3",
@@ -8450,7 +8451,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "983e70b2779cfab7",
@@ -8462,7 +8463,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9859e01ee104a865",
@@ -8474,7 +8475,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "98760a5db6b9cc3a",
@@ -8486,7 +8487,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "98772a04d7ee6bc9",
@@ -8498,7 +8499,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "987ade693176187d",
@@ -8510,7 +8511,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "98d1adac83d77202",
@@ -8522,7 +8523,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9950d937e14f2f1e",
@@ -8534,7 +8535,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "999bcc0c129d4f79",
@@ -8546,7 +8547,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "99c857cf01fc9f65",
@@ -8570,7 +8571,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9a6c111db3384eab",
@@ -8606,7 +8607,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9bd0e26b0d52299d",
@@ -8618,7 +8619,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9bd3e32a2337f9bc",
@@ -8630,7 +8631,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9c14f9bf3d3f68de",
@@ -8642,7 +8643,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9c31465f76fef04c",
@@ -8654,7 +8655,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9c54662ca0b0074f",
@@ -8666,7 +8667,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9c679ccad9140e33",
@@ -8678,7 +8679,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9c911c20059c0d4a",
@@ -8690,7 +8691,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9ce5d5beefc691a2",
@@ -8702,7 +8703,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9d22d3e44396d97b",
@@ -8738,7 +8739,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9d98748c542f7165",
@@ -8750,7 +8751,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9dd8541d3679e731",
@@ -8762,7 +8763,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9e27c57a97ae2f56",
@@ -8774,7 +8775,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9e28b4db66a3e783",
@@ -8786,7 +8787,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9e63a994f7899f18",
@@ -8810,7 +8811,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9ed8c4eb03506a5f",
@@ -8834,7 +8835,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9f1002639adb29da",
@@ -8858,7 +8859,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9f7e3886ad82f684",
@@ -8882,7 +8883,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "9fe7c70d327b0111",
@@ -8894,7 +8895,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a05a25ac5f980ae7",
@@ -8906,7 +8907,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a07a3bd7edacda4a",
@@ -8918,7 +8919,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a0c28bcd98dba1d7",
@@ -8942,7 +8943,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a0e4f1b5b3a876fd",
@@ -8954,7 +8955,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a0f005bbae6e2f11",
@@ -8966,7 +8967,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a1314cd417504572",
@@ -8978,7 +8979,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a17f85e33b8bbeb5",
@@ -8990,7 +8991,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a1da3052078c4974",
@@ -9002,7 +9003,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a1e0f579ea4af76d",
@@ -9014,7 +9015,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a20e1e75a1a46fa0",
@@ -9026,7 +9027,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a259b1c1291bc60a",
@@ -9038,7 +9039,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a27f2ab9fe6a6585",
@@ -9050,7 +9051,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a2d7916e24db9dd3",
@@ -9062,7 +9063,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a2e15f6c7a2edc83",
@@ -9074,7 +9075,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a32d8d6fd6987a90",
@@ -9086,7 +9087,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a343ac77c52acbd8",
@@ -9110,7 +9111,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a3897b5e8e290cd3",
@@ -9122,7 +9123,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a3c7972c1396f31d",
@@ -9134,7 +9135,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a50e64150701cf38",
@@ -9146,7 +9147,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a554636b4f77bec3",
@@ -9158,7 +9159,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a569761584d3edb4",
@@ -9170,7 +9171,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a571a024c1119cbd",
@@ -9182,7 +9183,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a579d986081ced1e",
@@ -9206,7 +9207,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a59860cbc18c9b41",
@@ -9218,7 +9219,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a59b82d4de40ea73",
@@ -9230,7 +9231,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a5caa7cff0aa4033",
@@ -9242,7 +9243,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a5ff695ef97c8bcd",
@@ -9254,7 +9255,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a606bd1e45ec4fcd",
@@ -9278,7 +9279,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a61710700e95ba01",
@@ -9290,7 +9291,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a65bdce57214467f",
@@ -9302,7 +9303,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a69347a09e621927",
@@ -9314,7 +9315,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a6c8a18e0c9dd7f4",
@@ -9338,7 +9339,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a72b56b8d5b5c851",
@@ -9350,7 +9351,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a747f6abb8e83767",
@@ -9362,7 +9363,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a7e33c107f266b6e",
@@ -9374,7 +9375,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a83b7e5232c5c7fb",
@@ -9386,7 +9387,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a861a5dfbd509e42",
@@ -9398,7 +9399,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a87da10a38581415",
@@ -9410,7 +9411,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a8a873fec78927e6",
@@ -9434,7 +9435,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a907b10b2f44a61e",
@@ -9458,7 +9459,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a97a58c8434129f4",
@@ -9470,7 +9471,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a9816d65c454972d",
@@ -9482,7 +9483,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a9829f4bf3a79dab",
@@ -9494,7 +9495,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a98bfaa640b941ef",
@@ -9506,7 +9507,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a9c62aea377b6295",
@@ -9518,7 +9519,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "a9c7bdb4aecde250",
@@ -9554,7 +9555,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "aa0c47048fc96684",
@@ -9566,7 +9567,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "aa7a606a947bfdd3",
@@ -9578,7 +9579,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "aaa29182e194e923",
@@ -9614,7 +9615,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ac571d4ab3e74b92",
@@ -9638,7 +9639,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "acbe0345198116c4",
@@ -9650,7 +9651,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "acc3303f6fc08789",
@@ -9674,7 +9675,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ad559c3c6afb0471",
@@ -9710,7 +9711,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "addba24d3031feed",
@@ -9722,7 +9723,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "addfec46d848bc68",
@@ -9734,7 +9735,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ae018447bcb51ed8",
@@ -9758,7 +9759,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "aefba8285021c0c5",
@@ -9770,7 +9771,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "af92106b0b4d8096",
@@ -9782,7 +9783,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "af9dcb07cf6e917a",
@@ -9794,7 +9795,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "afdd2b6ab35d4986",
@@ -9818,7 +9819,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b02b92e631d92770",
@@ -9830,7 +9831,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b03a22fe1f0d595c",
@@ -9854,7 +9855,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b08d0d59013eb634",
@@ -9866,7 +9867,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b0a26bcc5d99d027",
@@ -9878,7 +9879,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b0b4407a9ec06def",
@@ -9890,7 +9891,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b0e349f8a58ea04e",
@@ -9902,7 +9903,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b10730442db3217a",
@@ -9938,7 +9939,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b14b3b74ac422a76",
@@ -9950,7 +9951,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b18a5e63f0319e31",
@@ -9962,7 +9963,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b1aa03d30e767be9",
@@ -9974,7 +9975,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b1c167d76c5d6e15",
@@ -9986,7 +9987,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b1e80ad488c99bd9",
@@ -9998,7 +9999,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b1fd8628019e024b",
@@ -10010,7 +10011,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b21517a4bbf1972a",
@@ -10022,7 +10023,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b243906ab6112f4e",
@@ -10034,7 +10035,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b2cb3bcd149b354a",
@@ -10046,7 +10047,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b33d3fd85b77721a",
@@ -10058,7 +10059,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b3b3c8ae09ea4d1a",
@@ -10070,7 +10071,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b3bccf7edc108040",
@@ -10082,7 +10083,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b3c1dc254d821440",
@@ -10106,7 +10107,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b45601a88c3f48ee",
@@ -10118,7 +10119,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b457dcb5712a6f52",
@@ -10130,7 +10131,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b4637efd9aeff4b8",
@@ -10142,7 +10143,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b46537b2e150c95d",
@@ -10154,7 +10155,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b4b48074e0b115ed",
@@ -10166,7 +10167,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b5309c688d34c0e0",
@@ -10178,7 +10179,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b5618bc6a0613e28",
@@ -10190,7 +10191,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b567f64f682fbebb",
@@ -10214,7 +10215,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b5ff48459967855f",
@@ -10226,7 +10227,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b60e4b911d9d297f",
@@ -10238,7 +10239,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b63ab07c3423d7f9",
@@ -10250,7 +10251,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b655ede651e45487",
@@ -10262,7 +10263,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b6705b5755f3dfc9",
@@ -10274,7 +10275,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b6796f77f3d16fa1",
@@ -10286,7 +10287,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b73597a889663f1c",
@@ -10298,7 +10299,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b7404037492e6b87",
@@ -10322,7 +10323,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b79e7e0d417f1f4c",
@@ -10334,7 +10335,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b7d7d9ae1cbe0d8a",
@@ -10346,7 +10347,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b800d6d000e80d50",
@@ -10358,7 +10359,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b8f2322a013eb6f1",
@@ -10382,7 +10383,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b930e66894296624",
@@ -10394,7 +10395,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b983a1a812de71ef",
@@ -10406,7 +10407,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b9a257dd13a633b1",
@@ -10418,7 +10419,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b9a4dacf4f2b5390",
@@ -10430,7 +10431,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "b9cf34215e297484",
@@ -10442,7 +10443,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ba6cbff8a68b9f8b",
@@ -10454,7 +10455,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "baed62bbd873fc3e",
@@ -10466,7 +10467,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bb199b34c5805576",
@@ -10478,7 +10479,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bb45512dc61bd4ca",
@@ -10502,7 +10503,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bba20806674cede8",
@@ -10538,7 +10539,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bc6a2667b93311ff",
@@ -10550,7 +10551,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bd282c9e2feb6c7f",
@@ -10562,7 +10563,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bd2c59e8d37912bc",
@@ -10574,7 +10575,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bd335e20e9c9790d",
@@ -10586,7 +10587,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bd77828978af2bc6",
@@ -10598,7 +10599,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bddc3d051c5a3d6e",
@@ -10610,7 +10611,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "be2b41354754612a",
@@ -10646,7 +10647,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "beafcc5909c27004",
@@ -10658,7 +10659,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bf0579647df383bc",
@@ -10670,7 +10671,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "bf32fb9d9bfb20a7",
@@ -10694,7 +10695,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c04044e50ac8fe48",
@@ -10706,7 +10707,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c04d22fb285c4e23",
@@ -10718,7 +10719,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c08c421ec0180e01",
@@ -10730,7 +10731,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c09363ce061961a0",
@@ -10742,7 +10743,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c097b6e1ae80fc02",
@@ -10754,7 +10755,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c0c28ad6651d4190",
@@ -10766,7 +10767,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c0dfd1c1a44e2fa3",
@@ -10778,7 +10779,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c138118eca226e15",
@@ -10814,7 +10815,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c16c9fc04c5b4987",
@@ -10838,7 +10839,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c1c515871bcdf6f2",
@@ -10850,7 +10851,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c1e0bbb5268a0497",
@@ -10862,7 +10863,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c1fb094cad7e23ab",
@@ -10874,7 +10875,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c242cbc0c16ee376",
@@ -10886,7 +10887,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c267860e51fa0042",
@@ -10898,7 +10899,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c2af77e086aab8d0",
@@ -10910,7 +10911,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c2ef39931ee62c89",
@@ -10922,7 +10923,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c3241e09dac30d65",
@@ -10934,7 +10935,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c363d30ca88fe81c",
@@ -10946,7 +10947,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c3baab3ee972c22d",
@@ -10958,7 +10959,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c3c509e618c01901",
@@ -10982,7 +10983,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c3d45ce73c5622f9",
@@ -10994,7 +10995,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c450b8deaf0e13db",
@@ -11006,7 +11007,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c4829b59fec497c4",
@@ -11018,7 +11019,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c48b5ee10a208841",
@@ -11030,7 +11031,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c4993a420d407892",
@@ -11042,7 +11043,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c4e35ab4696e6f4f",
@@ -11054,7 +11055,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c551b561b25cf02a",
@@ -11066,7 +11067,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c5b3ebdce6f199dc",
@@ -11078,7 +11079,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c5e4982e4ff45768",
@@ -11090,7 +11091,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c69b51b7e33b0bb8",
@@ -11114,7 +11115,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c6f809b9cc6f5dbc",
@@ -11126,7 +11127,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c6fb0d790ffaf13e",
@@ -11138,7 +11139,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c76ced67b5d0cd0b",
@@ -11150,7 +11151,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c7ed045baeebaf07",
@@ -11162,7 +11163,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c8394b4c5cd772e0",
@@ -11174,7 +11175,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c84805234292591e",
@@ -11186,7 +11187,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c890db022c66f60b",
@@ -11198,7 +11199,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c90603701b0371a9",
@@ -11222,7 +11223,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c9685c9e00cb99eb",
@@ -11234,7 +11235,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c9815148435b858a",
@@ -11246,7 +11247,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c9a24142bba5a82b",
@@ -11270,7 +11271,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "c9de3bfc2421e57a",
@@ -11282,7 +11283,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ca6d41958f4136d8",
@@ -11294,7 +11295,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cac394b99abb1300",
@@ -11306,7 +11307,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cae15c72da960bc0",
@@ -11330,7 +11331,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cb5e7315594ce1a5",
@@ -11342,7 +11343,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cb8829ff617a7d39",
@@ -11354,7 +11355,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cc04e2e0234f43d1",
@@ -11366,7 +11367,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cc2d88571046ba94",
@@ -11378,7 +11379,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ccc6bda0bcb6af4f",
@@ -11402,7 +11403,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cd9af78d9354f152",
@@ -11426,7 +11427,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cde903c976f2975f",
@@ -11450,7 +11451,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ce8ea9d97b044ef0",
@@ -11462,7 +11463,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ceaa8fc074488710",
@@ -11474,7 +11475,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cf0818cf815c3c55",
@@ -11486,7 +11487,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cf1ee89593b26f63",
@@ -11498,7 +11499,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cf20cf82f7ef825a",
@@ -11522,7 +11523,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cfce81320d7c9d0c",
@@ -11534,7 +11535,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cfe6cb38a72a4397",
@@ -11546,7 +11547,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cff31634f32570a5",
@@ -11558,7 +11559,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "cff9c47ed6c78c6b",
@@ -11582,7 +11583,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d0681a18138b7a56",
@@ -11594,7 +11595,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d0774b001998f6d6",
@@ -11606,7 +11607,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d0872a0e0297506d",
@@ -11618,7 +11619,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d0d13a3743dd1620",
@@ -11630,7 +11631,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d12222b3c2a0157a",
@@ -11642,7 +11643,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d14608ef88c2b6c0",
@@ -11654,7 +11655,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d1562ee7be03d76d",
@@ -11666,7 +11667,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d175e509039ecdd3",
@@ -11678,7 +11679,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d186fd9e28a0671c",
@@ -11702,7 +11703,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d1e0e207600c1b10",
@@ -11714,7 +11715,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d2772435a031dcaf",
@@ -11738,7 +11739,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d2aa2eda1280915a",
@@ -11750,7 +11751,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d2cfcaf3c72468f3",
@@ -11762,7 +11763,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d32f37b94e40e78a",
@@ -11774,7 +11775,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d39a7657907177b7",
@@ -11786,7 +11787,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d39ad8f98ceb04ee",
@@ -11810,7 +11811,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d3d5fbcb4c708d11",
@@ -11822,7 +11823,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d3e6f8bf87f0db47",
@@ -11834,7 +11835,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d41040eb41092c61",
@@ -11858,7 +11859,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d41d16e74a76f9d5",
@@ -11870,7 +11871,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d44801d0b7da712e",
@@ -11882,7 +11883,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d458b66ae00e6d3d",
@@ -11894,7 +11895,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d45e1e12ff81f8d5",
@@ -11906,7 +11907,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d46598813fb437e5",
@@ -11918,7 +11919,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d49c6e373e852c2b",
@@ -11930,7 +11931,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d4e6f18989f832e6",
@@ -11942,7 +11943,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d4f5a5b81e83ef8a",
@@ -11954,7 +11955,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d5585878bb596859",
@@ -11966,7 +11967,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d5f2dd2e152170b5",
@@ -11978,7 +11979,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d6107c1046beb956",
@@ -11990,7 +11991,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d62dfba2507f5628",
@@ -12014,7 +12015,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d6b48295f93ad38e",
@@ -12026,7 +12027,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d6f69894c2e309e3",
@@ -12038,7 +12039,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d715b7c043dce0cb",
@@ -12062,7 +12063,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d76c143202e32b2e",
@@ -12074,7 +12075,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d796c1c378bbf5b5",
@@ -12086,7 +12087,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d7eb093e0593798e",
@@ -12098,7 +12099,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d82cbdf760071a59",
@@ -12110,7 +12111,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d83dcdb92fa65c56",
@@ -12158,7 +12159,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d9400411a6fd90f7",
@@ -12170,7 +12171,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d95df670e75327aa",
@@ -12182,7 +12183,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d96609dcb5d94621",
@@ -12206,7 +12207,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d99666326b3a4765",
@@ -12218,7 +12219,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "d9d729c0fee44059",
@@ -12278,7 +12279,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "db3dd25c07ec318a",
@@ -12290,7 +12291,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "db4418f7481efe44",
@@ -12302,7 +12303,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "db4cb441eda40a49",
@@ -12326,7 +12327,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "db9cdacd238f9c88",
@@ -12338,7 +12339,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dbc81b660ea48196",
@@ -12350,7 +12351,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dbdbcfdebaf2f408",
@@ -12362,7 +12363,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dbf179d8fa3a36ef",
@@ -12374,7 +12375,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dbfd3450deea8b7a",
@@ -12386,7 +12387,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dc6e8ce4c73b58d6",
@@ -12398,7 +12399,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dc73ecc4c8508681",
@@ -12410,7 +12411,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dc9048133f06f95b",
@@ -12434,7 +12435,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dd31e63b1e560f1b",
@@ -12446,7 +12447,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dd56ac13a2c82644",
@@ -12458,7 +12459,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dd6a32d6f8679f11",
@@ -12470,7 +12471,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dd73560ba8ec0c40",
@@ -12494,7 +12495,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dd815d7f67f1e6c8",
@@ -12506,7 +12507,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dd8b657ff1214142",
@@ -12518,7 +12519,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ddfb3fba300519b2",
@@ -12530,7 +12531,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "de05f741577b46a8",
@@ -12566,7 +12567,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "de5c50f8027f7701",
@@ -12614,7 +12615,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "deef6ea77bdb97e9",
@@ -12626,7 +12627,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "df1588264c30afd3",
@@ -12638,7 +12639,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "df304e729aaf5a5e",
@@ -12650,7 +12651,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "df3e58f3075a5e9a",
@@ -12686,7 +12687,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "df8cee5568d1a545",
@@ -12698,7 +12699,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "dfc3165de7c322be",
@@ -12722,7 +12723,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e0003905a1695b98",
@@ -12734,7 +12735,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e015f5050d2c903b",
@@ -12746,7 +12747,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e03db3c78623522b",
@@ -12758,7 +12759,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e0993aaa45cfae14",
@@ -12770,7 +12771,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e0a2d60ced48779f",
@@ -12782,7 +12783,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e0c2d59bb6da3905",
@@ -12806,7 +12807,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e11dfeb7dbf842fd",
@@ -12818,7 +12819,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e12e501b95af2aee",
@@ -12830,7 +12831,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e136b7ef2d468e2f",
@@ -12842,7 +12843,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e144287d1ff5bce7",
@@ -12854,7 +12855,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e16ad3360adf5336",
@@ -12866,7 +12867,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e201cd7054fe5e78",
@@ -12878,7 +12879,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e279c57aba4fa270",
@@ -12890,7 +12891,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e2ba6c01c0a6d88e",
@@ -12902,7 +12903,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e2e7cae075ad9aa2",
@@ -12914,7 +12915,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e3047174d8d9105f",
@@ -12926,7 +12927,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e3847c796a5943b4",
@@ -12950,7 +12951,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e3d919f98376cc1c",
@@ -12974,7 +12975,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e4cfbcfef0414fc6",
@@ -12986,7 +12987,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e4d00a32f0b758e5",
@@ -12998,7 +12999,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e553c9281ac7a7fb",
@@ -13010,7 +13011,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e6728c1380bd50fb",
@@ -13022,7 +13023,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e6d7fb394c8909a8",
@@ -13034,7 +13035,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e75c980c218966f0",
@@ -13058,7 +13059,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e82340afea037404",
@@ -13070,7 +13071,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e8a2631fa2d1196f",
@@ -13094,7 +13095,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e8f8bb04976c0aab",
@@ -13106,7 +13107,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e9013764ee8d9ddb",
@@ -13118,7 +13119,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e9309a09eb3ed54f",
@@ -13130,7 +13131,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e94db48629124ee8",
@@ -13166,7 +13167,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "e9ff21cdd75101b3",
@@ -13178,7 +13179,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ea1dc908d113b6e1",
@@ -13202,7 +13203,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ea4c16d7742b041c",
@@ -13214,7 +13215,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ea85b7271668ab6b",
@@ -13226,7 +13227,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "eb0924685f07a31c",
@@ -13238,7 +13239,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "eb36e2f9075d2c41",
@@ -13250,7 +13251,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "eb397d48055afa40",
@@ -13274,7 +13275,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ec47011f6e5e93c7",
@@ -13286,7 +13287,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ec9f41520dcf16bb",
@@ -13322,7 +13323,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ecea43c3568e3667",
@@ -13334,7 +13335,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ed1244cb6fc2bbad",
@@ -13346,7 +13347,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ed1aeb33012f8d42",
@@ -13358,7 +13359,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ed1e627cbd8c9e05",
@@ -13370,7 +13371,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ed45f4326e08907a",
@@ -13382,7 +13383,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ed47757457c3b029",
@@ -13418,7 +13419,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "eda7d8c6e3c0bc1f",
@@ -13442,7 +13443,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ee5fc2f2ef60269a",
@@ -13454,7 +13455,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ee9616b1f378b4d3",
@@ -13478,7 +13479,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "eef3b3c90e861413",
@@ -13490,7 +13491,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ef703c8abfaca9b8",
@@ -13502,7 +13503,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ef8530f1e2f056fc",
@@ -13514,7 +13515,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ef8ad329a29a35c6",
@@ -13538,7 +13539,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f021764201357fc3",
@@ -13562,7 +13563,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f0f7bbb186ba2c15",
@@ -13574,7 +13575,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f133705360365cd3",
@@ -13598,7 +13599,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f243d6d523d3ce1c",
@@ -13610,7 +13611,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f2b5098ac9c92da9",
@@ -13634,7 +13635,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f351efbc9ae278f1",
@@ -13646,7 +13647,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f36caf03b91475b6",
@@ -13658,7 +13659,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f37abd44d9e3bc5c",
@@ -13682,7 +13683,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f3e33a7c0b6d3e76",
@@ -13694,7 +13695,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f4145714b9b8ed22",
@@ -13706,7 +13707,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f423b873330e640e",
@@ -13730,7 +13731,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f46a67f9adee863f",
@@ -13742,7 +13743,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f4878db33c3cbddc",
@@ -13754,7 +13755,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f4ade4592b4c5d28",
@@ -13766,7 +13767,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f4f1834e7d4d8d8e",
@@ -13790,7 +13791,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f5174ad60e27a5cd",
@@ -13802,7 +13803,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f57bb9c762710434",
@@ -13826,7 +13827,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f5aaefdb6200be16",
@@ -13838,7 +13839,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f5b09fbe99e13691",
@@ -13850,7 +13851,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f63004b1bf5b9ab4",
@@ -13862,7 +13863,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f722edf6695264e1",
@@ -13886,7 +13887,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f7c3ce8d604fe947",
@@ -13898,7 +13899,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f7cb6a56b4938e3a",
@@ -13934,7 +13935,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f858fa9087c0d735",
@@ -13958,7 +13959,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f8c3c17f36b5e432",
@@ -13982,7 +13983,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f907e5bc8660249c",
@@ -13994,7 +13995,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f9349f4591d7eb80",
@@ -14006,7 +14007,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f961aa4b0623afcf",
@@ -14030,7 +14031,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f96ef0bd271fb933",
@@ -14042,7 +14043,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f9796a25721582c2",
@@ -14054,7 +14055,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "f9a00d3a23756e8a",
@@ -14066,7 +14067,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fa0a97536b407182",
@@ -14078,7 +14079,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fa485e734b36b5ce",
@@ -14102,7 +14103,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fa6b7588e8527452",
@@ -14126,7 +14127,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fa82947843cffa27",
@@ -14138,7 +14139,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fab4600fdc2b48b7",
@@ -14150,7 +14151,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fad1fcd728a3ea7d",
@@ -14162,7 +14163,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fad944b6a0b95303",
@@ -14174,7 +14175,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fadb872368cf8f02",
@@ -14186,7 +14187,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "faf895256729d41b",
@@ -14210,7 +14211,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fb3ef8983b582e1e",
@@ -14222,7 +14223,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fb4cb4a205267f6c",
@@ -14234,7 +14235,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fb743da69167d9ea",
@@ -14246,7 +14247,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fc46d0cac5139554",
@@ -14258,7 +14259,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fce46f9d39780899",
@@ -14270,7 +14271,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fd096c7550b60834",
@@ -14282,7 +14283,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fd2eeb683f461525",
@@ -14294,7 +14295,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fd366ada850387e8",
@@ -14306,7 +14307,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fd5818664cbe2e83",
@@ -14318,7 +14319,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fd75e40c3fc45508",
@@ -14342,7 +14343,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fdf7612dc644ca9d",
@@ -14354,7 +14355,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fe0b1874c8706437",
@@ -14366,7 +14367,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fe7753e4c7e0d556",
@@ -14378,7 +14379,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fe7cd6e9d04c3d35",
@@ -14390,7 +14391,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "fe894bc3ba2f6488",
@@ -14414,7 +14415,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "febc209ac9b3ec81",
@@ -14438,7 +14439,7 @@
    "food_score": 0.5,
    "produced_food": false,
    "food_labels": [],
-   "verdict": "unknown"
+   "verdict": "empty"
   },
   {
    "image_id": "ff170cdebcd8d899",

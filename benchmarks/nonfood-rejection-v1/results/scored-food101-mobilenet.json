@@ -4,6 +4,7 @@
   "version": "rajkr/mobilenet-v2-food101@0dea82e70d00f786f2029d8487d845a5cfc2d64a",
   "path": "arms/food101_mobilenet.py"
  },
+ "policy": "measured",
  "manifest_name": "nonfood-rejection-v1",
  "manifest_sha256": "adffd27b5cb2bdcbe5999fb18edab086f4167a4cc69a2e17819932666f5f3714",
  "tau_high": 0.01,

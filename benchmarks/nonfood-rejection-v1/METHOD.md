@@ -71,7 +71,27 @@ reproduce. The suite includes a planted-mutation test that must be caught.
 - `arms/food101_mobilenet.py` — the pinned model arm (below)
 - `policy.py` — the three-verdict rule
 - `score.py` — dev threshold selection, group metrics, `--verify` recomputation
-- `tests/` — 30 tests: policy semantics, checker defect detection (each check has a planted-defect test), scorer and mutation tests
+- `tests/` — 40 tests: policy semantics (measured + oracle), truth-mutation blindness (predictions invariant under truth relabeling), checker defect detection (each check has a planted-defect test), and scorer tests
+
+## The two verdict policies
+
+`policy.py` ships two named policies (see also `results/summary.md`):
+
+- **`measured`** (default, headline) — stratum-blind: verdicts are a
+  function of arm output and dev-selected thresholds only.
+  `tests/test_policy_blindness.py` mutation-tests this end-to-end through
+  the scorer: permuting the manifest's ground truth with arm outputs held
+  byte-identical changes no measured prediction, while the metrics do
+  move (and the oracle's predictions move too, pinning its privilege).
+- **`oracle`** (privileged upper bound) — additionally reads the frozen
+  stratum so it can protect opaque-unknown images from certain-empty.
+  That is target information the production pipeline does not have at
+  prediction time; oracle numbers are reported separately and never mixed
+  with measured ones. The production mapper is unchanged by this
+  benchmark either way.
+
+Threshold selection uses dev ground truth only (selection, not
+prediction) and is identical under both policies.
 
 ## The measured arms
 
@@ -101,8 +121,9 @@ clean dev visible-empty groups.
 
 ## Results
 
-`results/summary.md` records scored run 2026-10-10 (r1) over four arms.
-All four scored outputs reproduce under `score.py --verify`.
+`results/summary.md` records scored run 2026-10-10 (r2) over four arms
+under both policies (eight scored outputs, all re-verified with
+`score.py --verify`).
 
 ## Known limitations
 

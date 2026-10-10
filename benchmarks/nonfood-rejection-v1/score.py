@@ -3,12 +3,16 @@
 
 Pipeline semantics this scorer enforces:
 
-  - Verdicts come from policy.verdict: a food-control image must clear
-    tau_high to count as retained food recall; a visible-empty negative may
-    be called certainly empty only when the pipeline produced no food label
-    and its score sits at or below tau_low; opaque/unknown negatives are
-    never certainly empty below tau_high; any produced food label on a
-    negative is a false addition even below the admit bar.
+  - Verdicts come from policy.verdict under a named policy. The default
+    "measured" policy is stratum-blind: predictions use arm output and
+    dev-selected thresholds only. The "oracle" policy additionally reads
+    the frozen stratum and is an explicitly privileged upper bound — its
+    numbers are reported separately, never mixed with measured ones.
+  - Either way: a food-control image must clear tau_high to count as
+    retained food recall; a negative may be called certainly empty only
+    when the pipeline produced no food label and its score sits at or
+    below tau_low; any produced food label on a negative is a false
+    addition even below the admit bar.
   - All headline rates are computed over photographer groups (group_id):
     a group is a false addition if ANY member image is. Scores and
     confidence distributions are also reported per image for diagnosis.
@@ -36,7 +40,7 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-from policy import verdict
+from policy import POLICIES, verdict
 
 HERE = Path(__file__).resolve().parent
 MAX_DEV_FALSE_ADD_RATE = 0.01
@@ -118,13 +122,16 @@ def _conf_histogram(images, buckets=10):
     return {f"{i / buckets:.1f}-{(i + 1) / buckets:.1f}": hist[i] for i in range(buckets) if hist[i]}
 
 
-def evaluate(manifest, report_images, tau_high, tau_low):
+def evaluate(manifest, report_images, tau_high, tau_low, policy="measured"):
     by_id = {r["image_id"]: r for r in report_images}
     joined = []
     for m in manifest["images"]:
         r = dict(by_id[m["image_id"]])
+        # manifest truth is authoritative for scoring: stratum/role always
+        # come from the manifest record, never from the arm's report copy
+        r["stratum"] = m["stratum"]
         r["role"] = m["role"]
-        r["verdict"] = verdict(m["stratum"], r["food_score"], tau_high, tau_low, r["produced_food"])
+        r["verdict"] = verdict(policy, m["stratum"], r["food_score"], tau_high, tau_low, r["produced_food"])
         joined.append(r)
 
     metrics = {"tau_high": tau_high, "tau_low": tau_low}
@@ -193,11 +200,20 @@ def main():
     ap.add_argument("--report", required=True, help="raw report from run.py")
     ap.add_argument("--manifest", default=str(HERE / "manifest.json"))
     ap.add_argument("--verify", default=None, help="scored output to recompute and compare")
+    ap.add_argument("--policy", default=None, choices=POLICIES,
+                    help="verdict policy: measured (default, stratum-blind) or oracle (privileged)")
     args = ap.parse_args()
 
     manifest, report = load_and_check(args.manifest, args.report)
     tau_high, tau_low, diag = select_thresholds(manifest, report["images"])
-    metrics, joined = evaluate(manifest, report["images"], tau_high, tau_low)
+    if args.verify:
+        stored_policy = json.load(open(args.verify)).get("policy", "measured")
+        if args.policy is not None and args.policy != stored_policy:
+            raise SystemExit(f"--policy {args.policy} but stored output was scored under {stored_policy!r}")
+        policy = stored_policy
+    else:
+        policy = args.policy or "measured"
+    metrics, joined = evaluate(manifest, report["images"], tau_high, tau_low, policy)
 
     if args.verify:
         scored = json.load(open(args.verify))
@@ -228,6 +244,7 @@ def main():
 
     out = {
         "arm": report["arm"],
+        "policy": policy,
         "manifest_name": report["manifest_name"],
         "manifest_sha256": report["manifest_sha256"],
         "tau_high": tau_high,
@@ -244,7 +261,8 @@ def main():
         ],
     }
     arm = report["arm"]["name"]
-    out_path = HERE / "results" / f"scored-{arm}.json"
+    suffix = "" if policy == "measured" else "-oracle"
+    out_path = HERE / "results" / f"scored-{arm}{suffix}.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(out, indent=1))
 
@@ -257,6 +275,7 @@ def main():
             f"({m['certain_empty_rate_groups']:.3f}), control recall {m['control_recall_groups']:.3f} "
             f"groups / {m['control_recall_images']:.3f} images"
         )
+    print(f"policy: {policy}")
     print(f"wrote {out_path}")
 
 
