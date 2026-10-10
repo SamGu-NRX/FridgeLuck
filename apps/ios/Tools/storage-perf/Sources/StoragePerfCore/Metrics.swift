@@ -8,26 +8,42 @@ import GRDB
 // from /proc/self/status (Linux); Apple-device reruns would use task_info.
 
 struct MemoryReading: Equatable {
-  var vmRssKB: Int64
-  var vmHwmKB: Int64
+  /// False when RSS could not be measured (missing /proc, unparsable status).
+  /// A report never presents zeros as measurements.
+  var available: Bool
+  var vmRssKB: Int64?
+  var vmHwmKB: Int64?
 }
 
 enum Metrics {
-  static func memory() -> MemoryReading {
-    let status = (try? String(contentsOfFile: "/proc/self/status", encoding: .utf8)) ?? ""
-    var rss: Int64 = 0
-    var hwm: Int64 = 0
+  /// Parses /proc/self/status content for VmRSS/VmHWM. Linux separates the
+  /// key from the value with a TAB followed by spaces — split on any
+  /// whitespace, not just " ". Returns nil values when either field is
+  /// missing, unparsable, or zero (a live process never has zero RSS).
+  static func parseMemoryStatus(_ status: String) -> MemoryReading {
+    var rss: Int64?
+    var hwm: Int64?
     for line in status.split(separator: "\n") {
-      let parts = line.split(separator: " ")
+      let parts = line.split(whereSeparator: { $0.isWhitespace })
       guard parts.count >= 2, parts[0].hasSuffix(":") else { continue }
-      let value = Int64(parts[1]) ?? 0
-      switch parts[0] {
-      case "VmRSS:": rss = value
-      case "VmHWM:": hwm = value
+      let key = String(parts[0].dropLast())
+      let value = Int64(parts[1])
+      switch key {
+      case "VmRSS": rss = value
+      case "VmHWM": hwm = value
       default: break
       }
     }
-    return MemoryReading(vmRssKB: rss, vmHwmKB: hwm)
+    // Treat "present but zero" (or absent) as unmeasured, not as a reading.
+    if let r = rss, r > 0, let h = hwm, h > 0 {
+      return MemoryReading(available: true, vmRssKB: r, vmHwmKB: h)
+    }
+    return MemoryReading(available: false, vmRssKB: nil, vmHwmKB: nil)
+  }
+
+  static func memory() -> MemoryReading {
+    let status = (try? String(contentsOfFile: "/proc/self/status", encoding: .utf8)) ?? ""
+    return parseMemoryStatus(status)
   }
 
   /// Times one closure run in whole microseconds.

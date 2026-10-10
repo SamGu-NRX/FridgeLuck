@@ -121,6 +121,207 @@ enum CanonicalJSON {
   }
 }
 
+// MARK: - JSON parsing
+//
+// Minimal recursive-descent parser for the report's own dialect: integers,
+// strings, bools, null, arrays, objects. Floats are rejected outright — the
+// digest contract forbids them, so a float anywhere means the body was
+// hand-edited. Used by ReportVerifier to recompute summaries from the frozen
+// measurements embedded in the report.
+
+extension JSON {
+  static func parse(_ text: String) throws -> JSON {
+    var parser = JSONParser(Array(text.unicodeScalars))
+    let value = try parser.parseValue()
+    parser.skipWhitespace()
+    guard parser.isAtEnd else {
+      throw ReportVerifier.Failure(reason: "trailing content after JSON value")
+    }
+    return value
+  }
+}
+
+private struct JSONParser {
+  let scalars: [Unicode.Scalar]
+  var index = 0
+
+  init(_ scalars: [Unicode.Scalar]) {
+    self.scalars = scalars
+  }
+
+  var isAtEnd: Bool { index >= scalars.count }
+
+  mutating func skipWhitespace() {
+    while index < scalars.count, scalars[index] == " " || scalars[index] == "\n"
+      || scalars[index] == "\t" || scalars[index] == "\r"
+    {
+      index += 1
+    }
+  }
+
+  mutating func expect(_ scalar: Unicode.Scalar) throws {
+    skipWhitespace()
+    guard index < scalars.count, scalars[index] == scalar else {
+      throw ReportVerifier.Failure(reason: "expected '\(scalar)' at offset \(index)")
+    }
+    index += 1
+  }
+
+  mutating func parseValue() throws -> JSON {
+    skipWhitespace()
+    guard index < scalars.count else {
+      throw ReportVerifier.Failure(reason: "unexpected end of JSON")
+    }
+    switch scalars[index] {
+    case "{": return try parseObject()
+    case "[": return try parseArray()
+    case "\"": return .string(try parseString())
+    case "t": return try parseLiteral("true", .bool(true))
+    case "f": return try parseLiteral("false", .bool(false))
+    case "n": return try parseLiteral("null", .null)
+    case "-", "0"..."9": return try parseNumber()
+    default:
+      throw ReportVerifier.Failure(reason: "unexpected character at offset \(index)")
+    }
+  }
+
+  mutating func parseLiteral(_ literal: String, _ value: JSON) throws -> JSON {
+    let scalars = Array(literal.unicodeScalars)
+    guard index + scalars.count <= self.scalars.count,
+      Array(self.scalars[index..<index + scalars.count]) == scalars
+    else {
+      throw ReportVerifier.Failure(reason: "invalid literal at offset \(index)")
+    }
+    index += scalars.count
+    return value
+  }
+
+  mutating func parseNumber() throws -> JSON {
+    let start = index
+    if scalars[index] == "-" { index += 1 }
+    var digits = 0
+    while index < scalars.count, scalars[index] >= "0", scalars[index] <= "9" {
+      index += 1
+      digits += 1
+    }
+    guard digits > 0 else {
+      throw ReportVerifier.Failure(reason: "invalid number at offset \(start)")
+    }
+    if index < scalars.count, scalars[index] == "." || scalars[index] == "e"
+      || scalars[index] == "E"
+    {
+      throw ReportVerifier.Failure(reason: "float in digestable content at offset \(start)")
+    }
+    let text = String(String.UnicodeScalarView(scalars[start..<index]))
+    guard let value = Int64(text) else {
+      throw ReportVerifier.Failure(reason: "number out of range at offset \(start)")
+    }
+    return .int(value)
+  }
+
+  mutating func parseString() throws -> String {
+    index += 1  // opening quote
+    var out = String.UnicodeScalarView()
+    while index < scalars.count {
+      let scalar = scalars[index]
+      if scalar == "\"" {
+        index += 1
+        return String(out)
+      }
+      if scalar == "\\" {
+        index += 1
+        guard index < scalars.count else { break }
+        switch scalars[index] {
+        case "\"": out.append("\"")
+        case "\\": out.append("\\")
+        case "/": out.append("/")
+        case "n": out.append("\n")
+        case "r": out.append("\r")
+        case "t": out.append("\t")
+        case "b": out.append("\u{08}")
+        case "f": out.append("\u{0C}")
+        case "u":
+          guard index + 4 < scalars.count,
+            let code = UInt32(
+              String(String.UnicodeScalarView(scalars[(index + 1)...(index + 4)])), radix: 16),
+            let scalar = Unicode.Scalar(code)
+          else {
+            throw ReportVerifier.Failure(reason: "invalid \\u escape at offset \(index)")
+          }
+          out.append(scalar)
+          index += 4
+        default:
+          throw ReportVerifier.Failure(reason: "invalid escape at offset \(index)")
+        }
+        index += 1
+        continue
+      }
+      out.append(scalar)
+      index += 1
+    }
+    throw ReportVerifier.Failure(reason: "unterminated string")
+  }
+
+  mutating func parseArray() throws -> JSON {
+    index += 1  // [
+    var items: [JSON] = []
+    skipWhitespace()
+    if index < scalars.count, scalars[index] == "]" {
+      index += 1
+      return .array(items)
+    }
+    while true {
+      items.append(try parseValue())
+      skipWhitespace()
+      guard index < scalars.count else {
+        throw ReportVerifier.Failure(reason: "unterminated array")
+      }
+      if scalars[index] == "," {
+        index += 1
+        continue
+      }
+      if scalars[index] == "]" {
+        index += 1
+        return .array(items)
+      }
+      throw ReportVerifier.Failure(reason: "expected ',' or ']' at offset \(index)")
+    }
+  }
+
+  mutating func parseObject() throws -> JSON {
+    index += 1  // {
+    var pairs: [(String, JSON)] = []
+    skipWhitespace()
+    if index < scalars.count, scalars[index] == "}" {
+      index += 1
+      return .object(pairs)
+    }
+    while true {
+      skipWhitespace()
+      guard index < scalars.count, scalars[index] == "\"" else {
+        throw ReportVerifier.Failure(reason: "expected object key at offset \(index)")
+      }
+      let key = try parseString()
+      try expect(":")
+      let value = try parseValue()
+      pairs.append((key, value))
+      skipWhitespace()
+      guard index < scalars.count else {
+        throw ReportVerifier.Failure(reason: "unterminated object")
+      }
+      if scalars[index] == "," {
+        index += 1
+        continue
+      }
+      if scalars[index] == "}" {
+        index += 1
+        return .object(pairs)
+      }
+      throw ReportVerifier.Failure(reason: "expected ',' or '}' at offset \(index)")
+    }
+  }
+}
+
 // MARK: - SHA-256
 //
 // Straightforward reference implementation — no external dependency, no

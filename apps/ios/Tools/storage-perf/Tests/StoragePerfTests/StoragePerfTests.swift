@@ -102,20 +102,59 @@ final class StoragePerfTests: XCTestCase {
     XCTAssertEqual(digest.count, 64)
   }
 
+  /// A minimal but contract-complete v2 report: every read carries its own
+  /// warmup/iterations counts, the frozen samples, and a summary that
+  /// recomputes from them, plus a synthetic source manifest.
   private func signedReport() -> String {
+    let samples: [Int64] = [10, 20, 30, 40]
+    let read = JSON.object([
+      ("warmup", .int(2)),
+      ("iterations", .int(4)),
+      ("warmupUs", .array([.int(11), .int(12)])),
+      ("iterationsUs", .array(samples.map { .int($0) })),
+      ("summary", Metrics.distribution(samples)),
+    ])
+    let manifestEntries: [JSON] = [
+      .object([
+        ("path", JSON.string("Package.swift")),
+        ("sha256", JSON.string(String(repeating: "0", count: 64))),
+      ]),
+      .object([
+        ("path", JSON.string("Sources/StoragePerfCore/Metrics.swift")),
+        ("sha256", JSON.string(String(repeating: "1", count: 64))),
+      ]),
+    ]
+    let manifest = JSON.object([
+      ("files", JSON.array(manifestEntries)),
+      ("fileCount", JSON.int(2)),
+    ])
     let summary = JSON.object([
       ("schemaVersion", .int(1)),
+      ("toolVersion", .int(2)),
       ("seed", .int(20261010)),
       ("warmup", .int(3)),
       ("iterations", .int(15)),
-      ("profiles", .object([("month", .object([("x1", .object([("medianUs", .int(100))]))]))])),
+      ("sourceManifest", manifest),
+      (
+        "profiles", .object([
+          (
+            "month", .object([
+              (
+                "x1", .object([
+                  ("reads", .object([("inventory_use_soon", read)])),
+                ])
+              )
+            ])
+          )
+        ])
+      ),
     ])
     return Runner.renderReport(withDigest: summary)
   }
 
   func testVerifierRejectsTamperedBody() {
     let report = signedReport()
-    let tampered = report.replacingOccurrences(of: "\"medianUs\":100", with: "\"medianUs\":1")
+    let tampered = report.replacingOccurrences(of: "\"p50\":30", with: "\"p50\":1")
     XCTAssertThrowsError(try ReportVerifier.verify(text: tampered))
   }
 
@@ -153,5 +192,192 @@ final class StoragePerfTests: XCTestCase {
   func testVerifierRejectsNonObject() {
     XCTAssertThrowsError(try ReportVerifier.verify(text: "[1,2,3]"))
     XCTAssertThrowsError(try ReportVerifier.verify(text: "not json"))
+  }
+
+  // MARK: Summary regeneration (checksum-only verification is insufficient)
+
+  /// A hand-edited summary that is re-signed must still be refused: the
+  /// verifier regenerates the summary from the frozen samples.
+  func testVerifierRejectsReSignedDoctoredSummary() {
+    // Build the same report but with a summary that does not match the
+    // samples; the digest is computed over the doctored body, so a
+    // checksum-only verifier would accept it.
+    let report = signedReport()
+    let marker = ",\"digest\":\""
+    guard let markerRange = report.range(of: marker, options: .backwards) else {
+      return XCTFail("no digest marker")
+    }
+    let body = String(report[..<markerRange.lowerBound]) + "}"
+    // Doctor the p50 inside the signed body, then re-sign.
+    guard let p50Range = body.range(of: #""p50":30"#) else {
+      return XCTFail("p50 not found in body")
+    }
+    let doctoredBody = body.replacingCharacters(in: p50Range, with: "\"p50\":9999")
+    let doctored = String(doctoredBody.dropLast()) + ",\"digest\":\""
+      + SHA256.hex(doctoredBody) + "\"}"
+    XCTAssertThrowsError(try ReportVerifier.verify(text: doctored))
+  }
+
+  func testVerifierRejectsIterationsCountMismatch() {
+    // Record 4 iterations but freeze only 3 samples.
+    let report = signedReport()
+    let marker = ",\"digest\":\""
+    guard let markerRange = report.range(of: marker, options: .backwards) else {
+      return XCTFail("no digest marker")
+    }
+    let body = String(report[..<markerRange.lowerBound]) + "}"
+    guard let sampleRange = body.range(of: #""iterationsUs":[10,20,30,40]"#) else {
+      return XCTFail("samples not found in body")
+    }
+    let doctoredBody = body.replacingCharacters(in: sampleRange, with: "\"iterationsUs\":[10,20,30]")
+    let doctored = String(doctoredBody.dropLast()) + ",\"digest\":\""
+      + SHA256.hex(doctoredBody) + "\"}"
+    XCTAssertThrowsError(try ReportVerifier.verify(text: doctored))
+  }
+
+  func testVerifierRejectsMissingSourceManifest() {
+    let report = signedReport()
+    let marker = ",\"digest\":\""
+    guard let markerRange = report.range(of: marker, options: .backwards) else {
+      return XCTFail("no digest marker")
+    }
+    let body = String(report[..<markerRange.lowerBound]) + "}"
+    guard let manifestRange = body.range(of: #""sourceManifest":{"#) else {
+      return XCTFail("manifest not found in body")
+    }
+    // Drop exactly the manifest pair (render order: ... seed, sourceManifest,
+    // toolVersion ...), then re-sign.
+    guard let toolVersionRange = body.range(of: #""toolVersion":"#, options: .backwards) else {
+      return XCTFail("toolVersion not found in body")
+    }
+    let without = body.replacingCharacters(
+      in: manifestRange.lowerBound..<toolVersionRange.lowerBound, with: "")
+    let resigned = String(without.dropLast()) + ",\"digest\":\""
+      + SHA256.hex(without) + "\"}"
+    XCTAssertThrowsError(try ReportVerifier.verify(text: resigned))
+  }
+
+  // MARK: Source manifest binding
+
+  private func makeFakePackageRoot() -> String {
+    let root = NSTemporaryDirectory() + "/storage-perf-manifest-\(UUID().uuidString)"
+    let fm = FileManager.default
+    try? fm.createDirectory(
+      atPath: root + "/Sources/StoragePerfCore", withIntermediateDirectories: true)
+    try? "// package".write(toFile: root + "/Package.swift", atomically: true, encoding: .utf8)
+    try? "// source".write(
+      toFile: root + "/Sources/StoragePerfCore/Metrics.swift", atomically: true,
+      encoding: .utf8)
+    return root
+  }
+
+  func testSourceManifestBuildsVerifiesAndCatchesDrift() throws {
+    let root = makeFakePackageRoot()
+    defer { try? FileManager.default.removeItem(atPath: root) }
+
+    let manifest = try SourceManifest.build(root: root)
+
+    // A report carrying this manifest verifies against the matching root...
+    let report = signedReportWithManifest(manifest)
+    XCTAssertNoThrow(try ReportVerifier.verify(text: report, sourceRoot: root))
+
+    // ...and drift in ANY recorded file is refused.
+    try "// tampered".write(
+      toFile: root + "/Sources/StoragePerfCore/Metrics.swift", atomically: true,
+      encoding: .utf8)
+    XCTAssertThrowsError(try ReportVerifier.verify(text: report, sourceRoot: root))
+
+    // A newly added unrecorded source is also drift.
+    try "// extra".write(
+      toFile: root + "/Sources/StoragePerfCore/Extra.swift", atomically: true,
+      encoding: .utf8)
+    try "// original".write(
+      toFile: root + "/Sources/StoragePerfCore/Metrics.swift", atomically: true,
+      encoding: .utf8)
+    XCTAssertThrowsError(try ReportVerifier.verify(text: report, sourceRoot: root))
+  }
+
+  /// signedReport with the real source manifest swapped in (hashes correct
+  /// for the synthetic root).
+  private func signedReportWithManifest(_ manifest: JSON) -> String {
+    // Re-render the synthetic report with the provided manifest by swapping
+    // the pair inside the object and re-signing.
+    let report = signedReport()
+    let marker = ",\"digest\":\""
+    guard let markerRange = report.range(of: marker, options: .backwards) else {
+      fatalError("no digest marker")
+    }
+    var body = String(report[..<markerRange.lowerBound]) + "}"
+    // Replace the two synthetic manifest entries with the real ones via JSON
+    // manipulation on the string level is brittle; instead rebuild the body
+    // through the canonical writer.
+    let parsed = try! JSON.parse(body)
+    guard case .object(let pairs) = parsed else { fatalError("not an object") }
+    let swapped = pairs.map { key, value in
+      key == "sourceManifest" ? ("sourceManifest", manifest) : (key, value)
+    }
+    let rebuilt = JSON.object(swapped)
+    body = CanonicalJSON.digestInput(rebuilt)
+    return String(body.dropLast()) + ",\"digest\":\"" + SHA256.hex(body) + "\"}"
+  }
+
+  // MARK: JSON parser
+
+  func testJSONParserRoundTrip() throws {
+    let value = JSON.object([
+      ("a", .array([.int(1), .int(-22), .null, .bool(false)])),
+      ("b", .string("esc\"ape\\slash\n")),
+      ("c", .object([("z", .int(3)), ("a", .int(4))])),
+    ])
+    let parsed = try JSON.parse(value.render)
+    XCTAssertEqual(parsed.render, value.render)
+  }
+
+  func testJSONParserRejectsFloats() {
+    XCTAssertThrowsError(try JSON.parse(#"{"a":1.5}"#))
+    XCTAssertThrowsError(try JSON.parse(#"{"a":1e3}"#))
+  }
+
+  // MARK: Linux /proc memory parsing (tab-separated)
+
+  private let procStatusFixture = """
+    Name:\tstorage-perf
+    VmPeak:\t 2048000 kB
+    VmRSS:\t  94208 kB
+    RssAnon:\t 40960 kB
+    VmHWM:\t  98304 kB
+    Threads:\t4
+    """
+
+  /// Linux separates /proc/self/status keys from values with a TAB; the
+  /// original parser split on spaces only, silently reporting 0 for every
+  /// row. Tab-separated content must parse.
+  func testMemoryStatusParsesTabSeparatedProcOutput() {
+    let reading = Metrics.parseMemoryStatus(procStatusFixture)
+    XCTAssertTrue(reading.available)
+    XCTAssertEqual(reading.vmRssKB, 94208)
+    XCTAssertEqual(reading.vmHwmKB, 98304)
+  }
+
+  func testMemoryStatusParsesSpaceSeparatedFallback() {
+    let reading = Metrics.parseMemoryStatus("VmRSS: 512 kB\nVmHWM: 768 kB\n")
+    XCTAssertTrue(reading.available)
+    XCTAssertEqual(reading.vmRssKB, 512)
+    XCTAssertEqual(reading.vmHwmKB, 768)
+  }
+
+  /// Zero or missing fields mean unmeasured — never a measured 0.
+  func testMemoryStatusMarksUnavailableInsteadOfZero() {
+    for broken in [
+      "Name:\tstorage-perf\n",               // fields absent
+      "VmRSS:\t0 kB\nVmHWM:\t0 kB\n",          // zeros
+      "VmRSS:\tnone kB\nVmHWM:\t0 kB\n",       // unparsable value
+      "",                                      // empty file
+    ] {
+      let reading = Metrics.parseMemoryStatus(broken)
+      XCTAssertFalse(reading.available)
+      XCTAssertNil(reading.vmRssKB)
+      XCTAssertNil(reading.vmHwmKB)
+    }
   }
 }

@@ -2,14 +2,18 @@ import Foundation
 import StoragePerfCore
 
 // StoragePerf CLI — runs the full sweep (seeding, repository reads, plans,
-// experiments) and writes a digest-signed canonical JSON report.
+// experiments) and writes a digest-signed canonical JSON report bound to an
+// execution-source manifest. Verification regenerates every summary from the
+// frozen measurements before anything is written.
 //
 // Usage:
 //   StoragePerf [--out PATH] [--profiles month,year,five_year]
 //               [--scales 1,2,4,8,16] [--iterations N] [--warmup N]
 //               [--no-experiments] [--seed N]
+//   StoragePerf --verify PATH   (re-verify a written report against sources)
 //
-// Exit codes: 0 = verified report written; 1 = sweep or verification failed.
+// Exit codes: 0 = verified report written (or --verify passed);
+// 1 = sweep, verification, or source-binding failure.
 
 func fail(_ message: String) -> Never {
   FileHandle.standardError.write("error: \(message)\n".data(using: .utf8)!)
@@ -68,16 +72,32 @@ func parseArgs(_ args: [String]) -> CLIOptions {
   return options
 }
 
-let cli = parseArgs(Array(CommandLine.arguments.dropFirst()))
-let runnerOptions = RunnerOptions(
-  seed: cli.seed, profiles: cli.profiles, scales: cli.scales,
-  warmup: cli.warmup, iterations: cli.iterations, experiments: cli.experiments)
+let argsList = Array(CommandLine.arguments.dropFirst())
 
 do {
+  // --verify PATH: re-verify a written report (digest, summary regeneration,
+  // source-manifest binding) without running a sweep. Checked before
+  // parseArgs, which only knows the sweep options.
+  if argsList.first == "--verify" {
+    guard argsList.count == 2 else { fail("--verify takes exactly one report path") }
+    let text = try String(contentsOfFile: argsList[1], encoding: .utf8)
+    let digest = try ReportVerifier.verify(text: text, sourceRoot: SourceManifest.packageRoot())
+    print("verified \(argsList[1])")
+    print("digest \(digest)")
+    exit(0)
+  }
+
+  let cli = parseArgs(argsList)
+  let runnerOptions = RunnerOptions(
+    seed: cli.seed, profiles: cli.profiles, scales: cli.scales,
+    warmup: cli.warmup, iterations: cli.iterations, experiments: cli.experiments)
+
   let summary = try Runner.runSweep(options: runnerOptions)
   let report = Runner.renderReport(withDigest: summary)
-  // The tool never ships a report it cannot itself verify.
-  let digest = try ReportVerifier.verify(text: report)
+  // The tool never ships a report it cannot itself verify — including the
+  // binding between the report and the sources that produced it.
+  let digest = try ReportVerifier.verify(
+    text: report, sourceRoot: SourceManifest.packageRoot())
 
   let url = URL(fileURLWithPath: cli.outPath)
   try FileManager.default.createDirectory(

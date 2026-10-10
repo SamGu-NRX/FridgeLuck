@@ -54,8 +54,23 @@ Options: `--profiles month,year,five_year`, `--scales 1,2,4,8,16`,
 
 `summary.json` is compact single-line JSON with sorted keys; the last field is
 `"digest":"<sha256-hex>"` computed over the exact body bytes that precede it.
-`ReportVerifier.verify(text:)` rebuilds that digest and checks structural
-invariants; a report that fails verification was tampered with or truncated.
+`ReportVerifier.verify(text:sourceRoot:)` rebuilds that digest and checks
+structural invariants; a report that fails verification was tampered with or
+truncated.
+
+Beyond the digest, verification recomputes every timing summary from the
+frozen per-iteration samples (each read records its own `warmup` and
+`iterations` counts plus `warmupUs`/`iterationsUs`; `summary` must regenerate
+from those samples exactly), and checks a `sourceManifest`: SHA-256 hashes of
+every file the harness compiled — the mirrored production sources under
+`Sources/StoragePerfCore/Real/`, `Package.swift`, package-resolution data, and
+the refresh script. Pass `sourceRoot:` (or run `swift run StoragePerf --verify
+REPORT`) to re-hash the checked-out files and reject any drift: a report is
+thus bound to the exact sources that produced it.
+
+Memory readings come from `/proc/self/status` on Linux. The fields are
+tab-separated there; rows that are absent, zero, or unparsable are reported as
+unavailable (`null`), never as a measured zero.
 
 Timing reproducibility: same machine, same seed, same binary ⇒ identical row
 counts and query plans. Timings vary run to run; per-iteration samples are
@@ -71,3 +86,52 @@ exactly (`bitPattern` equality) and every decoded row matches the production
 query's rows value-for-value in order. Reports record both gates per
 experiment plus baseline/alternative plans and timing samples, so a gate
 failure is always distinguishable from a speedup.
+
+## Handoff
+
+State of this work as of 2026-10-10, for whoever picks it up.
+
+**Pinned base.** This work ships on branch `obv/fl-l2-storage-performance`,
+based on `origin/obv/fl-next-historical-nutrition-r1` at commit `e01b807`
+(schema versions v1–v20). Production persistence sources were mirrored into
+`Sources/StoragePerfCore/Real/` at that snapshot (see `Scripts/refresh.sh`);
+the mirrors are committed so a fresh checkout compiles and so the report's
+source manifest can be re-verified.
+
+**Inherited app-CI failures.** Hosted macOS CI on this branch shows failures
+that originate in the base snapshot, not in this PR:
+
+- `MigrationUpgradeTests.testUpgradeAddsTheNewMigrationsInOrder` — the
+  assertion still names v16–v18 as the newest migrations; the base now pins
+  v18–v20.
+- `NutritionReportingTests` (several cases) — fixtures insert cooking history
+  directly without nutrition-snapshot capture (pre-v20 fixtures), so reads
+  fail with "snapshot missing for history".
+- `OnboardingGatePolicyTests` (several cases) — fixtures insert
+  `allergen_selected_groups` into a pre-v19 `health_profile` schema.
+
+None of these is caused by the harness; do not "fix" them by touching
+production schema, migrations, or queries.
+
+**App CI does not validate the measurements.** The app CI pipeline does not
+build this package or run its tests; the committed sweep results are validated
+by this package's own Linux suite and the report verifier, not by app CI. To
+re-check a report end to end: `swift run StoragePerf --verify
+storage-perf-results/summary.json` — it re-verifies the digest, regenerates
+every summary from the frozen samples, and re-hashes the checked-out sources
+against the embedded manifest.
+
+**Replay after base corrections.** The measured numbers (Linux sandbox,
+release build, seed 20261010) are a snapshot of the pinned base. When the
+inherited base failures are fixed on the integration line (especially any
+migration or nutrition-snapshot change), re-run the sweep and replace
+`storage-perf-results/summary.json`:
+
+```sh
+bash Scripts/refresh.sh
+swift test
+swift run StoragePerf --out storage-perf-results/summary.json
+```
+
+Timings will differ run to run; row counts, query plans, and experiment gate
+verdicts are the reproducible parts.

@@ -64,10 +64,14 @@ public enum Runner {
 
     var summaryPairs: [(String, JSON)] = [
       ("schemaVersion", JSON.int(1)),
-      ("toolVersion", JSON.int(1)),
+      ("toolVersion", JSON.int(2)),
       ("seed", JSON.int(Int64(bitPattern: options.seed))),
       ("warmup", JSON.int(Int64(options.warmup))),
       ("iterations", JSON.int(Int64(options.iterations))),
+      ("sourceManifest", try SourceManifest.build(
+        root: SourceManifest.packageRoot()
+          ?? { throw ReportVerifier.Failure(reason: "package root not found; cannot bind sources") }())
+      ),
       ("profiles", .object(profileResults)),
     ]
 
@@ -116,6 +120,8 @@ public enum Runner {
       readResults.append((
         workload.name,
         .object([
+          ("warmup", JSON.int(Int64(options.warmup))),
+          ("iterations", JSON.int(Int64(iterations))),
           ("warmupUs", .array(warmupUs.map { JSON.int($0) })),
           ("iterationsUs", .array(iterationsUs.map { JSON.int($0) })),
           ("summary", Metrics.distribution(iterationsUs)),
@@ -155,8 +161,15 @@ public enum Runner {
 
     let memory = Metrics.memory()
     let memoryJson = JSON.object([
-      ("vmRssKB", JSON.int(memory.vmRssKB)),
-      ("vmHwmKB", JSON.int(memory.vmHwmKB)),
+      ("available", JSON.bool(memory.available)),
+      (
+        "vmRssKB",
+        memory.vmRssKB.map { JSON.int($0) } ?? JSON.null
+      ),
+      (
+        "vmHwmKB",
+        memory.vmHwmKB.map { JSON.int($0) } ?? JSON.null
+      ),
     ])
 
     return ReadRunResult(
@@ -192,6 +205,7 @@ public enum Runner {
       ("passes", JSON.bool(result.passes)),
       ("baselinePlan", Metrics.planJson(result.baselinePlan)),
       ("alternativePlan", Metrics.planJson(result.alternativePlan)),
+      ("iterations", JSON.int(Int64(result.baselineUs.count))),
       ("baselineUs", .array(result.baselineUs.map { JSON.int($0) })),
       ("alternativeUs", .array(result.alternativeUs.map { JSON.int($0) })),
       ("notes", JSON.string(result.notes)),
@@ -214,8 +228,10 @@ public enum ReportVerifier {
     public var description: String { reason }
   }
 
-  /// Verifies `text` against the writer contract. Returns the digest hex.
-  public static func verify(text: String) throws -> String {
+  /// Verifies `text` against the writer contract. With `sourceRoot`, also
+  /// recomputes the on-disk source hashes against the embedded manifest.
+  /// Returns the digest hex.
+  public static func verify(text: String, sourceRoot: String? = nil) throws -> String {
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard trimmed.hasPrefix("{"), trimmed.hasSuffix("}") else {
       throw Failure(reason: "report is not a single JSON object")
@@ -255,6 +271,103 @@ public enum ReportVerifier {
         throw Failure(reason: "forbidden numeric artifact \(artifact) in body")
       }
     }
+
+    // Recompute summaries from the frozen measurements and enforce the
+    // recorded iteration counts. Checksum-only checking would let a
+    // hand-edited summary re-sign itself; regeneration closes that.
+    let parsed = try JSON.parse(body)
+    try Self.verifySummaries(parsed)
+    try Self.verifySourceManifest(parsed, sourceRoot: sourceRoot)
     return digest
+  }
+
+  /// Walks profiles → scales → reads and checks each read's summary against
+  /// a recomputation from its embedded iterationsUs, plus sample counts
+  /// against the recorded warmup/iterations (reads may record their own).
+  static func verifySummaries(_ parsed: JSON) throws {
+    guard case .object(let topPairs) = parsed else {
+      throw Failure(reason: "body is not a JSON object")
+    }
+    let top = Dictionary(uniqueKeysWithValues: topPairs)
+    guard case .object(let profiles)? = top["profiles"] else {
+      throw Failure(reason: "profiles missing or not an object")
+    }
+    for (profileName, profileValue) in profiles {
+      guard case .object(let scales) = profileValue else {
+        throw Failure(reason: "profile \(profileName) is not an object")
+      }
+      for (scaleName, scaleValue) in scales {
+        guard case .object(let scalePairs) = scaleValue else {
+          throw Failure(reason: "scale \(profileName).\(scaleName) is not an object")
+        }
+        let scaleFields = Dictionary(uniqueKeysWithValues: scalePairs)
+        guard case .object(let reads)? = scaleFields["reads"] else {
+          throw Failure(reason: "reads missing under \(profileName).\(scaleName)")
+        }
+        for (readName, readValue) in reads where readName != "_file_growth" {
+          guard case .object(let readPairs) = readValue else {
+            throw Failure(reason: "read \(readName) is not an object")
+          }
+          let fields = Dictionary(uniqueKeysWithValues: readPairs)
+          guard case .array(let warmupUs)? = fields["warmupUs"],
+            case .array(let iterationsUs)? = fields["iterationsUs"],
+            case .object(let summaryPairs)? = fields["summary"],
+            case .int(let recordedWarmup)? = fields["warmup"],
+            case .int(let recordedIterations)? = fields["iterations"]
+          else {
+            throw Failure(reason: "read \(readName) missing frozen measurements or counts")
+          }
+          guard Int(warmupUs.count) == Int(recordedWarmup) else {
+            throw Failure(
+              reason:
+                "read \(readName): warmupUs count \(warmupUs.count) != recorded warmup \(recordedWarmup)"
+            )
+          }
+          guard Int(iterationsUs.count) == Int(recordedIterations) else {
+            throw Failure(
+              reason:
+                "read \(readName): iterationsUs count \(iterationsUs.count) != recorded iterations \(recordedIterations)"
+            )
+          }
+          let samples = iterationsUs.map { sample -> Int64 in
+            if case .int(let v) = sample { return v }
+            return -1
+          }
+          guard samples.allSatisfy({ $0 >= 0 }) else {
+            throw Failure(reason: "read \(readName): non-integer timing sample")
+          }
+          let recomputed = Metrics.distribution(samples)
+          // Compare canonically: both sides render with sorted keys.
+          let recordedSummary = JSON.object(summaryPairs)
+          guard recomputed.render == recordedSummary.render else {
+            throw Failure(
+              reason: "read \(readName): summary does not recompute from iterationsUs")
+          }
+        }
+      }
+    }
+  }
+
+  /// Structure-checks the embedded manifest; with a sourceRoot, recomputes
+  /// on-disk hashes and refuses drift.
+  static func verifySourceManifest(_ parsed: JSON, sourceRoot: String?) throws {
+    guard case .object(let topPairs) = parsed else {
+      throw Failure(reason: "body is not a JSON object")
+    }
+    let top = Dictionary(uniqueKeysWithValues: topPairs)
+    guard let manifest = top["sourceManifest"] else {
+      throw Failure(reason: "sourceManifest missing")
+    }
+    guard case .object(let manifestPairs) = manifest else {
+      throw Failure(reason: "sourceManifest is not an object")
+    }
+    let fields = Dictionary(uniqueKeysWithValues: manifestPairs)
+    guard case .array(let files)? = fields["files"], !files.isEmpty,
+      case .int(let fileCount)? = fields["fileCount"], Int(fileCount) == files.count
+    else {
+      throw Failure(reason: "sourceManifest lacks a non-empty files/fileCount pair")
+    }
+    guard let sourceRoot else { return }
+    try SourceManifest.verify(manifest: manifest, root: sourceRoot)
   }
 }
