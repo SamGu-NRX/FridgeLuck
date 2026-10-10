@@ -51,7 +51,10 @@ final class AppDependencies: ObservableObject {
 
     self.nutritionService = NutritionService(db: db)
     self.nutritionSnapshotService = NutritionSnapshotService(db: db)
-    self.personalizationService = PersonalizationService(db: db)
+    self.personalizationService = PersonalizationService(
+      db: db,
+      nutritionSnapshotService: nutritionSnapshotService
+    )
     self.learningService = LearningService(db: db)
     self.ingredientCatalogResolver = IngredientCatalogResolver(db: db)
     let appleHealthService = AppleHealthService()
@@ -107,6 +110,7 @@ final class AppDependencies: ObservableObject {
       db: db,
       recipeRepository: recipeRepository,
       personalizationService: personalizationService,
+      inventoryRepository: inventoryRepository,
       nutritionSnapshotting: nutritionSnapshotService
     )
     self.mealCorrectionService = MealCorrectionService(

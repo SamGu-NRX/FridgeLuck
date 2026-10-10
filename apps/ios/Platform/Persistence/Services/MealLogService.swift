@@ -132,7 +132,6 @@ final class MealLogService: Sendable {
         sourceRef: sourceRef
       )
 
-<<<<<<< HEAD
       var acceptedPlan = plan
       for (index, appliedLine) in appliedLines.enumerated() {
         acceptedPlan.lines[index].appliedGrams = appliedLine.appliedGrams
@@ -153,26 +152,16 @@ final class MealLogService: Sendable {
       )
 
       // Historical-nutrition writer (fl-next-historical-nutrition-r1), integrated
-      // through this seam: the first acceptance freezes the accepted plan's applied
-      // grams and per-100g nutrition inside this same transaction. When the writer
-      // is absent (portable harness, tests), rows keep live-catalog nutrition at
-      // read time exactly as before this integration.
+      // through this seam. recordCooking already froze a recipe-based snapshot so no
+      // history row can exist without one; for plan-accepted meals this capture
+      // overwrites it in the same transaction with the accepted plan's APPLIED grams
+      // and per-100g nutrition — the state the user verified — so journal and Health
+      // reads reproduce exactly what was displayed and deducted. When the writer is
+      // absent (tests, portable harness), the recipe-based capture from recordCooking
+      // still stands.
       if let snapshotting = nutritionSnapshotting {
         try snapshotting.captureSnapshot(in: db, historyId: historyId, plan: acceptedPlan, revision: 1)
       }
-
-=======
-      // Freeze the meal's nutrition from the catalog as it exists at logging
-      // time, inside the same transaction as the history, swap, streak, and
-      // inventory rows. Later catalog corrections cannot rewrite what was
-      // consumed, and a failed log leaves no partial snapshot behind.
-      try nutritionSnapshotService.captureSnapshot(
-        in: db,
-        historyId: historyId,
-        recipeId: recipeId
-      )
-
->>>>>>> 8988d2a (feat(ios): read meal history and Apple Health macros from frozen snapshots)
       return Outcome(
         historyId: historyId,
         recipeId: recipeId,

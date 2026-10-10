@@ -380,4 +380,58 @@ final class NutritionSnapshotService: Sendable {
       )
     }
   }
+
+  // MARK: - Bundled-refresh readiness provider
+
+  /// Shared readiness gate for bundled-data refreshes.
+  ///
+  /// The bundled-refresh stream (`BundledDataRefresher.HistoricalSnapshotReadiness`
+  /// on `obv/fl-next-bundled-refresh`) refuses every refresh until this
+  /// provider lands; its `verify: (Database) throws -> Void` shape matches
+  /// this method so integration is a one-line wrapper. A refresh may only
+  /// adopt new catalog data when history no longer depends on it:
+  /// every logged meal has a snapshot header, every header is at the
+  /// current snapshot version, and provenance is a known value. Line
+  /// contents are deliberately not re-derived from the catalog here —
+  /// frozen values are the point.
+  func verifyHistoricalSnapshotReadiness(in db: Database) throws {
+    let missing = try Int.fetchOne(
+      db,
+      sql: """
+        SELECT COUNT(*) FROM cooking_history ch
+        LEFT JOIN cooking_history_nutrition_snapshots s
+          ON s.history_id = ch.id
+        WHERE s.history_id IS NULL
+        """)
+    guard missing == 0 else {
+      throw SnapshotReadinessError.incompleteSnapshots(count: missing ?? -1)
+    }
+
+    let stale = try Int.fetchOne(
+      db,
+      sql: """
+        SELECT COUNT(*) FROM cooking_history_nutrition_snapshots
+        WHERE snapshot_version != \(NutritionSnapshot.currentVersion)
+        """)
+    guard stale == 0 else {
+      throw SnapshotReadinessError.unsupportedVersions(count: stale ?? -1)
+    }
+
+    let badProvenance = try Int.fetchOne(
+      db,
+      sql: """
+        SELECT COUNT(*) FROM cooking_history_nutrition_snapshots
+        WHERE provenance NOT IN ('logged_at_capture', 'upgrade_backfill')
+        """)
+    guard badProvenance == 0 else {
+      throw SnapshotReadinessError.unknownProvenance(count: badProvenance ?? -1)
+    }
+  }
+}
+
+/// Reasons the bundled-data readiness gate refuses a refresh.
+enum SnapshotReadinessError: Error, Equatable {
+  case incompleteSnapshots(count: Int)
+  case unsupportedVersions(count: Int)
+  case unknownProvenance(count: Int)
 }
