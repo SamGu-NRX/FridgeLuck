@@ -1,0 +1,42 @@
+{
+  "benchmark": "preparation-state-v1",
+  "generated_at_utc": "fixture",
+  "provenance": {
+    "catalog_sha256": "fixture-catalog-sha256",
+    "repo_commit": "fixture"
+  },
+  "groups": [
+    {
+      "group_id": "fixture butter",
+      "base": "fixture butter",
+      "members": [
+        {
+          "catalog_id": 167599,
+          "name": "Fixture Butter (Raw)",
+          "descriptor": "Raw",
+          "states": ["raw"]
+        },
+        {
+          "catalog_id": 167600,
+          "name": "Fixture Butter (Frozen)",
+          "descriptor": "Frozen",
+          "states": ["frozen"]
+        }
+      ],
+      "stateful_member_ids": [167599, 167600]
+    },
+    {
+      "group_id": "fixture jam",
+      "base": "fixture jam",
+      "members": [
+        {
+          "catalog_id": 167601,
+          "name": "Fixture Jam",
+          "descriptor": null,
+          "states": []
+        }
+      ],
+      "stateful_member_ids": []
+    }
+  ]
+}

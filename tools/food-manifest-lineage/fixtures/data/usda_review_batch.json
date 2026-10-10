@@ -1,0 +1,28 @@
+{
+  "batch_id": 1,
+  "batch_size": 2,
+  "records": [
+    {
+      "action": "upsert",
+      "review_notes": "fixture upsert of an existing catalog row",
+      "row": {
+        "display_name": "Fixture Butter (Raw) v2",
+        "fdc_id": 167599,
+        "category_label": "fat",
+        "sprite_group": "fat",
+        "source_meta": {"data_type": "SR Legacy"}
+      }
+    },
+    {
+      "action": "upsert",
+      "review_notes": "fixture new row",
+      "row": {
+        "display_name": "Fixture Margarine",
+        "fdc_id": 167602,
+        "category_label": "fat",
+        "sprite_group": "fat",
+        "source_meta": {"data_type": "SR Legacy"}
+      }
+    }
+  ]
+}
