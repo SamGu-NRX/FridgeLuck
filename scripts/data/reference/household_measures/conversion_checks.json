@@ -1,0 +1,61 @@
+{
+  "heldout": {
+    "exact": 9,
+    "matched": 711,
+    "meanRelErrPct": 32.70469897078669,
+    "medianRelErrPct": 0,
+    "n": 729,
+    "partial": 702,
+    "unknown": 18,
+    "within25Pct": 563,
+    "within50Pct": 650,
+    "worst": [
+      {
+        "actualGrams": 0.1,
+        "food": "Cereal, O's, plain",
+        "matchedGrams": 8,
+        "relErrPct": 7900,
+        "unit": "piece"
+      },
+      {
+        "actualGrams": 9,
+        "food": "Quail egg, canned",
+        "matchedGrams": 145,
+        "relErrPct": 1511.111111111111,
+        "unit": "egg"
+      },
+      {
+        "actualGrams": 10,
+        "food": "Candy, cotton",
+        "matchedGrams": 160,
+        "relErrPct": 1500,
+        "unit": "cup"
+      },
+      {
+        "actualGrams": 20,
+        "food": "Potato chips, popped, NFS",
+        "matchedGrams": 160,
+        "relErrPct": 700,
+        "unit": "cup"
+      },
+      {
+        "actualGrams": 2,
+        "food": "Candy, fruit snacks",
+        "matchedGrams": 10,
+        "relErrPct": 400,
+        "unit": "piece"
+      }
+    ]
+  },
+  "meals": {
+    "convertedIngredients": 300,
+    "exactIngredients": 98,
+    "fullyConvertedMeals": 100,
+    "ingredientYieldPct": 100,
+    "mealYieldPct": 100,
+    "nIngredients": 300,
+    "nMeals": 100,
+    "partialIngredients": 202,
+    "unknownIngredients": 0
+  }
+}
