@@ -1,4 +1,10 @@
 {
+ "matcher": {
+  "mode": "optimal-count-first",
+  "objective": "maximize valid-match count (IoU >= threshold) first, total IoU as tie-break",
+  "solver": "scipy.optimize.linear_sum_assignment",
+  "iou_threshold": 0.5
+ },
  "arms": {
   "detector": {
    "overall": {

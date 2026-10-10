@@ -58,14 +58,48 @@ python3 benchmarks/multiplate-v1/run.py --manifest benchmarks/multiplate-v1/mani
 python3 benchmarks/multiplate-v1/score.py --manifest benchmarks/multiplate-v1/manifest.json --results benchmarks/multiplate-v1/results
 ```
 
-## Metrics (`score.py`, IoU 0.5, optimal same-category assignment)
+## Metrics (`score.py`, IoU 0.5, count-first optimal same-category assignment)
 
+- Matching objective: maximize the **number of valid same-category
+  matches** (IoU >= 0.5) first; total IoU only breaks ties. Maximizing
+  summed IoU alone can undercount valid matches (see `matching.py` and
+  the `test_count_first_beats_max_sum_iou` regression). If the exact
+  solver (scipy) is unavailable, scoring refuses rather than emit a
+  summary claiming optimal-mode matching it did not run.
 - Precision / recall per arm, overall and by role
 - **Missed small regions**: fraction of GT boxes < 4% of image area unmatched
 - **Duplicates on matched GT**: second detections on an already-covered region
 - **Category confusion**: cross-class overlaps (pred to GT, IoU >= 0.5)
 - **Region-count error**: mean |n_pred - n_gt| per image
 - Oracle arm: crop accuracy + coverage (classified GT boxes / all GT boxes)
+
+The machine report (`results/summary.json`) records the matcher mode and
+solver alongside the arms.
+
+## Report integrity
+
+Regenerate the machine report from the committed predictions and
+byte-compare it with the committed file:
+
+```sh
+python3 benchmarks/multiplate-v1/score.py --manifest benchmarks/multiplate-v1/manifest.json \
+    --results benchmarks/multiplate-v1/results --verify-report
+```
+
+Exits 0 on an exact match, 1 on drift (predictions, thresholds, or
+matching code changed since the summary was written).
+
+## Region result schema
+
+`schema/region-result.schema.json` (JSON Schema 2020-12) describes one
+JSONL row of `results/predictions_{arm}.jsonl`. Two tests validate every
+committed row against it and check name compatibility with the
+production scan contracts — read-only:
+`tests/test_schema.py` reads `apps/ios/Capability/Core/Recognition/ScanContracts.swift`
+and asserts the schema's optional `provenance` enum equals the
+production `ScanProvenance` cases and that `ScanInputSource` keeps its
+`benchmark` case. The Swift file is never written or compiled here; the
+production types stay untouched.
 
 ## Scope limits (stated, not hidden)
 

@@ -24,12 +24,23 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
+import matching
 from matching import iou, match_detections
 
 SMALL_REGION_FRAC = 0.04
+IOU_THRESHOLD = 0.5
+MATCHER_INFO = {
+    "mode": "optimal-count-first",
+    "objective": "maximize valid-match count (IoU >= threshold) first, total IoU as tie-break",
+    "solver": "scipy.optimize.linear_sum_assignment"
+    if matching._HAS_SCIPY
+    else None,
+    "iou_threshold": IOU_THRESHOLD,
+}
 
 
 def gt_boxes_norm(im: dict) -> list[dict]:
@@ -165,21 +176,67 @@ def load_predictions(results_dir: Path, arm: str) -> dict[str, dict]:
     return preds
 
 
+def build_summary(manifest: dict, results_dir: Path) -> dict:
+    """Score every committed arm; pure function of manifest + predictions."""
+    arms = [
+        p.stem.removeprefix("predictions_")
+        for p in sorted(results_dir.glob("predictions_*.jsonl"))
+    ]
+    summary: dict = {"matcher": dict(MATCHER_INFO), "arms": {}}
+    for arm in arms:
+        preds = load_predictions(results_dir, arm)
+        summary["arms"][arm] = evaluate_arm(manifest, preds, is_oracle=(arm == "oracle-crops"))
+    return summary
+
+
+def verify_report(manifest: dict, results_dir: Path) -> int:
+    """Regenerate the machine report and byte-compare it with the committed one."""
+    summary_path = results_dir / "summary.json"
+    if not summary_path.exists():
+        print(f"FAIL: {summary_path} not found")
+        return 1
+    committed = summary_path.read_text()
+    regenerated = json.dumps(build_summary(manifest, results_dir), indent=1)
+    if committed == regenerated:
+        print(f"OK: {summary_path} matches regeneration from committed predictions")
+        return 0
+    print(
+        "FAIL: committed summary.json does not match regeneration from "
+        "predictions_*.jsonl + manifest (matching code, thresholds, or "
+        "predictions drifted). Rerun score.py to rewrite it."
+    )
+    return 1
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest", type=Path, required=True)
     ap.add_argument("--results", type=Path, required=True)
+    ap.add_argument(
+        "--verify-report",
+        action="store_true",
+        help="do not score or write; regenerate summary.json from the "
+        "committed predictions and byte-compare it with the committed file",
+    )
     args = ap.parse_args()
 
     manifest = json.loads(args.manifest.read_text())
-    arms = [
-        p.stem.removeprefix("predictions_")
-        for p in sorted(args.results.glob("predictions_*.jsonl"))
-    ]
-    summary: dict = {"arms": {}}
-    for arm in arms:
-        preds = load_predictions(args.results, arm)
-        summary["arms"][arm] = evaluate_arm(manifest, preds, is_oracle=(arm == "oracle-crops"))
+
+    if args.verify_report:
+        sys.exit(verify_report(manifest, args.results))
+
+    # Optimal-mode claim gate: refuse to produce a summary that asserts
+    # exact (count-first Hungarian) matching if the exact solver is missing.
+    if not matching._HAS_SCIPY:
+        print(
+            "ERROR: scipy is unavailable; refusing to score with "
+            "optimal-mode matching (summary would claim an optimal "
+            "assignment that was not computed). Install scipy.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    summary = build_summary(manifest, args.results)
     (args.results / "summary.json").write_text(json.dumps(summary, indent=1))
 
     print("| arm | precision | recall | det | TP | GT | missed small | dup | count err (abs) |")

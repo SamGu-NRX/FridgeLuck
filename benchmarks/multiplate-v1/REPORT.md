@@ -4,7 +4,14 @@
 arms, 0 decode or inference failures. `run_config.json` pins the DETR
 revision (`1d5f47bd3bdd2c4bbfa585418ffe6da5028b4c0b`) and CLIP checkpoint
 (`laion2b_s34b_b79k`); library versions are recorded alongside. Metrics:
-IoU 0.5, optimal same-category assignment (`score.py`). Raw rows:
+IoU 0.5, **count-first** optimal same-category assignment — the matcher
+maximizes the number of valid same-category matches first and uses total
+IoU only as a tie-break (a maximum-total-IoU objective can undercount
+valid matches; `summary.json` records the matcher mode). Rescoring the
+committed predictions under the corrected matcher reproduced every
+committed number exactly, so the findings below are unchanged
+(`score.py --verify-report` byte-compares `summary.json` against
+regeneration from the committed predictions). Raw rows:
 `results/predictions_*.jsonl`; machine summary: `results/summary.json`.
 
 ## Headline result

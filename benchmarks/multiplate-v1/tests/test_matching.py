@@ -87,6 +87,48 @@ class TestDuplicateDetections:
 
 
 class TestGreedyVersusOptimal:
+    def test_count_first_beats_max_sum_iou(self):
+        # Regression: maximizing summed IoU can undercount valid matches.
+        # Equal 2x2 boxes offset by 0.5 have IoU 0.6; offset by 1.0, IoU 1/3.
+        #   d0=(0,0,2,2)   g0=(0,0,2,2)    d0-g0 = 1.0
+        #   d1=(.5,0,2.5,2) g1=(.5,0,2.5,2) d1-g1 = 1.0
+        #   d2=(-.5,0,1.5,2) g2=(1,0,3,2)
+        #   d2-g0 = 0.6, d0-g1 = 0.6, d1-g2 = 0.6; every other pair < 0.5.
+        # So a count-3 assignment totals 1.8 while (d0,g0)+(d1,g1) totals
+        # 2.0 — a maximum-total-IoU assignment drops the third valid match.
+        # Match count must win; total IoU only breaks ties.
+        dets = [
+            det("Pizza", (0.0, 0.0, 2.0, 2.0)),
+            det("Pizza", (0.5, 0.0, 2.5, 2.0)),
+            det("Pizza", (-0.5, 0.0, 1.5, 2.0)),
+        ]
+        gts = [
+            gt("Pizza", (0.0, 0.0, 2.0, 2.0)),
+            gt("Pizza", (0.5, 0.0, 2.5, 2.0)),
+            gt("Pizza", (1.0, 0.0, 3.0, 2.0)),
+        ]
+        res = match_detections(dets, gts, iou_threshold=0.5, optimal=True)
+        assert res["true_positives"] == 3
+        assert {i for i, _, _ in res["matches"]} == {0, 1, 2}
+        assert res["matched_gt"] == {0, 1, 2}
+        # total IoU across the chosen matches is the count-maximal 1.8
+        assert sum(v for _, _, v in res["matches"]) == pytest.approx(1.8)
+
+    def test_optimal_raises_without_scipy_instead_of_claiming_optimal(self, monkeypatch):
+        # The summary must never claim optimal-mode matching that did not
+        # run: with the exact solver unavailable, optimal=True refuses.
+        import matching
+
+        monkeypatch.setattr(matching, "_HAS_SCIPY", False)
+        with pytest.raises(RuntimeError, match="optimal"):
+            match_detections(
+                [det("Pizza", (0.0, 0.0, 1.0, 1.0))],
+                [gt("Pizza", (0.0, 0.0, 1.0, 1.0))],
+                iou_threshold=0.5,
+                optimal=True,
+            )
+
+
     def test_optimal_recovers_two_matches_greedy_loses_one(self):
         """det A (higher confidence) best-matches GT1 and steals it from det B,
         whose only viable partner is GT1. Greedy: 1 TP. Optimal: 2 TPs."""

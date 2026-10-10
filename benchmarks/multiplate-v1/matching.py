@@ -4,10 +4,20 @@ Coordinates are (xmin, ymin, xmax, ymax), any consistent unit.
 
 - `iou` is the exact intersection-over-union.
 - `match_detections` pairs detections with ground-truth boxes of the same
-  category. `optimal=True` solves the maximum-total-IoU bipartite assignment
-  (Hungarian, scipy), the standard DETR-style evaluation; the greedy variant
-  (highest-confidence first) is the classic baseline, kept for comparison.
-  Both threshold candidate pairs at `iou_threshold` (default 0.5).
+  category. `optimal=True` solves the assignment exactly (Hungarian,
+  scipy) with a **count-first objective**: maximize the *number* of valid
+  same-category matches (IoU >= threshold) first, and use total IoU only
+  as a tie-break. Maximizing summed IoU alone can undercount valid
+  matches: at threshold 0.5, the IoU matrix [[1, .6, 0], [.6, 1, .6],
+  [.6, 0, 0]] allows three valid matches totaling 1.8, but a
+  maximum-total-IoU assignment picks two matches totaling 2.0. Match
+  count is the quantity the metrics report on, so a valid match dropped
+  to inflate summed IoU distorts precision/recall. If the exact solver
+  (scipy) is unavailable, `optimal=True` **raises** rather than silently
+  degrading: a summary must never claim optimal-mode matching it did not
+  run. The greedy variant (highest-confidence first) is the classic
+  baseline, kept for comparison. Both threshold candidate pairs at
+  `iou_threshold` (default 0.5).
 
 Duplicate detections (two detections on the same GT box) count as one true
 positive plus one false positive — never two true positives.
@@ -61,7 +71,14 @@ def match_detections(dets, gts, iou_threshold: float = 0.5, optimal: bool = True
     used_gts: set[int] = set()
     matches: list[tuple[int, int, float]] = []
 
-    if optimal and _HAS_SCIPY and dets and gts:
+    if optimal and dets and gts:
+        if not _HAS_SCIPY:
+            raise RuntimeError(
+                "optimal=True requires scipy.optimize.linear_sum_assignment, "
+                "which is unavailable in this environment. Refusing to score: "
+                "the summary would claim optimal-mode matching it did not run. "
+                "Install scipy or run with optimal=False (greedy baseline)."
+            )
         m = iou_matrix(dets, gts)
         for i, d in enumerate(dets):
             for j, g in enumerate(gts):
@@ -69,7 +86,15 @@ def match_detections(dets, gts, iou_threshold: float = 0.5, optimal: bool = True
                     m[i, j] = 0.0
         m[m < iou_threshold] = 0.0
         if m.any():
-            rows, cols = linear_sum_assignment(-m)
+            # Count-first objective: a valid match is worth (W + iou), an
+            # invalid/filtered pair is forbidden. W > max possible total IoU
+            # (< min(n, m) <= 1 each), so maximizing the assignment value
+            # maximizes match count first and total IoU second. Pairs left
+            # forbidden in the chosen assignment simply do not match.
+            W = float(min(len(dets), len(gts))) + 1.0
+            FORBIDDEN = 1e9
+            cost = np.where(m > 0.0, -(W + m), FORBIDDEN)
+            rows, cols = linear_sum_assignment(cost)
             for i, j in zip(rows, cols):
                 if m[i, j] > 0:
                     matches.append((int(i), int(j), float(m[i, j])))
