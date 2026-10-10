@@ -32,7 +32,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from usda_core.households import parse_portion_description  # noqa: E402
+from usda_core.households import (  # noqa: E402
+    classify_packing,
+    classify_preparation_state,
+    parse_portion_description,
+)
 
 SOURCE_URL = (
     "https://fdc.nal.usda.gov/fdc-datasets/foodData_513.surveyDownload.json.zip"
@@ -127,6 +131,7 @@ def main() -> int:
                     "food_description": description,
                     "category": category,
                     "portion_description": portion_description,
+                    "modifier": modifier,
                     "unit": parsed.unit,
                     "magnitude": f"{parsed.magnitude:g}",
                     "gram_weight": gram_weight,
@@ -164,12 +169,15 @@ def main() -> int:
         key = (row["fdc_id"], row["unit"], float(row["magnitude"]))
         if key in conversion:
             continue
+        state_context = f"{row['portion_description']} {row['modifier']}"
         conversion[key] = {
             "fdcId": row["fdc_id"],
             "food": row["food_description"],
             "unit": row["unit"],
             "magnitude": float(row["magnitude"]),
             "grams": float(row["gram_weight"]),
+            "state": classify_preparation_state(state_context),
+            "packing": classify_packing(state_context),
         }
     swift_table = {
         "source": {

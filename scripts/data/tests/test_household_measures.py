@@ -13,7 +13,10 @@ from pathlib import Path
 
 import pytest
 
-from usda_core.households import parse_portion_description
+from usda_core.households import (
+    classify_preparation_state,
+    parse_portion_description,
+)
 
 HOUSEHOLD_DIR = (
     Path(__file__).resolve().parents[1] / "reference" / "household_measures"
@@ -193,3 +196,40 @@ class TestParser:
 def _read_units_csv() -> list[dict]:
     with UNITS_CSV.open(encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle))
+
+
+class TestPreparationStateClassifier:
+    """Unit tests for classify_preparation_state plus the state column's
+    value domain in mass_conversion_table.json. State labels trace to the
+    portion description/modifier (per-portion state), not the food name, so
+    table-level tests assert the value domain only."""
+
+    def test_cooked_keywords(self) -> None:
+        assert classify_preparation_state("1 cup, cooked, diced") == "cooked"
+        assert classify_preparation_state("roasted") == "cooked"
+        assert classify_preparation_state("1 tbsp, reconstituted") == "cooked"
+
+    def test_reconstituted_negation_means_dried(self) -> None:
+        assert (
+            classify_preparation_state("1 cup, not reconstituted") == "dried"
+        )
+        assert classify_preparation_state("1 cup, dry") == "dried"
+        assert classify_preparation_state("dried") == "dried"
+
+    def test_frozen_outprioritizes_cooking_words(self) -> None:
+        assert (
+            classify_preparation_state("prepared from frozen, heated")
+            == "frozen"
+        )
+        assert classify_preparation_state("thawed, heated") == "thawed"
+
+    def test_raw_and_unlabeled(self) -> None:
+        assert classify_preparation_state("1 medium, raw") == "raw"
+        assert classify_preparation_state("1 cup") is None
+        assert classify_preparation_state("") is None
+
+    def test_state_column_value_domain(self) -> None:
+        table = json.loads(CONVERSION_JSON.read_text(encoding="utf-8"))
+        labeled = [p for p in table["portions"] if p.get("state")]
+        assert labeled, "expected some labeled entries"
+        assert {p["state"] for p in labeled} <= {"cooked", "dried", "raw"}

@@ -30,6 +30,11 @@ let package = Package(
       dependencies: ["MassConversionKit", "EstimatorReplay"],
       path: "Sources/estimator-eval"
     ),
+    .executableTarget(
+      name: "conversion-checks",
+      dependencies: ["MassConversionKit"],
+      path: "Sources/conversion-checks"
+    ),
     .testTarget(
       name: "MassConversionKitTests",
       dependencies: ["MassConversionKit", "EstimatorReplay"],

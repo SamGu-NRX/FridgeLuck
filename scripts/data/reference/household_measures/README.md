@@ -10,10 +10,12 @@ to grams, extracted from the USDA FoodData Central Survey Foods dataset
 |---|---|
 | `fndds_portions.csv` | Every FNDDS survey-food portion with a positive gram weight (22,193 rows): `fdc_id`, `food_description`, `category`, `portion_description`, `modifier`, `gram_weight`. |
 | `fndds_household_units.csv` | The 8,319 portions whose `portion_description` parses to a canonical household unit (`cup`, `tbsp`, `tsp`, `floz`, `oz`, `slice`, `piece`, `egg`, ...), with `magnitude` and `grams_per_unit`. |
-| `mass_conversion_table.json` | Deduplicated `(food, unit, magnitude) -> grams` conversions consumed as the bundled resource of the Swift `MassConversionKit` package (`apps/ios/Tools/mass-conversion-check`). |
+| `mass_conversion_table.json` | Deduplicated `(food, unit, magnitude) -> grams` conversions consumed as the bundled resource of the Swift `MassConversionKit` package (`apps/ios/Tools/mass-conversion-check`). Entries carry optional `state` and `packing` labels (per-portion preparation state: cooked/dried/raw). |
 | `estimator_examples.json` | 176 deterministic source-bound examples used to evaluate the production `InventoryIntakeService` gram estimator. |
 | `estimator_evaluation.csv` | Per-example estimator results and errors across three arms. |
 | `estimator_evaluation.md` | Human-readable evaluation report. |
+| `conversion_checks.json` | Held-out recovery and 100-meal conversion-yield checks from `swift run conversion-checks`. |
+| `conversion_checks.md` | Human-readable summary of the conversion checks. |
 | `MANIFEST.json` | Provenance: source URL, archive and JSON SHA-256, edition, row counts, unit inventory. |
 
 ## Regeneration
@@ -23,13 +25,20 @@ to grams, extracted from the USDA FoodData Central Survey Foods dataset
 # (see MANIFEST.json for the URL and hashes).
 python3 scripts/data/extract_household_measures.py
 
-# Regenerates the estimator replay slice + examples, runs the Swift replay,
-# and rewrites the evaluation CSV/MD (requires a Linux Swift 6.1+ toolchain).
+# Regenerates the estimator replay slice + examples, runs the Swift replay
+# and the conversion checks, and rewrites the evaluation and conversion-check
+# outputs (requires a Swift 6.1+ toolchain on PATH, or set SWIFT_BIN).
 python3 scripts/data/evaluate_mass_estimates.py
+
+# Byte-verifies the committed outputs against a fresh regeneration
+# (exits 1 naming the drift on any mismatch).
+python3 scripts/data/evaluate_mass_estimates.py --verify-report
 ```
 
 Both scripts are deterministic for identical inputs (the manifest records a
-generated-at timestamp only).
+generated-at timestamp only). The estimator reports are stamped with the
+content hash (git blob SHA) of the estimator source, not the current HEAD, so
+regenerating on unrelated commits produces no churn.
 
 ## Provenance
 

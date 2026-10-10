@@ -1,6 +1,6 @@
 # estimateGrams evaluation vs USDA FNDDS household measures
 
-- Estimator: `InventoryIntakeService` (replayed verbatim at commit `5e3eae7276f5bf5d7c16e749d7b0331d1da5ec2a`; read-only, unmodified)
+- Estimator: `InventoryIntakeService` (replayed verbatim from source blob `b23d9e6b2b79`; read-only, unmodified)
 - Examples: 176 source-bound FNDDS portions (`estimator_examples.json`, units table `fndds_household_units.csv`)
 - Replay executable: `apps/ios/Tools/mass-conversion-check` (`estimator-eval`)
 
@@ -59,4 +59,4 @@
 | Coffee, instant, pre-sweetened with sugar, not reconstituted | 1 teaspoon, dry | 3.4 | 120 | 3429% |
 | Coffee, instant, decaffeinated, pre-lightened and pre-sweetened with sugar, not reconstituted | 1 teaspoon, dry | 3.4 | 120 | 3429% |
 
-Reproduce: `python3 scripts/data/evaluate_mass_estimates.py` (regenerates the replay slice and examples, reruns `estimator-eval`).
+Reproduce: `python3 scripts/data/evaluate_mass_estimates.py` (regenerates the replay slice and examples, reruns `estimator-eval` and `conversion-checks`; add `--verify-report` to byte-verify the committed reports).

@@ -1,7 +1,7 @@
 {
   "source": {
     "estimatorFile": "apps/ios/Platform/Persistence/Services/InventoryIntakeService.swift",
-    "estimatorCommit": "5e3eae7276f5bf5d7c16e749d7b0331d1da5ec2a",
+    "estimatorCommit": "b23d9e6b2b7964e23acf520b3cfb8fb238b200ba",
     "unitsTable": "scripts/data/reference/household_measures/fndds_household_units.csv"
   },
   "examples": [

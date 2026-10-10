@@ -112,3 +112,66 @@ def parse_portion_description(description: str) -> ParsedPortion | None:
                 magnitude=magnitude, unit=canonical, raw_description=text
             )
     return None
+
+
+# Preparation-state keywords, in priority order (first hit wins). Priority
+# resolves combined phrases: "prepared from frozen, heated" -> frozen, because
+# frozen outranks the cooking words.
+_STATE_KEYWORDS: list[tuple[str, tuple[str, ...]]] = [
+    ("frozen", ("frozen",)),
+    ("thawed", ("thawed",)),
+    ("dried", ("dry", "dried", "not reconstituted")),
+    (
+        "cooked",
+        (
+            "cooked",
+            "baked",
+            "boiled",
+            "braised",
+            "fried",
+            "grilled",
+            "heated",
+            "prepared",
+            "reconstituted",
+            "roasted",
+            "steamed",
+            "stewed",
+        ),
+    ),
+    ("raw", ("raw",)),
+]
+
+# Packing/container keywords (orthogonal to preparation state).
+_PACKING_KEYWORDS: dict[str, tuple[str, ...]] = {
+    "canned": ("canned",),
+    "jarred": ("jar",),
+    "packaged": ("packaged",),
+}
+
+
+def _word_in(text: str, word: str) -> bool:
+    return re.search(rf"\b{re.escape(word)}\b", text) is not None
+
+
+def classify_preparation_state(text: str) -> str | None:
+    """Canonical preparation state (``cooked``, ``frozen``, ...) or ``None``.
+
+    Scans FNDDS portion-description qualifier text (e.g. "1 cup, cooked,
+    diced") and portion modifiers for state keywords; first keyword family in
+    :data:`_STATE_KEYWORDS` priority order wins. State words are matched on
+    word boundaries, so unit tokens like "cup" or "can" never match.
+    """
+    lowered = (text or "").lower()
+    for state, words in _STATE_KEYWORDS:
+        if any(_word_in(lowered, word) for word in words):
+            return state
+    return None
+
+
+def classify_packing(text: str) -> str | None:
+    """Canonical packing (``canned``, ``jarred``, ``packaged``) or ``None``."""
+    lowered = (text or "").lower()
+    for packing, words in _PACKING_KEYWORDS.items():
+        if any(_word_in(lowered, word) for word in words):
+            return packing
+    return None

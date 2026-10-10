@@ -26,8 +26,11 @@ The estimator file itself is never modified.
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
+import os
+import shutil
 import statistics
 import subprocess
 import sys
@@ -36,10 +39,11 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = REPO_ROOT / "scripts" / "data"
-UNITS_CSV = DATA_DIR / "reference" / "household_measures" / "fndds_household_units.csv"
-EXAMPLES_JSON = (
-    DATA_DIR / "reference" / "household_measures" / "estimator_examples.json"
-)
+OUT_DIR = DATA_DIR / "reference" / "household_measures"
+CACHE_JSON = DATA_DIR / ".cache" / "surveyDownload.json"
+EXTRACTOR = DATA_DIR / "extract_household_measures.py"
+UNITS_CSV = OUT_DIR / "fndds_household_units.csv"
+EXAMPLES_JSON = OUT_DIR / "estimator_examples.json"
 EVAL_CSV = (
     DATA_DIR / "reference" / "household_measures" / "estimator_evaluation.csv"
 )
@@ -53,7 +57,10 @@ ESTIMATOR_SWIFT = (
 PACKAGE_DIR = REPO_ROOT / "apps/ios/Tools/mass-conversion-check"
 REPLAY_SWIFT = PACKAGE_DIR / "Sources" / "EstimatorReplay" / "EstimatorReplay.swift"
 
-SWIFT = "/home/user/swift612/usr/bin/swift"
+# Swift driver: explicit SWIFT_BIN env var wins, then PATH lookup, then a
+# plain "swift" for whatever toolchain the environment provides. Nothing here
+# hardcodes a machine-specific install path.
+swift = os.environ.get("SWIFT_BIN") or shutil.which("swift") or "swift"
 
 # Units sampled into the evaluation set, with a cap per family so rare units
 # are represented without letting one family dominate.
@@ -84,8 +91,16 @@ NAME_BUCKETS = [
 
 
 def source_commit() -> str:
+    """Content hash (git blob SHA) of the estimator source at HEAD — NOT the
+    current HEAD commit. Stamping current HEAD into the replay and reports
+    would make every regeneration churn committed files on unrelated commits;
+    the blob hash only changes when the estimator source itself does."""
     return subprocess.run(
-        ["git", "rev-parse", "HEAD"],
+        [
+            "git",
+            "rev-parse",
+            f"HEAD:{ESTIMATOR_SWIFT.relative_to(REPO_ROOT)}",
+        ],
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,
@@ -250,7 +265,7 @@ def main() -> int:
     )
 
     run = subprocess.run(
-        [SWIFT, "run", "--package-path", str(PACKAGE_DIR), "estimator-eval",
+        [swift, "run", "--package-path", str(PACKAGE_DIR), "estimator-eval",
          str(EXAMPLES_JSON)],
         capture_output=True,
         text=True,
@@ -318,8 +333,8 @@ def main() -> int:
     lines = [
         "# estimateGrams evaluation vs USDA FNDDS household measures",
         "",
-        f"- Estimator: `InventoryIntakeService` (replayed verbatim at commit `{commit}`;"
-        " read-only, unmodified)",
+        f"- Estimator: `InventoryIntakeService` (replayed verbatim from source "
+        f"blob `{commit[:12]}`; read-only, unmodified)",
         f"- Examples: {len(examples)} source-bound FNDDS portions "
         f"(`estimator_examples.json`, units table `{UNITS_CSV.name}`)",
         f"- Replay executable: `apps/ios/Tools/mass-conversion-check` "
@@ -376,10 +391,15 @@ def main() -> int:
     lines += [
         "",
         "Reproduce: `python3 scripts/data/evaluate_mass_estimates.py` "
-        "(regenerates the replay slice and examples, reruns `estimator-eval`).",
+        "(regenerates the replay slice and examples, reruns `estimator-eval` "
+        "and `conversion-checks`; add `--verify-report` to byte-verify the "
+        "committed reports).",
         "",
     ]
     EVAL_MD.write_text("\n".join(lines), encoding="utf-8")
+
+    checks = run_conversion_checks()
+    write_conversion_reports(checks)
 
     print(f"examples: {len(examples)}")
     for arm in arms:
@@ -391,8 +411,162 @@ def main() -> int:
             f"mean={statistics.mean(rel) * 100:.0f}% "
             f"within50={sum(1 for r in rel if r <= 0.5)}"
         )
+    held, meals = checks["heldout"], checks["meals"]
+    print(
+        f"heldout: n={held['n']} recovered={held['matched']} "
+        f"unknown={held['unknown']} median={held['medianRelErrPct']:.1f}%"
+    )
+    print(
+        f"meals: {meals['fullyConvertedMeals']}/{meals['nMeals']} fully "
+        f"converted, ingredient yield {meals['ingredientYieldPct']:.1f}%"
+    )
     return 0
 
 
+def run_conversion_checks() -> dict:
+    """Runs the conversion-checks executable (held-out recovery + 100-meal
+    conversion yield) and returns its parsed JSON output."""
+    run = subprocess.run(
+        [
+            swift,
+            "run",
+            "--package-path",
+            str(PACKAGE_DIR),
+            "conversion-checks",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if run.returncode != 0:
+        print(run.stdout[-4000:], file=sys.stderr)
+        print(run.stderr[-4000:], file=sys.stderr)
+        raise SystemExit(2)
+    return json.loads(run.stdout)
+
+
+
+
+def write_conversion_reports(checks: dict) -> None:
+    """Writes conversion_checks.json and a human-readable .md summary next to
+    the estimator evaluation outputs."""
+    checks_path = OUT_DIR / "conversion_checks.json"
+    checks_path.write_text(
+        json.dumps(checks, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+
+    held = checks["heldout"]
+    meals = checks["meals"]
+    lines = [
+        "# Conversion checks: held-out recovery and 100-meal yield",
+        "",
+        "Both checks run the shipped `MassConversionKit` matcher over the",
+        "pinned FNDDS table. Unknown conversions are never fabricated into a",
+        "number, so yield is a coverage metric.",
+        "",
+        "## Held-out recovery (every 10th entry withheld, deterministic)",
+        "",
+        f"- Withheld entries: {held['n']}",
+        f"- Recovered by the matcher: {held['matched']} "
+        f"({held['exact']} exact, {held['partial']} partial)",
+        f"- Unknown (no entry matched): {held['unknown']}",
+        f"- Median rel. error: {held['medianRelErrPct']:.1f}% "
+        f"(mean {held['meanRelErrPct']:.1f}%)",
+        f"- Within ±25%: {held['within25Pct']} · within ±50%: "
+        f"{held['within50Pct']}",
+        "",
+        "Worst matched-elsewhere recoveries:",
+        "",
+        "| Food | Unit | Withheld g | Matched g | Rel. error |",
+        "|---|---|---|---|---|",
+    ]
+    for w in held["worst"]:
+        lines.append(
+            f"| {w['food']} | {w['unit']} | {w['actualGrams']:g} "
+            f"| {w['matchedGrams']:g} | {w['relErrPct']:.1f}% |"
+        )
+    lines += [
+        "",
+        "## 100-meal conversion yield (100 meals × 3 ingredients)",
+        "",
+        f"- Ingredients: {meals['nIngredients']}",
+        f"- Converted with evidence: {meals['convertedIngredients']} "
+        f"({meals['exactIngredients']} exact, {meals['partialIngredients']} "
+        f"partial) — {meals['ingredientYieldPct']:.1f}% yield",
+        f"- Unknown: {meals['unknownIngredients']}",
+        f"- Fully converted meals: {meals['fullyConvertedMeals']}/{meals['nMeals']}"
+        f" — {meals['mealYieldPct']:.1f}% meal yield",
+        "",
+        "Meal queries are intake-style (first three words of the FNDDS",
+        "description). Because those words are a token prefix of the source",
+        "description, they always overlap it — so this check validates the",
+        "end-to-end conversion path (unit choice, lookup, evidence levels)",
+        "over census-derived meals, not name-resolution difficulty. The",
+        "held-out check above covers resolution error; real-world coverage",
+        "of partial user input is not measured here.",
+        "",
+    ]
+    (OUT_DIR / "conversion_checks.md").write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
+
+
+
+def verify_report() -> int:
+    """Regenerates every committed output and byte-compares it against the
+    committed files. Exits 1 naming the drift on any mismatch."""
+    # The extractor owns mass_conversion_table.json; the cache may not exist
+    # in a fresh clone, so only re-verify when extraction is reproducible.
+    committed = {
+        path.name: path.read_bytes()
+        for path in [
+            EXAMPLES_JSON,
+            EVAL_CSV,
+            EVAL_MD,
+            OUT_DIR / "conversion_checks.json",
+            OUT_DIR / "conversion_checks.md",
+            OUT_DIR / "mass_conversion_table.json",
+        ]
+    }
+    if CACHE_JSON.exists():
+        import extract_household_measures as extractor
+
+        extractor_code = subprocess.run(
+            [sys.executable, str(extractor.__file__)],
+            capture_output=True,
+            text=True,
+        )
+        if extractor_code.returncode != 0:
+            print(extractor_code.stderr[-4000:], file=sys.stderr)
+            return 2
+
+    main()  # regenerates the estimator reports and conversion checks
+    drifted = []
+    for name, expected in committed.items():
+        actual = (OUT_DIR / name).read_bytes()
+        if actual != expected:
+            drifted.append(name)
+    if drifted:
+        print(
+            "report drift detected (regenerated output differs from "
+            "committed files): " + ", ".join(sorted(drifted)),
+            file=sys.stderr,
+        )
+        return 1
+    print("verify-report: all committed outputs byte-identical")
+    return 0
+
+
+def main_with_args() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--verify-report",
+        action="store_true",
+        help="regenerate every committed output and byte-compare it "
+        "against the committed files; exit 1 on drift",
+    )
+    args = parser.parse_args()
+    return verify_report() if args.verify_report else main()
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main_with_args())
