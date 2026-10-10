@@ -329,4 +329,81 @@ final class MigrationSnapshotTests: XCTestCase {
     // registers nothing after it.
     XCTAssertEqual(applied.last, "v20_historical_nutrition_snapshots")
   }
+
+  // MARK: - recordCooking capture paths
+
+  func testEveryRecordCookingPathCapturesASnapshot() throws {
+    let queue = try v18World("record-paths")
+    try DatabaseMigrations.migrate(queue)
+    let personalization = PersonalizationService(db: queue)
+
+    // Queue-level path: used by the meal finalization view.
+    let fromQueueOverload = try personalization.recordCooking(
+      recipeId: 1, rating: 5, servingsConsumed: 1, portionMultiplier: 1.0)
+    // Transaction-scoped path: used by MealLogService's composed log.
+    let fromTransactionOverload = try queue.write { db in
+      try personalization.recordCooking(in: db, recipeId: 2, portionMultiplier: 1.0, swaps: [])
+    }
+
+    try queue.read { db in
+      // Recipe 1 has three required ingredients; recipe 2 is the empty
+      // recipe and completes with a zero-line snapshot, like the backfill.
+      for (historyId, expectedLines) in [(fromQueueOverload, 3), (fromTransactionOverload, 0)] {
+        let snapshotCount = try Int.fetchOne(
+          db,
+          sql: "SELECT COUNT(*) FROM cooking_history_nutrition_snapshots WHERE history_id = ?",
+          arguments: [historyId])
+        XCTAssertEqual(
+          snapshotCount, 1,
+          "history \(historyId) logged without a snapshot would break historical reads")
+        let recordedProvenance = try String.fetchOne(
+          db,
+          sql: "SELECT provenance FROM cooking_history_nutrition_snapshots WHERE history_id = ?",
+          arguments: [historyId])
+        XCTAssertEqual(recordedProvenance, "logged_at_capture")
+        let lineCount = try Int.fetchOne(
+          db,
+          sql: "SELECT COUNT(*) FROM cooking_history_nutrition_lines WHERE history_id = ?",
+          arguments: [historyId])
+        XCTAssertEqual(
+          lineCount, expectedLines, "history \(historyId) captured the wrong line count")
+      }
+    }
+  }
+
+  // MARK: - Shared bundled-refresh readiness provider
+
+  func testReadinessProviderAcceptsCompleteHistoryAndRejectsGaps() throws {
+    let queue = try v18World("readiness")
+    try DatabaseMigrations.migrate(queue)
+    let service = NutritionSnapshotService(db: queue)
+
+    // Complete history at the current version passes.
+    try queue.read { db in
+      try service.verifyHistoricalSnapshotReadiness(in: db)
+    }
+
+    // A stale snapshot version refuses the refresh.
+    XCTAssertThrowsError(
+      try queue.write { db in
+        try db.execute(
+          sql: "UPDATE cooking_history_nutrition_snapshots SET snapshot_version = 99 WHERE history_id = 1")
+        try service.verifyHistoricalSnapshotReadiness(in: db)
+      }
+    )
+
+    // A missing snapshot header refuses the refresh.
+    XCTAssertThrowsError(
+      try queue.write { db in
+        try db.execute(
+          sql: "DELETE FROM cooking_history_nutrition_snapshots WHERE history_id = 2")
+        try service.verifyHistoricalSnapshotReadiness(in: db)
+      }
+    )
+
+    // The refused writes rolled back; the world is ready again.
+    try queue.read { db in
+      try service.verifyHistoricalSnapshotReadiness(in: db)
+    }
+  }
 }

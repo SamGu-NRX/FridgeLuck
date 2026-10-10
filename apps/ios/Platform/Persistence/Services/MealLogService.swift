@@ -29,22 +29,19 @@ final class MealLogService: Sendable {
   private let personalizationService: PersonalizationService
   private let inventoryRepository: InventoryRepository
   private let imageStorageService: ImageStorageService
-  private let nutritionSnapshotService: NutritionSnapshotService
 
   init(
     db: DatabaseQueue,
     recipeRepository: RecipeRepository,
     personalizationService: PersonalizationService,
     inventoryRepository: InventoryRepository,
-    imageStorageService: ImageStorageService,
-    nutritionSnapshotService: NutritionSnapshotService
+    imageStorageService: ImageStorageService
   ) {
     self.db = db
     self.recipeRepository = recipeRepository
     self.personalizationService = personalizationService
     self.inventoryRepository = inventoryRepository
     self.imageStorageService = imageStorageService
-    self.nutritionSnapshotService = nutritionSnapshotService
   }
 
   @discardableResult
@@ -105,15 +102,10 @@ final class MealLogService: Sendable {
         sourceRef: sourceRef
       )
 
-      // Freeze the meal's nutrition from the catalog as it exists at logging
-      // time, inside the same transaction as the history, swap, streak, and
-      // inventory rows. Later catalog corrections cannot rewrite what was
-      // consumed, and a failed log leaves no partial snapshot behind.
-      try nutritionSnapshotService.captureSnapshot(
-        in: db,
-        historyId: historyId,
-        recipeId: recipeId
-      )
+      // The nutrition snapshot is captured inside recordCooking(in:),
+      // which shares this transaction: history, swaps, streak, inventory,
+      // and the frozen nutrition all commit together or not at all. Later
+      // catalog corrections cannot rewrite what was consumed.
 
       return Outcome(
         historyId: historyId,
