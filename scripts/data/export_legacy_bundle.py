@@ -90,6 +90,17 @@ def json_bytes(payload) -> bytes:
   return (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
 
 
+def load_manifest(out_dir: Path) -> dict:
+  manifest_path = out_dir / "manifest.json"
+  if manifest_path.exists():
+    return json.loads(manifest_path.read_text(encoding="utf-8"))
+  return {"version": 1, "pins": []}
+
+
+def write_manifest(out_dir: Path, manifest: dict) -> None:
+  (out_dir / "manifest.json").write_bytes(json_bytes(manifest))
+
+
 def main() -> int:
   parser = argparse.ArgumentParser(description=__doc__)
   parser.add_argument("--slug", required=True, help="Pin slug, e.g. v1")
@@ -99,12 +110,19 @@ def main() -> int:
     help="Git ref whose apps/ios/Resources/data.json is the payload to pin",
   )
   parser.add_argument("--repo-root", default=None)
+  parser.add_argument(
+    "--out-dir",
+    default=None,
+    help="Directory for the pin corpus (default: apps/ios/Resources/LegacyBundles "
+    "under --repo-root). Existing pins for other slugs are preserved; a pin with "
+    "the same slug is replaced.",
+  )
   args = parser.parse_args()
 
   repo_root = Path(args.repo_root) if args.repo_root else Path(__file__).resolve().parents[2]
   data_path = "apps/ios/Resources/data.json"
   catalog_path = repo_root / "apps/ios/Resources/usda_ingredient_catalog.sqlite"
-  out_dir = repo_root / "apps/ios/Resources/LegacyBundles"
+  out_dir = Path(args.out_dir) if args.out_dir else repo_root / "apps/ios/Resources/LegacyBundles"
   out_dir.mkdir(parents=True, exist_ok=True)
 
   data_bytes = git_show(repo_root, args.data_ref, data_path)
@@ -118,21 +136,25 @@ def main() -> int:
     json_bytes({"catalogSource": "usda_ingredient_catalog.sqlite", "rows": catalog_rows})
   )
 
+  pins_by_slug = {
+    pin["slug"]: pin for pin in load_manifest(out_dir)["pins"] if pin["slug"] != args.slug
+  }
+  pins_by_slug[args.slug] = {
+    "slug": args.slug,
+    "bundleId": sha256_hex(data_bytes)[:16],
+    "dataFile": data_file,
+    "dataSha256": sha256_hex(data_bytes),
+    "catalogExportFile": catalog_file,
+    "catalogExportSha256": sha256_hex((out_dir / catalog_file).read_bytes()),
+    "expectedCatalogRowCount": len(catalog_rows),
+  }
   manifest = {
     "version": 1,
-    "pins": [
-      {
-        "slug": args.slug,
-        "bundleId": sha256_hex(data_bytes)[:16],
-        "dataFile": data_file,
-        "dataSha256": sha256_hex(data_bytes),
-        "catalogExportFile": catalog_file,
-        "catalogExportSha256": sha256_hex((out_dir / catalog_file).read_bytes()),
-        "expectedCatalogRowCount": len(catalog_rows),
-      }
-    ],
+    # Deterministic sorted-by-slug order so committed bytes stay stable
+    # when a new pin is added.
+    "pins": [pins_by_slug[key] for key in sorted(pins_by_slug)],
   }
-  (out_dir / "manifest.json").write_bytes(json_bytes(manifest))
+  write_manifest(out_dir, manifest)
 
   print(f"Pinned {args.slug}: data={data_file} sha256={manifest['pins'][0]['dataSha256'][:16]}... "
         f"catalogRows={len(catalog_rows)}")
