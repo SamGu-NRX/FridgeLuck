@@ -86,12 +86,12 @@ final class BundledDataRefreshTests: XCTestCase {
   private func makePass(
     current: BundledData,
     pins: [PinnedBundlePayload],
-    catalog: [LegacyCatalogIngredient]? = nil
+    catalog: [LegacyCatalogIngredient] = []
   ) -> BundledDataRefresher.Pass {
     BundledDataRefresher.Pass(
       current: current,
       currentDataSha256: "current-sha",
-      catalog: catalog ?? pins.last?.catalog ?? [],
+      catalog: catalog,
       pins: pins)
   }
 
@@ -124,10 +124,11 @@ final class BundledDataRefreshTests: XCTestCase {
 
   private func refresh(
     _ db: DatabaseQueue, pass: BundledDataRefresher.Pass,
+    readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .ready,
     injections: BundledDataRefresher.InjectionPoints = .init()
   ) async throws -> BundledDataRefreshOutcome {
     try await BundledDataRefresher.refresh(
-      appDB: AppDatabase(dbQueue: db), pass: pass, injections: injections)
+      appDB: AppDatabase(dbQueue: db), pass: pass, readiness: readiness, injections: injections)
   }
 
   private func diagnostics(_ db: DatabaseQueue) throws -> [(ref: String, code: String)] {
@@ -489,7 +490,11 @@ final class BundledDataRefreshTests: XCTestCase {
     }
 
     _ = try await refresh(
-      db, pass: makePass(current: payload, pins: [makePin(data: payload, catalog: catalog)]))
+      db,
+      pass: makePass(
+        current: payload,
+        pins: [makePin(data: payload, catalog: catalog)],
+        catalog: catalog))
 
     XCTAssertTrue(
       try diagnostics(db)
@@ -568,23 +573,139 @@ final class BundledDataRefreshTests: XCTestCase {
     XCTAssertEqual(outcome.recipesAdopted, 1)
   }
 
-  func testPassConstructionPrefersThePinMatchingTheCurrentPayload() {
+  func testPassConstructionKeepsPinnedCatalogsOutOfTheCurrentCatalog() {
     let older = decodeData(Self.fixtureDataJSON)
     let catalogA = decodeFixtureCatalog()
     let pins = [
       makePin(slug: "v0", data: older, catalog: []),
       makePin(slug: "v1", data: decodeData(Self.fixtureDataJSON), catalog: catalogA),
     ]
+    let currentCatalog = decodeFixtureCatalog().map { raw in
+      LegacyCatalogIngredient(
+        fdcId: raw.fdcId, name: raw.name, calories: raw.calories + 5.0, protein: raw.protein,
+        carbs: raw.carbs, fat: raw.fat, fiber: raw.fiber, sugar: raw.sugar, sodium: raw.sodium,
+        notes: raw.notes, description: raw.description, categoryLabel: raw.categoryLabel,
+        spriteGroup: raw.spriteGroup, spriteKey: raw.spriteKey)
+    }
 
     let matched = BundledDataRefresher.loadCurrentPass(
-      current: decodeData(Self.fixtureDataJSON), currentDataSha256: "sha-v1", pins: pins)
-    XCTAssertEqual(matched.catalog.map(\.fdcId), catalogA.map(\.fdcId))
+      current: decodeData(Self.fixtureDataJSON),
+      currentDataSha256: "sha-v1",
+      currentCatalog: currentCatalog,
+      pins: pins)
+    XCTAssertEqual(
+      matched.catalog.map(\.calories), currentCatalog.map(\.calories),
+      "the pass applies the shipped current catalog, not the matching pin's export")
 
     let unmatched = BundledDataRefresher.loadCurrentPass(
-      current: decodeData(Self.fixtureDataJSON), currentDataSha256: "unpinned", pins: pins)
+      current: decodeData(Self.fixtureDataJSON),
+      currentDataSha256: "unpinned",
+      currentCatalog: currentCatalog,
+      pins: pins)
     XCTAssertEqual(
-      unmatched.catalog.map(\.fdcId), catalogA.map(\.fdcId),
-      "no matching pin: the most recent pin's catalog describes the shipped catalog")
+      unmatched.catalog.map(\.calories), currentCatalog.map(\.calories),
+      "no matching pin must not resurrect a pinned export as the current catalog")
+  }
+
+  // MARK: - Historical-snapshot readiness gate
+
+  /// The pass must refuse before any write while snapshot readiness is pending:
+  /// no adoption, no updates, no markers, no diagnostics.
+  func testRefreshRefusesWithoutSnapshotReadinessAndWritesNothing() async throws {
+    let db = try makeLegacyDatabase()
+    let pass = makePass(
+      current: decodeData(Self.changedDataJSON),
+      pins: [makePin(slug: "v1", data: decodeData(Self.fixtureDataJSON))])
+
+    XCTAssertThrowsError(try await refresh(db, pass: pass, readiness: .pending))
+
+    try db.read { db in
+      let ownedRows = try Int.fetchOne(
+        db, sql: """
+          SELECT (SELECT COUNT(*) FROM ingredients WHERE ownership_key IS NOT NULL)
+               + (SELECT COUNT(*) FROM recipes WHERE ownership_key IS NOT NULL)
+          """)
+      XCTAssertEqual(ownedRows, 0, "refusal must not adopt anything")
+      let markers = try Int.fetchOne(
+        db,
+        sql: """
+          SELECT COUNT(*) FROM bundled_recipe_state
+          WHERE key IN ('ownership_ready', 'adoption_completed_at')
+          """)
+      XCTAssertEqual(markers, 0, "refusal must not write state markers")
+      let diagnostics = try Int.fetchOne(
+        db, sql: "SELECT COUNT(*) FROM bundle_refresh_diagnostics")
+      XCTAssertEqual(diagnostics, 0, "refusal must not write diagnostics")
+      let recipeRows = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM recipes")
+      XCTAssertEqual(recipeRows, 1, "refusal must not apply the current payload")
+    }
+  }
+
+  /// A granted readiness lets the pass write. The catalog it applies is the one
+  /// this build ships — never a pin's export — even when the current payload
+  /// matches the newest pin exactly; pins still do their adoption job.
+  func testTwoVersionPassAppliesCurrentCatalogNotPinnedCatalog() async throws {
+    let db = try makeLegacyDatabase()
+    let legacyCatalog = decodeFixtureCatalog()  // tofu, calories 76
+    let correctedCatalog = [LegacyCatalogIngredient(
+      fdcId: 167606, name: "tofu", calories: 90.0, protein: 8.0, carbs: 1.9, fat: 4.8,
+      fiber: 0.3, sugar: 0.6, sodium: 0.007, notes: "SR Legacy", description: "firm block",
+      categoryLabel: "Protein", spriteGroup: "protein", spriteKey: "tofu")]
+    try db.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO ingredients (id, name, calories, protein, carbs, fat, fiber, sugar, sodium,
+                                   typical_unit, storage_tip, ownership_key, bundle_content_hash)
+          VALUES (503, 'tofu', 76.0, 8.0, 1.9, 4.8, 0.3, 0.6, 0.007, 'block', 'keep cold', ?, ?)
+          """,
+        arguments: [
+          BundleOwnership.usdaIngredientKey(fdcId: 167606),
+          CanonicalHash.hash(fields: BundleRowProjection.catalogIngredientFields(legacyCatalog[0])),
+        ])
+    }
+
+    let current = decodeData(Self.changedDataJSON)
+    let v1Pin = makePin(slug: "v1", data: decodeData(Self.fixtureDataJSON), catalog: legacyCatalog)
+    let v2Pin = makePin(slug: "v2", data: current, catalog: legacyCatalog)
+    let pass = BundledDataRefresher.loadCurrentPass(
+      current: current,
+      currentDataSha256: v2Pin.dataSha256,
+      currentCatalog: correctedCatalog,
+      pins: [v1Pin, v2Pin])
+    _ = try await refresh(db, pass: pass)
+
+    try db.read { db in
+      let tofu = try Row.fetchOne(db, sql: "SELECT * FROM ingredients WHERE id = 503")!
+      let calories: Double = tofu["calories"]
+      XCTAssertEqual(calories, 90.0, "the shipped corrected catalog must be applied")
+      let ownershipKey: String = tofu["ownership_key"]
+      XCTAssertEqual(ownershipKey, BundleOwnership.usdaIngredientKey(fdcId: 167606))
+      let egg = try Row.fetchOne(db, sql: "SELECT * FROM ingredients WHERE id = 500")!
+      let eggKey: String? = egg["ownership_key"]
+      XCTAssertEqual(
+        eggKey, BundleOwnership.ingredientKey(bundleIngredientId: 1),
+        "pins still do their adoption job")
+    }
+  }
+
+  /// The production launch hook defaults to fail-closed readiness: hydration
+  /// still equips the database, but the refresh pass is refused and no refresh
+  /// markers are written until the snapshot stream's provider lands.
+  func testLaunchPathWithPendingReadinessRefusesTheRefreshPass() async throws {
+    let db = try makeLegacyDatabase()
+    let appDB = AppDatabase(dbQueue: db)
+
+    try await appDB.warmBundledContentIfNeeded()
+
+    try db.read { db in
+      let markers = try Int.fetchOne(
+        db,
+        sql: """
+          SELECT COUNT(*) FROM bundled_recipe_state
+          WHERE key IN ('ownership_ready', 'adoption_completed_at')
+          """)
+      XCTAssertEqual(markers, 0, "a pending readiness must leave the refresh refused")
+    }
   }
 
   // MARK: - Full launch path on real bundle resources
@@ -594,7 +715,7 @@ final class BundledDataRefreshTests: XCTestCase {
     try DatabaseMigrations.migrate(db)
     let appDB = AppDatabase(dbQueue: db)
 
-    try await appDB.warmBundledContentIfNeeded()
+    try await appDB.warmBundledContentIfNeeded(readiness: .ready)
 
     try await assertEveryShippedEntryIsOwnedOrExplained(appDB)
     // A second launch re-runs everything without changing a thing.
@@ -611,7 +732,7 @@ final class BundledDataRefreshTests: XCTestCase {
     let db = try makeLegacyDatabase()
     let appDB = AppDatabase(dbQueue: db)
 
-    try await appDB.warmBundledContentIfNeeded()
+    try await appDB.warmBundledContentIfNeeded(readiness: .ready)
 
     try await assertEveryShippedEntryIsOwnedOrExplained(appDB)
     try db.read { db in
@@ -710,10 +831,19 @@ extension AppDatabase {
       return BundledDataRefreshOutcome()
     }
     let pins = try LegacyBundlePins.load(from: pinsDirectory)
+    let currentCatalog: [LegacyCatalogIngredient]
+    if let catalogUrl = Bundle.main.url(
+      forResource: "usda_ingredient_catalog", withExtension: "sqlite")
+    {
+      currentCatalog = try BundledDataLoader.currentCatalogIngredients(from: catalogUrl)
+    } else {
+      currentCatalog = []
+    }
     let pass = BundledDataRefresher.loadCurrentPass(
       current: bundled,
       currentDataSha256: LegacyBundlePins.sha256Hex(jsonData),
+      currentCatalog: currentCatalog,
       pins: pins)
-    return try await BundledDataRefresher.refresh(appDB: self, pass: pass)
+    return try await BundledDataRefresher.refresh(appDB: self, pass: pass, readiness: .ready)
   }
 }

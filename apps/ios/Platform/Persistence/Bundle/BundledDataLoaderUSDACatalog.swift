@@ -2,6 +2,61 @@ import Foundation
 import GRDB
 
 extension BundledDataLoader {
+  /// Reads the shipped catalog as the refresh's current-catalog input, using
+  /// the same column contract as the import above (display metadata COALESCEd
+  /// to ''). Deliberately distinct from the pinned catalog exports: pins are
+  /// adoption evidence for what past releases wrote and never substitute for
+  /// what this build ships, so a corrected catalog cannot be replaced by the
+  /// pinned old export.
+  static func currentCatalogIngredients(from url: URL) throws -> [LegacyCatalogIngredient] {
+    var readConfig = Configuration()
+    readConfig.readonly = true
+    let sourceDB = try DatabaseQueue(path: url.path, configuration: readConfig)
+    return try sourceDB.read { src in
+      try Row.fetchAll(
+        src,
+        sql: """
+          SELECT
+            id,
+            name,
+            calories,
+            protein,
+            carbs,
+            fat,
+            fiber,
+            sugar,
+            sodium,
+            notes,
+            COALESCE(description, '') AS description,
+            COALESCE(category_label, '') AS category_label,
+            COALESCE(sprite_group, '') AS sprite_group,
+            COALESCE(sprite_key, '') AS sprite_key
+          FROM ingredients
+          """
+      ).map { row -> LegacyCatalogIngredient in
+        let fdcId: Int64 = row["id"]
+        let name: String = row["name"]
+        let calories: Double = row["calories"]
+        let protein: Double = row["protein"]
+        let carbs: Double = row["carbs"]
+        let fat: Double = row["fat"]
+        let fiber: Double = row["fiber"]
+        let sugar: Double = row["sugar"]
+        let sodium: Double = row["sodium"]
+        let notes: String? = row["notes"]
+        let description: String = row["description"]
+        let categoryLabel: String = row["category_label"]
+        let spriteGroup: String = row["sprite_group"]
+        let spriteKey: String = row["sprite_key"]
+        return LegacyCatalogIngredient(
+          fdcId: fdcId, name: name, calories: calories, protein: protein, carbs: carbs,
+          fat: fat, fiber: fiber, sugar: sugar, sodium: sodium, notes: notes,
+          description: description, categoryLabel: categoryLabel, spriteGroup: spriteGroup,
+          spriteKey: spriteKey)
+      }
+    }
+  }
+
   /// Import curated USDA ingredient rows from bundled SQLite resource if present.
   /// Uses INSERT OR IGNORE to avoid clobbering the base curated ingredient set.
   static func loadUSDACatalogIngredientsIfAvailable(into db: Database) throws {

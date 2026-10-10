@@ -22,12 +22,19 @@ enum BundledDataRefreshError: Error, CustomStringConvertible {
   /// The whole transaction rolls back — never ship a half-applied bundle.
   case postConditionFailed(String)
 
+  /// Historical-snapshot readiness is not established: the snapshot stream's
+  /// migration or its historical completion markers are absent or invalid.
+  /// Nothing was written; the next launch retries.
+  case snapshotReadinessRefused(String)
+
   var description: String {
     switch self {
     case .invalidPayload(let problems):
       return "current bundle payload is invalid: \(problems.joined(separator: "; "))"
     case .postConditionFailed(let reason):
       return "bundle refresh postcondition failed: \(reason)"
+    case .snapshotReadinessRefused(let reason):
+      return "bundle refresh refused, historical snapshots not ready: \(reason)"
     }
   }
 }
@@ -75,16 +82,39 @@ enum BundledDataRefresher {
     var afterRowUpdates: (() throws -> Void)?
   }
 
+  /// Readiness contract consumed from the historical-snapshot stream
+  /// (fl-next-historical-nutrition-r1). That stream owns the snapshot migration,
+  /// snapshot writes, and all snapshot query arithmetic; this module implements
+  /// none of them. The refresh refuses to write — no adoption, no update, no
+  /// marker — unless the provided check establishes that the snapshot migration
+  /// is applied and every historical completion marker is valid.
+  ///
+  /// `.pending` is the fail-closed default: while the snapshot stream's
+  /// readiness provider has not landed, every refresh attempt is refused
+  /// before any write and retried on a later launch.
+  struct HistoricalSnapshotReadiness: Sendable {
+    var verify: @Sendable (Database) throws -> Void
+
+    static let pending = HistoricalSnapshotReadiness(verify: { _ in
+      throw BundledDataRefreshError.snapshotReadinessRefused(
+        "the fl-next-historical-nutrition-r1 readiness provider has not landed")
+    })
+
+    static let ready = HistoricalSnapshotReadiness(verify: { _ in })
+  }
+
   // MARK: - Entry points
 
   static func refresh(
     appDB: AppDatabase,
     pass: Pass,
+    readiness: HistoricalSnapshotReadiness,
     injections: InjectionPoints = InjectionPoints()
   ) async throws -> BundledDataRefreshOutcome {
     var outcome = BundledDataRefreshOutcome()
     try await appDB.dbQueue.write { db in
-      outcome = try refreshInTransaction(db: db, pass: pass, injections: injections)
+      outcome = try refreshInTransaction(
+        db: db, pass: pass, readiness: readiness, injections: injections)
     }
     return outcome
   }
@@ -93,6 +123,7 @@ enum BundledDataRefresher {
   static func refreshInTransaction(
     db: Database,
     pass: Pass,
+    readiness: HistoricalSnapshotReadiness,
     injections: InjectionPoints = InjectionPoints()
   ) throws -> BundledDataRefreshOutcome {
     var outcome = BundledDataRefreshOutcome()
@@ -100,6 +131,9 @@ enum BundledDataRefresher {
     if let problems = Self.validate(pass.current) {
       throw BundledDataRefreshError.invalidPayload(problems: problems)
     }
+
+    // Readiness gate, ahead of every write: no adoption, no update, no marker.
+    try readiness.verify(db)
 
     if try fetchStateValue(db, key: "ownership_ready") != "1" {
       try adoptLegacyRows(db: db, pass: pass, outcome: &outcome)
@@ -120,25 +154,21 @@ enum BundledDataRefresher {
   }
   // MARK: - Pass construction
 
-  /// Builds the pass for the currently shipped bundle. The catalog payload rides
-  /// with the pins: the app has shipped exactly one catalog (pinned as v1), whose
-  /// verified export describes the same rows the bundled catalog SQLite contains.
-  /// When the current data.json matches a pin exactly, that pin's catalog is used;
-  /// otherwise the most recent pin's catalog is the best available description of
-  /// the catalog this app build ships.
+  /// Builds the refresh pass for the currently shipped bundle. The current
+  /// catalog is what THIS app build ships —
+  /// never a pin's catalog export: a corrected catalog (for example the PR #40
+  /// audit data) must reach owned rows as a bundle update, and the pinned
+  /// exports exist only so adoption can identify what past releases wrote.
   static func loadCurrentPass(
     current: BundledData,
     currentDataSha256: String,
+    currentCatalog: [LegacyCatalogIngredient],
     pins: [PinnedBundlePayload]
   ) -> Pass {
-    let catalog =
-      pins.first { $0.dataSha256 == currentDataSha256 }?.catalog
-      ?? pins.last?.catalog
-      ?? []
-    return Pass(
+    Pass(
       current: current,
       currentDataSha256: currentDataSha256,
-      catalog: catalog,
+      catalog: currentCatalog,
       pins: pins)
   }
 
