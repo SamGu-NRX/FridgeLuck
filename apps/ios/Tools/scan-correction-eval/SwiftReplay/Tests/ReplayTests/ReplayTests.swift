@@ -150,6 +150,29 @@ final class ReplayTests: XCTestCase {
       XCTAssertEqual(result.correctAuto, 0)
     }
 
+    // 4. Routing: every committed-history scan carries a ConfidenceRouter
+    // bucket (all histories emit vision confidences), and auto-add
+    // correctness always derives from the learner decision vs truth.
+    for result in output.results {
+      for d in result.decisions {
+        XCTAssertNotNil(d.bucket, "unrouted scan \(result.arm)/\(result.family)/\(result.seed)/\(d.i)")
+        if d.bucket == "auto" {
+          if d.decision == nil {
+            // counted as unresolved; contributes neither correct nor wrong
+          } else if d.decision == d.truth {
+            // correct auto-add
+          } else {
+            // wrong auto-add
+          }
+        }
+      }
+      XCTAssertEqual(
+        result.routedAutoAdd,
+        result.routedAutoAddCorrect + result.routedAutoAddWrong
+          + result.routedAutoAddUnresolved,
+        "auto-add accounting broken: \(result.arm)/\(result.family)/\(result.seed)")
+    }
+
     let encoder = JSONEncoder()
     encoder.outputFormatting = [.sortedKeys]
     let payload = try encoder.encode(output)

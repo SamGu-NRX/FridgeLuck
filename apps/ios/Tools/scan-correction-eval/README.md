@@ -24,6 +24,7 @@ behavior. Nothing here is a human study, and `ConfidenceLearningService`
 | `tests/` | pytest suite over counts, determinism, stream independence, split controls, reference units, and checker mutations. |
 | `SwiftReplay/` | Swift package that replays the **real** `LearningService` and `ConfidenceRouter` in fresh GRDB databases over these histories (milestone 2). Built and passing; see below. |
 | `score.py` | Formal scoring (milestone 3, built): dev-only policy selection, held-out scoring with seed-grouped bootstrap intervals, `--verify-report` tamper check. |
+| `HANDOFF.md` | Pinned production sources with sha256, the exact full replay command, and what is (and is not) measured. |
 | `data/` | Committed histories, manifest (seed/family counts), expected outcomes, and replay results. |
 
 ## Families (committed counts)
@@ -76,12 +77,39 @@ matches the hand-computed reference decisions in `data/expected_current.json`
 scan-for-scan; restarting the service from the database reproduces identical
 decisions; reopening the database reproduces identical decisions.
 
-Full-run results (committed under `data/replay-out/`, 2,650 scans x 4 arms):
+Full-run results (committed under `data/replay-out/`, 2,650 scans x 4 arms,
+learner-only decisions):
 `conflict_abstain` removes wrong auto-corrections in the conflict family
 (250 -> 0) at the cost of never auto-correcting there; `recency_window` cuts
 wrong auto-corrections in the changed family by a third (150 -> 100) and adds
 correct auto-corrections (300 -> 350); `current` and `noisy`/`clean` families
 behave as the Python reference predicted.
+
+### Learner-only vs routed results (schema 1 -> 2)
+
+The schema-1 results (`replay-results-learner-only.json`, preserved verbatim)
+carry the **learner-only** measurements: the raw `LearningService` decision
+per scan, with no confidence routing. The schema-2 replay (`replay-results.json`)
+keeps those decisions byte-identical — enforced by
+`tests/test_score.py::test_learner_only_decisions_preserved` — and adds
+**routing through the real production `ConfidenceRouter`**: each scan's
+`Detection` (vision source, the history's confidence) is bucketed exactly as
+`VisionService` does in production.
+
+Published routing effects (auto-add is the only bucket that takes effect
+without the user; confirm/possible await the user, so the learner's decision
+has no silent effect there):
+
+- Per-family auto-add counts are identical across arms (the bucket depends
+  only on confidence, not the learner) — e.g. 196 of 550 changed-family
+  scans auto-add, 354 wait for confirmation. What differs by arm is the
+  **correctness of what auto-adds**: in the conflict family, `current`
+  auto-adds 79 wrong items silently; `conflict_abstain` auto-adds 0 wrong
+  (its auto-adds there are unresolved/abstained). In `changed`, wrong
+  auto-adds go 56 (current) -> 30 (recency_window). Held-out:
+  `current` 37 wrong auto-adds vs `conflict_abstain` 5.
+- The OCR paths of the router are compiled in but not exercised — all
+  committed histories are vision-label scans.
 
 ### Formal scoring (milestone 3)
 
@@ -106,7 +134,12 @@ behave as the Python reference predicted.
 
 Scorer tests: `tests/test_score.py` (synthetic data only) — selection
 isolation from held-out, tie-breaks, bootstrap determinism, and tamper /
-dropped-case / edited-report refusals. Full suite: 21 pytest cases pass.
+dropped-case / edited-report refusals. Full suite: 23 pytest cases pass,
+including learner-only preservation and routing re-derivation from the
+production thresholds.
+
+Reproduction from a clean clone — pinned sources, the exact full replay
+command, and the scope of what is measured: see `HANDOFF.md`.
 
 ## Status / handoff
 

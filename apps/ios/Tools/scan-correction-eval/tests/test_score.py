@@ -199,3 +199,84 @@ def test_missing_heldout_refuses_to_score(tmp_path):
     with pytest.raises(SystemExit) as exc:
         score.build_report("digest", data, b=10)
     assert "held-out" in str(exc.value)
+
+
+# --- learner-only preservation (schema 1 -> schema 2) ---------------------
+
+TOOL_DIR = Path(__file__).resolve().parents[1]
+DATA = TOOL_DIR / "data"
+
+
+def _committed(name):
+    path = DATA / "replay-out" / name
+    if not path.exists():
+        pytest.skip(f"{name} not committed")
+    return json.loads(path.read_text())
+
+
+def test_learner_only_decisions_preserved():
+    """Schema-2 replay must reproduce the schema-1 (learner-only) decisions
+    exactly, row for row — routing must not perturb the verified
+    1,200-row / 10,600-decision dataset."""
+    old = _committed("replay-results-learner-only.json")
+    new = _committed("replay-results.json")
+    assert new["schema"] == 2
+
+    def key(row):
+        return (row["family"], row["seed"], row["arm"])
+
+    old_by_key = {key(r): r for r in old["results"]}
+    assert len(old_by_key) == 1200
+    assert len(new["results"]) == 1200
+    for row in new["results"]:
+        base = old_by_key[key(row)]
+        assert [(d["i"], d.get("decision"), d["label"], d["truth"])
+                for d in row["decisions"]] == \
+            [(d["i"], d.get("decision"), d["label"], d["truth"])
+                for d in base["decisions"]]
+        assert (row["wrongAuto"], row["correctAuto"], row["abstained"],
+                row["restartAgreement"], row["dbReopenAgreement"]) == \
+            (base["wrongAuto"], base["correctAuto"], base["abstained"],
+                base["restartAgreement"], base["dbReopenAgreement"])
+
+
+def test_routing_counts_match_decisions_and_thresholds():
+    """Routing effects in the schema-2 file must re-derive from the recorded
+    decisions plus the production vision thresholds (>=0.82 auto, >=0.45
+    confirm, else possible) applied to the histories' confidences."""
+    new = _committed("replay-results.json")
+    histories = json.loads((DATA / "histories.json").read_text())
+
+    # conf keyed by (family, seed, i) — every committed scan has one
+    conf = {}
+    for h in histories["histories"]:
+        for e in h["events"]:
+            if e["type"] == "scan":
+                conf[(h["family"], h["seed"], e["i"])] = e["conf"]
+
+    for row in new["results"]:
+        exp = {"auto": 0, "auto_correct": 0, "auto_wrong": 0,
+               "auto_unresolved": 0, "confirm": 0, "possible": 0}
+        for d in row["decisions"]:
+            c = conf[(row["family"], row["seed"], d["i"])]
+            bucket = "auto" if c >= 0.82 else ("confirm" if c >= 0.45 else "possible")
+            assert d["bucket"] == bucket, \
+                f"bucket mismatch {row['arm']}/{row['family']}/{row['seed']}/{d['i']}"
+            if bucket == "auto":
+                exp["auto"] += 1
+                if d.get("decision") is None:
+                    exp["auto_unresolved"] += 1
+                elif d["decision"] == d["truth"]:
+                    exp["auto_correct"] += 1
+                else:
+                    exp["auto_wrong"] += 1
+            elif bucket == "confirm":
+                exp["confirm"] += 1
+            else:
+                exp["possible"] += 1
+        assert row["routedAutoAdd"] == exp["auto"]
+        assert row["routedAutoAddCorrect"] == exp["auto_correct"]
+        assert row["routedAutoAddWrong"] == exp["auto_wrong"]
+        assert row["routedAutoAddUnresolved"] == exp["auto_unresolved"]
+        assert row["routedConfirm"] == exp["confirm"]
+        assert row["routedPossible"] == exp["possible"]
