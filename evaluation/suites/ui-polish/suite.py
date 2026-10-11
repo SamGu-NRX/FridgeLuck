@@ -9,8 +9,9 @@ Bars (PLAN.md, "The scorecard (evals first)"):
 Arms:
   - macOS arm (XCUITest): accessibility audits (.contrast/.hitRegion in a
     standard pass; .dynamicType/.textClipped at XXL) plus a 64 pt cook-mode
-    frame walk. Needs Xcode + the iOS simulator; runs only inside
-    .github/workflows/eval-macos.yml (macos-26, Xcode 26.6).
+    frame walk. Needs Xcode + the iOS simulator; runs only in approved native
+    CI on macOS (macos-26, Xcode 26.6): the existing iOS CI targets, or the
+    staged proposal ci/pending-workflows/eval-macos.yml after Sam approves it.
   - static arm (any host, SUPPORTING EVIDENCE ONLY): WCAG math over the
     committed design tokens, declared-minimum inventory, XXL clipping-risk
     scan. Distinct metric ids with conservative intervals. It does not
@@ -73,9 +74,9 @@ def macos_not_run_reason() -> str:
         return ""  # reachable on macOS with the toolchain present
     return (
         "this host is linux and has no Xcode or iOS simulator; the XCUITest "
-        "arm requires macOS. It runs via .github/workflows/eval-macos.yml "
-        "(macos-26, Xcode 26.6); no committed macOS CI results were imported "
-        "either."
+        "arm requires macOS. It runs only in approved native CI (existing iOS "
+        "CI targets, or the staged proposal ci/pending-workflows/eval-macos.yml "
+        "after approval); no committed native results were imported either."
     )
 
 

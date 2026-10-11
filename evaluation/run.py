@@ -20,7 +20,9 @@ Contract (full document in evaluation/SCORECARD.md):
   honestly); 1 on infrastructure errors; 2 when --self-test catches an
   uncaught planted failure.
 
-macOS-only suites (ui-polish, journeys) run via .github/workflows/eval-macos.yml.
+macOS-only suites (ui-polish, journeys) run on macOS only: via the existing
+iOS CI targets, or via a workflow proposed under ci/pending-workflows/ and
+approved and installed by Sam (the fleet never edits or installs CI).
 On other hosts the runner imports their committed `evaluation/out/<id>/results.json`
 (produced from that workflow's artifacts and committed with its run URL) after
 re-validating it under the same contract; absent that, they are not-run.
@@ -176,7 +178,9 @@ def import_committed_results(entry: dict[str, Any], started: float) -> dict[str,
     if not path.is_file():
         return not_run_suite(
             entry,
-            "requires macOS (Xcode/simulator). Runs via .github/workflows/eval-macos.yml; "
+            "requires macOS (Xcode/simulator). Native runs need the existing iOS CI "
+            "targets or a workflow approved from ci/pending-workflows/eval-macos.yml "
+            "(staged proposal, not installed); "
             "no committed results imported from a CI run yet.",
             started,
         )

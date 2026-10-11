@@ -46,8 +46,8 @@ Tonight, recipe, cook, complete, share, challenge, taste-profile edit.
 ## Results
 
 Written to `evaluation/out/journeys/results.json` per SCORECARD.md. On Linux
-the macOS-arm metric is `not-run` with the precise reason; committed CI
-results (once eval-macos.yml runs on macOS) are imported by the runner.
+the macOS-arm metric is `not-run` with the precise reason; committed results
+from an approved native CI run are imported by the runner.
 
 ## Self-test
 

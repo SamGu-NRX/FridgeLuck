@@ -238,9 +238,10 @@ def macos_not_run_reason() -> str:
         return ""
     return (
         "this host is linux and has no Xcode or iOS simulator; the XCUITest "
-        "journeys require macOS. They run via .github/workflows/eval-macos.yml "
-        "(macos-26, Xcode 26.6); no committed macOS CI results were imported "
-        "either."
+        "journeys require macOS. They run only in approved native CI — the "
+        "existing iOS CI targets, or a workflow Sam approves from the staged "
+        "proposal ci/pending-workflows/eval-macos.yml; no committed native "
+        "results were imported either."
     )
 
 

@@ -51,7 +51,7 @@ evaluation/suites/<suite-id>/
   "letter": "A",                 // letter in PLAN.md's scorecard table
   "title": "Pantry truth",
   "owner_task": "fl-eval-harness-f1 (suite A sub-thread)",
-  "platform": "any",             // "any" | "macos" — macos suites run only in eval-macos.yml
+  "platform": "any",             // "any" | "macos" — macos suites run only in approved native CI (see "macOS-only suites")
   "timeout_s": 1800              // optional, default 1800
 }
 ```
@@ -124,11 +124,15 @@ delivering task is never silently dropped.
 
 ## macOS-only suites (F `ui-polish`, G `journeys`)
 
-They run in `.github/workflows/eval-macos.yml` (macos-26, Xcode 26.6) via
-XCUITest. On non-macOS hosts the runner imports the suite's committed
-`evaluation/out/<id>/results.json` (produced from that workflow's artifacts
-and committed together with the run URL) and re-validates it under this
-contract; `source` is marked `imported`. With no committed results the suite
+They run under XCUITest on macOS (macos-26, Xcode 26.6). Per the standing
+rule, the fleet never edits or installs CI: native execution happens only in
+the existing iOS CI targets, or in a workflow proposed under
+`ci/pending-workflows/eval-macos.yml` and approved and installed by Sam.
+Native arms without a real run are labelled UNVERIFIED-NATIVE in the
+delivering PR — never reported as verified-native-ci. On non-macOS hosts the
+runner imports the suite's committed `evaluation/out/<id>/results.json`
+(produced from an approved native run and committed together with the run
+URL) and re-validates it under this contract; `source` is marked `imported`. With no committed results the suite
 reports `not-run` with that reason — never pass.
 
 ## Wiring contract for suites B (learning), D (lechef) and E (community)
