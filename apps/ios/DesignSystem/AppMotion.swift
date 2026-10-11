@@ -90,3 +90,12 @@ enum AppMotion {
   static let tabEntrance: Animation = .spring(response: 0.38, dampingFraction: 0.82)
   static let shimmer: Animation = .easeInOut(duration: 1.5)
 }
+
+// MARK: - Recipe Amount Export (additive tokens)
+
+extension AppMotion {
+  enum Export {
+    /// Preparing → prepared content handoff. Call sites honor Reduce Motion.
+    static let stateChange: Animation = .timingCurve(0.22, 1.0, 0.36, 1.0, duration: 0.28)
+  }
+}
