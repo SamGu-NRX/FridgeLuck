@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import SwiftUI
 
@@ -40,16 +41,26 @@ final class LiveAssistantViewModel: ObservableObject {
 
   let recipeContext: LiveAssistantRecipeContext
   let captureCoordinator = LiveAssistantCaptureCoordinator()
+  /// Parsed once at init with the same parser the offline cooking guide uses, so the live
+  /// panel never shows a `Source: …` URL as step 1 or repeats the recipe's own numbering.
+  private let parsedGuide: CookingGuideSteps
 
   var instructionSteps: [String] {
-    recipeContext.instructions
-      .components(separatedBy: "\n")
-      .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-      .filter { !$0.isEmpty }
+    parsedGuide.steps
+  }
+
+  /// Where the recipe came from, kept outside the step count like the cooking guide.
+  var recipeAttribution: RecipeAttribution? {
+    parsedGuide.attribution
   }
 
   var totalSteps: Int { instructionSteps.count }
-  var isOnLastStep: Bool { currentStepIndex >= totalSteps - 1 }
+
+  /// False when there are no steps: an empty or attribution-only recipe is not "on the
+  /// last step", and navigation must not treat index 0 as a final step.
+  var isOnLastStep: Bool {
+    totalSteps > 0 && currentStepIndex >= totalSteps - 1
+  }
 
   var stepProgress: Double {
     guard totalSteps > 0 else { return 0 }
@@ -143,6 +154,7 @@ final class LiveAssistantViewModel: ObservableObject {
 
   init(recipeContext: LiveAssistantRecipeContext) {
     self.recipeContext = recipeContext
+    self.parsedGuide = CookingGuideSteps(instructions: recipeContext.instructions)
     let env = ProcessInfo.processInfo.environment["GEMINI_BACKEND_BASE_URL"]
     let plist = Bundle.main.object(forInfoDictionaryKey: "GEMINI_BACKEND_BASE_URL") as? String
     self.baseURL = Self.resolvedBaseURL(env ?? plist)
