@@ -48,7 +48,7 @@ enum HealthGoal: String, Sendable, Codable, CaseIterable, DatabaseValueConvertib
 
 // MARK: - Health Profile
 
-struct HealthProfile: Sendable, Codable {
+struct HealthProfile: Sendable, Codable, Equatable {
   var id: Int64 = 1
   var displayName: String
   var age: Int?

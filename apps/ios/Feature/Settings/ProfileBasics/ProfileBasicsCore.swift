@@ -6,15 +6,6 @@ import Foundation
 // (Linux harness), so it must not import SwiftUI, Combine, UIKit, or GRDB.
 // No profile values are logged anywhere in this file.
 
-// MARK: - Equatable retrofit
-
-/// `HealthProfile` does not declare `Equatable` in its own file, but the draft
-/// and every phase carrying one must be comparable. Every stored property of
-/// `HealthProfile` is `Equatable`, so the memberwise `==` is synthesized here.
-/// Declared in this file because the profile-basics feature owns it and the
-/// model file must stay untouched.
-extension HealthProfile: Equatable {}
-
 // MARK: - Draft
 
 /// The editable state of the profile-basics screen.
