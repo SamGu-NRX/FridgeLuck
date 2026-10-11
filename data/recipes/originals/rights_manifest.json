@@ -4895,6 +4895,486 @@
         "caching": true,
         "offline_use": true
       }
+    },
+    "fl-original-0310": {
+      "source_id": "fl-original-0310",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0311": {
+      "source_id": "fl-original-0311",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0312": {
+      "source_id": "fl-original-0312",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0313": {
+      "source_id": "fl-original-0313",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0314": {
+      "source_id": "fl-original-0314",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0315": {
+      "source_id": "fl-original-0315",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0316": {
+      "source_id": "fl-original-0316",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0317": {
+      "source_id": "fl-original-0317",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0318": {
+      "source_id": "fl-original-0318",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0319": {
+      "source_id": "fl-original-0319",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0320": {
+      "source_id": "fl-original-0320",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0321": {
+      "source_id": "fl-original-0321",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0322": {
+      "source_id": "fl-original-0322",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0323": {
+      "source_id": "fl-original-0323",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0324": {
+      "source_id": "fl-original-0324",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0325": {
+      "source_id": "fl-original-0325",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0326": {
+      "source_id": "fl-original-0326",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0327": {
+      "source_id": "fl-original-0327",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0328": {
+      "source_id": "fl-original-0328",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0329": {
+      "source_id": "fl-original-0329",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0330": {
+      "source_id": "fl-original-0330",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0331": {
+      "source_id": "fl-original-0331",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0332": {
+      "source_id": "fl-original-0332",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0333": {
+      "source_id": "fl-original-0333",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0334": {
+      "source_id": "fl-original-0334",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0335": {
+      "source_id": "fl-original-0335",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0336": {
+      "source_id": "fl-original-0336",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0337": {
+      "source_id": "fl-original-0337",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0338": {
+      "source_id": "fl-original-0338",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0339": {
+      "source_id": "fl-original-0339",
+      "source_type": "original",
+      "origin": "original dish authored for FridgeLuck, Part 5b corpus expansion",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1 Part 5b: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
     }
   }
 }
