@@ -59,6 +59,14 @@ struct HealthProfile: Sendable, Codable {
   var fatPct: Double
   var dietaryRestrictions: String  // JSON array string
   var allergenIngredientIds: String  // JSON array string
+  /// Explicitly selected allergen group identifiers (JSON array of canonical
+  /// `AllergenGroupID` raw values). This is the only record of group intent — it is
+  /// never inferred from `allergenIngredientIds`.
+  var allergenSelectedGroups: String = "[]"  // JSON array string
+  /// Version of the explicit allergen preferences state. `0` (the legacy default) means
+  /// the groups were never explicitly confirmed, so the profile is asked to reconfirm
+  /// and its exclusions are not presented as complete.
+  var allergenPreferencesVersion: Int = 0
   var updatedAt: Date?
 
   static let `default` = HealthProfile(
@@ -70,7 +78,9 @@ struct HealthProfile: Sendable, Codable {
     carbsPct: 0.45,
     fatPct: 0.30,
     dietaryRestrictions: "[]",
-    allergenIngredientIds: "[]"
+    allergenIngredientIds: "[]",
+    allergenSelectedGroups: "[]",
+    allergenPreferencesVersion: 0
   )
 
   var parsedDietaryRestrictions: [String] {
@@ -96,6 +106,36 @@ struct HealthProfile: Sendable, Codable {
       return []
     }
     return array
+  }
+
+  /// The explicitly selected allergen group identifiers, filtered to canonical groups.
+  /// Unknown or malformed strings are dropped, never interpreted.
+  var parsedAllergenSelectedGroups: Set<String> {
+    guard let data = allergenSelectedGroups.data(using: .utf8),
+      let array = try? JSONDecoder().decode([String].self, from: data)
+    else {
+      return []
+    }
+    return Set(
+      AllergenExclusions.normalizedGroupIDs(from: Set(array)).map(\.rawValue))
+  }
+
+  /// True when the profile has no explicit group confirmation on record (all legacy
+  /// profiles land here after migration). Such profiles keep their explicit ingredient
+  /// exclusions but are asked to reconfirm groups; their exclusions are not presented
+  /// as complete.
+  var allergenNeedsGroupConfirmation: Bool {
+    AllergenExclusions.needsGroupConfirmation(preferencesVersion: allergenPreferencesVersion)
+  }
+
+  /// Effective allergen exclusion set: members of the explicitly selected groups plus
+  /// the individually excluded ingredient IDs. Group intent is never reconstructed from
+  /// the individual IDs.
+  var effectiveAllergenExclusionIds: Set<Int64> {
+    AllergenExclusions.effectiveExcludedIngredientIDs(
+      selectedGroups: parsedAllergenSelectedGroups,
+      individualExclusions: Set(parsedAllergenIds)
+    )
   }
 }
 
@@ -181,6 +221,8 @@ extension HealthProfile {
     case fatPct = "fat_pct"
     case dietaryRestrictions = "dietary_restrictions"
     case allergenIngredientIds = "allergen_ingredient_ids"
+    case allergenSelectedGroups = "allergen_selected_groups"
+    case allergenPreferencesVersion = "allergen_preferences_version"
     case updatedAt = "updated_at"
   }
 }
@@ -199,6 +241,8 @@ extension HealthProfile: FetchableRecord, MutablePersistableRecord, TableRecord 
     case fatPct = "fat_pct"
     case dietaryRestrictions = "dietary_restrictions"
     case allergenIngredientIds = "allergen_ingredient_ids"
+    case allergenSelectedGroups = "allergen_selected_groups"
+    case allergenPreferencesVersion = "allergen_preferences_version"
     case updatedAt = "updated_at"
   }
 
@@ -213,6 +257,8 @@ extension HealthProfile: FetchableRecord, MutablePersistableRecord, TableRecord 
     container[Columns.fatPct] = fatPct
     container[Columns.dietaryRestrictions] = dietaryRestrictions
     container[Columns.allergenIngredientIds] = allergenIngredientIds
+    container[Columns.allergenSelectedGroups] = allergenSelectedGroups
+    container[Columns.allergenPreferencesVersion] = allergenPreferencesVersion
     container[Columns.updatedAt] = updatedAt ?? Date()
   }
 }

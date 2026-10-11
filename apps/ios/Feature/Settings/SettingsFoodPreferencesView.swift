@@ -10,6 +10,11 @@ struct SettingsFoodPreferencesView: View {
   @State private var profile = HealthProfile.default
   @State private var selectedDiet: SettingsDietOption = .classic
   @State private var selectedAllergenIDs: Set<Int64> = []
+  // Explicit allergen group selection — persisted as-is, never derived from
+  // selectedAllergenIDs.
+  @State private var selectedAllergenGroups: Set<String> = []
+  @State private var confirmedNoGroups = false
+  @State private var loadedPreferencesVersion = 0
   @State private var allergenCatalog: AllergenCatalogIndex = .empty
   @State private var showAllergenPicker = false
   @State private var validationMessage: String?
@@ -40,6 +45,58 @@ struct SettingsFoodPreferencesView: View {
           .padding(.horizontal, AppTheme.Space.page)
 
         VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+          if loadedPreferencesVersion < AllergenExclusions.currentPreferencesVersion {
+            Label(
+              "Please confirm your allergen groups below — your flagged ingredients are kept.",
+              systemImage: "arrow.triangle.2.circlepath"
+            )
+            .font(AppTheme.Typography.settingsCaption)
+            .foregroundStyle(AppTheme.accent)
+            .padding(.horizontal, AppTheme.Space.xxs)
+          }
+
+          LazyVGrid(
+            columns: [
+              GridItem(.flexible(), spacing: AppTheme.Space.xs),
+              GridItem(.flexible(), spacing: AppTheme.Space.xs),
+            ],
+            spacing: AppTheme.Space.xs
+          ) {
+            ForEach(AllergenSupport.groups) { group in
+              groupChip(group)
+            }
+          }
+
+          Button {
+            withAnimation(reduceMotion ? nil : AppMotion.standard) {
+              selectedAllergenGroups = []
+              confirmedNoGroups = true
+            }
+            AppPreferencesStore.haptic(.light)
+          } label: {
+            HStack(spacing: AppTheme.Space.xxs) {
+              Image(systemName: confirmedNoGroups ? "checkmark.circle.fill" : "circle")
+              Text("I have no allergen groups to flag")
+                .font(AppTheme.Typography.settingsBody)
+            }
+            .foregroundStyle(confirmedNoGroups ? AppTheme.sage : AppTheme.textSecondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(AppTheme.Space.md)
+            .background(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                .fill(confirmedNoGroups ? AppTheme.sage.opacity(0.12) : AppTheme.surfaceElevated)
+            )
+            .overlay(
+              RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+                .stroke(
+                  confirmedNoGroups ? AppTheme.sage : AppTheme.oat.opacity(0.22),
+                  lineWidth: 1)
+            )
+            .contentShape(Rectangle())
+          }
+          .buttonStyle(.plain)
+          .accessibilityAddTraits(confirmedNoGroups ? .isSelected : [])
+
           Button {
             showAllergenPicker = true
           } label: {
@@ -171,17 +228,72 @@ struct SettingsFoodPreferencesView: View {
     allergenCatalog.selectedIngredients(from: selectedAllergenIDs)
   }
 
+  private func groupChip(_ group: AllergenGroupDefinition) -> some View {
+    let isSelected = selectedAllergenGroups.contains(group.id)
+
+    return Button {
+      withAnimation(reduceMotion ? nil : AppMotion.standard) {
+        if isSelected {
+          selectedAllergenGroups.remove(group.id)
+        } else {
+          selectedAllergenGroups.insert(group.id)
+          confirmedNoGroups = false
+        }
+      }
+      AppPreferencesStore.haptic(.light)
+    } label: {
+      HStack(spacing: AppTheme.Space.xxs) {
+        FLIconView(group.icon.source, size: 18)
+        Text(group.title)
+          .font(AppTheme.Typography.settingsCaption)
+          .lineLimit(1)
+        Spacer(minLength: 0)
+        Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+      }
+      .foregroundStyle(isSelected ? AppTheme.accent : AppTheme.textPrimary)
+      .padding(.horizontal, AppTheme.Space.sm)
+      .padding(.vertical, AppTheme.Space.sm)
+      .background(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+          .fill(isSelected ? AppTheme.accent.opacity(0.10) : AppTheme.surfaceElevated)
+      )
+      .overlay(
+        RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+          .stroke(isSelected ? AppTheme.accent : AppTheme.oat.opacity(0.22), lineWidth: 1)
+      )
+      .contentShape(Rectangle())
+    }
+    .buttonStyle(.plain)
+    .accessibilityAddTraits(isSelected ? .isSelected : [])
+  }
+
   private func load() async {
     profile = (try? deps.userDataRepository.fetchHealthProfile()) ?? .default
     selectedDiet = SettingsDietOption(profile: profile)
     selectedAllergenIDs = Set(profile.parsedAllergenIds)
+    selectedAllergenGroups = profile.parsedAllergenSelectedGroups
+    loadedPreferencesVersion = profile.allergenPreferencesVersion
+    confirmedNoGroups =
+      selectedAllergenGroups.isEmpty && !profile.allergenNeedsGroupConfirmation
     allergenCatalog = await OnboardingAllergenCatalogLoader.load(from: deps.ingredientRepository)
   }
 
   private func save() {
     validationMessage = nil
+
+    // Explicit confirmation is required to record "no allergen groups": an untouched
+    // selection is never silently read as "no allergies".
+    if selectedAllergenGroups.isEmpty && !confirmedNoGroups {
+      validationMessage =
+        "Choose the allergen groups to avoid, or confirm you have none to flag."
+      return
+    }
+
     profile.dietaryRestrictions = (try? encodeJSON(selectedDiet.storedRestrictions)) ?? "[]"
     profile.allergenIngredientIds = (try? encodeJSON(Array(selectedAllergenIDs).sorted())) ?? "[]"
+    profile.allergenSelectedGroups =
+      (try? encodeJSON(Array(selectedAllergenGroups).sorted())) ?? "[]"
+    profile.allergenPreferencesVersion = AllergenExclusions.currentPreferencesVersion
 
     do {
       try deps.userDataRepository.saveHealthProfile(profile)

@@ -528,6 +528,29 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V19: Explicit allergen group selection
+
+    // Group intent gets its own explicit record: `allergen_selected_groups` stores the
+    // canonical group identifiers the user actually chose, and
+    // `allergen_preferences_version` marks whether allergen preferences were ever
+    // explicitly confirmed (0 = never reviewed).
+    //
+    // Deliberately NO backfill: a legacy profile's `allergen_ingredient_ids` cannot show
+    // whether the user picked groups, which groups, or nothing on purpose — the saved
+    // IDs only reflect individual ingredient exclusions (group toggles used to persist
+    // their keyword-matched ingredient IDs). Reconstructing group intent from those IDs
+    // would be wrong in both directions (an individually excluded soy sauce is not a
+    // Soy+Gluten choice; an old Gluten choice can leave no core-ID trace), so legacy
+    // rows keep version 0, keep their explicit ingredient exclusions untouched, and are
+    // asked to reconfirm their groups. An empty legacy ID list is also NOT read as "no
+    // allergies" — only an explicit confirmation marks that.
+    migrator.registerMigration("v19_explicit_allergen_groups") { db in
+      try db.alter(table: "health_profile") { t in
+        t.add(column: "allergen_selected_groups", .text).notNull().defaults(to: "[]")
+        t.add(column: "allergen_preferences_version", .integer).notNull().defaults(to: 0)
+      }
+    }
+
     if let target {
       try migrator.migrate(db, upTo: target)
     } else {

@@ -119,7 +119,11 @@ final class RecipeRepository: Sendable {
       )
     }
 
-    let excludedIngredientIds = Set(profile.parsedAllergenIds).union(
+    // Effective allergen exclusions: members of the explicitly selected groups plus the
+    // individually excluded ingredient IDs. Group intent is never reconstructed from
+    // saved ingredient IDs (see AllergenExclusions in Domain/Allergens). Diet-based
+    // exclusions (e.g. vegan dropping dairy IDs) are layered on top.
+    let excludedIngredientIds = profile.effectiveAllergenExclusionIds.union(
       profile.dietaryExcludedIngredientIds)
     var results: [ScoredRecipe] = []
 
