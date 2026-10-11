@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck mock: Shell S Profile</title>
+<style>
+:root{--paper:#F7F8F6;--ink:#131313;--ink2:#5E5E59;--ink3:#8A8A84;--rule:#E4E5E0;--rule2:#CFD0CA;--yolk:#F5C400;--yolk-soft:#FFF3B8;--yolk-ink:#6A5300;--err:#C8321E;--btn-ink:#FFFFFF;--bar:rgba(250,250,247,.92);--barline:rgba(0,0,0,.09);--barshadow:rgba(0,0,0,.22);--card:#FBFBF9;--cardline:rgba(0,0,0,.12);--photo-bg:#E9EAE4;--photo-line:rgba(0,0,0,.08);--photo-stripe:rgba(0,0,0,.035);
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D8D8D2;color:#2A2A28;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:26px;padding:40px 20px 90px;font-size:17px;line-height:24px}
+.phone{position:relative;width:393px;height:852px;flex:none;background:var(--paper);color:var(--ink);border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.14),0 30px 60px -20px rgba(0,0,0,.3)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;color:var(--ink);z-index:11}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%;overflow:auto;scrollbar-width:none;padding:0 24px 150px}
+.scroll::-webkit-scrollbar{display:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.cap{font-size:13px;line-height:16px}
+.sec{font-size:15px;line-height:20px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;font:inherit;font-weight:600;font-size:17px;border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent;padding:0 18px;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--ink);color:var(--btn-ink)}
+.btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
+.btn.small{height:40px;padding:0 14px;border-radius:10px;font-size:15px;width:auto;flex:none}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.in{animation:rise 200ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;padding:10px 0 22px}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.head a{color:var(--ink);text-decoration:none;font-size:17px}
+.nav{display:flex;justify-content:space-between;align-items:center;height:44px;margin:0 -4px}
+.nav a{display:flex;align-items:center;gap:4px;color:var(--ink);text-decoration:none;font-size:17px;padding:0 4px}
+.sect{margin-top:28px}
+.sect h3{font-size:13px;line-height:16px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:baseline}
+.sect h3 span,.sect h3 .r{font-weight:400;color:var(--ink2)}
+.sect h3 .r{font-family:var(--mono)}
+.row{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 0;border-top:1px solid var(--rule);transition:transform 120ms var(--out)}
+.row:first-of-type{border-top:0}
+.row:active{transform:scale(.985)}
+.row .n{flex:1;min-width:0}
+.row .n small{display:block;font-size:13px;line-height:16px;color:var(--ink2)}
+.row .q{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink2);white-space:nowrap}
+.tag{font-family:var(--mono);font-size:13px;line-height:16px;padding:3px 7px;border-radius:6px;background:var(--yolk-soft);color:var(--yolk-ink);white-space:nowrap}
+.sq{width:12px;height:12px;border-radius:3px;background:var(--ink);flex:none}
+.sq.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.sq.a{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sq.d{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2);outline:1px dashed var(--rule2);outline-offset:-1px}
+.chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{height:36px;padding:0 14px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;box-shadow:inset 0 0 0 1px var(--rule2);background:transparent;border:0;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform 120ms var(--out),background 150ms ease,box-shadow 150ms ease}
+.chip:active{transform:scale(.97)}
+.chip.on{background:var(--yolk-soft);box-shadow:inset 0 0 0 1px var(--yolk);color:var(--yolk-ink)}
+.chip.quiet{box-shadow:none;color:var(--ink2);padding:0 8px}
+.fit{display:inline-flex;gap:3px;align-items:center}
+.fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.fit i.y{background:var(--yolk)}
+.photo{position:relative;background:var(--photo-bg);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--photo-line);overflow:hidden}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--photo-stripe) 10px 11px)}
+.photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tabbar{position:absolute;left:16px;right:16px;bottom:22px;display:flex;gap:10px;z-index:10}
+.tabs{flex:1;height:62px;border-radius:31px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;background:var(--bar);box-shadow:inset 0 0 0 .5px var(--barline),0 10px 28px -10px var(--barshadow)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;line-height:12px;font-weight:500;color:var(--ink3);width:62px}
+.tab.on{color:var(--ink)}
+.tab svg{width:24px;height:24px}
+.scanbtn{width:62px;height:62px;border-radius:31px;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);box-shadow:0 10px 28px -10px rgba(0,0,0,.45);transition:transform 120ms var(--out)}
+.scanbtn:active{transform:scale(.95)}
+/* Shell S: flat bar, central matte orb — the least glassy the system allows */
+.tabbar.s .tabs{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:inset 0 .5px 0 var(--rule2);border-radius:16px;padding:0 4px}
+.orb{width:58px;height:58px;border-radius:29px;flex:none;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);transform:translateY(-14px);box-shadow:0 0 0 4px var(--paper);transition:transform 120ms var(--out)}
+.orb:active{transform:translateY(-14px) scale(.95)}
+/* sheets (system radius 36), no custom blur */
+.dim{position:absolute;inset:0;background:rgba(19,19,19,.38);z-index:8}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--paper);border-radius:36px 36px 0 0;padding:20px 24px 44px;box-shadow:inset 0 .5px 0 var(--rule2)}
+.stitle{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.shead{display:flex;justify-content:space-between;align-items:center;height:32px;margin-bottom:14px}
+.shead a{color:var(--ink);text-decoration:none;font-size:17px;display:flex;align-items:center;gap:4px}
+.shead a.q{color:var(--ink2)}
+.note{width:393px;flex:none;font-size:13px;line-height:19px;color:#2A2A28}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:12px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:18px 0 8px;color:#5E5E59}
+.note dl{display:grid;grid-template-columns:92px 1fr;gap:8px 12px}
+.note dt{font-family:var(--mono);font-size:11px;line-height:19px;color:#5E5E59}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}}}
+
+
+</style>
+</head>
+<body>
+
+<div class="phone">
+  
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12" fill="none"><rect x=".5" y=".5" width="23" height="11" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="currentColor"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="currentColor" fill-opacity=".4"/></svg>
+  </span></div>
+  <div class="screen"><div class="scroll">
+    <div class="nav"><a href="#"><svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"/></svg>Progress</a></div>
+
+    <header class="head in" style="--i:0">
+      <h1>Profile</h1>
+      <p class="sec c2">The parts of you the app cooks around. They change only here.</p>
+    </header>
+
+    <section class="sect in" style="--i:1">
+      <h3>Hard restrictions <span>never weakened</span></h3>
+      <div class="chips" style="margin-top:0;padding-top:4px">
+        <span class="chip on">Shellfish — allergy <span class="cap">from setup</span></span>
+        <span class="chip">Cooking for 2</span>
+        <span class="chip">Metric</span>
+      </div>
+      <p class="cap c2" style="margin-top:10px">Allergies and diets are hard filters. They survive any reset, outrank every preference, and are edited in setup, not here.</p>
+    </section>
+
+    <section class="sect in" style="--i:2">
+      <h3>Settings</h3>
+      <div class="row"><span class="n">Apple Health</span><span class="q">On</span></div>
+      <div class="row"><span class="n">LeChef voice</span><span class="q">On</span></div>
+      <div class="row"><span class="n">Notifications</span><span class="q">Timers only</span></div>
+      <div class="row"><span class="n">Appearance</span><span class="q">System</span></div>
+    </section>
+
+    <section class="sect in" style="--i:3">
+      <h3>Account</h3>
+      <div class="row"><span class="n">Sign in with Apple</span><span class="q">Connected</span></div>
+      <div class="row"><span class="n">Export everything</span><span class="q">JSON</span></div>
+      <div class="row"><span class="n" style="color:var(--err)">Delete account</span></div>
+    </section>
+
+    <p class="cap c2 in" style="--i:4;margin-top:24px">Forgetting what the app learned lives in Your taste, not here. This page is who you are; that page is what it noticed.</p>
+  </div></div>
+  <div class="homebar"></div>
+</div>
+
+
+<aside class="note">
+  <h1>Shell S — Profile</h1>
+  <p>Profile lives inside Progress, one tap down. It holds the things that must be stable and legible: hard restrictions, household, equipment, and account.</p><p>The chips carry the shellfish allergy in the confirmed state (yolk-soft, yolk stroke) with "from setup" beside it — the same triple treatment the taste profile gives a confirmed sentence, because restrictions are the strongest sentence there is.</p><p>Delete account and Forget everything are deliberately different screens: this one deletes the person's account; the taste profile forgets what the app noticed. Neither cascades into the other.</p>
+  <h2>States</h2>
+  <dl>
+    <dt>edit restrictions</dt><dd>The chips link to setup screens; nothing inline. A restriction change rechecks every saved recipe and plan on device and says what changed.</dd>
+    <dt>signed out</dt><dd>"Sign in with Apple — Not connected" with the caption "Needed for sharing with a Table or publishing to Explore. Everything else works without it."</dd>
+    <dt>household</dt><dd>Who is eating: default you; one more eater with their own restrictions. Hard restrictions are the union of all eaters'.</dd>
+    <dt>equipment</dt><dd>Drives Adapt and step text: no thermometer registered and step 3 says "check with a thermometer" plus where to buy one, not a fake alternative.</dd>
+  </dl>
+  
+  
+</aside>
+</body>
+</html>

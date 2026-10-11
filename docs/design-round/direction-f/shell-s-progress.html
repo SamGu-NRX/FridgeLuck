@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck mock: Shell S Progress</title>
+<style>
+:root{--paper:#F7F8F6;--ink:#131313;--ink2:#5E5E59;--ink3:#8A8A84;--rule:#E4E5E0;--rule2:#CFD0CA;--yolk:#F5C400;--yolk-soft:#FFF3B8;--yolk-ink:#6A5300;--err:#C8321E;--btn-ink:#FFFFFF;--bar:rgba(250,250,247,.92);--barline:rgba(0,0,0,.09);--barshadow:rgba(0,0,0,.22);--card:#FBFBF9;--cardline:rgba(0,0,0,.12);--photo-bg:#E9EAE4;--photo-line:rgba(0,0,0,.08);--photo-stripe:rgba(0,0,0,.035);
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D8D8D2;color:#2A2A28;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:26px;padding:40px 20px 90px;font-size:17px;line-height:24px}
+.phone{position:relative;width:393px;height:852px;flex:none;background:var(--paper);color:var(--ink);border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.14),0 30px 60px -20px rgba(0,0,0,.3)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;color:var(--ink);z-index:11}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%;overflow:auto;scrollbar-width:none;padding:0 24px 150px}
+.scroll::-webkit-scrollbar{display:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.cap{font-size:13px;line-height:16px}
+.sec{font-size:15px;line-height:20px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;font:inherit;font-weight:600;font-size:17px;border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent;padding:0 18px;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--ink);color:var(--btn-ink)}
+.btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
+.btn.small{height:40px;padding:0 14px;border-radius:10px;font-size:15px;width:auto;flex:none}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.in{animation:rise 200ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;padding:10px 0 22px}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.head a{color:var(--ink);text-decoration:none;font-size:17px}
+.nav{display:flex;justify-content:space-between;align-items:center;height:44px;margin:0 -4px}
+.nav a{display:flex;align-items:center;gap:4px;color:var(--ink);text-decoration:none;font-size:17px;padding:0 4px}
+.sect{margin-top:28px}
+.sect h3{font-size:13px;line-height:16px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:baseline}
+.sect h3 span,.sect h3 .r{font-weight:400;color:var(--ink2)}
+.sect h3 .r{font-family:var(--mono)}
+.row{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 0;border-top:1px solid var(--rule);transition:transform 120ms var(--out)}
+.row:first-of-type{border-top:0}
+.row:active{transform:scale(.985)}
+.row .n{flex:1;min-width:0}
+.row .n small{display:block;font-size:13px;line-height:16px;color:var(--ink2)}
+.row .q{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink2);white-space:nowrap}
+.tag{font-family:var(--mono);font-size:13px;line-height:16px;padding:3px 7px;border-radius:6px;background:var(--yolk-soft);color:var(--yolk-ink);white-space:nowrap}
+.sq{width:12px;height:12px;border-radius:3px;background:var(--ink);flex:none}
+.sq.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.sq.a{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sq.d{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2);outline:1px dashed var(--rule2);outline-offset:-1px}
+.chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{height:36px;padding:0 14px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;box-shadow:inset 0 0 0 1px var(--rule2);background:transparent;border:0;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform 120ms var(--out),background 150ms ease,box-shadow 150ms ease}
+.chip:active{transform:scale(.97)}
+.chip.on{background:var(--yolk-soft);box-shadow:inset 0 0 0 1px var(--yolk);color:var(--yolk-ink)}
+.chip.quiet{box-shadow:none;color:var(--ink2);padding:0 8px}
+.fit{display:inline-flex;gap:3px;align-items:center}
+.fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.fit i.y{background:var(--yolk)}
+.photo{position:relative;background:var(--photo-bg);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--photo-line);overflow:hidden}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--photo-stripe) 10px 11px)}
+.photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tabbar{position:absolute;left:16px;right:16px;bottom:22px;display:flex;gap:10px;z-index:10}
+.tabs{flex:1;height:62px;border-radius:31px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;background:var(--bar);box-shadow:inset 0 0 0 .5px var(--barline),0 10px 28px -10px var(--barshadow)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;line-height:12px;font-weight:500;color:var(--ink3);width:62px}
+.tab.on{color:var(--ink)}
+.tab svg{width:24px;height:24px}
+.scanbtn{width:62px;height:62px;border-radius:31px;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);box-shadow:0 10px 28px -10px rgba(0,0,0,.45);transition:transform 120ms var(--out)}
+.scanbtn:active{transform:scale(.95)}
+/* Shell S: flat bar, central matte orb — the least glassy the system allows */
+.tabbar.s .tabs{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:inset 0 .5px 0 var(--rule2);border-radius:16px;padding:0 4px}
+.orb{width:58px;height:58px;border-radius:29px;flex:none;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);transform:translateY(-14px);box-shadow:0 0 0 4px var(--paper);transition:transform 120ms var(--out)}
+.orb:active{transform:translateY(-14px) scale(.95)}
+/* sheets (system radius 36), no custom blur */
+.dim{position:absolute;inset:0;background:rgba(19,19,19,.38);z-index:8}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--paper);border-radius:36px 36px 0 0;padding:20px 24px 44px;box-shadow:inset 0 .5px 0 var(--rule2)}
+.stitle{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.shead{display:flex;justify-content:space-between;align-items:center;height:32px;margin-bottom:14px}
+.shead a{color:var(--ink);text-decoration:none;font-size:17px;display:flex;align-items:center;gap:4px}
+.shead a.q{color:var(--ink2)}
+.note{width:393px;flex:none;font-size:13px;line-height:19px;color:#2A2A28}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:12px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:18px 0 8px;color:#5E5E59}
+.note dl{display:grid;grid-template-columns:92px 1fr;gap:8px 12px}
+.note dt{font-family:var(--mono);font-size:11px;line-height:19px;color:#5E5E59}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}}}
+
+
+.head{padding:10px 0 16px}
+.stat{display:flex;align-items:baseline;gap:14px;padding:14px 0;border-top:1px solid var(--rule)}
+.stat:first-of-type{border-top:0}
+.stat b{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:28px;line-height:32px;font-weight:500;letter-spacing:-.01em;min-width:96px}
+.stat .n{flex:1}
+.stat .n small{display:block;font-size:13px;line-height:16px;color:var(--ink2);margin-top:2px}
+
+</style>
+</head>
+<body>
+
+<div class="phone">
+  
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12" fill="none"><rect x=".5" y=".5" width="23" height="11" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="currentColor"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="currentColor" fill-opacity=".4"/></svg>
+  </span></div>
+  <div class="screen"><div class="scroll">
+    <header class="head in" style="--i:0"><h1>Progress</h1><span class="cap c2 mono">Oct</span></header>
+
+    <section class="sect in" style="--i:1;margin-top:8px">
+      <div class="stat"><b>23</b><span class="n"><span class="sec">Cooks made</span><small>18 weeknights · 5 weekends</small></span></div>
+      <div class="stat"><b>4.1 kg</b><span class="n"><span class="sec">Food saved</span><small>Estimated from use-it-up cooks and saved leftovers</small></span></div>
+    </section>
+
+    <section class="sect in" style="--i:2">
+      <h3>Nutrition</h3>
+      <div class="row"><span class="n">Logged 9 of your 14 meals this week<br><span class="cap c2">A lens, not a goal. Apple Health gets confirmed meals only.</span></span><span class="q">Open</span></div>
+    </section>
+
+    <section class="sect in" style="--i:3">
+      <h3>Learned</h3>
+      <div class="row"><span class="n">Your taste<br><span class="cap c2">23 sentences, each with its evidence. Correctable.</span></span><span class="q">Open</span></div>
+      <div class="row"><span class="n">LeChef remembers<br><span class="cap c2">4 notes, read back mid-cook</span></span><span class="q">Open</span></div>
+    </section>
+
+    <section class="sect in" style="--i:4">
+      <h3>Profile</h3>
+      <div class="row"><span class="n">Restrictions<br><span class="cap c2">Shellfish allergy · from setup</span></span><span class="q">Open</span></div>
+      <div class="row"><span class="n">Household<br><span class="cap c2">2 eaters</span></span><span class="q">Open</span></div>
+      <div class="row"><span class="n">Equipment<br><span class="cap c2">Wok, oven, thermometer</span></span><span class="q">Open</span></div>
+    </section>
+  </div></div>
+
+  
+  <nav class="tabbar s">
+    <div class="tabs">
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a>
+      <a class="orb" aria-label="Scan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3"/></svg></a>
+      <a class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20v-9M12 20V5M20 20v-5"/></svg>Progress</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5h18M6 9.5V19M18 9.5V19"/><circle cx="12" cy="5" r="2.5"/></svg>Table</a>
+    </div>
+  </nav>
+  <div class="homebar"></div>
+</div>
+
+
+<aside class="note">
+  <h1>Shell S — Progress</h1>
+  <p>Progress as a main tab, with Profile inside it. Counts what cooking here has done: cooks made and food saved, both in mono, both honest about method. No rings, no badges here — the quests candidate is a separate round and, if it ships at all, it links from here rather than living in the tab.</p><p>Nutrition keeps its SPEC position: a line with honest coverage ("logged 9 of your 14 meals"), never a goal, never a ring.</p><p>The learned section is the taste profile entry point; the counts are the same ones the profile page shows.</p>
+  <h2>States</h2>
+  <dl>
+    <dt>empty</dt><dd>New account: the two stat rows read "0" with "Cook your first dinner and this starts counting." Nothing is hidden, nothing is faked.</dd>
+    <dt>food saved</dt><dd>The kg figure is an estimate from use-it-up cooks and leftovers kept; the caption says so on the screen. It never claims precision it does not have.</dd>
+    <dt>nutrition off</dt><dd>If logging is off: "Not logging right now. Turn it on for a line here." — one row, no empty chart.</dd>
+    <dt>healthkit</dt><dd>Apple Health stays a setting inside Profile; writes only confirmed meals.</dd>
+    <dt>rejection</dt><dd>No weekly report, no "you cooked 12% less than last week". Progress counts; it does not judge.</dd>
+  </dl>
+  
+  
+</aside>
+</body>
+</html>
