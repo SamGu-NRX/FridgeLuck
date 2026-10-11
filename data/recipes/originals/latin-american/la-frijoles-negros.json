@@ -1,0 +1,247 @@
+{
+  "rs_version": "1",
+  "id": "la-frijoles-negros",
+  "title": "Frijoles Negros",
+  "cuisine": "mexican",
+  "cuisine_detail": "cuban (potaje de frijoles negros)",
+  "family": "latin-american",
+  "minutes": 30,
+  "servings": 4,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "heavy pot or dutch oven",
+    "second saucepan",
+    "chef's knife",
+    "cutting board",
+    "wooden spoon"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-frijoles-negros",
+  "tags": [
+    "weeknight",
+    "budget",
+    "one-pot",
+    "freezer-friendly"
+  ],
+  "cost_per_serving_usd": {
+    "currency": "USD",
+    "value": 1.3,
+    "per": "serving",
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "ingredients": [
+    {
+      "name": "black beans",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cups drained (three 15-oz cans)",
+        "conversion_ref": "black_beans_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cups",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "bell peppers",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "green pepper, chopped",
+        "conversion_ref": "bell_pepper_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, chopped",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp, ground",
+        "conversion_ref": "cumin_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "oregano",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp, dried",
+        "conversion_ref": "oregano_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "bay leaves",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "leaves",
+        "conversion_ref": "bay_leaf_piece",
+        "grams_per_unit": 0.2
+      }
+    },
+    {
+      "name": "red wine vinegar",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "red_wine_vinegar_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "uncooked white rice",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "cup dry (for steamed rice)",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Start the rice: rinse it, cook it with 1 1/8 cups water, covered, over the lowest heat for 15 minutes, then leave it alone off the heat.",
+      "timer_min": 15
+    },
+    {
+      "text": "Warm the oil in the pot over medium heat. Cook the pepper and onion for 8 minutes, scraping the bottom, until the onion is translucent and sweet.",
+      "timer_min": 8
+    },
+    {
+      "text": "Add the garlic, cumin, and oregano and stir for 30 seconds — the cumin should smell toasted, not dusty."
+    },
+    {
+      "text": "Add the beans, the water, the bay leaves, and half the salt. Raise the heat and bring to a simmer.",
+      "timer_min": 2
+    },
+    {
+      "text": "Simmer 15 minutes, uncovered, stirring now and then so the bottom does not catch. The beans should sit in a velvet gravy, not a broth.",
+      "timer_min": 15
+    },
+    {
+      "text": "Press about a quarter of the beans against the pot wall with your spoon and stir them in — this is how a Cuban potaje thickens itself without flour."
+    },
+    {
+      "text": "Take the pot off the heat, pull the bay leaves, and stir in the vinegar. Season with the rest of the salt; beans drink salt slowly, so go by taste."
+    },
+    {
+      "text": "Serve in shallow bowls over the rice. Leftovers freeze well for 3 months; thaw overnight and reheat to a full simmer, 165°F (74°C) in the center on a thermometer.",
+      "reheat": true,
+      "safety": {
+        "class": "leftovers",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS leftover reheating guidance"
+      }
+    }
+  ],
+  "cuisine_note": "Frijoles negros is the Cuban everyday potaje: a sofrito of pepper and onion, black beans thickened by mashing some of their own, and a splash of vinegar at the end to wake the pot up.",
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 457,
+    "protein_g": 19.5,
+    "carbs_g": 76.5,
+    "fat_g": 8.7,
+    "fiber_g": 17.5,
+    "sugar_g": 3.1,
+    "sodium_mg": 9,
+    "coverage": 0.748,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "oregano",
+      "red wine vinegar",
+      "salt",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

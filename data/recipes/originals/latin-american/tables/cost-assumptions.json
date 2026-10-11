@@ -1,0 +1,30 @@
+{
+  "schema": "fl-cost-assumptions/1",
+  "locale": "US mid-cost supermarket, October 2026, shelf prices",
+  "items": {
+    "corn tortillas": {"basis": "$2.70/30-count pack = $0.09 each"},
+    "eggs": {"basis": "$3.60/dozen large = $0.30 each"},
+    "canned tomatoes": {"basis": "$1.40/28-oz can crushed tomatoes"},
+    "chipotle in adobo": {"basis": "$2.50/7-oz can = ~$0.10/tbsp"},
+    "queso fresco": {"basis": "$4.00/10-oz block = $0.40/oz"},
+    "mexican crema": {"basis": "$2.40/8-oz cup = $0.30/oz"},
+    "masa harina": {"basis": "$2.60/4.84-lb bag = $0.54/lb; 1 cup (114g) ~ $0.14"},
+    "ricotta": {"basis": "$2.80/16-oz tub; 170g (3/4 cup) ~ $1.04"},
+    "monterey jack": {"basis": "$3.70/8-oz block; 85g (3 oz) ~ $1.30"},
+    "cabbage": {"basis": "$0.60 for a 2-lb head quartered"},
+    "carrots": {"basis": "$0.70/lb; 1 medium ~ $0.10"},
+    "apple cider vinegar": {"basis": "$3.00/32 fl oz = ~$0.15 per 1/4 cup"},
+    "canned black beans": {"basis": "$1.10/15-oz can, drained 240g"},
+    "uncooked white rice": {"basis": "$2.00/kg dry"},
+    "onion": {"basis": "$0.80/lb; 1 medium ~ $0.40"},
+    "bell peppers": {"basis": "$1.30 each green"},
+    "red bell peppers": {"basis": "$1.80 each red"},
+    "garlic": {"basis": "$0.60/head ~ 50 cloves = $0.012/clove"},
+    "vegetable oil": {"basis": "$0.08/fl oz; 1 tbsp = 14g ~ $0.12"},
+    "lime": {"basis": "$0.25 each"},
+    "cilantro": {"basis": "$0.90/bunch; 2 tbsp ~ $0.10"},
+    "ground cumin and dried oregano": {"basis": "$3/jar, negligible per serving"},
+    "red wine vinegar": {"basis": "$3.00/16 fl oz, negligible per serving"},
+    "bay leaves": {"basis": "$2.50/jar, negligible per serving"}
+  }
+}

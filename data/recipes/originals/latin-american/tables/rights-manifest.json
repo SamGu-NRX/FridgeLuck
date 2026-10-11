@@ -1,0 +1,35 @@
+{
+  "schema": "fl-rights-manifest/1",
+  "records": {
+    "orig:authored:la-chicken-tinga-tostadas": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:la-lomo-saltado": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:la-shrimp-moqueca": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:la-flank-steak-chimichurri": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:la-frijoles-negros": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    }
+  }
+}

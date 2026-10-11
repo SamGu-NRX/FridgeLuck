@@ -1,0 +1,217 @@
+{
+  "rs_version": "1",
+  "id": "la-shrimp-moqueca",
+  "title": "Shrimp Moqueca",
+  "cuisine": "mexican",
+  "cuisine_detail": "brazilian (bahian moqueca)",
+  "family": "latin-american",
+  "minutes": 30,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "wide braising pan or deep skillet",
+    "second saucepan",
+    "chef's knife",
+    "cutting board",
+    "mixing bowl"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-shrimp-moqueca",
+  "tags": [
+    "weeknight",
+    "one-pot"
+  ],
+  "ingredients": [
+    {
+      "name": "uncooked white rice",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup dry (for steamed rice)",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    },
+    {
+      "name": "shrimp",
+      "qty": {
+        "kind": "weighed",
+        "grams": 450,
+        "note": "1 lb, peeled and deveined"
+      }
+    },
+    {
+      "name": "coconut milk",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cups (one 13.5-oz can)",
+        "conversion_ref": "coconut_milk_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "red bell peppers",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "peppers, sliced thin",
+        "conversion_ref": "bell_pepper_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "ripe tomatoes, sliced",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, sliced thin",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "red palm oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp (dende)",
+        "conversion_ref": "palm_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "limes (1 juiced, 1 in wedges)",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp chopped, stems and leaves kept separate",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Start the rice: rinse it, cook it with 1 1/2 cups water, covered, over the lowest heat for 15 minutes, then leave the lid on off the heat.",
+      "timer_min": 15
+    },
+    {
+      "text": "Season the shrimp with the lime juice, half the salt, and the chili flakes while you slice the vegetables."
+    },
+    {
+      "text": "Warm the palm oil in the braising pan over medium heat — it will turn everything sunset-orange. Cook the onion and peppers with the cilantro stems for 5 minutes, until they slump.",
+      "timer_min": 5
+    },
+    {
+      "text": "Add the garlic for 30 seconds, then the tomato slices and the rest of the salt. Cook 3 minutes until the tomatoes relax into a rough sauce.",
+      "timer_min": 3
+    },
+    {
+      "text": "Pour in the coconut milk and bring to a lazy simmer — bubbles at the edges, not a boil, or the coconut milk can split."
+    },
+    {
+      "text": "Lay the shrimp and their lime marinade over the sauce. Simmer 5-6 minutes, turning once, until the shrimp curl into loose Cs and the flesh turns opaque; shellfish are safe at 145°F (63°C) on a thermometer.",
+      "timer_min": 6,
+      "safety": {
+        "class": "flesh_shellfish",
+        "temp_f": 145,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Taste and add the last of the lime. Shower with the cilantro leaves and carry the pan to the table over rice."
+    }
+  ],
+  "cuisine_note": "Bahian moqueca is built in layers in one pan — vegetables, then seafood, then coconut milk — and never stirred into mush; the dendê (red palm oil) gives the dish its color and its low, warm hum of a street stall in Salvador.",
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 427,
+    "protein_g": 7.2,
+    "carbs_g": 54.8,
+    "fat_g": 22.2,
+    "fiber_g": 6.1,
+    "sugar_g": 8.9,
+    "sodium_mg": 24,
+    "coverage": 0.726,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "red palm oil",
+      "salt",
+      "shrimp"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}
