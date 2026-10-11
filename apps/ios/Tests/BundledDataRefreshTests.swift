@@ -98,18 +98,30 @@ final class BundledDataRefreshTests: XCTestCase {
   /// A database with all migrations applied and legacy-shaped content: the
   /// ingredients were hydrated by an old release with row ids that no longer
   /// match bundle ids, and the recipe row has an unrelated autoincrement id.
-  private func makeLegacyDatabase() throws -> DatabaseQueue {
+  private func makeLegacyDatabase(matchingRealBundle: Bool = false) throws -> DatabaseQueue {
     let db = try DatabaseQueue()
     try DatabaseMigrations.migrate(db)
+    // `matchingRealBundle` swaps the legacy ingredient rows to the REAL v1
+    // bundle content (egg/rice/soy_sauce) under foreign row ids, so the launch
+    // path's content-based adoption can match them.
+    let ingredientRows = matchingRealBundle
+      ? """
+            (500, 'egg', 155.0, 13.0, 1.1, 11.0, 0.0, 1.1, 0.124, '1 large (50g)', 'Refrigerate, use within 3 weeks'),
+            (501, 'rice', 130.0, 2.7, 28.0, 0.3, 0.4, 0.0, 0.001, '1 cup cooked (158g)', 'Store in airtight container'),
+            (502, 'soy_sauce', 53.0, 8.1, 4.9, 0.0, 0.0, 0.4, 5.493, '1 tbsp (15ml)', 'Refrigerate after opening')
+          """
+      : """
+            (500, 'egg', 140.0, 12.0, 1.0, 10.0, 0.0, 0.0, 0.14, 'piece', 'keep cold'),
+            (501, 'rice', 130.0, 2.7, 28.0, 0.3, 0.4, 0.1, 0.001, 'cup', 'dry pantry'),
+            (502, 'seaweed', 20.0, 0.6, 3.0, 0.2, 0.5, 0.1, 8.7, 'sheet', 'dry pantry')
+          """
     try db.write { db in
       try db.execute(
         sql: """
           INSERT INTO ingredients (id, name, calories, protein, carbs, fat, fiber, sugar, sodium,
                                    typical_unit, storage_tip)
           VALUES
-            (500, 'egg', 140.0, 12.0, 1.0, 10.0, 0.0, 0.0, 0.14, 'piece', 'keep cold'),
-            (501, 'rice', 130.0, 2.7, 28.0, 0.3, 0.4, 0.1, 0.001, 'cup', 'dry pantry'),
-            (502, 'seaweed', 20.0, 0.6, 3.0, 0.2, 0.5, 0.1, 8.7, 'sheet', 'dry pantry');
+          \(ingredientRows);
           INSERT INTO recipes (id, title, time_minutes, servings, instructions, tags, source)
           VALUES (900, 'Egg Bowl', 15, 1, 'Cook it.', 3, 'bundled');
           INSERT INTO recipe_ingredients
@@ -131,15 +143,20 @@ final class BundledDataRefreshTests: XCTestCase {
       appDB: AppDatabase(dbQueue: db), pass: pass, readiness: readiness, injections: injections)
   }
 
-  private func diagnostics(_ db: DatabaseQueue) throws -> [(ref: String, code: String)] {
+  private struct Diagnostic: Equatable {
+    let ref: String
+    let code: String
+  }
+
+  private func diagnostics(_ db: DatabaseQueue) throws -> [Diagnostic] {
     try db.read { db in
       try Row.fetchAll(
         db, sql: "SELECT entity_ref, code FROM bundle_refresh_diagnostics ORDER BY entity_ref, code"
       )
-      .map { row -> (ref: String, code: String) in
+      .map { row -> Diagnostic in
         let ref: String = row["entity_ref"]
         let code: String = row["code"]
-        return (ref: ref, code: code)
+        return Diagnostic(ref: ref, code: code)
       }
     }
   }
@@ -170,7 +187,7 @@ final class BundledDataRefreshTests: XCTestCase {
       XCTAssertTrue(recipeColumns.contains(column), "recipes missing \(column)")
       XCTAssertTrue(ingredientColumns.contains(column), "ingredients missing \(column)")
     }
-    let hasDiagnostics = try db.read { $0.tableExists("bundle_refresh_diagnostics") }
+    let hasDiagnostics = try db.read { try $0.tableExists("bundle_refresh_diagnostics") }
     XCTAssertTrue(hasDiagnostics)
 
     // The diagnostics table upserts on (entity_type, entity_ref, code).
@@ -194,7 +211,7 @@ final class BundledDataRefreshTests: XCTestCase {
 
     // Unowned rows never collide; a second row claiming an owned key is refused.
     try db.write { db in
-      try db.execute(sql: "INSERT INTO ingredients (id, name) VALUES (1, 'a'), (2, 'b')")
+      try db.execute(sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (1, 'a', 0, 0, 0, 0), (2, 'b', 0, 0, 0, 0)")
       try db.execute(
         sql: """
           INSERT INTO recipes (id, title, time_minutes, servings, instructions, tags, source,
@@ -295,7 +312,7 @@ final class BundledDataRefreshTests: XCTestCase {
     XCTAssertEqual(outcome.recipesAdopted, 1)
     XCTAssertEqual(try diagnostics(db), [])
 
-    try db.read { db in
+    try await db.read { db in
       // Ids referenced by inventory/history survive adoption untouched.
       let egg = try Row.fetchOne(db, sql: "SELECT * FROM ingredients WHERE id = 500")!
       let eggKey: String? = egg["ownership_key"]
@@ -319,33 +336,36 @@ final class BundledDataRefreshTests: XCTestCase {
     XCTAssertEqual(try ownershipState(db, key: "ownership_ready"), "1")
   }
 
-  func testAmbiguousLegacyRowsStayUnownedWithDiagnostics() async throws {
-    let db = try DatabaseQueue()
-    try DatabaseMigrations.migrate(db)
+  /// Two identical bundled recipe rows reproduce one bundle entry: adoption
+  /// gives the key to exactly one row (first by id) and explains the runner-up.
+  /// Ingredient duplicates cannot exist — the v1 schema keeps names UNIQUE —
+  /// so the ambiguous-adoption case is only representable for recipes.
+  func testDuplicateLegacyRecipeRowsAdoptOneWinner() async throws {
+    let db = try makeLegacyDatabase()
     let payload = decodeData(Self.fixtureDataJSON)
-    try db.write { db in
-      // Two rows reproduce one bundle entry: content matches, identity cannot.
+    try await db.write { db in
       try db.execute(
         sql: """
-          INSERT INTO ingredients (id, name, calories, protein, carbs, fat, fiber, sugar, sodium,
-                                   typical_unit, storage_tip)
-          VALUES
-            (600, 'egg', 140.0, 12.0, 1.0, 10.0, 0.0, 0.0, 0.14, 'piece', 'keep cold'),
-            (601, 'egg', 140.0, 12.0, 1.0, 10.0, 0.0, 0.0, 0.14, 'piece', 'keep cold');
+          INSERT INTO recipes (title, time_minutes, servings, instructions, tags, source)
+          SELECT title, time_minutes, servings, instructions, tags, source
+          FROM recipes WHERE id = 900;
+          INSERT INTO recipe_ingredients
+            (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+          SELECT 901, ingredient_id, is_required, quantity_grams, display_quantity
+          FROM recipe_ingredients WHERE recipe_id = 900;
           """)
     }
 
     _ = try await refresh(db, pass: makePass(current: payload, pins: [makePin(data: payload)]))
 
-    try db.read { db in
-      let keys = try Row.fetchAll(
-        db, sql: "SELECT id, ownership_key FROM ingredients WHERE name = 'egg' ORDER BY id"
-      )
-      .compactMap { row -> String? in
-        let key: String? = row["ownership_key"]
-        return key
-      }
-      XCTAssertEqual(keys, ["fridgeluck.bundle.ingredient/1"], "exactly one row wins")
+    try await db.read { db in
+      let winners = try Int.fetchOne(
+        db,
+        sql: "SELECT COUNT(*) FROM recipes WHERE ownership_key = 'fridgeluck.bundle.recipe/7'")
+      XCTAssertEqual(winners, 1, "exactly one row wins")
+      let unowned = try Int.fetchOne(
+        db, sql: "SELECT COUNT(*) FROM recipes WHERE ownership_key IS NULL")
+      XCTAssertEqual(unowned, 1, "the runner-up stays unowned")
     }
     XCTAssertEqual(try diagnostics(db).map(\.code), ["duplicate_adoption_target"])
   }
@@ -354,16 +374,21 @@ final class BundledDataRefreshTests: XCTestCase {
     let db = try DatabaseQueue()
     try DatabaseMigrations.migrate(db)
     let payload = decodeData(Self.fixtureDataJSON)
-    try db.write { db in
+    try await db.write { db in
       try db.execute(
-        sql: "INSERT INTO ingredients (id, name, calories, protein) VALUES (700, 'egg', 999.0, 1.0)"
+        sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (700, 'egg', 999.0, 1.0, 0, 0)"
       )
     }
 
     _ = try await refresh(db, pass: makePass(current: payload, pins: [makePin(data: payload)]))
 
-    XCTAssertEqual(try diagnostics(db).map(\.code), ["unmatched_row"])
-    try db.read { db in
+    // Three explanations cascade from one unmatchable row: the row itself is
+    // unmatched, the bundle entry it would own is blocked by it, and the recipe
+    // depending on that bundle entry reports the unresolved dependency.
+    XCTAssertEqual(
+      try diagnostics(db).map(\.code),
+      ["blocked_by_unadopted_row", "unresolved_ingredient_dependency", "unmatched_row"])
+    try await db.read { db in
       let calories = try Double.fetchOne(
         db, sql: "SELECT calories FROM ingredients WHERE id = 700")
       XCTAssertEqual(calories, 999.0, "the modified legacy row keeps its content")
@@ -383,7 +408,7 @@ final class BundledDataRefreshTests: XCTestCase {
     XCTAssertEqual(outcome.ingredientsInserted, 3)
     XCTAssertEqual(outcome.recipesInserted, 1)
     XCTAssertEqual(try diagnostics(db), [])
-    try db.read { db in
+    try await db.read { db in
       let relationshipRows = try Row.fetchAll(
         db,
         sql: """
@@ -418,7 +443,7 @@ final class BundledDataRefreshTests: XCTestCase {
     let secondOutcome = try await refresh(
       db, pass: makePass(current: changedPayload, pins: [pin]))
     XCTAssertEqual(secondOutcome.recipesUpdated, 1)
-    try db.read { db in
+    try await db.read { db in
       let time = try Int.fetchOne(
         db,
         sql: "SELECT time_minutes FROM recipes WHERE ownership_key = 'fridgeluck.bundle.recipe/7'")
@@ -431,7 +456,7 @@ final class BundledDataRefreshTests: XCTestCase {
 
     // Then the user edits the row: the refresh declines to touch it, explains,
     // and the pass still succeeds (the postcondition accepts the explanation).
-    try db.write { db in
+    try await db.write { db in
       try db.execute(
         sql:
           "UPDATE recipes SET instructions = 'my own version' WHERE ownership_key = 'fridgeluck.bundle.recipe/7'"
@@ -440,7 +465,7 @@ final class BundledDataRefreshTests: XCTestCase {
     let thirdOutcome = try await refresh(
       db, pass: makePass(current: changedPayload, pins: [pin]))
     XCTAssertEqual(thirdOutcome.recipesUpdated, 0)
-    try db.read { db in
+    try await db.read { db in
       let instructions = try String.fetchOne(
         db,
         sql: "SELECT instructions FROM recipes WHERE ownership_key = 'fridgeluck.bundle.recipe/7'")
@@ -454,18 +479,20 @@ final class BundledDataRefreshTests: XCTestCase {
     try DatabaseMigrations.migrate(db)
     let payload = decodeData(Self.fixtureDataJSON)
     let catalog = decodeFixtureCatalog()
-    try db.write { db in
+    try await db.write { db in
       // A legacy row the adoption could not match (different content) blocks the
       // catalog entry of the same name rather than stealing or duplicating it.
       try db.execute(
-        sql: "INSERT INTO ingredients (id, name, calories) VALUES (800, 'tofu', 1.0)")
+        sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (800, 'tofu', 1.0, 0, 0, 0)")
     }
 
     _ = try await refresh(
-      db, pass: makePass(current: payload, pins: [makePin(data: payload, catalog: catalog)]))
+      db, pass: makePass(current: payload, pins: [makePin(data: payload, catalog: catalog)], catalog: catalog))
 
-    XCTAssertEqual(try diagnostics(db).map(\.code), ["blocked_by_unadopted_row"])
-    try db.read { db in
+    // The legacy row misses every pinned tofu fingerprint (unmatched_row) and
+    // the current catalog entry is blocked by the same-name row.
+    XCTAssertEqual(try diagnostics(db).map(\.code), ["unmatched_row", "blocked_by_unadopted_row"])
+    try await db.read { db in
       let calories = try Double.fetchOne(
         db, sql: "SELECT calories FROM ingredients WHERE id = 800")
       XCTAssertEqual(calories, 1.0)
@@ -480,12 +507,12 @@ final class BundledDataRefreshTests: XCTestCase {
     try DatabaseMigrations.migrate(db)
     let payload = decodeData(Self.fixtureDataJSON)
     let catalog = decodeFixtureCatalog()
-    try db.write { db in
+    try await db.write { db in
       // A row owned by a different bundle entry already holds the name.
       try db.execute(
         sql: """
-          INSERT INTO ingredients (id, name, calories, ownership_key, bundle_content_hash)
-          VALUES (900, 'tofu', 1.0, 'fridgeluck.bundle.ingredient/404', 'deadbeef')
+          INSERT INTO ingredients (id, name, calories, protein, carbs, fat, ownership_key, bundle_content_hash)
+          VALUES (900, 'tofu', 1.0, 0, 0, 0, 'fridgeluck.bundle.ingredient/404', 'deadbeef')
           """)
     }
 
@@ -499,7 +526,7 @@ final class BundledDataRefreshTests: XCTestCase {
     XCTAssertTrue(
       try diagnostics(db)
         .contains { $0.ref == "usda.fdc/167606" && $0.code == "name_conflict" })
-    try db.read { db in
+    try await db.read { db in
       let tofuCount = try Int.fetchOne(
         db, sql: "SELECT COUNT(*) FROM ingredients WHERE name = 'tofu'")
       XCTAssertEqual(tofuCount, 1, "no duplicate row was created")
@@ -522,7 +549,7 @@ final class BundledDataRefreshTests: XCTestCase {
     XCTAssertEqual(
       Set(removed.map(\.ref)),
       Set(["fridgeluck.bundle.recipe/7", "fridgeluck.bundle.ingredient/3"]))
-    try db.read { db in
+    try await db.read { db in
       let kept = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM ingredients WHERE id = 502")
       XCTAssertEqual(kept, 1, "rows are never deleted")
     }
@@ -617,9 +644,14 @@ final class BundledDataRefreshTests: XCTestCase {
       current: decodeData(Self.changedDataJSON),
       pins: [makePin(slug: "v1", data: decodeData(Self.fixtureDataJSON))])
 
-    XCTAssertThrowsError(try await refresh(db, pass: pass, readiness: .pending))
+    do {
+      _ = try await refresh(db, pass: pass, readiness: .pending)
+      XCTFail("refresh must refuse without snapshot readiness")
+    } catch {
+      // expected: fail-closed refusal
+    }
 
-    try db.read { db in
+    try await db.read { db in
       let ownedRows = try Int.fetchOne(
         db, sql: """
           SELECT (SELECT COUNT(*) FROM ingredients WHERE ownership_key IS NOT NULL)
@@ -651,12 +683,15 @@ final class BundledDataRefreshTests: XCTestCase {
       fdcId: 167606, name: "tofu", calories: 90.0, protein: 8.0, carbs: 1.9, fat: 4.8,
       fiber: 0.3, sugar: 0.6, sodium: 0.007, notes: "SR Legacy", description: "firm block",
       categoryLabel: "Protein", spriteGroup: "protein", spriteKey: "tofu")]
-    try db.write { db in
+    try await db.write { db in
       try db.execute(
         sql: """
           INSERT INTO ingredients (id, name, calories, protein, carbs, fat, fiber, sugar, sodium,
-                                   typical_unit, storage_tip, ownership_key, bundle_content_hash)
-          VALUES (503, 'tofu', 76.0, 8.0, 1.9, 4.8, 0.3, 0.6, 0.007, 'block', 'keep cold', ?, ?)
+                                   typical_unit, storage_tip, pairs_with, notes, description,
+                                   category_label, sprite_group, sprite_key,
+                                   ownership_key, bundle_content_hash)
+          VALUES (503, 'tofu', 76.0, 8.0, 1.9, 4.8, 0.3, 0.6, 0.007, NULL, NULL, NULL,
+                  'SR Legacy', 'firm block', 'Protein', 'protein', 'tofu', ?, ?)
           """,
         arguments: [
           BundleOwnership.usdaIngredientKey(fdcId: 167606),
@@ -674,7 +709,7 @@ final class BundledDataRefreshTests: XCTestCase {
       pins: [v1Pin, v2Pin])
     _ = try await refresh(db, pass: pass)
 
-    try db.read { db in
+    try await db.read { db in
       let tofu = try Row.fetchOne(db, sql: "SELECT * FROM ingredients WHERE id = 503")!
       let calories: Double = tofu["calories"]
       XCTAssertEqual(calories, 90.0, "the shipped corrected catalog must be applied")
@@ -697,7 +732,7 @@ final class BundledDataRefreshTests: XCTestCase {
 
     try await appDB.warmBundledContentIfNeeded()
 
-    try db.read { db in
+    try await db.read { db in
       let markers = try Int.fetchOne(
         db,
         sql: """
@@ -729,20 +764,27 @@ final class BundledDataRefreshTests: XCTestCase {
   }
 
   func testWarmBundledContentIfNeededAdoptsAnUpgradedInstall() async throws {
-    let db = try makeLegacyDatabase()
+    let db = try makeLegacyDatabase(matchingRealBundle: true)
     let appDB = AppDatabase(dbQueue: db)
 
     try await appDB.warmBundledContentIfNeeded(readiness: .ready)
 
     try await assertEveryShippedEntryIsOwnedOrExplained(appDB)
-    try db.read { db in
-      // Legacy row ids survived the whole launch path.
+    try await db.read { db in
+      // Legacy ingredient row ids were adopted onto the bundle entries their
+      // content matches: row 500's real-v1 egg content earned ingredient/1.
       let legacyRow = try Row.fetchOne(db, sql: "SELECT * FROM ingredients WHERE id = 500")!
       let legacyKey: String? = legacyRow["ownership_key"]
-      XCTAssertNotNil(legacyKey)
+      XCTAssertEqual(legacyKey, BundleOwnership.ingredientKey(bundleIngredientId: 1))
+      // The legacy recipe's content matches no bundle version, so its row
+      // survives with its own id — unowned, but explained.
       let legacyRecipe = try Row.fetchOne(db, sql: "SELECT * FROM recipes WHERE id = 900")!
       let legacyRecipeKey: String? = legacyRecipe["ownership_key"]
-      XCTAssertNotNil(legacyRecipeKey)
+      XCTAssertNil(legacyRecipeKey)
+      let explained = try Int.fetchOne(
+        db,
+        sql: "SELECT COUNT(*) FROM bundle_refresh_diagnostics WHERE entity_ref = 'recipe/legacy:900'")
+      XCTAssertGreaterThan(explained ?? 0, 0)
     }
   }
 
@@ -802,12 +844,17 @@ final class BundledDataRefreshTests: XCTestCase {
             "catalog entry \(entry.fdcId) (\(entry.name)) is neither owned nor explained")
         }
       }
+      // Adoption-phase explanations are legitimate on a full launch path: a
+      // blocked bundle entry (same-name unadopted row) and a legacy row whose
+      // content matches no bundle version (unmatched_row). Anything else —
+      // modified rows, name conflicts, unresolved dependencies — would mean
+      // the pass guessed or lost shipped content.
       let unexpectedDiagnostics = try Row.fetchAll(
         db, sql: "SELECT code FROM bundle_refresh_diagnostics"
       )
       .filter { row -> Bool in
         let code: String = row["code"]
-        return code != "blocked_by_unadopted_row"
+        return code != "blocked_by_unadopted_row" && code != "unmatched_row"
       }
       .count
       XCTAssertEqual(
