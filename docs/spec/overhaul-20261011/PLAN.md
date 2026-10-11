@@ -25,7 +25,7 @@ A FridgeLuck that someone would keep on their home screen, running end to end on
   - #12 `fix/vision-cancellation` at 954d6c6;
   - #13 `fix/scan-failure-report` at 3e6d321.
 
-  The merges were made in that order onto `main`'s 2fd0dfe. The one documented conflict (#5 against #11 in `ReverseScanResultsSections.swift`) keeps #5's side. The composed head is **2e77938**; `alpha` fast-forwards there once iOS CI passes on draft PR #87. #6 is left out because `main` builds on Xcode 26.6 without it. Nothing deploys from `alpha`:
+  The merges were made in that order onto `main`'s 2fd0dfe. The one documented conflict (#5 against #11 in `ReverseScanResultsSections.swift`) keeps #5's side. The composed head is **2e77938**; iOS CI passed on draft PR #87 (run 38136461873), and `alpha` was fast-forwarded there. #6 is left out because `main` builds on Xcode 26.6 without it. Nothing deploys from `alpha`:
   - the only workflow, `ios-ci.yml`, runs on PRs and on pushes to `main`;
   - the repo has no GitHub environments or deployments;
   - `cloudbuild.yaml` builds an image without deploying;
@@ -131,4 +131,4 @@ Record which condition fired and why in this file. The overhaul is done when eve
 - 2026-10-11 11:30Z: Round 1 queued.
 - 2026-10-11 11:30Z: SPEC revision 2. Sam's own asks are restored as competing directions: user recipes and Explore, community ideas, the Beta trust vector, the pastel palette, quests and badges, the continuous camera. The bundled recipes are flagged as a rights risk.
 - 2026-10-11 11:45Z: the integration branch is `alpha`, cut from main at 2fd0dfe, by Sam's direction. The earlier `beta` and `fleet/beta` (both at 2fd0dfe, no PRs) were deleted.
-- 2026-10-11 11:50Z: `alpha` set to the minimal-product stack, head 2e77938, pending CI on #87 (Sam's rule: the definitive latest version, not `main`).
+- 2026-10-11 11:50Z: `alpha` set to the minimal-product stack, head 2e77938 (Sam's rule: the definitive latest version, not `main`). iOS CI build-and-test passed on #87 (run 38136461873); `alpha` fast-forwarded from 2fd0dfe.
