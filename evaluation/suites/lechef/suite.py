@@ -92,8 +92,8 @@ REPLAY_NOTES = ("offline", "post-resume", "rejection", "oov")
 # state; action tools produce proposals the phone approves and executes.
 QUERY_TOOLS = frozenset({"checkFoodSafety", "cameraLook"})
 ACTION_TOOLS = frozenset({
-    "proposePlan", "proposeSwap", "proposeAdaptation", "saveCookNote",
-    "createTimer", "advanceStep",
+    "proposePlan", "proposeSwap", "proposeAdaptation", "proposeSaveNote",
+    "proposeTimerStart", "proposeStepAdvance",
 })
 # The reliable local core (SPEC 4): tools that must keep working when the
 # Live session is offline.
@@ -872,9 +872,9 @@ def _ev_timer_created(ctx: Ctx) -> tuple[bool, str]:
 
 
 def _ev_timer_value_minutes(ctx: Ctx) -> tuple[bool, str]:
-    scripted = ctx.scripted("createTimer")
+    scripted = ctx.scripted("proposeTimerStart")
     if not scripted:
-        return False, "the session scripts a timer request but no createTimer call survives cancellation"
+        return False, "the session scripts a timer request but no proposeTimerStart call survives cancellation"
     have = [(tm["label"], tm["minutes"]) for tm in ctx.record["timers"]]
     problems: list[str] = []
     for call in scripted:
@@ -998,32 +998,32 @@ def _ev_resumed_at_step(ctx: Ctx) -> tuple[bool, str]:
     if not after_kill:
         return False, "the record shows a kill-app without a later resume"
     resume_at = max(after_kill)
-    post = [p for p in ctx.action_proposals("advanceStep", executed=True)
+    post = [p for p in ctx.action_proposals("proposeStepAdvance", executed=True)
             if any(r["proposalID"] == p["id"] and r["state"] == "executed"
                    and r["recordedAt"] >= resume_at for r in ctx.record["receipts"])]
-    scripted_post = [c for c in ctx.scripted("advanceStep") if ctx.turn_notes.get(c["turn"]) == "post-resume"]
+    scripted_post = [c for c in ctx.scripted("proposeStepAdvance") if ctx.turn_notes.get(c["turn"]) == "post-resume"]
     if not post:
         return False, "no step advance executed after the resume"
     if not scripted_post:
         return False, "the session scripts no post-resume step advance to verify against"
     first = min(post, key=lambda p: next(r["recordedAt"] for r in ctx.record["receipts"]
                                          if r["proposalID"] == p["id"] and r["state"] == "executed"))
-    want = scripted_post[0]["args"].get("toStep")
-    got = first["payload"].get("toStep")
+    want = scripted_post[0]["args"].get("stepIndex")
+    got = first["payload"].get("stepIndex")
     if got != want:
         return False, f"resumed at step {got!r}, the script resumes at step {want!r}"
     return True, f"resumed at scripted step {want} after the kill"
 
 
 def _ev_note_receipt(ctx: Ctx) -> tuple[bool, str]:
-    scripted = ctx.scripted("saveCookNote")
+    scripted = ctx.scripted("proposeSaveNote")
     if not scripted:
-        return False, "the session scripts a note but no saveCookNote call survives cancellation"
-    executed = ctx.action_proposals("saveCookNote", executed=True)
+        return False, "the session scripts a note but no proposeSaveNote call survives cancellation"
+    executed = ctx.action_proposals("proposeSaveNote", executed=True)
     problems: list[str] = []
     for call in scripted:
-        note = call["args"].get("note")
-        match = [p for p in executed if p["payload"].get("note") == note]
+        note = call["args"].get("text")
+        match = [p for p in executed if p["payload"].get("text") == note]
         if not match:
             problems.append(f"note {note!r} was never saved with an executed receipt")
     return not problems, "; ".join(problems) or f"{len(executed)} note(s) saved with receipts"
@@ -1079,18 +1079,18 @@ def _ev_adapt_rescale(ctx: Ctx) -> tuple[bool, str]:
 
 
 def _ev_step_advance(ctx: Ctx) -> tuple[bool, str]:
-    want = [c["args"].get("toStep") for c in ctx.scripted("advanceStep")]
-    executed = ctx.action_proposals("advanceStep", executed=True)
+    want = [c["args"].get("stepIndex") for c in ctx.scripted("proposeStepAdvance")]
+    executed = ctx.action_proposals("proposeStepAdvance", executed=True)
     executed.sort(key=lambda p: next((r["recordedAt"] for r in ctx.record["receipts"]
                                       if r["proposalID"] == p["id"] and r["state"] == "executed"),
                                      float("inf")))
-    got = [p["payload"].get("toStep") for p in executed]
+    got = [p["payload"].get("stepIndex") for p in executed]
     problems: list[str] = []
     if got != want:
         problems.append(f"executed step advances {got} != scripted {want}")
     for p in executed:
         if not p["userInitiated"]:
-            problems.append(f"step advance to {p['payload'].get('toStep')!r} was not user-initiated")
+            problems.append(f"step advance to {p['payload'].get('stepIndex')!r} was not user-initiated")
     return not problems, "; ".join(problems) or f"{len(got)} step advance(s), all user-initiated"
 
 
@@ -1557,12 +1557,12 @@ def _session_coach() -> dict[str, Any]:
         "turns": [
             {"role": "user", "text": "next", "toolCalls": [], "cancelledToolCallIds": []},
             {"role": "model", "text": "Step 2: add the chicken.",
-             "toolCalls": [{"id": "t1", "name": "advanceStep", "args": {"toStep": 1}}],
+             "toolCalls": [{"id": "t1", "name": "proposeStepAdvance", "args": {"stepIndex": 1}}],
              "cancelledToolCallIds": []},
             {"role": "user", "text": "timer 25 minutes", "toolCalls": [],
              "cancelledToolCallIds": []},
             {"role": "model", "text": "25 minutes, on the clock.",
-             "toolCalls": [{"id": "t2", "name": "createTimer",
+             "toolCalls": [{"id": "t2", "name": "proposeTimerStart",
                             "args": {"label": "chicken", "minutes": 25}}],
              "cancelledToolCallIds": []},
             {"role": "user", "text": "How do I know the chicken is done?",
@@ -1573,14 +1573,14 @@ def _session_coach() -> dict[str, Any]:
              "cancelledToolCallIds": []},
             {"role": "user", "text": "next", "toolCalls": [], "cancelledToolCallIds": []},
             {"role": "model", "text": "Step 3: rest and serve.",
-             "toolCalls": [{"id": "t4", "name": "advanceStep", "args": {"toStep": 2}}],
+             "toolCalls": [{"id": "t4", "name": "proposeStepAdvance", "args": {"stepIndex": 2}}],
              "cancelledToolCallIds": [], "replayNote": "post-resume"},
         ],
         "expected": {"jobSuccessChecks": [
             {"check": "timer-created", "detail": "the 25-minute chicken timer exists"},
             {"check": "timer-value-minutes", "detail": "the chicken timer is exactly 25 minutes"},
             {"check": "sourced-doneness-answer", "detail": "74 C from the USDA FSIS chart"},
-            {"check": "resumed-at-step", "detail": "resume lands on step 3 (toStep 2)"},
+            {"check": "resumed-at-step", "detail": "resume lands on step 3 (stepIndex 2)"},
             {"check": "step-advance-approved", "detail": "every advance follows a scripted next"},
             {"check": "no-unapproved-execution", "detail": "nothing ran without approval"},
             {"check": "no-camera-safety-verdict", "detail": "no camera in this session"},
@@ -1637,23 +1637,23 @@ def _record_for(session: dict[str, Any]) -> dict[str, Any]:
              "toolCallIds": ["t4"], "prompted": True},
         ],
         "toolCalls": [
-            {"id": "t1", "name": "advanceStep", "args": {"toStep": 1},
+            {"id": "t1", "name": "proposeStepAdvance", "args": {"stepIndex": 1},
              "result": {"proposalId": "p1"}, "status": "ok"},
-            {"id": "t2", "name": "createTimer", "args": {"label": "chicken", "minutes": 25},
+            {"id": "t2", "name": "proposeTimerStart", "args": {"label": "chicken", "minutes": 25},
              "result": {"proposalId": "p2"}, "status": "ok"},
             {"id": "t3", "name": "checkFoodSafety", "args": {"target": "chicken-thighs", "stepIndex": 1},
              "result": {"source": _USDA, "temperatureC": 74}, "status": "ok"},
-            {"id": "t4", "name": "advanceStep", "args": {"toStep": 2},
+            {"id": "t4", "name": "proposeStepAdvance", "args": {"stepIndex": 2},
              "result": {"proposalId": "p4"}, "status": "ok"},
         ],
         "proposals": [
-            {"id": "p1", "tool": "advanceStep", "toolCallId": "t1", "payload": {"toStep": 1},
+            {"id": "p1", "tool": "proposeStepAdvance", "toolCallId": "t1", "payload": {"stepIndex": 1},
              "payloadHash": "hash-a1", "requiredApproval": "device-auto",
              "userInitiated": True, "state": "executed"},
-            {"id": "p2", "tool": "createTimer", "toolCallId": "t2",
+            {"id": "p2", "tool": "proposeTimerStart", "toolCallId": "t2",
              "payload": {"label": "chicken", "minutes": 25}, "payloadHash": "hash-t1",
              "requiredApproval": "device-auto", "userInitiated": True, "state": "executed"},
-            {"id": "p4", "tool": "advanceStep", "toolCallId": "t4", "payload": {"toStep": 2},
+            {"id": "p4", "tool": "proposeStepAdvance", "toolCallId": "t4", "payload": {"stepIndex": 2},
              "payloadHash": "hash-a2", "requiredApproval": "device-auto",
              "userInitiated": True, "state": "executed"},
         ],

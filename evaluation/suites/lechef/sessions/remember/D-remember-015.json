@@ -165,9 +165,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Use the small pan"
+            "text": "Use the small pan",
+            "scope": "cook"
           }
         }
       ],

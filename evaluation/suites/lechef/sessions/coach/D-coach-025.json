@@ -238,7 +238,7 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "createTimer",
+          "name": "proposeTimerStart",
           "args": {
             "label": "pasta",
             "minutes": 9
@@ -258,9 +258,9 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "advanceStep",
+          "name": "proposeStepAdvance",
           "args": {
-            "toStep": 1
+            "stepIndex": 1
           }
         }
       ],

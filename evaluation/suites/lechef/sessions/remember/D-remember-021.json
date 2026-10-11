@@ -174,9 +174,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Bok choy into the rice, not the pan"
+            "text": "Bok choy into the rice, not the pan",
+            "scope": "cook"
           }
         }
       ],

@@ -260,7 +260,7 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "createTimer",
+          "name": "proposeTimerStart",
           "args": {
             "label": "bok choy",
             "minutes": 3

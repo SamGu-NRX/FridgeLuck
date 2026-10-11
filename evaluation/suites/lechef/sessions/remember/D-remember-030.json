@@ -131,9 +131,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Lime at the table, not in the pan"
+            "text": "Lime at the table, not in the pan",
+            "scope": "cook"
           }
         }
       ],

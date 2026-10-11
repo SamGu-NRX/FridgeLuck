@@ -191,9 +191,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Loved the ginger-chicken; double the garlic next time"
+            "text": "Loved the ginger-chicken; double the garlic next time",
+            "scope": "cook"
           }
         }
       ],

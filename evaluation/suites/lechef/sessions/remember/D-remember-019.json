@@ -160,9 +160,10 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Skin-side start, 4 minutes — perfect"
+            "text": "Skin-side start, 4 minutes — perfect",
+            "scope": "cook"
           }
         }
       ],

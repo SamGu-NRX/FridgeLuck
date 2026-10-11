@@ -149,9 +149,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Weeknight cap: 30 minutes max"
+            "text": "Weeknight cap: 30 minutes max",
+            "scope": "cook"
           }
         }
       ],

@@ -186,9 +186,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Pesto night — skip the parmesan garnish, too sharp for the kids"
+            "text": "Pesto night — skip the parmesan garnish, too sharp for the kids",
+            "scope": "cook"
           }
         }
       ],

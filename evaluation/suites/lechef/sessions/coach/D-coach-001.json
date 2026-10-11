@@ -217,7 +217,7 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "createTimer",
+          "name": "proposeTimerStart",
           "args": {
             "label": "sear",
             "minutes": 6
@@ -237,9 +237,9 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "advanceStep",
+          "name": "proposeStepAdvance",
           "args": {
-            "toStep": 1
+            "stepIndex": 1
           }
         }
       ],
@@ -256,9 +256,9 @@
       "toolCalls": [
         {
           "id": "t3",
-          "name": "advanceStep",
+          "name": "proposeStepAdvance",
           "args": {
-            "toStep": 2
+            "stepIndex": 2
           }
         }
       ],
@@ -286,9 +286,9 @@
       "toolCalls": [
         {
           "id": "t4",
-          "name": "advanceStep",
+          "name": "proposeStepAdvance",
           "args": {
-            "toStep": 3
+            "stepIndex": 3
           }
         }
       ],

@@ -181,9 +181,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Basement kitchen: add 2 minutes to the rice"
+            "text": "Basement kitchen: add 2 minutes to the rice",
+            "scope": "cook"
           }
         }
       ],

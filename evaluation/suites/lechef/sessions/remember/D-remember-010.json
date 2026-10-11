@@ -165,9 +165,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Cabin trip: everyone loved the curry"
+            "text": "Cabin trip: everyone loved the curry",
+            "scope": "cook"
           }
         }
       ],

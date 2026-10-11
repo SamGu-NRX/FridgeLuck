@@ -149,9 +149,10 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Olive oil baste is our default now"
+            "text": "Olive oil baste is our default now",
+            "scope": "cook"
           }
         }
       ],

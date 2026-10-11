@@ -173,9 +173,10 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Coconut aminos worked — keep buying it"
+            "text": "Coconut aminos worked — keep buying it",
+            "scope": "cook"
           }
         }
       ],

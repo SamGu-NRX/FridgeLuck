@@ -168,9 +168,10 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Seed pesto passed the taste test"
+            "text": "Seed pesto passed the taste test",
+            "scope": "cook"
           }
         }
       ],

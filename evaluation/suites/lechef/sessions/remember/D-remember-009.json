@@ -156,9 +156,10 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Feta on tacos: approved"
+            "text": "Feta on tacos: approved",
+            "scope": "cook"
           }
         }
       ],

@@ -150,9 +150,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Rest the meatballs 5 minutes"
+            "text": "Rest the meatballs 5 minutes",
+            "scope": "cook"
           }
         }
       ],

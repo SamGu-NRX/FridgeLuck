@@ -174,9 +174,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Tacos need double lime"
+            "text": "Tacos need double lime",
+            "scope": "cook"
           }
         }
       ],

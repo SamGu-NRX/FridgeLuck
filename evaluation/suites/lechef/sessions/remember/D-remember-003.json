@@ -167,9 +167,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Salmon skin came out perfect at 4 minutes a side"
+            "text": "Salmon skin came out perfect at 4 minutes a side",
+            "scope": "cook"
           }
         }
       ],

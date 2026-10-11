@@ -163,9 +163,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Kids liked it mild"
+            "text": "Kids liked it mild",
+            "scope": "cook"
           }
         }
       ],

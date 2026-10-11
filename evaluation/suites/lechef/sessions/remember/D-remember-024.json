@@ -160,9 +160,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "No walnuts anywhere — tree-nut allergy in the house"
+            "text": "No walnuts anywhere — tree-nut allergy in the house",
+            "scope": "cook"
           }
         }
       ],

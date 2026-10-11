@@ -209,9 +209,9 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "advanceStep",
+          "name": "proposeStepAdvance",
           "args": {
-            "toStep": 1
+            "stepIndex": 1
           }
         }
       ],

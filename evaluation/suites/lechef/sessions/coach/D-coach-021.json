@@ -276,7 +276,7 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "createTimer",
+          "name": "proposeTimerStart",
           "args": {
             "label": "simmer",
             "minutes": 15
@@ -296,9 +296,9 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "advanceStep",
+          "name": "proposeStepAdvance",
           "args": {
-            "toStep": 1
+            "stepIndex": 1
           }
         }
       ],
@@ -337,9 +337,9 @@
       "toolCalls": [
         {
           "id": "t3",
-          "name": "advanceStep",
+          "name": "proposeStepAdvance",
           "args": {
-            "toStep": 2
+            "stepIndex": 2
           }
         }
       ],

@@ -208,7 +208,7 @@
         },
         {
           "id": "t2",
-          "name": "createTimer",
+          "name": "proposeTimerStart",
           "args": {
             "label": "simmer",
             "minutes": 15

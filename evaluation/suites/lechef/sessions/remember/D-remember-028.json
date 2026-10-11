@@ -135,16 +135,18 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Kids prefer the tofu version"
+            "text": "Kids prefer the tofu version",
+            "scope": "cook"
           }
         },
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Kids prefer the tofu version"
+            "text": "Kids prefer the tofu version",
+            "scope": "cook"
           }
         }
       ],

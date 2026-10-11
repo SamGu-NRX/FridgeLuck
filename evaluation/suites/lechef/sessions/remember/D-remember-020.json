@@ -179,9 +179,10 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Reserve a cup of pasta water"
+            "text": "Reserve a cup of pasta water",
+            "scope": "cook"
           }
         }
       ],

@@ -180,9 +180,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Double the ginger next time"
+            "text": "Double the ginger next time",
+            "scope": "cook"
           }
         }
       ],

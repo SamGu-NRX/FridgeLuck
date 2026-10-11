@@ -147,9 +147,10 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Salmon pulled at 63°C — perfect, keep it"
+            "text": "Salmon pulled at 63°C — perfect, keep it",
+            "scope": "cook"
           }
         }
       ],

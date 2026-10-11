@@ -165,9 +165,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Always double garlic"
+            "text": "Always double garlic",
+            "scope": "cook"
           }
         }
       ],

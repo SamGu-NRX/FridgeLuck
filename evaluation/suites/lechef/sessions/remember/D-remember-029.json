@@ -124,9 +124,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Sear longer than the recipe says"
+            "text": "Sear longer than the recipe says",
+            "scope": "cook"
           }
         }
       ],

@@ -152,9 +152,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "wrong note"
+            "text": "wrong note",
+            "scope": "cook"
           }
         }
       ],
@@ -167,16 +168,18 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Ginger-soy ratio is 2:1 — keep it"
+            "text": "Ginger-soy ratio is 2:1 — keep it",
+            "scope": "cook"
           }
         },
         {
           "id": "t3",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Ginger-soy ratio is 2:1 — keep it"
+            "text": "Ginger-soy ratio is 2:1 — keep it",
+            "scope": "cook"
           }
         }
       ],

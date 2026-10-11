@@ -176,9 +176,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "No-signal dinner worked — pesto again next time"
+            "text": "No-signal dinner worked — pesto again next time",
+            "scope": "cook"
           }
         }
       ],

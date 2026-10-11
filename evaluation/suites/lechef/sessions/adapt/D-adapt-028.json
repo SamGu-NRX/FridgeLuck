@@ -200,7 +200,7 @@
         },
         {
           "id": "t2",
-          "name": "createTimer",
+          "name": "proposeTimerStart",
           "args": {
             "label": "roast",
             "minutes": 35

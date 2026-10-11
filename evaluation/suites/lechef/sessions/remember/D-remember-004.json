@@ -175,9 +175,10 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "saveCookNote",
+          "name": "proposeSaveNote",
           "args": {
-            "note": "Curry: spinach at the very end only"
+            "text": "Curry: spinach at the very end only",
+            "scope": "cook"
           }
         }
       ],
