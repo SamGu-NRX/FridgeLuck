@@ -103,7 +103,8 @@ final class LintTests: XCTestCase {
         let sources = screenSources
         let targets = Set(sources.map { $0.path.split(separator: "/").first.map(String.init) ?? "" })
         // Part 3: FLExplore and FLRecipe joined — the lint must cover them too.
-        for target in ["FLScreenSupport", "FLTonight", "FLKitchen", "FLExplore", "FLRecipe"] {
+        // Part 4: FLScan and FLTasteProfile joined under the same lint.
+        for target in ["FLScreenSupport", "FLTonight", "FLKitchen", "FLExplore", "FLRecipe", "FLScan", "FLTasteProfile"] {
             XCTAssertTrue(targets.contains(target), "the lint found no sources for \(target)")
         }
         XCTAssertGreaterThanOrEqual(sources.count, 5, "the lint found suspiciously few files")

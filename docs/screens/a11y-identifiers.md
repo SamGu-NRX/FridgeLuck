@@ -8,7 +8,9 @@ automation, XCUITest) until evaluation confirms this file. If evaluation
 proposes different names, the views change — the identifiers are
 one-line edits by design. (Extended in Part 3 with the Explore feed,
 the beta Table screens and the Recipe document — same conventions,
-same open questions.)
+same open questions. Extended again in Part 4 with the Scan
+capture-and-review flow and the taste profile — same conventions,
+and one new interpolation note per screen below.)
 
 Conventions proposed:
 
@@ -179,6 +181,115 @@ the Explore navigation context. Cook ids come from the host.
 | `fl.recipe.recordPrivacy` | The record's privacy line | |
 | `fl.recipe.recordSave` | "Save" (record sheet) | |
 | `fl.recipe.recordShare` | "Share to a table" (record sheet) | Never auto-shares |
+
+## Scan (`FLScan`)
+
+The grocery capture-and-review destination (mock: `scan-review.html`).
+Its stages share one prefix; stage-specific identifiers exist for every
+element the stage shows.
+
+| Identifier | Element | Notes |
+|---|---|---|
+| `fl.scan.screen` | The Scan destination container | |
+| `fl.scan.title` | Screen title ("Scan") | |
+| `fl.scan.start` | **Primary action: "Start scanning"** (idle) | Opens the capture stage |
+| `fl.scan.idleCaption` | The idle explainer line | "Point at a shelf of groceries and I'll read it. Add by hand any time — both count the same." |
+| `fl.scan.addByName` | "Add by name" (idle) | Ranks equal to scanning, as in Kitchen |
+| `fl.scan.capture` | The capture-stage container | |
+| `fl.scan.shutter` | The shutter button | Apple-gated camera capture behind `canImport` |
+| `fl.scan.preview` | The captured photo preview | |
+| `fl.scan.captureClose` | Close/cancel capture | Returns to the landing, keeps nothing |
+| `fl.scan.qualityIssue` | The capture-quality notice over the photo | "Too dark to read" / "Too blurry" — a notice, never an alert |
+| `fl.scan.retake` | "Retake" | |
+| `fl.scan.addByHand` | "Add by hand" (capture stage) | Reveals the manual-entry row |
+| `fl.scan.addByNameRow` | One manual-entry row | Shared row; ids stay positional-free |
+| `fl.scan.cameraRefused` | The camera-refused notice | "The camera didn't open. Add by hand any time." — an escape, not a dead end |
+| `fl.scan.analysing` | The analysing container | |
+| `fl.scan.analysingPhoto` | The photo being read | |
+| `fl.scan.analysingTitle` | "Looking" headline | |
+| `fl.scan.progressLine` | The indeterminate progress line | One hairline under the title; still under reduce motion |
+| `fl.scan.review` | The review-stage container | The mock's review screen |
+| `fl.scan.count` | The header count | "9 seen · 7 sure" — the only tallies besides quantities |
+| `fl.scan.looksRight` | The "Looks right" rows container | |
+| `fl.scan.looksRightLabel` | The "Looks right" heading | |
+| `fl.scan.looksRightCount` | The sure count beside the heading | |
+| `fl.scan.item.<itemId>` | One sure row | Quantity rides `accessibilityValue`, not the label |
+| `fl.scan.receiptLine.<itemId>` | The row's receipt-line provenance (when present) | |
+| `fl.scan.duplicateNote.<itemId>` | The duplicate notice | "In your kitchen already — a scan never adds" |
+| `fl.scan.duplicateStill.<itemId>` | **"Still N" reconciliation chip** | Observes; never adds on its own |
+| `fl.scan.duplicateBoughtMore.<itemId>` | **"Bought more" reconciliation chip** | |
+| `fl.scan.needsYou` | The "Needs you" rows container | |
+| `fl.scan.needsYouLabel` | The "Needs you" heading | |
+| `fl.scan.needsYouCount` | The needs-you count | |
+| `fl.scan.uncertain.<itemId>` | One uncertain row container | |
+| `fl.scan.uncertainLine.<itemId>` | What the scan saw ("Leafy, pale stems, top shelf.") | |
+| `fl.scan.uncertainOption.<itemId>.<index>` | One name option for the row | Positional options: option ids are capture-local, not host records |
+| `fl.scan.uncertainNeither.<itemId>` | "Neither" | Removes the misread from the scan |
+| `fl.scan.dock` | The commit dock container | The Scan flow's commit dock inside the screen — **not** the shell's tab dock |
+| `fl.scan.confirm` | **Primary action: "Add N to kitchen"** | The confirm-to-pantry commit; "Adding…" while saving |
+| `fl.scan.confirmCaption` | The dock caption | "Tonight's pick updates when you do." |
+| `fl.scan.committed` | The committed confirmation line | "Added to your kitchen." |
+| `fl.scan.commitError` | The commit-failed notice | "Couldn't save. Nothing changed — try again." — state returns to review |
+| `fl.scan.problem` | The problem container (recognition failed) | The photo is kept; nothing is lost |
+| `fl.scan.problemPhoto` | The kept photo on the failure panel | |
+| `fl.scan.problemSection` | The problem panel heading | |
+| `fl.scan.retry` | "Try again" | Re-runs recognition on the kept photo |
+| `fl.scan.problemAddByName` | "Missed something? Add by name" (problem panel) | Recognition failure ends in manual entry, never a dead end |
+| `fl.scan.plateOffer` | The plate-switch offer line | "This looks like a meal. Log it instead?" — shown until answered, never auto-applied |
+| `fl.scan.plateYes` | "Yes" on the plate offer | Yes is host-routed (`.logMeal`); the scan never auto-switches |
+| `fl.scan.plateNo` | "No" on the plate offer | Dismisses the offer |
+
+## Taste profile (`FLTasteProfile`)
+
+The on-device taste editor (mock: `taste-profile.html`). Per-sentence and
+per-note identifiers append the sentence's or memory's stable id
+(`fl.taste.sentence.s2`), so automation targets a row, not a position.
+
+| Identifier | Element | Notes |
+|---|---|---|
+| `fl.taste.screen` | The taste-profile destination container | |
+| `fl.taste.title` | Screen title ("Your taste") | |
+| `fl.taste.cooks` | The cook-count context line | "Over 23 cooks" — host-verbatim evidence grammar |
+| `fl.taste.newUser` | The new-user explainer container | Shown before there is anything to edit |
+| `fl.taste.learnedLabel` | The "What I've learned" heading | |
+| `fl.taste.sentences` | The taste-sentence list container | |
+| `fl.taste.sentenceRow.<sentenceId>` | One sentence's row container | |
+| `fl.taste.sentence.<sentenceId>` | One sentence's text | |
+| `fl.taste.evidence.<sentenceId>` | The sentence's evidence tag | "18 of 23" |
+| `fl.taste.confirmed.<sentenceId>` | The sentence's confirmed state line | "Won't use this." confirms a rejected read |
+| `fl.taste.rejected.<sentenceId>` | The sentence's rejected state line | |
+| `fl.taste.sentenceUndo.<sentenceId>` | "Undo" on a changed judgement | Undoes exactly one judgement |
+| `fl.taste.sentenceRight.<sentenceId>` | "Right" | Confirms the sentence |
+| `fl.taste.sentenceWrong.<sentenceId>` | "Wrong" | Rejects the sentence |
+| `fl.taste.offerSuggest.<sentenceId>` | "Suggest some" (offer) | Host-routed to Explore's filter |
+| `fl.taste.offerDecline.<sentenceId>` | "Not interested" (offer) | Declines this once |
+| `fl.taste.offerNever.<sentenceId>` | "Never suggest" (offer) | Suppresses the prompt for that sentence kind |
+| `fl.taste.restrictions` | The restrictions container | Filtered before ranking, per product law |
+| `fl.taste.restriction.<restrictionId>` | One restriction row | |
+| `fl.taste.restrictionField` | The new-restriction text field ("Restriction name") | |
+| `fl.taste.restrictionAddApply` | The add-restriction "Add" button | Blank names are refused |
+| `fl.taste.restrictionAdd` | "Add restriction" | |
+| `fl.taste.memories` | The remembered-notes container | |
+| `fl.taste.memoriesLabel` | The "LeChef remembers" heading | |
+| `fl.taste.memoriesCount` | The "N seen" count line | |
+| `fl.taste.memoriesEmpty` | The "Nothing remembered yet." line | |
+| `fl.taste.memoryRow.<memoryId>` | One memory's row container | |
+| `fl.taste.memory.<memoryId>` | One memory's text | |
+| `fl.taste.memoryDish.<memoryId>` | The memory's dish line (when present) | |
+| `fl.taste.forgetReceipt` | The post-forget receipt ("Forgotten.") | |
+| `fl.taste.forgetUndo` | "Undo" on the receipt | Restores exactly the forgotten note |
+| `fl.taste.setup` | The setup summary container | Restrictions + setup at a glance |
+| `fl.taste.setupLabel` | The setup heading ("What you told me at setup") | |
+| `fl.taste.setupSummary` | The setup summary text | "Set in setup. Edited there, never here." |
+| `fl.taste.setupEdit` | "Edit" (setup summary) | Opens the restrictions-and-setup editor |
+| `fl.taste.savePending` | The unsaved indicator | "Changes not saved yet." |
+| `fl.taste.saveError` | The save-failed notice | "Couldn't save. Changes kept — try again." |
+| `fl.taste.forgetAll` | "Forget everything" | Confirmation-gated in the view, not a tap-through |
+| `fl.taste.forgetAllPrompt` | The forget-all confirmation container | |
+| `fl.taste.forgetAllConfirm` | The confirmation's "Forget everything" | Preserves restrictions by design |
+| `fl.taste.forgetAllCancel` | The confirmation's "Keep everything" | |
+| `fl.taste.export` | "Export everything I know about you" | |
+| `fl.taste.footer` | The on-device footer line | |
 
 ## Open to evaluation
 
