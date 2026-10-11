@@ -37,6 +37,7 @@ body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-sm
 @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .fit{display:inline-flex;gap:3px;align-items:center}
 .fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.a{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink)}
 .fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
 .photo{position:relative;background:#E9EAE4;border-radius:14px;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08);overflow:hidden}
 .photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(0,0,0,.035) 10px 11px)}
@@ -87,10 +88,10 @@ body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-sm
       <p class="mono sec c2 in" style="--i:2">25 min · 2 servings · 520 kcal</p>
       <div class="photo in" style="--i:3;aspect-ratio:4/5;margin-top:16px"><span>photo: overhead, daylight, 4:5</span></div>
       <div class="fitrow in" style="--i:4">
-        <span class="fit" aria-label="9 of 10 ingredients on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i></span>
-        <span class="mono" style="font-weight:500">9 of 10 · 1 swap</span>
+        <span class="fit" aria-label="6 of 10 ingredients on hand, 3 assumed staples, 1 swap"><i></i><i></i><i></i><i></i><i></i><i></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="o"></i></span>
+        <span class="mono" style="font-weight:500">6 of 10 · 3 assumed · 1 swap</span>
       </div>
-      <p class="sec in" style="--i:5;margin-top:8px">Everything except lime. Swap in a lemon, you have two.</p>
+      <p class="sec in" style="--i:5;margin-top:8px">Everything except lime, if your soy sauce, sesame oil and honey are still there. Swap in a lemon, you have two.</p>
       <p class="sec c2 in" style="--i:5;margin-top:8px">Why: you've cooked noodles four times this month and rated two of them 5. Under 30 min, like 11 of your last 14 cooks.</p>
       <div style="margin-top:28px;display:grid;gap:4px">
         <button class="btn primary">Cook this</button>
@@ -134,7 +135,7 @@ body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-sm
   <h1>Tonight</h1>
   <p>Answers "what do I cook now" before the thumb moves. One pick, its fit, its reason, and the button. Two alternatives and the use-soon list come after, so the screen still works when the pick is wrong.</p>
   <p>The yolk square next to "From your fridge" is the only colour on the screen. It marks the pick; it marks nothing else.</p>
-  <p>Fit is "9 of 10, 1 swap", never a percentage. The swap is named in the next line with the evidence ("you have two").</p>
+  <p>Fit counts only lines with enough on hand: "6 of 10 · 3 assumed · 1 swap". Assumed staples are shown as assumed (ring squares), never counted as on hand; never a percentage. The swap is named in the next line with the evidence ("you have two").</p>
   <p>The "Why" line is written as evidence from the taste profile. Tapping it opens the profile sentence it came from.</p>
 
   <h2>States</h2>
@@ -142,10 +143,10 @@ body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-sm
     <dt>empty</dt><dd>No scan yet. Hero becomes: "Scan a shelf and I'll pick tonight's dinner." with a sample pick below, labelled "Example". Scan button in the tab bar gets a yolk ring for the first session only.</dd>
     <dt>loading</dt><dd>Local fit is instant. The "Why" line and table line can arrive late: layout reserves their height, one 2 px indeterminate line under the title, no shimmer.</dd>
     <dt>error</dt><dd>Recommendation service down: show the last pick with "As of 6:10 pm" in the eyebrow. Use soon, Also possible and fit are computed on device and always render.</dd>
-    <dt>nothing fits</dt><dd>Best fit under 6 of 10: eyebrow reads "Closest with what you have", pick still shows, button reads "Cook with 2 swaps". Below: "Scan after shopping and this will get better."</dd>
+    <dt>nothing fits</dt><dd>No recipe is feasible with what is on hand: the eyebrow reads "Nothing cookable from your kitchen yet". It offers the closest dish with an honest "You'd need: chicken thighs, ginger" list (Add to shopping list), "Pick from saved", and manual entry. It never invents swaps to make a dish look cookable.</dd>
     <dt>mid-cook</dt><dd>A cook in progress replaces the hero with a resume bar: dish, "Step 4 of 8", running timer, "Resume". Everything else unchanged.</dd>
-    <dt>late</dt><dd>After 21:30 the title reads "Tomorrow" and the pick is tomorrow's dinner. Use soon stays.</dd>
-    <dt>question</dt><dd>When the taste profile has a pattern at five observations, one line appears under the Why: "You've taken coriander out 5 times. Stop suggesting it? Yes / No". Asked once, never repeated.</dd>
+    <dt>late</dt><dd>No clock cutoff: late eaters still get tonight. A small "Plan tomorrow instead" link lets the user choose.</dd>
+    <dt>question</dt><dd>When a pattern has enough distinct opportunities (counted with a denominator, e.g. "removed coriander 4 of the 5 times it was in a recipe you cooked"), one line appears under the Why: "Stop suggesting coriander? Yes / No / Don't ask again". "Don't ask again" differs from "No"; the user can reopen it from the taste profile.</dd>
   </dl>
 
   <h2>Motion</h2>

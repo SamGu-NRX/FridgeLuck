@@ -30,6 +30,7 @@ body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-sm
 @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .fit{display:inline-flex;gap:3px;align-items:center}
 .fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.a{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink)}
 .fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
 .photo{position:relative;background:#E9EAE4;border-radius:14px;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08);overflow:hidden}
 .photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(0,0,0,.035) 10px 11px)}
@@ -99,10 +100,10 @@ body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-sm
 
     <div class="fitblock in" style="--i:3">
       <div>
-        <div class="fit" aria-label="9 of 10 on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i></div>
+        <div class="fit" aria-label="6 of 10 on hand, 3 assumed staples, 1 swap"><i></i><i></i><i></i><i></i><i></i><i></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="o"></i></div>
         <p class="sec" style="margin-top:6px">Fit to your kitchen</p>
       </div>
-      <div style="text-align:right"><span class="mono" style="font-weight:500">9 of 10</span><br><span class="cap c2">1 swap</span></div>
+      <div style="text-align:right"><span class="mono" style="font-weight:500">6 of 10</span><br><span class="cap c2">3 assumed · 1 swap</span></div>
     </div>
 
     <section class="sect in" style="--i:4">
