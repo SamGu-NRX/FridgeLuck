@@ -152,3 +152,162 @@ def test_relative_import_resolved_and_checked(tmp_path):
     result = analyze_binding_sources(binding, tmp_path)
     assert codes(result) == ["undeclared-import"]
     assert "src/pkg/sibling.py" in result[0].detail
+
+
+# ---------------------------------------------------------------------------
+# R4 — dotted module closure: `import pkg.child` resolves to pkg/child.py;
+# a declared pkg/__init__.py alone never closes pkg.child. Recursive.
+# ---------------------------------------------------------------------------
+
+MAIN_DOTTED = "import pkg.child\n"
+MAIN_DOTTED_DEEP = "import pkg.child.grandchild\n"
+MAIN_FROM_MODULE = "from pkg import child\n"
+
+
+def build_pkg_repo(tmp_path, main_text, declared_paths):
+    """Synthetic repo: src/main.py + src/pkg package with __init__.py;
+    `declared_paths` lists which of the pkg files the binding declares."""
+    src = tmp_path / "src"
+    pkg = src / "pkg"
+    pkg.mkdir(parents=True, exist_ok=True)
+    (pkg / "__init__.py").write_text("", encoding="utf-8")
+    (src / "main.py").write_text(main_text, encoding="utf-8")
+    sources = [{"path": "src/main.py", "role": "source", "sha256": "a" * 64}]
+    for path in declared_paths:
+        (tmp_path / path).parent.mkdir(parents=True, exist_ok=True)
+        (tmp_path / path).write_text("", encoding="utf-8")
+        sources.append({"path": path, "role": "import", "sha256": "b" * 64})
+    raw = {
+        "schema_version": "1",
+        "capsule_id": "synthetic",
+        "title": "t",
+        "owner": "o",
+        "sources": sources,
+        "toolchain": {"language": "python", "language_version": "3.13.14", "dependencies": []},
+        "permitted_inputs": ["data/in.csv"],
+        "model_transport": {"mode": "offline-deterministic"},
+        "coverage_gaps": [],
+        "outputs": [{"path": "out/t.txt", "sha256": "c" * 64, "bytes": 1}],
+    }
+    binding, findings = parse_binding(raw)
+    assert binding is not None, findings
+    return binding
+
+
+def test_dotted_import_requires_child_module_declared(tmp_path):
+    """(R4) `import pkg.child` with only pkg/__init__.py declared names
+    pkg/child.py as undeclared."""
+    binding = build_pkg_repo(tmp_path, MAIN_DOTTED, ["src/pkg/__init__.py"])
+    (tmp_path / "src" / "pkg" / "child.py").write_text("x = 1\n", encoding="utf-8")
+    findings = analyze_binding_sources(binding, tmp_path)
+    assert codes(findings) == ["undeclared-import"]
+    assert "src/pkg/child.py" in findings[0].detail
+
+
+def test_dotted_import_declared_child_is_clean(tmp_path):
+    """(R4) Declaring pkg/child.py closes `import pkg.child`."""
+    binding = build_pkg_repo(
+        tmp_path, MAIN_DOTTED, ["src/pkg/__init__.py", "src/pkg/child.py"]
+    )
+    (tmp_path / "src" / "pkg" / "child.py").write_text("x = 1\n", encoding="utf-8")
+    assert analyze_binding_sources(binding, tmp_path) == []
+
+
+def test_recursive_dotted_import_names_intermediate_packages(tmp_path):
+    """(R4) `import pkg.child.grandchild` requires the whole chain:
+    pkg/child/__init__.py and pkg/child/grandchild.py, recursively."""
+    binding = build_pkg_repo(tmp_path, MAIN_DOTTED_DEEP, ["src/pkg/__init__.py"])
+    pkg_child = tmp_path / "src" / "pkg" / "child"
+    pkg_child.mkdir(parents=True)
+    (pkg_child / "__init__.py").write_text("", encoding="utf-8")
+    (pkg_child / "grandchild.py").write_text("x = 1\n", encoding="utf-8")
+    findings = analyze_binding_sources(binding, tmp_path)
+    assert codes(findings) == ["undeclared-import"]
+    detail = findings[0].detail
+    assert "src/pkg/child/__init__.py" in detail
+    assert "src/pkg/child/grandchild.py" in detail
+
+
+def test_from_module_form_requires_submodule_declared(tmp_path):
+    """(R4) `from pkg import child` treats pkg/child.py as a closure
+    candidate when it exists — declaring pkg/__init__.py alone is not
+    enough, and declaring pkg/child.py closes it."""
+    binding = build_pkg_repo(tmp_path, MAIN_FROM_MODULE, ["src/pkg/__init__.py"])
+    (tmp_path / "src" / "pkg" / "child.py").write_text("x = 1\n", encoding="utf-8")
+    findings = analyze_binding_sources(binding, tmp_path)
+    assert codes(findings) == ["undeclared-import"]
+    assert "src/pkg/child.py" in findings[0].detail
+
+    binding = build_pkg_repo(
+        tmp_path, MAIN_FROM_MODULE, ["src/pkg/__init__.py", "src/pkg/child.py"]
+    )
+    assert analyze_binding_sources(binding, tmp_path) == []
+
+
+# ---------------------------------------------------------------------------
+# R5 — aliased dynamic imports: `import importlib as il` +
+# `il.import_module(...)`, `from importlib import import_module`, and
+# unresolvable receivers (assignment aliasing) stay declared gaps.
+# ---------------------------------------------------------------------------
+
+MAIN_ALIASED_DYNAMIC = (
+    "import importlib as il\n\n\ndef load(name):\n"
+    "    return il.import_module(f'accel_{name}')\n"
+)
+MAIN_ASSIGNMENT_ALIAS = (
+    "import importlib\n\nil = importlib\n\n\ndef load(name):\n"
+    "    return il.import_module(f'accel_{name}')\n"
+)
+
+
+def test_aliased_importlib_dynamic_is_dynamic():
+    obs = scan("import importlib as il\nil.import_module(f'x_{n}')\n")
+    assert [o.kind for o in obs] == ["static", "dynamic"]
+
+
+def test_aliased_importlib_literal_is_knowable():
+    obs = scan("import importlib as il\nil.import_module('lit')\n")
+    assert [(o.module_head, o.kind) for o in obs] == [
+        ("importlib", "static"),
+        ("lit", "static"),
+    ]
+
+
+def test_from_import_module_dynamic_is_dynamic():
+    obs = scan("from importlib import import_module\nimport_module(f'x_{n}')\n")
+    assert [o.kind for o in obs] == ["static", "dynamic"]
+
+
+def test_from_import_module_literal_is_knowable():
+    obs = scan("from importlib import import_module\nimport_module('lit')\n")
+    assert [(o.module_head, o.kind) for o in obs] == [
+        ("importlib", "static"),
+        ("lit", "static"),
+    ]
+
+
+def test_assignment_aliased_importlib_is_a_gap_not_silent():
+    """(R5) `il = importlib` assignment aliasing is unresolvable: the call
+    is recorded as dynamic — a declared coverage gap, never silently
+    ignored."""
+    obs = scan("import importlib\nil = importlib\nil.import_module(f'x_{n}')\n")
+    assert [o.kind for o in obs] == ["static", "dynamic"]
+
+
+def test_aliased_dynamic_import_without_gap_is_reported(tmp_path):
+    binding = build_repo(tmp_path, MAIN_ALIASED_DYNAMIC, helper_text=None)
+    findings = analyze_binding_sources(binding, tmp_path)
+    assert codes(findings) == ["undeclared-dynamic-import"]
+
+
+def test_aliased_dynamic_import_with_declared_gap_is_accepted(tmp_path):
+    gaps = [{"file": "src/main.py", "reason": "aliased importlib target at runtime"}]
+    binding = build_repo(tmp_path, MAIN_ALIASED_DYNAMIC, helper_text=None, gaps=gaps)
+    assert analyze_binding_sources(binding, tmp_path) == []
+
+
+def test_assignment_aliased_dynamic_import_without_gap_is_reported(tmp_path):
+    """(R5) The assignment-alias form is flagged the same way."""
+    binding = build_repo(tmp_path, MAIN_ASSIGNMENT_ALIAS, helper_text=None)
+    findings = analyze_binding_sources(binding, tmp_path)
+    assert codes(findings) == ["undeclared-dynamic-import"]
