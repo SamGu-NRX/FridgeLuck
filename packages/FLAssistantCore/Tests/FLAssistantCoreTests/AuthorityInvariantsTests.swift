@@ -119,6 +119,25 @@ final class AuthorityInvariantsTests: XCTestCase {
         XCTAssertEqual(proposal.expiresAt, t0.addingTimeInterval(60))
     }
 
+    func testDirectProposeRefusesReadToolsAndIncoherentPairs() throws {
+        let engine = ActionProposalEngine()
+        let snapshot = try makeSnapshot()
+        // Read tools never mint proposals, whatever payload they carry.
+        XCTAssertThrowsError(
+            try engine.propose(tool: .readPantry, payload: .stepAdvance(stepIndex: 1), against: snapshot, now: t0)
+        ) { error in
+            XCTAssertEqual(error as? FLAssistantError, .readToolCannotPropose(tool: .readPantry))
+        }
+        // A propose tool with another tool's payload kind refuses too.
+        XCTAssertThrowsError(
+            try engine.propose(tool: .proposeTimer, payload: .stepAdvance(stepIndex: 1), against: snapshot, now: t0)
+        ) { error in
+            guard case .toolPayloadMismatch = error as? FLAssistantError else {
+                return XCTFail("expected toolPayloadMismatch, got \(error)")
+            }
+        }
+    }
+
     func testProposeFromReadToolRefuses() async throws {
         let engine = ActionProposalEngine()
         let reply = AssistantModelReply(toolName: "readPantry")

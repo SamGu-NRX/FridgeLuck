@@ -37,6 +37,11 @@ public struct ActionProposalEngine: Sendable {
     ///     cross-language decoder validates against.
     ///   - snapshotRevision: binds the proposal to the snapshot the model
     ///     actually saw. A later approval only executes at this revision.
+    ///
+    /// The engine mints proposals for the four propose* tools only: read
+    /// tools are served locally and a tool/payload mismatch is refused here
+    /// with a typed error, independent of the domain's own construction-time
+    /// validation.
     public func propose(
         tool: AssistantTool,
         payload: ActionPayload,
@@ -44,6 +49,15 @@ public struct ActionProposalEngine: Sendable {
         now: Date,
         expiresAt: Date? = nil
     ) throws -> ActionProposal {
+        guard !tool.isReadTool else {
+            throw FLAssistantError.readToolCannotPropose(tool: tool)
+        }
+        guard tool.accepts(payload) else {
+            throw FLAssistantError.toolPayloadMismatch(
+                tool: tool.rawValue,
+                detail: "payload does not match the tool's action kind"
+            )
+        }
         let hash = try FLPayloadHashing.payloadHash(payload)
         return try ActionProposal(
             id: idSource(),

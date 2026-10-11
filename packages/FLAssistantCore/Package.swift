@@ -48,6 +48,13 @@ let package = Package(
                 .product(name: "Crypto", package: "swift-crypto"),
             ]
         ),
-        .testTarget(name: "FLAssistantCoreTests", dependencies: ["FLAssistantCore"]),
+        .testTarget(
+            name: "FLAssistantCoreTests",
+            dependencies: [
+                "FLAssistantCore",
+                .product(name: "FLPersistence", package: "FridgeLuckCore"),
+                .product(name: "GRDB", package: "GRDB.swift"),
+            ]
+        ),
     ]
 )

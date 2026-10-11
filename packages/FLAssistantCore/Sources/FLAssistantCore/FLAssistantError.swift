@@ -58,6 +58,15 @@ public enum FLAssistantError: Error, Equatable, Sendable, CustomStringConvertibl
     /// second approval never re-executes the action.
     case alreadyDecided(proposalID: String)
 
+    /// A receipt row in the durable ledger could not be rebuilt as a valid
+    /// `ActionReceipt` (unknown state, undecodable timestamp). Corruption is
+    /// surfaced, never skipped.
+    case corruptLedgerRow(detail: String)
+
+    /// An atomic (effects+receipt-in-one-transaction) approval was requested
+    /// from a ledger that cannot execute atomically.
+    case ledgerCannotExecuteAtomically
+
     public var description: String {
         switch self {
         case let .unknownProposal(id):
@@ -84,6 +93,10 @@ public enum FLAssistantError: Error, Equatable, Sendable, CustomStringConvertibl
             return "FLAssistant refused: proposal '\(id)' has expired"
         case let .alreadyDecided(id):
             return "FLAssistant refused: proposal '\(id)' was already decided; the earlier receipt stands"
+        case let .corruptLedgerRow(detail):
+            return "FLAssistant refused: corrupt receipt row in the ledger: \(detail)"
+        case .ledgerCannotExecuteAtomically:
+            return "FLAssistant refused: the configured receipt ledger cannot execute effects atomically"
         }
     }
 }
