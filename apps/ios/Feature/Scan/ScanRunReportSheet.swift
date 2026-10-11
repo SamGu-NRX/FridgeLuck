@@ -76,6 +76,16 @@ struct ScanRunReportSheet: View {
                     .foregroundStyle(AppTheme.accent)
                 }
 
+                // A request can fail while its sibling succeeds, which passErrors doesn't count.
+                if !run.requestFailures.isEmpty {
+                  Text(
+                    "Request failures: classification \(run.classificationFailureCount)"
+                      + " · text \(run.ocrFailureCount)"
+                  )
+                  .font(AppTheme.Typography.labelSmall)
+                  .foregroundStyle(AppTheme.accent)
+                }
+
                 if !run.detections.isEmpty {
                   Text(
                     run.detections.prefix(6).map {

@@ -1,5 +1,8 @@
 import CoreGraphics
+import FLFeatureLogic
 import Foundation
+
+typealias ScanRequestFailure = FLFeatureLogic.ScanRequestFailure
 
 enum ScanInputSource: String, Sendable, Codable {
   case camera
@@ -45,6 +48,71 @@ struct ScanDiagnostics: Sendable, Codable {
   let bucketCounts: ScanBucketCounts
   let passErrors: [String]
   let elapsedMs: Int
+  let requestFailures: [ScanRequestFailure]
+
+  init(
+    captureCount: Int, cropCount: Int, topRawLabels: [String], ocrCandidates: [String],
+    bucketCounts: ScanBucketCounts, passErrors: [String], elapsedMs: Int,
+    requestFailures: [ScanRequestFailure] = []
+  ) {
+    self.captureCount = captureCount
+    self.cropCount = cropCount
+    self.topRawLabels = topRawLabels
+    self.ocrCandidates = ocrCandidates
+    self.bucketCounts = bucketCounts
+    self.passErrors = passErrors
+    self.elapsedMs = elapsedMs
+    self.requestFailures = requestFailures
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case captureCount, cropCount, topRawLabels, ocrCandidates, bucketCounts, passErrors, elapsedMs, requestFailures
+  }
+
+  init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    captureCount = try values.decode(Int.self, forKey: .captureCount)
+    cropCount = try values.decode(Int.self, forKey: .cropCount)
+    topRawLabels = try values.decode([String].self, forKey: .topRawLabels)
+    ocrCandidates = try values.decode([String].self, forKey: .ocrCandidates)
+    bucketCounts = try values.decode(ScanBucketCounts.self, forKey: .bucketCounts)
+    passErrors = try values.decode([String].self, forKey: .passErrors)
+    elapsedMs = try values.decode(Int.self, forKey: .elapsedMs)
+    requestFailures = try values.decodeIfPresent([ScanRequestFailure].self, forKey: .requestFailures) ?? []
+  }
+
+  var classificationFailureCount: Int {
+    requestFailures.filter { $0.kind == .classification }.count
+  }
+
+  var ocrFailureCount: Int {
+    requestFailures.filter { $0.kind == .ocr }.count
+  }
+
+  static func requestFailures(
+    captureIndex: Int, cropID: String, classificationError: Error?, ocrError: Error?
+  ) -> [ScanRequestFailure] {
+    var failures: [ScanRequestFailure] = []
+    if let classificationError {
+      failures.append(.init(
+        captureIndex: captureIndex, cropID: cropID, kind: .classification,
+        message: String(describing: classificationError)))
+    }
+    if let ocrError {
+      failures.append(.init(
+        captureIndex: captureIndex, cropID: cropID, kind: .ocr,
+        message: String(describing: ocrError)))
+    }
+    return failures
+  }
+
+  /// Benchmark validity still depends on both requests failing on a crop, not either request alone.
+  static func cropPassErrors(
+    captureIndex: Int, cropID: String, classificationError: Error?, ocrError: Error?
+  ) -> [String] {
+    guard let classificationError, let ocrError else { return [] }
+    return ["capture=\(captureIndex),crop=\(cropID):class=\(String(describing: classificationError)),ocr=\(String(describing: ocrError))"]
+  }
 }
 
 enum ScanDemoGate {
