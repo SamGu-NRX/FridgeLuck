@@ -10,12 +10,16 @@ to grams, extracted from the USDA FoodData Central Survey Foods dataset
 |---|---|
 | `fndds_portions.csv` | Every FNDDS survey-food portion with a positive gram weight (22,193 rows): `fdc_id`, `food_description`, `category`, `portion_description`, `modifier`, `gram_weight`. |
 | `fndds_household_units.csv` | The 8,319 portions whose `portion_description` parses to a canonical household unit (`cup`, `tbsp`, `tsp`, `floz`, `oz`, `slice`, `piece`, `egg`, ...), with `magnitude` and `grams_per_unit`. |
-| `mass_conversion_table.json` | Deduplicated `(food, unit, magnitude) -> grams` conversions consumed as the bundled resource of the Swift `MassConversionKit` package (`apps/ios/Tools/mass-conversion-check`). Entries carry optional `state` and `packing` labels (per-portion preparation state: cooked/dried/raw). |
+| `mass_conversion_table.json` | Deduplicated `(food, unit, magnitude) -> grams` conversions consumed as the bundled resource of the Swift `MassConversionKit` package (`apps/ios/Tools/mass-conversion-check`). Entries carry optional `state` and `packing` labels (per-portion preparation state: cooked/dried/raw) and a `category` (WWEIA food-category description) on every entry, used by food-group-held-out evaluation. |
 | `estimator_examples.json` | 176 deterministic source-bound examples used to evaluate the production `InventoryIntakeService` gram estimator. |
 | `estimator_evaluation.csv` | Per-example estimator results and errors across three arms. |
 | `estimator_evaluation.md` | Human-readable evaluation report. |
-| `conversion_checks.json` | Held-out recovery and 100-meal conversion-yield checks from `swift run conversion-checks`. |
+| `conversion_checks.json` | Food-group-held-out recovery (leave-one-WWEIA-category-out: the entire category is withheld per arm, so no other record for the same food remains in the lookup) and the 100-meal conversion-path plumbing check, from `swift run conversion-checks`. |
 | `conversion_checks.md` | Human-readable summary of the conversion checks. |
+| `yield_sensitivity.json` | Source-bound raw-to-cooked yield pairs: same WWEIA category, same normalized description stem, shared canonical household unit with differing per-unit grams; ratio and per-unit energy/macronutrient deltas from SurveyFoods per-100g anchors. Candidates lacking shared units or nutrients are listed as explicit missing inputs — never filled. |
+| `yield_sensitivity.md` | Human-readable yield-sensitivity report. |
+| `packing_scan.json` | Word-boundary packing-term scan over the full FNDDS portion description+modifier text, with the conversion-table survival check for qualifier-level hits and the unmeasured-packing conclusion. |
+| `packing_scan.md` | Human-readable packing-evidence report. |
 | `MANIFEST.json` | Provenance: source URL, archive and JSON SHA-256, edition, row counts, unit inventory. |
 
 ## Regeneration
