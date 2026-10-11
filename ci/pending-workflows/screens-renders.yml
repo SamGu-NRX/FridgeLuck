@@ -1,0 +1,61 @@
+# HELD PROPOSAL — NOT INSTALLED. This file lives under ci/pending-workflows/
+# and is never copied to .github/workflows/. Purpose: a macOS runner renders
+# the Tonight and Kitchen screens in BOTH palette variants (H and P) and BOTH
+# shell configurations, so the UNVERIFIED-NATIVE SwiftUI layer gets real
+# screenshot evidence instead of source assertions. Triggers (if ever
+# installed): workflow_dispatch on demand, plus pull_request paths-filtered
+# to packages/FLScreens/**. Requirements before installing: repo macOS runner
+# quota, an app target that hosts the screens (project.yml change — separate
+# decision), and the H/P palette tables landed in the base (the provisional
+# mapping tripwire must be resolved first, or the matrix renders one palette
+# twice). Every trigger, permission and runner here is part of the proposal
+# for review — nothing has been authorized to run.
+
+name: screens-renders
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "packages/FLScreens/**"
+      - "packages/FLDesignTokens/**"
+
+jobs:
+  render:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve toolchain
+        run: |
+          swift --version
+          xcodebuild -version
+
+      # The screens' SwiftUI layer is Apple-gated; only a macOS/Xcode host
+      # compiles it. This step is the whole point of the workflow: turn
+      # UNVERIFIED-NATIVE into verified-or-failed.
+      - name: Build FLScreens for iOS Simulator
+        run: |
+          set -euo pipefail
+          # Host app project is a prerequisite decision (see proposal header).
+          # Until project.yml hosts the screens, this build step is expected
+          # to be finalized by the operator who installs the workflow.
+          xcodebuild build \
+            -scheme FridgeLuck \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest'
+
+      - name: Render the matrix (H/P x standard/shellS)
+        run: |
+          set -euo pipefail
+          # Renders 8 PNGs: {tonight,kitchen} x {h,p} x {standard,shellS},
+          # driven by a render harness target that hosts each screen in
+          # each FLTheme.environment(.flScheme) variant. The harness is
+          # proposed as part of the app target work, not this file.
+          scripts/screens-render-harness.sh out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screen-renders
+          path: out/*.png
+          if-no-files-found: error

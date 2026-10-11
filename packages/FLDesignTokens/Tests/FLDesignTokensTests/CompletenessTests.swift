@@ -12,6 +12,9 @@ final class CompletenessTests: XCTestCase {
         let expected = [
             "bg", "ink", "ink2", "ink3", "rule", "rule2",
             "yolk", "yolkSoft", "yolkInk", "error",
+            // Additive (Kitchen pills, Part 2 screens): the warm surface
+            // fills for the still-there / gone reconciliation pill pair.
+            "pillIdle", "pillGone",
         ]
 
         let actual = ColorRole.allCases.map(\.rawValue)
