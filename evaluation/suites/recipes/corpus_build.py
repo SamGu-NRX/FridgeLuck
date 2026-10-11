@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Corpus builder for suite C: composes the expansion corpus and its rights manifest.
+"""Corpus BUILDER for suite C — self-test FIXTURE tooling only.
+
+The files this script writes (fixtures/selftest/authored.json,
+fixtures/selftest/composed.json, fixtures/selftest/rights_manifest.json)
+are suite C self-test fixtures. They are NEVER scoring inputs: the suite
+scores the repo's data/recipes corpus (data/recipes/corpus.jsonl,
+data/recipes/originals/) or, when absent, the bundled catalog as the
+honest baseline. See suite.py's module docstring.
 
 What this does (and does not do, honestly):
 
@@ -16,10 +23,14 @@ What this does (and does not do, honestly):
   framework + starch/vegetable side). Titles, ingredient lines and steps
   are generated fresh from the grammar; no third-party text is copied.
 
-- Quantity evidence: household measures resolve through conversions.json
-  (USDA-based gram weights, approximations recorded openly in that file);
-  gram amounts written directly into a recipe by the builder are
-  kind=weighed. No line invents a mass it cannot support.
+- Quantity evidence: household measures resolve through the fixture
+  conversions table (USDA-based gram weights, approximations recorded openly
+  in that file) and each emitted line CARRIES its evidence (conversion_ref
+  plus the resolved grams on the line, the schema data/recipes/SCHEMA.md
+  defines). Gram amounts written directly into a recipe by the builder are
+  kind=source_grams — never "weighed": "weighed" means measured on a scale
+  with the measurement recorded in provenance, and a builder estimate can
+  never claim that. No line invents a mass it cannot support.
 
 - Safety language: recipes whose ingredient classes include flesh or egg
   carry explicit thermometer doneness language with the right target
@@ -33,7 +44,7 @@ What this does (and does not do, honestly):
   fixtures.
 
 Replay: python3 corpus_build.py  — deterministic, no RNG, fixed iteration
-order; rewrites corpus/composed.json and rights_manifest.json.
+order; rewrites fixtures/selftest/composed.json and rights_manifest.json.
 
 This builder is NOT run by suite.py: the corpus files are committed, and
 the suite lints what is committed (so a corrupted fixture is caught, not
@@ -46,7 +57,8 @@ import json
 from pathlib import Path
 
 SUITE_DIR = Path(__file__).resolve().parent
-CORPUS_DIR = SUITE_DIR / "corpus"
+FIXTURE_DIR = SUITE_DIR / "fixtures" / "selftest"
+CORPUS_DIR = FIXTURE_DIR
 
 ACCESS_DATE = "2026-10-11"
 
@@ -143,8 +155,10 @@ FRAMEWORKS: dict[str, tuple] = {
         ["white_rice", "mashed_potatoes", "cabbage_slaw", "steamed_broccoli", "corn"]),
 }
 
-# BASES: key -> descriptor. kind: "household" (resolves via conversions.json)
-# or "weighed" (gram mass written by the author).
+# BASES: key -> descriptor. kind: "household" (resolves via the fixture
+# conversions table) or "grams" (a builder-written gram amount — emitted as
+# kind=source_grams; a builder constant is NEVER labeled "weighed",
+# which means measured on a scale with the measurement recorded).
 BASES: dict[str, dict] = {
     "chicken_thighs": {"title": "chicken thighs", "name": "chicken thighs", "kind": "household",
                        "value": 3, "unit": "piece", "conv": "chicken_thigh_piece",
@@ -170,7 +184,7 @@ BASES: dict[str, dict] = {
     "tofu": {"title": "tofu", "name": "tofu", "kind": "household",
              "value": 0.5, "unit": "block", "conv": "tofu_block",
              "method": "stir-fry", "safety": None},
-    "tempeh": {"title": "tempeh", "name": "tempeh", "kind": "weighed", "value": 200,
+    "tempeh": {"title": "tempeh", "name": "tempeh", "kind": "grams", "value": 200,
                "method": "pan-fry", "safety": None},
     "chickpeas": {"title": "chickpeas", "name": "chickpeas", "kind": "household",
                   "value": 1.5, "unit": "cup", "conv": "chickpeas_cup",
@@ -184,7 +198,7 @@ BASES: dict[str, dict] = {
     "white_beans": {"title": "white beans", "name": "white beans", "kind": "household",
                     "value": 1.5, "unit": "cup", "conv": "white_beans_cup",
                     "method": "simmer", "safety": None},
-    "lentils": {"title": "lentils", "name": "red lentils", "kind": "weighed", "value": 200,
+    "lentils": {"title": "lentils", "name": "red lentils", "kind": "grams", "value": 200,
                 "method": "simmer", "safety": None, "simmer_min": 45},
     "cauliflower": {"title": "cauliflower", "name": "cauliflower", "kind": "household",
                     "value": 1, "unit": "head", "conv": "cauliflower_head",
@@ -207,7 +221,7 @@ BASES: dict[str, dict] = {
     "eggs": {"title": "eggs", "name": "eggs", "kind": "household",
              "value": 6, "unit": "piece", "conv": "egg_piece",
              "method": "skillet-eggs", "safety": "egg"},
-    "green_beans_base": {"title": "green beans", "name": "green beans", "kind": "weighed",
+    "green_beans_base": {"title": "green beans", "name": "green beans", "kind": "grams",
                          "value": 250, "method": "stir-fry", "safety": None},
     "carrots_base": {"title": "carrots", "name": "carrots", "kind": "household",
                      "value": 4, "unit": "piece", "conv": "carrot_piece",
@@ -345,7 +359,7 @@ def _steps_for(base: dict, sauce_first: str, side_title: str, method: str,
 
 def compose() -> list[dict]:
     """Deterministically compose the expansion corpus."""
-    table = json.loads((SUITE_DIR / "conversions.json").read_text())["conversions"]
+    table = json.loads((FIXTURE_DIR / "conversions.json").read_text())["conversions"]
     recipes: list[dict] = []
     seen_titles: set[str] = set()
     for fkey, (cuisine, prefix, sauce_lines, base_keys, side_keys) in FRAMEWORKS.items():
@@ -369,7 +383,7 @@ def compose() -> list[dict]:
                 else:
                     ingredients.append({
                         "name": base["name"],
-                        "qty": {"kind": "weighed", "grams": base["value"]}})
+                        "qty": {"kind": "source_grams", "grams": base["value"]}})
                 for name, value, unit, conv in sauce_lines:
                     ingredients.append({
                         "name": name,
@@ -463,13 +477,13 @@ def build_manifest(corpus: list[dict]) -> dict:
 
 
 def main() -> None:
-    authored = json.loads((CORPUS_DIR / "authored.json").read_text())["recipes"]
+    authored = json.loads((FIXTURE_DIR / "authored.json").read_text())["recipes"]
     composed = compose()
     corpus = authored + composed
     manifest = build_manifest(corpus)
-    (CORPUS_DIR / "composed.json").write_text(
+    (FIXTURE_DIR / "composed.json").write_text(
         json.dumps({"recipes": composed}, indent=2, ensure_ascii=False) + "\n")
-    (SUITE_DIR / "rights_manifest.json").write_text(
+    (FIXTURE_DIR / "rights_manifest.json").write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
     bands: dict[str, int] = {}
     for r in corpus:
