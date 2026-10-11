@@ -1,0 +1,11 @@
+{
+  "schema": "fl-rights-manifest/1",
+  "records": {
+    "orig:authored:ea-chicken-larb-lettuce-cups": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    }
+  }
+}

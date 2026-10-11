@@ -1,0 +1,20 @@
+{
+  "schema": "fl-nutrition-map/1",
+  "maps": {
+    "ground chicken": {"fdc_id": 171116},
+    "uncooked jasmine rice": {"fdc_id": 168877},
+    "shallot": {"fdc_id": 170499},
+    "lime": {"fdc_id": 168155},
+    "garlic": {"fdc_id": 169230},
+    "romaine lettuce": {"fdc_id": 169247},
+    "vegetable oil": {"fdc_id": 171033},
+    "cilantro": {"fdc_id": 169997}
+  },
+  "unmapped-notes": {
+    "fish sauce": "no fish-sauce row in the bundled catalog; unmapped (honest) - it is a small gram weight",
+    "fresh mint": "no mint row in the catalog; unmapped",
+    "thai basil": "no thai-basil row; unmapped",
+    "brown sugar": "no sugar row in the catalog; unmapped, tiny weight",
+    "chili flakes": "no row; negligible weight"
+  }
+}

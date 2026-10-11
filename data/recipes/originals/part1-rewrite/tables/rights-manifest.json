@@ -1,0 +1,11 @@
+{
+  "schema": "fl-rights-manifest/1",
+  "records": {
+    "orig:authored:rw-ginger-egg-fried-rice": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    }
+  }
+}

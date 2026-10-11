@@ -1,0 +1,37 @@
+{
+  "schema": "fl-nutrition-map/1",
+  "maps": {
+    "uncooked jasmine rice": {
+      "fdc_id": 168877
+    },
+    "frozen peas": {
+      "fdc_id": 170105
+    },
+    "green onions": {
+      "fdc_id": 170005
+    },
+    "garlic": {
+      "fdc_id": 169230
+    },
+    "fresh ginger": {
+      "fdc_id": 169231
+    },
+    "soy sauce": {
+      "fdc_id": 174278
+    },
+    "toasted sesame oil": {
+      "fdc_id": 171016
+    },
+    "vegetable oil": {
+      "fdc_id": 171033
+    },
+    "eggs": {
+      "bundled_id": "1"
+    }
+  },
+  "unmapped-notes": {
+    "white pepper": "spice weight negligible; no catalog row",
+    "salt": "condiment; tracked by the salty-unmapped flag instead of a mapping",
+    "catalog row 168883 suspect": "catalog row 168883 'White Rice (Cooked)' carries 370 kcal and 81.7 g carbs per 100 g - dry-rice values under a cooked display name; unusable, recipes measure rice dry instead"
+  }
+}

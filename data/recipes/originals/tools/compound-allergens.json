@@ -1,0 +1,836 @@
+{
+  "schema": "fl-compound-allergens/1",
+  "note": "Compound ingredients the suite's plain-name alias table does not catch. Classes use the suite's vocabulary (allergen classes like fish/soy; flesh_* and meat_* classes additionally demand an FSIS thermometer check). The scanner matches these patterns as substrings of lowercased ingredient names; 'unless' skips the entry when the name contains one of those substrings. Extend via <part>/tables/compound-allergens.json; record the reason for each extension.",
+  "entries": [
+    {
+      "pattern": "soy sauce",
+      "classes": [
+        "gluten",
+        "soy"
+      ],
+      "note": "brewed with wheat; tamari is the wheat-free exception"
+    },
+    {
+      "pattern": "tamari",
+      "classes": [
+        "soy"
+      ],
+      "note": "wheat-free soy sauce"
+    },
+    {
+      "pattern": "teriyaki",
+      "classes": [
+        "gluten",
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "hoisin",
+      "classes": [
+        "gluten",
+        "soy"
+      ],
+      "note": "some brands add sesame"
+    },
+    {
+      "pattern": "oyster sauce",
+      "classes": [
+        "shellfish",
+        "soy",
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "fish sauce",
+      "classes": [
+        "fish"
+      ],
+      "note": "allergen only; no doneness check"
+    },
+    {
+      "pattern": "worcestershire",
+      "classes": [
+        "fish"
+      ],
+      "note": "anchovies; malt vinegar in some brands adds gluten"
+    },
+    {
+      "pattern": "miso",
+      "classes": [
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "doenjang",
+      "classes": [
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "gochujang",
+      "classes": [
+        "soy"
+      ],
+      "note": "some brands include wheat; check label"
+    },
+    {
+      "pattern": "ssamjang",
+      "classes": [
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "doubanjiang",
+      "classes": [
+        "soy"
+      ],
+      "note": "some brands include wheat flour"
+    },
+    {
+      "pattern": "black bean sauce",
+      "classes": [
+        "soy",
+        "gluten"
+      ],
+      "note": "fermented soybean sauce, not the legume alone"
+    },
+    {
+      "pattern": "shrimp paste",
+      "classes": [
+        "shellfish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "thai curry paste",
+      "classes": [
+        "shellfish"
+      ],
+      "note": "most contain shrimp paste; vegan pastes exist - name the brand as vegan"
+    },
+    {
+      "pattern": "kimchi",
+      "classes": [
+        "shellfish"
+      ],
+      "note": "traditional versions use fish sauce or shrimp paste; vegan kimchi exists - name it"
+    },
+    {
+      "pattern": "pesto",
+      "classes": [
+        "tree_nut",
+        "dairy"
+      ],
+      "note": "pine nuts and parmesan; vegan pesto exists - name it"
+    },
+    {
+      "pattern": "satay",
+      "classes": [
+        "peanut",
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "peanut sauce",
+      "classes": [
+        "peanut",
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "mole",
+      "classes": [
+        "peanut",
+        "tree_nut",
+        "sesame"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "hummus",
+      "classes": [
+        "sesame"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "tahini",
+      "classes": [
+        "sesame"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "mayonnaise",
+      "classes": [
+        "egg"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "mayo",
+      "classes": [
+        "egg"
+      ],
+      "note": "mayo as its own word in an ingredient name"
+    },
+    {
+      "pattern": "aioli",
+      "classes": [
+        "egg"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "hollandaise",
+      "classes": [
+        "egg",
+        "dairy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "bechamel",
+      "classes": [
+        "dairy",
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "egg noodles",
+      "classes": [
+        "egg",
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "fresh pasta",
+      "classes": [
+        "egg",
+        "gluten"
+      ],
+      "note": "fresh is usually egg-based; dried pasta is not"
+    },
+    {
+      "pattern": "wonton wrappers",
+      "classes": [
+        "gluten",
+        "egg"
+      ],
+      "note": "some brands egg-free"
+    },
+    {
+      "pattern": "gyoza skins",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "dumpling wrappers",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "flour tortilla",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "panko",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "breadcrumb",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "gnocchi",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "couscous",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "orzo",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "bulgur",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "farro",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "barley",
+      "classes": [
+        "gluten"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "honey",
+      "classes": [
+        "honey"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "yogurt",
+      "classes": [
+        "dairy"
+      ],
+      "note": "coconut/soy yogurt: name it as the exception"
+    },
+    {
+      "pattern": "ghee",
+      "classes": [
+        "dairy"
+      ],
+      "note": "clarified; lactose-reduced but still milk-derived"
+    },
+    {
+      "pattern": "paneer",
+      "classes": [
+        "dairy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "khoya",
+      "classes": [
+        "dairy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "condensed milk",
+      "classes": [
+        "dairy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "chocolate",
+      "classes": [
+        "dairy"
+      ],
+      "note": "milk chocolate and many darks contain milk; 'dark chocolate (dairy-free)' is the exception"
+    },
+    {
+      "pattern": "whey",
+      "classes": [
+        "dairy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "tofu",
+      "classes": [
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "tempeh",
+      "classes": [
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "edamame",
+      "classes": [
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "soy milk",
+      "classes": [
+        "soy"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "peanut butter",
+      "classes": [
+        "peanut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "almond",
+      "classes": [
+        "tree_nut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "cashew",
+      "classes": [
+        "tree_nut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "walnut",
+      "classes": [
+        "tree_nut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "pecan",
+      "classes": [
+        "tree_nut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "pistachio",
+      "classes": [
+        "tree_nut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "hazelnut",
+      "classes": [
+        "tree_nut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "macadamia",
+      "classes": [
+        "tree_nut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "pine nut",
+      "classes": [
+        "tree_nut"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "sesame",
+      "classes": [
+        "sesame"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "tahina",
+      "classes": [
+        "sesame"
+      ],
+      "note": "alternate spelling of tahini"
+    },
+    {
+      "pattern": "shrimp",
+      "classes": [
+        "shellfish",
+        "flesh_shellfish"
+      ],
+      "note": "",
+      "unless": [
+        "paste",
+        "sauce",
+        "stock"
+      ]
+    },
+    {
+      "pattern": "prawn",
+      "classes": [
+        "shellfish",
+        "flesh_shellfish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "crab",
+      "classes": [
+        "shellfish",
+        "flesh_shellfish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "lobster",
+      "classes": [
+        "shellfish",
+        "flesh_shellfish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "scallop",
+      "classes": [
+        "shellfish",
+        "flesh_shellfish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "mussel",
+      "classes": [
+        "shellfish",
+        "flesh_shellfish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "clam",
+      "classes": [
+        "shellfish",
+        "flesh_shellfish"
+      ],
+      "note": "includes clam juice"
+    },
+    {
+      "pattern": "salmon",
+      "classes": [
+        "fish",
+        "flesh_fish"
+      ],
+      "unless": [
+        "skin"
+      ],
+      "note": "any salmon cut, skin on or off"
+    },
+    {
+      "pattern": "cod",
+      "classes": [
+        "fish",
+        "flesh_fish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "trout",
+      "classes": [
+        "fish",
+        "flesh_fish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "halibut",
+      "classes": [
+        "fish",
+        "flesh_fish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "mackerel",
+      "classes": [
+        "fish",
+        "flesh_fish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "sardine",
+      "classes": [
+        "fish"
+      ],
+      "note": "canned, already cooked"
+    },
+    {
+      "pattern": "tuna",
+      "classes": [
+        "fish",
+        "flesh_fish"
+      ],
+      "unless": [
+        "canned",
+        "jarred"
+      ],
+      "note": "canned tuna is cooked"
+    },
+    {
+      "pattern": "anchovy",
+      "classes": [
+        "fish"
+      ],
+      "unless": [
+        "fresh"
+      ],
+      "note": "cured fillets melt into sauces"
+    },
+    {
+      "pattern": "fish stock",
+      "classes": [
+        "fish"
+      ],
+      "note": "allergen only"
+    },
+    {
+      "pattern": "chicken",
+      "classes": [
+        "meat_poultry"
+      ],
+      "note": "any chicken part: 165F",
+      "unless": [
+        "broth",
+        "stock",
+        "bouillon"
+      ]
+    },
+    {
+      "pattern": "turkey",
+      "classes": [
+        "meat_poultry"
+      ],
+      "note": "ground or whole: 165F",
+      "unless": [
+        "broth",
+        "stock",
+        "bouillon"
+      ]
+    },
+    {
+      "pattern": "duck",
+      "classes": [
+        "meat_poultry"
+      ],
+      "note": "",
+      "unless": [
+        "fat"
+      ]
+    },
+    {
+      "pattern": "ground pork",
+      "classes": [
+        "meat_ground"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "ground lamb",
+      "classes": [
+        "meat_ground"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "ground beef",
+      "classes": [
+        "meat_ground"
+      ],
+      "note": "also in the suite alias table"
+    },
+    {
+      "pattern": "sausage",
+      "classes": [
+        "meat_ground"
+      ],
+      "note": "fresh sausage: 160F; fully-cured or pre-cooked smoked sausage needs no check - name it 'cooked sausage'",
+      "unless": [
+        "cooked"
+      ]
+    },
+    {
+      "pattern": "chicken liver",
+      "classes": [
+        "meat_poultry"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "bacon",
+      "classes": [],
+      "note": "cured pork; no thermometer check demanded, cook to crisp"
+    },
+    {
+      "pattern": "steak",
+      "classes": [
+        "meat_whole_cut_red"
+      ],
+      "note": "beef steaks: 145F FSIS, or 130-135F rest-adjusted whole-muscle"
+    },
+    {
+      "pattern": "pork chop",
+      "classes": [
+        "meat_whole_cut_pork"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "pork tenderloin",
+      "classes": [
+        "meat_whole_cut_pork"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "lamb",
+      "classes": [
+        "meat_whole_cut_red"
+      ],
+      "note": "whole cuts 145F; 'lamb mince' maps separately"
+    },
+    {
+      "pattern": "beef",
+      "classes": [
+        "meat_whole_cut_red"
+      ],
+      "unless": [
+        "ground",
+        "mince",
+        "broth",
+        "stock"
+      ],
+      "note": "whole cuts 145F"
+    },
+    {
+      "pattern": "cooked sausage",
+      "classes": [],
+      "note": "pre-cooked or fully-cured sausage: no thermometer check"
+    },
+    {
+      "pattern": "canned tuna",
+      "classes": [
+        "fish"
+      ],
+      "note": "already cooked"
+    },
+    {
+      "pattern": "smoked salmon",
+      "classes": [
+        "fish"
+      ],
+      "note": "cold- or hot-smoked: ready to eat"
+    },
+    {
+      "pattern": "duck fat",
+      "classes": [],
+      "note": "rendered fat: no flesh, no check"
+    },
+    {
+      "pattern": "chicken broth",
+      "classes": [],
+      "note": "not an allergen, no check"
+    },
+    {
+      "pattern": "chicken stock",
+      "classes": [],
+      "note": "not an allergen, no check"
+    },
+    {
+      "pattern": "beef broth",
+      "classes": [],
+      "note": "not an allergen, no check"
+    },
+    {
+      "pattern": "beef stock",
+      "classes": [],
+      "note": "not an allergen, no check"
+    },
+    {
+      "pattern": "vegetable stock",
+      "classes": [],
+      "note": ""
+    },
+    {
+      "pattern": "vegetable broth",
+      "classes": [],
+      "note": ""
+    },
+    {
+      "pattern": "shrimp stock",
+      "classes": [
+        "shellfish"
+      ],
+      "note": "allergen only"
+    },
+    {
+      "pattern": "fish fillet",
+      "classes": [
+        "fish",
+        "flesh_fish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "whitefish",
+      "classes": [
+        "fish",
+        "flesh_fish"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "ground chicken",
+      "classes": [
+        "meat_poultry"
+      ],
+      "note": "ground poultry: 165F per FSIS"
+    },
+    {
+      "pattern": "ground turkey",
+      "classes": [
+        "meat_poultry"
+      ],
+      "note": "ground poultry: 165F per FSIS"
+    },
+    {
+      "pattern": "chicken mince",
+      "classes": [
+        "meat_poultry"
+      ],
+      "note": ""
+    },
+    {
+      "pattern": "thai basil",
+      "classes": [],
+      "note": "flavor herb; no allergen class"
+    },
+    {
+      "pattern": "jasmine rice",
+      "classes": [],
+      "note": "plain rice; no class (suite alias 'cooked rice' also works)"
+    }
+  ]
+}

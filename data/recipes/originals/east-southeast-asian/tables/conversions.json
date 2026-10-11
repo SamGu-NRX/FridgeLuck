@@ -1,0 +1,9 @@
+{
+  "schema": "fl-conversions/1",
+  "note": "Part-specific household refs; grams per unit are USDA/Serious-Eats style kitchen standards, cited in basis. Suite refs are never redefined here.",
+  "conversions": {
+    "shallot_piece": {"ingredient": "medium shallot", "grams_per_unit": 50, "basis": "USDA: 1 medium shallot ~50g"},
+    "lettuce_leaf": {"ingredient": "large romaine leaf", "grams_per_unit": 30, "basis": "USDA romaine: 1 cup shredded 47g; a large outer leaf ~30g"},
+    "brown_sugar_tsp": {"ingredient": "packed brown sugar", "grams_per_unit": 4, "basis": "USDA: brown sugar 1 cup packed 220g -> 1 tsp ~4.6g, rounded to 4g"}
+  }
+}
