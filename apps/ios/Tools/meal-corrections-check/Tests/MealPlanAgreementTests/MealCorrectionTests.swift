@@ -157,6 +157,10 @@ final class MealCorrectionTests: XCTestCase {
 
   // MARK: - Compensation bounded by this meal's own claims
 
+  /// Seam contract: a correction's compensation request is bounded by THIS
+  /// meal's own accepted claims. Consumption by later meals is never restored,
+  /// stock is never reset, and unrelated rows/events stay intact — regardless
+  /// of how the sibling operation implements compensation.
   func testCorrectionRequestsExactlyThisMealsOwnClaims() throws {
     let db = try PlanFixture.makeDatabase()
     let inventory = InventoryRepository(db: db)
@@ -197,6 +201,9 @@ final class MealCorrectionTests: XCTestCase {
 
   // MARK: - Idempotent retries
 
+  /// Seam contract: retrying the same correction request must not compensate
+  /// twice and must not bump the accepted revision twice — idempotence holds
+  /// no matter how the sibling operation behaves.
   func testCorrectionRetryIsIdempotent() throws {
     let db = try PlanFixture.makeDatabase()
     let compensator = RecordingCompensator()
@@ -248,6 +255,8 @@ final class MealCorrectionTests: XCTestCase {
     XCTAssertEqual(try streakCount(db, day: today), 1)
   }
 
+  /// Seam contract: a repeated deletion must not compensate twice — exactly
+  /// one request, then a no-op with no events and no throw.
   func testRepeatedDeletionIsANoOp() throws {
     let db = try PlanFixture.makeDatabase()
     let compensator = RecordingCompensator()
