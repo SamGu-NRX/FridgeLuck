@@ -102,6 +102,7 @@ public struct FLTourView: View {
                     .flType(.screenTitle)
                     .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                     .accessibilityIdentifier("fl.tour.stepTitle")
+                    .accessibilityAddTraits(.isHeader)
                 Text(step.bodyText)
                     .flType(.body)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
@@ -112,7 +113,10 @@ public struct FLTourView: View {
             privacyBlock(step)
             controls(step)
         }
-        .padding(20)
+        // The family's card padding — the same 16 the pick, featured,
+        // challenge and cook cards use (Part 7 audit: this card alone
+        // sat at 20).
+        .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: CGFloat(Radius.card.rawValue), style: .continuous)
@@ -121,37 +125,28 @@ public struct FLTourView: View {
         .accessibilityIdentifier("fl.tour.card")
     }
 
-    // MARK: Photo (the shared 3:2 rule, capped at 40%)
+    // MARK: Photo (the shared 3:2 rule, one hero derivation)
 
+    /// The same single derivation every screen-top hero makes
+    /// (`PhotoLayoutRule.heroIdealHeight`) — Part 7 audit: the earlier
+    /// pattern re-derived the height inside the area's own frame and
+    /// double-capped; the tour card's photo now matches Tonight's.
     private func photoArea(caption: String) -> some View {
-        GeometryReader { geo in
-            let height = PhotoLayoutRule.height(
-                forWidth: Double(geo.size.width),
-                availableHeight: Double(geo.size.height)
-            )
-            ZStack {
-                RoundedRectangle(cornerRadius: CGFloat(Radius.card.rawValue), style: .continuous)
-                    .fill(Theme.swiftColor(.rule, in: scheme))
-                VStack(spacing: 6) {
-                    Image(systemName: "photo")
-                        .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
-                    Text(caption)
-                        .flType(.caption)
-                        .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 12)
-                }
+        ZStack {
+            RoundedRectangle(cornerRadius: CGFloat(Radius.card.rawValue), style: .continuous)
+                .fill(Theme.swiftColor(.rule, in: scheme))
+            VStack(spacing: 6) {
+                Image(systemName: "photo")
+                    .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                Text(caption)
+                    .flType(.caption)
+                    .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 12)
             }
-            .frame(height: CGFloat(height), alignment: .top)
-            .frame(maxWidth: .infinity, alignment: .top)
         }
-        .frame(
-            height: CGFloat(PhotoLayoutRule.height(
-                forWidth: 300,
-                availableHeight: 852 * PhotoLayoutRule.maxHeightFraction
-            )),
-            alignment: .top
-        )
+        .frame(height: CGFloat(PhotoLayoutRule.heroIdealHeight), alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
         .accessibilityIdentifier("fl.tour.photo")
     }
 

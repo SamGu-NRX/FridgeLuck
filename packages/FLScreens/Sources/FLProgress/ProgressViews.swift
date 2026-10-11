@@ -67,7 +67,9 @@ public struct FLProgressView: View {
                     youSection
                 }
                 .padding(.horizontal, CGFloat(Density.dense.sideMargin))
-                .padding(.top, 8)
+                // The family's root rhythm — 16/24, as Parts 2–5 (Part 7
+                // audit: these roots sat at 8 with no recorded reason).
+                .padding(.top, 16)
                 .padding(.bottom, 24)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -83,6 +85,7 @@ public struct FLProgressView: View {
                 .flType(.screenTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.progress.title")
+                .accessibilityAddTraits(.isHeader)
             if let weekLabel = state.weekLabel {
                 Text(weekLabel)
                     .flType(.evidence)
@@ -238,7 +241,9 @@ public struct ProfileView: View {
                     privacyLine
                 }
                 .padding(.horizontal, CGFloat(Density.dense.sideMargin))
-                .padding(.top, 8)
+                // The family's root rhythm — 16/24, as Parts 2–5 (Part 7
+                // audit: these roots sat at 8 with no recorded reason).
+                .padding(.top, 16)
                 .padding(.bottom, 24)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -252,6 +257,7 @@ public struct ProfileView: View {
                 .flType(.screenTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.profile.title")
+                .accessibilityAddTraits(.isHeader)
             Text("this phone")
                 .flType(.evidence)
                 .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))

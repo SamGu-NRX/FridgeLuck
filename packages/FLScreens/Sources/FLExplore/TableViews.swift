@@ -91,6 +91,7 @@ public struct TableView: View {
                     .flType(.screenTitle)
                     .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                     .accessibilityIdentifier("fl.table.title")
+                    .accessibilityAddTraits(.isHeader)
                 Text("A table is 2 to 8 people who share what they actually cooked. No likes, no followers — just dishes, notes and what worked.")
                     .flType(.body)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
@@ -111,6 +112,7 @@ public struct TableView: View {
                     .flType(.screenTitle)
                     .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                     .accessibilityIdentifier("fl.table.title")
+                    .accessibilityAddTraits(.isHeader)
                 if let subtitle = state.subtitleDisplay {
                     Text(subtitle)
                         .flType(.caption)
@@ -254,20 +256,20 @@ public struct TableView: View {
         .accessibilityIdentifier("fl.table.card.\(cook.id)")
     }
 
-    /// The 1:1→3:2 photo area: 3:2 by the shared binding rule.
+    /// The 1:1→3:2 photo area: 3:2 by the shared binding rule. Part 7
+    /// audit: this area sat in a fixed 160 pt frame whose inner derivation
+    /// re-capped against the frame's own height, rendering ~64 pt — far
+    /// short of 3:2. It now uses the shared in-card treatment — full-width
+    /// 3:2 through PhotoLayoutRule, the same treatment as the Recipe
+    /// document's step photos and Explore's thumbnails. The card clips the
+    /// photo's top corners to its own Radius.card, so the area stays
+    /// square-cornered (Radius.row) inside the clip.
     private var photoArea: some View {
-        GeometryReader { geo in
-            let height = PhotoLayoutRule.height(
-                forWidth: Double(geo.size.width),
-                availableHeight: Double(geo.size.height)
-            )
-            RoundedRectangle(cornerRadius: CGFloat(Radius.row.rawValue), style: .continuous)
-                .fill(Theme.swiftColor(.rule, in: scheme))
-                .frame(height: CGFloat(height), alignment: .top)
-                .frame(maxWidth: .infinity)
-        }
-        .frame(height: 160) // 3:2 within the card's inner width; cap inside
-        .accessibilityHidden(true)
+        RoundedRectangle(cornerRadius: CGFloat(Radius.row.rawValue), style: .continuous)
+            .fill(Theme.swiftColor(.rule, in: scheme))
+            .aspectRatio(CGFloat(PhotoLayoutRule.aspectRatio), contentMode: .fit)
+            .frame(maxWidth: .infinity)
+            .accessibilityHidden(true)
     }
 
     // MARK: Challenge

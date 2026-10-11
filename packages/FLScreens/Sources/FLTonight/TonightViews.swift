@@ -70,6 +70,7 @@ public struct TonightView: View {
                 .flType(.screenTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.tonight.date")
+                .accessibilityAddTraits(.isHeader)
             if let asOf = state.pickAsOf {
                 Text(asOf)
                     .flType(.caption)
@@ -162,42 +163,31 @@ public struct TonightView: View {
         .accessibilityIdentifier("fl.tonight.card")
     }
 
-    /// The photo area: 3:2 by the shared rule, capped at 40% of the
-    /// available height so the actions stay above the tab bar on first
-    /// paint. The package ships the AREA and its caption; the host supplies
-    /// the imagery.
+    /// The photo area: 3:2 by the shared rule, via the ONE derivation
+    /// (`PhotoLayoutRule.heroIdealHeight`) — 3:2 at the reference width,
+    /// capped once at 40% of the reference screen height so the actions
+    /// stay above the tab bar on first paint. Part 7 audit: the earlier
+    /// pattern re-derived the height inside the area's own frame and
+    /// double-capped (40% of the already-ideal height); every hero now
+    /// makes the same single call. The package ships the AREA and its
+    /// caption; the host supplies the imagery.
     private func photoArea(_ spec: TonightViewState.PhotoSpec) -> some View {
-        GeometryReader { geo in
-            let height = PhotoLayoutRule.height(
-                forWidth: Double(geo.size.width),
-                availableHeight: Double(geo.size.height)
-            )
-            ZStack {
-                RoundedRectangle(cornerRadius: CGFloat(Radius.card.rawValue), style: .continuous)
-                    .fill(Theme.swiftColor(.rule, in: scheme))
-                VStack(spacing: 6) {
-                    Image(systemName: "photo")
-                        .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
-                    Text(spec.caption)
-                        .flType(.caption)
-                        .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 12)
-                }
+        ZStack {
+            RoundedRectangle(cornerRadius: CGFloat(Radius.card.rawValue), style: .continuous)
+                .fill(Theme.swiftColor(.rule, in: scheme))
+            VStack(spacing: 6) {
+                Image(systemName: "photo")
+                    .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                Text(spec.caption)
+                    .flType(.caption)
+                    .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 12)
             }
-            .frame(height: CGFloat(height), alignment: .top)
-            .frame(maxWidth: .infinity, alignment: .top)
         }
-        .frame(height: photoIdealHeight)
+        .frame(height: CGFloat(PhotoLayoutRule.heroIdealHeight), alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
         .accessibilityIdentifier("fl.tonight.photo")
-    }
-
-    /// The 3:2 ideal for the card's width; the GeometryReader applies the
-    /// height cap inside.
-    private var photoIdealHeight: CGFloat {
-        // The card's inner width is the screen minus side margins and the
-        // card's own padding; the cap is enforced inside photoArea.
-        CGFloat(PhotoLayoutRule.height(forWidth: 300, availableHeight: 852 * PhotoLayoutRule.maxHeightFraction))
     }
 
     /// The honest fit line: the meter is the count, the sentence is the
@@ -436,6 +426,7 @@ public struct TonightView: View {
                 .flType(.screenTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.tonight.unknownHeadline")
+                .accessibilityAddTraits(.isHeader)
             Text("Tell FridgeLuck what's in your kitchen and tonight answers itself. A 30-second shelf scan is enough to start.")
                 .flType(.body)
                 .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
