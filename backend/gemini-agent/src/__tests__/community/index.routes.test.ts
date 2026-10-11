@@ -8,6 +8,7 @@ import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import express from "express";
 import type { Server } from "node:http";
 import { makeHarness, type CommunityTestHarness } from "./harness.js";
+import { fixtureFoodSafetyGate } from "./foodSafetyGate.js";
 import { createCommunityRouter, type CommunityDeps } from "../../community/index.js";
 import { stubBlockDirectory, stubModerationQueue } from "../../community/shared/testing/stubs.js";
 
@@ -24,6 +25,7 @@ beforeAll(async () => {
     blocks: stubBlockDirectory(),
     moderation: stubModerationQueue(),
     screeningStages: [],
+    foodSafetyGate: fixtureFoodSafetyGate(),
   };
   const app = express();
   app.use(createCommunityRouter(deps));

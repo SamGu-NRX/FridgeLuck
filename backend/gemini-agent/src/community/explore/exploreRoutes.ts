@@ -19,11 +19,10 @@ import { Router, type Router as ExpressRouter } from "express";
 import type { CommunityDeps } from "../index.js";
 import type { CommunityRuntime } from "../index.js";
 import type { ModerationQueueStatus } from "../shared/contracts.js";
-import { errConflict, errForbidden, errNotFound, errValidation } from "../shared/errors.js";
+import { errConflict, errForbidden, errNotFound, errServiceUnavailable, errValidation } from "../shared/errors.js";
 import { expectInt, expectOneOf, expectOptionalString, expectString, expectArray, expectBoolean } from "../shared/parse.js";
 import { mustCommunity, route } from "../shared/http.js";
 import { parsePublicationId, type AccountId } from "../shared/ids.js";
-import { findAllergenTags } from "./screening.js";
 import { parseItemIdParam } from "./moderationQueue.js";
 import {
   createPublication,
@@ -166,6 +165,7 @@ function selfView(record: PublicationRecord): Record<string, unknown> {
     ingredientLines: record.ingredientLines,
     steps: record.steps,
     tags: record.tags,
+    allergenTags: record.allergenTags,
     campus: record.campus,
     screeningFailures: record.screeningFailures,
     createdAtIso: record.createdAtIso,
@@ -186,7 +186,7 @@ function publicView(record: PublicationRecord, authorDisplayName: string | null,
     campus: record.campus,
     authorDisplayName,
     publishedAtIso: record.publishedAtIso,
-    allergenTags: findAllergenTags(record.ingredientLines),
+    allergenTags: record.allergenTags,
     ...(rank !== null ? { rank } : {}),
     ...(cookedByCount !== undefined ? { cookedByCount } : {}),
   };
@@ -242,6 +242,15 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
     runtime.requireAccount,
     route(async (req, res) => {
       const ctx = mustCommunity(req);
+      // Fail closed: with the canon/ingredient-facts packages not loaded,
+      // publication cannot be safety-evaluated, so it is refused outright —
+      // error envelope, nothing persisted, nothing enters moderation.
+      const safetyStages = deps.foodSafetyGate.requiredStages;
+      if (safetyStages === null) {
+        throw errServiceUnavailable(
+          `publishing is unavailable: the food-safety gate is closed (${deps.foodSafetyGate.closedReason ?? "canon/facts not loaded"})`,
+        );
+      }
       await requireAttested18Plus(deps, ctx.accountId);
       const body = parsePublishBody(expectRecord(req.body ?? {}, "body"));
       const created = await createPublication(pubDeps, {
@@ -255,7 +264,7 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
         steps: body.steps,
         tags: body.tags,
         campus: body.campus,
-        screeningStages: deps.screeningStages,
+        screeningStages: [...deps.screeningStages, ...safetyStages],
       });
       if (created.outcome === "queued") {
         await deps.moderation.submit(

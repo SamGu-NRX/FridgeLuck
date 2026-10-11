@@ -1,0 +1,32 @@
+{
+  "schema": "fridgeluck/food-safety-canon@v1",
+  "source": "fixture standing in for overhaul/food-safety-canon (canonical rulebook package); loaded in test setup while the real package is not in this repo",
+  "rules": [
+    {
+      "kind": "claim-requires-evidence",
+      "id": "doneness-thermometer",
+      "triggers": ["no longer pink", "cooked through", "until done", "safely cooked", "safe to eat"],
+      "requireAny": ["\\d\\s*°\\s*[cf]([^a-z]|$)", "\\d\\s*deg(rees)?\\s*[cf]([^a-z]|$)", "thermometer", "internal temperature"],
+      "message": "doneness must be a checkable thermometer test from a reviewed source, never colour or time alone"
+    },
+    {
+      "kind": "forbidden-terms",
+      "id": "no-safety-certainty",
+      "terms": ["guaranteed safe", "cannot go off", "never goes bad", "keeps forever", "100% safe", "impossible to undercook"],
+      "message": "food-safety guidance is advisory and sourced; shelf-life claims never certify food is safe"
+    },
+    {
+      "kind": "allergen-claim",
+      "id": "allergen-claims-must-be-supported",
+      "claims": [
+        { "phrases": ["gluten free"], "allergen": "wheat-gluten" },
+        { "phrases": ["nut free"], "allergen": "tree-nut" },
+        { "phrases": ["dairy free"], "allergen": "milk" },
+        { "phrases": ["soy free"], "allergen": "soy" },
+        { "phrases": ["fish free"], "allergen": "fish" },
+        { "phrases": ["egg free"], "allergen": "egg" }
+      ],
+      "message": "an allergen-free claim must be supported by the allergens derived from the ingredient facts"
+    }
+  ]
+}

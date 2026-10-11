@@ -18,6 +18,7 @@ import { createChallengeRoutes } from "../../community/challenges/challengeRoute
 import { createSafetyRoutes } from "../../community/safety/safetyRoutes.js";
 import { FirestoreBlockDirectory } from "../../community/safety/blocks.js";
 import { FirestoreModerationQueue } from "../../community/explore/moderationQueue.js";
+import { fixtureFoodSafetyGate } from "./foodSafetyGate.js";
 
 export const APPLE_ISSUER = "https://appleid.apple.com";
 export const SERVICES_ID = "com.fridgeluck.app.test";
@@ -133,6 +134,7 @@ export async function startCommunityApp(harness: CommunityTestHarness): Promise<
     blocks: new FirestoreBlockDirectory(harness.store),
     moderation,
     screeningStages: [],
+    foodSafetyGate: fixtureFoodSafetyGate(),
   };
   const app = express();
   app.use(express.json());

@@ -10,6 +10,7 @@ import express from "express";
 import { generateKeyPairSync, randomUUID, sign as cryptoSign, type KeyObject } from "node:crypto";
 import type { Server } from "node:http";
 import { makeHarness, type CommunityTestHarness } from "./harness.js";
+import { fixtureFoodSafetyGate } from "./foodSafetyGate.js";
 import { createCommunityRouter, type CommunityDeps } from "../../community/index.js";
 import { createIdentityRoutes } from "../../community/identity/identityRoutes.js";
 import { createExploreRoutes } from "../../community/explore/exploreRoutes.js";
@@ -190,8 +191,8 @@ beforeAll(async () => {
     moderation,
   };
   const apps: Array<{ deps: CommunityDeps; setUrl: (url: string) => void }> = [
-    { deps: { ...base, screeningStages: [] }, setUrl: (u) => (baseUrl = u) },
-    { deps: { ...base, screeningStages: [stubScreeningFail(["remove the branded mention"], "stub-linter")] }, setUrl: (u) => (strictUrl = u) },
+    { deps: { ...base, screeningStages: [], foodSafetyGate: fixtureFoodSafetyGate() }, setUrl: (u) => (baseUrl = u) },
+    { deps: { ...base, screeningStages: [stubScreeningFail(["remove the branded mention"], "stub-linter")], foodSafetyGate: fixtureFoodSafetyGate() }, setUrl: (u) => (strictUrl = u) },
   ];
   for (const { deps, setUrl } of apps) {
     const app = express();

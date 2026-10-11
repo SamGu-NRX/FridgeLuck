@@ -1,0 +1,14 @@
+{
+  "schema": "fridgeluck/ingredient-facts@v1",
+  "source": "fixture standing in for overhaul/ingredient-facts (FLIngredientFacts lineage); allergen knowledge with compound contributions, loaded in test setup while the real package is not in this repo",
+  "allergens": ["milk", "egg", "peanut", "tree-nut", "wheat-gluten", "soy", "fish", "shellfish", "sesame"],
+  "ingredients": [
+    { "id": "tahini", "match": ["tahini"], "allergens": ["sesame"] },
+    { "id": "soy-sauce", "match": ["soy sauce", "shoyu", "tamari"], "allergens": ["soy", "wheat-gluten"] },
+    { "id": "teriyaki-sauce", "match": ["teriyaki"], "allergens": ["soy", "wheat-gluten"] },
+    { "id": "pesto", "match": ["pesto"], "allergens": ["tree-nut", "milk"] },
+    { "id": "mayonnaise", "match": ["mayonnaise", "mayo"], "allergens": ["egg"] },
+    { "id": "worcestershire", "match": ["worcestershire"], "allergens": ["fish"] },
+    { "id": "butter", "match": ["butter"], "allergens": ["milk"] }
+  ]
+}

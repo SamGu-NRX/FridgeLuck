@@ -12,6 +12,7 @@
 import { Router, type NextFunction, type Request, type Response, type Router as ExpressRouter } from "express";
 import type { CommunityStore } from "./shared/store.js";
 import type { BlockDirectory, ModerationQueue, ScreeningStage } from "./shared/contracts.js";
+import type { FoodSafetyGate } from "./foodSafety/gate.js";
 import type { Clock } from "./shared/time.js";
 import type { CommunityConfig } from "./config.js";
 import { SessionService } from "./shared/sessionCore.js";
@@ -32,8 +33,17 @@ export interface CommunityDeps {
   readonly blocks: BlockDirectory;
   /** Real implementation from the safety part; wired by the parent join. */
   readonly moderation: ModerationQueue;
-  /** Automated screening stages: text checks always; linter/allergens when present. */
+  /** Automated screening stages wired by the parent join (text hygiene always runs too). */
   readonly screeningStages: readonly ScreeningStage[];
+  /**
+   * The MANDATORY food-safety publish gate (SPEC 3.1/3.5). Its two stages —
+   * the canonical-rulebook lint and compound-allergen tagging — must run
+   * before anything leaves the author's private view. A closed gate (canon/
+   * facts packages not loaded) fails publishing closed: error envelope,
+   * nothing persisted. Never optional — an unevaluated publish must be
+   * impossible by construction.
+   */
+  readonly foodSafetyGate: FoodSafetyGate;
 }
 
 /** Parts' router factories (landed by their own tasks, wired here). */

@@ -5,11 +5,12 @@
  * Every stage here is a deterministic function of text. Stages can only fail
  * a publication into the human queue; a human moderator approves or rejects.
  *
- * The pipeline always runs the built-in text-hygiene stage — it cannot be
- * unwired by configuration. Optional stages (the food-safety linter when its
- * catalog is consumable from TypeScript, allergen tagging) arrive through
- * `deps.screeningStages` from the parent join; `defaultScreeningStages` is
- * what that join includes today.
+ * The pipeline always runs the built-in text-hygiene stage. The MANDATORY
+ * food-safety stages (canonical-rulebook lint, compound-allergen tagging)
+ * come from `deps.foodSafetyGate` — they are not optional and the publish
+ * route refuses to run at all while their data packages are not loaded
+ * (foodSafety/gate.ts). `deps.screeningStages` stays the seam for any
+ * additional parent-join stages.
  */
 import type { ScreenablePublication, ScreeningStage, ScreeningVerdict } from "../shared/contracts.js";
 
@@ -37,11 +38,6 @@ export async function runScreeningPipeline(stages: readonly ScreeningStage[], pu
     }
   }
   return { passed: failures.length === 0, failures, tags };
-}
-
-/** The built-in optional stages the parent join wires into deps.screeningStages. */
-export function defaultScreeningStages(): ScreeningStage[] {
-  return [allergenTagStage()];
 }
 
 /**
@@ -89,57 +85,4 @@ export function findPersonalData(text: string): readonly string[] {
     }
   }
   return findings;
-}
-
-/**
- * Allergen tagging (SPEC 3.4: "allergen tagging ... apply[ies] to user
- * recipes exactly as to the catalog"). Tagging never fails a publication:
- * it annotates it so the feed can badge and the phone can filter.
- */
-const ALLERGEN_KEYWORDS: Readonly<Record<string, readonly string[]>> = {
-  milk: ["milk", "cream", "butter", "cheese", "yogurt", "yoghurt", "whey", "casein", "lactose", "ghee"],
-  egg: ["egg", "eggs", "mayonnaise", "mayo"],
-  peanut: ["peanut", "peanuts", "arachis"],
-  "tree-nut": ["almond", "almonds", "hazelnut", "hazelnuts", "walnut", "walnuts", "cashew", "cashews", "pecan", "pecans", "pistachio", "pistachios", "macadamia", "brazil nut", "pine nut", "marzipan", "nougat"],
-  "wheat-gluten": ["wheat", "gluten", "semolina", "spelt", "farro", "bulgur", "couscous", "barley", "rye", "breadcrumb", "breadcrumbs"],
-  soy: ["soy", "soya", "soybean", "edamame", "tofu", "tempeh", "miso", "tamari"],
-  fish: ["fish", "anchovy", "anchovies", "tuna", "salmon", "cod", "trout", "mackerel", "sardine", "sardines", "tilapia"],
-  shellfish: ["shrimp", "prawn", "prawns", "crab", "lobster", "clam", "clams", "mussel", "mussels", "oyster", "oysters", "scallop", "scallops", "squid", "octopus", "crawfish", "shellfish"],
-  sesame: ["sesame", "tahini"],
-};
-
-/** Canonical allergen tag for a keyword hit: "allergen-milk" style. */
-function allergenTag(canonical: string): string {
-  return `allergen-${canonical}`;
-}
-
-function words(text: string): readonly string[] {
-  return text
-    .toLowerCase()
-    .split(/[^a-z]+/)
-    .filter((w) => w.length > 0);
-}
-
-export function findAllergenTags(ingredientLines: readonly string[]): readonly string[] {
-  const tokens = new Set<string>(ingredientLines.flatMap((line) => words(line)));
-  const phrases = ingredientLines.map((line) => line.toLowerCase());
-  const tags: string[] = [];
-  for (const [canonical, keywords] of Object.entries(ALLERGEN_KEYWORDS)) {
-    const hit = keywords.some((keyword) =>
-      keyword.includes(" ") ? phrases.some((p) => p.includes(keyword)) : tokens.has(keyword),
-    );
-    if (hit) {
-      tags.push(allergenTag(canonical));
-    }
-  }
-  return tags;
-}
-
-export function allergenTagStage(): ScreeningStage {
-  return {
-    name: "allergen-tags",
-    async run(publication: ScreenablePublication): Promise<ScreeningVerdict> {
-      return { outcome: "pass", stage: "allergen-tags", tags: findAllergenTags(publication.ingredientLines) };
-    },
-  };
 }

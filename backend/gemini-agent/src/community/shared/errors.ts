@@ -11,6 +11,7 @@ export type CommunityErrorCode =
   | "conflict"
   | "validation"
   | "rate_limited"
+  | "unavailable"
   | "internal";
 
 export class CommunityError extends Error {
@@ -42,6 +43,14 @@ export function errValidation(message: string): CommunityError {
 }
 export function errRateLimited(message: string): CommunityError {
   return new CommunityError(429, "rate_limited", message);
+}
+/**
+ * A mandatory dependency is not in a state any request can fix — notably the
+ * food-safety gate being closed (canon/facts packages not loaded). Fail
+ * closed: the operation is refused outright, nothing is persisted.
+ */
+export function errServiceUnavailable(message: string): CommunityError {
+  return new CommunityError(503, "unavailable", message);
 }
 
 export function isCommunityError(error: unknown): error is CommunityError {

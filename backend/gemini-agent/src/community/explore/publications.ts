@@ -48,6 +48,13 @@ export interface PublicationRecord {
   readonly ingredientLines: readonly string[];
   readonly steps: readonly string[];
   readonly tags: readonly string[];
+  /**
+   * Compound-allergen tags derived by the mandatory food-safety gate's
+   * allergen stage at publish time (from the ingredient-facts package).
+   * Persisted with the publication — never recomputed at read time, so the
+   * response always reflects the evaluation that admitted it.
+   */
+  readonly allergenTags: readonly string[];
   readonly campus: string | null;
   readonly status: PublicationStatus;
   readonly screeningFailures: readonly ScreeningFailure[];
@@ -103,12 +110,15 @@ function readStringOrNull(data: Record<string, unknown>, field: string): string 
   return value;
 }
 
-function readStringArray(data: Record<string, unknown>, field: string): string[] {
-  const value = data[field];
+function stringArray(value: unknown, field: string): string[] {
   if (!Array.isArray(value) || value.some((v) => typeof v !== "string")) {
     throw errValidation(`publication record field ${field} is missing or malformed`);
   }
   return value as string[];
+}
+
+function readStringArray(data: Record<string, unknown>, field: string): string[] {
+  return stringArray(data[field], field);
 }
 
 function readIsoOrNull(data: Record<string, unknown>, field: string): string | null {
@@ -140,6 +150,18 @@ function readScreeningFailures(data: Record<string, unknown>): ScreeningFailure[
       reasons: readStringArray(record, "reasons"),
     };
   });
+}
+
+/**
+ * Allergen tags written by the publish gate. Documents from before the gate
+ * existed may lack the field; they read as untagged rather than invalid.
+ */
+function readAllergenTags(data: Record<string, unknown>): string[] {
+  const value = data["allergenTags"];
+  if (value === undefined || value === null) {
+    return [];
+  }
+  return stringArray(value, "allergenTags");
 }
 
 function readOptedInCooks(data: Record<string, unknown>): Record<string, string> {
@@ -185,6 +207,7 @@ export function parsePublicationDoc(snap: DocumentSnapshot): PublicationRecord |
     ingredientLines: readStringArray(data, "ingredientLines"),
     steps: readStringArray(data, "steps"),
     tags: readStringArray(data, "tags"),
+    allergenTags: readAllergenTags(data),
     campus: readStringOrNull(data, "campus"),
     status: status as PublicationStatus,
     screeningFailures: readScreeningFailures(data),
@@ -222,6 +245,10 @@ export async function createPublication(deps: PublicationDeps, input: NewPublica
   };
   const result = await runScreeningPipeline([textHygieneStage(), ...input.screeningStages], screenable);
   const failures: readonly ScreeningFailure[] = result.passed ? [] : result.failures;
+  // Tags produced by passing stages — for the mandatory gate, the
+  // compound-allergen tags. Deduped and sorted so the persisted form is
+  // deterministic regardless of stage order.
+  const allergenTags: readonly string[] = [...new Set(result.tags)].sort();
 
   const publicationId = newPublicationId();
   const revisionId = newRecipeRevisionId();
@@ -237,6 +264,7 @@ export async function createPublication(deps: PublicationDeps, input: NewPublica
     ingredientLines: input.ingredientLines,
     steps: input.steps,
     tags: input.tags,
+    allergenTags,
     campus: input.campus,
     status: result.passed ? "published" : "queued",
     screeningFailures: failures,
@@ -257,6 +285,7 @@ export async function createPublication(deps: PublicationDeps, input: NewPublica
     ingredientLines: record.ingredientLines,
     steps: record.steps,
     tags: record.tags,
+    allergenTags: record.allergenTags,
     campus: record.campus,
     status: record.status,
     screeningFailures: record.screeningFailures,

@@ -9,6 +9,7 @@ import express from "express";
 import { generateKeyPairSync, sign as cryptoSign, type KeyObject } from "node:crypto";
 import type { Server } from "node:http";
 import { makeHarness, type CommunityTestHarness } from "./harness.js";
+import { fixtureFoodSafetyGate } from "./foodSafetyGate.js";
 import { createCommunityRouter, type CommunityDeps } from "../../community/index.js";
 import { createIdentityRoutes } from "../../community/identity/identityRoutes.js";
 import { createChallengeRoutes } from "../../community/challenges/challengeRoutes.js";
@@ -108,6 +109,7 @@ beforeAll(async () => {
     blocks: stubBlockDirectory(),
     moderation: stubModerationQueue(),
     screeningStages: [],
+    foodSafetyGate: fixtureFoodSafetyGate(),
   };
   const app = express();
   app.use(express.json());

@@ -25,6 +25,8 @@ src/community/
     testing/stubs.ts  fixture impls for single-part tests
   identity/           Apple identity + sessions routes      (part task)
   explore/            publish, revisions, screening, Explore (part task)
+  foodSafety/         mandatory publish gate: rulebook lint +
+                      compound-allergen tags (fail closed)
   challenges/         solo challenges                        (part task)
   tables/             private Tables                         (part task)
   safety/             blocks, reports, deletion              (part task)
@@ -38,14 +40,26 @@ src/community/
 2. No LLM decides moderation. Automated screening stages can only fail a
    publication into the queue; a human moderator approves or rejects through
    a server-held endpoint. Decisions are stored server-side only.
-3. Blocks are mutual and enforced in every part's every read and write:
+3. The mandatory food-safety gate (`foodSafety/`) stands between a signed
+   publication and visibility: the canonical-rulebook lint and the
+   ingredient-facts compound-allergen tags run before anything leaves the
+   author's private view (SPEC 3.1/3.5). While the rulebook or
+   ingredient-facts package is absent, empty, or unparsable the gate is
+   CLOSED: publishing returns a 503 `unavailable` envelope and nothing is
+   persisted. The packages load from `data/food-safety/canon.json` and
+   `data/food-safety/ingredient-facts.json` (override per path with
+   `FOOD_SAFETY_CANON_PATH` / `FOOD_SAFETY_FACTS_PATH`, or point
+   `FOOD_SAFETY_DATA_ROOT` at a repo root); the JSON contracts are defined
+   in `foodSafety/catalog.ts` and pinned by fixtures in
+   `src/__tests__/community/fixtures/`.
+4. Blocks are mutual and enforced in every part's every read and write:
    `assertCanInteract` before writes, `filterVisible` before fan-outs.
-4. No sensitive data in sharing surfaces: pantry, health, and taste data are
+5. No sensitive data in sharing surfaces: pantry, health, and taste data are
    never in a publication payload; counts (e.g. "cooked by N") only render
    above the config floors.
-5. Parsers at the boundary; internal types stay branded. Firestore documents
+6. Parsers at the boundary; internal types stay branded. Firestore documents
    are read through validating parsers (`parseSessionDoc` pattern).
-6. Tests inject `shared/testing/stubs.ts` for other parts' seams. The whole
+7. Tests inject `shared/testing/stubs.ts` for other parts' seams. The whole
    composition is proven only against the real wiring in suite E
    (community-emulator/), which runs against the Firestore emulator.
 
