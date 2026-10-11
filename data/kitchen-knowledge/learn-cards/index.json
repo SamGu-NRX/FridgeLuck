@@ -181,6 +181,14 @@
     "fdcId": 169988
    },
    {
+    "id": "chaat_masala",
+    "displayName": "Chaat Masala",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
     "id": "cheddar",
     "displayName": "Cheddar",
     "isCore": false,
@@ -403,6 +411,14 @@
     "category": "condiment",
     "frequencyInBundledRecipes": 0,
     "fdcId": null
+   },
+   {
+    "id": "greek_yogurt",
+    "displayName": "Greek Yogurt",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170903
    },
    {
     "id": "green_beans",
@@ -869,6 +885,14 @@
     "fdcId": 172370
    },
    {
+    "id": "vegetable_stock",
+    "displayName": "Vegetable Stock",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171583
+   },
+   {
     "id": "wheat_noodles",
     "displayName": "Wheat Noodles",
     "isCore": false,
@@ -885,20 +909,37 @@
     "fdcId": 175203
    },
    {
+    "id": "white_rice",
+    "displayName": "White Rice",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168877
+   },
+   {
     "id": "yogurt",
     "displayName": "Yogurt",
     "isCore": true,
     "category": "dairy_egg",
     "frequencyInBundledRecipes": 15,
     "fdcId": 171284
+   },
+   {
+    "id": "zucchini",
+    "displayName": "Zucchini",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 169291
    }
   ],
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 111,
+   "cardsWritten": 116,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [
+    "chaat_masala",
     "flattened_rice",
     "garam_masala",
     "gochujang",

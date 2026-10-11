@@ -1,0 +1,54 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "A tangy-salty-spicy Indian spice blend built on amchoor (dried mango powder), cumin, coriander, dried ginger, and usually black salt — sprinkled over fruit, potatoes, and street snacks.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Chaat masala is the seasoning of chaat, the Indian street-snack tradition, and every vendor mixes their own; 'fruit chaat masala' variants trade cumin and coriander for more chilli, black salt, and amchoor.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose blends where amchoor and black salt lead the list, with a bright smell of dried mango and sulphur-tang; small packets from Indian grocers turn over faster and taste fresher.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep sealed, dark, and dry, replacing it within the year — ground spice fades. The rulebook has the details.",
+   "citations": [],
+   "note": "spice storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Shake it on watermelon, cucumber, boiled eggs, or chips — chaat masala's whole talent is making ordinary things suddenly interesting.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "amchoor + black salt + cumin",
+   "ratio": "2:1:1 pinch-wise",
+   "note": "rebuilds the three signatures",
+   "citations": []
+  },
+  {
+   "substitute": "lime juice + chaat-like salt blend",
+   "ratio": "to taste",
+   "note": "sour-salt without the exact spice",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Chaat masala — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Chaat_masala",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}
