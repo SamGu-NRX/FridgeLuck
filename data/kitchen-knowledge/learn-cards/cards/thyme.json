@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Fresh thyme keeps about a week refrigerated, and freezes well for months; dried keeps sealed and dark. The rulebook has the details.",
+    "text": "Fresh thyme keeps about a week refrigerated, and freezes well for months; dried keeps sealed and dark.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "herb storage windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

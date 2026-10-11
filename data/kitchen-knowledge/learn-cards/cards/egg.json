@@ -25,15 +25,18 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep eggs in the box in the main body of the fridge, not the door. The rulebook has the storage window and raw-egg cautions.",
+    "text": "Keep eggs in the box in the main body of the fridge, not the door; egg dishes left out go back in the fridge promptly.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "egg storage and raw-egg guidance live in the food-safety rulebook"
+     "note": "Storage claims backed by food-safety rulebook rules: raw-egg-dishes-refrigerate-2h.",
+     "ruleIds": [
+      "raw-egg-dishes-refrigerate-2h"
+     ]
     }
    },
    "useItUp": {
-    "text": "One egg plus breadcrumbs rescues almost any leftover mash into patties.",
+    "text": "One egg plus breadcrumbs turns leftover mash into patties.",
     "citations": []
    }
   },

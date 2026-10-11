@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in a sealed box in a dry cupboard; cooked, it needs the fridge. The rulebook has the details.",
+    "text": "Keep in a sealed box in a dry cupboard; cooked, it needs the fridge.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "pasta storage windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

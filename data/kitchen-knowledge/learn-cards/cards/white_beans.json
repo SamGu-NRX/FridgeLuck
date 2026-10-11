@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Dried beans keep cool, dark, and dry; soaked or cooked beans refrigerate in their liquid. The rulebook has the cooked-bean window and the boil-first rules for raw beans.",
+    "text": "Dried beans keep cool, dark, and dry; soaked or cooked beans refrigerate in their liquid.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "raw and cooked pulse safety lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

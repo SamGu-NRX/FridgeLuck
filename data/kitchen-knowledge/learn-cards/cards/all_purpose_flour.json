@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in an airtight container in a cool, dark cupboard; wholemeal flours spoil faster than white. The rulebook has the details.",
+    "text": "Keep in an airtight container in a cool, dark cupboard; wholemeal flours spoil faster than white.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "flour storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

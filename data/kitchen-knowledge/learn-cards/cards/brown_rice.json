@@ -25,11 +25,15 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep dry in a sealed container in a cool cupboard; the rulebook covers the cooked-rice window, which is the safety-critical part.",
+    "text": "Keep dry in a sealed container in a cool cupboard; cooked rice needs prompt cooling and refrigeration.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "cooked-rice cooling and storage rules live in the food-safety rulebook"
+     "note": "Storage claims backed by food-safety rulebook rules: two-hour-rule, cool-rapidly-shallow-containers.",
+     "ruleIds": [
+      "two-hour-rule",
+      "cool-rapidly-shallow-containers"
+     ]
     }
    },
    "useItUp": {

@@ -25,11 +25,14 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep on ice or the coldest shelf and cook within the rulebook's window — fish has the shortest clock of any meat.",
+    "text": "Keep fish sealed on the bottom shelf, away from ready-to-eat food.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "raw-fish storage windows live in the food-safety rulebook"
+     "note": "Storage claims backed by food-safety rulebook rules: cross-contamination-separate.",
+     "ruleIds": [
+      "cross-contamination-separate"
+     ]
     }
    },
    "useItUp": {

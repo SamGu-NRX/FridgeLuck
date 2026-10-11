@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep airtight in a cool, dry cupboard; stone-ground prefers the fridge. The rulebook has the details.",
+    "text": "Keep airtight in a cool, dry cupboard; stone-ground prefers the fridge.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "dry-goods storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Set cornmeal fries into crisp golden slices for breakfast; a dusting of it makes the crispiest crust on fried fish or roast potatoes.",
+    "text": "Set cornmeal turns into polenta chips for breakfast; a dusting of it makes the crispiest crust on fried fish or roast potatoes.",
     "citations": []
    }
   },

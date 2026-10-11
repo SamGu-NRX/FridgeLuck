@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Opened cartons and homemade stock keep covered in the fridge; homemade has no preservatives, so follow the rulebook's window and freeze the rest.",
+    "text": "Opened cartons and homemade stock keep covered in the fridge; freeze the rest soon after opening.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "opened-carton and homemade-stock windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

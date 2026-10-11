@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Wrap in waxed or cheese paper rather than clingfilm and keep in the warmest part of the fridge; the rulebook has the windows and when-to-trim guidance.",
+    "text": "Wrap in waxed or cheese paper rather than clingfilm and keep in the warmest part of the fridge.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "storage windows and mould guidance live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

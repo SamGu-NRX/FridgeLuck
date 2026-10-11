@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep sealed in a cool cupboard or fridge; the fridge stiffens it, so stir and warm slightly before use. The rulebook has the details.",
+    "text": "Keep sealed in a cool cupboard or fridge; the fridge stiffens it, so stir and warm slightly before use.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "opened-jar guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

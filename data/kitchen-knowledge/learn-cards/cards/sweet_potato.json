@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep cool, dark, and dry — never the fridge, which toughens the core. The rulebook has the details.",
+    "text": "Keep cool, dark, and dry — never the fridge, which toughens the core.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "root-vegetable storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

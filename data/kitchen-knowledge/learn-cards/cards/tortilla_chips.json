@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Reseal tightly at room temperature; they stale by losing crunch, not by spoiling. The rulebook has the details.",
+    "text": "Reseal tightly at room temperature; they lose crunch before anything else.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "snack storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Soft chips revive in a 175 °C oven for a few minutes and turn into chilaquiles, nachos, or a crunchy salad topper when past their dipping prime.",
+    "text": "Turn the last chips into chilaquiles, nachos, or a crunchy salad topper.",
     "citations": []
    }
   },

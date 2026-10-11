@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep airtight at room temperature so it stays soft. The rulebook has the details.",
+    "text": "Keep airtight at room temperature so it stays soft.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "dry-goods storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

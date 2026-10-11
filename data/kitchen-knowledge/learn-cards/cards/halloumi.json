@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep sealed in its brine in the fridge. The rulebook has the details.",
+    "text": "Keep sealed in its brine in the fridge.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "cheese storage windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

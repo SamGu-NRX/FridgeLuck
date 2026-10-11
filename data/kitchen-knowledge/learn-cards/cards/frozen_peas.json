@@ -23,11 +23,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in the freezer; there is no need to thaw before cooking. The rulebook covers refreezing and leftovers.",
+    "text": "Keep in the freezer; there is no need to thaw before cooking.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "freezer guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

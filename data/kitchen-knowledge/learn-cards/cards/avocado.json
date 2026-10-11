@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Let unripe fruit sit on the counter, then move it to the fridge once it yields to pressure. The rulebook covers the use-it window.",
+    "text": "Let unripe fruit sit on the counter, then move it to the fridge once it yields to pressure.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "ripening window and cut-avocado handling live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

@@ -25,11 +25,14 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep fish cold and cook within the rulebook's window; freeze on arrival if the date is tight.",
+    "text": "Keep fish sealed on the bottom shelf, away from ready-to-eat food; freeze on arrival if the date is tight.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "raw-fish storage windows live in the food-safety rulebook"
+     "note": "Storage claims backed by food-safety rulebook rules: cross-contamination-separate.",
+     "ruleIds": [
+      "cross-contamination-separate"
+     ]
     }
    },
    "useItUp": {

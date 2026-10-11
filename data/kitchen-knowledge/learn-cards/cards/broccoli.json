@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep loosely wrapped in the fridge and use while the florets are still tight. The rulebook has the shelf-life details.",
+    "text": "Keep loosely wrapped in the fridge and use while the florets are still tight.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "shelf-life guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Peel and roast the stalk alongside the florets — it is the sweetest part; tired florets go into soup or fried rice.",
+    "text": "The peeled stalk is the sweetest part; tired florets go into soup or fried rice.",
     "citations": []
    }
   },

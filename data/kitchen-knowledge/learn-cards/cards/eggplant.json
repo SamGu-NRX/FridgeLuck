@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep at cool room temperature and use within days — eggplant dislikes fridge cold. The rulebook has the details.",
+    "text": "Keep at cool room temperature and use within days — eggplant dislikes fridge cold.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Softening eggplant still roasts into baba ganoush or melts into curries and pasta sauces; salt it first to draw out bitterness and water.",
+    "text": "Softening eggplant still becomes baba ganoush or melts into curries and pasta sauces.",
     "citations": []
    }
   },
@@ -41,7 +42,7 @@
    {
     "substitute": "courgette",
     "ratio": "same weight",
-    "note": "faster cooking, less spongy; grill or roast first",
+    "note": "faster cooking, less spongy",
     "citations": []
    },
    {

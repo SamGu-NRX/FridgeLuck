@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate if you will keep them long — almonds store for around a year chilled but go rancid faster at room temperature. The rulebook has the details.",
+    "text": "Refrigerate if you will keep them long — almonds store for around a year chilled but go rancid faster at room temperature.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "nut storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

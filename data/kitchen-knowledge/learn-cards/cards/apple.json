@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in the fridge crisper, away from anything bruised (one bad apple really does spread). The rulebook has the shelf-life details.",
+    "text": "Keep in the fridge crisper, away from anything bruised (one bad apple really does spread).",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "crisper storage and when-to-bin guidance live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

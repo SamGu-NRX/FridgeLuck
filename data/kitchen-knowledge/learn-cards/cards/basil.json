@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep like cut flowers — stems in water, loosely bagged, away from the coldest shelf, which blackens basil. The rulebook has the timing.",
+    "text": "Keep like cut flowers — stems in water, loosely bagged, away from the coldest shelf, which blackens basil.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "fresh-herb windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep dry in a sealed container in a cool cupboard. The rulebook has the details.",
+    "text": "Keep dry in a sealed container in a cool cupboard.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "dry-goods storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Leftover couscous loosens with a fork and a splash of water, then fries into crispy cakes or tosses cold into salads with lemon and herbs.",
+    "text": "Leftover couscous turns into crispy cakes or tosses cold into salads with lemon and herbs.",
     "citations": []
    }
   },

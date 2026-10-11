@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep sealed in a cool, dark cupboard. The rulebook has the details.",
+    "text": "Keep sealed in a cool, dark cupboard.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "vinegar storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

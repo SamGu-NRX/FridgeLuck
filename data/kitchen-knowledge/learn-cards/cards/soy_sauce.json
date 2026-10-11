@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "It keeps essentially indefinitely, but flavour fades — refrigerate after opening. The rulebook has the details.",
+    "text": "It keeps essentially indefinitely, but flavour fades — refrigerate after opening.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "opened-condiment guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

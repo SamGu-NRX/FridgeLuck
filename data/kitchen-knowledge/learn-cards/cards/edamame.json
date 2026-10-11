@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep frozen until cooking; leftover cooked beans keep covered in the fridge. The rulebook has the window.",
+    "text": "Keep frozen until cooking; leftover cooked beans keep covered in the fridge.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "frozen and cooked-vegetable windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

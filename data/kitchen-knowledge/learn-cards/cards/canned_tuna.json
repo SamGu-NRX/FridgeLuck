@@ -23,11 +23,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Sealed cans keep in the cupboard; once opened, tip the rest into a covered container and refrigerate. The rulebook has the timing.",
+    "text": "Sealed cans keep in the cupboard; once opened, tip the rest into a covered container and refrigerate.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "opened-can window lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

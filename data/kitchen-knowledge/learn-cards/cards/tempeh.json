@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate sealed and use within the rulebook's window; tempeh also freezes well.",
+    "text": "Refrigerate sealed; tempeh also freezes well.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "fermented-soy storage windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

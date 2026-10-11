@@ -2,7 +2,7 @@
  "category": "protein",
  "sections": {
   "whatItIs": {
-   "text": "The chicken's dark, fattier leg meat — harder to overcook than breast, with more flavour per bite.",
+   "text": "The chicken's dark, fattier leg meat — more flavour per bite than breast.",
    "citations": [
     "s1"
    ]
@@ -18,9 +18,8 @@
    "citations": []
   },
   "storage": {
-   "text": "Raw chicken goes cold on the bottom shelf, sealed away from other food, and cooks within the rulebook's window.",
-   "citations": [],
-   "note": "raw-poultry storage and handling live in the food-safety rulebook"
+   "text": "Raw chicken keeps sealed on the bottom shelf, cold and away from other food.",
+   "citations": []
   },
   "useItUp": {
    "text": "Cooked thighs shred beautifully for tacos, ramen, and fried rice; a leftover thigh is a lunch — chop it cold over greens or warm it in a pan with whatever sauce is open.",

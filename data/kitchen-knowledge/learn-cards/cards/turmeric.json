@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep sealed, dark, and dry; it stains everything, including containers. The rulebook has the details.",
+    "text": "Keep sealed, dark, and dry; it stains everything, including containers.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "spice storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Bloom turmeric in fat or toast it into rice and lentils for colour and depth; a whisk of it into eggs or mustard makes everything look golden.",
+    "text": "Turmeric brings colour and depth to rice, lentils, eggs, and mustard; a whisk of it makes everything look golden.",
     "citations": []
    }
   },

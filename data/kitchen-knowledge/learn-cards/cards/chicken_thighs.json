@@ -9,7 +9,7 @@
   "category": "protein",
   "sections": {
    "whatItIs": {
-    "text": "The chicken's dark, fattier leg meat — harder to overcook than breast, with more flavour per bite.",
+    "text": "The chicken's dark, fattier leg meat — more flavour per bite than breast.",
     "citations": [
      "s1"
     ]
@@ -25,11 +25,14 @@
     "citations": []
    },
    "storage": {
-    "text": "Raw chicken goes cold on the bottom shelf, sealed away from other food, and cooks within the rulebook's window.",
+    "text": "Raw chicken keeps sealed on the bottom shelf, cold and away from other food.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "raw-poultry storage and handling live in the food-safety rulebook"
+     "note": "Storage claims backed by food-safety rulebook rules: cross-contamination-separate.",
+     "ruleIds": [
+      "cross-contamination-separate"
+     ]
     }
    },
    "useItUp": {

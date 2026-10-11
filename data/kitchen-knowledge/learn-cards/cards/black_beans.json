@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Move opened canned beans to a covered container in the fridge; dry beans keep in an airtight jar in a cool cupboard. The rulebook has the timing.",
+    "text": "Move opened canned beans to a covered container in the fridge; dry beans keep in an airtight jar in a cool cupboard.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "opened-can and cooked-bean windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Stir soft beans into soup, mash into dips, or crisp them in a hot pan with cumin for taco filling.",
+    "text": "Stir beans into soup, mash into dips, or season with cumin for taco filling.",
     "citations": []
    }
   },

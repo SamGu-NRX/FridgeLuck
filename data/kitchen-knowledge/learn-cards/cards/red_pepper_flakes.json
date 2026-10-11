@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in an airtight jar away from heat and light. The rulebook has the spice-shelf guidance.",
+    "text": "Keep in an airtight jar away from heat and light.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "spice storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

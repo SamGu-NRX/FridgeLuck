@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate in the crisper, loosely wrapped, and keep away from the coldest shelf, which can pit them. The rulebook has the details.",
+    "text": "Refrigerate in the crisper, loosely wrapped, and keep away from the coldest shelf, which can pit them.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "shelf-life guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

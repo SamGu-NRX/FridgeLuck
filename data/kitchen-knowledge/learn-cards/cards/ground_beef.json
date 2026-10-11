@@ -25,11 +25,14 @@
     "citations": []
    },
    "storage": {
-    "text": "Raw mince is the most perishable meat in the fridge — keep it cold on the bottom shelf and use within the rulebook's window, or freeze straight away.",
+    "text": "Keep raw mince sealed on the bottom shelf, away from ready-to-eat food, or freeze straight away.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "raw-mince storage and cooking rules live in the food-safety rulebook"
+     "note": "Storage claims backed by food-safety rulebook rules: cross-contamination-separate.",
+     "ruleIds": [
+      "cross-contamination-separate"
+     ]
     }
    },
    "useItUp": {

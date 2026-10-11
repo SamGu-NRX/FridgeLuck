@@ -25,11 +25,14 @@
     "citations": []
    },
    "storage": {
-    "text": "Raw chicken is a keep-it-cold-and-separate ingredient: store on the bottom shelf and cook within the rulebook's window.",
+    "text": "Raw chicken keeps sealed on the bottom shelf, cold and away from ready-to-eat food.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "raw-poultry storage and handling live in the food-safety rulebook"
+     "note": "Storage claims backed by food-safety rulebook rules: cross-contamination-separate.",
+     "ruleIds": [
+      "cross-contamination-separate"
+     ]
     }
    },
    "useItUp": {
@@ -41,7 +44,7 @@
    {
     "substitute": "chicken thighs",
     "ratio": "1:1",
-    "note": "fattier and harder to overcook; ~2-3 minutes longer to cook",
+    "note": "fattier and richer-tasting",
     "citations": []
    },
    {

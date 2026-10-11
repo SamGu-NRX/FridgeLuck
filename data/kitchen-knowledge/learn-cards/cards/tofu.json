@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Once opened, cover with fresh water in a container and refrigerate, changing the water daily. The rulebook has the window.",
+    "text": "Once opened, cover with fresh water in a container and refrigerate, changing the water daily.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "opened-tofu windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Press, cube, and roast extra-firm tofu into chewy bites, or freeze it — freezing changes the texture to sponge-like, perfect for soaking up sauce; silken tofu thickens smoothies and soups.",
+    "text": "Extra-firm tofu becomes chewy roasted bites; frozen tofu turns sponge-like and soaks up sauce; silken tofu thickens smoothies and soups.",
     "citations": []
    }
   },

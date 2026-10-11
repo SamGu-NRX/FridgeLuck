@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in the main body of the fridge, not the door, and never return unused milk from a jug. The rulebook has the storage window and spoilage signs.",
+    "text": "Keep in the main body of the fridge, not the door, and never return unused milk from a jug.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "dairy storage windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep sealed, cool, and dark — oil's enemy is light and heat, not time. The rulebook has the details.",
+    "text": "Keep sealed, cool, and dark — oil's enemy is light and heat, not time.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "oil storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

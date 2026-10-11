@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Tins keep in the cupboard until their date; leftovers decant to a container — never store open tins in the fridge. The rulebook has the window.",
+    "text": "Tins keep in the cupboard until their date; leftovers decant to a container — never store open tins in the fridge.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "opened-can window lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in the fridge, submerged in water if the pack is open — refreshed daily. The rulebook has the window.",
+    "text": "Keep in the fridge, submerged in water if the pack is open — refreshed daily.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "fresh-cheese storage windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

@@ -25,15 +25,16 @@
     "citations": []
    },
    "storage": {
-    "text": "Dried keeps in a sealed box; fresh noodles are perishable and need the fridge within days. The rulebook has the details.",
+    "text": "Dried keeps in a sealed box; fresh noodles are perishable and need the fridge within days.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "fresh-noodle windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {
-    "text": "Leftover noodles crisped in a hot pan make noodle cakes; they also thicken soup or turn into chow mein with whatever vegetables you have.",
+    "text": "Leftover noodles thicken soup or turn into chow mein with whatever vegetables you have.",
     "citations": []
    }
   },

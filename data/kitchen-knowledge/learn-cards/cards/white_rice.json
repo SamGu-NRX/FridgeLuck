@@ -25,11 +25,15 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep dry and sealed in a cool cupboard; cooked rice needs prompt cooling and refrigeration — the rulebook has the rules (reheated rice is a classic food-safety case).",
+    "text": "Keep dry and sealed in a cool cupboard; cooked rice needs prompt cooling and refrigeration.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "cooked-rice cooling and windows live in the food-safety rulebook"
+     "note": "Storage claims backed by food-safety rulebook rules: two-hour-rule, cool-rapidly-shallow-containers.",
+     "ruleIds": [
+      "two-hour-rule",
+      "cool-rapidly-shallow-containers"
+     ]
     }
    },
    "useItUp": {

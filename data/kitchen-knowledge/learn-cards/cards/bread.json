@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep at room temperature wrapped, or freeze what you will not finish; the fridge actually speeds staling. The rulebook covers mould and when to bin a loaf.",
+    "text": "Keep at room temperature wrapped, or freeze what you will not finish; the fridge actually speeds staling.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "mould guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

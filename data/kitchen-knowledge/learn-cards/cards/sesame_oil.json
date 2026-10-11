@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep cool and dark; sesame oil is one of the more stable natural oils but still resents light and heat — the fridge preserves it longest. The rulebook has the details.",
+    "text": "Keep cool and dark; sesame oil is one of the more stable natural oils but still resents light and heat — the fridge preserves it longest.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "oil storage guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

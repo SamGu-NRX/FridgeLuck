@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate after opening and keep the rim clean; it keeps long but darkens. The rulebook has the window.",
+    "text": "Refrigerate after opening and keep the rim clean; it keeps long but darkens.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "opened-jar guidance lives in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

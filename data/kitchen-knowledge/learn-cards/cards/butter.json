@@ -25,11 +25,12 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate what you will use this week; extra blocks freeze well. The rulebook has the storage-window details.",
+    "text": "Refrigerate what you will use this week; extra blocks freeze well.",
     "citations": [],
     "foodSafetyRef": {
      "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
     }
    },
    "useItUp": {

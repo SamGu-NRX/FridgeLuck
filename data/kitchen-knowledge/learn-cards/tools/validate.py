@@ -9,6 +9,8 @@ import os
 import re
 import sys
 
+import rulebook as _rulebook
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 CARDS = os.path.join(ROOT, "cards")
@@ -21,6 +23,10 @@ ALLOWED_NUTRIENTS = {
 SECTIONS = ["whatItIs", "historyNote", "howToChoose", "storage", "useItUp"]
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 FOOD_SAFETY_PATH = "data/food-safety/rules.json"
+
+# The referenced rulebook, resolved once in main(): the id set every
+# storage.foodSafetyRef ruleIds entry must come from.
+RULEBOOK = {"ids": set(), "src": "unloaded"}
 
 errors = []
 def err(msg):
@@ -94,6 +100,21 @@ def validate_card(path):
                       f"{card_id}: storage.foodSafetyRef.path must be {FOOD_SAFETY_PATH}")
                 check(isinstance(ref.get("note"), str) and ref["note"].strip(),
                       f"{card_id}: storage.foodSafetyRef.note required")
+                # Fail closed: cited rules must exist in the rulebook, and a
+                # storage text that invokes the rulebook must cite at least
+                # one resolvable rule id (unbacked attribution is a failure).
+                ids = ref.get("ruleIds")
+                check(isinstance(ids, list) and all(isinstance(i, str) for i in ids),
+                      f"{card_id}: storage.foodSafetyRef.ruleIds must be a list of rule ids")
+                if isinstance(ids, list):
+                    for rid in ids:
+                        check(rid in RULEBOOK["ids"],
+                              f"{card_id}: storage.foodSafetyRef rule id {rid!r} does not "
+                              f"resolve in the rulebook ({RULEBOOK['src']})")
+                if "rulebook" in (sec.get("text") or "").lower():
+                    check(bool(ids),
+                          f"{card_id}: storage text invokes the rulebook without a "
+                          "resolvable ruleIds entry — unbacked attribution")
 
     subs = data.get("substitutions")
     check(isinstance(subs, list), f"{card_id}: substitutions must be a list")
@@ -128,6 +149,15 @@ def validate_card(path):
     return card
 
 def main():
+    # Storage references must resolve, or the dependent claim fails (closed):
+    # load the referenced rulebook up front — in-tree, else the reviewed branch.
+    try:
+        rb, src = _rulebook.load(ROOT)
+        RULEBOOK["ids"] = _rulebook.rule_ids(rb)
+        RULEBOOK["src"] = src
+    except _rulebook.Unresolvable as e:
+        err(f"referenced safety rulebook could not be loaded: {e}")
+
     files = sorted(f for f in os.listdir(CARDS) if f.endswith(".json"))
     cards = {}
     for fn in files:
