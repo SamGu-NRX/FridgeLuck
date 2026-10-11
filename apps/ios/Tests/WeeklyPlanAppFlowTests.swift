@@ -293,7 +293,11 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
     model.edit(slotId: target.slotId, newRecipeId: 104)
 
     XCTAssertNotNil(model.errorMessage, "A failed save must be reported, not swallowed.")
-    XCTAssertEqual(model.flowState.entry, storedBefore, "The published plan is the disk's plan.")
+    // Compare phase and plan rather than the whole entry: the store's ISO-8601
+    // dates carry whole-second precision, while the published entry's createdAt
+    // keeps sub-second precision — the same instant, different representation.
+    XCTAssertEqual(model.flowState.entry?.phase, storedBefore.phase, "The published phase is the disk's phase.")
+    XCTAssertEqual(model.flowState.entry?.plan, storedBefore.plan, "The published plan is the disk's plan.")
     XCTAssertEqual(storedEntry(fixture), storedBefore, "Disk is unchanged.")
   }
 
@@ -318,6 +322,8 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
 
   func testCorruptStoreIsReportedAndLeftInPlace() throws {
     let fixture = try makeFixture()
+    try FileManager.default.createDirectory(
+      at: fixture.directory, withIntermediateDirectories: true)
     try Data("not a plan".utf8).write(to: fixture.store.fileURL)
 
     let model = makeViewModel(fixture)

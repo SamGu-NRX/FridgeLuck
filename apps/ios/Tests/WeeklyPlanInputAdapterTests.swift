@@ -206,7 +206,7 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
   /// Recipe 21 serves 4 people from 100.5 g of ingredient 1 (required) and
   /// 40.2 g of ingredient 2 (optional). Per serving: 25.125 g and 10.05 g.
   /// The plan cooks three servings: 75.375 g and 30.15 g. Stock holds
-  /// 80.25 g of 1 (shortfall 4.875 g) and 35.5 g of 2 (covered).
+  /// 70.5 g of 1 (shortfall 4.875 g) and 35.5 g of 2 (covered).
   func testAllocationOverMultiServingAndFractionalAmounts() throws {
     let recipe = makeRecipe(21, servings: 4)
     let rows = [
@@ -215,7 +215,7 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
     ]
     let now = Calendar.current.startOfDay(for: Date())
     let lots = [
-      makeLot(1, grams: 80.25, estimated: false, now: now),
+      makeLot(1, grams: 70.5, estimated: false, now: now),
       makeLot(2, grams: 35.5, estimated: false, now: now),
     ]
     let input = WeeklyPlanInputAdapter.makeInput(
