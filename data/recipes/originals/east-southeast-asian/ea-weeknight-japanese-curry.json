@@ -1,0 +1,235 @@
+{
+  "rs_version": "1",
+  "id": "ea-weeknight-japanese-curry",
+  "title": "Weeknight Japanese Chicken Curry",
+  "cuisine": "asian",
+  "cuisine_detail": "japanese home style (curry rice, from-scratch roux)",
+  "family": "east-southeast-asian",
+  "minutes": 45,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "heavy pot",
+    "wooden spoon",
+    "chef's knife",
+    "cutting board",
+    "rice cooker or pot"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-weeknight-japanese-curry",
+  "tags": [
+    "one-pot",
+    "high-protein",
+    "make-ahead",
+    "freezer-friendly"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken thighs",
+      "qty": {
+        "kind": "weighed",
+        "grams": 600,
+        "note": "boneless, skinless, cut in 2-inch pieces"
+      }
+    },
+    {
+      "name": "onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, thinly sliced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "carrots",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, in 1/2-inch rounds",
+        "conversion_ref": "carrot_piece",
+        "grams_per_unit": 60
+      }
+    },
+    {
+      "name": "potatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, in 3/4-inch chunks",
+        "conversion_ref": "potato_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves, grated",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp grated",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "all-purpose flour",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "flour_tbsp",
+        "grams_per_unit": 8
+      }
+    },
+    {
+      "name": "curry powder",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "curry_powder_tbsp",
+        "grams_per_unit": 6,
+        "note": "a mild sweet blend (S&B style); add 1/4 tsp cayenne for heat"
+      }
+    },
+    {
+      "name": "honey",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "honey_tbsp",
+        "grams_per_unit": 21
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cup",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "uncooked white rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cup",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185,
+        "note": "short or medium grain - koshihikari or Calrose"
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Start the rice; Japanese curry is ladled over a full bed of it."
+    },
+    {
+      "text": "Cook the onions in the oil in a heavy pot over medium heat for 5 minutes, stirring, until they soften and gloss.",
+      "timer_min": 5
+    },
+    {
+      "text": "Add the garlic and ginger; stir 1 minute."
+    },
+    {
+      "text": "Sprinkle the flour and curry powder over and stir a full minute to toast - this is the roux, and it needs the whole minute to lose the raw-flour taste.",
+      "timer_min": 1
+    },
+    {
+      "text": "Add the chicken pieces and toss 2 minutes to coat and seal the outsides.",
+      "timer_min": 2
+    },
+    {
+      "text": "Add the carrots, potatoes, and water, scraping the bottom; bring to a simmer, cover, and cook 15 minutes at a lazy bubble. Chicken is safe at 165°F (74°C) - check a thick piece.",
+      "timer_min": 15,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Stir in the honey and soy sauce and simmer 3 minutes uncovered until the sauce coats the back of a spoon - it should pour like heavy cream, not syrup.",
+      "timer_min": 3
+    },
+    {
+      "text": "Taste and adjust: another pinch of curry powder for warmth, or a splash of water if it thickened too far."
+    },
+    {
+      "text": "Serve in deep plates over the rice with green onions scattered on top; the curry reheats even better the next day and freezes for a month."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 616,
+    "protein_g": 38.3,
+    "carbs_g": 84.7,
+    "fat_g": 12.8,
+    "fiber_g": 6.4,
+    "sugar_g": 9.0,
+    "sodium_mg": 382,
+    "coverage": 0.689,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "all-purpose flour",
+      "water"
+    ]
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "rs_version": "1",
+  "id": "ea-vietnamese-caramel-pork-eggs",
+  "title": "Vietnamese Caramel Pork with Eggs",
+  "cuisine": "asian",
+  "cuisine_detail": "vietnamese (thit kho trung)",
+  "family": "east-southeast-asian",
+  "minutes": 55,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "heavy saucepan or small Dutch oven",
+    "small bowl",
+    "saucepan for eggs",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-vietnamese-caramel-pork-eggs",
+  "tags": [
+    "one-pot",
+    "make-ahead",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "pork tenderloin",
+      "qty": {
+        "kind": "weighed",
+        "grams": 600,
+        "note": "trimmed of silverskin, cut in 1 1/2-inch chunks"
+      }
+    },
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "large, hard-boiled and peeled",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "brown sugar",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "brown_sugar_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "fish sauce",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "fish_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "coconut water",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup",
+        "conversion_ref": "coconut_water_cup",
+        "grams_per_unit": 240,
+        "note": "one 8.45-oz box; plain coconut water, not sweetened coconut juice with pulp"
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "cup (2 tbsp for the caramel, the rest to loosen the sauce)",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "shallot",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, minced",
+        "conversion_ref": "shallot_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, coarsely ground",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "uncooked jasmine rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cup",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Make the caramel: spread the brown sugar in a dry saucepan over medium heat and let it melt undisturbed for 4 minutes, then swirl in 2 tablespoons of the water until you have a deep amber syrup. Watch closely - it burns in seconds.",
+      "timer_min": 4
+    },
+    {
+      "text": "Add the oil, shallot, and garlic; stir 1 minute to soften in the syrup.",
+      "timer_min": 1
+    },
+    {
+      "text": "Add the pork chunks and turn to coat in the syrup; sear 3 minutes, turning once.",
+      "timer_min": 3
+    },
+    {
+      "text": "Pour in the fish sauce, coconut water, and the rest of the water, scraping the syrup loose from the bottom, and bring to a simmer."
+    },
+    {
+      "text": "Meanwhile boil the eggs: 9 minutes in salted water, then chill under cold running water and peel. Eggs are safe at 160°F (71°C) - at 9 minutes the yolks are just fully set.",
+      "timer_min": 9,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Cover and simmer the pork gently for 25 minutes, stirring now and then. Pork is safe at 145°F (63°C) with a 3-minute rest, and a long simmer goes far past that - what you are watching for is the sauce turning brick-dark and glossy.",
+      "timer_min": 25,
+      "safety": {
+        "class": "meat_whole_cut_pork",
+        "temp_f": 145,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Halve the eggs and nestle them in the sauce; simmer uncovered 5 minutes so they drink up color.",
+      "timer_min": 5
+    },
+    {
+      "text": "Cook the jasmine rice while the pot rests 5 minutes off the heat, then skim the fat from the sauce.",
+      "timer_min": 5
+    },
+    {
+      "text": "Serve the pork and eggs over rice with plenty of sauce, and finish with green onions and black pepper."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 546,
+    "protein_g": 43.0,
+    "carbs_g": 61.5,
+    "fat_g": 12.8,
+    "fiber_g": 2.2,
+    "sugar_g": 3.3,
+    "sodium_mg": 495,
+    "coverage": 0.886,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "brown sugar",
+      "fish sauce",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "fish sauce"
+    ]
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "rs_version": "1",
+  "id": "ea-ginger-pork-rice-bowl",
+  "title": "Ginger Ground-Pork Rice Bowl",
+  "cuisine": "asian",
+  "cuisine_detail": "japanese home style (soboro-don)",
+  "family": "east-southeast-asian",
+  "minutes": 25,
+  "servings": 4,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "nonstick skillet",
+    "small bowl",
+    "spatula",
+    "rice cooker or pot",
+    "fine grater"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-ginger-pork-rice-bowl",
+  "tags": [
+    "weeknight",
+    "high-protein",
+    "budget"
+  ],
+  "ingredients": [
+    {
+      "name": "ground pork",
+      "qty": {
+        "kind": "weighed",
+        "grams": 450,
+        "note": "one 1 lb package, regular fat for flavor"
+      }
+    },
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "large",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "mirin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "mirin_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "sugar",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "sugar_tbsp",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp grated (peel it with a spoon, grate on the fine side)",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp thinly sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "toasted sesame oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "sesame_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    },
+    {
+      "name": "sesame seeds",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tsp",
+        "conversion_ref": "sesame_seeds_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "uncooked jasmine rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.25,
+        "unit": "cup",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Start the rice so it is ready when the topping is."
+    },
+    {
+      "text": "Set a nonstick skillet over medium-high, add the pork, and break it into small crumbles with the spatula. Cook 6 minutes until the crumbles sizzle in their own fat; ground pork is safe at 160°F (71°C).",
+      "timer_min": 6,
+      "safety": {
+        "class": "meat_ground",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Stir in the grated ginger and cook 30 seconds - it should smell sharp and sweet, not raw."
+    },
+    {
+      "text": "Add the soy sauce, mirin, and sugar; simmer 2 minutes, shaking the pan, until the liquid is mostly absorbed and the pan sizzles again.",
+      "timer_min": 2
+    },
+    {
+      "text": "Spoon the pork into a bowl and wipe the skillet with a paper towel."
+    },
+    {
+      "text": "Beat the eggs with a fork. Pour them into the skillet over medium-low and stir slowly into small soft curds for 2 minutes; they are safe at 160°F (71°C).",
+      "timer_min": 2,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Drizzle the sesame oil over the eggs and fold once."
+    },
+    {
+      "text": "Fill four bowls with hot rice. Arrange the pork on one side and the egg on the other - soboro-don keeps the two apart so each keeps its own color."
+    },
+    {
+      "text": "Scatter the green onions and sesame seeds over everything and eat immediately, mixing as you go."
+    }
+  ],
+  "cost_per_serving_usd": {
+    "value": 1.48,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 610,
+    "protein_g": 30.8,
+    "carbs_g": 48.2,
+    "fat_g": 31.6,
+    "fiber_g": 1.1,
+    "sugar_g": 0.9,
+    "sodium_mg": 576,
+    "coverage": 0.972,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "mirin",
+      "sugar"
+    ]
+  }
+}

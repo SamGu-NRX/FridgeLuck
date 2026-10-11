@@ -4,6 +4,15 @@
   "conversions": {
     "shallot_piece": {"ingredient": "medium shallot", "grams_per_unit": 50, "basis": "USDA: 1 medium shallot ~50g"},
     "lettuce_leaf": {"ingredient": "large romaine leaf", "grams_per_unit": 30, "basis": "USDA romaine: 1 cup shredded 47g; a large outer leaf ~30g"},
-    "brown_sugar_tsp": {"ingredient": "packed brown sugar", "grams_per_unit": 4, "basis": "USDA: brown sugar 1 cup packed 220g -> 1 tsp ~4.6g, rounded to 4g"}
+    "brown_sugar_tsp": {"ingredient": "packed brown sugar", "grams_per_unit": 4, "basis": "USDA: brown sugar 1 cup packed 220g -> 1 tsp ~4.6g, rounded to 4g"},
+    "sugar_tsp": {"ingredient": "granulated sugar", "grams_per_unit": 4, "basis": "USDA: granulated sugar 1 cup 200g -> 1 tsp ~4.2g, rounded to 4g"},
+    "bay_leaf_piece": {"ingredient": "dried bay leaf", "grams_per_unit": 0.2, "basis": "USDA bay leaf: 1 dried leaf ~0.2g"},
+    "water_cup": {"ingredient": "water", "grams_per_unit": 240, "basis": "water 1 cup = 240g (metric standard)"},
+    "mirin_tbsp": {"ingredient": "mirin", "grams_per_unit": 15, "basis": "mirin is water-density syrup: 1 tbsp ~15g"},
+    "sesame_seeds_tsp": {"ingredient": "whole sesame seeds", "grams_per_unit": 3, "basis": "USDA: whole sesame seeds 1 tbsp ~9g -> 1 tsp ~3g"},
+    "chili_pepper_piece": {"ingredient": "small fresh red chili", "grams_per_unit": 3, "basis": "bird's-eye/Thai chili: 1 small pepper ~3g (USDA hot red chili range 2-4g)"},
+    "coconut_water_cup": {"ingredient": "coconut water", "grams_per_unit": 240, "basis": "coconut water 1 cup = 240g (water density)"},
+    "rice_noodles_oz_dry": {"ingredient": "dried rice noodles", "grams_per_unit": 28, "basis": "dry noodle standard: 1 oz = 28g (matches suite dry_pasta_oz); rice vermicelli nests weigh the same dry"},
+    "water_tbsp": {"ingredient": "water", "grams_per_unit": 15, "basis": "water 1 tbsp = 15g (water density)"}
   }
 }
