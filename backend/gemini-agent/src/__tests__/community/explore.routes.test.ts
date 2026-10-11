@@ -428,6 +428,44 @@ describe("explore feed floors and ranking", () => {
     const tasteRank = (taste.items[0] as FeedItem).rank;
     expect(tasteRank?.tasteTags).toEqual(["vegetarian"]);
   });
+
+  test("cookableNow follows the pantry fit, not word overlap: overlapping words with unmet requirements is false, fitting without any word overlap is true", async () => {
+    const alice = await signInAs("explore-alice-8");
+    await publish(baseUrl, alice, publishBody({
+      source: { recipeId: "recipes/test-fit-1", recipeRevision: "rev-000012" },
+      recipe: {
+        title: "Classic fried rice",
+        ingredientLines: ["3 cups cooked jasmine rice", "2 tbsp soy sauce", "2 eggs", "1 cup frozen peas"],
+        steps: ["Stir-fry."],
+      },
+      campus: "fit-test",
+    }));
+    const bob = await signInAs("explore-bob-8");
+
+    // Direction 1: every line word and even the title's words sit in the
+    // viewer's stock, yet two requirements are unmet ("jasmine rice", "peas")
+    // — overlapping words do not make a recipe cookable now.
+    const overlap = (await json(await feed(bob, "fit-test", "?have=fried&have=rice&have=soy&have=sauce&have=eggs"))) as unknown as FeedJson;
+    expect(overlap.items).toHaveLength(1);
+    const overlapRank = (overlap.items[0] as FeedItem).rank;
+    expect(overlapRank?.cookableNow).toBe(false);
+    expect(overlapRank?.matchedIngredients).toBe(2);
+    expect(overlapRank?.totalIngredients).toBe(4);
+
+    // Direction 2: zero word overlap — "tamari" appears nowhere in the
+    // recipe — yet every line fits: soy sauce through the accepted tamari
+    // substitution, salt and water as assumed staples.
+    await publish(baseUrl, alice, publishBody({
+      source: { recipeId: "recipes/test-fit-2", recipeRevision: "rev-000013" },
+      recipe: { title: "Savory glaze base", ingredientLines: ["2 tbsp soy sauce", "1 tsp salt", "3 cups water"], steps: ["Stir."] },
+      campus: "fit-test",
+    }));
+    const fits = (await json(await feed(bob, "fit-test", "?have=tamari"))) as unknown as FeedJson;
+    const glaze = fits.items.find((i) => i.title === "Savory glaze base") as FeedItem;
+    expect(glaze.rank?.cookableNow).toBe(true);
+    expect(glaze.rank?.matchedIngredients).toBe(3);
+    expect(glaze.rank?.totalIngredients).toBe(3);
+  });
 });
 
 describe("blocked pairs", () => {
