@@ -253,11 +253,11 @@ public enum FLPantryFeasibility {
                 switch line.state {
                 case .short:
                     if let have = line.availableGrams, let need = line.requiredGrams {
-                        return "\(line.ingredient.canonicalName) (short by \(gramsLabel(need - have)))"
+                        return "\(line.ingredient.canonicalName) (short by \(gramsLabel(need - have)) g)"
                     }
                     return line.ingredient.canonicalName
                 case .missing:
-                    return "\(line.ingredient.canonicalName) (not on the shelf)"
+                    return line.ingredient.canonicalName
                 case .uncertainStock:
                     return "\(line.ingredient.canonicalName) (check the shelf — the amount is uncounted)"
                 default:

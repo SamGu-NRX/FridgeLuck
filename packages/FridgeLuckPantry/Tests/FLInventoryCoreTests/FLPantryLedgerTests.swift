@@ -85,9 +85,9 @@ final class FLPantryLedgerTests: XCTestCase {
         // A cook consumed three things (milk twice on two lines, eggs once):
         // one command, three events, all applied together.
         let cookBatch = [
-            Fixtures.consumption("k1", ingredient: milk, grams: 200, cookID: "cook-7", source: .cook, command: "cook-7"),
-            Fixtures.consumption("k2", ingredient: milk, grams: 50, cookID: "cook-7", source: .cook, command: "cook-7"),
-            Fixtures.consumption("k3", ingredient: eggs, grams: 120, cookID: "cook-7", source: .cook, command: "cook-7"),
+            Fixtures.consumption("k1", ingredient: milk, grams: 200, command: "cook-7", cookID: "cook-7", source: .cook),
+            Fixtures.consumption("k2", ingredient: milk, grams: 50, command: "cook-7", cookID: "cook-7", source: .cook),
+            Fixtures.consumption("k3", ingredient: eggs, grams: 120, command: "cook-7", cookID: "cook-7", source: .cook),
         ]
         XCTAssertEqual(try ledger.applyBatch(cookBatch), .applied)
         XCTAssertEqual(try ledger.itemStock(householdID: Fixtures.household, ingredient: milk)?.totalKnownRemainingGrams, 250)
@@ -112,7 +112,7 @@ final class FLPantryLedgerTests: XCTestCase {
     func testHouseholdsAreScoped() throws {
         let ledger = try Fixtures.ledger()
         try ledger.apply(Fixtures.purchase("e1", ingredient: milk, grams: 500, household: Fixtures.household))
-        try ledger.apply(Fixtures.purchase("e1", ingredient: milk, grams: 700, household: Fixtures.household2, command: "c2"))
+        try ledger.apply(Fixtures.purchase("e1", ingredient: milk, grams: 700, command: "c2", household: Fixtures.household2))
 
         XCTAssertEqual(try ledger.snapshot(householdID: Fixtures.household)[0].remaining.gramsIfKnown?.grams, 500)
         XCTAssertEqual(try ledger.snapshot(householdID: Fixtures.household2)[0].remaining.gramsIfKnown?.grams, 700)
@@ -121,7 +121,7 @@ final class FLPantryLedgerTests: XCTestCase {
         // events for any other household instead of mixing them in.
         let scoped = try Fixtures.ledger(allowedHousehold: Fixtures.household)
         Fixtures.expectRefusal(.householdMismatch(eventID: "e9")) {
-            try scoped.apply(Fixtures.purchase("e9", ingredient: milk, grams: 1, household: Fixtures.household2, command: "c9"))
+            try scoped.apply(Fixtures.purchase("e9", ingredient: milk, grams: 1, command: "c9", household: Fixtures.household2))
         }
         XCTAssertEqual(try scoped.events(householdID: Fixtures.household2).count, 0)
     }

@@ -1,5 +1,6 @@
 import Foundation
 import FLDomain
+import FLInventoryCore
 import FLPersistence
 import GRDB
 
@@ -54,7 +55,7 @@ public struct FLRecipeCatalog: Sendable {
     /// the stored payload (the key identifies the revision; the newest save
     /// of a key is the household's copy). One row per (household, key).
     public func save(_ revision: RecipeRevision, householdID: FLHouseholdID) throws {
-        let json = String(decoding: FLJSON.canonicalData(revision), as: UTF8.self)
+        let json = String(decoding: try FLJSON.canonicalData(revision), as: UTF8.self)
         try dbWriter.write { db in
             try db.execute(sql: """
                 INSERT OR REPLACE INTO fl_recipe_revision

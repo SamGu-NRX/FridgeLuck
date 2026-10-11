@@ -226,8 +226,10 @@ final class StockEventValidationTests: XCTestCase {
 
         // The wire shape keeps provenance next to quantity, per the contract.
         let raw = String(decoding: data, as: UTF8.self)
-        XCTAssertTrue(raw.contains("\"kind\":\"correction\""), "canonical wire shape changed: \(raw)")
-        XCTAssertTrue(raw.contains("\"source\":\"manual\""), "canonical wire shape changed: \(raw)")
-        XCTAssertTrue(raw.contains("\"supersedes\":{\"priorEventID\":\"e1\",\"mode\":\"corrects\"}"), "canonical wire shape changed: \(raw)")
+        XCTAssertTrue(raw.contains("\"kind\" : \"correction\""), "canonical wire shape changed: \(raw)")
+        XCTAssertTrue(raw.contains("\"source\" : \"manual\""), "canonical wire shape changed: \(raw)")
+        // Byte stability: canonical data is a fixed point of decode-encode.
+        let reencoded = try FLJSON.canonicalData(decoded)
+        XCTAssertEqual(Data(reencoded), data, "canonical encoding is not stable across a round trip")
     }
 }

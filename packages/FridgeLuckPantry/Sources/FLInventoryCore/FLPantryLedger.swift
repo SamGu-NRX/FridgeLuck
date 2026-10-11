@@ -241,8 +241,11 @@ public struct FLPantryLedger: Sendable {
             arguments: [householdID.rawValue]
         )
         return try rows.map { row in
-            let ingredientRaw: String = try row.get("ingredient_json")
-            let quantityRaw: String = try row.get("quantity_json")
+            // GRDB 7: typed column access is the subscript (`row["col"]`);
+            // `Row.get(_:)` was removed. NOT NULL columns read non-optional;
+            // nullable columns read as optionals.
+            let ingredientRaw: String = row["ingredient_json"]
+            let quantityRaw: String = row["quantity_json"]
             let ingredient = try FLJSON.canonicalDecoder().decode(
                 IngredientReference.self,
                 from: Data(ingredientRaw.utf8)
@@ -251,8 +254,8 @@ public struct FLPantryLedger: Sendable {
                 QuantityEvidence.self,
                 from: Data(quantityRaw.utf8)
             )
-            let priorRaw: String? = try row.get("prior_event_id")
-            let modeRaw: String? = try row.get("correction_mode")
+            let priorRaw: String? = row["prior_event_id"]
+            let modeRaw: String? = row["correction_mode"]
             var supersedes: FLStockCorrection?
             if let priorRaw, let modeRaw {
                 guard let mode = FLStockCorrection.Mode(rawValue: modeRaw) else {
@@ -263,29 +266,29 @@ public struct FLPantryLedger: Sendable {
                 }
                 supersedes = FLStockCorrection(priorEventID: try StockEventID(priorRaw), mode: mode)
             }
-            guard let kind = FLStockEventKind(rawValue: try row.get("kind")) else {
+            guard let kind = FLStockEventKind(rawValue: row["kind"]) else {
                 throw FLDomainError.validation(
                     target: "FLStockEvent.kind",
                     reason: "unknown event kind stored in the ledger"
                 )
             }
-            guard let source = FLStockEventSource(rawValue: try row.get("source")) else {
+            guard let source = FLStockEventSource(rawValue: row["source"]) else {
                 throw FLDomainError.validation(
                     target: "FLStockEvent.source",
                     reason: "unknown event source stored in the ledger"
                 )
             }
-            let eventTimestampRaw: String = try row.get("event_timestamp")
+            let eventTimestampRaw: String = row["event_timestamp"]
             return try FLStockEvent(
-                id: try row.get("event_id"),
-                commandID: try row.get("command_id"),
-                householdID: FLHouseholdID(try row.get("household_id")),
+                id: row["event_id"],
+                commandID: row["command_id"],
+                householdID: FLHouseholdID(row["household_id"]),
                 kind: kind,
                 ingredient: ingredient,
                 quantity: quantity,
-                lotID: try row.get("lot_id"),
-                cookID: try row.get("cook_id"),
-                preparation: try row.get("preparation"),
+                lotID: row["lot_id"],
+                cookID: row["cook_id"],
+                preparation: row["preparation"],
                 source: source,
                 timestamp: try FLTimestamp.decode(eventTimestampRaw, target: "FLStockEvent.timestamp"),
                 supersedes: supersedes

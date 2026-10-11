@@ -29,7 +29,7 @@ final class StockFoldTests: XCTestCase {
         let events = [
             Fixtures.purchase("e1", ingredient: milk, grams: 500),
             Fixtures.purchase("e2", ingredient: milk, grams: 300, command: "c2", at: Fixtures.t0.addingTimeInterval(60)),
-            Fixtures.consumption("e3", ingredient: milk, grams: 100, lotID: "e2", command: "c3", at: Fixtures.t0.addingTimeInterval(120)),
+            Fixtures.consumption("e3", ingredient: milk, grams: 100, command: "c3", lotID: "e2", at: Fixtures.t0.addingTimeInterval(120)),
         ]
         let stock = try FLStockFold.fold(events: events)
         XCTAssertEqual(stock[0].lots[0].remaining.gramsIfKnown?.grams, 500, "the untargeted lot is untouched")
@@ -137,7 +137,7 @@ final class StockFoldTests: XCTestCase {
         let events = [
             Fixtures.purchase("e1", ingredient: milk, grams: 500),
             Fixtures.purchase("e2", ingredient: milk, grams: 100, command: "c2"),
-            Fixtures.consumption("e3", ingredient: milk, grams: 150, lotID: "e2", command: "c3"),
+            Fixtures.consumption("e3", ingredient: milk, grams: 150, command: "c3", lotID: "e2"),
         ]
         Fixtures.expectRefusal(.insufficientStock(
             ingredient: "whole milk", availableGrams: 100, requestedGrams: 150, eventID: "e3"
@@ -192,7 +192,7 @@ final class StockFoldTests: XCTestCase {
     func testHouseholdsFoldIndependently() throws {
         let events = [
             Fixtures.purchase("e1", ingredient: milk, grams: 500, household: Fixtures.household),
-            Fixtures.purchase("e1", ingredient: milk, grams: 700, household: Fixtures.household2, command: "c2"),
+            Fixtures.purchase("e1", ingredient: milk, grams: 700, command: "c2", household: Fixtures.household2),
         ]
         let stock = try FLStockFold.fold(events: events)
         XCTAssertEqual(stock.count, 2, "the same event ID in two households is two independent facts")

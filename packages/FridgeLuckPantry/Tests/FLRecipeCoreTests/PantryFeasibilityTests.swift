@@ -157,8 +157,8 @@ final class PantryFeasibilityTests: XCTestCase {
     func testAllocationOnlyDrawsFromLotsInTheUsableForm() throws {
         // Cooked chicken (older lot) cannot serve a raw line even though it
         // sits in the same identity group.
-        let rawLine = RecipeFixtures.makeLine("l1", ingredient: chicken, grams: 150, preparation: "chopped")
-        let secondRawLine = RecipeFixtures.makeLine("l2", ingredient: chicken, grams: 150, preparation: "chopped")
+        let rawLine = try RecipeFixtures.makeLine("l1", ingredient: chicken, grams: 150, preparation: "chopped")
+        let secondRawLine = try RecipeFixtures.makeLine("l2", ingredient: chicken, grams: 150, preparation: "chopped")
         let recipe = try RecipeFixtures.makeRecipe([rawLine, secondRawLine])
         let report = try FLPantryFeasibility.evaluate(
             recipe: recipe,
@@ -300,7 +300,7 @@ final class PantryFeasibilityTests: XCTestCase {
         XCTAssertEqual(decoded, report)
 
         let raw = String(decoding: data, as: UTF8.self)
-        XCTAssertTrue(raw.contains("\"outcome\":\"partial\""), "canonical wire shape changed: \(raw)")
-        XCTAssertTrue(raw.contains("\"state\":\"short\""), "canonical wire shape changed: \(raw)")
+        XCTAssertTrue(raw.contains("\"outcome\" : \"partial\""), "canonical wire shape changed: \(raw)")
+        XCTAssertTrue(raw.contains("\"state\" : \"short\""), "canonical wire shape changed: \(raw)")
     }
 }

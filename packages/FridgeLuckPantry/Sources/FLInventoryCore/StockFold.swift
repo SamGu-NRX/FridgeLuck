@@ -96,6 +96,10 @@ extension FLPantryLot: Codable {
 
 /// Current stock of one pantry item (one ingredient identity in one household).
 public struct FLItemStock: Equatable, Sendable {
+    /// The household these lots belong to. A fold over one household's
+    /// stream still reports it, so every stock row is self-describing and
+    /// households can never pool through an unscoped grouping.
+    public let householdID: FLHouseholdID
     /// The identity group key (see `FLStockFold.groupKey`).
     public let groupKey: String
     /// The most recently recorded reference for display.
@@ -145,12 +149,24 @@ public enum FLStockFold {
     /// a known reduction exceeds known stock (the ledger never rewrites
     /// history into a negative one).
     public static func fold(events: [FLStockEvent]) throws -> [FLItemStock] {
+        // Event identity is scoped by household, matching the ledger's
+        // UNIQUE (household_id, event_id): the same event ID in two
+        // households is two independent facts, and a correction can only
+        // reference an event in its own household.
+        func scopedKey(_ event: FLStockEvent) -> String {
+            "\(event.householdID.rawValue)/\(event.id.rawValue)"
+        }
+
+        func scopedKey(_ household: FLHouseholdID, _ eventID: StockEventID) -> String {
+            "\(household.rawValue)/\(eventID.rawValue)"
+        }
         var byID: [String: FLStockEvent] = [:]
         for event in events {
-            guard byID[event.id.rawValue] == nil else {
+            let key = scopedKey(event)
+            guard byID[key] == nil else {
                 throw FLInventoryError.duplicateEventID(eventID: event.id.rawValue)
             }
-            byID[event.id.rawValue] = event
+            byID[key] = event
         }
 
         // Resolve corrections: the last active correction of a root decides —
@@ -160,10 +176,10 @@ public enum FLStockFold {
         var retractedRoots: Set<String> = []
         for event in events where event.kind == .correction {
             let correction = try unwrapCorrection(event)
-            let priorID = correction.priorEventID.rawValue
+            let priorID = scopedKey(event.householdID, correction.priorEventID)
             guard let prior = byID[priorID] else {
                 throw FLInventoryError.unknownEventReference(
-                    eventID: event.id.rawValue, referencedEventID: priorID
+                    eventID: event.id.rawValue, referencedEventID: correction.priorEventID.rawValue
                 )
             }
             guard prior.kind != .correction else {
@@ -172,7 +188,14 @@ public enum FLStockFold {
                     reason: "corrections target the event they revise, not another correction"
                 )
             }
-            guard FLStockFold.groupKey(for: prior.ingredient) == FLStockFold.groupKey(for: event.ingredient) else {
+            // Corrections revise the quantity (or retract); they never move
+            // the ingredient — not even within one identity group, where a
+            // renamed reference would silently rewrite the item's display
+            // name. Identity edits belong to the resolver pipeline, not the
+            // ledger. Case-insensitive so padded or re-cased corrections of
+            // the same name are not refused.
+            guard FLStockFold.groupKey(for: prior.ingredient) == FLStockFold.groupKey(for: event.ingredient),
+                  prior.ingredient.canonicalName.lowercased() == event.ingredient.canonicalName.lowercased() else {
                 throw FLInventoryError.correctionIngredientMismatch(
                     eventID: event.id.rawValue,
                     correctedIngredient: event.ingredient.canonicalName,
@@ -189,21 +212,28 @@ public enum FLStockFold {
             }
         }
 
-        // Fold the effective stream, grouped by identity.
+        // Fold the effective stream, grouped by household and identity.
+        // The scope in the key is load-bearing: the same ingredient in two
+        // households is two independent stocks, never one pooled pool.
         var lots: [String: [MutableLot]] = [:]
         var display: [String: IngredientReference] = [:]
         var confirmations: [String: (Date, FLStockEventSource)] = [:]
+        var householdByKey: [String: FLHouseholdID] = [:]
+        var identityByKey: [String: String] = [:]
 
         for event in events {
             // Corrections do not act on stock themselves.
             if event.kind == .correction { continue }
-            let key = FLStockFold.groupKey(for: event.ingredient)
+            let identity = FLStockFold.groupKey(for: event.ingredient)
+            let key = "\(event.householdID.rawValue)/\(identity)"
             display[key] = event.ingredient
+            householdByKey[key] = event.householdID
+            identityByKey[key] = identity
 
             // A retracted event never happened; a corrected event carries the
             // correcting quantity instead of its own.
-            if retractedRoots.contains(event.id.rawValue) { continue }
-            let quantity = correctionPayload[event.id.rawValue] ?? event.quantity
+            if retractedRoots.contains(scopedKey(event)) { continue }
+            let quantity = correctionPayload[scopedKey(event)] ?? event.quantity
 
             switch event.kind {
             case .purchase:
@@ -266,10 +296,12 @@ public enum FLStockFold {
         for key in lots.keys.sorted() {
             guard let mutableLots = lots[key] else { continue }
             guard let ingredient = display[key] else { continue }
+            guard let household = householdByKey[key], let identity = identityByKey[key] else { continue }
             let pantryLots = try mutableLots.map { try $0.asPantryLot(ingredient: ingredient) }
             let confirmation = confirmations[key]
             result.append(FLItemStock(
-                groupKey: key,
+                householdID: household,
+                groupKey: identity,
                 ingredient: ingredient,
                 lots: pantryLots,
                 lastConfirmedAt: confirmation?.0,
@@ -366,11 +398,14 @@ public enum FLStockFold {
                     eventID: eventID
                 )
             }
-            itemLots[index].remainingGrams = available - requested
+            itemLots[index].remainingGrams = available - requested.grams
             return
         }
 
         // FIFO across known lots, oldest first.
+        // The available stock is read BEFORE the draw-down: the refusal
+        // reports what the user has, not the zeroed-out working state.
+        let knownTotalBeforeDraw = itemLots.compactMap(\.remainingGrams).reduce(0, +)
         var remainingToTake = requested.grams
         for index in itemLots.indices {
             guard remainingToTake > 0 else { break }
@@ -384,10 +419,9 @@ public enum FLStockFold {
         if remainingToTake > 0 {
             let hasUncounted = itemLots.contains { $0.remainingGrams == nil }
             guard hasUncounted else {
-                let knownTotal = itemLots.compactMap(\.remainingGrams).reduce(0, +)
                 throw FLInventoryError.insufficientStock(
                     ingredient: ingredient.canonicalName,
-                    availableGrams: knownTotal,
+                    availableGrams: knownTotalBeforeDraw,
                     requestedGrams: requested.grams,
                     eventID: eventID
                 )
