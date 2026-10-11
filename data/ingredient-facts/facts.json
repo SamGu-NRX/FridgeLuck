@@ -129,7 +129,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -1897,7 +1897,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -2159,7 +2159,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -2361,7 +2361,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -2600,7 +2600,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -3063,6 +3063,69 @@
         }
       }
     },
+    "farro": {
+      "note": "farro is emmer (Triticum dicoccum) or related Triticum species, all wheat",
+      "allergens": {
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Farro is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "Farro is gluten-bearing"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "Farro is gluten-bearing"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
     "fat-source-varies": {
       "note": "stock cube fat may be vegetable or animal, including lard in some brands",
       "diets": {
@@ -3297,7 +3360,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -3768,7 +3831,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -3863,6 +3926,75 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "gluten-free-bread": {
+      "components": [
+        {
+          "key": "wheat-starch",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "label",
+            "ref": "gluten-free bread ingredient declarations",
+            "note": "commercial gluten-free breads commonly declare wheat starch, a wheat-derived ingredient processed to remove gluten"
+          }
+        },
+        {
+          "key": "rice-flour",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten-free bread composition",
+            "note": "gluten-free breads are built on starches and flours such as rice, tapioca and potato"
+          }
+        },
+        {
+          "key": "egg",
+          "certainty": "variable",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten-free bread variants",
+            "note": "many gluten-free breads bind with egg or psyllium; presence varies"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "the FDA case: gluten-free label AND declared wheat-derived component — gluten-free diet allowed, wheat allergen still violated",
+      "allergens": {
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "declared wheat starch in gluten-free bread",
+            "note": "a declared wheat-derived component is a wheat ingredient; the gluten-free label does not change wheat status (FDA gluten-free labeling Q&A, General question 6)"
+          }
+        },
+        "egg": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition varies",
+            "note": "component 'egg' is variable: some products carry this allergen, some do not"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "label",
+          "ref": "gluten-free bread label claim",
+          "note": "labeled gluten-free: gluten below 20 ppm (21 CFR 101.100)"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "gluten-free bread label claim",
+            "note": "gluten-free label claim on the product"
           }
         }
       }
@@ -4239,7 +4371,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -4515,7 +4647,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -4705,7 +4837,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -4957,7 +5089,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -5652,7 +5784,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -6137,6 +6269,38 @@
             "note": "plant food: no animal-derived components (no milk component)"
           }
         }
+      },
+      "forms": {
+        "certified-gluten-free": {
+          "allergens": {
+            "wheat": {
+              "state": "free",
+              "evidence": {
+                "kind": "standard",
+                "ref": "oats composition",
+                "note": "oats are not a wheat species; certified gluten-free oats carry no wheat ingredient (independent of the gluten question)"
+              }
+            }
+          },
+          "gluten": {
+            "state": "free",
+            "evidence": {
+              "kind": "label",
+              "ref": "certified gluten-free oats label claim",
+              "note": "certified gluten-free: gluten below 20 ppm (21 CFR 101.100)"
+            }
+          },
+          "diets": {
+            "glutenFree": {
+              "state": "allowed",
+              "evidence": {
+                "kind": "label",
+                "ref": "certified gluten-free oats label claim",
+                "note": "certification mark on the product form"
+              }
+            }
+          }
+        }
       }
     },
     "olive-oil": {
@@ -6518,7 +6682,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -6817,7 +6981,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -7111,7 +7275,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -7650,7 +7814,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -7811,6 +7975,59 @@
         }
       }
     },
+    "rice-flour": {
+      "note": "rice contains no gluten grain",
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "Rice flour contains no gluten grain"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "Rice flour contains no gluten grain"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
     "rice-koji": {
       "note": "standard koji is grown on rice; barley koji (mugi) is a variant",
       "diets": {
@@ -7952,7 +8169,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -8759,6 +8976,69 @@
         }
       }
     },
+    "spelt": {
+      "note": "spelt is Triticum aestivum subsp. spelta, a wheat species",
+      "allergens": {
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Spelt is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "Spelt is gluten-bearing"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "Spelt is gluten-bearing"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
     "spices": {
       "note": "whole or ground single spices; anti-caking agents in jarred blends are the variable part",
       "diets": {
@@ -8982,7 +9262,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -9319,7 +9599,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -9399,12 +9679,12 @@
           "evidence": {
             "kind": "standard",
             "ref": "tamari wheat status varies",
-            "note": "classic tamari is wheat-free or near-wheat-free, but commercial products vary; only a certified gluten-free label settles it"
+            "note": "classic tamari is wheat-free or near-wheat-free, but commercial products vary; only a product ingredient declaration settles wheat"
           }
         }
       ],
       "compositionComplete": false,
-      "note": "tamari vs wheat: unknown unless a gluten-free label is present; certified-GF form is a separate form",
+      "note": "tamari vs wheat: unknown unless a product ingredient declaration settles it; a gluten-free label never establishes wheat absence (FDA permits processed wheat-derived ingredients in gluten-free foods)",
       "allergens": {
         "soy": {
           "state": "contains",
@@ -9419,11 +9699,11 @@
         "certified-gluten-free": {
           "allergens": {
             "wheat": {
-              "state": "free",
+              "state": "unknown",
               "evidence": {
-                "kind": "label",
-                "ref": "certified gluten-free tamari label claim",
-                "note": "US gluten-free labeling (21 CFR 101.100) prohibits wheat as an ingredient in foods carrying a gluten-free claim"
+                "kind": "standard",
+                "ref": "FDA gluten-free labeling rule (21 CFR 101.100)",
+                "note": "the gluten-free label does not establish wheat absence: FDA permits processed wheat-derived ingredients in gluten-free foods; tamari's wheat status needs a product ingredient declaration"
               }
             }
           },
@@ -9432,7 +9712,7 @@
             "evidence": {
               "kind": "label",
               "ref": "certified gluten-free tamari label claim",
-              "note": "certified gluten-free: gluten below 20 ppm and no wheat ingredient"
+              "note": "certified gluten-free: gluten below 20 ppm (21 CFR 101.100)"
             }
           },
           "diets": {
@@ -9562,7 +9842,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -9721,7 +10001,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -9842,7 +10122,7 @@
       },
       "diets": {
         "glutenFree": {
-          "state": "free",
+          "state": "allowed",
           "evidence": {
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
@@ -10275,6 +10555,67 @@
             "kind": "standard",
             "ref": "gluten is the protein of wheat, barley and rye",
             "note": "Wheat flour is gluten-bearing"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "wheat-starch": {
+      "note": "wheat-derived and processed to remove gluten; FDA permits it in gluten-free-labeled foods, but a wheat allergy still avoids it (declared wheat ingredient)",
+      "allergens": {
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Wheat starch is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "gluten": {
+        "state": "unknown",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten status varies"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "glutenFree": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten status varies"
           }
         },
         "dairyFree": {

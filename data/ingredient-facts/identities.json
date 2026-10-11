@@ -483,6 +483,16 @@
       ]
     },
     {
+      "key": "farro",
+      "display": "Farro",
+      "kind": "simple",
+      "synonyms": [
+        "emmer wheat",
+        "farro grain"
+      ],
+      "note": "farro is emmer (Triticum dicoccum) or related Triticum species, all wheat"
+    },
+    {
       "key": "feta",
       "display": "Feta",
       "kind": "simple",
@@ -583,6 +593,16 @@
       "appLocalIds": [
         "30"
       ]
+    },
+    {
+      "key": "gluten-free-bread",
+      "display": "Gluten-free bread",
+      "kind": "compound",
+      "synonyms": [
+        "gf bread",
+        "gluten free bread"
+      ],
+      "note": "the FDA case: gluten-free label AND declared wheat-derived component — gluten-free diet allowed, wheat allergen still violated"
     },
     {
       "key": "gochujang",
@@ -855,6 +875,18 @@
       ],
       "appLocalIds": [
         "31"
+      ],
+      "forms": [
+        {
+          "name": "certified-gluten-free",
+          "matchNames": [
+            "certified gluten free oats",
+            "certified gluten-free oats",
+            "gf oats",
+            "gluten free oats",
+            "gluten-free oats"
+          ]
+        }
       ],
       "note": "oats are gluten-free by nature but routinely cross-contacted; certification varies"
     },
@@ -1191,6 +1223,16 @@
       "note": "generic brewed soy sauce carries soy and wheat"
     },
     {
+      "key": "spelt",
+      "display": "Spelt",
+      "kind": "simple",
+      "synonyms": [
+        "dinkel wheat",
+        "spelt flour"
+      ],
+      "note": "spelt is Triticum aestivum subsp. spelta, a wheat species"
+    },
+    {
       "key": "spicy-mayo",
       "display": "Spicy mayo",
       "kind": "compound",
@@ -1275,7 +1317,7 @@
           ]
         }
       ],
-      "note": "tamari vs wheat: unknown unless a gluten-free label is present; certified-GF form is a separate form"
+      "note": "tamari vs wheat: unknown unless a product ingredient declaration settles it; a gluten-free label never establishes wheat absence (FDA permits processed wheat-derived ingredients in gluten-free foods)"
     },
     {
       "key": "tofu",
