@@ -30,6 +30,14 @@ from typing import Any
 PERMISSION_FIELDS = ("text", "images", "modification", "attribution",
                      "caching", "offline_use")
 
+# The permissions the app's corpus contract needs on EVERY record. The
+# remaining fields are conditional (required_permissions below).
+APP_REQUIRED_PERMISSIONS = ("text", "modification", "caching", "offline_use")
+
+# source_type values that mean the expression is FridgeLuck's own: no third
+# party to attribute (rewritten-from-X provenance is recorded, not attributed).
+ORIGINAL_SOURCE_TYPES = ("original", "original-rewrite")
+
 REQUIRED_RECORD_FIELDS = ("source_id", "source_type", "origin", "license",
                           "access_date")
 
@@ -62,9 +70,39 @@ def complete_record(rec: Any) -> bool:
     return True
 
 
+def required_permissions(rec: dict[str, Any]) -> list[str]:
+    """The permission names that must be TRUE for this record to be clear.
+
+    - text, modification, caching, offline_use: the app's corpus contract
+      needs them on every recipe;
+    - attribution: required unless the expression is a FridgeLuck original
+      (derived or open-licence works — government OGL text included — must
+      attribute);
+    - images: required when the record indicates images actually ship
+      (truthy ``has_images``). A record that ships no images may keep
+      images=false and still be contract-valid.
+    """
+    needed = list(APP_REQUIRED_PERMISSIONS)
+    if str(rec.get("source_type", "")) not in ORIGINAL_SOURCE_TYPES:
+        needed.append("attribution")
+    if rec.get("has_images"):
+        needed.append("images")
+    return needed
+
+
 def record_status(rec: Any) -> tuple[str, str]:
-    """Return (status, reason) for one rights record; quarantine fail-closes."""
+    """Return (status, reason) for one rights record; quarantine fail-closes.
+
+    Rights-clear requires EVERY needed permission affirmative: one denied or
+    absent permission fails and the record is quarantined. A record can no
+    longer become clear with every permission false or missing."""
     if complete_record(rec):
+        perms = rec.get("permissions", {})
+        denied = [p for p in required_permissions(rec) if perms.get(p) is not True]
+        if denied:
+            return "quarantined", (
+                f"required permission(s) {denied} denied or unknown "
+                "(SPEC 3.5: rights-clear requires every needed permission affirmative)")
         return "clear", "complete rights evidence in manifest"
     if not isinstance(rec, dict):
         return "quarantined", "malformed rights record"
