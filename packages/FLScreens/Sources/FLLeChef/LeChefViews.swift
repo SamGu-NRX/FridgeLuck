@@ -75,9 +75,10 @@ public struct LeChefView: View {
             case .cancelled:
                 cancelledSurface
             }
-            if let overlay = lookOverlay {
-                overlay
-            }
+            // lookOverlay is a non-optional view — it renders EmptyView
+            // when no look is open — so the body uses it directly; an
+            // `if let` on it would not compile.
+            lookOverlay
         }
         // The cook surface pins the cook palette — a cook-mode object
         // does not recolour per ambient scheme. The environment follows

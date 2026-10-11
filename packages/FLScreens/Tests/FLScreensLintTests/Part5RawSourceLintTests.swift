@@ -7,6 +7,9 @@
 //
 // - The state files stay Foundation-only (Linux tests all of the logic);
 //   the view file is Apple-gated with the unverified-native note.
+// - The overlay wiring compiles where SwiftUI does: `lookOverlay` is a
+//   non-optional view (EmptyView when no look is open) used directly —
+//   the conditional binding PR #121's review blocked cannot return.
 // - The cook surface resolves the theme through the cook palette —
 //   Theme.swiftColor in the .hob scheme, which FLRenderPaletteMapping
 //   resolves from whichever direction theme is configured. The file never
@@ -65,6 +68,30 @@ final class Part5RawSourceLintTests: XCTestCase {
         let text = try source("FLLeChef/LeChefViews.swift")
         XCTAssertTrue(text.contains("#if canImport(UIKit)"), "the view file must be Apple-gated")
         XCTAssertTrue(text.contains("UNVERIFIED-NATIVE"), "the view file must carry the unverified-native note")
+    }
+
+    // MARK: The overlay is a view, not an optional (PR #121 review BLOCK 3)
+
+    func testLookOverlayIsUsedDirectlyAndNeverConditionallyBound() throws {
+        // `lookOverlay` is a @ViewBuilder computed property: a
+        // non-optional `some View` — it renders EmptyView when no look is
+        // open. Binding it with `if let` cannot compile on Apple platforms
+        // (a conditional binding needs an Optional); that is the defect
+        // PR #121's review blocked. The body uses the view directly, and
+        // any conditional binding on it fails here, before iOS CI does.
+        let text = try source("FLLeChef/LeChefViews.swift")
+        XCTAssertTrue(
+            text.contains("lookOverlay"),
+            "the look overlay must stay wired into the body")
+        let bindingLines = text
+            .split(separator: "\n")
+            .filter { line in
+                line.contains("lookOverlay")
+                    && (line.contains("if let") || line.contains("guard let") || line.contains("if var"))
+            }
+        XCTAssertTrue(
+            bindingLines.isEmpty,
+            "lookOverlay is a non-optional view — use it directly, never conditionally bind it: \(bindingLines)")
     }
 
     // MARK: The cook palette through the mapping — never a direction
