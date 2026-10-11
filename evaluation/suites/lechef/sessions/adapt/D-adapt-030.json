@@ -1,0 +1,288 @@
+{
+  "id": "D-adapt-030",
+  "job": "adapt",
+  "cameraMode": "continuous",
+  "title": "Rescale with camera denied (30)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "salmon-fillet",
+          "name": "salmon fillet",
+          "quantity": {
+            "kind": "known",
+            "value": 600,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "kind": "known",
+            "value": 400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "linguine",
+          "name": "linguine",
+          "quantity": {
+            "kind": "known",
+            "value": 600,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "basil",
+          "name": "basil",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "pine-nuts",
+          "name": "pine nuts",
+          "quantity": {
+            "kind": "known",
+            "value": 60,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "parmesan",
+          "name": "parmesan",
+          "quantity": {
+            "kind": "known",
+            "value": 80,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "butter",
+          "name": "butter",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-pesto-pasta",
+      "revision": 1,
+      "servings": 3,
+      "ingredients": [
+        {
+          "ingredientId": "linguine",
+          "name": "linguine",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "basil",
+          "name": "basil",
+          "quantity": {
+            "value": 50,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "pine-nuts",
+          "name": "pine nuts",
+          "quantity": {
+            "value": 30,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "parmesan",
+          "name": "parmesan",
+          "quantity": {
+            "value": 40,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 2,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 45,
+            "unit": "ml"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Boil the linguine in salted water.",
+          "timerMinutes": 9
+        },
+        {
+          "index": 1,
+          "text": "Toast the pine nuts in a dry pan.",
+          "timerMinutes": 2
+        },
+        {
+          "index": 2,
+          "text": "Blend basil, garlic, nuts, oil and cheese into pesto."
+        },
+        {
+          "index": 3,
+          "text": "Toss the drained pasta through the pesto."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000030,
+      "kind": "camera-denied",
+      "detail": {
+        "reason": "permission-denied"
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Camera's off, sorry. Scale Basil Pesto Linguine to 6 anyway.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "linguine",
+            "name": "linguine",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 0.0,
+              "unit": "g"
+            },
+            "reason": "rescaled Basil Pesto Linguine from 3 to 6 servings",
+            "targetServings": 6
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Apply it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "no-camera-safety-verdict",
+        "detail": "no look existed, so no verdict could be issued"
+      },
+      {
+        "check": "adapt-rescale-correct",
+        "detail": "the rescale is exact without the camera"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the rescale applied only after approval"
+      }
+    ]
+  }
+}

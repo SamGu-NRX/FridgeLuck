@@ -1,0 +1,295 @@
+{
+  "id": "D-adapt-010",
+  "job": "adapt",
+  "cameraMode": "continuous",
+  "title": "Rescale with unknown quantity (10)",
+  "scenario": {
+    "pantry": {
+      "revision": 2,
+      "items": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "unknown"
+          },
+          "state": "quantity-unknown",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "kind": "known",
+            "value": 1600,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "tofu",
+          "name": "firm tofu",
+          "quantity": {
+            "kind": "unknown"
+          },
+          "state": "quantity-unknown",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "unknown"
+          },
+          "state": "quantity-unknown",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 4,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 1600,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "spinach",
+          "name": "spinach",
+          "quantity": {
+            "kind": "known",
+            "value": 300,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "bok-choy",
+          "name": "bok choy",
+          "quantity": {
+            "kind": "known",
+            "value": 400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "sesame-oil",
+          "name": "sesame oil",
+          "quantity": {
+            "kind": "known",
+            "value": 200,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "jasmine-rice",
+          "name": "jasmine rice",
+          "quantity": {
+            "kind": "known",
+            "value": 2000,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 3,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-chickpea-curry",
+      "revision": 1,
+      "servings": 4,
+      "ingredients": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "value": 480,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "value": 400,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "spinach",
+          "name": "spinach",
+          "quantity": {
+            "value": 150,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Sauté the onion until soft.",
+          "timerMinutes": 5
+        },
+        {
+          "index": 1,
+          "text": "Simmer with tomatoes and coconut milk.",
+          "timerMinutes": 15
+        },
+        {
+          "index": 2,
+          "text": "Wilt in the spinach and season.",
+          "timerMinutes": 2
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Scale Chickpea Coconut Curry to 8 servings — the app couldn't read how much chickpeas I have, work with that.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "coconut-milk",
+            "name": "coconut milk",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 800.0,
+              "unit": "ml"
+            },
+            "reason": "rescaled Chickpea Coconut Curry from 4 to 8 servings",
+            "targetServings": 8
+          }
+        },
+        {
+          "id": "sc",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "chickpeas",
+            "name": "chickpeas",
+            "observedState": "needs-reconfirming",
+            "reason": "could not read the quantity before the rescale"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Apply it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "adapt-rescale-correct",
+        "detail": "the rescale is exact and honest about the unknown pantry quantity"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the rescale applied only after approval"
+      }
+    ]
+  }
+}

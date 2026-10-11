@@ -1,0 +1,223 @@
+{
+  "sessionId": "D-plan-001",
+  "job": "plan",
+  "cameraMode": "push-to-look",
+  "design": "unset",
+  "turns": [
+    {
+      "i": 0,
+      "role": "user",
+      "text": "What should I cook this week? The spinach should go first.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "ml0",
+        "ml1",
+        "ml2"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 2,
+      "role": "user",
+      "text": "That works \u2014 keep it.",
+      "toolCallIds": [],
+      "prompted": false
+    }
+  ],
+  "toolCalls": [
+    {
+      "id": "ml0",
+      "name": "proposeMealLog",
+      "args": {
+        "recipeId": "r-chickpea-curry",
+        "revision": 1,
+        "servings": 4,
+        "sourcedFrom": "voice",
+        "ingredientIds": [
+          "chickpeas",
+          "coconut-milk",
+          "onion",
+          "canned-tomatoes",
+          "spinach"
+        ]
+      },
+      "result": {
+        "proposalId": "proposal-0001",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    },
+    {
+      "id": "ml1",
+      "name": "proposeMealLog",
+      "args": {
+        "recipeId": "r-bean-tacos",
+        "revision": 1,
+        "servings": 3,
+        "sourcedFrom": "voice",
+        "ingredientIds": [
+          "tortillas",
+          "black-beans",
+          "onion",
+          "cheddar",
+          "lime"
+        ]
+      },
+      "result": {
+        "proposalId": "proposal-0002",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    },
+    {
+      "id": "ml2",
+      "name": "proposeMealLog",
+      "args": {
+        "recipeId": "r-tofu-stirfry",
+        "revision": 1,
+        "servings": 2,
+        "sourcedFrom": "voice",
+        "ingredientIds": [
+          "tofu",
+          "bok-choy",
+          "soy-sauce",
+          "sesame-oil",
+          "jasmine-rice"
+        ]
+      },
+      "result": {
+        "proposalId": "proposal-0003",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "proposal-0001",
+      "tool": "proposeMealLog",
+      "payload": {
+        "kind": "mealLog",
+        "recipeId": "r-chickpea-curry",
+        "revision": 1,
+        "servings": 4,
+        "swaps": [],
+        "sourcedFrom": "voice"
+      },
+      "payloadHash": "f9392f11ef96f9179f941169e3bfc8ce5b826c6da9752ba0c7aa37425e8c08bf",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    },
+    {
+      "id": "proposal-0002",
+      "tool": "proposeMealLog",
+      "payload": {
+        "kind": "mealLog",
+        "recipeId": "r-bean-tacos",
+        "revision": 1,
+        "servings": 3,
+        "swaps": [],
+        "sourcedFrom": "voice"
+      },
+      "payloadHash": "323f7cd5ef605dbbb4e8b55e116dface07da133b16e6401deeb45d3af81c8102",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    },
+    {
+      "id": "proposal-0003",
+      "tool": "proposeMealLog",
+      "payload": {
+        "kind": "mealLog",
+        "recipeId": "r-tofu-stirfry",
+        "revision": 1,
+        "servings": 2,
+        "swaps": [],
+        "sourcedFrom": "voice"
+      },
+      "payloadHash": "ff21b06d25fdc58c0d54e4eeecdd3bf121420d505ab20a486473737f60aa93dc",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    }
+  ],
+  "receipts": [
+    {
+      "proposalID": "proposal-0001",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "proposalID": "proposal-0002",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "proposalID": "proposal-0003",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    }
+  ],
+  "timers": [],
+  "events": [
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    }
+  ],
+  "answers": [],
+  "camera": [],
+  "usage": {
+    "turns": 3,
+    "textTokensIn": 21,
+    "textTokensOut": 0,
+    "audioSeconds": 0,
+    "framesSent": 0,
+    "connectedSeconds": 0
+  }
+}

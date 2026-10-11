@@ -1,0 +1,206 @@
+{
+  "id": "D-remember-007",
+  "job": "remember",
+  "cameraMode": "push-to-look",
+  "title": "Note after an approved swap (7)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "pine-nuts",
+          "name": "pine nuts",
+          "quantity": {
+            "kind": "known",
+            "value": 0,
+            "unit": "g"
+          },
+          "state": "short",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false,
+          "shortBy": 10
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-pesto-pasta",
+      "revision": 1,
+      "servings": 3,
+      "ingredients": [
+        {
+          "ingredientId": "linguine",
+          "name": "linguine",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "basil",
+          "name": "basil",
+          "quantity": {
+            "value": 50,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "pine-nuts",
+          "name": "pine nuts",
+          "quantity": {
+            "value": 30,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "parmesan",
+          "name": "parmesan",
+          "quantity": {
+            "value": 40,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 2,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 45,
+            "unit": "ml"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Boil the linguine in salted water.",
+          "timerMinutes": 9
+        },
+        {
+          "index": 1,
+          "text": "Toast the pine nuts in a dry pan.",
+          "timerMinutes": 2
+        },
+        {
+          "index": 2,
+          "text": "Blend basil, garlic, nuts, oil and cheese into pesto."
+        },
+        {
+          "index": 3,
+          "text": "Toss the drained pasta through the pesto."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Before I forget — swap pine nuts for pumpkin-seed pesto in Basil Pesto Linguine.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "pine-nuts",
+            "name": "pine nuts",
+            "observedState": "short",
+            "reason": "replaced by pumpkin-seed pesto for this cook",
+            "swapTo": "pumpkin-seed-pesto"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Yes, and save a note: Seed pesto passed the taste test.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t2",
+          "name": "proposeSaveNote",
+          "args": {
+            "text": "Seed pesto passed the taste test",
+            "scope": "cook"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Saved — good.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the note was saved with an executed receipt"
+      },
+      {
+        "check": "allergen-safe-swap-or-refusal",
+        "detail": "the swap executed safely"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "both actions executed only after approval"
+      }
+    ]
+  }
+}

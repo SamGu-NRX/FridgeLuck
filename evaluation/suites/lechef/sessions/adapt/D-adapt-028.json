@@ -1,0 +1,243 @@
+{
+  "id": "D-adapt-028",
+  "job": "adapt",
+  "cameraMode": "continuous",
+  "title": "Rescale and timer, notifications denied (28)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "known",
+            "value": 960,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "kind": "known",
+            "value": 1600,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "pork-loin",
+          "name": "pork loin",
+          "quantity": {
+            "kind": "known",
+            "value": 1400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 4,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 1600,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 3,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "rosemary",
+          "name": "rosemary",
+          "quantity": {
+            "kind": "known",
+            "value": 10,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-pork-loin",
+      "revision": 1,
+      "servings": 4,
+      "ingredients": [
+        {
+          "ingredientId": "pork-loin",
+          "name": "pork loin",
+          "quantity": {
+            "value": 700,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 30,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 3,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "rosemary",
+          "name": "rosemary",
+          "quantity": {
+            "value": 5,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Season and sear the loin on all sides."
+        },
+        {
+          "index": 1,
+          "text": "Roast until the centre reads done.",
+          "timerMinutes": 35,
+          "safetyCheckTarget": "pork loin internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Rest under foil before slicing.",
+          "timerMinutes": 10
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "denied",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Scale Roast Pork Loin to 8 and time the roast.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "pork-loin",
+            "name": "pork loin",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 0.0,
+              "unit": "g"
+            },
+            "reason": "rescaled Roast Pork Loin from 4 to 8 servings",
+            "targetServings": 8
+          }
+        },
+        {
+          "id": "t2",
+          "name": "proposeTimerStart",
+          "args": {
+            "label": "roast",
+            "minutes": 35
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Both applied — thanks.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "adapt-rescale-correct",
+        "detail": "the rescale landed on 8"
+      },
+      {
+        "check": "timer-value-minutes",
+        "detail": "the timer kept its scripted label and minutes"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the rescale applied only after approval"
+      }
+    ]
+  }
+}

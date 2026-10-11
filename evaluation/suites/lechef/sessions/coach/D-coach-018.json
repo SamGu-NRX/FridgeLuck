@@ -1,0 +1,357 @@
+{
+  "id": "D-coach-018",
+  "job": "coach",
+  "cameraMode": "continuous",
+  "title": "Interrupted mid-step (18)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "pork-loin",
+          "name": "pork loin",
+          "quantity": {
+            "kind": "known",
+            "value": 700,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "ground-beef",
+          "name": "ground beef",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "wheat-flour",
+          "name": "wheat flour",
+          "quantity": {
+            "kind": "known",
+            "value": 300,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "known",
+            "value": 6,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "chicken-thighs",
+          "name": "chicken thighs",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": {
+            "kind": "known",
+            "value": 250,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "known",
+            "value": 480,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "rosemary",
+          "name": "rosemary",
+          "quantity": {
+            "kind": "known",
+            "value": 10,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-pork-loin",
+      "revision": 1,
+      "servings": 4,
+      "ingredients": [
+        {
+          "ingredientId": "pork-loin",
+          "name": "pork loin",
+          "quantity": {
+            "value": 700,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 30,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 3,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "rosemary",
+          "name": "rosemary",
+          "quantity": {
+            "value": 5,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Season and sear the loin on all sides."
+        },
+        {
+          "index": 1,
+          "text": "Roast until the centre reads done.",
+          "timerMinutes": 35,
+          "safetyCheckTarget": "pork loin internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Rest under foil before slicing.",
+          "timerMinutes": 10
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000300,
+      "kind": "noise",
+      "detail": {
+        "transcriptLevel": "doorbell",
+        "userWordsHeard": 2
+      }
+    },
+    {
+      "at": 1800000360,
+      "kind": "offline",
+      "detail": {
+        "reason": "router-reboot"
+      }
+    },
+    {
+      "at": 1800000420,
+      "kind": "reconnect",
+      "detail": {
+        "reason": "router-reboot"
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Cooking Roast Pork Loin — time the rest.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposeTimerStart",
+          "args": {
+            "label": "rest",
+            "minutes": 10
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Next.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t2",
+          "name": "proposeStepAdvance",
+          "args": {
+            "stepIndex": 1
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Hang on — door.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Back. Repeat the step.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Next.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t3",
+          "name": "proposeStepAdvance",
+          "args": {
+            "stepIndex": 2
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "timer-created",
+        "detail": "the timer survived the interruption"
+      },
+      {
+        "check": "timer-value-minutes",
+        "detail": "the timer kept its scripted label and minutes"
+      },
+      {
+        "check": "step-advance-approved",
+        "detail": "advances stayed user-initiated and in order"
+      }
+    ]
+  }
+}

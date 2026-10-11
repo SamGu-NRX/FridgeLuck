@@ -1,0 +1,275 @@
+{
+  "id": "D-coach-014",
+  "job": "coach",
+  "cameraMode": "continuous",
+  "title": "Misheard timer (14)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "tofu",
+          "name": "firm tofu",
+          "quantity": {
+            "kind": "known",
+            "value": 300,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "bok-choy",
+          "name": "bok choy",
+          "quantity": {
+            "kind": "known",
+            "value": 200,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": {
+            "kind": "known",
+            "value": 250,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "sesame-oil",
+          "name": "sesame oil",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "jasmine-rice",
+          "name": "jasmine rice",
+          "quantity": {
+            "kind": "known",
+            "value": 1000,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "known",
+            "value": 480,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "spinach",
+          "name": "spinach",
+          "quantity": {
+            "kind": "known",
+            "value": 150,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-chickpea-curry",
+      "revision": 1,
+      "servings": 4,
+      "ingredients": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "value": 480,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "value": 400,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "spinach",
+          "name": "spinach",
+          "quantity": {
+            "value": 150,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Sauté the onion until soft.",
+          "timerMinutes": 5
+        },
+        {
+          "index": 1,
+          "text": "Simmer with tomatoes and coconut milk.",
+          "timerMinutes": 15
+        },
+        {
+          "index": 2,
+          "text": "Wilt in the spinach and season.",
+          "timerMinutes": 2
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000090,
+      "kind": "noise",
+      "detail": {
+        "transcriptLevel": "extractor-fan",
+        "userWordsHeard": 5
+      }
+    },
+    {
+      "at": 1800000120,
+      "kind": "ambiguous-voice",
+      "detail": {
+        "utterance": "timer for fivteen minutes",
+        "inVocabulary": true
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Start the simmer timer — timer for fivteen minutes.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposeTimerStart",
+          "args": {
+            "label": "simmer",
+            "minutes": 15
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Great.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "timer-created",
+        "detail": "the timer exists despite the mishearing"
+      },
+      {
+        "check": "timer-value-minutes",
+        "detail": "the timer resolved to the reviewed 15 minutes"
+      }
+    ]
+  }
+}

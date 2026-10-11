@@ -1,0 +1,296 @@
+{
+  "id": "D-adapt-012",
+  "job": "adapt",
+  "cameraMode": "continuous",
+  "title": "Rescale with unknown quantity (12)",
+  "scenario": {
+    "pantry": {
+      "revision": 2,
+      "items": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "unknown"
+          },
+          "state": "quantity-unknown",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "kind": "known",
+            "value": 1600,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "tofu",
+          "name": "firm tofu",
+          "quantity": {
+            "kind": "unknown"
+          },
+          "state": "quantity-unknown",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "unknown"
+          },
+          "state": "quantity-unknown",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 4,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 1600,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "spinach",
+          "name": "spinach",
+          "quantity": {
+            "kind": "known",
+            "value": 300,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "bok-choy",
+          "name": "bok choy",
+          "quantity": {
+            "kind": "known",
+            "value": 400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "sesame-oil",
+          "name": "sesame oil",
+          "quantity": {
+            "kind": "known",
+            "value": 200,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "jasmine-rice",
+          "name": "jasmine rice",
+          "quantity": {
+            "kind": "known",
+            "value": 2000,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 3,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-shakshuka",
+      "revision": 1,
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "value": 4,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "value": 400,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "bell-pepper",
+          "name": "bell pepper",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 2,
+            "unit": "clove"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Soften the onion and pepper.",
+          "timerMinutes": 5
+        },
+        {
+          "index": 1,
+          "text": "Simmer the tomato sauce.",
+          "timerMinutes": 10
+        },
+        {
+          "index": 2,
+          "text": "Poach the eggs in wells of the sauce.",
+          "timerMinutes": 6,
+          "safetyCheckTarget": "egg dish internal temperature"
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Scale Shakshuka for Two to 4 servings — the app couldn't read how much chickpeas I have, work with that.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "canned-tomatoes",
+            "name": "canned tomatoes",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 800.0,
+              "unit": "g"
+            },
+            "reason": "rescaled Shakshuka for Two from 2 to 4 servings",
+            "targetServings": 4
+          }
+        },
+        {
+          "id": "sc",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "eggs",
+            "name": "eggs",
+            "observedState": "needs-reconfirming",
+            "reason": "could not read the quantity before the rescale"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Apply it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "adapt-rescale-correct",
+        "detail": "the rescale is exact and honest about the unknown pantry quantity"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the rescale applied only after approval"
+      }
+    ]
+  }
+}

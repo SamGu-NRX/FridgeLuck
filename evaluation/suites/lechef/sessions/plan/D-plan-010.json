@@ -1,0 +1,248 @@
+{
+  "id": "D-plan-010",
+  "job": "plan",
+  "cameraMode": "continuous",
+  "title": "Short pantry gets a starter list (10)",
+  "scenario": {
+    "pantry": {
+      "revision": 3,
+      "items": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "known",
+            "value": 200,
+            "unit": "g"
+          },
+          "state": "short",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false,
+          "shortBy": 280
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 200,
+            "unit": "g"
+          },
+          "state": "short",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false,
+          "shortBy": 200
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "kind": "known",
+            "value": 400,
+            "unit": "ml"
+          },
+          "state": "short",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false,
+          "shortBy": 0
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-bean-tacos",
+      "revision": 1,
+      "servings": 3,
+      "ingredients": [
+        {
+          "ingredientId": "tortillas",
+          "name": "tortillas",
+          "quantity": {
+            "value": 6,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "black-beans",
+          "name": "black beans",
+          "quantity": {
+            "value": 400,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "cheddar",
+          "name": "cheddar",
+          "quantity": {
+            "value": 80,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lime",
+          "name": "lime",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Warm the beans with the onion.",
+          "timerMinutes": 6
+        },
+        {
+          "index": 1,
+          "text": "Char the tortillas in a dry pan.",
+          "timerMinutes": 2
+        },
+        {
+          "index": 2,
+          "text": "Assemble with cheese and lime."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "I want the Black Bean Tacos this week but I'm missing things — plan three dinners and tell me what to buy.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "ml0",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-shakshuka",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "eggs",
+              "canned-tomatoes",
+              "onion",
+              "bell-pepper",
+              "garlic"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-salmon",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "salmon-fillet",
+              "lemon",
+              "green-beans",
+              "butter"
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Add that starter list to my shopping list.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t2",
+          "name": "proposeSaveNote",
+          "args": {
+            "text": "Shopping list: chickpeas, coconut milk, canned tomatoes, spinach, onion, lime, tortillas",
+            "scope": "cook"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Saved — thanks.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the starter list reached the phone only via an approved, receipted note"
+      },
+      {
+        "check": "plan-size-3-4",
+        "detail": "three dinners, inside the 3-4 bar"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the list reaches the phone only via an approved proposal"
+      }
+    ]
+  }
+}

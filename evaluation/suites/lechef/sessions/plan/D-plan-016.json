@@ -1,0 +1,442 @@
+{
+  "id": "D-plan-016",
+  "job": "plan",
+  "cameraMode": "continuous",
+  "title": "Third rejection gets a question (16)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "known",
+            "value": 6,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-chickpea-curry",
+      "revision": 1,
+      "servings": 4,
+      "ingredients": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "value": 480,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "value": 400,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "spinach",
+          "name": "spinach",
+          "quantity": {
+            "value": 150,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Sauté the onion until soft.",
+          "timerMinutes": 5
+        },
+        {
+          "index": 1,
+          "text": "Simmer with tomatoes and coconut milk.",
+          "timerMinutes": 15
+        },
+        {
+          "index": 2,
+          "text": "Wilt in the spinach and season.",
+          "timerMinutes": 2
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000600,
+      "kind": "third-rejection",
+      "detail": {
+        "rejectionCount": 3
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Plan three dinners for this week.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "ml0",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "No — not this one.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "ml0-r2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Still no.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "ml0-r3",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r3",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r3",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "No. Stop guessing.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "text": "Before I plan again — what should I honour: time, budget, or ingredients you already have?"
+    },
+    {
+      "role": "user",
+      "text": "Mostly time — I have 30 minutes on weeknights.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "ml0-r4",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r4",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r4",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "plan-third-rejection-constraint",
+        "detail": "no fourth plan is executed after the third rejection; the model asks what constraint to honour"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "every rejected plan stays rejected; nothing executes"
+      }
+    ]
+  }
+}

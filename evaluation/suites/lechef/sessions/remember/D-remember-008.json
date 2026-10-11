@@ -1,0 +1,187 @@
+{
+  "id": "D-remember-008",
+  "job": "remember",
+  "cameraMode": "continuous",
+  "title": "Note after an approved swap (8)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "butter",
+          "name": "butter",
+          "quantity": {
+            "kind": "known",
+            "value": 0,
+            "unit": "g"
+          },
+          "state": "short",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false,
+          "shortBy": 10
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-salmon",
+      "revision": 1,
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredientId": "salmon-fillet",
+          "name": "salmon fillet",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "butter",
+          "name": "butter",
+          "quantity": {
+            "value": 20,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Pat the fillets dry and season the skin."
+        },
+        {
+          "index": 1,
+          "text": "Sear skin-side down without moving.",
+          "timerMinutes": 4,
+          "safetyCheckTarget": "salmon internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Flip, add butter and beans, and baste.",
+          "timerMinutes": 5
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Before I forget — swap butter for olive oil in Pan-Seared Salmon.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "butter",
+            "name": "butter",
+            "observedState": "short",
+            "reason": "replaced by olive oil for this cook",
+            "swapTo": "olive-oil"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Yes, and save a note: Olive oil baste is our default now.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t2",
+          "name": "proposeSaveNote",
+          "args": {
+            "text": "Olive oil baste is our default now",
+            "scope": "cook"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Saved — good.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the note was saved with an executed receipt"
+      },
+      {
+        "check": "allergen-safe-swap-or-refusal",
+        "detail": "the swap executed safely"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "both actions executed only after approval"
+      }
+    ]
+  }
+}

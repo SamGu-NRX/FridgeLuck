@@ -1,0 +1,238 @@
+{
+  "id": "D-plan-030",
+  "job": "plan",
+  "cameraMode": "continuous",
+  "title": "Needs-reconfirming pantry asked first (30)",
+  "scenario": {
+    "pantry": {
+      "revision": 4,
+      "items": [
+        {
+          "ingredientId": "salmon-fillet",
+          "name": "salmon fillet",
+          "quantity": {
+            "kind": "known",
+            "value": 300,
+            "unit": "g"
+          },
+          "state": "needs-reconfirming",
+          "lastConfirmedAt": 1798185600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "chicken-thighs",
+          "name": "chicken thighs",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "needs-reconfirming",
+          "lastConfirmedAt": 1797408000,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "jasmine-rice",
+          "name": "jasmine rice",
+          "quantity": {
+            "kind": "known",
+            "value": 1000,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-salmon",
+      "revision": 1,
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredientId": "salmon-fillet",
+          "name": "salmon fillet",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "butter",
+          "name": "butter",
+          "quantity": {
+            "value": 20,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Pat the fillets dry and season the skin."
+        },
+        {
+          "index": 1,
+          "text": "Sear skin-side down without moving.",
+          "timerMinutes": 4,
+          "safetyCheckTarget": "salmon internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Flip, add butter and beans, and baste.",
+          "timerMinutes": 5
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Plan three dinners. The app says some pantry items need reconfirming.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Yes — I checked yesterday, both are fine.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "ml0",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-salmon",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "salmon-fillet",
+              "lemon",
+              "green-beans",
+              "butter"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-shakshuka",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "eggs",
+              "canned-tomatoes",
+              "onion",
+              "bell-pepper",
+              "garlic"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Great — keep that plan.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "plan-size-3-4",
+        "detail": "three dinners, inside the 3-4 bar"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the plan changed nothing on the phone"
+      }
+    ]
+  }
+}
