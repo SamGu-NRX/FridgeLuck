@@ -1,0 +1,8 @@
+{
+  "id": "lechef",
+  "letter": "D",
+  "title": "LeChef",
+  "owner_task": "fl-lechef-f1",
+  "platform": "any",
+  "timeout_s": 3600
+}

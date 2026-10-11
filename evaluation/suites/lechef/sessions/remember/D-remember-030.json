@@ -1,0 +1,173 @@
+{
+  "id": "D-remember-030",
+  "job": "remember",
+  "cameraMode": "continuous",
+  "title": "The word \"ok\" saves nothing (30)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "salmon-fillet",
+          "name": "salmon fillet",
+          "quantity": {
+            "kind": "known",
+            "value": 300,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "lime",
+          "name": "lime",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-bean-tacos",
+      "revision": 1,
+      "servings": 3,
+      "ingredients": [
+        {
+          "ingredientId": "tortillas",
+          "name": "tortillas",
+          "quantity": {
+            "value": 6,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "black-beans",
+          "name": "black beans",
+          "quantity": {
+            "value": 400,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "cheddar",
+          "name": "cheddar",
+          "quantity": {
+            "value": 80,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lime",
+          "name": "lime",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Warm the beans with the onion.",
+          "timerMinutes": 6
+        },
+        {
+          "index": 1,
+          "text": "Char the tortillas in a dry pan.",
+          "timerMinutes": 2
+        },
+        {
+          "index": 2,
+          "text": "Assemble with cheese and lime."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000045,
+      "kind": "ambiguous-voice",
+      "detail": {
+        "utterance": "ok",
+        "inVocabulary": false
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Remember: Lime at the table, not in the pan.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "saveCookNote",
+          "args": {
+            "note": "Lime at the table, not in the pan"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Ok.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "oov"
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Yes, save it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "out-of-vocabulary-noop",
+        "detail": "the bare word \"ok\" triggered no tool calls"
+      },
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the note was saved with an executed receipt"
+      }
+    ]
+  }
+}

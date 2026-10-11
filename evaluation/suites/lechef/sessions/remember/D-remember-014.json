@@ -1,0 +1,193 @@
+{
+  "id": "D-remember-014",
+  "job": "remember",
+  "cameraMode": "continuous",
+  "title": "Noisy dictation read back (14)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "cheddar",
+          "name": "cheddar",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "known",
+            "value": 6,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-bean-tacos",
+      "revision": 1,
+      "servings": 3,
+      "ingredients": [
+        {
+          "ingredientId": "tortillas",
+          "name": "tortillas",
+          "quantity": {
+            "value": 6,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "black-beans",
+          "name": "black beans",
+          "quantity": {
+            "value": 400,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "cheddar",
+          "name": "cheddar",
+          "quantity": {
+            "value": 80,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lime",
+          "name": "lime",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Warm the beans with the onion.",
+          "timerMinutes": 6
+        },
+        {
+          "index": 1,
+          "text": "Char the tortillas in a dry pan.",
+          "timerMinutes": 2
+        },
+        {
+          "index": 2,
+          "text": "Assemble with cheese and lime."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000060,
+      "kind": "noise",
+      "detail": {
+        "transcriptLevel": "extractor-fan",
+        "userWordsHeard": 3
+      }
+    },
+    {
+      "at": 1800000090,
+      "kind": "ambiguous-voice",
+      "detail": {
+        "utterance": "kids… liked it… mild",
+        "inVocabulary": true
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Remember: kids… liked it… mild.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Yes — Kids liked it mild.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "saveCookNote",
+          "args": {
+            "note": "Kids liked it mild"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Save it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the confirmed text was saved with a receipt"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the note saved only after explicit approval"
+      }
+    ]
+  }
+}

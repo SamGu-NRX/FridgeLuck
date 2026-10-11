@@ -1,0 +1,476 @@
+{
+  "id": "D-plan-015",
+  "job": "plan",
+  "cameraMode": "push-to-look",
+  "title": "Third rejection gets a question (15)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "known",
+            "value": 6,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-pesto-pasta",
+      "revision": 1,
+      "servings": 3,
+      "ingredients": [
+        {
+          "ingredientId": "linguine",
+          "name": "linguine",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "basil",
+          "name": "basil",
+          "quantity": {
+            "value": 50,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "pine-nuts",
+          "name": "pine nuts",
+          "quantity": {
+            "value": 30,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "parmesan",
+          "name": "parmesan",
+          "quantity": {
+            "value": 40,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 2,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 45,
+            "unit": "ml"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Boil the linguine in salted water.",
+          "timerMinutes": 9
+        },
+        {
+          "index": 1,
+          "text": "Toast the pine nuts in a dry pan.",
+          "timerMinutes": 2
+        },
+        {
+          "index": 2,
+          "text": "Blend basil, garlic, nuts, oil and cheese into pesto."
+        },
+        {
+          "index": 3,
+          "text": "Toss the drained pasta through the pesto."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000600,
+      "kind": "third-rejection",
+      "detail": {
+        "rejectionCount": 3
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Plan three dinners for this week.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposePlan",
+          "args": {
+            "dinners": [
+              {
+                "recipeId": "r-pesto-pasta",
+                "ingredientIds": [
+                  "linguine",
+                  "basil",
+                  "pine-nuts",
+                  "parmesan",
+                  "garlic",
+                  "olive-oil"
+                ]
+              },
+              {
+                "recipeId": "r-shakshuka",
+                "ingredientIds": [
+                  "eggs",
+                  "canned-tomatoes",
+                  "onion",
+                  "bell-pepper",
+                  "garlic"
+                ]
+              },
+              {
+                "recipeId": "r-salmon",
+                "ingredientIds": [
+                  "salmon-fillet",
+                  "lemon",
+                  "green-beans",
+                  "butter"
+                ]
+              }
+            ],
+            "shoppingList": [
+              {
+                "ingredientId": "garlic",
+                "name": "garlic",
+                "quantity": {
+                  "value": 1,
+                  "unit": "clove"
+                }
+              },
+              {
+                "ingredientId": "onion",
+                "name": "onion",
+                "quantity": {
+                  "value": 1,
+                  "unit": "piece"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "No — not this one.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1-r2",
+          "name": "proposePlan",
+          "args": {
+            "dinners": [
+              {
+                "recipeId": "r-pesto-pasta",
+                "ingredientIds": [
+                  "linguine",
+                  "basil",
+                  "pine-nuts",
+                  "parmesan",
+                  "garlic",
+                  "olive-oil"
+                ]
+              },
+              {
+                "recipeId": "r-shakshuka",
+                "ingredientIds": [
+                  "eggs",
+                  "canned-tomatoes",
+                  "onion",
+                  "bell-pepper",
+                  "garlic"
+                ]
+              },
+              {
+                "recipeId": "r-salmon",
+                "ingredientIds": [
+                  "salmon-fillet",
+                  "lemon",
+                  "green-beans",
+                  "butter"
+                ]
+              }
+            ],
+            "shoppingList": [
+              {
+                "ingredientId": "garlic",
+                "name": "garlic",
+                "quantity": {
+                  "value": 1,
+                  "unit": "clove"
+                }
+              },
+              {
+                "ingredientId": "onion",
+                "name": "onion",
+                "quantity": {
+                  "value": 1,
+                  "unit": "piece"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Still no.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1-r3",
+          "name": "proposePlan",
+          "args": {
+            "dinners": [
+              {
+                "recipeId": "r-pesto-pasta",
+                "ingredientIds": [
+                  "linguine",
+                  "basil",
+                  "pine-nuts",
+                  "parmesan",
+                  "garlic",
+                  "olive-oil"
+                ]
+              },
+              {
+                "recipeId": "r-shakshuka",
+                "ingredientIds": [
+                  "eggs",
+                  "canned-tomatoes",
+                  "onion",
+                  "bell-pepper",
+                  "garlic"
+                ]
+              },
+              {
+                "recipeId": "r-salmon",
+                "ingredientIds": [
+                  "salmon-fillet",
+                  "lemon",
+                  "green-beans",
+                  "butter"
+                ]
+              }
+            ],
+            "shoppingList": [
+              {
+                "ingredientId": "garlic",
+                "name": "garlic",
+                "quantity": {
+                  "value": 1,
+                  "unit": "clove"
+                }
+              },
+              {
+                "ingredientId": "onion",
+                "name": "onion",
+                "quantity": {
+                  "value": 1,
+                  "unit": "piece"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "No. Stop guessing.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Mostly time — I have 30 minutes on weeknights.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1-r4",
+          "name": "proposePlan",
+          "args": {
+            "dinners": [
+              {
+                "recipeId": "r-pesto-pasta",
+                "ingredientIds": [
+                  "linguine",
+                  "basil",
+                  "pine-nuts",
+                  "parmesan",
+                  "garlic",
+                  "olive-oil"
+                ]
+              },
+              {
+                "recipeId": "r-shakshuka",
+                "ingredientIds": [
+                  "eggs",
+                  "canned-tomatoes",
+                  "onion",
+                  "bell-pepper",
+                  "garlic"
+                ]
+              },
+              {
+                "recipeId": "r-salmon",
+                "ingredientIds": [
+                  "salmon-fillet",
+                  "lemon",
+                  "green-beans",
+                  "butter"
+                ]
+              }
+            ],
+            "shoppingList": [
+              {
+                "ingredientId": "garlic",
+                "name": "garlic",
+                "quantity": {
+                  "value": 1,
+                  "unit": "clove"
+                }
+              },
+              {
+                "ingredientId": "onion",
+                "name": "onion",
+                "quantity": {
+                  "value": 1,
+                  "unit": "piece"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "plan-third-rejection-constraint",
+        "detail": "no fourth plan is executed after the third rejection; the model asks what constraint to honour"
+      },
+      {
+        "check": "plan-size-3-4",
+        "detail": "the executed plans carry 3-4 dinners"
+      },
+      {
+        "check": "shopping-list-under-8",
+        "detail": "plan shopping lists stay under 8 items"
+      }
+    ]
+  }
+}

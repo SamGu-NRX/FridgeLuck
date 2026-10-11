@@ -1,0 +1,211 @@
+{
+  "id": "D-remember-011",
+  "job": "remember",
+  "cameraMode": "push-to-look",
+  "title": "Offline note (11)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "known",
+            "value": 480,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "basil",
+          "name": "basil",
+          "quantity": {
+            "kind": "known",
+            "value": 50,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "jasmine-rice",
+          "name": "jasmine rice",
+          "quantity": {
+            "kind": "known",
+            "value": 1000,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-pesto-pasta",
+      "revision": 1,
+      "servings": 3,
+      "ingredients": [
+        {
+          "ingredientId": "linguine",
+          "name": "linguine",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "basil",
+          "name": "basil",
+          "quantity": {
+            "value": 50,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "pine-nuts",
+          "name": "pine nuts",
+          "quantity": {
+            "value": 30,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "parmesan",
+          "name": "parmesan",
+          "quantity": {
+            "value": 40,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 2,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 45,
+            "unit": "ml"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Boil the linguine in salted water.",
+          "timerMinutes": 9
+        },
+        {
+          "index": 1,
+          "text": "Toast the pine nuts in a dry pan.",
+          "timerMinutes": 2
+        },
+        {
+          "index": 2,
+          "text": "Blend basil, garlic, nuts, oil and cheese into pesto."
+        },
+        {
+          "index": 3,
+          "text": "Toss the drained pasta through the pesto."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "offline"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000120,
+      "kind": "offline",
+      "detail": {
+        "reason": "cabin-no-service",
+        "recognition": "offline"
+      }
+    },
+    {
+      "at": 1800000540,
+      "kind": "reconnect",
+      "detail": {
+        "reason": "drive-home"
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "No signal here — remember for next time: No-signal dinner worked — pesto again next time.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "saveCookNote",
+          "args": {
+            "note": "No-signal dinner worked — pesto again next time"
+          }
+        }
+      ],
+      "cancelledToolCallIds": [],
+      "replayNote": "offline"
+    },
+    {
+      "role": "user",
+      "text": "Yes, save it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "offline-local-core",
+        "detail": "the note executed inside the offline window"
+      },
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the note was saved with an executed receipt"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the note saved only after explicit approval"
+      }
+    ]
+  }
+}

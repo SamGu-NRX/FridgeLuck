@@ -1,0 +1,453 @@
+{
+  "id": "D-plan-017",
+  "job": "plan",
+  "cameraMode": "push-to-look",
+  "title": "Third rejection gets a question (17)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "known",
+            "value": 6,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-meatballs",
+      "revision": 1,
+      "servings": 4,
+      "ingredients": [
+        {
+          "ingredientId": "ground-beef",
+          "name": "ground beef",
+          "quantity": {
+            "value": 500,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "wheat-flour",
+          "name": "wheat flour",
+          "quantity": {
+            "value": 30,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "eggs",
+          "name": "egg",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "value": 400,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Mix and roll the meatballs."
+        },
+        {
+          "index": 1,
+          "text": "Brown them all over.",
+          "timerMinutes": 8,
+          "safetyCheckTarget": "ground beef internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Simmer in the tomato sauce.",
+          "timerMinutes": 12
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000600,
+      "kind": "third-rejection",
+      "detail": {
+        "rejectionCount": 3
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Plan three dinners for this week.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposePlan",
+          "args": {
+            "dinners": [
+              {
+                "recipeId": "r-meatballs",
+                "ingredientIds": [
+                  "ground-beef",
+                  "wheat-flour",
+                  "eggs",
+                  "canned-tomatoes"
+                ]
+              },
+              {
+                "recipeId": "r-pork-loin",
+                "ingredientIds": [
+                  "pork-loin",
+                  "olive-oil",
+                  "garlic",
+                  "rosemary"
+                ]
+              },
+              {
+                "recipeId": "r-ginger-chicken",
+                "ingredientIds": [
+                  "chicken-thighs",
+                  "soy-sauce",
+                  "honey",
+                  "garlic",
+                  "jasmine-rice",
+                  "bok-choy"
+                ]
+              }
+            ],
+            "shoppingList": [
+              {
+                "ingredientId": "garlic",
+                "name": "garlic",
+                "quantity": {
+                  "value": 1,
+                  "unit": "clove"
+                }
+              },
+              {
+                "ingredientId": "onion",
+                "name": "onion",
+                "quantity": {
+                  "value": 1,
+                  "unit": "piece"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "No — not this one.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1-r2",
+          "name": "proposePlan",
+          "args": {
+            "dinners": [
+              {
+                "recipeId": "r-meatballs",
+                "ingredientIds": [
+                  "ground-beef",
+                  "wheat-flour",
+                  "eggs",
+                  "canned-tomatoes"
+                ]
+              },
+              {
+                "recipeId": "r-pork-loin",
+                "ingredientIds": [
+                  "pork-loin",
+                  "olive-oil",
+                  "garlic",
+                  "rosemary"
+                ]
+              },
+              {
+                "recipeId": "r-ginger-chicken",
+                "ingredientIds": [
+                  "chicken-thighs",
+                  "soy-sauce",
+                  "honey",
+                  "garlic",
+                  "jasmine-rice",
+                  "bok-choy"
+                ]
+              }
+            ],
+            "shoppingList": [
+              {
+                "ingredientId": "garlic",
+                "name": "garlic",
+                "quantity": {
+                  "value": 1,
+                  "unit": "clove"
+                }
+              },
+              {
+                "ingredientId": "onion",
+                "name": "onion",
+                "quantity": {
+                  "value": 1,
+                  "unit": "piece"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Still no.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1-r3",
+          "name": "proposePlan",
+          "args": {
+            "dinners": [
+              {
+                "recipeId": "r-meatballs",
+                "ingredientIds": [
+                  "ground-beef",
+                  "wheat-flour",
+                  "eggs",
+                  "canned-tomatoes"
+                ]
+              },
+              {
+                "recipeId": "r-pork-loin",
+                "ingredientIds": [
+                  "pork-loin",
+                  "olive-oil",
+                  "garlic",
+                  "rosemary"
+                ]
+              },
+              {
+                "recipeId": "r-ginger-chicken",
+                "ingredientIds": [
+                  "chicken-thighs",
+                  "soy-sauce",
+                  "honey",
+                  "garlic",
+                  "jasmine-rice",
+                  "bok-choy"
+                ]
+              }
+            ],
+            "shoppingList": [
+              {
+                "ingredientId": "garlic",
+                "name": "garlic",
+                "quantity": {
+                  "value": 1,
+                  "unit": "clove"
+                }
+              },
+              {
+                "ingredientId": "onion",
+                "name": "onion",
+                "quantity": {
+                  "value": 1,
+                  "unit": "piece"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "No. Stop guessing.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "replayNote": "rejection"
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Mostly time — I have 30 minutes on weeknights.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1-r4",
+          "name": "proposePlan",
+          "args": {
+            "dinners": [
+              {
+                "recipeId": "r-meatballs",
+                "ingredientIds": [
+                  "ground-beef",
+                  "wheat-flour",
+                  "eggs",
+                  "canned-tomatoes"
+                ]
+              },
+              {
+                "recipeId": "r-pork-loin",
+                "ingredientIds": [
+                  "pork-loin",
+                  "olive-oil",
+                  "garlic",
+                  "rosemary"
+                ]
+              },
+              {
+                "recipeId": "r-ginger-chicken",
+                "ingredientIds": [
+                  "chicken-thighs",
+                  "soy-sauce",
+                  "honey",
+                  "garlic",
+                  "jasmine-rice",
+                  "bok-choy"
+                ]
+              }
+            ],
+            "shoppingList": [
+              {
+                "ingredientId": "garlic",
+                "name": "garlic",
+                "quantity": {
+                  "value": 1,
+                  "unit": "clove"
+                }
+              },
+              {
+                "ingredientId": "onion",
+                "name": "onion",
+                "quantity": {
+                  "value": 1,
+                  "unit": "piece"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "plan-third-rejection-constraint",
+        "detail": "no fourth plan is executed after the third rejection; the model asks what constraint to honour"
+      },
+      {
+        "check": "plan-size-3-4",
+        "detail": "the executed plans carry 3-4 dinners"
+      },
+      {
+        "check": "shopping-list-under-8",
+        "detail": "plan shopping lists stay under 8 items"
+      }
+    ]
+  }
+}
