@@ -154,10 +154,14 @@ final class RenderTests: XCTestCase {
         try renderPNG("fit-meter-dark", size: CGSize(width: 320, height: 80), dark(fitMeter()))
         try renderPNG("fit-meter-xxl", size: CGSize(width: 360, height: 120), xxl(paper(fitMeter())))
 
-        // Quantity rows: three states + XXL.
+        // Quantity rows: the seven stock states + XXL.
         try renderPNG("quantity-row-have", size: CGSize(width: 360, height: 56), paper(quantityRow(.have)))
+        try renderPNG("quantity-row-short", size: CGSize(width: 360, height: 56), paper(quantityRow(.short)))
         try renderPNG("quantity-row-missing", size: CGSize(width: 360, height: 56), paper(quantityRow(.missing)))
         try renderPNG("quantity-row-unconfirmed", size: CGSize(width: 360, height: 56), paper(quantityRow(.unconfirmed)))
+        try renderPNG("quantity-row-unknown-quantity", size: CGSize(width: 360, height: 56), paper(quantityRow(.quantityUnknown)))
+        try renderPNG("quantity-row-assumed", size: CGSize(width: 360, height: 56), paper(quantityRow(.assumed)))
+        try renderPNG("quantity-row-stale", size: CGSize(width: 360, height: 56), paper(quantityRow(.stale)))
         try renderPNG("quantity-row-xxl", size: CGSize(width: 420, height: 96), xxl(paper(quantityRow(.unconfirmed))))
 
         // Timer tile: native hob, ambient paper (tile stays hob), paused, XXL.

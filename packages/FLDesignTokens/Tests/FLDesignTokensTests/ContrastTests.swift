@@ -167,4 +167,76 @@ final class ContrastTests: XCTestCase {
         XCTAssertEqual(dark.yolkInk, Theme.color(.yolkInk, in: .hob))
         XCTAssertEqual(dark.error, Theme.color(.error, in: .hob))
     }
+
+    // MARK: Component text roles — the actual uses, with the opacities applied
+
+    /// One meaningful text use in a shipped component: the role it applies,
+    /// the surface it sits on, the scheme it runs in, and any opacity the
+    /// component lays over the text. Contrast is checked per USE, not per
+    /// nominal pair — a role that is compliant in one component and dimmed
+    /// in another fails here.
+    private struct ComponentTextUse {
+        let use: String
+        let textRole: ColorRole
+        let background: ColorRole
+        let scheme: ColorScheme
+        /// Opacity the component applies to this text over its background
+        /// (1.0 = none). The effective colour is the alpha blend — what the
+        /// eye actually receives.
+        let opacity: Double
+
+        init(use: String, textRole: ColorRole, background: ColorRole,
+             scheme: ColorScheme, opacity: Double = 1.0) {
+            self.use = use
+            self.textRole = textRole
+            self.background = background
+            self.scheme = scheme
+            self.opacity = opacity
+        }
+    }
+
+    private static let componentTextUses: [ComponentTextUse] = [
+        // FLTimerTile — cook mode: digits, caption label, Paused label on hob bg.
+        ComponentTextUse(use: "FLTimerTile digits", textRole: .yolk, background: .bg, scheme: .hob),
+        ComponentTextUse(use: "FLTimerTile caption label", textRole: .ink2, background: .bg, scheme: .hob),
+        ComponentTextUse(use: "FLTimerTile Paused label", textRole: .ink2, background: .bg, scheme: .hob),
+        // FLCookCard — who·when caption and the note quote.
+        ComponentTextUse(use: "FLCookCard who·when caption", textRole: .ink2, background: .bg, scheme: .paper),
+        ComponentTextUse(use: "FLCookCard note quote", textRole: .ink, background: .bg, scheme: .paper),
+        // FLTasteSentence — evidence count and the rejected sentence (no dim).
+        ComponentTextUse(use: "FLTasteSentence evidence count", textRole: .ink2, background: .bg, scheme: .paper),
+        ComponentTextUse(use: "FLTasteSentence rejected sentence", textRole: .ink2, background: .bg, scheme: .paper),
+        // FLChip — both states in both ambient schemes.
+        ComponentTextUse(use: "FLChip selected", textRole: .yolkInk, background: .yolkSoft, scheme: .paper),
+        ComponentTextUse(use: "FLChip selected (dark)", textRole: .yolkInk, background: .yolkSoft, scheme: .dark),
+        ComponentTextUse(use: "FLChip unselected", textRole: .ink2, background: .bg, scheme: .paper),
+        // FLButton — the filled label and the chrome-less text-button label.
+        ComponentTextUse(use: "FLButton primary label", textRole: .bg, background: .ink, scheme: .paper),
+        ComponentTextUse(use: "FLButton text label", textRole: .ink, background: .bg, scheme: .paper),
+        // Rows, meters, section labels.
+        ComponentTextUse(use: "FLQuantityRow quantity", textRole: .ink2, background: .bg, scheme: .paper),
+        ComponentTextUse(use: "FLFitMeter count", textRole: .ink, background: .bg, scheme: .paper),
+        ComponentTextUse(use: "FLFitMeter swaps", textRole: .ink2, background: .bg, scheme: .paper),
+        ComponentTextUse(use: "FLSectionLabel", textRole: .ink2, background: .bg, scheme: .paper),
+    ]
+
+    func testComponentTextRolesMeetSmallTextFloor() {
+        var failures: [String] = []
+        for use in Self.componentTextUses {
+            let fg = Theme.color(use.textRole, in: use.scheme)
+            let bg = Theme.color(use.background, in: use.scheme)
+            // Alpha-blend the text over its background at the component's
+            // applied opacity — a dim cannot hide behind the nominal pair.
+            let blended = ColorToken(
+                red: fg.red * use.opacity + bg.red * (1 - use.opacity),
+                green: fg.green * use.opacity + bg.green * (1 - use.opacity),
+                blue: fg.blue * use.opacity + bg.blue * (1 - use.opacity)
+            )
+            let ratio = contrast(blended, bg)
+            let line = String(format: "%@: %.2f:1 (floor 4.5)", use.use, ratio)
+            print("contrast | component-role | \(line)")
+            if ratio < 4.5 { failures.append(line) }
+        }
+        XCTAssertTrue(failures.isEmpty, failures.joined(separator: "\n"))
+    }
 }
