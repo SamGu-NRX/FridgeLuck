@@ -1,6 +1,8 @@
 {
   "suite": "pantry-truth",
-  "run_at": "2026-10-11T23:29:37Z",
+  "letter": "A",
+  "title": "Pantry truth",
+  "run_at": "2026-10-11T23:34:29Z",
   "toolchain": {
     "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
     "python": "3.13.14",
@@ -9,7 +11,7 @@
     "probe_cache_key": "98b3c5b81e33caa66d074c93"
   },
   "revision": {
-    "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33"
+    "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a"
   },
   "grounding": {
     "corpus": "apps/ios/Resources/data.json",
@@ -382,6 +384,28 @@
         "pairs_file": "pairs_200.json"
       },
       "status": "fail"
+    },
+    {
+      "id": "plan_battery_rows_present",
+      "metric": "Plan battery rows present (PLAN.md line 49)",
+      "value": 3,
+      "bar": {
+        "op": "==",
+        "value": 3
+      },
+      "detail": "Every metric row PLAN.md line 49 requires of suite A is emitted (each row may itself be fail or not-run with its own honest reason).",
+      "evidence": {
+        "required_rows": [
+          "stock_counted_twice",
+          "sufficient_claimed_without_quantity_evidence",
+          "fit_line_text_correct_200"
+        ],
+        "missing_rows": []
+      },
+      "status": "pass"
     }
-  ]
+  ],
+  "source": "run",
+  "duration_ms": 13642,
+  "timeout_s": 1800
 }

@@ -1,9 +1,14 @@
 {
+  "scored_input": "BUNDLED BASELINE (no data/recipes/corpus.jsonl on this tree): apps/ios/Resources/data.json, 166 positional recipes; no per-recipe rights evidence in data",
+  "canon": "suite-pinned snapshot canon/rules.json (overhaul/food-safety-canon @ 2e03467d)",
+  "linter_engine": "canonical rulebook data (see canon/PROVENANCE.md); executable FLFoodSafety linter checks: UNVERIFIED-NATIVE (Swift package not present on the scored tree)",
   "recipes_with_violations": {},
-  "linter_passed": 530,
-  "linter_total": 530,
-  "total_lines": 4334,
-  "resolved_lines": 4334,
+  "linter_passed": 0,
+  "linter_total": 0,
+  "total_lines": 0,
+  "resolved_lines": 0,
   "unchecked_claims": 0,
-  "stripped_claims": 0
+  "stripped_claims": 0,
+  "stripped_detail": {},
+  "classification_incomplete": {}
 }

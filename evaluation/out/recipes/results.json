@@ -2,7 +2,7 @@
   "suite": "recipes",
   "letter": "C",
   "title": "Recipe corpus quality and rights",
-  "run_at": "2026-10-11T23:29:37Z",
+  "run_at": "2026-10-11T23:34:29Z",
   "toolchain": {
     "python": "3.13.14"
   },
@@ -10,80 +10,60 @@
     {
       "id": "rights_clear_recipes",
       "metric": "Rights-clear recipes (complete per-recipe manifest evidence)",
-      "value": 530,
+      "value": 0,
       "bar": {
         "op": ">=",
         "value": 400
       },
-      "detail": "530 rights-clear; 0 quarantined (fail-closed; see quarantined.json). Bundled-catalog audit: see bundled_rights_audit.json.",
+      "detail": "0 rights-clear; 166 quarantined (fail-closed; see quarantined.json). Scored input: BUNDLED BASELINE (no data/recipes/corpus.jsonl on this tree): apps/ios/Resources/data.json, 166 positional recipes; no per-recipe rights evidence in data. Bundled-catalog audit: see bundled_rights_audit.json.",
       "evidence": {
-        "path": "rights_manifest.json",
-        "note": "per-recipe manifest validated by rights.validate_manifest"
+        "path": "quarantined.json",
+        "note": "per-recipe manifest validation by rights.record_status; every needed permission must be affirmative"
       },
-      "status": "pass"
+      "status": "fail"
     },
     {
       "id": "food_safety_linter_pass",
       "metric": "Food-safety linter pass (% of corpus)",
-      "value": 100.0,
+      "status": "not-run",
+      "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
       "bar": {
         "op": "==",
         "value": 100
-      },
-      "detail": "530/530 recipes pass the RS linter (R1 schema, R2 quantity evidence, R3 FSIS thermometer checks, R4 claim evidence, R5 timers); see lint_report.json.",
-      "evidence": {
-        "path": "lint_report.json",
-        "note": "per-recipe violations listed with ids"
-      },
-      "status": "pass"
+      }
     },
     {
       "id": "lines_with_quantity_evidence",
       "metric": "Lines resolved with quantity evidence (%)",
-      "value": 100.0,
+      "status": "not-run",
+      "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
       "bar": {
         "op": ">=",
         "value": 95
-      },
-      "detail": "4334/4334 ingredient lines resolve to grams (weighed, source_grams, or household measure with a conversion); unknown-quantity lines are honest but unresolved.",
-      "evidence": {
-        "path": "lint_report.json",
-        "note": "line counts from the linter"
-      },
-      "status": "pass"
+      }
     },
     {
       "id": "unchecked_allergen_diet_claims",
       "metric": "Unchecked allergen/diet claims (after linter strip)",
-      "value": 0,
+      "status": "not-run",
+      "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
       "bar": {
         "op": "==",
         "value": 0
-      },
-      "detail": "0 unchecked claim(s) stripped by the linter; 0 remain unchecked.",
-      "evidence": {
-        "path": "lint_report.json",
-        "note": "claim counts"
-      },
-      "status": "pass"
+      }
     },
     {
       "id": "cuisine_time_band_coverage",
       "metric": "Declared cuisines and time bands represented (%)",
-      "value": 100.0,
+      "status": "not-run",
+      "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
       "bar": {
         "op": "==",
         "value": 100
-      },
-      "detail": "14/14 declared bands hold >=1 recipe; missing: none. Cross-product cells filled: 51/90 (informational). Per-band counts in coverage.json.",
-      "evidence": {
-        "path": "coverage.json",
-        "note": "per-band counts"
-      },
-      "status": "pass"
+      }
     }
   ],
   "source": "run",
-  "duration_ms": 123,
+  "duration_ms": 57,
   "timeout_s": 1800
 }

@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-11T23:29:37Z",
+  "generated_at": "2026-10-11T23:34:29Z",
   "run": {
-    "run_id": "r-20261011T232923Z-827d154d",
-    "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
-    "started_at": "2026-10-11T23:29:23Z"
+    "run_id": "r-20261011T233416Z-9da0d87e",
+    "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+    "started_at": "2026-10-11T23:34:16Z"
   },
   "git": {
-    "sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+    "sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
     "branch": "eval/scorecard-runner",
     "dirty": false
   },
@@ -18,22 +18,54 @@
     "bun": "1.3.14"
   },
   "summary": {
-    "pass": 5,
-    "fail": 5,
-    "not-run": 5
+    "pass": 1,
+    "fail": 4,
+    "not-run": 9
   },
   "suites": [
     {
       "suite": "pantry-truth",
       "letter": "A",
       "title": "Pantry truth",
-      "owner_task": "fl-eval-harness-f1 (suite A sub-thread)",
-      "source": "run",
-      "registry_mismatches": [
-        "results are missing 'letter' \u2014 required by the results.json schema (the suite's identity from its suite.json/registry entry)",
-        "results are missing 'title' \u2014 required by the results.json schema (the suite's identity from its suite.json/registry entry)",
-        "metric 'plan_battery_rows_present' (Plan battery rows present (PLAN.md line 49)) is missing from the suite results \u2014 the registry requires it; dropping a metric cannot hide a failing bar"
-      ],
+      "run_at": "2026-10-11T23:34:29Z",
+      "toolchain": {
+        "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
+        "python": "3.13.14",
+        "seed": 20261011,
+        "probe_stage": "/tmp/fl-fitprobe-cache/98b3c5b81e33caa66d074c93",
+        "probe_cache_key": "98b3c5b81e33caa66d074c93"
+      },
+      "revision": {
+        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a"
+      },
+      "grounding": {
+        "corpus": "apps/ios/Resources/data.json",
+        "corpus_sha256": "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be",
+        "corpus_note": "The brief named assets/recipes.json; that file does not exist on any branch. The manifest is grounded on the production bundled corpus the app actually loads (apps/ios/Resources/data.json via BundledDataLoader).",
+        "usda": {
+          "present": true,
+          "records": 800,
+          "matched": 36,
+          "total": 50
+        },
+        "usda_path": "scripts/data/catalog/usda_curated_ingredients.json",
+        "production_files_sha256": {
+          "apps/ios/Domain/Models/Recipe.swift": "b386f4ca5b0ce1ddb5a3223f9f1e5b1b4945493083a4126134492fbd5ebd9849",
+          "apps/ios/Domain/Models/Ingredient.swift": "a05bf49ccfda97969b9e12977d2dbe8544af583775527a67f85368651aecdd25",
+          "apps/ios/Domain/Models/IngredientSwap.swift": "e97c6fde10c6679e781834e719b6bb3dfb083cc27fc1d638f462a90f962f5ca5",
+          "apps/ios/Domain/Models/Inventory.swift": "5fb1960c1f6e9f8a1da72ce385c126e480d2f66dbaf3ca02c2aad4d660fbb14a",
+          "apps/ios/Domain/Models/HealthProfile.swift": "58737030b6a07b49b4ccefad74972f24c5f1f061ecba7e569cd39930f7c57b1f",
+          "apps/ios/Domain/Models/UserProgress.swift": "9b29efc1acd30a2f1821c75be672ff27c63ec013d9622be9bac93fc42b78ada9",
+          "apps/ios/FeatureLogic/Recommendation/RecommendationPolicy.swift": "32a21f6ec4525c16e96b43fab69a39204c4013fe8f2e3b86c1069d17c7e9f6f9",
+          "apps/ios/Platform/Persistence/Database/Migrations.swift": "41ee330123f9a148af13f759817897fe8e663b952b77156ab4e5cd0d09718ec5",
+          "apps/ios/Platform/Persistence/Repository/RecipeRepository.swift": "a73c9bd4871a4be656da330f0c57d9859d11e92f7e9e6ffa26c9dc324f36b8a8",
+          "apps/ios/Platform/Persistence/Repository/RecipeScoring.swift": "488a1e46c7e7e58c77b17266e593590e2e9dfc02283f4be946fe8224641ab0ef",
+          "apps/ios/Platform/Persistence/Services/NutritionService.swift": "a9560ec83d82105d2e45a5846db2b142e97b4871f3dde51734a31411f2499311",
+          "apps/ios/Platform/Persistence/Services/HealthScoringService.swift": "204441c26e44ae3e55d0a8d13d2d02ab69378b3f1cedeb4434b7463afb3708bf",
+          "apps/ios/Platform/Persistence/Services/PersonalizationService.swift": "0cfd351dcd33ea3cc5330e2096a97b2899b33f79b2f4af33101f1e84419831a3"
+        },
+        "production_files_verbatim": true
+      },
       "metrics": [
         {
           "id": "stock_counted_twice",
@@ -381,25 +413,30 @@
         {
           "id": "plan_battery_rows_present",
           "metric": "Plan battery rows present (PLAN.md line 49)",
-          "status": "fail",
-          "reason": "metric 'plan_battery_rows_present' (Plan battery rows present (PLAN.md line 49)) is missing from the suite results \u2014 the registry requires it; dropping a metric cannot hide a failing bar",
+          "value": 3,
           "bar": {
             "op": "==",
             "value": 3
-          }
-        },
-        {
-          "id": "pantry-truth_contract",
-          "metric": "suite identity (letter/title per registry)",
-          "status": "fail",
-          "reason": "results are missing 'letter' \u2014 required by the results.json schema (the suite's identity from its suite.json/registry entry); results are missing 'title' \u2014 required by the results.json schema (the suite's identity from its suite.json/registry entry)"
+          },
+          "detail": "Every metric row PLAN.md line 49 requires of suite A is emitted (each row may itself be fail or not-run with its own honest reason).",
+          "evidence": {
+            "required_rows": [
+              "stock_counted_twice",
+              "sufficient_claimed_without_quantity_evidence",
+              "fit_line_text_correct_200"
+            ],
+            "missing_rows": []
+          },
+          "status": "pass"
         }
       ],
-      "duration_ms": 13897,
+      "source": "run",
+      "duration_ms": 13642,
+      "timeout_s": 1800,
       "run": {
-        "run_id": "r-20261011T232923Z-827d154d",
-        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
-        "started_at": "2026-10-11T23:29:23Z"
+        "run_id": "r-20261011T233416Z-9da0d87e",
+        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+        "started_at": "2026-10-11T23:34:16Z"
       }
     },
     {
@@ -418,16 +455,16 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T232923Z-827d154d",
-        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
-        "started_at": "2026-10-11T23:29:23Z"
+        "run_id": "r-20261011T233416Z-9da0d87e",
+        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+        "started_at": "2026-10-11T23:34:16Z"
       }
     },
     {
       "suite": "recipes",
       "letter": "C",
       "title": "Recipe corpus quality and rights",
-      "run_at": "2026-10-11T23:29:37Z",
+      "run_at": "2026-10-11T23:34:29Z",
       "toolchain": {
         "python": "3.13.14"
       },
@@ -435,86 +472,66 @@
         {
           "id": "rights_clear_recipes",
           "metric": "Rights-clear recipes (complete per-recipe manifest evidence)",
-          "value": 530,
+          "value": 0,
           "bar": {
             "op": ">=",
             "value": 400
           },
-          "detail": "530 rights-clear; 0 quarantined (fail-closed; see quarantined.json). Bundled-catalog audit: see bundled_rights_audit.json.",
+          "detail": "0 rights-clear; 166 quarantined (fail-closed; see quarantined.json). Scored input: BUNDLED BASELINE (no data/recipes/corpus.jsonl on this tree): apps/ios/Resources/data.json, 166 positional recipes; no per-recipe rights evidence in data. Bundled-catalog audit: see bundled_rights_audit.json.",
           "evidence": {
-            "path": "rights_manifest.json",
-            "note": "per-recipe manifest validated by rights.validate_manifest"
+            "path": "quarantined.json",
+            "note": "per-recipe manifest validation by rights.record_status; every needed permission must be affirmative"
           },
-          "status": "pass"
+          "status": "fail"
         },
         {
           "id": "food_safety_linter_pass",
           "metric": "Food-safety linter pass (% of corpus)",
-          "value": 100.0,
+          "status": "not-run",
+          "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
           "bar": {
             "op": "==",
             "value": 100
-          },
-          "detail": "530/530 recipes pass the RS linter (R1 schema, R2 quantity evidence, R3 FSIS thermometer checks, R4 claim evidence, R5 timers); see lint_report.json.",
-          "evidence": {
-            "path": "lint_report.json",
-            "note": "per-recipe violations listed with ids"
-          },
-          "status": "pass"
+          }
         },
         {
           "id": "lines_with_quantity_evidence",
           "metric": "Lines resolved with quantity evidence (%)",
-          "value": 100.0,
+          "status": "not-run",
+          "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
           "bar": {
             "op": ">=",
             "value": 95
-          },
-          "detail": "4334/4334 ingredient lines resolve to grams (weighed, source_grams, or household measure with a conversion); unknown-quantity lines are honest but unresolved.",
-          "evidence": {
-            "path": "lint_report.json",
-            "note": "line counts from the linter"
-          },
-          "status": "pass"
+          }
         },
         {
           "id": "unchecked_allergen_diet_claims",
           "metric": "Unchecked allergen/diet claims (after linter strip)",
-          "value": 0,
+          "status": "not-run",
+          "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
           "bar": {
             "op": "==",
             "value": 0
-          },
-          "detail": "0 unchecked claim(s) stripped by the linter; 0 remain unchecked.",
-          "evidence": {
-            "path": "lint_report.json",
-            "note": "claim counts"
-          },
-          "status": "pass"
+          }
         },
         {
           "id": "cuisine_time_band_coverage",
           "metric": "Declared cuisines and time bands represented (%)",
-          "value": 100.0,
+          "status": "not-run",
+          "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
           "bar": {
             "op": "==",
             "value": 100
-          },
-          "detail": "14/14 declared bands hold >=1 recipe; missing: none. Cross-product cells filled: 51/90 (informational). Per-band counts in coverage.json.",
-          "evidence": {
-            "path": "coverage.json",
-            "note": "per-band counts"
-          },
-          "status": "pass"
+          }
         }
       ],
       "source": "run",
-      "duration_ms": 123,
+      "duration_ms": 57,
       "timeout_s": 1800,
       "run": {
-        "run_id": "r-20261011T232923Z-827d154d",
-        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
-        "started_at": "2026-10-11T23:29:23Z"
+        "run_id": "r-20261011T233416Z-9da0d87e",
+        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+        "started_at": "2026-10-11T23:34:16Z"
       }
     },
     {
@@ -533,9 +550,9 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T232923Z-827d154d",
-        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
-        "started_at": "2026-10-11T23:29:23Z"
+        "run_id": "r-20261011T233416Z-9da0d87e",
+        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+        "started_at": "2026-10-11T23:34:16Z"
       }
     },
     {
@@ -554,9 +571,9 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T232923Z-827d154d",
-        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
-        "started_at": "2026-10-11T23:29:23Z"
+        "run_id": "r-20261011T233416Z-9da0d87e",
+        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+        "started_at": "2026-10-11T23:34:16Z"
       }
     },
     {
@@ -575,9 +592,9 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T232923Z-827d154d",
-        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
-        "started_at": "2026-10-11T23:29:23Z"
+        "run_id": "r-20261011T233416Z-9da0d87e",
+        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+        "started_at": "2026-10-11T23:34:16Z"
       }
     },
     {
@@ -596,11 +613,11 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T232923Z-827d154d",
-        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
-        "started_at": "2026-10-11T23:29:23Z"
+        "run_id": "r-20261011T233416Z-9da0d87e",
+        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+        "started_at": "2026-10-11T23:34:16Z"
       }
     }
   ],
-  "runner_duration_ms": 14104
+  "runner_duration_ms": 13774
 }
