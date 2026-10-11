@@ -35,11 +35,11 @@ final class HitRegionTests: XCTestCase {
         let floor = CGFloat(Theme.minimumHitTarget)
         XCTAssertGreaterThanOrEqual(
             size.width, floor,
-            "\(name) width \(size.width) at \(typeSize.rawValue) is below the hit-target floor"
+            "\(name) width \(size.width) at \(typeSize) is below the hit-target floor"
         )
         XCTAssertGreaterThanOrEqual(
             size.height, floor,
-            "\(name) height \(size.height) at \(typeSize.rawValue) is below the hit-target floor"
+            "\(name) height \(size.height) at \(typeSize) is below the hit-target floor"
         )
     }
 
