@@ -101,6 +101,9 @@ struct SettingsHubView: View {
         NavigationLink(value: SettingsRoute.help) {
           iconRow(icon: "sparkles", tint: AppTheme.accentLight, title: "Help")
         }
+        NavigationLink(value: SettingsRoute.backup) {
+          iconRow(icon: "archivebox.fill", tint: AppTheme.oat, title: "Backup & Restore")
+        }
         NavigationLink(value: SettingsRoute.dataAndPrivacy) {
           iconRow(icon: "shield.fill", tint: AppTheme.dustyRose, title: "Data & Privacy")
         }

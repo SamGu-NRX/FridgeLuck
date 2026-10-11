@@ -54,6 +54,8 @@ struct SettingsView: View {
             )
           case .dataAndPrivacy:
             SettingsDataAndPrivacyView(onResetAllData: onResetAllData)
+          case .backup:
+            SettingsBackupView()
           }
         }
     }

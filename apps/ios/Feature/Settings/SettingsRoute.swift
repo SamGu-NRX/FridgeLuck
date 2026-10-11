@@ -10,4 +10,5 @@ enum SettingsRoute: Hashable, CaseIterable {
   case permissions
   case help
   case dataAndPrivacy
+  case backup
 }

@@ -17,6 +17,7 @@ final class SettingsFlowTests: XCTestCase {
         .permissions,
         .help,
         .dataAndPrivacy,
+        .backup,
       ]
     )
   }
