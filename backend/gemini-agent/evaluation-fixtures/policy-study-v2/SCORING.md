@@ -129,14 +129,22 @@ identity rates.
   `ConfidenceLearningService` compiled for Linux (Swift 6.1.2, GRDB 7.10.0).
   No iOS/macOS build of the app was produced; platform behavior is covered
   only by the hosted CI.
-- **Two Linux build copies are unreconstructible.** The Linux compile applied a
-  small `os`-module logger shim to `ConfidenceLearningService.swift` and
-  `RecipeRepository.swift` before compiling. Those shimmed copies were **not
-  retained**, so the exact edits cannot be reconstructed: the hashes recorded
-  in `build-record.json` attest which sources were compiled, but the delta from
-  the committed repository sources is not recoverable from anything in this
-  repository. `preprocess_learner.py` and `main.swift` **do** match their
-  recorded hashes exactly.
+- **Both Linux build copies are reconstructible (corrected).** The Linux
+  compile applied only two mechanical, committed transforms: the os-module
+  Logger shim (via `preprocess_learner.py`) to `ConfidenceLearningService.swift`,
+  and — for `RecipeRepository.swift`, which has no `import os` and no Logger
+  usage — a one-line `sed` in `run.sh` spelling out
+  `CharacterSet.whitespacesAndNewlines` for Linux Foundation. Neither shimmed
+  copy was retained as a file, but both recorded `build-record.json` hashes
+  were reconstructed byte-exactly from the committed pristine sources and
+  committed scripts: `ConfidenceLearningService.swift` →
+  `269ab712117b...` (recorded `269ab712117b...`, match) and
+  `RecipeRepository.swift` → `c3033d25aa19...` (recorded `c3033d25aa19...`,
+  match). Full commands, input blob references, and hashes are retained in
+  `runs/2026-10-10-r1/shim-reconstruction.json`. An earlier independent
+  reconstruction attempt had already reproduced the
+  `ConfidenceLearningService.swift` hash; this record is the retained,
+  reproducible form of both.
 - **No photographic source exists to reconstruct.** Food-101 images were never
   downloaded; the family's evidence is synthetic by construction, so no
   artifact of this run can be re-derived from, or validated against, a
