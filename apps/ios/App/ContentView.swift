@@ -328,6 +328,7 @@ struct ContentView: View {
             detections: directReviewDetections,
             scanProvenance: .bundledFixture,
             fridgeImage: directReviewImage,
+            savesToInventory: false,
             replaySpotlightOnAppear: replayDirectReviewSpotlight
           )
           .onAppear {
@@ -339,6 +340,7 @@ struct ContentView: View {
             ingredientIds: directResultsIngredientIds,
             ingredientNames: directResultsIngredientNames,
             fridgePhoto: directResultsImage,
+            logsMeals: false,
             engine: deps.makeRecommendationEngine(),
             replaySpotlightOnAppear: replayDirectResultsSpotlight
           )
@@ -351,6 +353,7 @@ struct ContentView: View {
             ingredientIds: route.ingredientIds,
             ingredientNames: route.ingredientNames,
             preferredRecipeID: route.preferredRecipeID,
+            logsMeals: true,
             engine: deps.makeRecommendationEngine()
           )
         }
