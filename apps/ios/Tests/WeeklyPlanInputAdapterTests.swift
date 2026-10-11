@@ -38,7 +38,7 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
     _ ingredientId: Int64, grams: Double, estimated: Bool, daysToExpiry: Int? = nil,
     now: Date
   ) -> InventoryPlanningLot {
-    let expiry = daysToExpiry.map {
+    let expiry = daysToExpiry.flatMap {
       Calendar.current.date(byAdding: .day, value: $0, to: now)
     }
     return InventoryPlanningLot(
@@ -91,7 +91,7 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
 
   // MARK: - Urgency from expiry
 
-  func testUrgencyWeightsDecayAcrossTheWindow() {
+  func testUrgencyWeightsDecayAcrossTheWindow() throws {
     let now = Calendar.current.startOfDay(for: Date())
     let lots = [
       makeLot(1, grams: 100, estimated: false, daysToExpiry: 0, now: now),
@@ -105,19 +105,19 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
     let byId = Dictionary(urgencies.map { ($0.ingredientId, $0.weightPerGram) },
       uniquingKeysWith: { _, last in last })
 
-    XCTAssertEqual(byId[1], 1.0, accuracy: 1e-9)
-    XCTAssertEqual(byId[2], 2.0 / 3.0, accuracy: 1e-9)
-    XCTAssertEqual(byId[3], 1.0 / 3.0, accuracy: 1e-9)
+    XCTAssertEqual(try XCTUnwrap(byId[1]), 1.0, accuracy: 1e-9)
+    XCTAssertEqual(try XCTUnwrap(byId[2]), 2.0 / 3.0, accuracy: 1e-9)
+    XCTAssertEqual(try XCTUnwrap(byId[3]), 1.0 / 3.0, accuracy: 1e-9)
     XCTAssertNil(byId[4], "The window edge carries zero weight — absent, not zero.")
     XCTAssertNil(byId[5], "Lots expiring beyond the window carry no urgency.")
     XCTAssertNil(byId[6], "No expiry date means no urgency, not a guess.")
   }
 
-  func testAlreadyExpiredLotCountsAsExpiryDay() {
+  func testAlreadyExpiredLotCountsAsExpiryDay() throws {
     let now = Calendar.current.startOfDay(for: Date())
     let lots = [makeLot(1, grams: 100, estimated: false, daysToExpiry: -2, now: now)]
     let urgencies = WeeklyPlanInputAdapter.urgencies(lots: lots, now: now)
-    XCTAssertEqual(urgencies.first?.weightPerGram, 1.0, accuracy: 1e-9)
+    XCTAssertEqual(try XCTUnwrap(urgencies.first?.weightPerGram), 1.0, accuracy: 1e-9)
   }
 
   // MARK: - Exclusions and diet
