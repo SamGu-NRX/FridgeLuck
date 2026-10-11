@@ -50,6 +50,7 @@ if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
 
 from capsule_model import (  # noqa: E402
+    Binding,
     Finding,
     load_binding_file,
     parse_binding,
@@ -81,10 +82,9 @@ def check_binding_file(binding_path: Path, repo_root: Path) -> list[Finding]:
     return check_parsed_binding(binding, repo_root)
 
 
-def check_parsed_binding(binding: Binding, repo_root: Path) -> list[Finding]:
+def check_dependencies(binding: Binding, repo_root: Path) -> list[Finding]:
+    """Declared source/import files: present, and matching their digests."""
     findings: list[Finding] = []
-
-    # --- declared source/import files ---
     for source in binding.sources:
         file_path = repo_root / source.path
         if not file_path.is_file():
@@ -106,21 +106,74 @@ def check_parsed_binding(binding: Binding, repo_root: Path) -> list[Finding]:
                     f"hashes to {actual[:12]}…",
                 )
             )
+    return findings
 
-    # Import-coverage analysis (only meaningful for sources that exist).
-    findings.extend(analyze_binding_sources(binding, repo_root))
 
-    # --- declared outputs ---
+def check_output_files(
+    binding: Binding, repo_root: Path, capsule_dir: Path | None = None
+) -> list[Finding]:
+    """Declared outputs: present, digest-matching, never self-referential.
+
+    Two modes:
+
+    - repo mode (capsule_dir=None): each output lives at repo_root/output.path
+      (the M1 fixture layout — outputs are repo files).
+    - capsule mode (capsule_dir set): each output was packed into
+      capsule_dir/outputs/<stored_as>; the packed copy is what the digest
+      must cover. A packed output without a stored_as name is a
+      missing-storage finding; a stored file the binding does not declare is
+      an undeclared-output finding (hidden labels are never tolerated).
+    """
+    findings: list[Finding] = []
+    if capsule_dir is not None:
+        stored_dir = capsule_dir / "outputs"
+        declared_stored: set[str] = set()
+        for output in binding.outputs:
+            if output.stored_as:
+                declared_stored.add(output.stored_as)
+        if stored_dir.is_dir():
+            for stored in sorted(stored_dir.iterdir()):
+                if stored.name not in declared_stored:
+                    findings.append(
+                        Finding(
+                            "undeclared-output",
+                            f"outputs/{stored.name}",
+                            "capsule stores a file the binding does not declare "
+                            "(hidden labels are not tolerated)",
+                        )
+                    )
     for output in binding.outputs:
-        file_path = repo_root / output.path
-        if not file_path.is_file():
-            findings.append(
-                Finding(
-                    "missing-output",
-                    output.path,
-                    "declared output file is absent from the repository",
+        if capsule_dir is not None:
+            if not output.stored_as:
+                findings.append(
+                    Finding(
+                        "missing-storage",
+                        output.path,
+                        "packed output has no stored_as name; it cannot be "
+                        "verified against the capsule",
+                    )
                 )
-            )
+                continue
+            file_path = capsule_dir / "outputs" / output.stored_as
+        else:
+            file_path = repo_root / output.path
+        if not file_path.is_file():
+            if capsule_dir is not None:
+                findings.append(
+                    Finding(
+                        "missing-storage",
+                        f"outputs/{output.stored_as}",
+                        "packed output copy is absent from the capsule",
+                    )
+                )
+            else:
+                findings.append(
+                    Finding(
+                        "missing-output",
+                        output.path,
+                        "declared output file is absent from the repository",
+                    )
+                )
             continue
         content = file_path.read_bytes()
         if output.sha256.encode("utf-8") in content:
@@ -146,7 +199,23 @@ def check_parsed_binding(binding: Binding, repo_root: Path) -> list[Finding]:
                     f"to {actual[:12]}…",
                 )
             )
+    return findings
 
+
+def check_parsed_binding(
+    binding: Binding, repo_root: Path, capsule_dir: Path | None = None
+) -> list[Finding]:
+    """Full offline check of one parsed binding.
+
+    Dependency digests are checked against ``repo_root`` (drift detection);
+    output digests against the repo tree or the packed capsule, per
+    ``check_output_files``.
+    """
+    findings: list[Finding] = []
+    findings.extend(check_dependencies(binding, repo_root))
+    # Import-coverage analysis (only meaningful for sources that exist).
+    findings.extend(analyze_binding_sources(binding, repo_root))
+    findings.extend(check_output_files(binding, repo_root, capsule_dir))
     return findings
 
 

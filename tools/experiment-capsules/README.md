@@ -24,7 +24,7 @@ declares:
 | milestone | delivered |
 |---|---|
 | M1 | binding schema (`capsule_model.py`), static import scanner (`import_scan.py`), volatile-content scanner (`volatile_scan.py`), contract checker (`check_contract.py`), fixture contracts, pytest suite |
-| M2 | read-only pack/verify adapter (`pack.py`, `verify.py`, `specs.json`) over owners' public artifacts |
+| M2 | read-only pack/verify adapter (`pack.py`, `verify.py`, `specs.json`) over owners' public artifacts; fixture capsules under `results/`; verification report under `reports/` |
 | M3 | regeneration proof (`regen.py`) — food-study table rebuilt from capsule-stored outputs |
 
 ## The three rejection classes
@@ -52,6 +52,50 @@ declared in `toolchain.dependencies`), and `source-syntax`.
 
 Precedence per file: missing beats mismatch; a self-referential output is
 reported exactly once (the implied mismatch is not double-counted).
+
+## Packing and verifying capsules (M2)
+
+`pack.py` adapts existing **owners' public artifacts** (today: the USDA data
+studies under `scripts/data/` and the bundled Swift export they publish) into
+capsules under `results/`. It reads owner files and computes digests; it
+never writes anything outside `--out`, never overwrites an owner's manifest,
+never reads the environment, and never calls any owner's live endpoint (the
+tooling imports no network module and never executes owner code). Packing is
+refused unless the spec's declared `language_version` matches the running
+interpreter and the spec's sources are import-closed — the packer never
+emits a binding the contract checker would reject.
+
+```bash
+python3 tools/experiment-capsules/pack.py \
+    --spec tools/experiment-capsules/specs.json \
+    --out tools/experiment-capsules/results
+
+python3 tools/experiment-capsules/verify.py \
+    --capsules tools/experiment-capsules/results
+```
+
+`verify.py` re-checks, per capsule: dependency digests (declared
+sources/imports hashed against the current repository tree — drift is
+reported, never silently accepted), import coverage (same scanner as the
+checker), and output digests **from what was packed** (each stored copy in
+`outputs/` is hashed against the binding). Owner artifacts that moved on
+after packing are reported as **origin drift — informational, not a
+rejection**: the capsule pins what was packed; output integrity is judged
+against the packed copy.
+
+Capsule layout rule (no hidden labels): a capsule directory contains only
+`binding.json` and `outputs/`. Extra entries are `capsule-layout` findings;
+stored files the binding does not declare are `undeclared-output` findings;
+declared outputs missing their `stored_as` copy are `missing-storage`
+findings. Verification evidence is committed as a timestamp-free,
+digest-stable JSON report at `reports/verify-report.json` (reproduce with
+`verify.py --capsules tools/experiment-capsules/results --report <path>`;
+it is byte-identical on a clean tree).
+
+Re-packing is digest-stable: the same spec, files, and interpreter produce
+byte-identical capsules (bindings serialize canonically; no wall-clock or
+HEAD values enter a binding).
+
 
 ## Volatility policy
 
