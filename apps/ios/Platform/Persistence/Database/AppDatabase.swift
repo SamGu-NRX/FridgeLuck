@@ -5,9 +5,12 @@ import GRDB
 /// Created once at launch, shared via AppDependencies.
 final class AppDatabase: Sendable {
   let dbQueue: DatabaseQueue
+  /// Application Support path of the SQLite file this instance opened.
+  let path: String
 
-  init(dbQueue: DatabaseQueue) {
+  init(dbQueue: DatabaseQueue, path: String) {
     self.dbQueue = dbQueue
+    self.path = path
   }
 
   // MARK: - Setup
@@ -22,7 +25,7 @@ final class AppDatabase: Sendable {
 
     try DatabaseMigrations.migrate(dbQueue)
 
-    let appDB = AppDatabase(dbQueue: dbQueue)
+    let appDB = AppDatabase(dbQueue: dbQueue, path: path)
 
     return appDB
   }
