@@ -400,12 +400,18 @@ public enum LeChefReducer {
             guard next.lookStage == .uploading else { break }
             // The result is a READ: applied without ceremony, and it
             // can never carry a safety verdict — the payload has no
-            // field for one.
+            // field for one, and the free-text lines are filtered at
+            // ingress (`LookLineFilter`, SPEC §3.1): state never holds
+            // a verdict-shaped line, so no consumer of this state —
+            // display, transcript, a future persistence or voice
+            // read-out — can ever see one.
             var known = Set(next.proposals.map { $0.id })
             if !known.contains(proposalId) {
                 known.insert(proposalId)
                 next.proposals.append(
-                    LeChefViewState.Proposal(id: proposalId, job: .coach, payload: .lookResult(result))
+                    LeChefViewState.Proposal(
+                        id: proposalId, job: .coach,
+                        payload: .lookResult(LookLineFilter.enforced(result)))
                 )
             }
             next.lookStage = .none

@@ -72,7 +72,8 @@ and one test target (`FLLeChefTests`), inside `packages/FLScreens`.
   renders a "not built in this release" row (lint-tested: the built
   candidate must be push-to-look).
 - **A look never yields a verdict.** `LookResult` carries
-  `observedLines` (host-verbatim observations) and nothing else. The
+  `observedLines` (filtered free-text observations — see the
+  review-fix addendum at the end of these notes) and nothing else. The
   struct has no field a doneness, safety, temperature or confidence claim
   could arrive in — the raw-source lint slices the declaration range and
   fails if one grows. Every result the display grammar renders is paired
@@ -200,10 +201,11 @@ verified natively: rendered pixels for either theme — see native gaps.
 
 ## Tests
 
-`cd packages/FLScreens && swift test`: 279 test cases, 0 failures
-(199 baseline + 80 new: stage 10, steps 7, timers 8, proposals 10, look
-8, voice 6, remember 8, offline 1, persistence 6, display 6, Part 5 lint
-10). `packages/FLDesignTokens`: 27 tests, 0 failures (unchanged).
+`cd packages/FLScreens && swift test`: 297 test cases, 0 failures
+(199 baseline + 98 new: stage 10, steps 7, timers 13, proposals 10,
+look 8, voice 6, remember 8, offline 1, persistence 6, display 6,
+filter 9, Part 5 lint 14). `packages/FLDesignTokens`: 27 tests,
+0 failures (unchanged).
 `packages/FLDesignSystem`: builds on Linux. The three failures the first
 run exposed are recorded above (the clock rule, the
 restore-without-duration decision, and the look-pairing lint binding to
@@ -229,3 +231,35 @@ not an intent: the reducer stays the timers' only authority, and no
 state-layer path reads a wall clock — every `now` is host-supplied (the
 Part 6 host-clock convention). Five seeding tests added
 (`LeChefTimerSeedingTests`); the suite is 284 test cases, 0 failures.
+## Review-fix addendum: the look-line filter (SPEC §3.1)
+
+The review BLOCK on PR #121 named the last gap in the "look never
+yields a verdict" contract: `observedLines` is host free text, so a
+malformed host pipeline could put a verdict-shaped sentence inside a
+line even though the type has no verdict field. The fix is a
+state-layer filter — `LookLineFilter` in `LeChefViewState.swift`, the
+vocabulary's single auditable home, with a doc comment pointing at
+SPEC §3.1. It matches a fixed list of verdict-shaped phrases (doneness
+assertions, safety claims, doneness-by-colour, ready-verbs,
+thermometer claims) plus a thermometer-reading pattern,
+word-boundary and case-insensitive, dropping the whole line — when in
+doubt, drop. The reducer's `.lookResultArrived` ingress runs every
+result through it before state holds the lines, so no consumer —
+display, transcript, a future persistence or voice read-out — can see
+a verdict; the display grammar filters again as the last gate before
+the view's text, so state built by hand still cannot render one. The
+lint pins the invariant: the view must never touch `observedLines` or
+`LookResult` (it renders through `proposalDisplay(proposal)` only),
+`observedLines` is readable in exactly the two filtered touch points
+(state file, intent file), and the filter's audit documentation must
+keep pointing at SPEC §3.1 with the brief's named examples. Behavior
+pins: the brief's MUST-DROP lines ("fully cooked", "cooked through",
+"undercooked", "raw in the middle", "safe to eat", "not safe",
+"food-safe", "this is done", "ready to eat", temperature-read
+conclusions) drop; the MUST-PASS lines ("two pans on the burner",
+"steam from the left pot", "the sauce is reducing") and other
+appearance observations survive, order kept, filter idempotent.
+Counts after the fix: `cd packages/FLScreens && swift test` → 291 test
+cases (279 baseline + 12 new: 9 filter behavior in FLLeChefTests, 3
+Part 5 lint), 0 failures; `packages/FLDesignTokens` 27 tests, 0
+failures; `packages/FLDesignSystem` builds on Linux.

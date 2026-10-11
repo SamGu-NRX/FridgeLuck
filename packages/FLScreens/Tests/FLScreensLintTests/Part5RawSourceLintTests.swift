@@ -20,8 +20,11 @@
 // - The camera-candidate rule is visible in source: push-to-look is the
 //   built candidate; continuous camera + voice is flagged, not built.
 // - A look can never yield a safety verdict: LookResult declares no
-//   doneness/safety/verdict field, and no safety-claim wording appears in
-//   the look result type's declarations.
+//   doneness/safety/verdict field, no safety-claim wording appears in
+//   the look result type's declarations, and the free-text lines render
+//   only through the state's filtered grammar — the view never touches
+//   the raw lines, the reducer filters at ingress, and the vocabulary
+//   lives in one auditable place (LookLineFilter, SPEC §3.1).
 // - The persisted snapshot declares no frame, transcript or look field.
 // - Voice is opt-in with "Just the steps" as the named default.
 // - LeChef is not a tab: the view builds no tab hierarchy and no dock.
@@ -220,5 +223,82 @@ final class Part5RawSourceLintTests: XCTestCase {
         let range = NSRange(text.startIndex..., in: text)
         return regex.matches(in: text, range: range)
             .compactMap { Range($0.range, in: text).map { String(text[$0]) } }
+    }
+
+    // MARK: The look-line filter — no raw pass-through to render (SPEC §3.1)
+
+    func testLeChefViewNeverTouchesTheRawLookLines() throws {
+        let view = try source("FLLeChef/LeChefViews.swift")
+        XCTAssertFalse(
+            view.contains("observedLines"),
+            "the view must never touch LookResult's raw lines — look lines render only through the state's filtered display grammar")
+        XCTAssertFalse(
+            view.contains("LookResult"),
+            "the view must consume the filtered state, not the raw look type")
+        XCTAssertTrue(
+            view.contains("proposalDisplay(proposal)"),
+            "the view renders look lines only through proposalDisplay(_:)")
+    }
+
+    func testObservedLinesHasOnlySanctionedFilteredTouchPoints() throws {
+        // The free-text look lines have exactly two sanctioned touch
+        // points, both filtered: the state file (definition + display
+        // grammar) and the intent file (reducer ingress). Any other
+        // file reading observedLines is a render pipe around the filter.
+        let state = try source("FLLeChef/LeChefViewState.swift")
+        let intent = try source("FLLeChef/LeChefIntent.swift")
+        for (file, text) in allSources() where text.contains("observedLines") {
+            XCTAssertTrue(
+                file == "FLLeChef/LeChefViewState.swift"
+                    || file == "FLLeChef/LeChefIntent.swift",
+                "\(file) references observedLines — look lines are readable only in the state file's filter and the reducer's ingress")
+        }
+        XCTAssertTrue(
+            state.contains("LookLineFilter.filtered"),
+            "the display grammar must run the lines through the filter")
+        XCTAssertTrue(
+            intent.contains("LookLineFilter.enforced"),
+            "the reducer must filter at ingress, before state holds the lines")
+    }
+
+    func testTheLookLineFilterIsTheAuditableVocabularyPointingAtTheSpec() throws {
+        let state = try source("FLLeChef/LeChefViewState.swift")
+        XCTAssertEqual(
+            state.components(separatedBy: "public enum LookLineFilter").count - 1, 1,
+            "the verdict vocabulary lives in exactly one auditable place")
+        guard let marker = state.range(of: "// MARK: - The look-line filter") else {
+            return XCTFail("the filter's section is missing")
+        }
+        let filterDecl = String(state[marker.lowerBound...])
+        XCTAssertTrue(
+            filterDecl.contains("SPEC §3.1"),
+            "the filter's documentation must point at the spec it enforces")
+        // The review brief's named examples stay visible in the audit
+        // list's documentation.
+        for phrase in [
+            "fully cooked", "cooked through", "undercooked",
+            "raw in the middle", "safe to eat", "not safe", "food-safe",
+            "this is done", "ready to eat",
+        ] {
+            XCTAssertTrue(
+                filterDecl.contains(phrase),
+                "the filter's audit documentation must name the brief's example: \(phrase)")
+        }
+    }
+
+    /// Every Sources/ Swift file, keyed by its path relative to Sources/.
+    private func allSources() -> [String: String] {
+        var result: [String: String] = [:]
+        let base = packageRoot.appendingPathComponent("Sources")
+        guard let enumerator = FileManager.default.enumerator(
+            at: base, includingPropertiesForKeys: nil)
+        else { return result }
+        for case let url as URL in enumerator {
+            guard url.pathExtension == "swift" else { continue }
+            let relative = url.path.replacingOccurrences(of: base.path + "/", with: "")
+            guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
+            result[relative] = text
+        }
+        return result
     }
 }
