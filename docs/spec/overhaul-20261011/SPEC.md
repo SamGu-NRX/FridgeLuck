@@ -189,7 +189,7 @@ Adopted from the engineering plan, Goal 5 option A, with one change.
 
 - `packages/FridgeLuckCore`: one SwiftPM package, Linux-buildable, with targets FLDomain, FLPersistence (GRDB), FLRecipeCore, FLInventoryCore, FLPreferenceCore, FLAssistantCore, FLFlowCore, FLCommunityCore, FLRecipeDelivery, added by the task that needs each, never as empty placeholders. The foundation task owns the manifest; each later task adds only its own target. Domain contracts in section 3 are implemented in FLDomain.
 - Change: the preference engine is first built as `packages/FLTaste` (`fl-taste-engine-f1`), a standalone research package with its evaluation, because evaluation has to come before shipping. Its proven model then moves into FLPreferenceCore.
-- `packages/FLDesignTokens` (portable) and `packages/FLDesignSystem` (SwiftUI). macOS CI renders every component to PNG so a Linux agent can see its work.
+- `packages/FLDesignTokens` (portable) and `packages/FLDesignSystem` (SwiftUI). Components are rendered to PNG so a Linux agent can see its work: on a Mac under the heavy lease for now, and by a render workflow staged under `ci/pending-workflows/` once Sam approves it.
 - `apps/ios` stays the native host: thin SwiftUI views over portable state machines, Apple adapters in Platform/Integration/Capability.
 - The phone holds the single local write authority (one GRDB queue). Meal log, inventory consumption, nutrition snapshot and preference event commit in one transaction; HealthKit and community sync run after commit with retry state.
 - The recipe corpus is built offline by Python (`data/recipes/`), validated against the USDA catalog, and installed through the bundle-refresh path (#44) without rewriting historical nutrition (#45) or taking over edited user recipes.
@@ -220,7 +220,7 @@ The work runs as five long programmes, each a parent thread with parallel sub-th
 - `fl-recipe-platform-f1`: rights audit, #43, the licensed and original corpus, the food-safety rulebook and recipe linter, and the substitution table.
 - `fl-learning-lab-f1`: the preference engine, a household simulator, and an evaluation campaign over thousands of simulated users, ending in a recommendation for what ships.
 - `fl-core-build-f1`: FridgeLuckCore (FLDomain, GRDB on Linux, CI), then pantry truth, the dinner and cook state machines, LeChef authority and community sharing and challenges, joined by a week-long household scenario suite.
-- `fl-design-build-f1`: the design system and every main screen as SwiftUI driven by view-state values, rendered through macOS CI.
+- `fl-design-build-f1`: the design system and every main screen as SwiftUI driven by view-state values, rendered to PNG for review.
 
 **Next, after the backend trunk Handoff is checked:**
 

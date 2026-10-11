@@ -33,6 +33,8 @@ A FridgeLuck that someone would keep on their home screen, running end to end on
 - Accepted work merges into `alpha` with `--no-ff` after the caretaker's pass. Never into `main`.
 - New tasks start from `alpha` and target it.
 
+- **No CI or workflow edits** (Sam's standing rule, covering the lead too). Proposed workflows are staged under `ci/pending-workflows/`, each with a one-line purpose and trigger, for Sam to approve. Until then, checks run in Obvious sandboxes or on this Mac under the leases, and their output goes into each PR's Proof.
+
 ## The scorecard (evals first)
 
 One runner, `evaluation/run.py`, built by `fl-eval-harness-f1`, writes `evaluation/out/scorecard.json` and `scorecard.md`.
@@ -48,8 +50,8 @@ One runner, `evaluation/run.py`, built by `fl-eval-harness-f1`, writes `evaluati
 | C. Recipes | Corpus validator, rights records, food-safety linter, substitution coverage, distributions | At least 400 rights-clear recipes, growing toward 1,500; 100% pass the linter; at least 95% of lines resolved with quantity evidence; 0 unchecked allergen or diet claims; every cuisine and time band in SPEC 3.5 represented |
 | D. LeChef | At least 150 scripted cook sessions against a fake model provider: the five jobs, offline, interruptions, adversarial text, timers | 0 food-safety violations; 0 actions executed without approval; at least 90% job success; 100% timer correctness across kill and resume |
 | E. Community | Two- and three-account scenarios on the Firestore emulator: add and publish a recipe, moderation before it goes public, Explore, share, table, invite, challenge (and battle votes in direction b), report, block, delete | 0 private-field leaks; 0 authorization failures; every moderation transition covered |
-| F. UI polish | macOS CI renders of every screen and state (paper, dark, hob, XXL Dynamic Type); automated checks; council taste review | Body-text contrast at least 4.5:1; touch targets at least 44 pt (64 pt in cook mode); no clipped primary labels at XXL; the chosen direction's own rules hold; Sam picks the direction and the council calls ship on every screen |
-| G. Journeys | XCUITest journeys in the simulator from `alpha`, with fixture photos, screenshots at every step, on macOS CI and on the lead's Mac | All of these pass with no crash: first run, scan and review, Tonight, recipe, cook, complete, share, challenge, taste-profile edit |
+| F. UI polish | Renders of every screen and state, made on a Mac under the heavy lease until Sam approves a render workflow, (paper, dark, hob, XXL Dynamic Type); automated checks; council taste review | Body-text contrast at least 4.5:1; touch targets at least 44 pt (64 pt in cook mode); no clipped primary labels at XXL; the chosen direction's own rules hold; Sam picks the direction and the council calls ship on every screen |
+| G. Journeys | XCUITest journeys in the simulator from `alpha`, with fixture photos, screenshots at every step, on the lead's Mac under the gui lease, and through the existing iOS CI where a test target it already runs can carry them | All of these pass with no crash: first run, scan and review, Tonight, recipe, cook, complete, share, challenge, taste-profile edit |
 
 The bars are the lead's choice, not measured optima. A suite can only move a bar with a recorded reason.
 
@@ -132,3 +134,4 @@ Record which condition fired and why in this file. The overhaul is done when eve
 - 2026-10-11 11:30Z: SPEC revision 2. Sam's own asks are restored as competing directions: user recipes and Explore, community ideas, the Beta trust vector, the pastel palette, quests and badges, the continuous camera. The bundled recipes are flagged as a rights risk.
 - 2026-10-11 11:45Z: the integration branch is `alpha`, cut from main at 2fd0dfe, by Sam's direction. The earlier `beta` and `fleet/beta` (both at 2fd0dfe, no PRs) were deleted.
 - 2026-10-11 11:50Z: `alpha` set to the minimal-product stack, head 2e77938 (Sam's rule: the definitive latest version, not `main`). iOS CI build-and-test passed on #87 (run 38136461873); `alpha` fast-forwarded from 2fd0dfe.
+- 2026-10-11 12:30Z: no CI or workflow edits, by Sam's rule. Nothing had been installed on `alpha`. Workflows are staged under `ci/pending-workflows/` for his approval.
