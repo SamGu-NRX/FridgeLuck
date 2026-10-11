@@ -83,12 +83,92 @@
     "category": "vegetable",
     "frequencyInBundledRecipes": 15,
     "fdcId": 170393
+   },
+   {
+    "id": "celery",
+    "displayName": "Celery",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 169988
+   },
+   {
+    "id": "cheese",
+    "displayName": "Cheese",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 8,
+    "fdcId": 173414
+   },
+   {
+    "id": "chicken_breast",
+    "displayName": "Chicken Breast",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 18,
+    "fdcId": 171077
+   },
+   {
+    "id": "chickpea",
+    "displayName": "Chickpea",
+    "isCore": true,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 8,
+    "fdcId": 173800
+   },
+   {
+    "id": "cilantro",
+    "displayName": "Cilantro",
+    "isCore": true,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169997
+   },
+   {
+    "id": "coconut_milk",
+    "displayName": "Coconut Milk",
+    "isCore": true,
+    "category": "nut_seed",
+    "frequencyInBundledRecipes": 6,
+    "fdcId": 170173
+   },
+   {
+    "id": "corn",
+    "displayName": "Corn",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169998
+   },
+   {
+    "id": "cucumber",
+    "displayName": "Cucumber",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 10,
+    "fdcId": 168409
+   },
+   {
+    "id": "cumin",
+    "displayName": "Cumin",
+    "isCore": true,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 24,
+    "fdcId": 170923
+   },
+   {
+    "id": "egg",
+    "displayName": "Egg",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 14,
+    "fdcId": 171287
    }
   ],
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 10,
+   "cardsWritten": 20,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [],
    "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."
