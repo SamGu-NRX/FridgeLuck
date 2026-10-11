@@ -106,15 +106,32 @@ is the measuring stick, and was not adjusted to make the parser look better.
 
 ## Evaluation protocol (frozen)
 
-- **Frozen family split**: development = `us_dual_column`, `ca_bilingual`;
-  heldout = `eu_per100g`, `eu_per_portion`. Every arm's metrics are reported
-  per frozen split (`by_split` in the report).
-- **Prior exposure is disclosed**: all four families were examined during tool
-  development — the generator, truth tables, production-gap measurements, and
-  the strict baseline's patterns were all written after inspecting every
-  family's line shapes. The heldout designation is frozen to keep future arm
-  changes honest; it is **not** a clean held-out split, and heldout metrics
-  are confirmatory, not discovery.
+- **Frozen family split**: development = `us_dual_column`, `ca_bilingual`,
+  `eu_per100g`, `eu_per_portion` (all four examined during tool development);
+  heldout = `au_nip_dual`. Every arm's metrics are reported per frozen split
+  (`by_split` in the report).
+- **Development exposure is disclosed**: all four original families were
+  examined during tool development — the generator, truth tables,
+  production-gap measurements, and the strict baseline's patterns were all
+  written after inspecting every family's line shapes. The EU pair was
+  originally labeled heldout in schema v3 and is reclassified here: renaming
+  an examined family heldout does not make it one.
+- **Untouched heldout family**: `au_nip_dual` (FSANZ Nutrition Information
+  Panel, dual-column Quantity Per Serving / Quantity Per 100 g|mL, kJ-only
+  energy with a Cal parenthetical on every third record). Its template was
+  authored into the generator in the freeze commit BEFORE any AU record was
+  generated, and the strict baseline was NOT modified for it — the baseline
+  at freeze is byte-identical to its state in `ede88b2`
+  (sha256 `bd6d61363c1cc8b42bda7527925a6279ce16efc8108ac0fc2aa9d48fd3b37484`).
+  AU results are confirmatory: the frozen baseline was evaluated once,
+  without further tuning. Residual limitation, stated plainly: the template
+  was authored by the same evaluator who wrote the baseline, from general
+  knowledge of the FSANZ convention — the guarantee is example-untouchedness,
+  not author independence.
+- **Keyword rejection and held-out status are separate axes.** The keyword
+  gate is a production-capability fact; heldout is a corpus-provenance fact.
+  A gate-rejected family can be development-exposed and a heldout family
+  gate-admitted; both are disclosed separately and neither implies the other.
 - **Keyword-rejected records are not evaluation**: records the production
   keyword gate rejects are excluded from its totals entirely and disclosed as
   `gate_rejected_records` / `gate_rejected_formats` (with per-cell counts).

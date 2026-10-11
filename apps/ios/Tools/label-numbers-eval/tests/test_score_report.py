@@ -163,10 +163,10 @@ def test_gate_rejected_records_not_called_untouched(tmp_path):
 def test_report_discloses_protocol_and_prior_exposure(tmp_path):
     report = run_build(tmp_path)
     protocol = report["protocol"]
-    assert protocol["frozen_families"]["development"] == ["us_dual_column", "ca_bilingual"]
-    assert protocol["frozen_families"]["heldout"] == ["eu_per100g", "eu_per_portion"]
-    assert "NOT a clean held-out split" in protocol["prior_exposure"]
-    assert "not scored as 'untouched'" in protocol["gate_rejected_note"]
+    assert protocol["frozen_families"]["development"] == ["us_dual_column", "ca_bilingual", "eu_per100g", "eu_per_portion"]
+    assert protocol["frozen_families"]["heldout"] == ["au_nip_dual"]
+    assert "example-untouchedness, not author independence" in protocol["prior_exposure"]
+    assert "neither implies the other" in protocol["gate_rejected_note"]
 
 
 def test_metrics_split_by_frozen_families(tmp_path):
@@ -264,7 +264,7 @@ def test_committed_report_matches_recomputation():
 
 def test_committed_protocol_and_gate_disclosure():
     report = json.loads((TOOL_DIR / "reports" / "report.json").read_text(encoding="utf-8"))
-    assert report["protocol"]["frozen_families"]["heldout"] == ["eu_per100g", "eu_per_portion"]
+    assert report["protocol"]["frozen_families"]["heldout"] == ["au_nip_dual"]
     prod = report["arms"]["production"]
     assert prod["gate_rejected_records"] == 243
     assert prod["gate_rejected_formats"] == [

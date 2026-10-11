@@ -49,6 +49,12 @@ LABEL_FORMAT_REFERENCES = {
         "portion column in addition to per 100 g / 100 ml. Layout reference only; "
         "values are synthetic."
     ),
+    "au_nip_dual": (
+        "FSANZ Standard 1.2.8 Nutrition Information Panel (Australia/New "
+        "Zealand), dual-column Quantity Per Serving / Quantity Per 100 g (or "
+        "100 mL) layout with kJ (optionally Cal) energy. Layout reference "
+        "only; values are synthetic."
+    ),
 }
 
 FAMILIES = list(LABEL_FORMAT_REFERENCES.keys())
@@ -131,6 +137,15 @@ EU_PRODUCT_NAMES = [
     "Alpenhof Müsli", "Bergquell Jogurt", "Nordsee Kräcker", "Landbrot Scheibe",
     "Vitalia Trinkjoghurt", "Kellergut Saft", "Sonnenwiese Waffeln",
     "Talblick Käse", "Elbmarsch Brötchen", "Wiesenthal Suppe",
+]
+AU_PRODUCT_NAMES = [
+    "Kookaburra Muesli", "Southern Cross Oats", "Billabong Cordial",
+    "Eucalypt Honey Co.", "Coral Sea Sardines", "Red Centre Pasta",
+    "Karri Dairy Yoghurt", "Ironbark Crackers",
+]
+AU_SERVINGS = [
+    (30, "g"), (25, "g"), (40, "g"), (45, "g"), (50, "g"),
+    (60, "g"), (75, "g"), (150, "g"), (250, "mL"),
 ]
 
 
@@ -397,6 +412,75 @@ def gen_eu_per_portion(rnd, group_index, record_no):
     return lines, f
 
 
+def gen_au_nip_dual(rnd, group_index, record_no):
+    """FSANZ NIP, dual column: Quantity Per Serving / Quantity Per 100 g|ml.
+
+    Declares kJ energy (with a (x Cal) parenthetical on every third record);
+    no kcal token, no salt row, colon-form serving lines. Template authored
+    in the untouched-family freeze commit; examples generated only after it.
+    """
+    show_cal = record_no % 3 == 1
+    name = rnd.choice(AU_PRODUCT_NAMES)
+    grams, unit = rnd.choice(AU_SERVINGS)
+    serv_per_cont = rnd.randint(2, 16)
+    basis = "per_100ml" if unit == "mL" else "per_100g"
+    kj100 = rnd.randint(150, 2200)
+    prot100 = _round_g(rnd.uniform(0.0, 25.0))
+    fat100 = _round_g(rnd.uniform(0.0, 30.0))
+    carb100 = _round_g(rnd.uniform(0.0, 80.0))
+    na100 = rnd.randint(5, 900)
+
+    kj_s = round(kj100 * grams / 100.0)
+    prot_s = _round_g(prot100 * grams / 100.0)
+    fat_s = _round_g(fat100 * grams / 100.0)
+    carb_s = _round_g(carb100 * grams / 100.0)
+    na_s = int(round(na100 * grams / 100.0))
+    kcal_100 = round(kj100 / KJ_PER_KCAL)
+    kcal_s = round(kj_s / KJ_PER_KCAL)
+    sf100, sf_s = _round_g(fat100 * 0.35), _round_g(fat_s * 0.35)
+    su100, su_s = _round_g(carb100 * 0.2), _round_g(carb_s * 0.2)
+
+    cal_s = f" ({kcal_s} Cal)" if show_cal else ""
+    cal_100 = f" ({kcal_100} Cal)" if show_cal else ""
+    hundred = "mL" if unit == "mL" else "g"
+    lines = [
+        "NUTRITION INFORMATION",
+        f"{name}",
+        f"Servings per package: {serv_per_cont}",
+        f"Serving size: {grams} {unit}",
+        f"                      Quantity Per Serving   Quantity Per 100 {hundred}",
+        f"Energy                {kj_s} kJ{cal_s}       {kj100} kJ{cal_100}",
+        f"Protein               {prot_s} g                {prot100} g",
+        f"Fat, total            {fat_s} g                {fat100} g",
+        f"   – saturated        {sf_s} g               {sf100} g",
+        f"Carbohydrate          {carb_s} g                {carb100} g",
+        f"   – sugars           {su_s} g               {su100} g",
+        f"Sodium                {na_s} mg              {na100} mg",
+    ]
+    f = {}
+    put(f, "energy_kj", "per_serving", str(kj_s), True, 5)
+    put(f, "energy_kj", basis, str(kj100), True, 5)
+    if show_cal:
+        put(f, "energy_kcal", "per_serving", str(kcal_s), True, 5)
+        put(f, "energy_kcal", basis, str(kcal_100), True, 5)
+    else:
+        put(f, "energy_kcal", "per_serving", None, False, None, justify="not_declared")
+        put(f, "energy_kcal", basis, None, False, None, justify="not_declared")
+    put(f, "protein_g", "per_serving", _fmt_g(prot_s), True, 6)
+    put(f, "protein_g", basis, _fmt_g(prot100), True, 6)
+    put(f, "fat_g", "per_serving", _fmt_g(fat_s), True, 7)
+    put(f, "fat_g", basis, _fmt_g(fat100), True, 7)
+    put(f, "carbohydrate_g", "per_serving", _fmt_g(carb_s), True, 9)
+    put(f, "carbohydrate_g", basis, _fmt_g(carb100), True, 9)
+    put(f, "sodium_mg", "per_serving", str(na_s), True, 11)
+    put(f, "sodium_mg", basis, str(na100), True, 11)
+    put(f, "salt_g", "per_serving", None, False, None, justify="not_declared")
+    put(f, "salt_g", basis, None, False, None, justify="not_declared")
+    put(f, "serving_size", None, f"{grams} {unit}", True, 3)
+    put(f, "servings_per_container", None, str(serv_per_cont), True, 2)
+    return lines, f
+
+
 # ---------------------------------------------------------------------------
 # Corruption (seeded OCR-style damage). Corrupted entries become unobservable.
 # ---------------------------------------------------------------------------
@@ -563,6 +647,7 @@ GENERATORS = {
     "ca_bilingual": gen_ca_bilingual,
     "eu_per100g": gen_eu_per100g,
     "eu_per_portion": gen_eu_per_portion,
+    "au_nip_dual": gen_au_nip_dual,
 }
 CLEAN_PER_FAMILY = 60
 

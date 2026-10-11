@@ -14,14 +14,31 @@ strict baseline):
                   portion declarations, US/CA per-serving lines).
 
 Protocol (frozen before evaluation):
-  - Development families: us_dual_column, ca_bilingual. Heldout families:
-    eu_per100g, eu_per_portion. Per-arm metrics are split by frozen family.
-  - Prior exposure is disclosed: all four families were examined during tool
-    development (corpus generator, truth tables, production-gap measurements,
-    and the strict baseline's patterns were all written after inspecting
-    every family's line shapes). The heldout designation is frozen to keep
-    future arm changes honest; it is NOT a clean held-out split, and metrics
-    on heldout families are confirmatory.
+  - Development families: us_dual_column, ca_bilingual, eu_per100g,
+    eu_per_portion (all four examined during tool development). Heldout
+    family: au_nip_dual — the untouched family. Per-arm metrics are split
+    by frozen family.
+  - Exposure of the heldout family, disclosed: its line template was
+    authored into the generator in the freeze commit that introduced it,
+    BEFORE any au_nip_dual record was generated, and the strict baseline
+    was NOT modified for it (baseline sha256 at freeze:
+    bd6d61363c1cc8b42bda7527925a6279ce16efc8108ac0fc2aa9d48fd3b37484,
+    identical to its state in commit ede88b2). Residual limitation: the
+    template was authored by the same evaluator who wrote the baseline,
+    from general knowledge of the FSANZ NIP convention — the guarantee is
+    example-untouchedness, not author independence. The AU results are
+    confirmatory for the frozen baseline: after generation the baseline
+    was evaluated without further tuning.
+  - Keyword rejection and held-out status are separate axes: the keyword
+    gate is a production-capability fact (its keyword list), heldout is a
+    corpus-provenance fact (family exposure). A family can be both; both
+    are disclosed separately and neither implies the other.
+  - Prior exposure of the development families: all four were examined
+    during tool development (corpus generator, truth tables, production-
+    gap measurements, and the strict baseline's patterns were all written
+    after inspecting every family's line shapes). The four EU/CA/US
+    families were originally mislabeled heldout in v3 and are development
+    as of the untouched-family freeze.
   - Records the production keyword gate rejects are not part of its
     evaluation and are not scored as "untouched" probes: no comparison
     happens on them. They are excluded from every total and disclosed
@@ -70,8 +87,10 @@ STATUS_ORDER = [
     "unobservable",
 ]
 
-DEVELOPMENT_FAMILIES = ("us_dual_column", "ca_bilingual")
-HELDOUT_FAMILIES = ("eu_per100g", "eu_per_portion")
+DEVELOPMENT_FAMILIES = (
+    "us_dual_column", "ca_bilingual", "eu_per100g", "eu_per_portion",
+)
+HELDOUT_FAMILIES = ("au_nip_dual",)
 
 PRODUCTION_FIELDS = {
     "energy_kcal": {"per_serving", "per_portion"},
@@ -343,20 +362,35 @@ def build_report(corpus_path: Path, predictions: dict[str, Path]) -> dict:
                 "heldout": list(HELDOUT_FAMILIES),
             },
             "prior_exposure": (
-                "All four corpus families were examined during tool development "
-                "(2026-10-10): the generator, truth tables, production-gap "
-                "measurements, and the strict baseline patterns were all written "
-                "after inspecting every family's line shapes. The development/"
-                "heldout designation is frozen to keep future arm changes honest, "
-                "but it is NOT a clean held-out split; metrics on heldout families "
-                "are confirmatory, not discovery."
+                "The four families us_dual_column, ca_bilingual, eu_per100g and "
+                "eu_per_portion were examined during tool development (2026-10-10): "
+                "the generator, truth tables, production-gap measurements, and the "
+                "strict baseline patterns were all written after inspecting every "
+                "family's line shapes; they are development families (the EU pair "
+                "was originally labeled heldout in report schema v3 and was "
+                "reclassified at the untouched-family freeze). The heldout family "
+                "au_nip_dual is untouched in one specific sense, disclosed: its "
+                "line template was authored into the generator in the freeze "
+                "commit BEFORE any au_nip_dual record existed, and the strict "
+                "baseline was NOT modified for it (baseline sha256 at freeze "
+                "bd6d61363c1cc8b42bda7527925a6279ce16efc8108ac0fc2aa9d48fd3b37484, "
+                "identical to its state in commit ede88b2). Residual limitation: "
+                "the template was authored by the same evaluator who wrote the "
+                "baseline, from general knowledge of the FSANZ Nutrition "
+                "Information Panel convention; the guarantee is example-"
+                "untouchedness, not author independence. AU results are "
+                "confirmatory for the frozen baseline: evaluated without further "
+                "tuning after generation."
             ),
             "gate_rejected_note": (
-                "Records the production keyword gate rejects are excluded from its "
-                "evaluation totals and disclosed as gate_rejected_records and "
-                "gate_rejected_formats. They are not scored as 'untouched' probes: "
-                "no comparison happens on them, and they are not part of the "
-                "evaluation pool."
+                "Keyword rejection and held-out status are separate axes. The "
+                "keyword gate is a production-capability fact; heldout is a "
+                "corpus-provenance fact. Records the production keyword gate "
+                "rejects are excluded from its evaluation totals and disclosed as "
+                "gate_rejected_records and gate_rejected_formats. They are not "
+                "scored as 'untouched' probes: no comparison happens on them. A "
+                "gate-rejected family can be development-exposed, and a heldout "
+                "family can be gate-admitted; neither implies the other."
             ),
         },
         "inputs": {

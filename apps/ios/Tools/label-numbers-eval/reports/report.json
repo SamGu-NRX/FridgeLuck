@@ -661,24 +661,24 @@
       "by_split": {
         "development": {
           "totals": {
-            "abstention": 237,
-            "match": 646,
+            "abstention": 389,
+            "match": 2255,
             "mismatch": 0,
-            "total": 2760,
+            "total": 5590,
             "unavailable": 0,
-            "unavailable_basis": 1147,
-            "unobservable": 730
+            "unavailable_basis": 1182,
+            "unobservable": 1764
           }
         },
         "heldout": {
           "totals": {
-            "abstention": 152,
-            "match": 1609,
+            "abstention": 0,
+            "match": 0,
             "mismatch": 0,
-            "total": 2830,
+            "total": 0,
             "unavailable": 0,
-            "unavailable_basis": 35,
-            "unobservable": 1034
+            "unavailable_basis": 0,
+            "unobservable": 0
           }
         }
       },
@@ -768,15 +768,16 @@
     "frozen_families": {
       "development": [
         "us_dual_column",
-        "ca_bilingual"
-      ],
-      "heldout": [
+        "ca_bilingual",
         "eu_per100g",
         "eu_per_portion"
+      ],
+      "heldout": [
+        "au_nip_dual"
       ]
     },
-    "gate_rejected_note": "Records the production keyword gate rejects are excluded from its evaluation totals and disclosed as gate_rejected_records and gate_rejected_formats. They are not scored as 'untouched' probes: no comparison happens on them, and they are not part of the evaluation pool.",
-    "prior_exposure": "All four corpus families were examined during tool development (2026-10-10): the generator, truth tables, production-gap measurements, and the strict baseline patterns were all written after inspecting every family's line shapes. The development/heldout designation is frozen to keep future arm changes honest, but it is NOT a clean held-out split; metrics on heldout families are confirmatory, not discovery."
+    "gate_rejected_note": "Keyword rejection and held-out status are separate axes. The keyword gate is a production-capability fact; heldout is a corpus-provenance fact. Records the production keyword gate rejects are excluded from its evaluation totals and disclosed as gate_rejected_records and gate_rejected_formats. They are not scored as 'untouched' probes: no comparison happens on them. A gate-rejected family can be development-exposed, and a heldout family can be gate-admitted; neither implies the other.",
+    "prior_exposure": "The four families us_dual_column, ca_bilingual, eu_per100g and eu_per_portion were examined during tool development (2026-10-10): the generator, truth tables, production-gap measurements, and the strict baseline patterns were all written after inspecting every family's line shapes; they are development families (the EU pair was originally labeled heldout in report schema v3 and was reclassified at the untouched-family freeze). The heldout family au_nip_dual is untouched in one specific sense, disclosed: its line template was authored into the generator in the freeze commit BEFORE any au_nip_dual record existed, and the strict baseline was NOT modified for it (baseline sha256 at freeze bd6d61363c1cc8b42bda7527925a6279ce16efc8108ac0fc2aa9d48fd3b37484, identical to its state in commit ede88b2). Residual limitation: the template was authored by the same evaluator who wrote the baseline, from general knowledge of the FSANZ Nutrition Information Panel convention; the guarantee is example-untouchedness, not author independence. AU results are confirmatory for the frozen baseline: evaluated without further tuning after generation."
   },
   "schema": "label-numbers-report-v3",
   "unsupported_production_fields": [
