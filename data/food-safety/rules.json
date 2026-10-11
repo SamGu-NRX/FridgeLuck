@@ -20,7 +20,7 @@
       "retrieved": "2026-10-11",
       "page_last_updated": "Apr 14, 2025",
       "quote": "Cook all food to these minimum internal temperatures, as measured with a food thermometer, before removing food from the heat source. For reasons of personal preference, consumers may choose to cook food to higher temperatures.",
-      "table_quote": "Beef, Pork, Veal and Lamb Steaks, Chops and Roasts | 145 degrees F (62.8 degrees C) and allow to rest for at least 3 minutes; Ground Meats | 160 degrees F (71.1 degrees C); Ground Poultry | 165 degrees F; Ham, Fresh or Smoked (Uncooked) | 145 degrees F (62.8 degrees C) and allow to rest for at least 3 minutes; Fully Cooked Ham (to Reheat) | Reheat cooked hams packaged in USDA-inspected plants to 140 degrees F (60 degrees C) and all others to 165 degrees F (73.9 degrees C).; All Poultry (Breasts, Whole Bird, Legs, Thighs, Wings, Ground Poultry, Giblets and Stuffing) | 165 degrees F (73.9 degrees C); Eggs | 160 degrees F (71.1 degrees C); Fish & Shellfish | 145 degrees F (62.8 degrees C); Leftovers | 165 degrees F (73.9 degrees C); Casseroles | 165 degrees F (73.9 degrees C)"
+      "table_quote": "Beef, Pork, Veal and Lamb Steaks, Chops and Roasts | 145 degrees F (62.8 degrees C) and allow to rest for at least 3 minutes | | Ground Meats | 160 degrees F (71.1 degrees C) | | Ground Poultry | 165 degrees F | | Ham, Fresh or Smoked (Uncooked) | 145 degrees F (62.8 degrees C) and allow to rest for at least 3 minutes | | Fully Cooked Ham (to Reheat) | Reheat cooked hams packaged in USDA-inspected plants to 140 degrees F (60 degrees C) and all others to 165 degrees F (73.9 degrees C). | | All Poultry (Breasts, Whole Bird, Legs, Thighs, Wings, Ground Poultry, Giblets and Stuffing) | 165 degrees F (73.9 degrees C) | | Eggs | 160 degrees F (71.1 degrees C) | | Fish & Shellfish | 145 degrees F (62.8 degrees C) | | Leftovers | 165 degrees F (73.9 degrees C) | | Casseroles | 165 degrees F (73.9 degrees C)"
     },
     {
       "id": "fsg-safe-min-temps",
@@ -29,7 +29,7 @@
       "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
       "retrieved": "2026-10-11",
       "quote": "Always use a food thermometer to check whether meat has reached a safe minimum internal temperature that is hot enough to kill harmful germs that cause food poisoning.",
-      "table_quote": "Chicken, turkey, and other poultry | All: whole bird, breasts, legs, thighs, wings, ground poultry, giblets, sausage, and stuffing inside poultry. | 165°F (74°C); Eggs | Raw eggs | Cook until yolk and white are firm; Egg dishes (such as frittata, quiche) | 160°F (71°C); Leftovers | Any type | 165°F (74°C); Fish (whole or filet) | 145°F (63°C) or cook until flesh is no longer translucent and separates easily with a fork"
+      "table_quote": "| Chicken, turkey, and other poultry | All: whole bird, breasts, legs, thighs, wings, ground poultry, giblets, sausage, and stuffing inside poultry. See USDA's Turkey Thawing Calculator and Turkey Cooking Calculator. | 165°F (74°C) | | Eggs | Raw eggs | Cook until yolk and white are firm | | Egg dishes (such as frittata, quiche) | 160°F (71°C) | | Casseroles (containing meat and poultry) | 165°F (74°C) | | Ham | Raw ham | 145°F (63°C) Rest time: 3 minutes | | Precooked ham (to reheat) | 165°F (74°C) Note: Reheat cooked hams packaged in USDA-inspected plants to 140°F (60°C) | | Leftovers | Any type | 165°F (74°C) | | Pork | Steaks, roasts, chops | 145°F (63°C) Rest time: 3 minutes | | Ground meat and sausage | 160°F (71°C) | | Rabbit and venison | Wild or farm-raised | 160°F (71°C) | | Seafood | Fish (whole or filet), such as salmon, tuna, tilapia, pollock, bass, cod, catfish, trout, etc. | 145°F (63°C) or cook until flesh is no longer translucent and separates easily with a fork | | Shrimp, lobster, crab, and scallops | Cook until flesh is pearly or white, and opaque | | Clams, oysters, mussels | Cook until shells open during cooking |"
     },
     {
       "id": "fsis-doneness-versus-safety",
@@ -117,7 +117,7 @@
       "url": "https://www.foodsafety.gov/people-at-risk",
       "retrieved": "2026-10-11",
       "quote": "Food poisoning or foodborne illness can affect anyone who eats food contaminated by bacteria, viruses, parasites, toxins, or other substances, but certain people are more likely to get sick or to have a serious illness.",
-      "second_quote": "Adults age 65 and older; Children younger than 5 years; People whose immune systems are weakened due to illness or medical treatment; Pregnant women"
+      "second_quote": "Adults age 65 and older * Children younger than 5 years * People whose immune systems are weakened due to illness or medical treatment * Pregnant women"
     },
     {
       "id": "fsis-cleanliness",
@@ -135,7 +135,8 @@
       "title": "Cold Food Storage Chart",
       "url": "https://www.foodsafety.gov/food-safety-charts/cold-food-storage-charts",
       "retrieved": "2026-10-11",
-      "quote": "Leftovers: Cooked meat or poultry — 3 to 4 days; 2 to 6 months (freezer). Soup and stew, vegetable or meat added — 3 to 4 days; 2 to 3 months (freezer). Eggs, raw in shell — 3 to 5 weeks; do not freeze in shell."
+      "quote": "Soups and stews Vegetable or meat added 3 to 4 days 2 to 3 months Leftovers Cooked meat or poultry 3 to 4 days 2 to 6 months",
+      "second_quote": "Eggs Raw eggs in shell 3 to 5 weeks Do not freeze in shell. Beat yolks and whites together, then freeze."
     },
     {
       "id": "usda-foodkeeper-data",
@@ -143,7 +144,20 @@
       "title": "FoodKeeper Data (foodkeeper.json, data version 108, file dated Sep 7, 2018)",
       "url": "https://www.fsis.usda.gov/shared/data/EN/foodkeeper.json",
       "retrieved": "2026-10-11",
-      "quote": "The FoodKeeper dataset published by USDA FSIS at the URL above; per-product pantry, refrigeration and freezing maximum storage times used in SHELF-LIFE.json. Each entry quotes the dataset row verbatim."
+      "quote": "{\"Data_Version_Number\":108.0}",
+      "second_quote": "\"fileName\":\"FMA-Data-v128.xlsx\"",
+      "third_quote": "Published Time: Fri, 07 Sep 2018 17:56:34 GMT"
+    },
+    {
+      "id": "fda-food-code-2022",
+      "org": "US Food and Drug Administration (FDA)",
+      "title": "FDA Food Code 2022, section 3-501.14 Cooling (full document PDF)",
+      "url": "https://www.fda.gov/media/164194/download",
+      "retrieved": "2026-10-11",
+      "page_last_updated": "2022",
+      "quote": "(1) Within 2 hours from 57ºC (135ºF) to 21ºC (70 °F); P and",
+      "second_quote": "(2) Within a total of 6 hours from 57ºC (135ºF) to 5ºC (41 °F) or less. P",
+      "third_quote": "Cooling shall be accomplished in accordance with the time and temperature criteria specified under § 3-501.14 by using one or more of the following methods based on the type of FOOD being cooled: (1) Placing the food in shallow pans; Pf (2) Separating the food into smaller or thinner portions; Pf"
     }
   ],
   "rules": [
@@ -252,7 +266,8 @@
       "id": "leftovers-reheat-165",
       "topic": "reheating",
       "food_class": "leftovers",
-      "summary": "Reheat leftovers to 165 °F (74 °C) measured with a food thermometer; reheat sauces, soups and gravies by bringing them to a rolling boil. Cover leftovers to reheat; in a microwave, cover and rotate, then check the temperature in several places.",
+      "summary": "Reheat EVERY leftover — whatever product class the food belonged to before it was chilled — to 165 °F (74 °C) measured with a food thermometer; reheat sauces, soups and gravies by bringing them to a rolling boil. Reheating overrides the product class: a reheated pork roast goes to 165 °F, not the 145 °F whole-cut minimum. Cover leftovers to reheat; in a microwave, cover and rotate, then check the temperature in several places.",
+      "rs_note": "RS leftovers class carries the 165 °F reheating minimum; the class a dish belonged to before refrigeration never lowers the reheating target.",
       "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "several places (microwave: cover, rotate and check more than one spot, then allow a resting time before the final check)" },
       "match_keywords": ["reheat", "reheat leftovers", "rewarm", "re-warm", "warm up", "microwave", "leftover"],
       "visual_cues_insufficient": ["steam alone", "hot to touch", "colour"],
@@ -273,7 +288,7 @@
       "id": "ham-reheat-140-165",
       "topic": "doneness",
       "food_class": "leftovers",
-      "summary": "Reheat cooked hams packaged in USDA-inspected plants to 140 °F (60 °C); all other hams (fresh or smoked uncooked) cook to 145 °F (63 °C) with a 3-minute rest; reheating any other ham to 165 °F (73.9 °C) is always safe. In the RS safety field use class leftovers with temp_f 165.",
+      "summary": "Ham has three FSIS cases: fresh or smoked uncooked ham cooks to 145 °F (63 °C) with a 3-minute rest; fully cooked ham packaged in USDA-inspected plants is reheated to 140 °F (60 °C); every other ham case — including reheating cooked ham as a leftover — goes to 165 °F (73.9 °C). In the RS safety field use class leftovers with temp_f 165.",
       "rs_note": "RS class leftovers has a 165 °F minimum, so a corpus safety field for reheated ham states temp_f 165; the 140 °F option is FSIS-published only for hams packaged in USDA-inspected plants.",
       "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "alternative_temp_f": 140, "rest_minutes": 0, "placement": "the thickest part of the ham, away from bone" },
       "match_keywords": ["ham"],
@@ -332,7 +347,14 @@
       "id": "cool-rapidly-shallow-containers",
       "topic": "cooling_method",
       "summary": "Cool food rapidly: divide large amounts into shallow containers and cut large items into smaller portions before refrigerating; hot food may go straight into the refrigerator or be chilled first in an ice or cold water bath.",
-      "citation_ids": ["fsis-leftovers"]
+      "citation_ids": ["fsis-leftovers", "fda-food-code-2022"]
+    },
+    {
+      "id": "cooling-two-stage-food-code",
+      "topic": "cooling_window",
+      "summary": "The retail benchmark behind the two-hour rule: FDA Food Code 2022 § 3-501.14 requires cooling cooked food from 135 °F (57 °C) to 70 °F (21 °C) within 2 hours and to 41 °F (5 °C) within a total of 6 hours. FridgeLuck keeps the stricter, simpler two-hour consumer rule; use the two-stage window when dividing large or thick dishes for chilling.",
+      "rs_note": "RS corpus carries no cooling-stage class; this rule documents the retail cooling benchmark behind cool-rapidly and the two-hour rule.",
+      "citation_ids": ["fda-food-code-2022"]
     },
     {
       "id": "thaw-safe-methods",
