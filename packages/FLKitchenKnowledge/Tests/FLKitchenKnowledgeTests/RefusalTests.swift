@@ -71,21 +71,21 @@ final class RefusalTests: XCTestCase {
         // grams stay visible in its bucket but are excluded from money and CO2e,
         // and the refusal is reported.
         var ledger = WasteLedger(
-            prices: [PriceFactor(ingredientKey: "rice", usdPerKg: 1.5, displayQuantity: nil, displayPriceUsd: nil, sourceSeries: nil, citationId: "s1")],
-            emissions: [EmissionFactor(ingredientKey: "rice", owidEntity: nil, kgCo2ePerKg: Range3(low: 1.8, central: 1.8, high: 1.8), citationId: "s2")]
+            prices: [PriceFactor(ingredientKey: "rice", usdPerKg: Decimal(string: "1.5")!, displayQuantity: nil, displayPriceUsd: nil, sourceSeries: nil, citationId: "s1")],
+            emissions: [EmissionFactor(ingredientKey: "rice", owidEntity: nil, kgCo2ePerKg: Range3(low: Decimal(string: "1.8")!, central: Decimal(string: "1.8")!, high: Decimal(string: "1.8")!), citationId: "s2")]
         )
-        ledger.record(KitchenEvent(kind: .discard, ingredientKey: "rice", grams: 500, on: "2026-10-10"))
-        ledger.record(KitchenEvent(kind: .discard, ingredientKey: "maitake-mushroom", grams: 250, on: "2026-10-10"))
+        ledger.record(KitchenEvent(kind: .discard, ingredientKey: "rice", grams: Decimal(string: "500")!, on: "2026-10-10"))
+        ledger.record(KitchenEvent(kind: .discard, ingredientKey: "maitake-mushroom", grams: Decimal(string: "250")!, on: "2026-10-10"))
 
         let result = ledger.result()
-        XCTAssertEqual(result.wasted.grams, 750.0, accuracy: 0.001)
-        XCTAssertEqual(try XCTUnwrap(result.wasted.moneyUsd), 0.75, accuracy: 0.0001) // rice only
-        XCTAssertEqual(try XCTUnwrap(result.wasted.kgCo2e?.central), 0.9, accuracy: 0.0001) // rice only
+        XCTAssertEqual(result.wasted.grams, Decimal(string: "750")!)
+        XCTAssertEqual(try XCTUnwrap(result.wasted.moneyUsd), Decimal(string: "0.75")!) // rice only
+        XCTAssertEqual(try XCTUnwrap(result.wasted.kgCo2e?.central), Decimal(string: "0.900")!) // rice only
 
         XCTAssertEqual(result.refusals.count, 2)
         XCTAssertTrue(result.refusals.contains {
             $0.ingredientKey == "maitake-mushroom" && $0.reason == .missingPrice
-                && ($0.grams - 250.0).magnitude < 0.001
+                && $0.grams == Decimal(string: "250.0")!
         })
         XCTAssertTrue(result.refusals.contains {
             $0.ingredientKey == "maitake-mushroom" && $0.reason == .missingEmissionFactor
@@ -94,12 +94,12 @@ final class RefusalTests: XCTestCase {
 
     func testRefusalsAggregateAcrossBucketsPerIngredientAndReason() throws {
         var ledger = WasteLedger()
-        ledger.record(KitchenEvent(kind: .discard, ingredientKey: "x", grams: 100, on: "2026-10-10"))
-        ledger.record(KitchenEvent(kind: .expire, ingredientKey: "x", grams: 50, on: "2026-10-10"))
+        ledger.record(KitchenEvent(kind: .discard, ingredientKey: "x", grams: Decimal(string: "100")!, on: "2026-10-10"))
+        ledger.record(KitchenEvent(kind: .expire, ingredientKey: "x", grams: Decimal(string: "50")!, on: "2026-10-10"))
         let result = ledger.result()
         XCTAssertEqual(result.refusals.count, 2)
-        XCTAssertEqual(try XCTUnwrap(result.refusals.first { $0.reason == .missingPrice }).grams, 150.0, accuracy: 0.001)
-        XCTAssertEqual(try XCTUnwrap(result.refusals.first { $0.reason == .missingEmissionFactor }).grams, 150.0, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(result.refusals.first { $0.reason == .missingPrice }).grams, Decimal(string: "150.0")!)
+        XCTAssertEqual(try XCTUnwrap(result.refusals.first { $0.reason == .missingEmissionFactor }).grams, Decimal(string: "150.0")!)
     }
 
     func testWrongEnvelopeKindOrVersionRefuses() {

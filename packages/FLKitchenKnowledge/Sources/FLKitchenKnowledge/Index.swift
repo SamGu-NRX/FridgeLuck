@@ -2,14 +2,26 @@ import Foundation
 
 // Payload shapes for the waste factor files.
 
+/// The file-level citation block of a factor table (`data.source`). Describes
+/// where the table came from; factor rows point back to it via their
+/// `citationId`. Unlike a learn card's keyed `SourceRecord`, a table citation
+/// carries no per-row id — and its exact optional descriptors (secondaryUrl,
+/// retrievedVia, …) vary per table, so unknown keys decode-and-ignore.
+public struct TableCitation: Codable, Sendable, Equatable, Hashable {
+    public var citationId: String
+    public var title: String
+    public var publisher: String
+    public var url: String
+}
+
 public struct EmissionFactorsPayload: Codable, Sendable, Equatable {
-    public var source: SourceRecord?
+    public var source: TableCitation?
     public var method: String?
     public var factors: [EmissionFactor]
 }
 
 public struct PriceFactorsPayload: Codable, Sendable, Equatable {
-    public var source: SourceRecord?
+    public var source: TableCitation?
     public var region: String?
     public var asOf: String?
     public var method: String?
