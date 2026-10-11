@@ -180,6 +180,16 @@ struct InventoryConsumptionResult: Sendable {
   let shortfallGrams: Double
 }
 
+// Read-only lot row for planning adapters: the weekly planner consumes
+// per-lot grams with an explicit estimate flag, so no aggregation happens here.
+struct InventoryPlanningLot: Sendable {
+  let ingredientId: Int64
+  let remainingGrams: Double
+  /// True when the amount is a photo-intake guess the user has not confirmed.
+  let quantityIsEstimate: Bool
+  let expiresAt: Date?
+}
+
 // MARK: - Virtual Fridge View Models
 
 /// Active stock row: ingredient + storage, aggregated from lots.

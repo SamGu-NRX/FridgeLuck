@@ -36,6 +36,8 @@ struct SettingsView: View {
             SettingsFoodPreferencesView {
               handleProfileMutation()
             }
+          case .weeklyPlan:
+            WeeklyPlanReviewView()
           case .trackingReminders:
             SettingsTrackingRemindersView()
           case .integrations:
