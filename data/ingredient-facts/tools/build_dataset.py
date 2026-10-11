@@ -102,6 +102,7 @@ def entry(**kw) -> dict:
     kw.setdefault("fdc", None)
     kw.setdefault("gluten", None)
     kw.setdefault("gluten_note", None)
+    kw.setdefault("gluten_override", None)
     ENTRIES.append(kw)
     return kw
 
@@ -278,7 +279,19 @@ simple("lime", "Lime", "plant", synonyms=["limes"], fdc=usda(168155, "Limes (Raw
 simple("ginger", "Ginger", "plant", synonyms=["fresh ginger", "ginger root"],
        fdc=usda(169231, "Ginger Root (Raw)"))
 simple("oats", "Oats", "plant", synonyms=["rolled oats", "porridge oats", "oatmeal"], gluten="unknown",
-       note="oats are gluten-free by nature but routinely cross-contacted; certification varies")
+       note="oats are gluten-free by nature but routinely cross-contacted; certification varies",
+       forms=[{
+           "name": "certified-gluten-free",
+           "matchNames": ["certified gluten-free oats", "gluten-free oats", "gluten free oats",
+                          "certified gluten free oats", "gf oats"],
+           "allergens": {"wheat": f("free", "standard", "oats composition",
+                                    "oats are not a wheat species; certified gluten-free oats carry no "
+                                    "wheat ingredient (independent of the gluten question)")},
+           "gluten": f("free", "label", "certified gluten-free oats label claim",
+                       "certified gluten-free: gluten below 20 ppm (21 CFR 101.100)"),
+           "diets": {"glutenFree": f("allowed", "label", "certified gluten-free oats label claim",
+                                     "certification mark on the product form")},
+       }])
 simple("yogurt", "Yogurt", "dairy", contains=["milk"], synonyms=["plain yogurt", "natural yogurt"])
 simple("honey", "Honey", "insect-product")
 simple("corn", "Corn", "plant", synonyms=["sweet corn", "corn kernels"],
@@ -434,6 +447,27 @@ compound("bread", "Bread", [
     synonyms=["sandwich bread", "sliced bread", "white bread", "sourdough"],
     note="generic bread; enriched sandwich bread is the typical form")
 
+compound("gluten-free-bread", "Gluten-free bread", [
+    comp("wheat-starch", "typical", ev("label", "gluten-free bread ingredient declarations",
+         "commercial gluten-free breads commonly declare wheat starch, a wheat-derived ingredient "
+         "processed to remove gluten")),
+    comp("rice-flour", "typical", ev("standard", "gluten-free bread composition",
+         "gluten-free breads are built on starches and flours such as rice, tapioca and potato")),
+    comp("egg", "variable", ev("standard", "gluten-free bread variants",
+         "many gluten-free breads bind with egg or psyllium; presence varies")),
+], composition_complete=False,
+    allergen_overrides={"wheat": f("contains", "label", "declared wheat starch in gluten-free bread",
+                                   "a declared wheat-derived component is a wheat ingredient; the "
+                                   "gluten-free label does not change wheat status (FDA gluten-free "
+                                   "labeling Q&A, General question 6)")},
+    gluten_override=f("free", "label", "gluten-free bread label claim",
+                      "labeled gluten-free: gluten below 20 ppm (21 CFR 101.100)"),
+    diet_overrides={"glutenFree": f("allowed", "label", "gluten-free bread label claim",
+                                    "gluten-free label claim on the product")},
+    synonyms=["gf bread", "gluten free bread"],
+    note="the FDA case: gluten-free label AND declared wheat-derived component — gluten-free "
+         "diet allowed, wheat allergen still violated")
+
 compound("tofu", "Tofu", [
     comp("soybeans", "certain", ev("standard", "tofu composition", "tofu is coagulated soy milk")),
     comp("water", "certain", ev("standard", "tofu composition")),
@@ -494,20 +528,23 @@ compound("tamari", "Tamari", [
                                    "tamari is a soybean-dominant fermented sauce")),
     comp("wheat", "unknown", ev("standard", "tamari wheat status varies",
          "classic tamari is wheat-free or near-wheat-free, but commercial products vary; "
-         "only a certified gluten-free label settles it")),
+         "only a product ingredient declaration settles wheat")),
 ], composition_complete=False,
     synonyms=["tamari soy sauce", "japanese tamari"],
     fdc=usda(174278, "Soy Sauce (Tamari)", "catalog display name 'Soy Sauce (Tamari)'"),
-    note="tamari vs wheat: unknown unless a gluten-free label is present; certified-GF form is a separate form",
+    note="tamari vs wheat: unknown unless a product ingredient declaration settles it; "
+         "a gluten-free label never establishes wheat absence (FDA permits processed "
+         "wheat-derived ingredients in gluten-free foods)",
     forms=[{
         "name": "certified-gluten-free",
         "matchNames": ["certified gluten-free tamari", "gluten-free tamari", "gluten free tamari",
                        "certified gluten free tamari", "tamari (certified gluten-free)"],
-        "allergens": {"wheat": f("free", "label", "certified gluten-free tamari label claim",
-                                 "US gluten-free labeling (21 CFR 101.100) prohibits wheat as an ingredient in foods "
-                                 "carrying a gluten-free claim")},
+        "allergens": {"wheat": f("unknown", "standard", "FDA gluten-free labeling rule (21 CFR 101.100)",
+                                 "the gluten-free label does not establish wheat absence: FDA permits "
+                                 "processed wheat-derived ingredients in gluten-free foods; tamari's "
+                                 "wheat status needs a product ingredient declaration")},
         "gluten": f("free", "label", "certified gluten-free tamari label claim",
-                    "certified gluten-free: gluten below 20 ppm and no wheat ingredient"),
+                    "certified gluten-free: gluten below 20 ppm (21 CFR 101.100)"),
         "diets": {"glutenFree": f("allowed", "label", "certified gluten-free tamari label claim",
                                   "certification mark on the product form defined in identities.json")},
     }])
@@ -869,6 +906,17 @@ compound("chorizo", "Chorizo", [
     },
     note="casing and fillers vary; some fresh chorizo contains wheat-based rusk or starch")
 part("soya-flour", "Soya flour", "plant", contains=["soy"])
+part("rice-flour", "Rice flour", "plant", gluten="free",
+     note="rice contains no gluten grain")
+simple("spelt", "Spelt", "plant", contains=["wheat"], gluten="contains",
+       synonyms=["spelt flour", "dinkel wheat"],
+       note="spelt is Triticum aestivum subsp. spelta, a wheat species")
+simple("farro", "Farro", "plant", contains=["wheat"], gluten="contains",
+       synonyms=["farro grain", "emmer wheat"],
+       note="farro is emmer (Triticum dicoccum) or related Triticum species, all wheat")
+part("wheat-starch", "Wheat starch", "plant", contains=["wheat"], gluten="unknown",
+     note="wheat-derived and processed to remove gluten; FDA permits it in gluten-free-labeled "
+          "foods, but a wheat allergy still avoids it (declared wheat ingredient)")
 part("stock-additives", "Commercial stock additives (source varies)", "mineral",
      note="commercial stocks list unspecific additives; sources vary by brand")
 part("lemon-zest", "Lemon zest", "plant")
@@ -887,6 +935,42 @@ for e in ENTRIES:
 def carried_allergens(component_key: str) -> set[str]:
     """Allergens a certain/typical component carries (directly)."""
     return CONTAINS_INDEX.get(component_key, set())
+
+
+ENTRY_INDEX = {e["key"]: e for e in ENTRIES}
+DIET_IMPLICATION_MEMO: dict[str, dict[str, str]] = {}
+
+
+def diet_implication(key: str) -> dict[str, str]:
+    """vegetarian/vegan/pescatarian states implied by a component entry.
+
+    violated beats unknown beats allowed. Compounds recurse over their
+    components; variable components demote allowed to unknown.
+    """
+    if key in DIET_IMPLICATION_MEMO:
+        return DIET_IMPLICATION_MEMO[key]
+    e = ENTRY_INDEX[key]
+    out = {"vegetarian": "allowed", "vegan": "allowed", "pescatarian": "allowed"}
+    if e["cls"] is not None:
+        veg, ve, pes = CLASS_DIETS[e["cls"]]
+        out = {"vegetarian": veg, "vegan": ve, "pescatarian": pes}
+    elif e["components"]:
+        ranks = {"allowed": 0, "unknown": 1, "violated": 2}
+        best = {"vegetarian": "allowed", "vegan": "allowed", "pescatarian": "allowed"}
+        for c in e["components"]:
+            if c["certainty"] == "unknown":
+                continue
+            imp = diet_implication(c["key"])
+            variable = c["certainty"] not in ("certain", "typical")
+            for d in best:
+                state = imp[d]
+                if state == "allowed" and variable:
+                    state = "unknown"          # variable component: presence varies
+                if ranks[state] > ranks[best[d]]:
+                    best[d] = state
+        out = best
+    DIET_IMPLICATION_MEMO[key] = out
+    return out
 
 
 def derive(entry: dict) -> dict:
@@ -938,7 +1022,9 @@ def derive(entry: dict) -> dict:
         facts["allergens"] = allergens
 
     # --- gluten (separate property) --------------------------------------
-    if entry["gluten"]:
+    if entry["gluten_override"]:
+        facts["gluten"] = entry["gluten_override"]
+    elif entry["gluten"]:
         state = entry["gluten"]
         if state == "free":
             facts["gluten"] = f("free", "standard",
@@ -992,8 +1078,8 @@ def derive(entry: dict) -> dict:
         diets["glutenFree"] = entry["diet_overrides"]["glutenFree"]
     elif "gluten" in facts:
         st = facts["gluten"]["state"]
-        diets["glutenFree"] = {"state": "violated" if st == "contains" else st,
-                               "evidence": facts["gluten"]["evidence"]}
+        mapped = {"contains": "violated", "free": "allowed", "unknown": "unknown"}[st]
+        diets["glutenFree"] = {"state": mapped, "evidence": facts["gluten"]["evidence"]}
     elif facts.get("allergens", {}).get("wheat", {}).get("state") == "contains":
         w = facts["allergens"]["wheat"]
         diets["glutenFree"] = {"state": "violated", "evidence": w["evidence"]}
@@ -1095,6 +1181,10 @@ def validate(identities: dict, facts: dict) -> list[str]:
         evd = state_obj.get("evidence")
         if evd and evd["kind"] not in EVIDENCE_KINDS:
             problems.append(f"{where}: bad evidence kind '{evd['kind']}'")
+        # absence never rests on catalog or recipe evidence (a nutrient-catalog
+        # mapping or a recipe occurrence is not proof of allergen absence)
+        if state in ("free", "allowed") and evd and evd["kind"] in ("usda", "recipe"):
+            problems.append(f"{where}: absence state '{state}' may not use '{evd['kind']}' evidence")
 
     for key, e in fact_keys.items():
         for a, obj in e.get("allergens", {}).items():
@@ -1107,17 +1197,17 @@ def validate(identities: dict, facts: dict) -> list[str]:
             check_fact(obj, f"{key}.diets.{d}")
         if "gluten" in e:
             check_fact(e["gluten"], f"{key}.gluten")
-        for form_name, patch in e.get("forms", {}).items():
-            for a, obj in patch.get("allergens", {}).items():
+        for form_name, form_facts in e.get("forms", {}).items():
+            for a, obj in form_facts.get("allergens", {}).items():
                 if a not in ALLERGENS:
                     problems.append(f"{key}.forms.{form_name}: unknown allergen '{a}'")
                 check_fact(obj, f"{key}.forms.{form_name}.allergens.{a}")
-            if "gluten" in patch:
-                check_fact(patch["gluten"], f"{key}.forms.{form_name}.gluten")
-            for d, obj in patch.get("diets", {}).items():
+            for d, obj in form_facts.get("diets", {}).items():
                 if d not in DIETS:
                     problems.append(f"{key}.forms.{form_name}: unknown diet '{d}'")
                 check_fact(obj, f"{key}.forms.{form_name}.diets.{d}")
+            if "gluten" in form_facts:
+                check_fact(form_facts["gluten"], f"{key}.forms.{form_name}.gluten")
         for c in e.get("components", []):
             if c["certainty"] not in CERTAINTIES:
                 problems.append(f"{key}.components: bad certainty '{c['certainty']}'")

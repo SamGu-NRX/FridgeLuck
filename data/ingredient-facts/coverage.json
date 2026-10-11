@@ -11,8 +11,8 @@
     "origin/fleet/fl-recipe-originals-sa"
   ],
   "counts": {
-    "identities": 130,
-    "factEntries": 197,
+    "identities": 133,
+    "factEntries": 202,
     "corpusDistinctNames": 85,
     "coveredCorpusNames": 85,
     "simpleUnseededNames": 0
