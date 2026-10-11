@@ -1912,7 +1912,7 @@ struct OnboardingHandoffStep: View {
               summaryPill(text: selectedDiet.capitalized)
             }
             if allergenCount > 0 {
-              summaryPill(text: "\(allergenCount) allergens flagged")
+              summaryPill(text: "\(allergenCount) allergen\(allergenCount == 1 ? "" : "s") flagged")
             }
             if healthConnected {
               summaryPill(text: "Apple Health connected", tint: AppTheme.sage)
