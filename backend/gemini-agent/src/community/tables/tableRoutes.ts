@@ -90,6 +90,10 @@ function tableView(table: TableRecord, membership: MembershipRecord): Record<str
 }
 
 function cookView(cook: SharedCookRecord, authorDisplayName: string | null): Record<string, unknown> {
+  // SPEC 3.4 day-only: a shared-cook response carries the UTC day the cook
+  // happened and never the record's exact share time — table members learn
+  // what was cooked and on which day, not the moment it was shared. The
+  // exact createdAtIso stays in storage (ordering) and out of this view.
   return {
     sharedCookId: cook.sharedCookId,
     tableId: cook.tableId,
@@ -101,7 +105,6 @@ function cookView(cook: SharedCookRecord, authorDisplayName: string | null): Rec
     rating: cook.rating,
     note: cook.note,
     cookedOn: cook.cookedOn,
-    createdAtIso: cook.createdAtIso,
   };
 }
 

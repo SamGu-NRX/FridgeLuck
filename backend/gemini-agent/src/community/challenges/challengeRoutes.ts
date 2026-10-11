@@ -18,6 +18,7 @@ import { errNotFound, errValidation } from "../shared/errors.js";
 import { expectArray, expectOneOf, expectOptionalInt, expectString } from "../shared/parse.js";
 import { mustCommunity, route } from "../shared/http.js";
 import { parseChallengeId, type ChallengeId } from "../shared/ids.js";
+import { toDay } from "../shared/time.js";
 import {
   CHALLENGE_KINDS,
   createChallenge,
@@ -61,6 +62,9 @@ function entryView(entry: {
   ingredientsUsed: readonly string[];
   createdAtIso: string;
 }): Record<string, unknown> {
+  // SPEC 3.4 day-only: the entry's exact record time never leaves the
+  // server — the client sees the UTC day the result was recorded. The exact
+  // timestamp stays in storage (newest-first ordering) and out of this view.
   return {
     entryId: entry.entryId,
     challengeId: entry.challengeId,
@@ -69,7 +73,7 @@ function entryView(entry: {
         ? { recipeId: entry.sourceRecipeId, recipeRevision: entry.recipeRevision }
         : null,
     ingredientsUsed: entry.ingredientsUsed,
-    createdAtIso: entry.createdAtIso,
+    recordedOn: toDay(new Date(entry.createdAtIso)),
   };
 }
 
