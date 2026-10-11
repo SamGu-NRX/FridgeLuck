@@ -17,7 +17,7 @@ iOS CI runs on the composed result. Nothing here merges into `alpha` or `main` b
 2. #23 `fix/intake-inference-semantics`
 3. #15 `obv/fridgeluck-tour-dismiss-race`
 4. #28 `obv/fridgeluck-013`
-5. #34 `obv/fridgeluck-042`
+5. #35 `obv/fridgeluck-042` (the trunk brief wrote "#34"; the branch+SHA identify PR #35 — see CONFLICTS.md C3)
 6. #36 `obv/fridgeluck-046`
 7. #37 `obv/fridgeluck-056`
 8. #32 `obv/fridgeluck-001` (explicit allergen groups, v19 migration)
