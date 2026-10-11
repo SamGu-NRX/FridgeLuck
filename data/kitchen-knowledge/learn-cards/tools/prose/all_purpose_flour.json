@@ -1,0 +1,54 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Milled wheat with the bran and germ removed, leaving the starchy endosperm; its moderate protein gives reliable structure to most home baking.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Wheat was first cultivated in the Fertile Crescent around 9600 BC and now grows on more land than any other food crop — its gluten is so useful that world trade in wheat exceeds that of all other crops combined.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Buy the bag size you will finish in a few months; check the protein note only for bread baking (bread flour, higher), and keep bleached vs unbleached in mind for texture-critical bakes.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in an airtight container in a cool, dark cupboard; wholemeal flours spoil faster than white. The rulebook has the details.",
+   "citations": [],
+   "note": "flour storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "A cup of flour thickens any soup or stew (bloom it in butter first), and small amounts turn into pancakes, roux, or a crisp coating for anything fried.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "bread flour",
+   "ratio": "1:1",
+   "note": "chewier, stronger; fine for most bakes",
+   "citations": []
+  },
+  {
+   "substitute": "gluten-free 1-to-1 blend",
+   "ratio": "1:1",
+   "note": "for structure-baked goods; texture slightly denser",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Wheat — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Wheat",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

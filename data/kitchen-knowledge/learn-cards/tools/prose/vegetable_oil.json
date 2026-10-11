@@ -1,0 +1,54 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "A neutral all-purpose oil (usually soybean or canola blend) for frying, baking, and anything where the oil should stay out of the flavour's way.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The modern bottle is young: Wilhelm Normann hydrogenated liquid fats in 1901, Procter & Gamble launched cottonseed-based Crisco in 1911, and soybean oil ruled American kitchens by the 1950s — today it trails only palm oil globally.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Buy plain 'vegetable oil' for value and neutrality; choose by smoke point for high heat, and keep olive or toasted oils for flavour roles instead.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep sealed, cool, and dark — oil's enemy is light and heat, not time. The rulebook has the details.",
+   "citations": [],
+   "note": "oil storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Old oil that smells painty should go, but neutral oil never stales quickly: it greases pans, conditions cast iron, and makes simple cakes tender.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "canola/rapeseed oil",
+   "ratio": "1:1",
+   "note": "nearly identical; slightly grassier",
+   "citations": []
+  },
+  {
+   "substitute": "melted butter",
+   "ratio": "3/4 the quantity",
+   "note": "flavour up, smoke point down",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Vegetable oil — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Vegetable_oil",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

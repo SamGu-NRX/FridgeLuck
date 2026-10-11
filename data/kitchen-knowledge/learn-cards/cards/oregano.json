@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "oregano",
+  "displayName": "Oregano",
+  "isCore": false,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "A Mediterranean mint-family herb, 'wild marjoram' to its relatives; its oil is up to 80% carvacrol and thymol, which is why the smell alone seasons a tomato sauce.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The name may come from Greek for 'joy of the mountain' (orós + gános); garden-variety oregano is notably bland next to the Greek and Turkish species sold as the same herb, a fact that explains a lot of disappointing pizza.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "For dried, choose deep green leaves with a pungent smell when crushed; for fresh, Greek-style oregano with firm leaves beats the soft garden type for cooking.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep dried in an airtight tin away from light; fresh oregano keeps like other tender herbs. The rulebook has the guidance.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "herb storage windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Crush dried oregano between your fingers into dressings, marinades, and slow tomato sauces; a whole bunch past its best still flavours oil or vinegar for dipping.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "marjoram",
+    "ratio": "1:1",
+    "note": "its sweet cousin; gentler, add later in cooking",
+    "citations": []
+   },
+   {
+    "substitute": "thyme",
+    "ratio": "1:1",
+    "note": "different but compatible; earthier",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171328,
+   "fdcDescription": "Spices, oregano, dried",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 4.09,
+    "fatG": 4.28,
+    "carbohydrateG": 68.92,
+    "energyKcal": 265,
+    "calciumMg": 1597,
+    "potassiumMg": 1260,
+    "vitaminARaeMcg": 85,
+    "fiberG": 42.5,
+    "ironMg": 36.8,
+    "sodiumMg": 25,
+    "vitaminCMg": 2.3,
+    "folateMcg": 237,
+    "saturatedFatG": 1.55,
+    "proteinG": 9
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Oregano — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Oregano",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171328 (Spices, oregano, dried)."
+   }
+  }
+ }
+}

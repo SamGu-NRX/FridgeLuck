@@ -1,0 +1,54 @@
+{
+ "category": "grain_legume",
+ "sections": {
+  "whatItIs": {
+   "text": "A kidney-shaped variety of the common bean — dark red, light speckled, or white (cannellini) — central to chilli, rajma, and Louisiana's Monday red beans and rice.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "In India the red kidney bean is rajma, in Pakistan surkh lobia, in Jamaica 'red peas' — one bean with a passport of names; canned kidney beans are fully cooked before shipping, which is why they go straight into the pot.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Canned, pick undented tins and rinse well; dried, choose glossy unbroken beans and remember red kidney beans must be boiled hard — the FDA's rule is 30 minutes — to destroy their natural toxin.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Dried beans keep airtight and dry; soaked or cooked beans refrigerate in their liquid. The rulebook has the cooked-bean window and the never-eat-raw rules.",
+   "citations": [],
+   "note": "raw and cooked pulse safety lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Cooked kidney beans blend into dips and burger patties, thicken chilli, or roast crisp with chilli powder for snacking.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "black beans",
+   "ratio": "1:1",
+   "note": "softer, earthier; swaps cleanly in chilli",
+   "citations": []
+  },
+  {
+   "substitute": "cannellini",
+   "ratio": "1:1",
+   "note": "the white kidney bean; creamier",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Kidney bean — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Kidney_bean",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

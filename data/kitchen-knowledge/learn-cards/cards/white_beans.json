@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "white_beans",
+  "displayName": "White Beans",
+  "isCore": false,
+  "category": "grain_legume",
+  "sections": {
+   "whatItIs": {
+    "text": "Mild, creamy common beans — navy, cannellini, great northern — that break down to thicken soups or hold their shape in salads.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The navy bean got its American name because the US Navy fed it to sailors as a staple from the mid-1800s; Australia began growing it in Queensland during the Second World War to feed American troops, where it was nicknamed 'the Yankee bean'.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Canned, look for low-salt versions and rinse; dried, pick glossy unbroken beans without discolouration, which can signal poor drying.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Dried beans keep cool, dark, and dry; soaked or cooked beans refrigerate in their liquid. The rulebook has the cooked-bean window and the boil-first rules for raw beans.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "raw and cooked pulse safety lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Soft white beans blend into hummus-adjacent dips, white bean soup, or pasta with garlic and rosemary; mash them with lemon and oil for instant crostini topping.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "chickpeas",
+    "ratio": "1:1",
+    "note": "nuttier, firmer",
+    "citations": []
+   },
+   {
+    "substitute": "butter beans",
+    "ratio": "1:1",
+    "note": "essentially a large white bean; silkier",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 175203,
+   "fdcDescription": "Beans, white, mature seeds, cooked, boiled, without salt",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminARaeMcg": 0,
+    "sugarG": 0.34,
+    "carbohydrateG": 25.09,
+    "energyKcal": 139,
+    "fiberG": 6.3,
+    "ironMg": 3.7,
+    "sodiumMg": 6,
+    "saturatedFatG": 0.09,
+    "vitaminCMg": 0,
+    "folateMcg": 81,
+    "proteinG": 9.73,
+    "fatG": 0.35,
+    "calciumMg": 90,
+    "potassiumMg": 561
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Navy bean — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Navy_bean",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 175203 (Beans, white, mature seeds, cooked, boiled, without salt)."
+   }
+  }
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "green_beans",
+  "displayName": "Green Beans",
+  "isCore": false,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "Immature pods of the common bean, harvested before the seeds inside fill out — eaten pod and all, unlike dried beans.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The common bean was cultivated in Mexico and Peru for thousands of years; the stringless bean that modern shoppers expect was only bred in 1894 by Calvin Keeney, the 'father of the stringless bean', in New York.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose pods that snap cleanly and feel firm, with no limpness or brown spots; smaller beans are usually more tender.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate loosely bagged in the crisper and do not wash until use. The rulebook has the window.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "storage windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Even tired beans shine blanched then flash-fried with garlic, or in a slow braise with tomato; older pods can be stringed with a paring knife.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "sugar snap peas",
+    "ratio": "1:1",
+    "note": "sweeter, cook in half the time",
+    "citations": []
+   },
+   {
+    "substitute": "frozen green beans",
+    "ratio": "1:1",
+    "note": "add straight to the pan; softer texture",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169961,
+   "fdcDescription": "Beans, snap, green, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 0.22,
+    "sugarG": 3.26,
+    "calciumMg": 37,
+    "potassiumMg": 211,
+    "vitaminCMg": 12.2,
+    "folateMcg": 33,
+    "proteinG": 1.83,
+    "fiberG": 2.7,
+    "ironMg": 1.03,
+    "sodiumMg": 6,
+    "carbohydrateG": 6.97,
+    "energyKcal": 31,
+    "vitaminARaeMcg": 35,
+    "saturatedFatG": 0.05
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Green bean — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Green_bean",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169961 (Beans, snap, green, raw)."
+   }
+  }
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "A yeast-leavened round flatbread of wheat, water, yeast, and salt — the pocketed kind puffs into two layers in a very hot oven; in Greece 'pita' still means the thick, pocketless kind.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Pita's roots run to prehistoric flatbreads: the Natufian people of Jordan were baking wild-cereal flatbread about 14,500 years ago, and Babylonian cooks baked pita-like loaves in tannur ovens 4,000 years ago — though the steam-puffed pocket version is probably younger, since no ancient text or medieval Arab cookbook records it.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Look for soft, flexible breads without dry, cracking edges; wholegrain versions hold fillings better, and very fresh pitas reheat beautifully.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep at room temperature in a sealed bag for a day or two, or freeze — the fridge dries bread fastest. The rulebook has the details.",
+   "citations": [],
+   "note": "bread storage windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "A day-old pita crisps into chips with oil and za'atar, toasts for breakfast, or splits for last-minute sandwiches; stale ones tear into soups and fattoush.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "tortilla",
+   "ratio": "1:1",
+   "note": "thinner, no pocket; wraps instead of pockets",
+   "citations": []
+  },
+  {
+   "substitute": "naan",
+   "ratio": "1:1",
+   "note": "richer with ghee and yoghurt",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Pita — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Pita",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

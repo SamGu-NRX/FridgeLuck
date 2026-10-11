@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "capers",
+  "displayName": "Capers",
+  "isCore": false,
+  "category": "pantry",
+  "sections": {
+   "whatItIs": {
+    "text": "Unopened flower buds of a spiny Mediterranean shrub, pickled or salt-cured — tiny bursts of brine that cut through rich food.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The caper bush grows all around the Mediterranean (its original home is debated); the buds and the larger caper berries are eaten salted or pickled, and the plant's other parts go into medicines and cosmetics.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose brine-packed capers with small, even buds (smaller means more delicate); salt-packed taste rounder but need rinsing.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep the jar sealed in the fridge after opening, with buds under brine. The rulebook has the window.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "opened-jar guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Fry capers crisp in butter for pasta or fish, mash into butter for bread, or chop into vinaigrettes and tapenades — they are best in small, frequent doses.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "green olives (chopped)",
+    "ratio": "1:1",
+    "note": "saltier and oilier; rinse if very briny",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 172238,
+   "fdcDescription": "Capers, canned",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 0.41,
+    "vitaminARaeMcg": 7,
+    "fatG": 0.86,
+    "carbohydrateG": 4.89,
+    "saturatedFatG": 0.23,
+    "proteinG": 2.36,
+    "folateMcg": 23,
+    "vitaminCMg": 4.3,
+    "fiberG": 3.2,
+    "ironMg": 1.67,
+    "calciumMg": 40,
+    "potassiumMg": 40,
+    "energyKcal": 23,
+    "sodiumMg": 2348
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Caper — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Caper",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 172238 (Capers, canned)."
+   }
+  }
+ }
+}

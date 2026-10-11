@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "lettuce",
+  "displayName": "Lettuce",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A leaf salad plant grown in hundreds of forms, from crisp iceberg to loose-leaf types; the milky latex in the stem gave it its Latin name lactuca.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Lettuce was farmed by the ancient Egyptians, who turned an oilseed plant into a leafy crop; the Greeks and Romans took it up — romaine is named for the Roman papal gardens and cos for the Greek island of Kos.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose heads or leaves that look crisp and brightly coloured with no rust spots or slimy bases; the lighter the weight for its size, the more it has dried out.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Wash only when using, and keep leaves dry and loosely wrapped in the fridge. The rulebook has the shelf-life details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "leafy-green windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Wilted lettuce still works: Blitz into a green soup base, or sear romaine halves cut-side down for a warm salad; the cores regrow in a dish of water.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "spinach",
+    "ratio": "1:1",
+    "note": "tenderer leaves; wilts faster so dress at the table",
+    "citations": []
+   },
+   {
+    "substitute": "cabbage (shredded)",
+    "ratio": "1:1",
+    "note": "much more crunch; holds up hot dressings and take-away lunches",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169248,
+   "fdcDescription": "Lettuce, iceberg (includes crisphead types), raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "carbohydrateG": 2.97,
+    "energyKcal": 14,
+    "sugarG": 1.97,
+    "saturatedFatG": 0.02,
+    "vitaminARaeMcg": 25,
+    "vitaminCMg": 2.8,
+    "folateMcg": 29,
+    "fiberG": 1.2,
+    "ironMg": 0.41,
+    "sodiumMg": 10,
+    "proteinG": 0.9,
+    "fatG": 0.14,
+    "calciumMg": 18,
+    "potassiumMg": 141
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Lettuce — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Lettuce",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169248 (Lettuce, iceberg (includes crisphead types), raw)."
+   }
+  }
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "category": "condiment",
+ "sections": {
+  "whatItIs": {
+   "text": "Ground, dry-roasted peanuts — usually with salt, sometimes sugar or emulsifiers; the most common of the nut butters and protein-rich for a spread.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Aztecs and Incas ground roasted peanuts into paste centuries ago; the modern version began with a Montreal patent in 1884, was served to patients at John Harvey Kellogg's sanitarium, and started life as a food for the wealthy. George Washington Carver famously did not invent it.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Check the label: natural styles list peanuts (and salt) only and need stirring; conventional no-stir jars use emulsifiers. Crunchy or smooth is a household referendum.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Natural jars keep in the fridge to slow oil separation; stir and reseal. The rulebook has the details.",
+   "citations": [],
+   "note": "opened-jar guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Peanut butter rescues more than toast: whirl into satay sauce, blend into smoothies or banana nice-cream, or bake into cookies when the sweet tooth strikes.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "almond butter",
+   "ratio": "1:1",
+   "note": "gentler flavour, similar fat; usually pricier",
+   "citations": []
+  },
+  {
+   "substitute": "sunflower seed butter",
+   "ratio": "1:1",
+   "note": "nut-free alternative; slightly bitter edge",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Peanut butter — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Peanut_butter",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Tiny granules of rolled semolina, steamed rather than boiled in the traditional way; a staple across the Maghreb served under stews.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The word is likely Berber — the root *KS means 'well rolled, rounded' — and vessels resembling couscoussiers have been found in graves from 3rd-century BC Numidia in Algeria; couscous joined UNESCO's Intangible Cultural Heritage list in 2020.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Instant (pre-steamed) couscous cooks in minutes and suits weeknights; Moroccan (finer) and pearl (larger) types need proper steaming — check the label before planning dinner.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep dry in a sealed container in a cool cupboard. The rulebook has the details.",
+   "citations": [],
+   "note": "dry-goods storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Leftover couscous loosens with a fork and a splash of water, then fries into crispy cakes or tosses cold into salads with lemon and herbs.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "bulgur wheat",
+   "ratio": "1:1",
+   "note": "nuttier, chewier; same soak-or-simmer convenience",
+   "citations": []
+  },
+  {
+   "substitute": "quinoa",
+   "ratio": "1:1",
+   "note": "gluten-free; smaller germ, cooks by boiling",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Couscous — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Couscous",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "oats",
+  "displayName": "Oats",
+  "isCore": true,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "A cool-climate cereal grass whose flattened seeds make porridge, granola, and flour; oats need less summer heat and more rain than wheat, so they ruled Northwest Europe.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Oats were domesticated as a secondary crop — they simply arrived as weed-seeds among other cereals and were kept — while their wild ancestor grew in the Fertile Crescent; they thrive in poor acid soils other grains won't.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose rolled oats for baking and quick porridge, steel-cut for chew; check the date, since oats can go rancid like any whole grain.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep in an airtight container in a cool, dry cupboard. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "dry-goods storage guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Stale oats toast well into granola, blitz into oat flour for pancakes, or steep in milk overnight — porridge requires almost nothing else.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "wheat flour",
+    "ratio": "3/4 the oat quantity",
+    "note": "for thickening and bakes; adds gluten, changes texture",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173904,
+   "fdcDescription": "Cereals, oats, regular and quick, not fortified, dry",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "saturatedFatG": 1.11,
+    "vitaminCMg": 0,
+    "fiberG": 10.1,
+    "ironMg": 4.25,
+    "sugarG": 0.99,
+    "potassiumMg": 362,
+    "fatG": 6.52,
+    "carbohydrateG": 67.7,
+    "energyKcal": 379,
+    "calciumMg": 52,
+    "sodiumMg": 6,
+    "vitaminARaeMcg": 0,
+    "folateMcg": 32,
+    "proteinG": 13.15
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Oat — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Oat",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173904 (Cereals, oats, regular and quick, not fortified, dry)."
+   }
+  }
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "green_onion",
+  "displayName": "Green Onion",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "Young onions pulled before the bulb swells — milder and sweeter than mature onions, with edible tops and white base; the Welsh onion variety never bulbs at all.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The name traces to the ancient port of Ascalon in the eastern Mediterranean — scallion and shallot both descend from Ascalonian onion. In Chinese cooking, scallion with ginger and garlic is called the holy trinity.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Look for perky green tops and crisp white bulbs without sliminess; the thinner they are, the milder they tend to be.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Stand roots-down in a jar of water, loosely covered, in the fridge; they regrow from the white base too. The rulebook has the timing.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "fresh-vegetable windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Chop the greens into everything — eggs, noodles, marinades — or make scallion oil by gently cooking them in oil; the whites char beautifully under a hot grill.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "chives",
+    "ratio": "1:1",
+    "note": "similar mild onion top-note; less crunch",
+    "citations": []
+   },
+   {
+    "substitute": "shallots (raw)",
+    "ratio": "1 shallot per 3 scallions",
+    "note": "sharper and sweeter; soak in water 10 minutes to tame",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170005,
+   "fdcDescription": "Onions, spring or scallions (includes tops and bulb), raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 2.33,
+    "vitaminARaeMcg": 50,
+    "energyKcal": 32,
+    "fatG": 0.19,
+    "calciumMg": 72,
+    "potassiumMg": 276,
+    "proteinG": 1.83,
+    "vitaminCMg": 18.8,
+    "folateMcg": 64,
+    "fiberG": 2.6,
+    "ironMg": 1.48,
+    "sodiumMg": 16,
+    "saturatedFatG": 0.03,
+    "carbohydrateG": 7.34
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Scallion — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Scallion",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170005 (Onions, spring or scallions (includes tops and bulb), raw)."
+   }
+  }
+ }
+}

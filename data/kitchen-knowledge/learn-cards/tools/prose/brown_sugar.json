@@ -1,0 +1,48 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "White sugar with molasses left in (or added back) — the moisture and acid of the molasses are what make bakes chewy and butterscotchy.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Sugar was first produced from sugarcane in the Indian subcontinent — Sanskrit śarkarā is the root of 'sugar' — and reached Europe via Arabic Sicily and Spain; beet sugar, first industrialised in Prussia in 1801, is the starting point of the modern industry.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose by feel: soft and clumpy is fresh, hard as brick just needs re-moistening (a slice of bread in the jar overnight); light vs dark is simply molasses level.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep airtight at room temperature so it stays soft. The rulebook has the details.",
+   "citations": [],
+   "note": "dry-goods storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Hardened brown sugar dissolves back in warm recipes, grates fine, or can be blitzed; it also rubs beautifully onto pork and salmon.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "white sugar + molasses",
+   "ratio": "1 cup + 1 tbsp molasses per cup",
+   "note": "exact replacement; dark sugar = 2 tbsp",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Sugar — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Sugar",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

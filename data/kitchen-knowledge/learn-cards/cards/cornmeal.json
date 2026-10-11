@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "cornmeal",
+  "displayName": "Cornmeal",
+  "isCore": false,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "Dried maize ground coarse to fine — polenta in Italy, mush and cornbread in the American South, ugali and sadza across Africa, masa harina when nixtamalized for tortillas.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The same ground maize becomes a named staple almost everywhere it grows: polenta in Italy; nshima in Zambia, nsima in Malawi, ugali in the Great Lakes; cou-cou in Barbados, where it shares a national dish with flying fish.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Stone-ground retains the germ — more flavour, shorter life; steel-ground keeps about a year airtight. Fine or coarse depends on the dish, so read the recipe before the shelf.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep airtight in a cool, dry cupboard; stone-ground prefers the fridge. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "dry-goods storage guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Set cornmeal fries into crisp golden slices for breakfast; a dusting of it makes the crispiest crust on fried fish or roast potatoes.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "polenta",
+    "ratio": "1:1",
+    "note": "the same thing, Italian-labelled; grinds vary",
+    "citations": []
+   },
+   {
+    "substitute": "breadcrumbs",
+    "ratio": "1:1",
+    "note": "for coating; less crunch, no corn flavour",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 168867,
+   "fdcDescription": "Cornmeal, degermed, enriched, yellow",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "saturatedFatG": 0.22,
+    "vitaminARaeMcg": 11,
+    "fiberG": 3.9,
+    "ironMg": 4.36,
+    "sodiumMg": 7,
+    "vitaminCMg": 0,
+    "folateMcg": 209,
+    "proteinG": 7.11,
+    "fatG": 1.75,
+    "carbohydrateG": 79.45,
+    "energyKcal": 370,
+    "sugarG": 1.61,
+    "calciumMg": 3,
+    "potassiumMg": 142
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Cornmeal — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cornmeal",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 168867 (Cornmeal, degermed, enriched, yellow)."
+   }
+  }
+ }
+}

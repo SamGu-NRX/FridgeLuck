@@ -1,0 +1,54 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "The sweet Genovese basil of the West is one herb of a vast family — the clove-like scent comes from eugenol, and Thai, lemon, and holy basil are distinct cousins.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Basil is native to tropical and subtropical Asia, from India and Sri Lanka across to southern China and down to northern Australia; the genus Ocimum includes at least 60 varieties that cross-pollinate freely.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose bunches with perky, unblemished leaves and no blackening; avoid flowering stems for cooking (the leaves turn bitter).",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep like cut flowers — stems in water, loosely bagged, away from the coldest shelf, which blackens basil. The rulebook has the timing.",
+   "citations": [],
+   "note": "fresh-herb windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Wilted basil still makes great pesto or basil oil; blitz with olive oil and freeze in cubes, or layer the good leaves with tomato and cheese for a caprese finish.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "Thai basil",
+   "ratio": "1:1",
+   "note": "anise edge; holds up better to heat",
+   "citations": []
+  },
+  {
+   "substitute": "baby spinach + a little dried basil",
+   "ratio": "volume-for-volume",
+   "note": "in pesto when fresh basil is short",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Basil — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Basil",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

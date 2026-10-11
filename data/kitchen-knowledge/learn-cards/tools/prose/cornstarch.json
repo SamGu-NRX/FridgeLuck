@@ -1,0 +1,54 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "Pure starch from the corn kernel's endosperm — the quiet thickener behind glossy sauces, custards, and crisp-fried anything; cornflour, in British English.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Until 1851 corn starch was mostly a laundry product; the culinary kind was patented in 1854 by John Polson of Brown & Polson in Paisley, Scotland — muslin makers who became the UK's largest starch producers.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Any plain box works; skip pre-mixed 'gravy thickeners' with additives, and buy the smallest box if you thicken rarely — it keeps for ages either way.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in an airtight container in a dry cupboard. The rulebook has the details.",
+   "citations": [],
+   "note": "dry-goods storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Beyond sauces, cornstarch crispst — toss chicken or tofu in it before frying, or whisk a slurry into soup when it needs body; it never flours the flavour.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "arrowroot starch",
+   "ratio": "1:1",
+   "note": "glossier, freeze-thaw stable; add at the end",
+   "citations": []
+  },
+  {
+   "substitute": "all-purpose flour",
+   "ratio": "2x the cornstarch quantity",
+   "note": "works but clouds sauces and needs longer cooking",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Corn starch — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Corn_starch",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

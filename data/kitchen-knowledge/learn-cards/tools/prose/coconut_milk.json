@@ -1,0 +1,48 @@
+{
+ "category": "nut_seed",
+ "sections": {
+  "whatItIs": {
+   "text": "A rich, opaque liquid pressed from the grated pulp of mature coconuts; thinner and thicker pressings give coconut milk and coconut cream.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Coconut milk is a traditional ingredient across Southeast Asia, Oceania, South Asia, and East Africa, and spread to the Caribbean, Central America, and West Africa with colonial-era coconut plantings.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "For cooking, choose full-fat cans without added thickeners where possible; check for dents or bulging and shake lightly (a sloshy can is fine, a solid one may be separated cream).",
+   "citations": []
+  },
+  "storage": {
+   "text": "Move leftover canned milk to a covered container in the fridge; it firms up when chilled. The rulebook has the window.",
+   "citations": [],
+   "note": "opened-can window lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Stir leftover coconut milk into curries, porridge, or rice for richness, or whip the separated cream for desserts.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "single cream",
+   "ratio": "3/4 of the coconut milk quantity",
+   "note": "for richness in curries; dairy-based and less coconutty, add a squeeze of lime",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Coconut milk — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Coconut_milk",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

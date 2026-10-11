@@ -1,0 +1,48 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "The 'warm spices' blend of the Indian subcontinent — cardamom, cinnamon, cloves, peppercorns, cumin and more, roasted then ground; every region and family keeps its own ratio.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Garam masala is the parent of Britain's curry powder, which was adapted from it for Western markets; within India none of its many regional recipes is considered more authentic than another.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Buy small quantities of freshly ground, or better, grind your own from whole toasted spices; the blend should smell sweetly pungent, not flat.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in an airtight tin away from heat and light; it fades within months. The rulebook has the spice-shelf guidance.",
+   "citations": [],
+   "note": "spice storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Sprinkle it at the end of cooking, when its aromatics matter most — over dals, roast cauliflower, or scrambled eggs; a pinch wakes up tomato soup too.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "curry powder",
+   "ratio": "1:1",
+   "note": "sharper and turmeric-forward; different character but works",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Garam masala — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Garam_masala",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

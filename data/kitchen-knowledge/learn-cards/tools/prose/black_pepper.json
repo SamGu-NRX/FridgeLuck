@@ -1,0 +1,54 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "Dried berries of a vine, harvested at different stages: black from cooked-and-dried unripe fruit, white from ripe seeds alone, green from unripe; the heat is piperine, unrelated to chilli capsaicin.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Native to South Asia and traded since antiquity, black pepper is one of the most commonly traded spices in the world; the word 'pepper' only spread to the unrelated chilli in the 16th century.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Buy whole peppercorns and grind fresh — pre-ground pepper loses its aroma in months; the corns should feel heavy and smell sharp when crushed.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep whole in an airtight tin away from heat and light. The rulebook has the spice-shelf guidance.",
+   "citations": [],
+   "note": "spice storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Old peppercorns still work cracked into marinades, pepper sauce, or bloomed in butter; a coarse grind in the mill may just taste tamer.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "white pepper",
+   "ratio": "1:1",
+   "note": "same vine, fermented flavour; invisible in cream sauces",
+   "citations": []
+  },
+  {
+   "substitute": "green peppercorns",
+   "ratio": "1:1",
+   "note": "fresher, gentler; classic in steak au poivre",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Black pepper — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Black_pepper",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

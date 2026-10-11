@@ -1,0 +1,48 @@
+{
+ "category": "grain_legume",
+ "sections": {
+  "whatItIs": {
+   "text": "An ancient pulse eaten whole, ground into flour, or blended into hummus; kabuli (large, tan) is the usual Western type, desi (small, dark) the South Asian one.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The chickpea is one of the earliest cultivated legumes, with the oldest archaeological evidence found in Syria; India alone grew three-quarters of the world's 2023 crop.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Canned, look for undented tins and firm whole beans; dried, choose even, uncracked grains and buy what you will use within a year for best cooking.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Opened canned chickpeas go into a covered container in the fridge; dry ones live in an airtight jar in a cool cupboard. The rulebook has the timing.",
+   "citations": [],
+   "note": "opened-can and cooked-pulse windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Leftover chickpeas crisp in a hot oven with oil and spice for snacks, mash into sandwich fillings, or stir into soups as a thickener.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "white beans",
+   "ratio": "1:1",
+   "note": "creamier and milder; blends smoother into dips",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Chickpea — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Chickpea",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

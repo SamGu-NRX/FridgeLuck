@@ -1,0 +1,48 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A crisp, 95%-water fruit of a climbing vine, botanically a pepo; slicing, pickling, and seedless are the three main types.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Cucumbers come from Asia, from India across to northern Thailand; they have been cultivated for at least 3,000 years — the emperor Tiberius reportedly ate them year-round — and the Spanish carried them to the Americas by 1494.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose firm, evenly dark cucumbers without wrinkles or soft ends; larger ones can carry more seeds and bitterness.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate in the crisper, loosely wrapped, and keep away from the coldest shelf, which can pit them. The rulebook has the details.",
+   "citations": [],
+   "note": "shelf-life guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Soft cucumbers make quick pickles, raita, or chilled soup; peel and deseed if the skin has toughened.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "courgette (raw)",
+   "ratio": "1:1",
+   "note": "similar crunch and mildness; slightly sweeter, great in salads",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Cucumber — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Cucumber",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

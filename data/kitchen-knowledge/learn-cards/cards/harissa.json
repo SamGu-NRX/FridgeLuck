@@ -1,0 +1,59 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "harissa",
+  "displayName": "Harissa",
+  "isCore": false,
+  "category": "condiment",
+  "sections": {
+   "whatItIs": {
+    "text": "Tunisia's hot chilli paste — roasted red and Baklouti peppers with garlic, caraway, coriander, cumin, and olive oil carrying the flavour.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Chillies reached Tunisia with the Columbian exchange, presumably during the Spanish occupation of 1535-1574, and harissa grew up on the Cape Bon Peninsula; UNESCO inscribed the paste and its traditions as Intangible Cultural Heritage in 2022.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Rose harissa adds floral softness, classic versions more fire; check that peppers, not fillers, lead the ingredient list, and start with less than you think.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate after opening with a film of oil on top. The rulebook has the window.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "opened-jar guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Stir it into soups, stews, and couscous, or thin with oil and lemon for a grill marinade; a dab lifts eggs, yoghurt, and roast vegetables.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "chili flakes + cumin + garlic",
+    "ratio": "1 tsp + pinch + clove per tbsp",
+    "note": "builds the same warmth without the paste body",
+    "citations": []
+   }
+  ],
+  "sources": {
+   "s1": {
+    "title": "Harissa — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Harissa",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   }
+  }
+ }
+}

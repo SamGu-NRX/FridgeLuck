@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "tahini",
+  "displayName": "Tahini",
+  "isCore": false,
+  "category": "pantry",
+  "sections": {
+   "whatItIs": {
+    "text": "Sesame seeds ground into a pourable paste — the base of hummus, baba ghanoush, halva, and countless dressings; the name comes from Arabic for 'to grind'.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Sesame's oldest mention is a cuneiform document 4,000 years old describing sesame wine served to the gods; a 10th-century Arabic cookbook gives a ground-sesame condiment, and tahini appears in a 13th-century hummus recipe — English only picked the word up in the late 1930s.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose smooth, pourable tahini of hulled, roasted seeds; unhulled is more bitter. Stir before judging — separated oil is normal, bitterness is not.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep sealed in a cool cupboard or fridge; the fridge stiffens it, so stir and warm slightly before use. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "opened-jar guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Whisk with lemon juice and water into a sauce for everything from falafel to roasted squash; it also thickens smoothies and makes halva-adjacent fudge with honey.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "peanut butter",
+    "ratio": "1:1",
+    "note": "sweeter; add lemon to balance",
+    "citations": []
+   },
+   {
+    "substitute": "sunflower seed butter",
+    "ratio": "1:1",
+    "note": "nut-free kitchens",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170189,
+   "fdcDescription": "Seeds, sesame butter, tahini, from roasted and toasted kernels (most common type)",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 0.49,
+    "vitaminARaeMcg": 3,
+    "fatG": 53.76,
+    "carbohydrateG": 21.19,
+    "energyKcal": 595,
+    "calciumMg": 426,
+    "potassiumMg": 414,
+    "proteinG": 17,
+    "vitaminCMg": 0,
+    "folateMcg": 98,
+    "fiberG": 9.3,
+    "ironMg": 8.95,
+    "sodiumMg": 115,
+    "saturatedFatG": 7.53
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Tahini — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tahini",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170189 (Seeds, sesame butter, tahini, from roasted and toasted kernels (most common type))."
+   }
+  }
+ }
+}

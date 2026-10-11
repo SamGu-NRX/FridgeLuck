@@ -1,0 +1,54 @@
+{
+ "category": "nut_seed",
+ "sections": {
+  "whatItIs": {
+   "text": "A legume, not a nut: a plant that flowers above ground and ripens its pods below — Linnaeus named it hypogaea, 'under the earth'.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The peanut is native to South America east of the Andes and fixes nitrogen in root nodules like its bean cousins; the American names 'goober' and 'pindar' reached the US through the Kikongo language of enslaved Africans.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose whole, uncracked shells that rattle faintly and smell sweet; shelled nuts should be uniformly coloured with no oil sheen or paint-like smell.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Cool, dark, and airtight — refrigerate shelled peanuts for long keeping. The rulebook has the details.",
+   "citations": [],
+   "note": "nut storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Slightly tired peanuts roast back to life in a low oven and turn into satay sauce, kung pao, or a crushed crust for chicken; older nuts are safest cooked, not raw.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "cashews",
+   "ratio": "1:1",
+   "note": "sweeter, softer; standard kung pao swap",
+   "citations": []
+  },
+  {
+   "substitute": "sunflower seeds",
+   "ratio": "1:1",
+   "note": "nut-free kitchens",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Peanut — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Peanut",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

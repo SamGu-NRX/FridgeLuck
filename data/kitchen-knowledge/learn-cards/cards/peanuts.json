@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "peanuts",
+  "displayName": "Peanuts",
+  "isCore": false,
+  "category": "nut_seed",
+  "sections": {
+   "whatItIs": {
+    "text": "A legume, not a nut: a plant that flowers above ground and ripens its pods below — Linnaeus named it hypogaea, 'under the earth'.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The peanut is native to South America east of the Andes and fixes nitrogen in root nodules like its bean cousins; the American names 'goober' and 'pindar' reached the US through the Kikongo language of enslaved Africans.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose whole, uncracked shells that rattle faintly and smell sweet; shelled nuts should be uniformly coloured with no oil sheen or paint-like smell.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Cool, dark, and airtight — refrigerate shelled peanuts for long keeping. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "nut storage guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Slightly tired peanuts roast back to life in a low oven and turn into satay sauce, kung pao, or a crushed crust for chicken; older nuts are safest cooked, not raw.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "cashews",
+    "ratio": "1:1",
+    "note": "sweeter, softer; standard kung pao swap",
+    "citations": []
+   },
+   {
+    "substitute": "sunflower seeds",
+    "ratio": "1:1",
+    "note": "nut-free kitchens",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 172430,
+   "fdcDescription": "Peanuts, all types, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminARaeMcg": 0,
+    "fiberG": 8.5,
+    "sugarG": 4.72,
+    "sodiumMg": 18,
+    "vitaminCMg": 0,
+    "folateMcg": 240,
+    "saturatedFatG": 6.28,
+    "ironMg": 4.58,
+    "proteinG": 25.8,
+    "calciumMg": 92,
+    "potassiumMg": 705,
+    "fatG": 49.24,
+    "carbohydrateG": 16.13,
+    "energyKcal": 567
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Peanut — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Peanut",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 172430 (Peanuts, all types, raw)."
+   }
+  }
+ }
+}

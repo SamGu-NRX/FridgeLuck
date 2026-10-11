@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "pork_chops",
+  "displayName": "Pork Chops",
+  "isCore": false,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "A thick slice from beside the pig's rib — loin chop, rib chop, or shoulder chop — fried, grilled, or braised across half the world's kitchens.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The English term dates to about 1752 and the French côtelette de porc to the 14th century, but chops only became widely popular in the 19th century; Mrs Beeton gave two recipes in 1861, and old cookbooks insisted on cooking pork to death — modern breeding has made the safe, juicy chop possible.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose chops with pink, marbled flesh and a thin fat edge; bone-in chops stay juicier, and shoulder chops are the budget-friendly flavour winner for braising.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Raw pork keeps on the coldest shelf for the rulebook's window; marinate in the fridge, never on the counter.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "raw-pork storage windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Leftover chop slices cold into salads or warms through in a pan sauce — apple, mustard, or cream; reheated gently (not microwaved hard), it stays tender.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "pork tenderloin",
+    "ratio": "same weight",
+    "note": "much leaner; cook faster or it dries",
+    "citations": []
+   },
+   {
+    "substitute": "chicken thighs",
+    "ratio": "1:1",
+    "note": "the standby for the same pan methods",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 167839,
+   "fdcDescription": "Pork, fresh, loin, top loin (chops), boneless, separable lean and fat, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 6.94,
+    "carbohydrateG": 0,
+    "sugarG": 0,
+    "calciumMg": 7,
+    "potassiumMg": 373,
+    "fiberG": 0,
+    "ironMg": 0.5,
+    "sodiumMg": 48,
+    "vitaminARaeMcg": 1,
+    "proteinG": 21.55,
+    "vitaminCMg": 0,
+    "folateMcg": 0,
+    "saturatedFatG": 2.45,
+    "energyKcal": 155
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Pork chop — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Pork_chop",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 167839 (Pork, fresh, loin, top loin (chops), boneless, separable lean and fat, raw)."
+   }
+  }
+ }
+}
