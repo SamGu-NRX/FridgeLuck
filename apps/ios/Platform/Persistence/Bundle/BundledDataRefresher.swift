@@ -77,9 +77,9 @@ enum BundledDataRefresher {
 
   /// Test seams invoked inside the write transaction between phases, so tests can
   /// crash a pass at a known point and verify nothing was committed.
-  struct InjectionPoints {
-    var afterAdoption: (() throws -> Void)?
-    var afterRowUpdates: (() throws -> Void)?
+  struct InjectionPoints: Sendable {
+    var afterAdoption: (@Sendable () throws -> Void)?
+    var afterRowUpdates: (@Sendable () throws -> Void)?
   }
 
   /// Readiness contract consumed from the historical-snapshot stream
@@ -111,17 +111,15 @@ enum BundledDataRefresher {
     readiness: HistoricalSnapshotReadiness,
     injections: InjectionPoints = InjectionPoints()
   ) async throws -> BundledDataRefreshOutcome {
-    var outcome = BundledDataRefreshOutcome()
-    try await appDB.dbQueue.write { db in
-      outcome = try refreshInTransaction(
-        db: db, pass: pass, readiness: readiness, injections: injections)
+    return try await appDB.dbQueue.write { db in
+      try refreshInTransaction(
+        db, pass: pass, readiness: readiness, injections: injections)
     }
-    return outcome
   }
 
   /// Runs the whole pass inside the caller's transaction. Rolls back on any throw.
   static func refreshInTransaction(
-    db: Database,
+    _ db: Database,
     pass: Pass,
     readiness: HistoricalSnapshotReadiness,
     injections: InjectionPoints = InjectionPoints()
@@ -136,20 +134,20 @@ enum BundledDataRefresher {
     try readiness.verify(db)
 
     if try fetchStateValue(db, key: "ownership_ready") != "1" {
-      try adoptLegacyRows(db: db, pass: pass, outcome: &outcome)
+      try adoptLegacyRows(db, pass: pass, outcome: &outcome)
       try setStateValue(db, key: "ownership_ready", value: "1")
       try setStateValue(db, key: "adoption_completed_at", value: isoTimestamp())
       try injections.afterAdoption?()
     }
 
-    try applyCurrentPayload(db: db, pass: pass, outcome: &outcome)
+    try applyCurrentPayload(db, pass: pass, outcome: &outcome)
     try injections.afterRowUpdates?()
 
-    try recordRemovals(db: db, pass: pass)
+    try recordRemovals(db, pass: pass)
     try setStateValue(db, key: "refresh_bundle_hash", value: pass.currentDataSha256)
     try setStateValue(db, key: "refresh_completed_at", value: isoTimestamp())
 
-    try verifyPostConditions(db: db, pass: pass)
+    try verifyPostConditions(db, pass: pass)
     return outcome
   }
   // MARK: - Pass construction
@@ -200,7 +198,7 @@ enum BundledDataRefresher {
   }
 
   private static func adoptLegacyRows(
-    db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
+    _ db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
   ) throws {
     // Index the pins by normalized name so matching never depends on the id drift
     // that motivated adoption in the first place.
@@ -241,15 +239,15 @@ enum BundledDataRefresher {
     }
 
     try adoptIngredients(
-      db: db,
+      db,
       dataJsonPins: dataJsonIngredientPins,
       catalogPins: catalogIngredientPins,
       outcome: &outcome)
-    try adoptRecipes(db: db, recipePins: recipePinIndex, outcome: &outcome)
+    try adoptRecipes(db, recipePins: recipePinIndex, outcome: &outcome)
   }
 
   private static func adoptIngredients(
-    db: Database,
+    _ db: Database,
     dataJsonPins: [String: [PinIngredientCandidate]],
     catalogPins: [String: [PinIngredientCandidate]],
     outcome: inout BundledDataRefreshOutcome
@@ -290,7 +288,7 @@ enum BundledDataRefresher {
   }
 
   private static func adoptRecipes(
-    db: Database, recipePins: [String: [PinRecipeCandidate]],
+    _ db: Database, recipePins: [String: [PinRecipeCandidate]],
     outcome: inout BundledDataRefreshOutcome
   ) throws {
     let rows = try Row.fetchAll(
@@ -335,7 +333,7 @@ enum BundledDataRefresher {
   /// Shared adoption decision: exactly one distinct candidate key whose content
   /// matches wins; zero, multi-key, or already-taken candidates get diagnostics.
   private static func adoptRow(
-    db: Database,
+    _ db: Database,
     matching: [(key: String, hash: String)],
     table: String,
     rowId: Int64,
@@ -379,15 +377,15 @@ enum BundledDataRefresher {
   // MARK: - Phase 2: apply the current payload
 
   private static func applyCurrentPayload(
-    db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
+    _ db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
   ) throws {
-    try applyIngredients(db: db, pass: pass, outcome: &outcome)
-    try applyCatalogIngredients(db: db, pass: pass, outcome: &outcome)
-    try applyRecipes(db: db, pass: pass, outcome: &outcome)
+    try applyIngredients(db, pass: pass, outcome: &outcome)
+    try applyCatalogIngredients(db, pass: pass, outcome: &outcome)
+    try applyRecipes(db, pass: pass, outcome: &outcome)
   }
 
   private static func applyIngredients(
-    db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
+    _ db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
   ) throws {
     for (idString, raw) in pass.current.ingredients {
       guard let id = Int(idString) else { continue }
@@ -399,14 +397,13 @@ enum BundledDataRefresher {
           fields: BundleRowProjection.dataJsonIngredientFields(raw)),
         writeFields: ingredientWriteFields(from: raw),
         payloadRef: "ingredient/\(id) (\(raw.name))",
-        outcome: &outcome,
         recordInserted: { outcome.ingredientsInserted += 1 },
         recordUpdated: { outcome.ingredientsUpdated += 1 })
     }
   }
 
   private static func applyCatalogIngredients(
-    db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
+    _ db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
   ) throws {
     for raw in pass.catalog {
       try upsertIngredient(
@@ -417,7 +414,6 @@ enum BundledDataRefresher {
           fields: BundleRowProjection.catalogIngredientFields(raw)),
         writeFields: catalogWriteFields(from: raw),
         payloadRef: "usda/\(raw.fdcId) (\(raw.name))",
-        outcome: &outcome,
         recordInserted: { outcome.ingredientsInserted += 1 },
         recordUpdated: { outcome.ingredientsUpdated += 1 })
     }
@@ -431,13 +427,12 @@ enum BundledDataRefresher {
   /// - no owned row but an unowned name-twin exists: blocked, diagnostic
   /// - no owned row but the name is held by a differently-owned row: blocked, diagnostic
   private static func upsertIngredient(
-    db: Database,
+    _ db: Database,
     key: String,
     name: String,
     payloadHash: String,
     writeFields: [String: (any DatabaseValueConvertible)?],
     payloadRef: String,
-    outcome: inout BundledDataRefreshOutcome,
     recordInserted: () -> Void,
     recordUpdated: () -> Void
   ) throws {
@@ -507,7 +502,7 @@ enum BundledDataRefresher {
   }
 
   private static func applyRecipes(
-    db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
+    _ db: Database, pass: Pass, outcome: inout BundledDataRefreshOutcome
   ) throws {
     // Payload ingredient id -> owned row id. New ingredients were inserted in the
     // ingredient passes, so every resolvable pair resolves here.
@@ -608,7 +603,7 @@ enum BundledDataRefresher {
 
   // MARK: - Phase 3: removals
 
-  private static func recordRemovals(db: Database, pass: Pass) throws {
+  private static func recordRemovals(_ db: Database, pass: Pass) throws {
     let payloadRecipeKeys = Set(
       pass.current.recipes.map { BundleOwnership.recipeKey(bundleRecipeId: $0.id) })
     for row in try Row.fetchAll(
@@ -645,7 +640,7 @@ enum BundledDataRefresher {
   /// whose live content equals the payload's projection — unless a diagnostic
   /// explains the exception. Anything else means the pass has a bug; throw and
   /// let the transaction roll the database back.
-  private static func verifyPostConditions(db: Database, pass: Pass) throws {
+  private static func verifyPostConditions(_ db: Database, pass: Pass) throws {
     var ownedKeysByTable: (recipes: Set<String>, ingredients: Set<String>) = ([], [])
     for row in try Row.fetchAll(
       db, sql: "SELECT ownership_key FROM recipes WHERE ownership_key IS NOT NULL"
@@ -678,11 +673,11 @@ enum BundledDataRefresher {
         // content wins), explained by the diagnostic the pass records when it
         // declines to touch the row.
         entryOk =
-          liveHash == CanonicalHash.hash(fields: BundleRowProjection.recipeFields(raw))
-          || try hasDiagnostic("recipe", key, "modified_row")
+          try liveHash == CanonicalHash.hash(fields: BundleRowProjection.recipeFields(raw))
+          || hasDiagnostic("recipe", key, "modified_row")
       } else {
         entryOk = try hasDiagnostic("recipe", key, "blocked_by_unadopted_row")
-          || try hasDiagnostic("recipe", key, "unresolved_ingredient_dependency")
+          || hasDiagnostic("recipe", key, "unresolved_ingredient_dependency")
       }
       if !entryOk {
         throw BundledDataRefreshError.postConditionFailed("recipe entry \(key)")
@@ -695,11 +690,11 @@ enum BundledDataRefresher {
       if ownedKeysByTable.ingredients.contains(key) {
         let liveHash = try liveIngredientHashByKey(db, key: key)
         entryOk =
-          liveHash == CanonicalHash.hash(fields: BundleRowProjection.dataJsonIngredientFields(raw))
-          || try hasDiagnostic("ingredient", key, "modified_row")
+          try liveHash == CanonicalHash.hash(fields: BundleRowProjection.dataJsonIngredientFields(raw))
+          || hasDiagnostic("ingredient", key, "modified_row")
       } else {
         entryOk = try hasDiagnostic("ingredient", key, "blocked_by_unadopted_row")
-          || try hasDiagnostic("ingredient", key, "name_conflict")
+          || hasDiagnostic("ingredient", key, "name_conflict")
       }
       if !entryOk {
         throw BundledDataRefreshError.postConditionFailed("ingredient entry \(key)")
@@ -711,11 +706,11 @@ enum BundledDataRefresher {
       if ownedKeysByTable.ingredients.contains(key) {
         let liveHash = try liveIngredientHashByKey(db, key: key)
         entryOk =
-          liveHash == CanonicalHash.hash(fields: BundleRowProjection.catalogIngredientFields(raw))
-          || try hasDiagnostic("ingredient", key, "modified_row")
+          try liveHash == CanonicalHash.hash(fields: BundleRowProjection.catalogIngredientFields(raw))
+          || hasDiagnostic("ingredient", key, "modified_row")
       } else {
         entryOk = try hasDiagnostic("ingredient", key, "blocked_by_unadopted_row")
-          || try hasDiagnostic("ingredient", key, "name_conflict")
+          || hasDiagnostic("ingredient", key, "name_conflict")
       }
       if !entryOk {
         throw BundledDataRefreshError.postConditionFailed("catalog entry \(key)")
@@ -725,7 +720,7 @@ enum BundledDataRefresher {
 
   // MARK: - Live hashing
 
-  private static func liveRecipeHash(db: Database, rowId: Int64) throws -> String {
+  private static func liveRecipeHash(_ db: Database, rowId: Int64) throws -> String {
     guard let row = try Row.fetchOne(db, sql: "SELECT * FROM recipes WHERE id = ?", arguments: [rowId])
     else {
       throw BundledDataRefreshError.postConditionFailed("recipe row \(rowId) disappeared")
@@ -733,7 +728,7 @@ enum BundledDataRefresher {
     return CanonicalHash.hash(fields: BundleRowProjection.rowFields(row, projection: .recipe))
   }
 
-  private static func liveRecipeHashByKey(db: Database, key: String) throws -> String {
+  private static func liveRecipeHashByKey(_ db: Database, key: String) throws -> String {
     guard let row = try Row.fetchOne(db, sql: "SELECT * FROM recipes WHERE ownership_key = ?", arguments: [key])
     else {
       throw BundledDataRefreshError.postConditionFailed("recipe \(key) disappeared")
@@ -741,7 +736,7 @@ enum BundledDataRefresher {
     return CanonicalHash.hash(fields: BundleRowProjection.rowFields(row, projection: .recipe))
   }
 
-  private static func liveIngredientHash(db: Database, rowId: Int64, ownershipKey: String) throws
+  private static func liveIngredientHash(_ db: Database, rowId: Int64, ownershipKey: String) throws
     -> String
   {
     guard let row = try Row.fetchOne(
@@ -753,7 +748,7 @@ enum BundledDataRefresher {
       fields: BundleRowProjection.rowFields(row, projection: ingredientProjection(for: ownershipKey)))
   }
 
-  private static func liveIngredientHashByKey(db: Database, key: String) throws -> String {
+  private static func liveIngredientHashByKey(_ db: Database, key: String) throws -> String {
     guard let row = try Row.fetchOne(
       db, sql: "SELECT * FROM ingredients WHERE ownership_key = ?", arguments: [key])
     else {
@@ -839,7 +834,7 @@ enum BundledDataRefresher {
   }
 
   private static func writeIngredientContent(
-    db: Database, rowId: Int64, fields: [String: (any DatabaseValueConvertible)?], hash: String
+    _ db: Database, rowId: Int64, fields: [String: (any DatabaseValueConvertible)?], hash: String
   ) throws {
     let assignments = ingredientContentColumns.map { "\($0) = :\($0)" }.joined(separator: ", ")
     try db.execute(
@@ -848,7 +843,7 @@ enum BundledDataRefresher {
   }
 
   private static func insertIngredient(
-    db: Database, fields: [String: (any DatabaseValueConvertible)?], key: String, hash: String
+    _ db: Database, fields: [String: (any DatabaseValueConvertible)?], key: String, hash: String
   ) throws {
     let columns = ingredientContentColumns.joined(separator: ", ")
     let placeholders = ingredientContentColumns.map { ":\($0)" }.joined(separator: ", ")
@@ -861,7 +856,7 @@ enum BundledDataRefresher {
   }
 
   private static func writeRecipeContent(
-    db: Database,
+    _ db: Database,
     rowId: Int64,
     raw: RecipeArray,
     hash: String,
@@ -882,7 +877,7 @@ enum BundledDataRefresher {
   }
 
   private static func insertRecipe(
-    db: Database, raw: RecipeArray, key: String, hash: String
+    _ db: Database, raw: RecipeArray, key: String, hash: String
   ) throws -> Int64 {
     try db.execute(
       sql: """
@@ -894,11 +889,11 @@ enum BundledDataRefresher {
         "title": raw.title, "time": raw.timeMinutes, "servings": raw.servings,
         "instructions": raw.instructions, "tags": raw.tagBitmask, "key": key, "hash": hash,
       ])
-    return db.lastInsertRowId
+    return db.lastInsertedRowID
   }
 
   private static func rewriteRecipeIngredients(
-    db: Database,
+    _ db: Database,
     recipeRowId: Int64,
     pairs: [(ingredientRowId: Int64, isRequired: Bool, grams: Double, display: String)]
   ) throws {
@@ -952,7 +947,7 @@ enum BundledDataRefresher {
   }
 
   private static func recordDiagnostic(
-    db: Database, entityType: String, entityRef: String, code: String, detail: String
+    _ db: Database, entityType: String, entityRef: String, code: String, detail: String
   ) throws {
     try db.execute(
       sql: """
@@ -965,7 +960,7 @@ enum BundledDataRefresher {
       arguments: [entityType, entityRef, code, detail])
   }
 
-  private static func clearDiagnostics(db: Database, entityType: String, entityRef: String) throws {
+  private static func clearDiagnostics(_ db: Database, entityType: String, entityRef: String) throws {
     try db.execute(
       sql: "DELETE FROM bundle_refresh_diagnostics WHERE entity_type = ? AND entity_ref = ?",
       arguments: [entityType, entityRef])
