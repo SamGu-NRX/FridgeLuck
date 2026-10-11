@@ -138,9 +138,9 @@ final class SimulatorTests: XCTestCase {
         XCTAssertGreaterThan(checked, 0)
     }
 
-    /// Every cooked session emits exactly one cooked event; skipped sessions
-    /// emit a typed skip and never a cooked event; the pick equals the
-    /// recorded choice.
+    /// Every cook-emitting session (attended and habit) emits exactly one
+    /// cooked event; skipped sessions emit a typed skip and never a cooked
+    /// event; unattended sessions never carry a slate.
     func testCookAndSkipEventMirroring() throws {
         let output = run(weeks: 10)
         var cookedKinds = 0
@@ -149,13 +149,18 @@ final class SimulatorTests: XCTestCase {
             if case .cooked = event.kind { cookedKinds += 1 }
             if case .skipped = event.kind { skipKinds += 1 }
         }
-        let cookedSessions = output.groundTruth.sessions.filter { $0.outcome == .cooked }
+        let cookedSessions = output.groundTruth.sessions.filter {
+            $0.outcome == .cooked || $0.outcome == .unattended
+        }
         let skippedSessions = output.groundTruth.sessions.filter { $0.outcome == .skippedSession }
         XCTAssertEqual(cookedKinds, cookedSessions.count)
         XCTAssertEqual(skipKinds, skippedSessions.count)
         for session in skippedSessions {
             XCTAssertNil(session.choiceId, "a skipped session cooks nothing")
             XCTAssertNotNil(session.skip)
+        }
+        for session in output.groundTruth.sessions where session.outcome == .unattended {
+            XCTAssertTrue(session.slateIds.isEmpty, "habit cooks see no slate")
         }
         for session in cookedSessions {
             let choice = try XCTUnwrap(session.choiceId)
@@ -318,6 +323,29 @@ final class SimulatorTests: XCTestCase {
                 scoreA > scoreB || (scoreA == scoreB && a.rawValue < b.rawValue),
                 "popularity order descending, ties by id")
         }
+    }
+
+    /// The default choice temperature is taste-driven but not deterministic:
+    /// among attentive cooked sessions the slate's best-true-utility item is
+    /// picked well above the uniform-share baseline, yet far below always.
+    /// Pins the behavioural claim in SIM-ASSUMPTIONS.md §4.
+    func testChoiceIsTasteDrivenAtDefaultTemperature() {
+        let output = run(seed: 17, weeks: 13)
+        var topUtilityPicks = 0
+        var sessions = 0
+        for session in output.groundTruth.sessions
+        where session.outcome == .cooked && !session.slateIds.isEmpty {
+            sessions += 1
+            let topSlate =
+                session.slateIds.max {
+                    (session.utilities[$0] ?? -.infinity) < (session.utilities[$1] ?? -.infinity)
+                }!
+            if topSlate == session.choiceId { topUtilityPicks += 1 }
+        }
+        XCTAssertGreaterThanOrEqual(sessions, 15, "13 weeks must yield enough cooks")
+        let share = Double(topUtilityPicks) / Double(sessions)
+        XCTAssertGreaterThan(share, 0.4, "taste dominates at the default temperature")
+        XCTAssertLessThan(share, 0.9, "the pick is not deterministic")
     }
 
     /// A ranker that returns unknown ids is filtered defensively; the

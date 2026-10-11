@@ -400,7 +400,7 @@ public struct HouseholdSimulator {
                 }
             }
 
-            sessionRecord.outcome = .cooked
+            if attended { sessionRecord.outcome = .cooked }
             sessions.append(sessionRecord)
             recentCooks.removeAll { $0 == chosen.id }
             recentCooks.insert(chosen.id, at: 0)

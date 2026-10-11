@@ -64,8 +64,8 @@ public struct SimConfig: Sendable, Equatable {
     /// `availabilityWeight * log(pantryStockFactor)` to its choice score —
     /// ingredients about to spoil nudge the pick, independently of taste.
     public var availabilityWeight: Double
-    /// Probability a session rejects one or two shown candidates with a
-    /// typed skip reason before choosing.
+    /// Probability an attended session ends in a typed skip (no cook that
+    /// day). The skip names one shown candidate.
     public var skipSessionProbability: Double
 
     // MARK: Ratings and cook-complete answers
@@ -76,8 +76,8 @@ public struct SimConfig: Sendable, Equatable {
     /// Standard deviation of the Gaussian noise added to the respondent's
     /// latent utility before quantising to the 1-5 scale. Higher is noisier.
     public var ratingNoiseSigma: Double
-    /// Maps latent utility to the rating scale: rating ~ round(3 + slope
-    /// times utility + noise), clamped to 1...5.
+    /// Maps latent utility to the rating scale: rating ~ round(2.5 + slope
+    /// times utility + rater bias + noise), clamped to 1...5.
     public var ratingSlope: Double
     /// Probability a completed cook also answers "would make again".
     public var wouldMakeAgainProbability: Double
