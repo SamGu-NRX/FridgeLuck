@@ -1,0 +1,91 @@
+{
+  "suite": "recipes",
+  "letter": "C",
+  "title": "Recipe corpus quality and rights",
+  "run_at": "2026-10-11T12:49:56Z",
+  "toolchain": {
+    "python": "3.13.14"
+  },
+  "metrics": [
+    {
+      "id": "rights_clear_recipes",
+      "metric": "Rights-clear recipes (complete per-recipe manifest evidence)",
+      "value": 497,
+      "bar": {
+        "op": ">=",
+        "value": 400,
+        "label": ">= 400 rights-clear recipes (programme target 1,500)"
+      },
+      "detail": "497 rights-clear; 33 quarantined (fail-closed; see quarantined.json). Bundled-catalog audit: see bundled_rights_audit.json.",
+      "evidence": {
+        "path": "rights_manifest.json",
+        "note": "per-recipe manifest validated by rights.validate_manifest"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "food_safety_linter_pass",
+      "metric": "Food-safety linter pass (% of corpus)",
+      "value": 100.0,
+      "bar": {
+        "op": "==",
+        "value": 100,
+        "label": "100% of corpus passes the food-safety linter"
+      },
+      "detail": "497/497 recipes pass the RS linter (R1 schema, R2 quantity evidence, R3 FSIS thermometer checks, R4 claim evidence, R5 timers); see lint_report.json.",
+      "evidence": {
+        "path": "lint_report.json",
+        "note": "per-recipe violations listed with ids"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "lines_with_quantity_evidence",
+      "metric": "Lines resolved with quantity evidence (%)",
+      "value": 100.0,
+      "bar": {
+        "op": ">=",
+        "value": 95,
+        "label": ">= 95% of lines resolved with quantity evidence"
+      },
+      "detail": "4074/4074 ingredient lines resolve to grams (weighed, source_grams, or household measure with a conversion); unknown-quantity lines are honest but unresolved.",
+      "evidence": {
+        "path": "lint_report.json",
+        "note": "line counts from the linter"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "unchecked_allergen_diet_claims",
+      "metric": "Unchecked allergen/diet claims (after linter strip)",
+      "value": 0,
+      "bar": {
+        "op": "==",
+        "value": 0,
+        "label": "0 unchecked allergen/diet claims"
+      },
+      "detail": "0 unchecked claim(s) stripped by the linter; 0 remain unchecked.",
+      "evidence": {
+        "path": "lint_report.json",
+        "note": "claim counts"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "cuisine_time_band_coverage",
+      "metric": "Declared cuisines and time bands represented (%)",
+      "value": 100.0,
+      "bar": {
+        "op": "==",
+        "value": 100,
+        "label": "every declared cuisine/time band represented"
+      },
+      "detail": "14/14 declared bands hold >=1 recipe; missing: none. Cross-product cells filled: 36/90 (informational). Per-band counts in coverage.json.",
+      "evidence": {
+        "path": "coverage.json",
+        "note": "per-band counts"
+      },
+      "status": "pass"
+    }
+  ]
+}

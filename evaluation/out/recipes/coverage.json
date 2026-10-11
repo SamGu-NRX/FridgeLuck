@@ -1,0 +1,39 @@
+{
+  "declared": [
+    "slot:breakfast",
+    "slot:lunch",
+    "slot:dinner",
+    "time:0-15",
+    "time:16-30",
+    "time:31-45",
+    "time:46-60",
+    "time:61+",
+    "cuisine:american",
+    "cuisine:asian",
+    "cuisine:indian",
+    "cuisine:italian",
+    "cuisine:mediterranean",
+    "cuisine:mexican"
+  ],
+  "counts": {
+    "slot:breakfast": 9,
+    "slot:lunch": 72,
+    "slot:dinner": 497,
+    "time:0-15": 4,
+    "time:16-30": 111,
+    "time:31-45": 216,
+    "time:46-60": 125,
+    "time:61+": 41,
+    "cuisine:american": 55,
+    "cuisine:asian": 122,
+    "cuisine:indian": 65,
+    "cuisine:italian": 80,
+    "cuisine:mediterranean": 121,
+    "cuisine:mexican": 54
+  },
+  "missing": [],
+  "represented": 14,
+  "total_declared": 14,
+  "cross_product_cells": 90,
+  "cross_product_filled": 36
+}
