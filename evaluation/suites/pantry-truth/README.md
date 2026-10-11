@@ -81,13 +81,25 @@ implemented or left unexecuted.
 
 ## Files
 
-- `suite.json` — manifest (id `pantry-truth`, letter A) per SCORECARD.md.
+- `suite.json` — manifest (id `pantry-truth`, letter A) per SCORECARD.md;
+  the `letter`/`title` emitted into results.json come from here, so the
+  scorecard renders `A. Pantry truth` (not `?. pantry-truth`).
 - `suite.py` — orchestrator: grounding → probe stage/build/run → audits →
-  `results.json` + evidence files. `--self-test` plants six corruptions
-  (lying emitter, lying probe row, tampered ledger, inconsistent probe
-  output, missing corpus, empty corpus) and asserts the scoring catches
-  each; prints `caught k/k planted failures` and exits 0 only when all
-  are caught.
+  `results.json` + evidence files. results.json carries the PLAN.md identity
+  and a `plan_battery_rows_present` completeness row: every metric row
+  PLAN.md line 49 requires of suite A must be emitted — a row the battery
+  does not produce is emitted as not-run with a reason naming it, and the
+  completeness row derives fail (`enforce_battery_completeness`).
+  `--self-test` plants seven corruptions (lying emitter, lying probe row,
+  tampered ledger, inconsistent probe output, missing corpus, empty corpus,
+  missing battery row) and asserts the scoring catches each; prints
+  `caught k/k planted failures` and exits 0 only when all are caught.
+- `test_battery_completeness.py` — planted-failure self-test for the two
+  review defects: identity (letter A, title "Pantry truth" in a real run's
+  results.json) and battery completeness (a required row removed from the
+  emission comes back as not-run with the row named, and the completeness
+  row derives fail). Drives the real suite CLI on a synthetic mini corpus;
+  exits 0 only when all checks are caught.
 - `manifest_builder.py` — corpus loading, USDA grounding, seeded pantry
   and plan scenario generation.
 - `fit_oracle.py` — SPEC 3.2 ledger derivation, corpus tripwire

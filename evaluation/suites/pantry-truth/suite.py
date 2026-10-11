@@ -33,9 +33,10 @@ tests plus a hand-labelled-style deterministic audit; there is NO LLM arm
 in the design, so none is implemented or left unexecuted here.
 
 Self-test: `suite.py --self-test` plants corrupted fixtures, flipped
-labels, a lying emitter, tampered ledgers, probe-output tampering and
-missing inputs, and asserts the derived status flips (or fails closed);
-prints `caught k/k planted failures` and exits 0 only when all are caught.
+labels, a lying emitter, tampered ledgers, probe-output tampering,
+missing inputs and a missing battery row, and asserts the derived
+status flips (or fails closed); prints `caught k/k planted failures`
+and exits 0 only when all are caught.
 
 Invocation (mirrors evaluation/run.py): suite.py --out <dir> --repo-root <dir>
 """
@@ -66,12 +67,34 @@ import suite_contract  # noqa: E402
 
 RESULTS_SUITE_ID = "pantry-truth"
 
+# The battery mapping PLAN.md line 49 ("The scorecard (evals first)", suite A
+# row) requires of this suite: "0 stock counted twice; 0 'sufficient' without
+# evidence; fit-line text correct on 200 of 200". Every row here must appear
+# in results.json on every run — see enforce_battery_completeness below.
 METRIC_DEFS = [
     ("stock_counted_twice", "Stock counted twice (plan battery)"),
     ("sufficient_claimed_without_quantity_evidence",
      "Sufficient claimed without quantity evidence (line audit over 200 pairs)"),
     ("fit_line_text_correct_200", "Fit-line text correct (200-pair audit)"),
 ]
+
+
+def _load_identity() -> tuple[str, str]:
+    """Letter/title from suite.json (the manifest) — the single place this
+    suite declares its PLAN.md scorecard identity. The runner renders the
+    scorecard heading from a run's results.json payload, so the payload must
+    carry them or the card renders `?. <id>` instead of `A. Pantry truth`."""
+    try:
+        manifest = json.loads((SUITE_DIR / "suite.json").read_text(encoding="utf-8"))
+        return manifest["letter"], manifest["title"]
+    except (OSError, json.JSONDecodeError, KeyError) as exc:
+        sys.exit(f"pantry-truth: suite.json must declare letter/title (SCORECARD.md): {exc}")
+
+
+SUITE_LETTER, SUITE_TITLE = _load_identity()
+
+# Harness-integrity row: asserts the battery emitted every PLAN.md row.
+BATTERY_COMPLETENESS_ID = "plan_battery_rows_present"
 
 PROBE_BUILD_TIMEOUT_S = 900
 PROBE_RUN_TIMEOUT_S = 300
@@ -86,14 +109,66 @@ def _sha256(data: bytes) -> str:
 
 
 def _all_not_run(reason: str) -> dict:
+    """Fail-closed payload: identity present, every required PLAN.md battery
+    row emitted as not-run with the reason — so even a run that could not
+    measure anything shows the whole battery plus its completeness row."""
+    produced = {
+        mid: suite_contract.metric_not_run(mid, label, reason)
+        for mid, label in METRIC_DEFS
+    }
     return {
         "suite": RESULTS_SUITE_ID,
+        "letter": SUITE_LETTER,
+        "title": SUITE_TITLE,
         "run_at": _iso_now(),
-        "metrics": [
-            suite_contract.metric_not_run(mid, label, reason)
-            for mid, label in METRIC_DEFS
-        ],
+        "metrics": enforce_battery_completeness(produced),
     }
+
+
+# ---------------------------------------------------------------------------
+# Battery completeness (PLAN.md line 49)
+# ---------------------------------------------------------------------------
+
+def enforce_battery_completeness(produced: dict) -> list:
+    """Emit the complete PLAN.md line 49 battery row set from `produced`.
+
+    `produced` maps metric id -> metric row for the rows the battery actually
+    built. A required row it did not produce is emitted as not-run with a
+    reason naming it, and the completeness row derives fail — a battery with
+    missing rows FAILS the suite and can never render blank or pass silently.
+    Produced rows pass through untouched: their honesty is the contract's
+    job (status is derived from value/bar/interval, never asserted).
+    """
+    rows: list[dict] = []
+    missing: list[str] = []
+    for mid, label in METRIC_DEFS:
+        row = produced.get(mid)
+        if row is None:
+            missing.append(mid)
+            rows.append(suite_contract.metric_not_run(
+                mid, label,
+                f"required plan battery row missing: {mid} ({label}) — PLAN.md "
+                "line 49 requires it of suite A; the battery cannot pass with "
+                "rows missing",
+            ))
+        else:
+            rows.append(row)
+    rows.append(suite_contract.metric(
+        BATTERY_COMPLETENESS_ID,
+        "Plan battery rows present (PLAN.md line 49)",
+        value=len(METRIC_DEFS) - len(missing),
+        bar=suite_contract.eq(len(METRIC_DEFS)),
+        detail=(
+            "Every metric row PLAN.md line 49 requires of suite A is emitted "
+            + (f"except: {', '.join(missing)}." if missing
+               else "(each row may itself be fail or not-run with its own honest reason).")
+        ),
+        evidence={
+            "required_rows": [mid for mid, _ in METRIC_DEFS],
+            "missing_rows": missing,
+        },
+    ))
+    return rows
 
 
 # ---------------------------------------------------------------------------
@@ -491,8 +566,15 @@ def run_suite(repo_root: Path, out_dir: Path) -> dict:
         evidence={"pairs_file": "pairs_200.json"},
     )
 
+    produced = {
+        METRIC_DEFS[0][0]: m1,
+        METRIC_DEFS[1][0]: m2,
+        METRIC_DEFS[2][0]: m3,
+    }
     payload = {
         "suite": RESULTS_SUITE_ID,
+        "letter": SUITE_LETTER,
+        "title": SUITE_TITLE,
         "run_at": _iso_now(),
         "toolchain": {
             "swift": provenance["swift"],
@@ -511,7 +593,7 @@ def run_suite(repo_root: Path, out_dir: Path) -> dict:
             "production_files_sha256": provenance["production_files"],
             "production_files_verbatim": True,
         },
-        "metrics": [m1, m2, m3],
+        "metrics": enforce_battery_completeness(produced),
     }
     suite_contract.write_results(out_dir, payload)
 
@@ -644,12 +726,12 @@ def _mini_manifest(tmp: Path) -> dict:
 
 
 def self_test() -> int:
-    """Plant 6 corruptions; the suite's scoring must catch every one.
+    """Plant 7 corruptions; the suite's scoring must catch every one.
 
     Prints `caught k/k planted failures`; exits 0 only when all are caught.
     """
     caught = 0
-    total = 6
+    total = 7
 
     # Plant 1 — lying emitter: a metric that declares pass on a violated bar.
     # The contract must derive fail from value + bar (status is never trusted).
@@ -713,12 +795,18 @@ def self_test() -> int:
     with tempfile.TemporaryDirectory(prefix="fl-pantry-selftest-") as tmp_s:
         tmp = Path(tmp_s)
 
-        # Plant 5 — missing corpus: the suite must fail closed to not-run.
+        # Plant 5 — missing corpus: the suite must fail closed to not-run,
+        # with its PLAN.md identity and the completeness row still present.
         out5 = tmp / "out5"
         payload = run_suite(tmp / "no-such-root", out5)
+        by_id = {m["id"]: m for m in payload["metrics"]}
         ok = (
-            len(payload["metrics"]) == 3
-            and all(m["status"] == "not-run" and m.get("reason") for m in payload["metrics"])
+            payload.get("letter") == "A" and payload.get("title") == "Pantry truth"
+            and all(
+                by_id[mid]["status"] == "not-run" and by_id[mid].get("reason")
+                for mid, _ in METRIC_DEFS
+            )
+            and suite_contract.derive_status(by_id[BATTERY_COMPLETENESS_ID]) == "pass"
         )
         print(f"plant 5 missing-corpus (not-run with reason): {'caught' if ok else 'UNCAUGHT'}")
         caught += ok
@@ -730,9 +818,34 @@ def self_test() -> int:
             json.dumps({"ingredients": {"1": ["egg", 155, 13, 1.1, 11, 0, 0, 0, "u", "s"]},
                         "recipes": []}))
         payload = run_suite(root, tmp / "out6")
-        ok = all(m["status"] == "not-run" and m.get("reason") for m in payload["metrics"])
+        by_id = {m["id"]: m for m in payload["metrics"]}
+        ok = all(
+            by_id[mid]["status"] == "not-run" and by_id[mid].get("reason")
+            for mid, _ in METRIC_DEFS
+        )
         print(f"plant 6 empty-corpus (not-run with reason): {'caught' if ok else 'UNCAUGHT'}")
         caught += ok
+
+    # Plant 7 — a battery that emits fewer rows than PLAN.md line 49 requires:
+    # the missing row must come back as not-run with the row named, and the
+    # completeness row must derive fail — never a silent pass or blank row.
+    produced = {
+        METRIC_DEFS[0][0]: suite_contract.metric(
+            METRIC_DEFS[0][0], METRIC_DEFS[0][1], value=0, bar=suite_contract.eq(0)),
+        # METRIC_DEFS[1] deliberately absent — the plant.
+        METRIC_DEFS[2][0]: suite_contract.metric(
+            METRIC_DEFS[2][0], METRIC_DEFS[2][1], value=200, bar=suite_contract.eq(200)),
+    }
+    by_id = {m["id"]: m for m in enforce_battery_completeness(produced)}
+    missing_row = by_id[METRIC_DEFS[1][0]]
+    ok = (
+        missing_row["status"] == "not-run"
+        and METRIC_DEFS[1][0] in (missing_row.get("reason") or "")
+        and suite_contract.derive_status(by_id[BATTERY_COMPLETENESS_ID]) == "fail"
+    )
+    print(f"plant 7 missing-battery-row ({METRIC_DEFS[1][0]}): "
+          f"{'caught' if ok else 'UNCAUGHT'}")
+    caught += ok
 
     print(f"caught {caught}/{total} planted failures")
     return 0 if caught == total else 1
