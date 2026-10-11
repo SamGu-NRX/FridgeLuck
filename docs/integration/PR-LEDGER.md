@@ -17,22 +17,22 @@ Verdicts:
 
 | Verdict | Count |
 | --- | --- |
-| folded | 19 |
+| folded | 21 |
 | needs-owner | 29 |
 | excluded-research | 21 |
 | excluded-backend | 11 |
-| pending owner Handoff | 2 |
+| pending owner Handoff | 0 |
 | superseded-by #93 | 1 |
 | trunk row (this PR) | 1 |
 | trunk row (backend) | 1 |
 | excluded-broken | 0 |
 | **total rows** | **85** |
 
-Trunk composition: alpha `2e779381` (already carrying the minimal-product stack #4 #5 #7 #8 #9 #11 #12 #13) + 11 real merges: #23 `e0b8ec7`, #15 `4dc8b64`, #28 `7392209`, #35 `62647e6`, #36 `e30b808`, #37 `fd21677`, #32 `34db183`, #33 `8d58610`, #6 `2a3f79f`, #18 `95ea8ed` (+ hold commit `adaa32e`), #31 `eccf587` (+ adaptation `49d3d0e`, see CONFLICTS.md). The parallel backend trunk landed as draft PR #94 (head `18fb5f93a5`, into alpha); it folds the backend PRs, with #16's workflow delta held at `ci/pending-workflows/backend-ci.yml`. Backend rows below point there.
+Trunk composition: alpha `2e779381` (already carrying the minimal-product stack #4 #5 #7 #8 #9 #11 #12 #13) + 13 real merges: #23 `e0b8ec7`, #15 `4dc8b64`, #28 `7392209`, #35 `62647e6`, #36 `e30b808`, #37 `fd21677`, #32 `34db183`, #33 `8d58610`, #6 `2a3f79f`, #18 `95ea8ed` (+ hold commit `adaa32e`), #31 `eccf587` (+ adaptation `49d3d0e`, see CONFLICTS.md), #45 `bc5ed75` (join `a50bf22`), #44 `c316f5f` (join `f192e67`; see CONFLICTS.md C5). The parallel backend trunk landed as draft PR #94 (head `18fb5f93a5`, into alpha); it folds the backend PRs, with #16's workflow delta held at `ci/pending-workflows/backend-ci.yml`. Backend rows below point there.
 
 ## Migration order (never renumbered, never renamed)
 
-Published order on the trunk ends at **v19**: v1_initial, v2_ingredient_education_fields, v3_dish_templates, v4_ingredient_aliases, v5_ingredient_display_metadata, v6_cooking_photo_servings, v7_usda_catalog_state, v8_bundled_recipe_state, v9_smart_fridge_inventory, v10_confidence_learning, v11_reconcile_ingredientless_recipe_links, v12_required_onboarding_identity, v13_ingredient_favorites, v14_pantry_assumptions_saved_winners, v15_notification_rules_and_opportunities, v16_inventory_quantity_estimates, v17_cooking_portion_multiplier, v18_cooking_history_swaps, **v19_explicit_allergen_groups** (added by folded #32; appended, not renamed). No other folded or considered PR adds a migration.
+Published order on the trunk ends at **v21**: v1_initial, v2_ingredient_education_fields, v3_dish_templates, v4_ingredient_aliases, v5_ingredient_display_metadata, v6_cooking_photo_servings, v7_usda_catalog_state, v8_bundled_recipe_state, v9_smart_fridge_inventory, v10_confidence_learning, v11_reconcile_ingredientless_recipe_links, v12_required_onboarding_identity, v13_ingredient_favorites, v14_pantry_assumptions_saved_winners, v15_notification_rules_and_opportunities, v16_inventory_quantity_estimates, v17_cooking_portion_multiplier, v18_cooking_history_swaps, **v19_explicit_allergen_groups** (added by folded #32; appended, not renamed), **v20_historical_nutrition_snapshots** (added by folded #45; join merge `a50bf22`), **v21_bundle_ownership** (added by folded #44; join merge `f192e67`). No other folded or considered PR adds a migration.
 
 ## Ledger
 
@@ -78,8 +78,8 @@ Published order on the trunk ends at **v19**: v1_initial, v2_ingredient_educatio
 | #41 | `85526906eb` | feat/routing-eval-harness | feat(experiments): Nutrition5k portion-estimation benchmark (RGB / RGB+D / foodlist arms) | excluded-research | research/benchmark: Nutrition5k portion-estimation benchmark (experiments/ only) |
 | #42 | `0d9465eb67` | fix/onboarding-real-scan | feat(ios): real grocery intake by receipt and photo with reviewed amounts | needs-owner | fold candidate: viable product PR (real grocery intake), stacked on #9's branch (in alpha) |
 | #43 | `93326d0884` | main | fix(scraper): repair ingredient identity, gram estimates, and diet tags from measured import failures | excluded-backend | scraper/data pipeline (scripts/recipe_scraper only); the brief assigns it to the backend trunk (PR #94) |
-| #44 | `7dc2b21920` | obv/fridgeluck-001 | feat(ios): stable bundle ownership and installed-data refresh | pending owner Handoff | an active continuation task owns it right now; verdict pending its owner's Handoff |
-| #45 | `c9555fc649` | obv/fridgeluck-001 | feat(ios): freeze historical nutrition snapshots at log time | pending owner Handoff | an active continuation task owns it right now; verdict pending its owner's Handoff |
+| #44 | `c316f5fa9e` | obv/fridgeluck-001 | feat(ios): stable bundle ownership and installed-data refresh | folded | head moved by its continuation (Handoff recorded); merged into this trunk as `f192e67` (join, 2026-10-11); adds v21_bundle_ownership |
+| #45 | `bc5ed7538d` | obv/fl-next-historical-nutrition-r1 | feat(ios): freeze historical nutrition snapshots at log time | folded | head moved by its continuation (Handoff recorded); merged into this trunk as `a50bf22` (join, 2026-10-11); adds v20_historical_nutrition_snapshots |
 | #46 | `7c82f019f5` | feat/routing-eval-harness | feat(evaluation): score and verify policy-study-v2 run 2026-10-10-r1 (synthetic mapped proxy metrics, grouped intervals) | excluded-research | research/eval: decisions-comparison study; stacked on #7's branch (in alpha) |
 | #47 | `cba6272c70` | fix/scan-failure-report | feat(experiments): ingredient-recognition benchmark — frozen slice, resolution port, and open-model baselines | excluded-research | research/benchmark: ingredient-recognition benchmark (experiments/ only) |
 | #48 | `7118d7ca39` | obv/fl-next-ingredient-recognition-r1 | feat(benchmarks): preparation-state-v1 — identity vs preparation-state evaluation with production replay | excluded-research | research/benchmark: preparation-state benchmark; stacked on #47's branch |
@@ -121,5 +121,5 @@ Published order on the trunk ends at **v19**: v1_initial, v2_ingredient_educatio
 | #86 | `3f91f453c0` | main | docs(spec): FridgeLuck overhaul spec with mock designs (draft) | needs-owner | docs-only, Sam decides (the overhaul spec itself; read as the programme's SPEC source) |
 | #88 | `26c7004e60` | alpha | Evaluation scorecard harness: runner, suite contract, registry (fl-eval-harness-f1, m1) | needs-owner | owned by the parallel eval programme (fl-eval-harness-f1), awaiting its review; stages its workflows under ci/pending-workflows/ correctly |
 | #90 | `4c7a3c8351` | alpha | core: FLDomain + FLPersistence foundation package (overhaul part 1) | needs-owner | owned by the parallel core programme (overhaul part 1), awaiting its review; stages its workflow under ci/pending-workflows/ |
-| #93 | `49d3d0e180` | alpha | Integration trunk (do not merge as-is) | trunk row (this PR) | created after the roster snapshot; see docs/integration/README.md |
+| #93 | `d8728013de` | alpha | Integration trunk (do not merge as-is) | trunk row (this PR) | created after the roster snapshot; see docs/integration/README.md; join merges #45/#44 recorded 2026-10-11 |
 | #94 | `18fb5f93a5` | alpha | Backend integration trunk (do not merge as-is) | trunk row (backend) | created after the roster snapshot; parallel backend programme |
