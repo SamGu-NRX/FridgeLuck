@@ -7,23 +7,47 @@ fetched read-only, never merged). Build date of every `access_date` below:
 2026-10-11. All numbers in this report are measured this session; the tooling
 that produced them lives in `data/recipes/tools/`.
 
-## Totals (this task's corpus)
+This report now covers the **final combined corpus**: the Part 1b work
+(sections 1–5: seeds, NHS, NHLBI, MyPlate, the BBC cache recommendation)
+plus this task's ingestion of the 401 originals (section 6), the
+substitution-table join (section 7), and the suite C criteria status with
+the honest resolution shortfall (section 8).
+
+## Totals (final combined corpus)
 
 | Measure | Value |
 |---|---|
-| Recipes in `corpus.jsonl` | 27 |
-| Rights records in `rights_manifest.json` | 27 (every `source_ref` resolves) |
-| Ingredient lines | 159 resolved / 159 (100.0%) |
-| Quantity kinds | 158 `source_grams`, 1 `household`, 0 `unknown`, 0 `weighed` |
-| Allergen/diet claims | 73, all matching the suite AllergenScanner recomputation (0 unchecked, 0 stripped) |
-| Food-safety lint | 27/27 pass |
-| Cuisines | american, asian, indian, italian, mediterranean, mexican (6/6) |
-| Meal slots | breakfast 9, lunch 21, dinner 17 |
-| Time bands | 0-15: 16, 16-30: 10, 31-45: 1 — 46-60 and 61+ absent (see Limits) |
+| Recipes in `corpus.jsonl` | 428 (25 audited seed keepers + 2 NHS + 401 original) |
+| Rights records in `rights_manifest.json` | 428 (every `source_ref` resolves; 428/428 clear) |
+|   — originals split | 260 `original` + 141 `original-rewrite` (per `provenance.rewrite_of`) |
+| Ingredient lines | 2771 resolved / 2988 (92.74%) — see section 8 |
+| Quantity kinds | 2355 `household`, 416 `source_grams`, 217 `unknown`, 0 `weighed` |
+| Allergen/diet claims | 1050 (69 seed + 4 NHS + 977 original), all matching the suite AllergenScanner recomputation (0 unchecked, 0 stripped) |
+| Food-safety lint | 428/428 pass (0 violations) |
+| Cuisines | american 116, asian 63, indian 53, italian 68, mediterranean 69, mexican 59 (6/6) |
+| Meal slots | breakfast 54, lunch 169, dinner 279 |
+| Time bands | 0-15: 51, 16-30: 161, 31-45: 129, 46-60: 46, 61+: 41 |
+| Bands represented | 14/14 (all six cuisines, three slots, five time bands) |
+| Cross-product cells filled | 78/90 (informational) |
+| Dedupe (all 428) | 0 duplicate ids, 0 duplicate normalized titles, 0 (title, core-ingredient) collisions — re-run at ingestion |
 
-Validation loop (exact command in the PR Proof section): `rs.py` lint green
-over the full corpus, `rights.py` completeness green (no quarantined recipe in
-`corpus.jsonl`), `bands.py` counts above.
+Validation loop (exact command in the PR Verification section): `rs.py` lint
+green over the full combined corpus, `rights.py` completeness green (no
+quarantined recipe in `corpus.jsonl`), `bands.py` counts above.
+
+## Suite C criteria status (final corpus)
+
+| Suite C bar | Threshold | Measured | Verdict |
+|---|---|---|---|
+| Rights-clear recipes | >= 400 (target 1500) | 428/428 clear, 0 quarantined | **PASS** |
+| Food-safety linter | 100% pass | 428/428 pass | **PASS** |
+| Unchecked allergen/diet claims | 0 | 0 unchecked, 0 stripped | **PASS** |
+| Declared bands covered | every band >= 1 recipe | 14/14 bands | **PASS** |
+| Lines resolved with quantity evidence | >= 95% | 2771/2988 = 92.74% | **FAIL — see section 8** |
+
+One bar fails. The shortfall arithmetic, its exact size, and why this task
+may not fix it are in section 8; the conversion-table fix belongs to the
+eval branch and is with the operator.
 
 ## 1. Bundled seed conversion — 25 recipes ingested
 
@@ -162,17 +186,218 @@ text too, not a synthetic fixture. The replaced files should land on the PR
 full text continues to sit in the repo and should not ship in any release
 artifact.
 
+## 6. Originals ingestion — 401 recipes ingested (this task)
+
+**Source:** `data/recipes/originals/` on branch `overhaul/original-recipes`
+at `607ef99` (task `fl-original-recipes-f1`): `originals.jsonl` (401 recipes,
+`fl-original-0001`…`fl-original-0404`), `rights_manifest.json` (401 records),
+`COVERAGE.md`. Fetched read-only; the branch was **never merged** — the files
+were extracted from git and consumed, and the originals directory itself does
+not exist on this branch (source tasks never write corpus files; ingestion
+never rewrites source files, SCHEMA §"Who writes what").
+
+**Re-verification before ingest (nothing taken on faith):** the originals
+manifest validates 401/401 clear with the suite's `rights.py`; every recipe
+was re-linted against **this** suite checkout (`eval/scorecard-runner` at
+`26c7004`) with its own `conversions.json` and `allergens.json`: 0 violations,
+0 unchecked, 0 stripped claims — reproducing the parent-verified numbers
+exactly. Dedupe re-run across the combined 428: ids unique, 0 duplicate
+normalized titles, 0 (title, core-ingredient) collisions (within originals,
+against the 27, and within the batch). **401/401 accepted; 0 stopped.**
+
+**One hygiene action:** 300 of the 401 source recipes carried a `_classes`
+top-level field — computed scanner state the originals task's validation
+injected and persisted. It is linter residue, not recipe content; ingestion
+strips it (the same rule validate_corpus.py follows: scanner classes are
+injected on a deep copy, never persisted). No other field was touched — no
+title, ingredient, step, quantity, or claim was edited, added, or removed.
+
+**Rights records:** 401 new records in `data/recipes/rights_manifest.json`
+(428 total), one per recipe keyed by its id: `source_id` = the recipe id,
+`source_type` `original` (260) or `original-rewrite` (141) per the recipe's
+`provenance.rewrite_of` (the 141 rewrites cite the bundled recipe id in
+`apps/ios/Resources/data.json`), `license` `LicenseRef-FL-Original`,
+`license_evidence` pointing at the record in
+`data/recipes/originals/rights_manifest.json` on `overhaul/original-recipes`
+at `607ef99` plus this task's re-verification, permissions all true except
+`images` (no image ships). All 428 validate clear with `rights.py`.
+
+## 7. Substitution join — 279-pair table applied over the combined corpus
+
+**Source:** `data/substitutions/pairs.json` on branch
+`overhaul/substitution-table` at `0dc3bdf` (schema version 1.0.0: 279 pairs,
+381 registered ingredients, 1122 alias names). Fetched read-only; the branch
+was never edited and never merged.
+
+**Application rules (the table's own, not this task's):** the join
+(`data/recipes/tools/apply_substitutions.py`) mirrors the FLSubstitutions
+package exactly. Ingredient lines resolve through the table's alias map
+(`SubstitutionTable.resolveIngredientKey`: lowercased/trimmed exact match on
+key, display name, or alias). `ContextRules.verdict` is evaluated for each
+pair's primary role and every `supported_also` role. **Accepted =
+`verified` only** — sourced function evidence AND sourced ratio evidence
+(PR #49 semantics; the same bar the table's own coverage report counts).
+The table's precedence rules govern and nothing is forced: a conflicting
+ratio is plausible-at-best and never lands (the shipped
+egg→mashed-banana conflict verifies only for its `liquid` supported role,
+never for its `binder` primary role); `unknown` stays unknown;
+`unsupported` is never offered; lines whose names do not resolve in the
+table get nothing.
+
+**Result (measured):** 2087 verified (line, pair) annotations landed on
+**405 of 428** recipes, from **79 of 279 pairs**. Candidate verdicts
+evaluated over resolving lines: 2296 verified, 3631 plausible, 299 unknown,
+248 unsupported — the weaker verdicts are counted here and **not applied**.
+Per-role landings: acid 152, aromatic 435, binder 99, fat 447, garnish 167,
+leavening 8, liquid 493, protein 199, sweetener 68, thickener 34,
+umami 193. Per source: seed 198, NHS 2, original 1887 annotations.
+
+**Shape:** each annotated recipe carries a lean `substitutions` list —
+`{"ingredient", "pair_id", "substitute", "roles"}` — a join key back into
+`pairs.json`, which stays the single source of pair text, ratios, macro
+deltas, and evidence. No recipe title, ingredient, step, quantity, or claim
+was modified. Recipes with no accepted swap carry no field. The full
+per-recipe mapping is that annotation (machine-readable); the per-pair
+counts follow. Re-running the join is byte-identical (idempotent), and the
+corpus validates green with the annotations in place.
+
+| pair_id | substitute | verified roles | recipes | annotations |
+|---|---|---|---|---|
+| almonds-garnish-to-other-nuts | walnuts | garnish | 2 | 2 |
+| almonds-garnish-to-toasted-oats-seeds | toasted_oats_seeds | garnish | 2 | 2 |
+| anchovy-umami-to-anchovy-paste | anchovy_paste | umami | 1 | 1 |
+| ap-flour-thickener-to-arrowroot | arrowroot | thickener | 4 | 4 |
+| ap-flour-thickener-to-cornstarch | cornstarch | thickener | 4 | 4 |
+| ap-flour-thickener-to-potato-starch | potato_starch | thickener | 4 | 4 |
+| ap-flour-thickener-to-tapioca | tapioca | thickener | 4 | 4 |
+| baking-powder-leavening-to-soda-cream-of-tartar | baking_soda_cream_of_tartar | leavening | 4 | 4 |
+| baking-powder-leavening-to-soda-soured-milk | baking_soda_soured_milk | leavening | 4 | 4 |
+| breadcrumbs-binder-to-cornmeal | cornmeal | binder | 8 | 8 |
+| brown-sugar-sweetener-to-granulated-sugar | granulated_sugar | sweetener | 12 | 12 |
+| butter-fat-to-applesauce | applesauce | fat | 50 | 50 |
+| butter-fat-to-bacon-fat | bacon_fat | fat | 50 | 50 |
+| butter-fat-to-chicken-fat | chicken_fat | fat | 50 | 50 |
+| butter-fat-to-margarine | margarine | fat | 50 | 50 |
+| butter-fat-to-olive-oil | olive_oil | fat | 50 | 50 |
+| butter-fat-to-shortening | shortening | fat | 50 | 50 |
+| buttermilk-acid-to-milk-vinegar | milk_vinegar_mix | acid | 2 | 2 |
+| buttermilk-liquid-to-plain-yogurt | plain_yogurt | liquid | 2 | 2 |
+| buttermilk-liquid-to-whole-milk | whole_milk | liquid | 2 | 2 |
+| cheddar-protein-to-sharp-cheddar | cheddar_sharp | protein | 31 | 31 |
+| chicken-protein-to-firm-tofu | firm_tofu | protein | 54 | 54 |
+| chickpeas-protein-to-white-beans | cannellini_beans | protein | 10 | 10 |
+| cocoa_powder-fat-to-unsweetened-chocolate | unsweetened_baking_chocolate | fat | 2 | 2 |
+| cornmeal-binder-to-panko | panko | binder | 8 | 8 |
+| cornstarch-thickener-to-ap-flour | ap_flour | thickener | 9 | 9 |
+| cornstarch-thickener-to-tapioca | tapioca | thickener | 9 | 9 |
+| dried-herb-aromatic-to-fresh-herbs | fresh_oregano | aromatic | 24 | 24 |
+| egg-binder-to-applesauce | applesauce | liquid | 64 | 64 |
+| egg-binder-to-flax-gel | flax_gel | binder | 64 | 64 |
+| egg-binder-to-mashed-banana | banana | liquid | 64 | 64 |
+| egg-fat-to-egg-yolks | egg_yolk | fat | 64 | 64 |
+| egg-protein-to-egg-whites | egg_white | protein | 64 | 64 |
+| fish-sauce-liquid-to-vegan-fish-sauce | vegan_fish_sauce | liquid | 2 | 2 |
+| fresh-basil-aromatic-to-dried-basil | dried_basil | aromatic | 15 | 15 |
+| fresh-ginger-aromatic-to-ground-ginger | ground_ginger | aromatic | 33 | 33 |
+| fresh-parsley-garnish-to-dried-parsley | dried_parsley | garnish | 8 | 8 |
+| fresh-thyme-aromatic-to-dried-thyme | dried_thyme | aromatic | 7 | 7 |
+| garlic-aromatic-to-garlic-powder | garlic_powder | aromatic | 154 | 154 |
+| granulated-sugar-sweetener-to-brown-sugar | brown_sugar | sweetener | 5 | 5 |
+| granulated-sugar-sweetener-to-corn-syrup | corn_syrup | sweetener | 5 | 5 |
+| granulated-sugar-sweetener-to-honey | honey | liquid,sweetener | 5 | 5 |
+| granulated-sugar-sweetener-to-molasses | molasses | sweetener | 5 | 5 |
+| ground-beef-protein-to-textured-veg-protein | textured_veg_protein | protein | 16 | 16 |
+| heavy-cream-fat-to-evaporated-milk | evaporated_milk | fat | 9 | 9 |
+| heavy-cream-fat-to-half-and-half | half_and_half | fat | 9 | 9 |
+| heavy-cream-fat-to-milk-butter | milk_butter_combo | fat | 9 | 9 |
+| honey-sweetener-to-granulated-sugar | granulated_sugar | sweetener | 36 | 36 |
+| ketchup-acid-to-tomato-sauce-vinegar | tomato_sauce_vinegar_mix | acid | 1 | 1 |
+| lemon-acid-to-lime | lime | acid,garnish | 90 | 90 |
+| lime-acid-to-lemon | lemon | acid,garnish | 53 | 53 |
+| oats-binder-to-certified-gf-oats | gf_certified_oats | binder | 13 | 13 |
+| onion-aromatic-to-dried-minced-onion | dried_minced_onion | aromatic | 101 | 101 |
+| onion-aromatic-to-onion-powder | onion_powder | aromatic | 101 | 101 |
+| peanut-butter-protein-to-almond-butter | almond_butter | protein | 11 | 11 |
+| peanut-butter-protein-to-sunflower-butter | sunflower_seed_butter | protein | 11 | 11 |
+| ricotta-protein-to-cottage-cheese | cottage_cheese | protein | 2 | 2 |
+| sour-cream-acid-to-plain-yogurt | plain_yogurt | acid | 6 | 6 |
+| sour-cream-fat-to-plain-yogurt | plain_yogurt | fat,garnish,liquid | 6 | 6 |
+| sour-cream-fat-to-sour-milk-butter | milk_butter_combo | fat | 6 | 6 |
+| sour-cream-garnish-to-greek-yogurt | greek_yogurt | garnish | 6 | 6 |
+| soy-sauce-liquid-to-salt-water | salt_water | liquid | 48 | 48 |
+| soy-sauce-umami-to-coconut-aminos | coconut_aminos | umami | 48 | 48 |
+| soy-sauce-umami-to-maggi-seasoning | maggi_seasoning | umami | 48 | 48 |
+| soy-sauce-umami-to-tamari | tamari | umami | 48 | 48 |
+| spaghetti-binder-to-other-pasta | rigatoni | binder | 6 | 6 |
+| vegetable-oil-fat-to-applesauce-baking | applesauce | fat | 42 | 42 |
+| whole-milk-liquid-to-almond-milk | almond_milk | liquid | 25 | 25 |
+| whole-milk-liquid-to-buttermilk | buttermilk | liquid | 25 | 25 |
+| whole-milk-liquid-to-dry-milk | dry_milk | liquid | 25 | 25 |
+| whole-milk-liquid-to-evaporated-milk | evaporated_milk | liquid | 25 | 25 |
+| whole-milk-liquid-to-half-and-half-water | half_and_half_water | liquid | 25 | 25 |
+| whole-milk-liquid-to-oat-milk | oat_milk | liquid | 25 | 25 |
+| whole-milk-liquid-to-rice-milk | rice_milk | liquid | 25 | 25 |
+| whole-milk-liquid-to-skim-milk | skim_milk | liquid | 25 | 25 |
+| whole-milk-liquid-to-sour-cream | sour_cream | liquid | 25 | 25 |
+| whole-milk-liquid-to-soy-milk | soy_milk | liquid | 25 | 25 |
+| whole-milk-liquid-to-water-butter | water_butter_combo | liquid | 25 | 25 |
+| whole-milk-liquid-to-yogurt | plain_yogurt | liquid | 25 | 25 |
+
+## 8. Quantity-evidence resolution — the 95% bar fails, honestly
+
+**Measured:** 2771 of 2988 ingredient lines resolved = **92.74%**
+(27 from Part 1b: 159/159 = 100%; originals: 2612/2829 = 92.33%,
+reproduced exactly at this suite checkout). Kind split: 2355 `household`
+(each with a `conversion_ref` that resolves in the suite's
+`conversions.json`), 416 `source_grams`, 217 `unknown`, 0 `weighed`.
+
+**The 95% bar arithmetic:** 0.95 × 2988 = 2838.6, and 2838/2988 = 94.98%,
+so **2839 resolved lines** is the smallest count that satisfies the bar;
+the corpus has **2771** — the bar fails by **68 resolved lines**
+(2.26 points, 2771/2988 = 92.74%).
+
+**What the 217 unresolved lines are:** all originals-side, all
+`qty.kind="unknown"` with `grams` null, across **137 distinct ingredient
+names** (staples such as breadcrumbs 8, canned tuna 7, burger buns 6,
+dijon mustard 5, beef chuck roast 5, canned chopped tomatoes 5). Per the
+originals task's verification these are mostly cup/tbsp/tsp-style household
+measures whose foods have no matching ref in the suite's
+`conversions.json`; `rs.py` resolves a household line only when its
+`conversion_ref` exists with a `grams_per_unit`, so these lines cannot
+resolve without either a conversion-table entry or an invented mass.
+
+**Why this task does not fix it:** the corpus is the release-candidate data;
+the conversion table is suite C's input. Inventing conversions, relabeling
+unknown lines, or massaging counts would fabricate mass evidence —
+prohibited by SCHEMA §2 and by this task's brief. The conversion-table fix
+belongs to `eval/scorecard-runner` and is with the operator; the 137-staple
+list above is the exact worklist. Nothing else blocks: every other suite C
+bar passes on the final corpus.
+
 ## Limits and handoff
 
-- **Corpus size vs the 400-recipe bar:** this task's licensed/in-house share
-  yields 27 recipes. The cleared third-party sources cannot raise it under
-  the evidence rules (see per-source sections); the volume must come from
-  originals (Part 5's `data/recipes/originals/`, ingested by a separate task).
-- **Time bands 46-60 and 61+** contain no recipes from this task's sources
-  (all ingested recipes are <=45 min). The suite counts bands over the
-  *declared* set; the integration task owns the full-scorecard run.
-- **Suite C full scorecard** runs against the final merged corpus in the
-  integration task; the component runs (rs/rights/bands) in this task's Proof
-  cover this task's corpus only.
-- Nothing in `evaluation/`, `scripts/`, `apps/`, or `packages/` was modified;
-  SOURCES.md, RIGHTS-AUDIT.md, and SCHEMA.md were consumed read-only.
+- **Release status:** the corpus is release-candidate **pending only the
+  resolution-bar decision** — 4/5 suite C bars pass on the full combined
+  428 (rights >= 400, 100% linter pass, 0 unchecked claims, 14/14 bands);
+  the >= 95% quantity-evidence bar fails at 92.74% and its fix (conversion
+  refs for the 137 unresolved staples) belongs to the eval branch, with the
+  operator. If the operator rules the bar met differently or adds the
+  missing refs, re-run `data/recipes/tools/validate_corpus.py` — the corpus
+  needs no change unless the suite's resolution semantics change.
+- The `substitutions` annotation (section 7) is a corpus-level join field
+  documented here; SCHEMA.md does not describe it (not edited by this
+  task). If the programme wants it normative, SCHEMA.md should gain a line
+  (programme parent's call).
+- **Corpus size vs the 1500 target:** 428 rights-clear recipes; growth
+  beyond that continues through new originals or newly cleared sources
+  under the same evidence rules.
+- Cross-product cells 78/90 (informational; the suite counts bands over the
+  declared set, which is full: 14/14).
+- `fl-seed-0002`/`fl-seed-0018` remain core-ingredient twins (distinct
+  dishes, distinct titles) — allowed by SCHEMA.md §7, informational.
+- Nothing in `evaluation/`, `scripts/`, `apps/`, or `packages/` was
+  modified; SCHEMA.md, SOURCES.md, RIGHTS-AUDIT.md, `data/recipes/originals/`,
+  `data/substitutions/`, and the FLSubstitutions package were consumed
+  read-only. Suite C fixtures were never copied or counted.
+- MyPlate retry and the BBC cache replacement (sections 4–5) remain
+  follow-ups for their owning branches; unchanged by this integration.
