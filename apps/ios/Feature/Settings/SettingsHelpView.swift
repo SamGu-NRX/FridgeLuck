@@ -13,6 +13,7 @@ struct SettingsHelpView: View {
   }
 
   @State private var appeared = false
+  @State private var showSupportFlow = false
 
   var body: some View {
     ScrollView {
@@ -47,6 +48,9 @@ struct SettingsHelpView: View {
         .padding(.horizontal, AppTheme.Space.page)
         .padding(.top, AppTheme.Space.xs)
 
+        SupportFlowHelpEntrySection(showSupportFlow: $showSupportFlow)
+          .padding(.horizontal, AppTheme.Space.page)
+
         if firstRunExperienceStore.hasCompletedCurrentVersion {
           FLSettingsFootnote(
             text: "You've completed onboarding. Replay it anytime to revisit setup guidance."
@@ -63,6 +67,12 @@ struct SettingsHelpView: View {
     .navigationTitle("Help")
     .navigationBarTitleDisplayMode(.large)
     .flPageBackground(renderMode: .interactive)
+    .sheet(isPresented: $showSupportFlow) {
+      SupportFlowView(
+        onReplayQuest: onReplayQuest,
+        onReplayOnboarding: onReplayOnboarding
+      )
+    }
     .onAppear {
       guard !appeared else { return }
       if reduceMotion {
