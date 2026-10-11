@@ -1,0 +1,58 @@
+{
+  "sessionId": "companion-control-001",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "pantry": [
+      { "ingredientId": "egg", "name": "Eggs", "quantity": { "kind": "known", "value": 6, "unit": "piece" }, "state": "sufficient", "source": "scan" },
+      { "ingredientId": "rice", "name": "Rice", "quantity": { "kind": "known", "value": 500, "unit": "g" }, "state": "sufficient", "source": "scan" }
+    ],
+    "session": { "recipeId": "spinach-eggs", "state": "cooking", "currentStepIndex": 1 },
+    "recipes": [
+      {
+        "id": "spinach-eggs",
+        "revision": 1,
+        "title": "Spinach and eggs on toast",
+        "servings": 2,
+        "ingredientBill": [
+          { "ingredientId": "egg", "name": "Eggs", "quantity": { "kind": "known", "value": 4, "unit": "piece" } },
+          { "ingredientId": "spinach", "name": "Spinach", "quantity": { "kind": "known", "value": 150, "unit": "g" } }
+        ],
+        "steps": [
+          { "index": 0, "text": "Boil the eggs", "timerMinutes": 9 },
+          { "index": 1, "text": "Wilt the spinach with a knob of butter" },
+          { "index": 2, "text": "Toast the bread", "timerMinutes": 3 },
+          { "index": 3, "text": "Assemble and eat" }
+        ]
+      }
+    ]
+  },
+  "turns": [
+    { "i": 0, "role": "user", "text": "Walk me through step two, I'm at the stove.", "audioSeconds": 3.0 },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "Step two: wilt the spinach in butter, thirty seconds, keep it moving.",
+      "toolCalls": [{ "id": "ctl-1", "name": "getStepContext", "args": {} }],
+      "prompted": true
+    },
+    { "i": 2, "role": "user", "text": "Give me eight minutes on the rice.", "audioSeconds": 2.0 },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "Eight minutes on the rice — timer's going in.",
+      "toolCalls": [{ "id": "ctl-2", "name": "proposeTimerStart", "args": { "label": "rice", "minutes": 8, "userInitiated": true } }],
+      "prompted": true
+    },
+    { "i": 4, "role": "user", "text": "How do I know the chicken is done?", "audioSeconds": 2.2 },
+    {
+      "i": 5,
+      "role": "assistant",
+      "text": "Thermometer in the thickest piece: 74 degrees Celsius, per the USDA FSIS chart.",
+      "toolCalls": [{ "id": "ctl-3", "name": "checkFoodSafety", "args": { "product": "chicken breast", "question": "is it done" } }],
+      "prompted": true
+    }
+  ]
+}
