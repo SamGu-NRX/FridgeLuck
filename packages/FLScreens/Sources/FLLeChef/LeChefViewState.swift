@@ -204,6 +204,32 @@ public struct LeChefViewState: Equatable, Sendable {
         }
     }
 
+    /// The timer machine's ONE firing rule, at a host clock reading: a
+    /// running timer whose deadline has passed resolves to the fired
+    /// state — its check line earned once — never a silent zero. The
+    /// reducer's `tick` applies it live; the persisted restore applies
+    /// it at hydration, so a returning session never renders an un-rung
+    /// zero. Paused, fired and deadline-less timers pass through
+    /// untouched, and nothing here reads a wall clock: `now` is always
+    /// the host's.
+    static func resolvingExpiredTimers(
+        timers: [CookTimer], checkLines: [String], at now: TimeInterval
+    ) -> (timers: [CookTimer], checkLines: [String]) {
+        var timers = timers
+        var checkLines = checkLines
+        for index in timers.indices {
+            guard timers[index].isRunning,
+                  let endAt = timers[index].endAt, now >= endAt
+            else { continue }
+            timers[index].fired = true
+            timers[index].endAt = nil
+            if let line = timers[index].onDoneLine, !line.isEmpty {
+                checkLines.append(line)
+            }
+        }
+        return (timers, checkLines)
+    }
+
     // MARK: Proposals — reads vs. approved mutations
 
     /// What a proposal carries. The read cases are applied without
@@ -515,6 +541,19 @@ public struct LeChefViewState: Equatable, Sendable {
             lastKnownNow: now
         )
         self.timerCount = persisted.timers.count
+        // Hydration seeds the clock from the session's persisted
+        // deadlines: `now` is the host's clock reading (never a wall
+        // clock read here), so a timer still counting shows
+        // deadline − now; a deadline that passed while closed resolves
+        // to the expired state per the timer machine — never a silent
+        // zero; a timer with no persisted deadline is untouched.
+        // Initialization, not an intent — the reducer stays the only
+        // authority over timers.
+        let seeded = Self.resolvingExpiredTimers(
+            timers: self.timers, checkLines: self.checkLines, at: now
+        )
+        self.timers = seeded.timers
+        self.checkLines = seeded.checkLines
     }
 
     // MARK: Current step

@@ -209,3 +209,23 @@ run exposed are recorded above (the clock rule, the
 restore-without-duration decision, and the look-pairing lint binding to
 the actual rendering path) — all three are model-first fixes, not
 test-first ones.
+
+## Review fix (PR #121, BLOCK item 4)
+
+The reviewer was right that the timer clock could start at zero: the
+sentence above ("any intent that carries a timestamp (`enter`, …)
+updates that clock") described the intent contract, but the code did not
+honour it — `.enter` built its fresh state with `lastKnownNow` at the
+default zero, so a timer set before the next timestamped intent got an
+epoch-zero deadline and the on-screen tile rendered expired (0:00)
+immediately. Fixed at the source: `.enter` now seeds `lastKnownNow` from
+the host's clock reading, and the persisted-restore hydration runs the
+timer machine's one firing rule (`resolvingExpiredTimers`, shared with
+the reducer's `tick`) so an already-passed deadline resolves to the
+expired/ringing state — check line earned once — instead of a silent
+zero, while a still-counting deadline shows deadline − now and a timer
+with no persisted deadline is left untouched. Seeding is initialization,
+not an intent: the reducer stays the timers' only authority, and no
+state-layer path reads a wall clock — every `now` is host-supplied (the
+Part 6 host-clock convention). Five seeding tests added
+(`LeChefTimerSeedingTests`); the suite is 284 test cases, 0 failures.

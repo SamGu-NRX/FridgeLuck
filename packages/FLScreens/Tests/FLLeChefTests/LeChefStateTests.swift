@@ -339,6 +339,130 @@ final class LeChefTimerTests: XCTestCase {
     }
 }
 
+// MARK: - Timer clock seeding (PR #121 review BLOCK item 4)
+
+/// Entering or re-entering a session must leave the on-screen clock
+/// derived from the session's real deadlines: the host's clock seeds
+/// the deadline base at `.enter`, hydration seeds the clock from the
+/// persisted deadlines, and a deadline that passed while closed
+/// resolves to the expired state per the timer machine — never a
+/// silent zero. Every clock here is injected and fixed (epoch
+/// 1,700,000,000 and nearby): had any path read the wall clock
+/// instead, the arithmetic would floor to 0 and these would fail.
+final class LeChefTimerSeedingTests: XCTestCase {
+
+    /// The reviewer's exact sequence: enter at a real epoch, then set a
+    /// timer BEFORE any other clock intent.
+    func testEnterSeedsTheClockSoTheFirstTimerCountsFromIt() {
+        var state = LeChefViewState()
+        state.apply(.enter(recipe: recipe(), at: start))
+        XCTAssertEqual(
+            state.lastKnownNow, start,
+            "enter is a clock reading — the deadline base seeds from the host clock")
+        state.apply(.setTimer(label: "Noodles", seconds: 120, onDoneLine: nil))
+        XCTAssertEqual(
+            state.timers[0].endAt, start + 120,
+            "not 120: an epoch-zero deadline rendered the timer expired at once")
+        XCTAssertEqual(state.timers[0].remainingSeconds(at: start + 30), 90)
+        XCTAssertFalse(state.timers[0].fired, "a future deadline is a running timer, not a fired one")
+    }
+
+    func testRestoreSeedsTheClockFromThePersistedDeadline() {
+        // A 300-second timer created at start+160 (deadline start+460),
+        // the app killed, reopened two minutes later at the injected clock.
+        let record = LeChefPersistedState(
+            stage: .cooking, revisionId: "rev-1", dishName: "Honey Chilli Noodles",
+            servings: 2, stepIndex: 3, startedAt: start,
+            timers: [LeChefPersistedState.TimerRecord(
+                id: "timer-1", label: "Noodles", totalSeconds: 300, endAt: start + 460
+            )],
+            appliedSwapIds: []
+        )
+        let now = start + 320
+        let reopened = LeChefViewState(restoring: record, steps: recipe().steps, at: now)
+        XCTAssertEqual(reopened.lastKnownNow, now, "hydration is a clock reading")
+        XCTAssertEqual(
+            reopened.timers[0].remainingSeconds(at: now), 140,
+            "deadline − now, seeded from the persisted deadline")
+        XCTAssertEqual(
+            reopened.timers[0].remainingSeconds(at: start + 380), 80,
+            "still counting from the same deadline")
+        XCTAssertTrue(reopened.timers[0].isRunning)
+    }
+
+    func testRestoreResolvesAPassedDeadlineToTheExpiredState() {
+        // The deadline passed while the app was closed: hydration runs
+        // the timer machine's own firing rule — fired, check line
+        // earned — never a silent running 0:00.
+        let record = LeChefPersistedState(
+            stage: .cooking, revisionId: "rev-1", dishName: "Honey Chilli Noodles",
+            servings: 2, stepIndex: 3, startedAt: start,
+            timers: [LeChefPersistedState.TimerRecord(
+                id: "timer-1", label: "Noodles", totalSeconds: 300,
+                endAt: start + 100, onDoneLine: "Rice done — stir the sauce in"
+            )],
+            appliedSwapIds: []
+        )
+        let reopened = LeChefViewState(restoring: record, steps: recipe().steps, at: start + 160)
+        XCTAssertTrue(
+            reopened.timers[0].fired,
+            "a passed deadline resolves to the expired state, not a silent zero")
+        XCTAssertNil(reopened.timers[0].endAt)
+        XCTAssertEqual(reopened.timers[0].remainingSeconds(at: start + 160), 0)
+        XCTAssertEqual(
+            reopened.checkLines, ["Rice done — stir the sauce in"],
+            "the firing rule's check line, earned exactly once")
+    }
+
+    func testRestoreKeepsATimerWithNoDeadlineUntouched() {
+        // No persisted deadline: nothing is invented — no fake clock,
+        // no fake fire; the timer keeps its current presentation.
+        let record = LeChefPersistedState(
+            stage: .cooking, revisionId: "rev-1", dishName: "Honey Chilli Noodles",
+            servings: 2, stepIndex: 3, startedAt: start,
+            timers: [LeChefPersistedState.TimerRecord(
+                id: "timer-1", label: "Noodles", totalSeconds: 300
+            )],
+            appliedSwapIds: []
+        )
+        let reopened = LeChefViewState(restoring: record, steps: recipe().steps, at: start + 320)
+        XCTAssertNil(reopened.timers[0].endAt)
+        XCTAssertNil(reopened.timers[0].pausedRemaining)
+        XCTAssertFalse(reopened.timers[0].fired, "no deadline is never invented into a fire")
+        XCTAssertTrue(reopened.checkLines.isEmpty)
+    }
+
+    func testRestoreKeepsPausedAndFiredRecordsExactly() {
+        // Paused: the frozen remainder is the clock, at any `now`.
+        // Fired: stays fired, and hydration never restates its check
+        // line — the machine's lines re-earn on the live path or not at
+        // all.
+        let record = LeChefPersistedState(
+            stage: .cooking, revisionId: "rev-1", dishName: "Honey Chilli Noodles",
+            servings: 2, stepIndex: 3, startedAt: start,
+            timers: [
+                LeChefPersistedState.TimerRecord(
+                    id: "timer-1", label: "Noodles", totalSeconds: 300, pausedRemaining: 240
+                ),
+                LeChefPersistedState.TimerRecord(
+                    id: "timer-2", label: "Eggs", totalSeconds: 60, fired: true,
+                    onDoneLine: "Eggs done"
+                ),
+            ],
+            appliedSwapIds: []
+        )
+        let reopened = LeChefViewState(restoring: record, steps: recipe().steps, at: start + 320)
+        XCTAssertTrue(reopened.timers[0].isPaused)
+        XCTAssertEqual(
+            reopened.timers[0].remainingSeconds(at: start + 320), 240,
+            "frozen at the persisted remainder")
+        XCTAssertTrue(reopened.timers[1].fired)
+        XCTAssertTrue(
+            reopened.checkLines.isEmpty,
+            "hydration never restates a fired record's check line")
+    }
+}
+
 // MARK: - Proposals: reads vs. approved mutations
 
 final class LeChefProposalTests: XCTestCase {

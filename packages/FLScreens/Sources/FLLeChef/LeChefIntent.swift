@@ -186,7 +186,13 @@ public enum LeChefReducer {
         case .enter(let recipe, let now):
             guard next.stage == .idle else { break }
             next = LeChefViewState(
-                link: next.link, recipe: recipe, startedAt: now, steps: recipe.steps
+                link: next.link, recipe: recipe, startedAt: now, steps: recipe.steps,
+                // Enter is a clock reading: the deadline base seeds
+                // from the host's now, so the first timer — set before
+                // any other timestamped intent — counts from the real
+                // clock instead of an epoch-zero deadline that rendered
+                // expired at once (review BLOCK item 4).
+                lastKnownNow: now
             )
             next.stage = .cooking
 
@@ -296,15 +302,13 @@ public enum LeChefReducer {
 
         case .tick(let now):
             next.lastKnownNow = now
-            for index in next.timers.indices {
-                let timer = next.timers[index]
-                guard timer.isRunning, let endAt = timer.endAt, now >= endAt else { continue }
-                next.timers[index].fired = true
-                next.timers[index].endAt = nil
-                if let line = timer.onDoneLine, !line.isEmpty {
-                    next.checkLines.append(line)
-                }
-            }
+            // The one firing rule, shared with the persisted restore's
+            // hydration — same condition, same check line, same order.
+            let resolved = LeChefViewState.resolvingExpiredTimers(
+                timers: next.timers, checkLines: next.checkLines, at: now
+            )
+            next.timers = resolved.timers
+            next.checkLines = resolved.checkLines
 
         // MARK: Proposals
 
