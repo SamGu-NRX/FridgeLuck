@@ -28,7 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "tools"))
 from build_cases import COLUMNS, build_cases, verdict_for, FUNCTIONS  # noqa: E402
 from extract_production_map import parse_service  # noqa: E402
 
-REPO_ROOT = Path(__file__).resolve().parents[4]  # file -> substitution-eval -> Tools -> ios -> apps -> repo
+REPO_ROOT = Path(__file__).resolve().parents[4]  # file -> substitution-evidence -> Tools -> ios -> apps -> repo
 TOOL_DIR = Path(__file__).resolve().parent
 EVIDENCE_DIR = TOOL_DIR / "evidence"
 CONTEXTS_CSV = EVIDENCE_DIR / "context_cases.csv"
@@ -54,12 +54,14 @@ def check_pair_level(errors):
         fail(errors, "pairs.snapshot.json does not match SubstitutionService.swift (drift)")
     if snap.get("pair_count") != len(service_pairs):
         fail(errors, "pair_count field disagrees with pairs list")
-    # The generated Swift fixtures must match the evidence byte-for-byte, or
-    # the Swift replay tests and the Python evidence set disagree.
+    # The generated Swift fixtures (inside the isolated package) must match
+    # the evidence byte-for-byte, or the Swift replay tests and the Python
+    # evidence set disagree.
     from render_swift_fixture import render, render_contexts  # noqa: PLC0415
 
+    pkg_tests = TOOL_DIR / "Tests" / "SubstitutionEvidenceTests"
     fixtures = [
-        (REPO_ROOT / "apps/ios/Tests/SubstitutionEvidencePairs+Generated.swift", render(snap)),
+        (pkg_tests / "SubstitutionEvidencePairs+Generated.swift", render(snap)),
         (None, None),  # placeholder replaced below
     ]
     import csv  # noqa: PLC0415
@@ -67,7 +69,7 @@ def check_pair_level(errors):
     with open(CONTEXTS_CSV, newline="", encoding="utf-8") as f:
         contexts = list(csv.DictReader(f))
     fixtures[1] = (
-        REPO_ROOT / "apps/ios/Tests/SubstitutionEvidenceContexts+Generated.swift",
+        pkg_tests / "SubstitutionEvidenceContexts+Generated.swift",
         render_contexts(contexts),
     )
     for fixture_path, rendered in fixtures:
@@ -78,6 +80,26 @@ def check_pair_level(errors):
         if rendered != actual:
             fail(errors, f"generated Swift fixture is stale: {fixture_path.name}; rerun render_swift_fixture.py")
     return service_pairs
+
+
+def check_real_mirror(errors):
+    """The package's Real/ copies (created by Scripts/refresh.sh) must be
+    byte-identical to the production sources when present — otherwise the
+    replay tests exercise a stale fork and a stale-green run goes unnoticed.
+    Missing Real/ is not an error: a clean checkout has no mirror until
+    refresh.sh runs."""
+    service = REPO_ROOT / "apps/ios/Platform/Persistence/Services/SubstitutionService.swift"
+    ingredient = REPO_ROOT / "apps/ios/Domain/Models/Ingredient.swift"
+    real_dir = TOOL_DIR / "Sources" / "SubstitutionEvidence" / "Real"
+    if not real_dir.exists():
+        return
+    for production, name in ((service, "SubstitutionService.swift"), (ingredient, "Ingredient.swift")):
+        real = real_dir / name
+        if not real.exists():
+            fail(errors, f"Real/ mirror incomplete: {name} missing; run Scripts/refresh.sh")
+            continue
+        if real.read_bytes() != production.read_bytes():
+            fail(errors, f"Real/ copy of {name} is stale; run Scripts/refresh.sh")
 
 
 def check_pair_evidence(errors, service_pairs):
@@ -259,6 +281,7 @@ def main():
 
     errors = []
     service_pairs = check_pair_level(errors)
+    check_real_mirror(errors)
     pair_evidence = check_pair_evidence(errors, service_pairs)
     rows = check_cases(errors, pair_evidence)
     missing_ok, incompatible_ok, control_detail = run_controls(pair_evidence)

@@ -227,7 +227,7 @@ def build_cases(repo_root: Path):
     service_pairs = parse_service_pairs(
         repo_root / "apps/ios/Platform/Persistence/Services/SubstitutionService.swift"
     )
-    evidence = load_pair_evidence(repo_root / "apps/ios/Tools/substitution-eval/evidence/pair_evidence.csv")
+    evidence = load_pair_evidence(repo_root / "apps/ios/Tools/substitution-evidence/evidence/pair_evidence.csv")
 
     name_of = {int(k): v[0] for k, v in ingredients.items()}
     pair_of = {}
@@ -293,7 +293,7 @@ def write_cases_csv(cases, path: Path):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo-root", default=".")
-    ap.add_argument("--out", default="apps/ios/Tools/substitution-eval/evidence/context_cases.csv")
+    ap.add_argument("--out", default="apps/ios/Tools/substitution-evidence/evidence/context_cases.csv")
     args = ap.parse_args()
     repo_root = Path(args.repo_root).resolve()
 

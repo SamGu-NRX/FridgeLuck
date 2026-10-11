@@ -2,7 +2,7 @@
 """Extract the production substitution pairs from SubstitutionService.swift.
 
 Parses the literal `add(...)` calls in `buildMap()` — the single source of truth —
-and writes apps/ios/Tools/substitution-eval/evidence/pairs.snapshot.json plus a
+and writes apps/ios/Tools/substitution-evidence/evidence/pairs.snapshot.json plus a
 SHA-256 of the extracted source region so later runs can detect drift between
 this snapshot and the Swift file.
 
@@ -80,7 +80,7 @@ def main():
         default="apps/ios/Platform/Persistence/Services/SubstitutionService.swift",
     )
     ap.add_argument(
-        "--out", default="apps/ios/Tools/substitution-eval/evidence/pairs.snapshot.json"
+        "--out", default="apps/ios/Tools/substitution-evidence/evidence/pairs.snapshot.json"
     )
     args = ap.parse_args()
 
