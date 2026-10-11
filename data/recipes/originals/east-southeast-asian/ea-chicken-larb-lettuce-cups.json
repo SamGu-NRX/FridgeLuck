@@ -220,21 +220,20 @@
     }
   ],
   "nutrition_per_serving": {
-    "kcal": 363,
-    "protein_g": 33.1,
-    "carbs_g": 23.7,
+    "kcal": 365,
+    "protein_g": 33.2,
+    "carbs_g": 24.1,
     "fat_g": 16.6,
-    "fiber_g": 4.9,
-    "sugar_g": 4.3,
-    "sodium_mg": 117,
-    "coverage": 0.922,
+    "fiber_g": 5.1,
+    "sugar_g": 4.4,
+    "sodium_mg": 118,
+    "coverage": 0.937,
     "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
     "unmapped_ingredients": [
       "brown sugar",
       "chili flakes",
       "fish sauce",
       "fresh mint",
-      "green onions",
       "thai basil"
     ],
     "sodium_basis": "incomplete-salty-unmapped",
