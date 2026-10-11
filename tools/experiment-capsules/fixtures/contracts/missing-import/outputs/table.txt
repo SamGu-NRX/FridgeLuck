@@ -1,0 +1,4 @@
+food_group	dishes	kcal_total	kcal_mean	share_pct
+dairy	2	420	210.0	34.7
+produce	3	610	203.3	50.4
+grains	1	180	180.0	14.9

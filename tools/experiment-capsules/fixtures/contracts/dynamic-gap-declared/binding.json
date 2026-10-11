@@ -1,0 +1,42 @@
+{
+  "capsule_id": "fixture-dynamic-gap-declared",
+  "coverage_gaps": [
+    {
+      "file": "tools/experiment-capsules/fixtures/contracts/dynamic-gap-declared/sources/dynamic_probe.py",
+      "reason": "optional_codec() resolves importlib.import_module(f\"fixture_codec_{name}\") at runtime; the target set cannot be resolved statically and is declared uncovered rather than guessed as closed."
+    }
+  ],
+  "model_transport": {
+    "mode": "offline-deterministic",
+    "model": null,
+    "network": "none",
+    "seed": null,
+    "temperature": null
+  },
+  "notes": "sources/dynamic_probe.py contains an importlib.import_module call whose target is computed at runtime. Static analysis cannot resolve it, so the binding declares the coverage gap explicitly. The checker must accept this (zero findings); removing the gap entry must produce an undeclared-dynamic-import finding.",
+  "outputs": [
+    {
+      "bytes": 38,
+      "path": "tools/experiment-capsules/fixtures/contracts/dynamic-gap-declared/outputs/probe.txt",
+      "sha256": "e7ad0f5b7233d2506c372c143b2a415edc6e45ac11b16dab054053b6bf9cbc81"
+    }
+  ],
+  "owner": "experiment-capsules fixtures",
+  "permitted_inputs": [
+    "tools/experiment-capsules/fixtures/contracts/dynamic-gap-declared/inputs/rows.json"
+  ],
+  "schema_version": "1",
+  "sources": [
+    {
+      "path": "tools/experiment-capsules/fixtures/contracts/dynamic-gap-declared/sources/dynamic_probe.py",
+      "role": "source",
+      "sha256": "1c4370a7bfb84b07205a6151f37b959b69e500e7eaec06ed791d960aa50c7fd4"
+    }
+  ],
+  "title": "Fixture: dynamic import declared as a coverage gap (accepted)",
+  "toolchain": {
+    "dependencies": [],
+    "language": "python",
+    "language_version": "3.13.14"
+  }
+}

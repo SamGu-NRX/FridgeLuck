@@ -1,0 +1,141 @@
+{
+  "schema_version": "1",
+  "specs": [
+    {
+      "capsule_id": "usda-curation-catalog",
+      "title": "USDA curated cooking-ingredient catalog (canonical JSON)",
+      "owner": "scripts/data maintainers - USDA curation pipeline (usda.py CLI + usda_core package; see planning/usda_curation_context_compaction.md and scripts/data/README.md)",
+      "sources": [
+        {
+          "path": "scripts/data/usda.py",
+          "role": "source"
+        },
+        {
+          "path": "scripts/data/usda_core/__init__.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/batches.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/build_sqlite.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/cache_store.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/candidates.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/client_async.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/config.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/io.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/migrate.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/promote.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/report.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/schema.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/sprite_rules.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/utils.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_core/validate.py",
+          "role": "import"
+        },
+        {
+          "path": "scripts/data/usda_manual_overrides.json",
+          "role": "source"
+        }
+      ],
+      "toolchain": {
+        "language": "python",
+        "language_version": "3.13.14",
+        "dependencies": [
+          "orjson",
+          "typer",
+          "pydantic",
+          "httpx",
+          "filelock",
+          "tenacity"
+        ]
+      },
+      "permitted_inputs": [
+        "scripts/data/usda_manual_overrides.json",
+        "scripts/data/.cache/usda_common_food_catalog.json",
+        "scripts/data/.cache/usda_cooking_ingredient_catalog_clean.json",
+        "scripts/data/review_batches"
+      ],
+      "model_transport": {
+        "mode": "offline-deterministic"
+      },
+      "coverage_gaps": [],
+      "outputs": [
+        {
+          "origin_path": "scripts/data/catalog/usda_curated_ingredients.json",
+          "stored_as": "usda_curated_ingredients.json"
+        }
+      ]
+    },
+    {
+      "capsule_id": "usda-swift-static-export",
+      "title": "Bundled USDA ingredient nutrition Swift static table",
+      "owner": "scripts/data maintainers - Swift static export generator (generate_usda_ingredient_swift_static.py)",
+      "sources": [
+        {
+          "path": "scripts/data/generate_usda_ingredient_swift_static.py",
+          "role": "source"
+        },
+        {
+          "path": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+          "role": "source"
+        }
+      ],
+      "toolchain": {
+        "language": "python",
+        "language_version": "3.13.14",
+        "dependencies": []
+      },
+      "permitted_inputs": [
+        "apps/ios/Resources/usda_ingredient_nutrition_compact.json"
+      ],
+      "model_transport": {
+        "mode": "offline-deterministic"
+      },
+      "coverage_gaps": [],
+      "outputs": [
+        {
+          "origin_path": "apps/ios/Platform/Persistence/Static/USDAIngredientNutritionStaticData.swift",
+          "stored_as": "USDAIngredientNutritionStaticData.swift"
+        }
+      ]
+    }
+  ]
+}
