@@ -95,23 +95,37 @@ final class SupportTests: XCTestCase {
         }
     }
 
-    func testProvisionalMappingTripwire() {
-        // DELIBERATE TRIPWIRE. While the base branch carries no H/P palette
-        // tables, both variants resolve to the same table and
-        // `isProvisional` is true. When the base lands the H and P tables
-        // (PR #96 follow-up), this test FAILS ON PURPOSE: re-point
-        // `FLRenderPaletteMapping.palette(for:in:)` at the real tables,
-        // flip `isProvisional` to false, and update this assertion.
-        XCTAssertTrue(
+    func testLandedMappingResolvesRealTables() {
+        // LANDED. The base branch carries the real H and P palette tables
+        // (DirectionH.swift / DirectionP.swift), so the mapping resolves
+        // each variant to its own table. This is the landed counterpart of
+        // the former provisional tripwire: the tripwire asserted both
+        // variants collapsed to one table; the landed state asserts they
+        // differ, and that pills come from the direction tables rather
+        // than the F-mode defaults.
+        XCTAssertFalse(
             FLRenderPaletteMapping.isProvisional,
-            "H/P palette tables have landed upstream — the render matrix must now resolve real per-variant tables"
+            "the mapping must resolve the real per-variant tables now that they have landed"
         )
         for scheme in FLDesignTokens.ColorScheme.allCases {
-            XCTAssertEqual(
+            XCTAssertNotEqual(
                 FLRenderPaletteMapping.palette(for: .h, in: scheme),
                 FLRenderPaletteMapping.palette(for: .p, in: scheme),
-                "the provisional mapping resolves both variants to the same table"
+                "H and P must resolve to different tables per scheme"
             )
         }
+        // H's pills come from H's own tested table.
+        XCTAssertEqual(
+            FLRenderPaletteMapping.palette(for: .h, in: .paper).pillIdle,
+            FLDesignTokens.DirectionH.palette(.light).pillIdle,
+            "H pills ride H's canonical pill fills"
+        )
+        // P's pills map to P's own chip/surface fills (P's canonical tables
+        // define no pill fills yet — see the mapping's documentation).
+        XCTAssertEqual(
+            FLRenderPaletteMapping.palette(for: .p, in: .paper).pillIdle,
+            FLDesignTokens.DirectionP.light.oatChip,
+            "P pills ride P's own AA-tested chip fills"
+        )
     }
 }

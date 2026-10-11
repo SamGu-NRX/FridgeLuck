@@ -6,13 +6,10 @@
 // the H and P palettes. Which palette tables those variants resolve to is
 // the design-system package's job — it owns the token values.
 //
-// At this branch's base (overhaul/design-system at ba95187) FLDesignTokens
-// carries one palette table per colour scheme; the H and P tables are
-// underway on that branch. Until they land, BOTH variants resolve to the
-// tables this checkout carries, and `FLRenderPaletteMapping.isProvisional`
-// says so. When the base lands `Theme` tables for H and P, the one function
-// below re-points and the tripwire test in FLScreenSupportTests fails on
-// purpose until it is updated.
+// The base branch (overhaul/design-system at 3f84798) carries the real H
+// and P palette tables (DirectionH.swift / DirectionP.swift), and the
+// mapping below resolves each variant to its own table. `isProvisional`
+// is false; the former tripwire test asserts the landed state instead.
 //
 // Foundation-only; no screen or view reads variants — only the render
 // harness and the staged workflow do.
@@ -31,17 +28,50 @@ public enum FLPaletteVariant: String, Sendable, CaseIterable {
 /// landed H/P palette changes.
 public enum FLRenderPaletteMapping {
 
-    /// True while both variants resolve to the same (currently carried)
-    /// palette tables — i.e. before the base branch lands the H and P
-    /// tables. The render manifest records this so no artifact can be
-    /// mistaken for a true H/P comparison.
-    public static var isProvisional: Bool { true }
+    /// False since the base branch landed the real H and P palette tables
+    /// (DirectionH.swift / DirectionP.swift). Kept as a recorded flag so the
+    /// render manifest can still mark artifacts, and so the mapping tests
+    /// assert the landed state through it.
+    public static var isProvisional: Bool { false }
 
     /// Resolve a variant's palette table for a colour scheme.
+    ///
+    /// F's `ColorScheme` axis maps onto the directions' mode axis:
+    /// paper → light, hob → cook, dark → dark. The ten-role base palette
+    /// comes from each direction's own tested bridge (`basePalette`); pills
+    /// ride the direction tables' own fills — H defines them canonically,
+    /// while P's canonical tables define none, so the mapping uses P's
+    /// AA-tested chip and surface fills (flagged for a canonical P pill
+    /// definition when P's round records one).
     public static func palette(
         for variant: FLPaletteVariant, in scheme: FLDesignTokens.ColorScheme
     ) -> FLDesignTokens.Palette {
-        // Provisional: every variant resolves to the carried table.
-        FLDesignTokens.Theme.palette(scheme)
+        let mode: FLDesignTokens.DirectionMode = {
+            switch scheme {
+            case .paper: return .light
+            case .hob: return .cook
+            case .dark: return .dark
+            }
+        }()
+        switch variant {
+        case .h:
+            let h = FLDesignTokens.DirectionH.palette(mode)
+            let base = h.basePalette
+            return FLDesignTokens.Palette(
+                bg: base.bg, ink: base.ink, ink2: base.ink2, ink3: base.ink3,
+                rule: base.rule, rule2: base.rule2,
+                yolk: base.yolk, yolkSoft: base.yolkSoft, yolkInk: base.yolkInk,
+                error: base.error, pillIdle: h.pillIdle, pillGone: h.pillGone
+            )
+        case .p:
+            let p = FLDesignTokens.DirectionP.palette(mode)
+            let base = p.basePalette
+            return FLDesignTokens.Palette(
+                bg: base.bg, ink: base.ink, ink2: base.ink2, ink3: base.ink3,
+                rule: base.rule, rule2: base.rule2,
+                yolk: base.yolk, yolkSoft: base.yolkSoft, yolkInk: base.yolkInk,
+                error: base.error, pillIdle: p.oatChip, pillGone: p.surfaceMuted
+            )
+        }
     }
 }
