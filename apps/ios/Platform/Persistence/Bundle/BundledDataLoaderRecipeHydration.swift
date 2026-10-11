@@ -28,6 +28,8 @@ extension BundledDataLoader {
     into db: Database
   ) throws {
     for (ingId, grams) in raw.requiredIngredients {
+      let ingredientRowId = try resolveBundleIngredientRowId(
+        ingId, bundledIngredients: bundledIngredients, into: db)
       let displayQty = Self.formatDisplayQuantity(
         grams: grams,
         ingredientId: ingId,
@@ -39,11 +41,13 @@ extension BundledDataLoader {
               (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
           VALUES (?, ?, 1, ?, ?)
           """,
-        arguments: [recipeId, ingId, grams, displayQty]
+        arguments: [recipeId, ingredientRowId, grams, displayQty]
       )
     }
 
     for (ingId, grams) in raw.optionalIngredients {
+      let ingredientRowId = try resolveBundleIngredientRowId(
+        ingId, bundledIngredients: bundledIngredients, into: db)
       let displayQty = Self.formatDisplayQuantity(
         grams: grams,
         ingredientId: ingId,
@@ -55,9 +59,72 @@ extension BundledDataLoader {
               (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
           VALUES (?, ?, 0, ?, ?)
           """,
-        arguments: [recipeId, ingId, grams, displayQty]
+        arguments: [recipeId, ingredientRowId, grams, displayQty]
       )
     }
+  }
+
+  /// Resolves the ingredient row id a bundle ingredient id refers to, for
+  /// hydration foreign keys:
+  /// 1. a row already owning the canonical bundle key (most installs),
+  /// 2. an unowned same-name legacy row — a pre-data.json install hydrated by
+  ///    an older release; ownership adoption decides that row's key later,
+  /// 3. otherwise the canonical row is materialized with its ownership stamp.
+  static func resolveBundleIngredientRowId(
+    _ bundleId: Int,
+    bundledIngredients: [String: IngredientArray],
+    into db: Database
+  ) throws -> Int64 {
+    let key = BundleOwnership.ingredientKey(bundleIngredientId: bundleId)
+    if let ownedId = try Int64.fetchOne(
+      db, sql: "SELECT id FROM ingredients WHERE ownership_key = ?", arguments: [key]) {
+      return ownedId
+    }
+    let name = bundledIngredients[String(bundleId)]?.name
+    if let name,
+      let twinId = try Int64.fetchOne(
+        db,
+        sql: """
+          SELECT id FROM ingredients
+          WHERE ownership_key IS NULL AND name = ? COLLATE NOCASE
+          ORDER BY id LIMIT 1
+          """,
+        arguments: [name])
+    {
+      return twinId
+    }
+    if let raw = bundledIngredients[String(bundleId)] {
+      try db.execute(
+        sql: """
+          INSERT OR IGNORE INTO ingredients
+              (id, name, calories, protein, carbs, fat, fiber, sugar, sodium,
+               typical_unit, storage_tip, pairs_with, notes,
+               description, category_label, sprite_group, sprite_key,
+               ownership_key, bundle_content_hash)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, ?, ?)
+          """,
+        arguments: [
+          Int64(bundleId), raw.name, raw.calories, raw.protein, raw.carbs, raw.fat,
+          raw.fiber, raw.sugar, raw.sodium, raw.typicalUnit, raw.storageTip,
+          key,
+          CanonicalHash.hash(fields: BundleRowProjection.dataJsonIngredientFields(raw)),
+        ])
+      if let nowOwned = try Int64.fetchOne(
+        db, sql: "SELECT id FROM ingredients WHERE ownership_key = ?", arguments: [key]) {
+        return nowOwned
+      }
+      // The name is held by a row owned by a different bundle entry; reference
+      // it so hydration survives, and let the refresh pass diagnose the conflict.
+      if let name,
+        let holder = try Int64.fetchOne(
+          db,
+          sql: "SELECT id FROM ingredients WHERE name = ? COLLATE NOCASE ORDER BY id LIMIT 1",
+          arguments: [name])
+      {
+        return holder
+      }
+    }
+    return Int64(bundleId)
   }
 
   static func ensureRequiredDemoRecipes(

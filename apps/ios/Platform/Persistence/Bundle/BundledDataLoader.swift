@@ -242,6 +242,27 @@ enum BundledDataLoader {
     let bundled = try JSONDecoder().decode(BundledData.self, from: jsonData)
 
     try await appDB.dbQueue.write { db in
+      // Recipe hydration's ingredient_id foreign keys need the bundle
+      // ingredient rows. Upgraded installs can predate the canonical ids,
+      // so materialize any missing bundle ingredient by its canonical id
+      // (with ownership stamps) before inserting recipes. Idempotent.
+      for (idString, raw) in bundled.ingredients {
+        guard let id = Int64(idString), let bundleId = Int(idString) else { continue }
+        try db.execute(
+          sql: """
+            INSERT OR IGNORE INTO ingredients
+                (id, name, calories, protein, carbs, fat, fiber, sugar, sodium,
+                 typical_unit, storage_tip, ownership_key, bundle_content_hash)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+          arguments: [
+            id, raw.name, raw.calories, raw.protein, raw.carbs, raw.fat,
+            raw.fiber, raw.sugar, raw.sodium, raw.typicalUnit, raw.storageTip,
+            BundleOwnership.ingredientKey(bundleIngredientId: bundleId),
+            CanonicalHash.hash(fields: BundleRowProjection.dataJsonIngredientFields(raw)),
+          ])
+      }
+
       let existingBundledCount =
         try Int.fetchOne(
           db,
