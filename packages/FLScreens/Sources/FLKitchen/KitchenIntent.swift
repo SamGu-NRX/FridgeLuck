@@ -33,7 +33,10 @@ public enum KitchenIntent: Equatable, Sendable {
     // Navigation and maintenance
 
     case scanShelf
-    /// "Scan now" from the staleness notice.
+    /// "Scan now" from the staleness notice. Host-routed: the host runs
+    /// the scan flow and returns what it saw. The notice clears when a
+    /// reconciliation settles — never on the request itself, so a
+    /// cancelled or failed scan leaves the warning standing.
     case scanNow
     case openItem(itemID: String)
     case editItem(itemID: String)
@@ -60,10 +63,16 @@ public enum KitchenReducer {
         case .stillThere(let itemID):
             next.prompts.removeAll { $0.itemID == itemID }
             next.markConfirmed(itemID: itemID)
+            // A settled pill is a successful reconciliation: the
+            // staleness warning is answered by what the scan saw. This —
+            // not the request — is where the notice may clear.
+            next.stale = nil
 
         case .gone(let itemID):
             next.prompts.removeAll { $0.itemID == itemID }
             next.removeItem(itemID: itemID)
+            // The gone answer reconciles the observation too.
+            next.stale = nil
 
         case .useItem(let itemID):
             next.removeItem(itemID: itemID)
@@ -75,11 +84,8 @@ public enum KitchenReducer {
         case .search(let query):
             next.search = Self.searchPhase(for: query, in: next)
 
-        case .scanNow:
-            next.stale = nil
-
         // Host-routed outcomes: new state arrives from the host.
-        case .scanGroceries, .addByName, .newGroceries, .scanShelf,
+        case .scanGroceries, .addByName, .newGroceries, .scanShelf, .scanNow,
              .openItem, .editItem, .adjustQuantity, .changeAssumedStaples:
             break
         }

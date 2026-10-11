@@ -83,23 +83,55 @@ public struct TonightViewState: Equatable, Sendable {
 
     /// The one honest pick: dish, meta, photo, fit and why.
     public struct Pick: Equatable, Sendable {
+
+        /// Whether the carried fit bill answers to the displayed
+        /// servings. The host computes the bill; this layer only tracks
+        /// whether it still stands.
+        public enum FitStanding: Equatable, Sendable {
+            /// The host computed `fit` for exactly `meta.servings`.
+            case current
+            /// Servings changed after `fit` was computed. The bill's
+            /// sufficiency claim is withdrawn — no fit count, no cook —
+            /// until the host returns a recalculated bill as new state
+            /// (a whole-pick replacement, which restores `.current`).
+            case pendingRecalc
+        }
+
         public var recipeID: String
         public var title: String
         public var meta: MealMeta
         public var photo: PhotoSpec?
         public var fit: TonightFit
+        /// Whether `fit` answers to `meta.servings`. Defaults to current;
+        /// a servings edit in the reducer voids it.
+        public var fitStanding: FitStanding
         public var why: WhyLine?
 
         public init(
             recipeID: String, title: String, meta: MealMeta, photo: PhotoSpec? = nil,
-            fit: TonightFit, why: WhyLine? = nil
+            fit: TonightFit, fitStanding: FitStanding = .current, why: WhyLine? = nil
         ) {
             self.recipeID = recipeID
             self.title = title
             self.meta = meta
             self.photo = photo
             self.fit = fit
+            self.fitStanding = fitStanding
             self.why = why
+        }
+
+        /// The fit line the screen may show. Current: the honest grammar
+        /// of `fit.lineText`. Pending: the claim is withheld — the line
+        /// names the recalculation instead of repeating a bill computed
+        /// for other servings. Views render this, never `fit.lineText`
+        /// directly, so a stale claim cannot resurface at render time.
+        public var fitDisplay: String {
+            switch fitStanding {
+            case .current:
+                return fit.lineText
+            case .pendingRecalc:
+                return "Recalculating for \(meta.servings) servings"
+            }
         }
     }
 
@@ -260,8 +292,59 @@ public struct TonightViewState: Equatable, Sendable {
     /// a state can never quietly remove the option.
     public var canChooseTomorrow: Bool { true }
 
-    /// The pick the content carries, when any — used by the views for the
-    /// photo block and by tests for the reducer's serving edits.
+    /// The decision-state action contract (SPEC 2): the primary action
+    /// says exactly what the state knows — no more. The views render this
+    /// verbatim; they never key a cook claim off `carriedPick` (an
+    /// unknown-kitchen example is a carried pick and earns no cook), and
+    /// no state is offered an action its knowledge doesn't back.
+    public enum PrimaryAction: Equatable, Sendable {
+        /// Known kitchen, current bill: the unconditional cook is earned.
+        case cookThis
+        /// A servings change awaits the host's recalculated bill: the
+        /// claim is withdrawn, so the cook renders disabled until it
+        /// returns. The disabled primary states no swap count — the
+        /// count was validated for other servings.
+        case cookPendingRecalc
+        /// Nothing quite makes it, and the host validated swaps covering
+        /// every shortfall: the primary states the real count ("Cook
+        /// with 2 swaps"), never an unconditional "Cook this".
+        case cookWithSwaps(count: Int)
+        /// Sparse: the state knows what you'd need — not a validated
+        /// swap count. No cook claim; the primary acts on the missing
+        /// items (the shopping list).
+        case shoppingList
+        /// Unknown kitchen: there is nothing to cook yet. Scan and
+        /// manual entry rank equal and prominent; no cook claim is
+        /// offered.
+        case enterKitchen
+    }
+
+    /// The primary action this content earns.
+    public var primaryAction: PrimaryAction {
+        switch content {
+        case .unknownKitchen:
+            return .enterKitchen
+        case .pick(let pick):
+            return pick.fitStanding == .current ? .cookThis : .cookPendingRecalc
+        case .sparse:
+            return .shoppingList
+        case .nothingFeasible(let pick):
+            guard let swaps = pick.fit.completingSwapCount else {
+                // No validated complete-after-swaps result — no swap
+                // wording exists, and the escapes lead.
+                return .shoppingList
+            }
+            // The count was validated against the bill's own servings:
+            // a pending recalculation withdraws the claim — the primary
+            // renders as the disabled cook, not a different action.
+            return pick.fitStanding == .current ? .cookWithSwaps(count: swaps) : .cookPendingRecalc
+        }
+    }
+
+    /// The pick the content carries, when any — used by the views for
+    /// the photo block and by tests for the reducer's serving edits.
+    /// Not an action gate: what the actions may claim comes from
+    /// `primaryAction`.
     public var carriedPick: Pick? {
         switch content {
         case .unknownKitchen(_, let example): return example
@@ -271,10 +354,11 @@ public struct TonightViewState: Equatable, Sendable {
         }
     }
 
-    /// True when the primary action should state its real swap count
-    /// (the nothing-feasible state).
+    /// True when the primary action states its real swap count (the
+    /// nothing-feasible state with validated coverage). Defined by the
+    /// contract so the flag and the action cannot drift.
     public var primaryActionStatesSwaps: Bool {
-        if case .nothingFeasible = content { return true }
+        if case .cookWithSwaps = primaryAction { return true }
         return false
     }
 }
