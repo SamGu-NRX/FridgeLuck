@@ -435,6 +435,7 @@ def self_test() -> int:
             capture_output=True, text=True, timeout=DEFAULT_TIMEOUT_S, cwd=str(entry["dir"]),
         )
         label = f"suite {entry['id']} --self-test"
+        total += 1
         if proc.returncode == 0:
             caught += 1
             print(f"  caught  {label}: {(proc.stdout or '').strip().splitlines()[-1] if (proc.stdout or '').strip() else 'ok'}")
@@ -443,7 +444,6 @@ def self_test() -> int:
                 f"{label} failed (exit {proc.returncode}): "
                 f"{(proc.stderr or proc.stdout or '').strip()[-300:]}"
             )
-            total += 1
 
     print("")
     if failures:
