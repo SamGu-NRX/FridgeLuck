@@ -1,0 +1,227 @@
+// FLRecipe — the Recipe screen's view state.
+//
+// The document view (Direction H's Recipe mock): hero, mono stats, the
+// ingredient list scaled to YOUR servings, numbered steps with photos,
+// the community tips, related chips, and the cook record's preview.
+// Binding rules this state encodes:
+//
+// - "Cook for 2" scales every line to the viewer's servings; the base
+//   recipe's numbers are never shown instead (the stepper is at the top
+//   because it changes the whole document). Quantities are derived here,
+//   deterministically and testably.
+// - Same-document record (from a Tonight record): the primary action is
+//   "Reheat for 1" and the record's context is shown — this screen serves
+//   both the fresh recipe and the "what did I actually do" document.
+// - Steps carry their count ("Step 2 of 5") and one Next/Skip control;
+//   step notes from other cooks show while you cook and disappear after
+//   the cook is recorded — your record is yours, not a re-read of theirs.
+// - Tips are community notes ("38% added lemon"), never owner-curated
+//   marketing; there is no field for an owner reply.
+// - The fit line is the same honest grammar as everywhere else
+//   (`FLFitSummary`): "10 of 10 · 3 swaps" counts only real swaps.
+//
+// Foundation-only, Sendable, Equatable: Linux-tested in FLRecipeTests.
+
+import FLScreenSupport
+
+/// The whole Recipe screen as a value.
+public struct RecipeViewState: Equatable, Sendable {
+
+    /// One ingredient line, scaled to the viewer's servings on demand.
+    public struct Ingredient: Equatable, Sendable, Identifiable {
+
+        public var id: String
+        /// "butter", "eggs" — the line name.
+        public var name: String
+        /// The BASE quantity (at `baseServings`). Nil for count-less lines
+        /// like "a handful of basil" — scaling must not invent precision.
+        public var baseQuantity: Double?
+        /// "g", "tbsp" — nil when the quantity counts the name itself
+        /// ("2 eggs" has unit nil and name "eggs").
+        public var unit: String?
+        /// The viewer has this line (the tick in the mock).
+        public var isInKitchen: Bool
+        /// An accepted substitution, when the fit engine found one:
+        /// "use kale instead".
+        public var swapDisplay: String?
+
+        public init(
+            id: String, name: String, baseQuantity: Double? = nil, unit: String? = nil,
+            isInKitchen: Bool = false, swapDisplay: String? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.baseQuantity = baseQuantity
+            self.unit = unit
+            self.isInKitchen = isInKitchen
+            self.swapDisplay = swapDisplay
+        }
+    }
+
+    /// One numbered step.
+    public struct Step: Equatable, Sendable, Identifiable {
+
+        public var id: String
+        /// "Make the dressing", "Colour the ginger".
+        public var title: String
+        public var body: String
+        /// The working caption of the step's photo, when it has one.
+        public var photoCaption: String?
+        /// An other-cook note attached to this step, shown only while
+        /// cooking ("Add the ginger late or it burns.").
+        public var cookNote: String?
+
+        public init(
+            id: String, title: String, body: String, photoCaption: String? = nil,
+            cookNote: String? = nil
+        ) {
+            self.id = id
+            self.title = title
+            self.body = body
+            self.photoCaption = photoCaption
+            self.cookNote = cookNote
+        }
+    }
+
+    /// A related-recipe chip ("Sun-dress the eggs", "Spring soup").
+    public struct Related: Equatable, Sendable, Identifiable {
+
+        public var id: String
+        public var title: String
+        /// "8 of 10 · 1 swap" — the chip carries the same honest fit.
+        public var fitLine: String
+
+        public init(id: String, title: String, fitLine: String) {
+            self.id = id
+            self.title = title
+            self.fitLine = fitLine
+        }
+    }
+
+    // MARK: State
+
+    public var recipeID: String
+    public var title: String
+    /// "Maya" — the mock's byline sits under the title.
+    public var publisherDisplay: String
+    /// "v3 · tested 12 times" — the version line, host-supplied verbatim.
+    public var revisionDisplay: String
+    /// Total minutes, host-supplied; display derives ("35 min").
+    public var minutes: Int
+    /// The viewer's own fit for this recipe.
+    public var fit: FLFitSummary
+    /// The hero photo's working caption, when there is a photo.
+    public var heroCaption: String?
+    /// The recipe's authored servings — what its quantities are written for.
+    public var baseServings: Int
+    /// The viewer's target — the stepper's value. Scaling re-derives from
+    /// this everywhere.
+    public var targetServings: Int
+    public var ingredients: [Ingredient]
+    public var steps: [Step]
+    /// Index into `steps` while cooking; nil when browsing (no step UI).
+    public var currentStepIndex: Int?
+    /// The record flow is open (last step done). Rating and the
+    /// what-you-did-differently line live here.
+    public var showsRecord: Bool
+    /// "4 of 5" as 4 — nil until the cook rates.
+    public var rating: Int?
+    /// "used less salt" — the record's one-line difference.
+    public var didDifferently: String
+    /// Community tips ("38% added lemon. You and Maya both do.").
+    public var tips: [String]
+    public var related: [Related]
+    /// This document IS a tonight record: the primary action is "Reheat
+    /// for 1", and the record's context is visible.
+    public var isTonightRecord: Bool
+
+    public init(
+        recipeID: String, title: String, publisherDisplay: String,
+        revisionDisplay: String, minutes: Int, fit: FLFitSummary,
+        heroCaption: String? = nil, baseServings: Int = 2, targetServings: Int = 2,
+        ingredients: [Ingredient] = [], steps: [Step] = [], currentStepIndex: Int? = nil,
+        showsRecord: Bool = false, rating: Int? = nil, didDifferently: String = "",
+        tips: [String] = [], related: [Related] = [], isTonightRecord: Bool = false
+    ) {
+        self.recipeID = recipeID
+        self.title = title
+        self.publisherDisplay = publisherDisplay
+        self.revisionDisplay = revisionDisplay
+        self.minutes = minutes
+        self.fit = fit
+        self.heroCaption = heroCaption
+        self.baseServings = max(1, baseServings)
+        self.targetServings = max(1, targetServings)
+        self.ingredients = ingredients
+        self.steps = steps
+        self.currentStepIndex = currentStepIndex
+        self.showsRecord = showsRecord
+        self.rating = rating
+        self.didDifferently = didDifferently
+        self.tips = tips
+        self.related = related
+        self.isTonightRecord = isTonightRecord
+    }
+
+    // MARK: Derived — servings and scaling
+
+    /// The scaling factor. Guarded against a zero base (init clamps it to
+    /// at least 1, so this cannot divide by zero).
+    public var scaleFactor: Double {
+        Double(targetServings) / Double(baseServings)
+    }
+
+    /// A quantity formatted for a line: integers plain ("130"), one
+    /// decimal otherwise ("1.5") — never "130.0 g" or "1.4999999 tbsp".
+    static func quantityDisplay(_ value: Double) -> String {
+        value.truncatingRemainder(dividingBy: 1) == 0
+            ? String(Int(value))
+            : String(format: "%.1f", value)
+    }
+
+    /// The scaled quantity alone ("130 g"), for row components that carry
+    /// the name separately (FLQuantityRow). Empty for count-less lines.
+    public func scaledQuantityDisplay(for ingredient: Ingredient) -> String {
+        guard let base = ingredient.baseQuantity else { return "" }
+        let scaled = base * scaleFactor
+        let number = Self.quantityDisplay(scaled)
+        return ingredient.unit.map { "\(number) \($0)" } ?? number
+    }
+
+    /// The scaled line for one ingredient: "260 g butter" from a 130 g
+    /// base at ×2, or "a handful of basil" untouched when the line has no
+    /// number.
+    public func scaledDisplay(for ingredient: Ingredient) -> String {
+        guard ingredient.baseQuantity != nil else { return ingredient.name }
+        let quantity = scaledQuantityDisplay(for: ingredient)
+        return "\(quantity) \(ingredient.name)"
+    }
+
+    /// "Cook for 2" — or "Reheat for 1" on a tonight record.
+    public var primaryActionTitle: String {
+        let verb = isTonightRecord ? "Reheat" : "Cook"
+        return "\(verb) for \(targetServings)"
+    }
+
+    /// "35 min".
+    public var minutesDisplay: String { "\(minutes) min" }
+
+    /// The mono stats line under the title: "10 of 10 · 3 swaps · 35 min".
+    public var statsDisplay: String {
+        [fit.lineText, minutesDisplay].joined(separator: " · ")
+    }
+
+    // MARK: Derived — step flow
+
+    /// "Step 2 of 5", nil while browsing.
+    public var stepCountDisplay: String? {
+        guard let index = currentStepIndex, !steps.isEmpty else { return nil }
+        return "Step \(index + 1) of \(steps.count)"
+    }
+
+    /// Other cooks' notes show while cooking, never after the record.
+    public var showsStepNotes: Bool { currentStepIndex != nil }
+
+    /// The steps of the current cook, in order (the mock's numbered stack).
+    public var isCooking: Bool { currentStepIndex != nil }
+}
