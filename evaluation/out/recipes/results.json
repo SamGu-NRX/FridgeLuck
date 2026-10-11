@@ -2,7 +2,7 @@
   "suite": "recipes",
   "letter": "C",
   "title": "Recipe corpus quality and rights",
-  "run_at": "2026-10-11T12:55:28Z",
+  "run_at": "2026-10-11T23:29:37Z",
   "toolchain": {
     "python": "3.13.14"
   },
@@ -13,8 +13,7 @@
       "value": 530,
       "bar": {
         "op": ">=",
-        "value": 400,
-        "label": ">= 400 rights-clear recipes (programme target 1,500)"
+        "value": 400
       },
       "detail": "530 rights-clear; 0 quarantined (fail-closed; see quarantined.json). Bundled-catalog audit: see bundled_rights_audit.json.",
       "evidence": {
@@ -29,8 +28,7 @@
       "value": 100.0,
       "bar": {
         "op": "==",
-        "value": 100,
-        "label": "100% of corpus passes the food-safety linter"
+        "value": 100
       },
       "detail": "530/530 recipes pass the RS linter (R1 schema, R2 quantity evidence, R3 FSIS thermometer checks, R4 claim evidence, R5 timers); see lint_report.json.",
       "evidence": {
@@ -45,8 +43,7 @@
       "value": 100.0,
       "bar": {
         "op": ">=",
-        "value": 95,
-        "label": ">= 95% of lines resolved with quantity evidence"
+        "value": 95
       },
       "detail": "4334/4334 ingredient lines resolve to grams (weighed, source_grams, or household measure with a conversion); unknown-quantity lines are honest but unresolved.",
       "evidence": {
@@ -61,8 +58,7 @@
       "value": 0,
       "bar": {
         "op": "==",
-        "value": 0,
-        "label": "0 unchecked allergen/diet claims"
+        "value": 0
       },
       "detail": "0 unchecked claim(s) stripped by the linter; 0 remain unchecked.",
       "evidence": {
@@ -77,8 +73,7 @@
       "value": 100.0,
       "bar": {
         "op": "==",
-        "value": 100,
-        "label": "every declared cuisine/time band represented"
+        "value": 100
       },
       "detail": "14/14 declared bands hold >=1 recipe; missing: none. Cross-product cells filled: 51/90 (informational). Per-band counts in coverage.json.",
       "evidence": {
@@ -87,5 +82,8 @@
       },
       "status": "pass"
     }
-  ]
+  ],
+  "source": "run",
+  "duration_ms": 123,
+  "timeout_s": 1800
 }

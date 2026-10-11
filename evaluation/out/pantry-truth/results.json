@@ -1,6 +1,6 @@
 {
   "suite": "pantry-truth",
-  "run_at": "2026-10-11T12:55:28Z",
+  "run_at": "2026-10-11T23:29:37Z",
   "toolchain": {
     "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
     "python": "3.13.14",
@@ -9,7 +9,7 @@
     "probe_cache_key": "98b3c5b81e33caa66d074c93"
   },
   "revision": {
-    "git_sha": "5edf21b51694f591acf5c8ae0585becff9133241"
+    "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33"
   },
   "grounding": {
     "corpus": "apps/ios/Resources/data.json",

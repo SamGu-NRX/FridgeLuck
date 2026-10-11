@@ -1,16 +1,24 @@
 # FridgeLuck overhaul scorecard
 
-Generated 2026-10-11T12:55:29Z · git `5edf21b51694` (eval/scorecard-runner, dirty) · python 3.13.14 · linux
+Generated 2026-10-11T23:29:37Z · run `r-20261011T232923Z-827d154d` (started 2026-10-11T23:29:23Z) · git `33857f03836e` (eval/scorecard-runner) · python 3.13.14 · linux
 
-**5 pass · 7 fail · 8 not-run** — a suite whose inputs are missing reports not-run, never pass.
+**5 pass · 5 fail · 5 not-run** — a suite whose inputs are missing reports not-run, never pass.
 
-## ?. pantry-truth `pantry-truth` (run, 17.1s)
+## A. Pantry truth `pantry-truth` (run, 13.9s)
+
+**registry mismatch:** results are missing 'letter' — required by the results.json schema (the suite's identity from its suite.json/registry entry)
+
+**registry mismatch:** results are missing 'title' — required by the results.json schema (the suite's identity from its suite.json/registry entry)
+
+**registry mismatch:** metric 'plan_battery_rows_present' (Plan battery rows present (PLAN.md line 49)) is missing from the suite results — the registry requires it; dropping a metric cannot hide a failing bar
 
 | metric | value | interval | bar | status | reason |
 | --- | --- | --- | --- | --- | --- |
 | Stock counted twice (plan battery) | 37 | — | == 0 | fail |  |
 | Sufficient claimed without quantity evidence (line audit over 200 pairs) | 209 | — | == 0 | fail |  |
 | Fit-line text correct (200-pair audit) | 55 | — | == 200 | fail |  |
+| Plan battery rows present (PLAN.md line 49) | — | — | == 3 | fail | metric 'plan_battery_rows_present' (Plan battery rows present (PLAN.md line 49)) is missing from the suite results — the registry requires it; dropping a metric cannot hide a failing bar |
+| suite identity (letter/title per registry) | — | — | — | fail | results are missing 'letter' — required by the results.json schema (the suite's identity from its suite.json/registry entry); results are missing 'title' — required by the results.json schema (the suite's identity from its suite.json/registry entry) |
 
 ## B. Learning `learning` (runner, 0.0s)
 
@@ -40,23 +48,16 @@ Generated 2026-10-11T12:55:29Z · git `5edf21b51694` (eval/scorecard-runner, dir
 | --- | --- | --- | --- | --- | --- |
 | E. Community | — | — | — | not-run | suite not yet delivered by fl-community-f1 (no evaluation/suites/community/) |
 
-## F. UI polish `ui-polish` (imported)
+## F. UI polish `ui-polish` (runner, 0.0s)
 
 | metric | value | interval | bar | status | reason |
 | --- | --- | --- | --- | --- | --- |
-| Body-text contrast violations (< 4.5:1) | — | — | — | not-run | this host is linux and has no Xcode or iOS simulator; the XCUITest arm requires macOS. It runs via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either. |
-| Touch-target violations (44 pt; 64 pt cook) | — | — | — | not-run | this host is linux and has no Xcode or iOS simulator; the XCUITest arm requires macOS. It runs via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either. |
-| Clipped primary labels at XXL Dynamic Type | — | — | — | not-run | this host is linux and has no Xcode or iOS simulator; the XCUITest arm requires macOS. It runs via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either. |
-| Audited screens reachable | — | — | — | not-run | this host is linux and has no Xcode or iOS simulator; the XCUITest arm requires macOS. It runs via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either. |
-| STATIC (supporting evidence): declared-token contrast violations | 5 | [5, 5] | <= 0 | fail |  |
-| STATIC (supporting evidence): declared frame minimums below 44 pt | 3 | [3, 4] | <= 0 | fail |  |
-| STATIC (supporting evidence): XXL clipping-risk markers | 27 | [27, 28] | <= 0 | fail |  |
+| F. UI polish | — | — | — | not-run | committed results refused (macos-import rule): imported results carry no git.sha — the macos-import rule (SCORECARD.md) requires the producing run's full SHA |
 
-## G. Journeys `journeys` (imported)
+## G. Journeys `journeys` (runner, 0.0s)
 
 | metric | value | interval | bar | status | reason |
 | --- | --- | --- | --- | --- | --- |
-| Runnable journeys passing with no crash | — | — | — | not-run | this host is linux and has no Xcode or iOS simulator; the XCUITest journeys require macOS. They run via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either. |
-| STATIC (supporting evidence): journeys with a discoverable entry affordance | 7 | — | == 9 | fail |  |
+| G. Journeys | — | — | — | not-run | committed results refused (macos-import rule): imported results carry no git.sha — the macos-import rule (SCORECARD.md) requires the producing run's full SHA |
 
-*Bars are the lead's choices from PLAN.md ("The scorecard"), not measured optima. Suites B, D and E are delivered by the learning, LeChef and community tasks (see SCORECARD.md for their file contract).*
+*Bars are the lead's choices, owned by `evaluation/registry.json` from PLAN.md ("The scorecard"); a suite cannot add, drop or re-bar a metric. Every result is bound to this run (run id, git `33857f03836e`, start time). Suites B, D and E are delivered by the learning, LeChef and community tasks (see SCORECARD.md for their file contract).*

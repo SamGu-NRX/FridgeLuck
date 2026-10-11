@@ -1,9 +1,14 @@
 {
-  "generated_at": "2026-10-11T12:55:29Z",
+  "generated_at": "2026-10-11T23:29:37Z",
+  "run": {
+    "run_id": "r-20261011T232923Z-827d154d",
+    "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+    "started_at": "2026-10-11T23:29:23Z"
+  },
   "git": {
-    "sha": "5edf21b51694f591acf5c8ae0585becff9133241",
+    "sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
     "branch": "eval/scorecard-runner",
-    "dirty": true
+    "dirty": false
   },
   "toolchain": {
     "python": "3.13.14",
@@ -14,51 +19,21 @@
   },
   "summary": {
     "pass": 5,
-    "fail": 7,
-    "not-run": 8
+    "fail": 5,
+    "not-run": 5
   },
   "suites": [
     {
       "suite": "pantry-truth",
-      "run_at": "2026-10-11T12:55:28Z",
-      "toolchain": {
-        "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
-        "python": "3.13.14",
-        "seed": 20261011,
-        "probe_stage": "/tmp/fl-fitprobe-cache/98b3c5b81e33caa66d074c93",
-        "probe_cache_key": "98b3c5b81e33caa66d074c93"
-      },
-      "revision": {
-        "git_sha": "5edf21b51694f591acf5c8ae0585becff9133241"
-      },
-      "grounding": {
-        "corpus": "apps/ios/Resources/data.json",
-        "corpus_sha256": "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be",
-        "corpus_note": "The brief named assets/recipes.json; that file does not exist on any branch. The manifest is grounded on the production bundled corpus the app actually loads (apps/ios/Resources/data.json via BundledDataLoader).",
-        "usda": {
-          "present": true,
-          "records": 800,
-          "matched": 36,
-          "total": 50
-        },
-        "usda_path": "scripts/data/catalog/usda_curated_ingredients.json",
-        "production_files_sha256": {
-          "apps/ios/Domain/Models/Recipe.swift": "b386f4ca5b0ce1ddb5a3223f9f1e5b1b4945493083a4126134492fbd5ebd9849",
-          "apps/ios/Domain/Models/Ingredient.swift": "a05bf49ccfda97969b9e12977d2dbe8544af583775527a67f85368651aecdd25",
-          "apps/ios/Domain/Models/IngredientSwap.swift": "e97c6fde10c6679e781834e719b6bb3dfb083cc27fc1d638f462a90f962f5ca5",
-          "apps/ios/Domain/Models/Inventory.swift": "5fb1960c1f6e9f8a1da72ce385c126e480d2f66dbaf3ca02c2aad4d660fbb14a",
-          "apps/ios/Domain/Models/HealthProfile.swift": "58737030b6a07b49b4ccefad74972f24c5f1f061ecba7e569cd39930f7c57b1f",
-          "apps/ios/Domain/Models/UserProgress.swift": "9b29efc1acd30a2f1821c75be672ff27c63ec013d9622be9bac93fc42b78ada9",
-          "apps/ios/FeatureLogic/Recommendation/RecommendationPolicy.swift": "32a21f6ec4525c16e96b43fab69a39204c4013fe8f2e3b86c1069d17c7e9f6f9",
-          "apps/ios/Platform/Persistence/Database/Migrations.swift": "41ee330123f9a148af13f759817897fe8e663b952b77156ab4e5cd0d09718ec5",
-          "apps/ios/Platform/Persistence/Repository/RecipeRepository.swift": "a73c9bd4871a4be656da330f0c57d9859d11e92f7e9e6ffa26c9dc324f36b8a8",
-          "apps/ios/Platform/Persistence/Repository/RecipeScoring.swift": "488a1e46c7e7e58c77b17266e593590e2e9dfc02283f4be946fe8224641ab0ef",
-          "apps/ios/Platform/Persistence/Services/NutritionService.swift": "a9560ec83d82105d2e45a5846db2b142e97b4871f3dde51734a31411f2499311",
-          "apps/ios/Platform/Persistence/Services/HealthScoringService.swift": "204441c26e44ae3e55d0a8d13d2d02ab69378b3f1cedeb4434b7463afb3708bf",
-          "apps/ios/Platform/Persistence/Services/PersonalizationService.swift": "0cfd351dcd33ea3cc5330e2096a97b2899b33f79b2f4af33101f1e84419831a3"
-        },
-        "production_files_verbatim": true
-      },
+      "letter": "A",
+      "title": "Pantry truth",
+      "owner_task": "fl-eval-harness-f1 (suite A sub-thread)",
+      "source": "run",
+      "registry_mismatches": [
+        "results are missing 'letter' \u2014 required by the results.json schema (the suite's identity from its suite.json/registry entry)",
+        "results are missing 'title' \u2014 required by the results.json schema (the suite's identity from its suite.json/registry entry)",
+        "metric 'plan_battery_rows_present' (Plan battery rows present (PLAN.md line 49)) is missing from the suite results \u2014 the registry requires it; dropping a metric cannot hide a failing bar"
+      ],
       "metrics": [
         {
           "id": "stock_counted_twice",
@@ -402,11 +377,30 @@
             "pairs_file": "pairs_200.json"
           },
           "status": "fail"
+        },
+        {
+          "id": "plan_battery_rows_present",
+          "metric": "Plan battery rows present (PLAN.md line 49)",
+          "status": "fail",
+          "reason": "metric 'plan_battery_rows_present' (Plan battery rows present (PLAN.md line 49)) is missing from the suite results \u2014 the registry requires it; dropping a metric cannot hide a failing bar",
+          "bar": {
+            "op": "==",
+            "value": 3
+          }
+        },
+        {
+          "id": "pantry-truth_contract",
+          "metric": "suite identity (letter/title per registry)",
+          "status": "fail",
+          "reason": "results are missing 'letter' \u2014 required by the results.json schema (the suite's identity from its suite.json/registry entry); results are missing 'title' \u2014 required by the results.json schema (the suite's identity from its suite.json/registry entry)"
         }
       ],
-      "source": "run",
-      "duration_ms": 17149,
-      "timeout_s": 1800
+      "duration_ms": 13897,
+      "run": {
+        "run_id": "r-20261011T232923Z-827d154d",
+        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+        "started_at": "2026-10-11T23:29:23Z"
+      }
     },
     {
       "suite": "learning",
@@ -422,13 +416,18 @@
           "reason": "suite not yet delivered by fl-learning-lab-f1 (no evaluation/suites/learning/)"
         }
       ],
-      "duration_ms": 0
+      "duration_ms": 0,
+      "run": {
+        "run_id": "r-20261011T232923Z-827d154d",
+        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+        "started_at": "2026-10-11T23:29:23Z"
+      }
     },
     {
       "suite": "recipes",
       "letter": "C",
       "title": "Recipe corpus quality and rights",
-      "run_at": "2026-10-11T12:55:28Z",
+      "run_at": "2026-10-11T23:29:37Z",
       "toolchain": {
         "python": "3.13.14"
       },
@@ -439,8 +438,7 @@
           "value": 530,
           "bar": {
             "op": ">=",
-            "value": 400,
-            "label": ">= 400 rights-clear recipes (programme target 1,500)"
+            "value": 400
           },
           "detail": "530 rights-clear; 0 quarantined (fail-closed; see quarantined.json). Bundled-catalog audit: see bundled_rights_audit.json.",
           "evidence": {
@@ -455,8 +453,7 @@
           "value": 100.0,
           "bar": {
             "op": "==",
-            "value": 100,
-            "label": "100% of corpus passes the food-safety linter"
+            "value": 100
           },
           "detail": "530/530 recipes pass the RS linter (R1 schema, R2 quantity evidence, R3 FSIS thermometer checks, R4 claim evidence, R5 timers); see lint_report.json.",
           "evidence": {
@@ -471,8 +468,7 @@
           "value": 100.0,
           "bar": {
             "op": ">=",
-            "value": 95,
-            "label": ">= 95% of lines resolved with quantity evidence"
+            "value": 95
           },
           "detail": "4334/4334 ingredient lines resolve to grams (weighed, source_grams, or household measure with a conversion); unknown-quantity lines are honest but unresolved.",
           "evidence": {
@@ -487,8 +483,7 @@
           "value": 0,
           "bar": {
             "op": "==",
-            "value": 0,
-            "label": "0 unchecked allergen/diet claims"
+            "value": 0
           },
           "detail": "0 unchecked claim(s) stripped by the linter; 0 remain unchecked.",
           "evidence": {
@@ -503,8 +498,7 @@
           "value": 100.0,
           "bar": {
             "op": "==",
-            "value": 100,
-            "label": "every declared cuisine/time band represented"
+            "value": 100
           },
           "detail": "14/14 declared bands hold >=1 recipe; missing: none. Cross-product cells filled: 51/90 (informational). Per-band counts in coverage.json.",
           "evidence": {
@@ -515,8 +509,13 @@
         }
       ],
       "source": "run",
-      "duration_ms": 122,
-      "timeout_s": 1800
+      "duration_ms": 123,
+      "timeout_s": 1800,
+      "run": {
+        "run_id": "r-20261011T232923Z-827d154d",
+        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+        "started_at": "2026-10-11T23:29:23Z"
+      }
     },
     {
       "suite": "lechef",
@@ -532,7 +531,12 @@
           "reason": "suite not yet delivered by fl-lechef-f1 (no evaluation/suites/lechef/)"
         }
       ],
-      "duration_ms": 0
+      "duration_ms": 0,
+      "run": {
+        "run_id": "r-20261011T232923Z-827d154d",
+        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+        "started_at": "2026-10-11T23:29:23Z"
+      }
     },
     {
       "suite": "community",
@@ -548,140 +552,55 @@
           "reason": "suite not yet delivered by fl-community-f1 (no evaluation/suites/community/)"
         }
       ],
-      "duration_ms": 0
+      "duration_ms": 0,
+      "run": {
+        "run_id": "r-20261011T232923Z-827d154d",
+        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+        "started_at": "2026-10-11T23:29:23Z"
+      }
     },
     {
       "suite": "ui-polish",
       "letter": "F",
       "title": "UI polish",
-      "run_at": "2026-10-11T12:10:38Z",
-      "toolchain": {
-        "python": "3.13.14",
-        "platform": "linux",
-        "xcodebuild": "unavailable",
-        "xcodegen": "unavailable"
-      },
+      "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
+      "source": "runner",
       "metrics": [
         {
-          "id": "f_body_text_contrast_violations",
-          "metric": "Body-text contrast violations (< 4.5:1)",
+          "id": "ui-polish_suite",
+          "metric": "F. UI polish",
           "status": "not-run",
-          "reason": "this host is linux and has no Xcode or iOS simulator; the XCUITest arm requires macOS. It runs via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either."
-        },
-        {
-          "id": "f_touch_target_violations",
-          "metric": "Touch-target violations (44 pt; 64 pt cook)",
-          "status": "not-run",
-          "reason": "this host is linux and has no Xcode or iOS simulator; the XCUITest arm requires macOS. It runs via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either."
-        },
-        {
-          "id": "f_clipped_primary_labels_xxl",
-          "metric": "Clipped primary labels at XXL Dynamic Type",
-          "status": "not-run",
-          "reason": "this host is linux and has no Xcode or iOS simulator; the XCUITest arm requires macOS. It runs via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either."
-        },
-        {
-          "id": "f_audit_screen_coverage",
-          "metric": "Audited screens reachable",
-          "status": "not-run",
-          "reason": "this host is linux and has no Xcode or iOS simulator; the XCUITest arm requires macOS. It runs via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either."
-        },
-        {
-          "id": "f_static_body_text_contrast_violations",
-          "metric": "STATIC (supporting evidence): declared-token contrast violations",
-          "value": 5,
-          "bar": {
-            "op": "<=",
-            "value": 0
-          },
-          "interval": [
-            5,
-            5
-          ],
-          "detail": "100 declared token pairs audited in light and dark (WCAG 2.x math over AppTheme.swift); 0 unresolvable color entries widen the interval high bound. Context not counted in the value: 4 dark-panel pairings (deepOlive takes light text tokens by design) and 24 accent-text pairs below the 3:1 large-text rule \u2014 both listed in evidence. Static evidence only \u2014 the bar is judged by the macOS XCUITest arm.",
-          "evidence": {
-            "path": "apps/ios/DesignSystem/AppTheme.swift",
-            "note": "violations: [{\"pair\": \"textSecondary on bg (light)\", \"ratio\": 3.66, \"fg\": \"#877A6B\", \"bg\": \"#F5F0E8\", \"below\": true, \"class\": \"body text\", \"note\": \"declared body-text pair below 4.5:1\"}, {\"pair\": \"textSecondary on bgDeep (light)\", \"ratio\": 3.19, \"fg\": \"#877A6B\", \"bg\": \"#E8E0D4\", \"below\": true, \"class\": \"body text\", \"note\": \"declared body-text pair below 4.5:1\"}, {\"pair\": \"textSecondary on surface (light)\", \"ratio\": 4.06, \"fg\": \"#877A6B\", \"bg\": \"#FCFCF7\", \"below\": true, \"class\": \"body text\", \"note\": \"declared body-text pair below 4.5:1\"}, {\"pair\": \"textSecondary on surfaceMuted (light)\", \"ratio\": 3.43, \"fg\": \"#877A6B\", \"bg\": \"#F0E8DE\", \"below\": true, \"class\": \"body text\", \"note\": \"declared body-text pair below 4.5:1\"}, {\"pair\": \"textSecondary on surfaceElevated (light)\", \"ratio\": 4.06, \"fg\": \"#877A6B\", \"bg\": \"#FCFCF7\", \"below\": true, \"class\": \"body text\", \"note\": \"declared body-text pair below 4.5:1\"}]"
-          },
-          "status": "fail"
-        },
-        {
-          "id": "f_static_declared_minimums_below_44pt",
-          "metric": "STATIC (supporting evidence): declared frame minimums below 44 pt",
-          "value": 3,
-          "bar": {
-            "op": "<=",
-            "value": 0
-          },
-          "interval": [
-            3,
-            4
-          ],
-          "detail": "literal frame(minWidth:)/frame(minHeight:) declarations below 44 pt in apps/ios. An inventory of declared minimums, not rendered targets; runtime measurement belongs to the macOS arm.",
-          "evidence": {
-            "path": "apps/ios",
-            "note": "[{\"file\": \"apps/ios/Feature/Inventory/GroceryReviewSection.swift\", \"line\": 163, \"declared_pt\": 36.0, \"source\": \".frame(minWidth: 36)\"}, {\"file\": \"apps/ios/Feature/Onboarding/OnboardingViewSections.swift\", \"line\": 1362, \"declared_pt\": 34.0, \"source\": \".frame(minHeight: 34, alignment: .topLeading)\"}, {\"file\": \"apps/ios/Feature/Settings/SettingsHubView.swift\", \"line\": 400, \"declared_pt\": 22.0, \"source\": \".frame(minWidth: 22)\"}]"
-          },
-          "status": "fail"
-        },
-        {
-          "id": "f_static_xxl_clipping_risks",
-          "metric": "STATIC (supporting evidence): XXL clipping-risk markers",
-          "value": 27,
-          "bar": {
-            "op": "<=",
-            "value": 0
-          },
-          "interval": [
-            27,
-            28
-          ],
-          "detail": "fixed-height frames and lineLimit(1) near Text declarations \u2014 the patterns that clip at XXL Dynamic Type. Heuristic risk markers to review, not proven violations; the bar is judged by the macOS XXL pass.",
-          "evidence": {
-            "path": "apps/ios",
-            "note": "[{\"file\": \"apps/ios/DesignSystem/Components/FLButtonComponents.swift\", \"line\": 46, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/DesignSystem/Components/FLButtonComponents.swift\", \"line\": 107, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/DesignSystem/Components/FLIngredientChipScroll.swift\", \"line\": 39, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/DesignSystem/Components/FLMacroCard.swift\", \"line\": 49, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/DesignSystem/Components/FLSettingsComponents.swift\", \"line\": 32, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/Feature/Assistant/LiveAssistantView.swift\", \"line\": 162, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/Feature/Assistant/LiveAssistantView.swift\", \"line\": 482, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/Feature/Demo/DemoModeSections.swift\", \"line\": 82, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/Feature/Estimate/RecipePickerView.swift\", \"line\": 194, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/Feature/Estimate/RecipePickerView.swift\", \"line\": 253, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/Feature/Estimate/ReverseScanResultsSections.swift\", \"line\": 166, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}, {\"file\": \"apps/ios/Feature/Estimate/ReverseScanResultsSections.swift\", \"line\": 287, \"kind\": \"lineLimit(1) near Text (truncates at XXL)\", \"height_pt\": null, \"source\": \".lineLimit(1)\"}]"
-          },
-          "status": "fail"
+          "reason": "committed results refused (macos-import rule): imported results carry no git.sha \u2014 the macos-import rule (SCORECARD.md) requires the producing run's full SHA"
         }
       ],
-      "source": "imported",
-      "imported_from": "evaluation/out/ui-polish/results.json"
+      "duration_ms": 0,
+      "run": {
+        "run_id": "r-20261011T232923Z-827d154d",
+        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+        "started_at": "2026-10-11T23:29:23Z"
+      }
     },
     {
       "suite": "journeys",
       "letter": "G",
       "title": "Journeys",
-      "run_at": "2026-10-11T12:15:53Z",
-      "toolchain": {
-        "python": "3.13.14",
-        "platform": "linux"
-      },
+      "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
+      "source": "runner",
       "metrics": [
         {
-          "id": "g_journeys_passed_pct",
-          "metric": "Runnable journeys passing with no crash",
+          "id": "journeys_suite",
+          "metric": "G. Journeys",
           "status": "not-run",
-          "reason": "this host is linux and has no Xcode or iOS simulator; the XCUITest journeys require macOS. They run via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either."
-        },
-        {
-          "id": "g_static_entry_points_discoverable",
-          "metric": "STATIC (supporting evidence): journeys with a discoverable entry affordance",
-          "value": 7,
-          "bar": {
-            "op": "==",
-            "value": 9
-          },
-          "detail": "7/9 journeys have at least one discoverable UI affordance in apps/ios (button labels, navigation titles, ShareLink, accessibility labels). Missing: share, challenge. The value asserts the conservative lower bound of the interval [7, 8]; presence of an entry point says nothing about completing the journey \u2014 the 100% bar is judged by the macOS arm.",
-          "evidence": {
-            "path": "apps/ios",
-            "note": "[{\"id\": \"share\", \"entry_found\": false, \"hits\": []}, {\"id\": \"challenge\", \"entry_found\": false, \"hits\": []}]"
-          },
-          "status": "fail"
+          "reason": "committed results refused (macos-import rule): imported results carry no git.sha \u2014 the macos-import rule (SCORECARD.md) requires the producing run's full SHA"
         }
       ],
-      "source": "imported",
-      "imported_from": "evaluation/out/journeys/results.json"
+      "duration_ms": 0,
+      "run": {
+        "run_id": "r-20261011T232923Z-827d154d",
+        "git_sha": "33857f03836ea4bb25ec6aaa3430702e43a97b33",
+        "started_at": "2026-10-11T23:29:23Z"
+      }
     }
   ],
-  "runner_duration_ms": 17398
+  "runner_duration_ms": 14104
 }
