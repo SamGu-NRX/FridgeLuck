@@ -158,42 +158,25 @@ Guardrails: cost per completed cook, timer delivery, safety failures, privacy fa
 
 Each task owns distinct directories, names its base and branch, ends with Proof and Handoff, and labels what it could not verify. Task prompts live in the fleet repo (`packets/focus/fridgeluck.jsonl`).
 
-**Wave 0 (queued 2026-10-11):**
+The work runs as five long programmes, each a parent thread with parallel sub-threads that own separate directories (queued 2026-10-11):
 
-- `fl-trunk-ios-f1`: app integration trunk and PR ledger.
-- `fl-trunk-backend-f1`: backend trunk, authority boundaries and LeChef retention.
-- `fl-recipe-corpus-f1`: rights audit, #43 finish, licensed corpus.
-- `fl-taste-engine-f1`: preference engine and evaluation.
-- `fl-core-foundation-f1`: FridgeLuckCore, FLDomain, GRDB on Linux, CI.
-- `fl-design-system-f1`: tokens, components, macOS render CI.
-- Continuations of #44 (bundle refresh), #45 (historical nutrition) and #85 (Home state core).
+- `fl-integration-f1`: app and backend trunks with a PR ledger; finishes the #45, #44 and #85 continuations and folds them in.
+- `fl-recipe-platform-f1`: rights audit, #43, the licensed and original corpus, the food-safety rulebook and recipe linter, and the substitution table.
+- `fl-learning-lab-f1`: the preference engine, a household simulator, and an evaluation campaign over thousands of simulated users, ending in a recommendation for what ships.
+- `fl-core-build-f1`: FridgeLuckCore (FLDomain, GRDB on Linux, CI), then pantry truth, the dinner and cook state machines, LeChef authority and community sharing and challenges, joined by a week-long household scenario suite.
+- `fl-design-build-f1`: the design system and every main screen as SwiftUI driven by view-state values, rendered through macOS CI.
 
-**Wave 0b (independent data):**
-
-- `fl-food-safety-f1`: reviewed food-safety rules dataset and validator.
-- `fl-substitutions-f1`: reviewed substitution table with allergen recheck.
-
-**Wave 1 (after the core foundation Handoff is checked):**
-
-- Pantry truth: quantity-aware feasibility, lot allocation, observe-versus-purchase reconciliation.
-- Dinner decision flow: the Tonight state machine and meal context.
-- Cook session core: steps, timers, checkpoints, five-word grammar, degraded modes.
-- Assistant authority core: proposals, approvals, receipts.
-- Preference core: FLTaste's model moved into FLPreferenceCore.
-- Community core: share DTOs, consent, challenge model.
-
-**Wave 1b (after the backend trunk Handoff is checked):**
+**Next, after the backend trunk Handoff is checked:**
 
 - Community backend: auth, tables, invites, challenges, report and block, moderation queue, on the Firestore emulator.
 - LeChef app tools over snapshots and proposals.
 - LeChef cost benchmark.
 
-**Wave 2 (after the app trunk, design system and Wave 1 Handoffs):**
+**Then, after the app trunk, core build and design build Handoffs:**
 
-- One native task per screen family, each owning its own Feature directory and rendering its screens through macOS CI: Tonight, Kitchen and scan review, Recipe, Cook mode, Cookbook with the taste profile and search, Table and challenges.
-- One host-wiring task owns `App/` composition and migrations.
+- Host integration: replace the old Feature screens with the FLScreens packages, wire them to FridgeLuckCore and migrations, instrument preference events, and render the whole app through macOS CI.
 
-**Wave 3:**
+**Last:**
 
 - Corpus delivery into the bundle through #44.
 - Preference activation gate on the frozen suite.
