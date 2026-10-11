@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import SwiftUI
 
 /// A drawer-style sheet for browsing a recipe's details before deciding to cook.
@@ -19,6 +20,7 @@ struct RecipePreviewDrawer: View {
     [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:]
   @State private var sectionsRevealed: Int = 0
   @State private var existingPhoto: UIImage?
+  @State private var showExportSheet = false
 
   // MARK: - Swap Tooltip State
   @AppStorage(TutorialStorageKeys.hasSeenSwapTooltip) private var hasSeenSwapTooltip = false
@@ -66,6 +68,16 @@ struct RecipePreviewDrawer: View {
             )
             .opacity(sectionOpacity(4))
             .offset(y: sectionOffset(4))
+
+            Button {
+              showExportSheet = true
+            } label: {
+              Label("Export amounts", systemImage: "doc.text")
+                .font(AppTheme.Typography.settingsCaptionMedium)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+            .buttonStyle(.plain)
+            .padding(.vertical, AppTheme.Space.xxs)
           }
           .padding(.horizontal, AppTheme.Space.page)
           .padding(.top, AppTheme.Space.lg)
@@ -134,6 +146,9 @@ struct RecipePreviewDrawer: View {
         swapSpotlight.activePresentation = nil
       }
     }
+    .sheet(isPresented: $showExportSheet) {
+      RecipeExportSheet(buildFreshIntake: buildExportIntake)
+    }
     .overlay {
       if showSwapSpotlight, let presentation = swapSpotlight.activePresentation {
         SpotlightTutorialOverlay(
@@ -190,6 +205,34 @@ struct RecipePreviewDrawer: View {
         sectionsRevealed = i + 1
       }
     }
+  }
+
+  // MARK: - Recipe Amount Export
+
+  /// Fresh intake read for the export sheet. Never trusts the cached
+  /// `ingredients` state — loadIngredients() swallows repository errors into [] —
+  /// so a failed or inconsistent read refuses preparation instead.
+  private func buildExportIntake() throws -> RecipeExportIntake {
+    guard let recipeId = recipe.id else { throw RecipeExportError.recipeMissing }
+    let freshRows: [(ingredient: Ingredient, quantity: RecipeIngredient)]
+    do {
+      freshRows = try deps.recipeRepository.ingredientsForRecipe(id: recipeId)
+    } catch {
+      throw RecipeExportError.recipeReadFailed
+    }
+    guard !freshRows.isEmpty else {
+      throw RecipeExportError.inconsistentRecipeRead("no ingredient rows")
+    }
+    guard recipe.servings > 0 else {
+      throw RecipeExportError.invalidOriginalServings(recipe.servings)
+    }
+    let photoPath = (try? deps.userDataRepository.latestPhotoPath(forRecipeId: recipeId)) ?? ""
+    return RecipeExportIntakeComposer.compose(
+      recipe: recipe,
+      rows: freshRows,
+      substitutions: activeSubstitutions,
+      photoPath: photoPath
+    )
   }
 
   // MARK: - Data Loading

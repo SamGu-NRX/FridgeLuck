@@ -290,3 +290,15 @@ extension View {
     padding(.horizontal, AppTheme.Space.page)
   }
 }
+
+// MARK: - Recipe Amount Export (additive tokens)
+
+extension AppTheme {
+  enum Export {
+    /// Monospaced rendering of the prepared plain-text document.
+    static let document = Font.system(.callout, design: .monospaced)
+    static let documentLineSpacing: CGFloat = 4
+    /// Soft fill for the staleness banner.
+    static let bannerFill = AppTheme.accentMuted
+  }
+}
