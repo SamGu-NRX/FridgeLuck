@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "parmesan",
+  "displayName": "Parmesan",
+  "isCore": false,
+  "category": "dairy_egg",
+  "sections": {
+   "whatItIs": {
+    "text": "A hard, granular cow's-milk cheese aged at least 12 months; real Parmigiano Reggiano carries an EU PDO from a defined patch of northern Italy and has been called the king of cheeses.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The English word 'parmesan' dates to 1519, and since a 2008 EU court ruling, 'Parmesan' in Europe means only Parmigiano Reggiano; outside the EU the name runs free — an Italian farmers' association reported that 90% of 'Italian sounding' cheeses sold in the US are made domestically.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Buy wedges, not dust — pre-grated includes anti-caking powder that dulls melt and flavour; PDO-stamped rind means the real thing.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Wrap in parchment then a loose layer, and keep in the fridge; hard cheese outlasts soft by months. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "hard-cheese storage and mould guidance live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "The rind is the best part of the last wedge — it simmers in soups and stocks for umami; hard ends grate into pasta, risotto, and breadcrumbs.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "Grana Padano",
+    "ratio": "1:1",
+    "note": "same family, slightly less crumbly; cheaper",
+    "citations": []
+   },
+   {
+    "substitute": "pecorino romano",
+    "ratio": "3/4 the quantity",
+    "note": "saltier and sharper; reduce added salt",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170848,
+   "fdcDescription": "Cheese, parmesan, hard",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminARaeMcg": 207,
+    "sodiumMg": 1175,
+    "saturatedFatG": 14.85,
+    "sugarG": 0.11,
+    "fatG": 25,
+    "vitaminCMg": 0,
+    "folateMcg": 7,
+    "fiberG": 0,
+    "ironMg": 0.82,
+    "proteinG": 35.75,
+    "carbohydrateG": 3.22,
+    "energyKcal": 392,
+    "calciumMg": 1184,
+    "potassiumMg": 92
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Parmesan — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Parmesan_cheese",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170848 (Cheese, parmesan, hard)."
+   }
+  }
+ }
+}

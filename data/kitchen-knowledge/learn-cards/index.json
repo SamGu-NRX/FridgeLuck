@@ -165,6 +165,14 @@
     "fdcId": 170393
    },
    {
+    "id": "cauliflower",
+    "displayName": "Cauliflower",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169986
+   },
+   {
     "id": "celery",
     "displayName": "Celery",
     "isCore": true,
@@ -195,6 +203,22 @@
     "category": "protein",
     "frequencyInBundledRecipes": 18,
     "fdcId": 171077
+   },
+   {
+    "id": "chicken_stock",
+    "displayName": "Chicken Stock",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 174536
+   },
+   {
+    "id": "chicken_thighs",
+    "displayName": "Chicken Thighs",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173627
    },
    {
     "id": "chickpea",
@@ -323,6 +347,22 @@
     "category": "dairy_egg",
     "frequencyInBundledRecipes": 0,
     "fdcId": 173420
+   },
+   {
+    "id": "flank_steak",
+    "displayName": "Flank Steak",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169563
+   },
+   {
+    "id": "flattened_rice",
+    "displayName": "Flattened Rice",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
    },
    {
     "id": "frozen_peas",
@@ -517,6 +557,38 @@
     "fdcId": 171328
    },
    {
+    "id": "orzo",
+    "displayName": "Orzo",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169736
+   },
+   {
+    "id": "paneer",
+    "displayName": "Paneer",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "parmesan",
+    "displayName": "Parmesan",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170848
+   },
+   {
+    "id": "parsley",
+    "displayName": "Parsley",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170416
+   },
+   {
     "id": "pasta",
     "displayName": "Pasta",
     "isCore": true,
@@ -531,6 +603,14 @@
     "category": "condiment",
     "frequencyInBundledRecipes": 7,
     "fdcId": 174266
+   },
+   {
+    "id": "peanuts",
+    "displayName": "Peanuts",
+    "isCore": false,
+    "category": "nut_seed",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172430
    },
    {
     "id": "potato",
@@ -576,13 +656,15 @@
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 71,
+   "cardsWritten": 81,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [
+    "flattened_rice",
     "garam_masala",
     "gochujang",
     "halloumi",
-    "harissa"
+    "harissa",
+    "paneer"
    ],
    "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."
   }

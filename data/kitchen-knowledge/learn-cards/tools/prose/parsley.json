@@ -1,0 +1,54 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "A bright, clean-tasting herb from the carrot family — flat-leaf (stronger flavour, chefs' choice) and curly (the classic garnish).",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Parsley is native to Greece, the Balkans, Algeria, and Morocco, and was cultivated by the 3rd century BC; its name descends from Greek petroselinon, 'rock-celery', and it reached England in 1548.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose perky, deep-green bunches with no slimy or yellowed stems; flat-leaf for cooking and salads, curly where texture matters.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Stand in a jar of water, loosely bagged, in the fridge. The rulebook has the timing.",
+   "citations": [],
+   "note": "fresh-herb windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Wilted parsley still works chopped into gremolata, tabbouleh, or chimichurri, or dried low and slow in the oven for later.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "chervil",
+   "ratio": "1:1",
+   "note": "delicate anise note; add at the very end",
+   "citations": []
+  },
+  {
+   "substitute": "celery leaves",
+   "ratio": "1:1",
+   "note": "same freshness family; slightly bitter edge",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Parsley — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Parsley",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}
