@@ -41,8 +41,18 @@ enum AppPermissionCenter {
 
   @MainActor
   static func notificationStatus() async -> AppPermissionStatus {
-    let settings = await UNUserNotificationCenter.current().notificationSettings()
-    return mapNotificationSettings(settings)
+    await currentNotificationStatus()
+  }
+
+  /// Maps inside the callback so only the Sendable status crosses actors. Xcode 16's SDK
+  /// doesn't mark `UNNotificationSettings` Sendable, so awaiting `notificationSettings()` from
+  /// the main actor fails the Swift 6 build there.
+  private static func currentNotificationStatus() async -> AppPermissionStatus {
+    await withCheckedContinuation { continuation in
+      UNUserNotificationCenter.current().getNotificationSettings { settings in
+        continuation.resume(returning: mapNotificationSettings(settings))
+      }
+    }
   }
 
   @MainActor
@@ -102,8 +112,7 @@ enum AppPermissionCenter {
       }
 
     case .notifications:
-      let settings = await UNUserNotificationCenter.current().notificationSettings()
-      switch mapNotificationSettings(settings) {
+      switch await currentNotificationStatus() {
       case .authorized, .limited:
         return .granted
       case .denied, .restricted:

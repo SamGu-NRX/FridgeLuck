@@ -19,10 +19,7 @@ actor NotificationScheduler {
     permissionStatus: AppPermissionStatus
   ) async throws {
     let knownMealIdentifiers = NotificationRuleKind.orderedMealKinds.map(\.notificationIdentifier)
-    let pending = await center.pendingNotificationRequests()
-    let staleFreshnessIdentifiers =
-      pending
-      .map(\.identifier)
+    let staleFreshnessIdentifiers = await center.pendingNotificationIdentifiers()
       .filter { $0.hasPrefix("freshness.") }
 
     await center.removePendingNotificationRequests(
