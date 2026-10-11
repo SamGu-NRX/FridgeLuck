@@ -14,12 +14,29 @@ struct SubstitutionSheet: View {
   let displayQuantity: String
   var onSelect: (Substitution, Ingredient) -> Void
 
-  @State private var substitutions: [Substitution] = []
-  @State private var substituteIngredients: [Int64: Ingredient] = [:]
-  @State private var originalMacros: RecipeMacros?
-  @State private var substituteMacros: [Int64: RecipeMacros] = [:]
+  /// Immutable snapshot of one completed read of the swap facts. Committed atomically at
+  /// the end of `loadData`, so a stale or cancelled load never blends values from a
+  /// previous candidate into the sheet.
+  private struct LoadedComparison: Equatable {
+    var restrictions: Set<String> = []
+    var substitutions: [Substitution] = []
+    var substituteIngredients: [Int64: Ingredient] = [:]
+    var originalMacros: RecipeMacros?
+    var substituteMacros: [Int64: RecipeMacros] = [:]
+  }
+
+  @State private var comparison: LoadedComparison?
   @State private var appeared = false
-  @State private var dietaryRestrictions: Set<String> = []
+
+  // Everything below reads from the committed snapshot; nothing is assigned outside the
+  // single commit in `loadData`.
+  private var dietaryRestrictions: Set<String> { comparison?.restrictions ?? [] }
+  private var substitutions: [Substitution] { comparison?.substitutions ?? [] }
+  private var substituteIngredients: [Int64: Ingredient] {
+    comparison?.substituteIngredients ?? [:]
+  }
+  private var originalMacros: RecipeMacros? { comparison?.originalMacros }
+  private var substituteMacros: [Int64: RecipeMacros] { comparison?.substituteMacros ?? [:] }
 
   var body: some View {
     NavigationStack {
@@ -53,6 +70,7 @@ struct SubstitutionSheet: View {
       await loadData()
       if !reduceMotion {
         try? await Task.sleep(for: .milliseconds(80))
+        guard !Task.isCancelled else { return }
         withAnimation(AppMotion.sectionReveal) {
           appeared = true
         }
@@ -258,10 +276,7 @@ struct SubstitutionSheet: View {
   private func nutritionComparison(original: RecipeMacros, substitute: RecipeMacros) -> some View {
     HStack(spacing: AppTheme.Space.sm) {
       macroValue(
-        "Cal",
-        original: caloriesFromDisplayedMacros(original),
-        new: caloriesFromDisplayedMacros(substitute),
-        unit: ""
+        "Cal", original: original.caloriesPerServing, new: substitute.caloriesPerServing, unit: ""
       )
       macroValue(
         "P", original: original.proteinPerServing, new: substitute.proteinPerServing, unit: "g")
@@ -302,7 +317,7 @@ struct SubstitutionSheet: View {
 
   private func compactMacroRow(macros: RecipeMacros, highlight: Bool) -> some View {
     HStack(spacing: AppTheme.Space.md) {
-      compactMacro("Cal", value: Int(caloriesFromDisplayedMacros(macros).rounded()), unit: "")
+      compactMacro("Cal", value: Int(macros.caloriesPerServing.rounded()), unit: "")
       compactMacro("P", value: Int(macros.proteinPerServing.rounded()), unit: "g")
       compactMacro("C", value: Int(macros.carbsPerServing.rounded()), unit: "g")
       compactMacro("F", value: Int(macros.fatPerServing.rounded()), unit: "g")
@@ -346,36 +361,41 @@ struct SubstitutionSheet: View {
     return nice
   }
 
-  private func caloriesFromDisplayedMacros(_ macros: RecipeMacros) -> Double {
-    (macros.proteinPerServing * 4) + (macros.carbsPerServing * 4) + (macros.fatPerServing * 9)
-  }
-
   // MARK: - Data Loading
 
   private func loadData() async {
+    var loaded = LoadedComparison()
+
     if let profile = try? deps.userDataRepository.fetchHealthProfile() {
-      dietaryRestrictions = profile.normalizedDietaryRestrictionIDs
+      loaded.restrictions = profile.normalizedDietaryRestrictionIDs
     }
+    guard !Task.isCancelled else { return }
 
-    let subs = deps.substitutionService.substitutions(
+    loaded.substitutions = deps.substitutionService.substitutions(
       for: ingredient.id ?? -1,
-      dietaryRestrictions: dietaryRestrictions
+      dietaryRestrictions: loaded.restrictions
     )
-    substitutions = subs
+    guard !Task.isCancelled else { return }
 
-    for sub in subs {
+    for sub in loaded.substitutions {
       if let subIngredient = try? deps.substitutionService.ingredient(id: sub.substituteId) {
-        substituteIngredients[sub.substituteId] = subIngredient
+        loaded.substituteIngredients[sub.substituteId] = subIngredient
         let adjustedGrams = quantityGrams * sub.ratio
-        substituteMacros[sub.substituteId] = try? deps.nutritionService.ingredientMacros(
+        loaded.substituteMacros[sub.substituteId] = try? deps.nutritionService.ingredientMacros(
           ingredientId: sub.substituteId, grams: adjustedGrams
         )
       }
     }
+    guard !Task.isCancelled else { return }
 
-    originalMacros = try? deps.nutritionService.ingredientMacros(
+    loaded.originalMacros = try? deps.nutritionService.ingredientMacros(
       ingredientId: ingredient.id ?? -1, grams: quantityGrams
     )
+    guard !Task.isCancelled else { return }
+
+    // Single atomic commit: the sheet's facts move together or not at all, so a stale
+    // candidate's values can never be mixed into what's on screen.
+    comparison = loaded
   }
 }
 

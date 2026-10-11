@@ -255,6 +255,18 @@ struct RecipePreviewIngredientSection: View {
   let onIngredientSelected: (Ingredient) -> Void
   let onSwapSelected: (Ingredient, RecipeIngredient) -> Void
 
+  @State private var showQuantityReview = false
+
+  /// The single recipe every visible row belongs to, or nil when the section's rows are
+  /// empty or disagree. The review re-reads and re-validates everything itself; this only
+  /// decides whether a coherent entry point exists to offer.
+  private var reviewRecipeID: Int64? {
+    guard !ingredients.isEmpty else { return nil }
+    let ids = Set(ingredients.compactMap { $0.quantity.recipeId })
+    guard ids.count == 1, let id = ids.first, id > 0 else { return nil }
+    return id
+  }
+
   var body: some View {
     FLCard {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
@@ -300,7 +312,44 @@ struct RecipePreviewIngredientSection: View {
             }
           }
         }
+
+        if reviewRecipeID != nil {
+          Button {
+            showQuantityReview = true
+          } label: {
+            HStack(spacing: AppTheme.Space.sm) {
+              Image(systemName: "scalemass")
+                .font(AppTheme.Typography.label)
+                .foregroundStyle(AppTheme.accent)
+              VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+                Text("Review amounts by servings")
+                  .font(AppTheme.Typography.bodySmall)
+                  .foregroundStyle(AppTheme.textPrimary)
+                Text("Read-only — nothing changes your plan or meal log")
+                  .font(AppTheme.Typography.labelSmall)
+                  .foregroundStyle(AppTheme.textSecondary)
+              }
+              Spacer()
+              Image(systemName: "chevron.right")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+            .padding(AppTheme.Space.sm)
+            .background(AppTheme.accentLight)
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.sm))
+          }
+          .buttonStyle(FLPressableButtonStyle())
+          .accessibilityHint(
+            "Opens a read-only amount review with serving scaling. Nothing is changed."
+          )
+        }
       }
+    }
+    .sheet(isPresented: $showQuantityReview) {
+      RecipeQuantityReviewView(
+        recipeID: reviewRecipeID ?? -1,
+        activeSubstitutions: activeSubstitutions
+      )
     }
   }
 
