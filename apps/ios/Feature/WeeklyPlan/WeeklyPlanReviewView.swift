@@ -216,7 +216,7 @@ struct WeeklyPlanReviewView: View {
     }
   }
 
-  private func phaseLabel(_ plan: WeeklyPlanRecord) -> String {
+  private func phaseLabel(_ model: WeeklyPlanViewModel, _ plan: WeeklyPlanRecord) -> String {
     if model.flowState.isAccepted { return "Accepted" }
     return plan.isFeasible ? "Draft" : "Infeasible draft"
   }
