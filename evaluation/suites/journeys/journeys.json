@@ -1,0 +1,90 @@
+{
+  "_note": "The nine journeys PLAN.md line 52 names runnable for suite G: 'All of these pass with no crash: first run, scan and review, Tonight, recipe, cook, complete, share, challenge, taste-profile edit'. Step labels are query INTENTS (containment-predicate friendly) derived from the committed SwiftUI source on this branch; the XCUITest runner reports the exact step and reason when a label drifts. A journey whose UI does not exist in the build is reported blocked by the runner — which counts as a real failure for the 100% bar, never as not-run.",
+  "journeys": [
+    {
+      "id": "first-run",
+      "name": "first run",
+      "steps": [
+        {"step": "launch with reset tutorial state", "intent": "launchEnvironment FL_RESET_TUTORIAL_STATE_ON_LAUNCH=1"},
+        {"step": "onboarding appears", "intent": "first-run onboarding fullScreenCover content visible"},
+        {"step": "complete onboarding", "intent": "advance through onboarding screens to the handoff"},
+        {"step": "home dashboard visible", "intent": "Home nav item active, dashboard content present"}
+      ]
+    },
+    {
+      "id": "scan-and-review",
+      "name": "scan and review",
+      "steps": [
+        {"step": "launch onboarded", "intent": "launch with onboarding already completed"},
+        {"step": "open scan", "intent": "tap the scan orb (accessibilityLabel 'Scan options')"},
+        {"step": "review detections", "intent": "ingredient review screen lists detected items (demo payload)"},
+        {"step": "confirm review", "intent": "confirm/continue past the review into recipe matching"}
+      ]
+    },
+    {
+      "id": "tonight",
+      "name": "Tonight",
+      "steps": [
+        {"step": "launch onboarded", "intent": "launch with onboarding already completed"},
+        {"step": "recommendation visible", "intent": "home dashboard finishes 'Preparing your kitchen...' and shows the recommendation card"}
+      ]
+    },
+    {
+      "id": "recipe",
+      "name": "recipe",
+      "steps": [
+        {"step": "launch onboarded", "intent": "launch with onboarding already completed"},
+        {"step": "open recommendation", "intent": "tap the home recommendation / BEST MATCH card"},
+        {"step": "recipe detail visible", "intent": "recipe detail screen renders (title, ingredients)"}
+      ]
+    },
+    {
+      "id": "cook",
+      "name": "cook",
+      "steps": [
+        {"step": "launch onboarded", "intent": "launch with onboarding already completed"},
+        {"step": "reach recipe", "intent": "recipe detail open (via recommendation or demo replay)"},
+        {"step": "start cook", "intent": "start cooking with LeChef"},
+        {"step": "cook view live", "intent": "LeChef cook view is up and interactive"}
+      ]
+    },
+    {
+      "id": "complete",
+      "name": "complete",
+      "steps": [
+        {"step": "launch onboarded", "intent": "launch with onboarding already completed"},
+        {"step": "reach cook", "intent": "cook session open"},
+        {"step": "finish cook", "intent": "drive the cook session to completion"},
+        {"step": "meal complete visible", "intent": "'Meal Complete' finalization sheet appears"},
+        {"step": "finalize meal", "intent": "confirm the finalization sheet"}
+      ]
+    },
+    {
+      "id": "share",
+      "name": "share",
+      "steps": [
+        {"step": "launch onboarded", "intent": "launch with onboarding already completed"},
+        {"step": "reach a cooked meal", "intent": "a completed cook exists to share"},
+        {"step": "share affordance", "intent": "find the share control with a preview of what leaves the phone"}
+      ]
+    },
+    {
+      "id": "challenge",
+      "name": "challenge",
+      "steps": [
+        {"step": "launch onboarded", "intent": "launch with onboarding already completed"},
+        {"step": "open Progress", "intent": "tap the Progress nav item"},
+        {"step": "challenge surface", "intent": "find the challenge surface (join a challenge, see progress)"}
+      ]
+    },
+    {
+      "id": "taste-profile-edit",
+      "name": "taste-profile edit",
+      "steps": [
+        {"step": "launch onboarded", "intent": "launch with onboarding already completed"},
+        {"step": "open taste profile", "intent": "find the taste profile page (sentences with evidence)"},
+        {"step": "edit a profile entry", "intent": "correct a profile sentence and save"}
+      ]
+    }
+  ]
+}

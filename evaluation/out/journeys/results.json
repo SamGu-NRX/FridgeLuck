@@ -1,0 +1,33 @@
+{
+  "suite": "journeys",
+  "letter": "G",
+  "title": "Journeys",
+  "run_at": "2026-10-11T12:15:53Z",
+  "toolchain": {
+    "python": "3.13.14",
+    "platform": "linux"
+  },
+  "metrics": [
+    {
+      "id": "g_journeys_passed_pct",
+      "metric": "Runnable journeys passing with no crash",
+      "status": "not-run",
+      "reason": "this host is linux and has no Xcode or iOS simulator; the XCUITest journeys require macOS. They run via .github/workflows/eval-macos.yml (macos-26, Xcode 26.6); no committed macOS CI results were imported either."
+    },
+    {
+      "id": "g_static_entry_points_discoverable",
+      "metric": "STATIC (supporting evidence): journeys with a discoverable entry affordance",
+      "value": 7,
+      "bar": {
+        "op": "==",
+        "value": 9
+      },
+      "detail": "7/9 journeys have at least one discoverable UI affordance in apps/ios (button labels, navigation titles, ShareLink, accessibility labels). Missing: share, challenge. The value asserts the conservative lower bound of the interval [7, 8]; presence of an entry point says nothing about completing the journey \u2014 the 100% bar is judged by the macOS arm.",
+      "evidence": {
+        "path": "apps/ios",
+        "note": "[{\"id\": \"share\", \"entry_found\": false, \"hits\": []}, {\"id\": \"challenge\", \"entry_found\": false, \"hits\": []}]"
+      },
+      "status": "fail"
+    }
+  ]
+}
