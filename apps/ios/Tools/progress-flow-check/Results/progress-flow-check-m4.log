@@ -1,0 +1,131 @@
+Building for debugging...
+[Computing dependencies]
+[Provisioning 2 / 8]
+[Starting]
+[1 / 6] ProgressFlowCheckTests-product
+[2 / 7] ProgressFlowCheckTests-product
+[6 / 11] ProgressFlowCheckTests-product
+[7 / 12] ProgressFlowCheckTests-product
+[9 / 13] ProgressFlowCheckTests-product
+[10 / 13] ProgressFlowCheckTests-product
+[12 / 14] ProgressFlowCheckTests-test-runner
+[14 / 16] ProgressFlowCheckTests-test-runner
+[17 / 18] ProgressFlowCheckTests-test-runner
+[18 / 18] ProgressFlowCheckTests-test-runner
+Build complete! (10.59 secs)
+Test Suite 'All tests' started at 2026-10-11 00:16:45.045
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-10-11 00:16:45.046
+Test Suite 'ProgressContrastTests' started at 2026-10-11 00:16:45.046
+Test Case 'ProgressContrastTests.testInsightRowTextUsesPrimaryColor' started at 2026-10-11 00:16:45.046
+Test Case 'ProgressContrastTests.testInsightRowTextUsesPrimaryColor' passed (0.01 seconds)
+Test Case 'ProgressContrastTests.testPrimaryTextPassesAAOnPageAndCards' started at 2026-10-11 00:16:45.056
+contrast: textPrimary/bg light = 13.94:1
+contrast: textPrimary/bg dark = 16.05:1
+contrast: textPrimary/surface light = 15.46:1
+contrast: textPrimary/surface dark = 13.76:1
+Test Case 'ProgressContrastTests.testPrimaryTextPassesAAOnPageAndCards' passed (0.0 seconds)
+Test Case 'ProgressContrastTests.testProvenanceNoteBodyTextPassesAA' started at 2026-10-11 00:16:45.057
+Test Case 'ProgressContrastTests.testProvenanceNoteBodyTextPassesAA' passed (0.0 seconds)
+Test Case 'ProgressContrastTests.testRowIconsMeetGraphicsThreshold' started at 2026-10-11 00:16:45.057
+contrast: accent/bg light = 3.65:1
+contrast: accent/bg dark = 6.37:1
+contrast: sage/bg light = 3.10:1
+contrast: sage/bg dark = 7.83:1
+Test Case 'ProgressContrastTests.testRowIconsMeetGraphicsThreshold' passed (0.0 seconds)
+Test Case 'ProgressContrastTests.testSecondaryTextLabelMeetsLargeTextThreshold' started at 2026-10-11 00:16:45.057
+contrast: textSecondary/bg light = 3.66:1
+contrast: textSecondary/bg dark = 8.78:1
+Test Case 'ProgressContrastTests.testSecondaryTextLabelMeetsLargeTextThreshold' passed (0.0 seconds)
+Test Suite 'ProgressContrastTests' passed at 2026-10-11 00:16:45.057
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.01 (0.01) seconds
+Test Suite 'ProgressFlowPolicyTests' started at 2026-10-11 00:16:45.057
+Test Case 'ProgressFlowPolicyTests.testCorrectionHandsOffWhileAFlowIsActive' started at 2026-10-11 00:16:45.057
+Test Case 'ProgressFlowPolicyTests.testCorrectionHandsOffWhileAFlowIsActive' passed (0.0 seconds)
+Test Case 'ProgressFlowPolicyTests.testCorrectionRoutesToJournalDetailWhenNoFlowIsActive' started at 2026-10-11 00:16:45.057
+Test Case 'ProgressFlowPolicyTests.testCorrectionRoutesToJournalDetailWhenNoFlowIsActive' passed (0.0 seconds)
+Test Case 'ProgressFlowPolicyTests.testGoalEditingUsesExistingCallbackOnlyWhenOnboarded' started at 2026-10-11 00:16:45.057
+Test Case 'ProgressFlowPolicyTests.testGoalEditingUsesExistingCallbackOnlyWhenOnboarded' passed (0.0 seconds)
+Test Case 'ProgressFlowPolicyTests.testTappedMealRoutesToExistingJournalDetail' started at 2026-10-11 00:16:45.057
+Test Case 'ProgressFlowPolicyTests.testTappedMealRoutesToExistingJournalDetail' passed (0.0 seconds)
+Test Suite 'ProgressFlowPolicyTests' passed at 2026-10-11 00:16:45.058
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'ProgressRangeCoordinatorTests' started at 2026-10-11 00:16:45.058
+Test Case 'ProgressRangeCoordinatorTests.testFailureThroughCoordinatorKeepsLastGoodReading' started at 2026-10-11 00:16:45.058
+Test Case 'ProgressRangeCoordinatorTests.testFailureThroughCoordinatorKeepsLastGoodReading' passed (0.041 seconds)
+Test Case 'ProgressRangeCoordinatorTests.testSelectCancelsInFlightReadAndDropsItsResult' started at 2026-10-11 00:16:45.099
+Test Case 'ProgressRangeCoordinatorTests.testSelectCancelsInFlightReadAndDropsItsResult' passed (0.041 seconds)
+Test Case 'ProgressRangeCoordinatorTests.testStopCancelsInFlightReadAndStopsObservation' started at 2026-10-11 00:16:45.139
+Test Case 'ProgressRangeCoordinatorTests.testStopCancelsInFlightReadAndStopsObservation' passed (0.642 seconds)
+Test Case 'ProgressRangeCoordinatorTests.testTokenRevisionsTriggerExplicitRefreshThroughRealLoader' started at 2026-10-11 00:16:45.782
+Test Case 'ProgressRangeCoordinatorTests.testTokenRevisionsTriggerExplicitRefreshThroughRealLoader' passed (0.083 seconds)
+Test Suite 'ProgressRangeCoordinatorTests' passed at 2026-10-11 00:16:45.865
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.807 (0.807) seconds
+Test Suite 'ProgressRangeTransitionsTests' started at 2026-10-11 00:16:45.865
+Test Case 'ProgressRangeTransitionsTests.testExplicitRefreshKeepsReadingAndStartsLoad' started at 2026-10-11 00:16:45.865
+Test Case 'ProgressRangeTransitionsTests.testExplicitRefreshKeepsReadingAndStartsLoad' passed (0.0 seconds)
+Test Case 'ProgressRangeTransitionsTests.testFailureKeepsLastGoodReadingAndSurfacesError' started at 2026-10-11 00:16:45.865
+Test Case 'ProgressRangeTransitionsTests.testFailureKeepsLastGoodReadingAndSurfacesError' passed (0.0 seconds)
+Test Case 'ProgressRangeTransitionsTests.testGoalTargetLabelsDistinguishDefaultFromPersonal' started at 2026-10-11 00:16:45.865
+Test Case 'ProgressRangeTransitionsTests.testGoalTargetLabelsDistinguishDefaultFromPersonal' passed (0.0 seconds)
+Test Case 'ProgressRangeTransitionsTests.testHealthDayPointsTreatAllZeroDaysAsNoData' started at 2026-10-11 00:16:45.865
+Test Case 'ProgressRangeTransitionsTests.testHealthDayPointsTreatAllZeroDaysAsNoData' passed (0.0 seconds)
+Test Case 'ProgressRangeTransitionsTests.testJournalDayPointsRestoreNoDataForUnknownDays' started at 2026-10-11 00:16:45.866
+Test Case 'ProgressRangeTransitionsTests.testJournalDayPointsRestoreNoDataForUnknownDays' passed (0.0 seconds)
+Test Case 'ProgressRangeTransitionsTests.testSelectStartsLoadAndKeepsLastGoodReadingVisible' started at 2026-10-11 00:16:45.866
+Test Case 'ProgressRangeTransitionsTests.testSelectStartsLoadAndKeepsLastGoodReadingVisible' passed (0.0 seconds)
+Test Case 'ProgressRangeTransitionsTests.testSourceDisplayNamesAreDistinct' started at 2026-10-11 00:16:45.866
+Test Case 'ProgressRangeTransitionsTests.testSourceDisplayNamesAreDistinct' passed (0.0 seconds)
+Test Case 'ProgressRangeTransitionsTests.testStaleResultForSupersededRangeIsDropped' started at 2026-10-11 00:16:45.866
+Test Case 'ProgressRangeTransitionsTests.testStaleResultForSupersededRangeIsDropped' passed (0.0 seconds)
+Test Case 'ProgressRangeTransitionsTests.testWindowDatesCoversLastDaysEndingTodayOldestFirst' started at 2026-10-11 00:16:45.866
+Test Case 'ProgressRangeTransitionsTests.testWindowDatesCoversLastDaysEndingTodayOldestFirst' passed (0.0 seconds)
+Test Suite 'ProgressRangeTransitionsTests' passed at 2026-10-11 00:16:45.866
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'ProgressReadModelTests' started at 2026-10-11 00:16:45.866
+Test Case 'ProgressReadModelTests.testDateShiftMovesEntryAcrossDayBucketsAndInvalidates' started at 2026-10-11 00:16:45.866
+Test Case 'ProgressReadModelTests.testDateShiftMovesEntryAcrossDayBucketsAndInvalidates' passed (0.103 seconds)
+Test Case 'ProgressReadModelTests.testDateShiftOutOfRangeDropsEntryFromRange' started at 2026-10-11 00:16:45.969
+Test Case 'ProgressReadModelTests.testDateShiftOutOfRangeDropsEntryFromRange' passed (0.183 seconds)
+Test Case 'ProgressReadModelTests.testDeletionDropsAggregatesAndInvalidates' started at 2026-10-11 00:16:46.152
+Test Case 'ProgressReadModelTests.testDeletionDropsAggregatesAndInvalidates' passed (0.092 seconds)
+Test Case 'ProgressReadModelTests.testHealthFailureFallsBackToLocalWithVisibleReason' started at 2026-10-11 00:16:46.244
+Test Case 'ProgressReadModelTests.testHealthFailureFallsBackToLocalWithVisibleReason' passed (0.048 seconds)
+Test Case 'ProgressReadModelTests.testHealthSourceIsLabelledAndNeverBlended' started at 2026-10-11 00:16:46.292
+Test Case 'ProgressReadModelTests.testHealthSourceIsLabelledAndNeverBlended' passed (0.07 seconds)
+Test Case 'ProgressReadModelTests.testHealthZeroSampleDaysPresentAsNoData' started at 2026-10-11 00:16:46.362
+Test Case 'ProgressReadModelTests.testHealthZeroSampleDaysPresentAsNoData' passed (0.064 seconds)
+Test Case 'ProgressReadModelTests.testObservationFiresOnPortionDateAndProfileRevisions' started at 2026-10-11 00:16:46.426
+Test Case 'ProgressReadModelTests.testObservationFiresOnPortionDateAndProfileRevisions' passed (0.083 seconds)
+Test Case 'ProgressReadModelTests.testPortionEditChangesAggregatesAndProgressTokenButNotLegacyToken' started at 2026-10-11 00:16:46.509
+Test Case 'ProgressReadModelTests.testPortionEditChangesAggregatesAndProgressTokenButNotLegacyToken' passed (0.077 seconds)
+Test Case 'ProgressReadModelTests.testProfileGoalChangeInvalidatesGoalDependentOutputs' started at 2026-10-11 00:16:46.587
+Test Case 'ProgressReadModelTests.testProfileGoalChangeInvalidatesGoalDependentOutputs' passed (0.088 seconds)
+Test Case 'ProgressReadModelTests.testSeededFirstLogScenarioPresentsHonestEmptyReading' started at 2026-10-11 00:16:46.675
+Test Case 'ProgressReadModelTests.testSeededFirstLogScenarioPresentsHonestEmptyReading' passed (0.183 seconds)
+Test Case 'ProgressReadModelTests.testSuggestedTargetIsDistinctFromConfirmedPersonalTarget' started at 2026-10-11 00:16:46.858
+Test Case 'ProgressReadModelTests.testSuggestedTargetIsDistinctFromConfirmedPersonalTarget' passed (0.153 seconds)
+Test Case 'ProgressReadModelTests.testUnknownDaysAreNotPresentedAsZeroIntake' started at 2026-10-11 00:16:47.011
+Test Case 'ProgressReadModelTests.testUnknownDaysAreNotPresentedAsZeroIntake' passed (0.123 seconds)
+Test Suite 'ProgressReadModelTests' passed at 2026-10-11 00:16:47.134
+	 Executed 12 tests, with 0 failures (0 unexpected) in 1.268 (1.268) seconds
+Test Suite 'ProgressSourceNotesTests' started at 2026-10-11 00:16:47.135
+Test Case 'ProgressSourceNotesTests.testGoalNoteDistinguishesSuggestedFromConfirmed' started at 2026-10-11 00:16:47.135
+Test Case 'ProgressSourceNotesTests.testGoalNoteDistinguishesSuggestedFromConfirmed' passed (0.0 seconds)
+Test Case 'ProgressSourceNotesTests.testNotesAvoidMedicalClaims' started at 2026-10-11 00:16:47.135
+Test Case 'ProgressSourceNotesTests.testNotesAvoidMedicalClaims' passed (0.0 seconds)
+Test Case 'ProgressSourceNotesTests.testRangeNoteStatesTheUnknownDayPolicyAndCoverage' started at 2026-10-11 00:16:47.135
+Test Case 'ProgressSourceNotesTests.testRangeNoteStatesTheUnknownDayPolicyAndCoverage' passed (0.0 seconds)
+Test Case 'ProgressSourceNotesTests.testTodayNoteNamesTheSource' started at 2026-10-11 00:16:47.135
+Test Case 'ProgressSourceNotesTests.testTodayNoteNamesTheSource' passed (0.0 seconds)
+Test Case 'ProgressSourceNotesTests.testTodayNoteSurfacesTheFallbackInsteadOfHidingIt' started at 2026-10-11 00:16:47.135
+Test Case 'ProgressSourceNotesTests.testTodayNoteSurfacesTheFallbackInsteadOfHidingIt' passed (0.0 seconds)
+Test Suite 'ProgressSourceNotesTests' passed at 2026-10-11 00:16:47.135
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-10-11 00:16:47.135
+	 Executed 39 tests, with 0 failures (0 unexpected) in 2.087 (2.087) seconds
+Test Suite 'All tests' passed at 2026-10-11 00:16:47.135
+	 Executed 39 tests, with 0 failures (0 unexpected) in 2.087 (2.087) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.4 (efd8d65801f569d)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

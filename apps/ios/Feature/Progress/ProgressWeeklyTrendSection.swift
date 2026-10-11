@@ -1,26 +1,49 @@
 import Charts
 import SwiftUI
 
+/// The trend chart section. Presentation state (selected range, in-flight
+/// load, shown reading) is owned by the view model's coordinator — this
+/// view renders it and reports selections back; it keeps no chart state of
+/// its own.
 struct ProgressWeeklyTrendSection: View {
-  let weeklyMacros: [DailyMacroPoint]
+  let state: ProgressRangeState
   let dailyCalorieGoal: Double
   let insightText: String?
-  let onRangeChanged: (ChartRange) async -> [DailyMacroPoint]
+  let onSelect: (ChartRange) -> Void
 
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var appeared = false
-  @State private var selectedRange: ChartRange = .week
-  @State private var displayData: [DailyMacroPoint] = []
 
+  /// Known days only — a day with no data is never plotted as zero.
   private var chartData: [DailyMacroPoint] {
-    selectedRange == .week ? weeklyMacros : displayData
+    guard let shown = state.shown else { return [] }
+    return shown.days.compactMap { point in
+      guard let value = point.value else { return nil }
+      return DailyMacroPoint(
+        date: point.date,
+        calories: value.calories,
+        protein: value.protein,
+        carbs: value.carbs,
+        fat: value.fat
+      )
+    }
+  }
+
+  /// Visible source label — a source switch is always announced, and the
+  /// two sources are never blended in one chart.
+  private var subtitle: String {
+    var parts = ["Calorie intake"]
+    if let shown = state.shown {
+      parts.append("\(shown.coverageSummary) · from \(ProgressSourceNotes.sourceName(shown.source))")
+    }
+    return parts.joined(separator: " · ")
   }
 
   var body: some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.md) {
       FLSectionHeader(
-        selectedRange.sectionTitle,
-        subtitle: "Calorie intake",
+        state.selectedRange.sectionTitle,
+        subtitle: subtitle,
         icon: "chart.line.uptrend.xyaxis"
       )
 
@@ -32,6 +55,14 @@ struct ProgressWeeklyTrendSection: View {
         chartCard
       }
 
+      if let reason = state.shown?.fallbackReason {
+        fallbackRow(reason: reason)
+      }
+
+      if let error = state.errorMessage {
+        errorRow(message: error)
+      }
+
       if let insightText, !insightText.isEmpty {
         insightRow(text: insightText)
       }
@@ -39,7 +70,6 @@ struct ProgressWeeklyTrendSection: View {
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 10)
     .onAppear {
-      displayData = weeklyMacros
       if reduceMotion {
         appeared = true
       } else {
@@ -51,20 +81,16 @@ struct ProgressWeeklyTrendSection: View {
   }
 
   private var rangePicker: some View {
-    Picker("Range", selection: $selectedRange) {
+    Picker("Range", selection: Binding(
+      get: { state.selectedRange },
+      set: { onSelect($0) }
+    )) {
       ForEach(ChartRange.allCases) { range in
         Text(range.label).tag(range)
       }
     }
     .pickerStyle(.segmented)
-    .onChange(of: selectedRange) { _, newRange in
-      Task {
-        let data = await onRangeChanged(newRange)
-        withAnimation(reduceMotion ? nil : AppMotion.chartReveal) {
-          displayData = data
-        }
-      }
-    }
+    .accessibilityLabel("Trend range")
   }
 
   private var chartCard: some View {
@@ -118,10 +144,13 @@ struct ProgressWeeklyTrendSection: View {
       }
       .frame(height: 180)
     }
+    .accessibilityLabel(
+      "Calorie trend for \(state.selectedRange.sectionTitle). \(subtitle)."
+    )
   }
 
   private var xAxisValues: AxisMarkValues {
-    switch selectedRange {
+    switch state.selectedRange {
     case .week:
       return .stride(by: .day)
     case .month:
@@ -132,7 +161,7 @@ struct ProgressWeeklyTrendSection: View {
   }
 
   private var xAxisLabelFormat: Date.FormatStyle {
-    switch selectedRange {
+    switch state.selectedRange {
     case .week:
       return .dateTime.weekday(.abbreviated)
     case .month:
@@ -142,13 +171,14 @@ struct ProgressWeeklyTrendSection: View {
     }
   }
 
+  /// Distinct treatment for "no data yet" — not a zero-height chart.
   private var emptyChart: some View {
     FLCard {
       VStack(spacing: AppTheme.Space.md) {
         Image(systemName: "chart.line.uptrend.xyaxis")
           .font(.system(size: 28))
           .foregroundStyle(AppTheme.oat.opacity(0.4))
-        Text("Cook a meal to start tracking!")
+        Text(state.isLoading ? "Loading your trend…" : "Cook a meal to start tracking!")
           .font(AppTheme.Typography.bodyMedium)
           .foregroundStyle(AppTheme.textSecondary)
       }
@@ -157,20 +187,39 @@ struct ProgressWeeklyTrendSection: View {
     }
   }
 
+  private func fallbackRow(reason: String) -> some View {
+    row(
+      text: "\(reason) — showing your meal log instead.",
+      icon: "arrow.triangle.branch",
+      iconColor: AppTheme.accent)
+  }
+
+  private func errorRow(message: String) -> some View {
+    row(
+      text: message,
+      icon: "exclamationmark.triangle.fill",
+      iconColor: AppTheme.accent)
+  }
+
   private func insightRow(text: String) -> some View {
+    // No tinted background: sage on its own 8% tint computes 2.87:1 —
+    // below the 3:1 graphics threshold. Plain page background passes.
+    row(text: text, icon: "lightbulb.fill", iconColor: AppTheme.sage)
+  }
+
+  /// Row text is textPrimary (contrast-tested for small text); color lives
+  /// in the icon, which meets the 3:1 graphics threshold.
+  private func row(text: String, icon: String, iconColor: Color) -> some View {
     HStack(spacing: AppTheme.Space.xs) {
-      Image(systemName: "lightbulb.fill")
+      Image(systemName: icon)
         .font(.system(size: 12, weight: .medium))
-        .foregroundStyle(AppTheme.sage)
+        .foregroundStyle(iconColor)
 
       Text(text)
         .font(AppTheme.Typography.bodySmall)
-        .foregroundStyle(AppTheme.sage)
+        .foregroundStyle(AppTheme.textPrimary)
     }
     .padding(AppTheme.Space.sm)
     .frame(maxWidth: .infinity, alignment: .leading)
-    .background(
-      AppTheme.sage.opacity(0.08),
-      in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous))
   }
 }
