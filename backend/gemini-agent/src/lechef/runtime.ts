@@ -60,6 +60,15 @@ export interface LeChefRuntime {
   readonly substitution: SubstitutionTool;
   /** Dispatch one model tool call by name; never throws — errors come back as status "error". */
   dispatch(call: { id: string; name: string; args?: Record<string, unknown> }, abort?: AbortCheck): DispatchResult;
+  /**
+   * Optional replay hook: design runners observe turn boundaries (proactive
+   * vs prompted) to gate tool policy. Absent on a plain runtime.
+   */
+  readonly onTurnStart?: (turn: {
+    readonly i: number;
+    readonly role: "user" | "assistant";
+    readonly proactive: boolean;
+  }) => void;
 }
 
 // ---------------------------------------------------------------------------

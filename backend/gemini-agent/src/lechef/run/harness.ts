@@ -13,7 +13,7 @@
 import type { CameraMode } from "../types.js";
 import { FakePhone } from "../fakePhone.js";
 import type { CameraDevice } from "../reads.js";
-import { createLeChefRuntime } from "../runtime.js";
+import { createLeChefRuntime, type LeChefRuntime } from "../runtime.js";
 import {
   replayScript,
   type LeChefJob,
@@ -95,8 +95,16 @@ export function cannedCamera(fixture: ScriptFixtureCamera, mode: CameraMode): Ca
   };
 }
 
-/** One offline session: script → replay → raw RunRecord. Deterministic. */
-export function runSession(script: SessionScript): RunRecord {
+/** Assembled world for one session — shared by runSession and the design runner. */
+export interface SessionWorld {
+  readonly clock: ManualClock;
+  readonly phone: FakePhone;
+  readonly camera?: CameraDevice;
+  readonly runtime: LeChefRuntime;
+}
+
+/** Build the deterministic session world from a script fixture. */
+export function buildSessionWorld(script: SessionScript): SessionWorld {
   const fixture: ScriptFixture = script.fixture ?? {};
   const startMs = fixture.nowIso !== undefined ? Date.parse(fixture.nowIso) : undefined;
   const clock = new ManualClock(startMs !== undefined && !Number.isNaN(startMs) ? startMs : undefined);
@@ -113,6 +121,15 @@ export function runSession(script: SessionScript): RunRecord {
     catalog: () => fixture.recipes ?? [],
     ...(camera !== undefined ? { camera } : {})
   });
+  return { clock, phone, ...(camera !== undefined ? { camera } : {}), runtime };
+}
+
+/** One offline session: script → replay → raw RunRecord. Deterministic. */
+export function runSession(script: SessionScript, world?: SessionWorld): RunRecord {
+  const w = world ?? buildSessionWorld(script);
+  const clock = w.clock;
+  const phone = w.phone;
+  const runtime = w.runtime;
 
   const replay = replayScript(script, runtime, phone, clock);
 
