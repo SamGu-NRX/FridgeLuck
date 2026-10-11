@@ -792,3 +792,4 @@ public struct TonightSession: Sendable {
         rejectionCount >= DinnerDecisionService.rejectionThreshold
     }
 }
+

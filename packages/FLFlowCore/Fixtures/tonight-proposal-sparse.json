@@ -1,0 +1,43 @@
+{
+  "eaterCount" : 2,
+  "generatedAt" : "2025-10-09T08:53:20.000Z",
+  "options" : [
+    {
+      "assumedStaples" : [
+
+      ],
+      "fit" : {
+        "checkNames" : [
+          "rice"
+        ],
+        "requiredCount" : 1,
+        "sufficientCount" : 0
+      },
+      "missing" : [
+        {
+          "canonicalName" : "rice",
+          "grams" : 100,
+          "kind" : "short"
+        }
+      ],
+      "reasons" : [
+        "1 of 1 required lines are in stock"
+      ],
+      "recipeRevision" : {
+        "revision" : 1,
+        "source" : "catalog",
+        "sourceRecipeID" : "fried-rice"
+      },
+      "title" : "Test fried rice"
+    }
+  ],
+  "servings" : 2,
+  "shoppingList" : [
+    {
+      "canonicalName" : "rice",
+      "grams" : 100,
+      "reason" : "short 100 g for the fried rice"
+    }
+  ],
+  "state" : "sparseKitchen"
+}

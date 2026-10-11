@@ -25,6 +25,9 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../FridgeLuckCore"),
+        // Declared directly because FridgeLuckCore does not re-export GRDB
+        // as a product; SPM resolves one shared version for the graph.
+        .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0"),
     ],
     targets: [
         // Dinner decision (Tonight) and cook-session state machines over the
@@ -35,6 +38,7 @@ let package = Package(
             dependencies: [
                 .product(name: "FLDomain", package: "FridgeLuckCore"),
                 .product(name: "FLPersistence", package: "FridgeLuckCore"),
+                .product(name: "GRDB", package: "GRDB.swift"),
             ]
         ),
         .testTarget(name: "FLFlowCoreTests", dependencies: ["FLFlowCore"]),
