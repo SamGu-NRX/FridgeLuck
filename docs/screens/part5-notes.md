@@ -201,11 +201,11 @@ verified natively: rendered pixels for either theme — see native gaps.
 
 ## Tests
 
-`cd packages/FLScreens && swift test`: 297 test cases, 0 failures
-(199 baseline + 98 new: stage 10, steps 7, timers 13, proposals 10,
+`cd packages/FLScreens && swift test`: 312 test cases, 0 failures
+(199 baseline + 113 new: stage 10, steps 7, timers 13, proposals 19,
 look 8, voice 6, remember 8, offline 1, persistence 6, display 6,
-filter 9, Part 5 lint 14). `packages/FLDesignTokens`: 27 tests,
-0 failures (unchanged).
+filter 9, allergen 6, Part 5 lint 14). `packages/FLDesignTokens`: 27
+tests, 0 failures (unchanged).
 `packages/FLDesignSystem`: builds on Linux. The three failures the first
 run exposed are recorded above (the clock rule, the
 restore-without-duration decision, and the look-pairing lint binding to
@@ -263,3 +263,34 @@ Counts after the fix: `cd packages/FLScreens && swift test` → 291 test
 cases (279 baseline + 12 new: 9 filter behavior in FLLeChefTests, 3
 Part 5 lint), 0 failures; `packages/FLDesignTokens` 27 tests, 0
 failures; `packages/FLDesignSystem` builds on Linux.
+## Review fix addendum: receipt provenance and fail-closed allergens
+
+The Part 5 review blocked two points in the proposal path, both fixed
+in place. First, a delivered proposal used to manufacture its own
+success: approving a mutation set `isApplied` in the reducer, and the
+panel rendered "Done" on the screen's word alone. Receipts are the
+phone's word (SPEC §4), so the screen layer now never creates one.
+Approval (`.approveProposal`) is consent, not success: it marks the
+proposal `isAwaitingReceipt` — handed to the phone's authority layer,
+which is the host-injected intent stream every other LeChef host
+service already uses — and the panel shows "Waiting on the phone…"
+until the new host-fed `.mutationReceipt` intent returns the applied
+receipt. That intent is the ONLY path that sets `isApplied`; failure
+receipts (`.mutationFailed`) end the wait and return the proposal to
+pending, re-approvable. Second, allergen display did not fail closed:
+a substitution's recheck line rendered verbatim, so an absent, empty
+or blank recheck would read as no warning. The display mapping now has
+an explicit unknown case — unusable input maps to
+`AllergenRecheckStatus.unknown` and renders the check affordance
+("Allergen check unavailable — check with everyone before you swap."),
+never blank and never clearance — and the reducer's delivery default
+normalizes unusable rechecks to that line before anything renders,
+while supplied lines pass through verbatim. Receipt-backed swaps alone
+ride the persisted snapshot (`appliedSwapIds`). Tests: 294 test cases,
+0 failures (279 baseline + 15 new: nine receipt-provenance cases in
+`LeChefProposalTests`, six fail-closed cases in the new
+`LeChefAllergenFailClosedTests`). `packages/FLDesignTokens`: 27 tests,
+0 failures (unchanged). `packages/FLDesignSystem`: builds on Linux.
+The SwiftUI branch of the wait/applied rendering is UNVERIFIED-NATIVE
+like the rest of `LeChefViews.swift`; the state contract behind it is
+the tested part.

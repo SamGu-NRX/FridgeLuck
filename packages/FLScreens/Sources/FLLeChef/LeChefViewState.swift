@@ -14,9 +14,13 @@
 //   connectivity.
 // - Typed proposals distinguish READS (applied without ceremony — shown
 //   as soon as delivered) from MUTATIONS (require an explicit approval
-//   action; the model cannot manufacture approval — only
-//   `.approveProposal` applies one, and voice commands can never reach
-//   it). Phone-controlled timers are NOT proposals: set, pause and
+//   action; the model cannot manufacture approval — only a user's tap
+//   can, and voice commands can never reach it). Approval is consent,
+//   not success: it hands the proposal to the phone's authority layer
+//   (the host seam routes it) and the mutation is applied ONLY by the
+//   receipt that layer returns (`.mutationReceipt`) — the receipt is
+//   the phone's word, and the screen layer never manufactures one.
+//   Phone-controlled timers are NOT proposals: set, pause and
 //   complete live in the state machine; a timer suggestion is a read
 //   whose "Set N min timer" chip routes to the same local timer intent
 //   as the touch control.
@@ -277,15 +281,27 @@ public struct LeChefViewState: Equatable, Sendable {
         public var id: String
         public var job: Job
         public var payload: Payload
-        /// Mutations only: set by the explicit approval action and by
-        /// nothing else.
+        /// Mutations only: the phone's authority layer returned the
+        /// applied receipt (`.mutationReceipt`) — the receipt is the
+        /// phone's word, and nothing in this package can set it. A
+        /// mutation is never applied by delivery, by approval alone, by
+        /// a step change, or by the model's judgement.
         public var isApplied: Bool
+        /// Mutations only: approval given, the proposal handed to the
+        /// phone's authority layer (the host routes it), no receipt
+        /// back yet. The UI shows waiting on the phone — never
+        /// success. Cleared when a receipt (applied or failed) returns.
+        public var isAwaitingReceipt: Bool
 
-        public init(id: String, job: Job, payload: Payload, isApplied: Bool = false) {
+        public init(
+            id: String, job: Job, payload: Payload,
+            isApplied: Bool = false, isAwaitingReceipt: Bool = false
+        ) {
             self.id = id
             self.job = job
             self.payload = payload
             self.isApplied = isApplied
+            self.isAwaitingReceipt = isAwaitingReceipt
         }
 
         /// Reads are applied without ceremony; mutations wait.
@@ -632,9 +648,40 @@ public struct LeChefViewState: Equatable, Sendable {
         }
     }
 
+    /// How a substitution's allergen recheck stands, for display. The
+    /// mapping FAILS CLOSED (SPEC §3.1 — every substitution rechecks
+    /// all eaters' allergens): a recheck the host did not supply —
+    /// absent, empty, or blank — is `.unknown`, and `.unknown` renders
+    /// as the check affordance, never as clear. There is no case in
+    /// which an unknown allergen state reads as safe.
+    public enum AllergenRecheckStatus: Equatable, Sendable {
+        /// The host supplied an explicit recheck line; shown verbatim.
+        case supplied(line: String)
+        /// No usable recheck arrived. Renders as the fail-closed check
+        /// line — the user is sent to check, never waved through.
+        case unknown
+    }
+
+    /// The fail-closed check line shown when a substitution's
+    /// allergen recheck is unknown.
+    public static let unknownAllergenCheckLine =
+        "Allergen check unavailable — check with everyone before you swap."
+
+    /// The fail-closed mapping from a substitution's recheck line to
+    /// its display status. The unknown case is explicit: blank in
+    /// never means clear out.
+    public static func allergenRecheckStatus(_ line: String?) -> AllergenRecheckStatus {
+        guard let line,
+              !line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        else { return .unknown }
+        return .supplied(line: line)
+    }
+
     /// A proposal's rendered lines for the LeChef panel: the payload's
     /// own words — look lines filtered (SPEC §3.1), everything else
-    /// host-verbatim where the host supplied them.
+    /// host-verbatim where the host supplied them, except a
+    /// substitution's allergen recheck, which fails closed (see
+    /// `AllergenRecheckStatus`).
     public func proposalDisplay(_ proposal: Proposal) -> [String] {
         switch proposal.payload {
         case .information(let text):
@@ -651,7 +698,15 @@ public struct LeChefViewState: Equatable, Sendable {
         case .adaptAnnouncement(let text):
             return [text]
         case .substitution(let name, let difference, let recheck):
-            return [name, difference, recheck]
+            // Allergen display fails closed: a recheck that did not
+            // arrive renders as the check affordance, never as blank
+            // (which would read as clear).
+            switch Self.allergenRecheckStatus(recheck) {
+            case .supplied(let line):
+                return [name, difference, line]
+            case .unknown:
+                return [name, difference, Self.unknownAllergenCheckLine]
+            }
         case .adaptChange(let text, let rule):
             return [text, rule]
         }

@@ -22,6 +22,10 @@
 //   problem is an escape line — never a dead end, never a verdict.
 // - Voice is off by default: the row leads with "Voice off — Just the
 //   steps" and a quiet Turn on. Chat appears only behind the toggle.
+// - Proposals never manufacture their own success. Approval routes to
+//   the host's authority seam (the intent stream); the panel shows
+//   "Waiting on the phone…" until a receipt returns, and "Done" renders
+//   only a returned receipt (`.mutationReceipt`) — the phone's word.
 // - No photos anywhere on this surface: nothing here applies a photo
 //   rule — a cook-mode look preview is the host's live camera surface,
 //   not a captured photo asset.
@@ -354,6 +358,15 @@ private struct LeChefProposalPanel: View {
                     .flType(.secondary)
                     .foregroundStyle(Theme.swiftColor(.ink3, in: .hob))
                     .accessibilityIdentifier("fl.lechef.applied")
+            } else if proposal.isAwaitingReceipt {
+                // Waiting on the phone: the approval handed the
+                // proposal to the authority seam and no receipt has
+                // returned. Never shown as success — a receipt is the
+                // phone's word, and none has arrived.
+                Text("Waiting on the phone…")
+                    .flType(.secondary)
+                    .foregroundStyle(Theme.swiftColor(.ink3, in: .hob))
+                    .accessibilityIdentifier("fl.lechef.mutationWaiting")
             } else {
                 HStack(spacing: 8) {
                     FLButton(.primary, "Approve", haptic: .mediumCommit) {

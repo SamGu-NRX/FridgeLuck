@@ -481,7 +481,8 @@ final class LeChefProposalTests: XCTestCase {
         state.apply(.deliver([substitution()]))
         XCTAssertEqual(state.proposals[0].isApplied, false, "delivery never applies a mutation")
         state.apply(.approveProposal(id: "swap-1"))
-        XCTAssertEqual(state.proposals[0].isApplied, true)
+        XCTAssertEqual(state.proposals[0].isApplied, false, "approval is consent, not a receipt — the screen never manufactures one")
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, true, "the proposal waits on the phone's authority layer")
     }
 
     func testApprovalIsTheOnlyMutationPath() {
@@ -543,6 +544,100 @@ final class LeChefProposalTests: XCTestCase {
         XCTAssertEqual(state.proposals[0].isRead, true)
     }
 
+    func testApprovalHandsTheProposalToTheAuthorityLayerAndWaits() {
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        state.apply(.approveProposal(id: "swap-1"))
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, true)
+        XCTAssertEqual(state.proposals[0].isApplied, false, "the wait is not a success — no receipt has arrived")
+        XCTAssertNil(state.mutationFailureLine)
+    }
+
+    func testAMutationIsAppliedOnlyByTheReturnedReceipt() {
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.mutationReceipt(id: "swap-1"))
+        XCTAssertEqual(state.proposals[0].isApplied, true, "the phone's authority layer returned the applied receipt")
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, false)
+        XCTAssertNil(state.mutationFailureLine)
+    }
+
+    func testAReceiptNeverArrivesFromAnythingTheSessionSends() {
+        // Steps, redelivery, timer plumbing — none of them manufacture
+        // a receipt. Only the authority layer's `.mutationReceipt` does.
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.nextStep(at: start))
+        state.apply(.deliver([substitution()]))
+        state.apply(.tick(now: start + 1))
+        state.apply(.backStep)
+        state.apply(.repeatStep)
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, true)
+        XCTAssertEqual(state.proposals[0].isApplied, false)
+    }
+
+    func testAReceiptForAReadIsANoOp() {
+        var state = cookingState()
+        let read = LeChefViewState.Proposal(id: "info-1", job: .coach, payload: .information(text: "Sauce first tonight."))
+        state.apply(.deliver([read]))
+        state.apply(.mutationReceipt(id: "info-1"))
+        XCTAssertEqual(state.proposals[0].isRead, true)
+        XCTAssertEqual(state.proposals[0].isApplied, false, "a read has no receipt — receipts are mutation-only")
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, false)
+    }
+
+    func testAReceiptForAnUnknownIdIsANoOp() {
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.mutationReceipt(id: "no-such-proposal"))
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, true)
+        XCTAssertEqual(state.proposals[0].isApplied, false)
+    }
+
+    func testASecondApprovalWhileWaitingIsANoOp() {
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.approveProposal(id: "swap-1"))
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, true)
+        XCTAssertEqual(state.proposals[0].isApplied, false)
+    }
+
+    func testDecliningWhileWaitingRemovesTheProposalAndALateReceiptIsANoOp() {
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.declineProposal(id: "swap-1"))
+        XCTAssertTrue(state.proposals.isEmpty)
+        state.apply(.mutationReceipt(id: "swap-1"))
+        XCTAssertTrue(state.proposals.isEmpty, "a receipt for a departed proposal re-enters nothing")
+    }
+
+    func testAFailureReceiptClearsTheWaitAndTheProposalCanBeApprovedAgain() {
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.mutationFailed(id: "swap-1"))
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, false, "the failure receipt ends the wait")
+        XCTAssertEqual(state.proposals[0].isApplied, false, "nothing was altered")
+        state.apply(.approveProposal(id: "swap-1"))
+        XCTAssertEqual(state.proposals[0].isAwaitingReceipt, true, "the returned proposal can be approved again")
+    }
+
+    func testAFailureReceiptThenAReturnedReceiptApplies() {
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.mutationFailed(id: "swap-1"))
+        state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.mutationReceipt(id: "swap-1"))
+        XCTAssertEqual(state.proposals[0].isApplied, true)
+        XCTAssertNil(state.mutationFailureLine, "the applied receipt clears the failure line")
+    }
+
     func testTheTimerSuggestionChipRoutesToTheLocalTimerPath() {
         // The suggestion is a READ: its chip creates the timer through
         // the same local setTimer path as the add-tile — no approval,
@@ -571,6 +666,80 @@ final class LeChefProposalTests: XCTestCase {
             "a little sharper",
             "Check with everyone — swaps can move an allergen.",
         ])
+    }
+}
+
+// MARK: - Allergen display fails closed
+
+final class LeChefAllergenFailClosedTests: XCTestCase {
+
+    func testAnUnusableRecheckMapsToUnknown() {
+        XCTAssertEqual(LeChefViewState.allergenRecheckStatus(nil), .unknown)
+        XCTAssertEqual(LeChefViewState.allergenRecheckStatus(""), .unknown)
+        XCTAssertEqual(LeChefViewState.allergenRecheckStatus("   "), .unknown, "blank is not a recheck")
+        XCTAssertEqual(LeChefViewState.allergenRecheckStatus("\n\t"), .unknown)
+    }
+
+    func testASuppliedRecheckMapsToSuppliedVerbatim() {
+        XCTAssertEqual(
+            LeChefViewState.allergenRecheckStatus("Check with everyone — swaps can move an allergen."),
+            .supplied(line: "Check with everyone — swaps can move an allergen.")
+        )
+    }
+
+    func testAnUnknownRecheckRendersTheCheckAffordanceNeverBlank() {
+        var state = cookingState()
+        state.apply(.deliver([
+            LeChefViewState.Proposal(
+                id: "swap-blank", job: .substitute,
+                payload: .substitution(
+                    name: "Swap rice vinegar for lemon juice",
+                    difference: "a little sharper",
+                    allergenRecheck: ""
+                )
+            )
+        ]))
+        let lines = state.proposalDisplay(state.proposals[0])
+        XCTAssertEqual(lines.count, 3)
+        XCTAssertEqual(lines[2], LeChefViewState.unknownAllergenCheckLine)
+        XCTAssertFalse(lines[2].isEmpty, "an unknown allergen state never renders as blank")
+    }
+
+    func testTheCheckAffordanceSendsTheCookToCheckNeverToSafety() {
+        let line = LeChefViewState.unknownAllergenCheckLine.lowercased()
+        XCTAssertTrue(line.contains("check"))
+        XCTAssertTrue(line.contains("unavailable"))
+        XCTAssertFalse(line.contains("safe"), "the unknown line never reads as clearance")
+        XCTAssertFalse(line.contains("clear"), "the unknown line never reads as clearance")
+    }
+
+    func testDeliveryFailsClosedOnABlankRecheck() {
+        // The reducer's default is the failing-closed one: an unusable
+        // recheck is normalized at delivery, before anything renders.
+        var state = cookingState()
+        state.apply(.deliver([
+            LeChefViewState.Proposal(
+                id: "swap-blank", job: .substitute,
+                payload: .substitution(
+                    name: "Swap rice vinegar for lemon juice",
+                    difference: "a little sharper",
+                    allergenRecheck: ""
+                )
+            )
+        ]))
+        guard case .substitution(_, _, let recheck) = state.proposals[0].payload else {
+            return XCTFail("expected a substitution payload")
+        }
+        XCTAssertEqual(recheck, LeChefViewState.unknownAllergenCheckLine)
+    }
+
+    func testDeliveryPreservesASuppliedRecheckVerbatim() {
+        var state = cookingState()
+        state.apply(.deliver([substitution()]))
+        guard case .substitution(_, _, let recheck) = state.proposals[0].payload else {
+            return XCTFail("expected a substitution payload")
+        }
+        XCTAssertEqual(recheck, "Check with everyone — swaps can move an allergen.")
     }
 }
 
@@ -831,9 +1000,13 @@ final class LeChefOfflineTests: XCTestCase {
         state.apply(.nextStep(at: start + 150))
         state.apply(.nextStep(at: start + 160))
 
-        // The reviewed swap table still proposes offline; approval is local.
+        // The reviewed swap table still proposes offline. Approval is
+        // local consent; the applied receipt is the phone's word — the
+        // phone is the authority here, so the receipt still arrives.
         state.apply(.deliver([substitution()]))
         state.apply(.approveProposal(id: "swap-1"))
+        XCTAssertEqual(state.proposals.first?.isApplied, false, "waiting on the authority layer")
+        state.apply(.mutationReceipt(id: "swap-1"))
         XCTAssertEqual(state.proposals.first?.isApplied, true)
 
         XCTAssertEqual(state.stage, .complete)
@@ -878,6 +1051,7 @@ final class LeChefPersistenceTests: XCTestCase {
         state.apply(.editNoteDraft("not saved yet"))
         state.apply(.deliver([substitution()]))
         state.apply(.approveProposal(id: "swap-1"))
+        state.apply(.mutationReceipt(id: "swap-1"))
 
         let recording = LeChefPersistedState.recording(state)
         XCTAssertNotNil(recording)
