@@ -28,6 +28,7 @@ import {
   type AccountId,
   type ReportId,
 } from "../shared/ids.js";
+import { parsePublicationDoc, publicationVisibility } from "../explore/publications.js";
 
 export const REPORT_REASONS = ["food-safety", "not-own-recipe", "other"] as const;
 export type ReportReason = (typeof REPORT_REASONS)[number];
@@ -101,16 +102,13 @@ export async function submitReport(
   note: string | null,
 ): Promise<SubmitReportOutcome> {
   const snap = await deps.store.publications.doc(publicationId).get();
-  if (!snap.exists) {
+  // Validating read (README rule 5); liveness derives from the moderation
+  // state, the same single derivation every other surface uses.
+  const existing = parsePublicationDoc(snap);
+  if (existing === null) {
     return { outcome: "missing" };
   }
-  const data = snap.data();
-  if (data === undefined) {
-    return { outcome: "missing" };
-  }
-  const status = data["status"];
-  const revisionId = data["revisionId"];
-  if (status !== "published" || typeof revisionId !== "string") {
+  if (!publicationVisibility(existing.status).visibleToReaders) {
     return { outcome: "conflict", reason: "not-live" };
   }
   const cutoffIso = toIso(new Date(deps.clock.now().getTime() - 24 * 60 * 60 * 1000));
@@ -127,13 +125,13 @@ export async function submitReport(
   // crash in between leaves the publication hidden (never live-with-report).
   const target: PublicationRef = {
     publicationId: parsePublicationId.parse(snap.id, "reported publication"),
-    revisionId: parseRecipeRevisionId.parse(revisionId, "reported revision"),
+    revisionId: parseRecipeRevisionId.parse(existing.revisionId, "reported revision"),
   };
   const itemId = await deps.moderation.submit(target, reporter, "user-report", note);
   const report: ReportRecord = {
     reportId: newReportId(),
     publicationId,
-    revisionId,
+    revisionId: existing.revisionId,
     reporterAccountId: reporter,
     reason,
     note,

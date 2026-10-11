@@ -35,6 +35,36 @@ import { runScreeningPipeline, textHygieneStage, type ScreeningFailure } from ".
 
 export type PublicationStatus = "published" | "queued" | "rejected" | "withdrawn";
 
+/**
+ * The one derivation of publication visibility from moderation state (PR #104
+ * review blocker 5). `status` is the publication's whole moderation state;
+ * every visibility answer — the Explore feed, direct reads, the author's own
+ * view, the moderation queue's pending set, cook-occurrence and report
+ * liveness — is this table's output and nothing else. No surface may consult
+ * another field or a flag of its own, and no writer stores a visibility bit:
+ * a moderation-state change is the only thing that can change visibility.
+ */
+export interface PublicationVisibility {
+  /** Readers see it: the campus feed, direct reads by non-authors, and the live surfaces that feed it (cook occurrences, new reports). */
+  readonly visibleToReaders: boolean;
+  /** The author sees their own record whatever its moderation state (SPEC 3.4). */
+  readonly visibleToAuthor: boolean;
+  /** It is pending a human decision: it belongs to the open moderation queue. */
+  readonly inModerationQueue: boolean;
+}
+
+export function publicationVisibility(status: PublicationStatus): PublicationVisibility {
+  switch (status) {
+    case "published":
+      return { visibleToReaders: true, visibleToAuthor: true, inModerationQueue: false };
+    case "queued":
+      return { visibleToReaders: false, visibleToAuthor: true, inModerationQueue: true };
+    case "rejected":
+    case "withdrawn":
+      return { visibleToReaders: false, visibleToAuthor: true, inModerationQueue: false };
+  }
+}
+
 export interface PublicationRecord {
   readonly publicationId: PublicationId;
   readonly revisionId: RecipeRevisionId;
@@ -312,13 +342,13 @@ export async function listOwnPublications(deps: PublicationDeps, authorId: Accou
     .sort(compareNewestFirst);
 }
 
-/** Live (published) publications in one campus, candidates for the feed. */
+/** Reader-visible (live) publications in one campus, candidates for the feed. */
 export async function listPublishedByCampus(deps: PublicationDeps, campus: string): Promise<PublicationRecord[]> {
   const snap = await deps.publications.where("campus", "==", campus).get();
   return snap.docs
     .map((doc) => parsePublicationDoc(doc))
     .filter((r): r is PublicationRecord => r !== null)
-    .filter((r) => r.status === "published")
+    .filter((r) => publicationVisibility(r.status).visibleToReaders)
     .sort(compareNewestFirst);
 }
 
@@ -370,7 +400,9 @@ export async function transitionOnDecision(deps: PublicationDeps, target: Public
   await deps.publications.firestore.runTransaction(async (tx) => {
     const snap = await tx.get(doc);
     const existing = parsePublicationDoc(snap);
-    if (existing === null || existing.status !== "queued") {
+    // A decision moves a publication only out of the queue — the source
+    // state's meaning comes from the derivation, not a local comparison.
+    if (existing === null || !publicationVisibility(existing.status).inModerationQueue) {
       return;
     }
     if (existing.revisionId !== target.revisionId) {
@@ -394,7 +426,9 @@ export async function hidePublicationForModeration(deps: PublicationDeps, target
   await deps.publications.firestore.runTransaction(async (tx) => {
     const snap = await tx.get(doc);
     const existing = parsePublicationDoc(snap);
-    if (existing === null || existing.status !== "published") {
+    // Only a reader-visible publication can be hidden by an incoming report
+    // or flag — withdrawals and decisions are never overwritten.
+    if (existing === null || !publicationVisibility(existing.status).visibleToReaders) {
       return;
     }
     tx.update(doc, { status: "queued", updatedAtIso: atIso });

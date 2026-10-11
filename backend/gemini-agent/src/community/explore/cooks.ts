@@ -27,7 +27,7 @@ import type { CollectionReference, Transaction } from "@google-cloud/firestore";
 import type { Clock } from "../shared/time.js";
 import { toDay, toIso } from "../shared/time.js";
 import { type AccountId, type PublicationId } from "../shared/ids.js";
-import { parsePublicationDoc } from "./publications.js";
+import { parsePublicationDoc, publicationVisibility } from "./publications.js";
 
 export interface CookOccurrenceDeps {
   readonly publications: CollectionReference;
@@ -41,10 +41,10 @@ export type RecordCookOccurrenceOutcome =
 
 /**
  * Records one cook occurrence inside a transaction so two concurrent
- * occurrences by the same cook converge to a single entry. Only a live
- * (published) publication accepts occurrences: the count never renders
- * anywhere else, and a hidden publication must not accumulate aggregate
- * data while it is under review.
+ * occurrences by the same cook converge to a single entry. Only a
+ * reader-visible (live) publication accepts occurrences: the count never
+ * renders anywhere else, and a hidden publication must not accumulate
+ * aggregate data while it is under review.
  */
 export async function recordCookOccurrence(
   deps: CookOccurrenceDeps,
@@ -60,7 +60,7 @@ export async function recordCookOccurrence(
     if (existing === null) {
       return { outcome: "missing" };
     }
-    if (existing.status !== "published") {
+    if (!publicationVisibility(existing.status).visibleToReaders) {
       return { outcome: "not-live" };
     }
     const firstOccurrence = existing.optedInCooks[cookId] === undefined;

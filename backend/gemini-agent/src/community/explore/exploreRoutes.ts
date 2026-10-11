@@ -29,6 +29,7 @@ import {
   getPublication,
   listOwnPublications,
   listPublishedByCampus,
+  publicationVisibility,
   transitionOnDecision,
   withdrawPublication,
   type PublicationDeps,
@@ -298,12 +299,19 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
       if (record === null) {
         throw errNotFound("publication not found");
       }
+      const visibility = publicationVisibility(record.status);
       if (record.authorId === ctx.accountId) {
+        // SPEC 3.4: the author sees their own record whatever its moderation
+        // state — that answer comes from the same derivation as everyone
+        // else's, not from a route-side bypass.
+        if (!visibility.visibleToAuthor) {
+          throw errNotFound("publication not found");
+        }
         res.status(200).json(selfView(record));
         return;
       }
       await deps.blocks.assertCanInteract(ctx.accountId, record.authorId);
-      if (record.status !== "published") {
+      if (!visibility.visibleToReaders) {
         throw errNotFound("publication not found");
       }
       const name = await accountField(deps, record.authorId, "displayName");
