@@ -66,6 +66,7 @@ public struct StepLinter {
     static let appearancePatterns: [(pattern: String, label: String)] = [
         (#"no longer pink"#, "no longer pink"),
         (#"no pink"#, "no pink"),
+        (#"not pink"#, "not pink"),
         (#"juices? (?:run|runs) clear"#, "juices run clear"),
         (#"clear juices"#, "clear juices"),
         (#"cooked through"#, "cooked through"),

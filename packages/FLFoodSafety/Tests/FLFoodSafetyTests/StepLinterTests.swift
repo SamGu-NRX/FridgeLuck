@@ -45,6 +45,10 @@ final class StepLinterTests: XCTestCase {
         XCTAssertTrue(kinds("Grill until no pink remains.").contains(.appearanceDoneness))
     }
 
+    func testNotPinkIsFlagged() {
+        XCTAssertTrue(kinds("Bake the chicken until it is not pink.").contains(.appearanceDoneness))
+    }
+
     func testAppearanceFlagCarriesRewriteWithClassTemperature() {
         let found = flags("Bake the chicken until no longer pink.")
         let appearance = found.first { $0.kind == .appearanceDoneness }
