@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "carrot",
+  "displayName": "Carrot",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A crisp root vegetable, typically orange from beta-carotene, which the body converts to vitamin A.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Domesticated carrots probably came out of Iran, where they were first grown for leaves and seeds, and heirloom colours run white to purple. During the Second World War the British spread a myth that carrots let pilots see in the dark, to hide their new radar.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Look for firm, smooth carrots with bright colour; limp or cracked roots have lost moisture and sweetness. If tops are attached they should look fresh, not wilted.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate in the crisper, away from ethylene-releasing fruit; trim leafy tops so they do not pull moisture from the root. The rulebook has the shelf-life details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "shelf-life guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Limp carrots snap back after an hour in iced water, or roast to concentrate the sweetness; the tops become pesto.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "sweet potato",
+    "ratio": "1:1",
+    "note": "sweeter and softer when cooked; roasts well",
+    "citations": []
+   },
+   {
+    "substitute": "parsnip",
+    "ratio": "1:1",
+    "note": "earthier and sweeter after roasting; paler colour",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170393,
+   "fdcDescription": "Carrots, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "saturatedFatG": 0.03,
+    "ironMg": 0.3,
+    "sodiumMg": 69,
+    "vitaminCMg": 5.9,
+    "folateMcg": 19,
+    "proteinG": 0.93,
+    "fatG": 0.24,
+    "calciumMg": 33,
+    "potassiumMg": 320,
+    "sugarG": 4.74,
+    "carbohydrateG": 9.58,
+    "energyKcal": 41,
+    "vitaminARaeMcg": 835,
+    "fiberG": 2.8
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Carrot — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Carrot",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170393 (Carrots, raw)."
+   }
+  }
+ }
+}

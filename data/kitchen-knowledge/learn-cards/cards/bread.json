@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "bread",
+  "displayName": "Bread",
+  "isCore": true,
+  "category": "grain_legume",
+  "sections": {
+   "whatItIs": {
+    "text": "A staple baked from flour and water, usually leavened with yeast, and one of the oldest prepared foods there is.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The oldest known bread, from a 14,500-year-old Natufian site in Jordan, predates farming; leavened loaves appear in records by about 6000 BC in Mesopotamia, and Egypt later refined yeast-raised bread.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Look for a loaf with a little weight and a fresh smell; skip crushed or hollow-feeling packaging if you want it to last past today.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep at room temperature wrapped, or freeze what you will not finish; the fridge actually speeds staling. The rulebook covers mould and when to bin a loaf.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "mould guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Stale bread is a feature: croutons, breadcrumbs, panzanella, French toast or a buttery bread pudding.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "panko or crushed crackers",
+    "ratio": "1:1",
+    "note": "for breadcrumbs in coatings and meatballs; drier, so season less",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 174924,
+   "fdcDescription": "Bread, white, commercially prepared (includes soft bread crumbs)",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "saturatedFatG": 0.7,
+    "vitaminARaeMcg": 0,
+    "fiberG": 2.7,
+    "fatG": 3.33,
+    "carbohydrateG": 49.42,
+    "energyKcal": 266,
+    "sugarG": 5.67,
+    "calciumMg": 144,
+    "potassiumMg": 126,
+    "proteinG": 8.85,
+    "ironMg": 3.61,
+    "sodiumMg": 490,
+    "folateMcg": 111,
+    "vitaminCMg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Bread — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Bread",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 174924 (Bread, white, commercially prepared (includes soft bread crumbs))."
+   }
+  }
+ }
+}

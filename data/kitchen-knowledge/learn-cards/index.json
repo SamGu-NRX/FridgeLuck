@@ -1,0 +1,97 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card-index",
+ "retrieved": "2026-10-11",
+ "data": {
+  "cards": [
+   {
+    "id": "apple",
+    "displayName": "Apple",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171688
+   },
+   {
+    "id": "avocado",
+    "displayName": "Avocado",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 6,
+    "fdcId": 171705
+   },
+   {
+    "id": "banana",
+    "displayName": "Banana",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 173944
+   },
+   {
+    "id": "bell_pepper",
+    "displayName": "Bell Pepper",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 19,
+    "fdcId": 170108
+   },
+   {
+    "id": "black_beans",
+    "displayName": "Black Beans",
+    "isCore": true,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 23,
+    "fdcId": 173735
+   },
+   {
+    "id": "bread",
+    "displayName": "Bread",
+    "isCore": true,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 10,
+    "fdcId": 174924
+   },
+   {
+    "id": "broccoli",
+    "displayName": "Broccoli",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 5,
+    "fdcId": 170379
+   },
+   {
+    "id": "butter",
+    "displayName": "Butter",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 6,
+    "fdcId": 173410
+   },
+   {
+    "id": "canned_tuna",
+    "displayName": "Canned Tuna",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 2,
+    "fdcId": 171986
+   },
+   {
+    "id": "carrot",
+    "displayName": "Carrot",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 15,
+    "fdcId": 170393
+   }
+  ],
+  "coverage": {
+   "coreIngredients": 50,
+   "bundledDistinctIngredients": 47,
+   "cardsWritten": 10,
+   "seedCorpusDistinctNames": 113,
+   "missingNutrition": [],
+   "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."
+  }
+ }
+}

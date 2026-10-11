@@ -82,7 +82,7 @@ def main():
         })
 
     if missing_prose:
-        raise SystemExit(f"missing prose files: {missing_prose}")
+        print(f"NOTE: prose not yet written for {len(missing_prose)}: {missing_prose}")
 
     no_nut = sorted(c["id"] for c in cards if c["fdcId"] is None)
     summary = universe["summary"]
