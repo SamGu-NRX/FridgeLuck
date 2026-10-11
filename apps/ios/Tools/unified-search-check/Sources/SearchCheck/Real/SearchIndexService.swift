@@ -32,6 +32,9 @@ final class SearchIndexService: @unchecked Sendable {
   private let store: SearchIndexStore
   private let sources: SearchSources
   private let engine: SearchEngine
+  /// Resolves tapped hits against live records (the same resolver the engine
+  /// uses internally, so taps and ranking never disagree about identity).
+  private let resolver: CompositeSearchHitResolver
   private let sourceEpochProvider: @Sendable () -> String?
   private let lock = NSLock()
 
@@ -61,20 +64,55 @@ final class SearchIndexService: @unchecked Sendable {
     self.store = store
     self.sources = sources
     self.sourceEpochProvider = sourceEpochProvider
-    self.engine = SearchEngine(
-      store: store,
-      resolver: CompositeSearchHitResolver(
-        db: sources.kitchen.databaseQueue,
-        ingredientRepository: sources.kitchen.ingredientRepository,
-        inventoryRepository: sources.kitchen.inventoryRepository,
-        recipeRepository: sources.recipes.recipeRepository
-      ))
+    let resolver = CompositeSearchHitResolver(
+      db: sources.kitchen.databaseQueue,
+      ingredientRepository: sources.kitchen.ingredientRepository,
+      inventoryRepository: sources.kitchen.inventoryRepository,
+      recipeRepository: sources.recipes.recipeRepository
+    )
+    self.resolver = resolver
+    self.engine = SearchEngine(store: store, resolver: resolver)
   }
 
   /// Builds the index if it is missing, stale, or from a different source
   /// epoch. Idempotent and cheap when the index is current.
   func bootstrap() throws {
     try revalidateIfNeeded()
+  }
+
+  /// Resolves a tapped hit to its canonical, live record.
+  ///
+  /// This is the tap path: it reads the live repositories through the same
+  /// resolver the engine uses, never cached index data. Returns:
+  /// - the resolved record when the source row still exists and (for kinds
+  ///   with a checkable revision) matches the hit's revision,
+  /// - `nil` when the record was deleted (the hit is repaired out of the
+  ///   index so the stale entry cannot be tapped again),
+  /// - `nil` when the record exists but changed since the hit was indexed
+  ///   (stale hit — refused without guessing; the doc is left in place and
+  ///   healed by the next epoch-triggered rebuild).
+  func resolve(_ hit: SearchHit) throws -> SearchResolvedTarget? {
+    try revalidateIfNeeded()
+    guard let resolution = try resolver.resolve(hit) else {
+      // Deleted: refuse the tap and repair the index so the dead hit
+      // disappears from subsequent searches instead of failing forever.
+      try store.remove(canonicalID: hit.canonicalID)
+      return nil
+    }
+    // Stale refusal: for kinds with a timestamped revision (inventory,
+    // journal), a hit whose revision no longer matches the live record is
+    // refused — cached index data is not a substitute for the live record,
+    // and serving the old revision would show outdated stock or journal
+    // state. The doc is left in place: the engine refreshes its revision
+    // on the next search and a rebuild heals it. Kinds without a checkable
+    // revision (ingredients, recipes) rely on epoch-triggered rebuilds,
+    // matching the engine's documented staleness contract.
+    if let liveRevision = try resolver.liveRevision(for: hit),
+      liveRevision != hit.revision
+    {
+      return nil
+    }
+    return resolution
   }
 
   /// Revalidates the source epoch and rebuilds the index when it changed.
