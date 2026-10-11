@@ -1,0 +1,266 @@
+{
+  "rs_version": "1",
+  "id": "eu-chicken-cacciatore-polenta",
+  "title": "Skillet Chicken Cacciatore over Creamy Polenta",
+  "cuisine": "italian",
+  "cuisine_detail": "italian (hunter-style, northern home kitchen)",
+  "family": "european-american",
+  "minutes": 45,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "deep skillet",
+    "saucepan",
+    "whisk",
+    "chef's knife",
+    "cutting board",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-chicken-cacciatore-polenta",
+  "tags": [
+    "make-ahead",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken breast",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "halves, cut in chunks",
+        "conversion_ref": "chicken_breast_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "mushrooms",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cups sliced",
+        "conversion_ref": "mushrooms_cup",
+        "grams_per_unit": 70
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, sliced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "bell peppers",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, sliced",
+        "conversion_ref": "bell_pepper_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, sliced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "canned diced tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups with juices",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "tomato puree",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "cup",
+        "conversion_ref": "tomato_puree_cup",
+        "grams_per_unit": 226
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "oregano",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp dried",
+        "conversion_ref": "oregano_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "polenta",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup coarse cornmeal",
+        "conversion_ref": "cornmeal_cup",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "milk",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups",
+        "conversion_ref": "milk_cup",
+        "grams_per_unit": 244
+      }
+    },
+    {
+      "name": "parmesan",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp grated",
+        "conversion_ref": "parmesan_tbsp",
+        "grams_per_unit": 5
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tsp, divided",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Season the chicken chunks with half the salt and the pepper. Heat the oil in a deep skillet over medium-high and brown them for 5 minutes, turning twice - color here is seasoning, not doneness.",
+      "timer_min": 5
+    },
+    {
+      "text": "Lift the chicken out. Cook the onion and bell pepper in the same pan for 5 minutes, then add the garlic and cook 30 seconds more.",
+      "timer_min": 5
+    },
+    {
+      "text": "Add the mushrooms and cook for 5 minutes, until they release their liquid and it boils away.",
+      "timer_min": 5
+    },
+    {
+      "text": "Pour in the canned tomatoes and tomato puree with the oregano and chili flakes, then nestle the chicken and any collected juices back in."
+    },
+    {
+      "text": "Simmer gently, half covered, for 15 minutes - the chicken is safe at 165°F (74°C); check a thick chunk with a thermometer.",
+      "timer_min": 15,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "While the cacciatore simmers, bring the water and milk to a simmer in a saucepan with the remaining salt and whisk the polenta in a slow stream."
+    },
+    {
+      "text": "Cook the polenta at a bare simmer for 20 minutes, whisking often - it grabs the pot, so reach the bottom corners.",
+      "timer_min": 20
+    },
+    {
+      "text": "Taste the cacciatore for salt and pepper; swirl the parmesan into the polenta off the heat."
+    },
+    {
+      "text": "Spoon the polenta into shallow bowls and ladle the cacciatore and its juices over the top."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 521,
+    "protein_g": 50.2,
+    "carbs_g": 48.2,
+    "fat_g": 15.0,
+    "fiber_g": 6.6,
+    "sugar_g": 16.6,
+    "sodium_mg": 456,
+    "coverage": 0.829,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "oregano",
+      "salt",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

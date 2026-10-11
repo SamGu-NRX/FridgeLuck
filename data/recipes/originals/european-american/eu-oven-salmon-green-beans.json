@@ -1,0 +1,166 @@
+{
+  "rs_version": "1",
+  "id": "eu-oven-salmon-green-beans",
+  "title": "Oven-Roasted Salmon with Green Beans",
+  "cuisine": "american",
+  "cuisine_detail": "pacific northwest american",
+  "family": "european-american",
+  "minutes": 25,
+  "servings": 2,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "rimmed sheet pan",
+    "chef's knife",
+    "cutting board",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-oven-salmon-green-beans",
+  "tags": [
+    "weeknight",
+    "sheet-pan",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "salmon fillets",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "fillets",
+        "conversion_ref": "salmon_fillet",
+        "grams_per_unit": 150
+      }
+    },
+    {
+      "name": "green beans",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups, trimmed and halved",
+        "conversion_ref": "green_bean_cup",
+        "grams_per_unit": 100
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves, grated",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "lemon juice",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "lemon_juice_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Heat the oven to 425°F (220°C). On a sheet pan, toss the green beans with 1 tablespoon of the oil, the garlic, and a pinch of the salt."
+    },
+    {
+      "text": "Roast the beans alone for 8 minutes so they blister while the salmon waits.",
+      "timer_min": 8
+    },
+    {
+      "text": "Push the beans to the edges, set the salmon fillets in the middle, and rub them with the rest of the oil, salt, and pepper."
+    },
+    {
+      "text": "Roast for 10 minutes. Fish is safe at 145°F (63°C) - check the thickest fillet with a thermometer; it should flake at the edges and stay translucent at the center.",
+      "timer_min": 10,
+      "safety": {
+        "class": "flesh_fish",
+        "temp_f": 145,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Spoon the lemon juice over the fillets and beans and rest for 2 minutes before serving.",
+      "timer_min": 2
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 445,
+    "protein_g": 32.7,
+    "carbs_g": 9.4,
+    "fat_g": 30.9,
+    "fiber_g": 3.0,
+    "sugar_g": 3.7,
+    "sodium_mg": 95,
+    "coverage": 0.992,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}
