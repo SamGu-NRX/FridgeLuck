@@ -1,13 +1,18 @@
 // FLRecipe — typed intents and the reducer.
 //
 // The reducer owns the observable document behaviour: the servings
-// stepper (clamped), entering and advancing the step flow, the record
-// flow opening when the last step completes, and the record fields.
+// stepper (clamped, and it INVALIDATES the fit pending the host's
+// quantity-aware recomputation for the new target), entering and
+// advancing the step flow, the per-step outcomes (completion and
+// skipping are separate recorded states; the record opens only when the
+// last step completes), the reviewed safety checks, and the record
+// fields.
 // Sharing the record and related-chip navigation are host effects — the
 // share preview is built host-side from the finished record and shows
 // before anything is published (the same preview-first rule as Table).
 
 import Foundation
+import FLScreenSupport
 
 /// Everything the Recipe screen can send.
 public enum RecipeIntent: Equatable, Sendable {
@@ -22,8 +27,10 @@ public enum RecipeIntent: Equatable, Sendable {
     case beginCook
     /// "Next" — advances; past the last step it opens the record flow.
     case nextStep
-    /// "Skip" — behaves like Next for the flow, but the host's record
-    /// distinguishes skipped steps when it logs the cook.
+    /// "Skip" — advances like Next, but records the step as SKIPPED: its
+    /// own recorded state, never folded into completion. Skipping the
+    /// FINAL step closes the flow WITHOUT opening the record — a skipped
+    /// final step must not produce a completed record.
     case skipStep
     /// Leave the step flow without recording.
     case exitCook
@@ -31,6 +38,14 @@ public enum RecipeIntent: Equatable, Sendable {
     case setRating(Int)
     /// The record's "what did you do differently" line.
     case setDifferently(String)
+    /// The step's safety check was reviewed by the cook — e.g. the
+    /// thermometer doneness read confirmed. Timers only say when to
+    /// check; the REVIEWED check is what the record's completion needs.
+    case safetyCheckReviewed(stepID: String, check: RecipeViewState.Step.SafetyCheck)
+    /// The host's quantity-aware fit recomputation returned. Applied only
+    /// when it names the CURRENT target — a result for an earlier
+    /// serving count is stale and dropped, never shown.
+    case fitRecomputed(fit: FLFitSummary, forServings: Int)
     /// Close the record without saving.
     case dismissRecord
 
@@ -69,27 +84,73 @@ public enum RecipeReducer {
         switch intent {
 
         case .setServings(let servings):
-            next.targetServings = min(
+            let clamped = min(
                 max(servings, RecipeBounds.minServings), RecipeBounds.maxServings)
+            next.targetServings = clamped
+            // The shown fit was computed for the PREVIOUS target — a
+            // doubled bill cannot keep the old sufficiency claims, and
+            // `ingredient.isInKitchen` presence says nothing about the
+            // new amounts. The fit stays pending (no sufficiency claim,
+            // no Cook-enabled assertion) until the host's quantity-aware
+            // result for THIS target arrives via .fitRecomputed.
+            if clamped != state.targetServings {
+                next.fitValidity = .pendingRecompute(forServings: clamped)
+            }
 
         case .beginCook:
             guard !next.steps.isEmpty else { break }
             next.currentStepIndex = 0
             next.showsRecord = false
+            // A fresh cook session: no outcomes recorded, no checks
+            // reviewed.
+            next.stepOutcomes = Array(repeating: nil, count: next.steps.count)
+            next.reviewedChecks = [:]
 
         case .nextStep:
-            guard let index = next.currentStepIndex else { break }
+            guard let index = next.currentStepIndex, index < next.steps.count else { break }
+            // Gone through — recorded as completed, its own state.
+            next.stepOutcomes[index] = .completed
             if index + 1 < next.steps.count {
                 next.currentStepIndex = index + 1
             } else {
-                // Last step done: the step flow closes, the record opens,
-                // and other cooks' notes disappear from the document.
+                // Last step COMPLETED: the step flow closes, the record
+                // opens, and other cooks' notes disappear from the
+                // document. The record's completion is constructed from
+                // these outcomes (and the reviewed checks) — a host
+                // callback alone cannot assert it.
                 next.currentStepIndex = nil
                 next.showsRecord = true
             }
 
         case .skipStep:
-            next = reduced(next, by: .nextStep)
+            guard let index = next.currentStepIndex, index < next.steps.count else { break }
+            // Skipping is its own recorded state — never folded into
+            // completion.
+            next.stepOutcomes[index] = .skipped
+            if index + 1 < next.steps.count {
+                next.currentStepIndex = index + 1
+            } else {
+                // The FINAL step was skipped: nothing completed here.
+                // The flow closes WITHOUT the record — a skipped final
+                // step must not produce a completed record.
+                next.currentStepIndex = nil
+                next.showsRecord = false
+            }
+
+        case .safetyCheckReviewed(let stepID, let check):
+            // Reducer-owned bookkeeping: the reviewed check is recorded
+            // against the step, and the record's completion requires it
+            // (doneness needs a reviewed thermometer check; timers only
+            // say when to check).
+            next.reviewedChecks[stepID, default: []].insert(check)
+
+        case .fitRecomputed(let fit, let forServings):
+            // Apply the host's quantity-aware result only for the
+            // CURRENT target — a stale result for an earlier serving
+            // count is dropped, never shown.
+            guard forServings == next.targetServings else { break }
+            next.fit = fit
+            next.fitValidity = .current
 
         case .exitCook:
             next.currentStepIndex = nil
