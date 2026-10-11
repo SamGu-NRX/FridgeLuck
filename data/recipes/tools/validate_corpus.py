@@ -14,6 +14,13 @@ at data/recipes/ instead of the suite's committed fixtures:
   5. id scheme and uniqueness, JSONL hygiene (UTF-8, LF, one object/line),
      dedupe (normalized title + core-ingredient sets).
 
+When data/recipes/conversions.json exists it is integrity-checked and its
+rows join the suite's fixture table (the read contract the eval harness
+adopts via fl-eval-harness-f1 / PR #88); the validator reports resolution
+under BOTH read paths and the corpus-side evidence coverage of the
+unresolved lines. --corpus/--conversions overrides exist for read-path
+self-tests against scratch copies only.
+
 The suite code is never modified: point --suite-dir at an extracted copy of
 the eval/scorecard-runner suite, e.g.:
 
@@ -28,6 +35,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import datetime
 import json
 import re
 import sys
@@ -37,6 +45,7 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CORPUS = REPO_ROOT / "data/recipes/corpus.jsonl"
 MANIFEST = REPO_ROOT / "data/recipes/rights_manifest.json"
+CORPUS_CONVERSIONS = REPO_ROOT / "data/recipes/conversions.json"
 
 ID_SCHEME = re.compile(r"^fl-[a-z0-9]+-\d{4}$")
 
@@ -45,10 +54,111 @@ def fail(msg: str) -> None:
     print(f"  FAIL {msg}")
 
 
+def load_corpus_conversions(path: Path) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    """Load + integrity-check the corpus-side conversions table.
+
+    Row shape (one row per (ingredient, unit) conversion, every field
+    evidence-backed): id, ingredient, unit, grams (positive number),
+    source {name, url, quote (verbatim sentence carrying the mass),
+    retrieved (YYYY-MM-DD, actual access date)}. Returns ({}, []) when the
+    file does not exist yet — the table ships with its first citable
+    tranche; until then the suite's fixture table stays the read path for
+    existing household refs.
+    """
+    if not path.exists():
+        return {}, []
+    data = json.loads(path.read_text())
+    rows = data.get("conversions", data) if isinstance(data, dict) else data
+    checked: dict[str, dict[str, Any]] = {}
+    problems: list[str] = []
+    if isinstance(rows, dict):
+        items = list(rows.items())
+    elif isinstance(rows, list):
+        items = [(row.get("id", "?"), row) for row in rows if isinstance(row, dict)]
+    else:
+        items = []
+    for ref, row in items:
+        where = f"conversions row {ref!r}"
+        if not isinstance(row, dict):
+            problems.append(f"{where}: not an object")
+            continue
+        grams = row.get("grams", row.get("grams_per_unit"))
+        src = row.get("source") or {}
+        if row.get("ingredient", "") in ("", None):
+            problems.append(f"{where}: missing ingredient")
+        if row.get("unit", "") in ("", None):
+            problems.append(f"{where}: missing unit")
+        if not isinstance(grams, (int, float)) or isinstance(grams, bool) or grams <= 0:
+            problems.append(f"{where}: grams must be a positive number")
+        for field in ("name", "url", "quote", "retrieved"):
+            if not str(src.get(field, "")).strip():
+                problems.append(f"{where}: source.{field} empty")
+        try:
+            datetime.date.fromisoformat(str(src.get("retrieved", "")))
+        except ValueError:
+            problems.append(f"{where}: source.retrieved must be YYYY-MM-DD")
+        checked[str(ref)] = {**row, "grams_per_unit": grams}
+    return checked, problems
+
+
+def unresolved_pair_stats(recipes: list[dict[str, Any]],
+                          corpus_tbl: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Corpus-side evidence coverage over the unresolved lines.
+
+    A line is coverable when some corpus row matches its (ingredient, unit)
+    pair; a line is ANNOTATED when it carries kind=household with a
+    conversion_ref that resolves in the corpus table. Coverage must be
+    reproducible from the table alone.
+    """
+    def norm(s: Any) -> str:
+        return str(s).strip().lower()
+
+    row_pairs = {(norm(r.get("ingredient")), norm(r.get("unit"))): ref
+                 for ref, r in corpus_tbl.items()}
+    unresolved = 0
+    coverable = 0
+    pairs: dict[tuple[str, str], int] = {}
+    covered_pairs: set[tuple[str, str]] = set()
+    annotated = 0
+    annotated_refs: set[str] = set()
+    for recipe in recipes:
+        for line in recipe.get("ingredients", []):
+            qty = line.get("qty") if isinstance(line, dict) else None
+            if not isinstance(qty, dict):
+                continue
+            if qty.get("kind") == "unknown":
+                unresolved += 1
+                key = (norm(line.get("name")), norm(qty.get("unit")))
+                pairs[key] = pairs.get(key, 0) + 1
+                if key in row_pairs:
+                    coverable += 1
+                    covered_pairs.add(key)
+            elif qty.get("kind") == "household":
+                ref = qty.get("conversion_ref")
+                if isinstance(ref, str) and ref in corpus_tbl:
+                    annotated += 1
+                    annotated_refs.add(ref)
+    return {
+        "unresolved": unresolved,
+        "distinct_pairs": len(pairs),
+        "coverable_lines": coverable,
+        "covered_pairs": len(covered_pairs),
+        "annotated_lines": annotated,
+        "annotated_rows": len(annotated_refs),
+        "uncovered_pairs": sorted(f"{k[0]} [{k[1] or 'no unit'}]"
+                                  for k in pairs if k not in row_pairs),
+    }
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--suite-dir", required=True,
                     help="extracted evaluation/suites/recipes (eval/scorecard-runner)")
+    ap.add_argument("--corpus", type=Path, default=CORPUS,
+                    help="corpus.jsonl to validate (default data/recipes/corpus.jsonl; "
+                         "override for read-path self-tests)")
+    ap.add_argument("--conversions", type=Path, default=CORPUS_CONVERSIONS,
+                    help="corpus-side conversions table (default data/recipes/conversions.json)")
     args = ap.parse_args()
     suite_dir = Path(args.suite_dir)
     sys.path.insert(0, str(suite_dir))
@@ -60,7 +170,7 @@ def main() -> int:
 
     # ---- inputs ----------------------------------------------------------
     recipes: list[dict[str, Any]] = []
-    for lineno, line in enumerate(CORPUS.read_bytes().split(b"\n"), start=1):
+    for lineno, line in enumerate(args.corpus.read_bytes().split(b"\n"), start=1):
         if not line.strip():
             continue
         try:
@@ -116,10 +226,27 @@ def main() -> int:
     lint = rs.lint_corpus(
         work, cuisines=bands.CUISINE_SET, meal_slots=bands.SLOT_SET,
         conversions=conversions_tbl, allergen_scan=scanner)
+    corpus_ref_rids = {
+        r["id"] for r in clear
+        if any(isinstance(l, dict) and isinstance((l.get("qty") or {}).get("conversion_ref"), str)
+               for l in r.get("ingredients", []))
+    }
     for rid, violations in lint["recipes_with_violations"].items():
         for v in violations:
             fail(v)
-        errors.append(f"{rid}: {len(violations)} linter violation(s)")
+        # Operator ruling (2026-10-11): a corpus-annotated line cannot resolve
+        # under the suite's CURRENT read path (its table lacks the ref); that
+        # exact R2 class is the anticipated hard-error until PR #88 adopts the
+        # corpus read contract — report it, never weaken the suite, gate on
+        # anything else.
+        anticipated = (rid in corpus_ref_rids
+                       and all("no conversion in the table" in v for v in violations))
+        if anticipated:
+            print(f"  NOTE {rid}: {len(violations)} violation(s) are the anticipated "
+                  f"R2 hard-error on corpus-annotated lines (suite read path predates "
+                  f"PR #88); reported, not gated")
+        else:
+            errors.append(f"{rid}: {len(violations)} linter violation(s)")
     resolved_pct = (round(100.0 * lint["resolved_lines"] / lint["total_lines"], 2)
                     if lint["total_lines"] else 0.0)
     print(f"linter: {len(lint['passed'])}/{len(work)} recipes pass; "
@@ -129,6 +256,49 @@ def main() -> int:
           f"{lint['stripped_claims']} stripped by the linter")
     if lint["unchecked_claims"]:
         errors.append(f"{lint['unchecked_claims']} unchecked claim(s) (bar: 0)")
+
+    # ---- corpus-side conversion evidence (read path for PR #88) -----------
+    corpus_tbl, conv_problems = load_corpus_conversions(args.conversions)
+    for p in conv_problems:
+        fail(p)
+    errors.extend(f"conversions.json: {p}" for p in conv_problems)
+    if args.conversions.exists():
+        print(f"corpus conversions: {len(corpus_tbl)} row(s) in {args.conversions.name} "
+              f"(integrity checked: id, ingredient, unit, grams>0, source quote + "
+              f"retrieval date)")
+    else:
+        print("corpus conversions: no data/recipes/conversions.json yet — the suite's "
+              "fixture table stays the read path for existing household refs")
+
+    cov_stats = unresolved_pair_stats(recipes, corpus_tbl)
+    print(f"corpus-side evidence coverage: {cov_stats['annotated_lines']}/"
+          f"{cov_stats['unresolved']} unresolved lines annotated "
+          f"({cov_stats['covered_pairs']}/{cov_stats['distinct_pairs']} distinct "
+          f"(ingredient, unit) pairs have a citable row)")
+    if cov_stats["uncovered_pairs"]:
+        print(f"  uncovered pairs ({len(cov_stats['uncovered_pairs'])}):")
+        for u in cov_stats["uncovered_pairs"]:
+            print(f"    {u}")
+
+    # PASS B: the read contract the eval harness adopts (PR #88) — the corpus
+    # table joined over the suite's fixture table.
+    merged = {**conversions_tbl, **corpus_tbl}
+    work_b = copy.deepcopy(clear)
+    for r in work_b:
+        r["_classes"] = sorted(scanner.classes_for(r))
+    lint_b = rs.lint_corpus(
+        work_b, cuisines=bands.CUISINE_SET, meal_slots=bands.SLOT_SET,
+        conversions=merged, allergen_scan=scanner)
+    resolved_pct_b = (round(100.0 * lint_b["resolved_lines"] / lint_b["total_lines"], 2)
+                      if lint_b["total_lines"] else 0.0)
+    print(f"pass A (suite current semantics): {lint['resolved_lines']}/{lint['total_lines']} "
+          f"lines resolved ({resolved_pct}%)")
+    print(f"pass B (corpus read path):        {lint_b['resolved_lines']}/{lint_b['total_lines']} "
+          f"lines resolved ({resolved_pct_b}%)")
+    for rid, violations in lint_b["recipes_with_violations"].items():
+        for v in violations:
+            fail(v)
+        errors.append(f"pass B {rid}: {len(violations)} linter violation(s)")
 
     # ---- coverage ---------------------------------------------------------
     cov = bands.coverage(clear)
