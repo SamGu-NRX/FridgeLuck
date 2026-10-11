@@ -4,7 +4,7 @@ This plan carries `SPEC.md` (what we build and the contracts it keeps) to the en
 
 ## End goal
 
-A FridgeLuck that someone would keep on their home screen, running end to end on `fleet/beta` in the iOS simulator:
+A FridgeLuck that someone would keep on their home screen, running end to end on `alpha` in the iOS simulator:
 
 - scan your kitchen, then get one honest pick for tonight;
 - cook it with LeChef doing real jobs (plan, substitute, coach, adapt, remember);
@@ -15,14 +15,13 @@ A FridgeLuck that someone would keep on their home screen, running end to end on
 
 ## Branches
 
-- `fleet/beta` is the integration branch, cut from `main` (2fd0dfe) on 2026-10-11. Nothing deploys from it:
+- `alpha` is the integration branch, cut from `main` (2fd0dfe) on 2026-10-11. Nothing deploys from it:
   - the only workflow, `ios-ci.yml`, runs on PRs and on pushes to `main`;
   - the repo has no GitHub environments or deployments;
   - `cloudbuild.yaml` builds an image without deploying;
   - `deploy-cloud-run.sh` only runs by hand.
-- Accepted work merges into `fleet/beta` with `--no-ff` after the caretaker's pass. Never into `main`.
-- New tasks start from `fleet/beta` and target it.
-- A branch named `beta` also exists (created at main's 2fd0dfe during setup). Fleet work does not use it.
+- Accepted work merges into `alpha` with `--no-ff` after the caretaker's pass. Never into `main`.
+- New tasks start from `alpha` and target it.
 
 ## The scorecard (evals first)
 
@@ -40,7 +39,7 @@ One runner, `evaluation/run.py`, built by `fl-eval-harness-f1`, writes `evaluati
 | D. LeChef | At least 150 scripted cook sessions against a fake model provider: the five jobs, offline, interruptions, adversarial text, timers | 0 food-safety violations; 0 actions executed without approval; at least 90% job success; 100% timer correctness across kill and resume |
 | E. Community | Two- and three-account scenarios on the Firestore emulator: share, table, invite, challenge, report, block, delete | 0 private-field leaks; 0 authorization failures; every moderation transition covered |
 | F. UI polish | macOS CI renders of every screen and state (paper, dark, hob, XXL Dynamic Type); automated checks; council taste review | Body-text contrast at least 4.5:1; touch targets at least 44 pt (64 pt in cook mode); no clipped primary labels at XXL; 0 hits on the design direction's Avoid list; council "ship" on every screen |
-| G. Journeys | XCUITest journeys in the simulator from `fleet/beta`, with fixture photos, screenshots at every step, on macOS CI and on the lead's Mac | All of these pass with no crash: first run, scan and review, Tonight, recipe, cook, complete, share, challenge, taste-profile edit |
+| G. Journeys | XCUITest journeys in the simulator from `alpha`, with fixture photos, screenshots at every step, on macOS CI and on the lead's Mac | All of these pass with no crash: first run, scan and review, Tonight, recipe, cook, complete, share, challenge, taste-profile edit |
 
 The bars are the lead's choice, not measured optima. A suite can only move a bar with a recorded reason.
 
@@ -74,11 +73,11 @@ The bars are the lead's choice, not measured optima. A suite can only move a bar
 - Sol: engineering and test review.
 - Opus (the lead): integration.
 
-The council picks the winners (LeChef design, learning model) and grafts the best ideas from the others. Accepted PRs merge into `fleet/beta`, and the lead runs it in the simulator.
+The council picks the winners (LeChef design, learning model) and grafts the best ideas from the others. Accepted PRs merge into `alpha`, and the lead runs it in the simulator.
 
 **Round 2**, aimed at what the scorecard and council say is missing:
 
-- host integration: the new screens and FridgeLuckCore wired into the app on `fleet/beta`;
+- host integration: the new screens and FridgeLuckCore wired into the app on `alpha`;
 - the winning LeChef wired end to end;
 - the shipped learning model with event instrumentation;
 - recipe scale-up toward 1,500;
@@ -101,9 +100,10 @@ Stop a workstream when:
 - its suite meets its bar and the council calls it ship; or
 - two consecutive rounds don't move its suite's metrics.
 
-Record which condition fired and why in this file. The overhaul is done when every suite passes and suite G runs clean on `fleet/beta`.
+Record which condition fired and why in this file. The overhaul is done when every suite passes and suite G runs clean on `alpha`.
 
 ## Log
 
 - 2026-10-11 10:00Z: spec inputs from Fable, Sol and Astra; `SPEC.md` decided.
-- 2026-10-11 11:30Z: `fleet/beta` created; Round 1 queued.
+- 2026-10-11 11:30Z: Round 1 queued.
+- 2026-10-11 11:45Z: the integration branch is `alpha`, cut from main at 2fd0dfe, by Sam's direction. The earlier `beta` and `alpha` (both at 2fd0dfe, no PRs) were deleted.
