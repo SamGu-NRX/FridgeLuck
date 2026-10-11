@@ -1,0 +1,54 @@
+{
+  "_comment": "The expected suite spine for the FridgeLuck overhaul scorecard, from PLAN.md 'The scorecard (evals first)' on docs/spec-overhaul-20261011 (revision 2, 2026-10-11). Suites are run from evaluation/suites/<id>/ when their directory exists; suites listed here but not yet delivered report not-run with their owner named. platform: 'any' runs on any host; 'macos' suites run only on macOS and are imported from committed out/<id>/results.json (produced by .github/workflows/eval-macos.yml) elsewhere.",
+  "suites": [
+    {
+      "id": "pantry-truth",
+      "letter": "A",
+      "title": "Pantry truth",
+      "owner_task": "fl-eval-harness-f1 (suite A sub-thread)",
+      "platform": "any"
+    },
+    {
+      "id": "learning",
+      "letter": "B",
+      "title": "Learning",
+      "owner_task": "fl-learning-lab-f1",
+      "platform": "any"
+    },
+    {
+      "id": "recipes",
+      "letter": "C",
+      "title": "Recipes",
+      "owner_task": "fl-eval-harness-f1 (suite C sub-thread)",
+      "platform": "any"
+    },
+    {
+      "id": "lechef",
+      "letter": "D",
+      "title": "LeChef",
+      "owner_task": "fl-lechef-f1",
+      "platform": "any"
+    },
+    {
+      "id": "community",
+      "letter": "E",
+      "title": "Community",
+      "owner_task": "fl-community-f1",
+      "platform": "any"
+    },
+    {
+      "id": "ui-polish",
+      "letter": "F",
+      "title": "UI polish",
+      "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
+      "platform": "macos"
+    },
+    {
+      "id": "journeys",
+      "letter": "G",
+      "title": "Journeys",
+      "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
+      "platform": "macos"
+    }
+  ]
+}

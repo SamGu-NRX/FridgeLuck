@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-10-11T11:51:24Z",
+  "git": {
+    "sha": "2e779381bb3939cf35f1948875bc657b7d6cb1ad",
+    "branch": "eval/scorecard-runner",
+    "dirty": true
+  },
+  "toolchain": {
+    "python": "3.13.14",
+    "platform": "linux",
+    "runner": "linux",
+    "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
+    "bun": "1.3.14"
+  },
+  "summary": {
+    "pass": 0,
+    "fail": 0,
+    "not-run": 7
+  },
+  "suites": [
+    {
+      "suite": "pantry-truth",
+      "letter": "A",
+      "title": "Pantry truth",
+      "owner_task": "fl-eval-harness-f1 (suite A sub-thread)",
+      "source": "runner",
+      "metrics": [
+        {
+          "id": "pantry-truth_suite",
+          "metric": "A. Pantry truth",
+          "status": "not-run",
+          "reason": "suite not yet delivered by fl-eval-harness-f1 (suite A sub-thread) (no evaluation/suites/pantry-truth/)"
+        }
+      ],
+      "duration_ms": 0
+    },
+    {
+      "suite": "learning",
+      "letter": "B",
+      "title": "Learning",
+      "owner_task": "fl-learning-lab-f1",
+      "source": "runner",
+      "metrics": [
+        {
+          "id": "learning_suite",
+          "metric": "B. Learning",
+          "status": "not-run",
+          "reason": "suite not yet delivered by fl-learning-lab-f1 (no evaluation/suites/learning/)"
+        }
+      ],
+      "duration_ms": 0
+    },
+    {
+      "suite": "recipes",
+      "letter": "C",
+      "title": "Recipes",
+      "owner_task": "fl-eval-harness-f1 (suite C sub-thread)",
+      "source": "runner",
+      "metrics": [
+        {
+          "id": "recipes_suite",
+          "metric": "C. Recipes",
+          "status": "not-run",
+          "reason": "suite not yet delivered by fl-eval-harness-f1 (suite C sub-thread) (no evaluation/suites/recipes/)"
+        }
+      ],
+      "duration_ms": 0
+    },
+    {
+      "suite": "lechef",
+      "letter": "D",
+      "title": "LeChef",
+      "owner_task": "fl-lechef-f1",
+      "source": "runner",
+      "metrics": [
+        {
+          "id": "lechef_suite",
+          "metric": "D. LeChef",
+          "status": "not-run",
+          "reason": "suite not yet delivered by fl-lechef-f1 (no evaluation/suites/lechef/)"
+        }
+      ],
+      "duration_ms": 0
+    },
+    {
+      "suite": "community",
+      "letter": "E",
+      "title": "Community",
+      "owner_task": "fl-community-f1",
+      "source": "runner",
+      "metrics": [
+        {
+          "id": "community_suite",
+          "metric": "E. Community",
+          "status": "not-run",
+          "reason": "suite not yet delivered by fl-community-f1 (no evaluation/suites/community/)"
+        }
+      ],
+      "duration_ms": 0
+    },
+    {
+      "suite": "ui-polish",
+      "letter": "F",
+      "title": "UI polish",
+      "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
+      "source": "runner",
+      "metrics": [
+        {
+          "id": "ui-polish_suite",
+          "metric": "F. UI polish",
+          "status": "not-run",
+          "reason": "suite not yet delivered by fl-eval-harness-f1 (suite F/G sub-thread) (no evaluation/suites/ui-polish/)"
+        }
+      ],
+      "duration_ms": 0
+    },
+    {
+      "suite": "journeys",
+      "letter": "G",
+      "title": "Journeys",
+      "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
+      "source": "runner",
+      "metrics": [
+        {
+          "id": "journeys_suite",
+          "metric": "G. Journeys",
+          "status": "not-run",
+          "reason": "suite not yet delivered by fl-eval-harness-f1 (suite F/G sub-thread) (no evaluation/suites/journeys/)"
+        }
+      ],
+      "duration_ms": 0
+    }
+  ],
+  "runner_duration_ms": 469
+}
