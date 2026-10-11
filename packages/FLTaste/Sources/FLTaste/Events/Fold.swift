@@ -45,14 +45,11 @@ public struct ExplicitLayer: Equatable, Sendable {
     public var restrictions: [Restriction]
     public var neverSuggest: [IngredientID: NeverSuggestRecord]
     public var stated: [FeatureKey: StatedPreference]
-    /// The user's verdict on a profile sentence, by stable sentence id.
-    public var sentenceMarks: [String: SentenceMark]
 
     public init() {
         self.restrictions = []
         self.neverSuggest = [:]
         self.stated = [:]
-        self.sentenceMarks = [:]
     }
 
     public struct NeverSuggestRecord: Equatable, Sendable {
@@ -62,21 +59,6 @@ public struct ExplicitLayer: Equatable, Sendable {
     public struct StatedPreference: Equatable, Sendable {
         public let polarity: Polarity
         public let addedAt: Instant
-    }
-
-    /// The user's verdict on one profile sentence. Rejection is soft: the
-    /// sentence is kept (so the app does not re-learn it next week, per the
-    /// mock) but excluded from acting; it can be reopened.
-    public struct SentenceMark: Equatable, Sendable {
-        public enum Verdict: Equatable, Sendable {
-            case confirmed(at: Instant)
-            case rejected(at: Instant)
-            /// Stronger than rejection: pins an explicit override ("this is
-            /// wrong"), which beats any learned frequency (SPEC 3.3).
-            case corrected(at: Instant)
-        }
-
-        public let verdict: Verdict
     }
 }
 
@@ -157,59 +139,115 @@ public enum Fold {
         -> EngineState
     {
         var state = initial
-        // Canonical order: (timestamp, id). Duplicate ids collapse to the
-        // first occurrence in this order.
+        // Bookkeeping over every event: canonical order, duplicates are
+        // no-ops, voided events stay seen (idempotency, transparency).
+        let ordered = events.sorted { lhs, rhs in
+            if lhs.at != rhs.at { return lhs.at < rhs.at }
+            return lhs.id < rhs.id
+        }
+        for event in ordered {
+            guard !state.seenEventIDs.contains(event.id) else { continue }
+            state.seenEventIDs.insert(event.id)
+            state.eventCount += 1
+            state.firstEventAt = state.firstEventAt ?? event.at
+            state.lastEventAt = event.at
+        }
+
+        let (stream, diagnostics) = effectiveStream(events)
+        state.diagnostics.append(contentsOf: diagnostics)
+        for event in stream {
+            applyBehavioral(event, to: &state)
+            applyExplicit(event, to: &state)
+        }
+        return state
+    }
+
+    /// The effective behavioral stream: canonical (timestamp, id) order,
+    /// duplicate ids collapsed to their first occurrence, voided events and
+    /// voided corrections dropped, surviving corrections' resolutions
+    /// applied to their targets. Shared by the state fold and the model
+    /// fold (`TasteModel`) so corrections behave identically in both.
+    /// Returns dangling-correction diagnostics alongside the stream.
+    public static func effectiveStream(_ events: [TasteEvent]) -> (
+        stream: [TasteEvent], diagnostics: [EngineState.Diagnostic]
+    ) {
         let ordered = events.sorted { lhs, rhs in
             if lhs.at != rhs.at { return lhs.at < rhs.at }
             return lhs.id < rhs.id
         }
 
-        // Resolve corrections first: map amended id -> resolutions in fold
-        // order. A correction applies whether it precedes or follows its
-        // target in the caller's input order.
-        var amendments: [EventID: [(at: Instant, id: EventID, resolution: CorrectionResolution)]] =
-            [:]
         var knownIDs = Set<EventID>()
         for event in ordered { knownIDs.insert(event.id) }
+
+        // Map amended id -> resolutions in fold order. A correction applies
+        // whether it precedes or follows its target in the caller's input
+        // order. A correction that is itself voided contributes nothing.
+        //
+        // Void chains resolve by fixpoint: voiding a void revives whatever
+        // that void removed, so changing your mind never needs a reset.
+        // Cycles (two voids targeting each other) resolve deterministically
+        // in canonical event order.
+        var voidLinks: [(id: EventID, target: EventID)] = []
+        for event in ordered {
+            if case .correction(let amends, let resolution) = event.kind,
+                resolution == .void, knownIDs.contains(amends), amends != event.id
+            {
+                voidLinks.append((event.id, amends))
+            }
+        }
+        var activeVoids = Set(voidLinks.map(\.id))
+        var changed = true
+        while changed {
+            changed = false
+            for link in voidLinks where activeVoids.contains(link.id) {
+                let targetedByActiveVoid = voidLinks.contains {
+                    $0.target == link.id && activeVoids.contains($0.id)
+                }
+                if targetedByActiveVoid {
+                    activeVoids.remove(link.id)
+                    changed = true
+                }
+            }
+        }
+        var voidedCorrections = Set<EventID>()
+        for link in voidLinks where activeVoids.contains(link.id) {
+            voidedCorrections.insert(link.target)
+        }
+        var amendments: [EventID: [(at: Instant, id: EventID, resolution: CorrectionResolution)]] =
+            [:]
+        var diagnostics: [EngineState.Diagnostic] = []
         for event in ordered {
             guard case .correction(let amends, let resolution) = event.kind else { continue }
             guard knownIDs.contains(amends), amends != event.id else {
-                state.diagnostics.append(
+                diagnostics.append(
                     .init(eventID: event.id, reason: "correction target missing"))
                 continue
             }
+            guard !voidedCorrections.contains(event.id) else { continue }
             amendments[amends, default: []].append((event.at, event.id, resolution))
         }
 
+        var seen = Set<EventID>()
+        var stream: [TasteEvent] = []
         for event in ordered {
-            // Idempotency: a duplicate id is a no-op.
-            guard !state.seenEventIDs.contains(event.id) else { continue }
-            state.seenEventIDs.insert(event.id)
-
+            guard !seen.contains(event.id) else { continue }
+            seen.insert(event.id)
+            guard !voidedCorrections.contains(event.id) else { continue }
             let resolutions = (amendments[event.id] ?? []).sorted(by: {
                 if $0.at != $1.at { return $0.at < $1.at }
                 return $0.id < $1.id
             })
-
-            state.eventCount += 1
-            state.firstEventAt = state.firstEventAt ?? event.at
-            state.lastEventAt = event.at
-
             if resolutions.contains(where: { $0.resolution == .void }) {
-                // Voided: the id stays seen (idempotency, transparency) but
-                // the event contributes nothing further.
+                // Voided: contributes nothing further.
                 continue
             }
-
             var effectiveEvent = event
             for (_, _, resolution) in resolutions {
                 effectiveEvent = Self.applying(resolution, to: effectiveEvent)
             }
-
-            applyBehavioral(effectiveEvent, to: &state)
-            applyExplicit(effectiveEvent, to: &state)
+            stream.append(effectiveEvent)
         }
-        return state
+        return (stream, diagnostics)
     }
 
     private static func applying(_ resolution: CorrectionResolution, to event: TasteEvent)

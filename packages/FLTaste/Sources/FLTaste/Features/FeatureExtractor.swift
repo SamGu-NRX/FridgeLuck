@@ -43,6 +43,13 @@ public struct SparseVector: Hashable, Sendable {
         }
         return sum
     }
+
+    /// A unit vector on one feature — stated preferences and tests address
+    /// a single feature this way. Unknown keys produce the zero vector.
+    static func single(space: FeatureSpace, key: FeatureKey, value: Double) -> SparseVector {
+        guard let index = space.index(of: key) else { return SparseVector(components: []) }
+        return SparseVector(components: [SparseComponent(index: index, value: value)])
+    }
 }
 
 /// Extracts `taste-features-v1` vectors from catalog recipes.

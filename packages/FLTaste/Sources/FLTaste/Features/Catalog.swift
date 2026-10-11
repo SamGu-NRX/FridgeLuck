@@ -148,13 +148,41 @@ public enum CatalogTag: Int, CaseIterable, Sendable {
 public struct RecipeCatalog: Sendable {
     public let ingredients: [IngredientID: CatalogIngredient]
     public let recipes: [RecipeID: CatalogRecipe]
+    /// Allergen/diet group name → member ingredients, e.g. "peanuts" →
+    /// [peanut_butter, peanut_oil]. Restriction targets match an ingredient
+    /// id, an ingredient name, or one of these group names.
+    public let allergenGroups: [String: Set<IngredientID>]
 
-    public init(ingredients: [CatalogIngredient], recipes: [CatalogRecipe]) {
+    public init(
+        ingredients: [CatalogIngredient], recipes: [CatalogRecipe],
+        allergenGroups: [String: Set<IngredientID>] = [:]
+    ) {
         var byID: [IngredientID: CatalogIngredient] = [:]
         for ingredient in ingredients { byID[ingredient.id] = ingredient }
         var recipesByID: [RecipeID: CatalogRecipe] = [:]
         for recipe in recipes { recipesByID[recipe.id] = recipe }
         self.ingredients = byID
         self.recipes = recipesByID
+        self.allergenGroups = allergenGroups
+    }
+
+    /// Expands a restriction target to the concrete blocked ingredient ids:
+    /// the target itself (as id), any ingredient whose name matches, and the
+    /// expansion of a matching allergen group. Comparison is case-
+    /// insensitive with spaces normalized to underscores.
+    public func blockedIngredients(target: String) -> Set<IngredientID> {
+        let key = target.lowercased().replacingOccurrences(of: " ", with: "_")
+        var blocked = Set<IngredientID>()
+        for (id, ingredient) in ingredients {
+            let idKey = id.rawValue.lowercased()
+            let nameKey = ingredient.name.lowercased().replacingOccurrences(of: " ", with: "_")
+            if idKey == key || nameKey == key {
+                blocked.insert(id)
+            }
+        }
+        if let group = allergenGroups[key.lowercased()] {
+            blocked.formUnion(group)
+        }
+        return blocked
     }
 }

@@ -17,8 +17,10 @@ GRDB, no UIKit/SwiftUI.
 | `Sources/FLTaste/Core/` | IDs, UTC instants, seeded RNG, canonical JSON |
 | `Sources/FLTaste/Events/` | Typed event model, fold, canonical codec |
 | `Sources/FLTaste/Features/` | Catalog input types, `taste-features-v1` space + extractor |
+| `Sources/FLTaste/Model/` | Bayesian taste model, ranker, explanations |
+| `Sources/FLTaste/Profile/` | Taste-profile sentences, evidence, edit ops |
 | `Sources/FLTaste/Serialization/` | Config, versioned snapshots, forward-only migrations |
-| `Sources/FLTaste/TasteEngine.swift` | Public engine surface (ingest / snapshot / restore) |
+| `Sources/FLTaste/TasteEngine.swift` | Public engine surface (ingest / rank / profile / snapshot / restore) |
 | `Tests/FLTasteTests/` | Behaviour tests + golden fixtures |
 | `FEATURES.md` | Written feature spec (every feature, rule, version string) |
 | `DESIGN.md` | Model choice, weighting math, expiry, exploration policy, API contract |
@@ -48,6 +50,21 @@ FLTASTE_REGENERATE_GOLDEN=1 swift test --filter SerializationTests.testGoldenFix
 Restore fails closed on unknown format/config versions or a feature-space
 mismatch; forward-only migrations are registered in `SnapshotMigrations`.
 
+## Usage sketch
+
+```swift
+var engine = TasteEngine(catalog: catalog)
+engine.ingest(event)                                    // idempotent by event ID
+var rng = SeededRNG(seed: 42)
+let ranked = engine.rank(
+    RankInput(candidates: ids, pantryFit: fits,
+              context: RankContext(explore: false)),    // greedy for evaluation
+    rng: &rng)                                          // hard-filtered before the model
+let profile = engine.profile()                          // sentences + typed edits
+let bytes = try engine.snapshotJSON()                   // canonical, versioned
+let restored = try TasteEngine(snapshotJSON: bytes, catalog: catalog)
+```
+
 ## Verification gates (maintained per milestone)
 
 - `swift build && swift test` green on Linux before every push
@@ -57,6 +74,6 @@ mismatch; forward-only migrations are registered in `SnapshotMigrations`.
 - explanation faithfulness: ablating a cited feature moves the score
 - tests assert observable behaviour, not internals
 
-Status: M1 in progress (events, features, serialization, engine surface).
-M2 adds the model + rank + explanations + hard filters; M3 the profile
-sentences, edits, expiry, and complete docs.
+Status: M1 and M2 complete (events, features, serialization, model, rank,
+explanations, hard filters). M3 complete: profile sentences, edits, expiry,
+DESIGN.md, README.md — full suite green.
