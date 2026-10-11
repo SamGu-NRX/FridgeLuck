@@ -18,6 +18,11 @@ import { SessionService } from "./shared/sessionCore.js";
 import { requireAccount } from "./shared/auth.js";
 import { isCommunityError } from "./shared/errors.js";
 import { mustCommunity, route } from "./shared/http.js";
+import type { AccountDeletionService } from "./safety/deletion.js";
+import { blockDirectoryCleanupContributor, createAccountDeletionService } from "./safety/deletion.js";
+import { createExploreDeletionContributor } from "./explore/deletionContribution.js";
+import { createTablesDeletionContributor } from "./tables/deletionContribution.js";
+import { createChallengesDeletionContributor } from "./challenges/deletionContribution.js";
 
 export interface CommunityDeps {
   readonly store: CommunityStore;
@@ -35,6 +40,10 @@ export interface CommunityDeps {
 export interface CommunityPartRouters {
   identity?: (deps: CommunityDeps, runtime: CommunityRuntime) => ExpressRouter;
   explore?: (deps: CommunityDeps, runtime: CommunityRuntime) => ExpressRouter;
+  tables?: (deps: CommunityDeps, runtime: CommunityRuntime) => ExpressRouter;
+  challenges?: (deps: CommunityDeps, runtime: CommunityRuntime) => ExpressRouter;
+  /** The safety factory receives the composed account-deletion service. */
+  safety?: (deps: CommunityDeps, runtime: CommunityRuntime, deletion: AccountDeletionService) => ExpressRouter;
 }
 
 export interface CommunityRuntime {
@@ -80,6 +89,29 @@ export function createCommunityRouter(deps: CommunityDeps, parts: CommunityPartR
   }
   if (parts.explore !== undefined) {
     router.use(parts.explore(deps, runtime));
+  }
+  if (parts.tables !== undefined) {
+    router.use(parts.tables(deps, runtime));
+  }
+  if (parts.challenges !== undefined) {
+    router.use(parts.challenges(deps, runtime));
+  }
+  if (parts.safety !== undefined) {
+    // Suite E's composition proof: the deletion run is assembled HERE from
+    // every part that owns records, each contributing through the seam —
+    // no part reaches into another part's collections.
+    const deletion = createAccountDeletionService({
+      store: deps.store,
+      clock: deps.clock,
+      sessions: runtime.sessions,
+      contributors: [
+        createExploreDeletionContributor(deps.store),
+        createTablesDeletionContributor(deps.store, deps.clock),
+        createChallengesDeletionContributor(deps.store, deps.clock),
+        blockDirectoryCleanupContributor(deps.store),
+      ],
+    });
+    router.use(parts.safety(deps, runtime, deletion));
   }
 
   // The error boundary: middleware-thrown CommunityErrors (requireAccount)

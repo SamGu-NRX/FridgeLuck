@@ -19,8 +19,12 @@ export class CommunityStore {
   readonly accounts: CollectionReference;
   readonly sessions: CollectionReference;
   readonly tables: CollectionReference;
+  readonly tableMemberships: CollectionReference;
+  readonly tableInvites: CollectionReference;
+  readonly sharedCooks: CollectionReference;
   readonly publications: CollectionReference;
   readonly challenges: CollectionReference;
+  readonly challengeEntries: CollectionReference;
   readonly battleVotes: CollectionReference;
   readonly blocks: CollectionReference;
   readonly reports: CollectionReference;
@@ -44,8 +48,12 @@ export class CommunityStore {
     this.accounts = this.firestore.collection("communityAccounts");
     this.sessions = this.firestore.collection("communitySessions");
     this.tables = this.firestore.collection("communityTables");
+    this.tableMemberships = this.firestore.collection("communityTableMemberships");
+    this.tableInvites = this.firestore.collection("communityTableInvites");
+    this.sharedCooks = this.firestore.collection("communitySharedCooks");
     this.publications = this.firestore.collection("communityPublications");
     this.challenges = this.firestore.collection("communityChallenges");
+    this.challengeEntries = this.firestore.collection("communityChallengeEntries");
     this.battleVotes = this.firestore.collection("communityBattleVotes");
     this.blocks = this.firestore.collection("communityBlocks");
     this.reports = this.firestore.collection("communityReports");

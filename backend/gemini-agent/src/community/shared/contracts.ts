@@ -24,6 +24,25 @@ export interface BlockDirectory {
   filterVisible(viewer: AccountId, candidates: readonly AccountId[]): Promise<AccountId[]>;
 }
 
+/**
+ * One part's contribution to a server-side account deletion (SPEC 3.4):
+ * content tombstoned, not erased, where records survive; directories and
+ * feeds lose the account immediately. The safety part coordinates; each part
+ * owns the transition over its own collections — no part edits another
+ * part's records.
+ */
+export interface AccountDeletionContribution {
+  readonly part: string;
+  readonly recordsTouched: number;
+  readonly detail: string | null;
+}
+
+export interface AccountDeletionContributor {
+  readonly part: string;
+  /** Tombstone or remove the account's records in this part's collections. */
+  run(accountId: AccountId, atIso: string): Promise<AccountDeletionContribution>;
+}
+
 /** Why an item entered the moderation queue. */
 export type ModerationSubmitReason = "automated-screening" | "user-report" | "author-appeal";
 

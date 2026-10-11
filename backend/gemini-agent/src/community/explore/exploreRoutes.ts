@@ -19,7 +19,7 @@ import { Router, type Router as ExpressRouter } from "express";
 import type { CommunityDeps } from "../index.js";
 import type { CommunityRuntime } from "../index.js";
 import type { ModerationQueueStatus } from "../shared/contracts.js";
-import { errForbidden, errNotFound, errValidation } from "../shared/errors.js";
+import { errConflict, errForbidden, errNotFound, errValidation } from "../shared/errors.js";
 import { expectInt, expectOneOf, expectOptionalString, expectString, expectArray, expectBoolean } from "../shared/parse.js";
 import { mustCommunity, route } from "../shared/http.js";
 import { parsePublicationId, type AccountId } from "../shared/ids.js";
@@ -36,6 +36,7 @@ import {
   type PublicationRecord,
 } from "./publications.js";
 import { campusCookedThisWeek, cookedByCountAboveFloor, parseTokenList, rankPublications, type RankView } from "./ranking.js";
+import { recordCookOccurrence } from "./cooks.js";
 
 const FEED_DEFAULT_LIMIT = 25;
 const FEED_MAX_LIMIT = 100;
@@ -313,6 +314,36 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
       }
       if (outcome.outcome === "forbidden") {
         throw errForbidden("only the author can withdraw a publication");
+      }
+      res.status(204).send();
+    }),
+  );
+
+  // The cook-occurrence write path (SPEC §6 "cooked by N people"): the act of
+  // calling it IS the cook's separate opt-in to aggregate statistics, and the
+  // cook id comes from the verified session — a client-supplied cook id would
+  // let one account fabricate another's contribution. Blocks are checked
+  // before the write (README rule 3); the count floors stay read-time-only.
+  router.post(
+    "/v1/community/publications/:publicationId/cooks",
+    runtime.requireAccount,
+    route(async (req, res) => {
+      const ctx = mustCommunity(req);
+      const publicationId = parsePublicationId.parse(req.params["publicationId"], "publication path id");
+      expectRecord(req.body ?? {}, "body");
+      const record = await getPublication(pubDeps, publicationId);
+      if (record === null) {
+        throw errNotFound("publication not found");
+      }
+      if (record.authorId !== ctx.accountId) {
+        await deps.blocks.assertCanInteract(ctx.accountId, record.authorId);
+      }
+      const outcome = await recordCookOccurrence(pubDeps, publicationId, ctx.accountId);
+      if (outcome.outcome === "missing") {
+        throw errNotFound("publication not found");
+      }
+      if (outcome.outcome === "not-live") {
+        throw errConflict("publication is not live");
       }
       res.status(204).send();
     }),
