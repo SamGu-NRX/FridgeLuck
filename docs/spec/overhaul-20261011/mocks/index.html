@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck overhaul mocks</title>
+<style>
+:root{--paper:#F7F8F6;--ink:#131313;--ink2:#5E5E59;--rule:#E4E5E0;--yolk:#F5C400;
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-smoothing:antialiased;padding:40px 32px 80px;font-size:15px;line-height:22px}
+header{max-width:1100px;margin:0 auto 28px}
+h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+header p{color:var(--ink2);margin-top:6px;max-width:640px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.strip{display:flex;gap:28px;overflow-x:auto;padding:8px 0 24px;scroll-snap-type:x proximity}
+.mock{flex:none;scroll-snap-align:start;width:236px}
+.frame{width:236px;height:511px;overflow:hidden;border-radius:32px;box-shadow:0 0 0 1px rgba(0,0,0,.14),0 20px 40px -16px rgba(0,0,0,.3);background:var(--paper);position:relative}
+.frame iframe{width:393px;height:852px;border:0;transform:scale(.6);transform-origin:0 0;display:block;pointer-events:none}
+.mock a.open{position:absolute;inset:0;border-radius:32px}
+.mock h2{font-size:15px;line-height:20px;font-weight:600;margin-top:14px;display:flex;justify-content:space-between;align-items:baseline}
+.mock h2 span{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--ink2)}
+.mock p{color:var(--ink2);font-size:13px;line-height:18px;margin-top:2px}
+.mock a.link{color:var(--ink);font-size:13px;display:inline-block;margin-top:6px}
+.legend{max-width:1100px;margin:16px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 28px;padding-top:20px;border-top:1px solid rgba(0,0,0,.12);font-size:13px;line-height:18px;color:var(--ink2)}
+.legend b{color:var(--ink);font-weight:600}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--yolk);vertical-align:-1px;margin-right:4px}
+</style>
+</head>
+<body>
+<header>
+  <h1>FridgeLuck overhaul mocks</h1>
+  <p>Seven screens at iPhone size (393×852). Paper for deciding, hob for cooking, one colour for attention. Click a frame to open it with its state notes. Direction lives in <span class="mono">../inputs/design-direction.md</span>; product reasoning in <span class="mono">../inputs/product-direction.md</span>.</p>
+</header>
+
+<div class="strip">
+  <div class="mock"><div class="frame"><iframe src="home.html" title="Tonight" loading="lazy"></iframe><a class="open" href="home.html" aria-label="Open Tonight"></a></div><h2>Tonight <span>home.html</span></h2><p>One pick, its fit, its reason. Two alternatives, use soon, one line from your table.</p><a class="link" href="home.html">Open</a></div>
+  <div class="mock"><div class="frame"><iframe src="scan-review.html" title="Scan review" loading="lazy"></iframe><a class="open" href="scan-review.html" aria-label="Open Scan review"></a></div><h2>Scan review <span>scan-review.html</span></h2><p>Three questions first, eleven sure rows after, one button.</p><a class="link" href="scan-review.html">Open</a></div>
+  <div class="mock"><div class="frame"><iframe src="recipe.html" title="Recipe" loading="lazy"></iframe><a class="open" href="recipe.html" aria-label="Open Recipe"></a></div><h2>Recipe <span>recipe.html</span></h2><p>Fit block, quantity rows with inline swap, why-it-fits with evidence, cook notes.</p><a class="link" href="recipe.html">Open</a></div>
+  <div class="mock"><div class="frame"><iframe src="cook-lechef.html" title="Cook with LeChef" loading="lazy"></iframe><a class="open" href="cook-lechef.html" aria-label="Open Cook with LeChef"></a></div><h2>Cook with LeChef <span>cook-lechef.html</span></h2><p>The hob. Step, timer tiles, one line from LeChef, voice state, 64 pt Next.</p><a class="link" href="cook-lechef.html">Open</a></div>
+  <div class="mock"><div class="frame"><iframe src="taste-profile.html" title="Your taste" loading="lazy"></iframe><a class="open" href="taste-profile.html" aria-label="Open Your taste"></a></div><h2>Your taste <span>taste-profile.html</span></h2><p>Sentences with evidence counts and Right / Wrong. Never suggest. What LeChef remembers.</p><a class="link" href="taste-profile.html">Open</a></div>
+  <div class="mock"><div class="frame"><iframe src="community.html" title="Table" loading="lazy"></iframe><a class="open" href="community.html" aria-label="Open Table"></a></div><h2>Table <span>community.html</span></h2><p>Cook cards from 2 to 8 people, each with your own fit and one button. Aggregate notes under.</p><a class="link" href="community.html">Open</a></div>
+  <div class="mock"><div class="frame"><iframe src="pantry.html" title="Kitchen" loading="lazy"></iframe><a class="open" href="pantry.html" aria-label="Open Kitchen"></a></div><h2>Kitchen <span>pantry.html</span></h2><p>Use soon, needs a look, then fridge, freezer, pantry in dense rows.</p><a class="link" href="pantry.html">Open</a></div>
+</div>
+
+<div class="legend">
+  <div><b>Paper</b> #F7F8F6 and ink #131313 for every deciding screen. Hairlines, no shadows inside content.</div>
+  <div><b>Hob</b> #0C0C0C for cook mode only. Matte, no glass.</div>
+  <div><b><i></i>Yolk</b> #F5C400 means attention now: the pick marker, a running timer, a use-soon tag, a selected chip. Nothing else.</div>
+  <div><b>Numbers</b> are SF Mono, tabular, and the largest text on any screen where a number is what you read from arm's length.</div>
+  <div><b>Fit</b> is squares and "9 of 10 · 1 swap", never a percentage.</div>
+  <div><b>Motion</b> is five tokens: snap 220 ms, move 340 ms, settle 500 ms, fade 150 ms, none. Press scale 0.97 at 120 ms on everything pressable.</div>
+</div>
+</body>
+</html>

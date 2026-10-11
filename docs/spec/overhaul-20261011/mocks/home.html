@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck mock: Tonight</title>
+<style>
+:root{--paper:#F7F8F6;--ink:#131313;--ink2:#5E5E59;--ink3:#8A8A84;--rule:#E4E5E0;--rule2:#CFD0CA;--yolk:#F5C400;--yolk-soft:#FFF3B8;--yolk-ink:#6A5300;--err:#C8321E;
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-smoothing:antialiased;display:flex;justify-content:center;align-items:flex-start;gap:36px;padding:40px 24px 80px;min-height:100vh;font-size:17px;line-height:24px}
+.phone{position:relative;width:393px;height:852px;flex:none;background:var(--paper);border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.14),0 30px 60px -20px rgba(0,0,0,.3)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;z-index:11}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%;overflow:auto;scrollbar-width:none;padding:0 24px 150px}
+.scroll::-webkit-scrollbar{display:none}
+.tabbar{position:absolute;left:16px;right:16px;bottom:22px;display:flex;gap:10px;z-index:10}
+.tabs{flex:1;height:62px;border-radius:31px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;background:rgba(250,250,247,.76);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);box-shadow:inset 0 0 0 .5px rgba(0,0,0,.09),0 10px 28px -10px rgba(0,0,0,.22)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;line-height:12px;font-weight:500;color:var(--ink3);width:62px}
+.tab.on{color:var(--ink)}
+.tab svg{width:24px;height:24px}
+.scanbtn{width:62px;height:62px;border-radius:31px;display:grid;place-items:center;background:var(--ink);color:#fff;box-shadow:0 10px 28px -10px rgba(0,0,0,.45);transition:transform 120ms var(--out)}
+.scanbtn:active{transform:scale(.95)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.cap{font-size:13px;line-height:16px}
+.sec{font-size:15px;line-height:20px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;font:inherit;font-weight:600;font-size:17px;border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--ink);color:#fff}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.in{animation:rise 200ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fit{display:inline-flex;gap:3px;align-items:center}
+.fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.photo{position:relative;background:#E9EAE4;border-radius:14px;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08);overflow:hidden}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(0,0,0,.035) 10px 11px)}
+.photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.note{width:320px;flex:none;font-size:13px;line-height:19px;color:#2A2A28;padding-top:8px}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:12px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:18px 0 8px;color:#5E5E59}
+.note dl{display:grid;grid-template-columns:76px 1fr;gap:8px 12px}
+.note dt{font-family:var(--mono);font-size:11px;line-height:19px;color:#5E5E59}
+.note a{color:inherit}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}}}
+@media (max-width:800px){body{flex-direction:column;align-items:center}}
+
+/* screen */
+.head{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0 22px}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.eyebrow{display:flex;align-items:center;gap:8px}
+.eyebrow i{width:10px;height:10px;background:var(--yolk);border-radius:2px}
+.title{font-size:32px;line-height:34px;font-weight:700;letter-spacing:-.02em;margin:10px 0 6px}
+.fitrow{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.row{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:10px 0;border-top:1px solid var(--rule);gap:12px;transition:transform 120ms var(--out)}
+.row:active{transform:scale(.985)}
+.row:first-of-type{border-top:0}
+.row .n{flex:1}
+.tag{font-family:var(--mono);font-size:13px;line-height:16px;padding:3px 7px;border-radius:6px;background:var(--yolk-soft);color:var(--yolk-ink);white-space:nowrap}
+.sect{margin-top:36px}
+.sect h3{font-size:13px;line-height:16px;font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between}
+.sect h3 a{font-weight:400;color:var(--ink2);text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".8" fill="#131313"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8" fill="#131313"/><rect x="10" y="3" width="3" height="9" rx=".8" fill="#131313"/><rect x="15" y="0" width="3" height="12" rx=".8" fill="#131313"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z" fill="#131313"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3" fill="none" stroke="#131313" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="#131313"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="#131313" fill-opacity=".4"/></svg>
+  </span></div>
+
+  <div class="screen"><div class="scroll">
+    <header class="head"><h1>Tonight</h1><span class="cap c2 mono">Sat 11 Oct</span></header>
+
+    <section>
+      <div class="eyebrow in" style="--i:0"><i></i><span class="label">From your fridge</span></div>
+      <h2 class="title in" style="--i:1">Ginger chicken udon noodles</h2>
+      <p class="mono sec c2 in" style="--i:2">25 min · 2 servings · 520 kcal</p>
+      <div class="photo in" style="--i:3;aspect-ratio:4/5;margin-top:16px"><span>photo: overhead, daylight, 4:5</span></div>
+      <div class="fitrow in" style="--i:4">
+        <span class="fit" aria-label="9 of 10 ingredients on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i></span>
+        <span class="mono" style="font-weight:500">9 of 10 · 1 swap</span>
+      </div>
+      <p class="sec in" style="--i:5;margin-top:8px">Everything except lime. Swap in a lemon, you have two.</p>
+      <p class="sec c2 in" style="--i:5;margin-top:8px">Why: you've cooked noodles four times this month and rated two of them 5. Under 30 min, like 11 of your last 14 cooks.</p>
+      <div style="margin-top:28px;display:grid;gap:4px">
+        <button class="btn primary">Cook this</button>
+        <button class="btn">Something else</button>
+      </div>
+    </section>
+
+    <section class="sect">
+      <h3>Use soon <a href="#">Kitchen</a></h3>
+      <div class="row"><span class="n">Spinach</span><span class="tag">2 days</span></div>
+      <div class="row"><span class="n">Greek yogurt <span class="mono c2">500 g</span></span><span class="tag">tomorrow</span></div>
+      <div class="row"><span class="n">Lime <span class="mono c2">½</span></span><span class="tag">today</span></div>
+    </section>
+
+    <section class="sect">
+      <h3>Also possible</h3>
+      <div class="row"><span class="n">Creamy pesto &amp; kale pasta<br><span class="cap c2">Uses the spinach</span></span><span class="mono sec c2">15 min</span><span class="mono sec">10 of 10</span></div>
+      <div class="row"><span class="n">Butter bean curry<br><span class="cap c2">You cook this about every 10 days</span></span><span class="mono sec c2">35 min</span><span class="mono sec">10 of 10</span></div>
+      <div class="row"><span class="n">Chicken, leek &amp; brown rice stir-fry</span><span class="mono sec c2">40 min</span><span class="mono sec">8 of 10</span></div>
+    </section>
+
+    <section class="sect">
+      <h3>Your table <a href="#">Flat 4B</a></h3>
+      <div class="row"><span class="n">Maya cooked Butter bean curry last night. <span class="c2">"Add lemon at the end."</span></span><span class="mono sec">10 of 10</span></div>
+    </section>
+  </div></div>
+
+  <nav class="tabbar">
+    <div class="tabs">
+      <a class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5h18M6 9.5V19M18 9.5V19"/><circle cx="12" cy="5" r="2.5"/></svg>Table</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4.5h10.5a2.5 2.5 0 0 1 2.5 2.5v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>Cookbook</a>
+    </div>
+    <a class="scanbtn" aria-label="Scan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3"/></svg></a>
+  </nav>
+  <div class="homebar"></div>
+</div>
+
+<aside class="note">
+  <h1>Tonight</h1>
+  <p>Answers "what do I cook now" before the thumb moves. One pick, its fit, its reason, and the button. Two alternatives and the use-soon list come after, so the screen still works when the pick is wrong.</p>
+  <p>The yolk square next to "From your fridge" is the only colour on the screen. It marks the pick; it marks nothing else.</p>
+  <p>Fit is "9 of 10, 1 swap", never a percentage. The swap is named in the next line with the evidence ("you have two").</p>
+  <p>The "Why" line is written as evidence from the taste profile. Tapping it opens the profile sentence it came from.</p>
+
+  <h2>States</h2>
+  <dl>
+    <dt>empty</dt><dd>No scan yet. Hero becomes: "Scan a shelf and I'll pick tonight's dinner." with a sample pick below, labelled "Example". Scan button in the tab bar gets a yolk ring for the first session only.</dd>
+    <dt>loading</dt><dd>Local fit is instant. The "Why" line and table line can arrive late: layout reserves their height, one 2 px indeterminate line under the title, no shimmer.</dd>
+    <dt>error</dt><dd>Recommendation service down: show the last pick with "As of 6:10 pm" in the eyebrow. Use soon, Also possible and fit are computed on device and always render.</dd>
+    <dt>nothing fits</dt><dd>Best fit under 6 of 10: eyebrow reads "Closest with what you have", pick still shows, button reads "Cook with 2 swaps". Below: "Scan after shopping and this will get better."</dd>
+    <dt>mid-cook</dt><dd>A cook in progress replaces the hero with a resume bar: dish, "Step 4 of 8", running timer, "Resume". Everything else unchanged.</dd>
+    <dt>late</dt><dd>After 21:30 the title reads "Tomorrow" and the pick is tomorrow's dinner. Use soon stays.</dd>
+    <dt>question</dt><dd>When the taste profile has a pattern at five observations, one line appears under the Why: "You've taken coriander out 5 times. Stop suggesting it? Yes / No". Asked once, never repeated.</dd>
+  </dl>
+
+  <h2>Motion</h2>
+  <dl>
+    <dt>enter</dt><dd>Six blocks rise 6 px over 200 ms, 40 ms apart. Rows below do not stagger.</dd>
+    <dt>press</dt><dd>Buttons and rows scale to 0.97 in 120 ms.</dd>
+    <dt>swap</dt><dd>"Something else" crossfades the hero in 150 ms under a stable frame; the photo block keeps its size so nothing jumps.</dd>
+    <dt>reduced</dt><dd>Entrance becomes a 150 ms fade, no stagger.</dd>
+  </dl>
+</aside>
+
+</body>
+</html>
