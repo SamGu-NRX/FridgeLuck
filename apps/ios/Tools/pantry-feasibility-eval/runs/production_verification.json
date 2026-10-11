@@ -9,12 +9,41 @@
   "toolchain": "Swift version 6.1.2 (swift-6.1.2-RELEASE)",
   "problems": []
  },
+ "run_record": {
+  "path": "runs/production_run_record.json",
+  "status": "ok",
+  "executable_sha256": "fdb7cca7f0e480a6d831b005b7d6fb7d860a20ad832310ced1ea682d88867f27",
+  "replay_output_sha256": "d5361f6d6467a53103340c2abab81aa5612b4505dde02ca517e659eec14699db",
+  "problems": []
+ },
  "live_vs_oracle": {
   "note": "direct comparison of live RecipeRepository output against the independent quantity-aware oracle \u2014 no transcription involved",
   "states_with_oracle_feasible_fully_covered": 5200,
   "oracle_false_block_states": 0,
   "exclusion_or_tag_leaks": 0,
   "live_makeable_but_oracle_infeasible_pairs": 11846,
+  "live_makeable_pairs": 25524,
+  "live_false_complete_rate_overall": 0.464112,
+  "live_overpromise_by_family": {
+   "agreement_probe": 843,
+   "all_unknown_quantities": 220,
+   "boundary_quantities": 4961,
+   "diet_allergen_matrix": 155,
+   "near_match_surfaces": 1190,
+   "planted_false_complete": 3174,
+   "realistic_mix": 1303
+  },
+  "live_makeable_by_family": {
+   "agreement_probe": 2874,
+   "all_unknown_quantities": 4527,
+   "boundary_quantities": 6874,
+   "diet_allergen_matrix": 276,
+   "empty_pantry": 0,
+   "near_match_surfaces": 3294,
+   "planted_false_complete": 4945,
+   "realistic_mix": 2734
+  },
+  "live_planted_false_complete_rate": 0.64186,
   "overpromise_reason_counts": {
    "insufficient_known_quantity": 11846
   }

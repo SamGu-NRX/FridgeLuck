@@ -34,6 +34,7 @@ reported by run_eval.py from the (transcribed) per-pair rows.
 import hashlib
 import json
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 from oracle import Catalog, DIET_EXCLUDED_IDS, DIET_TAG_MASK, FeasibilityOracle
@@ -41,6 +42,7 @@ from verify_replay import CORE_MEMBERSHIPS
 
 MAX_MISSING_REQUIRED = 3
 PIN_PATH = Path(__file__).resolve().parent / "production" / "RealManifest.json"
+RUN_RECORD_PATH = Path(__file__).resolve().parent / "runs" / "production_run_record.json"
 IOS_ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -73,6 +75,39 @@ def check_source_pin() -> tuple[dict | None, list[str]]:
                 f"pinned source drift: {rel} sha256 {digest[:12]}... -> "
                 f"{actual[:12]}...")
     return pin, problems
+
+
+def check_run_record(replay_path: Path) -> tuple[dict | None, list[str]]:
+    """Check the pinned run record against the replay rows being verified.
+
+    The run record (written by production/Scripts/pin_run.sh right after a
+    replay) pins the sha256 of the built executable and of the replay output
+    itself. A mismatch means the committed rows were not produced by the
+    recorded build.
+    """
+    if not RUN_RECORD_PATH.exists():
+        return None, [
+            "missing runs/production_run_record.json — run "
+            "production/Scripts/pin_run.sh after building and replaying"
+        ]
+    try:
+        record = json.loads(RUN_RECORD_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as error:
+        return None, [f"unreadable production_run_record.json: {error}"]
+
+    problems: list[str] = []
+    recorded = record.get("replay_output_sha256")
+    if not isinstance(recorded, str) or not recorded:
+        problems.append("run record missing replay_output_sha256")
+    else:
+        actual = hashlib.sha256(replay_path.read_bytes()).hexdigest()
+        if actual != recorded:
+            problems.append(
+                f"run-record drift: replay output sha256 {recorded[:12]}... "
+                f"-> {actual[:12]}...")
+    if not record.get("executable_sha256"):
+        problems.append("run record missing executable_sha256")
+    return record, problems
 
 
 def production_sets(state: dict, catalog: Catalog) -> tuple[set, set]:
@@ -187,6 +222,8 @@ def main() -> int:
         mismatches.append(f"row count {rows} != {len(states)} states")
 
     pin, pin_problems = check_source_pin()
+    run_record, run_record_problems = check_run_record(
+        corpus / "production_replay.jsonl")
 
     verification = {
         "production_live_states": rows,
@@ -200,6 +237,14 @@ def main() -> int:
             "toolchain": pin.get("toolchain") if pin else None,
             "problems": pin_problems[:20],
         },
+        "run_record": {
+            "path": "runs/production_run_record.json",
+            "status": ("ok" if run_record is not None
+                       and not run_record_problems else "failed"),
+            "executable_sha256": (run_record or {}).get("executable_sha256"),
+            "replay_output_sha256": (run_record or {}).get("replay_output_sha256"),
+            "problems": run_record_problems[:20],
+        },
         "live_vs_oracle": {
             "note": (
                 "direct comparison of live RecipeRepository output against the "
@@ -208,14 +253,26 @@ def main() -> int:
             "oracle_false_block_states": len(oracle_false_blocks),
             "exclusion_or_tag_leaks": len(exclusion_tag_leaks),
             "live_makeable_but_oracle_infeasible_pairs": overpromise_pairs,
+            "live_makeable_pairs": live_makeable_pairs,
+            "live_false_complete_rate_overall":
+                round(overpromise_pairs / live_makeable_pairs, 6)
+                if live_makeable_pairs else 0.0,
+            "live_overpromise_by_family":
+                dict(sorted(overpromise_by_family.items())),
+            "live_makeable_by_family":
+                dict(sorted(live_makeable_by_family.items())),
+            "live_planted_false_complete_rate":
+                round(overpromise_by_family.get("planted_false_complete", 0)
+                      / max(live_makeable_by_family.get(
+                          "planted_false_complete", 1), 1), 6),
             "overpromise_reason_counts": overpromise_reason_counts,
         },
         "note": (
             "live RecipeRepository.findMakeable/findNearMatch on real migrated "
             "in-memory databases vs the transcribed production arm, and "
             "directly vs the independent quantity oracle"),
-        "mismatches": (mismatches + pin_problems + oracle_false_blocks
-                       + exclusion_tag_leaks)[:20],
+        "mismatches": (mismatches + pin_problems + run_record_problems
+                       + oracle_false_blocks + exclusion_tag_leaks)[:20],
     }
     out = corpus / "production_verification.json"
     out.write_text(json.dumps(verification, indent=1) + "\n", encoding="utf-8")

@@ -104,12 +104,20 @@ def main() -> int:
                         1), 6),
     }
     if live:
+        live_vs_oracle = live.get("live_vs_oracle")
         report["production_live"] = {
             "states": live.get("production_live_states"),
             "makeable_set_agreement": live.get("makeable_set_agreement"),
             "near_match_set_agreement": live.get("near_match_set_agreement"),
             "agreement_rate": live.get("agreement_rate"),
+            "source_pin_status": live.get("source_pin", {}).get("status"),
+            "run_record": live.get("run_record"),
         }
+        if live_vs_oracle:
+            # Metrics derived directly from the live RecipeRepository result
+            # rows compared to the independent oracle — not from the
+            # transcribed per-pair rows above.
+            report["production_live_vs_oracle"] = live_vs_oracle
 
     out_path = args.tool_dir / "runs" / "report.json"
     out_path.write_text(json.dumps(report, indent=1, sort_keys=True) + "\n",
