@@ -302,4 +302,107 @@ final class HomeFlowStateMapTests: XCTestCase {
     let inputs = makeInputs()
     XCTAssertFalse(inputs.hasCompletedOnboarding == false && inputs.totalMealsCooked < 0)
   }
+
+  // MARK: - Fork projection (the shipped view's gate seam)
+
+  /// A snapshot with only the fields the fork projection reads; the rest are
+  /// presentation-neutral zeros.
+  private func makeSnapshot(
+    hasOnboarded: Bool,
+    ingredientCount: Int,
+    totalMealsCooked: Int
+  ) -> HomeDashboardSnapshot {
+    HomeDashboardSnapshot(
+      ingredientCount: ingredientCount,
+      recipeCount: 12,
+      hasOnboarded: hasOnboarded,
+      currentStreak: 0,
+      mealsLast7Days: 0,
+      mealsLast14Days: [],
+      weekdayDistribution: [],
+      healthProfile: nil,
+      totalMealsCooked: totalMealsCooked,
+      latestJournalEntry: nil,
+      useSoonSuggestions: [],
+      todayCalories: 0,
+      todayProtein: 0,
+      todayCarbs: 0,
+      todayFat: 0,
+      calorieGoal: 2000,
+      proteinGoal: 100,
+      carbsGoal: 200,
+      fatGoal: 60,
+      primaryRecommendation: nil,
+      fallbackOptions: []
+    )
+  }
+
+  func testProjectionAgreesWithCanonicalMapForEmptyNew() {
+    let snapshot = makeSnapshot(hasOnboarded: true, ingredientCount: 0, totalMealsCooked: 0)
+    let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
+    let canonical = HomeFlowStateMap.state(
+      inputs: makeInputs(hasOnboarded: true, items: [], totalMealsCooked: 0),
+      cookContext: nil
+    )
+    XCTAssertEqual(projected, .emptyNew)
+    XCTAssertEqual(projected, canonical)
+  }
+
+  func testProjectionAgreesWithCanonicalMapForPartlyStocked() {
+    let snapshot = makeSnapshot(hasOnboarded: true, ingredientCount: 2, totalMealsCooked: 0)
+    let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
+    let canonical = HomeFlowStateMap.state(
+      inputs: makeInputs(
+        hasOnboarded: true,
+        items: [makeItem(), makeItem()],
+        totalMealsCooked: 0
+      ),
+      cookContext: nil
+    )
+    XCTAssertEqual(projected, .partlyStocked)
+    XCTAssertEqual(projected, canonical)
+  }
+
+  func testProjectionAgreesWithCanonicalMapForReturning() {
+    let snapshot = makeSnapshot(hasOnboarded: true, ingredientCount: 0, totalMealsCooked: 3)
+    let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
+    let canonical = HomeFlowStateMap.state(
+      inputs: makeInputs(items: [], totalMealsCooked: 3),
+      cookContext: nil
+    )
+    XCTAssertEqual(projected, .returning)
+    XCTAssertEqual(projected, canonical)
+  }
+
+  func testProjectionHidesStockBeforeOnboarding() {
+    // A not-yet-onboarded device with rows present still resolves empty-new:
+    // onboarding is the entry door, matching the read model's hiding rule.
+    let snapshot = makeSnapshot(hasOnboarded: false, ingredientCount: 5, totalMealsCooked: 0)
+    let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
+    XCTAssertEqual(projected, .emptyNew)
+  }
+
+  func testProjectionCookingWinsOverReturningAndStock() {
+    let snapshot = makeSnapshot(hasOnboarded: true, ingredientCount: 4, totalMealsCooked: 3)
+    let projected = HomeFlowStateMap.state(
+      from: snapshot,
+      cookContext: HomeCookContext(recipeName: "Chili")
+    )
+    XCTAssertEqual(projected, .cooking(HomeCookContext(recipeName: "Chili")))
+  }
+
+  func testProjectionNeverReportsErrorForNonNilSnapshot() {
+    // Totality of the projection: every reachable shape resolves to a data state;
+    // .error stays owned by the nil-snapshot branch in the view.
+    let shapes: [HomeDashboardSnapshot] = [
+      makeSnapshot(hasOnboarded: true, ingredientCount: 0, totalMealsCooked: 0),
+      makeSnapshot(hasOnboarded: true, ingredientCount: 2, totalMealsCooked: 0),
+      makeSnapshot(hasOnboarded: true, ingredientCount: 0, totalMealsCooked: 9),
+      makeSnapshot(hasOnboarded: false, ingredientCount: 7, totalMealsCooked: 2),
+    ]
+    for snapshot in shapes {
+      let state = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
+      XCTAssertNotEqual(state, .error)
+    }
+  }
 }

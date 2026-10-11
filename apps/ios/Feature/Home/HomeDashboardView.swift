@@ -99,10 +99,31 @@ struct HomeDashboardView: View {
       ScrollView {
         VStack(alignment: .leading, spacing: 0) {
           if let snapshot = viewModel.snapshot {
-            if tutorialProgress.isComplete {
+            // FL4 operational gate: the fork switches on the flow state map, not
+            // on tutorial progress — a user who stocked a real fridge but skipped
+            // the tour sees their kitchen. Tutorial cards are only for a genuinely
+            // empty-new kitchen with an incomplete tour; the cooking state comes
+            // solely from the Live Assistant coordinator's surfaced context.
+            switch HomeFlowStateMap.state(
+              from: snapshot,
+              cookContext: liveAssistantCoordinator.matchedRecipeContext.map {
+                HomeCookContext(recipeName: $0.title)
+              }
+            ) {
+            case .emptyNew:
+              if tutorialProgress.isComplete {
+                graduatedDashboard(snapshot: snapshot)
+              } else {
+                tutorialHome(snapshot: snapshot)
+              }
+            case .partlyStocked, .returning, .cooking:
               graduatedDashboard(snapshot: snapshot)
-            } else {
-              tutorialHome(snapshot: snapshot)
+            case .error:
+              // Unreachable with a non-nil snapshot: .error is the nil-inputs
+              // state and the nil-snapshot branch above owns it. Kept for switch
+              // totality; renders the existing error state.
+              errorState
+                .padding(.horizontal, AppTheme.Space.page)
             }
           } else if viewModel.isLoading {
             loadingState

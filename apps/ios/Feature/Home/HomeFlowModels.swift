@@ -216,3 +216,39 @@ extension HomeRecommendation: Equatable {
       && lhs.ingredientIDs == rhs.ingredientIDs
   }
 }
+
+// MARK: - Fork projection (current view seam)
+
+extension HomeFlowStateMap {
+  /// The fork-level state for the Home view's gate: the same precedence rules as
+  /// `state(inputs:cookContext:)` — error (owned by the nil-snapshot branch in the
+  /// view) above cooking above returning above empty-new above partly-stocked —
+  /// evaluated over the dashboard snapshot the sections already consume plus the
+  /// view-supplied cook context.
+  ///
+  /// The canonical `HomeFlowInputs` path remains the redesigned Home's entry point;
+  /// this projection exists so the shipped view can switch its fork on the map
+  /// without re-plumbing the sections. It never reports `.error`: a non-nil
+  /// snapshot means the read pass succeeded, and the view's existing
+  /// nil-snapshot/loading/error branches keep owning that state. Tutorial
+  /// progress is deliberately not an input — the view decides what an `.emptyNew`
+  /// kitchen displays.
+  static func state(
+    from snapshot: HomeDashboardSnapshot,
+    cookContext: HomeCookContext?
+  ) -> HomeFlowState {
+    if let cookContext {
+      return .cooking(cookContext)
+    }
+    if !snapshot.hasOnboarded {
+      return .emptyNew
+    }
+    if snapshot.totalMealsCooked >= 1 {
+      return .returning
+    }
+    if snapshot.ingredientCount > 0 {
+      return .partlyStocked
+    }
+    return .emptyNew
+  }
+}
