@@ -205,8 +205,10 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
   ///
   /// Recipe 21 serves 4 people from 100.5 g of ingredient 1 (required) and
   /// 40.2 g of ingredient 2 (optional). Per serving: 25.125 g and 10.05 g.
-  /// The plan cooks three servings: 75.375 g and 30.15 g. Stock holds
-  /// 70.5 g of 1 (shortfall 4.875 g) and 35.5 g of 2 (covered).
+  /// The plan cooks three servings: 75.375 g and 30.15 g requested. Stock
+  /// holds 70.5 g of 1, so the row takes 70.5 g and reports a 4.875 g
+  /// shortfall (grams is capped at availability); 35.5 g of 2 fully covers
+  /// its request.
   func testAllocationOverMultiServingAndFractionalAmounts() throws {
     let recipe = makeRecipe(21, servings: 4)
     let rows = [
@@ -237,7 +239,9 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
 
     XCTAssertEqual(rowsOut.count, 2, "The optional need is reported, not silently dropped.")
     let forIngredient1 = try XCTUnwrap(rowsOut.first { $0.ingredientId == 1 })
-    XCTAssertEqual(forIngredient1.grams, 75.375, accuracy: 1e-9)
+    // The row takes what stock allows and reports the uncovered rest as
+    // shortfall: 70.5 g taken, 4.875 g short of the 75.375 g request.
+    XCTAssertEqual(forIngredient1.grams, 70.5, accuracy: 1e-9)
     XCTAssertEqual(forIngredient1.shortfallGrams, 4.875, accuracy: 1e-9)
     let forIngredient2 = try XCTUnwrap(rowsOut.first { $0.ingredientId == 2 })
     XCTAssertEqual(forIngredient2.grams, 30.15, accuracy: 1e-9)
