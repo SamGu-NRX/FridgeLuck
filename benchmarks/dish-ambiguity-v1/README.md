@@ -95,6 +95,47 @@ python3 benchmarks/dish-ambiguity-v1/run.py --dataset-root <food-101> --out benc
 python3 benchmarks/dish-ambiguity-v1/score.py --verify-report   # byte-compares committed artifacts
 ```
 
+## Handoff
+
+For whoever wires recipe suggestion into the app:
+
+- **Pin:** `nateraw/vit-base-food101` @ `55859a2a13495f714060e34f150031e616fce549`
+  (weights sha256 `61f707d9d423461b8d1b8fc5cfc2500d0cc34675c19d3e91ae97b282fc925a95`,
+  recorded in `results/run-metadata.json`). Do not pin
+  `rajkr/mobilenet-v2-food101` @ `0dea82e7` - that checkpoint is broken (see
+  Results); if a small mobile model is wanted, re-run this benchmark over a
+  replacement candidate before trusting it.
+- **Policy:** suggest a bundled recipe only when (a) the predicted class has
+  status `exact` in `mapping.food101-v1.json`, and (b) its top1 probability
+  >= 0.1 (dev-selected tau). Expected test behavior: unrestricted suggestion
+  precision 175/183 = 0.9563 (coverage 0.0725); eligible-only precision
+  175/175 = 1.000 at 0.500 coverage over the 350 images whose true class is
+  exact/coarse. Keep the two denominators separate when quoting these.
+  Show nothing otherwise: `unsupported` and `ambiguous` classes carry no
+  recipe claim - render dish identity only (the Food-101 dish label), never
+  a native bundled recipe for them.
+- **Frozen manifest hashes** (must match `results/run-metadata.json`):
+  - test `benchmarks/dish-ambiguity-v1/manifest.json` sha256
+    `85ae3fb06242bf542df026ba03e9e2e53faae690fe50b53eba7e12a984a12ec2`
+  - development `benchmarks/dish-ambiguity-v1/dev_manifest.json` sha256
+    `90dd25dbc785a22a90b5efd6b98608ef25b38b62d36311f9a96b6701d71615c6`
+  
+  A local rebuild that hashes differently is a different sample - do not
+  rescore the committed results against it.
+- **Resume / verification commands** (see Commands for full details):
+  ```bash
+  python3 benchmarks/dish-ambiguity-v1/check_manifest.py                    # validate taxonomy + manifests
+  python3 benchmarks/dish-ambiguity-v1/run.py --dataset-root /path/to/food-101 \
+      --out benchmarks/dish-ambiguity-v1/results                            # full evaluation, both models
+  python3 benchmarks/dish-ambiguity-v1/score.py --verify-report             # byte-compares committed scored.json/report.md
+  python3 -m pytest benchmarks/dish-ambiguity-v1/tests -q                   # 18 checks
+  ```
+  `score.py --verify-report` works from any directory.
+- **Open items:** per-class thresholds instead of one global tau; a tau
+  transfer check on future data (dev precision 0.9111 vs test 0.9563
+  unrestricted is one sample); macOS CI has not run on this PR - the
+  benchmark is Linux-runnable Python only and touches no Swift code.
+
 ## What is committed
 
 - `mapping.food101-v1.json`, `food101-classes.txt` - frozen taxonomy
