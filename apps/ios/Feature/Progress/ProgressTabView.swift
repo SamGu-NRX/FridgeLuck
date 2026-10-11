@@ -238,7 +238,7 @@ struct ProgressTabView: View {
       if showProvenanceNotes {
         Text(text)
           .font(AppTheme.Typography.bodySmall)
-          .foregroundStyle(AppTheme.textSecondary)
+          .foregroundStyle(AppTheme.textPrimary)
           .fixedSize(horizontal: false, vertical: true)
       }
     }

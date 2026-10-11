@@ -191,29 +191,33 @@ struct ProgressWeeklyTrendSection: View {
     row(
       text: "\(reason) — showing your meal log instead.",
       icon: "arrow.triangle.branch",
-      color: AppTheme.accent)
+      iconColor: AppTheme.accent)
   }
 
   private func errorRow(message: String) -> some View {
-    row(text: message, icon: "exclamationmark.triangle.fill", color: AppTheme.accent)
+    row(
+      text: message,
+      icon: "exclamationmark.triangle.fill",
+      iconColor: AppTheme.accent)
   }
 
   private func insightRow(text: String) -> some View {
-    row(text: text, icon: "lightbulb.fill", color: AppTheme.sage)
-      .background(
-        AppTheme.sage.opacity(0.08),
-        in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous))
+    // No tinted background: sage on its own 8% tint computes 2.87:1 —
+    // below the 3:1 graphics threshold. Plain page background passes.
+    row(text: text, icon: "lightbulb.fill", iconColor: AppTheme.sage)
   }
 
-  private func row(text: String, icon: String, color: Color) -> some View {
+  /// Row text is textPrimary (contrast-tested for small text); color lives
+  /// in the icon, which meets the 3:1 graphics threshold.
+  private func row(text: String, icon: String, iconColor: Color) -> some View {
     HStack(spacing: AppTheme.Space.xs) {
       Image(systemName: icon)
         .font(.system(size: 12, weight: .medium))
-        .foregroundStyle(color)
+        .foregroundStyle(iconColor)
 
       Text(text)
         .font(AppTheme.Typography.bodySmall)
-        .foregroundStyle(color)
+        .foregroundStyle(AppTheme.textPrimary)
     }
     .padding(AppTheme.Space.sm)
     .frame(maxWidth: .infinity, alignment: .leading)
