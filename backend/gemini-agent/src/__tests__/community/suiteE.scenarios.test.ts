@@ -228,7 +228,6 @@ describe("suite E: community composition scenarios", () => {
   });
 
   test("S2 — three accounts: report, moderate, appeal, withdraw, deletion", async () => {
-    expect(1).toBe(2); // planted: S2 aborts before its summary push
     const scenario = new Scenario("S2 moderation and deletion");
     const author = await signInAs(http, keys, "suite-e-s2-author");
     const reporter = await signInAs(http, keys, "suite-e-s2-reporter");
