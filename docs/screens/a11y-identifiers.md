@@ -10,7 +10,10 @@ one-line edits by design. (Extended in Part 3 with the Explore feed,
 the beta Table screens and the Recipe document — same conventions,
 same open questions. Extended again in Part 4 with the Scan
 capture-and-review flow and the taste profile — same conventions,
-and one new interpolation note per screen below.)
+and one new interpolation note per screen below. Extended once more in
+Part 5 with the LeChef cook mode — a presentation/destination the host
+presents from a recipe or from Tonight, never a tab — same conventions,
+plus its own interpolation note.)
 
 Conventions proposed:
 
@@ -290,6 +293,81 @@ per-note identifiers append the sentence's or memory's stable id
 | `fl.taste.forgetAllCancel` | The confirmation's "Keep everything" | |
 | `fl.taste.export` | "Export everything I know about you" | |
 | `fl.taste.footer` | The on-device footer line | |
+
+## LeChef (`FLLeChef`) — the cook mode
+
+A mode the host presents (full screen, sheet or navigation destination)
+from a recipe or from Tonight's pick — never a tab. One screen hosts
+five stages (cooking, parked, look viewfinder, complete, cancelled);
+stage-specific containers are prefixed per stage below. Interpolation
+note: like Parts 3–4, per-object identifiers append a stable id —
+proposals use the queue's proposal ids, timers the timer ids, progress
+segments and stars their 1-based numbers (`fl.lechef.progress.3`,
+`fl.lechef.rating.star.5`). Proposal and timer ids are host/queue
+vocabulary; if evaluation needs a fixed vocabulary, the ids go into
+fixtures, not the views.
+
+| Identifier | Element | Notes |
+|---|---|---|
+| `fl.lechef.screen` | The whole cook-mode destination | The presentation seam's anchor |
+| `fl.lechef.idle.title` | Idle entry title (no recipe handed over) | Host must dispatch `.enter` to leave idle |
+| `fl.lechef.idle.caption` | Idle caption | |
+| `fl.lechef.offline` | The "LeChef is offline. Steps and timers still work." notice | The local-core promise, stated in the UI |
+| `fl.lechef.dishTitle` | The dish name (cooking) | |
+| `fl.lechef.leaveCook` | The X ("Leave cook") | Parks the session; a11y label "Leave cook" |
+| `fl.lechef.progressLine` | The "Step 3 of 6" line | |
+| `fl.lechef.progress` | The progress segments container | |
+| `fl.lechef.progress.<n>` | One progress segment | a11y label "Step n"; `.isSelected` marks the current step |
+| `fl.lechef.stepCard` | The step card container | Children combined for VoiceOver |
+| `fl.lechef.stepBody` | The step's text | |
+| `fl.lechef.checkLine` | One fired timer check line ("Rice done — stir the sauce in") | Never advances a step by itself |
+| `fl.lechef.back` | "Back" (secondary) | Never before the first step |
+| `fl.lechef.addTimer` | The add-timer tile | Host presents the duration picker; the state machine owns the timer |
+| `fl.lechef.next` | "Next" — "Done cooking" on the last step (primary) | On the last step it completes the cook |
+| `fl.lechef.timers` | The timer strip container | Shared `FLTimerTile`s |
+| `fl.lechef.timerTile.<timerId>` | One timer tile | Tap pauses/resumes, long-press removes |
+| `fl.lechef.panel` | The proposals panel container | |
+| `fl.lechef.panelCard` | One panel card | |
+| `fl.lechef.mutationFailed` | The "couldn't apply that" line | Approved mutations that failed return to pending |
+| `fl.lechef.proposal.<proposalId>` | One proposal card | Reads and mutations render the same grammar |
+| `fl.lechef.timerChip` | The timer suggestion's chip ("Set 2 min timer") | Routes to the LOCAL timer path — no approval ceremony |
+| `fl.lechef.applied` | The "Done" mark on an applied read | Reads apply without ceremony |
+| `fl.lechef.approve` | "Approve" (a mutation) | The only approval path — voice can never approve |
+| `fl.lechef.decline` | "Not now" (a proposal) | |
+| `fl.lechef.voice` | The voice row ("Voice off — Just the steps") | OFF is the default until a cost budget exists |
+| `fl.lechef.voiceToggle` | The row's "Turn on"/"Turn off" action | Opt-in per cook; a reopen starts silent again |
+| `fl.lechef.voiceHint` | The five-word grammar hint (voice on) | On-device vocabulary; works offline |
+| `fl.lechef.chatField` | The chat text field (voice on) | The fallback, behind the toggle; a11y label "Ask LeChef" |
+| `fl.lechef.chatSend` | The chat send button | |
+| `fl.lechef.transcriptTurn` | One live transcript turn | Live session only — never persisted |
+| `fl.lechef.viewfinder` | The look viewfinder overlay | Push-to-look is the built candidate |
+| `fl.lechef.lookCaption` | The look contract caption ("Camera look: one frame, viewfinder visible, never a safety verdict.") | |
+| `fl.lechef.lookProblem` | The look problem line ("Couldn't send that look. Try again or keep cooking.") | An escape line, never a dead end, never a verdict |
+| `fl.lechef.lookFrame` | The shutter ("Send one frame") | Explicit capture |
+| `fl.lechef.lookClip` | "3-second clip" | Explicit capture, capped at 3 s |
+| `fl.lechef.lookSend` | "Send" (upload the capture) | Explicit upload |
+| `fl.lechef.lookUploading` | The uploading indicator | |
+| `fl.lechef.lookRetry` | "Try again" (upload failed) | The capture is the host's to hold |
+| `fl.lechef.lookCancel` | "Cancel" (the look) | Nothing was sent; also closes a completed look |
+| `fl.lechef.paused.title` | The parked session's title | |
+| `fl.lechef.paused.caption` | The parked session's caption | |
+| `fl.lechef.paused.progress` | The parked session's progress line | |
+| `fl.lechef.resume` | "Resume cooking" | Timers keep their device deadlines |
+| `fl.lechef.cancelCook` | "Cancel this cook" | Nothing is recorded for a cancelled session |
+| `fl.lechef.complete.title` | The complete surface's title | The mock's serif title has no token role; uses `.screenTitle` |
+| `fl.lechef.complete.subtitle` | The complete surface's subtitle | |
+| `fl.lechef.duration` | The "Cooked in 24 min · 2 servings" line | Live-session arithmetic — absent on a restored session |
+| `fl.lechef.rating` | The rating stars container | |
+| `fl.lechef.rating.star.<star>` | One star, 1...5 | a11y label "Rate n of 5"; `.isSelected` marks the current |
+| `fl.lechef.note` | The note editor | A draft until the explicit save |
+| `fl.lechef.sayIt` | "Say it instead" (voice note draft) | Host runs the draft flow; the transcription is a draft |
+| `fl.lechef.save` | "Save" | The explicit save; idempotent while in flight |
+| `fl.lechef.receipt` | The saved receipt ("Saved on this phone.") | |
+| `fl.lechef.saveFailed` | The save-failed line ("Couldn't save just now — it's all still here. Try again.") | Everything kept; try again |
+| `fl.lechef.privacy` | The privacy line (nothing leaves the phone) | |
+| `fl.lechef.nutrition` | The complete surface's nutrition line | Host verbatim, never derived |
+| `fl.lechef.done` | "Done" (dismiss the mode) | The host dismisses; the snapshot clears |
+| `fl.lechef.cancelled` | The cancelled-session container ("Nothing was saved. Start again from the recipe whenever you like.") | States what was (and was not) kept |
 
 ## Open to evaluation
 

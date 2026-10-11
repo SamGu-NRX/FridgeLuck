@@ -28,6 +28,7 @@ let package = Package(
         .library(name: "FLRecipe", targets: ["FLRecipe"]),
         .library(name: "FLScan", targets: ["FLScan"]),
         .library(name: "FLTasteProfile", targets: ["FLTasteProfile"]),
+        .library(name: "FLLeChef", targets: ["FLLeChef"]),
     ],
     dependencies: [
         .package(path: "../FLDesignTokens"),
@@ -110,6 +111,23 @@ let package = Package(
                 .product(name: "FLDesignSystem", package: "FLDesignSystem"),
             ]
         ),
+        // LeChef: the cook-mode flow (Part 5). Not a tab — a mode the host
+        // presents from a recipe or Tonight's pick, so it is a destination
+        // library the host wires into a presentation, never shell wiring.
+        // The mid-cook and cook-complete surfaces are stages of one session
+        // state machine (one proposal queue, one timer lifecycle, one
+        // remember surface), so one target carries the flow; the camera
+        // look pipeline, assistant link and rescale arithmetic stay host
+        // seams. Same split as the other screens: state/intents ungated,
+        // views gated.
+        .target(
+            name: "FLLeChef",
+            dependencies: [
+                "FLScreenSupport",
+                .product(name: "FLDesignTokens", package: "FLDesignTokens"),
+                .product(name: "FLDesignSystem", package: "FLDesignSystem"),
+            ]
+        ),
         .testTarget(
             name: "FLScreenSupportTests",
             dependencies: ["FLScreenSupport", .product(name: "FLDesignTokens", package: "FLDesignTokens")]
@@ -120,6 +138,7 @@ let package = Package(
         .testTarget(name: "FLRecipeTests", dependencies: ["FLRecipe", "FLScreenSupport"]),
         .testTarget(name: "FLScanTests", dependencies: ["FLScan", "FLScreenSupport"]),
         .testTarget(name: "FLTasteProfileTests", dependencies: ["FLTasteProfile", "FLScreenSupport"]),
+        .testTarget(name: "FLLeChefTests", dependencies: ["FLLeChef", "FLScreenSupport"]),
         // The no-hardcoded-style lint: scans this package's sources for hex
         // colour literals and font names. Needs no module dependency.
         .testTarget(name: "FLScreensLintTests", dependencies: []),
