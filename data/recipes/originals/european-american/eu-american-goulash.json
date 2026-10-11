@@ -1,0 +1,225 @@
+{
+  "rs_version": "1",
+  "id": "eu-american-goulash",
+  "title": "American Goulash",
+  "cuisine": "american",
+  "cuisine_detail": "midwestern american (hungarian-rooted)",
+  "family": "european-american",
+  "minutes": 35,
+  "servings": 5,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "heavy pot or dutch oven",
+    "wooden spoon",
+    "chef's knife",
+    "cutting board",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-american-goulash",
+  "cost_per_serving_usd": {
+    "value": 2.14,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "tags": [
+    "budget",
+    "one-pot",
+    "leftovers",
+    "freezer-friendly"
+  ],
+  "ingredients": [
+    {
+      "name": "ground beef",
+      "qty": {
+        "kind": "weighed",
+        "grams": 454,
+        "note": "one 1 lb package, 70/30"
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, diced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "bell peppers",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, diced",
+        "conversion_ref": "bell_pepper_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "canned diced tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups with juices",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "tomato puree",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup",
+        "conversion_ref": "tomato_puree_cup",
+        "grams_per_unit": 226
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "pasta",
+      "qty": {
+        "kind": "household",
+        "value": 12,
+        "unit": "oz small elbows",
+        "conversion_ref": "dry_pasta_oz",
+        "grams_per_unit": 28
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "smoked_paprika_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Brown the beef hard in a dry pot over medium-high heat, breaking it into crumbles, for 6 minutes. Ground beef is safe at 160°F (71°C) - spot-check the thickest clump with a thermometer.",
+      "timer_min": 6,
+      "safety": {
+        "class": "meat_ground",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Stir in the onion and bell pepper and cook for 5 minutes, scraping the bottom, until they soften and the fond releases.",
+      "timer_min": 5
+    },
+    {
+      "text": "Add the garlic, smoked paprika, and chili flakes and stir for 30 seconds - paprika scorches fast, so keep it moving."
+    },
+    {
+      "text": "Pour in the canned tomatoes, tomato puree, and water and bring the pot to a boil."
+    },
+    {
+      "text": "Stir in the pasta, lower to a lively simmer, and cook uncovered for 11 minutes, stirring twice so the elbows don't stick to the bottom.",
+      "timer_min": 11
+    },
+    {
+      "text": "Season with the salt and pepper - the tomatoes carry salt already, so taste before the full teaspoon goes in."
+    },
+    {
+      "text": "Rest the pot off the heat for 5 minutes; the sauce tightens as the pasta drinks.",
+      "timer_min": 5
+    },
+    {
+      "text": "Serve in deep bowls. Leftovers keep four days chilled and freeze well; reheat portions to 165°F (74°C) on a thermometer."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 618,
+    "protein_g": 24.7,
+    "carbs_g": 65.3,
+    "fat_g": 28.7,
+    "fiber_g": 5.8,
+    "sugar_g": 10.2,
+    "sodium_mg": 336,
+    "coverage": 0.875,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt",
+      "smoked paprika",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}
