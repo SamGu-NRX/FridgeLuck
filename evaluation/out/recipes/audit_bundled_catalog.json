@@ -1,0 +1,1340 @@
+{
+  "summary": {
+    "audited": true,
+    "catalog_path": "apps/ios/Resources/data.json",
+    "recipes_audited": 166,
+    "quarantined": 166,
+    "rights_clear": 0,
+    "note": "audited against in-data evidence only; SPEC 10 default is rewrite-as-original or remove. Recipes quarantined here are NOT counted toward the rights-clear bar."
+  },
+  "recipes": [
+    {
+      "bundled_id": 1,
+      "title": "Classic Egg Fried Rice",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 2,
+      "title": "Simple Cheese Omelette",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 3,
+      "title": "Garlic Butter Pasta",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 4,
+      "title": "Chicken Stir-Fry",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 5,
+      "title": "Tomato Egg Drop Soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 6,
+      "title": "Avocado Toast with Egg",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 7,
+      "title": "Black Bean Tacos",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 8,
+      "title": "Overnight Oats",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 9,
+      "title": "One-Pot Chicken Rice",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 10,
+      "title": "Caprese Salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 11,
+      "title": "Loaded Baked Potato",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 12,
+      "title": "Peanut Butter Banana Smoothie",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 13,
+      "title": "Vegetable Stir-Fry with Tofu",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 14,
+      "title": "Mediterranean Chickpea Salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 15,
+      "title": "Simple Salmon with Veggies",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 16,
+      "title": "Quick Tuna Salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 17,
+      "title": "Beef Taco Bowl",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 18,
+      "title": "Spinach Mushroom Scramble",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 19,
+      "title": "Coconut Curry Vegetables",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 20,
+      "title": "Sweet Potato & Black Bean Bowl",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 21,
+      "title": "Classic French Toast",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 22,
+      "title": "Garlic Lemon Chicken",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 23,
+      "title": "Mushroom Risotto",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 24,
+      "title": "Egg & Veggie Breakfast Wrap",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 25,
+      "title": "Banana Oat Pancakes",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 26,
+      "title": "10-minute couscous salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 27,
+      "title": "Air fryer tuna pasta bake",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 28,
+      "title": "Allotment salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 29,
+      "title": "Artichoke & aubergine rice",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 30,
+      "title": "Healthy chicken salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 31,
+      "title": "Asparagus & broad bean fattoush with crispy asparagus ends",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 32,
+      "title": "Aubergine, chilli & bacon pasta",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 33,
+      "title": "Vegetarian enchiladas",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 34,
+      "title": "Black bean & pineapple salad bowl",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 35,
+      "title": "Black bean & tortilla soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 36,
+      "title": "Bombay potato frittata",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 37,
+      "title": "Burrito bowl with chipotle black beans",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 38,
+      "title": "Butter bean curry",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 39,
+      "title": "Cajun grilled chicken with lime black-eyed bean salad & guacamole",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 40,
+      "title": "Caramelised red onion & anchovy pasta with gremolata",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 41,
+      "title": "Cardamom chicken with lime leaves",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 42,
+      "title": "Cauliflower, paneer & pea curry",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 43,
+      "title": "Cavolo nero orecchiette",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 44,
+      "title": "Celery soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 45,
+      "title": "Chetna's end-of-summer veg curry",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 46,
+      "title": "Chicken & chorizo jambalaya",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 47,
+      "title": "Chicken & chorizo ragu",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 48,
+      "title": "Chicken with crushed harissa chickpeas",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 49,
+      "title": "Chicken jalfrezi",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 50,
+      "title": "Chicken korma",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 51,
+      "title": "Chicken, leek & brown rice stir-fry",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 52,
+      "title": "Chicken & lemon skewers",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 53,
+      "title": "Chicken madras",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 54,
+      "title": "Chicken and mushrooms",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 55,
+      "title": "Chicken parmesan",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 56,
+      "title": "Chicken satay salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 57,
+      "title": "Chicken & tzatziki wraps",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 58,
+      "title": "Chinese chicken curry",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 59,
+      "title": "Healthy chilli con carne",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 60,
+      "title": "Coconut & squash dhansak",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 61,
+      "title": "Cod with cucumber, avocado & mango salsa salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 62,
+      "title": "Crab linguine with chilli & parsley",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 63,
+      "title": "Creamy pesto & kale pasta",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 64,
+      "title": "Creamy tomato risotto",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 65,
+      "title": "Crispy grilled feta with saucy butter beans",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 66,
+      "title": "Crunchy noodle salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 67,
+      "title": "Curried cod",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 68,
+      "title": "Curried satay noodles",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 69,
+      "title": "Diet cola chicken",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 70,
+      "title": "Double bean & roasted pepper chilli",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 71,
+      "title": "Duck ragu with pappardelle & swede",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 72,
+      "title": "Easiest ever seafood rice",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 73,
+      "title": "Easy risotto with bacon & peas",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 74,
+      "title": "Egg-fried noodles with beansprouts",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 75,
+      "title": "Fresh salmon ni\u00e7oise",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 76,
+      "title": "Giant couscous salad with charred veg & tangy pesto",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 77,
+      "title": "Ginger chicken udon noodles",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 78,
+      "title": "Green goddess avocado salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 79,
+      "title": "Halloumi, carrot & orange salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 80,
+      "title": "Halloumi pasta",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 81,
+      "title": "Healthy bolognese",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 82,
+      "title": "Healthy chicken burritos",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 83,
+      "title": "Healthy pad Thai",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 84,
+      "title": "Healthy chicken pasta bake",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 85,
+      "title": "Healthy gnocchi",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 86,
+      "title": "Healthy tikka masala",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 87,
+      "title": "Hummus flatbread pizzas with roasted veg",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 88,
+      "title": "Indian chickpeas with poached eggs",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 89,
+      "title": "Italian borlotti bean, pumpkin & farro soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 90,
+      "title": "Italian vegetable soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 91,
+      "title": "Jerk chicken burger",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 92,
+      "title": "Jerk-style cauliflower with coconut rice",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 93,
+      "title": "Kidney bean curry",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 94,
+      "title": "Masala frittata with avocado salsa",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 95,
+      "title": "Mexican bean soup with guacamole",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 96,
+      "title": "Mexican chicken stew with quinoa & beans",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 97,
+      "title": "Tomato penne with avocado",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 98,
+      "title": "Miso noodles with fried eggs",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 99,
+      "title": "Moroccan aubergine & chickpea salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 100,
+      "title": "Moroccan chicken",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 101,
+      "title": "Moroccan chicken stew",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 102,
+      "title": "Moroccan-style chickpea soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 103,
+      "title": "Moroccan chickpea, squash & cavolo nero stew",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 104,
+      "title": "Nduja & spring greens pasta",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 105,
+      "title": "Nutty chicken satay strips",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 106,
+      "title": "One-pan beef stew with vegetable mash",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 107,
+      "title": "One-pot garlicky chicken thighs & giant cous cous",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 108,
+      "title": "One-pot goulash pasta",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 109,
+      "title": "Tomato & pasta soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 110,
+      "title": "Paillard of chicken with lemon & herbs",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 111,
+      "title": "Pasta with pine nuts, broccoli, sardines & fennel",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 112,
+      "title": "Peanut lime salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 113,
+      "title": "Pasta arrabbiata with aubergine",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 114,
+      "title": "Sausage traybake",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 115,
+      "title": "Pomegranate chicken with almond couscous",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 116,
+      "title": "Prawn & salmon burgers with spicy mayo",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 117,
+      "title": "Pulled chicken & black bean chilli",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 118,
+      "title": "Quick chicken hummus bowl",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 119,
+      "title": "Salade ni\u00e7oise",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 120,
+      "title": "Salmon salad with sesame dressing",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 121,
+      "title": "Sardine tomato pasta with gremolata",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 122,
+      "title": "Sweet potato & peanut curry",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 123,
+      "title": "Sausage & kale minestrone",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 124,
+      "title": "Sea bass with sizzled ginger, chilli & spring onions",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 125,
+      "title": "Sesame chicken salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 126,
+      "title": "Sichuan smacked cucumber noodles",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 127,
+      "title": "Quick and easy fish stew",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 128,
+      "title": "Smoky beans on toast",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 129,
+      "title": "Smoky chickpea salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 130,
+      "title": "Smoky tomato, chipotle & charred corn soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 131,
+      "title": "Smoky white bean & ricotta traybake",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 132,
+      "title": "Healthy spaghetti bolognese",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 133,
+      "title": "Somerset stew with cheddar & parsley mash",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 134,
+      "title": "Soy-baked potatoes with tuna sriracha mayo",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 135,
+      "title": "Spiced carrot & lentil soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 136,
+      "title": "Spiced lentil & butternut squash soup",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 137,
+      "title": "Spicy bean & avocado quesadillas",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 138,
+      "title": "Spicy cucumber & watermelon salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 139,
+      "title": "Spicy harissa bean stew",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 140,
+      "title": "Spicy root & lentil casserole",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 141,
+      "title": "Spicy tofu tahini noodle salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 142,
+      "title": "Spinach, sweet potato & lentil dhal",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 143,
+      "title": "Spring chicken in a pot",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 144,
+      "title": "Spring tabbouleh",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 145,
+      "title": "Spring vegetable & cauliflower tabbouleh",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 146,
+      "title": "Sticky aubergine & tomato salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 147,
+      "title": "Sticky miso aubergine traybake",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 148,
+      "title": "Super-veg pasta",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 149,
+      "title": "Superhealthy salmon burgers",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 150,
+      "title": "Superhealthy Singapore noodles",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 151,
+      "title": "Taco salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 152,
+      "title": "Thai-style steamed fish",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 153,
+      "title": "Tomato & black bean taco salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 154,
+      "title": "Tomato, pepper & bean one pot",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 155,
+      "title": "Tomato soup & hummus crispbreads",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 156,
+      "title": "Tomato & thyme cod",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 157,
+      "title": "Tuna, bean & olive salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 158,
+      "title": "Tuna, caper & chilli spaghetti",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 159,
+      "title": "The ultimate makeover: Chicken pie",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 160,
+      "title": "Vegan chickpea curry jacket potatoes",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 161,
+      "title": "Vegan chilli",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 162,
+      "title": "Vegetarian ramen",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 163,
+      "title": "Veggie olive wraps with mustard vinaigrette",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 164,
+      "title": "Venetian duck ragu",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 165,
+      "title": "Warm cauliflower salad",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    },
+    {
+      "bundled_id": 166,
+      "title": "Zesty haddock with crushed potatoes & peas",
+      "source_url": null,
+      "status": "quarantined",
+      "reason": "no source recorded; rights unknown (SPEC 3.5: unknown rights means quarantine)",
+      "access_date": "2026-10-11"
+    }
+  ]
+}
