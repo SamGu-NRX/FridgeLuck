@@ -595,10 +595,7 @@ struct UpdateGroceriesView: View {
             .filter { $0.count >= 3 }
             .first ?? ""
           guard !query.isEmpty else { return [] }
-          // IngredientRepository.search throws; degrade to no alternatives on failure
-          // (matches the try? fallbacks used for fetch below). Inherited base-branch
-          // compile fix — see PR notes.
-          return ((try? repository.search(query: query, limit: 3)) ?? [])
+          return repository.search(query: query, limit: 3)
             .compactMap { ingredient in
               guard let id = ingredient.id else { return nil }
               return GroceryAlternative(id: id, name: ingredient.displayName)
