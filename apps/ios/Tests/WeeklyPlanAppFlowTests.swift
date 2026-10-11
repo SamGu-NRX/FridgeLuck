@@ -1,5 +1,6 @@
 import Foundation
 import GRDB
+import FLFeatureLogic
 import XCTest
 
 @testable import FridgeLuck
