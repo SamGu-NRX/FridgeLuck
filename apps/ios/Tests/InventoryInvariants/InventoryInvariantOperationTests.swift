@@ -23,15 +23,11 @@ import XCTest
 /// - Consumption follows the documented expiry-first ordering: lots with the soonest
 ///   `expires_at` deplete first (ties by `acquired_at`, then id), expiry-less lots last.
 /// - The deducted quantity matches `previewConsumption` — the production preview — for the
-///   same proposed grams, including the servings, portion multiplier, and swap math the v17/v18
-///   migrations document. The two APIs agree per row only when a log's requests are unique per
-///   ingredient: previewConsumption evaluates every row independently against current
-///   availability, while applyConsumption depletes lots sequentially across rows, so a log that
-///   requests the same ingredient twice (a swap onto an ingredient the recipe already uses)
-///   with a combined request over stock shows a larger actual shortfall than the preview's
-///   per-row figure. That divergence is a semantic difference, not a violation; the suite
-///   asserts preview equality where the contract is exact and shortfall/balance identities
-///   everywhere.
+///   same recipe, servings, portion multiplier and swaps: the preview derives and depletes
+///   the same requests in the same order as `applyConsumption`, sequential claiming across
+///   rows included (a swap onto an ingredient the recipe already uses requests it twice).
+///   Rows the shelf cannot serve at all are omitted from the preview, so the suite checks
+///   them against the result's full-shortfall identity instead.
 /// - Retry idempotency stays where the product puts it: grocery intake deduplicates by
 ///   `source_ref` through `hasEvent` (the `InventoryIntakeService.ingestGroceryItems`
 ///   contract), while logging the same meal twice is intended repeated logging and deducts
@@ -362,11 +358,10 @@ final class InventoryInvariantOperationTests: XCTestCase {
     // = 70; tomato untouched. Cheese total 126 against 100 available: the first row (84) is
     // processed first and the second (42) takes the remaining 16.
     let swap = IngredientSwap(originalIngredientId: 5, substituteIngredientId: 6, ratio: 1.5)
-    let proposals: [(ingredientId: Int64, grams: Double)] = [
-      (ingredientId: 6, grams: 84), (ingredientId: 6, grams: 42), (ingredientId: 2, grams: 70)
-    ]
-    let previews = try repository.previewConsumption(ingredientGrams: proposals)
+    let previews = try repository.previewConsumption(
+      recipeId: 2, servingsConsumed: 2, portionMultiplier: 1.4, swaps: [swap])
     XCTAssertEqual(previews.first { $0.ingredientId == 6 }?.availableGrams ?? 0, 100, accuracy: 1e-9)
+    XCTAssertEqual(previews.last { $0.ingredientId == 6 }?.availableGrams ?? 0, 16, accuracy: 1e-9)
     XCTAssertEqual(previews.first { $0.ingredientId == 2 }?.shortfallGrams ?? 0, 20, accuracy: 1e-9)
 
     let results = try repository.applyConsumption(

@@ -425,17 +425,13 @@ enum InventoryInvariantSupport {
       )
     }
 
-    // Production preview (read-only) computed from the same proposed grams before deducting.
-    // previewConsumption evaluates each row independently against current availability, while
-    // applyConsumption depletes sequentially across rows: row-wise preview equality is exact
-    // only for logs whose requests touch each ingredient once (a swap onto an ingredient the
-    // recipe already uses can request it twice — see the header comment).
-    var requestCount: [Int64: Int] = [:]
-    for (ingredientId, _) in expected { requestCount[ingredientId, default: 0] += 1 }
-    let previewComparable = expected.allSatisfy { requestCount[$0.ingredientId] == 1 }
-    let previews = previewComparable
-      ? try repository.previewConsumption(ingredientGrams: expected)
-      : []
+    // Production preview (read-only) computed from the same recipe, servings, portion and
+    // swaps before deducting. The preview derives and depletes the same requests in the same
+    // order as applyConsumption, so row-wise equality is exact — including a swap onto an
+    // ingredient the recipe already uses. Rows with nothing in stock are omitted from the
+    // preview; the comparison below checks those against the result's full-shortfall identity.
+    let previews = try repository.previewConsumption(
+      recipeId: recipeId, servingsConsumed: servings, portionMultiplier: portion, swaps: swaps)
 
     let sourceRef = refPrefix.map { "\($0):\(recipeId)" }
     let results = try dbQueue.write { db in
@@ -455,28 +451,32 @@ enum InventoryInvariantSupport {
       }
     }
 
-    // Results mirror the preview rows when the log's requests are unique per ingredient.
+    // Results mirror the preview rows: the preview derives and depletes the same requests.
+    // Matching consumes pool rows so a repeated request compares against its own row.
     if results.count != expected.count {
       violations.append(
         "expected \(expected.count) consumption results, got \(results.count)")
       return violations
     }
+    var previewPool = previews
     for result in results {
-      if previewComparable {
-        let preview = previews.first {
-          $0.ingredientId == result.ingredientId && sameGrams($0.proposedGrams, result.requestedGrams)
-        }
-        guard let preview else {
-          violations.append(
-            "no preview row matches ingredient \(result.ingredientId) requested \(result.requestedGrams); "
-              + "previews: \(previews.map { "(\($0.ingredientId), \($0.proposedGrams))" })")
-          continue
-        }
+      let previewIndex = previewPool.firstIndex {
+        $0.ingredientId == result.ingredientId && sameGrams($0.proposedGrams, result.requestedGrams)
+      }
+      if let previewIndex {
+        let preview = previewPool.remove(at: previewIndex)
         if !sameGrams(preview.shortfallGrams, result.shortfallGrams) {
           violations.append(
             "ingredient \(result.ingredientId): preview shortfall \(preview.shortfallGrams) "
               + "differs from actual shortfall \(result.shortfallGrams)")
         }
+      } else if !sameGrams(result.consumedGrams, 0)
+        || !sameGrams(result.shortfallGrams, result.requestedGrams) {
+        // The preview omits a row only when the shelf holds nothing for it: the log takes
+        // nothing and reports the full request as shortfall. Anything else is a mismatch.
+        violations.append(
+          "no preview row matches ingredient \(result.ingredientId) requested \(result.requestedGrams); "
+            + "previews: \(previews.map { "(\($0.ingredientId), \($0.proposedGrams))" })")
       }
       if !sameGrams(result.shortfallGrams, max(0, result.requestedGrams - result.consumedGrams)) {
         violations.append(
