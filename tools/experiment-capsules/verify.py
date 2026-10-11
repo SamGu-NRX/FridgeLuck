@@ -52,21 +52,39 @@ if str(TOOLS_DIR) not in sys.path:
 
 from capsule_model import (  # noqa: E402
     Finding,
-    load_binding_file,
     parse_binding,
     sha256_hex,
 )
-from check_contract import check_parsed_binding, counts  # noqa: E402
+from check_contract import (  # noqa: E402
+    check_parsed_binding,
+    counts,
+    diagnostic_entries,
+    render_diagnostics,
+)
+from path_trust import (  # noqa: E402
+    UntrustedPathError,
+    read_capsule_file,
+    read_repo_file,
+    safe_write_bytes,
+)
 
 REPO_ROOT = TOOLS_DIR.parents[1]
 
 
 def origin_drift(binding_raw: dict, repo_root: Path) -> list[dict]:
-    """Informational: owner artifacts that moved on after this pack."""
+    """Informational: owner artifacts that moved on after this pack.
+
+    Reads are allowlist-checked (R1): only the binding's declared output
+    origin paths may be opened, after symlink/containment validation.
+    An origin path that fails validation is reported as unknown drift —
+    it is never followed.
+    """
     drift: list[dict] = []
+    allowed_origins = {o["path"] for o in binding_raw.get("outputs", [])}
     for output in binding_raw.get("outputs", []):
-        origin_path = repo_root / output["path"]
-        if not origin_path.is_file():
+        try:
+            origin_bytes = read_repo_file(repo_root, output["path"], allowed_origins)
+        except FileNotFoundError:
             drift.append(
                 {
                     "output": output["stored_as"],
@@ -77,7 +95,19 @@ def origin_drift(binding_raw: dict, repo_root: Path) -> list[dict]:
                 }
             )
             continue
-        origin_digest = sha256_hex(origin_path.read_bytes())
+        except UntrustedPathError:
+            drift.append(
+                {
+                    "output": output["stored_as"],
+                    "origin": output["path"],
+                    "note": "origin path failed validation; drift state unknown "
+                    "(the path is never followed)",
+                    "packed_sha256": output["sha256"],
+                    "origin_sha256": None,
+                }
+            )
+            continue
+        origin_digest = sha256_hex(origin_bytes)
         if origin_digest != output["sha256"]:
             drift.append(
                 {
@@ -93,16 +123,41 @@ def origin_drift(binding_raw: dict, repo_root: Path) -> list[dict]:
 
 
 def verify_capsule(capsule_dir: Path, repo_root: Path) -> tuple[list[Finding], list[dict]]:
-    """Verify one capsule directory; returns (findings, origin drift)."""
-    binding_path = capsule_dir / "binding.json"
-    if not binding_path.is_file():
+    """Verify one capsule directory; returns (findings, origin drift).
+
+    The binding is read through the capsule-zone trust boundary (R1):
+    symlinked components and escapes are rejected before the open.
+    """
+    if not capsule_dir.is_dir():
+        return (
+            [Finding("capsule-layout", capsule_dir.name, "not a capsule directory")],
+            [],
+        )
+    try:
+        binding_bytes = read_capsule_file(capsule_dir, "binding.json")
+    except FileNotFoundError:
         return (
             [Finding("capsule-layout", capsule_dir.name, "capsule has no binding.json")],
             [],
         )
-    raw, load_findings = load_binding_file(binding_path)
-    if load_findings:
-        return load_findings, []
+    except UntrustedPathError as exc:
+        return (
+            [
+                Finding(
+                    "capsule-path-untrusted",
+                    capsule_dir.name,
+                    f"binding.json rejected before read: {exc}",
+                )
+            ],
+            [],
+        )
+    try:
+        raw = json.loads(binding_bytes.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        return (
+            [Finding("schema", f"{capsule_dir.name}/binding.json", f"cannot load binding: {exc}")],
+            [],
+        )
     binding, schema_findings = parse_binding(raw)
     if binding is None or schema_findings:
         return schema_findings, []
@@ -155,6 +210,11 @@ def verify_all(capsules_dir: Path, repo_root: Path) -> tuple[dict, int]:
         )
         for finding in findings:
             print(f"    {finding.code}: {finding.path}: {finding.detail}")
+        # R8: diagnostics are derived AFTER the verdict is final and are
+        # printed under an explicit label. They never feed back into
+        # `clean` or any count — a diagnostic cannot flip a result.
+        for line in render_diagnostics(findings):
+            print(f"    {line}")
         for entry in drift:
             print(
                 f"    origin-drift (informational): {entry['output']} <- "
@@ -166,6 +226,10 @@ def verify_all(capsules_dir: Path, repo_root: Path) -> tuple[dict, int]:
                 "status": "verified" if clean else "rejected",
                 "findings": [f.to_dict() for f in findings],
                 "counts": capsule_counts,
+                "diagnostics": diagnostic_entries(findings),
+                "diagnostics_note": (
+                    "informational comparisons only; cannot change the result"
+                ),
                 "origin_drift_informational": drift,
             }
         )
@@ -205,10 +269,17 @@ def main(argv: list[str] | None = None) -> int:
     report, exit_code = verify_all(capsules_dir, repo_root)
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
-        args.report.write_text(
-            json.dumps(report, indent=2, sort_keys=True, ensure_ascii=False) + "\n",
-            encoding="utf-8",
-        )
+        try:
+            safe_write_bytes(
+                args.report,
+                (json.dumps(report, indent=2, sort_keys=True, ensure_ascii=False) + "\n").encode(
+                    "utf-8"
+                ),
+                args.report.parent,
+            )
+        except UntrustedPathError as exc:
+            print(f"error: report path rejected before write: {exc}", file=sys.stderr)
+            return 2
         print(f"report written: {args.report}")
     return exit_code
 

@@ -224,6 +224,7 @@ def parse_binding(raw: dict) -> tuple[Binding | None, list[Finding]]:
         "model_transport",
         "coverage_gaps",
         "outputs",
+        "producer_evidence",
     }
     for key in sorted(raw):
         if key not in allowed:
@@ -372,6 +373,128 @@ def parse_binding(raw: dict) -> tuple[Binding | None, list[Finding]]:
                     gaps.append(CoverageGap(file=gap_file, reason=str(reason)))
             if not isinstance(reason, str) or not reason:
                 findings.append(Finding("schema", f"{where}.reason", "must be a non-empty string"))
+
+    # --- producer evidence (R6): optional, bound verbatim from the spec ---
+    # Available PUBLIC input/build evidence about how the outputs were
+    # produced. Facts the tools cannot attest stay in `unknown`; the
+    # packer interpreter's own environment is NEVER producer evidence.
+    producer = raw.get("producer_evidence")
+    if producer is not None:
+        if not isinstance(producer, dict):
+            findings.append(
+                Finding("schema", "producer_evidence", "must be an object")
+            )
+        else:
+            _PRODUCER_KEYS = ("inputs", "build", "unknown")
+            for key in sorted(producer):
+                if key not in _PRODUCER_KEYS:
+                    findings.append(
+                        Finding(
+                            "schema",
+                            f"producer_evidence.{key}",
+                            f"unknown field {key!r}",
+                        )
+                    )
+            raw_pe_inputs = producer.get("inputs", [])
+            if not isinstance(raw_pe_inputs, list):
+                findings.append(
+                    Finding("schema", "producer_evidence.inputs", "must be a list")
+                )
+            else:
+                for i, item in enumerate(raw_pe_inputs):
+                    p_where = f"producer_evidence.inputs[{i}]"
+                    if not isinstance(item, dict):
+                        findings.append(
+                            Finding("schema", p_where, "must be an object")
+                        )
+                        continue
+                    for key in sorted(item):
+                        if key not in ("path", "sha256", "note"):
+                            findings.append(
+                                Finding(
+                                    "schema",
+                                    f"{p_where}.{key}",
+                                    f"unknown field {key!r}",
+                                )
+                            )
+                    _check_safe_path(item.get("path"), f"{p_where}.path", findings)
+                    pe_digest = item.get("sha256")
+                    if not isinstance(pe_digest, str) or not _SHA256_RE.match(
+                        pe_digest
+                    ):
+                        findings.append(
+                            Finding(
+                                "schema",
+                                f"{p_where}.sha256",
+                                "sha256 must be 64 lowercase hex",
+                            )
+                        )
+                    pe_note = item.get("note")
+                    if pe_note is not None and not isinstance(pe_note, str):
+                        findings.append(
+                            Finding("schema", f"{p_where}.note", "must be a string")
+                        )
+            pe_build = producer.get("build")
+            if pe_build is not None:
+                if not isinstance(pe_build, dict):
+                    findings.append(
+                        Finding("schema", "producer_evidence.build", "must be an object")
+                    )
+                else:
+                    for key in sorted(pe_build):
+                        if key not in ("entrypoint", "args", "note"):
+                            findings.append(
+                                Finding(
+                                    "schema",
+                                    f"producer_evidence.build.{key}",
+                                    f"unknown field {key!r}",
+                                )
+                            )
+                    pe_entry = pe_build.get("entrypoint")
+                    if pe_entry is not None and not (
+                        isinstance(pe_entry, str) and pe_entry
+                    ):
+                        findings.append(
+                            Finding(
+                                "schema",
+                                "producer_evidence.build.entrypoint",
+                                "must be a non-empty string when present",
+                            )
+                        )
+                    pe_args = pe_build.get("args")
+                    if pe_args is not None and (
+                        not isinstance(pe_args, list)
+                        or not all(isinstance(a, str) for a in pe_args)
+                    ):
+                        findings.append(
+                            Finding(
+                                "schema",
+                                "producer_evidence.build.args",
+                                "must be a list of strings",
+                            )
+                        )
+                    pe_build_note = pe_build.get("note")
+                    if pe_build_note is not None and not isinstance(
+                        pe_build_note, str
+                    ):
+                        findings.append(
+                            Finding(
+                                "schema",
+                                "producer_evidence.build.note",
+                                "must be a string",
+                            )
+                        )
+            pe_unknown = producer.get("unknown", [])
+            if not isinstance(pe_unknown, list) or not all(
+                isinstance(u, str) and u for u in pe_unknown
+            ):
+                findings.append(
+                    Finding(
+                        "schema",
+                        "producer_evidence.unknown",
+                        "must be a list of non-empty strings naming what is not attested",
+                    )
+                )
 
     # --- outputs ---
     outputs: list[OutputRef] = []

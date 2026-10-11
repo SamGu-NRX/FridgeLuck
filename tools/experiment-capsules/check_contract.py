@@ -57,6 +57,12 @@ from capsule_model import (  # noqa: E402
     sha256_hex,
 )
 from import_scan import analyze_binding_sources  # noqa: E402
+from path_trust import (  # noqa: E402
+    UntrustedPathError,
+    read_capsule_file,
+    read_repo_file,
+    validate_descriptor_path,
+)
 
 REPO_ROOT = TOOLS_DIR.parents[1]
 FIXTURES_DIR = TOOLS_DIR / "fixtures" / "contracts"
@@ -73,6 +79,10 @@ FIXTURE_CASES: tuple[tuple[str, dict[str, int]], ...] = (
 
 def check_binding_file(binding_path: Path, repo_root: Path) -> list[Finding]:
     """Full offline check of one binding file against the working tree."""
+    try:
+        validate_descriptor_path(binding_path, "binding file")
+    except UntrustedPathError as exc:
+        return [Finding("schema", str(binding_path), f"binding path rejected: {exc}")]
     raw, load_findings = load_binding_file(binding_path)
     if load_findings:
         return load_findings
@@ -83,11 +93,18 @@ def check_binding_file(binding_path: Path, repo_root: Path) -> list[Finding]:
 
 
 def check_dependencies(binding: Binding, repo_root: Path) -> list[Finding]:
-    """Declared source/import files: present, and matching their digests."""
+    """Declared source/import files: present, and matching their digests.
+
+    Reads go through the path trust boundary: the allowlist is exactly the
+    declared source paths, with symlink and containment checks before any
+    open (R1).
+    """
     findings: list[Finding] = []
+    allowed_sources = binding.source_paths()
     for source in binding.sources:
-        file_path = repo_root / source.path
-        if not file_path.is_file():
+        try:
+            content = read_repo_file(repo_root, source.path, allowed_sources)
+        except FileNotFoundError:
             findings.append(
                 Finding(
                     "missing-import",
@@ -96,7 +113,16 @@ def check_dependencies(binding: Binding, repo_root: Path) -> list[Finding]:
                 )
             )
             continue
-        actual = sha256_hex(file_path.read_bytes())
+        except UntrustedPathError as exc:
+            findings.append(
+                Finding(
+                    "source-path-untrusted",
+                    source.path,
+                    f"declared {source.role} path rejected before read: {exc}",
+                )
+            )
+            continue
+        actual = sha256_hex(content)
         if actual != source.sha256:
             findings.append(
                 Finding(
@@ -154,11 +180,9 @@ def check_output_files(
                     )
                 )
                 continue
-            file_path = capsule_dir / "outputs" / output.stored_as
-        else:
-            file_path = repo_root / output.path
-        if not file_path.is_file():
-            if capsule_dir is not None:
+            try:
+                content = read_capsule_file(capsule_dir, f"outputs/{output.stored_as}")
+            except FileNotFoundError:
                 findings.append(
                     Finding(
                         "missing-storage",
@@ -166,7 +190,22 @@ def check_output_files(
                         "packed output copy is absent from the capsule",
                     )
                 )
-            else:
+                continue
+            except UntrustedPathError as exc:
+                findings.append(
+                    Finding(
+                        "capsule-path-untrusted",
+                        f"outputs/{output.stored_as}",
+                        f"packed output path rejected before read: {exc}",
+                    )
+                )
+                continue
+        else:
+            try:
+                content = read_repo_file(
+                    repo_root, output.path, {o.path for o in binding.outputs}
+                )
+            except FileNotFoundError:
                 findings.append(
                     Finding(
                         "missing-output",
@@ -174,8 +213,16 @@ def check_output_files(
                         "declared output file is absent from the repository",
                     )
                 )
-            continue
-        content = file_path.read_bytes()
+                continue
+            except UntrustedPathError as exc:
+                findings.append(
+                    Finding(
+                        "output-path-untrusted",
+                        output.path,
+                        f"declared output path rejected before read: {exc}",
+                    )
+                )
+                continue
         if output.sha256.encode("utf-8") in content:
             # Root cause: the binding embeds the digest inside the content
             # that digest claims to cover. Unverifiable by construction.
@@ -221,6 +268,41 @@ def check_parsed_binding(
 
 def counts(findings: list[Finding]) -> dict[str, int]:
     return dict(sorted(Counter(f.code for f in findings).items()))
+
+
+_DIAGNOSTIC_NOTE = (
+    "DIAGNOSTICS — informational comparisons only; not provenance, not "
+    "agreement, and never able to change the verification result (R8). "
+    "The strict VERIFIED/REJECTED result stands unchanged."
+)
+
+
+def diagnostic_entries(findings: list[Finding]) -> list[dict]:
+    """Derive labeled diagnostic comparisons from strict findings.
+
+    Pure: reads findings, returns diagnostics. Diagnostics never feed back
+    into any verdict — they exist so a reader can see WHAT drifted (declared
+    vs actual) while the strict REJECTED result that produced them stands.
+    """
+    return [
+        {
+            "kind": "diagnostic",
+            "code": finding.code,
+            "path": finding.path,
+            "comparison": finding.detail,
+        }
+        for finding in findings
+    ]
+
+
+def render_diagnostics(findings: list[Finding]) -> list[str]:
+    """Human-labeled diagnostic block for CLI/report output (empty when clean)."""
+    if not findings:
+        return []
+    lines = [_DIAGNOSTIC_NOTE]
+    for finding in findings:
+        lines.append(f"  diagnostic [{finding.code}] {finding.path}: {finding.detail}")
+    return lines
 
 
 def run_fixtures(repo_root: Path) -> int:
@@ -282,6 +364,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{finding.code}: {finding.path}: {finding.detail}")
     summary = ", ".join(f"{code}={n}" for code, n in sorted(got.items()))
     print(f"rejections: {summary if summary else 'none'}")
+    for line in render_diagnostics(findings):
+        print(line)
     return 1 if findings else 0
 
 

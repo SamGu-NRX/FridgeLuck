@@ -49,7 +49,13 @@ TOOLS_DIR = Path(__file__).resolve().parent
 if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
 
-from capsule_model import Finding, sha256_hex  # noqa: E402
+from capsule_model import Finding, canonical_json_bytes, sha256_hex  # noqa: E402
+from path_trust import (  # noqa: E402
+    UntrustedPathError,
+    read_capsule_file,
+    read_repo_file,
+    safe_write_bytes,
+)
 from volatile_scan import scan_text as scan_volatile_content  # noqa: E402
 from verify import verify_capsule  # noqa: E402
 
@@ -156,10 +162,11 @@ def extract_swift_count(swift_text: str) -> int | None:
 
 def load_capsule_output(
     capsules_dir: Path, capsule: str, stored_as: str
-) -> tuple[Path | None, list[Finding]]:
-    capsule_dir = capsules_dir / capsule
-    output_path = capsule_dir / "outputs" / stored_as
-    if not output_path.is_file():
+) -> tuple[bytes | None, list[Finding]]:
+    """Capsule-zone read (R1): validate the stored copy path, then read bytes."""
+    try:
+        content = read_capsule_file(capsules_dir, f"{capsule}/outputs/{stored_as}")
+    except FileNotFoundError:
         return (
             None,
             [
@@ -170,7 +177,93 @@ def load_capsule_output(
                 )
             ],
         )
-    return output_path, []
+    except UntrustedPathError as exc:
+        return (
+            None,
+            [
+                Finding(
+                    "capsule-path-untrusted",
+                    f"{capsule}/outputs/{stored_as}",
+                    f"capsule output path rejected before read: {exc}",
+                )
+            ],
+        )
+    return content, []
+
+
+def _binding_identity(capsules_dir: Path, capsule: str) -> dict | None:
+    """Load a capsule's binding.json through the capsule-zone boundary."""
+    try:
+        raw = read_capsule_file(capsules_dir, f"{capsule}/binding.json")
+    except (FileNotFoundError, UntrustedPathError):
+        return None
+    try:
+        return json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None
+
+
+def _source_status(repo_root: Path, relpath: str, digest: str, allowed: set) -> str:
+    """same / DIFFERENT / UNKNOWN status of a declared source vs current repo.
+
+    UNKNOWN is emitted when the file is absent or its path fails the trust
+    boundary — an unknown is never silently treated as agreement (R7).
+    """
+    try:
+        content = read_repo_file(repo_root, relpath, allowed)
+    except FileNotFoundError:
+        return "UNKNOWN (currently absent from the repository)"
+    except UntrustedPathError as exc:
+        return f"UNKNOWN (path rejected by the trust boundary; not followed: {exc})"
+    return "same" if sha256_hex(content) == digest else "DIFFERENT (current content digest differs)"
+
+
+def provenance_identities(capsules_dir: Path, repo_root: Path) -> list[str]:
+    """Per-capsule binding identities for the proof report (R7).
+
+    Shows the ACTUAL binding identity — capsule id, schema version,
+    toolchain, and every declared source digest with its current
+    same/different/unknown status — even when output numbers agree.
+    """
+    lines: list[str] = []
+    for capsule_dir in sorted(p for p in capsules_dir.iterdir() if p.is_dir()):
+        capsule = capsule_dir.name
+        binding = _binding_identity(capsules_dir, capsule)
+        if binding is None:
+            lines.append(
+                f"capsule `{capsule}`: binding.json unreadable through the path "
+                "boundary — provenance identity UNKNOWN"
+            )
+            continue
+        toolchain = binding.get("toolchain") or {}
+        deps = ", ".join(toolchain.get("dependencies", []) or []) or "none declared"
+        lines.append(
+            f"capsule `{capsule}` — binding schema `{binding.get('schema_version', 'unknown')}`, "
+            f"binding digest `{sha256_hex(canonical_json_bytes(binding))[:16]}...`"
+        )
+        lines.append(f"  toolchain: {toolchain.get('language', 'unknown')} {toolchain.get('language_version', 'unknown')}; dependencies: {deps}")
+        producer = binding.get("producer_evidence")
+        if isinstance(producer, dict):
+            build = producer.get("build") or {}
+            unknowns = ", ".join(producer.get("unknown", []) or []) or "none stated"
+            pe_inputs = producer.get("inputs", []) or []
+            lines.append(
+                f"  producer evidence: {len(pe_inputs)} input reference(s), "
+                f"build entrypoint `{build.get('entrypoint', 'unknown')}`; "
+                f"not attested (explicitly unknown): {unknowns}"
+            )
+        else:
+            lines.append(
+                "  producer evidence: none bound — producer context explicitly unknown"
+            )
+        sources = binding.get("sources", []) or []
+        allowed = {s.get("path") for s in sources if isinstance(s, dict)}
+        for source in sources:
+            path = source.get("path", "?")
+            digest = str(source.get("sha256", ""))[:16]
+            status = _source_status(repo_root, path, str(source.get("sha256", "")), allowed)
+            lines.append(f"  source `{path}` (declared sha256 `{digest}...`) — {status}")
+    return lines
 
 
 def build_proof(capsules_dir: Path, repo_root: Path) -> tuple[str, str, int]:
@@ -185,11 +278,17 @@ def build_proof(capsules_dir: Path, repo_root: Path) -> tuple[str, str, int]:
               file=sys.stderr)
         return "", "", 1
 
-    catalog_path, findings = load_capsule_output(capsules_dir, CATALOG_CAPSULE, CATALOG_STORED_AS)
-    if catalog_path is None:
-        print("error: catalog capsule output missing; cannot regenerate", file=sys.stderr)
+    catalog_content, findings = load_capsule_output(
+        capsules_dir, CATALOG_CAPSULE, CATALOG_STORED_AS
+    )
+    if catalog_content is None:
+        details = "\n".join(f"  {f.code}: {f.path}: {f.detail}" for f in findings)
+        print(
+            f"error: catalog capsule output missing; cannot regenerate:\n{details}",
+            file=sys.stderr,
+        )
         return "", "", 1
-    catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    catalog = json.loads(catalog_content.decode("utf-8"))
     table = catalog_table(catalog["records"])
     tsv = render_tsv(table)
 
@@ -201,10 +300,10 @@ def build_proof(capsules_dir: Path, repo_root: Path) -> tuple[str, str, int]:
     # Cross-capsule check: Swift export count vs catalog total. The Swift
     # file's own embedded record count is checked first so a difference
     # between the two artifacts cannot be misread as internal corruption.
-    swift_path, findings = load_capsule_output(capsules_dir, SWIFT_CAPSULE, "USDAIngredientNutritionStaticData.swift")
+    swift_content, findings = load_capsule_output(capsules_dir, SWIFT_CAPSULE, "USDAIngredientNutritionStaticData.swift")
     cross_checks: list[str] = []
-    if swift_path is not None:
-        swift_text = swift_path.read_text(encoding="utf-8")
+    if swift_content is not None:
+        swift_text = swift_content.decode("utf-8")
         swift_count = extract_swift_count(swift_text)
         swift_rows = swift_text.count("USDAIngredientNutritionRecord(")
         catalog_total = table[-1]["ingredients"]
@@ -241,21 +340,34 @@ def build_proof(capsules_dir: Path, repo_root: Path) -> tuple[str, str, int]:
         )
 
     # Origin comparison: same table built from the CURRENT origin file.
-    origin_path = repo_root / CATALOG_ORIGIN
-    if origin_path.is_file():
-        origin_catalog = json.loads(origin_path.read_text(encoding="utf-8"))
+    # R1: the origin read goes through the trust boundary against the
+    # explicit comparison allowlist; a rejected path is reported as an
+    # unknown-comparison state, never followed.
+    origin_allowed = frozenset({CATALOG_ORIGIN})
+    try:
+        origin_content = read_repo_file(repo_root, CATALOG_ORIGIN, origin_allowed)
+        origin_catalog = json.loads(origin_content.decode("utf-8"))
         origin_table = catalog_table(origin_catalog["records"])
         origin_labels = compare_tables(table, origin_table)
         origin_state = (
             f"origin file: `{CATALOG_ORIGIN}` (current sha256 "
-            f"`{sha256_hex(origin_path.read_bytes())[:16]}...`)"
+            f"`{sha256_hex(origin_content)[:16]}...`)"
         )
-    else:
+    except FileNotFoundError:
         origin_labels = [
             "DIFFERENCE [origin]: the origin file is currently absent from the "
             "repository; the capsule-derived table stands alone on its packed digests"
         ]
         origin_state = f"origin file: `{CATALOG_ORIGIN}` (currently absent)"
+    except UntrustedPathError as exc:
+        origin_labels = [
+            "DIFFERENCE [origin]: the origin file path was rejected by the trust "
+            "boundary (symlink or containment failure); it was NOT read — the "
+            "capsule-derived table stands alone on its packed digests"
+        ]
+        origin_state = (
+            f"origin file: `{CATALOG_ORIGIN}` (path rejected before read: {exc})"
+        )
 
     if not digest_stable:
         print("error: regenerated table is not digest-stable", file=sys.stderr)
@@ -268,7 +380,7 @@ def build_proof(capsules_dir: Path, repo_root: Path) -> tuple[str, str, int]:
         "outputs** — no owner file was read for the table, no owner code was run,",
         "and no live endpoint was contacted. Provenance for this table is the",
         f"capsule binding digests (capsule `{CATALOG_CAPSULE}`, output",
-        f"`{CATALOG_STORED_AS}`, sha256 `{sha256_hex(catalog_path.read_bytes())}`),",
+        f"`{CATALOG_STORED_AS}`, sha256 `{sha256_hex(catalog_content)}`),",
         "not the repository, not HEAD, and not any run.",
         "",
         "## Digest stability",
@@ -282,6 +394,19 @@ def build_proof(capsules_dir: Path, repo_root: Path) -> tuple[str, str, int]:
         "## Cross-capsule count checks (labeled)",
         "",
         *(item for line in cross_checks for item in ("", f"- {line}")),
+        "",
+        "## Provenance identities (capsule bindings)",
+        "",
+        "Actual binding identities behind this table — capsule id, binding digest,",
+        "toolchain, producer evidence, and every declared source digest with its",
+        "current same/different/UNKNOWN status. These identities are the provenance;",
+        "numerical agreement with any other table is not (R7).",
+        "",
+        *(
+            item
+            for line in provenance_identities(capsules_dir, repo_root)
+            for item in ("", f"- {line}")
+        ),
         "",
         "## Comparison against the current origin files (labeled)",
         "",
@@ -334,12 +459,29 @@ def main(argv: list[str] | None = None) -> int:
     if exit_code != 0:
         return exit_code
 
-    args.out.mkdir(parents=True, exist_ok=True)
-    (args.out / "table-from-capsule.tsv").write_text(tsv, encoding="utf-8")
-    (args.out / "regen-proof.md").write_text(report_md, encoding="utf-8")
+    # R2: every write is guarded. A pre-existing symlink at the output
+    # directory or at either artifact destination is refused — never
+    # followed — and the temp+rename stays inside the permitted out dir.
+    if args.out.is_symlink():
+        print(
+            f"error: --out is a pre-existing symlink (refusing): {args.out}",
+            file=sys.stderr,
+        )
+        return 2
+    out_root = args.out.resolve()
+    try:
+        safe_write_bytes(
+            out_root / "table-from-capsule.tsv", tsv.encode("utf-8"), out_root
+        )
+        safe_write_bytes(
+            out_root / "regen-proof.md", report_md.encode("utf-8"), out_root
+        )
+    except UntrustedPathError as exc:
+        print(f"error: proof write rejected before write: {exc}", file=sys.stderr)
+        return 2
     for line in tsv.strip().splitlines():
         print(f"  {line}")
-    print(f"proof written: {args.out / 'regen-proof.md'}")
+    print(f"proof written: {out_root / 'regen-proof.md'}")
     return 0
 
 

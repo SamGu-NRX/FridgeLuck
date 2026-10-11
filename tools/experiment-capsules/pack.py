@@ -28,6 +28,11 @@ Hard constraints (verified by tests, enforced by construction):
   and ``outputs/``; verify.py rejects anything else.
 - **No raw keys.** Credential-shaped fields are schema findings at both
   the spec and the binding layer; nothing is read from the environment.
+  That key-shape scan is an **advisory signal only** — it never makes
+  file bytes safe. File safety comes from the path trust boundary
+  (``path_trust.py``): reads are allowlist-checked with symlink and
+  containment validation before any open; writes are guarded, never
+  through links.
 - **Never overwrite an owner's manifest.** Owners' files are opened
   read-only; every write is bound to ``--out`` (guard below), and owner
   manifest paths are never written.
@@ -60,6 +65,12 @@ from capsule_model import (  # noqa: E402
     sha256_hex,
 )
 from import_scan import analyze_binding_sources  # noqa: E402
+from path_trust import (  # noqa: E402
+    UntrustedPathError,
+    read_repo_file,
+    safe_write_bytes,
+    validate_descriptor_path,
+)
 
 REPO_ROOT = TOOLS_DIR.parents[1]
 
@@ -74,6 +85,7 @@ _SPEC_KEYS = {
     "model_transport",
     "coverage_gaps",
     "outputs",
+    "producer_evidence",
 }
 _SOURCE_KEYS = {"path", "role"}
 _OUTPUT_KEYS = {"origin_path", "stored_as"}
@@ -186,6 +198,61 @@ def spec_errors(raw: object) -> list[str]:
                     errors.append(f"{o_where}.stored_as: duplicate stored name {stored!r}")
                 else:
                     seen_stored.add(stored)
+
+        # Producer evidence (R6): optional. The spec declares input PATHS
+        # (digests are computed and bound at pack time), optional build
+        # description, and explicit unknowns. The packer never injects its
+        # own runtime facts as producer facts.
+        producer = spec.get("producer_evidence")
+        if producer is not None:
+            p_where = f"{where}.producer_evidence"
+            if not isinstance(producer, dict):
+                errors.append(f"{p_where}: must be an object")
+            else:
+                for key in sorted(producer):
+                    if key not in ("inputs", "build", "unknown"):
+                        errors.append(f"{p_where}.{key}: unknown field {key!r}")
+                pe_inputs = producer.get("inputs", [])
+                if not isinstance(pe_inputs, list):
+                    errors.append(f"{p_where}.inputs: must be a list")
+                else:
+                    for j, item in enumerate(pe_inputs):
+                        i_where = f"{p_where}.inputs[{j}]"
+                        if not isinstance(item, dict) or not item.get("path"):
+                            errors.append(
+                                f"{i_where}: must be an object with a 'path'"
+                            )
+                            continue
+                        if not _check_safe_path(item["path"], f"{i_where}.path", []):
+                            errors.append(f"{i_where}.path: invalid path")
+                        extra = set(item) - {"path", "note"}
+                        if extra:
+                            errors.append(f"{i_where}: unknown fields {sorted(extra)}")
+                        if "note" in item and not isinstance(item["note"], str):
+                            errors.append(f"{i_where}.note: must be a string")
+                pe_build = producer.get("build")
+                if pe_build is not None:
+                    if not isinstance(pe_build, dict):
+                        errors.append(f"{p_where}.build: must be an object")
+                    else:
+                        extra = set(pe_build) - {"entrypoint", "args", "note"}
+                        if extra:
+                            errors.append(
+                                f"{p_where}.build: unknown fields {sorted(extra)}"
+                            )
+                        pe_args = pe_build.get("args")
+                        if pe_args is not None and (
+                            not isinstance(pe_args, list)
+                            or not all(isinstance(a, str) for a in pe_args)
+                        ):
+                            errors.append(f"{p_where}.build.args: must be a list of strings")
+                pe_unknown = producer.get("unknown", [])
+                if not isinstance(pe_unknown, list) or not all(
+                    isinstance(u, str) and u for u in pe_unknown
+                ):
+                    errors.append(
+                        f"{p_where}.unknown: must be a list of non-empty strings"
+                    )
     return errors
 
 
@@ -208,20 +275,38 @@ def _contained(path: Path, root: Path) -> bool:
 
 
 def pack_spec(spec: dict, out_dir: Path, repo_root: Path) -> tuple[dict, list[str]]:
-    """Pack one spec into (binding_raw, errors). Reads owners, writes nothing."""
+    """Pack one spec into (binding_raw, errors). Reads owners, writes nothing.
+
+    Every read is validated against the explicit allowlist of spec-declared
+    public artifact/source paths — symlink, traversal and containment
+    checks happen BEFORE any open (R1); every write goes through
+    ``safe_write_bytes`` (R2).
+    """
     errors: list[str] = []
+
+    # The explicit allowlist: exactly the public artifact/source paths this
+    # spec declares. Nothing outside it can be opened, by construction.
+    allowed_paths = {
+        source["path"] for source in spec["sources"]
+    } | {
+        output["origin_path"] for output in spec["outputs"]
+    }
 
     # Sources must exist and hash now; a pack that would emit a
     # missing-import binding is refused outright.
     sources_raw: list[dict] = []
     for source in spec["sources"]:
         path = source["path"]
-        file_path = repo_root / path
-        if not file_path.is_file():
+        try:
+            content = read_repo_file(repo_root, path, allowed_paths)
+        except FileNotFoundError:
             errors.append(f"declared source/import file is absent: {path}")
             continue
+        except UntrustedPathError as exc:
+            errors.append(f"source path rejected before read: {path}: {exc}")
+            continue
         sources_raw.append(
-            {"path": path, "role": source["role"], "sha256": sha256_hex(file_path.read_bytes())}
+            {"path": path, "role": source["role"], "sha256": sha256_hex(content)}
         )
     if errors:
         return {}, errors
@@ -231,11 +316,14 @@ def pack_spec(spec: dict, out_dir: Path, repo_root: Path) -> tuple[dict, list[st
     copied: list[tuple[Path, bytes]] = []
     for output in spec["outputs"]:
         origin = output["origin_path"]
-        origin_path = repo_root / origin
-        if not origin_path.is_file():
+        try:
+            content = read_repo_file(repo_root, origin, allowed_paths)
+        except FileNotFoundError:
             errors.append(f"declared output file is absent: {origin}")
             continue
-        content = origin_path.read_bytes()
+        except UntrustedPathError as exc:
+            errors.append(f"output origin rejected before read: {origin}: {exc}")
+            continue
         outputs_raw.append(
             {
                 "path": origin,
@@ -260,6 +348,43 @@ def pack_spec(spec: dict, out_dir: Path, repo_root: Path) -> tuple[dict, list[st
         "coverage_gaps": spec["coverage_gaps"],
         "outputs": outputs_raw,
     }
+    # Producer evidence (R6): digest-check declared inputs at pack time so a
+    # bound input digest is true when the capsule is written, then bind the
+    # evidence verbatim. Never inject packer runtime facts here — the
+    # packer's environment is not the producer's environment.
+    producer_spec = spec.get("producer_evidence")
+    if isinstance(producer_spec, dict):
+        pe_allowed = allowed_paths | {
+            item["path"] for item in producer_spec.get("inputs", []) if isinstance(item, dict) and item.get("path")
+        }
+        pe_inputs_raw: list[dict] = []
+        for item in producer_spec.get("inputs", []):
+            pe_path = item["path"]
+            try:
+                pe_content = read_repo_file(repo_root, pe_path, pe_allowed)
+            except FileNotFoundError:
+                errors.append(f"producer-evidence input is absent: {pe_path}")
+                continue
+            except UntrustedPathError as exc:
+                errors.append(
+                    f"producer-evidence input path rejected before read: {pe_path}: {exc}"
+                )
+                continue
+            pe_entry = {"path": pe_path, "sha256": sha256_hex(pe_content)}
+            if isinstance(item.get("note"), str):
+                pe_entry["note"] = item["note"]
+            pe_inputs_raw.append(pe_entry)
+        if errors:
+            return {}, errors
+        pe_raw: dict = {}
+        if pe_inputs_raw:
+            pe_raw["inputs"] = pe_inputs_raw
+        if isinstance(producer_spec.get("build"), dict):
+            pe_raw["build"] = producer_spec["build"]
+        if producer_spec.get("unknown"):
+            pe_raw["unknown"] = list(producer_spec["unknown"])
+        if pe_raw:
+            binding_raw["producer_evidence"] = pe_raw
     binding, schema_findings = parse_binding(binding_raw)
     if binding is None or schema_findings:
         return {}, [f"packed binding failed schema: {f.code} {f.path}: {f.detail}" for f in schema_findings]
@@ -272,10 +397,17 @@ def pack_spec(spec: dict, out_dir: Path, repo_root: Path) -> tuple[dict, list[st
         ] + [f"  {f.code}: {f.path}: {f.detail}" for f in closure]
 
     # Write phase — everything below is under out_dir, never an owner path.
+    # R2 guards: refuse symlinks at destinations and parents, write through
+    # temp+rename inside the permitted output dir, never through links.
     capsule_dir = out_dir / spec["capsule_id"]
     outputs_dir = capsule_dir / "outputs"
     if not _contained(capsule_dir, out_dir):
         errors.append("capsule directory escapes --out; refusing to write")
+        return {}, errors
+    if capsule_dir.is_symlink() or outputs_dir.is_symlink():
+        errors.append(
+            f"refusing to write: capsule path is a pre-existing symlink: {capsule_dir}"
+        )
         return {}, errors
     for stored_name, _ in copied:
         target = outputs_dir / stored_name
@@ -288,11 +420,23 @@ def pack_spec(spec: dict, out_dir: Path, repo_root: Path) -> tuple[dict, list[st
             errors.append(f"refusing to overwrite an owner artifact: {stored_name}")
     if errors:
         return {}, errors
-    outputs_dir.mkdir(parents=True, exist_ok=True)
-    for stored_name, content in copied:
-        (outputs_dir / stored_name).write_bytes(content)
-    binding_path = capsule_dir / "binding.json"
-    binding_path.write_bytes(canonical_json_bytes(binding_raw) + b"\n")
+    try:
+        outputs_dir.mkdir(parents=True, exist_ok=True)
+        if not outputs_dir.resolve().is_relative_to(out_dir.resolve()):
+            errors.append(f"outputs directory does not resolve under --out: {outputs_dir}")
+            return {}, errors
+        for stored_name, content in copied:
+            safe_write_bytes(outputs_dir / stored_name, content, out_dir)
+        binding_path = capsule_dir / "binding.json"
+        safe_write_bytes(
+            binding_path, canonical_json_bytes(binding_raw) + b"\n", out_dir
+        )
+    except UntrustedPathError as exc:
+        # Covers the planted-symlink cases: a pre-existing binding.json or
+        # output symlink, or a symlinked parent component, is refused
+        # before anything is written through it.
+        errors.append(f"write refused by the path trust boundary: {exc}")
+        return {}, errors
 
     binding_raw_sorted = json.loads(canonical_json_bytes(binding_raw))
     return binding_raw_sorted, []
@@ -313,6 +457,11 @@ def main(argv: list[str] | None = None) -> int:
     out_dir = args.out.resolve()
     if not repo_root.is_dir():
         print(f"error: repo root not found: {repo_root}", file=sys.stderr)
+        return 2
+    try:
+        validate_descriptor_path(args.spec, "spec file")
+    except UntrustedPathError as exc:
+        print(f"error: {exc}", file=sys.stderr)
         return 2
     if not args.spec.is_file():
         print(f"error: spec file not found: {args.spec}", file=sys.stderr)
