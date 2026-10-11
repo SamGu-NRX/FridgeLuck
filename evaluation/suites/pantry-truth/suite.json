@@ -1,0 +1,8 @@
+{
+  "id": "pantry-truth",
+  "letter": "A",
+  "title": "Pantry truth",
+  "owner_task": "fl-eval-harness-f1 (suite A sub-thread)",
+  "platform": "any",
+  "timeout_s": 1800
+}

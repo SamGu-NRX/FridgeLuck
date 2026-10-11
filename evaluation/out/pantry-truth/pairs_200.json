@@ -1,0 +1,3854 @@
+{
+ "suite": "pantry-truth",
+ "seed": 20261011,
+ "verdicts": [
+  {
+   "pair_id": "P001",
+   "class": "short_by_quantity",
+   "recipe_id": 3,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check pasta, garlic",
+   "ledger_states": [
+    "short",
+    "short",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P002",
+   "class": "assumed_staple",
+   "recipe_id": 27,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "1 recorded \u00b7 check green_onion, garlic",
+   "ledger_states": [
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P003",
+   "class": "full_coverage",
+   "recipe_id": 55,
+   "correct": true,
+   "reasons": [],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "2 of 2",
+   "ledger_states": [
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P004",
+   "class": "short_by_quantity",
+   "recipe_id": 76,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check sesame_oil, garlic",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P005",
+   "class": "assumed_staple",
+   "recipe_id": 108,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "1 recorded \u00b7 check green_onion, garlic",
+   "ledger_states": [
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P006",
+   "class": "assumed_staple",
+   "recipe_id": 120,
+   "correct": true,
+   "reasons": [],
+   "production": "1/3 required \u00b7 Missing 2",
+   "expected": "1 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "assumed_staple",
+    "sufficient",
+    "assumed_staple"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P007",
+   "class": "short_by_quantity",
+   "recipe_id": 148,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check green_onion, garlic",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P008",
+   "class": "observed_unknown",
+   "recipe_id": 116,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check green_onion, lettuce",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P009",
+   "class": "observed_unknown",
+   "recipe_id": 124,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, soy_sauce",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P010",
+   "class": "observed_unknown",
+   "recipe_id": 144,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, cucumber",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P011",
+   "class": "full_coverage",
+   "recipe_id": 36,
+   "correct": true,
+   "reasons": [],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "7 of 7",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 7,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P012",
+   "class": "full_coverage",
+   "recipe_id": 108,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P013",
+   "class": "estimated_quantity",
+   "recipe_id": 1,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check egg, soy_sauce",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P014",
+   "class": "assumed_staple",
+   "recipe_id": 92,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "5 recorded \u00b7 check rice, green_onion",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "assumed_staple",
+    "sufficient",
+    "assumed_staple"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P015",
+   "class": "full_coverage_swap",
+   "recipe_id": 28,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 5 required; ledger says 5 of 5 sufficient with quantity evidence"
+   ],
+   "production": "4/5 required \u00b7 Missing 1",
+   "expected": "5 of 5 \u00b7 1 swap",
+   "ledger_states": [
+    "covered_by_swap",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P016",
+   "class": "full_coverage",
+   "recipe_id": 153,
+   "correct": true,
+   "reasons": [],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "5 of 5",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P017",
+   "class": "estimated_quantity",
+   "recipe_id": 57,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check chicken_breast, sesame_oil",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P018",
+   "class": "observed_unknown",
+   "recipe_id": 109,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P019",
+   "class": "estimated_quantity",
+   "recipe_id": 73,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check peanut_butter, frozen_peas",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P020",
+   "class": "full_coverage",
+   "recipe_id": 74,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P021",
+   "class": "short_by_quantity",
+   "recipe_id": 24,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check tortilla, cheese",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P022",
+   "class": "full_coverage",
+   "recipe_id": 78,
+   "correct": true,
+   "reasons": [],
+   "production": "8/8 required \u00b7 Complete match",
+   "expected": "8 of 8",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 8,
+   "total_required": 8
+  },
+  {
+   "pair_id": "P023",
+   "class": "full_coverage",
+   "recipe_id": 44,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P024",
+   "class": "estimated_quantity",
+   "recipe_id": 91,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check chicken_breast, lime",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P025",
+   "class": "full_coverage",
+   "recipe_id": 92,
+   "correct": true,
+   "reasons": [],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "7 of 7",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 7,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P026",
+   "class": "full_coverage_swap",
+   "recipe_id": 97,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 1 of 2 required; ledger says 2 of 2 sufficient with quantity evidence"
+   ],
+   "production": "1/2 required \u00b7 Missing 1",
+   "expected": "2 of 2 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "covered_by_swap"
+   ],
+   "sufficient_count": 2,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P027",
+   "class": "stale_evidence",
+   "recipe_id": 107,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check green_onion, garlic",
+   "ledger_states": [
+    "needs_reconfirming",
+    "needs_reconfirming",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P028",
+   "class": "observed_unknown",
+   "recipe_id": 120,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check lemon, green_onion",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P029",
+   "class": "assumed_staple",
+   "recipe_id": 140,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "2 recorded \u00b7 check sesame_oil, bread",
+   "ledger_states": [
+    "assumed_staple",
+    "sufficient",
+    "sufficient",
+    "assumed_staple"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P030",
+   "class": "stale_evidence",
+   "recipe_id": 59,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check ground_beef, tomato",
+   "ledger_states": [
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P031",
+   "class": "short_by_quantity",
+   "recipe_id": 118,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check spinach, green_onion",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P032",
+   "class": "short_by_quantity",
+   "recipe_id": 49,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check green_onion, garlic",
+   "ledger_states": [
+    "short",
+    "short",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P033",
+   "class": "observed_unknown",
+   "recipe_id": 107,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check garlic, sesame_oil",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P034",
+   "class": "full_coverage",
+   "recipe_id": 98,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P035",
+   "class": "assumed_staple",
+   "recipe_id": 42,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "2 recorded \u00b7 check garlic, frozen_peas",
+   "ledger_states": [
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P036",
+   "class": "estimated_quantity",
+   "recipe_id": 109,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check garlic, chickpea",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P037",
+   "class": "full_coverage",
+   "recipe_id": 67,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P038",
+   "class": "full_coverage",
+   "recipe_id": 31,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P039",
+   "class": "full_coverage",
+   "recipe_id": 73,
+   "correct": true,
+   "reasons": [],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "5 of 5",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P040",
+   "class": "stale_evidence",
+   "recipe_id": 29,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check garlic, rice",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming",
+    "needs_reconfirming",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P041",
+   "class": "stale_evidence",
+   "recipe_id": 3,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check garlic, butter",
+   "ledger_states": [
+    "sufficient",
+    "needs_reconfirming",
+    "needs_reconfirming",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P042",
+   "class": "full_coverage",
+   "recipe_id": 26,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P043",
+   "class": "full_coverage",
+   "recipe_id": 5,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P044",
+   "class": "full_coverage_swap",
+   "recipe_id": 10,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 3 required; ledger says 3 of 3 sufficient with quantity evidence"
+   ],
+   "production": "2/3 required \u00b7 Missing 1",
+   "expected": "3 of 3 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "covered_by_swap"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P045",
+   "class": "full_coverage_swap",
+   "recipe_id": 100,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 7 required; ledger says 7 of 7 sufficient with quantity evidence"
+   ],
+   "production": "6/7 required \u00b7 Missing 1",
+   "expected": "7 of 7 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "covered_by_swap",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 7,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P046",
+   "class": "stale_evidence",
+   "recipe_id": 9,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check chicken_breast, onion",
+   "ledger_states": [
+    "needs_reconfirming",
+    "sufficient",
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P047",
+   "class": "full_coverage",
+   "recipe_id": 141,
+   "correct": true,
+   "reasons": [],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "6 of 6",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 6,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P048",
+   "class": "observed_unknown",
+   "recipe_id": 162,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check egg, soy_sauce",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P049",
+   "class": "assumed_staple",
+   "recipe_id": 16,
+   "correct": true,
+   "reasons": [],
+   "production": "2/4 required \u00b7 Missing 2",
+   "expected": "2 recorded \u00b7 check canned_tuna, onion",
+   "ledger_states": [
+    "assumed_staple",
+    "sufficient",
+    "assumed_staple",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P050",
+   "class": "observed_unknown",
+   "recipe_id": 67,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P051",
+   "class": "short_by_quantity",
+   "recipe_id": 85,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check sesame_oil, black_beans",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P052",
+   "class": "full_coverage",
+   "recipe_id": 87,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P053",
+   "class": "short_by_quantity",
+   "recipe_id": 54,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, mushroom",
+   "ledger_states": [
+    "short",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P054",
+   "class": "stale_evidence",
+   "recipe_id": 15,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check lemon, olive_oil",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming",
+    "needs_reconfirming",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P055",
+   "class": "stale_evidence",
+   "recipe_id": 22,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check chicken_breast, olive_oil",
+   "ledger_states": [
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P056",
+   "class": "stale_evidence",
+   "recipe_id": 138,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check soy_sauce, sesame_oil",
+   "ledger_states": [
+    "sufficient",
+    "needs_reconfirming",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P057",
+   "class": "estimated_quantity",
+   "recipe_id": 105,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check peanut_butter, garlic",
+   "ledger_states": [
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P058",
+   "class": "observed_unknown",
+   "recipe_id": 164,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check sesame_oil, coconut_milk",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P059",
+   "class": "full_coverage",
+   "recipe_id": 67,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P060",
+   "class": "observed_unknown",
+   "recipe_id": 50,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check garlic, ginger",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P061",
+   "class": "short_by_quantity",
+   "recipe_id": 95,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 7 of 7 required; ledger says 5 of 7 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "5 recorded \u00b7 check garlic, black_beans",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient",
+    "short",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P062",
+   "class": "estimated_quantity",
+   "recipe_id": 136,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P063",
+   "class": "assumed_staple",
+   "recipe_id": 158,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "1 recorded \u00b7 check garlic, lemon",
+   "ledger_states": [
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P064",
+   "class": "observed_unknown",
+   "recipe_id": 144,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check frozen_peas, cucumber",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P065",
+   "class": "assumed_staple",
+   "recipe_id": 115,
+   "correct": true,
+   "reasons": [],
+   "production": "1/2 required \u00b7 Missing 1",
+   "expected": "1 recorded \u00b7 check green_onion",
+   "ledger_states": [
+    "sufficient",
+    "assumed_staple"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P066",
+   "class": "estimated_quantity",
+   "recipe_id": 84,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check zucchini, chicken_breast",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P067",
+   "class": "observed_unknown",
+   "recipe_id": 27,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check green_onion, garlic",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P068",
+   "class": "full_coverage",
+   "recipe_id": 12,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P069",
+   "class": "stale_evidence",
+   "recipe_id": 110,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check chicken_breast, garlic",
+   "ledger_states": [
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P070",
+   "class": "estimated_quantity",
+   "recipe_id": 46,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 7 of 7 required; ledger says 5 of 7 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "5 recorded \u00b7 check green_onion, bell_pepper",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P071",
+   "class": "full_coverage_swap",
+   "recipe_id": 2,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 3 required; ledger says 3 of 3 sufficient with quantity evidence"
+   ],
+   "production": "2/3 required \u00b7 Missing 1",
+   "expected": "3 of 3 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "covered_by_swap"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P072",
+   "class": "full_coverage_swap",
+   "recipe_id": 102,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 6 required; ledger says 6 of 6 sufficient with quantity evidence"
+   ],
+   "production": "5/6 required \u00b7 Missing 1",
+   "expected": "6 of 6 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "covered_by_swap"
+   ],
+   "sufficient_count": 6,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P073",
+   "class": "empty_pantry",
+   "recipe_id": 145,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "0 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "missing",
+    "missing"
+   ],
+   "sufficient_count": 0,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P074",
+   "class": "full_coverage_swap",
+   "recipe_id": 118,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 3 required; ledger says 3 of 3 sufficient with quantity evidence"
+   ],
+   "production": "2/3 required \u00b7 Missing 1",
+   "expected": "3 of 3 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "covered_by_swap",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P075",
+   "class": "short_by_quantity",
+   "recipe_id": 126,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (short)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check cucumber",
+   "ledger_states": [
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P076",
+   "class": "assumed_staple",
+   "recipe_id": 120,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "1 recorded \u00b7 check sesame_oil, lemon",
+   "ledger_states": [
+    "assumed_staple",
+    "assumed_staple",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P077",
+   "class": "short_by_quantity",
+   "recipe_id": 31,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, garlic",
+   "ledger_states": [
+    "short",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P078",
+   "class": "short_by_quantity",
+   "recipe_id": 48,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 7 of 7 required; ledger says 5 of 7 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "5 recorded \u00b7 check green_onion, spinach",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P079",
+   "class": "observed_unknown",
+   "recipe_id": 79,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (quantity_unknown)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check honey",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P080",
+   "class": "full_coverage",
+   "recipe_id": 126,
+   "correct": true,
+   "reasons": [],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "2 of 2",
+   "ledger_states": [
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P081",
+   "class": "stale_evidence",
+   "recipe_id": 70,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check green_onion, sesame_oil",
+   "ledger_states": [
+    "needs_reconfirming",
+    "sufficient",
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P082",
+   "class": "estimated_quantity",
+   "recipe_id": 165,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check sesame_oil, honey",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P083",
+   "class": "full_coverage",
+   "recipe_id": 66,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P084",
+   "class": "stale_evidence",
+   "recipe_id": 30,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check chicken_breast, green_onion",
+   "ledger_states": [
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P085",
+   "class": "full_coverage",
+   "recipe_id": 61,
+   "correct": true,
+   "reasons": [],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "2 of 2",
+   "ledger_states": [
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P086",
+   "class": "full_coverage",
+   "recipe_id": 161,
+   "correct": true,
+   "reasons": [],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "6 of 6",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 6,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P087",
+   "class": "full_coverage_swap",
+   "recipe_id": 118,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 3 required; ledger says 3 of 3 sufficient with quantity evidence"
+   ],
+   "production": "2/3 required \u00b7 Missing 1",
+   "expected": "3 of 3 \u00b7 1 swap",
+   "ledger_states": [
+    "covered_by_swap",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P088",
+   "class": "stale_evidence",
+   "recipe_id": 160,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "needs_reconfirming",
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P089",
+   "class": "full_coverage",
+   "recipe_id": 153,
+   "correct": true,
+   "reasons": [],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "5 of 5",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P090",
+   "class": "full_coverage",
+   "recipe_id": 86,
+   "correct": true,
+   "reasons": [],
+   "production": "8/8 required \u00b7 Complete match",
+   "expected": "8 of 8",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 8,
+   "total_required": 8
+  },
+  {
+   "pair_id": "P091",
+   "class": "full_coverage",
+   "recipe_id": 163,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P092",
+   "class": "estimated_quantity",
+   "recipe_id": 127,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, garlic",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P093",
+   "class": "stale_evidence",
+   "recipe_id": 152,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check lime, soy_sauce",
+   "ledger_states": [
+    "sufficient",
+    "needs_reconfirming",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P094",
+   "class": "assumed_staple",
+   "recipe_id": 95,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "5 recorded \u00b7 check sesame_oil, avocado",
+   "ledger_states": [
+    "assumed_staple",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "assumed_staple",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P095",
+   "class": "short_by_quantity",
+   "recipe_id": 5,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check tomato, garlic",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P096",
+   "class": "short_by_quantity",
+   "recipe_id": 96,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check sesame_oil, black_beans",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P097",
+   "class": "full_coverage",
+   "recipe_id": 52,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P098",
+   "class": "short_by_quantity",
+   "recipe_id": 30,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check soy_sauce, green_onion",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P099",
+   "class": "full_coverage",
+   "recipe_id": 106,
+   "correct": true,
+   "reasons": [],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "6 of 6",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 6,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P100",
+   "class": "observed_unknown",
+   "recipe_id": 37,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 9 of 9 required; ledger says 7 of 9 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "9/9 required \u00b7 Complete match",
+   "expected": "7 recorded \u00b7 check rice, lime",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 7,
+   "total_required": 9
+  },
+  {
+   "pair_id": "P101",
+   "class": "full_coverage_swap",
+   "recipe_id": 68,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 7 required; ledger says 7 of 7 sufficient with quantity evidence"
+   ],
+   "production": "6/7 required \u00b7 Missing 1",
+   "expected": "7 of 7 \u00b7 1 swap",
+   "ledger_states": [
+    "covered_by_swap",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 7,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P102",
+   "class": "observed_unknown",
+   "recipe_id": 55,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (quantity_unknown)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P103",
+   "class": "observed_unknown",
+   "recipe_id": 79,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (quantity_unknown)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check honey",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P104",
+   "class": "empty_pantry",
+   "recipe_id": 142,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "0 recorded \u00b7 check sesame_oil, green_onion, garlic, cumin, spinach",
+   "ledger_states": [
+    "missing",
+    "missing",
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "sufficient_count": 0,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P105",
+   "class": "estimated_quantity",
+   "recipe_id": 99,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check green_onion, cumin",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P106",
+   "class": "assumed_staple",
+   "recipe_id": 134,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "4 recorded \u00b7 check soy_sauce, sesame_oil",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "assumed_staple",
+    "sufficient",
+    "assumed_staple"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P107",
+   "class": "full_coverage",
+   "recipe_id": 59,
+   "correct": true,
+   "reasons": [],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "6 of 6",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 6,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P108",
+   "class": "assumed_staple",
+   "recipe_id": 4,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "3 recorded \u00b7 check bell_pepper, onion",
+   "ledger_states": [
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P109",
+   "class": "full_coverage",
+   "recipe_id": 45,
+   "correct": true,
+   "reasons": [],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "6 of 6",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 6,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P110",
+   "class": "empty_pantry",
+   "recipe_id": 165,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "0 recorded \u00b7 check sesame_oil, green_onion, honey, spinach",
+   "ledger_states": [
+    "missing",
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "sufficient_count": 0,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P111",
+   "class": "short_by_quantity",
+   "recipe_id": 163,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, tortilla",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "short"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P112",
+   "class": "short_by_quantity",
+   "recipe_id": 74,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "short",
+    "short"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P113",
+   "class": "stale_evidence",
+   "recipe_id": 68,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 7 of 7 required; ledger says 5 of 7 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "5 recorded \u00b7 check sesame_oil, ginger",
+   "ledger_states": [
+    "needs_reconfirming",
+    "sufficient",
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P114",
+   "class": "estimated_quantity",
+   "recipe_id": 76,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check green_onion, cumin",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P115",
+   "class": "stale_evidence",
+   "recipe_id": 38,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 8 of 8 required; ledger says 6 of 8 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "8/8 required \u00b7 Complete match",
+   "expected": "6 recorded \u00b7 check green_onion, black_beans",
+   "ledger_states": [
+    "sufficient",
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 6,
+   "total_required": 8
+  },
+  {
+   "pair_id": "P116",
+   "class": "short_by_quantity",
+   "recipe_id": 20,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check avocado, cumin",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P117",
+   "class": "full_coverage",
+   "recipe_id": 19,
+   "correct": true,
+   "reasons": [],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "5 of 5",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P118",
+   "class": "short_by_quantity",
+   "recipe_id": 69,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check sesame_oil, garlic",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P119",
+   "class": "observed_unknown",
+   "recipe_id": 135,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check sesame_oil, coconut_milk",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P120",
+   "class": "short_by_quantity",
+   "recipe_id": 35,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 7 of 7 required; ledger says 5 of 7 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "5 recorded \u00b7 check green_onion, tortilla",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P121",
+   "class": "full_coverage",
+   "recipe_id": 136,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P122",
+   "class": "empty_pantry",
+   "recipe_id": 119,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "0 recorded \u00b7 check black_beans, egg, lettuce, garlic, canned_tuna",
+   "ledger_states": [
+    "missing",
+    "missing",
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "sufficient_count": 0,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P123",
+   "class": "assumed_staple",
+   "recipe_id": 9,
+   "correct": true,
+   "reasons": [],
+   "production": "3/5 required \u00b7 Missing 2",
+   "expected": "3 recorded \u00b7 check garlic, carrot",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P124",
+   "class": "full_coverage",
+   "recipe_id": 157,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P125",
+   "class": "short_by_quantity",
+   "recipe_id": 95,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 7 of 7 required; ledger says 5 of 7 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "5 recorded \u00b7 check cumin, lime",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P126",
+   "class": "assumed_staple",
+   "recipe_id": 157,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "1 recorded \u00b7 check black_beans, sesame_oil",
+   "ledger_states": [
+    "assumed_staple",
+    "assumed_staple",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P127",
+   "class": "estimated_quantity",
+   "recipe_id": 116,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check green_onion, lettuce",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P128",
+   "class": "observed_unknown",
+   "recipe_id": 157,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check black_beans, green_onion",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P129",
+   "class": "observed_unknown",
+   "recipe_id": 97,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (quantity_unknown)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check garlic",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P130",
+   "class": "estimated_quantity",
+   "recipe_id": 118,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check spinach, avocado",
+   "ledger_states": [
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P131",
+   "class": "short_by_quantity",
+   "recipe_id": 143,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "short",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P132",
+   "class": "assumed_staple",
+   "recipe_id": 130,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "2 recorded \u00b7 check sesame_oil, green_onion",
+   "ledger_states": [
+    "assumed_staple",
+    "assumed_staple",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P133",
+   "class": "short_by_quantity",
+   "recipe_id": 97,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (short)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check garlic",
+   "ledger_states": [
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P134",
+   "class": "short_by_quantity",
+   "recipe_id": 83,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check sesame_oil, ginger",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P135",
+   "class": "short_by_quantity",
+   "recipe_id": 114,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check green_onion, lemon",
+   "ledger_states": [
+    "short",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P136",
+   "class": "stale_evidence",
+   "recipe_id": 104,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check pasta, lemon",
+   "ledger_states": [
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P137",
+   "class": "short_by_quantity",
+   "recipe_id": 119,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check lettuce, canned_tuna",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P138",
+   "class": "full_coverage",
+   "recipe_id": 62,
+   "correct": true,
+   "reasons": [],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "2 of 2",
+   "ledger_states": [
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P139",
+   "class": "short_by_quantity",
+   "recipe_id": 60,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check spinach, yogurt",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "short",
+    "short"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P140",
+   "class": "full_coverage_swap",
+   "recipe_id": 2,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 3 required; ledger says 3 of 3 sufficient with quantity evidence"
+   ],
+   "production": "2/3 required \u00b7 Missing 1",
+   "expected": "3 of 3 \u00b7 1 swap",
+   "ledger_states": [
+    "covered_by_swap",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P141",
+   "class": "observed_unknown",
+   "recipe_id": 58,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 7 of 7 required; ledger says 5 of 7 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "5 recorded \u00b7 check sesame_oil, garlic",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P142",
+   "class": "full_coverage",
+   "recipe_id": 112,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P143",
+   "class": "assumed_staple",
+   "recipe_id": 11,
+   "correct": true,
+   "reasons": [],
+   "production": "1/3 required \u00b7 Missing 2",
+   "expected": "1 recorded \u00b7 check cheese, butter",
+   "ledger_states": [
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P144",
+   "class": "estimated_quantity",
+   "recipe_id": 45,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check green_onion, yogurt",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P145",
+   "class": "full_coverage",
+   "recipe_id": 96,
+   "correct": true,
+   "reasons": [],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "6 of 6",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 6,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P146",
+   "class": "full_coverage",
+   "recipe_id": 100,
+   "correct": true,
+   "reasons": [],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "7 of 7",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 7,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P147",
+   "class": "estimated_quantity",
+   "recipe_id": 81,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (quantity_unknown)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check garlic",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P148",
+   "class": "stale_evidence",
+   "recipe_id": 31,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check garlic, green_onion",
+   "ledger_states": [
+    "sufficient",
+    "needs_reconfirming",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P149",
+   "class": "observed_unknown",
+   "recipe_id": 79,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (quantity_unknown)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check honey",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P150",
+   "class": "short_by_quantity",
+   "recipe_id": 106,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check ground_beef, mushroom",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "short",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P151",
+   "class": "short_by_quantity",
+   "recipe_id": 16,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check celery, onion",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P152",
+   "class": "short_by_quantity",
+   "recipe_id": 50,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check green_onion, garlic",
+   "ledger_states": [
+    "short",
+    "short",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P153",
+   "class": "estimated_quantity",
+   "recipe_id": 23,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check mushroom, garlic",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P154",
+   "class": "short_by_quantity",
+   "recipe_id": 141,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check cumin, soy_sauce",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P155",
+   "class": "observed_unknown",
+   "recipe_id": 73,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check green_onion, frozen_peas",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P156",
+   "class": "full_coverage",
+   "recipe_id": 25,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P157",
+   "class": "observed_unknown",
+   "recipe_id": 83,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check sesame_oil, soy_sauce",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P158",
+   "class": "full_coverage",
+   "recipe_id": 44,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P159",
+   "class": "full_coverage",
+   "recipe_id": 140,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P160",
+   "class": "observed_unknown",
+   "recipe_id": 130,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check green_onion, yogurt",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P161",
+   "class": "assumed_staple",
+   "recipe_id": 102,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "4 recorded \u00b7 check black_beans, lemon",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P162",
+   "class": "full_coverage_swap",
+   "recipe_id": 77,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 3 required; ledger says 3 of 3 sufficient with quantity evidence"
+   ],
+   "production": "2/3 required \u00b7 Missing 1",
+   "expected": "3 of 3 \u00b7 1 swap",
+   "ledger_states": [
+    "covered_by_swap",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P163",
+   "class": "short_by_quantity",
+   "recipe_id": 38,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 8 of 8 required; ledger says 6 of 8 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "8/8 required \u00b7 Complete match",
+   "expected": "6 recorded \u00b7 check green_onion, cucumber",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 6,
+   "total_required": 8
+  },
+  {
+   "pair_id": "P164",
+   "class": "full_coverage_swap",
+   "recipe_id": 124,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 3 required; ledger says 3 of 3 sufficient with quantity evidence"
+   ],
+   "production": "2/3 required \u00b7 Missing 1",
+   "expected": "3 of 3 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "covered_by_swap",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P165",
+   "class": "short_by_quantity",
+   "recipe_id": 49,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check cumin, bell_pepper",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P166",
+   "class": "observed_unknown",
+   "recipe_id": 26,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check green_onion, cucumber",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P167",
+   "class": "short_by_quantity",
+   "recipe_id": 153,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check lime, sesame_oil",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P168",
+   "class": "full_coverage",
+   "recipe_id": 58,
+   "correct": true,
+   "reasons": [],
+   "production": "7/7 required \u00b7 Complete match",
+   "expected": "7 of 7",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 7,
+   "total_required": 7
+  },
+  {
+   "pair_id": "P169",
+   "class": "full_coverage",
+   "recipe_id": 133,
+   "correct": true,
+   "reasons": [],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "6 of 6",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 6,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P170",
+   "class": "short_by_quantity",
+   "recipe_id": 163,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, tortilla",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "short"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P171",
+   "class": "stale_evidence",
+   "recipe_id": 80,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (needs_reconfirming)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check garlic",
+   "ledger_states": [
+    "sufficient",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P172",
+   "class": "observed_unknown",
+   "recipe_id": 96,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 6 of 6 required; ledger says 4 of 6 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "6/6 required \u00b7 Complete match",
+   "expected": "4 recorded \u00b7 check chicken_breast, black_beans",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P173",
+   "class": "short_by_quantity",
+   "recipe_id": 14,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check tomato, olive_oil",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "short",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P174",
+   "class": "full_coverage",
+   "recipe_id": 54,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P175",
+   "class": "full_coverage",
+   "recipe_id": 132,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P176",
+   "class": "full_coverage_swap",
+   "recipe_id": 145,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 1 of 2 required; ledger says 2 of 2 sufficient with quantity evidence"
+   ],
+   "production": "1/2 required \u00b7 Missing 1",
+   "expected": "2 of 2 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "covered_by_swap"
+   ],
+   "sufficient_count": 2,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P177",
+   "class": "full_coverage_swap",
+   "recipe_id": 72,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 4 required; ledger says 4 of 4 sufficient with quantity evidence"
+   ],
+   "production": "3/4 required \u00b7 Missing 1",
+   "expected": "4 of 4 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "covered_by_swap",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P178",
+   "class": "full_coverage",
+   "recipe_id": 50,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P179",
+   "class": "full_coverage",
+   "recipe_id": 104,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P180",
+   "class": "observed_unknown",
+   "recipe_id": 132,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check sesame_oil, pasta",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P181",
+   "class": "full_coverage",
+   "recipe_id": 147,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P182",
+   "class": "estimated_quantity",
+   "recipe_id": 52,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check ginger, lettuce",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P183",
+   "class": "estimated_quantity",
+   "recipe_id": 160,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check sesame_oil, chickpea",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "quantity_unknown"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P184",
+   "class": "stale_evidence",
+   "recipe_id": 50,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check green_onion, garlic",
+   "ledger_states": [
+    "needs_reconfirming",
+    "needs_reconfirming",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P185",
+   "class": "full_coverage_swap",
+   "recipe_id": 50,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 4 required; ledger says 4 of 4 sufficient with quantity evidence"
+   ],
+   "production": "3/4 required \u00b7 Missing 1",
+   "expected": "4 of 4 \u00b7 1 swap",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "covered_by_swap",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P186",
+   "class": "empty_pantry",
+   "recipe_id": 25,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "0 recorded \u00b7 check banana, oats, egg",
+   "ledger_states": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "sufficient_count": 0,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P187",
+   "class": "stale_evidence",
+   "recipe_id": 82,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (needs_reconfirming, needs_reconfirming)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check garlic, lime",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "needs_reconfirming",
+    "sufficient",
+    "needs_reconfirming"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P188",
+   "class": "assumed_staple",
+   "recipe_id": 161,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "4 recorded \u00b7 check cumin, green_onion",
+   "ledger_states": [
+    "sufficient",
+    "assumed_staple",
+    "assumed_staple",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 6
+  },
+  {
+   "pair_id": "P189",
+   "class": "full_coverage",
+   "recipe_id": 162,
+   "correct": true,
+   "reasons": [],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "3 of 3",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P190",
+   "class": "assumed_staple",
+   "recipe_id": 42,
+   "correct": false,
+   "reasons": [
+    "production renders no fit line for this pair (recipe absent from exact and near-match results)"
+   ],
+   "production": "<no card rendered>",
+   "expected": "2 recorded \u00b7 check sesame_oil, frozen_peas",
+   "ledger_states": [
+    "assumed_staple",
+    "sufficient",
+    "assumed_staple",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P191",
+   "class": "full_coverage",
+   "recipe_id": 73,
+   "correct": true,
+   "reasons": [],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "5 of 5",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P192",
+   "class": "observed_unknown",
+   "recipe_id": 126,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (quantity_unknown)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check cucumber",
+   "ledger_states": [
+    "quantity_unknown",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P193",
+   "class": "short_by_quantity",
+   "recipe_id": 165,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check sesame_oil, honey",
+   "ledger_states": [
+    "short",
+    "sufficient",
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P194",
+   "class": "full_coverage",
+   "recipe_id": 84,
+   "correct": true,
+   "reasons": [],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "5 of 5",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 5,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P195",
+   "class": "full_coverage",
+   "recipe_id": 75,
+   "correct": true,
+   "reasons": [],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "4 of 4",
+   "ledger_states": [
+    "sufficient",
+    "sufficient",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 4,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P196",
+   "class": "short_by_quantity",
+   "recipe_id": 159,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 2 of 2 required; ledger says 1 of 2 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 1 line(s) lack quantity evidence (short)"
+   ],
+   "production": "2/2 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check garlic",
+   "ledger_states": [
+    "short",
+    "sufficient"
+   ],
+   "sufficient_count": 1,
+   "total_required": 2
+  },
+  {
+   "pair_id": "P197",
+   "class": "short_by_quantity",
+   "recipe_id": 7,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 4 of 4 required; ledger says 2 of 4 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "4/4 required \u00b7 Complete match",
+   "expected": "2 recorded \u00b7 check tortilla, lime",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "sufficient",
+    "short"
+   ],
+   "sufficient_count": 2,
+   "total_required": 4
+  },
+  {
+   "pair_id": "P198",
+   "class": "observed_unknown",
+   "recipe_id": 82,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check black_beans, garlic",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  },
+  {
+   "pair_id": "P199",
+   "class": "short_by_quantity",
+   "recipe_id": 162,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 3 of 3 required; ledger says 1 of 3 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (short, short)"
+   ],
+   "production": "3/3 required \u00b7 Complete match",
+   "expected": "1 recorded \u00b7 check egg, soy_sauce",
+   "ledger_states": [
+    "sufficient",
+    "short",
+    "short"
+   ],
+   "sufficient_count": 1,
+   "total_required": 3
+  },
+  {
+   "pair_id": "P200",
+   "class": "observed_unknown",
+   "recipe_id": 70,
+   "correct": false,
+   "reasons": [
+    "count mismatch: production claims 5 of 5 required; ledger says 3 of 5 sufficient with quantity evidence",
+    "overclaim: production shows a complete match while 2 line(s) lack quantity evidence (quantity_unknown, quantity_unknown)"
+   ],
+   "production": "5/5 required \u00b7 Complete match",
+   "expected": "3 recorded \u00b7 check bell_pepper, sesame_oil",
+   "ledger_states": [
+    "sufficient",
+    "quantity_unknown",
+    "quantity_unknown",
+    "sufficient",
+    "sufficient"
+   ],
+   "sufficient_count": 3,
+   "total_required": 5
+  }
+ ]
+}
