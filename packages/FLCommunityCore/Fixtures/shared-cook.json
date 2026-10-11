@@ -1,0 +1,91 @@
+{
+  "completedOn" : "2026-10-11",
+  "note" : "kids loved it",
+  "rating" : 5,
+  "recipeRevision" : {
+    "ingredientLines" : [
+      {
+        "ingredient" : {
+          "canonicalName" : "paneer"
+        },
+        "isOptionalGarnish" : false,
+        "lineID" : "line-1",
+        "quantity" : {
+          "grams" : {
+            "grams" : 200
+          },
+          "kind" : "weighedGrams"
+        }
+      },
+      {
+        "ingredient" : {
+          "canonicalName" : "yogurt"
+        },
+        "isOptionalGarnish" : false,
+        "lineID" : "line-2",
+        "quantity" : {
+          "grams" : {
+            "grams" : 200
+          },
+          "kind" : "weighedGrams"
+        }
+      },
+      {
+        "ingredient" : {
+          "canonicalName" : "paprika"
+        },
+        "isOptionalGarnish" : false,
+        "lineID" : "line-3",
+        "quantity" : {
+          "grams" : {
+            "grams" : 200
+          },
+          "kind" : "weighedGrams"
+        }
+      }
+    ],
+    "key" : {
+      "revision" : 3,
+      "source" : "user",
+      "sourceRecipeID" : "paneer-tikka"
+    },
+    "servingBasis" : {
+      "servings" : 2
+    },
+    "source" : {
+      "license" : {
+        "attributionRequired" : false,
+        "cachingAllowed" : "permitted",
+        "evidence" : "author declaration recorded 2026-09-01: household original",
+        "imageRedistribution" : "permitted",
+        "modificationAllowed" : "permitted",
+        "offlineUseAllowed" : "permitted",
+        "textRedistribution" : "permitted"
+      },
+      "origin" : "user"
+    },
+    "steps" : [
+      {
+        "action" : "Toss everything and roast",
+        "durationSeconds" : 900,
+        "equipment" : [
+
+        ],
+        "stepID" : "step-1"
+      }
+    ],
+    "title" : "Paneer Tikka"
+  },
+  "servings" : 2,
+  "swaps" : [
+    {
+      "from" : {
+        "canonicalName" : "paprika"
+      },
+      "necessity" : "preferred",
+      "to" : {
+        "canonicalName" : "cayenne"
+      }
+    }
+  ]
+}
