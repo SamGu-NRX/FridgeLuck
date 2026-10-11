@@ -67,12 +67,17 @@ NOT_RUN = "not-run"
 # --------------------------------------------------------------------------
 
 
-def make_run_binding() -> dict[str, str]:
-    """The identity of THIS run, stamped onto every result it admits."""
+def make_run_binding(git: dict[str, Any] | None = None) -> dict[str, str]:
+    """The identity of THIS run, stamped onto every result it admits.
+
+    `git` is the pre-run tree snapshot: the binding (and the scorecard
+    header) must describe the tree the run STARTED from, not the tree
+    after the run wrote its own out/ artifacts.
+    """
     started = datetime.now(timezone.utc)
     return {
         "run_id": f"r-{started.strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}",
-        "git_sha": git_info()["sha"],
+        "git_sha": (git or git_info())["sha"],
         "started_at": started.strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
 
@@ -419,7 +424,9 @@ def collect(
 
 
 def build_scorecard(
-    suites_out: list[dict[str, Any]], run_binding: dict[str, str]
+    suites_out: list[dict[str, Any]],
+    run_binding: dict[str, str],
+    pre_run_git: dict[str, Any],
 ) -> dict[str, Any]:
     counts = {"pass": 0, "fail": 0, "not-run": 0}
     for s in suites_out:
@@ -428,7 +435,7 @@ def build_scorecard(
     return {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "run": dict(run_binding),
-        "git": git_info(),
+        "git": pre_run_git,  # sampled before the run wrote anything
         "toolchain": host_toolchain(),
         "summary": counts,
         "suites": suites_out,
@@ -980,10 +987,11 @@ def main() -> int:
     out_root = Path(args.out)
     out_root.mkdir(parents=True, exist_ok=True)
 
-    run_binding = make_run_binding()
+    pre_run_git = git_info()  # sampled before any out/ write can dirty the tree
+    run_binding = make_run_binding(pre_run_git)
     started = time.monotonic()
     suites_out = collect(selected, out_root, run_binding)
-    card = build_scorecard(suites_out, run_binding)
+    card = build_scorecard(suites_out, run_binding, pre_run_git)
     card["runner_duration_ms"] = int((time.monotonic() - started) * 1000)
 
     json_path = out_root / "scorecard.json"
