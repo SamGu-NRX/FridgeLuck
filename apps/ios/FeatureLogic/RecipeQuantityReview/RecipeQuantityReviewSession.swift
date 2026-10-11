@@ -81,10 +81,18 @@ public final class RecipeQuantityReviewSession: Sendable {
       rows: snapshotRows)
   }
 
+  /// A read whose numbers are not usable (NaN or infinite) is an unavailable read: the
+  /// refusal design refuses a total rather than propagating a value that would poison it.
+  private func usable(_ nutrition: QuantityReviewNutrition) -> QuantityReviewNutrition? {
+    [nutrition.calories, nutrition.protein, nutrition.carbs, nutrition.fat]
+      .allSatisfy(\.isFinite) ? nutrition : nil
+  }
+
   private func row(from row: QuantityReviewJoinedRow) async throws -> RecipeQuantityReviewSnapshot.Row {
     let originalNutrition: QuantityReviewNutrition?
     do {
-      originalNutrition = try read.nutrition(ingredientID: row.ingredientID, grams: row.quantityGrams)
+      originalNutrition = usable(
+        try read.nutrition(ingredientID: row.ingredientID, grams: row.quantityGrams))
     } catch {
       originalNutrition = nil // A failed read shows as unavailable, not as zero.
     }
@@ -95,8 +103,8 @@ public final class RecipeQuantityReviewSession: Sendable {
       do {
         // The substitute's plan amount is the recipe grams through the existing ratio;
         // the nutrition read happens at exactly that amount, so the ratio is baked in once.
-        replacementNutrition = try read.nutrition(
-          ingredientID: substituteID, grams: row.quantityGrams * ratio)
+        replacementNutrition = usable(
+          try read.nutrition(ingredientID: substituteID, grams: row.quantityGrams * ratio))
       } catch {
         replacementNutrition = nil
       }
@@ -142,14 +150,24 @@ public enum RecipeQuantityReviewValidation {
         throw RecipeQuantityReviewFailure.inconsistentRows(
           "Ingredient \(row.ingredientID) has unusable grams \(row.quantityGrams)")
       }
+      // Substitute fields must be present together — id, name, and ratio — or not at
+      // all. A partial substitute would render a name with no amounts or scale an
+      // unknown target, and the refusal design guesses at nothing.
+      let substituteFields = [
+        row.substituteID != nil, row.substituteName != nil, row.substituteRatio != nil,
+      ]
+      guard
+        substituteFields.allSatisfy({ $0 })
+          || substituteFields.allSatisfy({ !$0 })
+      else {
+        throw RecipeQuantityReviewFailure.inconsistentRows(
+          "Substitute fields for ingredient \(row.ingredientID) are incomplete: " +
+            "substitute id, name, and ratio must be present together")
+      }
       if let ratio = row.substituteRatio {
         guard ratio.isFinite, ratio > 0 else {
           throw RecipeQuantityReviewFailure.inconsistentRows(
             "Substitute ratio \(ratio) for ingredient \(row.ingredientID) is unusable")
-        }
-        if row.substituteName == nil {
-          throw RecipeQuantityReviewFailure.inconsistentRows(
-            "Ratio present without a substitute name for ingredient \(row.ingredientID)")
         }
       }
     }

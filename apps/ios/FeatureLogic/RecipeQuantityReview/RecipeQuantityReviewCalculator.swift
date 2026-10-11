@@ -84,8 +84,16 @@ public enum RecipeQuantityReviewCalculator {
     for row in rows {
       let rowAmounts = amounts(row: row, servingFactor: servingFactor)
       // A substituted row's plan amount is the substitute's, so its total contribution is
-      // the substitute's calories; otherwise the original's.
-      guard let calories = rowAmounts.replacementCalories ?? rowAmounts.originalCalories else {
+      // the substitute's calories. When the substitute's read is unavailable the total
+      // refuses — falling back to the original's energy would count food that is not in
+      // the plan.
+      let rowCalories: Double?
+      if rowAmounts.replacementGrams != nil {
+        rowCalories = rowAmounts.replacementCalories
+      } else {
+        rowCalories = rowAmounts.originalCalories
+      }
+      guard let calories = rowCalories else {
         return nil
       }
       total += calories

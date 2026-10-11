@@ -444,7 +444,7 @@ struct RecipeQuantityReviewView: View {
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textSecondary)
         .multilineTextAlignment(.center)
-      FLPrimaryButton(title: "Try again", systemImage: "arrow.clockwise") {
+      FLPrimaryButton("Try again", systemImage: "arrow.clockwise") {
         Task { await load() }
       }
       .padding(.top, AppTheme.Space.xxs)

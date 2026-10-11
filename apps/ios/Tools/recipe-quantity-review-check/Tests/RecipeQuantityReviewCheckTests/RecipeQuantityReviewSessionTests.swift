@@ -94,18 +94,20 @@ final class RecipeQuantityReviewSessionTests: XCTestCase {
     XCTAssertEqual(amounts.replacementCalories ?? 0, 76, accuracy: 0.001) // 121.6 × 0.625
   }
 
-  func testRecipeNotFoundRefuses() async {
+  func testEmptyRowsRefuse() async {
     let db = try! ReviewFixture.inMemory()
     try! standardFixture(db)
     let (repository, nutritionService) = makeServices(db: db)
 
-    // Recipe 10 has rows; recipe 99 has none — the joinedRows read returns empty first.
+    // Recipe 10 has rows; recipe 99 has none — the joinedRows read returns empty first,
+    // so this path refuses as noIngredientRows. The missing-recipe-denominator case is
+    // covered by testMissingRecipeRowRefusesWithRecipeNotFound.
     let reader = ReaderAdapter(
       recipeRepository: repository, nutritionService: nutritionService,
       activeSubstitutions: [:])
     do {
       _ = try await RecipeQuantityReviewSession(read: reader).load(recipeID: 99)
-      XCTFail("expected recipeNotFound")
+      XCTFail("expected noIngredientRows")
     } catch let failure as RecipeQuantityReviewFailure {
       XCTAssertEqual(failure, .noIngredientRows)
     } catch {
