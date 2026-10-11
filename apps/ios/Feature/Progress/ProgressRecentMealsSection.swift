@@ -2,6 +2,9 @@ import SwiftUI
 
 struct ProgressRecentMealsSection: View {
   let recentJournal: [CookingJournalEntry]
+  /// Tapping a meal routes to the existing journal detail screen (the
+  /// owner of entry revisions) — decided by `ProgressFlowPolicy`.
+  var onTapMeal: ((CookingJournalEntry) -> Void)? = nil
   @EnvironmentObject var deps: AppDependencies
 
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -107,6 +110,10 @@ struct ProgressRecentMealsSection: View {
     .accessibilityLabel(
       "\(entry.recipe.title), cooked on \(entry.cookedAt.formatted(.dateTime.month(.abbreviated).day())), \(Int(entry.macrosConsumed.calories.rounded())) calories\(entry.rating.map { ", rated \($0) stars" } ?? "")"
     )
+    .contentShape(Rectangle())
+    .onTapGesture { onTapMeal?(entry) }
+    .accessibilityAddTraits(onTapMeal != nil ? [.isButton] : [])
+    .accessibilityHint(onTapMeal != nil ? "Opens the meal in your journal" : "")
   }
 
   // MARK: - Empty State

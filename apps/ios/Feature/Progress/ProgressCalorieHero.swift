@@ -4,6 +4,9 @@ struct ProgressCalorieHero: View {
   let consumed: Double
   let goal: Double
   let goalLabel: String
+  /// A suggested default must never present as user-set (R2): when the
+  /// goal is not a saved personal target, the pill says so explicitly.
+  var goalIsSuggested: Bool = false
 
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.colorScheme) private var colorScheme
@@ -54,14 +57,25 @@ struct ProgressCalorieHero: View {
               .foregroundStyle(AppTheme.textSecondary)
           }
 
-          // Goal type pill
-          if !goalLabel.isEmpty {
-            Text(goalLabel)
-              .font(AppTheme.Typography.labelSmall)
-              .foregroundStyle(AppTheme.sage)
-              .padding(.horizontal, AppTheme.Space.xs)
-              .padding(.vertical, AppTheme.Space.xxs)
-              .background(AppTheme.sage.opacity(0.16), in: Capsule())
+          // Goal type pills — a suggested default is labelled as such so
+          // it never presents as user-set.
+          HStack(spacing: AppTheme.Space.xxs) {
+            if !goalLabel.isEmpty {
+              Text(goalLabel)
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.sage)
+                .padding(.horizontal, AppTheme.Space.xs)
+                .padding(.vertical, AppTheme.Space.xxs)
+                .background(AppTheme.sage.opacity(0.16), in: Capsule())
+            }
+            if goalIsSuggested {
+              Text("Suggested target")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.accent)
+                .padding(.horizontal, AppTheme.Space.xs)
+                .padding(.vertical, AppTheme.Space.xxs)
+                .background(AppTheme.accent.opacity(0.14), in: Capsule())
+            }
           }
         }
 

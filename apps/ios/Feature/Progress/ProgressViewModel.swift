@@ -3,30 +3,6 @@ import GRDB
 import Observation
 import os
 
-enum ChartRange: Int, CaseIterable, Identifiable, Sendable {
-  case week = 7
-  case month = 30
-  case threeMonths = 90
-
-  var id: Int { rawValue }
-
-  var label: String {
-    switch self {
-    case .week: "7D"
-    case .month: "30D"
-    case .threeMonths: "90D"
-    }
-  }
-
-  var sectionTitle: String {
-    switch self {
-    case .week: "This Week"
-    case .month: "Last 30 Days"
-    case .threeMonths: "Last 90 Days"
-    }
-  }
-}
-
 @Observable
 @MainActor
 final class ProgressViewModel {
@@ -37,30 +13,60 @@ final class ProgressViewModel {
   var snapshot: ProgressSnapshot?
   var isLoading = false
   var errorMessage: String?
-  var rangeMacros: [DailyMacroPoint] = []
+
+  /// Owned trend-range presentation state (selection, in-flight load, the
+  /// reading shown). Mutated only through the coordinator; the view model
+  /// mirrors it for the view.
+  private(set) var rangeState: ProgressRangeState = .idle
+
+  /// Provenance-tagged readings backing the cards.
+  private(set) var todayReading: ProgressTodayReading?
+  private(set) var weeklyReading: ProgressRangeReading?
+  private(set) var goalTarget: ProgressGoalTarget?
+
   private var pendingReload = false
 
   // MARK: - Dependencies
 
   private let userDataRepository: UserDataRepository
-  private let personalizationService: PersonalizationService
-  private let appleHealthService: AppleHealthServicing
-  private var cookingHistoryObserver: AnyDatabaseCancellable?
+  private let readModel: ProgressReadModel
+  private let rangeCoordinator: ProgressRangeCoordinator
+  private var revisionCancellable: AnyDatabaseCancellable?
   private var appleHealthObserver: NSObjectProtocol?
 
   init(
     userDataRepository: UserDataRepository,
     personalizationService: PersonalizationService,
-    appleHealthService: AppleHealthServicing
+    appleHealthService: AppleHealthServicing,
+    database: AppDatabase
   ) {
     self.userDataRepository = userDataRepository
-    self.personalizationService = personalizationService
-    self.appleHealthService = appleHealthService
-    startLiveUpdates()
+    let readModel = ProgressReadModel(
+      userDataRepository: userDataRepository,
+      personalizationService: personalizationService,
+      appleHealthService: appleHealthService)
+    self.readModel = readModel
+    self.rangeCoordinator = .live(readModel: readModel, queue: database.dbQueue)
+
+    rangeCoordinator.onStateChange = { [weak self] state in
+      Task { @MainActor in
+        self?.rangeState = state
+      }
+    }
+
+    // Journal and profile revisions (portion edits, date shifts, goal
+    // changes) arrive through the revision token — the shared dashboard
+    // observer misses those dimensions, so Progress owns this observation.
+    startRevisionObservation(queue: database.dbQueue)
+    // Apple Health imports bypass the tracked tables; they surface as a
+    // notification and trigger an explicit refresh.
+    startHealthImportObserver()
   }
 
   // MARK: - Loading
 
+  /// Full tab load through the read model: provenance-tagged today/weekly
+  /// readings, the resolved goal target, recent journal entries, and stats.
   func load() async {
     if isLoading {
       pendingReload = true
@@ -77,35 +83,24 @@ final class ProgressViewModel {
     }
 
     do {
-      let hasOnboarded = try userDataRepository.hasCompletedOnboarding()
+      let reading = try await readModel.loadReading()
+      let hasOnboarded = reading.stats.hasOnboarded
       let profile = hasOnboarded ? try userDataRepository.fetchHealthProfile() : .default
-      let recentJournal = try userDataRepository.cookingJournal(limit: 12)
-      let totalMeals = try userDataRepository.totalMealsCooked()
-      let totalRecipes = try userDataRepository.totalRecipesUsed()
-      let streak = try personalizationService.currentStreak()
-      let avgRating = try userDataRepository.averageRating()
-      let weekActivity = try personalizationService.weekActivity()
 
-      let localTodayMacros = try userDataRepository.todayMacros()
-      let localWeeklyMacros = try userDataRepository.dailyMacroTotals(lastDays: 7)
-      let nutritionSource = await resolvedNutritionSource(
-        localTodayMacros: localTodayMacros,
-        localWeeklyMacros: localWeeklyMacros
-      )
-
-      let savedWinners = Self.deriveSavedWinners(from: recentJournal)
-
+      todayReading = reading.today
+      weeklyReading = reading.weekly
+      goalTarget = reading.goal
       snapshot = ProgressSnapshot(
         healthProfile: profile,
-        todayMacros: nutritionSource.today,
-        weeklyMacros: nutritionSource.weekly,
-        recentJournal: recentJournal,
-        savedWinners: savedWinners,
-        totalMealsCooked: totalMeals,
-        totalRecipesUsed: totalRecipes,
-        currentStreak: streak,
-        averageRating: avgRating,
-        weekActivity: weekActivity,
+        todayMacros: reading.today.totals,
+        weeklyMacros: Self.macroPoints(from: reading.weekly),
+        recentJournal: reading.recentJournal,
+        savedWinners: Self.deriveSavedWinners(from: reading.recentJournal),
+        totalMealsCooked: reading.stats.totalMealsCooked,
+        totalRecipesUsed: reading.stats.totalRecipesUsed,
+        currentStreak: reading.stats.currentStreak,
+        averageRating: reading.stats.averageRating,
+        weekActivity: reading.stats.weekActivity,
         hasOnboarded: hasOnboarded
       )
       errorMessage = nil
@@ -115,6 +110,19 @@ final class ProgressViewModel {
     }
   }
 
+  // MARK: - Range Selection
+
+  /// The user picked a trend range; the coordinator cancels any in-flight
+  /// read and keeps the last good reading visible while loading.
+  func selectRange(_ range: ChartRange) {
+    rangeCoordinator.select(range)
+  }
+
+  /// Explicit trend refresh (pull-to-refresh, Health import).
+  func refreshTrend() {
+    rangeCoordinator.refresh()
+  }
+
   // MARK: - Derived Goals
 
   private var goalProfile: HealthProfile {
@@ -122,23 +130,20 @@ final class ProgressViewModel {
   }
 
   var dailyCalorieGoal: Double {
-    let profile = goalProfile
-    return Double(profile.dailyCalories ?? profile.goal.suggestedCalories)
+    goalTarget?.calories
+      ?? Double(goalProfile.dailyCalories ?? goalProfile.goal.suggestedCalories)
   }
 
   var dailyProteinGoalGrams: Double {
-    let profile = goalProfile
-    return (dailyCalorieGoal * profile.proteinPct) / 4.0
+    goalTarget?.proteinGrams ?? (dailyCalorieGoal * goalProfile.proteinPct) / 4.0
   }
 
   var dailyCarbsGoalGrams: Double {
-    let profile = goalProfile
-    return (dailyCalorieGoal * profile.carbsPct) / 4.0
+    goalTarget?.carbsGrams ?? (dailyCalorieGoal * goalProfile.carbsPct) / 4.0
   }
 
   var dailyFatGoalGrams: Double {
-    let profile = goalProfile
-    return (dailyCalorieGoal * profile.fatPct) / 9.0
+    goalTarget?.fatGrams ?? (dailyCalorieGoal * goalProfile.fatPct) / 9.0
   }
 
   var todayCaloriePct: Double {
@@ -156,11 +161,12 @@ final class ProgressViewModel {
     return snap.todayMacros.calories > dailyCalorieGoal
   }
 
+  /// Weekly insight computed over days with data only — unknown days never
+  /// count as 0-calorie days.
   var weeklyInsight: String? {
-    guard let snap = snapshot, !snap.weeklyMacros.isEmpty else { return nil }
-    let avg = snap.weeklyMacros.map(\.calories).reduce(0, +) / Double(snap.weeklyMacros.count)
+    guard let weekly = weeklyReading, let avg = weekly.averageCalories else { return nil }
+    let daysLogged = weekly.knownDays.count
     let goalDiff = avg - dailyCalorieGoal
-    let daysLogged = snap.weeklyMacros.count
 
     if daysLogged < 3 {
       return "Log a few more meals this week to see your trend."
@@ -168,45 +174,10 @@ final class ProgressViewModel {
       return "Great week! You averaged \(Int(avg.rounded())) cal/day \u{2014} right on target."
     } else if goalDiff > 0 {
       return
-        "You averaged \(Int(avg.rounded())) cal/day \u{2014} \(Int(goalDiff.rounded())) over your goal."
+        "You averaged \(Int(avg.rounded())) cal/day \u{2014} \(Int(goalDiff.rounded())) over your target."
     } else {
       return
-        "You averaged \(Int(avg.rounded())) cal/day \u{2014} \(Int(abs(goalDiff).rounded())) under your goal."
-    }
-  }
-
-  // MARK: - Range Loading
-
-  func loadMacros(for range: ChartRange) async {
-    if range == .week {
-      rangeMacros = snapshot?.weeklyMacros ?? []
-      return
-    }
-
-    do {
-      let localMacros = try userDataRepository.dailyMacroTotals(lastDays: range.rawValue)
-
-      guard appleHealthService.authorizationStatus() == .authorized else {
-        rangeMacros = localMacros
-        return
-      }
-
-      let healthMacros = try await appleHealthService.fetchDailyNutritionTotals(
-        lastDays: range.rawValue,
-        endingOn: Date()
-      )
-      rangeMacros = healthMacros.map {
-        DailyMacroPoint(
-          date: $0.date,
-          calories: $0.totals.calories,
-          protein: $0.totals.proteinGrams,
-          carbs: $0.totals.carbsGrams,
-          fat: $0.totals.fatGrams
-        )
-      }
-    } catch {
-      Self.logger.error("Failed to load range macros: \(error.localizedDescription)")
-      rangeMacros = snapshot?.weeklyMacros ?? []
+        "You averaged \(Int(avg.rounded())) cal/day \u{2014} \(Int(abs(goalDiff).rounded())) under your target."
     }
   }
 
@@ -237,79 +208,52 @@ final class ProgressViewModel {
     .sorted { $0.lastCookedAt > $1.lastCookedAt }
   }
 
+  /// Known days only — the chart never plots a missing day as zero.
+  private static func macroPoints(from reading: ProgressRangeReading) -> [DailyMacroPoint] {
+    reading.days.compactMap { point in
+      guard let value = point.value else { return nil }
+      return DailyMacroPoint(
+        date: point.date,
+        calories: value.calories,
+        protein: value.protein,
+        carbs: value.carbs,
+        fat: value.fat
+      )
+    }
+  }
+
   // MARK: - Live Updates
 
-  private func startLiveUpdates() {
-    cookingHistoryObserver = userDataRepository.observeCookingHistoryChanges(
+  /// Revision-token observation: fires on journal writes (including portion
+  /// edits and date shifts) and on health-profile changes, then reloads the
+  /// tab and refreshes the trend range.
+  private func startRevisionObservation(queue: DatabaseQueue) {
+    let coordinator = rangeCoordinator
+    revisionCancellable = ProgressRevisionToken.observation().start(
+      in: queue,
+      scheduling: .mainActor,
       onError: { error in
-        Self.logger.error("Cooking history observer failed: \(error.localizedDescription)")
+        Self.logger.error("Progress revision observation failed: \(error.localizedDescription)")
       },
-      onChange: { [weak self] in
-        guard let self else { return }
-        Task { await self.load() }
+      onChange: { _ in
+        coordinator.refresh()
+        Task { @MainActor [weak self] in
+          await self?.load()
+        }
       }
     )
+  }
 
+  private func startHealthImportObserver() {
     appleHealthObserver = NotificationCenter.default.addObserver(
       forName: .appleHealthDidUpdate,
       object: nil,
       queue: .main
     ) { [weak self] _ in
-      guard let self else { return }
-      Task { await self.load() }
-    }
-  }
-
-  private func resolvedNutritionSource(
-    localTodayMacros: MacroTotals,
-    localWeeklyMacros: [DailyMacroPoint]
-  ) async -> (today: MacroTotals, weekly: [DailyMacroPoint]) {
-    guard appleHealthService.authorizationStatus() == .authorized else {
-      return (localTodayMacros, localWeeklyMacros)
-    }
-
-    let calendar = Calendar.current
-    let startOfToday = calendar.startOfDay(for: Date())
-    guard let startOfTomorrow = calendar.date(byAdding: .day, value: 1, to: startOfToday) else {
-      return (localTodayMacros, localWeeklyMacros)
-    }
-
-    do {
-      async let todayTotals = appleHealthService.fetchNutritionTotals(
-        in: DateInterval(start: startOfToday, end: startOfTomorrow)
-      )
-      async let weeklyTotals = appleHealthService.fetchDailyNutritionTotals(
-        lastDays: 7,
-        endingOn: Date()
-      )
-
-      let resolvedTodayTotals = try await todayTotals
-      let resolvedWeeklyTotals = try await weeklyTotals
-
-      guard let resolvedTodayTotals else {
-        return (localTodayMacros, localWeeklyMacros)
+      Task { @MainActor [weak self] in
+        await self?.load()
+        self?.refreshTrend()
       }
-
-      let todayMacros = MacroTotals(
-        calories: resolvedTodayTotals.calories,
-        protein: resolvedTodayTotals.proteinGrams,
-        carbs: resolvedTodayTotals.carbsGrams,
-        fat: resolvedTodayTotals.fatGrams
-      )
-      let weeklyMacros = resolvedWeeklyTotals.map {
-        DailyMacroPoint(
-          date: $0.date,
-          calories: $0.totals.calories,
-          protein: $0.totals.proteinGrams,
-          carbs: $0.totals.carbsGrams,
-          fat: $0.totals.fatGrams
-        )
-      }
-
-      return (todayMacros, weeklyMacros)
-    } catch {
-      Self.logger.error("Falling back to local nutrition totals: \(error.localizedDescription)")
-      return (localTodayMacros, localWeeklyMacros)
     }
   }
 }
