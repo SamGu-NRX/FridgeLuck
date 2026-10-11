@@ -104,6 +104,23 @@ final class FixtureContractTests: XCTestCase {
         )
     }
 
+    private func sampleUserRecipePublication() throws -> RecipeSharePayload {
+        // The .user publication path: a household-authored revision with an
+        // own-work rights declaration, under the same export policy as
+        // sharing. Freezes the publication wire shape for cross-language use.
+        let revision = try TestSupport.revision(
+            slug: "household-dal",
+            license: TestSupport.license(attributionRequired: true, evidence: "household original, recorded by the author"),
+            attribution: "Recipe by the household"
+        )
+        let recipe = try UserRecipe(revision: revision, updatedAt: try TestSupport.date("2026-10-11T08:00:00.000Z"))
+        let (_, payload) = try recipe.published(
+            statement: "original recipe written by our household",
+            at: try TestSupport.date("2026-10-11T11:00:00.000Z")
+        )
+        return payload
+    }
+
     private func sampleProfileEditEvent() throws -> PreferenceEvent {
         let sentence = try TestSupport.profileSentence()
         return try TestSupport.profileEvent(
@@ -140,5 +157,13 @@ final class FixtureContractTests: XCTestCase {
 
     func testProfileEditEventFixture() throws {
         try assertFixture("profile-edit-event.json", fresh: { try self.sampleProfileEditEvent() }, as: PreferenceEvent.self)
+    }
+
+    func testUserRecipePublicationFixture() throws {
+        try assertFixture(
+            "user-recipe-publication.json",
+            fresh: { try self.sampleUserRecipePublication() },
+            as: RecipeSharePayload.self
+        )
     }
 }

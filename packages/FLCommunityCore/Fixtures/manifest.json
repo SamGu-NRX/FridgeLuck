@@ -3,6 +3,7 @@
   "fixtures": [
     { "file": "shared-cook.json", "kind": "SharedCook" },
     { "file": "challenge-progress.json", "kind": "ChallengeProgress" },
-    { "file": "profile-edit-event.json", "kind": "PreferenceEvent" }
+    { "file": "profile-edit-event.json", "kind": "PreferenceEvent" },
+    { "file": "user-recipe-publication.json", "kind": "RecipeSharePayload" }
   ]
 }

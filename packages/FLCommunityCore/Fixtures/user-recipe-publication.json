@@ -1,0 +1,84 @@
+{
+  "declaration" : {
+    "declaredAt" : "2026-10-11T11:00:00.000Z",
+    "kind" : "ownWork",
+    "statement" : "original recipe written by our household"
+  },
+  "revision" : {
+    "ingredientLines" : [
+      {
+        "ingredient" : {
+          "canonicalName" : "paneer"
+        },
+        "isOptionalGarnish" : false,
+        "lineID" : "line-1",
+        "quantity" : {
+          "grams" : {
+            "grams" : 200
+          },
+          "kind" : "weighedGrams"
+        }
+      },
+      {
+        "ingredient" : {
+          "canonicalName" : "yogurt"
+        },
+        "isOptionalGarnish" : false,
+        "lineID" : "line-2",
+        "quantity" : {
+          "grams" : {
+            "grams" : 200
+          },
+          "kind" : "weighedGrams"
+        }
+      },
+      {
+        "ingredient" : {
+          "canonicalName" : "paprika"
+        },
+        "isOptionalGarnish" : false,
+        "lineID" : "line-3",
+        "quantity" : {
+          "grams" : {
+            "grams" : 200
+          },
+          "kind" : "weighedGrams"
+        }
+      }
+    ],
+    "key" : {
+      "revision" : 3,
+      "source" : "user",
+      "sourceRecipeID" : "household-dal"
+    },
+    "servingBasis" : {
+      "servings" : 2
+    },
+    "source" : {
+      "attribution" : "Recipe by the household",
+      "license" : {
+        "attributionRequired" : true,
+        "cachingAllowed" : "permitted",
+        "evidence" : "household original, recorded by the author",
+        "imageRedistribution" : "permitted",
+        "modificationAllowed" : "permitted",
+        "offlineUseAllowed" : "permitted",
+        "textRedistribution" : "permitted"
+      },
+      "origin" : "user"
+    },
+    "steps" : [
+      {
+        "action" : "Toss everything and roast",
+        "durationSeconds" : 900,
+        "equipment" : [
+
+        ],
+        "stepID" : "step-1"
+      }
+    ],
+    "title" : "Paneer Tikka"
+  },
+  "schema" : "flcommunity.v1",
+  "sharedAt" : "2026-10-11T11:00:00.000Z"
+}
