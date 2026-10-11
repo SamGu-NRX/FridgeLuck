@@ -1,0 +1,45 @@
+{
+  "grounding": {
+    "corpus": "apps/ios/Resources/data.json",
+    "corpus_sha256": "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be",
+    "corpus_note": "The brief named assets/recipes.json; that file does not exist on any branch. The manifest is grounded on the production bundled corpus the app actually loads (apps/ios/Resources/data.json via BundledDataLoader).",
+    "usda": {
+      "present": true,
+      "records": 800,
+      "matched": 36,
+      "total": 50
+    },
+    "usda_path": "scripts/data/catalog/usda_curated_ingredients.json",
+    "production_files_sha256": {
+      "apps/ios/Domain/Models/Recipe.swift": "b386f4ca5b0ce1ddb5a3223f9f1e5b1b4945493083a4126134492fbd5ebd9849",
+      "apps/ios/Domain/Models/Ingredient.swift": "a05bf49ccfda97969b9e12977d2dbe8544af583775527a67f85368651aecdd25",
+      "apps/ios/Domain/Models/IngredientSwap.swift": "e97c6fde10c6679e781834e719b6bb3dfb083cc27fc1d638f462a90f962f5ca5",
+      "apps/ios/Domain/Models/Inventory.swift": "5fb1960c1f6e9f8a1da72ce385c126e480d2f66dbaf3ca02c2aad4d660fbb14a",
+      "apps/ios/Domain/Models/HealthProfile.swift": "58737030b6a07b49b4ccefad74972f24c5f1f061ecba7e569cd39930f7c57b1f",
+      "apps/ios/Domain/Models/UserProgress.swift": "9b29efc1acd30a2f1821c75be672ff27c63ec013d9622be9bac93fc42b78ada9",
+      "apps/ios/FeatureLogic/Recommendation/RecommendationPolicy.swift": "32a21f6ec4525c16e96b43fab69a39204c4013fe8f2e3b86c1069d17c7e9f6f9",
+      "apps/ios/Platform/Persistence/Database/Migrations.swift": "41ee330123f9a148af13f759817897fe8e663b952b77156ab4e5cd0d09718ec5",
+      "apps/ios/Platform/Persistence/Repository/RecipeRepository.swift": "a73c9bd4871a4be656da330f0c57d9859d11e92f7e9e6ffa26c9dc324f36b8a8",
+      "apps/ios/Platform/Persistence/Repository/RecipeScoring.swift": "488a1e46c7e7e58c77b17266e593590e2e9dfc02283f4be946fe8224641ab0ef",
+      "apps/ios/Platform/Persistence/Services/NutritionService.swift": "a9560ec83d82105d2e45a5846db2b142e97b4871f3dde51734a31411f2499311",
+      "apps/ios/Platform/Persistence/Services/HealthScoringService.swift": "204441c26e44ae3e55d0a8d13d2d02ab69378b3f1cedeb4434b7463afb3708bf",
+      "apps/ios/Platform/Persistence/Services/PersonalizationService.swift": "0cfd351dcd33ea3cc5330e2096a97b2899b33f79b2f4af33101f1e84419831a3"
+    },
+    "production_files_verbatim": true
+  },
+  "seed": 20261011,
+  "pair_class_mix": {
+    "full_coverage": 50,
+    "full_coverage_swap": 15,
+    "short_by_quantity": 40,
+    "observed_unknown": 30,
+    "estimated_quantity": 20,
+    "stale_evidence": 20,
+    "assumed_staple": 20,
+    "empty_pantry": 5
+  },
+  "n_pairs": 200,
+  "n_plans": 62,
+  "ingredients": 50,
+  "recipes": 166
+}
