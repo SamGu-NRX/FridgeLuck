@@ -1,0 +1,6 @@
+# Generated source symlinks
+Sources/ProfileBasicsCheck/*.swift
+
+# SwiftPM build artifacts
+.build/
+*.xcodeproj

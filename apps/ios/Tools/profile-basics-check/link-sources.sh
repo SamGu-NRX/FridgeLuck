@@ -1,26 +1,43 @@
-#!/bin/sh
-# Recreates the Sources/ProfileBasicsCheck symlinks into the app's existing
-# sources. Nothing is forked: every file under test is the real production
-# source. Run once from the package root before `swift test` (the linked files
-# are not committed — they are generated here).
-set -eu
-cd "$(dirname "$0")"
+#!/usr/bin/env bash
+# Links the real production sources this harness needs into Sources/ProfileBasicsCheck
+# as generated symlinks. Idempotent; exits non-zero when a source is missing so the
+# harness can never silently build without the real code.
+#
+# NOTE: existence checks resolve against the SYMLINK DIRECTORY (Sources/ProfileBasicsCheck),
+# not the package root — checking the repo-relative path from the package root would
+# silently skip every source.
+set -euo pipefail
 
+cd "$(dirname "$0")"
 LINK_DIR="Sources/ProfileBasicsCheck"
 mkdir -p "$LINK_DIR"
 
-# Paths are relative to $LINK_DIR (../../.. = this package root, ../../../../ = apps/ios).
-for f in \
-  "../../../../Domain/Models/HealthProfile.swift" \
-  "../../../../Platform/Persistence/Repository/UserDataRepository.swift" \
-  "../../../../Platform/Persistence/Database/Migrations.swift" \
+SOURCES=(
+  "../../../../Domain/Models/HealthProfile.swift"
+  "../../../../Domain/Models/DashboardModels.swift"
+  "../../../../Domain/Models/Recipe.swift"
+  "../../../../Domain/Models/UserProgress.swift"
+  "../../../../Domain/Models/Inventory.swift"
+  "../../../../Feature/Dashboard/HomeDashboardModels.swift"
+  "../../../../Platform/Persistence/Repository/UserDataRepository.swift"
+  "../../../../Platform/Persistence/Database/Migrations.swift"
   "../../../../Feature/Settings/ProfileBasics/ProfileBasicsCore.swift"
-do
-  if [ -e "$f" ]; then
-    ln -sfn "$f" "$LINK_DIR/$(basename "$f")"
+)
+
+linked=0
+for src in "${SOURCES[@]}"; do
+  target="$LINK_DIR/$(basename "$src")"
+  if [ -f "$src" ]; then
+    ln -sfn "$(cd "$(dirname "$src")" && pwd)/$(basename "$src")" "$target"
+    linked=$((linked + 1))
+  elif [ -f "$target" ]; then
+    # Source vanished but a stale link remains: drop it so the build cannot
+    # keep using code that is no longer in the tree.
+    rm -f "$target"
+    echo "skip (removed stale link, not present anymore): $src"
   else
-    echo "skip (not present yet): $f" >&2
+    echo "skip (not present yet): $src"
   fi
 done
 
-echo "Linked $(ls -1 "$LINK_DIR" | wc -l) production sources into $LINK_DIR"
+echo "Linked $linked production sources into $LINK_DIR"
