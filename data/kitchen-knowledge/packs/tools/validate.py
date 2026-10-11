@@ -116,6 +116,7 @@ UNVERIFIED_IDS = {
 }
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 MONTH_RE = re.compile(r"^\d{4}-\d{2}$")
 
 errors = []
@@ -126,11 +127,11 @@ def err(msg):
     errors.append(msg)
 
 
-def load_catalog_ids():
-    if not os.path.exists(CATALOG):
-        err(f"catalog sqlite not found at {CATALOG}")
+def load_catalog_ids_with(catalog_path):
+    if not os.path.exists(catalog_path):
+        err(f"catalog sqlite not found at {catalog_path}")
         return set()
-    conn = sqlite3.connect(f"file:{CATALOG}?mode=ro", uri=True)
+    conn = sqlite3.connect(f"file:{catalog_path}?mode=ro", uri=True)
     try:
         rows = conn.execute("SELECT fdc_id FROM ingredient_catalog").fetchall()
     finally:
@@ -175,6 +176,16 @@ def check_envelope(name, doc, expected_kind):
     return data, smap
 
 
+def check_pack_id(name, pid, where):
+    """Pack/region ids must be non-empty lowercase slugs; a missing or
+    malformed id refuses rather than flowing through as None."""
+    if not isinstance(pid, str) or not SLUG_RE.match(pid):
+        err(f"{name}: {where} has invalid pack id {pid!r} "
+            f"(want non-empty lowercase [a-z0-9_-])")
+        return False
+    return True
+
+
 def check_citation(name, smap, cid, where):
     if cid not in smap:
         err(f"{name}: {where} cites unknown citationId {cid!r}")
@@ -208,6 +219,8 @@ def validate_budget(name, doc, catalog_ids):
     pack_ids = set()
     for p in data.get("packs", []):
         pid = p.get("id")
+        if not check_pack_id(name, pid, "pack"):
+            continue
         if pid in pack_ids:
             err(f"{name}: duplicate pack id {pid}")
         pack_ids.add(pid)
@@ -237,6 +250,8 @@ def validate_budget(name, doc, catalog_ids):
                 total += price
             if it.get("priceSourceId") != "s1":
                 err(f"{name}: {where} priceSourceId != s1")
+            for cid in it.get("citationIds", []) or []:
+                check_citation(name, smap, cid, where)
         for cid in p.get("citationIds", []):
             check_citation(name, smap, cid, f"pack {pid}")
         total = round(total, 4)
@@ -254,6 +269,8 @@ def validate_food_bank(name, doc, catalog_ids):
     pack_ids = set()
     for p in data.get("packs", []):
         pid = p.get("id")
+        if not check_pack_id(name, pid, "pack"):
+            continue
         if pid in pack_ids:
             err(f"{name}: duplicate pack id {pid}")
         pack_ids.add(pid)
@@ -284,6 +301,8 @@ def validate_seasonal(name, doc, catalog_ids):
     region_ids = set()
     for r in data.get("regions", []):
         rid = r.get("id")
+        if not check_pack_id(name, rid, "region"):
+            continue
         if rid in region_ids:
             err(f"{name}: duplicate region id {rid}")
         region_ids.add(rid)
@@ -329,6 +348,8 @@ def validate_use_it_up(name, doc, catalog_ids):
     pack_ids = set()
     for p in data.get("packs", []):
         pid = p.get("id")
+        if not check_pack_id(name, pid, "pack"):
+            continue
         if pid in pack_ids:
             err(f"{name}: duplicate pack id {pid}")
         pack_ids.add(pid)
@@ -341,6 +362,8 @@ def validate_use_it_up(name, doc, catalog_ids):
             where = f"{pid}/{ing.get('ingredientKey')}"
             check_key(name, ing.get("ingredientKey"), where)
             check_fdc(name, catalog_ids, ing.get("usdaFdcId"), where)
+            for cid in ing.get("citationIds", []) or []:
+                check_citation(name, smap, cid, where)
         for cid in p.get("citationIds", []):
             check_citation(name, smap, cid, f"pack {pid}")
     if not 8 <= len(pack_ids) <= 10:
@@ -349,10 +372,19 @@ def validate_use_it_up(name, doc, catalog_ids):
 
 
 def main():
-    catalog_ids = load_catalog_ids()
+    argv = sys.argv[1:]
+    packs_dir = PACKS_DIR
+    catalog = CATALOG
+    if "--packs-dir" in argv:
+        packs_dir = argv[argv.index("--packs-dir") + 1]
+    if "--catalog" in argv:
+        catalog = argv[argv.index("--catalog") + 1]
+    catalog_ids = load_catalog_ids_with(catalog)
+    global CATALOG_PATH_OVERRIDE
+    CATALOG_PATH_OVERRIDE = catalog
     all_pack_ids = {}
     for fname, kind in FILES.items():
-        path = os.path.join(PACKS_DIR, fname)
+        path = os.path.join(packs_dir, fname)
         if not os.path.exists(path):
             err(f"missing file: {fname}")
             continue

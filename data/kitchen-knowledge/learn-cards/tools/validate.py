@@ -178,6 +178,29 @@ def main():
         check(listed == cards_without,
               f"index coverage.missingNutrition {listed} != cards without nutrition {cards_without}")
 
+    # Universe conservation: every seed-corpus line's frequency lands on
+    # exactly one card. A counting regression (an earlier build looked up
+    # exact-name frequencies at core-card init AND again in the seed loop,
+    # double-counting 1862 units) inflates the sum and fails here.
+    universe_path = os.path.join(HERE, "universe.json")
+    check(os.path.exists(universe_path), "universe.json missing (run universe.py)")
+    if os.path.exists(universe_path):
+        try:
+            sys.path.insert(0, HERE)
+            import universe as _universe
+            seed = _universe.load_seed()
+            with open(universe_path, encoding="utf-8") as f:
+                u = json.load(f)
+            card_sum = sum(c.get("frequencyInSeedCorpus", 0)
+                           for c in (u.get("cards") or {}).values())
+            corpus_sum = sum(seed.values())
+            check(card_sum == corpus_sum,
+                  f"universe.json: card seed-corpus frequencies sum to {card_sum}, "
+                  f"but the corpus carries {corpus_sum} — a frequency is counted "
+                  f"more than once or dropped (counting regression)")
+        except Exception as e:  # noqa: BLE001 — validator must not crash on import
+            err(f"universe.json: conservation check could not run: {e}")
+
     if errors:
         for e in errors:
             print("FAIL:", e)

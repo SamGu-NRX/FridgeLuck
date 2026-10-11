@@ -7,6 +7,7 @@ Exit 0 = all green.
 """
 import json
 import os
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -204,6 +205,18 @@ def main():
     pr = validate_price(load("price_factors.json"))
     lo = validate_loss(load("loss_factors.json"))
     validate_examples_envelope()
+    # Reproduce every hand-computed example through the reference
+    # implementation (stdlib Decimal, half-up, sums unrounded and rounded
+    # once). This is what pins the refusal round-once rule: ex-21's binding
+    # totals (100.04 + 200.04 -> 300.1, not 300.0) only reproduce when grams
+    # are summed unrounded across ingredients before the single rounding.
+    ref = subprocess.run(
+        [sys.executable, os.path.join(HERE, "reference.py")],
+        capture_output=True, text=True,
+    )
+    if ref.returncode != 0:
+        err("reference.py did not reproduce all hand-computed examples:\n"
+            + (ref.stdout or "")[-2000:] + (ref.stderr or "")[-500:])
     notes.append(f"key coverage: emission={len(em)} price={len(pr)} loss={len(lo)}")
     overlap = len(em & pr & lo)
     notes.append(f"keys present in all three files: {overlap}")
