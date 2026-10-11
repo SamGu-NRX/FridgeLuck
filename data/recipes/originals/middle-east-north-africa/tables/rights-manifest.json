@@ -1,0 +1,14 @@
+{
+  "schema": "fl-rights-manifest/1",
+  "records": {
+    "orig:authored:me-harissa-shakshuka": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:me-turkish-red-lentil-soup": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:me-beef-kofte-rice-pilaf": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:me-sheet-pan-chicken-shawarma": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:me-kuku-sabzi-herb-frittata": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:me-weeknight-koshari": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:me-tomato-bulgur-pilaf": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:me-cilbir-yogurt-eggs": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:me-moroccan-chicken-lemon-olives": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"}
+  }
+}
