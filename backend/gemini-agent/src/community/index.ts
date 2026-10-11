@@ -33,9 +33,7 @@ export interface CommunityDeps {
 
 /** Parts' router factories (landed by their own tasks, wired here). */
 export interface CommunityPartRouters {
-  // Populated as parts land:
-  // identity: (deps: CommunityDeps, sessions: SessionService) => ExpressRouter
-  // tables / explore / challenges / safety / directions
+  identity?: (deps: CommunityDeps, runtime: CommunityRuntime) => ExpressRouter;
 }
 
 export interface CommunityRuntime {
@@ -76,7 +74,9 @@ export function createCommunityRouter(deps: CommunityDeps, parts: CommunityPartR
   );
 
   // Part routers are mounted here as the parent join merges them.
-  void parts;
+  if (parts.identity !== undefined) {
+    router.use(parts.identity(deps, runtime));
+  }
 
   // The error boundary: middleware-thrown CommunityErrors (requireAccount)
   // and anything a part lets escape become the module error envelope.

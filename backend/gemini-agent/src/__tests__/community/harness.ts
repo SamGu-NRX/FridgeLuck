@@ -17,11 +17,14 @@ export interface CommunityTestHarness {
   close(): Promise<void>;
 }
 
-export async function makeHarness(): Promise<CommunityTestHarness> {
+export async function makeHarness(
+  configOverrides: Partial<CommunityConfig> = {},
+): Promise<CommunityTestHarness> {
   const projectId = `community-test-${Date.now()}-${Math.floor(Math.random() * 1e9)}`;
   const config: CommunityConfig = {
     ...loadCommunityConfig(process.env as Record<string, string | undefined>),
     projectId,
+    ...configOverrides,
   };
   const store = new CommunityStore({
     projectId: config.projectId,
