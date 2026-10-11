@@ -1,0 +1,35 @@
+{
+  "sessionId": "companion-empathy-001",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "pantry": [
+      { "ingredientId": "rice", "name": "Rice", "quantity": { "kind": "known", "value": 500, "unit": "g" }, "state": "sufficient", "source": "scan" }
+    ],
+    "session": { "recipeId": "lemon-pasta", "state": "cooking", "currentStepIndex": 0 },
+    "camera": {
+      "framesPerLook": 2,
+      "clipSeconds": 3,
+      "observed": ["pan on the hob with dark residue"],
+      "cannotAssess": ["smoke density", "food safety"]
+    }
+  },
+  "turns": [
+    { "i": 0, "role": "user", "text": "Something's burning — I think I've wrecked the rice.", "audioSeconds": 3.5 },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "That smell is sick-making — I'm sorry. Let me look, and check what the rulebook says.",
+      "toolCalls": [
+        { "id": "b-cam1", "name": "requestCameraLook", "args": { "maxClipSeconds": 3 } },
+        { "id": "b-fs1", "name": "checkFoodSafety", "args": { "product": "cooked rice", "question": "is it safe after burning" } }
+      ],
+      "prompted": true
+    },
+    { "i": 2, "role": "assistant", "text": "[check-in] The pan's off the heat — how are you holding up?" },
+    { "i": 3, "role": "user", "text": "I'm fine. Just annoyed.", "audioSeconds": 1.5 },
+    { "i": 4, "role": "assistant", "text": "Rice forgives. New pot, fresh water, twenty minutes — dinner isn't going anywhere.", "prompted": true }
+  ]
+}

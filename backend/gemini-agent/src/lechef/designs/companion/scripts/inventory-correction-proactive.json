@@ -1,0 +1,33 @@
+{
+  "sessionId": "companion-inventory-001",
+  "job": "remember",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "pantry": [
+      { "ingredientId": "milk", "name": "Milk", "quantity": { "kind": "known", "value": 1, "unit": "l" }, "state": "sufficient", "source": "scan" }
+    ],
+    "session": { "recipeId": "lemon-pasta", "state": "cooking", "currentStepIndex": 0 }
+  },
+  "turns": [
+    {
+      "i": 0,
+      "role": "assistant",
+      "text": "[check-in] How's it going? And the milk's been in there a while — I'll mark it needs re-confirming —",
+      "toolCalls": [
+        { "id": "ic1", "name": "proposeInventoryCorrection", "args": { "ingredientId": "milk", "name": "milk", "reason": "been in the fridge a while", "observedState": "needs-reconfirming" } }
+      ]
+    },
+    { "i": 1, "role": "user", "text": "The milk's done, honestly — bin it.", "audioSeconds": 2.0 },
+    {
+      "i": 2,
+      "role": "assistant",
+      "text": "Marked for re-confirming, so the Kitchen asks you next time.",
+      "toolCalls": [
+        { "id": "ic2", "name": "proposeInventoryCorrection", "args": { "ingredientId": "milk", "name": "milk", "reason": "cook says it's off", "observedState": "needs-reconfirming" } }
+      ],
+      "prompted": true
+    }
+  ]
+}
