@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-10T20:51:41.611554+00:00",
+  "generated_at": "2026-10-11T06:58:32.086904+00:00",
   "source": {
     "dataset": "USDA FoodData Central Survey Foods (FNDDS)",
     "edition": "2024-10-31",
@@ -19,7 +19,7 @@
     },
     "mass_conversion_table.json": {
       "rows": 7288,
-      "description": "deduplicated (food, unit, magnitude) conversions for the Swift MassConversionKit contract tests"
+      "description": "deduplicated (food, unit, magnitude) conversions for the Swift MassConversionKit contract tests, with per-portion state/packing labels and the food's WWEIA category"
     }
   },
   "unit_inventory": {

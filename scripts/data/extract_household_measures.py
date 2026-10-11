@@ -173,6 +173,7 @@ def main() -> int:
         conversion[key] = {
             "fdcId": row["fdc_id"],
             "food": row["food_description"],
+            "category": row["category"],
             "unit": row["unit"],
             "magnitude": float(row["magnitude"]),
             "grams": float(row["gram_weight"]),
@@ -220,7 +221,8 @@ def main() -> int:
                 "rows": len(conversion),
                 "description": (
                     "deduplicated (food, unit, magnitude) conversions for the "
-                    "Swift MassConversionKit contract tests"
+                    "Swift MassConversionKit contract tests, with per-portion "
+                    "state/packing labels and the food's WWEIA category"
                 ),
             },
         },

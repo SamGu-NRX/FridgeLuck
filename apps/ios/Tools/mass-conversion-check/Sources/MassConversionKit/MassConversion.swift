@@ -51,6 +51,10 @@ public enum HouseholdUnit: String, CaseIterable, Sendable, Encodable, Decodable 
 /// One USDA FNDDS portion record: `grams` is the mass of `magnitude` units of
 /// `unit` for the food named `food` (FDC survey food `fdcId`).
 ///
+/// `category` is the food's WWEIA food-category description (food-level
+/// provenance, used by the food-group-held-out conversion checks; nil for
+/// tables recorded before the field existed).
+///
 /// `state` and `packing` carry the FNDDS preparation state ("cooked",
 /// "frozen", "raw", "dried", "thawed") and packing ("canned", "jarred",
 /// "packaged") classified from the portion qualifier and modifier; nil when
@@ -59,6 +63,7 @@ public enum HouseholdUnit: String, CaseIterable, Sendable, Encodable, Decodable 
 public struct MassConversionEntry: Decodable, Sendable, Equatable {
   public let fdcId: Int
   public let food: String
+  public let category: String?
   public let unit: HouseholdUnit
   public let magnitude: Double
   public let grams: Double
@@ -69,15 +74,17 @@ public struct MassConversionEntry: Decodable, Sendable, Equatable {
   public var gramsPerUnit: Double { grams / magnitude }
 
   private enum CodingKeys: String, CodingKey {
-    case fdcId, food, unit, magnitude, grams, state, packing
+    case fdcId, food, category, unit, magnitude, grams, state, packing
   }
 
   public init(
-    fdcId: Int, food: String, unit: HouseholdUnit, magnitude: Double,
+    fdcId: Int, food: String, category: String? = nil, unit: HouseholdUnit,
+    magnitude: Double,
     grams: Double, state: String? = nil, packing: String? = nil
   ) {
     self.fdcId = fdcId
     self.food = food
+    self.category = category
     self.unit = unit
     self.magnitude = magnitude
     self.grams = grams
@@ -89,6 +96,7 @@ public struct MassConversionEntry: Decodable, Sendable, Equatable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     fdcId = try container.decode(Int.self, forKey: .fdcId)
     food = try container.decode(String.self, forKey: .food)
+    category = try container.decodeIfPresent(String.self, forKey: .category)
     unit = try container.decode(HouseholdUnit.self, forKey: .unit)
     magnitude = try container.decode(Double.self, forKey: .magnitude)
     grams = try container.decode(Double.self, forKey: .grams)

@@ -256,3 +256,40 @@ final class ResourceSyncTests: XCTestCase {
     XCTAssertEqual(bundledData, pinnedData)
   }
 }
+
+/// The pinned table carries a WWEIA category on every entry so
+/// food-group-held-out evaluation can withhold entire categories.
+final class CategoryFieldTests: XCTestCase {
+  func testBundledEntriesCarryWweiaCategory() throws {
+    let table = try MassConversionTable.bundled
+    let withoutCategory = table.portions.filter {
+      $0.category == nil || $0.category!.isEmpty
+    }
+    XCTAssertEqual(withoutCategory.count, 0)
+    let categories = Set(table.portions.compactMap(\.category))
+    XCTAssertGreaterThanOrEqual(categories.count, 100)
+    XCTAssertTrue(categories.contains("Apples"))
+    XCTAssertTrue(categories.contains("Yogurt, regular"))
+  }
+
+  func testCategoryIsOptionalInDecoding() throws {
+    let without = Data(
+      #"{"fdcId":1,"food":"Milk, whole","unit":"cup","magnitude":1,"grams":244}"#
+        .utf8)
+    let entry = try JSONDecoder().decode(MassConversionEntry.self, from: without)
+    XCTAssertNil(entry.category)
+    XCTAssertEqual(entry.gramsPerUnit, 244)
+
+    let with = Data(
+      #"{"fdcId":2,"food":"Chard, raw","category":"Other dark green vegetables","unit":"cup","magnitude":1,"grams":36}"#
+        .utf8)
+    let labeled = try JSONDecoder().decode(MassConversionEntry.self, from: with)
+    XCTAssertEqual(labeled.category, "Other dark green vegetables")
+  }
+
+  func testInitDefaultsCategoryToNil() {
+    let entry = MassConversionEntry(
+      fdcId: 3, food: "Olive oil", unit: .tbsp, magnitude: 1, grams: 14)
+    XCTAssertNil(entry.category)
+  }
+}
