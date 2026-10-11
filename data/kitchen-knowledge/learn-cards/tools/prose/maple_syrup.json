@@ -1,0 +1,48 @@
+{
+ "category": "condiment",
+ "sections": {
+  "whatItIs": {
+   "text": "The boiled sap of sugar, black, and red maples — concentrated until at least 66% sugar in Canada's rules; nothing else may be in the bottle.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Maple syrup was first made by the Indigenous peoples of northeastern North America long before Europeans arrived; the Algonquians cut V-shaped incisions in the trunks and froze out the water overnight, and celebrated the first full moon of spring as the Sugar Moon.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Grade by colour: golden for delicate finishing, dark for strong baking; always read for 'pure maple syrup' — pancake syrup is usually flavoured corn syrup.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Sealed it keeps in the cupboard; once open, refrigerate it. The rulebook has the details.",
+   "citations": [],
+   "note": "opened-jar guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Maple sweetens dressings, glazes roast carrots or salmon, and freezes into cubes for coffee; any crystals re-dissolve with gentle warming.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "honey",
+   "ratio": "1:1",
+   "note": "floral rather than woody sweetness",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Maple syrup — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Maple_syrup",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

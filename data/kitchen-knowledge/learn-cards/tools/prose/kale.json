@@ -1,0 +1,54 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "Leaf cabbage — a brassica grown for loose leaves that never form a head, in curly, Tuscan (cavolo nero), and Russian types.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Kale was cultivated in the eastern Mediterranean and Anatolia by 2000 BC at the latest; curly and flat types grew in 4th-century-BC Greece, and the Romans knew their ancestors as Sabellian kale. It survives to −15 °C and turns sweeter after frost.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose deep-coloured, springy leaves without yellowing or limpness; smaller leaves are milder and the stems of Tuscan types need less stripping.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate loosely bagged in the crisper, unwashed until use. The rulebook has the window.",
+   "citations": [],
+   "note": "leafy-green windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Rubbed with oil and salt, even tired kale crisps into chips; it melts into white-bean soup, braises, and the Portuguese soup caldo verde.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "spinach",
+   "ratio": "1:1",
+   "note": "much tenderer; add at the end, halve the cook time",
+   "citations": []
+  },
+  {
+   "substitute": "cavolo nero ↔ curly kale",
+   "ratio": "1:1",
+   "note": "direct swaps; Tuscan is sweeter and softer",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Kale — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Kale",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

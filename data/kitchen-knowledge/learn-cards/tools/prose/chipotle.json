@@ -1,0 +1,48 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "A ripe red jalapeño, smoke-dried for days until it shrivels like a raisin — heat wrapped in woodsmoke, most often sold stewed in adobo sauce.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The name is Nahuatl chīlpoctli, 'smoked chili': Mesoamericans, including the Aztecs, preserved chillies by smoke-drying long before the technique reached any European kitchen. Ten pounds of jalapeños make one pound of chipotle.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "In adobo tins, choose brands listing chillies before thickeners; dried moritas are darker and milder-fruited, mecos smokier and more traditional.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate the opened tin; freeze spoonfuls on a tray. The rulebook has the window.",
+   "citations": [],
+   "note": "opened-can window lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Blitz the whole tin into a smoky marinade or mayo; one chipotle with a spoon of its sauce transforms a pot of beans or a burger.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "smoked paprika + a little chilli",
+   "ratio": "1 tsp + pinch per chipotle",
+   "note": "smoke and heat without the fruit",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Chipotle — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Chipotle",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

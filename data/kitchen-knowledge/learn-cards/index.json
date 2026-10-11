@@ -173,6 +173,14 @@
     "fdcId": 169988
    },
    {
+    "id": "cheddar",
+    "displayName": "Cheddar",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173414
+   },
+   {
     "id": "cheese",
     "displayName": "Cheese",
     "isCore": true,
@@ -197,6 +205,14 @@
     "fdcId": 173800
    },
    {
+    "id": "chipotle",
+    "displayName": "Chipotle",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168570
+   },
+   {
     "id": "cilantro",
     "displayName": "Cilantro",
     "isCore": true,
@@ -213,12 +229,36 @@
     "fdcId": 170173
    },
    {
+    "id": "cod",
+    "displayName": "Cod",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171955
+   },
+   {
     "id": "corn",
     "displayName": "Corn",
     "isCore": true,
     "category": "vegetable",
     "frequencyInBundledRecipes": 0,
     "fdcId": 169998
+   },
+   {
+    "id": "cornmeal",
+    "displayName": "Cornmeal",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168867
+   },
+   {
+    "id": "cornstarch",
+    "displayName": "Cornstarch",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169698
    },
    {
     "id": "couscous",
@@ -373,6 +413,22 @@
     "fdcId": 169640
    },
    {
+    "id": "kale",
+    "displayName": "Kale",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168421
+   },
+   {
+    "id": "kidney_beans",
+    "displayName": "Kidney Beans",
+    "isCore": false,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 175194
+   },
+   {
     "id": "lemon",
     "displayName": "Lemon",
     "isCore": true,
@@ -397,12 +453,28 @@
     "fdcId": 168155
    },
    {
+    "id": "maple_syrup",
+    "displayName": "Maple Syrup",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169661
+   },
+   {
     "id": "milk",
     "displayName": "Milk",
     "isCore": true,
     "category": "dairy_egg",
     "frequencyInBundledRecipes": 3,
     "fdcId": 171265
+   },
+   {
+    "id": "miso",
+    "displayName": "Miso",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172442
    },
    {
     "id": "mushroom",
@@ -435,6 +507,14 @@
     "category": "vegetable",
     "frequencyInBundledRecipes": 5,
     "fdcId": 170000
+   },
+   {
+    "id": "oregano",
+    "displayName": "Oregano",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171328
    },
    {
     "id": "pasta",
@@ -496,7 +576,7 @@
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 61,
+   "cardsWritten": 71,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [
     "garam_masala",

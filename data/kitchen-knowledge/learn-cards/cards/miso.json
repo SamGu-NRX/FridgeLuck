@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "miso",
+  "displayName": "Miso",
+  "isCore": false,
+  "category": "condiment",
+  "sections": {
+   "whatItIs": {
+    "text": "Soybeans fermented with salt and kōji (the fungus Aspergillus oryzae) into a salty-savoury paste — the backbone of miso soup and the umami reserve of the modern fridge.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Fermented soy foods reached Japan from China around the sixth century with Buddhism, and 'mishō' appears in the Nara period (710-794); Buddhist monks discovered in the Muromachi era that grinding the beans into paste made something new, and by the Sengoku period miso was military rations.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "White (shiro) miso is mild and sweet, red (aka) aged and punchy, awase a blend — keep one of each if you can; the ingredient list should be short, starting with soybeans, rice or barley, salt, kōji.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep tightly lidded in the fridge; it darkens slowly and stays good for a very long time. The rulebook has the window.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "opened-jar guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Miso soup is the obvious use, but it also whips into butter for steaks, marinades fish in minutes, and deepens any stew; never boil it hard — the aroma fades.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "soy sauce",
+    "ratio": "1 tbsp sauce per tbsp miso",
+    "note": "salt and umami but no body; add a little tahini for texture",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 172442,
+   "fdcDescription": "Miso",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 6.2,
+    "vitaminARaeMcg": 4,
+    "saturatedFatG": 1.02,
+    "proteinG": 12.79,
+    "carbohydrateG": 25.37,
+    "energyKcal": 198,
+    "vitaminCMg": 0,
+    "folateMcg": 19,
+    "fiberG": 5.4,
+    "ironMg": 2.49,
+    "sodiumMg": 3728,
+    "calciumMg": 57,
+    "potassiumMg": 210,
+    "fatG": 6.01
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Miso — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Miso",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 172442 (Miso)."
+   }
+  }
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "kidney_beans",
+  "displayName": "Kidney Beans",
+  "isCore": false,
+  "category": "grain_legume",
+  "sections": {
+   "whatItIs": {
+    "text": "A kidney-shaped variety of the common bean — dark red, light speckled, or white (cannellini) — central to chilli, rajma, and Louisiana's Monday red beans and rice.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "In India the red kidney bean is rajma, in Pakistan surkh lobia, in Jamaica 'red peas' — one bean with a passport of names; canned kidney beans are fully cooked before shipping, which is why they go straight into the pot.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Canned, pick undented tins and rinse well; dried, choose glossy unbroken beans and remember red kidney beans must be boiled hard — the FDA's rule is 30 minutes — to destroy their natural toxin.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Dried beans keep airtight and dry; soaked or cooked beans refrigerate in their liquid. The rulebook has the cooked-bean window and the never-eat-raw rules.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "raw and cooked pulse safety lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Cooked kidney beans blend into dips and burger patties, thicken chilli, or roast crisp with chilli powder for snacking.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "black beans",
+    "ratio": "1:1",
+    "note": "softer, earthier; swaps cleanly in chilli",
+    "citations": []
+   },
+   {
+    "substitute": "cannellini",
+    "ratio": "1:1",
+    "note": "the white kidney bean; creamier",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 175194,
+   "fdcDescription": "Beans, kidney, red, mature seeds, cooked, boiled, without salt",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 0.32,
+    "vitaminARaeMcg": 0,
+    "carbohydrateG": 22.8,
+    "energyKcal": 127,
+    "fatG": 0.5,
+    "calciumMg": 28,
+    "potassiumMg": 403,
+    "proteinG": 8.67,
+    "fiberG": 7.4,
+    "ironMg": 2.94,
+    "sodiumMg": 2,
+    "saturatedFatG": 0.07,
+    "vitaminCMg": 1.2,
+    "folateMcg": 130
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Kidney bean — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Kidney_bean",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 175194 (Beans, kidney, red, mature seeds, cooked, boiled, without salt)."
+   }
+  }
+ }
+}
