@@ -1,0 +1,218 @@
+{
+  "rs_version": "1",
+  "id": "rw-sesame-lime-chicken-salad-with-edamame",
+  "title": "Sesame-Lime Chicken Salad with Edamame",
+  "cuisine": "asian",
+  "cuisine_detail": "chinese-american chopped salad",
+  "family": "bundled-rewrite",
+  "minutes": 25,
+  "servings": 2,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "shallow pan with lid",
+    "saucepan",
+    "box grater",
+    "mixing bowl",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-sesame-lime-chicken-salad-with-edamame",
+  "replaces": {
+    "bundled_id": 125,
+    "change": "The bundled sesame chicken salad poached chicken for 8 minutes with no doneness check, dressed it with 50 g soy sauce, and called for 440 g green onions while hiding the carrot and soya beans in the instructions. This version poaches to a 165°F thermometer check, cuts soy to 1 tbsp lifted by lime and honey, uses a realistic handful of green onions, and puts the edamame, carrot and tomato properly on the line. Black-bean line dropped - edamame covers the bean role; noted here since the bundled file mixed the two."
+  },
+  "tags": [
+    "weeknight",
+    "high-protein",
+    "use-it-up:edamame"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken breast",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "pieces",
+        "conversion_ref": "chicken_breast_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "edamame",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup shelled",
+        "conversion_ref": "edamame_cup",
+        "grams_per_unit": 155,
+        "note": "from frozen, steamed"
+      }
+    },
+    {
+      "name": "carrots",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, coarsely grated",
+        "conversion_ref": "carrot_piece",
+        "grams_per_unit": 60
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, chopped",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "romaine lettuce",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "cups shredded",
+        "conversion_ref": "lettuce_shredded_cup",
+        "grams_per_unit": 47
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16,
+        "note": "the bundled 50 g soy line, cut to 1 tbsp and balanced with lime"
+      }
+    },
+    {
+      "name": "sesame oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tsp",
+        "conversion_ref": "sesame_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    },
+    {
+      "name": "sesame seeds",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp toasted",
+        "conversion_ref": "sesame_seeds_tbsp",
+        "grams_per_unit": 8.5
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "whole",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp grated",
+        "conversion_ref": "ginger_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "honey",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "honey_tbsp",
+        "grams_per_unit": 21
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Lay the chicken in a pan just wide enough to hold it, add water to cover by a thumb's width with the grated ginger, and bring to the barest simmer over medium heat - bubbles should barely break the surface."
+    },
+    {
+      "text": "Poach gently for 12 minutes, lid on, then check the thickest piece with a thermometer: it must read 165°F (74°C), the FSIS safe minimum for poultry. If short, slide the pan back on the heat for a few minutes.",
+      "timer_min": 12,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Lift the chicken out to rest on a plate and pour off the poaching water - it carries no flavour worth keeping. Cook the edamame in boiling water for 4 minutes and drain.",
+      "timer_min": 4
+    },
+    {
+      "text": "Whisk the soy sauce, juice of half the lime, honey and sesame oil into a dressing; taste - it should land sour first, then sweet, then salty."
+    },
+    {
+      "text": "Shred the rested chicken along the grain with two forks so it pulls into soft ribbons rather than crumbling."
+    },
+    {
+      "text": "Toss the romaine, grated carrot, tomatoes, green onions, chicken and edamame in a wide bowl just before eating - dressed early, the lettuce goes limp."
+    },
+    {
+      "text": "Dress the salad and divide it between bowls, finishing with the toasted sesame seeds and the remaining lime cut into wedges."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 463,
+    "protein_g": 53.1,
+    "carbs_g": 28.0,
+    "fat_g": 17.1,
+    "fiber_g": 10.2,
+    "sugar_g": 8.1,
+    "sodium_mg": 593,
+    "coverage": 0.982,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "honey"
+    ]
+  }
+}

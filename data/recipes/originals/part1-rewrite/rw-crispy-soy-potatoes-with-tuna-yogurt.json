@@ -1,0 +1,199 @@
+{
+  "rs_version": "1",
+  "id": "rw-crispy-soy-potatoes-with-tuna-yogurt",
+  "title": "Crispy Soy Potatoes with Tuna Yogurt",
+  "cuisine": "american",
+  "cuisine_detail": "japanese-inspired baked potato",
+  "family": "bundled-rewrite",
+  "minutes": 30,
+  "servings": 2,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "microwave",
+    "sheet pan",
+    "mixing bowl",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-crispy-soy-potatoes-with-tuna-yogurt",
+  "replaces": {
+    "bundled_id": 134,
+    "change": "The bundled 'soy-baked potatoes with tuna sriracha mayo' brushed potatoes with a 50 g soy mixture and bound the filling with 30 g sriracha mayo. This version cuts soy to 1 tbsp (painted on cut sides so little is needed), binds with Greek yogurt instead of mayonnaise (the strict scanner counts mayo as an egg class anyway), and keeps 2 tsp sriracha - the validator's salty-unmapped flag fires for it deliberately. Spinach is dressed rather than blanched."
+  },
+  "tags": [
+    "weeknight",
+    "use-it-up:spinach"
+  ],
+  "ingredients": [
+    {
+      "name": "potatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium",
+        "conversion_ref": "potato_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16,
+        "note": "painted on the cut faces only - a little goes further than a brush of marinade"
+      }
+    },
+    {
+      "name": "canned tuna in water",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "can, drained",
+        "conversion_ref": "canned_tuna_can",
+        "grams_per_unit": 112
+      }
+    },
+    {
+      "name": "greek yogurt",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "greek_yogurt_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "sriracha",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tsp",
+        "conversion_ref": "sriracha_tsp",
+        "grams_per_unit": 5,
+        "note": "kept for the dish's identity; it has no committed catalog row, so its sodium stays unmapped and flagged"
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp grated",
+        "conversion_ref": "ginger_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "lemon",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "juiced",
+        "conversion_ref": "lemon_half",
+        "grams_per_unit": 22
+      }
+    },
+    {
+      "name": "spinach",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "cups",
+        "conversion_ref": "spinach_cup",
+        "grams_per_unit": 30
+      }
+    },
+    {
+      "name": "sesame oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "sesame_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Prick each potato all over with a fork and microwave on full power for 10 minutes, turning once, until a paring knife slides in without resistance.",
+      "timer_min": 10
+    },
+    {
+      "text": "Meanwhile heat the oven to 220°C (425°F). Stir the tuna, yogurt, sriracha, ginger, half the green onions and the lemon juice together in a bowl; taste and add more lemon if it sits flat."
+    },
+    {
+      "text": "Halve the par-cooked potatoes, score the flesh in a crosshatch, and paint the cut faces with 2 teaspoons of the soy sauce - cut sides drink it in, skins do not need any."
+    },
+    {
+      "text": "Bake the potatoes cut-side-up on a tray for 12 minutes until the edges crisp and the soy glaze darkens; keep an eye after minute 10, glaze can go from lacquered to burnt fast.",
+      "timer_min": 12
+    },
+    {
+      "text": "While the potatoes bake, warm the vegetable oil in a skillet and wilt the spinach for 1 minute, tossing with the remaining teaspoon of soy. Pile it on a plate; it should still be glossy green, not collapsed to a thread."
+    },
+    {
+      "text": "Dress the wilted spinach with the sesame oil off the heat and spread it alongside the potatoes."
+    },
+    {
+      "text": "Spoon the tuna yogurt into the potato hollows, shower with the rest of the green onions, and eat while the skins still crackle."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 316,
+    "protein_g": 22.7,
+    "carbs_g": 34.1,
+    "fat_g": 10.6,
+    "fiber_g": 5.2,
+    "sugar_g": 2.8,
+    "sodium_mg": 542,
+    "coverage": 0.97,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "lemon",
+      "sriracha"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "sriracha"
+    ]
+  }
+}
