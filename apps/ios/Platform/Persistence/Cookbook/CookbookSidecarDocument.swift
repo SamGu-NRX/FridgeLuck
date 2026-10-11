@@ -24,6 +24,44 @@ struct CookbookSidecarDocument: Codable, Equatable, Sendable {
   /// Ordered collections with ordered membership.
   var collections: [CookbookCollectionEntry] = []
 
+  /// Soft-archived user recipe ids. Archive hides a recipe from the library
+  /// without touching its row, joins, or cooking history; the flag rides the
+  /// sidecar because the shared schema is out of this feature's scope.
+  var archivedRecipeIds: [Int64] = []
+
+  private enum CodingKeys: String, CodingKey {
+    case version, savedRecipes, favorites, collections, archivedRecipeIds
+  }
+
+  init() {}
+
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    version = try container.decodeIfPresent(Int.self, forKey: .version)
+      ?? CookbookSidecarDocument.currentVersion
+    savedRecipes = try container.decode([SavedEntry].self, forKey: .savedRecipes)
+    favorites = try container.decode([Int64].self, forKey: .favorites)
+    collections = try container.decode([CookbookCollectionEntry].self, forKey: .collections)
+    // Written by later builds within v1; older v1 documents decode to empty.
+    archivedRecipeIds = try container.decodeIfPresent([Int64].self, forKey: .archivedRecipeIds) ?? []
+  }
+
+  /// Marks a recipe archived. Idempotent.
+  mutating func archiveRecipe(_ recipeId: Int64) {
+    if !archivedRecipeIds.contains(recipeId) {
+      archivedRecipeIds.append(recipeId)
+    }
+  }
+
+  /// Clears a recipe's archive flag. Safe to call when it was never set.
+  mutating func unarchiveRecipe(_ recipeId: Int64) {
+    archivedRecipeIds.removeAll { $0 == recipeId }
+  }
+
+  func isArchived(_ recipeId: Int64) -> Bool {
+    archivedRecipeIds.contains(recipeId)
+  }
+
   struct SavedEntry: Codable, Equatable, Sendable {
     var recipeId: Int64
     var savedAt: Date
