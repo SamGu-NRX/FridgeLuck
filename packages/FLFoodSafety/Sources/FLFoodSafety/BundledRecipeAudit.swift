@@ -91,6 +91,26 @@ public enum BundledRecipeAudit {
         }
     }
 
+    /// Per-kind problem statement for the audit, quoting the matched phrase
+    /// where one exists.
+    static func problemText(for flag: LintFlag) -> String {
+        func quoted(_ text: String) -> String { "“\(text)”" }
+        switch flag.kind {
+        case .appearanceDoneness:
+            return "\(quoted(flag.phrase)) states doneness by appearance — appearance never establishes safety or doneness"
+        case .timeOnlyCooking:
+            return "\(quoted(flag.phrase)) is cooked for a stated time with no thermometer check — time alone never establishes doneness"
+        case .rawEggNoWarning:
+            return "raw or lightly cooked eggs are used without a pasteurised-egg warning"
+        case .ambientThawing:
+            return "ambient (counter / room-temperature) thawing — unsafe thawing method"
+        case .leftoversHeldOut:
+            return "leftovers held at ambient temperature — the 2-hour refrigeration window is exceeded"
+        case .reheatingWithoutThermometer:
+            return "reheating without a thermometer check — leftovers must reach 74 °C (165 °F)"
+        }
+    }
+
     /// Renders the audit markdown. Byte-reproducible given the same rulebook
     /// and corpus.
     public static func renderReport(rulebook: Rulebook, data: BundledDataSet) -> String {
@@ -150,7 +170,7 @@ public enum BundledRecipeAudit {
                 for flag in row.flags {
                     out.append("- **Step \(row.stepIndex + 1)** — `\(flag.kind.rawValue)` — rule `\(flag.ruleID)`")
                     out.append("  - Step text: “\(stepText)”")
-                    out.append("  - Problem: \(flag.phrase.isEmpty ? "unsafe handling pattern" : "“\(flag.phrase)” states doneness or safety by appearance/time") — \(flag.sourceAttribution): “\(flag.sourceQuote)” (<\(flag.sourceURL)>)")
+                    out.append("  - Problem: \(problemText(for: flag)) — \(flag.sourceAttribution): “\(flag.sourceQuote)” (<\(flag.sourceURL)>)")
                     out.append("  - Proposed safe rewrite: \(flag.suggestedRewrite)")
                 }
             }

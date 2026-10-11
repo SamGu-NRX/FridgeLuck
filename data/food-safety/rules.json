@@ -152,7 +152,7 @@
       "topic": "doneness",
       "food_class": "meat_poultry",
       "summary": "All poultry (whole bird, breasts, legs, thighs, wings, ground poultry, giblets, sausage, stuffing inside poultry) must reach 165 °F (74 °C) measured with a food thermometer.",
-      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "innermost part of the thigh and wing and the thickest part of the breast" },
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "the innermost part of the thigh and wing and the thickest part of the breast" },
       "match_keywords": ["chicken", "turkey", "poultry", "duck", "goose", "hen", "quail", "ground poultry"],
       "visual_cues_insufficient": ["colour", "no pink", "clear juices", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "cdc-chicken", "fsis-doneness-versus-safety"]
@@ -162,7 +162,7 @@
       "topic": "doneness",
       "food_class": "meat_ground",
       "summary": "Ground meats (beef, pork, lamb, veal, sausage from these) must reach 160 °F (71 °C) measured with a food thermometer.",
-      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "throughout the patty or the thickest part of the ground-meat portion" },
+      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "the centre of the patty or the thickest part of the ground-meat portion" },
       "match_keywords": ["ground beef", "ground pork", "ground lamb", "ground veal", "hamburger", "mince", "minced beef", "beef mince", "meatballs", "meatloaf", "burger"],
       "visual_cues_insufficient": ["colour", "brown colour", "no pink", "clear juices", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
@@ -173,7 +173,7 @@
       "food_class": "meat_poultry",
       "summary": "Ground poultry must reach 165 °F (74 °C) measured with a food thermometer. Corpus recipes using the RS safety field must cite class meat_poultry at 165 °F for ground poultry, never meat_ground (160 °F is below the FSIS minimum for ground poultry).",
       "rs_note": "RS class meat_ground (160 °F) covers only ground beef, pork, lamb and sausage; ground poultry keeps the 165 °F poultry minimum.",
-      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "throughout the patty or the thickest part of the portion" },
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "the centre of the patty or the thickest part of the portion" },
       "match_keywords": ["ground turkey", "ground chicken", "turkey mince", "chicken mince"],
       "visual_cues_insufficient": ["colour", "no pink", "clear juices", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
@@ -183,7 +183,7 @@
       "topic": "doneness",
       "food_class": "meat_whole_cut_red",
       "summary": "Beef, veal and lamb steaks, chops and roasts must reach 145 °F (63 °C) with a food thermometer, then rest for at least 3 minutes before carving or consuming.",
-      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "thickest part of the cut, away from bone, fat or gristle" },
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "the thickest part of the cut, away from bone, fat or gristle" },
       "match_keywords": ["steak", "beef roast", "veal", "lamb", "lamb shank", "lamb chop", "beef chop"],
       "visual_cues_insufficient": ["colour", "pink centre", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
@@ -193,7 +193,7 @@
       "topic": "doneness",
       "food_class": "meat_whole_cut_pork",
       "summary": "Pork and fresh or smoked uncooked ham steaks, chops and roasts must reach 145 °F (63 °C) with a food thermometer, then rest for at least 3 minutes before carving or consuming.",
-      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "thickest part of the cut, away from bone, fat or gristle" },
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "the thickest part of the cut, away from bone, fat or gristle" },
       "match_keywords": ["pork", "pork loin", "pork roast", "pork tenderloin", "pork chop", "pork chops", "pork belly", "fresh ham", "smoked ham (uncooked)", "gammon"],
       "visual_cues_insufficient": ["colour", "pink centre", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
@@ -203,7 +203,7 @@
       "topic": "doneness",
       "food_class": "flesh_fish",
       "summary": "Fish must reach 145 °F (63 °C) measured with a food thermometer. FridgeLuck states the thermometer test even though FoodSafety.gov also publishes an appearance alternative; the appearance alternative is never used as a safety verdict in the app.",
-      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "thickest part of the fillet or the centre of the portion" },
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "the thickest part of the fillet or the centre of the portion" },
       "match_keywords": ["fish", "salmon", "cod", "tuna", "tilapia", "trout", "haddock", "pollock", "catfish", "bass"],
       "visual_cues_insufficient": ["colour", "translucency", "flaking", "firmness"],
       "published_appearance_alternative_note": "FoodSafety.gov publishes: '145°F (63°C) or cook until flesh is no longer translucent and separates easily with a fork'. FridgeLuck keeps the thermometer test as the check; the timer says when to check. The camera look may describe browning, size and consistency but never issues a safety verdict.",
@@ -214,7 +214,7 @@
       "topic": "doneness",
       "food_class": "flesh_shellfish",
       "summary": "Shellfish must reach 145 °F (63 °C) measured with a food thermometer. FridgeLuck states the thermometer test even though FoodSafety.gov also publishes an appearance alternative ('flesh is pearly or white, and opaque'; shells opening); the appearance alternative is never used as a safety verdict in the app.",
-      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "centre of the thickest piece" },
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "the centre of the thickest piece" },
       "match_keywords": ["shrimp", "shrimps", "prawn", "prawns", "lobster", "crab", "scallop", "scallops", "clam", "clams", "mussel", "mussels", "oyster", "oysters", "shellfish", "squid", "octopus", "cockles"],
       "visual_cues_insufficient": ["colour", "shells opening", "opacity", "firmness"],
       "published_appearance_alternative_note": "FoodSafety.gov publishes appearance cues for some shellfish ('flesh is pearly or white, and opaque'; shells opening). FridgeLuck keeps the thermometer test as the check; the timer says when to check. The camera look may describe size and consistency but never issues a safety verdict.",
@@ -225,7 +225,7 @@
       "topic": "doneness",
       "food_class": "egg",
       "summary": "Egg dishes (frittata, quiche, casseroles and other dishes containing eggs) must reach 160 °F (71 °C) measured with a food thermometer.",
-      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "centre of the dish; check in several places for a large or irregularly shaped dish" },
+      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "the centre of the dish (check more than one place in a large or irregularly shaped dish)" },
       "match_keywords": ["frittata", "quiche", "egg casserole", "strata", "omelette bake", "custard tart", "carbonara", "hollandaise", "egg bake"],
       "visual_cues_insufficient": ["colour", "set or firm centre", "no runniness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fda-egg-safety"]
@@ -235,7 +235,7 @@
       "topic": "doneness",
       "food_class": "egg",
       "summary": "Eggs cooked in the shell, fried or scrambled are done only when both the yolk and the white are firm; scrambled eggs should not be runny. FDA's required safe-handling statement: keep eggs refrigerated, cook eggs until yolks are firm, and cook foods containing eggs thoroughly.",
-      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "for egg dishes, centre of the dish; FSIS lists Eggs at 160 °F (71.1 °C)" },
+      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "the centre of the egg dish or the yolk" },
       "match_keywords": ["egg", "eggs", "scrambled eggs", "fried egg", "boiled egg", "poached egg", "omelette"],
       "visual_cues_insufficient": ["colour", "firmness alone"],
       "citation_ids": ["fda-egg-safety", "fsg-safe-min-temps", "fsis-safe-temperature-chart"]
@@ -253,7 +253,7 @@
       "topic": "reheating",
       "food_class": "leftovers",
       "summary": "Reheat leftovers to 165 °F (74 °C) measured with a food thermometer; reheat sauces, soups and gravies by bringing them to a rolling boil. Cover leftovers to reheat; in a microwave, cover and rotate, then check the temperature in several places.",
-      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "several places for microwave reheating; allow a resting time before the final check" },
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "several places (microwave: cover, rotate and check more than one spot, then allow a resting time before the final check)" },
       "match_keywords": ["reheat", "reheat leftovers", "rewarm", "re-warm", "warm up", "microwave", "leftover"],
       "visual_cues_insufficient": ["steam alone", "hot to touch", "colour"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-leftovers", "fda-egg-safety"]
@@ -264,7 +264,7 @@
       "food_class": "leftovers",
       "summary": "Casseroles and other combination dishes, meat and meatless, must be cooked to 165 °F (74 °C) measured with a food thermometer. In the RS safety field, cite class leftovers (or the contained protein's class) with temp_f 165: 165 satisfies every class minimum and is the FSIS casserole minimum.",
       "rs_note": "RS has no casserole class; state the FSIS casserole minimum (165 °F) with class leftovers or the contained protein class at temp_f 165.",
-      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "centre of the dish; check in several places for a large or irregularly shaped dish" },
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "the centre of the dish (check more than one place in a large or irregularly shaped dish)" },
       "match_keywords": ["casserole", "lasagne", "lasagna", "bake", "gratin", "shepherd's pie", "hotdish"],
       "visual_cues_insufficient": ["browning on top", "bubbling edges", "colour", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
@@ -275,7 +275,7 @@
       "food_class": "leftovers",
       "summary": "Reheat cooked hams packaged in USDA-inspected plants to 140 °F (60 °C); all other hams (fresh or smoked uncooked) cook to 145 °F (63 °C) with a 3-minute rest; reheating any other ham to 165 °F (73.9 °C) is always safe. In the RS safety field use class leftovers with temp_f 165.",
       "rs_note": "RS class leftovers has a 165 °F minimum, so a corpus safety field for reheated ham states temp_f 165; the 140 °F option is FSIS-published only for hams packaged in USDA-inspected plants.",
-      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "alternative_temp_f": 140, "rest_minutes": 0, "placement": "thickest part of the ham, away from bone" },
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "alternative_temp_f": 140, "rest_minutes": 0, "placement": "the thickest part of the ham, away from bone" },
       "match_keywords": ["ham"],
       "visual_cues_insufficient": ["colour", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart"]
@@ -285,7 +285,7 @@
       "topic": "doneness",
       "food_class": "meat_poultry",
       "summary": "If poultry is stuffed, the centre of the stuffing must also reach 165 °F (74 °C); verify both the bird and the stuffing with a food thermometer.",
-      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "centre of the stuffing and the poultry placement points" },
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "the centre of the stuffing and the innermost part of the poultry" },
       "match_keywords": ["stuffed", "stuffing"],
       "visual_cues_insufficient": ["colour", "juices"],
       "citation_ids": ["fsis-doneness-versus-safety"]

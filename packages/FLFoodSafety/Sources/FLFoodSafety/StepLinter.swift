@@ -270,7 +270,7 @@ public struct StepLinter {
         guard let src = source("thermometer-only-reliable") else { fatalError("rulebook invariant: thermometer-only-reliable cited") }
         let rewrite: String
         if let rule = proteinRule, let check = rule.check {
-            rewrite = "Cook until \(check.placement.map { "the \($0)" } ?? "the thickest part") reaches \(Int(check.tempC)) °C (\(Int(check.tempF)) °F) on a food thermometer — check at the timer rather than judging appearance. (Source: \(src.attribution), \(src.url), retrieved \(rulebook.retrieved): \"Appearance and color are not reliable indicators of safety or doneness.\")"
+            rewrite = "Cook until \(check.placement.map { $0 } ?? "the thickest part") reaches \(Int(check.tempC)) °C (\(Int(check.tempF)) °F) on a food thermometer — check at the timer rather than judging appearance. (Source: \(src.attribution), \(src.url), retrieved \(rulebook.retrieved): \"Appearance and color are not reliable indicators of safety or doneness.\")"
         } else {
             rewrite = step
         }
@@ -291,9 +291,10 @@ public struct StepLinter {
         let check = rule.check
         var rewrite = step
         if let check {
-            let placement = check.placement.map { " in the \($0)" } ?? ""
+            let placement = check.placement.map { " in \($0)" } ?? ""
+            let verb = rule.foodClass == .leftovers ? "Reheat" : "Cook"
             let rest = check.restMinutes > 0 ? ", then rest \(Int(check.restMinutes)) minutes" : ""
-            rewrite = "Cook until a food thermometer\(placement) reads \(Int(check.tempC)) °C (\(Int(check.tempF)) °F)\(rest) — the timer only tells you when to check. (Source: \(rulebook.citations(for: rule).first?.attribution ?? "USDA FSIS"), retrieved \(rulebook.retrieved))"
+            rewrite = "\(verb) until a food thermometer\(placement) reads \(Int(check.tempC)) °C (\(Int(check.tempF)) °F)\(rest) — the timer only tells you when to check. (Source: \(rulebook.citations(for: rule).first?.attribution ?? "USDA FSIS"), retrieved \(rulebook.retrieved))"
         }
         guard let src = source(rule.id) else { fatalError("rulebook invariant: protein rule cited") }
         return LintFlag(

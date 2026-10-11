@@ -85,6 +85,16 @@ public struct Citation: Equatable, Decodable, Sendable {
         .tableQuote,
     ]
 
+    /// Quote keys in declared JSON order. Quotes are collected in this order,
+    /// never container-iteration order: the keyed container's `allKeys` order
+    /// varies between processes (hash-seeded storage), which would permute
+    /// `quotes` and make rendered reports non-reproducible.
+    private static let quoteOrder: [CodingKeys] = [
+        .quote, .secondQuote, .thirdQuote, .fourthQuote, .fifthQuote,
+        .sixthQuote, .seventhQuote, .eighthQuote, .ninthQuote, .tenthQuote,
+        .tableQuote,
+    ]
+
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id = try c.decode(String.self, forKey: .id)
@@ -95,16 +105,21 @@ public struct Citation: Equatable, Decodable, Sendable {
         pageLastUpdated = try c.decodeIfPresent(String.self, forKey: .pageLastUpdated)
 
         var quotes: [String] = []
-        let knownFieldKeys: Set<CodingKeys> = [.id, .org, .title, .url, .retrieved, .pageLastUpdated]
-        for key in c.allKeys {
-            if knownFieldKeys.contains(key) { continue }
-            guard Self.quoteKeys.contains(key) else {
-                throw DecodingError.dataCorruptedError(
-                    forKey: key, in: c,
-                    debugDescription: "Citation has unknown key \(key.stringValue)"
-                )
+        for key in Self.quoteOrder {
+            if let quote = try c.decodeIfPresent(String.self, forKey: key) {
+                quotes.append(quote)
             }
-            quotes.append(try c.decode(String.self, forKey: key))
+        }
+        // Unknown keys cannot be addressed by a typed container (they surface
+        // only through the raw-JSON pre-flight in `Rulebook.decode`); this
+        // loop is belt-and-braces for runtimes whose container does report
+        // them.
+        let knownFieldKeys: Set<CodingKeys> = [.id, .org, .title, .url, .retrieved, .pageLastUpdated]
+        for key in c.allKeys where !knownFieldKeys.contains(key) && !Self.quoteKeys.contains(key) {
+            throw DecodingError.dataCorruptedError(
+                forKey: key, in: c,
+                debugDescription: "Citation has unknown key \(key.stringValue)"
+            )
         }
         self.quotes = quotes
     }
