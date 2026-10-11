@@ -48,8 +48,14 @@ public enum WeeklyPlanFlow {
   }
 
   /// Accepts the current draft. Infeasible plans cannot be accepted — a plan
-  /// that needs missing food is a shopping list, not a plan.
-  public static func accept(state: WeeklyPlanFlowState, now: Date) -> WeeklyPlanFlowState {
+  /// that needs missing food is a shopping list, not a plan. Acceptance also
+  /// validates the plan's fingerprint against the inputs handed in: a plan
+  /// computed from inputs that no longer hold is refused as stale — recompute,
+  /// then accept. Callers must pass inputs read at acceptance time, not a
+  /// cached snapshot.
+  public static func accept(
+    state: WeeklyPlanFlowState, inputs: WeeklyPlanInput, now: Date
+  ) -> WeeklyPlanFlowState {
     guard let entry = state.entry, entry.phase == .draft, entry.plan.isFeasible else {
       var rejected = state
       rejected.rejectionReason =
@@ -57,6 +63,13 @@ public enum WeeklyPlanFlow {
           ? "This plan is not feasible yet — resolve the shortages or recompute."
           : "There is no draft to accept."
       return rejected
+    }
+    guard entry.plan.fingerprint == WeeklyPlanFingerprint.compute(inputs) else {
+      var refused = state
+      refused.isStale = true
+      refused.rejectionReason =
+        "This plan is stale — the kitchen changed since it was computed. Recompute, then accept."
+      return refused
     }
     var accepted = entry
     accepted.phase = .accepted

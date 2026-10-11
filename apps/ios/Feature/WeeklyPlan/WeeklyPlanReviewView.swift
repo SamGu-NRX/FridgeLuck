@@ -10,11 +10,17 @@ import FLFeatureLogic
 struct WeeklyPlanReviewView: View {
   @EnvironmentObject private var deps: AppDependencies
   @State private var viewModel: WeeklyPlanViewModel?
+  @State private var setupError: String?
   @State private var appeared = false
 
   var body: some View {
     Group {
-      if let viewModel {
+      if let setupError {
+        Text(setupError)
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .padding(AppTheme.Space.md)
+      } else if let viewModel {
         content(viewModel)
       } else {
         ProgressView()
@@ -23,16 +29,27 @@ struct WeeklyPlanReviewView: View {
     .onAppear {
       guard !appeared else { return }
       appeared = true
-      let store = (try? WeeklyPlanViewModel.defaultStore())
-        ?? WeeklyPlanStore(directory: FileManager.default.temporaryDirectory)
+      setUp()
+    }
+  }
+
+  /// No fallback store: if the real store cannot be created, the screen says
+  /// so instead of silently persisting plans somewhere disposable.
+  private func setUp() {
+    do {
+      let store = try WeeklyPlanViewModel.defaultStore()
       let model = WeeklyPlanViewModel(
         inventoryRepository: deps.inventoryRepository,
+        stockReader: WeeklyPlanStockReader(db: deps.appDatabase.dbQueue),
         recipeRepository: deps.recipeRepository,
         ingredientRepository: deps.ingredientRepository,
         userDataRepository: deps.userDataRepository,
         store: store)
       model.load()
       viewModel = model
+    } catch {
+      setupError =
+        "The weekly plan store could not be created: \(error.localizedDescription)"
     }
   }
 

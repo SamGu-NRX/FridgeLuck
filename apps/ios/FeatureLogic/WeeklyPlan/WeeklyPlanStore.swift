@@ -1,3 +1,8 @@
+#if canImport(Glibc)
+  import Glibc
+#else
+  import Darwin
+#endif
 import Foundation
 
 // MARK: - Violation display text (stable wording)
@@ -103,9 +108,24 @@ public struct WeeklyPlanStoreEntry: Codable, Sendable, Equatable {
 
 // MARK: - Store
 
+/// The outcome of reading the store — absent, corrupt, and unreadable stay
+/// distinct so callers can report them honestly instead of conflating every
+/// miss with "no plan".
+public enum WeeklyPlanStoreRead: Sendable, Equatable {
+  /// No plan has been stored.
+  case absent
+  /// The stored entry, decoded and intact.
+  case entry(WeeklyPlanStoreEntry)
+  /// The file exists but is not a decodable plan store.
+  case corrupt(message: String)
+  /// The file exists but could not be read at all (permissions, I/O).
+  case unreadable(message: String)
+}
+
 /// The separate small plan store: one JSON file in a directory the app chooses
-/// (Application Support). Atomic replace on write; deterministic serialization
-/// (sorted keys) so files are diffable and tests are exact.
+/// (Application Support). Atomic replace that retains the prior file on
+/// failure; deterministic serialization (sorted keys) so files are diffable
+/// and tests are exact.
 public final class WeeklyPlanStore: @unchecked Sendable {
 
   public static let defaultFileName = "weekly-plan-store.json"
@@ -118,16 +138,26 @@ public final class WeeklyPlanStore: @unchecked Sendable {
     self.fileURL = directory.appendingPathComponent(fileName)
   }
 
-  /// Loads the current entry, or nil when no plan is stored. A corrupt file
-  /// reads as "no plan" — planning is cheap and always recomputable, and a
-  /// broken store must never wedge the app.
-  public func load() -> WeeklyPlanStoreEntry? {
+  /// Reads the current entry with absent/corrupt/unreadable kept distinct.
+  /// The corrupt or unreadable file is left in place — recovery is an explicit
+  /// save or remove, never an implicit wipe.
+  public func read() -> WeeklyPlanStoreRead {
     lock.lock()
     defer { lock.unlock() }
-    guard let data = try? Data(contentsOf: fileURL) else { return nil }
+    guard FileManager.default.fileExists(atPath: fileURL.path) else { return .absent }
+    let data: Data
+    do {
+      data = try Data(contentsOf: fileURL)
+    } catch {
+      return .unreadable(message: error.localizedDescription)
+    }
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .iso8601
-    return try? decoder.decode(WeeklyPlanStoreEntry.self, from: data)
+    do {
+      return .entry(try decoder.decode(WeeklyPlanStoreEntry.self, from: data))
+    } catch {
+      return .corrupt(message: error.localizedDescription)
+    }
   }
 
   public func save(_ entry: WeeklyPlanStoreEntry) throws {
@@ -141,12 +171,26 @@ public final class WeeklyPlanStore: @unchecked Sendable {
     let directory = fileURL.deletingLastPathComponent()
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
     let temporary = directory.appendingPathComponent(UUID().uuidString + ".tmp")
-    try data.write(to: temporary, options: .atomic)
-    // Replace so readers never observe a half-written file.
-    if FileManager.default.fileExists(atPath: fileURL.path) {
-      try FileManager.default.removeItem(at: fileURL)
+    do {
+      try data.write(to: temporary, options: .atomic)
+      // rename(2) atomically replaces the destination when it exists: readers
+      // never observe a half-written file, and a failure leaves the prior
+      // file in place. Temporary and target share a directory, so this never
+      // crosses a filesystem. (Foundation's replaceItem does not keep this
+      // contract on every platform this store compiles for.)
+      let renamed = temporary.path.withCString { tmp in
+        fileURL.path.withCString { destination in rename(tmp, destination) }
+      }
+      if renamed != 0 {
+        let reason = String(cString: strerror(errno))
+        throw NSError(
+          domain: NSCocoaErrorDomain, code: NSFileWriteUnknownError,
+          userInfo: [NSLocalizedDescriptionKey: "atomic replace failed: \(reason)"])
+      }
+    } catch {
+      try? FileManager.default.removeItem(at: temporary)
+      throw error
     }
-    try FileManager.default.moveItem(at: temporary, to: fileURL)
   }
 
   public func remove() throws {

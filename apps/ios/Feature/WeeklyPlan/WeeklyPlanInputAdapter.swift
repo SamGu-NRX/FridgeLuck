@@ -8,9 +8,10 @@ import FLFeatureLogic
 /// queries, reserves no stock, and computes no new policy. Every policy
 /// decision below is a documented projection of existing app state:
 ///
-/// - **Stock:** one `WeeklyPlanStockItem` per remaining lot (`fetchPlanningLots`),
-///   `quantityIsKnown = !quantityIsEstimate`. Duplicate ingredient IDs collapse
-///   in `WeeklyPlanInput.stockByID`: known lots sum, any unconfirmed lot taints
+/// - **Stock:** one `WeeklyPlanStockItem` per remaining lot
+///   (`WeeklyPlanStockReader.fetchPlanningLots`), `quantityIsKnown =
+///   !quantityIsEstimate`. Duplicate ingredient IDs collapse in
+///   `WeeklyPlanInput.stockByID`: known lots sum, any unconfirmed lot taints
 ///   the whole ingredient.
 /// - **Urgencies:** derived from the earliest expiry per ingredient. A lot
 ///   expiring within `useSoonWindowDays` days gives its ingredient a use-soon
@@ -24,8 +25,13 @@ import FLFeatureLogic
 /// - **Recipe diet class:** the recipe's own tags — `.vegan` → "vegan",
 ///   `.vegetarian` → "vegetarian", `.lowCarb` → "keto", else nil. This mirrors
 ///   `HealthProfile.requiredRecipeTagMask`'s mapping in reverse.
-/// - **Needs:** `RecipeIngredient` per serving, `isOptional = !isRequired`.
-///   The schema stores no substitutes, so `substitutes` stays empty.
+/// - **Needs:** per-serving grams from the production serving contract —
+///   `RecipeIngredient.quantityGrams` is the WHOLE recipe as stored for
+///   `Recipe.servings` servings, so it is divided by `servings` before the
+///   allocator multiplies by the planned servings (the same normalization
+///   `InventoryRepository.applyConsumption` applies at cooking time).
+///   `isOptional = !isRequired`. The schema stores no substitutes, so
+///   `substitutes` stays empty.
 enum WeeklyPlanInputAdapter {
   /// Use-soon window: lots expiring within this many days carry urgency.
   static let useSoonWindowDays = 3
@@ -55,7 +61,7 @@ enum WeeklyPlanInputAdapter {
   static func makeInput(
     recipes: [Recipe],
     ingredientsByRecipe: [Int64: [(ingredient: Ingredient, quantity: RecipeIngredient)]],
-    lots: [InventoryPlanningLot],
+    lots: [WeeklyPlanStockLot],
     profile: HealthProfile,
     servingsPerMeal: Int = 2,
     maxCookTimeMinutes: Int? = nil,
@@ -70,7 +76,14 @@ enum WeeklyPlanInputAdapter {
       let needs = rows.map {
         WeeklyPlanNeed(
           ingredientId: $0.quantity.ingredientId,
-          gramsPerServing: max(0, $0.quantity.quantityGrams),
+          // Production serving contract: stored quantityGrams covers the whole
+          // recipe as persisted for recipe.servings servings. Normalize to
+          // per-serving grams here — allocation multiplies by the planned
+          // servings per meal, so feeding it whole-recipe grams would double
+          // count (a 200 g two-serving recipe would demand 400 g for a
+          // two-serving plan).
+          gramsPerServing: max(0, $0.quantity.quantityGrams)
+            / Double(max(recipe.servings, 1)),
           isOptional: !$0.quantity.isRequired)
       }
       return WeeklyPlanRecipe(
@@ -102,7 +115,7 @@ enum WeeklyPlanInputAdapter {
   /// Weight 1.0/gram at the expiry day, decaying linearly to 0 at the window
   /// edge; already-expired lots count as expiry day. Absent = no urgency.
   static func urgencies(
-    lots: [InventoryPlanningLot], now: Date = Date(), calendar: Calendar = .current
+    lots: [WeeklyPlanStockLot], now: Date = Date(), calendar: Calendar = .current
   ) -> [WeeklyPlanUrgency] {
     let today = calendar.startOfDay(for: now)
     let earliestByIngredient = Dictionary(

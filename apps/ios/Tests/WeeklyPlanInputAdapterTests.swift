@@ -17,9 +17,9 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
       description: nil, categoryLabel: nil, spriteGroup: nil, spriteKey: nil)
   }
 
-  private func makeRecipe(_ id: Int64, tags: Int = 0, time: Int = 30) -> Recipe {
+  private func makeRecipe(_ id: Int64, tags: Int = 0, time: Int = 30, servings: Int = 2) -> Recipe {
     Recipe(
-      id: id, title: "Recipe \(id)", timeMinutes: time, servings: 2, instructions: "",
+      id: id, title: "Recipe \(id)", timeMinutes: time, servings: servings, instructions: "",
       tags: tags, source: .bundled, createdAt: nil)
   }
 
@@ -37,11 +37,11 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
   private func makeLot(
     _ ingredientId: Int64, grams: Double, estimated: Bool, daysToExpiry: Int? = nil,
     now: Date
-  ) -> InventoryPlanningLot {
+  ) -> WeeklyPlanStockLot {
     let expiry = daysToExpiry.flatMap {
       Calendar.current.date(byAdding: .day, value: $0, to: now)
     }
-    return InventoryPlanningLot(
+    return WeeklyPlanStockLot(
       ingredientId: ingredientId, remainingGrams: grams, quantityIsEstimate: estimated,
       expiresAt: expiry)
   }
@@ -162,9 +162,11 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
     XCTAssertNil(WeeklyPlanInputAdapter.dietClass(for: makeRecipe(4)))
   }
 
-  // MARK: - Needs
+  // MARK: - Needs (production serving contract)
 
   func testNeedsMapRequirednessAndGramsPerServing() {
+    // Stored quantityGrams is the whole recipe as persisted for
+    // recipe.servings (2 here): 120 g / 2 = 60 g per serving.
     let recipe = makeRecipe(10)
     let rows = [
       makeRow(10, 1, required: true, grams: 120),
@@ -176,9 +178,65 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
     let planned = input.recipes.first
     XCTAssertEqual(planned?.needs.count, 2)
     XCTAssertEqual(planned?.needs.first?.isOptional, false)
-    XCTAssertEqual(planned?.needs.first?.gramsPerServing, 120)
+    XCTAssertEqual(planned?.needs.first?.gramsPerServing, 60, accuracy: 1e-9)
     XCTAssertEqual(planned?.needs.last?.isOptional, true)
+    XCTAssertEqual(planned?.needs.last?.gramsPerServing, 7.5, accuracy: 1e-9)
     XCTAssertEqual(planned?.needs.first?.substitutes, [], "The schema stores no substitutes.")
+  }
+
+  func testWholeRecipeQuantityNormalizesByTheRecipeServings() {
+    // The reported defect: a 200 g two-serving recipe must require 200 g for
+    // a two-serving plan (100 g/serving × 2 planned servings), not 400 g.
+    let recipe = makeRecipe(11, servings: 2)
+    let rows = [makeRow(11, 7, required: true, grams: 200)]
+    let input = WeeklyPlanInputAdapter.makeInput(
+      recipes: [recipe], ingredientsByRecipe: [11: rows], lots: [], profile: makeProfile(),
+      servingsPerMeal: 2)
+
+    XCTAssertEqual(input.recipes.first?.needs.first?.gramsPerServing, 100, accuracy: 1e-9)
+  }
+
+  /// Adapter-to-allocation control: normalized per-serving grams flow into the
+  /// allocator over multiple planned servings and fractional ingredient
+  /// amounts, with hand-computed literals throughout.
+  ///
+  /// Recipe 21 serves 4 people from 100.5 g of ingredient 1 (required) and
+  /// 40.2 g of ingredient 2 (optional). Per serving: 25.125 g and 10.05 g.
+  /// The plan cooks three servings: 75.375 g and 30.15 g. Stock holds
+  /// 80.25 g of 1 (shortfall 4.875 g) and 35.5 g of 2 (covered).
+  func testAllocationOverMultiServingAndFractionalAmounts() throws {
+    let recipe = makeRecipe(21, servings: 4)
+    let rows = [
+      makeRow(21, 1, required: true, grams: 100.5),
+      makeRow(21, 2, required: false, grams: 40.2),
+    ]
+    let now = Calendar.current.startOfDay(for: Date())
+    let lots = [
+      makeLot(1, grams: 80.25, estimated: false, now: now),
+      makeLot(2, grams: 35.5, estimated: false, now: now),
+    ]
+    let input = WeeklyPlanInputAdapter.makeInput(
+      recipes: [recipe], ingredientsByRecipe: [21: rows], lots: lots, profile: makeProfile(),
+      servingsPerMeal: 3)
+
+    // The adapter normalized whole-recipe grams by the recipe's own servings.
+    let planned = try XCTUnwrap(input.recipes.first)
+    XCTAssertEqual(planned.needs.first?.gramsPerServing, 25.125, accuracy: 1e-9)
+    XCTAssertEqual(planned.needs.last?.gramsPerServing, 10.05, accuracy: 1e-9)
+
+    // Allocation multiplies by the planned servings per meal: three servings
+    // of a four-serving recipe.
+    let slot = WeeklyPlanSlot(id: 1, label: "Monday dinner")
+    let rowsOut = WeeklyPlanConsumption.allocate(
+      assignment: [(slot, planned)], stock: input.stockByID, constraints: input.constraints)
+
+    XCTAssertEqual(rowsOut.count, 2, "The optional need is reported, not silently dropped.")
+    let forIngredient1 = try XCTUnwrap(rowsOut.first { $0.ingredientId == 1 })
+    XCTAssertEqual(forIngredient1.requestedGrams, 75.375, accuracy: 1e-9)
+    XCTAssertEqual(forIngredient1.shortfallGrams, 4.875, accuracy: 1e-9)
+    let forIngredient2 = try XCTUnwrap(rowsOut.first { $0.ingredientId == 2 })
+    XCTAssertEqual(forIngredient2.requestedGrams, 30.15, accuracy: 1e-9)
+    XCTAssertEqual(forIngredient2.shortfallGrams, 0, accuracy: 1e-9)
   }
 
   func testRecipesWithoutPersistedIDsAreSkipped() {

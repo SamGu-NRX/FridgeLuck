@@ -44,17 +44,62 @@ final class StoreFlowTests: XCTestCase {
     let state = WeeklyPlanFlow.propose(inputs: makeInput(), now: Date(timeIntervalSince1970: 1_700_000_000))
     try store.save(state.entry!)
 
-    let loaded = store.load()
+    guard case .entry(let loaded) = store.read() else {
+      return XCTFail("a saved entry must read back as .entry")
+    }
     XCTAssertEqual(loaded, state.entry)
-    XCTAssertEqual(loaded?.phase, .draft)
-    XCTAssertEqual(loaded?.plan.assignments.count, 2)
+    XCTAssertEqual(loaded.phase, .draft)
+    XCTAssertEqual(loaded.plan.assignments.count, 2)
   }
 
-  func testCorruptStoreReadsAsNoPlan() throws {
+  func testAbsentCorruptAndUnreadableStorageAreDistinct() throws {
     let store = WeeklyPlanStore(directory: tempDirectory)
-    try Data("not json".utf8).write(
-      to: tempDirectory.appendingPathComponent(WeeklyPlanStore.defaultFileName))
-    XCTAssertNil(store.load())
+
+    // Absent: nothing stored.
+    XCTAssertEqual(store.read(), .absent)
+
+    // Corrupt: the file exists but is not a decodable plan store.
+    let fileURL = tempDirectory.appendingPathComponent(WeeklyPlanStore.defaultFileName)
+    try Data("not json".utf8).write(to: fileURL)
+    guard case .corrupt = store.read() else {
+      return XCTFail("garbage bytes must read as .corrupt")
+    }
+
+    // Recovery is explicit: a save replaces the corrupt file in place. (A
+    // whole-second date: the ISO-8601 round trip keeps seconds precision.)
+    let state = WeeklyPlanFlow.propose(
+      inputs: makeInput(), now: Date(timeIntervalSince1970: 1_700_000_200))
+    try store.save(state.entry!)
+    XCTAssertEqual(store.read(), .entry(state.entry!))
+
+    // Unreadable: the file exists but cannot be read at all.
+    try FileManager.default.setAttributes(
+      [.posixPermissions: 0o000], ofItemAtPath: fileURL.path)
+    defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: fileURL.path) }
+    guard case .unreadable = store.read() else {
+      return XCTFail("an unreadable file must read as .unreadable, not .absent or .corrupt")
+    }
+  }
+
+  func testFailedSaveRetainsThePriorFile() throws {
+    let store = WeeklyPlanStore(directory: tempDirectory)
+    let first = WeeklyPlanFlow.propose(inputs: makeInput(), now: Date(timeIntervalSince1970: 1_700_000_000))
+    try store.save(first.entry!)
+
+    // Make the directory unwritable (write bit off, execute bit kept so the
+    // prior file can still be stat'd) so the next save cannot stage its
+    // temporary file, and observe: the save throws and the prior file is
+    // retained byte-for-byte.
+    try FileManager.default.setAttributes(
+      [.posixPermissions: 0o555], ofItemAtPath: tempDirectory.path)
+    defer {
+      try? FileManager.default.setAttributes(
+        [.posixPermissions: 0o755], ofItemAtPath: tempDirectory.path)
+    }
+
+    let second = WeeklyPlanFlow.propose(inputs: makeInput(), now: Date(timeIntervalSince1970: 1_700_000_100))
+    XCTAssertThrowsError(try store.save(second.entry!))
+    XCTAssertEqual(store.read(), .entry(first.entry!), "a failed save must retain the prior file")
   }
 
   func testRemoveClearsTheStore() throws {
@@ -62,7 +107,7 @@ final class StoreFlowTests: XCTestCase {
     let state = WeeklyPlanFlow.propose(inputs: makeInput(), now: Date())
     try store.save(state.entry!)
     try store.remove()
-    XCTAssertNil(store.load())
+    XCTAssertEqual(store.read(), .absent)
   }
 
   // MARK: relaunch + staleness
@@ -70,7 +115,7 @@ final class StoreFlowTests: XCTestCase {
   func testRestoreKeepsAcceptedPhaseAndFlagsStalenessOnDriftedInputs() throws {
     let inputs = makeInput()
     var state = WeeklyPlanFlow.propose(inputs: inputs, now: Date())
-    state = WeeklyPlanFlow.accept(state: state, now: Date())
+    state = WeeklyPlanFlow.accept(state: state, inputs: inputs, now: Date())
     XCTAssertTrue(state.isAccepted)
 
     // Relaunch with identical inputs: accepted plan, not stale.
@@ -102,7 +147,7 @@ final class StoreFlowTests: XCTestCase {
   func testAcceptThenEditDemotesToDraftAndClearsAcceptance() {
     let inputs = makeInput()
     var state = WeeklyPlanFlow.propose(inputs: inputs, now: Date())
-    state = WeeklyPlanFlow.accept(state: state, now: Date())
+    state = WeeklyPlanFlow.accept(state: state, inputs: inputs, now: Date())
     XCTAssertTrue(state.isAccepted)
     let slot11Before = state.plan?.assignments.first(where: { $0.slotId == 11 })?.recipeId
 
@@ -123,7 +168,7 @@ final class StoreFlowTests: XCTestCase {
     // moving Pasta into slot 11 as well (800 g total) must be rejected.
     let inputs = makeInput(stockGrams: 500)
     var state = WeeklyPlanFlow.propose(inputs: inputs, now: Date())
-    state = WeeklyPlanFlow.accept(state: state, now: Date())
+    state = WeeklyPlanFlow.accept(state: state, inputs: inputs, now: Date())
     XCTAssertTrue(state.isAccepted)
 
     let rejected = WeeklyPlanFlow.editSlot(
@@ -150,7 +195,7 @@ final class StoreFlowTests: XCTestCase {
       return XCTFail("zero stock should not have produced a feasible plan here")
     }
     XCTAssertFalse(plan.violations.isEmpty, "infeasibility must carry a reason")
-    let accepted = WeeklyPlanFlow.accept(state: state, now: Date())
+    let accepted = WeeklyPlanFlow.accept(state: state, inputs: inputs, now: Date())
     XCTAssertNotNil(accepted.rejectionReason)
     XCTAssertEqual(accepted.entry?.phase, .draft)
   }
@@ -158,7 +203,7 @@ final class StoreFlowTests: XCTestCase {
   func testRemoveSlotRebuildsShortagesAndDemotesAcceptance() {
     let inputs = makeInput()
     var state = WeeklyPlanFlow.propose(inputs: inputs, now: Date())
-    state = WeeklyPlanFlow.accept(state: state, now: Date())
+    state = WeeklyPlanFlow.accept(state: state, inputs: inputs, now: Date())
 
     let removed = WeeklyPlanFlow.removeSlot(state: state, slotId: 11, inputs: inputs, now: Date())
     XCTAssertEqual(removed.entry?.phase, .draft)
@@ -169,11 +214,28 @@ final class StoreFlowTests: XCTestCase {
   func testRecomputeSupersedesAcceptance() {
     let inputs = makeInput()
     var state = WeeklyPlanFlow.propose(inputs: inputs, now: Date())
-    state = WeeklyPlanFlow.accept(state: state, now: Date())
+    state = WeeklyPlanFlow.accept(state: state, inputs: inputs, now: Date())
     let recomputed = WeeklyPlanFlow.recompute(state: state, inputs: inputs, now: Date())
     XCTAssertEqual(recomputed.entry?.phase, .draft)
     XCTAssertNil(recomputed.entry?.acceptedAt)
     XCTAssertFalse(recomputed.isStale)
+  }
+
+  func testAcceptanceRefusesAStaleFingerprint() {
+    let inputs = makeInput()
+    let state = WeeklyPlanFlow.propose(inputs: inputs, now: Date())
+    // The kitchen drifts between the plan's computation and acceptance.
+    let drifted = makeInput(stockGrams: 200)
+    let refused = WeeklyPlanFlow.accept(state: state, inputs: drifted, now: Date())
+    XCTAssertNotNil(refused.rejectionReason, "a stale fingerprint must be refused")
+    XCTAssertEqual(refused.entry?.phase, .draft, "refusal never promotes")
+    XCTAssertTrue(refused.isStale)
+    XCTAssertEqual(refused.plan, state.plan, "refusal keeps the prior plan")
+
+    // Accepting over the inputs the plan was computed from still works.
+    let accepted = WeeklyPlanFlow.accept(state: state, inputs: inputs, now: Date())
+    XCTAssertNil(accepted.rejectionReason)
+    XCTAssertEqual(accepted.entry?.phase, .accepted)
   }
 
   func testDiscardClearsEverything() {

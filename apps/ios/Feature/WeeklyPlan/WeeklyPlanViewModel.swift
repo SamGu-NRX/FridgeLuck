@@ -29,6 +29,7 @@ final class WeeklyPlanViewModel {
   var ingredientNames: [Int64: String] = [:]
 
   private let inventoryRepository: InventoryRepository
+  private let stockReader: WeeklyPlanStockReader
   private let recipeRepository: RecipeRepository
   private let ingredientRepository: IngredientRepository
   private let userDataRepository: UserDataRepository
@@ -37,12 +38,14 @@ final class WeeklyPlanViewModel {
 
   init(
     inventoryRepository: InventoryRepository,
+    stockReader: WeeklyPlanStockReader,
     recipeRepository: RecipeRepository,
     ingredientRepository: IngredientRepository,
     userDataRepository: UserDataRepository,
     store: WeeklyPlanStore
   ) {
     self.inventoryRepository = inventoryRepository
+    self.stockReader = stockReader
     self.recipeRepository = recipeRepository
     self.ingredientRepository = ingredientRepository
     self.userDataRepository = userDataRepository
@@ -62,7 +65,22 @@ final class WeeklyPlanViewModel {
       let built = try buildInput()
       input = built
       ingredientNames = try ingredientNameMap(for: built)
-      flowState = WeeklyPlanFlow.restore(entry: store.load(), inputs: built)
+      // Absent / corrupt / unreadable stay distinct: a broken store is
+      // reported verbatim, never silently treated as a fresh start. The
+      // broken file is left in place — recovery is an explicit save or remove.
+      switch store.read() {
+      case .absent:
+        flowState = WeeklyPlanFlowState()
+      case .entry(let entry):
+        flowState = WeeklyPlanFlow.restore(entry: entry, inputs: built)
+      case .corrupt(let message):
+        flowState = WeeklyPlanFlowState()
+        errorMessage =
+          "The stored plan file is corrupt (\(message)). It is left in place — recompute to start over."
+      case .unreadable(let message):
+        flowState = WeeklyPlanFlowState()
+        errorMessage = "The stored plan file could not be read: \(message)."
+      }
 
       if inventoryObserver == nil {
         inventoryObserver = inventoryRepository.observeInventoryChanges { [weak self] in
@@ -85,7 +103,7 @@ final class WeeklyPlanViewModel {
 
   private func buildInput() throws -> WeeklyPlanInput {
     let profile = try userDataRepository.fetchHealthProfile()
-    let lots = try inventoryRepository.fetchPlanningLots()
+    let lots = try stockReader.fetchPlanningLots()
 
     // Deterministic candidate choice: eligible recipes by ID order, capped so
     // the engine stays in its guaranteed-optimal domain.
@@ -124,19 +142,36 @@ final class WeeklyPlanViewModel {
 
   // MARK: - Flow actions
 
-  /// Explicit recomputation over fresh inputs, persisted as the new draft.
+  /// Explicit recomputation over inputs read right now — current profile
+  /// exclusions, recipe quantities, and expiry/time context. Never a cached
+  /// snapshot; a failed read keeps the prior state and reports the error.
   func recompute() {
-    guard let built = input ?? (try? buildInput()) else {
-      errorMessage = errorMessage ?? "Could not read your kitchen."
+    let built: WeeklyPlanInput
+    do {
+      built = try buildInput()
+      ingredientNames = try ingredientNameMap(for: built)
+    } catch {
+      errorMessage = "Could not read your kitchen: \(error.localizedDescription)"
       return
     }
     input = built
     apply(WeeklyPlanFlow.recompute(state: flowState, inputs: built, now: Date()))
   }
 
-  /// Accepts the current draft (feasible drafts only, per the flow).
+  /// Accepts the current draft (feasible drafts only, per the flow). The
+  /// fingerprint is validated over inputs read at acceptance time, so a plan
+  /// computed from a kitchen that has since changed is refused as stale.
   func accept() {
-    apply(WeeklyPlanFlow.accept(state: flowState, now: Date()))
+    let built: WeeklyPlanInput
+    do {
+      built = try buildInput()
+      ingredientNames = try ingredientNameMap(for: built)
+    } catch {
+      errorMessage = "Could not read your kitchen: \(error.localizedDescription)"
+      return
+    }
+    input = built
+    apply(WeeklyPlanFlow.accept(state: flowState, inputs: built, now: Date()))
   }
 
   /// Replaces one slot's recipe with a candidate.
@@ -151,22 +186,35 @@ final class WeeklyPlanViewModel {
     apply(WeeklyPlanFlow.removeSlot(state: flowState, slotId: slotId, inputs: built, now: Date()))
   }
 
-  /// Clears the plan entirely (start over).
+  /// Clears the plan entirely (start over). Success is published only after
+  /// the removal persisted; a failed remove keeps the plan and reports why.
   func discard() {
-    flowState = WeeklyPlanFlow.discard(state: flowState)
-    try? store.remove()
+    do {
+      try store.remove()
+      flowState = WeeklyPlanFlow.discard(state: flowState)
+    } catch {
+      errorMessage = "Could not remove the stored plan: \(error.localizedDescription)"
+    }
   }
 
   /// Applies a flow result and persists it. Rejections change nothing on disk;
-  /// their reason stays on the state for the screen to show verbatim.
+  /// their reason stays on the state for the screen to show verbatim. State is
+  /// published only after persistence succeeds — a failed write leaves the
+  /// prior published state untouched and reports the error, so the screen
+  /// never claims a plan the disk does not hold.
   private func apply(_ next: WeeklyPlanFlowState) {
-    flowState = next
-    guard let entry = next.entry else {
-      try? store.remove()
+    guard next.entry != flowState.entry else {
+      // Rejected action (entry unchanged): display-only update.
+      flowState = next
       return
     }
     do {
-      try store.save(entry)
+      if let entry = next.entry {
+        try store.save(entry)
+      } else {
+        try store.remove()
+      }
+      flowState = next
     } catch {
       errorMessage = "Could not save the plan: \(error.localizedDescription)"
     }
