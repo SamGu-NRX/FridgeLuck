@@ -16,8 +16,11 @@ The recipe preview drawer gains "Export amounts": the user chooses an explicit p
 Never exported: journal photos/paths, profile or Health values, ratings, database IDs, OCR, tokens, private history. Attribution (HTTP/HTTPS via the existing parser interface) is shown when available; attribution is not a license grant. No upload, remote publisher, or account. Plain UTF-8 text only.
 
 ## Status
-- Sub-threads building logic+tests and UI+wiring; the lead joins both into this branch.
-- Pushed checkpoints are listed in the PR description.
+- Implemented and joined on this branch (tip e873744): logic + offline check package + sheet UI + drawer wiring + additive design tokens.
+- `swift test --package-path apps/ios/Tools/recipe-amount-export-check`: **11 tests, 0 failures** (Linux Swift 6.4), independently re-run by the joining thread on the merged tree.
+- Hosted iOS CI (no CI changes): `build-and-test` **pass** (7m03s) on the joined implementation; `dead-code-advisory` advisory-only.
+- Unrun (no Apple host in this environment; no web mocks substituted): 390×844 / 1440×900 native fixture captures, on-device share/save trace, VoiceOver / large-type / keyboard-focus interaction evidence.
+- The named design skills (`frontend-design`, `emil-design-eng`, `holistic-ux`, `animate`, `prep-for-prod`) are not present in this workspace's skill catalog; the intent was applied as additive `AppTheme`/`AppMotion` tokens with Reduce Motion honored.
 
 ## Left / how to continue
 See the PR description's Handoff section (kept current on every push).
