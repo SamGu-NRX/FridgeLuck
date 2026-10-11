@@ -1,0 +1,48 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "Unopened flower buds of a spiny Mediterranean shrub, pickled or salt-cured — tiny bursts of brine that cut through rich food.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The caper bush grows all around the Mediterranean (its original home is debated); the buds and the larger caper berries are eaten salted or pickled, and the plant's other parts go into medicines and cosmetics.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose brine-packed capers with small, even buds (smaller means more delicate); salt-packed taste rounder but need rinsing.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep the jar sealed in the fridge after opening, with buds under brine. The rulebook has the window.",
+   "citations": [],
+   "note": "opened-jar guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Fry capers crisp in butter for pasta or fish, mash into butter for bread, or chop into vinaigrettes and tapenades — they are best in small, frequent doses.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "green olives (chopped)",
+   "ratio": "1:1",
+   "note": "saltier and oilier; rinse if very briny",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Caper — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Caper",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

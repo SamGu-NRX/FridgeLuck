@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "peanut_butter",
+  "displayName": "Peanut Butter",
+  "isCore": true,
+  "category": "condiment",
+  "sections": {
+   "whatItIs": {
+    "text": "Ground, dry-roasted peanuts — usually with salt, sometimes sugar or emulsifiers; the most common of the nut butters and protein-rich for a spread.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Aztecs and Incas ground roasted peanuts into paste centuries ago; the modern version began with a Montreal patent in 1884, was served to patients at John Harvey Kellogg's sanitarium, and started life as a food for the wealthy. George Washington Carver famously did not invent it.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Check the label: natural styles list peanuts (and salt) only and need stirring; conventional no-stir jars use emulsifiers. Crunchy or smooth is a household referendum.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Natural jars keep in the fridge to slow oil separation; stir and reseal. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "opened-jar guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Peanut butter rescues more than toast: whirl into satay sauce, blend into smoothies or banana nice-cream, or bake into cookies when the sweet tooth strikes.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "almond butter",
+    "ratio": "1:1",
+    "note": "gentler flavour, similar fat; usually pricier",
+    "citations": []
+   },
+   {
+    "substitute": "sunflower seed butter",
+    "ratio": "1:1",
+    "note": "nut-free alternative; slightly bitter edge",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 174266,
+   "fdcDescription": "Peanut butter, smooth style, with salt (Includes foods for USDA's Food Distribution Program)",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "potassiumMg": 558,
+    "sugarG": 10.49,
+    "fiberG": 5,
+    "sodiumMg": 426,
+    "ironMg": 1.74,
+    "proteinG": 22.21,
+    "vitaminCMg": 0,
+    "folateMcg": 87,
+    "calciumMg": 49,
+    "fatG": 51.36,
+    "carbohydrateG": 22.31,
+    "energyKcal": 598,
+    "saturatedFatG": 10.32,
+    "vitaminARaeMcg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Peanut butter — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Peanut_butter",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 174266 (Peanut butter, smooth style, with salt (Includes foods for USDA's Food Distribution Program))."
+   }
+  }
+ }
+}

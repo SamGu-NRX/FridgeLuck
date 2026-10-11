@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "brown_rice",
+  "displayName": "Brown Rice",
+  "isCore": false,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "Rice with only the husk removed, keeping the bran and germ — chewier, nuttier, and slower to cook than white rice, with more of the grain intact.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Rice was domesticated in China some 13,500-8,200 years ago and independently in West Africa about 3,000 years ago; brown rice is simply the less-milled form of the same grain — 'dry rice grain is milled to remove the outer layers', and how much is removed gives white or brown.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Look for even, unbroken grains with a faint nutty smell; the bran means a shorter shelf life than white rice, so buy in smaller bags if you cook it rarely.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep dry in a sealed container in a cool cupboard; the rulebook covers the cooked-rice window, which is the safety-critical part.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "cooked-rice cooling and storage rules live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Cooked brown rice grains stay distinct in fried rice and grain bowls, and it makes a fine porridge with stock and a soft egg.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "white rice",
+    "ratio": "1:1",
+    "note": "cooks ~15 minutes faster, less fibre",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169703,
+   "fdcDescription": "Rice, brown, long-grain, raw (Includes foods for USDA's Food Distribution Program)",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 0.66,
+    "calciumMg": 9,
+    "potassiumMg": 250,
+    "fatG": 3.2,
+    "carbohydrateG": 76.25,
+    "energyKcal": 367,
+    "fiberG": 3.6,
+    "ironMg": 1.29,
+    "sodiumMg": 5,
+    "proteinG": 7.54,
+    "folateMcg": 23,
+    "saturatedFatG": 0.59,
+    "vitaminARaeMcg": 0,
+    "vitaminCMg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Rice — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Rice",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169703 (Rice, brown, long-grain, raw (Includes foods for USDA's Food Distribution Program))."
+   }
+  }
+ }
+}

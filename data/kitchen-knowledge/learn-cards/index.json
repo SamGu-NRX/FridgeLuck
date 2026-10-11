@@ -5,6 +5,22 @@
  "data": {
   "cards": [
    {
+    "id": "all_purpose_flour",
+    "displayName": "All Purpose Flour",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168894
+   },
+   {
+    "id": "almonds",
+    "displayName": "Almonds",
+    "isCore": false,
+    "category": "nut_seed",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170567
+   },
+   {
     "id": "apple",
     "displayName": "Apple",
     "isCore": true,
@@ -21,12 +37,28 @@
     "fdcId": 171705
    },
    {
+    "id": "baking_powder",
+    "displayName": "Baking Powder",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172804
+   },
+   {
     "id": "banana",
     "displayName": "Banana",
     "isCore": true,
     "category": "fruit",
     "frequencyInBundledRecipes": 3,
     "fdcId": 173944
+   },
+   {
+    "id": "basil",
+    "displayName": "Basil",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172232
    },
    {
     "id": "bell_pepper",
@@ -45,6 +77,14 @@
     "fdcId": 173735
    },
    {
+    "id": "black_pepper",
+    "displayName": "Black Pepper",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170931
+   },
+   {
     "id": "bread",
     "displayName": "Bread",
     "isCore": true,
@@ -61,6 +101,22 @@
     "fdcId": 170379
    },
    {
+    "id": "brown_rice",
+    "displayName": "Brown Rice",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169703
+   },
+   {
+    "id": "brown_sugar",
+    "displayName": "Brown Sugar",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168833
+   },
+   {
     "id": "butter",
     "displayName": "Butter",
     "isCore": true,
@@ -69,12 +125,36 @@
     "fdcId": 173410
    },
    {
+    "id": "cabbage",
+    "displayName": "Cabbage",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169336
+   },
+   {
+    "id": "canned_tomatoes",
+    "displayName": "Canned Tomatoes",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170138
+   },
+   {
     "id": "canned_tuna",
     "displayName": "Canned Tuna",
     "isCore": true,
     "category": "protein",
     "frequencyInBundledRecipes": 2,
     "fdcId": 171986
+   },
+   {
+    "id": "capers",
+    "displayName": "Capers",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172238
    },
    {
     "id": "carrot",
@@ -243,12 +323,100 @@
     "category": "dairy_egg",
     "frequencyInBundledRecipes": 3,
     "fdcId": 171265
+   },
+   {
+    "id": "mushroom",
+    "displayName": "Mushroom",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 4,
+    "fdcId": 169251
+   },
+   {
+    "id": "oats",
+    "displayName": "Oats",
+    "isCore": true,
+    "category": "grain",
+    "frequencyInBundledRecipes": 2,
+    "fdcId": 173904
+   },
+   {
+    "id": "olive_oil",
+    "displayName": "Olive Oil",
+    "isCore": true,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 5,
+    "fdcId": 171413
+   },
+   {
+    "id": "onion",
+    "displayName": "Onion",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 5,
+    "fdcId": 170000
+   },
+   {
+    "id": "pasta",
+    "displayName": "Pasta",
+    "isCore": true,
+    "category": "grain",
+    "frequencyInBundledRecipes": 7,
+    "fdcId": 169736
+   },
+   {
+    "id": "peanut_butter",
+    "displayName": "Peanut Butter",
+    "isCore": true,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 7,
+    "fdcId": 174266
+   },
+   {
+    "id": "potato",
+    "displayName": "Potato",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 2,
+    "fdcId": 170438
+   },
+   {
+    "id": "red_pepper_flakes",
+    "displayName": "Red Pepper Flakes",
+    "isCore": true,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 4,
+    "fdcId": 170932
+   },
+   {
+    "id": "rice",
+    "displayName": "Rice",
+    "isCore": true,
+    "category": "grain",
+    "frequencyInBundledRecipes": 19,
+    "fdcId": 169756
+   },
+   {
+    "id": "salmon",
+    "displayName": "Salmon",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 1,
+    "fdcId": 175167
+   },
+   {
+    "id": "tomato",
+    "displayName": "Tomato",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 13,
+    "fdcId": 170457
    }
   ],
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 30,
+   "cardsWritten": 51,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [],
    "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."

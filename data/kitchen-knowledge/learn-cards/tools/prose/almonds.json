@@ -1,0 +1,54 @@
+{
+ "category": "nut_seed",
+ "sections": {
+  "whatItIs": {
+   "text": "The seed of a stone-fruit tree — botanically not a true nut but a drupe like its cousin the peach, with a hard shell around the kernel.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Almonds were among the earliest domesticated fruit trees, because they breed true from seed; domesticated-almond remains show up in Early Bronze Age sites of the Middle East. California now supplies about 80% of the world's almonds.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose whole or sliced almonds that smell sweet and nutty, never sharp or paint-like (that is rancidity); vacuum-sealed or bulk-bin turnover matters more than brand.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate if you will keep them long — almonds store for around a year chilled but go rancid faster at room temperature. The rulebook has the details.",
+   "citations": [],
+   "note": "nut storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Rancid-adjacent almonds toast beautifully (masking nothing — toast only slightly-off nuts for baking, never eating raw), and any almonds blitz into frangipane, almond milk, or a crust for fish.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "cashews",
+   "ratio": "1:1",
+   "note": "softer, sweeter; similar fat for baking",
+   "citations": []
+  },
+  {
+   "substitute": "sunflower seeds",
+   "ratio": "1:1",
+   "note": "nut-free; greener flavour",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Almond — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Almond",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

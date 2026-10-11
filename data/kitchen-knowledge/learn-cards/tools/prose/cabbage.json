@@ -1,0 +1,54 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A dense head of leaves from the brassica family — green, red, or crinkled savoy — built to store for months, which is why it fed Europe through winter.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Cabbage was domesticated somewhere in Europe before 1000 BC, was a Roman table luxury, and by the 17th-18th centuries was a staple of central, northern, and Eastern Europe; European sailors carried it against scurvy.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose heads that feel heavy for their size with crisp, closely packed leaves and no black spots or slimy outer layers; savoy should spring back.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep the whole head loosely bagged in the fridge; once cut, wrap the remainder tightly. The rulebook has the details.",
+   "citations": [],
+   "note": "storage windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Outer leaves and cores make good stock; the rest shreds into slaws, ferments into sauerkraut or kimchi, or braises slowly with butter and caraway.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "napa cabbage",
+   "ratio": "1:1",
+   "note": "tenderer, milder, watery — cook less",
+   "citations": []
+  },
+  {
+   "substitute": "Brussels sprouts",
+   "ratio": "shredded 1:1",
+   "note": "same family, nuttier; slaws and stir-fries",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Cabbage — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Cabbage",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "category": "condiment",
+ "sections": {
+  "whatItIs": {
+   "text": "The juice of pressed olives — one of the three core food plants of Mediterranean cuisine alongside wheat and grapes; extra-virgin grade must have no more than 0.8% free acidity.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Olives have been cultivated around the Mediterranean since the 8th millennium BC, and wild ones were gathered even earlier; Greece spread the cosmetic-and-athlete oil habit through its gymnasia, where oil stayed in use for nearly a thousand years.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Buy dark bottles with a harvest date (not just a best-before) — fresher is sharper and grassier; for cooking choose a modest everyday oil and save the peppery extra-virgin for finishing.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep cool and away from light in a dark bottle; oil does not improve with age. The rulebook has the notes.",
+   "citations": [],
+   "note": "oil storage guidance lives in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Aging oil still fries and bakes; whisk it into dressings, drizzle over soup, or freeze in ice-cube trays with herbs for instant flavour bombs.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "rapeseed/canola oil",
+   "ratio": "1:1",
+   "note": "neutral for high-heat cooking; no fruitiness",
+   "citations": []
+  },
+  {
+   "substitute": "melted butter",
+   "ratio": "3/4 the oil quantity",
+   "note": "for baking where dairy flavour helps",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Olive oil — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Olive_oil",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

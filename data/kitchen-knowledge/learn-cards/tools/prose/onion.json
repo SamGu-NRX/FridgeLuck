@@ -1,0 +1,54 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "The bulb onion, most widely cultivated member of the Allium family and the starting point of more recipes than any other vegetable — it is known only from cultivation, its wild ancestor lost to time.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The shallot, long treated as its own species, was reclassified in 2011 as a botanical variety of the onion — a reminder that the Allium family is one continuum of domesticated bulbs.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose firm, dry bulbs with papery skins and no soft spots, green shoots, or sprouting; heavier onions mean juicier layers.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep whole onions cool, dark, and airy — not in the fridge or next to potatoes. The rulebook has the details.",
+   "citations": [],
+   "note": "storage windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Cut onions become caramelised onions, quick pickles, or the flavour base of whatever soup is next; halves roast whole until jammy.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "shallots",
+   "ratio": "2 shallots per onion",
+   "note": "sweeter, gentler, more elegant in vinaigrettes",
+   "citations": []
+  },
+  {
+   "substitute": "onion powder",
+   "ratio": "1 tbsp powder per medium onion",
+   "note": "for rubs and dressings; no texture",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Onion — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Onion",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "tomato",
+  "displayName": "Tomato",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "Botanically a berry, cooked as a vegetable, and the umami backbone of world cuisine — modern uniform-red breeding bought shelf life at the cost of sweetness.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The tomato's wild ancestor is native to western South America, with domesticated cultivation in southern Mexico by 500 BC; genomic studies estimate the cultivated form arose about 7,000 years ago. Spain carried it to Eurasia in the 16th century.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose tomatoes that smell like tomato at the stem end and feel heavy; skip fridge-cold stock and never refrigerate ripe ones — the texture goes mealy.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep at room temperature stem-down, away from sun; use within a few days once fully ripe. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "storage windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Soft tomatoes roast into sauce, blister under the grill, or simmer into soup — the uglier the tomato, the better the jam-like roast.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "canned tomatoes",
+    "ratio": "same weight",
+    "note": "for cooked dishes; add a pinch of sugar for freshness",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170457,
+   "fdcDescription": "Tomatoes, red, ripe, raw, year round average",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminCMg": 13.7,
+    "sugarG": 2.63,
+    "carbohydrateG": 3.89,
+    "energyKcal": 18,
+    "vitaminARaeMcg": 42,
+    "saturatedFatG": 0.03,
+    "calciumMg": 10,
+    "potassiumMg": 237,
+    "fatG": 0.2,
+    "fiberG": 1.2,
+    "ironMg": 0.27,
+    "sodiumMg": 5,
+    "proteinG": 0.88,
+    "folateMcg": 15
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Tomato — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tomato",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170457 (Tomatoes, red, ripe, raw, year round average)."
+   }
+  }
+ }
+}

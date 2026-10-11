@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "red_pepper_flakes",
+  "displayName": "Red Pepper Flakes",
+  "isCore": true,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "Dried and crushed (not ground) cayenne-type chillies, usually blended from up to four cultivars in the 30,000-50,000 Scoville range; the pizza-table standard.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Chillies were harvested in Central and South America from about 7,500 BC; the crushed-flake form is credited to the Macedonian village of Bukovo — whose name (bukovo, bukovska piper) still labels the flakes across Southeast Europe — and Southern Italians carried the habit to America in the 19th century.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Buy in small quantities from high-turnover shelves — the flakes fade within about a year; a vivid red colour means decent heat remains.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep in an airtight jar away from heat and light. The rulebook has the spice-shelf guidance.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "spice storage guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Faded flakes still work toasted briefly in oil, or blitzed into chili crisp and hot sauces where other flavours carry them.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "cayenne powder",
+    "ratio": "1/2 the quantity, then taste",
+    "note": "same heat range, finer texture and even spread",
+    "citations": []
+   },
+   {
+    "substitute": "hot smoked paprika",
+    "ratio": "1:1",
+    "note": "much milder with smoke; colour without burn",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170932,
+   "fdcDescription": "Spices, pepper, red or cayenne",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 17.27,
+    "carbohydrateG": 56.63,
+    "energyKcal": 318,
+    "calciumMg": 148,
+    "potassiumMg": 2014,
+    "proteinG": 12.01,
+    "sodiumMg": 30,
+    "ironMg": 7.8,
+    "vitaminCMg": 76.4,
+    "saturatedFatG": 3.26,
+    "fiberG": 27.2,
+    "sugarG": 10.34,
+    "folateMcg": 106,
+    "vitaminARaeMcg": 2081
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Crushed red pepper — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Crushed_red_pepper",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170932 (Spices, pepper, red or cayenne)."
+   }
+  }
+ }
+}
