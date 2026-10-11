@@ -95,7 +95,10 @@ def main():
         cards[name] = {
             "id": name, "displayName": name.replace("_", " ").title(),
             "isCore": True, "frequencyInBundledRecipes": core_freq.get(cid, 0),
-            "frequencyInSeedCorpus": seed.get(name.replace("_", " "), 0),
+            # Seed-corpus frequency is added exactly once, by the seed loop
+            # below (an earlier version looked it up here AND again in the
+            # loop, double-counting exact-name matches by 1862 units).
+            "frequencyInSeedCorpus": 0,
             "aliases": [],
         }
     # seed-corpus cards not merging into a core card
@@ -119,6 +122,9 @@ def main():
                 cards[target].pop("mergeNote", None)
 
     used = len([c for c in cards.values() if c["frequencyInBundledRecipes"] + c["frequencyInSeedCorpus"] > 0])
+    seed_ref = subprocess.run(
+        ["git", "rev-parse", SEED_BRANCH],
+        cwd=REPO, capture_output=True, text=True, check=True).stdout.strip()
     summary = {
         "coreCards": sum(1 for c in cards.values() if c["isCore"]),
         "nonCoreCards": sum(1 for c in cards.values() if not c["isCore"]),
@@ -126,6 +132,7 @@ def main():
         "bundledDistinctIngredientIds": len(core_freq),
         "seedDistinctNames": len(seed),
         "unusedCoreIds": sorted(cid for cid in core if core_freq[cid] == 0),
+        "seedCorpusSnapshot": {"branch": SEED_BRANCH, "commit": seed_ref},
     }
     json.dump({"summary": summary, "cards": dict(sorted(cards.items()))},
               open(os.path.join(HERE, "universe.json"), "w"), indent=1)
