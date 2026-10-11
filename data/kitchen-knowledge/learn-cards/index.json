@@ -242,7 +242,7 @@
     "isCore": false,
     "category": "herb_spice",
     "frequencyInBundledRecipes": 0,
-    "fdcId": 168570
+    "fdcId": null
    },
    {
     "id": "cilantro",
@@ -658,7 +658,7 @@
     "isCore": true,
     "category": "vegetable",
     "frequencyInBundledRecipes": 2,
-    "fdcId": 170438
+    "fdcId": 170026
    },
    {
     "id": "quinoa",
@@ -940,6 +940,7 @@
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [
     "chaat_masala",
+    "chipotle",
     "flattened_rice",
     "garam_masala",
     "gochujang",
@@ -948,7 +949,7 @@
     "paneer",
     "rice_vinegar"
    ],
-   "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."
+   "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 107 cards carry nutrition from SR Legacy release 2018-04; 9 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."
   }
  }
 }

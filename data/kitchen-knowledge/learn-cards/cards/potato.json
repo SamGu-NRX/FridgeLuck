@@ -52,25 +52,25 @@
    }
   ],
   "nutritionPer100g": {
-   "fdcId": 170438,
-   "fdcDescription": "Potatoes, boiled, cooked in skin, flesh, without salt",
+   "fdcId": 170026,
+   "fdcDescription": "Potatoes, flesh and skin, raw",
    "fdcDataType": "SR Legacy",
    "sourceId": "s-usda",
    "nutrients": {
-    "carbohydrateG": 20.13,
-    "energyKcal": 87,
+    "fatG": 0.09,
+    "calciumMg": 12,
+    "energyKcal": 77,
     "vitaminARaeMcg": 0,
+    "vitaminCMg": 19.7,
+    "sodiumMg": 6,
     "saturatedFatG": 0.03,
-    "fatG": 0.1,
-    "calciumMg": 5,
-    "potassiumMg": 379,
-    "vitaminCMg": 13,
-    "folateMcg": 10,
-    "proteinG": 1.87,
-    "fiberG": 1.8,
-    "ironMg": 0.31,
-    "sodiumMg": 4,
-    "sugarG": 0.91
+    "folateMcg": 15,
+    "proteinG": 2.05,
+    "fiberG": 2.1,
+    "ironMg": 0.81,
+    "carbohydrateG": 17.49,
+    "potassiumMg": 425,
+    "sugarG": 0.82
    }
   },
   "sources": {
@@ -88,7 +88,7 @@
     "url": "https://fdc.nal.usda.gov/download-datasets/",
     "retrieved": "2026-10-11",
     "licence": "Public domain (U.S. government work)",
-    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170438 (Potatoes, boiled, cooked in skin, flesh, without salt)."
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170026 (Potatoes, flesh and skin, raw)."
    }
   }
  }

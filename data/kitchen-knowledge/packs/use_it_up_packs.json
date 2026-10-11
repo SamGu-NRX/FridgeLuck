@@ -1,170 +1,171 @@
 {
-  "schemaVersion": 1,
-  "kind": "use-it-up-packs",
-  "retrieved": "2026-10-11",
-  "data": {
-    "packs": [
-      {
-        "id": "stale-bread",
-        "name": "Bread box rescue",
-        "situation": "bread going stale",
-        "ingredients": [
-          {
-            "ingredientKey": "bread",
-            "displayName": "bread",
-            "usdaFdcId": 174924
-          }
-        ],
-        "tactic": "Tear day-old bread into cubes, toss with oil and salt, and toast at 375F until crisp for croutons, or layer the same cubes with ripe tomatoes and a quick vinaigrette for a ten-minute panzanella. Trimmed crusts and ends can dry on the counter overnight and become breadcrumbs in a spice grinder. If the loaf will not be used within a few days, slice and freeze it straight from the bag - frozen slices toast like fresh.",
-        "citationIds": []
-      },
-      {
-        "id": "wilting-greens",
-        "name": "Wilted spinach revival",
-        "situation": "spinach wilting in the bag",
-        "ingredients": [
-          {
-            "ingredientKey": "spinach",
-            "displayName": "spinach",
-            "usdaFdcId": 168462
-          }
-        ],
-        "tactic": "Wilted spinach is still salad-worthy after ten minutes in ice water; if it is too far gone, flash it in a hot pan with garlic until just collapsed, or blitz it into a soup, dal, or a pesto made with whatever hard cheese is around. For leafy herbs and greens you will not reach in time, blend with a little oil and freeze flat in a bag for instant flavor cubes.",
-        "citationIds": []
-      },
-      {
-        "id": "sad-carrots",
-        "name": "Floppy carrots",
-        "situation": "carrots gone limp",
-        "ingredients": [
-          {
-            "ingredientKey": "carrot",
-            "displayName": "carrots",
-            "usdaFdcId": 170393
-          }
-        ],
-        "tactic": "Re-crisp limp carrots for twenty minutes in a bowl of ice water, then use them raw; if they stay bendy, roast them cut side down at 425F until the edges brown, or grate them into a pilaf, fritter batter, or a vinegar-dressed carrot salad. Soft carrots that still smell sweet cook exactly like crisp ones once heat and salt are involved.",
-        "citationIds": []
-      },
-      {
-        "id": "overripe-bananas",
-        "name": "Bananas past their prime",
-        "situation": "bananas brown and soft",
-        "ingredients": [
-          {
-            "ingredientKey": "banana",
-            "displayName": "bananas",
-            "usdaFdcId": 173944
-          }
-        ],
-        "tactic": "Spotted, soft bananas are the sweetest ones: mash two into pancake or muffin batter, stir one into oatmeal as it cooks, or blend with yogurt and freeze in a shallow tub for a one-ingredient soft-serve. Peel the rest, break into chunks, and freeze in a bag - frozen chunks disappear into smoothies and banana bread later.",
-        "citationIds": []
-      },
-      {
-        "id": "leftover-rice",
-        "name": "Yesterday's rice",
-        "situation": "cooked rice left over",
-        "ingredients": [
-          {
-            "ingredientKey": "rice",
-            "displayName": "cooked white rice",
-            "usdaFdcId": 168883
-          }
-        ],
-        "tactic": "Cold cooked rice is the best fried rice: break up the clumps, fry hard with aromatics and whatever vegetables need using, and season with soy sauce at the end - or simmer it into a gingery rice porridge for breakfast. Handle leftovers exactly as the food-safety rulebook specifies; see safetyRuleRefs on this pack before cooking.",
-        "citationIds": [
-          "s9"
-        ],
-        "safetyRuleRefs": [
-          "leftovers-fridge-3-4-days",
-          "cool-rapidly-shallow-containers",
-          "leftovers-reheat-165"
-        ],
-        "notes": "Cooked-rice handling and reheating are governed by data/food-safety/rules.json; this pack links those rules instead of restating them."
-      },
-      {
-        "id": "soft-tomatoes",
-        "name": "Too-soft tomatoes",
-        "situation": "tomatoes gone soft",
-        "ingredients": [
-          {
-            "ingredientKey": "tomato",
-            "displayName": "tomatoes",
-            "usdaFdcId": 170457
-          }
-        ],
-        "tactic": "Overripe tomatoes want heat, not crispness: halve them, cook down with a splash of oil and a smashed garlic clove for fifteen minutes, and you have a quick sauce, or roast them cut side up at 400F and pile onto toast. A squeeze of vinegar at the end wakes up flavor that refrigeration muted.",
-        "citationIds": []
-      },
-      {
-        "id": "mealy-apples",
-        "name": "Mealy apples",
-        "situation": "apples soft or mealy",
-        "ingredients": [
-          {
-            "ingredientKey": "apple",
-            "displayName": "apples",
-            "usdaFdcId": 168202
-          }
-        ],
-        "tactic": "Mealiness disappears under heat: dice and simmer mealy apples with a spoonful of water and cinnamon into a chunky applesauce, bake them into a crisp or quick bread, or fry slices in butter until caramelized and serve with pancakes. Peel first if the skin has toughened, and keep the peels for tea.",
-        "citationIds": []
-      },
-      {
-        "id": "limp-celery",
-        "name": "Limp celery",
-        "situation": "celery gone flexible",
-        "ingredients": [
-          {
-            "ingredientKey": "celery",
-            "displayName": "celery",
-            "usdaFdcId": 169988
-          }
-        ],
-        "tactic": "Stand celery stalks in a jar of cold water in the fridge for a few hours to restore their snap, or slice them straight into the pot: limp celery still melts perfectly into a mirepoix, a bean soup, or a braise. Leaves and ends are stock gold - collect them in a freezer bag until soup day.",
-        "citationIds": []
-      },
-      {
-        "id": "sad-zucchini",
-        "name": "Bendy zucchini",
-        "situation": "zucchini soft or flexing",
-        "ingredients": [
-          {
-            "ingredientKey": "zucchini",
-            "displayName": "zucchini",
-            "usdaFdcId": 169291
-          }
-        ],
-        "tactic": "Grate soft zucchini, salt it in a colander for ten minutes, squeeze dry, and bind with an egg and a handful of flour for fritters - or fold the grated squash into muffin batter or a simmering soup where its texture vanishes. If the skin is wrinkled, peel strips off and cook the flesh; it will season the dish more than it shows.",
-        "citationIds": []
-      },
-      {
-        "id": "yellowing-broccoli",
-        "name": "Broccoli going yellow",
-        "situation": "broccoli turning yellow",
-        "ingredients": [
-          {
-            "ingredientKey": "broccoli",
-            "displayName": "broccoli",
-            "usdaFdcId": 170379
-          }
-        ],
-        "tactic": "Yellow-tinged broccoli tastes stronger but cooks the same once trimmed: cut into florets, roast at high heat until the tips char, or simmer soft and blitz into a cheddar or garlic soup. Use it soon and cook it thoroughly; for anything past this point, defer to the food-safety rulebook on when to discard produce.",
-        "citationIds": [
-          "s9"
-        ]
-      }
+ "schemaVersion": 1,
+ "kind": "use-it-up-packs",
+ "retrieved": "2026-10-11",
+ "data": {
+  "packs": [
+   {
+    "id": "stale-bread",
+    "name": "Bread box rescue",
+    "situation": "bread going stale",
+    "ingredients": [
+     {
+      "ingredientKey": "bread",
+      "displayName": "bread",
+      "usdaFdcId": 174924
+     }
     ],
-    "sources": [
-      {
-        "id": "s9",
-        "title": "FridgeLuck food-safety rulebook (data/food-safety, branch overhaul/food-safety-rules, PR #97)",
-        "publisher": "FridgeLuck project (internal data)",
-        "url": "https://github.com/SamGu-NRX/FridgeLuck/tree/overhaul/food-safety-rules/data/food-safety",
-        "retrieved": "2026-10-11",
-        "licence": "Internal project data; see repository LICENSE",
-        "coverage": "Leftover storage, cooling, reheating, and produce-discard rules that use-it-up packs link to instead of restating."
-      }
+    "tactic": "Tear day-old bread into cubes, toss with oil and salt, and toast at 375F until crisp for croutons, or layer the same cubes with ripe tomatoes and a quick vinaigrette for a ten-minute panzanella. Trimmed crusts and ends can dry on the counter overnight and become breadcrumbs in a spice grinder. If the loaf will not be used within a few days, slice and freeze it straight from the bag - frozen slices toast like fresh.",
+    "citationIds": []
+   },
+   {
+    "id": "wilting-greens",
+    "name": "Wilted spinach revival",
+    "situation": "spinach wilting in the bag",
+    "ingredients": [
+     {
+      "ingredientKey": "spinach",
+      "displayName": "spinach",
+      "usdaFdcId": 168462
+     }
+    ],
+    "tactic": "The moment greens wilt, cook them — before they turn. Limp but still deep-green, dry, and clean-smelling leaves re-crisp in ice water for salad, or go straight into soups, sautes, and pesto; the cooked dish then follows the rulebook's leftovers window. Greens that have turned slimy, smell sour, or yellowed through are past saving — the compost gets them, not the pan.",
+    "citationIds": []
+   },
+   {
+    "id": "sad-carrots",
+    "name": "Floppy carrots",
+    "situation": "carrots gone limp",
+    "ingredients": [
+     {
+      "ingredientKey": "carrot",
+      "displayName": "carrots",
+      "usdaFdcId": 170393
+     }
+    ],
+    "tactic": "Bend, don't toss — but only while they are still sound. Carrots that have gone bendy yet stay firm and smell sweet have lost water, not safety: roast them cut side down at 425F until the edges brown, or grate them into a pilaf, fritter batter, or a vinegar-dressed carrot salad; the cooked dish follows the rulebook's leftovers window. Carrots that have turned slimy, grown mold, or smell off are done — discard them, don't disguise them.",
+    "citationIds": []
+   },
+   {
+    "id": "overripe-bananas",
+    "name": "Bananas past their prime",
+    "situation": "bananas brown and soft",
+    "ingredients": [
+     {
+      "ingredientKey": "banana",
+      "displayName": "bananas",
+      "usdaFdcId": 173944
+     }
+    ],
+    "tactic": "Spotted, soft bananas are the sweetest ones: mash two into pancake or muffin batter, stir one into oatmeal as it cooks, or blend with yogurt and freeze in a shallow tub for a one-ingredient soft-serve. Peel the rest, break into chunks, and freeze in a bag - frozen chunks disappear into smoothies and banana bread later.",
+    "citationIds": []
+   },
+   {
+    "id": "leftover-rice",
+    "name": "Yesterday's rice",
+    "situation": "cooked rice left over",
+    "ingredients": [
+     {
+      "ingredientKey": "rice",
+      "displayName": "cooked white rice",
+      "usdaFdcId": 168877,
+      "note": "Identity: FDC 168877, 'Rice, white, long-grain, regular, raw, unenriched' — raw white rice. The pack's leftovers are cooked; measure the rice dry (the raw row is the identity, not a cooked-rice row). Safety handling: see this pack's safetyRuleRefs."
+     }
+    ],
+    "tactic": "Cold cooked rice is the best fried rice: break up the clumps, fry hard with aromatics and whatever vegetables need using, and season with soy sauce at the end - or simmer it into a gingery rice porridge for breakfast. Handle leftovers exactly as the food-safety rulebook specifies; see safetyRuleRefs on this pack before cooking.",
+    "citationIds": [
+     "s9"
+    ],
+    "safetyRuleRefs": [
+     "leftovers-fridge-3-4-days",
+     "cool-rapidly-shallow-containers",
+     "leftovers-reheat-165"
+    ],
+    "notes": "Cooked-rice handling and reheating are governed by data/food-safety/rules.json; this pack links those rules instead of restating them."
+   },
+   {
+    "id": "soft-tomatoes",
+    "name": "Too-soft tomatoes",
+    "situation": "tomatoes gone soft",
+    "ingredients": [
+     {
+      "ingredientKey": "tomato",
+      "displayName": "tomatoes",
+      "usdaFdcId": 170457
+     }
+    ],
+    "tactic": "Overripe tomatoes want heat, not crispness: halve them, cook down with a splash of oil and a smashed garlic clove for fifteen minutes, and you have a quick sauce, or roast them cut side up at 400F and pile onto toast. A squeeze of vinegar at the end wakes up flavor that refrigeration muted.",
+    "citationIds": []
+   },
+   {
+    "id": "mealy-apples",
+    "name": "Mealy apples",
+    "situation": "apples soft or mealy",
+    "ingredients": [
+     {
+      "ingredientKey": "apple",
+      "displayName": "apples",
+      "usdaFdcId": 168202
+     }
+    ],
+    "tactic": "Mealiness disappears under heat: dice and simmer mealy apples with a spoonful of water and cinnamon into a chunky applesauce, bake them into a crisp or quick bread, or fry slices in butter until caramelized and serve with pancakes. Peel first if the skin has toughened, and keep the peels for tea.",
+    "citationIds": []
+   },
+   {
+    "id": "limp-celery",
+    "name": "Limp celery",
+    "situation": "celery gone flexible",
+    "ingredients": [
+     {
+      "ingredientKey": "celery",
+      "displayName": "celery",
+      "usdaFdcId": 169988
+     }
+    ],
+    "tactic": "Stand celery stalks in a jar of cold water in the fridge for a few hours to restore their snap, or slice them straight into the pot: limp celery still melts perfectly into a mirepoix, a bean soup, or a braise. Leaves and ends are stock gold - collect them in a freezer bag until soup day.",
+    "citationIds": []
+   },
+   {
+    "id": "sad-zucchini",
+    "name": "Bendy zucchini",
+    "situation": "zucchini soft or flexing",
+    "ingredients": [
+     {
+      "ingredientKey": "zucchini",
+      "displayName": "zucchini",
+      "usdaFdcId": 169291
+     }
+    ],
+    "tactic": "Grate soft zucchini, salt it in a colander for ten minutes, squeeze dry, and bind with an egg and a handful of flour for fritters - or fold the grated squash into muffin batter or a simmering soup where its texture vanishes. If the skin is wrinkled, peel strips off and cook the flesh; it will season the dish more than it shows.",
+    "citationIds": []
+   },
+   {
+    "id": "yellowing-broccoli",
+    "name": "Broccoli going yellow",
+    "situation": "broccoli turning yellow",
+    "ingredients": [
+     {
+      "ingredientKey": "broccoli",
+      "displayName": "broccoli",
+      "usdaFdcId": 170379
+     }
+    ],
+    "tactic": "Yellow-tinged broccoli tastes stronger but cooks the same once trimmed: cut into florets, roast at high heat until the tips char, or simmer soft and blitz into a cheddar or garlic soup. Use it soon and cook it thoroughly; for anything past this point, defer to the food-safety rulebook on when to discard produce.",
+    "citationIds": [
+     "s9"
     ]
-  }
+   }
+  ],
+  "sources": [
+   {
+    "id": "s9",
+    "title": "FridgeLuck food-safety rulebook (data/food-safety, branch overhaul/food-safety-rules, PR #97)",
+    "publisher": "FridgeLuck project (internal data)",
+    "url": "https://github.com/SamGu-NRX/FridgeLuck/tree/overhaul/food-safety-rules/data/food-safety",
+    "retrieved": "2026-10-11",
+    "licence": "Internal project data (FridgeLuck PR #97); internal use — external redistribution terms not yet set",
+    "coverage": "Leftover storage, cooling, reheating, and produce-discard rules that use-it-up packs link to instead of restating."
+   }
+  ]
+ }
 }

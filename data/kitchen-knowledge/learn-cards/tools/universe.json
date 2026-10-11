@@ -34,7 +34,7 @@
    "displayName": "Apple",
    "isCore": true,
    "frequencyInBundledRecipes": 0,
-   "frequencyInSeedCorpus": 2,
+   "frequencyInSeedCorpus": 1,
    "aliases": []
   },
   "avocado": {
@@ -42,7 +42,7 @@
    "displayName": "Avocado",
    "isCore": true,
    "frequencyInBundledRecipes": 6,
-   "frequencyInSeedCorpus": 2,
+   "frequencyInSeedCorpus": 1,
    "aliases": []
   },
   "baking_powder": {
@@ -84,7 +84,7 @@
    "displayName": "Black Beans",
    "isCore": true,
    "frequencyInBundledRecipes": 23,
-   "frequencyInSeedCorpus": 22,
+   "frequencyInSeedCorpus": 11,
    "aliases": []
   },
   "black_pepper": {
@@ -100,7 +100,7 @@
    "displayName": "Bread",
    "isCore": true,
    "frequencyInBundledRecipes": 10,
-   "frequencyInSeedCorpus": 8,
+   "frequencyInSeedCorpus": 4,
    "aliases": []
   },
   "broccoli": {
@@ -108,7 +108,7 @@
    "displayName": "Broccoli",
    "isCore": true,
    "frequencyInBundledRecipes": 5,
-   "frequencyInSeedCorpus": 54,
+   "frequencyInSeedCorpus": 27,
    "aliases": []
   },
   "brown_rice": {
@@ -132,7 +132,7 @@
    "displayName": "Butter",
    "isCore": true,
    "frequencyInBundledRecipes": 6,
-   "frequencyInSeedCorpus": 28,
+   "frequencyInSeedCorpus": 14,
    "aliases": []
   },
   "cabbage": {
@@ -222,7 +222,7 @@
    "displayName": "Chicken Breast",
    "isCore": true,
    "frequencyInBundledRecipes": 18,
-   "frequencyInSeedCorpus": 56,
+   "frequencyInSeedCorpus": 28,
    "aliases": []
   },
   "chicken_stock": {
@@ -266,7 +266,7 @@
    "displayName": "Cilantro",
    "isCore": true,
    "frequencyInBundledRecipes": 0,
-   "frequencyInSeedCorpus": 6,
+   "frequencyInSeedCorpus": 3,
    "aliases": []
   },
   "coconut_milk": {
@@ -274,7 +274,7 @@
    "displayName": "Coconut Milk",
    "isCore": true,
    "frequencyInBundledRecipes": 6,
-   "frequencyInSeedCorpus": 82,
+   "frequencyInSeedCorpus": 41,
    "aliases": []
   },
   "cod": {
@@ -291,7 +291,7 @@
    "displayName": "Corn",
    "isCore": true,
    "frequencyInBundledRecipes": 0,
-   "frequencyInSeedCorpus": 48,
+   "frequencyInSeedCorpus": 24,
    "aliases": []
   },
   "cornmeal": {
@@ -323,7 +323,7 @@
    "displayName": "Cucumber",
    "isCore": true,
    "frequencyInBundledRecipes": 10,
-   "frequencyInSeedCorpus": 74,
+   "frequencyInSeedCorpus": 37,
    "aliases": []
   },
   "cumin": {
@@ -331,7 +331,7 @@
    "displayName": "Cumin",
    "isCore": true,
    "frequencyInBundledRecipes": 24,
-   "frequencyInSeedCorpus": 182,
+   "frequencyInSeedCorpus": 91,
    "aliases": []
   },
   "curry_powder": {
@@ -416,7 +416,7 @@
    "displayName": "Garlic",
    "isCore": true,
    "frequencyInBundledRecipes": 95,
-   "frequencyInSeedCorpus": 908,
+   "frequencyInSeedCorpus": 454,
    "aliases": []
   },
   "ginger": {
@@ -424,7 +424,7 @@
    "displayName": "Ginger",
    "isCore": true,
    "frequencyInBundledRecipes": 14,
-   "frequencyInSeedCorpus": 348,
+   "frequencyInSeedCorpus": 174,
    "aliases": []
   },
   "gochujang": {
@@ -466,7 +466,7 @@
    "displayName": "Ground Beef",
    "isCore": true,
    "frequencyInBundledRecipes": 3,
-   "frequencyInSeedCorpus": 2,
+   "frequencyInSeedCorpus": 1,
    "aliases": []
   },
   "halloumi": {
@@ -490,7 +490,7 @@
    "displayName": "Honey",
    "isCore": true,
    "frequencyInBundledRecipes": 9,
-   "frequencyInSeedCorpus": 2,
+   "frequencyInSeedCorpus": 1,
    "aliases": []
   },
   "kale": {
@@ -514,7 +514,7 @@
    "displayName": "Lemon",
    "isCore": true,
    "frequencyInBundledRecipes": 22,
-   "frequencyInSeedCorpus": 380,
+   "frequencyInSeedCorpus": 190,
    "aliases": []
   },
   "lettuce": {
@@ -530,7 +530,7 @@
    "displayName": "Lime",
    "isCore": true,
    "frequencyInBundledRecipes": 20,
-   "frequencyInSeedCorpus": 224,
+   "frequencyInSeedCorpus": 112,
    "aliases": []
   },
   "maple_syrup": {
@@ -546,7 +546,7 @@
    "displayName": "Milk",
    "isCore": true,
    "frequencyInBundledRecipes": 3,
-   "frequencyInSeedCorpus": 24,
+   "frequencyInSeedCorpus": 12,
    "aliases": []
   },
   "miso": {
@@ -582,7 +582,7 @@
    "displayName": "Olive Oil",
    "isCore": true,
    "frequencyInBundledRecipes": 5,
-   "frequencyInSeedCorpus": 814,
+   "frequencyInSeedCorpus": 407,
    "aliases": []
   },
   "onion": {
@@ -590,7 +590,7 @@
    "displayName": "Onion",
    "isCore": true,
    "frequencyInBundledRecipes": 5,
-   "frequencyInSeedCorpus": 21,
+   "frequencyInSeedCorpus": 11,
    "aliases": [
     "red onion"
    ]
@@ -640,7 +640,7 @@
    "displayName": "Pasta",
    "isCore": true,
    "frequencyInBundledRecipes": 7,
-   "frequencyInSeedCorpus": 16,
+   "frequencyInSeedCorpus": 8,
    "aliases": []
   },
   "peanut_butter": {
@@ -648,7 +648,7 @@
    "displayName": "Peanut Butter",
    "isCore": true,
    "frequencyInBundledRecipes": 7,
-   "frequencyInSeedCorpus": 50,
+   "frequencyInSeedCorpus": 25,
    "aliases": []
   },
   "peanuts": {
@@ -787,7 +787,7 @@
    "displayName": "Sesame Oil",
    "isCore": true,
    "frequencyInBundledRecipes": 117,
-   "frequencyInSeedCorpus": 46,
+   "frequencyInSeedCorpus": 23,
    "aliases": []
   },
   "shrimp": {
@@ -819,7 +819,7 @@
    "displayName": "Soy Sauce",
    "isCore": true,
    "frequencyInBundledRecipes": 28,
-   "frequencyInSeedCorpus": 158,
+   "frequencyInSeedCorpus": 79,
    "aliases": []
   },
   "spinach": {
@@ -827,7 +827,7 @@
    "displayName": "Spinach",
    "isCore": true,
    "frequencyInBundledRecipes": 18,
-   "frequencyInSeedCorpus": 86,
+   "frequencyInSeedCorpus": 43,
    "aliases": []
   },
   "sugar": {
@@ -886,7 +886,7 @@
    "displayName": "Tofu",
    "isCore": true,
    "frequencyInBundledRecipes": 2,
-   "frequencyInSeedCorpus": 80,
+   "frequencyInSeedCorpus": 40,
    "aliases": []
   },
   "tomato": {
@@ -978,7 +978,7 @@
    "displayName": "Zucchini",
    "isCore": true,
    "frequencyInBundledRecipes": 3,
-   "frequencyInSeedCorpus": 2,
+   "frequencyInSeedCorpus": 1,
    "aliases": []
   }
  }

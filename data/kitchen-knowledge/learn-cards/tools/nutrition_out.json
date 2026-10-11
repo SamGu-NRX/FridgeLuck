@@ -622,28 +622,7 @@
     "sugarG": 4.01
    }
   },
-  "chipotle": {
-   "fdcId": 168570,
-   "fdcDescription": "Peppers, hot chile, sun-dried",
-   "fdcDataType": "SR Legacy",
-   "sourceId": "s-usda",
-   "nutrients": {
-    "carbohydrateG": 69.86,
-    "sugarG": 41.06,
-    "energyKcal": 324,
-    "vitaminARaeMcg": 1324,
-    "calciumMg": 45,
-    "potassiumMg": 1870,
-    "fatG": 5.81,
-    "fiberG": 28.7,
-    "ironMg": 6.04,
-    "sodiumMg": 91,
-    "proteinG": 10.58,
-    "saturatedFatG": 0.81,
-    "vitaminCMg": 31.4,
-    "folateMcg": 51
-   }
-  },
+  "chipotle": null,
   "cilantro": {
    "fdcId": 169997,
    "fdcDescription": "Coriander (cilantro) leaves, raw",
@@ -1630,25 +1609,25 @@
    }
   },
   "potato": {
-   "fdcId": 170438,
-   "fdcDescription": "Potatoes, boiled, cooked in skin, flesh, without salt",
+   "fdcId": 170026,
+   "fdcDescription": "Potatoes, flesh and skin, raw",
    "fdcDataType": "SR Legacy",
    "sourceId": "s-usda",
    "nutrients": {
-    "carbohydrateG": 20.13,
-    "energyKcal": 87,
+    "fatG": 0.09,
+    "calciumMg": 12,
+    "energyKcal": 77,
     "vitaminARaeMcg": 0,
+    "vitaminCMg": 19.7,
+    "sodiumMg": 6,
     "saturatedFatG": 0.03,
-    "fatG": 0.1,
-    "calciumMg": 5,
-    "potassiumMg": 379,
-    "vitaminCMg": 13,
-    "folateMcg": 10,
-    "proteinG": 1.87,
-    "fiberG": 1.8,
-    "ironMg": 0.31,
-    "sodiumMg": 4,
-    "sugarG": 0.91
+    "folateMcg": 15,
+    "proteinG": 2.05,
+    "fiberG": 2.1,
+    "ironMg": 0.81,
+    "carbohydrateG": 17.49,
+    "potassiumMg": 425,
+    "sugarG": 0.82
    }
   },
   "quinoa": {

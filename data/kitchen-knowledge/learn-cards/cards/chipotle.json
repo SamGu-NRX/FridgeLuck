@@ -45,28 +45,6 @@
     "citations": []
    }
   ],
-  "nutritionPer100g": {
-   "fdcId": 168570,
-   "fdcDescription": "Peppers, hot chile, sun-dried",
-   "fdcDataType": "SR Legacy",
-   "sourceId": "s-usda",
-   "nutrients": {
-    "carbohydrateG": 69.86,
-    "sugarG": 41.06,
-    "energyKcal": 324,
-    "vitaminARaeMcg": 1324,
-    "calciumMg": 45,
-    "potassiumMg": 1870,
-    "fatG": 5.81,
-    "fiberG": 28.7,
-    "ironMg": 6.04,
-    "sodiumMg": 91,
-    "proteinG": 10.58,
-    "saturatedFatG": 0.81,
-    "vitaminCMg": 31.4,
-    "folateMcg": 51
-   }
-  },
   "sources": {
    "s1": {
     "title": "Chipotle — Wikipedia",
@@ -75,14 +53,6 @@
     "retrieved": "2026-10-11",
     "licence": "CC BY-SA 4.0",
     "notes": ""
-   },
-   "s-usda": {
-    "title": "USDA FoodData Central — SR Legacy release 2018-04",
-    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
-    "url": "https://fdc.nal.usda.gov/download-datasets/",
-    "retrieved": "2026-10-11",
-    "licence": "Public domain (U.S. government work)",
-    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 168570 (Peppers, hot chile, sun-dried)."
    }
   }
  }

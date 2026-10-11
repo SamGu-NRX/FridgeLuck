@@ -86,6 +86,8 @@ def main():
 
     no_nut = sorted(c["id"] for c in cards if c["fdcId"] is None)
     summary = universe["summary"]
+    with_nut = len(cards) - len(no_nut)
+    extra_cards = summary["nonCoreCards"]
     coverage = {
         "coreIngredients": summary["coreCards"],
         "bundledDistinctIngredients": summary["bundledDistinctIngredientIds"],
@@ -95,11 +97,14 @@ def main():
         "note": (
             "Coverage = the app's 50 core ingredients plus every distinct "
             "ingredient in the rights-clear seed-corpus recipes "
-            f"({summary['seedDistinctNames']} distinct names merged to 66 extra "
-            "cards; 116 total). Bundled data.json recipes reference 47 distinct "
-            "ids, all core. 108 cards carry nutrition from SR Legacy release "
-            "2018-04; 8 speciality ingredients have no honest SR Legacy row and "
-            "ship without nutritionPer100g rather than with guessed values."
+            f"({summary['seedDistinctNames']} distinct names merged to "
+            f"{extra_cards} extra cards; {len(cards)} total). Bundled "
+            "data.json recipes reference "
+            f"{summary['bundledDistinctIngredientIds']} distinct ids, all "
+            f"core. {with_nut} cards carry nutrition from SR Legacy release "
+            f"2018-04; {len(no_nut)} speciality ingredients have no honest "
+            "SR Legacy row and ship without nutritionPer100g rather than "
+            "with guessed values."
         ),
     }
     index = {"schemaVersion": 1, "kind": "learn-card-index",

@@ -95,7 +95,10 @@ def main():
         cards[name] = {
             "id": name, "displayName": name.replace("_", " ").title(),
             "isCore": True, "frequencyInBundledRecipes": core_freq.get(cid, 0),
-            "frequencyInSeedCorpus": seed.get(name.replace("_", " "), 0),
+            # Seed-corpus frequency is added exactly once, by the seed loop
+            # below (an earlier version looked it up here AND again in the
+            # loop, double-counting exact-name matches).
+            "frequencyInSeedCorpus": 0,
             "aliases": [],
         }
     # seed-corpus cards not merging into a core card
