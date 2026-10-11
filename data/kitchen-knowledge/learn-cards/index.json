@@ -613,12 +613,52 @@
     "fdcId": 172430
    },
    {
+    "id": "pita",
+    "displayName": "Pita",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 174915
+   },
+   {
+    "id": "pork_chops",
+    "displayName": "Pork Chops",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 167839
+   },
+   {
+    "id": "pork_tenderloin",
+    "displayName": "Pork Tenderloin",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168249
+   },
+   {
     "id": "potato",
     "displayName": "Potato",
     "isCore": true,
     "category": "vegetable",
     "frequencyInBundledRecipes": 2,
     "fdcId": 170438
+   },
+   {
+    "id": "quinoa",
+    "displayName": "Quinoa",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168874
+   },
+   {
+    "id": "red_lentils",
+    "displayName": "Red Lentils",
+    "isCore": false,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172421
    },
    {
     "id": "red_pepper_flakes",
@@ -629,6 +669,14 @@
     "fdcId": 170932
    },
    {
+    "id": "red_wine_vinegar",
+    "displayName": "Red Wine Vinegar",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172240
+   },
+   {
     "id": "rice",
     "displayName": "Rice",
     "isCore": true,
@@ -637,12 +685,44 @@
     "fdcId": 169756
    },
    {
+    "id": "rice_noodles",
+    "displayName": "Rice Noodles",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169742
+   },
+   {
+    "id": "rice_vinegar",
+    "displayName": "Rice Vinegar",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "rosemary",
+    "displayName": "Rosemary",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173473
+   },
+   {
     "id": "salmon",
     "displayName": "Salmon",
     "isCore": true,
     "category": "protein",
     "frequencyInBundledRecipes": 1,
     "fdcId": 175167
+   },
+   {
+    "id": "salt",
+    "displayName": "Salt",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173468
    },
    {
     "id": "tomato",
@@ -656,7 +736,7 @@
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 81,
+   "cardsWritten": 91,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [
     "flattened_rice",
@@ -664,7 +744,8 @@
     "gochujang",
     "halloumi",
     "harissa",
-    "paneer"
+    "paneer",
+    "rice_vinegar"
    ],
    "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."
   }

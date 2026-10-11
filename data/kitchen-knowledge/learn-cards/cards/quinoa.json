@@ -1,0 +1,93 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "quinoa",
+  "displayName": "Quinoa",
+  "isCore": false,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "A pseudocereal — kin to spinach and amaranth, not a grass — grown for protein-rich seeds; its name comes from the Quechua kinwa.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Quinoa was first grown in the Andes to feed livestock 5,200-7,000 years ago and entered human diets 3,000-4,000 years ago around Lake Titicaca; global demand tripled its price between 2006 and 2014, a boom-and-bust that reshaped Andean farming.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose seeds that smell fresh and grassy (they keep longer than the date suggests if stored cool); pre-rinsed varieties save a step, otherwise rinse well to lift the bitter saponin coating.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep dry and airtight in a cool cupboard. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "dry-goods storage guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Cooked quinoa chills into salads, crisps into patties with egg, or fills peppers; it freezes well flat in bags, which solves the always-too-much problem.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "bulgur",
+    "ratio": "1:1",
+    "note": "lighter, faster; wheat-based",
+    "citations": []
+   },
+   {
+    "substitute": "brown rice",
+    "ratio": "1:1",
+    "note": "chewier, longer cooking",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 168874,
+   "fdcDescription": "Quinoa, uncooked",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminARaeMcg": 1,
+    "fiberG": 7,
+    "ironMg": 4.57,
+    "sodiumMg": 5,
+    "folateMcg": 184,
+    "saturatedFatG": 0.71,
+    "proteinG": 14.12,
+    "fatG": 6.07,
+    "calciumMg": 47,
+    "potassiumMg": 563,
+    "carbohydrateG": 64.16,
+    "energyKcal": 368
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Quinoa — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Quinoa",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 168874 (Quinoa, uncooked)."
+   }
+  }
+ }
+}
