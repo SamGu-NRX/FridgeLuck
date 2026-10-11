@@ -507,6 +507,34 @@ final class InventoryRepository: Sendable {
     try fetchAllActiveItems().filter { $0.storageLocation == location }
   }
 
+  /// Read-only rows for the weekly-planning input adapter: every remaining lot
+  /// with its estimate flag and expiry. Read-only by policy — planning never
+  /// reserves or consumes stock; consumption stays with `applyConsumption`.
+  func fetchPlanningLots() throws -> [InventoryPlanningLot] {
+    try db.read { db in
+      try Row.fetchAll(
+        db,
+        sql: """
+          SELECT ingredient_id, remaining_grams, quantity_is_estimate, expires_at
+          FROM inventory_lots
+          WHERE remaining_grams > 0
+          ORDER BY ingredient_id ASC, datetime(expires_at) ASC, id ASC
+          """
+      ).compactMap { row in
+        guard
+          let ingredientId: Int64 = row["ingredient_id"],
+          let remainingGrams: Double = row["remaining_grams"]
+        else { return nil }
+        return InventoryPlanningLot(
+          ingredientId: ingredientId,
+          remainingGrams: remainingGrams,
+          quantityIsEstimate: (row["quantity_is_estimate"] as Bool?) ?? false,
+          expiresAt: row["expires_at"]
+        )
+      }
+    }
+  }
+
   /// Remove all lots for a given active item (ingredient + location).
   func removeActiveItem(id: String) throws {
     let parts = id.split(separator: "_", maxSplits: 1)
