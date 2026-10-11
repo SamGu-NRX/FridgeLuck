@@ -97,6 +97,24 @@
         "mode": "offline-deterministic"
       },
       "coverage_gaps": [],
+      "producer_evidence": {
+        "inputs": [
+          {
+            "path": "scripts/data/usda_manual_overrides.json",
+            "note": "curation overrides consumed by the usda.py pipeline when generating the catalog"
+          }
+        ],
+        "build": {
+          "entrypoint": "scripts/data/usda.py",
+          "note": "catalog generation CLI (usda.py + usda_core package); the exact invocation of the run that produced the committed output is not attested"
+        },
+        "unknown": [
+          "exact command-line invocation of the producing run",
+          "execution environment of the producing run",
+          "wall-clock time of the producing run",
+          "which cache or review-batch permitted inputs were consumed versus refreshed"
+        ]
+      },
       "outputs": [
         {
           "origin_path": "scripts/data/catalog/usda_curated_ingredients.json",
@@ -130,6 +148,23 @@
         "mode": "offline-deterministic"
       },
       "coverage_gaps": [],
+      "producer_evidence": {
+        "inputs": [
+          {
+            "path": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+            "note": "compact nutrition JSON consumed by the static-export generator"
+          }
+        ],
+        "build": {
+          "entrypoint": "scripts/data/generate_usda_ingredient_swift_static.py",
+          "note": "static Swift table generator; the exact invocation of the run that produced the committed output is not attested"
+        },
+        "unknown": [
+          "exact command-line invocation of the producing run",
+          "execution environment of the producing run",
+          "wall-clock time of the producing run"
+        ]
+      },
       "outputs": [
         {
           "origin_path": "apps/ios/Platform/Persistence/Static/USDAIngredientNutritionStaticData.swift",

@@ -200,3 +200,78 @@ directories may contain only `binding.json` and `outputs/`), no raw keys
 overwritten (the packer writes only inside its own `--out` directory), and
 no owner's live endpoint is ever called (the tools are network-free by
 construction).
+
+## Path trust boundary (hardening R1–R3)
+
+Every file these tools open — declared sources, outputs, bindings, stored
+copies, owner origins, spec descriptors — is validated BEFORE the open
+against an explicit allowlist of permitted paths
+(`path_trust.py`):
+
+- repo-relative safe paths only: absolute paths, `..`-traversal, and empty
+  or malformed paths are rejected at spec/binding validation, before any
+  read;
+- no symlinked component in the resolved path: a declared source that is a
+  symlink to a private file is "rejected before read" — the sentinel
+  regressions in `tests/test_path_trust.py` prove the target's bytes and
+  mtime stay untouched and its content never reaches tool output;
+- destination containment on writes: every write (`binding.json`, outputs,
+  reports, proof tables) goes through `safe_write_bytes` — temp file plus
+  rename inside the permitted output directory; a pre-existing symlink at
+  any write destination (including a planted `binding.json`) is refused,
+  never followed, never deleted through.
+
+Secret-shaped JSON-key scanning stays advisory only: it never made file
+bytes safe and is not part of the path boundary.
+
+Owner origins read for drift comparison are never followed through links:
+a symlinked origin is reported as drift `unknown` while the packed capsule
+still verifies on its own stored copies.
+
+## Import closure and dynamic imports (R4–R5)
+
+The import closure resolves dotted modules to FILES, not heads:
+`import pkg.child` requires `pkg/__init__.py` AND `pkg/child.py` — a
+declared `pkg/__init__.py` alone never closes `pkg.child` — recursively so
+for `pkg.child.grandchild`, including intermediate package `__init__`
+files. `from pkg import child` treats `pkg/child.py` as a closure
+candidate whenever it exists on disk.
+
+Dynamic imports are detected through their aliased forms:
+`importlib.import_module(...)`, `import importlib as il` +
+`il.import_module(...)`, and `from importlib import import_module` +
+bare `import_module(...)`. A string-literal target is statically knowable
+and joins the closure; a non-literal target is a dynamic construct that
+must be covered by a declared coverage gap. Unresolvable receivers (e.g.
+`il = importlib` assignment aliasing followed by
+`il.import_module(...)`) are recorded as dynamic gaps too — never
+silently ignored, never guessed closed.
+
+## Producer evidence (R6) and provenance identities (R7)
+
+Capsules may bind available public producer evidence
+(`producer_evidence` in the spec, copied into the binding at pack time):
+input references actually consumed, each with its sha256 computed at pack
+time, build/toolchain evidence (entrypoint), and an explicit `unknown`
+list for producer context that is not attested (exact invocation,
+execution environment, wall-clock time). The packer's own runtime
+environment is NEVER presented as producer fact — packing on another
+interpreter does not change a binding's producer evidence.
+
+The regeneration proof (M3) shows actual binding identities: capsule id,
+schema version, binding digest, toolchain, producer-evidence state, and an
+explicit same/different/UNKNOWN status for EVERY declared source — even
+when output numbers agree. Numerical agreement is not identical
+provenance; a source absent from the repository is UNKNOWN, never
+silently treated as agreement.
+
+## Strict verification, separated diagnostics (R8)
+
+Where source drift exists, verification stays strict: VERIFIED/REJECTED
+semantics are unchanged, and counts are unchanged. Drifted checks are
+ADDITIONALLY rendered as clearly labeled `DIAGNOSTICS — informational
+comparisons only; not provenance, not agreement, and never able to change
+the verification result`. Diagnostics are derived after the verdict is
+final, live in a separate `diagnostics` report field (with
+`diagnostics_note`), never appear in the strict findings list, and can
+never flip a result.

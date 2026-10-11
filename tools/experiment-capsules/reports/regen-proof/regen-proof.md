@@ -26,11 +26,11 @@ current same/different/UNKNOWN status. These identities are the provenance;
 numerical agreement with any other table is not (R7).
 
 
-- capsule `usda-curation-catalog` — binding schema `1`, binding digest `21d8dbd4cca277d5...`
+- capsule `usda-curation-catalog` — binding schema `1`, binding digest `bebaf4729d68dbb7...`
 
 -   toolchain: python 3.13.14; dependencies: orjson, typer, pydantic, httpx, filelock, tenacity
 
--   producer evidence: none bound — producer context explicitly unknown
+-   producer evidence: 1 input reference(s), build entrypoint `scripts/data/usda.py`; not attested (explicitly unknown): exact command-line invocation of the producing run, execution environment of the producing run, wall-clock time of the producing run, which cache or review-batch permitted inputs were consumed versus refreshed
 
 -   source `scripts/data/usda.py` (declared sha256 `8508f57a28f8154f...`) — same
 
@@ -66,11 +66,11 @@ numerical agreement with any other table is not (R7).
 
 -   source `scripts/data/usda_manual_overrides.json` (declared sha256 `d313885cee4b3e20...`) — same
 
-- capsule `usda-swift-static-export` — binding schema `1`, binding digest `decfa195527df014...`
+- capsule `usda-swift-static-export` — binding schema `1`, binding digest `a95112ae252e2004...`
 
 -   toolchain: python 3.13.14; dependencies: none declared
 
--   producer evidence: none bound — producer context explicitly unknown
+-   producer evidence: 1 input reference(s), build entrypoint `scripts/data/generate_usda_ingredient_swift_static.py`; not attested (explicitly unknown): exact command-line invocation of the producing run, execution environment of the producing run, wall-clock time of the producing run
 
 -   source `scripts/data/generate_usda_ingredient_swift_static.py` (declared sha256 `54b79dcf3990f993...`) — same
 
