@@ -1,22 +1,46 @@
+import FLFeatureLogic
 import SwiftUI
 
-/// Educational ingredient card with per-100g nutrition and storage guidance.
+/// Ingredient card with a stored per-100 g reference and an optional portion review for an
+/// explicitly entered weight. Reading-only: nothing here writes to any record, so opening,
+/// entering weights, resetting, and dismissing leave the ingredient exactly as it was.
+///
+/// Supplied text is shown verbatim and never endorsed as verified provenance. A record
+/// without a description gets no invented source line — the reference card alone states
+/// what the values are.
 struct IngredientDetailSheet: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let ingredient: Ingredient
+  let facts: IngredientFactsModel
 
   @State private var aliases: [String] = []
   @Namespace private var aliasChipNamespace
+
+  init(ingredient: Ingredient) {
+    self.ingredient = ingredient
+    self.facts = IngredientFactsModel(
+      record: IngredientFactsRecord(
+        energyKilocalories: ingredient.calories,
+        proteinGrams: ingredient.protein,
+        carbohydrateGrams: ingredient.carbs,
+        fatGrams: ingredient.fat,
+        fiberGrams: ingredient.fiber,
+        sugarGrams: ingredient.sugar,
+        sodiumGrams: ingredient.sodium,
+        suppliedDescription: ingredient.description
+      ))
+  }
 
   var body: some View {
     NavigationStack {
       ScrollView {
         VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
           heroSection
-          macroSection
+          IngredientFactsReferenceCard(reference: facts.reference)
+          IngredientFactsPortionCard(model: facts)
           contextSection
           if !aliases.isEmpty {
             aliasSection
@@ -63,100 +87,17 @@ struct IngredientDetailSheet: View {
           Spacer()
         }
 
-        Text("\(Int(ingredient.calories)) kcal per 100g")
-          .font(AppTheme.Typography.dataSmall)
-          .foregroundStyle(AppTheme.textPrimary)
-          .padding(.horizontal, AppTheme.Space.sm)
-          .padding(.vertical, AppTheme.Space.xs)
-          .background(AppTheme.surface, in: Capsule())
-
-        if let description = ingredient.description, !description.isEmpty {
-          Text(description)
-            .font(AppTheme.Typography.bodyMedium)
-            .foregroundStyle(AppTheme.textSecondary)
-        } else {
-          Text("USDA reference ingredient. Nutrition values are standardized per 100g.")
+        // Supplied description, shown verbatim. It is contextual text from the record,
+        // not a verified source: no provenance claim is made for it, and a record
+        // without one gets no substituted line.
+        if let suppliedDescription = facts.record.suppliedDescription,
+          !suppliedDescription.isEmpty
+        {
+          Text(suppliedDescription)
             .font(AppTheme.Typography.bodyMedium)
             .foregroundStyle(AppTheme.textSecondary)
         }
       }
-    }
-  }
-
-  private var macroSection: some View {
-    let totalMacroGrams = max(1, ingredient.protein + ingredient.carbs + ingredient.fat)
-    let pPct = ingredient.protein / totalMacroGrams
-    let cPct = ingredient.carbs / totalMacroGrams
-    let fPct = ingredient.fat / totalMacroGrams
-
-    return FLCard {
-      VStack(spacing: AppTheme.Space.md) {
-        HStack(spacing: AppTheme.Space.lg) {
-          FLMacroRing(
-            proteinPct: pPct,
-            carbsPct: cPct,
-            fatPct: fPct,
-            size: 80,
-            lineWidth: 10
-          )
-          .overlay {
-            VStack(spacing: 2) {
-              Text("\(Int(ingredient.calories))")
-                .font(AppTheme.Typography.dataSmall)
-                .foregroundStyle(AppTheme.textPrimary)
-              Text("kcal")
-                .font(AppTheme.Typography.labelSmall)
-                .foregroundStyle(AppTheme.textSecondary)
-            }
-          }
-
-          VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-            macroRow(label: "Protein", value: ingredient.protein, color: AppTheme.sage)
-            macroRow(label: "Carbs", value: ingredient.carbs, color: AppTheme.oat)
-            macroRow(label: "Fat", value: ingredient.fat, color: AppTheme.accentLight)
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-        }
-
-        Divider()
-          .foregroundStyle(AppTheme.oat.opacity(0.20))
-
-        HStack(spacing: 0) {
-          secondaryMetric(label: "Fiber", value: String(format: "%.1fg", ingredient.fiber))
-          Spacer()
-          secondaryMetric(label: "Sugar", value: String(format: "%.1fg", ingredient.sugar))
-          Spacer()
-          secondaryMetric(
-            label: "Sodium", value: "\(Int((ingredient.sodium * 1000).rounded()))mg")
-        }
-      }
-    }
-  }
-
-  private func macroRow(label: String, value: Double, color: Color) -> some View {
-    HStack(spacing: AppTheme.Space.xs) {
-      RoundedRectangle(cornerRadius: 2, style: .continuous)
-        .fill(color)
-        .frame(width: 4, height: 20)
-      VStack(alignment: .leading, spacing: 0) {
-        Text(String(format: "%.1fg", value))
-          .font(AppTheme.Typography.dataSmall)
-          .foregroundStyle(AppTheme.textPrimary)
-        Text(label)
-          .font(AppTheme.Typography.labelSmall)
-          .foregroundStyle(AppTheme.textSecondary)
-      }
-    }
-  }
-
-  private func secondaryMetric(label: String, value: String) -> some View {
-    VStack(spacing: AppTheme.Space.xxxs) {
-      Text(value)
-        .font(AppTheme.Typography.label)
-        .foregroundStyle(AppTheme.textPrimary)
-      Text(label)
-        .font(AppTheme.Typography.labelSmall)
-        .foregroundStyle(AppTheme.textSecondary)
     }
   }
 
