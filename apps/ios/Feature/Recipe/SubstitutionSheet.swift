@@ -17,7 +17,7 @@ struct SubstitutionSheet: View {
   /// Immutable snapshot of one completed read of the swap facts. Committed atomically at
   /// the end of `loadData`, so a stale or cancelled load never blends values from a
   /// previous candidate into the sheet.
-  private struct LoadedComparison: Equatable {
+  private struct LoadedComparison {
     var restrictions: Set<String> = []
     var substitutions: [Substitution] = []
     var substituteIngredients: [Int64: Ingredient] = [:]
