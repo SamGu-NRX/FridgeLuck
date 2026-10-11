@@ -107,7 +107,7 @@ body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-sm
 
     <div class="chef in" style="--i:4">
       <div class="label">LeChef</div>
-      <p>Chicken's done when the thickest piece has no pink. Want me to look?</p>
+      <p>Check the thickest piece of chicken: 74 °C in the middle. Want a 2 min timer to check again?</p>
       <div class="acts"><button class="btn">Show it</button><button class="btn c2">No</button></div>
     </div>
 
@@ -137,9 +137,9 @@ body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-sm
   <dl>
     <dt>voice off</dt><dd>"Just the steps" mode or mic denied: the bars become a static mic-slash glyph, hint reads "Tap to talk". Everything else identical. Timers and Next are unchanged.</dd>
     <dt>offline</dt><dd>Live session drops: a one-line banner above the voice row, "LeChef is offline. Steps and timers still work." Voice falls back to on-device recognition for the five words. The LeChef block hides.</dd>
-    <dt>looking</dt><dd>"Show it" replaces the LeChef block with a 4:3 viewfinder for up to 3 s and the caption "Looking at the pan". Then the answer replaces it: "Still pink in the middle. Two more minutes." with "Start 2 min".</dd>
-    <dt>timer done</dt><dd>The tile fills yolk, digits read 0:00 in ink, rigid haptic, sound. LeChef says what to do next in one line. The fill fades after the user taps the tile or says "ok".</dd>
-    <dt>adapt</dt><dd>A quantity changed (one breast, not two): the affected step shows a caption "Changed: 6 min, not 8" in yolk-ink. Never silent.</dd>
+    <dt>looking</dt><dd>"Show it" replaces the LeChef block with a 4:3 viewfinder for up to 3 s and the caption "Looking at the pan". Then the answer replaces it, limited to what a picture can show: "Browning looks even. I can't tell doneness from a photo, check 74 °C with a thermometer." Never a safety verdict. </dd>
+    <dt>timer done</dt><dd>The tile fills yolk, digits read 0:00 in ink, rigid haptic, sound. LeChef says what to do next in one line. The fill fades after the user taps the tile or says "next" or "repeat" (the vocabulary stays five words).</dd>
+    <dt>adapt</dt><dd>A quantity changed (one breast, not two): amounts rescale and the affected step shows a caption "Changed: 1 breast, same check: 74 °C" in yolk-ink. Times only change when a rule supports it (thickness, pan size), otherwise the step says to check rather than trust the timer. Never silent.</dd>
     <dt>remember</dt><dd>At step 7, if the taste profile has a note for this recipe: "Last time you said too salty. I've cut the soy to 1½ tbsp." Shown once.</dd>
     <dt>interrupted</dt><dd>App killed or phone locked: reopening returns to this step with timers still counting (they run on device, scheduled as notifications).</dd>
     <dt>complete</dt><dd>After step 8: paper returns (320 ms), dish name, "Cooked in 27 min", kcal counting up once, a 1 to 5 rating row, "One line for next time" by voice or keyboard, optional photo, "Done". Nothing else. No confetti.</dd>
