@@ -38,6 +38,41 @@ implements): `revision()`, `pantrySnapshot()`, `sessionSnapshot()`,
 result shapes are pinned by `types.ts` / `reads.ts` / `proposals.ts` /
 `foodSafety.ts` / `substitutions.ts`.
 
+## Design contract and gating (parent-owned join infra)
+
+The three competing designs (companion, planner, coach) are CONFIGURATION on
+top of this layer, not forks of it. `designs/contract.ts` pins the
+`LeChefDesign` shape — deny-list `toolPolicy`, unprompted-speech
+`turnBudget`, typed `suggestionType` matchers, and the documented
+`systemPrompt` for later native wiring. `run/designRunner.ts` owns the
+mechanics: `gateScript` (pure) and `runDesignSession` (gate + replay).
+
+Gating semantics, pinned so designs cannot drift:
+
+- **Proactive** = an assistant turn that speaks without a preceding user
+  turn in the SOURCE script. Suppressing a turn never re-labels later ones
+  (the gate annotates `turn.proactive`; replay honors the annotation).
+- **Turn budget** — at most `maxUnpromptedTurns` proactive assistant turns
+  per session, with at least `minGapTurns` emitted turns (any role)
+  between two.
+- **Tool policy** — deny-list only; a denied call comes back as
+  `status: "error"` with `{ error: "policy-denied", deniedBy, reason }` and
+  never reaches the tool layer. Denials are recorded, not hidden.
+- **Third-rejection silence** — after two user rejections of a suggestion
+  type, further suggestions of that type are suppressed for the session
+  (SPEC 4). Rejections accrue only to suggestions the design actually
+  emitted.
+- **Suppressed turns stay visible** — the scorer compares the record's
+  turns against the source script; the RunRecord shape is unchanged.
+- **User actions on suppressed turns** reattach to the next kept turn, or
+  drop (reported) when none follows.
+
+Design directories own their config (`designs/<id>/design.ts`), local
+cores, DESIGN.md, and a `run.ts` that replays a sessions directory through
+`runDesignSession`. They own nothing outside `designs/<id>/` and their own
+tests.
+
+
 ## Say-so decisions (recorded, not hidden)
 
 1. **Wire types mirror the FLAssistantCore fixtures, with two additive

@@ -68,6 +68,13 @@ export interface ScriptTurn {
   readonly audioSeconds?: number;
   /** Whether the assistant ended the turn with a question/prompt to the user. */
   readonly prompted?: boolean;
+  /**
+   * Set by design runners: this assistant turn speaks WITHOUT a preceding
+   * user turn in the SOURCE script (proactive speech). Absent = replay
+   * computes it from the turn sequence. Design gating annotates this so
+   * suppressing an earlier proactive turn cannot re-label later ones.
+   */
+  readonly proactive?: boolean;
 }
 
 export interface SessionScript {
@@ -506,6 +513,13 @@ export function replayScript(
 
   for (const turn of sortedTurns) {
     const callIds: string[] = [];
+
+    // Proactive = the assistant speaks without a preceding user turn. The
+    // design-runner annotation (turn.proactive) wins over the computed value
+    // so suppression earlier in the script cannot re-label later turns.
+    const prevRole = turns.length > 0 ? turns[turns.length - 1].role : null;
+    const proactive = turn.role === "assistant" && (turn.proactive ?? prevRole !== "user");
+    runtime.onTurnStart?.({ i: turn.i, role: turn.role, proactive });
 
     if (turn.role === "user") {
       textTokensIn += estimateTokens(turn.text);

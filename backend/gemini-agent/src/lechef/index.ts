@@ -7,8 +7,9 @@
  * reads bounded snapshots and proposes typed actions. Nothing here executes
  * an action, contacts a model API, or produces a safety verdict.
  *
- * Note: src/lechef/designs/ is reserved for later parts and is not part of
- * this surface.
+ * The design layer: src/lechef/designs/contract.ts is parent-owned shared
+ * infrastructure (the LeChefDesign shape + gating types); each design task
+ * owns exactly one designs/<id>/ directory on top of it.
  */
 
 // Domain types, snapshots, proposals, receipts (fixture-shaped wire types).
@@ -34,6 +35,15 @@ export * from "./fakeModel.js";
 // Runtime dispatch + createLeChefRuntime.
 export * from "./runtime.js";
 // Harness: RunRecord assembly for the Python scorer.
-export { runSession, cannedCamera, type RunRecord } from "./run/harness.js";
+export {
+  runSession,
+  buildSessionWorld,
+  cannedCamera,
+  type RunRecord,
+  type SessionWorld
+} from "./run/harness.js";
+// Design contract + policy-gated design runner (parent-owned join infra).
+export * from "./designs/contract.js";
+export { gateScript, wrapWithPolicy, runDesignSession, type GateResult } from "./run/designRunner.js";
 // Deterministic clock for tests and harness runs.
 export { ManualClock } from "./run/clock.js";
