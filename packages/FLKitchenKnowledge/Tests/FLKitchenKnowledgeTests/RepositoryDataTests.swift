@@ -89,6 +89,15 @@ final class RepositoryDataTests: XCTestCase {
     func testJoinedPacksLoad() throws {
         try requireSubdirectory("packs")
         let knowledge = try KitchenKnowledge(directory: dataDirectory)
+
+        // Non-vacuity: the packs tree must actually load, not merely exist —
+        // a filename drift would otherwise pass silently on empty arrays.
+        XCTAssertGreaterThanOrEqual(knowledge.budgetPacks.count, 1, "budget packs did not load")
+        XCTAssertGreaterThanOrEqual(knowledge.foodBankPacks.count, 1, "food-bank packs did not load")
+        XCTAssertGreaterThanOrEqual(knowledge.useItUpPacks.count, 1, "use-it-up packs did not load")
+        XCTAssertGreaterThanOrEqual(knowledge.seasonalRegions.count, 2, "seasonal regions did not load")
+        XCTAssertEqual(knowledge.seasonalMonths.count, 12, "seasonal guide must cover all twelve months")
+
         for pack in knowledge.budgetPacks {
             let sum = pack.items.compactMap(\.priceUsd).reduce(0, +)
             XCTAssertLessThanOrEqual(sum, pack.budgetUsd, "pack \(pack.id) busts its budget")

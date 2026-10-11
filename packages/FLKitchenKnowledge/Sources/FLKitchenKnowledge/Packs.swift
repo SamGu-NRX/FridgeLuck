@@ -1,8 +1,31 @@
 import Foundation
 
+/// A quantity authored as a display string ("1 lb") or a bare unit count
+/// (1, 0.5). Decodes either, rendering a number as its plain decimal text so
+/// nothing is invented and no pack is refused over a display field.
+private struct FlexibleQuantityString: Decodable {
+    var value: String?
+
+    init(from decoder: Decoder) throws {
+        let sc = try decoder.singleValueContainer()
+        if let s = try? sc.decode(String.self) {
+            value = s
+        } else if let n = try? sc.decode(Double.self) {
+            value = n.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(n)) : String(n)
+        } else {
+            value = nil
+        }
+    }
+}
+
 /// One ingredient line inside a pack. `usdaFdcId` ties the line to a real
 /// USDA row so the challenge engine can match recipes; omitted (never guessed)
 /// when no plain row exists.
+///
+/// `quantity` is authored as either a display string ("1 lb") or a bare unit
+/// count (1, 0.5). The decoded shape normalizes both to a string — a number
+/// renders as its plain decimal text, so nothing is invented and no pack is
+/// refused over a display field; `quantityKg` stays the machine-readable mass.
 public struct PackItem: Codable, Sendable, Equatable, Hashable {
     public var ingredientKey: String
     public var displayName: String
@@ -14,6 +37,57 @@ public struct PackItem: Codable, Sendable, Equatable, Hashable {
     public var typicalForm: String?
     public var citationIds: [String]?
     public var note: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case ingredientKey, displayName, usdaFdcId, quantity, quantityKg
+        case priceUsd, priceSourceId, typicalForm, citationIds, note
+    }
+
+    public init(
+        ingredientKey: String, displayName: String, usdaFdcId: Int? = nil,
+        quantity: String? = nil, quantityKg: Double? = nil, priceUsd: Double? = nil,
+        priceSourceId: String? = nil, typicalForm: String? = nil,
+        citationIds: [String]? = nil, note: String? = nil
+    ) {
+        self.ingredientKey = ingredientKey
+        self.displayName = displayName
+        self.usdaFdcId = usdaFdcId
+        self.quantity = quantity
+        self.quantityKg = quantityKg
+        self.priceUsd = priceUsd
+        self.priceSourceId = priceSourceId
+        self.typicalForm = typicalForm
+        self.citationIds = citationIds
+        self.note = note
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        ingredientKey = try c.decode(String.self, forKey: .ingredientKey)
+        displayName = try c.decode(String.self, forKey: .displayName)
+        usdaFdcId = try c.decodeIfPresent(Int.self, forKey: .usdaFdcId)
+        quantity = try c.decodeIfPresent(FlexibleQuantityString.self, forKey: .quantity)?.value
+        quantityKg = try c.decodeIfPresent(Double.self, forKey: .quantityKg)
+        priceUsd = try c.decodeIfPresent(Double.self, forKey: .priceUsd)
+        priceSourceId = try c.decodeIfPresent(String.self, forKey: .priceSourceId)
+        typicalForm = try c.decodeIfPresent(String.self, forKey: .typicalForm)
+        citationIds = try c.decodeIfPresent([String].self, forKey: .citationIds)
+        note = try c.decodeIfPresent(String.self, forKey: .note)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(ingredientKey, forKey: .ingredientKey)
+        try c.encode(displayName, forKey: .displayName)
+        try c.encodeIfPresent(usdaFdcId, forKey: .usdaFdcId)
+        try c.encodeIfPresent(quantity, forKey: .quantity)
+        try c.encodeIfPresent(quantityKg, forKey: .quantityKg)
+        try c.encodeIfPresent(priceUsd, forKey: .priceUsd)
+        try c.encodeIfPresent(priceSourceId, forKey: .priceSourceId)
+        try c.encodeIfPresent(typicalForm, forKey: .typicalForm)
+        try c.encodeIfPresent(citationIds, forKey: .citationIds)
+        try c.encodeIfPresent(note, forKey: .note)
+    }
 }
 
 /// A shopping-basket challenge: a set of staples that sums under `budgetUsd`.

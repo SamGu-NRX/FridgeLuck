@@ -114,18 +114,18 @@ public struct KitchenKnowledge: Sendable {
             )
             self.waste = catalog
         }
-        if let data = self.read(packs.appendingPathComponent("budget.json")) {
+        if let data = self.read(packs.appendingPathComponent("budget_packs.json")) {
             budgetPacks = try JSONDecoder().decode(DataEnvelope<BudgetPacksPayload>.self, from: data).data.packs
         }
-        if let data = self.read(packs.appendingPathComponent("food_bank.json")) {
+        if let data = self.read(packs.appendingPathComponent("food_bank_packs.json")) {
             foodBankPacks = try JSONDecoder().decode(DataEnvelope<FoodBankPacksPayload>.self, from: data).data.packs
         }
-        if let data = self.read(packs.appendingPathComponent("seasonal.json")) {
+        if let data = self.read(packs.appendingPathComponent("seasonal_packs.json")) {
             let payload = try JSONDecoder().decode(DataEnvelope<SeasonalPacksPayload>.self, from: data).data
             seasonalRegions = payload.regions
             seasonalMonths = payload.months
         }
-        if let data = self.read(packs.appendingPathComponent("use_it_up.json")) {
+        if let data = self.read(packs.appendingPathComponent("use_it_up_packs.json")) {
             useItUpPacks = try JSONDecoder().decode(DataEnvelope<UseItUpPacksPayload>.self, from: data).data.packs
         }
     }

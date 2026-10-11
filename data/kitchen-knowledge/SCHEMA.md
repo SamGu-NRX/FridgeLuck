@@ -34,15 +34,15 @@ data/kitchen-knowledge/
 │   └── cards/<ingredient-key>.json  kind: learn-card
 ├── waste/
 │   ├── model.md                   semantics: buckets, saved/used-late/unknown, rounding
-│   ├── emission_factors.json      kind: waste-emission-factors
-│   ├── price_factors.json         kind: waste-price-factors
-│   ├── citations.json             kind: waste-citations
-│   └── hand_computed_examples.json  kind: waste-hand-computed-examples  (exactly 20)
+│   ├── emission_factors.json      kind: emission-factors
+│   ├── price_factors.json         kind: price-factors
+│   ├── loss_factors.json          kind: loss-factors (display-only, never in ledger math)
+│   └── hand_computed_examples.json  kind: hand-computed-examples  (exactly 20)
 └── packs/
-    ├── budget.json                kind: budget-packs
-    ├── food_bank.json             kind: food-bank-packs
-    ├── seasonal.json              kind: seasonal-packs
-    └── use_it_up.json             kind: use-it-up-packs
+    ├── budget_packs.json          kind: budget-packs
+    ├── food_bank_packs.json       kind: food-bank-packs
+    ├── seasonal_packs.json        kind: seasonal-packs
+    └── use_it_up_packs.json       kind: use-it-up-packs
 ```
 
 ## Invariants the loader enforces (tests pin these)
