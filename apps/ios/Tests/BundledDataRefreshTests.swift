@@ -723,11 +723,32 @@ final class BundledDataRefreshTests: XCTestCase {
     }
   }
 
-  /// The production launch hook defaults to fail-closed readiness: hydration
+  /// Explicit `.pending` readiness keeps the refresh fail-closed: hydration
   /// still equips the database, but the refresh pass is refused and no refresh
-  /// markers are written until the snapshot stream's provider lands.
+  /// markers are written. (The launch default is now the production
+  /// provider; this pins the refusal contract the provider replaced.)
   func testLaunchPathWithPendingReadinessRefusesTheRefreshPass() async throws {
     let db = try makeLegacyDatabase()
+    let appDB = AppDatabase(dbQueue: db)
+
+    try await appDB.warmBundledContentIfNeeded(readiness: .pending)
+
+    try await db.read { db in
+      let markers = try Int.fetchOne(
+        db,
+        sql: """
+          SELECT COUNT(*) FROM bundled_recipe_state
+          WHERE key IN ('ownership_ready', 'adoption_completed_at')
+          """)
+      XCTAssertEqual(markers, 0, "a pending readiness must leave the refresh refused")
+    }
+  }
+
+  /// The launch default is the production readiness provider: with no meals
+  /// logged, snapshot coverage holds trivially, so the refresh runs to its
+  /// markers and adoption — the same outcome an established readiness gave.
+  func testLaunchPathDefaultsToTheHistoricalNutritionReadinessProvider() async throws {
+    let db = try makeLegacyDatabase(matchingRealBundle: true)
     let appDB = AppDatabase(dbQueue: db)
 
     try await appDB.warmBundledContentIfNeeded()
@@ -739,8 +760,125 @@ final class BundledDataRefreshTests: XCTestCase {
           SELECT COUNT(*) FROM bundled_recipe_state
           WHERE key IN ('ownership_ready', 'adoption_completed_at')
           """)
-      XCTAssertEqual(markers, 0, "a pending readiness must leave the refresh refused")
+      XCTAssertEqual(markers, 2, "the production provider admits the refresh")
+      let egg = try Row.fetchOne(db, sql: "SELECT * FROM ingredients WHERE id = 500")!
+      let eggKey: String? = egg["ownership_key"]
+      XCTAssertEqual(eggKey, BundleOwnership.ingredientKey(bundleIngredientId: 1))
     }
+  }
+
+  // MARK: - Changed-bundle invariance (journal / daily / Health)
+
+  /// A refresh that really changes bundle-derived content must not move a
+  /// single Double bit in historical output. Snapshot lines freeze at capture,
+  /// so the journal (cookingJournal), the daily chart (dailyMacroTotals), and
+  /// the Apple Health record source (capturedMacros × consumed × portion,
+  /// the arithmetic MealLogSyncCoordinator feeds AppleHealthMealRecord) must
+  /// read bit-identical values after the refresh updates the catalog under
+  /// the meal.
+  func testChangedBundleRefreshKeepsJournalDailyAndHealthOutputsBitIdentical()
+  async throws {
+    let db = try DatabaseQueue()
+    try DatabaseMigrations.migrate(db)
+    let payload = decodeData(Self.fixtureDataJSON)
+    _ = try await refresh(
+      db, pass: makePass(current: payload, pins: [makePin(data: payload)]))
+
+    // Log a meal with a fixture-style history insert and capture its nutrition
+    // snapshot in the same transaction (the project's fixture rule for
+    // cooking-history rows).
+    let snapshotService = NutritionSnapshotService(db: db)
+    // The bundle id is an ownership key, not the row id: resolve the row the
+    // refresher actually created for 'Egg Bowl'.
+    let eggBowlRowId = try await db.read { db in
+      try Int64.fetchOne(
+        db,
+        sql: "SELECT id FROM recipes WHERE ownership_key = 'fridgeluck.bundle.recipe/7'")
+    }!
+    try await db.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO cooking_history
+            (id, recipe_id, cooked_at, rating, servings_consumed, portion_multiplier)
+          VALUES (?, ?, datetime('now'), NULL, 2, 1.5)
+          """,
+        arguments: [Int64(1), eggBowlRowId])
+      try snapshotService.captureSnapshot(in: db, historyId: 1, recipeId: eggBowlRowId)
+    }
+
+    let repository = UserDataRepository(db: db)
+    let preJournal = try repository.cookingJournal()
+    let preDaily = try repository.dailyMacroTotals(lastDays: 1)
+    let preCaptured = try snapshotService.capturedMacros(historyId: 1)
+    // MealLogSyncCoordinator: scale = Double(max(1, servingsConsumed)) * portion.
+    let scale = Double(max(1, 2)) * 1.5
+
+    XCTAssertGreaterThan(preJournal.count, 0, "journal must be non-empty pre-refresh")
+    XCTAssertGreaterThan(preJournal[0].macrosConsumed.calories, 0)
+    XCTAssertGreaterThan(preDaily.first?.calories ?? 0, 0, "daily must sum the meal")
+    XCTAssertGreaterThan(preCaptured.caloriesPerServing, 0)
+
+    // The changed bundle: rice's protein moves 2.7 -> 3.0 in the shipped
+    // payload. Only the machine-generated fixture digit changes.
+    var changedJSON = Self.fixtureDataJSON
+    XCTAssertTrue(changedJSON.contains("\"rice\", 130.0, 2.7"))
+    changedJSON = changedJSON.replacingOccurrences(
+      of: "\"rice\", 130.0, 2.7", with: "\"rice\", 130.0, 3.0")
+    let changedPayload = decodeData(changedJSON)
+
+    _ = try await refresh(
+      db,
+      pass: makePass(current: changedPayload, pins: [makePin(data: payload)]))
+
+    // The refresh really changed bundle-derived content.
+    try await db.read { db in
+      let riceProtein = try Double.fetchOne(
+        db, sql: "SELECT protein FROM ingredients WHERE name = 'rice'")
+      XCTAssertEqual(riceProtein, 3.0, "the refresh must change the catalog under the meal")
+    }
+
+    let postJournal = try repository.cookingJournal()
+    let postDaily = try repository.dailyMacroTotals(lastDays: 1)
+    let postCaptured = try snapshotService.capturedMacros(historyId: 1)
+
+    // Journal: same meal, bit-identical frozen macros.
+    XCTAssertEqual(postJournal.count, preJournal.count)
+    XCTAssertEqual(postJournal[0].id, preJournal[0].id)
+    XCTAssertEqual(postJournal[0].recipe.id, preJournal[0].recipe.id)
+    XCTAssertEqual(postJournal[0].recipe.title, "Egg Bowl")
+    XCTAssertEqual(
+      postJournal[0].macrosConsumed.calories.bitPattern,
+      preJournal[0].macrosConsumed.calories.bitPattern, "journal calories")
+    XCTAssertEqual(
+      postJournal[0].macrosConsumed.protein.bitPattern,
+      preJournal[0].macrosConsumed.protein.bitPattern, "journal protein")
+    XCTAssertEqual(
+      postJournal[0].macrosConsumed.carbs.bitPattern,
+      preJournal[0].macrosConsumed.carbs.bitPattern, "journal carbs")
+    XCTAssertEqual(
+      postJournal[0].macrosConsumed.fat.bitPattern,
+      preJournal[0].macrosConsumed.fat.bitPattern, "journal fat")
+
+    // Daily chart: bit-identical sums.
+    XCTAssertEqual(postDaily.count, preDaily.count)
+    for (pre, post) in zip(preDaily, postDaily) {
+      XCTAssertEqual(post.calories.bitPattern, pre.calories.bitPattern, "daily calories")
+      XCTAssertEqual(post.protein.bitPattern, pre.protein.bitPattern, "daily protein")
+      XCTAssertEqual(post.carbs.bitPattern, pre.carbs.bitPattern, "daily carbs")
+      XCTAssertEqual(post.fat.bitPattern, pre.fat.bitPattern, "daily fat")
+    }
+
+    // Apple Health record source: bit-identical per-serving values, and the
+    // scaled record doubles the coordinator would write.
+    func healthBits(_ m: RecipeMacros) -> [UInt64] {
+      [
+        m.caloriesPerServing * scale, m.proteinPerServing * scale,
+        m.carbsPerServing * scale, m.fatPerServing * scale,
+        m.fiberPerServing * scale, m.sugarPerServing * scale,
+        m.sodiumPerServing * scale,
+      ].map(\.bitPattern)
+    }
+    XCTAssertEqual(healthBits(postCaptured), healthBits(preCaptured), "Health record doubles")
   }
 
   // MARK: - Full launch path on real bundle resources

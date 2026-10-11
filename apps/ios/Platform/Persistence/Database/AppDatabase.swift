@@ -30,11 +30,13 @@ final class AppDatabase: Sendable {
   /// Loads bundled recipes and USDA catalog data if needed.
   ///
   /// `readiness` is the historical-snapshot readiness contract consumed by the
-  /// ownership refresh; the default `.pending` fails closed until the
-  /// fl-next-historical-nutrition-r1 readiness provider lands. Tests simulate
-  /// the snapshot stream having landed by passing an established readiness.
+  /// ownership refresh; the default `.historicalNutrition` delegates to
+  /// `NutritionSnapshotService.verifyHistoricalSnapshotReadiness(in:)`, so a
+  /// refresh may only write when every logged meal carries a current-version
+  /// snapshot. Tests pass `.pending` to simulate the pre-provider stream or
+  /// `.ready` to bypass the snapshot check.
   func warmBundledContentIfNeeded(
-    readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .pending
+    readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .historicalNutrition
   ) async throws {
     let dbQueue = self.dbQueue
 
@@ -68,12 +70,11 @@ final class AppDatabase: Sendable {
   /// retries. Missing or tampered pins refuse the refresh for this launch —
   /// adoption stays pending rather than guessing ownership from incomplete history.
   /// Historical-snapshot readiness is consulted before any write; the default
-  /// `.pending` stays fail-closed until the fl-next-historical-nutrition-r1
-  /// readiness provider lands and establishes the snapshot migration and
-  /// completion markers — every default pass is refused here and retried on a
-  /// later launch.
+  /// `.historicalNutrition` verifies the snapshot migration and per-meal
+  /// snapshot coverage, so a pass that cannot prove history is frozen is
+  /// refused here and retried on a later launch.
   private func runBundledOwnershipRefresh(
-    readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .pending
+    readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .historicalNutrition
   ) async {
     do {
       guard let dataUrl = Bundle.main.url(forResource: "data", withExtension: "json") else {

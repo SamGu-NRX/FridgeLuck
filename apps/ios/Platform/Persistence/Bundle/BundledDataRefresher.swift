@@ -101,6 +101,17 @@ enum BundledDataRefresher {
     })
 
     static let ready = HistoricalSnapshotReadiness(verify: { _ in })
+
+    /// Production provider: defers to the historical-nutrition stream's
+    /// shared readiness check
+    /// (`NutritionSnapshotService.verifyHistoricalSnapshotReadiness(in:)`) —
+    /// every logged meal must carry a current-version snapshot header with
+    /// known provenance. The launch path defaults to this; `.pending` remains
+    /// for callers simulating the pre-provider stream and `.ready` for tests.
+    static let historicalNutrition = HistoricalSnapshotReadiness(verify: { db in
+      try NutritionSnapshotService(db: DatabaseQueue())
+        .verifyHistoricalSnapshotReadiness(in: db)
+    })
   }
 
   // MARK: - Entry points

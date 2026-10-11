@@ -325,9 +325,10 @@ final class MigrationSnapshotTests: XCTestCase {
     // Self-reporting record of the environment the checks ran against.
     print("CHECK sqlite_version=\(version)")
     print("CHECK migrations_applied=\(applied.joined(separator: ","))")
-    // The migration registry ends at v20: this branch adds the last one and
-    // registers nothing after it.
-    XCTAssertEqual(applied.last, "v20_historical_nutrition_snapshots")
+    // The migration registry ends at the bundled-refresh integration: this
+    // branch registered v20 (historical nutrition snapshots) and the
+    // ownership refresh stream registered v21 after it; nothing follows.
+    XCTAssertEqual(applied.last, "v21_bundle_ownership")
   }
 
   // MARK: - recordCooking capture paths
