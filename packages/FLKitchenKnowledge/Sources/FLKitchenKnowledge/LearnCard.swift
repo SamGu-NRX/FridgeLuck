@@ -49,6 +49,38 @@ public struct NutritionPer100g: Codable, Sendable, Equatable, Hashable {
     public var nutrients: NutritionVector
 }
 
+public extension NutritionVector {
+    /// Every present value as (field, value, plausible per-100 g range).
+    ///
+    /// The caps are impossibility filters, not nutrition advice
+    /// (data/kitchen-knowledge/SCHEMA.md, "Numeric contract"): energy cannot
+    /// exceed 900 kcal per 100 g (pure fat, 9 kcal/g — olive oil is 884); a
+    /// gram nutrient cannot exceed the 100 g food mass itself; mineral caps
+    /// sit above the densest real food (salt carries 38,758 mg sodium,
+    /// chalk 40,044 mg calcium, a KCl salt substitute ~52,400 mg potassium);
+    /// vitamin caps sit above the richest foods (acerola 1,677 mg vitamin C,
+    /// cod liver oil ~107,000 µg vitamin A, dried yeast ~3,100 µg folate).
+    var presentValues: [(field: String, value: Double, range: ClosedRange<Double>)] {
+        [
+            ("energyKcal", energyKcal, 0...900),
+            ("proteinG", proteinG, 0...100),
+            ("carbohydrateG", carbohydrateG, 0...100),
+            ("sugarG", sugarG, 0...100),
+            ("fiberG", fiberG, 0...100),
+            ("fatG", fatG, 0...100),
+            ("saturatedFatG", saturatedFatG, 0...100),
+            ("sodiumMg", sodiumMg, 0...40_000),
+            ("potassiumMg", potassiumMg, 0...60_000),
+            ("calciumMg", calciumMg, 0...40_000),
+            ("ironMg", ironMg, 0...1_000),
+            ("vitaminCMg", vitaminCMg, 0...2_000),
+            ("vitaminARaeMcg", vitaminARaeMcg, 0...150_000),
+            ("folateMcg", folateMcg, 0...5_000),
+        ]
+        .compactMap { field, value, range in value.map { (field, $0, range) } }
+    }
+}
+
 public struct LearnCard: Codable, Sendable, Equatable {
     public struct Sections: Codable, Sendable, Equatable {
         public var whatItIs: CitedSection
@@ -156,6 +188,17 @@ public extension LearnCard {
                 throw MissingSourceError(
                     subject: "\(card.id).nutritionPer100g",
                     reason: "energyKcal missing from the cited FDC row"
+                )
+            }
+            // Impossible numbers refuse to load — never a silent 0 or nil.
+            for (field, value, range) in nutrition.nutrients.presentValues
+            where !(value.isFinite && range.contains(value)) {
+                throw InvalidNumericError(
+                    subject: "\(card.id).nutritionPer100g.nutrients",
+                    field: field,
+                    value: "\(value)",
+                    reason: "outside the plausible per-100 g range "
+                        + "\(range.lowerBound)...\(range.upperBound)"
                 )
             }
         }

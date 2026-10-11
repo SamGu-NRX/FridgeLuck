@@ -55,6 +55,29 @@ public struct DuplicateIdError: Error, CustomStringConvertible, Sendable {
     public var description: String { "duplicate id in \(subject): '\(id)' — \(reason)" }
 }
 
+/// Thrown when a numeric record carries an impossible value — negative money,
+/// a negative or over-scale per-100 g nutrient, a misordered range. The
+/// library refuses rather than silently loading 0 or nil
+/// (data/kitchen-knowledge/SCHEMA.md, "Numeric contract").
+public struct InvalidNumericError: Error, CustomStringConvertible, Sendable {
+    public let subject: String
+    public let field: String
+    /// Rendered value: Decimal and Double print sanely without generic plumbing.
+    public let value: String
+    public let reason: String
+
+    public init(subject: String, field: String, value: String, reason: String) {
+        self.subject = subject
+        self.field = field
+        self.value = value
+        self.reason = reason
+    }
+
+    public var description: String {
+        "invalid number in \(subject): \(field) = \(value) — \(reason)"
+    }
+}
+
 /// Thrown when data would state, or compute from, a number with no cited source.
 /// The library refuses rather than guesses.
 public struct MissingSourceError: Error, CustomStringConvertible, Sendable {

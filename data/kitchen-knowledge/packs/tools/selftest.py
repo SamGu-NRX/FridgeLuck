@@ -191,6 +191,18 @@ def main():
          lambda f: f["use_it_up_packs.json"]["data"]["packs"][0]["ingredients"][0].update(
              citationIds=["sX"]),
          "cites unknown citationId")
+    # Numeric contract (SCHEMA.md): negative money/mass and non-finite
+    # floats refuse — a NaN slips past `<= 0` comparisons otherwise.
+    case("negative item price refuses",
+         lambda f: f["budget_packs.json"]["data"]["packs"][0]["items"][0].update(priceUsd=-1.0),
+         "priceUsd not positive")
+    case("negative budgetUsd refuses",
+         lambda f: f["budget_packs.json"]["data"]["packs"][0].update(budgetUsd=-50.0),
+         "budgetUsd negative")
+    case("NaN quantityKg refuses",
+         lambda f: f["budget_packs.json"]["data"]["packs"][0]["items"][0].update(
+             quantityKg=float("nan")),
+         "quantityKg not a finite number")
     if failures:
         print(f"\nSELFTEST FAIL ({len(failures)}):")
         for f in failures:

@@ -141,6 +141,9 @@ public struct KitchenKnowledge: Sendable {
                 payload.factors.map(\.citationId), table: payload.source?.citationId,
                 subject: "waste/emission_factors.json"
             )
+            try Self.validateEmissionNumerics(
+                payload.factors, subject: "waste/emission_factors.json"
+            )
             var catalog = waste ?? Self.emptyCatalog
             catalog.emissionByIngredient = try Self.uniqueDictionary(
                 payload.factors.map { ($0.ingredientKey, $0) },
@@ -154,6 +157,9 @@ public struct KitchenKnowledge: Sendable {
             try Self.validateFactorRows(
                 payload.prices.map(\.citationId), table: payload.source?.citationId,
                 subject: "waste/price_factors.json"
+            )
+            try Self.validatePriceNumerics(
+                payload.prices, subject: "waste/price_factors.json"
             )
             var catalog = waste ?? Self.emptyCatalog
             catalog.priceByIngredient = try Self.uniqueDictionary(
@@ -172,6 +178,9 @@ public struct KitchenKnowledge: Sendable {
                 sources: payload.sources ?? [],
                 subject: "packs/budget_packs.json"
             )
+            try Self.validateBudgetNumerics(
+                payload.packs, subject: "packs/budget_packs.json"
+            )
             budgetPacks = payload.packs
             packSourcesByFile["budget_packs"] = payload.sources ?? []
         }
@@ -184,6 +193,9 @@ public struct KitchenKnowledge: Sendable {
                 },
                 sources: payload.sources ?? [],
                 subject: "packs/food_bank_packs.json"
+            )
+            try Self.validateUnbudgetedItemNumerics(
+                payload.packs.flatMap(\.items), subject: "packs/food_bank_packs.json"
             )
             foodBankPacks = payload.packs
             packSourcesByFile["food_bank_packs"] = payload.sources ?? []
@@ -207,6 +219,9 @@ public struct KitchenKnowledge: Sendable {
                 },
                 sources: payload.sources ?? [],
                 subject: "packs/use_it_up_packs.json"
+            )
+            try Self.validateUnbudgetedItemNumerics(
+                payload.packs.flatMap(\.ingredients), subject: "packs/use_it_up_packs.json"
             )
             useItUpPacks = payload.packs
             packSourcesByFile["use_it_up_packs"] = payload.sources ?? []
@@ -275,6 +290,105 @@ public struct KitchenKnowledge: Sendable {
         var id: String
         var items: [PackItem]
         var citationIds: [String]
+    }
+
+    // MARK: - Numeric contract
+
+    /// Impossible numbers refuse to load (SCHEMA.md, "Numeric contract"):
+    /// negative or non-finite money, non-positive masses, misordered ranges.
+    /// An omitted value (a use-it-up item carries no price) stays nil — a
+    /// present value must still be physically possible.
+
+    private static func validateItemNumerics(
+        _ item: PackItem, subject: String, requirePositivePrice: Bool
+    ) throws {
+        if let kg = item.quantityKg {
+            guard kg.isFinite, kg > 0 else {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(item.ingredientKey).quantityKg",
+                    value: "\(kg)", reason: "a mass must be finite and positive"
+                )
+            }
+        }
+        if let price = item.priceUsd {
+            guard price.isFinite, requirePositivePrice ? price > 0 : price >= 0 else {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(item.ingredientKey).priceUsd",
+                    value: "\(price)",
+                    reason: requirePositivePrice
+                        ? "a budget item's price must be a positive amount"
+                        : "a price must be a finite non-negative amount"
+                )
+            }
+        }
+    }
+
+    private static func validateBudgetNumerics(_ packs: [BudgetPack], subject: String) throws {
+        for pack in packs {
+            guard pack.budgetUsd.isFinite, pack.budgetUsd >= 0 else {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(pack.id).budgetUsd",
+                    value: "\(pack.budgetUsd)",
+                    reason: "a budget must be a finite non-negative amount"
+                )
+            }
+            for item in pack.items {
+                try validateItemNumerics(
+                    item, subject: "\(subject)/\(pack.id)", requirePositivePrice: true
+                )
+            }
+        }
+    }
+
+    private static func validateUnbudgetedItemNumerics(
+        _ items: [PackItem], subject: String
+    ) throws {
+        for item in items {
+            try validateItemNumerics(item, subject: subject, requirePositivePrice: false)
+        }
+    }
+
+    private static func validateEmissionNumerics(
+        _ factors: [EmissionFactor], subject: String
+    ) throws {
+        for factor in factors {
+            let range = factor.kgCo2ePerKg
+            for (end, value) in [("low", range.low), ("central", range.central), ("high", range.high)] {
+                guard value >= 0 else {
+                    throw InvalidNumericError(
+                        subject: subject,
+                        field: "\(factor.ingredientKey).kgCo2ePerKg.\(end)",
+                        value: "\(value)", reason: "an emission factor must be non-negative"
+                    )
+                }
+            }
+            guard range.low <= range.central, range.central <= range.high else {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(factor.ingredientKey).kgCo2ePerKg",
+                    value: "low \(range.low), central \(range.central), high \(range.high)",
+                    reason: "a range must satisfy low <= central <= high"
+                )
+            }
+        }
+    }
+
+    private static func validatePriceNumerics(_ prices: [PriceFactor], subject: String) throws {
+        for price in prices {
+            // Decimal cannot carry NaN or infinity; a negative rate is the
+            // failure mode to refuse.
+            guard price.usdPerKg >= 0 else {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(price.ingredientKey).usdPerKg",
+                    value: "\(price.usdPerKg)", reason: "a price must be non-negative"
+                )
+            }
+            if let display = price.displayPriceUsd, display < 0 {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(price.ingredientKey).displayPriceUsd",
+                    value: "\(display)", reason: "a price must be non-negative"
+                )
+            }
+        }
     }
 
     /// Waste factor rows may only cite the file's own table citation; keys

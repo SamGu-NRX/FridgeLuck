@@ -6,12 +6,19 @@ Run from the repo root: python3 data/kitchen-knowledge/waste/tools/validate.py
 Exit 0 = all green.
 """
 import json
+import math
 import os
 import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIR = os.path.dirname(HERE)
+
+# Selftest hook: --dir points the validator at a mutated copy of the waste
+# directory. reference.py still runs against the real tree beside this file,
+# so the example reproduction is unaffected by factor mutations.
+if "--dir" in sys.argv[1:]:
+    DIR = os.path.abspath(sys.argv[sys.argv.index("--dir") + 1])
 
 REQUIRED_SOURCE_FIELDS = ["citationId", "title", "publisher", "url", "retrieved", "licence"]
 
@@ -34,6 +41,14 @@ def load(name):
         except json.JSONDecodeError as exc:
             err(f"{name}: invalid JSON ({exc})")
             return None
+
+
+def finite_number(v):
+    """Booleans and non-finite floats are not numbers a factor table may
+    carry: True is an int in Python and a NaN slips past `< 0` comparisons
+    (SCHEMA.md numeric contract)."""
+    return (not isinstance(v, bool) and isinstance(v, (int, float))
+            and math.isfinite(v))
 
 
 def check_source(name, src, where):
@@ -94,8 +109,8 @@ def validate_emission(doc):
             err(f"{where}: kgCo2ePerKg must have low/central/high")
         else:
             for k in ("low", "central", "high"):
-                if not isinstance(rng[k], (int, float)) or rng[k] < 0:
-                    err(f"{where}: kgCo2ePerKg.{k} must be a number >= 0")
+                if not finite_number(rng[k]) or rng[k] < 0:
+                    err(f"{where}: kgCo2ePerKg.{k} must be a finite number >= 0")
             if not rng["low"] <= rng["central"] <= rng["high"]:
                 err(f"{where}: kgCo2ePerKg must satisfy low <= central <= high")
         if row.get("rangeBasis") not in ("point", "cited-range"):
@@ -129,12 +144,12 @@ def validate_price(doc):
         if key in keys:
             err(f"{where}: duplicate ingredientKey")
         keys.add(key)
-        if not isinstance(row.get("usdPerKg"), (int, float)) or row["usdPerKg"] < 0:
-            err(f"{where}: usdPerKg must be a number >= 0")
+        if not finite_number(row.get("usdPerKg")) or row["usdPerKg"] < 0:
+            err(f"{where}: usdPerKg must be a finite number >= 0")
         if not row.get("displayQuantity"):
             err(f"{where}: displayQuantity missing")
-        if not isinstance(row.get("displayPriceUsd"), (int, float)) or row["displayPriceUsd"] < 0:
-            err(f"{where}: displayPriceUsd must be a number >= 0")
+        if not finite_number(row.get("displayPriceUsd")) or row["displayPriceUsd"] < 0:
+            err(f"{where}: displayPriceUsd must be a finite number >= 0")
         if not row.get("sourceSeries"):
             err(f"{where}: sourceSeries missing (BLS series id or ERS table)")
         if row.get("citationId") not in ids:
@@ -161,10 +176,10 @@ def validate_loss(doc):
             err(f"{where}: duplicate ingredientKey")
         keys.add(key)
         share = row.get("edibleSharePct")
-        if share is not None and (not isinstance(share, (int, float)) or not 0 <= share <= 100):
+        if share is not None and (not finite_number(share) or not 0 <= share <= 100):
             err(f"{where}: edibleSharePct must be null or 0..100")
         loss = row.get("consumerLevelLossPct")
-        if not isinstance(loss, (int, float)) or not 0 <= loss <= 100:
+        if not finite_number(loss) or not 0 <= loss <= 100:
             err(f"{where}: consumerLevelLossPct must be 0..100")
         if not row.get("note"):
             err(f"{where}: note missing (table/column provenance required)")

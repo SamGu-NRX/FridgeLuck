@@ -5,6 +5,7 @@ Exit 0 = green. Stdlib only. Run from repo root:
   python3 data/kitchen-knowledge/learn-cards/tools/validate.py
 """
 import json
+import math
 import os
 import re
 import sys
@@ -13,10 +14,39 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 CARDS = os.path.join(ROOT, "cards")
 
+# Selftest hook: --data-dir points the validator at a mutated copy of the
+# learn-cards directory; tools/ (universe.json, universe.py, the seed) stays
+# at its real location so the conservation check keeps working.
+if "--data-dir" in sys.argv[1:]:
+    ROOT = os.path.abspath(sys.argv[sys.argv.index("--data-dir") + 1])
+    CARDS = os.path.join(ROOT, "cards")
+
 ALLOWED_NUTRIENTS = {
     "energyKcal", "proteinG", "carbohydrateG", "sugarG", "fiberG", "fatG",
     "saturatedFatG", "sodiumMg", "potassiumMg", "calciumMg", "ironMg",
     "vitaminCMg", "vitaminARaeMcg", "folateMcg",
+}
+# Per-100 g plausibility bounds: impossibility filters, not nutrition advice
+# (SCHEMA.md, "Numeric contract"). Energy cannot exceed 900 kcal (pure fat,
+# 9 kcal/g — olive oil is 884); a gram nutrient cannot exceed the 100 g food
+# mass; mineral caps sit above the densest real food (salt carries 38,758 mg
+# sodium, chalk 40,044 mg calcium, a KCl salt substitute ~52,400 mg potassium);
+# vitamin caps sit above the richest foods (acerola, cod liver oil, dried yeast).
+NUTRIENT_BOUNDS = {
+    "energyKcal": (0, 900),
+    "proteinG": (0, 100),
+    "carbohydrateG": (0, 100),
+    "sugarG": (0, 100),
+    "fiberG": (0, 100),
+    "fatG": (0, 100),
+    "saturatedFatG": (0, 100),
+    "sodiumMg": (0, 40_000),
+    "potassiumMg": (0, 60_000),
+    "calciumMg": (0, 40_000),
+    "ironMg": (0, 1_000),
+    "vitaminCMg": (0, 2_000),
+    "vitaminARaeMcg": (0, 150_000),
+    "folateMcg": (0, 5_000),
 }
 SECTIONS = ["whatItIs", "historyNote", "howToChoose", "storage", "useItUp"]
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -31,11 +61,17 @@ def check(cond, msg):
         err(msg)
 
 def check_numberish(key, v, card_id):
-    if key == "energyKcal":
-        check(isinstance(v, (int, float)), f"{card_id}: energyKcal not numeric: {v!r}")
+    if isinstance(v, bool) or not isinstance(v, (int, float)):
+        err(f"{card_id}: nutrient {key} not numeric: {v!r}")
         return
-    check(isinstance(v, (int, float)) and not isinstance(v, bool),
-          f"{card_id}: nutrient {key} not numeric: {v!r}")
+    if not math.isfinite(v):
+        err(f"{card_id}: nutrient {key} not finite: {v!r}")
+        return
+    lo, hi = NUTRIENT_BOUNDS[key]
+    if not lo <= v <= hi:
+        err(f"{card_id}: nutrient {key} {v} outside the plausible per-100 g "
+            f"range [{lo}, {hi}] (SCHEMA.md numeric contract)")
+        return
     if isinstance(v, float):
         check(round(v, 2) == v, f"{card_id}: nutrient {key} has more than 2 decimals: {v!r}")
 

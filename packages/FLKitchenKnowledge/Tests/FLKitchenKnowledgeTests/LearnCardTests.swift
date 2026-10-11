@@ -83,4 +83,44 @@ final class LearnCardTests: XCTestCase {
         XCTAssertNil(knowledge.waste)
         XCTAssertTrue(knowledge.budgetPacks.isEmpty)
     }
+
+    // MARK: Numeric contract (SCHEMA.md): impossible per-100 g values refuse
+    // to parse instead of silently loading as 0 or nil.
+
+    private func mutatedFixture(_ replacements: [(String, String)]) throws -> Data {
+        var text = String(decoding: try fixtureData(), as: UTF8.self)
+        for (anchor, replacement) in replacements {
+            guard text.contains(anchor) else {
+                throw MissingSourceError(
+                    subject: "selftest fixture", reason: "anchor missing: \(anchor)")
+            }
+            text = text.replacingOccurrences(of: anchor, with: replacement)
+        }
+        return Data(text.utf8)
+    }
+
+    func testNegativeNutrientRefusesToParse() throws {
+        let data = try mutatedFixture([("\"energyKcal\": 41", "\"energyKcal\": -5")])
+        XCTAssertThrowsError(try LearnCard.parse(from: data), "negative kcal must throw") { error in
+            XCTAssertTrue(error is InvalidNumericError, "got \(error)")
+        }
+    }
+
+    func testOverCapNutrientRefusesToParse() throws {
+        // 5000 kcal per 100 g is physically impossible (pure fat is 884).
+        let data = try mutatedFixture([("\"energyKcal\": 41", "\"energyKcal\": 5000")])
+        XCTAssertThrowsError(try LearnCard.parse(from: data), "over-cap kcal must throw") { error in
+            XCTAssertTrue(error is InvalidNumericError, "got \(error)")
+        }
+    }
+
+    func testBooleanNutrientRefusesToParse() throws {
+        let data = try mutatedFixture([("\"proteinG\": 0.93", "\"proteinG\": true")])
+        XCTAssertThrowsError(try LearnCard.parse(from: data), "boolean nutrient must throw")
+    }
+
+    func testPlausibleFixtureNutritionStillParses() throws {
+        let card = try LearnCard.parse(from: fixtureData())
+        XCTAssertNoThrow(try LearnCard.validated(card))
+    }
 }

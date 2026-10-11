@@ -18,6 +18,7 @@ Usage: python3 validate.py            (from anywhere; paths resolved relative to
 Exit code 0 = all green.
 """
 import json
+import math
 import os
 import re
 import sqlite3
@@ -206,6 +207,24 @@ def check_fdc(name, catalog_ids, fdc, where):
         err(f"{name}: {where} usdaFdcId {fdc} not in bundled catalog and not allowlisted")
 
 
+def check_money_finite(name, where, field, value, require_positive=False):
+    """Money and masses refuse booleans and non-finite floats: a NaN slips
+    past `<= 0` comparisons, so the finite check is explicit (SCHEMA.md
+    numeric contract)."""
+    if (isinstance(value, bool) or not isinstance(value, (int, float))
+            or not math.isfinite(value)):
+        err(f"{name}: {where} {field} not a finite number: {value!r}")
+        return False
+    if require_positive:
+        if value <= 0:
+            err(f"{name}: {where} {field} not positive: {value!r}")
+            return False
+    elif value < 0:
+        err(f"{name}: {where} {field} negative: {value!r}")
+        return False
+    return True
+
+
 def validate_budget(name, doc, catalog_ids):
     data, smap = check_envelope(name, doc, "budget-packs")
     if data is None or isinstance(data, tuple):
@@ -228,8 +247,7 @@ def validate_budget(name, doc, catalog_ids):
             err(f"{name}/{pid}: missing region")
         if not MONTH_RE.match(str(p.get("priceDate", ""))):
             err(f"{name}/{pid}: priceDate not YYYY-MM")
-        if not isinstance(p.get("budgetUsd"), (int, float)):
-            err(f"{name}/{pid}: budgetUsd not numeric")
+        check_money_finite(name, pid, "budgetUsd", p.get("budgetUsd"))
         n_items = len(p.get("items", []))
         if not 6 <= n_items <= 10:
             err(f"{name}/{pid}: item count {n_items} outside 6-10")
@@ -241,12 +259,9 @@ def validate_budget(name, doc, catalog_ids):
             if not it.get("quantity"):
                 err(f"{name}: {where} missing quantity")
             kg = it.get("quantityKg")
-            if not isinstance(kg, (int, float)) or kg <= 0:
-                err(f"{name}: {where} quantityKg not positive: {kg!r}")
+            check_money_finite(name, where, "quantityKg", kg, require_positive=True)
             price = it.get("priceUsd")
-            if not isinstance(price, (int, float)) or price <= 0:
-                err(f"{name}: {where} priceUsd not positive: {price!r}")
-            else:
+            if check_money_finite(name, where, "priceUsd", price, require_positive=True):
                 total += price
             if it.get("priceSourceId") != "s1":
                 err(f"{name}: {where} priceSourceId != s1")

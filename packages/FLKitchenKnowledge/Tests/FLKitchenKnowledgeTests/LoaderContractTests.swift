@@ -122,7 +122,8 @@ final class LoaderContractTests: XCTestCase {
         try fixture.write(to: root.appendingPathComponent(path), atomically: true, encoding: .utf8)
         XCTAssertThrowsError(try load(), message, file: file, line: line) { error in
             XCTAssertTrue(
-                error is MissingSourceError || error is DuplicateIdError,
+                error is MissingSourceError || error is DuplicateIdError
+                    || error is InvalidNumericError,
                 "\(message): expected a contract error, got \(error)",
                 file: file, line: line
             )
@@ -258,6 +259,73 @@ final class LoaderContractTests: XCTestCase {
         try assertContractThrows(
             "packs/seasonal_packs.json", anchor: "\"month\":10",
             replacement: "\"month\":13", "month outside 1...12 must throw")
+    }
+
+    // MARK: - Numeric contract
+
+    /// Injects a nutrition block with the given nutrient fields into the
+    /// fixture card (before its sections), mirroring a card that carries
+    /// nutrition from source s1.
+    private func injectNutrition(_ nutrientsJSON: String) throws {
+        var card = try String(
+            contentsOf: root.appendingPathComponent("learn-cards/cards/onion.json"),
+            encoding: .utf8)
+        let nutrition = "\"nutritionPer100g\":{\"fdcId\":170026,\"fdcDescription\":\"X\","
+            + "\"fdcDataType\":\"SR Legacy\",\"sourceId\":\"s1\",\"nutrients\":{"
+            + "\(nutrientsJSON)}},"
+        let anchor = card.range(of: "\"sections\":")!
+        card.replaceSubrange(anchor.lowerBound..<anchor.lowerBound, with: nutrition)
+        try card.write(to: root.appendingPathComponent("learn-cards/cards/onion.json"),
+                       atomically: true, encoding: .utf8)
+    }
+
+    func testNegativeNutrientThrowsInvalidNumericError() throws {
+        try injectNutrition("\"energyKcal\":-5")
+        XCTAssertThrowsError(try load(), "negative kcal must throw") { error in
+            XCTAssertTrue(error is InvalidNumericError, "got \(error)")
+        }
+        try writeValidTree()
+    }
+
+    func testOverCapNutrientRefuses() throws {
+        // 5000 kcal per 100 g is physically impossible (pure fat is 884).
+        try injectNutrition("\"energyKcal\":5000")
+        XCTAssertThrowsError(try load(), "over-cap nutrient must throw") { error in
+            XCTAssertTrue(error is InvalidNumericError, "got \(error)")
+        }
+        try writeValidTree()
+    }
+
+    func testNegativeBudgetItemPriceRefuses() throws {
+        try assertContractThrows(
+            "packs/budget_packs.json", anchor: "\"priceUsd\":2.0",
+            replacement: "\"priceUsd\":-2.0", "negative item price must throw")
+    }
+
+    func testNegativeBudgetRefuses() throws {
+        try assertContractThrows(
+            "packs/budget_packs.json", anchor: "\"budgetUsd\":10.0",
+            replacement: "\"budgetUsd\":-10.0", "negative budget must throw")
+    }
+
+    func testNegativeQuantityKgRefuses() throws {
+        try assertContractThrows(
+            "packs/budget_packs.json", anchor: "\"quantityKg\":0.9",
+            replacement: "\"quantityKg\":-0.9", "negative item mass must throw")
+    }
+
+    func testMisorderedEmissionRangeRefuses() throws {
+        try assertContractThrows(
+            "waste/emission_factors.json",
+            anchor: "\"kgCo2ePerKg\":{\"low\":0.1,\"central\":0.2,\"high\":0.3}",
+            replacement: "\"kgCo2ePerKg\":{\"low\":0.3,\"central\":0.2,\"high\":0.1}",
+            "low > high emission range must throw")
+    }
+
+    func testNegativeUsdPerKgRefuses() throws {
+        try assertContractThrows(
+            "waste/price_factors.json", anchor: "\"usdPerKg\":1.0",
+            replacement: "\"usdPerKg\":-1.0", "negative price factor must throw")
     }
 
     // MARK: - Index <-> cards consistency
