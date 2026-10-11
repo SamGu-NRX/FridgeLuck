@@ -1,0 +1,54 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A tender leafy green of the amaranth family, eaten raw or cooked; its flavour changes completely between the two, and blanching tames its oxalates.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Spinach probably arose about 2,000 years ago around Iran and reached China via Nepal; Arabs brought it to Sicily in 827 CE, a 12th-century Iberian writer called it 'the chieftain of leafy greens', and it appears in England's first cookbook, the Forme of Cury (1390), as 'spynoches'.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose crisp, deep-green leaves with firm stems and no sliminess; baby spinach needs no stemming, mature bunches taste better and cost less.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate dry and loosely bagged, unwashed until use. The rulebook has the window.",
+   "citations": [],
+   "note": "leafy-green windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Wilted spinach vanishes into dals, lasagnas, and smoothies; sauté with garlic and lemon, and squeeze the water out for anything baked.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "chard",
+   "ratio": "1:1",
+   "note": "earthier; stems need extra time",
+   "citations": []
+  },
+  {
+   "substitute": "frozen spinach",
+   "ratio": "1:1",
+   "note": "use in cooked dishes; squeeze dry",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Spinach — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Spinach",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

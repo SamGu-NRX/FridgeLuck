@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "sesame_oil",
+  "displayName": "Sesame Oil",
+  "isCore": true,
+  "category": "pantry",
+  "sections": {
+   "whatItIs": {
+    "text": "Oil pressed from sesame seeds — among the earliest-known crop oils; the untoasted kind cooks, the toasted kind perfumes dishes at the end.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Sesame capsules burst only when fully ripe, so harvest stays stubbornly manual — one reason world production is just 1.2 million tonnes (2023), led by India and Myanmar. Toasted sesame oil is a finishing oil: frying it burns the toasted flavour bitter.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "For Asian cooking buy toasted (dark, fragrant); for general frying, the light raw-seed oil. Dark glass bottles protect the aroma from light.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep cool and dark; sesame oil is one of the more stable natural oils but still resents light and heat — the fridge preserves it longest. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "oil storage guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "A few drops fix almost any bland noodle, soup, or dipping sauce; mix stale-ish oil into dressings where toasting flavour matters less than freshness.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "peanut oil + toasted sesame seeds",
+    "ratio": "1:1 oil, garnish with seeds",
+    "note": "recovers some nuttiness",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171016,
+   "fdcDescription": "Oil, sesame, salad or cooking",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "proteinG": 0,
+    "fiberG": 0,
+    "ironMg": 0,
+    "sodiumMg": 0,
+    "vitaminCMg": 0,
+    "saturatedFatG": 14.2,
+    "fatG": 100,
+    "carbohydrateG": 0,
+    "energyKcal": 884,
+    "calciumMg": 0,
+    "potassiumMg": 0,
+    "vitaminARaeMcg": 0,
+    "folateMcg": 0,
+    "sugarG": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Sesame oil — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Sesame_oil",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171016 (Oil, sesame, salad or cooking)."
+   }
+  }
+ }
+}

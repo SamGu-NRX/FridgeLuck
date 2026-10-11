@@ -725,6 +725,86 @@
     "fdcId": 173468
    },
    {
+    "id": "sesame_oil",
+    "displayName": "Sesame Oil",
+    "isCore": true,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 117,
+    "fdcId": 171016
+   },
+   {
+    "id": "shrimp",
+    "displayName": "Shrimp",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 175179
+   },
+   {
+    "id": "smoked_paprika",
+    "displayName": "Smoked Paprika",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171329
+   },
+   {
+    "id": "sour_cream",
+    "displayName": "Sour Cream",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 1,
+    "fdcId": 173443
+   },
+   {
+    "id": "soy_sauce",
+    "displayName": "Soy Sauce",
+    "isCore": true,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 28,
+    "fdcId": 174277
+   },
+   {
+    "id": "spinach",
+    "displayName": "Spinach",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 18,
+    "fdcId": 168462
+   },
+   {
+    "id": "sugar",
+    "displayName": "Sugar",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169655
+   },
+   {
+    "id": "sweet_potato",
+    "displayName": "Sweet Potato",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 168482
+   },
+   {
+    "id": "tahini",
+    "displayName": "Tahini",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170189
+   },
+   {
+    "id": "tempeh",
+    "displayName": "Tempeh",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 174272
+   },
+   {
     "id": "tomato",
     "displayName": "Tomato",
     "isCore": true,
@@ -736,7 +816,7 @@
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 91,
+   "cardsWritten": 101,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [
     "flattened_rice",
