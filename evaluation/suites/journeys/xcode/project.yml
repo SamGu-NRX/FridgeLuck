@@ -1,0 +1,51 @@
+# Suite G (journeys) — XCUITest project spec.
+#
+# Mirrors evaluation/suites/ui-polish/xcode/project.yml: this spec REUSES the
+# repo's root project.yml via XcodeGen's `include` (the app target, its
+# sources, plists and entitlements come from there — they are not duplicated
+# here) and adds only the suite's own UI test bundle.
+#
+# The macOS driver in suite.py invokes:
+#   xcodegen generate --spec <this file> --project <repo root>/FridgeLuckEvalJourneys.xcodeproj
+# so all included relative paths resolve exactly as they do for the repo's own
+# `scripts/ensure_xcode_project.sh` flow.
+#
+# UNVERIFIED-NATIVE until the first eval-macos.yml run: XcodeGen include
+# merging of a nested spec is exercised here for the first time. If XcodeGen
+# rejects the merge, the failure surfaces at generation time and the suite
+# reports not-run with the generator's output — it cannot fail silently.
+
+name: FLJourneys
+
+include:
+  - path: ../../../../project.yml
+
+targets:
+  FLJourneysUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: ../xcuitest
+    dependencies:
+      - target: FridgeLuck
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: "YES"
+        PRODUCT_BUNDLE_IDENTIFIER: samgu.FridgeLuck.FLJourneysUITests
+        PRODUCT_NAME: FLJourneysUITests
+        SWIFT_VERSION: "6.0"
+        TEST_TARGET_NAME: FridgeLuck
+
+schemes:
+  FLJourneys:
+    build:
+      targets:
+        FridgeLuck: [test]
+        FLJourneysUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - FLJourneysUITests
