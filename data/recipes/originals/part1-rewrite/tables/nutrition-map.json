@@ -117,6 +117,24 @@
     },
     "sesame seeds": {
       "fdc_id": 170150
+    },
+    "corn": {
+      "fdc_id": 169217
+    },
+    "jalapeño": {
+      "fdc_id": 168576
+    },
+    "watermelon": {
+      "fdc_id": 167765
+    },
+    "flour tortillas": {
+      "bundled_id": "28"
+    },
+    "sour cream": {
+      "bundled_id": "50"
+    },
+    "avocado": {
+      "bundled_id": "26"
     }
   },
   "unmapped-notes": {
@@ -129,6 +147,11 @@
     "sugar": "no granulated-sugar row; negligible gram weight",
     "rice vinegar": "no vinegar row; negligible gram weight, sodium-free",
     "sichuan peppercorns": "no row; negligible gram weight",
+    "chipotle in adobo": "no catalog row; 15 g condiment weight, sodium-free per USDA",
+    "peanuts": "no plain-peanut row (only a peanut-butter row); small garnish weight",
+    "mint": "no row; negligible gram weight",
+    "tomato purée": "no purée row; 15 g, sodium-free per USDA",
+    "avocado row trap": "sqlite row 2710824 'Avocado, Hass, Raw' carries 0 kcal with nonzero macros - unusable; the clean avocado row is the app core table (bundled id 26)",
     "catalog row 168883 suspect": "catalog row 168883 'White Rice (Cooked)' carries 370 kcal and 81.7 g carbs per 100 g - dry-rice values under a cooked display name; unusable, recipes measure rice dry instead"
   }
 }

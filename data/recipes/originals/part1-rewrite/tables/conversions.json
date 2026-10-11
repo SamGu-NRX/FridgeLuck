@@ -11,6 +11,7 @@
     "tomato_sauce_cup": {"ingredient": "tomato sauce", "grams_per_unit": 240, "basis": "USDA: tomato sauce 1 cup ~240g"},
     "canned_tuna_can": {"ingredient": "canned tuna, drained", "grams_per_unit": 112, "basis": "data.json core table: 1 can drained = 112g"},
     "sriracha_tsp": {"ingredient": "sriracha", "grams_per_unit": 5, "basis": "brand labels list 1 tsp (5 g) per serving"},
-    "sichuan_peppercorn_tsp": {"ingredient": "whole sichuan peppercorns", "grams_per_unit": 2, "basis": "whole spice seeds ~2 g per tsp, same scale as the suite's whole-seed refs"}
+    "sichuan_peppercorn_tsp": {"ingredient": "whole sichuan peppercorns", "grams_per_unit": 2, "basis": "whole spice seeds ~2 g per tsp, same scale as the suite's whole-seed refs"},
+    "tomato_puree_tbsp": {"ingredient": "tomato purée", "grams_per_unit": 15, "basis": "USDA: 1 tbsp tomato purée ~15g"}
   }
 }
