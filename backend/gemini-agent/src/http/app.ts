@@ -12,6 +12,7 @@ import type { InventoryLedger } from "../inventory/inventoryLedger.js";
 import type { ConfidenceService } from "../services/confidenceService.js";
 import { generateRecipe } from "../services/recipeService.js";
 import { rankReverseScanCandidates } from "../services/reverseScanService.js";
+import { RecipeRejectedError } from "../types/contracts.js";
 import { buildNotificationPlan } from "../notifications/notificationPlan.js";
 import { createWebhookRouter } from "../api/webhooks.js";
 import {
@@ -323,6 +324,15 @@ export function createApp(deps: AppDeps): Express {
     // status (e.g. provider SDK errors) do NOT get this treatment.
     if (err instanceof PublicApiError) {
       sendError(res, err.httpStatus, err.code);
+      return;
+    }
+
+    // Recipe-policy rejections are client-visible contract outcomes, not
+    // provider failures: map them to 422 with the frozen rejection reason
+    // (a RecipeRejectionReason union member, so the allowlist invariant
+    // holds). Any other failure stays a generic 500.
+    if (err instanceof RecipeRejectedError) {
+      sendError(res, 422, err.reason);
       return;
     }
 

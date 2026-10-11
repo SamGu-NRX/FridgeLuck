@@ -5,6 +5,8 @@ import type { Express } from "express";
 import type { GoogleGenAI } from "@google/genai";
 import { createApp, type AppDeps, type HttpServices } from "../http/app.js";
 import { PublicApiError } from "../http/errors.js";
+import { RecipeRejectedError } from "../types/contracts.js";
+import { WebhookAuthError, type WebhookOidcVerifier } from "../api/webhookAuth.js";
 import { PHOTO_BASE64_MAX_CHARS, WS_MAX_PAYLOAD_BYTES } from "../http/limits.js";
 import { ConfidenceService } from "../services/confidenceService.js";
 import { InventoryLedger } from "../inventory/inventoryLedger.js";
@@ -37,15 +39,28 @@ function fakeGenAi(): FakeGenAi {
     models: {
       generateContent: async (request: { model: string; contents: unknown }) => {
         calls.push({ model: request.model, contents: request.contents });
-        return {
-          text: JSON.stringify({
-            title: "Test Recipe",
-            timeMinutes: 10,
-            servings: 2,
-            instructions: "Mix and cook.",
-            estimatedCaloriesPerServing: 300
-          })
-        };
+        // The fake serves both paid-model routes. The recipe payload must
+        // satisfy the PR #24 decoder AND its ingredient-policy screen for
+        // every request these tests send: "salt" is both supplied in each
+        // test and a staple allowance, so the screen passes. The ranking
+        // payload must satisfy the PR #21 provider-shape contract
+        // (rankings array; a valid entry for candidate recipeId 42).
+        const text =
+          request.model === testConfig.rankingModel
+            ? JSON.stringify({
+                rankings: [
+                  { recipeId: 42, confidenceScore: 0.9, reason: "matches the detected tomato" }
+                ]
+              })
+            : JSON.stringify({
+                title: "Test Recipe",
+                timeMinutes: 10,
+                servings: 2,
+                instructions: "Mix and cook.",
+                estimatedCaloriesPerServing: 300,
+                ingredientsUsed: ["salt"]
+              });
+        return { text };
       }
     }
   } as unknown as GoogleGenAI;
@@ -180,6 +195,22 @@ describe("http app wiring", () => {
       expect(requestId).toBeString();
       expect(requestId!.length).toBe(36);
       expect(json.requestId).toBe(undefined);
+    } finally {
+      await started.close();
+    }
+  });
+});
+
+describe("fail-safe boot without model credentials", () => {
+  it("answers paid-model routes with 503 model_unavailable when booted with ai: null", async () => {
+    const deps = minimalValidDeps();
+    const started = await startApp(createApp({ ...deps, ai: null }));
+    try {
+      const { status, json } = await postJSON(started.url, "/v1/recipes/generate", {
+        ingredientNames: ["salt"]
+      });
+      expect(status).toBe(503);
+      expect(json.error).toBe("model_unavailable");
     } finally {
       await started.close();
     }
@@ -330,6 +361,31 @@ describe("recipes/generate validation", () => {
   });
 });
 
+describe("recipe policy rejections map to the frozen 422 contract", () => {
+  it("surfaces RecipeRejectedError as 422 with the rejection reason, not a 500", async () => {
+    const deps = minimalValidDeps();
+    const started = await startApp(
+      createApp({
+        ...deps,
+        services: {
+          generateRecipe: async () => {
+            throw new RecipeRejectedError("uses_avoided_ingredient");
+          }
+        }
+      })
+    );
+    try {
+      const { status, json } = await postJSON(started.url, "/v1/recipes/generate", {
+        ingredientNames: ["garlic"]
+      });
+      expect(status).toBe(422);
+      expect(json.error).toBe("uses_avoided_ingredient");
+    } finally {
+      await started.close();
+    }
+  });
+});
+
 describe("reverse-scan/rank validation", () => {
   const validBody = {
     detections: [{ label: "tomato", confidence: 0.9 }],
@@ -380,7 +436,7 @@ describe("reverse-scan/rank validation", () => {
     }
   });
 
-  it("clamps model confidence in the response shape", async () => {
+  it("returns the injected service's rankings in the response shape", async () => {
     const services: Partial<HttpServices> = {
       rankReverseScanCandidates: async (
         _ai,
@@ -690,9 +746,29 @@ describe("typed public errors and generic errors", () => {
 });
 
 describe("webhook mounting (interface preserved for packet024)", () => {
-  it("keeps createWebhookRouter's calling interface and behavior", async () => {
+  const permissiveVerifier: WebhookOidcVerifier = {
+    verifyBearerToken: async () => ({ email: "scheduler@example.com" })
+  };
+
+  it("fails closed with 503 when OIDC is unconfigured", async () => {
+    await withEnv({ WEBHOOK_OIDC_AUDIENCE: "" }, async () => {
+      const started = await startApp(createApp(minimalValidDeps()));
+      try {
+        const { status } = await postJSON(started.url, "/v1/webhooks/tasks", {
+          taskType: "enrich_inventory"
+        });
+        expect(status).toBe(503);
+      } finally {
+        await started.close();
+      }
+    });
+  });
+
+  it("keeps createWebhookRouter's calling interface and behavior with a permissive verifier", async () => {
     const deps = minimalValidDeps();
-    const started = await startApp(createApp(deps));
+    const started = await startApp(
+      createApp({ ...deps, webhookOptions: { verifier: permissiveVerifier } })
+    );
     try {
       const { status, json } = await postJSON(started.url, "/v1/webhooks/tasks", {
         taskType: "enrich_inventory"
@@ -707,6 +783,30 @@ describe("webhook mounting (interface preserved for packet024)", () => {
 
       const missingTask = await postJSON(started.url, "/v1/webhooks/tasks", {});
       expect(missingTask.status).toBe(400);
+    } finally {
+      await started.close();
+    }
+  });
+
+  it("rejects unauthenticated callers with 401 when the verifier refuses", async () => {
+    const deps = minimalValidDeps();
+    const started = await startApp(
+      createApp({
+        ...deps,
+        webhookOptions: {
+          verifier: {
+            verifyBearerToken: async () => {
+              throw new WebhookAuthError("token_verification_failed");
+            }
+          }
+        }
+      })
+    );
+    try {
+      const { status } = await postJSON(started.url, "/v1/webhooks/tasks", {
+        taskType: "enrich_inventory"
+      });
+      expect(status).toBe(401);
     } finally {
       await started.close();
     }
