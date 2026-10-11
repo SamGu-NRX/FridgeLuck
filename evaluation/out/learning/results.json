@@ -1,0 +1,106 @@
+{
+  "suite": "learning",
+  "letter": "B",
+  "title": "Learned taste ranker vs baselines (suite B)",
+  "run_at": "2026-10-11T21:28:26Z",
+  "toolchain": {
+    "python": "3.13.14",
+    "contract_source": "vendored fallback (identical semantics)",
+    "swift": "Swift version 6.4 (swift-6.4-RELEASE)\nTarget: x86_64-unknown-linux-gnu"
+  },
+  "run": {
+    "git_sha": "f00e081a8c0db4f9921fe0c061f966961f2ff8b3",
+    "campaign_started_at": "2026-10-11T15:35:38Z",
+    "config_digest": "9102a47e236d85c9deee2017134909a689e89fb353adb24138adc9849d501fbf"
+  },
+  "metrics": [
+    {
+      "id": "ndcg_lift_vs_rule",
+      "metric": "NDCG@10 relative lift vs rule ranker (95% CI low)",
+      "bar": {
+        "op": ">=",
+        "value": 0.1,
+        "label": "95% interval low >= +10% relative"
+      },
+      "value": -0.111521,
+      "interval": [
+        -0.12180838587111575,
+        -0.10078908736385161
+      ],
+      "detail": "mean relative lift -0.1115 over 6 paired seeds; bootstrap 95% CI [-0.1218, -0.1008] (B=10000, seeded in FLTasteEvalCore)",
+      "evidence": {
+        "path": "evaluation/suites/learning/campaign/results.json",
+        "note": "per-seed NDCG for engine vs rule-port"
+      },
+      "status": "fail"
+    },
+    {
+      "id": "ndcg_lift_vs_profile",
+      "metric": "NDCG@10 relative lift vs profile-only (95% CI low)",
+      "bar": {
+        "op": ">=",
+        "value": 0.1,
+        "label": "95% interval low >= +10% relative"
+      },
+      "value": 0.048304,
+      "interval": [
+        0.03760509886633765,
+        0.05881409443090129
+      ],
+      "detail": "mean relative lift +0.0483 over 6 paired seeds; bootstrap 95% CI [+0.0376, +0.0588] (B=10000, seeded in FLTasteEvalCore)",
+      "evidence": {
+        "path": "evaluation/suites/learning/campaign/results.json",
+        "note": "per-seed NDCG for engine vs profile-only"
+      },
+      "status": "fail"
+    },
+    {
+      "id": "restriction_violations",
+      "metric": "Hard-restriction violations (engine arm)",
+      "bar": {
+        "op": "==",
+        "value": 0,
+        "label": "zero, ever"
+      },
+      "value": 0,
+      "detail": "0 violations across 6 engine (seed) results; gate.json noViolations=True",
+      "evidence": {
+        "path": "evaluation/suites/learning/campaign/results.json",
+        "note": "restrictionViolations summed over engine arm seeds"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "shift_recovery_cooks",
+      "metric": "Median taste-shift recovery (cooks)",
+      "bar": {
+        "op": "<=",
+        "value": 6,
+        "label": "median <= 6 cooks"
+      },
+      "value": 3.8333333333333335,
+      "detail": "median 3.8333333333333335 cooks; gate.json recoveryBarMet=True",
+      "evidence": {
+        "path": "evaluation/suites/learning/campaign/gate.json",
+        "note": "median of per-seed median recovery cooks, engine arm"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "preregistered_scale",
+      "metric": "Campaign executed at preregistered 5,000 x 20 scale",
+      "bar": {
+        "op": "==",
+        "value": 1,
+        "label": "full grid executed"
+      },
+      "value": 0,
+      "detail": "executed 70 households x 6 seeds x 12 arms (12 weeks). The preregistered 5,000 x 20 grid is labeled not-run in RESULTS.md with measured throughput as evidence; lift intervals on this card are computed on the executed grid.",
+      "evidence": {
+        "path": "evaluation/suites/learning/campaign/config.json",
+        "note": "campaign configuration actually executed"
+      },
+      "status": "fail"
+    }
+  ]
+}
