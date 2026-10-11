@@ -292,5 +292,29 @@ def test_committed_totals_cover_every_admitted_probe():
         assert sum(arm["totals"][s] for s in statuses) == arm["totals"]["total"]
         for split in arm["by_split"].values():
             assert sum(split["totals"][s] for s in statuses) == split["totals"]["total"]
-    assert report["arms"]["strict_baseline"]["totals"]["total"] == 5590
-    assert report["arms"]["production"]["totals"]["total"] == 2733
+    assert report["arms"]["strict_baseline"]["totals"]["total"] == 7510
+    assert report["arms"]["production"]["totals"]["total"] == 4653
+
+
+def test_committed_untouched_family_result_pinned():
+    """Frozen-baseline result on au_nip_dual, evaluated without tuning.
+
+    Pinned so any strict-baseline change that moves the untouched-family
+    numbers is visible: the baseline at freeze (sha256 bd6d6136..., commit
+    4016156) scored 109 matches / 0 mismatches / 760 abstentions on the
+    1,920 AU heldout probes — sodium per-serving rows only — and production
+    (gate-admitted on AU via 'serving size') abstained on every probe.
+    """
+    report = json.loads((TOOL_DIR / "reports" / "report.json").read_text(encoding="utf-8"))
+    strict_held = report["arms"]["strict_baseline"]["by_split"]["heldout"]["totals"]
+    assert strict_held["total"] == 1920
+    assert strict_held["match"] == 109
+    assert strict_held["mismatch"] == 0
+    assert strict_held["abstention"] == 760
+    prod_held = report["arms"]["production"]["by_split"]["heldout"]["totals"]
+    assert prod_held["total"] == 1920
+    assert prod_held["match"] == 0 and prod_held["mismatch"] == 0
+    # AU is gate-ADMITTED for production (the 'serving size' keyword fires on
+    # colon-form lines) — keyword admission and held-out status stay separate.
+    assert "au_nip_dual|clean" not in report["arms"]["production"]["gate_rejected_formats"]
+    assert report["arms"]["strict_baseline"]["gate_rejected_records"] == 0

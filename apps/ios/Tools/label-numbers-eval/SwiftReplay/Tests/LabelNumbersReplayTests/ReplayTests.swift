@@ -21,9 +21,9 @@ final class ReplayTests: XCTestCase {
     }()
 
     func testCorpusLoadsExpectedShape() throws {
-        XCTAssertEqual(Self.corpus.count, 480)
-        XCTAssertEqual(Set(Self.corpus.map(\.group_id)).count, 240)
-        XCTAssertEqual(Set(Self.corpus.map(\.family)).count, 4)
+        XCTAssertEqual(Self.corpus.count, 600)
+        XCTAssertEqual(Set(Self.corpus.map(\.group_id)).count, 300)
+        XCTAssertEqual(Set(Self.corpus.map(\.family)).count, 5)
         for record in Self.corpus {
             XCTAssertFalse(record.lines.isEmpty, record.record_id)
             XCTAssertFalse(record.fields.isEmpty, record.record_id)
@@ -39,8 +39,8 @@ final class ReplayTests: XCTestCase {
 
     func testReportCoversEveryFamilyAndVariant() throws {
         let report = CorpusReplay.run(records: Self.corpus)
-        XCTAssertEqual(report.records, 480)
-        for family in ["ca_bilingual", "eu_per100g", "eu_per_portion", "us_dual_column"] {
+        XCTAssertEqual(report.records, 600)
+        for family in ["ca_bilingual", "eu_per100g", "eu_per_portion", "us_dual_column", "au_nip_dual"] {
             let familyReport = report.families[family]
             XCTAssertNotNil(familyReport, family)
             XCTAssertEqual(familyReport?.byVariant["clean"]?.records, 60, family)
@@ -80,7 +80,7 @@ final class ReplayTests: XCTestCase {
         let first = try CorpusReplay.predictionsJSONL(CorpusReplay.predictions(records: Self.corpus))
         let second = try CorpusReplay.predictionsJSONL(CorpusReplay.predictions(records: Self.corpus))
         XCTAssertEqual(first, second)
-        XCTAssertEqual(first.split(separator: "\n").count, 480)
+        XCTAssertEqual(first.split(separator: "\n").count, 600)
         XCTAssertTrue(first.contains("\"LN-0001\""))
         XCTAssertTrue(first.contains("keyword_positive"))
     }
@@ -149,6 +149,6 @@ final class ReplayTests: XCTestCase {
         let first = try runOnce()
         let second = try runOnce()
         XCTAssertEqual(first, second)
-        XCTAssertTrue(first.contains("\"records\" : 480"))
+        XCTAssertTrue(first.contains("\"records\" : 600"))
     }
 }

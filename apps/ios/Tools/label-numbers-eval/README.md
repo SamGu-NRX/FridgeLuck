@@ -174,26 +174,45 @@ byte-compares — any edit to any of the four files fails it.
 
 ## Results
 
-Probe pools: strict baseline 5,590 (all 480 records, all nine fields);
-production 2,733 (237 keyword-admitted records — the gate rejects 243:
+Probe pools: strict baseline 7,510 (all 600 records, all nine fields);
+production 4,653 (357 keyword-admitted records — the gate rejects 243:
 all 240 EU records and 3 corrupted Canadian records, disclosed per cell).
+Every AU record is gate-admitted ("Serving size: 30 g" contains the keyword)
+and yet AU contributes zero production matches: with no "calories" token and
+no "energy … kcal" declaration, `extractCalories` returns nil and the parser
+abstains per record.
 
 | status | production | strict baseline |
 |---|---|---|
-| match | 218 | 2,255 |
+| match | 218 | 2,364 |
 | mismatch | 103 | 0 |
-| abstention | 355 | 389 |
-| unavailable_basis | 110 | 1,182 |
-| unavailable | 1,226 | 0 |
-| unobservable | 721 | 1,764 |
+| abstention | 629 | 1,149 |
+| unavailable_basis | 150 | 1,730 |
+| unavailable | 2,329 | 0 |
+| unobservable | 1,224 | 2,267 |
 | controls: unit / basis / false-abstention | 0 / 0 / 125 | 0 / 0 / 0 |
 
-Frozen splits: production — development 2,733 probes (all of it; heldout
-empty because the gate rejects both EU families), strict — development 646
-match / 237 abstain, heldout 1,609 match / 152 abstain. The strict baseline's
-0 mismatches are by construction: it abstains on corrupted digits and EU
-`Energy` lines rather than guessing, which is why every non-match is an
-abstention.
+Frozen splits: production — development 2,733 probes (all of it; the gate
+rejects both EU families), heldout 1,920 AU probes — every record keyword-
+admitted, yet 0 match / 274 abstentions: the AU label declares kJ energy and
+`extractCalories` finds nothing, so the whole record abstains. strict —
+development 646 match / 237 abstain, heldout 109 match / 0 mismatch /
+760 abstentions / 548 unavailable-basis / 503 unobservable. The strict
+baseline's 0 mismatches are by construction: it abstains on corrupted digits
+and lines it does not recognize rather than guessing, which is why every
+non-match is an abstention or an explicit no-capability status.
+
+Untouched-family result (au_nip_dual, evaluated once with the baseline
+frozen at commit 4016156, sha256 bd6d6136…): the only probes the rigid
+baseline can attempt on an FSANZ panel are `Sodium <n> mg` per-serving rows
+— 60/60 clean records match, 49/60 corrupted (the other 11 have damaged
+sodium lines and abstain correctly), 0 mismatches. Everything else on an AU
+label is `unavailable_basis` (kJ/Cal energy, per-100g column) or abstention,
+and the per-record production abstention discards the sodium row on every
+AU record — including the 49 corrupted records where the strict tool still
+matched it. That gap is
+the confirmed repair backlog this untouched family pins; AU results are
+confirmatory for the frozen baseline, not tuned to it.
 
 Production, per field (development records only): calories on `per_serving`
 208 match / 3 abstain — its one strong field, identical to the strict tool's
@@ -212,7 +231,7 @@ fields is recoverable by rigid line extraction on clean labels.
 - **One-command re-check**: `python3 verify_report.py` — recomputes and byte-compares; exits 0 only on committed, unmodified inputs.
 - **Regeneration order**: `python3 generate_corpus.py --seed 20261010` → `swift run label-numbers-replay --predictions reports/replay_predictions.jsonl` → `python3 strict_baseline.py` → `python3 score_report.py` → `python3 verify_report.py`. The Swift step is the only non-Python step and runs on Linux or macOS.
 - **Production code untouched**: `NutritionLabelParser.swift` was not modified to cover the benchmark; the replay ships a byte-identical copy under `SwiftReplay/Sources/LabelNumbersReplay/`.
-- **Open items** (in rough value order): (1) serving-size capture overrun — the single largest production loss (~100 records); (2) servings-per-container phrase order — voids the field on every label of this shape; (3) EU support — both EU families are keyword-gate rejected and `energy_kj`/per-100g extraction is `unavailable`; the strict baseline shows all of it is rigidly extractable; (4) whole-record abstention — a calories failure discards otherwise-extractable values (125 false abstentions against the strict arm); (5) a genuinely held-out format family, since all four current families were development-exposed.
+- **Open items** (in rough value order): (1) serving-size capture overrun — the single largest production loss (~100 records); (2) servings-per-container phrase order — voids the field on every label of this shape; (3) EU support — both EU families are keyword-gate rejected and `energy_kj`/per-100g extraction is `unavailable`; the strict baseline shows all of it is rigidly extractable; (4) whole-record abstention — a calories failure discards otherwise-extractable values (125 false abstentions against the strict arm, plus every AU record, admitted by the gate yet fully abstaining); (5) extend the untouched-family protocol — au_nip_dual was frozen and evaluated once (commit 4016156); further format families should follow the same freeze-before-examples protocol, and the same-evaluator caveat in the protocol section applies to each.
 - **Unchecked surface**: macOS/iOS build and the XCTests under Apple CI (no Xcode in this environment); the Linux Swift run covers the same test sources.
 
 ## Determinism
