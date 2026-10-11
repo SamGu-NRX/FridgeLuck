@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "kind": "price-factors",
+  "retrieved": "2026-10-11",
+  "data": {
+    "source": {
+      "citationId": "s2",
+      "title": "BLS Average Price Data (AP), U.S. city average monthly series",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "url": "https://download.bls.gov/pub/time.series/ap/ (ap.item, ap.series, ap.data.0.Current, ap.data.3.Food)",
+      "retrievedVia": "Wayback Machine snapshots of 2025-04-05/06: https://web.archive.org/web/20250406125820/https://download.bls.gov/pub/time.series/ap/ap.data.0.Current and https://web.archive.org/web/20250405024926/https://download.bls.gov/pub/time.series/ap/ap.data.3.Food (download.bls.gov blocks automated retrieval; snapshot is of the unmodified BLS file)",
+      "retrieved": "2026-10-11",
+      "licence": "Public domain (U.S. federal government work)",
+      "note": "Monthly national average retail prices, U.S. city average. Latest month in the snapshot for all listed series: 2025-02."
+    },
+    "region": "United States, national average",
+    "asOf": "2025-02",
+    "method": "BLS Average Price Data, U.S. city average (area code 0000), latest month common to all listed series in the retrieved files: 2025-02. Every listed series is a currently published series (discontinued AP items such as lamb, turkey, apples, onions, carrots are NOT listed - they are the missingPrice refusal case). Per-pound series: usdPerKg = displayPriceUsd / 0.45359237 (1 lb = 0.45359237 kg exactly). Eggs (series APU0000708111, 'Eggs, grade A, large, per doz.'): 1 dozen = 12 x 50 g = 600 g in shell (USDA FDC SR Legacy fdc_id 171287, '1 large = 50 g'), so usdPerKg = displayPriceUsd / 0.600. Milk (series APU0000709112, whole milk per gal.): 1 gallon = 4 x 976 g = 3904 g (USDA FDC SR Legacy fdc_id 171265, '1 quart = 976 g'), so usdPerKg = displayPriceUsd / 3.904. Yogurt: per 8 oz = 226.796 g. Strawberries: per 12 oz = 340.194 g. usdPerKg is rounded to 4 decimal places for storage; displayPriceUsd is the raw BLS published monthly value.",
+    "prices": [
+      {
+        "ingredientKey": "flour",
+        "usdPerKg": 1.2368,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 0.561,
+        "sourceSeries": "APU0000701111",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "rice",
+        "usdPerKg": 2.2708,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 1.03,
+        "sourceSeries": "APU0000701312",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "pasta",
+        "usdPerKg": 3.0446,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 1.381,
+        "sourceSeries": "APU0000701322",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "bread",
+        "usdPerKg": 4.2439,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 1.925,
+        "sourceSeries": "APU0000702111",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "beef",
+        "usdPerKg": 13.1418,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 5.961,
+        "sourceSeries": "APU0000FC1101",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "pork",
+        "usdPerKg": 9.3167,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 4.226,
+        "sourceSeries": "APU0000FD3101",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "chicken",
+        "usdPerKg": 4.5217,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 2.051,
+        "sourceSeries": "APU0000706111",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "chicken_breast",
+        "usdPerKg": 8.9927,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 4.079,
+        "sourceSeries": "APU0000FF1101",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "eggs",
+        "usdPerKg": 9.8283,
+        "displayQuantity": "1 dozen",
+        "displayPriceUsd": 5.897,
+        "sourceSeries": "APU0000708111",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "milk",
+        "usdPerKg": 1.0312,
+        "displayQuantity": "1 gallon",
+        "displayPriceUsd": 4.026,
+        "sourceSeries": "APU0000709112",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "butter",
+        "usdPerKg": 10.7343,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 4.869,
+        "sourceSeries": "APU0000FS1101",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "yogurt",
+        "usdPerKg": 6.68,
+        "displayQuantity": "8 oz (226.8 g)",
+        "displayPriceUsd": 1.515,
+        "sourceSeries": "APU0000FJ4101",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "cheese",
+        "usdPerKg": 12.2048,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 5.536,
+        "sourceSeries": "APU0000710212",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "bananas",
+        "usdPerKg": 1.3647,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 0.619,
+        "sourceSeries": "APU0000711211",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "oranges",
+        "usdPerKg": 3.3863,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 1.536,
+        "sourceSeries": "APU0000711311",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "lemons",
+        "usdPerKg": 4.5327,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 2.056,
+        "sourceSeries": "APU0000711412",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "strawberries",
+        "usdPerKg": 8.5392,
+        "displayQuantity": "12 oz (340.2 g)",
+        "displayPriceUsd": 2.905,
+        "sourceSeries": "APU0000711415",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "potatoes",
+        "usdPerKg": 2.1098,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 0.957,
+        "sourceSeries": "APU0000712112",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "lettuce",
+        "usdPerKg": 3.3554,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 1.522,
+        "sourceSeries": "APU0000712211",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "tomatoes",
+        "usdPerKg": 4.0741,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 1.848,
+        "sourceSeries": "APU0000712311",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "beans",
+        "usdPerKg": 3.5957,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 1.631,
+        "sourceSeries": "APU0000714233",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "sugar",
+        "usdPerKg": 2.2311,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 1.012,
+        "sourceSeries": "APU0000715211",
+        "citationId": "s2"
+      },
+      {
+        "ingredientKey": "coffee",
+        "usdPerKg": 15.9747,
+        "displayQuantity": "1 lb",
+        "displayPriceUsd": 7.246,
+        "sourceSeries": "APU0000717311",
+        "citationId": "s2"
+      }
+    ]
+  }
+}
