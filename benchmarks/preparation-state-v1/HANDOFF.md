@@ -17,7 +17,8 @@ benchmark sandbox and independently re-verified by `verify_report.py`.
    text predictions and kcal spread for ungrounded image-side state bindings.
 4. **Independent verifier** (`verify_report.py`) — recomputes outcome
    classifications, per-arm summaries, confusion tables, hashes, and all image
-   metrics from the committed files alone; 22/22 checks pass.
+   metrics (including the eligibility-invariance control) from the committed
+   files alone; 23/23 checks pass.
 5. **SwiftReplay root-path fix** (`sync_production_sources.sh` now resolves the
    repo root via `git rev-parse --show-toplevel`) and an explicit
    "Full-resolver execution limits" section in its README.
@@ -76,6 +77,11 @@ benchmark sandbox and independently re-verified by `verify_report.py`.
 
 ## Limits — what was NOT run or NOT checkable
 
+- **`heldout_alternative` is not yet preparation-alternative-aware** — it
+  calls the same production resolver on the 22-probe test-split slice; a
+  preparation-aware alternative-selection evaluation (scoring which member of
+  a multi-state group *should* be chosen under a stated preparation intent)
+  remains open work, not delivered here.
 - **SwiftReplay (lexicon arm) is unrun**: no Swift toolchain in the Linux
   sandbox. Run it on macOS per the package README; the runner records the arm
   as unrun (`status: unrun — swift toolchain unavailable`).

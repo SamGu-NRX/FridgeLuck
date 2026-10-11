@@ -52,6 +52,43 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def control_eligibility_invariance(records: list[dict]) -> dict:
+    """Control: unsupported-only images (no mapped expected group) cannot lower
+    eligible-image recall. The metric conditions on eligibility inside the
+    computation, so computing it over all rows and over eligible rows only
+    must give identical results."""
+    elig_a = hit_a = 0
+    for r in records:
+        exp = set(r["expected_groups_exact"]) | set(r["expected_groups_coarse"])
+        if not exp:
+            continue
+        elig_a += 1
+        det = {d["group_id"] for d in r["detections"] if d["group_id"]}
+        if exp & det:
+            hit_a += 1
+    rate_all_rows = round(hit_a / elig_a, 4) if elig_a else None
+
+    kept = [r for r in records if r["expected_groups_exact"] or r["expected_groups_coarse"]]
+    hit_b = 0
+    for r in kept:
+        exp = set(r["expected_groups_exact"]) | set(r["expected_groups_coarse"])
+        det = {d["group_id"] for d in r["detections"] if d["group_id"]}
+        if exp & det:
+            hit_b += 1
+    rate_eligible_only = round(hit_b / len(kept), 4) if kept else None
+
+    return {
+        "rate_with_unsupported_rows": rate_all_rows,
+        "rate_eligible_rows_only": rate_eligible_only,
+        "invariant": rate_all_rows == rate_eligible_only,
+        "note": (
+            "Computing eligible-image hit rate over all rows (conditioning on "
+            "eligibility) and over eligible rows only gives the same value, so "
+            "unsupported-only images cannot lower eligible-image recall."
+        ),
+    }
+
+
 def run_observations(out_observations: Path) -> None:
     cmd = [
         sys.executable, str(OBSERVE),
@@ -115,7 +152,8 @@ def main() -> int:
             obs_by_image[int(rec["image_id"])] = rec
 
     predictions_path = out / "image_predictions.jsonl"
-    n_expected_images = 0
+    images_eligible = 0
+    records_for_control: list[dict] = []
     expected_groups_total = 0
     expected_groups_detected = 0
     images_any_hit = 0
@@ -174,30 +212,43 @@ def main() -> int:
             spurious_group_detections += len(detected_groups - expected_all)
             ambiguous_group_overlaps += len(detected_groups & ambiguous)
 
-            n_expected_images += 1
+            if expected_all:
+                # eligibility is conditional: an image with no mapped expected
+                # group (unsupported-only) cannot be scored for identity recall
+                images_eligible += 1
             expected_groups_total += len(expected_all)
             expected_groups_detected += len(hit)
             images_any_hit += 1 if hit else 0
 
-            f.write(json.dumps({
+            payload = {
                 "image_id": img_id,
                 "expected_groups_exact": sorted(expected_exact),
                 "expected_groups_coarse": sorted(expected_coarse),
                 "ambiguous_groups": sorted(ambiguous),
                 "detections": detections,
-            }, sort_keys=True) + "\n")
+            }
+            f.write(json.dumps(payload, sort_keys=True) + "\n")
+            records_for_control.append(payload)
 
     metrics = {
         "validation_images": len(validation_images),
-        "images_with_expected_groups": n_expected_images,
+        "images_with_expected_groups": images_eligible,
         "images_any_expected_group_detected": images_any_hit,
         "expected_groups": expected_groups_total,
         "expected_groups_detected": expected_groups_detected,
-        "group_detection_recall": round(expected_groups_detected / expected_groups_total, 4) if expected_groups_total else None,
-        "image_any_hit_rate": round(images_any_hit / n_expected_images, 4) if n_expected_images else None,
+        # group-instance recall: detected expected-group instances over all
+        # expected-group instances — a per-group metric, NOT an image hit rate
+        "group_instance_recall": round(expected_groups_detected / expected_groups_total, 4) if expected_groups_total else None,
+        # eligible-image hit rate: denominator is only images with ≥1 mapped
+        # expected group; unsupported-only images cannot enter it
+        "eligible_image_hit_rate": round(images_any_hit / images_eligible, 4) if images_eligible else None,
+        # all-image hit rate: every validation image in the denominator,
+        # kept separately — it measures unsupported-image dilution, not detector quality
+        "all_image_hit_rate": round(images_any_hit / len(validation_images), 4) if validation_images else None,
         "spurious_group_detections": spurious_group_detections,
         "ambiguous_group_overlaps": ambiguous_group_overlaps,
         "curated_space_detections": curated_detections,
+        "control_eligibility_invariance": control_eligibility_invariance(records_for_control),
         "state_binding": {
             "multi_member_group_detections": stateful_bindings_multi + stateless_bindings_multi,
             "stateful_binding_ungrounded": stateful_bindings_multi,

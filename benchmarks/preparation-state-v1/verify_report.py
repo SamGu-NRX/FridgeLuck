@@ -188,7 +188,7 @@ def verify_image(bench: Path, c: Checker) -> None:
     c.check("image.observations_sha256", report["inputs"]["observations_sha256"] == sha256_file(obs), "observations hash mismatch")
     c.check("image.predictions_sha256", report["predictions_sha256"] == sha256_file(preds), "predictions hash mismatch")
 
-    n_images = expected_total = detected_total = any_hit = 0
+    n_images = images_eligible = expected_total = detected_total = any_hit = 0
     spurious = ambiguous_overlap = curated = 0
     sfb_multi = slb_multi = sfb_single = 0
     groups_bound: set[str] = set()
@@ -199,6 +199,8 @@ def verify_image(bench: Path, c: Checker) -> None:
         expected_all = set(rec["expected_groups_exact"]) | set(rec["expected_groups_coarse"])
         detected = {d["group_id"] for d in rec["detections"] if d["group_id"]}
         n_images += 1
+        if expected_all:
+            images_eligible += 1
         expected_total += len(expected_all)
         detected_total += len(detected & expected_all)
         any_hit += 1 if detected & expected_all else 0
@@ -220,10 +222,12 @@ def verify_image(bench: Path, c: Checker) -> None:
 
     recomputed = {
         "validation_images": n_images,
+        "images_with_expected_groups": images_eligible,
         "expected_groups": expected_total,
         "expected_groups_detected": detected_total,
-        "group_detection_recall": round(detected_total / expected_total, 4) if expected_total else None,
-        "image_any_hit_rate": round(any_hit / n_images, 4) if n_images else None,
+        "group_instance_recall": round(detected_total / expected_total, 4) if expected_total else None,
+        "eligible_image_hit_rate": round(any_hit / images_eligible, 4) if images_eligible else None,
+        "all_image_hit_rate": round(any_hit / n_images, 4) if n_images else None,
         "spurious_group_detections": spurious,
         "ambiguous_group_overlaps": ambiguous_overlap,
         "curated_space_detections": curated,
@@ -247,6 +251,15 @@ def verify_image(bench: Path, c: Checker) -> None:
         elif got.get(k) != v:
             diffs.append(f"{k}: {got.get(k)} != {v}")
     c.check("image.metrics_recomputed", not diffs, "; ".join(diffs[:5]))
+    # the committed control must be internally consistent and prove invariance
+    ctrl = report["metrics"].get("control_eligibility_invariance", {})
+    c.check(
+        "image.control_eligibility_invariance",
+        ctrl.get("invariant") is True
+        and ctrl.get("rate_with_unsupported_rows") == round(any_hit / images_eligible, 4)
+        and ctrl.get("rate_eligible_rows_only") == ctrl.get("rate_with_unsupported_rows"),
+        f"{ctrl}",
+    )
 
 
 def verify_nutrients(bench: Path, c: Checker) -> None:
