@@ -24,10 +24,11 @@ Verdicts:
 | pending owner Handoff | 2 |
 | superseded-by #93 | 1 |
 | trunk row (this PR) | 1 |
+| trunk row (backend) | 1 |
 | excluded-broken | 0 |
-| **total rows** | **84** |
+| **total rows** | **85** |
 
-Trunk composition: alpha `2e779381` (already carrying the minimal-product stack #4 #5 #7 #8 #9 #11 #12 #13) + 11 real merges: #23 `e0b8ec7`, #15 `4dc8b64`, #28 `7392209`, #35 `62647e6`, #36 `e30b808`, #37 `fd21677`, #32 `34db183`, #33 `8d58610`, #6 `2a3f79f`, #18 `95ea8ed` (+ hold commit `adaa32e`), #31 `eccf587` (+ adaptation `49d3d0e`, see CONFLICTS.md). The parallel backend trunk has no open PR yet (branch `fleet/fl-backend-trunk-20261011` exists; its rows here say excluded-backend).
+Trunk composition: alpha `2e779381` (already carrying the minimal-product stack #4 #5 #7 #8 #9 #11 #12 #13) + 11 real merges: #23 `e0b8ec7`, #15 `4dc8b64`, #28 `7392209`, #35 `62647e6`, #36 `e30b808`, #37 `fd21677`, #32 `34db183`, #33 `8d58610`, #6 `2a3f79f`, #18 `95ea8ed` (+ hold commit `adaa32e`), #31 `eccf587` (+ adaptation `49d3d0e`, see CONFLICTS.md). The parallel backend trunk landed as draft PR #94 (head `18fb5f93a5`, into alpha); it folds the backend PRs, with #16's workflow delta held at `ci/pending-workflows/backend-ci.yml`. Backend rows below point there.
 
 ## Migration order (never renumbered, never renamed)
 
@@ -49,21 +50,21 @@ Published order on the trunk ends at **v19**: v1_initial, v2_ingredient_educatio
 | #13 | `3e6d321f1a` | fix/vision-cancellation | fix(ios): save failed scans and show them in the scan report | folded | in alpha's minimal-product stack |
 | #14 | `6ddc309f2a` | feat/meal-photo-confirmation-v1 | [obvious-fleet] fix(ios): plain camera icon on the meal capture screen | needs-owner | fold candidate: small viable UI fix (plain camera icon), stacked on #5's branch (in alpha) |
 | #15 | `5e6000dc75` | feat/minimal-product-20261007 | [obvious-fleet] fix(ios): make the tour unmount survive Skip→Next/Back | folded | fold 3 of 12: merged as 4dc8b64 (tour unmount survives Skip-Next/Back) |
-| #16 | `8a50a263c8` | main | [obvious-fleet] Add backend and data pipeline CI (bun typecheck/tests, uv catalog validation) | excluded-backend | backend CI proposal; the parallel backend trunk owns it and only Sam approves workflow edits |
+| #16 | `8a50a263c8` | main | [obvious-fleet] Add backend and data pipeline CI (bun typecheck/tests, uv catalog validation) | excluded-backend | folded on backend trunk PR #94 with its workflow delta held at ci/pending-workflows/backend-ci.yml — only Sam approves workflow edits |
 | #17 | `343ab09738` | main | [obvious-fleet] Integration preview: combined stack of the 8 open product PRs (do not merge) | superseded-by #93 | the stale combined-preview of 8 PRs; this trunk (PR 93) is the live composition |
 | #18 | `51b449ae3f` | main | [obvious-fleet] ci: run dead-code advisory only on main/dispatch/periphery label; add SwiftPM dep cache | folded | fold 11 of 12: merged as 95ea8ed; workflow delta held per Sam's standing rule in adaa32e, staged at ci/pending-workflows/ios-ci.yml |
-| #19 | `5c4159b4c2` | main | [obvious-fleet] Fail fast on invalid numeric env vars in loadConfig | excluded-backend | backend-only by diff (backend/gemini-agent env validation); backend trunk owns it |
+| #19 | `5c4159b4c2` | main | [obvious-fleet] Fail fast on invalid numeric env vars in loadConfig | excluded-backend | backend-only by diff (backend/gemini-agent env validation); folded on backend trunk PR #94 |
 | #20 | `fb90d5c8c1` | main | docs: privacy and data-flow map (audited refs, backend-default decision) | needs-owner | docs-only, Sam decides (privacy and data-flow map) |
-| #21 | `5c86759aa0` | main | [obvious-fleet] Validate reverse-scan provider rankings before returning them | excluded-backend | backend-only by diff (reverse-scan provider validation); backend trunk owns it |
-| #22 | `b2a6c650d0` | main | [obvious-fleet] Backend image: Node 20 (EOL) to Node 24 LTS slim, non-root, prod-only deps | excluded-backend | backend-only by diff (backend image Node 24); backend trunk owns it |
+| #21 | `5c86759aa0` | main | [obvious-fleet] Validate reverse-scan provider rankings before returning them | excluded-backend | backend-only by diff (reverse-scan provider validation); owned by backend trunk PR #94 |
+| #22 | `b2a6c650d0` | main | [obvious-fleet] Backend image: Node 20 (EOL) to Node 24 LTS slim, non-root, prod-only deps | excluded-backend | backend-only by diff (backend image Node 24); owned by backend trunk PR #94 |
 | #23 | `35c358b7d4` | fix/onboarding-real-scan | fix(ios): file intake ingredients by their actual storage rules | folded | fold 2 of 12: merged as e0b8ec7 (intake ingredients filed by storage rules) |
-| #24 | `b433aa9580` | main | [obvious-fleet] Harden generateRecipe: untrusted JSON decoding, ingredient-policy screening, frozen 422 contract | excluded-backend | backend-only by diff (generateRecipe hardening); backend trunk owns it |
-| #25 | `dcffd6c22e` | main | feat(webhooks): require OIDC authentication on scheduler and task webhooks | excluded-backend | backend-only by diff (webhook OIDC); backend trunk owns it |
-| #26 | `6de7cd6d67` | main | Stop persisting camera frames; bound transient cache; add 24h session expiry | excluded-backend | backend-only by diff (frame retention, SPEC 3.4 item); backend trunk owns it |
+| #24 | `b433aa9580` | main | [obvious-fleet] Harden generateRecipe: untrusted JSON decoding, ingredient-policy screening, frozen 422 contract | excluded-backend | backend-only by diff (generateRecipe hardening); owned by backend trunk PR #94 |
+| #25 | `dcffd6c22e` | main | feat(webhooks): require OIDC authentication on scheduler and task webhooks | excluded-backend | backend-only by diff (webhook OIDC); owned by backend trunk PR #94 |
+| #26 | `6de7cd6d67` | main | Stop persisting camera frames; bound transient cache; add 24h session expiry | excluded-backend | backend-only by diff (frame retention, SPEC 3.4 item); owned by backend trunk PR #94 |
 | #27 | `5e4e58fb98` | feat/minimal-product-20261007 | ci: run the pure-logic iOS subset on Linux | needs-owner | CI proposal (pure-logic iOS subset on Linux): only Sam can approve the workflow change; its apps/ios package changes can fold after that |
 | #28 | `a915aa7e0a` | feat/minimal-product-20261007 | [obvious-fleet] Clean Le Chef cooking steps with the shared guide parser | folded | fold 4 of 12: merged as 7392209 (shared guide parser cleans LeChef steps) |
-| #29 | `947dc8c58a` | main | Fix notification planner: DST-safe local scheduling and digest payload integrity | excluded-backend | backend-only by diff (notification planner DST fix); backend trunk owns it |
-| #30 | `03b19343ef` | main | refactor(backend): testable HTTP app with bounded validation, safe errors/logs, rate limits | excluded-backend | backend-only by diff (HTTP app refactor); backend trunk owns it |
+| #29 | `947dc8c58a` | main | Fix notification planner: DST-safe local scheduling and digest payload integrity | excluded-backend | backend-only by diff (notification planner DST fix); folded on backend trunk PR #94 |
+| #30 | `03b19343ef` | main | refactor(backend): testable HTTP app with bounded validation, safe errors/logs, rate limits | excluded-backend | backend-only by diff (HTTP app refactor); owned by backend trunk PR #94 |
 | #31 | `df1fb29b49` | feat/routing-eval-harness | Seeded GRDB inventory invariant suite (Linux-runnable) | folded | fold 12 of 12: merged as eccf587, adapted as 49d3d0e (suite re-pointed to the recipe-driven preview API; see CONFLICTS.md); folded because it merged cleanly, as the brief conditions |
 | #32 | `c18ece18ea` | feat/minimal-product-20261007 | Explicit allergen group selection (onboarding, Settings, v19 migration) | folded | fold 8 of 12: merged as 34db183 (explicit allergen groups; adds migration v19_explicit_allergen_groups). Source-red on macOS: its own build-and-test failed at its head c18ece18ea because its v19 test passed a transaction-scoped Database to migrate (DatabaseQueue) — the two broken lines come from #32's diff and never compiled anywhere. Fixed mechanically on the trunk in 56b212f (hoisted the migrate calls out of the write closures); Linux targets were unaffected |
 | #33 | `24fc372bd4` | feat/routing-eval-harness | feat(reverse-scan): extract confidence signals and hard-fail rules into FLFeatureLogic | folded | fold 9 of 12: merged as 8d58610 (confidence signals and hard-fail rules into FLFeatureLogic) |
@@ -72,11 +73,11 @@ Published order on the trunk ends at **v19**: v1_initial, v2_ingredient_educatio
 | #36 | `ebb604704a` | feat/minimal-product-20261007 | [obvious-fleet] fix(ios): make Not-this-item on ingredient review never a silent no-op | folded | fold 6 of 12: merged as e30b808 (Not-this-item never a silent no-op) |
 | #37 | `4f51d21cd1` | fix/onboarding-real-scan | [obvious-fleet] VoiceOver for the onboarding kitchen scan: start announcements, labeled photo strip, Dynamic Type | folded | fold 7 of 12: merged as fd21677 (VoiceOver for the onboarding kitchen scan) |
 | #38 | `59b3ca2184` | fix/scan-failure-report | Test scan correction learner + confidence router | needs-owner | fold candidate: viable test-only PR (scan correction learner + confidence router), stacked on #13's branch (in alpha) |
-| #39 | `20dc133f4e` | main | feat(backend): harden live-agent authority boundaries | excluded-backend | backend-only by diff (live-agent authority hardening); backend trunk owns it |
+| #39 | `20dc133f4e` | main | feat(backend): harden live-agent authority boundaries | excluded-backend | backend-only by diff (live-agent authority hardening); owned by backend trunk PR #94 |
 | #40 | `5e3eae7276` | main | fix(data): USDA reference audit — recover Atwater energy rows and correct 65 macros with committed evidence | needs-owner | fold candidate: USDA reference audit (scripts/data only by diff) feeding the catalog; Sam decides (pairs with #50) |
 | #41 | `85526906eb` | feat/routing-eval-harness | feat(experiments): Nutrition5k portion-estimation benchmark (RGB / RGB+D / foodlist arms) | excluded-research | research/benchmark: Nutrition5k portion-estimation benchmark (experiments/ only) |
 | #42 | `0d9465eb67` | fix/onboarding-real-scan | feat(ios): real grocery intake by receipt and photo with reviewed amounts | needs-owner | fold candidate: viable product PR (real grocery intake), stacked on #9's branch (in alpha) |
-| #43 | `93326d0884` | main | fix(scraper): repair ingredient identity, gram estimates, and diet tags from measured import failures | excluded-backend | scraper/data pipeline (scripts/recipe_scraper only); the brief assigns it to the backend trunk |
+| #43 | `93326d0884` | main | fix(scraper): repair ingredient identity, gram estimates, and diet tags from measured import failures | excluded-backend | scraper/data pipeline (scripts/recipe_scraper only); the brief assigns it to the backend trunk (PR #94) |
 | #44 | `7dc2b21920` | obv/fridgeluck-001 | feat(ios): stable bundle ownership and installed-data refresh | pending owner Handoff | an active continuation task owns it right now; verdict pending its owner's Handoff |
 | #45 | `c9555fc649` | obv/fridgeluck-001 | feat(ios): freeze historical nutrition snapshots at log time | pending owner Handoff | an active continuation task owns it right now; verdict pending its owner's Handoff |
 | #46 | `7c82f019f5` | feat/routing-eval-harness | feat(evaluation): score and verify policy-study-v2 run 2026-10-10-r1 (synthetic mapped proxy metrics, grouped intervals) | excluded-research | research/eval: decisions-comparison study; stacked on #7's branch (in alpha) |
@@ -121,3 +122,4 @@ Published order on the trunk ends at **v19**: v1_initial, v2_ingredient_educatio
 | #88 | `26c7004e60` | alpha | Evaluation scorecard harness: runner, suite contract, registry (fl-eval-harness-f1, m1) | needs-owner | owned by the parallel eval programme (fl-eval-harness-f1), awaiting its review; stages its workflows under ci/pending-workflows/ correctly |
 | #90 | `4c7a3c8351` | alpha | core: FLDomain + FLPersistence foundation package (overhaul part 1) | needs-owner | owned by the parallel core programme (overhaul part 1), awaiting its review; stages its workflow under ci/pending-workflows/ |
 | #93 | `49d3d0e180` | alpha | Integration trunk (do not merge as-is) | trunk row (this PR) | created after the roster snapshot; see docs/integration/README.md |
+| #94 | `18fb5f93a5` | alpha | Backend integration trunk (do not merge as-is) | trunk row (backend) | created after the roster snapshot; parallel backend programme |

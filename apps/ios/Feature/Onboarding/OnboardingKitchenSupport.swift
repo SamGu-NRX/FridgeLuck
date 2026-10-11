@@ -166,6 +166,8 @@ struct OnboardingKitchenCaptureStep: View {
             HStack(spacing: AppTheme.Space.sm) {
               ForEach(thumbnailItems) { item in
                 ZStack(alignment: .topTrailing) {
+                  let thumbnailLabel =
+                    "\(configuration.photoName) \(item.index + 1) of \(configuration.maxPhotos)"
                   Image(uiImage: item.image)
                     .resizable()
                     .scaledToFill()
@@ -177,8 +179,7 @@ struct OnboardingKitchenCaptureStep: View {
                       RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
                         .stroke(AppTheme.sage.opacity(0.30), lineWidth: 1)
                     )
-                    .accessibilityLabel(
-                      "\(configuration.photoName) \(item.index + 1) of \(configuration.maxPhotos)")
+                    .accessibilityLabel(thumbnailLabel)
 
                   Button {
                     withAnimation(reduceMotion ? nil : AppMotion.gentle) {
