@@ -175,6 +175,25 @@ public struct NutritionReport: Hashable, Sendable {
                     reason: "line \(line) is listed as missing but has a value"
                 )
             }
+            // Review round 1, item 7 (Nutrition.swift:172): a partial claim
+            // must name EXACTLY the missing core lines — no subset (naming
+            // only sodium while five lines are missing hides the gaps), no
+            // name outside the core lines (a typo would read as coverage).
+            let known = Set(NutritionValues.lineNames)
+            for line in missingLines where !known.contains(line) {
+                throw FLDomainError.validation(
+                    target: "NutritionReport.coverage",
+                    reason: "line \(line) is not a core nutrition line; expected one of \(NutritionValues.lineNames)"
+                )
+            }
+            let listed = Set(missingLines)
+            let actuallyMissing = Set(values.missingLines)
+            guard listed == actuallyMissing else {
+                throw FLDomainError.validation(
+                    target: "NutritionReport.coverage",
+                    reason: "partial coverage must name exactly the missing lines; listed \(missingLines.sorted()), actual \(values.missingLines)"
+                )
+            }
             guard values.hasAnyLine else {
                 throw FLDomainError.validation(
                     target: "NutritionReport.coverage",

@@ -242,11 +242,21 @@ public struct RecipeLicense: Hashable, Sendable {
 
     /// SPEC 3.5: unknown rights means quarantine. A revision may ship and cook
     /// offline only when every offline-relevant right is explicitly granted.
+    /// Caching belongs in that set (Review round 1, item 5): an unknown or
+    /// forbidden caching grant quarantines the revision, because keeping a
+    /// cached copy is itself a use the licence must permit.
     public var isQuarantined: Bool {
-        if textRedistribution == .unknown || offlineUseAllowed == .unknown || modificationAllowed == .unknown {
-            return true
-        }
-        return textRedistribution == .forbidden || offlineUseAllowed == .forbidden
+        let offlineRelevant: [Grant] = [textRedistribution, modificationAllowed, cachingAllowed, offlineUseAllowed]
+        if offlineRelevant.contains(.unknown) { return true }
+        return offlineRelevant.contains(.forbidden)
+    }
+
+    /// May the app persist this revision for offline cooking? Only with the
+    /// explicit caching grant, and only while the revision is out of
+    /// quarantine — a quarantine from any offline-relevant right also forbids
+    /// keeping a copy around.
+    public var mayCacheOffline: Bool {
+        !isQuarantined && cachingAllowed == .permitted
     }
 }
 
