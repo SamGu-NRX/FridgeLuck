@@ -130,5 +130,5 @@ Record which condition fired and why in this file. The overhaul is done when eve
 - 2026-10-11 10:00Z: spec inputs from Fable, Sol and Astra; `SPEC.md` decided.
 - 2026-10-11 11:30Z: Round 1 queued.
 - 2026-10-11 11:30Z: SPEC revision 2. Sam's own asks are restored as competing directions: user recipes and Explore, community ideas, the Beta trust vector, the pastel palette, quests and badges, the continuous camera. The bundled recipes are flagged as a rights risk.
-- 2026-10-11 11:50Z: `alpha` set to the minimal-product stack, head 2e77938, pending CI on #87 (Sam's rule: the definitive latest version, not `main`).
 - 2026-10-11 11:45Z: the integration branch is `alpha`, cut from main at 2fd0dfe, by Sam's direction. The earlier `beta` and `fleet/beta` (both at 2fd0dfe, no PRs) were deleted.
+- 2026-10-11 11:50Z: `alpha` set to the minimal-product stack, head 2e77938, pending CI on #87 (Sam's rule: the definitive latest version, not `main`).
