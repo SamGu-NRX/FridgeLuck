@@ -45,6 +45,22 @@ interface SessionRecord {
   readonly rotatedTo: string | null;
 }
 
+/**
+ * What one rotation attempt decided inside its transaction. The
+ * family-revoked verdict returns instead of throwing so its revocations
+ * commit; the caller rejects after the transaction has landed.
+ */
+type RotationOutcome =
+  | { readonly verdict: "family-revoked" }
+  | {
+      readonly verdict: "rotated";
+      readonly accountId: AccountId;
+      readonly nextSessionId: SessionId;
+      readonly newRefreshToken: string;
+      readonly nowMs: number;
+      readonly refreshExpiresAtMs: number;
+    };
+
 function b64url(input: Buffer | string): string {
   return Buffer.from(input).toString("base64url");
 }
@@ -154,44 +170,69 @@ export class SessionService {
     return { accountId: record.accountId, sessionId: parseSessionId.parse(claims.sid, "access token sid") };
   }
 
+  /**
+   * Single-use rotation, atomic under concurrency: the hash lookup, every
+   * state check, and the consume+create writes run inside one Firestore
+   * transaction. Racers on the same token read the same snapshot; only the
+   * first commit lands. A loser's commit aborts (the original session doc
+   * changed under it), the SDK retries the transaction, the re-read then
+   * sees rotatedTo set, and the loser surfaces the reuse rejection instead
+   * of minting a second successor.
+   */
   async rotate(refreshToken: string, clock: Clock): Promise<IssuedTokens> {
     const hash = sha256Hex(refreshToken);
-    const matches = await this.deps.sessions.where("refreshHash", "==", hash).limit(2).get();
-    if (matches.empty) {
-      throw errUnauthorized("unknown refresh token");
-    }
-    if (matches.size > 1) {
-      // Replay or hash collision signal: revoke the whole family.
-      for (const doc of matches.docs) {
-        await doc.ref.update({ revokedAt: toIso(clock.now()) });
+    const outcome = await this.deps.firestore.runTransaction(async (tx: Transaction): Promise<RotationOutcome> => {
+      const matches = await tx.get(this.deps.sessions.where("refreshHash", "==", hash).limit(2));
+      if (matches.empty) {
+        throw errUnauthorized("unknown refresh token");
       }
+      if (matches.size > 1) {
+        // Replay or hash collision signal: revoke the whole family. The
+        // revocations must survive the call, so the transaction commits
+        // them and the rejection is thrown afterwards — a throw inside
+        // would roll the writes back.
+        const revokedAt = toIso(clock.now());
+        for (const doc of matches.docs) {
+          tx.update(doc.ref, { revokedAt });
+        }
+        return { verdict: "family-revoked" };
+      }
+      const doc = matches.docs[0];
+      const record = parseSessionDoc(doc);
+      if (record.revokedAt !== null || record.rotatedTo !== null) {
+        throw errUnauthorized("refresh token already used or revoked");
+      }
+      if (Date.parse(record.refreshExpiresAt) <= clock.now().getTime()) {
+        throw errUnauthorized("refresh token expired");
+      }
+      const nowMs = clock.now().getTime();
+      const nowIso = toIso(clock.now());
+      const nextSessionId = newSessionId();
+      const refreshExpiresAt = new Date(nowMs + this.deps.config.refreshTtlDays * 86_400_000);
+      const newRefreshToken = `flr1.${b64url(randomBytes(32))}`;
+      const newRecord: SessionRecord = {
+        accountId: record.accountId,
+        refreshHash: sha256Hex(newRefreshToken),
+        createdAt: nowIso,
+        refreshExpiresAt: refreshExpiresAt.toISOString(),
+        revokedAt: null,
+        rotatedTo: null,
+      };
+      tx.update(doc.ref, { revokedAt: nowIso, rotatedTo: nextSessionId });
+      tx.create(this.deps.sessions.doc(nextSessionId), newRecord);
+      return {
+        verdict: "rotated",
+        accountId: record.accountId,
+        nextSessionId,
+        newRefreshToken,
+        nowMs,
+        refreshExpiresAtMs: refreshExpiresAt.getTime(),
+      };
+    });
+    if (outcome.verdict === "family-revoked") {
       throw errUnauthorized("refresh token replay detected; sessions revoked");
     }
-    const doc = matches.docs[0];
-    const record = parseSessionDoc(doc);
-    if (record.revokedAt !== null || record.rotatedTo !== null) {
-      throw errUnauthorized("refresh token already used or revoked");
-    }
-    if (Date.parse(record.refreshExpiresAt) <= clock.now().getTime()) {
-      throw errUnauthorized("refresh token expired");
-    }
-    const nextSessionId = newSessionId();
-    const nowMs = clock.now().getTime();
-    const refreshExpiresAt = new Date(nowMs + this.deps.config.refreshTtlDays * 86_400_000);
-    const newRefreshToken = `flr1.${b64url(randomBytes(32))}`;
-    const newRecord: SessionRecord = {
-      accountId: record.accountId,
-      refreshHash: sha256Hex(newRefreshToken),
-      createdAt: toIso(clock.now()),
-      refreshExpiresAt: refreshExpiresAt.toISOString(),
-      revokedAt: null,
-      rotatedTo: null,
-    };
-    await this.deps.firestore.runTransaction(async (tx: Transaction) => {
-      tx.update(doc.ref, { revokedAt: toIso(clock.now()), rotatedTo: nextSessionId });
-      tx.create(this.deps.sessions.doc(nextSessionId), newRecord);
-    });
-    return this.mintBoth(record.accountId, nextSessionId, newRefreshToken, nowMs, refreshExpiresAt.getTime());
+    return this.mintBoth(outcome.accountId, outcome.nextSessionId, outcome.newRefreshToken, outcome.nowMs, outcome.refreshExpiresAtMs);
   }
 
   async revoke(sessionId: SessionId, clock: Clock): Promise<void> {

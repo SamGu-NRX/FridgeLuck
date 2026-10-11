@@ -6,9 +6,12 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { makeHarness, type CommunityTestHarness } from "./harness.js";
 import { systemClock } from "../../community/shared/time.js";
-import { newAccountId } from "../../community/shared/ids.js";
+import { newAccountId, newSessionId } from "../../community/shared/ids.js";
+import type { IssuedTokens } from "../../community/shared/sessionCore.js";
 
 let harness: CommunityTestHarness;
+
+type RotationResult = { won: true; tokens: IssuedTokens } | { won: false; error: unknown };
 
 beforeAll(async () => {
   harness = await makeHarness();
@@ -61,6 +64,65 @@ describe("SessionService", () => {
     expect(stillValid.accountId).toBe(account);
     // The old session was marked rotated: its access token must also die.
     await expect(harness.sessions.verifyAccess(first.accessToken, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+  });
+
+  test("concurrent rotations of one token: exactly one successor, every loser rejected", async () => {
+    const account = newAccountId();
+    const issued = await harness.sessions.issue(account, harness.clock);
+
+    // Five refreshes race on the same refresh token. The consumption is a
+    // Firestore transaction, so exactly one may commit a successor; the
+    // losers must surface the reuse rejection, never a second live session.
+    const settled = await Promise.all(
+      Array.from({ length: 5 }, (): Promise<RotationResult> =>
+        harness.sessions.rotate(issued.refreshToken, harness.clock).then(
+          (tokens) => ({ won: true, tokens }),
+          (error: unknown) => ({ won: false, error }),
+        ),
+      ),
+    );
+
+    const winners = settled.filter((r): r is { won: true; tokens: IssuedTokens } => r.won);
+    const losers = settled.filter((r): r is { won: false; error: unknown } => !r.won);
+    expect(winners).toHaveLength(1);
+    expect(losers).toHaveLength(4);
+    for (const loser of losers) {
+      expect(loser.error).toMatchObject({ code: "unauthorized" });
+    }
+
+    // Exactly one successor session exists: the account holds the original
+    // plus the winner's record, and the winner's id is that successor.
+    const family = await harness.store.sessions.where("accountId", "==", account).get();
+    expect(family.size).toBe(2);
+    const winner = winners[0]?.tokens;
+    if (winner === undefined) {
+      throw new Error("expected exactly one winning rotation");
+    }
+    expect(family.docs.map((d) => d.id)).toContain(winner.sessionId);
+
+    // The winner is fully live; the spent token stays rejected for good.
+    await expect(harness.sessions.verifyAccess(winner.accessToken, harness.clock)).resolves.toMatchObject({ accountId: account });
+    await expect(harness.sessions.rotate(issued.refreshToken, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+  });
+
+  test("a duplicated refresh hash is flagged and revokes the whole family", async () => {
+    const account = newAccountId();
+    const issued = await harness.sessions.issue(account, harness.clock);
+    // Forge a twin session sharing the first token's hash: the duplicate-hash
+    // signal the service treats as "revoke everything carrying this hash".
+    const original = await harness.store.sessions.doc(issued.sessionId).get();
+    const data = original.data() as Record<string, unknown>;
+    await harness.store.sessions.doc(newSessionId()).set({ ...data });
+
+    await expect(harness.sessions.rotate(issued.refreshToken, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+
+    // The revocations committed even though rotate() rejected: both docs die.
+    const family = await harness.store.sessions.where("refreshHash", "==", data["refreshHash"]).get();
+    expect(family.size).toBe(2);
+    for (const doc of family.docs) {
+      const record = doc.data() as Record<string, unknown>;
+      expect(record["revokedAt"]).not.toBeNull();
+    }
   });
 
   test("revokes every session for an account", async () => {
