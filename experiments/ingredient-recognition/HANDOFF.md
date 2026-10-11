@@ -6,7 +6,7 @@ experiment; REPORT.md covers the results themselves.
 
 ## Where things stand
 
-**Done and verified (40 tests pass, `verify_report.py` green):**
+**Done and verified (50 tests pass, `verify_report.py` green):**
 
 - Frozen FoodSeg103 slice: `manifest.json` (7,118 images, splits, hashes,
   duplicate groups) + `acquire.py` download/verify tooling. Dataset images are
@@ -15,9 +15,11 @@ experiment; REPORT.md covers the results themselves.
   5 ambiguous / 52 unsupported, each with rationale.
 - Resolution port `resolution/app_resolution.py`: lexicon port executed
   differentially against 186 genuine Swift probe runs (zero differences).
-  The catalog half is a sqlite3 replica of the resolver's SQL semantics —
-  the app's real GRDB-backed `IngredientCatalogResolver` was never executed
-  here; see REPORT.md "What was actually executed vs what was not".
+  The catalog half is now also execution-verified: milestone 4 replays the
+  app's real GRDB-backed `IngredientCatalogResolver` over the bundled
+  catalog for the same 186 probes with zero differences
+  (`apps/ios/Tools/catalog-resolver-replay`, source-hashed mirror;
+  see REPORT.md "GRDB catalog-resolver replay").
 - Observation runner `runner/observe.py` with the cross-crop dedup fix (the
   bug that deflated milestone 1's six-crop numbers) and deterministic
   `--sample N --seed S` development sampling.
@@ -56,14 +58,18 @@ experiment; REPORT.md covers the results themselves.
    ```
 3. The meta file will carry `source: "apple_device"`; keep it adjacent to the
    open-model runs and compare directly — same scorer, same ground truth.
-4. Catalog-resolver caveat: to make catalog-path resolutions
-   execution-verified (not just semantics-equivalent), run the differential
-   probe against the real GRDB resolver on a macOS host.
+4. Catalog-resolver caveat: RESOLVED in milestone 4. The production
+   `IngredientCatalogResolver` now runs through GRDB in
+   `apps/ios/Tools/catalog-resolver-replay` (source-hashed mirror, all 186
+   probes, zero differences vs the Python port). Re-run with
+   `bash apps/ios/Tools/catalog-resolver-replay/Scripts/refresh.sh && swift test --package-path apps/ios/Tools/catalog-resolver-replay`
+   plus `python3 scoring/verify_report.py`. Only an iOS-device run of the
+   same probes (Apple SQLite build, app migration path) remains unrun.
 
 ## Verification commands
 
 ```bash
-python3 -m pytest experiments/ingredient-recognition/tests -q   # 40 pass
+python3 -m pytest experiments/ingredient-recognition/tests -q   # 50 pass
 python3 scoring/verify_report.py                                # VERIFIED
 ```
 
