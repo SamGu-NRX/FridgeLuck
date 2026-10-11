@@ -33,7 +33,9 @@ enum AppleHealthTypeRegistry {
       HKCorrelationType.correlationType(forIdentifier: .food)
     }
 
-    private static let quantityIdentifiers: [HKQuantityTypeIdentifier] = [
+    // Not private: meal deletion walks these identifiers for the suffixed
+    // sync-identifier metadata each sample was written with.
+    static let quantityIdentifiers: [HKQuantityTypeIdentifier] = [
       .dietaryEnergyConsumed,
       .dietaryProtein,
       .dietaryCarbohydrates,
@@ -172,6 +174,44 @@ final class AppleHealthService: AppleHealthServicing, @unchecked Sendable {
             )
           }
         }
+      }
+    #endif
+  }
+
+  /// Deletes the meal correlation and its seven suffixed quantity samples for one logged
+  /// meal, matched by the sync-identifier metadata each was written with. Nothing found
+  /// is not an error, so repeated deletions are idempotent.
+  func deleteMeal(withSyncIdentifier syncIdentifier: String) async throws {
+    #if canImport(HealthKit)
+      guard authorizationStatus() == .authorized else { return }
+
+      func deleteObjects(ofType type: HKSampleType, metadataIdentifier: String) async throws {
+        // Each meal's correlation and quantity samples carry HKMetadataKeySyncIdentifier
+        // ('<meal base>' and '<meal base>.<quantity identifier>' respectively), so this
+        // predicate removes exactly one meal's objects. Deprecation of the
+        // allowedValues form is acceptable here; behavior is unchanged.
+        let predicate = HKQuery.predicateForObjects(
+          withMetadataKey: HKMetadataKeySyncIdentifier, allowedValues: [metadataIdentifier])
+        try await withCheckedThrowingContinuation {
+          (continuation: CheckedContinuation<Void, Error>) in
+          healthStore.deleteObjects(of: type, predicate: predicate) { _, _, error in
+            if let error {
+              continuation.resume(throwing: error)
+            } else {
+              continuation.resume()
+            }
+          }
+        }
+      }
+
+      guard let correlationType = AppleHealthTypeRegistry.foodCorrelationType else { return }
+      try await deleteObjects(ofType: correlationType, metadataIdentifier: syncIdentifier)
+      for identifier in AppleHealthTypeRegistry.quantityIdentifiers {
+        guard let quantityType = HKQuantityType.quantityType(forIdentifier: identifier) else {
+          continue
+        }
+        try await deleteObjects(
+          ofType: quantityType, metadataIdentifier: "\(syncIdentifier).\(identifier.rawValue)")
       }
     #endif
   }

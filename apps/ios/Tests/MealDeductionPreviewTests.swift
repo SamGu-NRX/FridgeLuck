@@ -64,8 +64,7 @@ final class MealDeductionPreviewTests: XCTestCase {
         personalizationService: personalization
       ),
       personalizationService: personalization,
-      inventoryRepository: inventory,
-      imageStorageService: ImageStorageService()
+      inventoryRepository: inventory
     )
   }
 

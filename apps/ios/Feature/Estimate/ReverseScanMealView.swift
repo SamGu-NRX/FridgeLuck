@@ -45,6 +45,9 @@ struct ReverseScanMealView: View {
   /// `chosenRecipe` after `RecipeRepository.resolveForLogging`, tagged with the choice it
   /// resolved so a stale result is never shown for a new choice.
   @State private var resolvedChoice: (key: String, recipe: Recipe, macros: RecipeMacros)?
+  /// The accepted consumption plan: what the editor shows, what previews deduct, and
+  /// what logging persists. Nil while no recipe resolves or the plan failed to build.
+  @State private var consumptionPlan: MealConsumptionPlan?
 
   // MARK: - Derived
 
@@ -309,10 +312,21 @@ struct ReverseScanMealView: View {
               value: resultsAppeared
             )
 
-          ReverseScanIngredientBreakdownSection(
-            recipe: mealRecipe?.recipe,
-            portionMultiplier: portionMultiplier,
-            servings: servings
+          MealPlanEditorSection(
+            plan: consumptionPlan,
+            recipeId: mealRecipe?.recipe.id,
+            onLineEdited: { index, grams in
+              guard var updated = consumptionPlan, updated.lines.indices.contains(index) else {
+                return
+              }
+              let clamped = grams.isFinite ? max(0, grams) : 0
+              updated.lines[index].plannedGrams = clamped
+              // Editing a line is the user's own correction of the recipe's estimate.
+              updated.lines[index].provenance = .userVerified
+              withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+                consumptionPlan = updated
+              }
+            }
           )
           .opacity(resultsAppeared ? 1 : 0)
           .offset(y: resultsAppeared ? 0 : 12)
@@ -423,31 +437,70 @@ struct ReverseScanMealView: View {
   private func resolveChosenRecipe() {
     guard let chosenRecipe, let key = chosenRecipeKey else {
       resolvedChoice = nil
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        consumptionPlan = nil
+      }
       return
     }
     do {
       resolvedChoice = try deps.recipeRepository.resolveForLogging(chosenRecipe.recipe).map {
         (key: key, recipe: $0.recipe, macros: $0.macros)
       }
+      rebuildPlan()
     } catch {
       logger.error("Failed to resolve chosen recipe: \(error.localizedDescription)")
       resolvedChoice = nil
+      consumptionPlan = nil
+    }
+  }
+
+  /// Builds the plan from the resolved recipe's real ingredient rows. Rebuilding the same
+  /// recipe keeps the plan's identity and any user-verified grams; a new recipe starts a
+  /// fresh plan.
+  private func rebuildPlan() {
+    guard let recipeId = mealRecipe?.recipe.id else {
+      consumptionPlan = nil
+      return
+    }
+    do {
+      let plan = try MealConsumptionPlanBuilder.build(
+        from: deps.appDatabase.dbQueue,
+        recipeId: recipeId,
+        servingsConsumed: servings,
+        portionMultiplier: portionMultiplier,
+        previous: consumptionPlan
+      )
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        consumptionPlan = plan
+      }
+    } catch {
+      logger.error("Failed to build the meal plan: \(error.localizedDescription)")
+      consumptionPlan = nil
+    }
+  }
+
+  /// Servings and portion changes rescale suggested lines; user-verified lines keep their
+  /// absolute grams and the plan keeps its identity.
+  private func rescalePlan() {
+    guard let plan = consumptionPlan else { return }
+    withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+      consumptionPlan = plan.rescaled(
+        servingsConsumed: servings,
+        portionMultiplier: portionMultiplier
+      )
     }
   }
 
   private func loadDeductionPreviews() async {
-    guard let recipeID = mealRecipe?.recipe.id else {
+    guard let plan = consumptionPlan, plan.recipeId == mealRecipe?.recipe.id else {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         deductionPreviews = []
       }
       return
     }
     do {
-      let previews = try deps.inventoryRepository.previewConsumption(
-        recipeId: recipeID,
-        servingsConsumed: servings,
-        portionMultiplier: portionMultiplier
-      )
+      let linePreviews = try deps.inventoryRepository.previewPlanConsumption(plan: plan)
+      let previews = MealPlanLinePreview.ingredientPreviews(from: linePreviews)
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
         deductionPreviews = previews
       }
@@ -654,13 +707,53 @@ struct ReverseScanMealView: View {
     if let mealRecipe {
       macroConfirmCard(
         title: mealRecipe.recipe.title,
-        macros: mealRecipe.macros,
+        macros: plannedMacros,
         isHighConfidence: manuallyPickedRecipe != nil
           || confirmationVerdict.map {
             !MealPhotoConfirmationPolicy.asksToCheckBeforeLogging(for: $0)
           } ?? false
       )
     }
+  }
+
+  /// Totals for what the plan will actually log: the plan's line-by-line nutrition when a
+  /// plan is shown (which respects corrected quantities), otherwise the recipe's scaled
+  /// macros — the same arithmetic the plan reproduces for unedited lines.
+  private var plannedMacros: RecipeMacros {
+    if let plan = consumptionPlan, plan.recipeId == mealRecipe?.recipe.id {
+      let totals = plan.totalMacros
+      return RecipeMacros(
+        caloriesPerServing: totals.calories,
+        proteinPerServing: totals.protein,
+        carbsPerServing: totals.carbs,
+        fatPerServing: totals.fat,
+        fiberPerServing: totals.fiber,
+        sugarPerServing: totals.sugar,
+        sodiumPerServing: totals.sodium
+      )
+    }
+    guard let mealRecipe else {
+      return RecipeMacros(
+        caloriesPerServing: 0,
+        proteinPerServing: 0,
+        carbsPerServing: 0,
+        fatPerServing: 0,
+        fiberPerServing: 0,
+        sugarPerServing: 0,
+        sodiumPerServing: 0
+      )
+    }
+    let scaled = Double(servings) * portionMultiplier
+    let macros = mealRecipe.macros
+    return RecipeMacros(
+      caloriesPerServing: macros.caloriesPerServing * scaled,
+      proteinPerServing: macros.proteinPerServing * scaled,
+      carbsPerServing: macros.carbsPerServing * scaled,
+      fatPerServing: macros.fatPerServing * scaled,
+      fiberPerServing: macros.fiberPerServing * scaled,
+      sugarPerServing: macros.sugarPerServing * scaled,
+      sodiumPerServing: macros.sodiumPerServing * scaled
+    )
   }
 
   private func verdict(for analysis: ReverseScanAnalysis) -> MealPhotoConfirmationPolicy.Verdict {
@@ -962,6 +1055,8 @@ struct ReverseScanMealView: View {
       manuallyPickedMacros = nil
       resultsAppeared = false
       servings = 1
+      // A new scan is a new meal, so its plan gets a fresh identity.
+      consumptionPlan = nil
     }
   }
 
@@ -1026,13 +1121,19 @@ struct ReverseScanMealView: View {
     defer { isLoggingMeal = false }
 
     do {
+      // The service is UI-free, so the capture is saved here and only its path is
+      // handed over. A plan for a different recipe (stale state) is never logged.
+      let imagePath = capturedImage.flatMap { try? deps.imageStorageService.save($0) }
+      let planForLog =
+        (consumptionPlan?.recipeId == recipeToLog.id) ? consumptionPlan : nil
       let mealOutcome = try deps.mealLogService.logMeal(
         recipe: recipeToLog,
         rating: nil,
-        capturedImage: capturedImage,
+        imagePath: imagePath,
         servingsConsumed: servings,
         portionMultiplier: portionMultiplier,
-        sourceRefPrefix: "reverse_scan"
+        sourceRefPrefix: "reverse_scan",
+        plan: planForLog
       )
 
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
@@ -1068,6 +1169,10 @@ struct ReverseScanMealView: View {
 
       logSuccessMessage = MealLoggedMessage.text(for: mealOutcome.inventoryConsumption)
       showLogSuccess = true
+      // This meal is consumed and its plan accepted; a further log from this screen is a
+      // new meal with a fresh plan identity.
+      consumptionPlan = nil
+      rebuildPlan()
       logger.info("Meal log succeeded.")
     } catch {
       errorMessage = error.localizedDescription
@@ -1075,3 +1180,4 @@ struct ReverseScanMealView: View {
     }
   }
 }
+

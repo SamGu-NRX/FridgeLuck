@@ -17,9 +17,11 @@ enum CookingLogError: LocalizedError {
 /// Factors: past ratings, cuisine affinity, variety (recency penalty).
 final class PersonalizationService: Sendable {
   private let db: DatabaseQueue
+  private let nutritionSnapshotService: NutritionSnapshotService
 
-  init(db: DatabaseQueue) {
+  init(db: DatabaseQueue, nutritionSnapshotService: NutritionSnapshotService? = nil) {
     self.db = db
+    self.nutritionSnapshotService = nutritionSnapshotService ?? NutritionSnapshotService(db: db)
   }
 
   /// Compute personalization boost/penalty for a recipe (-1.0 to +1.0 range).
@@ -149,6 +151,17 @@ final class PersonalizationService: Sendable {
       try streak.insert(db)
     }
 
+    // Freeze the meal's nutrition from the catalog as it exists at logging
+    // time, inside the same transaction as the history, swap, streak, and
+    // inventory rows. Every recordCooking path (MealLogService, the meal
+    // finalization view, future callers) captures here so no history row can
+    // exist without a snapshot — historical reads throw on missing snapshots.
+    try nutritionSnapshotService.captureSnapshot(
+      in: db,
+      historyId: historyID,
+      recipeId: recipeId
+    )
+
     return historyID
   }
 
@@ -227,7 +240,8 @@ final class PersonalizationService: Sendable {
     }
   }
 
-  private static func formatDate(_ date: Date) -> String {
+  /// The canonical local-day string ("yyyy-MM-dd") streaks and accepted meal plans key on.
+  static func formatDate(_ date: Date) -> String {
     let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
     guard
       let year = components.year,

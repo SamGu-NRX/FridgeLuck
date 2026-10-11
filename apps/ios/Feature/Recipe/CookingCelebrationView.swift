@@ -67,10 +67,11 @@ struct CookingCelebrationView: View {
         try deps.nutritionService.macros(for: recipeId, swaps: swaps)
       },
       logMeal: { recipe, rating, capturedImage, servings, swaps in
-        try deps.mealLogService.logMeal(
+        let imagePath = capturedImage.flatMap { try? deps.imageStorageService.save($0) }
+        return try deps.mealLogService.logMeal(
           recipe: recipe,
           rating: rating,
-          capturedImage: capturedImage,
+          imagePath: imagePath,
           servingsConsumed: servings,
           swaps: swaps,
           sourceRefPrefix: "cooking_celebration"
