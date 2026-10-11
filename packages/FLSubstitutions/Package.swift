@@ -8,6 +8,10 @@ let package = Package(
     ],
     targets: [
         .target(name: "FLSubstitutions"),
+        .executableTarget(
+            name: "flsub-report",
+            dependencies: ["FLSubstitutions"]
+        ),
         .testTarget(
             name: "FLSubstitutionsTests",
             dependencies: ["FLSubstitutions"]
