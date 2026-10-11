@@ -1,1179 +1,1237 @@
 {
-  "schemaVersion": 1,
-  "kind": "hand-computed-examples",
-  "retrieved": "2026-10-11",
-  "data": {
-    "rounding": {
-      "grams": 1,
-      "moneyUsd": 2,
-      "kgCo2e": 3
-    },
-    "roundingMode": "half-up (ROUND_HALF_UP) applied once at output; sums computed unrounded",
-    "spec": "data/kitchen-knowledge/waste/model.md",
-    "examples": [
+ "schemaVersion": 1,
+ "kind": "hand-computed-examples",
+ "retrieved": "2026-10-11",
+ "data": {
+  "rounding": {
+   "grams": 1,
+   "moneyUsd": 2,
+   "kgCo2e": 3
+  },
+  "roundingMode": "half-up (ROUND_HALF_UP) applied once at output; sums computed unrounded",
+  "spec": "data/kitchen-knowledge/waste/model.md",
+  "examples": [
+   {
+    "id": "ex-01",
+    "description": "saved: chicken eaten two days before use-by",
+    "inputs": {
+     "events": [
       {
-        "id": "ex-01",
-        "description": "saved: chicken eaten two days before use-by",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "chicken",
-              "grams": 500,
-              "on": "2026-03-10",
-              "lotUseBy": "2026-03-12"
-            }
-          ],
-          "factors": {
-            "chicken": {
-              "usdPerKg": 4.5217,
-              "kgCo2ePerKg": {
-                "low": 9.87,
-                "central": 9.87,
-                "high": 9.87
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 500.0,
-          "savedMoneyUsd": 2.26,
-          "savedKgCo2eLow": 4.935,
-          "savedKgCo2eCentral": 4.935,
-          "savedKgCo2eHigh": 4.935,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume 2026-03-10 <= use-by 2026-03-12 -> bucket=saved. kg = 500/1000 = 0.5. usd = 0.5 x 4.5217 = 2.26085 -> 2dp half-up -> 2.26. kgCo2e = 0.5 x 9.87 = 4.935 (point factor: low=central=high) -> 3dp -> 4.935. All other buckets empty -> 0.0; no refusals."
-      },
-      {
-        "id": "ex-02",
-        "description": "saved: rice eaten before use-by, money rounds up from a long tail",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "rice",
-              "grams": 400,
-              "on": "2026-02-10",
-              "lotUseBy": "2026-02-12"
-            }
-          ],
-          "factors": {
-            "rice": {
-              "usdPerKg": 2.2708,
-              "kgCo2ePerKg": {
-                "low": 4.45,
-                "central": 4.45,
-                "high": 4.45
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 400.0,
-          "savedMoneyUsd": 0.91,
-          "savedKgCo2eLow": 1.78,
-          "savedKgCo2eCentral": 1.78,
-          "savedKgCo2eHigh": 1.78,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume 2026-02-10 <= use-by 2026-02-12 -> saved. kg = 0.4. usd = 0.4 x 2.2708 = 0.90832 -> 2dp half-up -> 0.91. kgCo2e = 0.4 x 4.45 = 1.7800 -> 1.780."
-      },
-      {
-        "id": "ex-03",
-        "description": "wasted: beef discarded before its use-by (discard counts as wasted regardless of dates)",
-        "inputs": {
-          "events": [
-            {
-              "kind": "discard",
-              "ingredientKey": "beef",
-              "grams": 300,
-              "on": "2026-04-02",
-              "lotUseBy": "2026-04-05"
-            }
-          ],
-          "factors": {
-            "beef": {
-              "usdPerKg": 13.1418,
-              "kgCo2ePerKg": {
-                "low": 99.48,
-                "central": 99.48,
-                "high": 99.48
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 300.0,
-          "wastedMoneyUsd": 3.94,
-          "wastedKgCo2eLow": 29.844,
-          "wastedKgCo2eCentral": 29.844,
-          "wastedKgCo2eHigh": 29.844,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "discard -> wasted regardless of use-by. kg = 0.3. usd = 0.3 x 13.1418 = 3.94254 -> 3.94. kgCo2e = 0.3 x 99.48 = 29.844 -> 29.844."
-      },
-      {
-        "id": "ex-04",
-        "description": "wasted: a dozen eggs expire unused",
-        "inputs": {
-          "events": [
-            {
-              "kind": "expire",
-              "ingredientKey": "eggs",
-              "grams": 600,
-              "on": "2026-04-20",
-              "lotUseBy": "2026-04-18"
-            }
-          ],
-          "factors": {
-            "eggs": {
-              "usdPerKg": 9.8283,
-              "kgCo2ePerKg": {
-                "low": 4.67,
-                "central": 4.67,
-                "high": 4.67
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 600.0,
-          "wastedMoneyUsd": 5.9,
-          "wastedKgCo2eLow": 2.802,
-          "wastedKgCo2eCentral": 2.802,
-          "wastedKgCo2eHigh": 2.802,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "expire -> wasted. 600 g = 12 x 50 g (one dozen large eggs). kg = 0.6. usd = 0.6 x 9.8283 = 5.89698 -> 2dp half-up -> 5.90. kgCo2e = 0.6 x 4.67 = 2.802 -> 2.802."
-      },
-      {
-        "id": "ex-05",
-        "description": "usedLate: pork eaten after use-by - counted as eaten, never as saved (copy rule)",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "pork",
-              "grams": 200,
-              "on": "2026-05-03",
-              "lotUseBy": "2026-05-01"
-            }
-          ],
-          "factors": {
-            "pork": {
-              "usdPerKg": 9.3167,
-              "kgCo2ePerKg": {
-                "low": 12.31,
-                "central": 12.31,
-                "high": 12.31
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 200.0,
-          "usedLateMoneyUsd": 1.86,
-          "usedLateKgCo2eLow": 2.462,
-          "usedLateKgCo2eCentral": 2.462,
-          "usedLateKgCo2eHigh": 2.462,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume 2026-05-03 > use-by 2026-05-01 -> usedLate (the food was eaten, but the copy rule forbids claiming it as saved, so savedGrams stays 0.0). kg = 0.2. usd = 0.2 x 9.3167 = 1.86334 -> 1.86. kgCo2e = 0.2 x 12.31 = 2.462 -> 2.462."
-      },
-      {
-        "id": "ex-06",
-        "description": "usedLate: strawberries eaten two days past use-by; CO2e hits a 3-decimal tie",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "strawberries",
-              "grams": 150,
-              "on": "2026-06-10",
-              "lotUseBy": "2026-06-08"
-            }
-          ],
-          "factors": {
-            "strawberries": {
-              "usdPerKg": 8.5392,
-              "kgCo2ePerKg": {
-                "low": 1.53,
-                "central": 1.53,
-                "high": 1.53
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 150.0,
-          "usedLateMoneyUsd": 1.28,
-          "usedLateKgCo2eLow": 0.23,
-          "usedLateKgCo2eCentral": 0.23,
-          "usedLateKgCo2eHigh": 0.23,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume 2026-06-10 > use-by 2026-06-08 -> usedLate. kg = 0.15. usd = 0.15 x 8.5392 = 1.28088 -> 2dp half-up -> 1.28. kgCo2e = 0.15 x 1.53 = 0.2295 exactly -> 3dp half-up tie -> 0.230 (truncation would give 0.229; decimal half-up is binding)."
-      },
-      {
-        "id": "ex-07",
-        "description": "consumedUnknown: rice eaten from a lot with no use-by - cannot evidence 'before use-by'",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "rice",
-              "grams": 300,
-              "on": "2026-03-01",
-              "lotUseBy": null
-            }
-          ],
-          "factors": {
-            "rice": {
-              "usdPerKg": 2.2708,
-              "kgCo2ePerKg": {
-                "low": 4.45,
-                "central": 4.45,
-                "high": 4.45
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 300.0,
-          "consumedUnknownMoneyUsd": 0.68,
-          "consumedUnknownKgCo2eLow": 1.335,
-          "consumedUnknownKgCo2eCentral": 1.335,
-          "consumedUnknownKgCo2eHigh": 1.335,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume with lotUseBy=null -> consumedUnknown (excluded from saved claims). kg = 0.3. usd = 0.3 x 2.2708 = 0.68124 -> 0.68. kgCo2e = 0.3 x 4.45 = 1.335 -> 1.335."
-      },
-      {
-        "id": "ex-08",
-        "description": "consumedUnknown: cheese eaten with no event date - cannot evidence 'before use-by'",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "cheese",
-              "grams": 200,
-              "on": null,
-              "lotUseBy": "2026-07-01"
-            }
-          ],
-          "factors": {
-            "cheese": {
-              "usdPerKg": 12.2048,
-              "kgCo2ePerKg": {
-                "low": 23.88,
-                "central": 23.88,
-                "high": 23.88
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 200.0,
-          "consumedUnknownMoneyUsd": 2.44,
-          "consumedUnknownKgCo2eLow": 4.776,
-          "consumedUnknownKgCo2eCentral": 4.776,
-          "consumedUnknownKgCo2eHigh": 4.776,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume with on=null -> consumedUnknown even though the lot had a use-by (no event date means 'before use-by' cannot be evidenced). kg = 0.2. usd = 0.2 x 12.2048 = 2.44096 -> 2.44. kgCo2e = 0.2 x 23.88 = 4.776 -> 4.776."
-      },
-      {
-        "id": "ex-09",
-        "description": "notCounted: an add and two adjust corrections never appear as food outcomes",
-        "inputs": {
-          "events": [
-            {
-              "kind": "add",
-              "ingredientKey": "milk",
-              "grams": 1000,
-              "on": "2026-05-01",
-              "lotUseBy": "2026-05-08"
-            },
-            {
-              "kind": "adjust",
-              "ingredientKey": "milk",
-              "grams": 100,
-              "on": "2026-05-02",
-              "lotUseBy": "2026-05-08"
-            },
-            {
-              "kind": "adjust",
-              "ingredientKey": "milk",
-              "grams": 50,
-              "on": "2026-05-03",
-              "lotUseBy": "2026-05-08"
-            }
-          ],
-          "factors": {
-            "milk": {
-              "usdPerKg": 1.0312,
-              "kgCo2ePerKg": {
-                "low": 3.15,
-                "central": 3.15,
-                "high": 3.15
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 1150.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "add and adjust are inventory corrections, not food outcomes -> notCounted. notCountedGrams = |1000| + |-100| + |50| = 1150.0 (adjust deltas enter as absolute values). saved/usedLate/consumedUnknown/wasted all 0.0; no grams in counted buckets -> no refusals."
-      },
-      {
-        "id": "ex-10",
-        "description": "aggregation: chicken and rice both saved in one period, summed unrounded then rounded once",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "chicken",
-              "grams": 500,
-              "on": "2026-03-10",
-              "lotUseBy": "2026-03-12"
-            },
-            {
-              "kind": "consume",
-              "ingredientKey": "rice",
-              "grams": 400,
-              "on": "2026-03-11",
-              "lotUseBy": "2026-03-14"
-            }
-          ],
-          "factors": {
-            "chicken": {
-              "usdPerKg": 4.5217,
-              "kgCo2ePerKg": {
-                "low": 9.87,
-                "central": 9.87,
-                "high": 9.87
-              }
-            },
-            "rice": {
-              "usdPerKg": 2.2708,
-              "kgCo2ePerKg": {
-                "low": 4.45,
-                "central": 4.45,
-                "high": 4.45
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 900.0,
-          "savedMoneyUsd": 3.17,
-          "savedKgCo2eLow": 6.715,
-          "savedKgCo2eCentral": 6.715,
-          "savedKgCo2eHigh": 6.715,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "Both consumes are pre-use-by -> saved. savedGrams = 500 + 400 = 900.0. usd = (0.5 x 4.5217) + (0.4 x 2.2708) = 2.26085 + 0.90832 = 3.16917 unrounded -> 2dp half-up -> 3.17. kgCo2e = (0.5 x 9.87) + (0.4 x 4.45) = 4.935 + 1.78 = 6.715 unrounded -> 6.715. Sums are computed unrounded and rounded once at output."
-      },
-      {
-        "id": "ex-11",
-        "description": "aggregation: discarded beef plus expired eggs sum into one wasted total",
-        "inputs": {
-          "events": [
-            {
-              "kind": "discard",
-              "ingredientKey": "beef",
-              "grams": 300,
-              "on": "2026-04-02",
-              "lotUseBy": "2026-04-05"
-            },
-            {
-              "kind": "expire",
-              "ingredientKey": "eggs",
-              "grams": 600,
-              "on": "2026-04-20",
-              "lotUseBy": "2026-04-18"
-            }
-          ],
-          "factors": {
-            "beef": {
-              "usdPerKg": 13.1418,
-              "kgCo2ePerKg": {
-                "low": 99.48,
-                "central": 99.48,
-                "high": 99.48
-              }
-            },
-            "eggs": {
-              "usdPerKg": 9.8283,
-              "kgCo2ePerKg": {
-                "low": 4.67,
-                "central": 4.67,
-                "high": 4.67
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 900.0,
-          "wastedMoneyUsd": 9.84,
-          "wastedKgCo2eLow": 32.646,
-          "wastedKgCo2eCentral": 32.646,
-          "wastedKgCo2eHigh": 32.646,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "wastedGrams = 300 + 600 = 900.0. usd = 3.94254 + 5.89698 = 9.83952 unrounded -> 9.84. kgCo2e = 29.844 + 2.802 = 32.646 unrounded -> 32.646."
-      },
-      {
-        "id": "ex-12",
-        "description": "aggregation: three ingredients land in three different buckets in one period",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "tomatoes",
-              "grams": 240,
-              "on": "2026-05-10",
-              "lotUseBy": "2026-05-12"
-            },
-            {
-              "kind": "discard",
-              "ingredientKey": "cheese",
-              "grams": 100,
-              "on": "2026-05-11",
-              "lotUseBy": "2026-05-20"
-            },
-            {
-              "kind": "consume",
-              "ingredientKey": "milk",
-              "grams": 100,
-              "on": "2026-05-12",
-              "lotUseBy": null
-            }
-          ],
-          "factors": {
-            "tomatoes": {
-              "usdPerKg": 4.0741,
-              "kgCo2ePerKg": {
-                "low": 2.09,
-                "central": 2.09,
-                "high": 2.09
-              }
-            },
-            "cheese": {
-              "usdPerKg": 12.2048,
-              "kgCo2ePerKg": {
-                "low": 23.88,
-                "central": 23.88,
-                "high": 23.88
-              }
-            },
-            "milk": {
-              "usdPerKg": 1.0312,
-              "kgCo2ePerKg": {
-                "low": 3.15,
-                "central": 3.15,
-                "high": 3.15
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 240.0,
-          "savedMoneyUsd": 0.98,
-          "savedKgCo2eLow": 0.502,
-          "savedKgCo2eCentral": 0.502,
-          "savedKgCo2eHigh": 0.502,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 100.0,
-          "consumedUnknownMoneyUsd": 0.1,
-          "consumedUnknownKgCo2eLow": 0.315,
-          "consumedUnknownKgCo2eCentral": 0.315,
-          "consumedUnknownKgCo2eHigh": 0.315,
-          "wastedGrams": 100.0,
-          "wastedMoneyUsd": 1.22,
-          "wastedKgCo2eLow": 2.388,
-          "wastedKgCo2eCentral": 2.388,
-          "wastedKgCo2eHigh": 2.388,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "tomatoes consume 2026-05-10 <= 2026-05-12 -> saved: kg=0.24, usd = 0.24 x 4.0741 = 0.977784 -> 0.98, kgCo2e = 0.24 x 2.09 = 0.5016 -> 0.502. cheese discard -> wasted: kg=0.1, usd = 0.1 x 12.2048 = 1.22048 -> 1.22, kgCo2e = 0.1 x 23.88 = 2.388 -> 2.388. milk consume with lotUseBy=null -> consumedUnknown: kg=0.1, usd = 0.1 x 1.0312 = 0.10312 -> 0.10, kgCo2e = 0.1 x 3.15 = 0.315 -> 0.315. Buckets are reported separately and never merged."
-      },
-      {
-        "id": "ex-13",
-        "description": "refusal missingPrice: tofu has a citable emission factor but no BLS price series",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "tofu",
-              "grams": 500,
-              "on": "2026-06-05",
-              "lotUseBy": "2026-06-07"
-            }
-          ],
-          "factors": {
-            "tofu": {
-              "kgCo2ePerKg": {
-                "low": 3.16,
-                "central": 3.16,
-                "high": 3.16
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 500.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 1.58,
-          "savedKgCo2eCentral": 1.58,
-          "savedKgCo2eHigh": 1.58,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [
-            "tofu"
-          ],
-          "unpricedGrams": 500.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume 2026-06-05 <= 2026-06-07 -> saved; savedGrams = 500.0. No price row for tofu -> money refused: savedMoneyUsd = 0.0, unpricedIngredientKeys = ['tofu'], unpricedGrams = 500.0 (reason missingPrice). The emission factor still applies: kgCo2e = 0.5 x 3.16 = 1.58 -> 1.580. Refusals are data, not errors."
-      },
-      {
-        "id": "ex-14",
-        "description": "refusal missingPrice in an aggregate: lentils refused for money, beef priced, both count for CO2e",
-        "inputs": {
-          "events": [
-            {
-              "kind": "discard",
-              "ingredientKey": "lentils",
-              "grams": 200,
-              "on": "2026-04-10",
-              "lotUseBy": "2027-01-01"
-            },
-            {
-              "kind": "discard",
-              "ingredientKey": "beef",
-              "grams": 300,
-              "on": "2026-04-11",
-              "lotUseBy": "2026-04-15"
-            }
-          ],
-          "factors": {
-            "lentils": {
-              "kgCo2ePerKg": {
-                "low": 1.79,
-                "central": 1.79,
-                "high": 1.79
-              }
-            },
-            "beef": {
-              "usdPerKg": 13.1418,
-              "kgCo2ePerKg": {
-                "low": 99.48,
-                "central": 99.48,
-                "high": 99.48
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 500.0,
-          "wastedMoneyUsd": 3.94,
-          "wastedKgCo2eLow": 30.202,
-          "wastedKgCo2eCentral": 30.202,
-          "wastedKgCo2eHigh": 30.202,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [
-            "lentils"
-          ],
-          "unpricedGrams": 200.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "Both discards -> wasted; wastedGrams = 200 + 300 = 500.0. Money: lentils have no price -> refused; beef: 0.3 x 13.1418 = 3.94254 -> 3.94; unpricedIngredientKeys = ['lentils'], unpricedGrams = 200.0. kgCo2e = (0.2 x 1.79) + (0.3 x 99.48) = 0.358 + 29.844 = 30.202 -> 30.202 (the refused ingredient's CO2e still counts)."
-      },
-      {
-        "id": "ex-15",
-        "description": "refusal missingEmissionFactor: chicken_breast has a price but no cut-specific emission factor",
-        "inputs": {
-          "events": [
-            {
-              "kind": "discard",
-              "ingredientKey": "chicken_breast",
-              "grams": 400,
-              "on": "2026-05-05",
-              "lotUseBy": "2026-05-07"
-            }
-          ],
-          "factors": {
-            "chicken_breast": {
-              "usdPerKg": 8.9927
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 400.0,
-          "wastedMoneyUsd": 3.6,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [
-            "chicken_breast"
-          ],
-          "missingEmissionFactorGrams": 400.0
-        },
-        "workings": "discard -> wasted; wastedGrams = 400.0. Price applies: usd = 0.4 x 8.9927 = 3.59708 -> 3.60. No emission factor for chicken_breast -> CO2e refused: wastedKgCo2e(Low/Central/High) = 0.0, missingEmissionFactorKeys = ['chicken_breast'], missingEmissionFactorGrams = 400.0 (reason missingEmissionFactor). The model must not borrow the whole-bird Poultry Meat factor."
-      },
-      {
-        "id": "ex-16",
-        "description": "refusal missingEmissionFactor in an aggregate: refused CO2e next to counted CO2e",
-        "inputs": {
-          "events": [
-            {
-              "kind": "discard",
-              "ingredientKey": "chicken_breast",
-              "grams": 250,
-              "on": "2026-07-10",
-              "lotUseBy": "2026-07-12"
-            },
-            {
-              "kind": "consume",
-              "ingredientKey": "chicken",
-              "grams": 300,
-              "on": "2026-07-02",
-              "lotUseBy": "2026-07-06"
-            }
-          ],
-          "factors": {
-            "chicken_breast": {
-              "usdPerKg": 8.9927
-            },
-            "chicken": {
-              "usdPerKg": 4.5217,
-              "kgCo2ePerKg": {
-                "low": 9.87,
-                "central": 9.87,
-                "high": 9.87
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 300.0,
-          "savedMoneyUsd": 1.36,
-          "savedKgCo2eLow": 2.961,
-          "savedKgCo2eCentral": 2.961,
-          "savedKgCo2eHigh": 2.961,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 250.0,
-          "wastedMoneyUsd": 2.25,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [
-            "chicken_breast"
-          ],
-          "missingEmissionFactorGrams": 250.0
-        },
-        "workings": "chicken_breast discard -> wasted: usd = 0.25 x 8.9927 = 2.248175 -> 2.25; CO2e refused (missingEmissionFactorKeys = ['chicken_breast'], missingEmissionFactorGrams = 250.0), wastedKgCo2e = 0.0. chicken consume 2026-07-02 <= 2026-07-06 -> saved: usd = 0.3 x 4.5217 = 1.35651 -> 1.36; kgCo2e = 0.3 x 9.87 = 2.961 -> 2.961. unpricedGrams = 0.0 (chicken_breast has a price; only its CO2e refuses)."
-      },
-      {
-        "id": "ex-17",
-        "description": "use-by same-day boundary: an event dated exactly on the use-by date is saved (inclusive)",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "milk",
-              "grams": 400,
-              "on": "2026-09-15",
-              "lotUseBy": "2026-09-15"
-            }
-          ],
-          "factors": {
-            "milk": {
-              "usdPerKg": 1.0312,
-              "kgCo2ePerKg": {
-                "low": 3.15,
-                "central": 3.15,
-                "high": 3.15
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 400.0,
-          "savedMoneyUsd": 0.41,
-          "savedKgCo2eLow": 1.26,
-          "savedKgCo2eCentral": 1.26,
-          "savedKgCo2eHigh": 1.26,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume on == lotUseBy (2026-09-15) -> the use-by day is inclusive -> saved. kg = 0.4. usd = 0.4 x 1.0312 = 0.41248 -> 0.41. kgCo2e = 0.4 x 3.15 = 1.26 -> 1.260."
-      },
-      {
-        "id": "ex-18",
-        "description": "rounding boundary: CO2e lands exactly on a 3-decimal tie (half-up must win over float)",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "chicken",
-              "grams": 250,
-              "on": "2026-08-01",
-              "lotUseBy": "2026-08-04"
-            }
-          ],
-          "factors": {
-            "chicken": {
-              "usdPerKg": 4.5217,
-              "kgCo2ePerKg": {
-                "low": 9.87,
-                "central": 9.87,
-                "high": 9.87
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 250.0,
-          "savedMoneyUsd": 1.13,
-          "savedKgCo2eLow": 2.468,
-          "savedKgCo2eCentral": 2.468,
-          "savedKgCo2eHigh": 2.468,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume 2026-08-01 <= 2026-08-04 -> saved; savedGrams = 250.0. usd = 0.25 x 4.5217 = 1.130425 -> 1.13. kgCo2e = 0.25 x 9.87 = 2.4675 exactly -> 3dp half-up tie -> 2.468. A binary-float implementation computes 2.467499... and misrounds to 2.467; decimal half-up on the decimal factor strings is binding."
-      },
-      {
-        "id": "ex-19",
-        "description": "rounding boundary: money lands exactly on a half-cent and CO2e on a 3-decimal tie",
-        "inputs": {
-          "events": [
-            {
-              "kind": "consume",
-              "ingredientKey": "milk",
-              "grams": 6250,
-              "on": "2026-10-02",
-              "lotUseBy": "2026-10-06"
-            }
-          ],
-          "factors": {
-            "milk": {
-              "usdPerKg": 1.0312,
-              "kgCo2ePerKg": {
-                "low": 3.15,
-                "central": 3.15,
-                "high": 3.15
-              }
-            }
-          },
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 6250.0,
-          "savedMoneyUsd": 6.45,
-          "savedKgCo2eLow": 19.688,
-          "savedKgCo2eCentral": 19.688,
-          "savedKgCo2eHigh": 19.688,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "consume 2026-10-02 <= 2026-10-06 -> saved; savedGrams = 6250.0. usd = 6.25 x 1.0312 = 6.4450 exactly -> 2dp half-up tie -> 6.45 (truncation gives 6.44). kgCo2e = 6.25 x 3.15 = 19.6875 exactly -> 3dp half-up tie -> 19.688. Both values are exact decimal ties; half-up is binding."
-      },
-      {
-        "id": "ex-20",
-        "description": "empty ledger: no events, all buckets zero, no refusals",
-        "inputs": {
-          "events": [],
-          "factors": {},
-          "aggregates": "sum"
-        },
-        "expected": {
-          "savedGrams": 0.0,
-          "savedMoneyUsd": 0.0,
-          "savedKgCo2eLow": 0.0,
-          "savedKgCo2eCentral": 0.0,
-          "savedKgCo2eHigh": 0.0,
-          "usedLateGrams": 0.0,
-          "usedLateMoneyUsd": 0.0,
-          "usedLateKgCo2eLow": 0.0,
-          "usedLateKgCo2eCentral": 0.0,
-          "usedLateKgCo2eHigh": 0.0,
-          "consumedUnknownGrams": 0.0,
-          "consumedUnknownMoneyUsd": 0.0,
-          "consumedUnknownKgCo2eLow": 0.0,
-          "consumedUnknownKgCo2eCentral": 0.0,
-          "consumedUnknownKgCo2eHigh": 0.0,
-          "wastedGrams": 0.0,
-          "wastedMoneyUsd": 0.0,
-          "wastedKgCo2eLow": 0.0,
-          "wastedKgCo2eCentral": 0.0,
-          "wastedKgCo2eHigh": 0.0,
-          "notCountedGrams": 0.0,
-          "unpricedIngredientKeys": [],
-          "unpricedGrams": 0.0,
-          "missingEmissionFactorKeys": [],
-          "missingEmissionFactorGrams": 0.0
-        },
-        "workings": "No events -> every counted bucket is 0.0, notCountedGrams = 0.0, unpricedIngredientKeys = [], unpricedGrams = 0.0, missingEmissionFactorKeys = [], missingEmissionFactorGrams = 0.0."
+       "kind": "consume",
+       "ingredientKey": "chicken",
+       "grams": 500,
+       "on": "2026-03-10",
+       "lotUseBy": "2026-03-12"
       }
-    ]
-  }
+     ],
+     "factors": {
+      "chicken": {
+       "usdPerKg": 4.5217,
+       "kgCo2ePerKg": {
+        "low": 9.87,
+        "central": 9.87,
+        "high": 9.87
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 500.0,
+     "savedMoneyUsd": 2.26,
+     "savedKgCo2eLow": 4.935,
+     "savedKgCo2eCentral": 4.935,
+     "savedKgCo2eHigh": 4.935,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume 2026-03-10 <= use-by 2026-03-12 -> bucket=saved. kg = 500/1000 = 0.5. usd = 0.5 x 4.5217 = 2.26085 -> 2dp half-up -> 2.26. kgCo2e = 0.5 x 9.87 = 4.935 (point factor: low=central=high) -> 3dp -> 4.935. All other buckets empty -> 0.0; no refusals."
+   },
+   {
+    "id": "ex-02",
+    "description": "saved: rice eaten before use-by, money rounds up from a long tail",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "rice",
+       "grams": 400,
+       "on": "2026-02-10",
+       "lotUseBy": "2026-02-12"
+      }
+     ],
+     "factors": {
+      "rice": {
+       "usdPerKg": 2.2708,
+       "kgCo2ePerKg": {
+        "low": 4.45,
+        "central": 4.45,
+        "high": 4.45
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 400.0,
+     "savedMoneyUsd": 0.91,
+     "savedKgCo2eLow": 1.78,
+     "savedKgCo2eCentral": 1.78,
+     "savedKgCo2eHigh": 1.78,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume 2026-02-10 <= use-by 2026-02-12 -> saved. kg = 0.4. usd = 0.4 x 2.2708 = 0.90832 -> 2dp half-up -> 0.91. kgCo2e = 0.4 x 4.45 = 1.7800 -> 1.780."
+   },
+   {
+    "id": "ex-03",
+    "description": "wasted: beef discarded before its use-by (discard counts as wasted regardless of dates)",
+    "inputs": {
+     "events": [
+      {
+       "kind": "discard",
+       "ingredientKey": "beef",
+       "grams": 300,
+       "on": "2026-04-02",
+       "lotUseBy": "2026-04-05"
+      }
+     ],
+     "factors": {
+      "beef": {
+       "usdPerKg": 13.1418,
+       "kgCo2ePerKg": {
+        "low": 99.48,
+        "central": 99.48,
+        "high": 99.48
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 300.0,
+     "wastedMoneyUsd": 3.94,
+     "wastedKgCo2eLow": 29.844,
+     "wastedKgCo2eCentral": 29.844,
+     "wastedKgCo2eHigh": 29.844,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "discard -> wasted regardless of use-by. kg = 0.3. usd = 0.3 x 13.1418 = 3.94254 -> 3.94. kgCo2e = 0.3 x 99.48 = 29.844 -> 29.844."
+   },
+   {
+    "id": "ex-04",
+    "description": "wasted: a dozen eggs expire unused",
+    "inputs": {
+     "events": [
+      {
+       "kind": "expire",
+       "ingredientKey": "eggs",
+       "grams": 600,
+       "on": "2026-04-20",
+       "lotUseBy": "2026-04-18"
+      }
+     ],
+     "factors": {
+      "eggs": {
+       "usdPerKg": 9.8283,
+       "kgCo2ePerKg": {
+        "low": 4.67,
+        "central": 4.67,
+        "high": 4.67
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 600.0,
+     "wastedMoneyUsd": 5.9,
+     "wastedKgCo2eLow": 2.802,
+     "wastedKgCo2eCentral": 2.802,
+     "wastedKgCo2eHigh": 2.802,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "expire -> wasted. 600 g = 12 x 50 g (one dozen large eggs). kg = 0.6. usd = 0.6 x 9.8283 = 5.89698 -> 2dp half-up -> 5.90. kgCo2e = 0.6 x 4.67 = 2.802 -> 2.802."
+   },
+   {
+    "id": "ex-05",
+    "description": "usedLate: pork eaten after use-by - counted as eaten, never as saved (copy rule)",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "pork",
+       "grams": 200,
+       "on": "2026-05-03",
+       "lotUseBy": "2026-05-01"
+      }
+     ],
+     "factors": {
+      "pork": {
+       "usdPerKg": 9.3167,
+       "kgCo2ePerKg": {
+        "low": 12.31,
+        "central": 12.31,
+        "high": 12.31
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 200.0,
+     "usedLateMoneyUsd": 1.86,
+     "usedLateKgCo2eLow": 2.462,
+     "usedLateKgCo2eCentral": 2.462,
+     "usedLateKgCo2eHigh": 2.462,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume 2026-05-03 > use-by 2026-05-01 -> usedLate (the food was eaten, but the copy rule forbids claiming it as saved, so savedGrams stays 0.0). kg = 0.2. usd = 0.2 x 9.3167 = 1.86334 -> 1.86. kgCo2e = 0.2 x 12.31 = 2.462 -> 2.462."
+   },
+   {
+    "id": "ex-06",
+    "description": "usedLate: strawberries eaten two days past use-by; CO2e hits a 3-decimal tie",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "strawberries",
+       "grams": 150,
+       "on": "2026-06-10",
+       "lotUseBy": "2026-06-08"
+      }
+     ],
+     "factors": {
+      "strawberries": {
+       "usdPerKg": 8.5392,
+       "kgCo2ePerKg": {
+        "low": 1.53,
+        "central": 1.53,
+        "high": 1.53
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 150.0,
+     "usedLateMoneyUsd": 1.28,
+     "usedLateKgCo2eLow": 0.23,
+     "usedLateKgCo2eCentral": 0.23,
+     "usedLateKgCo2eHigh": 0.23,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume 2026-06-10 > use-by 2026-06-08 -> usedLate. kg = 0.15. usd = 0.15 x 8.5392 = 1.28088 -> 2dp half-up -> 1.28. kgCo2e = 0.15 x 1.53 = 0.2295 exactly -> 3dp half-up tie -> 0.230 (truncation would give 0.229; decimal half-up is binding)."
+   },
+   {
+    "id": "ex-07",
+    "description": "consumedUnknown: rice eaten from a lot with no use-by - cannot evidence 'before use-by'",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "rice",
+       "grams": 300,
+       "on": "2026-03-01",
+       "lotUseBy": null
+      }
+     ],
+     "factors": {
+      "rice": {
+       "usdPerKg": 2.2708,
+       "kgCo2ePerKg": {
+        "low": 4.45,
+        "central": 4.45,
+        "high": 4.45
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 300.0,
+     "consumedUnknownMoneyUsd": 0.68,
+     "consumedUnknownKgCo2eLow": 1.335,
+     "consumedUnknownKgCo2eCentral": 1.335,
+     "consumedUnknownKgCo2eHigh": 1.335,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume with lotUseBy=null -> consumedUnknown (excluded from saved claims). kg = 0.3. usd = 0.3 x 2.2708 = 0.68124 -> 0.68. kgCo2e = 0.3 x 4.45 = 1.335 -> 1.335."
+   },
+   {
+    "id": "ex-08",
+    "description": "consumedUnknown: cheese eaten with no event date - cannot evidence 'before use-by'",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "cheese",
+       "grams": 200,
+       "on": null,
+       "lotUseBy": "2026-07-01"
+      }
+     ],
+     "factors": {
+      "cheese": {
+       "usdPerKg": 12.2048,
+       "kgCo2ePerKg": {
+        "low": 23.88,
+        "central": 23.88,
+        "high": 23.88
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 200.0,
+     "consumedUnknownMoneyUsd": 2.44,
+     "consumedUnknownKgCo2eLow": 4.776,
+     "consumedUnknownKgCo2eCentral": 4.776,
+     "consumedUnknownKgCo2eHigh": 4.776,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume with on=null -> consumedUnknown even though the lot had a use-by (no event date means 'before use-by' cannot be evidenced). kg = 0.2. usd = 0.2 x 12.2048 = 2.44096 -> 2.44. kgCo2e = 0.2 x 23.88 = 4.776 -> 4.776."
+   },
+   {
+    "id": "ex-09",
+    "description": "notCounted: an add and two adjust corrections never appear as food outcomes",
+    "inputs": {
+     "events": [
+      {
+       "kind": "add",
+       "ingredientKey": "milk",
+       "grams": 1000,
+       "on": "2026-05-01",
+       "lotUseBy": "2026-05-08"
+      },
+      {
+       "kind": "adjust",
+       "ingredientKey": "milk",
+       "grams": 100,
+       "on": "2026-05-02",
+       "lotUseBy": "2026-05-08"
+      },
+      {
+       "kind": "adjust",
+       "ingredientKey": "milk",
+       "grams": 50,
+       "on": "2026-05-03",
+       "lotUseBy": "2026-05-08"
+      }
+     ],
+     "factors": {
+      "milk": {
+       "usdPerKg": 1.0312,
+       "kgCo2ePerKg": {
+        "low": 3.15,
+        "central": 3.15,
+        "high": 3.15
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 1150.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "add and adjust are inventory corrections, not food outcomes -> notCounted. notCountedGrams = |1000| + |-100| + |50| = 1150.0 (adjust deltas enter as absolute values). saved/usedLate/consumedUnknown/wasted all 0.0; no grams in counted buckets -> no refusals."
+   },
+   {
+    "id": "ex-10",
+    "description": "aggregation: chicken and rice both saved in one period, summed unrounded then rounded once",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "chicken",
+       "grams": 500,
+       "on": "2026-03-10",
+       "lotUseBy": "2026-03-12"
+      },
+      {
+       "kind": "consume",
+       "ingredientKey": "rice",
+       "grams": 400,
+       "on": "2026-03-11",
+       "lotUseBy": "2026-03-14"
+      }
+     ],
+     "factors": {
+      "chicken": {
+       "usdPerKg": 4.5217,
+       "kgCo2ePerKg": {
+        "low": 9.87,
+        "central": 9.87,
+        "high": 9.87
+       }
+      },
+      "rice": {
+       "usdPerKg": 2.2708,
+       "kgCo2ePerKg": {
+        "low": 4.45,
+        "central": 4.45,
+        "high": 4.45
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 900.0,
+     "savedMoneyUsd": 3.17,
+     "savedKgCo2eLow": 6.715,
+     "savedKgCo2eCentral": 6.715,
+     "savedKgCo2eHigh": 6.715,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "Both consumes are pre-use-by -> saved. savedGrams = 500 + 400 = 900.0. usd = (0.5 x 4.5217) + (0.4 x 2.2708) = 2.26085 + 0.90832 = 3.16917 unrounded -> 2dp half-up -> 3.17. kgCo2e = (0.5 x 9.87) + (0.4 x 4.45) = 4.935 + 1.78 = 6.715 unrounded -> 6.715. Sums are computed unrounded and rounded once at output."
+   },
+   {
+    "id": "ex-11",
+    "description": "aggregation: discarded beef plus expired eggs sum into one wasted total",
+    "inputs": {
+     "events": [
+      {
+       "kind": "discard",
+       "ingredientKey": "beef",
+       "grams": 300,
+       "on": "2026-04-02",
+       "lotUseBy": "2026-04-05"
+      },
+      {
+       "kind": "expire",
+       "ingredientKey": "eggs",
+       "grams": 600,
+       "on": "2026-04-20",
+       "lotUseBy": "2026-04-18"
+      }
+     ],
+     "factors": {
+      "beef": {
+       "usdPerKg": 13.1418,
+       "kgCo2ePerKg": {
+        "low": 99.48,
+        "central": 99.48,
+        "high": 99.48
+       }
+      },
+      "eggs": {
+       "usdPerKg": 9.8283,
+       "kgCo2ePerKg": {
+        "low": 4.67,
+        "central": 4.67,
+        "high": 4.67
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 900.0,
+     "wastedMoneyUsd": 9.84,
+     "wastedKgCo2eLow": 32.646,
+     "wastedKgCo2eCentral": 32.646,
+     "wastedKgCo2eHigh": 32.646,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "wastedGrams = 300 + 600 = 900.0. usd = 3.94254 + 5.89698 = 9.83952 unrounded -> 9.84. kgCo2e = 29.844 + 2.802 = 32.646 unrounded -> 32.646."
+   },
+   {
+    "id": "ex-12",
+    "description": "aggregation: three ingredients land in three different buckets in one period",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "tomatoes",
+       "grams": 240,
+       "on": "2026-05-10",
+       "lotUseBy": "2026-05-12"
+      },
+      {
+       "kind": "discard",
+       "ingredientKey": "cheese",
+       "grams": 100,
+       "on": "2026-05-11",
+       "lotUseBy": "2026-05-20"
+      },
+      {
+       "kind": "consume",
+       "ingredientKey": "milk",
+       "grams": 100,
+       "on": "2026-05-12",
+       "lotUseBy": null
+      }
+     ],
+     "factors": {
+      "tomatoes": {
+       "usdPerKg": 4.0741,
+       "kgCo2ePerKg": {
+        "low": 2.09,
+        "central": 2.09,
+        "high": 2.09
+       }
+      },
+      "cheese": {
+       "usdPerKg": 12.2048,
+       "kgCo2ePerKg": {
+        "low": 23.88,
+        "central": 23.88,
+        "high": 23.88
+       }
+      },
+      "milk": {
+       "usdPerKg": 1.0312,
+       "kgCo2ePerKg": {
+        "low": 3.15,
+        "central": 3.15,
+        "high": 3.15
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 240.0,
+     "savedMoneyUsd": 0.98,
+     "savedKgCo2eLow": 0.502,
+     "savedKgCo2eCentral": 0.502,
+     "savedKgCo2eHigh": 0.502,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 100.0,
+     "consumedUnknownMoneyUsd": 0.1,
+     "consumedUnknownKgCo2eLow": 0.315,
+     "consumedUnknownKgCo2eCentral": 0.315,
+     "consumedUnknownKgCo2eHigh": 0.315,
+     "wastedGrams": 100.0,
+     "wastedMoneyUsd": 1.22,
+     "wastedKgCo2eLow": 2.388,
+     "wastedKgCo2eCentral": 2.388,
+     "wastedKgCo2eHigh": 2.388,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "tomatoes consume 2026-05-10 <= 2026-05-12 -> saved: kg=0.24, usd = 0.24 x 4.0741 = 0.977784 -> 0.98, kgCo2e = 0.24 x 2.09 = 0.5016 -> 0.502. cheese discard -> wasted: kg=0.1, usd = 0.1 x 12.2048 = 1.22048 -> 1.22, kgCo2e = 0.1 x 23.88 = 2.388 -> 2.388. milk consume with lotUseBy=null -> consumedUnknown: kg=0.1, usd = 0.1 x 1.0312 = 0.10312 -> 0.10, kgCo2e = 0.1 x 3.15 = 0.315 -> 0.315. Buckets are reported separately and never merged."
+   },
+   {
+    "id": "ex-13",
+    "description": "refusal missingPrice: tofu has a citable emission factor but no BLS price series",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "tofu",
+       "grams": 500,
+       "on": "2026-06-05",
+       "lotUseBy": "2026-06-07"
+      }
+     ],
+     "factors": {
+      "tofu": {
+       "kgCo2ePerKg": {
+        "low": 3.16,
+        "central": 3.16,
+        "high": 3.16
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 500.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 1.58,
+     "savedKgCo2eCentral": 1.58,
+     "savedKgCo2eHigh": 1.58,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [
+      "tofu"
+     ],
+     "unpricedGrams": 500.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume 2026-06-05 <= 2026-06-07 -> saved; savedGrams = 500.0. No price row for tofu -> money refused: savedMoneyUsd = 0.0, unpricedIngredientKeys = ['tofu'], unpricedGrams = 500.0 (reason missingPrice). The emission factor still applies: kgCo2e = 0.5 x 3.16 = 1.58 -> 1.580. Refusals are data, not errors."
+   },
+   {
+    "id": "ex-14",
+    "description": "refusal missingPrice in an aggregate: lentils refused for money, beef priced, both count for CO2e",
+    "inputs": {
+     "events": [
+      {
+       "kind": "discard",
+       "ingredientKey": "lentils",
+       "grams": 200,
+       "on": "2026-04-10",
+       "lotUseBy": "2027-01-01"
+      },
+      {
+       "kind": "discard",
+       "ingredientKey": "beef",
+       "grams": 300,
+       "on": "2026-04-11",
+       "lotUseBy": "2026-04-15"
+      }
+     ],
+     "factors": {
+      "lentils": {
+       "kgCo2ePerKg": {
+        "low": 1.79,
+        "central": 1.79,
+        "high": 1.79
+       }
+      },
+      "beef": {
+       "usdPerKg": 13.1418,
+       "kgCo2ePerKg": {
+        "low": 99.48,
+        "central": 99.48,
+        "high": 99.48
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 500.0,
+     "wastedMoneyUsd": 3.94,
+     "wastedKgCo2eLow": 30.202,
+     "wastedKgCo2eCentral": 30.202,
+     "wastedKgCo2eHigh": 30.202,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [
+      "lentils"
+     ],
+     "unpricedGrams": 200.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "Both discards -> wasted; wastedGrams = 200 + 300 = 500.0. Money: lentils have no price -> refused; beef: 0.3 x 13.1418 = 3.94254 -> 3.94; unpricedIngredientKeys = ['lentils'], unpricedGrams = 200.0. kgCo2e = (0.2 x 1.79) + (0.3 x 99.48) = 0.358 + 29.844 = 30.202 -> 30.202 (the refused ingredient's CO2e still counts)."
+   },
+   {
+    "id": "ex-15",
+    "description": "refusal missingEmissionFactor: chicken_breast has a price but no cut-specific emission factor",
+    "inputs": {
+     "events": [
+      {
+       "kind": "discard",
+       "ingredientKey": "chicken_breast",
+       "grams": 400,
+       "on": "2026-05-05",
+       "lotUseBy": "2026-05-07"
+      }
+     ],
+     "factors": {
+      "chicken_breast": {
+       "usdPerKg": 8.9927
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 400.0,
+     "wastedMoneyUsd": 3.6,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [
+      "chicken_breast"
+     ],
+     "missingEmissionFactorGrams": 400.0
+    },
+    "workings": "discard -> wasted; wastedGrams = 400.0. Price applies: usd = 0.4 x 8.9927 = 3.59708 -> 3.60. No emission factor for chicken_breast -> CO2e refused: wastedKgCo2e(Low/Central/High) = 0.0, missingEmissionFactorKeys = ['chicken_breast'], missingEmissionFactorGrams = 400.0 (reason missingEmissionFactor). The model must not borrow the whole-bird Poultry Meat factor."
+   },
+   {
+    "id": "ex-16",
+    "description": "refusal missingEmissionFactor in an aggregate: refused CO2e next to counted CO2e",
+    "inputs": {
+     "events": [
+      {
+       "kind": "discard",
+       "ingredientKey": "chicken_breast",
+       "grams": 250,
+       "on": "2026-07-10",
+       "lotUseBy": "2026-07-12"
+      },
+      {
+       "kind": "consume",
+       "ingredientKey": "chicken",
+       "grams": 300,
+       "on": "2026-07-02",
+       "lotUseBy": "2026-07-06"
+      }
+     ],
+     "factors": {
+      "chicken_breast": {
+       "usdPerKg": 8.9927
+      },
+      "chicken": {
+       "usdPerKg": 4.5217,
+       "kgCo2ePerKg": {
+        "low": 9.87,
+        "central": 9.87,
+        "high": 9.87
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 300.0,
+     "savedMoneyUsd": 1.36,
+     "savedKgCo2eLow": 2.961,
+     "savedKgCo2eCentral": 2.961,
+     "savedKgCo2eHigh": 2.961,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 250.0,
+     "wastedMoneyUsd": 2.25,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [
+      "chicken_breast"
+     ],
+     "missingEmissionFactorGrams": 250.0
+    },
+    "workings": "chicken_breast discard -> wasted: usd = 0.25 x 8.9927 = 2.248175 -> 2.25; CO2e refused (missingEmissionFactorKeys = ['chicken_breast'], missingEmissionFactorGrams = 250.0), wastedKgCo2e = 0.0. chicken consume 2026-07-02 <= 2026-07-06 -> saved: usd = 0.3 x 4.5217 = 1.35651 -> 1.36; kgCo2e = 0.3 x 9.87 = 2.961 -> 2.961. unpricedGrams = 0.0 (chicken_breast has a price; only its CO2e refuses)."
+   },
+   {
+    "id": "ex-17",
+    "description": "use-by same-day boundary: an event dated exactly on the use-by date is saved (inclusive)",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "milk",
+       "grams": 400,
+       "on": "2026-09-15",
+       "lotUseBy": "2026-09-15"
+      }
+     ],
+     "factors": {
+      "milk": {
+       "usdPerKg": 1.0312,
+       "kgCo2ePerKg": {
+        "low": 3.15,
+        "central": 3.15,
+        "high": 3.15
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 400.0,
+     "savedMoneyUsd": 0.41,
+     "savedKgCo2eLow": 1.26,
+     "savedKgCo2eCentral": 1.26,
+     "savedKgCo2eHigh": 1.26,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume on == lotUseBy (2026-09-15) -> the use-by day is inclusive -> saved. kg = 0.4. usd = 0.4 x 1.0312 = 0.41248 -> 0.41. kgCo2e = 0.4 x 3.15 = 1.26 -> 1.260."
+   },
+   {
+    "id": "ex-18",
+    "description": "rounding boundary: CO2e lands exactly on a 3-decimal tie (half-up must win over float)",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "chicken",
+       "grams": 250,
+       "on": "2026-08-01",
+       "lotUseBy": "2026-08-04"
+      }
+     ],
+     "factors": {
+      "chicken": {
+       "usdPerKg": 4.5217,
+       "kgCo2ePerKg": {
+        "low": 9.87,
+        "central": 9.87,
+        "high": 9.87
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 250.0,
+     "savedMoneyUsd": 1.13,
+     "savedKgCo2eLow": 2.468,
+     "savedKgCo2eCentral": 2.468,
+     "savedKgCo2eHigh": 2.468,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume 2026-08-01 <= 2026-08-04 -> saved; savedGrams = 250.0. usd = 0.25 x 4.5217 = 1.130425 -> 1.13. kgCo2e = 0.25 x 9.87 = 2.4675 exactly -> 3dp half-up tie -> 2.468. A binary-float implementation computes 2.467499... and misrounds to 2.467; decimal half-up on the decimal factor strings is binding."
+   },
+   {
+    "id": "ex-19",
+    "description": "rounding boundary: money lands exactly on a half-cent and CO2e on a 3-decimal tie",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "milk",
+       "grams": 6250,
+       "on": "2026-10-02",
+       "lotUseBy": "2026-10-06"
+      }
+     ],
+     "factors": {
+      "milk": {
+       "usdPerKg": 1.0312,
+       "kgCo2ePerKg": {
+        "low": 3.15,
+        "central": 3.15,
+        "high": 3.15
+       }
+      }
+     },
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 6250.0,
+     "savedMoneyUsd": 6.45,
+     "savedKgCo2eLow": 19.688,
+     "savedKgCo2eCentral": 19.688,
+     "savedKgCo2eHigh": 19.688,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "consume 2026-10-02 <= 2026-10-06 -> saved; savedGrams = 6250.0. usd = 6.25 x 1.0312 = 6.4450 exactly -> 2dp half-up tie -> 6.45 (truncation gives 6.44). kgCo2e = 6.25 x 3.15 = 19.6875 exactly -> 3dp half-up tie -> 19.688. Both values are exact decimal ties; half-up is binding."
+   },
+   {
+    "id": "ex-20",
+    "description": "empty ledger: no events, all buckets zero, no refusals",
+    "inputs": {
+     "events": [],
+     "factors": {},
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 0.0,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [],
+     "unpricedGrams": 0.0,
+     "missingEmissionFactorKeys": [],
+     "missingEmissionFactorGrams": 0.0
+    },
+    "workings": "No events -> every counted bucket is 0.0, notCountedGrams = 0.0, unpricedIngredientKeys = [], unpricedGrams = 0.0, missingEmissionFactorKeys = [], missingEmissionFactorGrams = 0.0."
+   },
+   {
+    "id": "ex-21",
+    "description": "refusals: two refused ingredients with fractional grams — sums stay unrounded and round once, not per ingredient",
+    "inputs": {
+     "events": [
+      {
+       "kind": "consume",
+       "ingredientKey": "watercress",
+       "grams": 100.04,
+       "on": "2026-10-01",
+       "lotUseBy": "2026-10-03"
+      },
+      {
+       "kind": "consume",
+       "ingredientKey": "shiso",
+       "grams": 200.04,
+       "on": "2026-10-01",
+       "lotUseBy": "2026-10-03"
+      }
+     ],
+     "factors": {},
+     "aggregates": "sum"
+    },
+    "expected": {
+     "savedGrams": 300.1,
+     "savedMoneyUsd": 0.0,
+     "savedKgCo2eLow": 0.0,
+     "savedKgCo2eCentral": 0.0,
+     "savedKgCo2eHigh": 0.0,
+     "usedLateGrams": 0.0,
+     "usedLateMoneyUsd": 0.0,
+     "usedLateKgCo2eLow": 0.0,
+     "usedLateKgCo2eCentral": 0.0,
+     "usedLateKgCo2eHigh": 0.0,
+     "consumedUnknownGrams": 0.0,
+     "consumedUnknownMoneyUsd": 0.0,
+     "consumedUnknownKgCo2eLow": 0.0,
+     "consumedUnknownKgCo2eCentral": 0.0,
+     "consumedUnknownKgCo2eHigh": 0.0,
+     "wastedGrams": 0.0,
+     "wastedMoneyUsd": 0.0,
+     "wastedKgCo2eLow": 0.0,
+     "wastedKgCo2eCentral": 0.0,
+     "wastedKgCo2eHigh": 0.0,
+     "notCountedGrams": 0.0,
+     "unpricedIngredientKeys": [
+      "shiso",
+      "watercress"
+     ],
+     "unpricedGrams": 300.1,
+     "missingEmissionFactorKeys": [
+      "shiso",
+      "watercress"
+     ],
+     "missingEmissionFactorGrams": 300.1
+    },
+    "workings": "Both consumes are before use-by -> saved; savedGrams = 100.04 + 200.04 = 300.08 -> 1dp half-up -> 300.1. Neither ingredient has a price row or an emission factor: both refusal reasons fire for both keys. Refused grams sum unrounded across ingredients: 100.04 + 200.04 = 300.08 -> rounded once to 1dp -> 300.1 for both unpricedGrams and missingEmissionFactorGrams. Rounding each ingredient first (100.0 + 200.0 = 300.0) would under-report by 0.1 g and is not the binding output."
+   }
+  ]
+ }
 }

@@ -117,7 +117,7 @@ final class HandComputedExampleTests: XCTestCase {
         let file = try loadFile()
 
         XCTAssertEqual(file.kind, "hand-computed-examples")
-        XCTAssertEqual(file.data.examples.count, 20, "the model spec binds exactly twenty examples")
+        XCTAssertEqual(file.data.examples.count, 21, "the model spec binds exactly twenty-one examples")
         XCTAssertTrue(
             file.data.roundingMode.lowercased().contains("half-up"),
             "the file must state the half-up rounding mode"
@@ -143,7 +143,7 @@ final class HandComputedExampleTests: XCTestCase {
             throw XCTSkip("data/kitchen-knowledge/waste not on this branch yet (awaiting join)")
         }
         let file = try loadFile()
-        XCTAssertEqual(file.data.examples.count, 20)
+        XCTAssertEqual(file.data.examples.count, 21)
 
         for example in file.data.examples {
             try assertExample(example, file: file)
@@ -196,24 +196,39 @@ final class HandComputedExampleTests: XCTestCase {
 
         assertValue(result.notCounted.grams, expected.notCountedGrams, "notCountedGrams")
 
-        // Refusals, per reason: the key set and the summed refused grams.
-        let unpriced = result.refusals.filter { $0.reason == .missingPrice }
+        // Refusals, per reason: the binding shape is the ledger's own totals
+        // (model.md §5–6) — the refused key sets plus grams summed unrounded
+        // and rounded once — checked against the example's binding values,
+        // never against the rounded per-ingredient rows.
         XCTAssertEqual(
-            Set(unpriced.map(\.ingredientKey)),
-            Set(expected.unpricedIngredientKeys),
-            "\(id).unpricedIngredientKeys: got \(unpriced.map(\.ingredientKey).sorted())"
+            result.unpricedIngredientKeys.sorted(),
+            expected.unpricedIngredientKeys.sorted(),
+            "\(id).unpricedIngredientKeys: got \(result.unpricedIngredientKeys)"
         )
-        let unpricedGrams = unpriced.map(\.grams).reduce(0, +)
-        XCTAssertEqual(unpricedGrams, expected.unpricedGrams, "\(id).unpricedGrams")
+        XCTAssertEqual(result.unpricedGrams, expected.unpricedGrams, "\(id).unpricedGrams")
 
-        let missingEmission = result.refusals.filter { $0.reason == .missingEmissionFactor }
         XCTAssertEqual(
-            Set(missingEmission.map(\.ingredientKey)),
-            Set(expected.missingEmissionFactorKeys),
-            "\(id).missingEmissionFactorKeys: got \(missingEmission.map(\.ingredientKey).sorted())"
+            result.missingEmissionFactorKeys.sorted(),
+            expected.missingEmissionFactorKeys.sorted(),
+            "\(id).missingEmissionFactorKeys: got \(result.missingEmissionFactorKeys)"
         )
-        let missingEmissionGrams = missingEmission.map(\.grams).reduce(0, +)
-        XCTAssertEqual(missingEmissionGrams, expected.missingEmissionFactorGrams, "\(id).missingEmissionFactorGrams")
+        XCTAssertEqual(
+            result.missingEmissionFactorGrams, expected.missingEmissionFactorGrams,
+            "\(id).missingEmissionFactorGrams"
+        )
+
+        // The per-(ingredient, reason) detail rows describe the same refusal
+        // sets as the binding totals.
+        XCTAssertEqual(
+            Set(result.refusals.filter { $0.reason == .missingPrice }.map(\.ingredientKey)),
+            Set(expected.unpricedIngredientKeys),
+            "\(id).unpriced detail rows"
+        )
+        XCTAssertEqual(
+            Set(result.refusals.filter { $0.reason == .missingEmissionFactor }.map(\.ingredientKey)),
+            Set(expected.missingEmissionFactorKeys),
+            "\(id).missingEmissionFactor detail rows"
+        )
     }
 }
 

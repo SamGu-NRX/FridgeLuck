@@ -37,7 +37,7 @@ data/kitchen-knowledge/
 │   ├── emission_factors.json      kind: emission-factors
 │   ├── price_factors.json         kind: price-factors
 │   ├── loss_factors.json          kind: loss-factors (display-only, never in ledger math)
-│   └── hand_computed_examples.json  kind: hand-computed-examples  (exactly 20)
+│   └── hand_computed_examples.json  kind: hand-computed-examples  (exactly 21)
 └── packs/
     ├── budget_packs.json          kind: budget-packs
     ├── food_bank_packs.json       kind: food-bank-packs
@@ -74,11 +74,11 @@ data/kitchen-knowledge/
 - [ ] All three sub-branches land their directories above with the declared `kind`s.
 - [ ] `swift build` and `swift test` pass on Linux with the joined tree present
       (`RepositoryDataTests` stops skipping).
-- [ ] The 20 hand-computed waste examples are asserted through `WasteLedger` against
+- [ ] The 21 hand-computed waste examples are asserted through `WasteLedger` against
       their literal expected values (`WasteMathTests`), not merely parsed.
 - [ ] No learn card, factor, or pack item cites a source that is absent or has an empty
       licence.
-- [ ] `hand_computed_examples.json` contains exactly 20 examples.
+- [ ] `hand_computed_examples.json` contains exactly 21 examples.
 - [ ] Seasonal months each carry one pack per declared region.
 
 ## Licensing floor

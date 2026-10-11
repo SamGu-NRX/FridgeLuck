@@ -83,7 +83,7 @@ final class RepositoryDataTests: XCTestCase {
             DataEnvelope<HandComputedExamplesPayload>.self,
             from: Data(contentsOf: examples)
         )
-        XCTAssertEqual(payload.data.examples.count, 20, "the model spec binds exactly twenty examples")
+        XCTAssertEqual(payload.data.examples.count, 21, "the model spec binds exactly twenty-one examples")
     }
 
     func testJoinedPacksLoad() throws {

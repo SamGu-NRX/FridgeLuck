@@ -8,7 +8,7 @@ ledger exactly at the specified rounding (grams 1 dp, USD 2 dp, kg CO2e 3 dp,
 half-up, decimal arithmetic throughout).
 
 Run from the repo root: python3 data/kitchen-knowledge/waste/tools/reference.py
-Exit 0 = all 20 examples reproduce.
+Exit 0 = all 21 examples reproduce.
 """
 import json
 import os
@@ -150,7 +150,7 @@ def main():
     assert examples.get("kind") == "hand-computed-examples", "examples: kind"
     data = examples["data"]
     examples_list = data["examples"]
-    assert len(examples_list) == 20, f"expected 20 examples, found {len(examples_list)}"
+    assert len(examples_list) == 21, f"expected 21 examples, found {len(examples_list)}"
 
     failures = 0
     for ex in examples_list:

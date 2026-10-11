@@ -149,8 +149,19 @@ public struct WasteLedgerResult: Codable, Sendable, Equatable {
     public var consumedUnknown: WasteBucketTotals
     public var wasted: WasteBucketTotals
     public var notCounted: WasteBucketTotals
-    /// Ingredients whose grams were excluded from money/CO2e totals for lack of a
-    /// cited factor. Refusals are data, not errors.
+    /// The refusal shape the model binds (model.md §5–6): per reason, the
+    /// refused ingredient keys and the grams excluded from that factor's
+    /// totals. Grams are summed unrounded across ingredients and rounded
+    /// once for output, matching the bucket totals' discipline.
+    public var unpricedIngredientKeys: [String]
+    public var unpricedGrams: Decimal
+    public var missingEmissionFactorKeys: [String]
+    public var missingEmissionFactorGrams: Decimal
+    /// Per-(ingredient, reason) detail behind the two totals above. Grams are
+    /// the UNROUNDED aggregates — round once at display. Rounding a row
+    /// before summing loses the tail (100.04 g + 200.04 g must report
+    /// 300.1 g, not 300.0 g); the binding totals above are the canonical
+    /// outputs.
     public var refusals: [WasteRefusal]
 }
 
@@ -297,11 +308,17 @@ public struct WasteLedger {
         let sortedRefusals = refusalGrams.values.sorted {
             ($0.ingredientKey, $0.reason.rawValue) < ($1.ingredientKey, $1.reason.rawValue)
         }.map {
-            WasteRefusal(
-                ingredientKey: $0.ingredientKey, reason: $0.reason,
-                grams: Self.round($0.grams, places: rounding.grams)
-            )
+            // Row detail stays unrounded; the binding totals below round once.
+            WasteRefusal(ingredientKey: $0.ingredientKey, reason: $0.reason, grams: $0.grams)
         }
+
+        func refusalTotal(_ reason: WasteRefusal.Reason) -> (keys: [String], grams: Decimal) {
+            let rows = refusalGrams.values.filter { $0.reason == reason }
+            let grams = rows.map(\.grams).reduce(0, +)
+            return (rows.map(\.ingredientKey).sorted(), Self.round(grams, places: rounding.grams))
+        }
+        let unpriced = refusalTotal(.missingPrice)
+        let missingEmission = refusalTotal(.missingEmissionFactor)
 
         return WasteLedgerResult(
             saved: totals(.saved),
@@ -309,6 +326,10 @@ public struct WasteLedger {
             consumedUnknown: totals(.consumedUnknown),
             wasted: totals(.wasted),
             notCounted: totals(.notCounted),
+            unpricedIngredientKeys: unpriced.keys,
+            unpricedGrams: unpriced.grams,
+            missingEmissionFactorKeys: missingEmission.keys,
+            missingEmissionFactorGrams: missingEmission.grams,
             refusals: sortedRefusals
         )
     }

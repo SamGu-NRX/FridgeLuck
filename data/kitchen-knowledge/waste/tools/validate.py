@@ -186,8 +186,8 @@ def validate_examples_envelope():
     if data is None:
         return
     examples = data.get("examples", [])
-    if len(examples) != 20:
-        err(f"hand_computed_examples.json: expected exactly 20 examples, found {len(examples)}")
+    if len(examples) != 21:
+        err(f"hand_computed_examples.json: expected exactly 21 examples, found {len(examples)}")
     seen = set()
     for ex in examples:
         eid = ex.get("id", "?")
