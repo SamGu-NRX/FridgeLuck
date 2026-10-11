@@ -52,6 +52,7 @@ copy FeatureLogic/Permissions/AppPermissionCenterMapping.swift
 # Progress sources under test (UI-free read model, range state, policies).
 copy Feature/Progress/ProgressReadModel.swift
 copy Feature/Progress/ProgressRangeState.swift
+copy Feature/Progress/ProgressRangeCoordinator.swift
 copy Feature/Progress/ProgressFlowPolicy.swift
 
 echo "refreshed $(ls "$REAL" | wc -l) real sources into $REAL"

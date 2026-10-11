@@ -109,4 +109,10 @@ enum ProgressReadFailure: Equatable, Sendable, Error {
     case .readFailed(let message): message
     }
   }
+
+  /// Wraps a thrown error without double-wrapping our own kind, so the
+  /// surfaced message stays readable.
+  static func from(_ error: Error) -> ProgressReadFailure {
+    (error as? ProgressReadFailure) ?? .readFailed(String(describing: error))
+  }
 }
