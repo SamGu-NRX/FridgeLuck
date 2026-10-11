@@ -5,7 +5,7 @@
  */
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { makeHarness, type CommunityTestHarness } from "./harness.js";
-import { systemClock } from "../../community/shared/time.js";
+import { systemClock, toIso } from "../../community/shared/time.js";
 import { newAccountId, newSessionId } from "../../community/shared/ids.js";
 import type { IssuedTokens } from "../../community/shared/sessionCore.js";
 
@@ -132,6 +132,52 @@ describe("SessionService", () => {
     await harness.sessions.revokeAllForAccount(account, harness.clock);
     await expect(harness.sessions.verifyAccess(a.accessToken, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
     await expect(harness.sessions.verifyAccess(b.accessToken, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+  });
+
+  test("a deleting account can neither sign in nor refresh from the moment deletion starts", async () => {
+    const account = newAccountId();
+    // The deletion flow guarantees an account document: blockForDeletion
+    // writes the marker to it (and fails when it is missing).
+    await harness.store.accounts.doc(account).set({ appleSub: "deletion-block-sub", createdAtIso: toIso(harness.clock.now()) });
+    const issued = await harness.sessions.issue(account, harness.clock);
+
+    // Deletion starts: the marker and the revocations land in one commit.
+    const revoked = await harness.sessions.blockForDeletion(account, toIso(harness.clock.now()));
+    expect(revoked).toBe(1);
+
+    await expect(harness.sessions.issue(account, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+    await expect(harness.sessions.rotate(issued.refreshToken, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+    // The session that existed before deletion started died with it.
+    await expect(harness.sessions.verifyAccess(issued.accessToken, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+  });
+
+  test("a tombstoned account (deletion finished) refuses issuance and rotation", async () => {
+    const account = newAccountId();
+    await harness.store.accounts.doc(account).set({ appleSub: "tombstone-sub", createdAtIso: toIso(harness.clock.now()) });
+    const issued = await harness.sessions.issue(account, harness.clock);
+    await harness.store.accounts.doc(account).update({ appleSub: null, deletedAtIso: toIso(harness.clock.now()) });
+
+    await expect(harness.sessions.issue(account, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+    await expect(harness.sessions.rotate(issued.refreshToken, harness.clock)).rejects.toMatchObject({ code: "unauthorized" });
+  });
+
+  test("blockForDeletion is convergent: a resumption revokes nothing and stamps the same time", async () => {
+    const account = newAccountId();
+    await harness.store.accounts.doc(account).set({ appleSub: "block-idem-sub", createdAtIso: toIso(harness.clock.now()) });
+    await harness.sessions.issue(account, harness.clock);
+    await harness.sessions.issue(account, harness.clock);
+    const atIso = toIso(harness.clock.now());
+
+    const first = await harness.sessions.blockForDeletion(account, atIso);
+    expect(first).toBe(2);
+    const resumption = await harness.sessions.blockForDeletion(account, atIso);
+    expect(resumption).toBe(0);
+
+    const family = await harness.store.sessions.where("accountId", "==", account).get();
+    expect(family.size).toBe(2);
+    for (const doc of family.docs) {
+      expect((doc.data() as Record<string, unknown>)["revokedAt"]).toBe(atIso);
+    }
   });
 
   test("session records live in Firestore and round-trip through the emulator", async () => {

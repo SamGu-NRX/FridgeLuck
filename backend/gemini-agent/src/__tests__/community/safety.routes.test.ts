@@ -18,9 +18,21 @@ import { createExploreRoutes } from "../../community/explore/exploreRoutes.js";
 import { createTableRoutes } from "../../community/tables/tableRoutes.js";
 import { createChallengeRoutes } from "../../community/challenges/challengeRoutes.js";
 import { createSafetyRoutes } from "../../community/safety/safetyRoutes.js";
+import {
+  blockDirectoryCleanupContributor,
+  createAccountDeletionService,
+  readDeletionRunRecord,
+  type DeletionStepState,
+  type StoredDeletionRun,
+} from "../../community/safety/deletion.js";
+import { createExploreDeletionContributor } from "../../community/explore/deletionContribution.js";
+import { createTablesDeletionContributor } from "../../community/tables/deletionContribution.js";
+import { createChallengesDeletionContributor } from "../../community/challenges/deletionContribution.js";
 import { FirestoreBlockDirectory } from "../../community/safety/blocks.js";
 import { FirestoreModerationQueue } from "../../community/explore/moderationQueue.js";
-import { newRecipeRevisionId, parseAccountId, parsePublicationId } from "../../community/shared/ids.js";
+import type { AccountDeletionContributor } from "../../community/shared/contracts.js";
+import { newRecipeRevisionId, parseAccountId, parsePublicationId, type AccountId } from "../../community/shared/ids.js";
+import type { AccountDeletionService } from "../../community/safety/deletion.js";
 
 const KID = "test-key-1";
 const APPLE_ISSUER = "https://appleid.apple.com";
@@ -64,6 +76,13 @@ interface TokenPair {
 }
 
 async function signInAs(sub: string): Promise<TokenPair> {
+  const res = await attemptSignIn(sub);
+  expect(res.status).toBe(200);
+  return (await res.json()) as TokenPair;
+}
+
+/** Signs in without asserting success — the deleting-account rejection reads the raw response. */
+async function attemptSignIn(sub: string): Promise<Response> {
   nonceCounter += 1;
   const nonce = `nonce-${String(nonceCounter).padStart(4, "0")}`;
   const now = Date.now();
@@ -75,13 +94,11 @@ async function signInAs(sub: string): Promise<TokenPair> {
     sub,
     nonce,
   };
-  const res = await fetch(`${baseUrl}/v1/community/auth/apple`, {
+  return fetch(`${baseUrl}/v1/community/auth/apple`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ identityToken: mintAppleToken(claims), nonce, attested18Plus: true }),
   });
-  expect(res.status).toBe(200);
-  return (await res.json()) as TokenPair;
 }
 
 async function get(path: string, tokens: TokenPair): Promise<Response> {
@@ -391,5 +408,210 @@ describe("safety: account deletion", () => {
     // run on a deleted account cannot resurrect anything).
     const goneTable = await get(`/v1/community/tables/${tableId}`, other);
     expect(goneTable.status).toBe(404);
+  });
+});
+
+/** The contributor list index.ts assembles for the real wiring, in execution order. */
+function realDeletionContributors(): AccountDeletionContributor[] {
+  return [
+    createExploreDeletionContributor(harness.store),
+    createTablesDeletionContributor(harness.store, harness.clock),
+    createChallengesDeletionContributor(harness.store, harness.clock),
+    blockDirectoryCleanupContributor(harness.store),
+  ];
+}
+
+function buildDeletionService(contributors: AccountDeletionContributor[]): AccountDeletionService {
+  return createAccountDeletionService({ store: harness.store, clock: harness.clock, sessions: harness.sessions, contributors });
+}
+
+/** Records each contributor's executions — the observable proof a resume skips finished steps. */
+function counted(contributors: AccountDeletionContributor[], calls: string[]): AccountDeletionContributor[] {
+  return contributors.map((contributor) => ({
+    part: contributor.part,
+    run: (accountId: AccountId, atIso: string) => {
+      calls.push(contributor.part);
+      return contributor.run(accountId, atIso);
+    },
+  }));
+}
+
+function stepForPart(plan: StoredDeletionRun | null, part: string): DeletionStepState | undefined {
+  return Object.values(plan?.steps ?? {}).find((step) => step.part === part);
+}
+
+describe("safety: deletion blocks sessions and resumes", () => {
+  test("deletion start blocks sign-in, refresh and the old token before the plan finishes", async () => {
+    const deleter = await signInAs("del3-start-block");
+    await publishRecipe(deleter, "campus-del3", "Start-block curry");
+
+    // A contributor that probes the session surface mid-plan — after the
+    // block-and-revoke step, before the account tombstone — then crashes,
+    // simulating an interruption.
+    const probe: AccountDeletionContributor = {
+      part: "test/probe",
+      async run() {
+        const reSignIn = await attemptSignIn("del3-start-block");
+        expect(reSignIn.status).toBe(401);
+        const refresh = await send("/v1/community/auth/refresh", null, "POST", { refreshToken: deleter.refreshToken });
+        expect(refresh.status).toBe(401);
+        const whoami = await get("/v1/community/whoami", deleter);
+        expect(whoami.status).toBe(401);
+        throw new Error("simulated crash mid-deletion");
+      },
+    };
+    const service = buildDeletionService([createExploreDeletionContributor(harness.store), probe]);
+    await expect(service.run(deleter.accountId as AccountId)).rejects.toThrow("simulated crash mid-deletion");
+
+    // The block landed at deletion START: marker set, tombstone not yet.
+    const accountDoc = await harness.store.accounts.doc(deleter.accountId).get();
+    const accountData = accountDoc.data() as Record<string, unknown>;
+    expect(typeof accountData["deletionStartedAtIso"]).toBe("string");
+    expect(accountData["deletedAtIso"] ?? null).toBeNull();
+
+    // Partial progress is observable: the resumer can see what remains.
+    const plan = await readDeletionRunRecord(harness.store, deleter.accountId as AccountId);
+    expect(plan?.status).toBe("running");
+    expect(stepForPart(plan, "sessions")?.status).toBe("done");
+    expect(stepForPart(plan, "explore/publications")?.status).toBe("done");
+    expect(stepForPart(plan, "test/probe")?.status).toBe("pending");
+    expect(stepForPart(plan, "account")?.status).toBe("pending");
+  });
+
+  test("an interrupted deletion resumes: finished steps never re-run, nothing double-applies", async () => {
+    const deleter = await signInAs("del3-resume");
+    const other = await signInAs("del3-resume-other");
+    const pubId = await publishRecipe(deleter, "campus-del3", "Resumable curry");
+    const table = await send("/v1/community/tables", deleter, "POST", { name: "Resumable table" });
+    expect(table.status).toBe(201);
+    const { tableId } = (await table.json()) as { tableId: string };
+    const blocked = await send("/v1/community/blocks", deleter, "POST", { accountId: other.accountId });
+    expect(blocked.status).toBe(201);
+
+    // The tables contributor crashes on its first call — the interruption.
+    const tables = createTablesDeletionContributor(harness.store, harness.clock);
+    let tablesRuns = 0;
+    const flakyTables: AccountDeletionContributor = {
+      part: "tables",
+      run: (accountId, atIso) => {
+        calls.push("tables");
+        tablesRuns += 1;
+        if (tablesRuns === 1) {
+          throw new Error("simulated interruption after explore");
+        }
+        return tables.run(accountId, atIso);
+      },
+    };
+    const calls: string[] = [];
+    const service = buildDeletionService([
+      ...counted([createExploreDeletionContributor(harness.store)], calls),
+      flakyTables,
+      ...counted([createChallengesDeletionContributor(harness.store, harness.clock), blockDirectoryCleanupContributor(harness.store)], calls),
+    ]);
+
+    await expect(service.run(deleter.accountId as AccountId)).rejects.toThrow("simulated interruption after explore");
+    expect(calls).toEqual(["explore/publications", "tables"]);
+
+    const record = await service.run(deleter.accountId as AccountId);
+
+    // The resume skipped the finished step and completed the rest.
+    expect(calls).toEqual(["explore/publications", "tables", "tables", "challenges", "safety/blocks"]);
+    expect(record.deletionRunId).toBeTruthy();
+    expect(record.sessionsRevoked).toBe(true);
+    expect(record.contributions.map((c) => c.part)).toEqual(["explore/publications", "tables", "challenges", "safety/blocks"]);
+    // Explore's contribution is the FIRST run's — a re-run would have
+    // touched 0 (already withdrawn) and overwritten the record.
+    expect(record.contributions[0]?.recordsTouched).toBe(1);
+
+    // Effects applied once, timestamps from the plan's start — the first
+    // run's tombstones stand, nothing resurrected.
+    const plan = await readDeletionRunRecord(harness.store, deleter.accountId as AccountId);
+    expect(plan?.status).toBe("completed");
+    const startedAtIso = plan?.startedAtIso ?? "";
+    expect(startedAtIso).not.toBe("");
+    const pubDoc = await harness.store.publications.doc(pubId).get();
+    expect((pubDoc.data() as Record<string, unknown>)["status"]).toBe("withdrawn");
+    expect((pubDoc.data() as Record<string, unknown>)["withdrawnAtIso"]).toBe(startedAtIso);
+    const accountDoc = await harness.store.accounts.doc(deleter.accountId).get();
+    const accountData = accountDoc.data() as Record<string, unknown>;
+    expect(accountData["deletedAtIso"]).toBe(startedAtIso);
+    expect(accountData["appleSub"]).toBeNull();
+    const goneTable = await get(`/v1/community/tables/${tableId}`, other);
+    expect(goneTable.status).toBe(404);
+    const whoami = await get("/v1/community/whoami", deleter);
+    expect(whoami.status).toBe(401);
+    const refreshed = await send("/v1/community/auth/refresh", null, "POST", { refreshToken: deleter.refreshToken });
+    expect(refreshed.status).toBe(401);
+  });
+
+  test("replaying a completed deletion is a no-op: one tombstone, zero re-runs", async () => {
+    const deleter = await signInAs("del3-replay");
+    const pubId = await publishRecipe(deleter, "campus-del3", "Replay curry");
+    const calls: string[] = [];
+    const service = buildDeletionService(counted(realDeletionContributors(), calls));
+
+    const first = await service.run(deleter.accountId as AccountId);
+    expect(calls).toEqual(["explore/publications", "tables", "challenges", "safety/blocks"]);
+    const pubBefore = await harness.store.publications.doc(pubId).get();
+    const accountBefore = await harness.store.accounts.doc(deleter.accountId).get();
+
+    const second = await service.run(deleter.accountId as AccountId);
+
+    // The replay returns the same finished plan — no step re-ran, the
+    // tombstones were not re-stamped.
+    expect(calls).toEqual(["explore/publications", "tables", "challenges", "safety/blocks"]);
+    expect(second.deletionRunId).toBe(first.deletionRunId);
+    expect(second.finishedAtIso).toBe(first.finishedAtIso);
+    const pubAfter = await harness.store.publications.doc(pubId).get();
+    expect(pubAfter.data()).toEqual(pubBefore.data());
+    const accountAfter = await harness.store.accounts.doc(deleter.accountId).get();
+    expect(accountAfter.data()).toEqual(accountBefore.data());
+  });
+
+  test("concurrent double-deletion converges: one plan, one run id, no duplicate effects", async () => {
+    const deleter = await signInAs("del3-race");
+    const other = await signInAs("del3-race-other");
+    const pubId = await publishRecipe(deleter, "campus-del3", "Raced curry");
+    const blocked = await send("/v1/community/blocks", deleter, "POST", { accountId: other.accountId });
+    expect(blocked.status).toBe(201);
+
+    const service = buildDeletionService(realDeletionContributors());
+    const [first, second] = await Promise.all([
+      service.run(deleter.accountId as AccountId),
+      service.run(deleter.accountId as AccountId),
+    ]);
+
+    expect(first.deletionRunId).toBe(second.deletionRunId);
+    const runs = await harness.store.deletionRuns.where("accountId", "==", deleter.accountId).get();
+    expect(runs.size).toBe(1);
+    expect((runs.docs[0]?.data() as Record<string, unknown>)["status"]).toBe("completed");
+
+    // The end state is the single-deletion end state: tombstoned once,
+    // directories gone, no session works.
+    const pubDoc = await harness.store.publications.doc(pubId).get();
+    expect((pubDoc.data() as Record<string, unknown>)["status"]).toBe("withdrawn");
+    const accountDoc = await harness.store.accounts.doc(deleter.accountId).get();
+    const accountData = accountDoc.data() as Record<string, unknown>;
+    expect(typeof accountData["deletedAtIso"]).toBe("string");
+    expect(accountData["appleSub"]).toBeNull();
+    const blocksA = await harness.store.blocks.where("a", "==", deleter.accountId).get();
+    const blocksB = await harness.store.blocks.where("b", "==", deleter.accountId).get();
+    expect(blocksA.size + blocksB.size).toBe(0);
+
+    // Re-registration after COMPLETION starts a fresh account: the flow
+    // deliberately erases the Apple sub, so the block guards deletion in
+    // progress, not future sign-ups. The old tombstone must stay intact.
+    const reSignIn = await attemptSignIn("del3-race");
+    expect(reSignIn.status).toBe(200);
+    const reIssued = (await reSignIn.json()) as TokenPair;
+    expect(reIssued.accountId).not.toBe(deleter.accountId);
+    const oldDocAfter = await harness.store.accounts.doc(deleter.accountId).get();
+    const oldDataAfter = oldDocAfter.data() as Record<string, unknown>;
+    expect(typeof oldDataAfter["deletedAtIso"]).toBe("string");
+    expect(oldDataAfter["appleSub"] ?? null).toBeNull();
+    expect(typeof oldDataAfter["deletionStartedAtIso"]).toBe("string");
+    // The fresh account is not itself deletion-blocked.
+    const whoamiNew = await get("/v1/community/whoami", reIssued);
+    expect(whoamiNew.status).toBe(200);
   });
 });

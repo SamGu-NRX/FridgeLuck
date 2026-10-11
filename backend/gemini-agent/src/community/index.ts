@@ -64,6 +64,7 @@ export interface CommunityRuntime {
 export function createCommunitySessionRuntime(deps: CommunityDeps): CommunityRuntime {
   const sessions = new SessionService({
     sessions: deps.store.sessions,
+    accounts: deps.store.accounts,
     firestore: deps.store.firestore,
     config: {
       sessionSecret: deps.config.sessionSecret ?? "emulator-only-secret",

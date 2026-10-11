@@ -13,7 +13,7 @@ import type { Clock } from "./time.js";
 import { toIso } from "./time.js";
 import type { AccountId, SessionId } from "./ids.js";
 import { newSessionId, parseAccountId, parseSessionId } from "./ids.js";
-import { errUnauthorized } from "./errors.js";
+import { errNotFound, errUnauthorized } from "./errors.js";
 
 export interface SessionServiceConfig {
   /** HMAC key for access tokens. Required; provided by config at the boundary. */
@@ -109,10 +109,31 @@ function parseSessionDoc(doc: DocumentSnapshot): SessionRecord {
   };
 }
 
+/**
+ * Account-deletion state shared by the deletion flow (writer, in
+ * safety/deletion.ts) and session issuance (reader, below): from the moment
+ * a deletion starts the account can neither sign in nor refresh. The marker
+ * lives on the account document so the check rides the same transactions
+ * that create or rotate sessions — never a pre-check outside them, which
+ * would reopen the race blockForDeletion closes.
+ */
+export const DELETION_STARTED_AT_FIELD = "deletionStartedAtIso";
+export const DELETED_AT_FIELD = "deletedAtIso";
+
+/** True when the account document records a deletion that started or finished. A missing document is not deletion-blocked. */
+export function accountDeletionBlockedFrom(data: Record<string, unknown> | undefined): boolean {
+  if (data === undefined) {
+    return false;
+  }
+  return typeof data[DELETION_STARTED_AT_FIELD] === "string" || typeof data[DELETED_AT_FIELD] === "string";
+}
+
 export class SessionService {
   constructor(
     private readonly deps: {
       readonly sessions: CollectionReference;
+      /** The accounts collection: issuance and rotation refuse a deleting account. */
+      readonly accounts: CollectionReference;
       readonly firestore: Firestore;
       readonly config: SessionServiceConfig;
     },
@@ -131,7 +152,15 @@ export class SessionService {
       revokedAt: null,
       rotatedTo: null,
     };
-    await this.deps.sessions.doc(sessionId).set(record);
+    // The deletion check reads the account document inside the same
+    // transaction that creates the session: a blockForDeletion commit racing
+    // this one aborts it, and the retried read then sees the marker — no
+    // session can slip in behind a deletion start.
+    await this.deps.firestore.runTransaction(async (tx: Transaction): Promise<void> => {
+      const accountSnap = await tx.get(this.deps.accounts.doc(accountId));
+      this.assertNotDeletionBlocked(accountSnap, "sign-in");
+      tx.set(this.deps.sessions.doc(sessionId), record);
+    });
     return this.mintBoth(accountId, sessionId, refreshToken, nowMs, refreshExpiresAt.getTime());
   }
 
@@ -199,6 +228,12 @@ export class SessionService {
       }
       const doc = matches.docs[0];
       const record = parseSessionDoc(doc);
+      // Account-state check inside the transactional path (never outside
+      // it): a deletion that starts alongside this rotation serializes
+      // against it on the account document, so a refreshing account is
+      // either rotated before the block or rejected after it — never both.
+      const accountSnap = await tx.get(this.deps.accounts.doc(record.accountId));
+      this.assertNotDeletionBlocked(accountSnap, "refresh");
       if (record.revokedAt !== null || record.rotatedTo !== null) {
         throw errUnauthorized("refresh token already used or revoked");
       }
@@ -246,6 +281,37 @@ export class SessionService {
       batch.update(doc.ref, { revokedAt: toIso(clock.now()) });
     }
     await batch.commit();
+  }
+
+  /**
+   * Deletion start, transactionally: marks the account deleting and revokes
+   * every live session in one commit. `atIso` is the deletion plan's start
+   * timestamp, so concurrent resumptions write identical values. Because
+   * issue() and rotate() read the marker inside their own transactions, this
+   * commit and any concurrent issuance serialize — the loser re-reads and
+   * rejects instead of minting a session past the block. Returns the number
+   * of sessions revoked (0 on a resumption that already revoked them).
+   */
+  async blockForDeletion(accountId: AccountId, atIso: string): Promise<number> {
+    return this.deps.firestore.runTransaction(async (tx: Transaction): Promise<number> => {
+      const accountRef = this.deps.accounts.doc(accountId);
+      const accountSnap = await tx.get(accountRef);
+      if (!accountSnap.exists) {
+        throw errNotFound("account not found");
+      }
+      const liveSessions = await tx.get(this.deps.sessions.where("accountId", "==", accountId).where("revokedAt", "==", null));
+      for (const doc of liveSessions.docs) {
+        tx.update(doc.ref, { revokedAt: atIso });
+      }
+      tx.update(accountRef, { [DELETION_STARTED_AT_FIELD]: atIso });
+      return liveSessions.size;
+    });
+  }
+
+  private assertNotDeletionBlocked(accountSnap: DocumentSnapshot, what: string): void {
+    if (accountDeletionBlockedFrom(accountSnap.data())) {
+      throw errUnauthorized(`account is deleted or deletion is in progress; ${what} refused`);
+    }
   }
 
   private parseClaims(parsed: unknown): AccessTokenClaims {

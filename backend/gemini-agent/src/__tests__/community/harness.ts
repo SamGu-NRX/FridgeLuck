@@ -34,7 +34,7 @@ export async function makeHarness(
   return {
     config,
     store,
-    sessions: new SessionService({ sessions: store.sessions, firestore: store.firestore, config }),
+    sessions: new SessionService({ sessions: store.sessions, accounts: store.accounts, firestore: store.firestore, config }),
     clock,
     async close(): Promise<void> {
       await store.firestore.terminate();
