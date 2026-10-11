@@ -272,8 +272,7 @@ struct RecipeJournalDetailView: View {
         if !entry.recipe.recipeTags.labels.isEmpty {
           detailItem(
             icon: "tag", label: "Style",
-            value: entry.recipe.recipeTags.labels.first?.replacingOccurrences(of: "_", with: " ")
-              .capitalized ?? "")
+            value: entry.recipe.recipeTags.labels.first?.capitalized ?? "")
         }
       }
     }

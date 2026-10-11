@@ -42,6 +42,30 @@ final class SpotlightCoordinator {
   }
 }
 
+extension SpotlightCoordinator {
+  /// Sets the tutorial's scroll callback. The closure captures only the scroll proxy and the
+  /// motion setting. Capturing the view (through `reduceMotion`) made a cycle: the view's state
+  /// holds this coordinator, which held the callback, which held the view. Call again when
+  /// Reduce Motion changes, and call `stopScrolling()` when the scroll view disappears.
+  func scrollToAnchors(
+    with proxy: ScrollViewProxy,
+    reduceMotion: Bool,
+    after delay: TimeInterval = 0.05
+  ) {
+    onScrollToAnchor = { [proxy, reduceMotion, delay] anchorID in
+      DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+        withAnimation(AppMotion.spotlightScroll(reduceMotion: reduceMotion)) {
+          proxy.scrollTo(anchorID, anchor: .center)
+        }
+      }
+    }
+  }
+
+  func stopScrolling() {
+    onScrollToAnchor = nil
+  }
+}
+
 struct SpotlightAnchorKey: PreferenceKey {
   static let defaultValue: [String: CGRect] = [:]
 

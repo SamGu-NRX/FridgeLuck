@@ -70,10 +70,26 @@ struct ScanRunReportSheet: View {
                 .font(AppTheme.Typography.labelSmall)
                 .foregroundStyle(AppTheme.textSecondary)
 
+                if case .failed(let message) = run.outcome {
+                  Text("Scan failed: \(message)")
+                    .font(AppTheme.Typography.labelSmall)
+                    .foregroundStyle(AppTheme.accent)
+                }
+
                 if !run.passErrors.isEmpty {
                   Text("Pass errors: \(run.passErrors.count)")
                     .font(AppTheme.Typography.labelSmall)
                     .foregroundStyle(AppTheme.accent)
+                }
+
+                // A request can fail while its sibling succeeds, which passErrors doesn't count.
+                if !run.requestFailures.isEmpty {
+                  Text(
+                    "Request failures: classification \(run.classificationFailureCount)"
+                      + " · text \(run.ocrFailureCount)"
+                  )
+                  .font(AppTheme.Typography.labelSmall)
+                  .foregroundStyle(AppTheme.accent)
                 }
 
                 if !run.detections.isEmpty {

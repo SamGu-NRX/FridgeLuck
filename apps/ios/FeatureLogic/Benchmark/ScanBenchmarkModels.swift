@@ -1,5 +1,24 @@
 import Foundation
 
+public struct ScanRequestFailure: Sendable, Codable, Equatable {
+  public enum Kind: String, Sendable, Codable {
+    case classification
+    case ocr
+  }
+
+  public let captureIndex: Int
+  public let cropID: String
+  public let kind: Kind
+  public let message: String
+
+  public init(captureIndex: Int, cropID: String, kind: Kind, message: String) {
+    self.captureIndex = captureIndex
+    self.cropID = cropID
+    self.kind = kind
+    self.message = message
+  }
+}
+
 public enum ScanBenchmarkMetricStatus: String, Codable, Sendable {
   case measured
   case failed
@@ -140,6 +159,7 @@ public struct ScanBenchmarkRunObservation: Sendable, Codable, Equatable {
   public let elapsedMs: Int
   public let passErrors: [String]
   public let errorDescription: String?
+  public let requestFailures: [ScanRequestFailure]
 
   public init(
     iteration: Int,
@@ -147,7 +167,8 @@ public struct ScanBenchmarkRunObservation: Sendable, Codable, Equatable {
     nutrition: ScanBenchmarkObservedNutrition? = nil,
     elapsedMs: Int,
     passErrors: [String] = [],
-    errorDescription: String? = nil
+    errorDescription: String? = nil,
+    requestFailures: [ScanRequestFailure] = []
   ) {
     self.iteration = iteration
     self.detections = detections
@@ -155,6 +176,22 @@ public struct ScanBenchmarkRunObservation: Sendable, Codable, Equatable {
     self.elapsedMs = elapsedMs
     self.passErrors = passErrors
     self.errorDescription = errorDescription
+    self.requestFailures = requestFailures
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case iteration, detections, nutrition, elapsedMs, passErrors, errorDescription, requestFailures
+  }
+
+  public init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    iteration = try values.decode(Int.self, forKey: .iteration)
+    detections = try values.decode([ScanBenchmarkObservedDetection].self, forKey: .detections)
+    nutrition = try values.decodeIfPresent(ScanBenchmarkObservedNutrition.self, forKey: .nutrition)
+    elapsedMs = try values.decode(Int.self, forKey: .elapsedMs)
+    passErrors = try values.decode([String].self, forKey: .passErrors)
+    errorDescription = try values.decodeIfPresent(String.self, forKey: .errorDescription)
+    requestFailures = try values.decodeIfPresent([ScanRequestFailure].self, forKey: .requestFailures) ?? []
   }
 }
 
@@ -167,6 +204,7 @@ public struct ScanBenchmarkRunReport: Sendable, Codable, Equatable {
   public let invalidReason: String?
   public let errorDescription: String?
   public let passErrors: [String]
+  public let requestFailures: [ScanRequestFailure]
 
   public init(
     iteration: Int,
@@ -176,7 +214,8 @@ public struct ScanBenchmarkRunReport: Sendable, Codable, Equatable {
     valid: Bool,
     invalidReason: String?,
     errorDescription: String?,
-    passErrors: [String]
+    passErrors: [String],
+    requestFailures: [ScanRequestFailure] = []
   ) {
     self.iteration = iteration
     self.ingredientIds = ingredientIds
@@ -186,6 +225,24 @@ public struct ScanBenchmarkRunReport: Sendable, Codable, Equatable {
     self.invalidReason = invalidReason
     self.errorDescription = errorDescription
     self.passErrors = passErrors
+    self.requestFailures = requestFailures
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case iteration, ingredientIds, alternativeIngredientIds, elapsedMs, valid, invalidReason, errorDescription, passErrors, requestFailures
+  }
+
+  public init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    iteration = try values.decode(Int.self, forKey: .iteration)
+    ingredientIds = try values.decode([Int64].self, forKey: .ingredientIds)
+    alternativeIngredientIds = try values.decode([Int64].self, forKey: .alternativeIngredientIds)
+    elapsedMs = try values.decode(Int.self, forKey: .elapsedMs)
+    valid = try values.decode(Bool.self, forKey: .valid)
+    invalidReason = try values.decodeIfPresent(String.self, forKey: .invalidReason)
+    errorDescription = try values.decodeIfPresent(String.self, forKey: .errorDescription)
+    passErrors = try values.decode([String].self, forKey: .passErrors)
+    requestFailures = try values.decodeIfPresent([ScanRequestFailure].self, forKey: .requestFailures) ?? []
   }
 }
 

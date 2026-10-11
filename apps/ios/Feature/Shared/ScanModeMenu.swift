@@ -295,15 +295,9 @@ struct ScanModeMenu: View {
 // MARK: - Option Button Style
 
 private struct ScanModeOptionButtonStyle: ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.92 : 1.0)
-      .animation(
-        reduceMotion ? nil : AppMotion.press,
-        value: configuration.isPressed
-      )
+      .pressFeedback(isPressed: configuration.isPressed, scale: 0.92, animation: AppMotion.press)
   }
 }
 

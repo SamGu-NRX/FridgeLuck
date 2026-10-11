@@ -285,33 +285,7 @@ final class RecipeRepository: Sendable {
   /// Transaction-scoped recipe resolution used by higher-level services that
   /// need to compose multiple DB writes atomically.
   func resolvePersistedRecipeID(in db: Database, for recipe: Recipe) throws -> Int64 {
-    let titleKey = normalizedTitleKey(recipe.title)
-
-    if let id = recipe.id, try Recipe.fetchOne(db, key: id) != nil {
-      // Prefer recipes that have ingredient rows so downstream macro and inventory
-      // calculations are deterministic for dashboard/journal aggregates.
-      if try recipeHasIngredients(in: db, recipeId: id) {
-        return id
-      }
-
-      if !titleKey.isEmpty,
-        let recoveredID = try ingredientBackedRecipeID(
-          in: db,
-          normalizedTitleKey: titleKey
-        )
-      {
-        return recoveredID
-      }
-
-      return id
-    }
-
-    if !titleKey.isEmpty,
-      let existingID = try bestMatchingRecipeID(
-        in: db,
-        normalizedTitleKey: titleKey
-      )
-    {
+    if let existingID = try existingRecipeID(in: db, for: recipe) {
       return existingID
     }
 
@@ -340,6 +314,45 @@ final class RecipeRepository: Sendable {
       ]
     )
     return db.lastInsertedRowID
+  }
+
+  /// The persisted recipe a log of `recipe` lands on, without writing anything: nil only when
+  /// `resolvePersistedRecipeID` would insert a new row.
+  private func existingRecipeID(in db: Database, for recipe: Recipe) throws -> Int64? {
+    let titleKey = normalizedTitleKey(recipe.title)
+
+    if let id = recipe.id, try Recipe.fetchOne(db, key: id) != nil {
+      // Prefer recipes that have ingredient rows so downstream macro and inventory
+      // calculations are deterministic for dashboard/journal aggregates.
+      if try recipeHasIngredients(in: db, recipeId: id) {
+        return id
+      }
+
+      if !titleKey.isEmpty,
+        let recoveredID = try ingredientBackedRecipeID(
+          in: db,
+          normalizedTitleKey: titleKey
+        )
+      {
+        return recoveredID
+      }
+
+      return id
+    }
+
+    guard !titleKey.isEmpty else { return nil }
+    return try bestMatchingRecipeID(in: db, normalizedTitleKey: titleKey)
+  }
+
+  /// The recipe and macros that logging `recipe` will actually record, so a screen can show,
+  /// preview and log one recipe. Read-only; nil when logging would create a new recipe row.
+  func resolveForLogging(_ recipe: Recipe) throws -> (recipe: Recipe, macros: RecipeMacros)? {
+    let resolved = try db.read { db -> Recipe? in
+      guard let id = try existingRecipeID(in: db, for: recipe) else { return nil }
+      return try Recipe.fetchOne(db, key: id)
+    }
+    guard let resolved, let id = resolved.id else { return nil }
+    return (resolved, try nutritionService.macros(for: id))
   }
 
   private func normalizedTitleKey(_ title: String) -> String {

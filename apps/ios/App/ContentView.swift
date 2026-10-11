@@ -328,6 +328,7 @@ struct ContentView: View {
             detections: directReviewDetections,
             scanProvenance: .bundledFixture,
             fridgeImage: directReviewImage,
+            savesToInventory: false,
             replaySpotlightOnAppear: replayDirectReviewSpotlight
           )
           .onAppear {
@@ -339,6 +340,7 @@ struct ContentView: View {
             ingredientIds: directResultsIngredientIds,
             ingredientNames: directResultsIngredientNames,
             fridgePhoto: directResultsImage,
+            logsMeals: false,
             engine: deps.makeRecommendationEngine(),
             replaySpotlightOnAppear: replayDirectResultsSpotlight
           )
@@ -351,6 +353,7 @@ struct ContentView: View {
             ingredientIds: route.ingredientIds,
             ingredientNames: route.ingredientNames,
             preferredRecipeID: route.preferredRecipeID,
+            logsMeals: true,
             engine: deps.makeRecommendationEngine()
           )
         }
@@ -1013,12 +1016,10 @@ struct ContentView: View {
 // MARK: - Button Styles
 
 private struct FLNavItemButtonStyle: SwiftUI.ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: SwiftUI.ButtonStyleConfiguration) -> some View {
     configuration.label
-      .opacity(configuration.isPressed ? 0.80 : 1)
-      .scaleEffect(configuration.isPressed ? 0.97 : 1)
-      .animation(reduceMotion ? nil : AppMotion.quick, value: configuration.isPressed)
+      .pressFeedback(
+        isPressed: configuration.isPressed, scale: 0.97, opacity: 0.80,
+        animation: AppMotion.quick)
   }
 }

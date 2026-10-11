@@ -382,11 +382,9 @@ struct SubstitutionSheet: View {
 // MARK: - Card Button Style
 
 private struct SubstitutionCardButtonStyle: ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
-      .animation(reduceMotion ? nil : AppMotion.buttonSpring, value: configuration.isPressed)
+      .pressFeedback(
+        isPressed: configuration.isPressed, scale: 0.97, animation: AppMotion.buttonSpring)
   }
 }
