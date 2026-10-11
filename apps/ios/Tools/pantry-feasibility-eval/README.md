@@ -78,9 +78,16 @@ cd swift && swift build
   `findNearMatch`, running on real migrated in-memory databases seeded from
   the frozen corpus, agrees with the transcribed arm on every one of the
   5,200 states — the makeable and near-match ID sets are identical
-  (`runs/production_verification.json`, agreement rate 1.0). The 46.4%
-  false-complete finding is therefore not a transcription artifact: the
-  production code itself over-promises on exactly those pairs.
+  (`runs/production_verification.json`, agreement rate 1.0). The verifier also
+  compares those live result sets DIRECTLY to the independent quantity oracle,
+  no transcription involved: zero false-block states, zero exclusion or
+  diet-tag leaks, and all 11,846 live-makeable-but-oracle-infeasible pairs are
+  quantity-only (`insufficient_known_quantity`). The 46.4% false-complete
+  finding is therefore not a transcription artifact: the production code
+  itself over-promises on exactly those pairs. The replayed sources are pinned
+  by sha256 in `production/RealManifest.json` (written by `Scripts/refresh.sh`,
+  Swift 6.1.2 toolchain recorded); `verify_production.py` recomputes the pin
+  against the current app sources and fails on drift.
 
 ## Caveats
 

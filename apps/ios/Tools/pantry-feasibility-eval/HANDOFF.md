@@ -30,6 +30,28 @@ The runner calls the **actual** `findMakeable(with:profile:limit:)` and
 `findNearMatch(with:profile:maxMissingRequired:limit:)` and emits the resulting
 recipe-ID sets per state to `runs/production_replay.jsonl`.
 
+### Source pin
+
+`production/RealManifest.json` (committed) records the sha256 of all 16 real
+sources the replay compiled, plus the toolchain (Swift 6.1.2 on Linux) and
+build command. `Scripts/refresh.sh` regenerates it on every refresh;
+`verify_production.py` recomputes every hash from the current app sources and
+exits nonzero on drift, so the committed replay rows' provenance is checkable
+without the build tree.
+
+### Direct oracle comparison
+
+`verify_production.py` also compares the live result sets straight to the
+independent quantity-aware `FeasibilityOracle` — no transcription in the loop:
+
+- all 5,200 states have every oracle-feasible recipe inside the live makeable
+  set (`oracle_false_block_states: 0`);
+- no live makeable or near-match recipe violates an allergen exclusion or
+  diet-tag requirement (`exclusion_or_tag_leaks: 0`);
+- all 11,846 live-makeable-but-oracle-infeasible pairs are quantity-only
+  (`insufficient_known_quantity`), matching the transcribed per-pair metric
+  exactly.
+
 ## Verified results
 
 `verify_production.py runs` compares the live result sets against the Python

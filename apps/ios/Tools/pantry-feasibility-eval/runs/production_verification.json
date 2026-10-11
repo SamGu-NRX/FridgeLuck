@@ -3,6 +3,22 @@
  "makeable_set_agreement": 5200,
  "near_match_set_agreement": 5200,
  "agreement_rate": 1.0,
- "note": "live RecipeRepository.findMakeable/findNearMatch on real migrated in-memory databases vs the transcribed production arm",
+ "source_pin": {
+  "status": "ok",
+  "sources": 16,
+  "toolchain": "Swift version 6.1.2 (swift-6.1.2-RELEASE)",
+  "problems": []
+ },
+ "live_vs_oracle": {
+  "note": "direct comparison of live RecipeRepository output against the independent quantity-aware oracle \u2014 no transcription involved",
+  "states_with_oracle_feasible_fully_covered": 5200,
+  "oracle_false_block_states": 0,
+  "exclusion_or_tag_leaks": 0,
+  "live_makeable_but_oracle_infeasible_pairs": 11846,
+  "overpromise_reason_counts": {
+   "insufficient_known_quantity": 11846
+  }
+ },
+ "note": "live RecipeRepository.findMakeable/findNearMatch on real migrated in-memory databases vs the transcribed production arm, and directly vs the independent quantity oracle",
  "mismatches": []
 }
