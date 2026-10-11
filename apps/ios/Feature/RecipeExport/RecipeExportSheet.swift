@@ -186,7 +186,6 @@ struct RecipeExportSheet: View {
     }
     .padding(AppTheme.Space.sm)
     .background(AppTheme.Export.bannerFill, in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm))
-    .accessibilityElement(children: .combine)
   }
 
   // MARK: - Preparing / Failure / Refusal States
@@ -273,6 +272,7 @@ struct RecipeExportSheet: View {
   /// controls when the preview cannot back an export.
   @MainActor
   private func runIntakeProbe() async {
+    probeInFlight = true
     do {
       let intake = try buildFreshIntake()
       probeError = nil
