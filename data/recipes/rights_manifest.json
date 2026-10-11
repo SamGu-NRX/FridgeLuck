@@ -399,6 +399,38 @@
         "caching": true,
         "offline_use": true
       }
+    },
+    "fl-nhs-0001": {
+      "source_id": "nhs_website",
+      "source_type": "government",
+      "origin": "NHS Website Content (Department of Health and Social Care)",
+      "license": "OGL-3.0",
+      "access_date": "2026-10-11",
+      "license_evidence": "quoted OGL v3.0 release at https://www.nhs.uk/our-policies/terms-and-conditions/ (retrieved 2026-10-11, SOURCES.md section 2); per-recipe page https://www.nhs.uk/healthier-families/recipes/greek-yoghurt-and-raspberry-chill/ (datePublished 2023-10-17)",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-nhs-0002": {
+      "source_id": "nhs_website",
+      "source_type": "government",
+      "origin": "NHS Website Content (Department of Health and Social Care)",
+      "license": "OGL-3.0",
+      "access_date": "2026-10-11",
+      "license_evidence": "quoted OGL v3.0 release at https://www.nhs.uk/our-policies/terms-and-conditions/ (retrieved 2026-10-11, SOURCES.md section 2); per-recipe page https://www.nhs.uk/healthier-families/recipes/porridge-with-yoghurt-and-berries/ (datePublished 2026-01-09)",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
     }
   }
 }
