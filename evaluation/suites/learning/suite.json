@@ -1,0 +1,8 @@
+{
+  "id": "learning",
+  "letter": "B",
+  "title": "Learned taste ranker vs baselines (suite B)",
+  "owner_task": "continual-preference-learning-eval-harness-task (suite B)",
+  "platform": "any",
+  "timeout_s": 1800
+}
