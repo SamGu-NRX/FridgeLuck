@@ -56,6 +56,14 @@ public struct SimConfig: Sendable, Equatable {
     /// Earlier slots are slightly more likely to be picked, independently of
     /// taste.
     public var positionBias: Double
+    /// Mere-exposure contamination: a slate item adds
+    /// `exposureWeight * log(1 + priorExposureCount)` to its choice score —
+    /// shown-before items are picked a little more, independently of taste.
+    public var exposureWeight: Double
+    /// Use-it-or-lose-it contamination: a candidate adds
+    /// `availabilityWeight * log(pantryStockFactor)` to its choice score —
+    /// ingredients about to spoil nudge the pick, independently of taste.
+    public var availabilityWeight: Double
     /// Probability a session rejects one or two shown candidates with a
     /// typed skip reason before choosing.
     public var skipSessionProbability: Double
@@ -136,6 +144,8 @@ public struct SimConfig: Sendable, Equatable {
         self.attentionProbability = 0.85
         self.choiceTemperature = 0.35
         self.positionBias = 0.05
+        self.exposureWeight = 0.10
+        self.availabilityWeight = 0.15
         self.skipSessionProbability = 0.5
         self.ratingProbability = 1.0 / 3.0
         self.ratingNoiseSigma = 0.75

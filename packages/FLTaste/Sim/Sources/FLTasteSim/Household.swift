@@ -22,7 +22,9 @@ public struct Eater: Sendable {
 /// union of the eaters' — one phone, one dinner, so a meal must be legal for
 /// everyone (overhaul finding 6).
 public struct Household: Sendable {
-    public let eaters: [Eater]
+    /// Eaters are mutable so drift and mid-history shifts can update latent
+    /// taste and restrictions; the household itself is a value type.
+    public var eaters: [Eater]
 
     /// Union of every eater's restrictions, de-duplicated by (kind, target).
     /// A recipe is household-legal only when it is legal under every

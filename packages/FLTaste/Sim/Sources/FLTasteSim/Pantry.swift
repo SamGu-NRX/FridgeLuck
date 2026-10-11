@@ -186,6 +186,14 @@ public struct FeasibilityFilter: Sendable {
         return true
     }
 
+    /// Recipes that pass restrictions/capability checks regardless of stock —
+    /// the universe the weekly shopper plans from. Sorted by id.
+    public func legalRecipes(catalog: RecipeCatalog) -> [CatalogRecipe] {
+        catalog.recipes.map(\.value)
+            .filter { isLegal($0) }
+            .sorted { $0.id.rawValue < $1.id.rawValue }
+    }
+
     /// The feasible set at a moment: restriction-legal recipes the pantry
     /// supports, sorted by id so every downstream consumer sees one order.
     public func feasibleRecipes(catalog: RecipeCatalog, pantry: Pantry) -> [CatalogRecipe] {
