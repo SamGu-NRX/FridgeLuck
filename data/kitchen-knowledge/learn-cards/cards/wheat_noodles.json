@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "wheat_noodles",
+  "displayName": "Wheat Noodles",
+  "isCore": false,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "Noodles of wheat dough — rolled, cut, or pulled — the everyday noodles of Chinese, Japanese, and Korean cooking, from egg noodles to udon.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The oldest physical evidence of noodles is a 4,000-year-old bowl from China's Lajia site, and noodles made from wheat dough became a Han-dynasty staple; food historians trace the boiling-dough tradition from China along the Silk Road to Persia and only later to Sicily and Italy.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Fresh noodles for texture when cooking same-day, dried for the cupboard; match thickness to broth or stir-fry, and check for a short ingredient list (wheat, water, salt, maybe egg).",
+    "citations": []
+   },
+   "storage": {
+    "text": "Dried keeps in a sealed box; fresh noodles are perishable and need the fridge within days. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "fresh-noodle windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Leftover noodles crisped in a hot pan make noodle cakes; they also thicken soup or turn into chow mein with whatever vegetables are on the edge.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "rice noodles",
+    "ratio": "1:1",
+    "note": "gluten-free; soak, don't boil",
+    "citations": []
+   },
+   {
+    "substitute": "spaghetti",
+    "ratio": "1:1",
+    "note": "closest Western shelf swap",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169731,
+   "fdcDescription": "Noodles, egg, dry, enriched",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "carbohydrateG": 71.27,
+    "energyKcal": 384,
+    "ironMg": 4.01,
+    "saturatedFatG": 1.18,
+    "folateMcg": 230,
+    "vitaminCMg": 0,
+    "vitaminARaeMcg": 17,
+    "fiberG": 3.3,
+    "sodiumMg": 21,
+    "proteinG": 14.16,
+    "fatG": 4.44,
+    "sugarG": 1.88,
+    "calciumMg": 35,
+    "potassiumMg": 244
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Noodle — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Noodle",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169731 (Noodles, egg, dry, enriched)."
+   }
+  }
+ }
+}

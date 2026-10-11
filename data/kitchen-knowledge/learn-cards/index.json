@@ -805,18 +805,98 @@
     "fdcId": 174272
    },
    {
+    "id": "thyme",
+    "displayName": "Thyme",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173470
+   },
+   {
+    "id": "tilapia",
+    "displayName": "Tilapia",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 175176
+   },
+   {
+    "id": "tofu",
+    "displayName": "Tofu",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 2,
+    "fdcId": 172475
+   },
+   {
     "id": "tomato",
     "displayName": "Tomato",
     "isCore": true,
     "category": "vegetable",
     "frequencyInBundledRecipes": 13,
     "fdcId": 170457
+   },
+   {
+    "id": "tortilla",
+    "displayName": "Tortilla",
+    "isCore": true,
+    "category": "grain",
+    "frequencyInBundledRecipes": 6,
+    "fdcId": 167535
+   },
+   {
+    "id": "tortilla_chips",
+    "displayName": "Tortilla Chips",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173143
+   },
+   {
+    "id": "turmeric",
+    "displayName": "Turmeric",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172231
+   },
+   {
+    "id": "vegetable_oil",
+    "displayName": "Vegetable Oil",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172370
+   },
+   {
+    "id": "wheat_noodles",
+    "displayName": "Wheat Noodles",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169731
+   },
+   {
+    "id": "white_beans",
+    "displayName": "White Beans",
+    "isCore": false,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 175203
+   },
+   {
+    "id": "yogurt",
+    "displayName": "Yogurt",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 15,
+    "fdcId": 171284
    }
   ],
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 101,
+   "cardsWritten": 111,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [
     "flattened_rice",

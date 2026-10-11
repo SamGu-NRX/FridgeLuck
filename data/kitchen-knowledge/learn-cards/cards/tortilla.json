@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "tortilla",
+  "displayName": "Tortilla",
+  "isCore": true,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "A thin, circular unleavened flatbread — corn (from nixtamalized masa) or wheat flour — the everyday bread of Mexico and Central America and the wrap of half the world.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Tortillas were made by the ancient peoples of Mesoamerica, where the Aztecs called them tlaxcalli; flour versions only appeared after the Spanish brought wheat to Mexico, and mass production took off in the 1950s with tortilla machines and masa harina.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Corn tortillas for authentic taco flavour and a lower-fat base; flour for burrito flexibility. Fresh tortilleria or refrigerated packs beat shelf-stable stacks every time.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep sealed at room temperature for days or the fridge for longer; the rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "bread storage windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Stale tortillas are raw material: fry or bake them into chips and tostadas, tear them into tortilla soup, or blitz into crumbs for coating.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "pita",
+    "ratio": "1:1",
+    "note": "pockets instead of wraps",
+    "citations": []
+   },
+   {
+    "substitute": "lettuce leaves",
+    "ratio": "1 leaf per tortilla",
+    "note": "low-carb wrap",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 167535,
+   "fdcDescription": "Tortillas, ready-to-bake or -fry, flour, shelf stable",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 7.58,
+    "carbohydrateG": 49.27,
+    "energyKcal": 297,
+    "sugarG": 2.66,
+    "calciumMg": 163,
+    "potassiumMg": 133,
+    "proteinG": 8.01,
+    "fiberG": 2.4,
+    "ironMg": 3.32,
+    "sodiumMg": 742,
+    "vitaminARaeMcg": 0,
+    "vitaminCMg": 0,
+    "folateMcg": 118,
+    "saturatedFatG": 1.23
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Tortilla — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tortilla",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 167535 (Tortillas, ready-to-bake or -fry, flour, shelf stable)."
+   }
+  }
+ }
+}

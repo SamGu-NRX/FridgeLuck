@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "tortilla_chips",
+  "displayName": "Tortilla Chips",
+  "isCore": false,
+  "category": "pantry",
+  "sections": {
+   "whatItIs": {
+    "text": "Corn tortillas cut into triangles and fried or baked — nixtamalized corn, which is what separates them from plain corn chips.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The triangle chip was popularised in the 1940s by Rebecca Webb Carranza, who cut the misshapen tortillas rejected by her Los Angeles factory's machine into triangles and sold them a dime a bag; nachos themselves were invented in 1943 by Ignacio Anaya in Piedras Negras, Mexico.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose thick, whole-grain, or restaurant-style chips for dipping strength; check the fry oil — frying in good oil (and draining) keeps flavour clean.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Reseal tightly at room temperature; they stale by losing crunch, not by spoiling. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "snack storage guidance lives in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Soft chips revive in a 175 °C oven for a few minutes and turn into chilaquiles, nachos, or a crunchy salad topper when past their dipping prime.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "corn chips",
+    "ratio": "1:1",
+    "note": "fatter, non-nixtamalized corn; Fritos-style",
+    "citations": []
+   },
+   {
+    "substitute": "pita chips",
+    "ratio": "1:1",
+    "note": "wheat-based; less corn sweetness",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173143,
+   "fdcDescription": "Tortilla chips, yellow, plain, salted",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 1.21,
+    "vitaminARaeMcg": 8,
+    "folateMcg": 22,
+    "vitaminCMg": 0,
+    "fiberG": 4.7,
+    "ironMg": 1.32,
+    "sodiumMg": 310,
+    "proteinG": 6.62,
+    "saturatedFatG": 2.78,
+    "fatG": 22.33,
+    "carbohydrateG": 67.38,
+    "energyKcal": 497,
+    "calciumMg": 104,
+    "potassiumMg": 206
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Tortilla chip — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tortilla_chip",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173143 (Tortilla chips, yellow, plain, salted)."
+   }
+  }
+ }
+}
