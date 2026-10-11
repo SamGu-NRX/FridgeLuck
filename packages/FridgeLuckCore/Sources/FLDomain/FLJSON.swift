@@ -17,11 +17,25 @@ public enum FLJSON {
     public static func canonicalEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        // Review round 1, item 2: no `Date` may fall through to the default
+        // reference-epoch encoding. Any type whose own Codable implementation
+        // defers a `Date` to the encoder still emits the ISO 8601 form.
+        encoder.dateEncodingStrategy = .custom { date, encoder in
+            var container = encoder.singleValueContainer()
+            try container.encode(FLTimestamp.encode(date))
+        }
         return encoder
     }
 
     public static func canonicalDecoder() -> JSONDecoder {
-        JSONDecoder()
+        let decoder = JSONDecoder()
+        // The matching decode side: a numeric timestamp is a contract
+        // violation, never a date to reinterpret.
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let raw = try decoder.singleValueContainer().decode(String.self)
+            return try FLTimestamp.decode(raw, target: "ISO timestamp")
+        }
+        return decoder
     }
 
     /// Canonical JSON bytes of a Codable value — the input for payload hashing
