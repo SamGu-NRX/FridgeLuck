@@ -320,10 +320,14 @@ public enum FLPantryFeasibility {
                 let substituteRequired = scaledRequired.map { $0 * swap.gramsFactor }
                 let substitute = assess(ingredient: swap.substitute, requiredGrams: substituteRequired, preparation: line.preparation)
                 if substitute.state == .satisfied {
-                    reserve(FLStockFold.groupKey(for: swap.substitute), usableIDs: substitute.usableLotIDs, satisfiedGrams: substituteRequired)
-                    let covered = substitute.stale
+                    // A stale rescue never reserves: the cook must confirm
+                    // the substitute's evidence before it is used.
+                    if !substitute.stale {
+                        reserve(FLStockFold.groupKey(for: swap.substitute), usableIDs: substitute.usableLotIDs, satisfiedGrams: substituteRequired)
+                    }
+                    let covered: FLFeasibilityLineState = substitute.stale
                         ? .needsReconfirming
-                        : FLFeasibilityLineState.satisfied
+                        : .satisfied
                     return try buildLine(
                         line.lineID,
                         ingredient: line.ingredient,
