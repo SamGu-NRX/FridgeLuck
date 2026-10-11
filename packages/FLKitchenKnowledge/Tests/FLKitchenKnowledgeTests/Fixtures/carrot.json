@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "kind": "learn-card",
+  "retrieved": "2026-10-11",
+  "data": {
+    "id": "fixture-carrot",
+    "displayName": "Carrot",
+    "isCore": true,
+    "category": "vegetable",
+    "sections": {
+      "whatItIs": {"text": "Fixture prose for decoder mechanics.", "citations": ["s1"]},
+      "historyNote": {"text": "Fixture history prose.", "citations": ["s2"]},
+      "howToChoose": {"text": "Fixture selection prose.", "citations": []},
+      "storage": {"text": "Fixture storage prose; numbers live in the rulebook.", "citations": [], "foodSafetyRef": {"path": "data/food-safety/rules.json", "note": "storage guidance lives in the food-safety rulebook"}},
+      "useItUp": {"text": "Fixture use-it-up prose.", "citations": []}
+    },
+    "substitutions": [
+      {"substitute": "parsnip", "ratio": "1:1", "note": "fixture substitution", "citations": []}
+    ],
+    "nutritionPer100g": {
+      "fdcId": 170606,
+      "fdcDescription": "Carrots, raw",
+      "fdcDataType": "SR Legacy",
+      "sourceId": "s7",
+      "nutrients": {
+        "energyKcal": 41,
+        "proteinG": 0.93,
+        "carbohydrateG": 9.58,
+        "fiberG": 2.8,
+        "fatG": 0.24,
+        "sodiumMg": 69,
+        "vitaminARaeMcg": 835
+      }
+    },
+    "sources": {
+      "s1": {"title": "Fixture source (illustrative only)", "publisher": "test", "url": "https://example.test/fixture-carrot", "retrieved": "2026-10-11", "licence": "Test fixture", "notes": "This is a decoder fixture, not shipped data."},
+      "s2": {"title": "Fixture history source", "publisher": "test", "url": "https://example.test/fixture-history", "retrieved": "2026-10-11", "licence": "Test fixture"},
+      "s7": {"title": "USDA FoodData Central SR Legacy release", "publisher": "USDA Agricultural Research Service", "url": "https://fdc.nal.usda.gov/", "retrieved": "2026-10-11", "licence": "Public domain (US government work)", "notes": "Fixture values are illustrative; real cards come from the SR Legacy download."}
+    }
+  }
+}
