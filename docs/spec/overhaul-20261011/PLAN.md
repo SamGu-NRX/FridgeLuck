@@ -106,4 +106,4 @@ Record which condition fired and why in this file. The overhaul is done when eve
 
 - 2026-10-11 10:00Z: spec inputs from Fable, Sol and Astra; `SPEC.md` decided.
 - 2026-10-11 11:30Z: Round 1 queued.
-- 2026-10-11 11:45Z: the integration branch is `alpha`, cut from main at 2fd0dfe, by Sam's direction. The earlier `beta` and `alpha` (both at 2fd0dfe, no PRs) were deleted.
+- 2026-10-11 11:45Z: the integration branch is `alpha`, cut from main at 2fd0dfe, by Sam's direction. The earlier `beta` and `fleet/beta` (both at 2fd0dfe, no PRs) were deleted.
