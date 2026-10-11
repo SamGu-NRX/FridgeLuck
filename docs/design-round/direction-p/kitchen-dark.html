@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck · Direction P · kitchen-dark</title>
+<style>
+:root{--d1:34px;--d1l:40px;--d2:28px;--d2l:33px;--d3:21px;--d3l:26px;--t1:17px;--t1l:24px;--t2:15px;--t2l:21px;--cap:13px;--capl:17px;--m1:17px;--m1l:22px;--m2:15px;--m2l:20px;--m3:13px;--m3l:17px;--cook:27px;--cookl:35px;--out:cubic-bezier(.23,1,.32,1);--move:cubic-bezier(.32,.72,0,1);--tabbar:rgba(254,252,248,.82)}
+html[data-xxl="1"]{--d1:46px;--d1l:54px;--d2:38px;--d2l:44px;--d3:29px;--d3l:35px;--t1:23px;--t1l:31px;--t2:20px;--t2l:27px;--cap:18px;--capl:24px;--m1:23px;--m1l:29px;--m2:20px;--m2l:26px;--m3:17px;--m3l:23px;--cook:36px;--cookl:46px}
+
+html[data-mode="light"]{--bg:#F5F0E8;--bg-deep:#E8E0D4;--surface:#FEFCF8;--surf-mut:#F0E8DE;--ink:#2A2118;--ink2:#6B6054;--accent:#C2613A;--accent-ink:#A35131;--accent-lt:#E39E7A;--sage:#7A8E6B;--sage-ink:#5F6E53;--sage-lt:#B8C7AD;--oat:#D4B78F;--oat-ink:#7C5C30;--rose:#C09E96;--hero-lt:#F0E0C7;--hero-mid:#D4B78F;--chip-acc:#EFDFD3;--chip-sage:#D3D9C8;--chip-oat:#F0E0C7;--chip-rose:#E6D9D1;--rule:#D9D3CB;--rule2:#C0BAB2;--btn-fill:#A35131;--btn-fg:#FFFFFF;--tile:#F0E8DE;--slab:#E8E0D4;--tabbar:rgba(254,252,248,.84)}
+html[data-mode="dark"]{--bg:#141210;--bg-deep:#1A1712;--surface:#24211C;--surf-mut:#2E2924;--ink:#F2EDE3;--ink2:#BDB09E;--accent:#D98059;--accent-ink:#D98059;--accent-lt:#EBB08C;--sage:#94B085;--sage-ink:#94B085;--sage-lt:#708A68;--oat:#CFB58C;--oat-ink:#CFB58C;--rose:#C4A39C;--hero-lt:undefined;--hero-mid:undefined;--chip-acc:#34241C;--chip-sage:#424E3C;--chip-oat:#3D362B;--chip-rose:#3B322F;--rule:#2F2C29;--rule2:#45423E;--btn-fill:#D98059;--btn-fg:#1E1C17;--tile:#2B2924;--slab:#1E1C17;--tabbar:rgba(36,33,28,.84)}
+html[data-mode="cook"]{--bg:#1F1C17;--bg-deep:undefined;--surface:#24211C;--surf-mut:#2E2924;--ink:#F2EDE3;--ink2:#BDB09E;--accent:#D98059;--accent-ink:#D98059;--accent-lt:#EBB08C;--sage:#94B085;--sage-ink:#94B085;--sage-lt:undefined;--oat:#CFB58C;--oat-ink:#CFB58C;--rose:undefined;--hero-lt:undefined;--hero-mid:undefined;--chip-acc:undefined;--chip-sage:undefined;--chip-oat:undefined;--chip-rose:undefined;--rule:#38352F;--rule2:#4D4A44;--btn-fill:#D98059;--btn-fg:#1F1C17;--tile:#2B2924;--slab:undefined;--tabbar:rgba(44,41,36,.9)}
+
+*{box-sizing:border-box;margin:0;padding:0}
+a{color:inherit;text-decoration:none}
+html{background:#DAD2C4}
+body{font-family:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;background:#DAD2C4;color:var(--ink);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:28px;padding:36px 16px 72px;min-height:100vh;font-size:var(--t1);line-height:var(--t1l)}
+.phone{position:relative;width:393px;height:852px;flex:none;background:var(--bg);color:var(--ink);border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(42,33,24,.18),0 30px 60px -20px rgba(42,33,24,.35)}
+html[data-mode="cook"] .phone{box-shadow:0 0 0 1px rgba(0,0,0,.5),0 30px 60px -20px rgba(0,0,0,.5)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;z-index:11;color:var(--ink)}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12;opacity:.9}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%;overflow:auto;scrollbar-width:none;padding:0 20px 170px}
+.scroll::-webkit-scrollbar{display:none}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c2{color:var(--ink2)}
+.d1{font-family:ui-serif,"New York","SF Pro Display",Georgia,"Times New Roman",serif;font-size:var(--d1);line-height:var(--d1l);font-weight:700;letter-spacing:-.01em}
+.d2{font-family:ui-serif,"New York","SF Pro Display",Georgia,"Times New Roman",serif;font-size:var(--d2);line-height:var(--d2l);font-weight:700;letter-spacing:-.01em}
+.d3{font-family:ui-serif,"New York","SF Pro Display",Georgia,"Times New Roman",serif;font-size:var(--d3);line-height:var(--d3l);font-weight:600}
+.t1{font-size:var(--t1);line-height:var(--t1l)}
+.t2{font-size:var(--t2);line-height:var(--t2l)}
+.cap{font-size:var(--cap);line-height:var(--capl)}
+.label{font-size:var(--cap);line-height:var(--capl);font-weight:600}
+.m1{font-size:var(--m1);line-height:var(--m1l)}
+.m2{font-size:var(--m2);line-height:var(--m2l)}
+.m3{font-size:var(--m3);line-height:var(--m3l)}
+.card{background:var(--surface);border-radius:16px;box-shadow:inset 0 0 0 .5px var(--rule)}
+.rows{background:var(--surface);border-radius:16px;box-shadow:inset 0 0 0 .5px var(--rule);overflow:hidden}
+.row{min-height:44px;display:flex;align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--rule);transition:transform 120ms var(--out)}
+.row:first-child{border-top:0}
+.row:active{transform:scale(.985)}
+.row .n{flex:1;min-width:0}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:var(--cap);line-height:var(--capl);font-weight:600;padding:3px 9px;border-radius:9px;background:var(--chip-oat);color:var(--ink);white-space:nowrap}
+.chip .dot{width:6px;height:6px;border-radius:50%;flex:none}
+.chip.acc{background:var(--chip-acc)}.chip.sag{background:var(--chip-sage)}.chip.oat{background:var(--chip-oat)}.chip.ros{background:var(--chip-rose)}
+.sq{width:10px;height:10px;border-radius:3px;flex:none;margin-right:2px}
+.sq.have{background:var(--sage)}
+.sq.missing{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink2)}
+.sq.unconf{background:transparent;border:1.5px dashed var(--ink2)}
+.fit{display:inline-flex;gap:3px;align-items:center;flex:none}
+.fit i{width:9px;height:9px;border-radius:2.5px;background:var(--accent)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink2)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:13px;font:inherit;font-weight:600;font-size:var(--t1);border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent;padding:0 18px}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--btn-fill);color:var(--btn-fg)}
+.btn.ghost{box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.btn.small{min-height:44px;width:auto;padding:0 16px;border-radius:11px;font-size:var(--t2)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sect{margin-top:28px}
+.sect>.label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;padding:0 4px}
+.sect>.label a{font-weight:400;color:var(--ink2);text-decoration:none;white-space:nowrap}
+.field{display:flex;align-items:center;gap:10px;min-height:44px;background:var(--surface);border-radius:12px;box-shadow:inset 0 0 0 .5px var(--rule);padding:0 14px;color:var(--ink2);font-size:var(--t2)}
+.in{animation:rise 180ms var(--out) both;animation-delay:calc(var(--i,0)*24ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* tab bar (shell F) */
+.tabbar{position:absolute;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);min-height:84px;padding:6px 8px 20px;background:var(--tabbar);box-shadow:inset 0 .5px 0 var(--rule)}
+.tabs{display:contents}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;line-height:13px;font-weight:500;color:var(--ink2);padding-top:6px}
+.tab.on{color:var(--ink)}
+.tab.on .tdot{width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.tab .tdot{display:none}
+.tab svg{width:24px;height:24px}
+/* the floating orb nav on Shell F is killed by the brief: the bar is flat, no scan button.
+   Shell S keeps its central scan orb as a separate candidate (.orb-s below). */
+/* shell S tab bar */
+.tabs-s{position:absolute;left:14px;right:14px;bottom:22px;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:0 10px;min-height:70px;background:var(--tabbar);border-radius:35px;box-shadow:inset 0 0 0 .5px var(--rule),0 10px 28px -12px rgba(42,33,24,.35)}
+.tab-s{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;line-height:14px;font-weight:500;color:var(--ink2);width:96px;padding:8px 0}
+.tab-s.on{color:var(--ink)}
+.tab-s svg{width:24px;height:24px}
+.orb-s{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;background:var(--btn-fill);color:var(--btn-fg);box-shadow:0 12px 30px -8px rgba(42,33,24,.55);margin-top:-30px;transition:transform 120ms var(--out);flex:none}
+.orb-s:active{transform:scale(.95)}
+/* resume dock + cook dock */
+.dock{position:absolute;left:14px;right:14px;bottom:96px;z-index:10;background:var(--surface);border-radius:18px;box-shadow:inset 0 0 0 .5px var(--rule),0 12px 30px -12px rgba(42,33,24,.4);padding:12px 14px;display:flex;align-items:center;gap:12px}
+/* plate illustration */
+.plate{position:relative;background:var(--bg-deep);border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 .5px var(--rule)}
+.plate .pl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56%;aspect-ratio:1;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 1px var(--rule)}
+.plate .b{position:absolute;border-radius:50%}
+/* notes */
+.note{width:640px;max-width:calc(100vw - 32px);flex:none;font-size:13px;line-height:19px;color:#3A332B;padding-top:8px}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:10px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:16px 0 8px;color:#6B6054}
+.note dl{display:grid;grid-template-columns:96px 1fr;gap:7px 12px}
+.note dt{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:11px;line-height:19px;color:#6B6054}
+.note code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:12px;background:#EFE9DD;border-radius:4px;padding:0 4px}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}}}
+
+
+.head{display:flex;justify-content:space-between;align-items:center;padding:6px 2px 14px}
+.chips{display:flex;gap:8px;margin-top:12px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.legend{display:flex;align-items:center;gap:7px;padding:2px 4px}
+.legend .sq{margin:0}
+
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".8" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx=".8" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx=".8" fill="currentColor"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z" fill="currentColor"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="currentColor"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="currentColor" fill-opacity=".4"/></svg>
+  </span></div>
+<div class="screen"><div class="scroll">
+  <header class="head in" style="--i:0">
+    <h1 class="d2">Kitchen</h1>
+    <span class="chip sag"><span class="dot" style="background:var(--sage)"></span>Scanned&nbsp;<span class="mono">5:12 pm</span></span>
+  </header>
+
+  <div class="field in" style="--i:1"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search your kitchen</span></div>
+  <div class="chips in" style="--i:2">
+    <span class="chip" style="background:var(--chip-acc)">All <span class="mono m3">14</span></span>
+    <span class="chip">Fridge <span class="mono m3">9</span></span>
+    <span class="chip">Freezer <span class="mono m3">2</span></span>
+    <span class="chip">Pantry <span class="mono m3">3</span></span>
+  </div>
+
+  <section class="sect in" style="--i:2">
+    <div class="legend cap c2"><span class="sq have"></span>have<span class="sq missing"></span>missing<span class="sq unconf"></span>unconfirmed</div>
+  </section>
+
+  <section class="sect in" style="--i:3">
+    <div class="label">Use soon</div>
+    <div class="rows">
+      <div class="row"><span class="sq have"></span><span class="n t2">Spinach</span><span class="mono m3 c2">100 g</span><span class="chip oat"><span class="dot" style="background:var(--oat-ink)"></span>2 days</span></div>
+      <div class="row"><span class="sq have"></span><span class="n t2">Greek yogurt</span><span class="mono m3 c2">500 g</span><span class="chip oat"><span class="dot" style="background:var(--oat-ink)"></span>tomorrow</span></div>
+      <div class="row"><span class="sq have"></span><span class="n t2">Lemons</span><span class="mono m3 c2">2</span><span class="chip oat"><span class="dot" style="background:var(--oat-ink)"></span>today</span></div>
+    </div>
+  </section>
+
+  <section class="sect in" style="--i:4">
+    <div class="label">Needs a look</div>
+    <div class="rows">
+      <div class="row"><span class="sq unconf"></span><span class="n"><span class="t2">Coriander</span><br><span class="cap c2">Needs reconfirming · last seen <span class="mono">6</span> days ago</span></span><span class="mono m3 c2">1 bunch?</span></div>
+      <div class="row"><span class="sq unconf"></span><span class="n"><span class="t2">Honey</span><br><span class="cap c2">Needs reconfirming · jar moved to pantry</span></span><span class="mono m3 c2">?</span></div>
+    </div>
+  </section>
+
+  <section class="sect in" style="--i:5">
+    <div class="label">Fridge</div>
+    <div class="rows">
+      <div class="row"><span class="sq have"></span><span class="n t2">Chicken thighs</span><span class="mono m3 c2">scanned 5:12 pm</span><span class="mono m2">500 g</span></div>
+      <div class="row"><span class="sq have"></span><span class="n t2">Udon noodles</span><span class="mono m3 c2">scanned 5:12 pm</span><span class="mono m2">2 nests</span></div>
+      <div class="row"><span class="sq have"></span><span class="n t2">Eggs</span><span class="mono m3 c2">receipt · Sat</span><span class="mono m2">6</span></div>
+      <div class="row"><span class="sq missing"></span><span class="n"><span class="t2">Butter beans</span><br><span class="cap c2">On the shopping list</span></span><span class="mono m2 c2">0</span></div>
+    </div>
+  </section>
+
+  <section class="sect in" style="--i:6">
+    <div class="label">Assumed staples <a href="#">Why?</a></div>
+    <div class="rows">
+      <div class="row"><span class="sq have"></span><span class="n t2">Soy sauce</span><span class="chip">assumed</span></div>
+      <div class="row"><span class="sq have"></span><span class="n t2">Rice</span><span class="chip">assumed</span><span class="mono m3 c2">400 g</span></div>
+      <div class="row"><span class="sq have"></span><span class="n t2">Olive oil</span><span class="chip">assumed</span></div>
+    </div>
+    <p class="cap c2" style="margin:8px 4px 0">Assumed staples count as present. Open a row to unassume it and record the real amount.</p>
+  </section>
+
+  <div style="display:grid;gap:8px;margin-top:24px" class="in">
+    <button class="btn primary">Scan a shelf</button>
+    <button class="btn ghost">Add by hand</button>
+  </div>
+</div></div>
+<nav class="tabbar"><div class="tabs"><a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a><a class="tab on" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a><a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5h18M6 9.5V19M18 9.5V19"/><circle cx="12" cy="5" r="2.5"/></svg>Table</a><a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4.5h10.5a2.5 2.5 0 0 1 2.5 2.5v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>Cookbook</a><a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>Explore</a></div></nav>
+  <div class="homebar"></div>
+</div>
+<aside class="note">
+<h1>Kitchen</h1>
+<p>Answers “what do I actually have?”. Dense 44 pt rows with state squares — shape before colour: filled = have, hollow = missing, dashed = unconfirmed. A scan of one shelf refreshes only what it saw; every row carries its last confirmation and source (scanned time or receipt day), which is what makes “needs reconfirming” mean something.</p>
+<p>Assumed staples are honest: they count as present for fit, say so, and can be unassumed.</p>
+<h2>States</h2>
+<dl>
+<dt>empty</dt><dd>No scan, no entries: “Your kitchen is empty — scan a shelf or add food by hand.” Both actions first-class, equal size.</dd>
+<dt>camera refused</dt><dd>The scan prompt never blocks the page; manual entry stays one tap away. Copy: “Camera off. Add by hand any time.”</dd>
+<dt>stale evidence</dt><dd>A row whose last confirmation is older than the profile’s freshness rule moves itself into Needs a look with the age shown. It never silently keeps counting toward fit.</dd>
+<dt>scan pending</dt><dd>While a shelf is processing, the affected section shows one 2 px indeterminate line; existing rows keep working.</dd>
+<dt>quantity unknown</dt><dd>Recognition confidence is not quantity confidence: the row shows “?” in mono and stays unconfirmed until a real amount is entered.</dd>
+<dt>reduced motion</dt><dd>Row press scale stays; section entries fade 150 ms without stagger.</dd>
+</dl>
+<h2>Motion</h2>
+<dl>
+<dt>rows</dt><dd>Rows appear with the page entrance only; scrolling is static.</dd>
+<dt>press</dt><dd>Rows and chips scale 0.985 / 0.97 in 120 ms.</dd>
+<dt>section switch</dt><dd>Chip segment crossfades 150 ms; no layout animation.</dd>
+</dl>
+</aside>
+</body>
+</html>
