@@ -86,6 +86,7 @@
       {
         "ingredientKey": "eggs",
         "edibleSharePct": 88,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 23,
         "note": "SR28 refuse 12% (shell); TB-1927 Table 3 proposed 23%; edible share from SR28 NDB 01123",
         "citationId": "s3"
@@ -93,6 +94,7 @@
       {
         "ingredientKey": "milk",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 20,
         "note": "TB-1927 Table 4 marks plain whole milk 'TBD'; the LAFA-series assumption (previous column) is 20%",
         "citationId": "s3"
@@ -100,6 +102,7 @@
       {
         "ingredientKey": "cheese",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 11,
         "note": "cheddar cheese basis",
         "citationId": "s3"
@@ -107,6 +110,7 @@
       {
         "ingredientKey": "yogurt",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 21,
         "note": "refrigerated yogurt",
         "citationId": "s3"
@@ -114,6 +118,7 @@
       {
         "ingredientKey": "butter",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 35,
         "note": "TB-1927 Table 5 proposed consumer loss estimate (RTI International, 2011)",
         "citationId": "s3"
@@ -121,6 +126,7 @@
       {
         "ingredientKey": "bananas",
         "edibleSharePct": 64,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 20,
         "note": "TB-1927 Table 6 marks fresh bananas 'TBD'; LAFA-series assumption (previous column) is 20%; edible share from SR28 NDB 09040",
         "citationId": "s3"
@@ -128,6 +134,7 @@
       {
         "ingredientKey": "apples",
         "edibleSharePct": 90,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 20,
         "note": "TB-1927 Table 6 marks fresh apples 'TBD'; LAFA-series assumption (previous column) is 20%; edible share from SR28 NDB 09003",
         "citationId": "s3"
@@ -135,6 +142,7 @@
       {
         "ingredientKey": "oranges",
         "edibleSharePct": 73,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 36,
         "note": "SR28 refuse 27% (peel and seeds); edible share from SR28 NDB 09200",
         "citationId": "s3"
@@ -142,6 +150,7 @@
       {
         "ingredientKey": "grapes",
         "edibleSharePct": 96,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 33,
         "note": "TB-1927 Table 6 proposed consumer loss estimate (RTI International, 2011); edible share from SR28 NDB 09132",
         "citationId": "s3"
@@ -149,6 +158,7 @@
       {
         "ingredientKey": "strawberries",
         "edibleSharePct": 94,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 35,
         "note": "SR28 refuse 6% (caps and stems); edible share from SR28 NDB 09316",
         "citationId": "s3"
@@ -156,6 +166,7 @@
       {
         "ingredientKey": "blueberries",
         "edibleSharePct": 95,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 8,
         "note": "SR28 refuse 5% (stems and spoiled berries); edible share from SR28 NDB 09050",
         "citationId": "s3"
@@ -163,6 +174,7 @@
       {
         "ingredientKey": "tomatoes",
         "edibleSharePct": 91,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 7,
         "note": "SR28 refuse 9% (core and stem ends); edible share from SR28 NDB 11529",
         "citationId": "s3"
@@ -170,6 +182,7 @@
       {
         "ingredientKey": "onions",
         "edibleSharePct": 90,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 43,
         "note": "SR28 refuse 10% (stem ends, sprouts and defects); edible share from SR28 NDB 11282",
         "citationId": "s3"
@@ -177,6 +190,7 @@
       {
         "ingredientKey": "potatoes",
         "edibleSharePct": 75,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 16,
         "note": "SR28 refuse 25% (parings and trimmings) for flesh-and-skin prep; edible share from SR28 NDB 11352",
         "citationId": "s3"
@@ -184,6 +198,7 @@
       {
         "ingredientKey": "sweet_potato",
         "edibleSharePct": 72,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 44,
         "note": "SR28 refuse 28% (parings and trimmings); edible share from SR28 NDB 11507",
         "citationId": "s3"
@@ -191,6 +206,7 @@
       {
         "ingredientKey": "carrots",
         "edibleSharePct": 89,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 34,
         "note": "SR28 refuse 11% (crown, tops and scrapings); edible share from SR28 NDB 11124",
         "citationId": "s3"
@@ -198,6 +214,7 @@
       {
         "ingredientKey": "broccoli",
         "edibleSharePct": 61,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 12,
         "note": "SR28 refuse 39% (leaves and tough stalks); edible share from SR28 NDB 11090",
         "citationId": "s3"
@@ -205,6 +222,7 @@
       {
         "ingredientKey": "spinach",
         "edibleSharePct": 72,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 9,
         "note": "TB-1927 Table 7 proposed consumer loss estimate (RTI International, 2011); edible share from SR28 NDB 11457",
         "citationId": "s3"
@@ -212,6 +230,7 @@
       {
         "ingredientKey": "lettuce",
         "edibleSharePct": 95,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 24,
         "note": "TB-1927 Table 7 proposed 24% consumer loss for fresh lettuce (head-lettuce and romaine/leaf categories both 24%, combined per appendix A); edible share from SR28 NDB 11252, iceberg lettuce (refuse 5%)",
         "citationId": "s3"
@@ -219,6 +238,7 @@
       {
         "ingredientKey": "cucumber",
         "edibleSharePct": 73,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 32,
         "note": "SR28 refuse 27% (parings, ends and bruised spots); edible share from SR28 NDB 11206",
         "citationId": "s3"
@@ -226,6 +246,7 @@
       {
         "ingredientKey": "peppers",
         "edibleSharePct": 82,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 39,
         "note": "TB-1927 Table 7 proposed consumer loss estimate (RTI International, 2011); edible share from SR28 NDB 11333",
         "citationId": "s3"
@@ -233,6 +254,7 @@
       {
         "ingredientKey": "mushrooms",
         "edibleSharePct": 97,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 21,
         "note": "SR28 refuse 3% (trimmings); edible share from SR28 NDB 11260",
         "citationId": "s3"
@@ -240,6 +262,7 @@
       {
         "ingredientKey": "cabbage",
         "edibleSharePct": 80,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 24,
         "note": "SR28 refuse 20% (outer leaves and core); edible share from SR28 NDB 11109",
         "citationId": "s3"
@@ -247,6 +270,7 @@
       {
         "ingredientKey": "green_beans",
         "edibleSharePct": 88,
+        "edibleShareCitationId": "s4",
         "consumerLevelLossPct": 24,
         "note": "SR28 refuse 12% (ends, strings, trimmings); edible share from SR28 NDB 11052",
         "citationId": "s3"
@@ -254,6 +278,7 @@
       {
         "ingredientKey": "beans",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 10,
         "note": "dry edible beans: TB-1927 proposed NA; LAFA-series assumption (previous column) is 10%",
         "citationId": "s3"
@@ -261,6 +286,7 @@
       {
         "ingredientKey": "lentils",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 10,
         "note": "dry edible peas and lentils: TB-1927 proposed NA; LAFA-series assumption is 10%",
         "citationId": "s3"
@@ -268,6 +294,7 @@
       {
         "ingredientKey": "rice",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 33,
         "note": "TB-1927 Table 8 proposed consumer loss estimate (RTI International, 2011)",
         "citationId": "s3"
@@ -275,6 +302,7 @@
       {
         "ingredientKey": "flour",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 20,
         "note": "white and whole wheat flour: TB-1927 proposed NA; LAFA-series assumption is 20%",
         "citationId": "s3"
@@ -282,6 +310,7 @@
       {
         "ingredientKey": "pasta",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 20,
         "note": "spaghetti not listed separately; durum-flour basis, LAFA-series assumption 20%",
         "citationId": "s3"
@@ -289,6 +318,7 @@
       {
         "ingredientKey": "oats",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 14,
         "note": "oat products",
         "citationId": "s3"
@@ -296,6 +326,7 @@
       {
         "ingredientKey": "sugar",
         "edibleSharePct": 100,
+        "edibleShareCitationId": "s3",
         "consumerLevelLossPct": 34,
         "note": "cane and beet sugar",
         "citationId": "s3"

@@ -31,7 +31,7 @@ read in-session (2026-10-11) before being encoded. Citation ids match the
 
 ## s3 — USDA ERS TB-1927 consumer-level loss estimates
 
-- **Used for:** `loss_factors.json` — `consumerLevelLossPct` (38 rows).
+- **Used for:** `loss_factors.json` — `consumerLevelLossPct` on all 38 rows, and `edibleSharePct` = 100 on the 11 rows whose factor is the LAFA commodity itself (fluid dairy, dry beans/lentils/grains/flours, sugar: the commodity is the edible form, so no refuse adjustment applies). Both fields carry the attribution on the row (`citationId`, `edibleShareCitationId`).
 - **Title:** Muth, M. K., Karns, S. A., Nielsen, S. J., Buzby, J. C., & Wells, H. F., "Consumer-Level Food Loss Estimates and Their Use in the ERS Loss-Adjusted Food Availability Data", USDA ERS Technical Bulletin TB-1927, January 2011 (tables 3–9, RTI International estimates).
 - **Publisher:** USDA Economic Research Service.
 - **URL:** https://www.ers.usda.gov/media/8547/tb-1927.pdf

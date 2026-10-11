@@ -162,13 +162,17 @@ def validate_loss(doc):
         share = row.get("edibleSharePct")
         if share is not None and (not isinstance(share, (int, float)) or not 0 <= share <= 100):
             err(f"{where}: edibleSharePct must be null or 0..100")
+        if share is not None and row.get("edibleShareCitationId") not in ids:
+            err(f"{where}: unattributed factor field edibleSharePct — "
+                f"edibleShareCitationId {row.get('edibleShareCitationId')!r} missing or does not resolve")
         loss = row.get("consumerLevelLossPct")
         if not isinstance(loss, (int, float)) or not 0 <= loss <= 100:
             err(f"{where}: consumerLevelLossPct must be 0..100")
         if not row.get("note"):
             err(f"{where}: note missing (table/column provenance required)")
         if row.get("citationId") not in ids:
-            err(f"{where}: citationId {row.get('citationId')!r} does not resolve")
+            err(f"{where}: unattributed factor field consumerLevelLossPct — "
+                f"citationId {row.get('citationId')!r} does not resolve")
     if not data.get("factors"):
         err("loss_factors.json: no factors")
     return keys
