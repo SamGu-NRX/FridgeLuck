@@ -2,7 +2,7 @@
 
 Reads apps/ios/Resources/data.json, extracts each recipe's Source: line
 (first line of the instructions field, when present), cross-checks the
-committed BBC scrape cache, and writes a per-recipe rights table.
+committed synthetic cache fixtures, and writes a per-recipe rights table.
 
 Regenerate (from repo root):
 
@@ -58,10 +58,6 @@ def load_cache_facts() -> dict:
     if test_cache.exists():
         records = json.loads(test_cache.read_bytes())
         facts["test_fixture_records"] = len(records)
-    merged = CACHE_DIR / "data.merged.non_destructive.json"
-    if merged.exists():
-        payload = json.loads(merged.read_bytes())
-        facts["merged_cache_recipes"] = len(payload.get("recipes", []))
     return facts
 
 
@@ -108,6 +104,19 @@ def audit() -> str:
     lines.append("- **rewrite** - keep the dish, replace the bundled text with an original recipe in our own words with our own structured steps (SPEC 3.5 default).")
     lines.append("- **remove** - no rights evidence and no rewrite planned; the recipe leaves the bundle.")
     lines.append("")
+    lines.append("## Rights-record vocabulary (Suite C alignment)")
+    lines.append("")
+    lines.append("The downstream corpus lands at `data/recipes/corpus.jsonl`, and every corpus recipe ships with a rights record (contract: `evaluation/SCORECARD.md` and `evaluation/suites/recipes/rights.py` on branch `eval/scorecard-runner`, retrieved 2026-10-11). A rights record is **complete** - and the recipe rights-clear - only when it has all of:")
+    lines.append("")
+    lines.append("- `source_id`, `source_type`, `origin`, `license`, `access_date` (YYYY-MM-DD), and `license_evidence`;")
+    lines.append("- all six boolean permissions: `text`, `images`, `modification`, `attribution`, `caching`, `offline_use`.")
+    lines.append("")
+    lines.append("A URL attribution grants **none** of the six permissions. Each of the 141 BBC rows carries exactly that - a bare `Source:` URL with no licence evidence - so its rights record is incomplete and the recipe quarantines (rights.py: a bbcgoodfood.com source with no licence is quarantine, SPEC 10 \"no licence evidence\"). That is the same finding as the rewrite verdicts below, in the Suite C vocabulary.")
+    lines.append("")
+    lines.append("The 25 seed recipes' \"keep\" verdicts rest on in-house authorship traced through git history. Their corpus records still must be completed (origin: FridgeLuck seed; license: in-house; license_evidence: this audit) before shipping; a record that cannot be completed quarantines the recipe.")
+    lines.append("")
+    lines.append("Corpus ingredient lines carry quantity evidence using exactly the kinds `weighed`, `source_grams`, `household`, `unknown` (rs.py `RESOLVED_KINDS`/`ALL_KINDS`). `weighed` means measured on a scale, never a builder estimate; a computed mass is at best `household` with a conversion (a documented `conversions.json` row, `conversion_ref` recorded); `unknown` keeps grams null and blocks \"complete nutrition\" and fit claims. `scripts/recipe_scraper/scrape_recipes.py` now emits exactly these kinds.")
+    lines.append("")
     lines.append("## Where the Source: line lives")
     lines.append("")
     lines.append("The bundled schema is a positional array: `[id, title, minutes, servings, required_ingredient_pairs, optional_ingredient_pairs, instructions, tag_bitmask]`.")
@@ -140,14 +149,12 @@ def audit() -> str:
     lines.append("")
     lines.append("## Redistribution findings in committed caches")
     lines.append("")
-    lines.append("BBC Good Food content is also committed inside the repo under `scripts/recipe_scraper/.cache/`, which is itself redistribution of the same material:")
+    lines.append("The committed caches under `scripts/recipe_scraper/.cache/` are synthetic fixtures (see `.cache/README.md`); the BBC Good Food scrape caches they replaced were removed from the repo on 2026-10-11:")
     lines.append("")
     lines.append(f"- `synthetic_fixtures.json` - {cache_facts.get('scrape_cache_records', '?')} synthetic fixture records ({cache_facts.get('scrape_cache_bbc_records', '?')} with bbcgoodfood.com URLs); fictional titles deliberately disjoint from bundled recipes; replaces the BBC scrape cache removed from the repo (see `.cache/README.md`).")
     lines.append(f"- `synthetic_fixtures.test.json` - {cache_facts.get('test_fixture_records', '?')} synthetic fixture records used as a test fixture.")
-    lines.append(f"- `data.merged.non_destructive.json` - {cache_facts.get('merged_cache_recipes', '?')} recipes: the seed 25 plus the 141 BBC-derived rows, i.e. the full redistributed corpus in one file.")
-    lines.append("- `merge_report.json` - pre-repair merge diagnostics referencing the same records.")
     lines.append("")
-    lines.append("These caches should be removed from the repo or replaced with a synthetic fixture before the corpus task ships; the rewrite verdict covers the bundled rows, and this finding covers the caches.")
+    lines.append("That removal and replacement is done (2026-10-11): the BBC scrape caches were deleted and replaced with the synthetic fixtures above, so this finding is satisfied; the rewrite verdict covers the bundled rows.")
     lines.append("")
     lines.append("## The 25 seed recipes - traced individually")
     lines.append("")
@@ -196,6 +203,7 @@ def audit() -> str:
     lines.append("None of the 141 rewritten recipes can contribute text to the corpus. After the rewrite or removal of the BBC rows, the honest starting corpus is the 25 seed originals plus newly written original recipes.")
     lines.append("Cleared sources (`SOURCES.md` in this directory) add: NHS recipe content under the Open Government Licence v3.0 with attribution, NHLBI federal recipe collections for recipes NHLBI itself authored, and a subset of MyPlate Kitchen recipes recorded per contributor.")
     lines.append("No large open recipe-text dataset is cleared for a paid app (see `food-data-licensing.md` on branch `docs/spec-overhaul-20261011`), so original recipes are expected to be a large share of the corpus (SPEC 3.5).")
+    lines.append("The corpus lands at `data/recipes/corpus.jsonl`; each recipe ships with a rights record in the vocabulary defined above, and a recipe whose record cannot be completed stays quarantined out of the corpus.")
     lines.append("The corpus task must also decide the fate of the committed BBC caches (removal or synthetic-fixture replacement).")
     lines.append("")
     return "\n".join(lines)

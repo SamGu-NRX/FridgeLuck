@@ -57,14 +57,12 @@ Sam makes the final call, per SPEC 3.5, ideally with legal advice.
 
 ## Redistribution findings in committed caches
 
-BBC Good Food content is also committed inside the repo under `scripts/recipe_scraper/.cache/`, which is itself redistribution of the same material:
+The committed caches under `scripts/recipe_scraper/.cache/` are synthetic fixtures (see `.cache/README.md`); the BBC Good Food scrape caches they replaced were removed from the repo on 2026-10-11:
 
-- `bbc_goodfood_recipes.json` - 152 scraped BBC records (152 with bbcgoodfood.com URLs); 141 titles match bundled recipes, 11 are scraped-but-unbundled.
-- `bbc_goodfood_recipes.test.json` - 3 BBC records used as a test fixture.
-- `data.merged.non_destructive.json` - 166 recipes: the seed 25 plus the 141 BBC-derived rows, i.e. the full redistributed corpus in one file.
-- `merge_report.json` - pre-repair merge diagnostics referencing the same records.
+- `synthetic_fixtures.json` - 152 synthetic fixture records (0 with bbcgoodfood.com URLs); fictional titles deliberately disjoint from bundled recipes; replaces the BBC scrape cache removed from the repo (see `.cache/README.md`).
+- `synthetic_fixtures.test.json` - 3 synthetic fixture records used as a test fixture.
 
-These caches should be removed from the repo or replaced with a synthetic fixture before the corpus task ships; the rewrite verdict covers the bundled rows, and this finding covers the caches.
+That removal and replacement is done (2026-10-11): the BBC scrape caches were deleted and replaced with the synthetic fixtures above, so this finding is satisfied; the rewrite verdict covers the bundled rows.
 
 ## The 25 seed recipes - traced individually
 
