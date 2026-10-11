@@ -141,7 +141,7 @@ struct WeeklyPlanReviewView: View {
             .font(AppTheme.Typography.displayCaption)
             .foregroundStyle(AppTheme.textPrimary)
           Spacer()
-          Text(phaseLabel(plan))
+          Text(phaseLabel(model, plan))
             .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
         }

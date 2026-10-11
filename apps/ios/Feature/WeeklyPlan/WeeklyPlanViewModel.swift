@@ -114,7 +114,11 @@ final class WeeklyPlanViewModel {
       }
     }
     let rows = try ingredientRepository.fetch(ids: ids)
-    return Dictionary(rows.map { ($0.id, $0.name.replacingOccurrences(of: "_", with: " ").localizedCapitalized) },
+    return Dictionary(
+      rows.compactMap { row -> (Int64, String)? in
+        guard let id = row.id else { return nil }
+        return (id, row.name.replacingOccurrences(of: "_", with: " ").localizedCapitalized)
+      },
       uniquingKeysWith: { _, last in last })
   }
 
