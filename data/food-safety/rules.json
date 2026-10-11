@@ -2,6 +2,14 @@
   "schema_version": 1,
   "retrieved": "2026-10-11",
   "name": "FridgeLuck food-safety rules",
+  "rs_alignment": {
+    "consumer": "evaluation/suites/recipes/rs.py on branch eval/scorecard-runner (suite C corpus linter)",
+    "food_class_names": "food_class on every doneness rule uses the exact RS FSIS class names: meat_poultry, meat_ground, meat_whole_cut_pork, meat_whole_cut_red, flesh_fish, flesh_shellfish, egg, leftovers",
+    "minimums_f": { "meat_poultry": 165, "meat_ground": 160, "meat_whole_cut_pork": 145, "meat_whole_cut_red": 145, "flesh_fish": 145, "flesh_shellfish": 145, "egg": 160, "leftovers": 165 },
+    "corpus_safety_field": "A corpus recipe step carries {\"safety\": {\"class\": <food_class>, \"temp_f\": N, \"method\": \"thermometer\", \"source\": <citation title + URL>}} with temp_f at or above the class minimum above; a step stating doneness by colour or time (golden, no longer pink, cooked through, no longer translucent, opaque, browned through, firm to the touch, juices run clear) without such a check is a violation.",
+    "forbidden_phrases": "The linter never-say list and COPY.md mirror rs.py's _COLOUR_OR_TIME_DONENESS phrases plus juices run clear, which FSIS Doneness Versus Safety separately rejects.",
+    "citation_for_source": "RS safety fields citing this rulebook set source to the FSIS chart: 'USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11'"
+  },
   "description": "Reviewed food-safety rules for FridgeLuck recipes, LeChef copy and shelf-life logic. Every rule cites a primary public source (USDA FSIS, FDA, FoodSafety.gov or CDC) with the URL, the verbatim quoted text and the date the quote was verified against the live page. Doneness is always a thermometer test; appearance never establishes safety. Guidance is advisory: following these rules reduces risk, it never certifies that food is safe.",
   "citations": [
     {
@@ -142,7 +150,7 @@
     {
       "id": "poultry-all-cuts-165",
       "topic": "doneness",
-      "food_class": "poultry",
+      "food_class": "meat_poultry",
       "summary": "All poultry (whole bird, breasts, legs, thighs, wings, ground poultry, giblets, sausage, stuffing inside poultry) must reach 165 °F (74 °C) measured with a food thermometer.",
       "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "innermost part of the thigh and wing and the thickest part of the breast" },
       "match_keywords": ["chicken", "turkey", "poultry", "duck", "goose", "hen", "quail", "ground poultry"],
@@ -152,7 +160,7 @@
     {
       "id": "ground-meat-160",
       "topic": "doneness",
-      "food_class": "ground_meat",
+      "food_class": "meat_ground",
       "summary": "Ground meats (beef, pork, lamb, veal, sausage from these) must reach 160 °F (71 °C) measured with a food thermometer.",
       "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "throughout the patty or the thickest part of the ground-meat portion" },
       "match_keywords": ["ground beef", "ground pork", "ground lamb", "ground veal", "hamburger", "mince", "minced beef", "beef mince", "meatballs", "meatloaf", "burger"],
@@ -162,38 +170,60 @@
     {
       "id": "ground-poultry-165",
       "topic": "doneness",
-      "food_class": "ground_poultry",
-      "summary": "Ground poultry must reach 165 °F (74 °C) measured with a food thermometer.",
+      "food_class": "meat_poultry",
+      "summary": "Ground poultry must reach 165 °F (74 °C) measured with a food thermometer. Corpus recipes using the RS safety field must cite class meat_poultry at 165 °F for ground poultry, never meat_ground (160 °F is below the FSIS minimum for ground poultry).",
+      "rs_note": "RS class meat_ground (160 °F) covers only ground beef, pork, lamb and sausage; ground poultry keeps the 165 °F poultry minimum.",
       "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "throughout the patty or the thickest part of the portion" },
       "match_keywords": ["ground turkey", "ground chicken", "turkey mince", "chicken mince"],
       "visual_cues_insufficient": ["colour", "no pink", "clear juices", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
     },
     {
-      "id": "whole-cuts-145-rest-3",
+      "id": "whole-cut-red-145-rest-3",
       "topic": "doneness",
-      "food_class": "whole_cuts",
-      "summary": "Beef, pork, veal and lamb steaks, chops and roasts must reach 145 °F (63 °C) with a food thermometer, then rest for at least 3 minutes before carving or consuming.",
+      "food_class": "meat_whole_cut_red",
+      "summary": "Beef, veal and lamb steaks, chops and roasts must reach 145 °F (63 °C) with a food thermometer, then rest for at least 3 minutes before carving or consuming.",
       "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "thickest part of the cut, away from bone, fat or gristle" },
-      "match_keywords": ["steak", "roast", "chop", "pork loin", "lamb", "beef roast", "pork roast", "veal", "pork tenderloin", "lamb shank", "pork chop"],
+      "match_keywords": ["steak", "beef roast", "veal", "lamb", "lamb shank", "lamb chop", "beef chop"],
       "visual_cues_insufficient": ["colour", "pink centre", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
     },
     {
-      "id": "fish-shellfish-145",
+      "id": "whole-cut-pork-145-rest-3",
       "topic": "doneness",
-      "food_class": "fish",
-      "summary": "Fish and shellfish must reach 145 °F (63 °C) measured with a food thermometer. FridgeLuck states the thermometer test even though FoodSafety.gov also publishes an appearance alternative; the appearance alternative is never used as a safety verdict in the app.",
+      "food_class": "meat_whole_cut_pork",
+      "summary": "Pork and fresh or smoked uncooked ham steaks, chops and roasts must reach 145 °F (63 °C) with a food thermometer, then rest for at least 3 minutes before carving or consuming.",
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "thickest part of the cut, away from bone, fat or gristle" },
+      "match_keywords": ["pork loin", "pork roast", "pork tenderloin", "pork chop", "fresh ham", "smoked ham (uncooked)"],
+      "visual_cues_insufficient": ["colour", "pink centre", "firmness"],
+      "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "flesh-fish-145",
+      "topic": "doneness",
+      "food_class": "flesh_fish",
+      "summary": "Fish must reach 145 °F (63 °C) measured with a food thermometer. FridgeLuck states the thermometer test even though FoodSafety.gov also publishes an appearance alternative; the appearance alternative is never used as a safety verdict in the app.",
       "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "thickest part of the fillet or the centre of the portion" },
-      "match_keywords": ["fish", "salmon", "cod", "tuna", "tilapia", "trout", "haddock", "pollock", "catfish", "bass", "shrimp", "prawn", "lobster", "crab", "scallop", "clam", "mussel", "oyster", "shellfish", "squid"],
+      "match_keywords": ["fish", "salmon", "cod", "tuna", "tilapia", "trout", "haddock", "pollock", "catfish", "bass"],
       "visual_cues_insufficient": ["colour", "translucency", "flaking", "firmness"],
-      "published_appearance_alternative_note": "FoodSafety.gov publishes: '145°F (63°C) or cook until flesh is no longer translucent and separates easily with a fork' and for some shellfish appearance cues ('flesh is pearly or white, and opaque'; shells opening). FridgeLuck keeps the thermometer test as the check; the timer says when to check. The camera look may describe browning, size and consistency but never issues a safety verdict.",
+      "published_appearance_alternative_note": "FoodSafety.gov publishes: '145°F (63°C) or cook until flesh is no longer translucent and separates easily with a fork'. FridgeLuck keeps the thermometer test as the check; the timer says when to check. The camera look may describe browning, size and consistency but never issues a safety verdict.",
+      "citation_ids": ["fsis-safe-temperature-chart", "fsg-safe-min-temps"]
+    },
+    {
+      "id": "flesh-shellfish-145",
+      "topic": "doneness",
+      "food_class": "flesh_shellfish",
+      "summary": "Shellfish must reach 145 °F (63 °C) measured with a food thermometer. FridgeLuck states the thermometer test even though FoodSafety.gov also publishes an appearance alternative ('flesh is pearly or white, and opaque'; shells opening); the appearance alternative is never used as a safety verdict in the app.",
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "centre of the thickest piece" },
+      "match_keywords": ["shrimp", "prawn", "lobster", "crab", "scallop", "clam", "mussel", "oyster", "shellfish", "squid"],
+      "visual_cues_insufficient": ["colour", "shells opening", "opacity", "firmness"],
+      "published_appearance_alternative_note": "FoodSafety.gov publishes appearance cues for some shellfish ('flesh is pearly or white, and opaque'; shells opening). FridgeLuck keeps the thermometer test as the check; the timer says when to check. The camera look may describe size and consistency but never issues a safety verdict.",
       "citation_ids": ["fsis-safe-temperature-chart", "fsg-safe-min-temps"]
     },
     {
       "id": "egg-dishes-160",
       "topic": "doneness",
-      "food_class": "egg_dishes",
+      "food_class": "egg",
       "summary": "Egg dishes (frittata, quiche, casseroles and other dishes containing eggs) must reach 160 °F (71 °C) measured with a food thermometer.",
       "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "centre of the dish; check in several places for a large or irregularly shaped dish" },
       "match_keywords": ["frittata", "quiche", "egg casserole", "strata", "omelette bake", "custard tart", "carbonara", "hollandaise", "egg bake"],
@@ -203,7 +233,7 @@
     {
       "id": "raw-eggs-firm",
       "topic": "doneness",
-      "food_class": "eggs",
+      "food_class": "egg",
       "summary": "Eggs cooked in the shell, fried or scrambled are done only when both the yolk and the white are firm; scrambled eggs should not be runny. FDA's required safe-handling statement: keep eggs refrigerated, cook eggs until yolks are firm, and cook foods containing eggs thoroughly.",
       "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "for egg dishes, centre of the dish; FSIS lists Eggs at 160 °F (71.1 °C)" },
       "match_keywords": ["egg", "eggs", "scrambled eggs", "fried egg", "boiled egg", "poached egg", "omelette"],
@@ -213,7 +243,7 @@
     {
       "id": "raw-egg-recipes-pasteurized",
       "topic": "raw_egg",
-      "food_class": "eggs",
+      "food_class": "egg",
       "summary": "Recipes served with raw or undercooked eggs (Caesar dressing, homemade ice cream, mayonnaise, eggnog, tiramisu, cookie dough and similar) must use shell eggs treated to destroy Salmonella (pasteurization or another approved method) or pasteurized egg products, and the recipe says so.",
       "match_keywords": ["caesar", "tiramisu", "mayonnaise", "eggnog", "hollandaise", "ice cream", "mousse", "cookie dough", "raw egg", "uncooked egg"],
       "citation_ids": ["fda-egg-safety"]
@@ -231,8 +261,9 @@
     {
       "id": "casseroles-165",
       "topic": "doneness",
-      "food_class": "casseroles",
-      "summary": "Casseroles and other combination dishes, meat and meatless, must be cooked to 165 °F (74 °C) measured with a food thermometer.",
+      "food_class": "leftovers",
+      "summary": "Casseroles and other combination dishes, meat and meatless, must be cooked to 165 °F (74 °C) measured with a food thermometer. In the RS safety field, cite class leftovers (or the contained protein's class) with temp_f 165: 165 satisfies every class minimum and is the FSIS casserole minimum.",
+      "rs_note": "RS has no casserole class; state the FSIS casserole minimum (165 °F) with class leftovers or the contained protein class at temp_f 165.",
       "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "centre of the dish; check in several places for a large or irregularly shaped dish" },
       "match_keywords": ["casserole", "lasagne", "lasagna", "bake", "gratin", "shepherd's pie", "hotdish"],
       "visual_cues_insufficient": ["browning on top", "bubbling edges", "colour", "firmness"],
@@ -241,8 +272,9 @@
     {
       "id": "ham-reheat-140-165",
       "topic": "doneness",
-      "food_class": "ham",
-      "summary": "Reheat cooked hams packaged in USDA-inspected plants to 140 °F (60 °C); all other hams (fresh or smoked uncooked) cook to 145 °F (63 °C) with a 3-minute rest; reheating any other ham to 165 °F (73.9 °C) is always safe.",
+      "food_class": "leftovers",
+      "summary": "Reheat cooked hams packaged in USDA-inspected plants to 140 °F (60 °C); all other hams (fresh or smoked uncooked) cook to 145 °F (63 °C) with a 3-minute rest; reheating any other ham to 165 °F (73.9 °C) is always safe. In the RS safety field use class leftovers with temp_f 165.",
+      "rs_note": "RS class leftovers has a 165 °F minimum, so a corpus safety field for reheated ham states temp_f 165; the 140 °F option is FSIS-published only for hams packaged in USDA-inspected plants.",
       "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "alternative_temp_f": 140, "rest_minutes": 0, "placement": "thickest part of the ham, away from bone" },
       "match_keywords": ["ham"],
       "visual_cues_insufficient": ["colour", "firmness"],
@@ -251,7 +283,7 @@
     {
       "id": "stuffed-poultry-stuffing-165",
       "topic": "doneness",
-      "food_class": "poultry",
+      "food_class": "meat_poultry",
       "summary": "If poultry is stuffed, the centre of the stuffing must also reach 165 °F (74 °C); verify both the bird and the stuffing with a food thermometer.",
       "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "centre of the stuffing and the poultry placement points" },
       "match_keywords": ["stuffed", "stuffing"],
@@ -261,7 +293,6 @@
     {
       "id": "rest-time-3-minutes",
       "topic": "rest_time",
-      "food_class": "whole_cuts",
       "summary": "After cooking beef, pork, veal and lamb steaks, chops and roasts to 145 °F, allow the meat to rest for at least 3 minutes before carving or consuming.",
       "check": { "kind": "rest", "temp_f": 145, "temp_c": 63, "rest_minutes": 3 },
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
@@ -336,7 +367,7 @@
     {
       "id": "raw-egg-dishes-refrigerate-2h",
       "topic": "cooling_window",
-      "food_class": "eggs",
+      "food_class": "egg",
       "summary": "Never leave cooked eggs or egg dishes out of the refrigerator for more than 2 hours, or more than 1 hour when temperatures are above 90 °F; refrigerate leftover cooked egg dishes and use within 3 to 4 days; use hard-cooked eggs within 1 week.",
       "citation_ids": ["fda-egg-safety"]
     },
@@ -350,7 +381,7 @@
     {
       "id": "fish-appearance-alternative-not-used",
       "topic": "appearance_not_sufficient",
-      "food_class": "fish",
+      "food_class": "flesh_fish",
       "summary": "FoodSafety.gov publishes an appearance alternative for fish ('flesh is no longer translucent and separates easily with a fork') and for some shellfish ('flesh is pearly or white, and opaque'; shells opening). FridgeLuck never uses these as safety verdicts: the app states the 145 °F thermometer test and timers only say when to check. Recorded so the linter and reviewers know the phrase exists in a primary source and why the app still does not ship it as doneness.",
       "citation_ids": ["fsg-safe-min-temps"]
     }

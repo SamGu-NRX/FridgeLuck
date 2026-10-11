@@ -23,6 +23,17 @@ loudly on a schema violation. `COPY.md` tells writers and LeChef how to phrase i
    (thickness, pan size, quantity in the pan, cook-from-frozen +50%). Otherwise the
    step says to check with a thermometer rather than trust the timer.
 
+## RS alignment (suite C corpus linter)
+
+rules.json `food_class` values and minimums are the exact `FSIS_TEMP_F` map in
+`evaluation/suites/recipes/rs.py` (branch `eval/scorecard-runner`): meat_poultry 165,
+meat_ground 160, meat_whole_cut_pork 145, meat_whole_cut_red 145, flesh_fish 145,
+flesh_shellfish 145, egg 160, leftovers 165. A corpus safety field names one of these
+classes with `temp_f` at or above the class minimum, `method: "thermometer"` and a
+non-empty `source`; the Swift linter's forbidden-phrase set mirrors rs.py's
+`_COLOUR_OR_TIME_DONENESS` regex plus "juices run clear" (FSIS explicitly rejects juice
+colour), and COPY.md's never-say list matches the same set.
+
 ## File shape
 
 ```text
@@ -49,8 +60,11 @@ loudly on a schema violation. `COPY.md` tells writers and LeChef how to phrase i
                                           // leftover_storage_window | cooling_method | thawing |
                                           // cross_contamination | hygiene | raw_egg | rest_time |
                                           // thermometer | appearance_not_sufficient | high_risk_groups
-      "food_class": string?,              // poultry | ground_meat | ground_poultry | whole_cuts |
-                                          // fish | egg_dishes | eggs | leftovers | casseroles | ham
+      "food_class": string?,              // the RS FSIS class from evaluation/suites/recipes/rs.py
+                                          // (branch eval/scorecard-runner): meat_poultry 165 °F |
+                                          // meat_ground 160 | meat_whole_cut_pork 145 |
+                                          // meat_whole_cut_red 145 | flesh_fish 145 |
+                                          // flesh_shellfish 145 | egg 160 | leftovers 165
       "summary": string,                  // one reviewed sentence
       "check"?: {                         // present for doneness/rest rules
         "kind": "thermometer" | "rest",
@@ -60,6 +74,8 @@ loudly on a schema violation. `COPY.md` tells writers and LeChef how to phrase i
         "alternative_temp_f"?: number     // e.g. ham 140 °F for USDA-inspected plants
       },
       "match_keywords"?: [string],        // lowercase ingredient/step keywords for the lookup
+      "rs_note"?: string,                 // how the rule maps onto the RS corpus safety field
+      "published_appearance_alternative_note"?: string,  // a cue a source publishes that the app still never uses as a verdict
       "visual_cues_insufficient"?: [string],  // cues that must never decide doneness
       "high_risk_groups"?: [string],
       "citation_ids": [string]            // ≥ 1, every id must resolve to citations[]
@@ -72,6 +88,7 @@ loudly on a schema violation. `COPY.md` tells writers and LeChef how to phrase i
 
 - The JSON parses; unknown rule or citation keys fail decoding (strict).
 - `schema_version == 1`; `retrieved` is an ISO date.
+- Every `food_class` is one of the eight RS FSIS class names.
 - Citation `id`s are unique; every `citation_ids` entry resolves.
 - Every citation has non-empty `org`, `title`, `url` (http/https), `retrieved`
   and a verbatim `quote` of at least 20 characters.
