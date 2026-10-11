@@ -97,7 +97,9 @@ Field rules:
 - `bar` is `{"op": "<=" | ">=" | "==", "value": n}` and may carry a `label`.
 - `interval` is an optional `[low, high]` confidence/observed interval.
   **When present, the bar is applied to the conservative bound** (`>=` bars
-  use the low end, `<=` bars the high end). Equality bars reject intervals.
+  use the low end, `<=` bars the high end). Equality bars apply to the
+  measured value exactly; a recorded interval is kept as evidence and does
+  not affect derivation.
 - `reason` is **required** for `not-run` and should say precisely which input
   is missing or why the check could not run.
 
@@ -109,6 +111,10 @@ For any metric with a `bar`, the contract computes the status from `value`,
 `fail` is reported. The only status a suite declares is `not-run`, which
 requires a reason. Suite self-tests exploit this: they plant corrupted inputs
 and assert the derived status flips to `fail`.
+
+Running the runner rewrites the tracked `evaluation/out/scorecard.*` files
+(and any suite `results.json` it re-executes). That is the evidence trail,
+not noise: commit the refreshed files with the change that produced them.
 
 ## Suite identity: the registry
 

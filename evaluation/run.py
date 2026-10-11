@@ -370,6 +370,12 @@ PLANTED = {
         {"id": "m1", "metric": "planted missing inputs", "status": "not-run",
          "reason": "planted: input corpus absent"}
     ]),
+    # An interval recorded on an equality bar is kept as evidence and must not
+    # affect derivation: 55 != 200 derives fail, never pass.
+    "interval-equality": ("evaluation-interval-equality", [
+        {"id": "m1", "metric": "planted interval on equality bar", "value": 55,
+         "bar": {"op": "==", "value": 200}, "interval": [0.2226, 0.3501]}
+    ]),
 }
 
 # What the runner must report for each planted suite's single metric.
@@ -379,6 +385,7 @@ EXPECTED = {
     "honest-pass": "pass",
     "liar": "fail",         # declared pass stripped -> derived fail
     "missing-inputs": NOT_RUN,
+    "interval-equality": "fail",
 }
 
 

@@ -13,7 +13,8 @@ Design rules (see SCORECARD.md for the full document):
    declares `not-run` (with a reason) for metrics it could not measure.
 3. When an `interval` is present, the bar is applied to the conservative
    bound (`>=` bars use the interval low, `<=` bars the high). Equality bars
-   do not accept intervals.
+   apply to the measured value exactly; a recorded interval is kept as
+   evidence and does not affect derivation.
 4. The runner fail-closes: a crashed, timed-out or malformed suite run is
    `not-run` with the reason, never pass.
 """
@@ -37,7 +38,8 @@ def check_bar(value: float, bar: dict[str, Any], interval: list[float] | None) -
     op = bar["op"]
     target = bar["value"]
     if op == "==":
-        # Equality bars do not accept intervals (validated elsewhere).
+        # Equality bars ignore any recorded interval: the bar applies to the
+        # measured value exactly.
         return value == target
     if op == ">=":
         # Conservative: the interval's low end must clear the bar.
@@ -76,10 +78,6 @@ def derive_status(metric: dict[str, Any]) -> str:
         )
     interval = metric.get("interval")
     if interval is not None:
-        if bar.get("op") == "==":
-            raise ContractError(
-                f"metric {metric.get('id', '?')!r}: equality bars do not accept intervals"
-            )
         if (
             not isinstance(interval, list)
             or len(interval) != 2
