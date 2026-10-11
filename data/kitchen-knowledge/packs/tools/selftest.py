@@ -203,6 +203,12 @@ def main():
          lambda f: f["budget_packs.json"]["data"]["packs"][0]["items"][0].update(
              quantityKg=float("nan")),
          "quantityKg not a finite number")
+    case("missing budget price refuses",
+         lambda f: f["budget_packs.json"]["data"]["packs"][0]["items"][0].update(priceUsd=None),
+         "priceUsd not a finite number")
+    case("totalCostUsd mismatch refuses",
+         lambda f: f["budget_packs.json"]["data"]["packs"][0].update(totalCostUsd=99.0),
+         "!= item sum")
     if failures:
         print(f"\nSELFTEST FAIL ({len(failures)}):")
         for f in failures:

@@ -22,6 +22,13 @@ if "--dir" in sys.argv[1:]:
 
 REQUIRED_SOURCE_FIELDS = ["citationId", "title", "publisher", "url", "retrieved", "licence"]
 
+# Plausibility caps: impossibility filters, not pricing or emissions advice
+# (SCHEMA.md numeric contract). No credible per-kg food inventory exceeds
+# ~150 kgCO2e/kg (shipped max 99.48); a grocery staple priced above 1500 USD
+# per kg is a decimal or unit slip (shipped max 15.97).
+EMISSION_CAP_KG_CO2E_PER_KG = 150
+PRICE_CAP_USD_PER_KG = 1500
+
 errors = []
 notes = []
 
@@ -111,6 +118,9 @@ def validate_emission(doc):
             for k in ("low", "central", "high"):
                 if not finite_number(rng[k]) or rng[k] < 0:
                     err(f"{where}: kgCo2ePerKg.{k} must be a finite number >= 0")
+                elif rng[k] > EMISSION_CAP_KG_CO2E_PER_KG:
+                    err(f"{where}: kgCo2ePerKg.{k} {rng[k]} is implausibly large "
+                        f"(cap {EMISSION_CAP_KG_CO2E_PER_KG}; shipped max 99.48)")
             if not rng["low"] <= rng["central"] <= rng["high"]:
                 err(f"{where}: kgCo2ePerKg must satisfy low <= central <= high")
         if row.get("rangeBasis") not in ("point", "cited-range"):
@@ -146,6 +156,10 @@ def validate_price(doc):
         keys.add(key)
         if not finite_number(row.get("usdPerKg")) or row["usdPerKg"] < 0:
             err(f"{where}: usdPerKg must be a finite number >= 0")
+        elif row["usdPerKg"] > PRICE_CAP_USD_PER_KG:
+            err(f"{where}: usdPerKg {row['usdPerKg']} is implausibly large "
+                f"(cap {PRICE_CAP_USD_PER_KG}; catches decimal and unit slips — "
+                "a true saffron-class luxury would need the cap revisited)")
         if not row.get("displayQuantity"):
             err(f"{where}: displayQuantity missing")
         if not finite_number(row.get("displayPriceUsd")) or row["displayPriceUsd"] < 0:

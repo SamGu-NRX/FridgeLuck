@@ -327,6 +327,46 @@ final class LoaderContractTests: XCTestCase {
             replacement: "\"usdPerKg\":-1.0", "negative price factor must throw")
     }
 
+    func testBudgetItemMissingPriceRefuses() throws {
+        // A budget basket is priced line by line: a missing price must
+        // refuse, never silently shrink the sum.
+        try assertContractThrows(
+            "packs/budget_packs.json", anchor: "\"priceUsd\":2.0,",
+            replacement: "", "missing budget item price must throw")
+    }
+
+    func testBudgetTotalMismatchRefuses() throws {
+        try assertContractThrows(
+            "packs/budget_packs.json", anchor: "\"totalCostUsd\":2.0",
+            replacement: "\"totalCostUsd\":3.0",
+            "stated total must match the item sum")
+    }
+
+    func testBudgetOverspendRefuses() throws {
+        try assertContractThrows(
+            "packs/budget_packs.json", anchor: "\"budgetUsd\":10.0",
+            replacement: "\"budgetUsd\":1.0",
+            "item prices above the stated budget must throw")
+    }
+
+    func testOverCapEmissionRefuses() throws {
+        // 300 kgCO2e/kg is beyond any credible per-kg food inventory
+        // (shipped max 99.48).
+        try assertContractThrows(
+            "waste/emission_factors.json",
+            anchor: "\"kgCo2ePerKg\":{\"low\":0.1,\"central\":0.2,\"high\":0.3}",
+            replacement: "\"kgCo2ePerKg\":{\"low\":0.1,\"central\":0.2,\"high\":300}",
+            "over-cap emission factor must throw")
+    }
+
+    func testOverCapUsdPerKgRefuses() throws {
+        // 2000 USD/kg is a decimal or unit slip for a grocery staple
+        // (shipped max 15.97).
+        try assertContractThrows(
+            "waste/price_factors.json", anchor: "\"usdPerKg\":1.0",
+            replacement: "\"usdPerKg\":2000.0", "over-cap price factor must throw")
+    }
+
     // MARK: - Index <-> cards consistency
 
     func testIndexListingUnknownCardRefuses() throws {

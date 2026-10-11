@@ -177,8 +177,12 @@ public struct UseItUpPacksPayload: Codable, Sendable, Equatable {
 }
 
 public extension Array where Element == BudgetPack {
-    /// Item price sum, for validating a pack against its budget.
-    func itemSum(_ pack: BudgetPack) -> Double {
-        pack.items.compactMap(\.priceUsd).reduce(0, +)
+    /// Item price sum, for validating a pack against its budget. Nil when any
+    /// item lacks a price: the loader refuses such packs, so a loaded
+    /// basket's sum is always total, never a silent partial sum.
+    func itemSum(_ pack: BudgetPack) -> Double? {
+        let prices = pack.items.map(\.priceUsd)
+        guard prices.allSatisfy({ $0 != nil }) else { return nil }
+        return prices.compactMap { $0 }.reduce(0, +)
     }
 }

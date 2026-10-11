@@ -93,6 +93,12 @@ def main():
     case("negative consumer loss refuses", "loss_factors.json",
          lambda d: d["data"]["factors"][0].update(consumerLevelLossPct=-5),
          "must be 0..100")
+    case("over-cap emission factor refuses", "emission_factors.json",
+         lambda d: d["data"]["factors"][0]["kgCo2ePerKg"].update(high=300.0),
+         "implausibly large")
+    case("over-cap usdPerKg refuses", "price_factors.json",
+         lambda d: d["data"]["prices"][0].update(usdPerKg=2000.0),
+         "implausibly large")
     if failures:
         print(f"\nSELFTEST FAIL ({len(failures)}):")
         for f in failures:

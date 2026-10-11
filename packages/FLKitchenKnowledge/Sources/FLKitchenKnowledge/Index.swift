@@ -294,6 +294,13 @@ public struct KitchenKnowledge: Sendable {
 
     // MARK: - Numeric contract
 
+    /// Plausibility caps mirroring the offline waste validator: impossibility
+    /// filters, not advice. No credible per-kg food inventory exceeds 150
+    /// kgCO2e/kg (shipped max 99.48); a grocery staple above 1500 USD/kg is a
+    /// decimal or unit slip (shipped max 15.97).
+    private static let emissionCapKgCo2ePerKg: Decimal = 150
+    private static let priceCapUsdPerKg: Decimal = 1500
+
     /// Impossible numbers refuse to load (SCHEMA.md, "Numeric contract"):
     /// negative or non-finite money, non-positive masses, misordered ranges.
     /// An omitted value (a use-it-up item carries no price) stays nil — a
@@ -332,9 +339,39 @@ public struct KitchenKnowledge: Sendable {
                     reason: "a budget must be a finite non-negative amount"
                 )
             }
+            // A budget basket is priced and weighed line by line: a missing
+            // value must refuse, never silently shrink the sum.
+            var total: Double = 0
             for item in pack.items {
+                guard let price = item.priceUsd, item.quantityKg != nil else {
+                    throw InvalidNumericError(
+                        subject: "\(subject)/\(pack.id)",
+                        field: item.priceUsd == nil
+                            ? "\(item.ingredientKey).priceUsd"
+                            : "\(item.ingredientKey).quantityKg",
+                        value: "missing",
+                        reason: "a budget item must carry a positive price and a positive mass"
+                    )
+                }
                 try validateItemNumerics(
                     item, subject: "\(subject)/\(pack.id)", requirePositivePrice: true
+                )
+                total += price
+            }
+            // Round once, like the offline validator, then compare.
+            total = (total * 10000).rounded() / 10000
+            if let stated = pack.totalCostUsd, abs(total - stated) > 0.0005 {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(pack.id).totalCostUsd",
+                    value: "\(stated)",
+                    reason: "stated total does not match the item sum \(total)"
+                )
+            }
+            guard total <= pack.budgetUsd + 1e-9 else {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(pack.id).items",
+                    value: "sum \(total)",
+                    reason: "item prices exceed the stated budget \(pack.budgetUsd)"
                 )
             }
         }
@@ -361,6 +398,15 @@ public struct KitchenKnowledge: Sendable {
                         value: "\(value)", reason: "an emission factor must be non-negative"
                     )
                 }
+                guard value <= Self.emissionCapKgCo2ePerKg else {
+                    throw InvalidNumericError(
+                        subject: subject,
+                        field: "\(factor.ingredientKey).kgCo2ePerKg.\(end)",
+                        value: "\(value)",
+                        reason: "an emission factor is implausibly large "
+                            + "(cap \(Self.emissionCapKgCo2ePerKg))"
+                    )
+                }
             }
             guard range.low <= range.central, range.central <= range.high else {
                 throw InvalidNumericError(
@@ -380,6 +426,13 @@ public struct KitchenKnowledge: Sendable {
                 throw InvalidNumericError(
                     subject: subject, field: "\(price.ingredientKey).usdPerKg",
                     value: "\(price.usdPerKg)", reason: "a price must be non-negative"
+                )
+            }
+            guard price.usdPerKg <= Self.priceCapUsdPerKg else {
+                throw InvalidNumericError(
+                    subject: subject, field: "\(price.ingredientKey).usdPerKg",
+                    value: "\(price.usdPerKg)",
+                    reason: "a price is implausibly large (cap \(Self.priceCapUsdPerKg))"
                 )
             }
             if let display = price.displayPriceUsd, display < 0 {
