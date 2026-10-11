@@ -1,0 +1,287 @@
+{
+  "rs_version": "1",
+  "id": "sa-chicken-aloo-keema",
+  "title": "Chicken Aloo Keema",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "north indian home style",
+  "meal_slots": [
+    "dinner"
+  ],
+  "minutes": 30,
+  "servings": 4,
+  "equipment": [
+    "wide saute pan with lid",
+    "chef's knife",
+    "cutting board",
+    "grater"
+  ],
+  "dietary_tags": [
+    "weeknight",
+    "high-protein",
+    "one-pot",
+    "freezer-friendly",
+    "use-it-up:peas"
+  ],
+  "ingredients": [
+    {
+      "name": "ground chicken",
+      "qty": {
+        "kind": "weighed",
+        "note": "two 12-oz packages (680 g total)",
+        "grams": 680
+      }
+    },
+    {
+      "name": "potatoes",
+      "qty": {
+        "value": 2,
+        "unit": "medium, peeled, 1/2-inch dice",
+        "kind": "household",
+        "conversion_ref": "potato_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "frozen peas",
+      "qty": {
+        "value": 0.5,
+        "unit": "cup",
+        "kind": "household",
+        "conversion_ref": "peas_cup",
+        "grams_per_unit": 145
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "value": 1,
+        "unit": "medium, finely chopped",
+        "kind": "household",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "canned crushed tomatoes",
+      "qty": {
+        "value": 0.5,
+        "unit": "cup",
+        "kind": "household",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "value": 3,
+        "unit": "cloves, minced",
+        "kind": "household",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "value": 1,
+        "unit": "tbsp, grated",
+        "kind": "household",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 1,
+        "unit": "finely chopped",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "ground cumin",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground coriander",
+      "qty": {
+        "value": 2,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "coriander_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground turmeric",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "garam masala",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "note": "to finish",
+        "conversion_ref": "garam_masala_tsp",
+        "grams_per_unit": 2.5
+      }
+    },
+    {
+      "name": "cayenne pepper",
+      "qty": {
+        "value": 0.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cayenne_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp, chopped",
+        "kind": "household",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "value": 1.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Heat the oil in a wide saute pan over medium-high. Add the onion and cook about 8 minutes until the edges deepen to a light copper. Timer: 8 minutes.",
+      "timer_min": 8
+    },
+    {
+      "n": 2,
+      "text": "Add the garlic, ginger, and green chili; cook 1 minute until fragrant.",
+      "timer_min": 1
+    },
+    {
+      "n": 3,
+      "text": "Add the potatoes and cook 3 minutes, turning them in the aromatics so every face gets some oil."
+    },
+    {
+      "n": 4,
+      "text": "Add the ground chicken, break it into small crumbles, and cook about 6 minutes, stirring often, until the raw color is gone and the crumbles tighten. Ground poultry is safe at 165°F (74°C) on a thermometer; you'll confirm it below.",
+      "timer_min": 6
+    },
+    {
+      "n": 5,
+      "text": "Stir in the cumin, coriander, turmeric, cayenne, and all but a pinch of the salt; cook 30 seconds so the spices coat the meat."
+    },
+    {
+      "n": 6,
+      "text": "Add the crushed tomatoes, scrape the pan bottom, then cover and cook on medium-low about 12 minutes, stirring twice, until the potatoes are tender to a skewer tip. Timer: 12 minutes.",
+      "timer_min": 12
+    },
+    {
+      "n": 7,
+      "text": "If the pan looks dry before the potatoes give, splash in 2 tbsp water and re-cover; the potatoes should sit in a thick masala, not soup."
+    },
+    {
+      "n": 8,
+      "text": "Check doneness: take the pan off heat and spot-check the thickest crumble with a thermometer — 165°F (74°C) minimum.",
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS"
+      }
+    },
+    {
+      "n": 9,
+      "text": "Fold in the peas and garam masala; rest covered off heat 2 minutes so the peas thaw through in the steam. Timer: 2 minutes.",
+      "timer_min": 2
+    },
+    {
+      "n": 10,
+      "text": "Taste for salt, scatter the cilantro, and serve with roti, rice, or a spoon straight from the pan."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 354,
+    "protein_g": 33.6,
+    "carbs_g": 24.4,
+    "fat_g": 14.4,
+    "fiber_g": 4.4,
+    "sugar_g": 4.2,
+    "sodium_mg": 225,
+    "coverage": 0.972,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "garam masala",
+      "ground turmeric",
+      "salt",
+      "vegetable oil"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  },
+  "source_ref": "orig:authored:sa-chicken-aloo-keema",
+  "provenance": "authored"
+}

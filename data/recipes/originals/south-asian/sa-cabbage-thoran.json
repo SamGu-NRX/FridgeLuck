@@ -1,0 +1,209 @@
+{
+  "rs_version": "1",
+  "id": "sa-cabbage-thoran",
+  "title": "Cabbage Thoran with Coconut",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "kerala",
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "minutes": 20,
+  "servings": 3,
+  "equipment": [
+    "wide skillet with lid",
+    "chef's knife",
+    "cutting board"
+  ],
+  "dietary_tags": [
+    "weeknight",
+    "budget",
+    "use-it-up:cabbage"
+  ],
+  "ingredients": [
+    {
+      "name": "cabbage",
+      "qty": {
+        "value": 7,
+        "unit": "cups, shredded",
+        "kind": "household",
+        "note": "half a small green cabbage",
+        "conversion_ref": "cabbage_cup",
+        "grams_per_unit": 70
+      }
+    },
+    {
+      "name": "freshly grated coconut",
+      "qty": {
+        "value": 0.5,
+        "unit": "cup",
+        "kind": "household",
+        "note": "frozen grated coconut works too — thaw first",
+        "conversion_ref": "coconut_grated_cup",
+        "grams_per_unit": 80
+      }
+    },
+    {
+      "name": "shallot",
+      "qty": {
+        "value": 2,
+        "unit": "medium, thinly sliced",
+        "kind": "household",
+        "conversion_ref": "shallot_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 1,
+        "unit": "slit lengthwise",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "curry leaves",
+      "qty": {
+        "value": 1,
+        "unit": "sprig",
+        "kind": "household",
+        "conversion_ref": "curry_leaf_sprig",
+        "grams_per_unit": 4
+      }
+    },
+    {
+      "name": "mustard seeds",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "mustard_seed_whole_tsp",
+        "grams_per_unit": 3.4
+      }
+    },
+    {
+      "name": "cumin seeds",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cumin_seed_whole_tsp",
+        "grams_per_unit": 2.4
+      }
+    },
+    {
+      "name": "ground turmeric",
+      "qty": {
+        "value": 0.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "value": 1,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "value": 0.75,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Heat the oil in the skillet over medium. Add the mustard seeds and cover at once — they pop hard. Once the popping calms (about 15 seconds), add the cumin seeds."
+    },
+    {
+      "n": 2,
+      "text": "Add the shallots, green chili, and curry leaves; cook 3 minutes, stirring, until the shallots soften and pick up color. Timer: 3 minutes.",
+      "timer_min": 3
+    },
+    {
+      "n": 3,
+      "text": "Add the cabbage with the turmeric and salt; toss so the shreds turn faintly yellow all over."
+    },
+    {
+      "n": 4,
+      "text": "Cover and cook on medium-low about 8 minutes, tossing twice — the cabbage wilts in its own moisture and no water is needed. Timer: 8 minutes.",
+      "timer_min": 8
+    },
+    {
+      "n": 5,
+      "text": "Uncover, raise the heat, and cook 1 minute so the last of the liquid steams off; the pan should stay dry-ish.",
+      "timer_min": 1
+    },
+    {
+      "n": 6,
+      "text": "Off the heat, fold in the grated coconut so it warms through without frying — it should stay snow-white against the yellow cabbage."
+    },
+    {
+      "n": 7,
+      "text": "Taste for salt and serve alongside rice and any curry; it travels well in a lunch box too."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 77,
+    "protein_g": 1.6,
+    "carbs_g": 8.2,
+    "fat_g": 4.8,
+    "fiber_g": 2.5,
+    "sugar_g": 3.7,
+    "sodium_mg": 8,
+    "coverage": 0.232,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "cabbage",
+      "curry leaves",
+      "ground turmeric",
+      "salt",
+      "vegetable oil"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  },
+  "source_ref": "orig:authored:sa-cabbage-thoran",
+  "provenance": "authored"
+}

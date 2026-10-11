@@ -1,0 +1,101 @@
+{
+  "schema": "fl-conversions/1",
+  "note": "Part-specific household refs for the south-asian part; grams per unit are USDA/kitchen standards, cited in basis. Suite refs are never redefined here.",
+  "conversions": {
+    "water_cup": {
+      "ingredient": "water",
+      "grams_per_unit": 240,
+      "basis": "USDA: 1 cup water ~240g"
+    },
+    "coriander_tsp": {
+      "ingredient": "ground coriander",
+      "grams_per_unit": 2,
+      "basis": "USDA: 1 tsp ground coriander ~2g (1 tbsp 6g)"
+    },
+    "cayenne_tsp": {
+      "ingredient": "cayenne pepper",
+      "grams_per_unit": 2.3,
+      "basis": "USDA: 1 tsp cayenne ~2.3g (1 tbsp ~7g)"
+    },
+    "semolina_cup": {
+      "ingredient": "coarse semolina (rava)",
+      "grams_per_unit": 167,
+      "basis": "USDA: 1 cup semolina ~167g"
+    },
+    "coconut_grated_cup": {
+      "ingredient": "freshly grated coconut",
+      "grams_per_unit": 80,
+      "basis": "USDA: 1 cup grated coconut ~80g"
+    },
+    "mango_cup": {
+      "ingredient": "cubed mango",
+      "grams_per_unit": 165,
+      "basis": "USDA: 1 cup diced mango ~165g"
+    },
+    "shallot_piece": {
+      "ingredient": "medium shallot",
+      "grams_per_unit": 50,
+      "basis": "USDA: 1 medium shallot ~50g"
+    },
+    "green_chili_piece": {
+      "ingredient": "thin Indian green chili",
+      "grams_per_unit": 12,
+      "basis": "USDA serrano ~15g whole; Indian thin chilies run smaller, ~10-12g"
+    },
+    "mustard_seed_whole_tsp": {
+      "ingredient": "whole mustard seeds",
+      "grams_per_unit": 3.4,
+      "basis": "USDA ground mustard seed 1 tbsp 9.2g; whole seeds measure ~10g per tbsp, so 1 tsp ~3.4g"
+    },
+    "cumin_seed_whole_tsp": {
+      "ingredient": "whole cumin seeds",
+      "grams_per_unit": 2.4,
+      "basis": "USDA: 1 tsp ground cumin 2g; whole seeds run slightly heavier per tsp"
+    },
+    "curry_leaf_sprig": {
+      "ingredient": "curry-leaf sprig",
+      "grams_per_unit": 4,
+      "basis": "a typical curry-leaf sprig carries ~10 leaves, ~4g"
+    },
+    "papad_piece": {
+      "ingredient": "plain urad papad (roasted)",
+      "grams_per_unit": 30,
+      "basis": "standard 7-inch urad papad ~30g each"
+    },
+    "cinnamon_stick": {
+      "ingredient": "3-inch cinnamon stick",
+      "grams_per_unit": 2.8,
+      "basis": "kitchen standard: one 3-inch cassia stick ~2.8g"
+    },
+    "cardamom_pod": {
+      "ingredient": "green cardamom pod (seeds)",
+      "grams_per_unit": 0.2,
+      "basis": "seeds of one green cardamom pod ~0.2g"
+    },
+    "cardamom_ground_tsp": {
+      "ingredient": "ground cardamom",
+      "grams_per_unit": 2,
+      "basis": "USDA: 1 tsp ground cardamom ~2g"
+    },
+    "bay_leaf_piece": {
+      "ingredient": "dried bay leaf",
+      "grams_per_unit": 0.2,
+      "basis": "one dried Turkish bay leaf ~0.2g"
+    },
+    "chaat_masala_tsp": {
+      "ingredient": "chaat masala",
+      "grams_per_unit": 2,
+      "basis": "spice-blend density matched to the suite's garam masala tsp (2.5g); chaat masala runs slightly lighter, ~2g"
+    },
+    "clove_piece": {
+      "ingredient": "whole clove",
+      "grams_per_unit": 0.07,
+      "basis": "kitchen standard: one dried clove bud ~0.07g (USDA ground cloves 1 tsp = 2.1g; 3 whole cloves weigh well under half a gram)"
+    },
+    "black_peppercorn_tsp": {
+      "ingredient": "black peppercorns",
+      "grams_per_unit": 2.3,
+      "basis": "USDA: 1 tsp whole black pepper ~2.3g (fdc 170931 row is per-100g)"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "fl-compound-allergens/1",
+  "note": "Part-specific extensions to the shared compound-allergen knowledge; every entry records the reason it is needed for this part.",
+  "entries": [
+    {
+      "pattern": "coconut",
+      "classes": ["tree_nut"],
+      "note": "FDA classifies coconut as a tree nut; the shared seed only carries coconut-specific compounds (coconut milk via the suite alias table). This generic pattern covers grated coconut, coconut cream, and any other coconut form used in south-asian recipes. Nut-free claims must not be made on coconut dishes."
+    }
+  ]
+}
