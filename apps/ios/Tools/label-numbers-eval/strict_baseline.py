@@ -1,20 +1,27 @@
 #!/usr/bin/env python3
 """Strict tool baseline for the label-numbers corpus.
 
-A deliberately rigid, single-purpose extractor used only as a comparison arm:
-line-anchored patterns, no column joining, no corruption tolerance, no
-fallbacks. Its purpose is to show how much of the production parser's score
-comes from tolerant parsing versus plain line extraction. It writes
-`reports/strict_predictions.jsonl` in the same shape as the Swift replay
-predictions so `score_report.py` can score both arms identically.
+A deliberately rigid, single-purpose extractor used only as a comparison arm.
+Unlike the production parser it is not limited to the parser's three fields:
+it extracts all nine corpus fields wherever a rigid line-anchored pattern can.
 
-Patterns (documented because strictness is the whole point):
-  serving size            ^Serving size (.+)$           verbatim capture
-  calories                ^Calories[ ]+([0-9][0-9,]*)   first number on the line
-  servings per container  ^About ([0-9]+) servings per container$  strict order
+Rules (documented because strictness is the whole point):
+  - line-anchored: a pattern must match a single OCR line, no joining
+  - first match wins per field key, later lines never overwrite
+  - explicit unit tokens (kJ / kcal / g / mg) decide the field; a line whose
+    number carries the wrong unit is not reinterpreted
+  - EU declaration blocks are tracked with minimal state: a `Typical values
+    per 100 g|ml` header starts a single-column block (basis per_100g or
+    per_100ml); a `Typical values ... per 100 g ... per portion` header
+    starts a two-column table (bases per_100g + per_portion)
+  - US/CA patterns: ^Calories <n>, ^Serving size <text>, ^About <n> servings
+    per container, ^Sodium [/ Sodium] <n> mg (first column only)
+  - corrupted digits or damaged units simply fail the pattern: abstention
 
-Anything else is an abstention. The output mirrors ReplayPrediction in
-SwiftReplay so the scorer treats both arms symmetrically.
+Everything unmatched is an abstention. The output carries the three
+ReplayPrediction keys (so the production arm shape is unchanged) plus a
+`fields` map keyed "<field>@<basis>" with everything the strict patterns
+extracted, which the scorer reads for the strict arm only.
 """
 from __future__ import annotations
 
@@ -27,14 +34,78 @@ from pathlib import Path
 SERVING_SIZE_RE = re.compile(r"^Serving size (.+)$")
 CALORIES_RE = re.compile(r"^Calories +([0-9][0-9,]*)")
 SERVINGS_RE = re.compile(r"^About ([0-9]+) servings per container$")
+SODIUM_RE = re.compile(r"^Sodium(?: / Sodium)? +([0-9][0-9,]*) mg")
+
+EU_TABLE_HEADER_RE = re.compile(r"^Typical values +per 100 g +per portion")
+EU_HEADER_RE = re.compile(r"^Typical values +per 100 (g|ml)$")
+ENERGY_SINGLE_RE = re.compile(r"^Energy +([0-9][0-9 ]*) ?kJ(?: */ *([0-9][0-9,]*) ?kcal)?$")
+ENERGY_ROW_2COL_RE = re.compile(r"^Energy +([0-9][0-9 ]*) ?kJ +([0-9][0-9 ]*) ?kJ$")
+KCAL_ROW_2COL_RE = re.compile(r"^([0-9][0-9,]*) ?kcal +([0-9][0-9,]*) ?kcal$")
+NUTRIENT_2COL_RE = re.compile(r"^(Fat|Carbohydrate|Protein|Salt) +([0-9][0-9.,]*) ?g +([0-9][0-9.,]*) ?g$")
+NUTRIENT_1COL_RE = re.compile(r"^(Fat|Carbohydrate|Protein|Salt) +([0-9][0-9.,]*) ?g$")
+
+FIELD_NAMES = {"Fat": "fat_g", "Carbohydrate": "carbohydrate_g", "Protein": "protein_g", "Salt": "salt_g"}
+
+
+def parse_number(token: str) -> float:
+    token = token.replace(" ", "")
+    if re.fullmatch(r"\d{1,3}(,\d{3})+", token):
+        return float(token.replace(",", ""))
+    if "," in token and "." not in token:
+        return float(token.replace(",", "."))
+    return float(token.replace(",", ""))
 
 
 def extract(lines: list[str]) -> dict:
     serving_size = None
     calories = None
     servings = None
-    for line in lines:
-        text = line.strip()
+    sodium = None
+    fields: dict[str, float] = {}
+    bases: tuple[str, ...] | None = None
+
+    for raw in lines:
+        text = raw.strip()
+        indented = raw[:1].isspace()
+
+        if text.startswith("Typical values"):
+            m = EU_TABLE_HEADER_RE.match(text)
+            if m:
+                bases = ("per_100g", "per_portion")
+            else:
+                m = EU_HEADER_RE.match(text)
+                if m:
+                    bases = (f"per_100{m.group(1)}",)
+            continue
+
+        if bases is not None:
+            m = ENERGY_ROW_2COL_RE.match(text)
+            if m:
+                for basis, token in zip(bases, m.groups()):
+                    fields.setdefault(f"energy_kj@{basis}", parse_number(token))
+                continue
+            m = KCAL_ROW_2COL_RE.match(text)
+            if m and indented:
+                for basis, token in zip(bases, m.groups()):
+                    fields.setdefault(f"energy_kcal@{basis}", parse_number(token))
+                continue
+            m = NUTRIENT_2COL_RE.match(text)
+            if m:
+                name = FIELD_NAMES[m.group(1)]
+                for basis, token in zip(bases, m.groups()[1:]):
+                    fields.setdefault(f"{name}@{basis}", parse_number(token))
+                continue
+            m = NUTRIENT_1COL_RE.match(text)
+            if m:
+                fields.setdefault(f"{FIELD_NAMES[m.group(1)]}@{bases[0]}", parse_number(m.group(2)))
+                continue
+            m = ENERGY_SINGLE_RE.match(text)
+            if m:
+                fields.setdefault(f"energy_kj@{bases[0]}", parse_number(m.group(1)))
+                if m.group(2):
+                    fields.setdefault(f"energy_kcal@{bases[0]}", parse_number(m.group(2)))
+                continue
+
         if serving_size is None:
             m = SERVING_SIZE_RE.match(text)
             if m:
@@ -47,13 +118,27 @@ def extract(lines: list[str]) -> dict:
             m = SERVINGS_RE.match(text)
             if m:
                 servings = float(m.group(1))
-    parsed = calories is not None
+        if sodium is None:
+            m = SODIUM_RE.match(text)
+            if m:
+                sodium = float(m.group(1).replace(",", ""))
+                fields.setdefault("sodium_mg@per_serving", sodium)
+
+    if calories is not None:
+        fields.setdefault("energy_kcal@per_serving", calories)
+    if servings is not None:
+        fields.setdefault("servings_per_container", servings)
+    if serving_size is not None:
+        fields.setdefault("serving_size", serving_size)
+
+    parsed = serving_size is not None or calories is not None or servings is not None or bool(fields)
     return {
         "keyword_positive": True,  # strict arm has no keyword gate
         "parsed": parsed,
-        "calories_per_serving": calories if parsed else None,
-        "serving_size": serving_size if parsed else None,
-        "servings_per_container": servings if parsed else None,
+        "calories_per_serving": calories,
+        "serving_size": serving_size,
+        "servings_per_container": servings,
+        "fields": dict(sorted(fields.items())),
     }
 
 

@@ -17,7 +17,7 @@ value a parser returns can be checked against the label's own arithmetic.
 - `corpus/CORPUS_COUNTS.json` — generation summary
 - `check_corpus.py` — integrity checker (schema, evidence, justifications, arithmetic)
 - `SwiftReplay/` — Swift package that replays the production parser over the corpus
-- `strict_baseline.py` — rigid line-anchored comparison arm (no joining, no tolerance)
+- `strict_baseline.py` — rigid line-anchored comparison arm covering all nine fields (no joining, no tolerance)
 - `reports/replay_predictions.jsonl` — committed per-record production-parser outputs (Swift dump)
 - `reports/strict_predictions.jsonl` — committed per-record strict-baseline outputs
 - `score_report.py` — scores both arms against truth; writes `reports/report.json`
@@ -104,69 +104,98 @@ These gaps are pinned by XCTests in `SwiftReplay` so a parser change that moves
 them is visible in CI. Fixing them is parser work, not corpus work — the corpus
 is the measuring stick, and was not adjusted to make the parser look better.
 
+## Evaluation protocol (frozen)
+
+- **Frozen family split**: development = `us_dual_column`, `ca_bilingual`;
+  heldout = `eu_per100g`, `eu_per_portion`. Every arm's metrics are reported
+  per frozen split (`by_split` in the report).
+- **Prior exposure is disclosed**: all four families were examined during tool
+  development — the generator, truth tables, production-gap measurements, and
+  the strict baseline's patterns were all written after inspecting every
+  family's line shapes. The heldout designation is frozen to keep future arm
+  changes honest; it is **not** a clean held-out split, and heldout metrics
+  are confirmatory, not discovery.
+- **Keyword-rejected records are not evaluation**: records the production
+  keyword gate rejects are excluded from its totals entirely and disclosed as
+  `gate_rejected_records` / `gate_rejected_formats` (with per-cell counts).
+  They are not scored as "untouched" probes — no comparison happens on them.
+
 ## Scoring and accounting
 
-`score_report.py` treats every truth entry as a probe and assigns exactly one
-status, in precedence order:
+Each arm is scored against its **own declared capability**; the production
+whitelist is not imposed on the strict baseline:
 
-| status | meaning |
-|---|---|
-| `unobservable` | the entry is not observable (or has no value) — never scored |
-| `unavailable` | the arm has no extractor for this field at all |
-| `unavailable_basis` | field supported, but not on this basis (e.g. `energy_kcal@per_100g`) |
-| `untouched` | production only: the keyword gate excluded the record — no attempt |
-| `abstention` | the arm attempted but returned no value; production abstains per record (`parsed == null`), so a calories failure also nulls serving size and servings per container |
-| `match` / `mismatch` | value comparison (calories ±0.5, servings ±0.01, serving size normalized string) |
+- production: `energy_kcal` (per_serving/per_portion), `serving_size`,
+  `servings_per_container`. The six other corpus fields are marked
+  `unavailable` — explicit missing coverage, never silently dropped.
+- strict_baseline: all nine fields on the bases its rigid patterns produce
+  (EU per-100g/per-100ml/per-portion declarations; US/CA per-serving lines).
+
+Per-probe status, first match wins: `unobservable` (entry not observable —
+never scored) → `unavailable` (arm has no extractor for the field) →
+`unavailable_basis` (field supported, basis not) → `abstention` (attempted,
+no value; production abstains per record) → `match`/`mismatch` (calories
+±0.5, kJ ±2.0, mass ±0.05, sodium ±10, servings ±0.01, serving size
+normalized string).
 
 A production calorie number is compared against each observable serving-like
 truth entry separately: matching `per_serving` and missing `per_package` are
-two honest outcomes of one number, not one. The committed
-`reports/report.json` carries per-arm totals, per family/variant breakdowns,
-and explicit field × unit × basis tables (e.g. `energy_kcal`, `kcal`,
-`per_serving`), plus `unsupported_production_fields` (the six fields the
-parser does not extract: `energy_kj`, `fat_g`, `carbohydrate_g`, `protein_g`,
-`sodium_mg`, `salt_g` — marked `unavailable`, not scored as abstentions) and
-`untouched_formats_production` (family|variant cells the keyword gate never
-attempts: all four EU cells).
+two honest outcomes of one number.
+
+**Controls** (diagnostics per arm; they do not change the statuses):
+
+- `unit_errors` — mismatch whose value equals the truth under a unit
+  conversion (kcal↔kJ ×4.184, mg↔g ×1000): right quantity, wrong unit.
+- `basis_errors` — mismatch whose value equals a different observable basis
+  entry of the same field: right number, wrong column.
+- `false_abstentions` — abstentions on probes the companion arm matched:
+  values extractable from the committed text that the arm threw away.
 
 All counters are integers, so the committed bytes are stable;
 `verify_report.py` recomputes from the committed corpus + predictions and
 byte-compares — any edit to any of the four files fails it.
 
-## Full-accounting results
+## Results
 
-5,590 probes per arm (480 records × their truth entries):
+Probe pools: strict baseline 5,590 (all 480 records, all nine fields);
+production 2,733 (237 keyword-admitted records — the gate rejects 243:
+all 240 EU records and 3 corrupted Canadian records, disclosed per cell).
 
 | status | production | strict baseline |
 |---|---|---|
-| match | 218 | 436 |
+| match | 218 | 2,255 |
 | mismatch | 103 | 0 |
-| abstention | 355 | 355 |
-| untouched | 115 | — (no gate) |
-| unavailable_basis | 314 | 314 |
-| unavailable | 2,721 | 2,721 |
-| unobservable | 1,764 | 1,764 |
+| abstention | 355 | 389 |
+| unavailable_basis | 110 | 1,182 |
+| unavailable | 1,226 | 0 |
+| unobservable | 721 | 1,764 |
+| controls: unit / basis / false-abstention | 0 / 0 / 125 | 0 / 0 / 0 |
 
-Production, per field: calories on `per_serving` 208 match / 3 abstain
-(the strongest number the parser has); serving size 10 match / 103 mismatch /
-119 abstain — the greedy overrun costs ~100 records that a plain line capture
-gets; servings-per-container 0-for-233 attempted — the phrase-order assumption
-voids the field entirely. The strict baseline matches 436 with zero
-mismatches: on clean US labels it captures serving size exactly (113) and
-counts servings (115) where the production parser fails; the strict tool's
-misses are corrupted digits and EU `Energy` lines it refuses to guess. The
-production parser wins nothing over it on this corpus — its calorie matches
-are identical (208), and every other gap is its own. The strict arm is not a
-straw man either: it abstains rather than guessing on corrupted digits and EU
-`Energy` lines, which is why it never mismatches.
+Frozen splits: production — development 2,733 probes (all of it; heldout
+empty because the gate rejects both EU families), strict — development 646
+match / 237 abstain, heldout 1,609 match / 152 abstain. The strict baseline's
+0 mismatches are by construction: it abstains on corrupted digits and EU
+`Energy` lines rather than guessing, which is why every non-match is an
+abstention.
+
+Production, per field (development records only): calories on `per_serving`
+208 match / 3 abstain — its one strong field, identical to the strict tool's
+208; serving size 10 match / 103 mismatch / 119 abstain (the greedy overrun
+costs ~100 records a plain line capture gets); servings-per-container 0-for-233
+attempted (the phrase-order assumption voids the field). The 125 false
+abstentions are values the strict tool extracts from the same committed text
+that production's whole-record abstention discarded. The six unavailable
+fields (1,226 probes) and EU coverage are the parser-repair backlog this
+corpus pins; the strict baseline now demonstrates that every one of those
+fields is recoverable by rigid line extraction on clean labels.
 
 ## Handoff
 
-- **Committed evidence**: `corpus/labels.jsonl`, `reports/replay_predictions.jsonl` (Swift dump, seed-independent), `reports/strict_predictions.jsonl`, `reports/report.json`. The report records the sha256 of corpus and both prediction files.
+- **Committed evidence**: `corpus/labels.jsonl`, `reports/replay_predictions.jsonl` (Swift dump, seed-independent), `reports/strict_predictions.jsonl` (extended nine-field extractor), `reports/report.json` (schema v3: frozen protocol, per-arm capability, splits, controls). The report records the sha256 of corpus and both prediction files.
 - **One-command re-check**: `python3 verify_report.py` — recomputes and byte-compares; exits 0 only on committed, unmodified inputs.
 - **Regeneration order**: `python3 generate_corpus.py --seed 20261010` → `swift run label-numbers-replay --predictions reports/replay_predictions.jsonl` → `python3 strict_baseline.py` → `python3 score_report.py` → `python3 verify_report.py`. The Swift step is the only non-Python step and runs on Linux or macOS.
 - **Production code untouched**: `NutritionLabelParser.swift` was not modified to cover the benchmark; the replay ships a byte-identical copy under `SwiftReplay/Sources/LabelNumbersReplay/`.
-- **Open items** (in rough value order): (1) serving-size capture overrun — the single largest production loss (~100 records); (2) servings-per-container phrase order — voids the field on every label of this shape; (3) EU support — both EU families are keyword-gate untouched, and `energy_kj`/per-100g extraction is `unavailable`; (4) whole-record abstention — a calories failure discards otherwise-extractable serving-size/servings values.
+- **Open items** (in rough value order): (1) serving-size capture overrun — the single largest production loss (~100 records); (2) servings-per-container phrase order — voids the field on every label of this shape; (3) EU support — both EU families are keyword-gate rejected and `energy_kj`/per-100g extraction is `unavailable`; the strict baseline shows all of it is rigidly extractable; (4) whole-record abstention — a calories failure discards otherwise-extractable values (125 false abstentions against the strict arm); (5) a genuinely held-out format family, since all four current families were development-exposed.
 - **Unchecked surface**: macOS/iOS build and the XCTests under Apple CI (no Xcode in this environment); the Linux Swift run covers the same test sources.
 
 ## Determinism
