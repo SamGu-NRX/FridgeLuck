@@ -194,7 +194,7 @@
       "food_class": "meat_whole_cut_pork",
       "summary": "Pork and fresh or smoked uncooked ham steaks, chops and roasts must reach 145 °F (63 °C) with a food thermometer, then rest for at least 3 minutes before carving or consuming.",
       "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "thickest part of the cut, away from bone, fat or gristle" },
-      "match_keywords": ["pork loin", "pork roast", "pork tenderloin", "pork chop", "fresh ham", "smoked ham (uncooked)"],
+      "match_keywords": ["pork", "pork loin", "pork roast", "pork tenderloin", "pork chop", "pork chops", "pork belly", "fresh ham", "smoked ham (uncooked)", "gammon"],
       "visual_cues_insufficient": ["colour", "pink centre", "firmness"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
     },
@@ -215,7 +215,7 @@
       "food_class": "flesh_shellfish",
       "summary": "Shellfish must reach 145 °F (63 °C) measured with a food thermometer. FridgeLuck states the thermometer test even though FoodSafety.gov also publishes an appearance alternative ('flesh is pearly or white, and opaque'; shells opening); the appearance alternative is never used as a safety verdict in the app.",
       "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "centre of the thickest piece" },
-      "match_keywords": ["shrimp", "prawn", "lobster", "crab", "scallop", "clam", "mussel", "oyster", "shellfish", "squid"],
+      "match_keywords": ["shrimp", "shrimps", "prawn", "prawns", "lobster", "crab", "scallop", "scallops", "clam", "clams", "mussel", "mussels", "oyster", "oysters", "shellfish", "squid", "octopus", "cockles"],
       "visual_cues_insufficient": ["colour", "shells opening", "opacity", "firmness"],
       "published_appearance_alternative_note": "FoodSafety.gov publishes appearance cues for some shellfish ('flesh is pearly or white, and opaque'; shells opening). FridgeLuck keeps the thermometer test as the check; the timer says when to check. The camera look may describe size and consistency but never issues a safety verdict.",
       "citation_ids": ["fsis-safe-temperature-chart", "fsg-safe-min-temps"]
@@ -254,7 +254,7 @@
       "food_class": "leftovers",
       "summary": "Reheat leftovers to 165 °F (74 °C) measured with a food thermometer; reheat sauces, soups and gravies by bringing them to a rolling boil. Cover leftovers to reheat; in a microwave, cover and rotate, then check the temperature in several places.",
       "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "several places for microwave reheating; allow a resting time before the final check" },
-      "match_keywords": ["reheat", "reheat leftovers", "warm up", "microwave", "leftover"],
+      "match_keywords": ["reheat", "reheat leftovers", "rewarm", "re-warm", "warm up", "microwave", "leftover"],
       "visual_cues_insufficient": ["steam alone", "hot to touch", "colour"],
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-leftovers", "fda-egg-safety"]
     },
