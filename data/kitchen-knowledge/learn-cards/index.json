@@ -221,6 +221,14 @@
     "fdcId": 169998
    },
    {
+    "id": "couscous",
+    "displayName": "Couscous",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169699
+   },
+   {
     "id": "cucumber",
     "displayName": "Cucumber",
     "isCore": true,
@@ -237,6 +245,22 @@
     "fdcId": 170923
    },
    {
+    "id": "curry_powder",
+    "displayName": "Curry Powder",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170924
+   },
+   {
+    "id": "edamame",
+    "displayName": "Edamame",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168410
+   },
+   {
     "id": "egg",
     "displayName": "Egg",
     "isCore": true,
@@ -245,12 +269,36 @@
     "fdcId": 171287
    },
    {
+    "id": "eggplant",
+    "displayName": "Eggplant",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169228
+   },
+   {
+    "id": "feta",
+    "displayName": "Feta",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173420
+   },
+   {
     "id": "frozen_peas",
     "displayName": "Frozen Peas",
     "isCore": true,
     "category": "vegetable",
     "frequencyInBundledRecipes": 11,
     "fdcId": 170016
+   },
+   {
+    "id": "garam_masala",
+    "displayName": "Garam Masala",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
    },
    {
     "id": "garlic",
@@ -269,6 +317,22 @@
     "fdcId": 169231
    },
    {
+    "id": "gochujang",
+    "displayName": "Gochujang",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "green_beans",
+    "displayName": "Green Beans",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169961
+   },
+   {
     "id": "green_onion",
     "displayName": "Green Onion",
     "isCore": true,
@@ -283,6 +347,22 @@
     "category": "protein",
     "frequencyInBundledRecipes": 3,
     "fdcId": 174036
+   },
+   {
+    "id": "halloumi",
+    "displayName": "Halloumi",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "harissa",
+    "displayName": "Harissa",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
    },
    {
     "id": "honey",
@@ -416,9 +496,14 @@
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 51,
+   "cardsWritten": 61,
    "seedCorpusDistinctNames": 113,
-   "missingNutrition": [],
+   "missingNutrition": [
+    "garam_masala",
+    "gochujang",
+    "halloumi",
+    "harissa"
+   ],
    "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."
   }
  }

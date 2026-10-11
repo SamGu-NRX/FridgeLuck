@@ -1,0 +1,59 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "halloumi",
+  "displayName": "Halloumi",
+  "isCore": false,
+  "category": "dairy_egg",
+  "sections": {
+   "whatItIs": {
+    "text": "Cyprus's squeaky, high-melting-point cheese that fries and grills without melting — the reason it is the vegetarian 'meat' of the grill.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Halloumi is thought to have been first made by Bedouins whose nomadic life suited its keeping qualities; Cypriot records call it 'calumi' around 1554, and its name may trace back to a word for cheese in 2nd-century Roman Egypt.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Buy blocks in brine and check the milk mix — traditional sheep-and-goat versions taste rounder, while cow's-milk-heavy ones (now most exports) are milder.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep sealed in its brine in the fridge. The rulebook has the details.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "cheese storage windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Slice thin, pat dry, and fry hard for the best crust; leftover halloumi crisps into salads and wraps, and tired pieces still grate into fritters.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "feta",
+    "ratio": "1:1",
+    "note": "won't fry solid — crumble instead; saltier",
+    "citations": []
+   }
+  ],
+  "sources": {
+   "s1": {
+    "title": "Halloumi — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Halloumi",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   }
+  }
+ }
+}
