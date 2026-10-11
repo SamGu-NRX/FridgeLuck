@@ -72,6 +72,101 @@ final class RulebookValidationTests: XCTestCase {
         XCTAssertEqual(FoodClass.leftovers.minimumTempF, 165)
     }
 
+    // MARK: Canon P1 corrections are pinned to the fetched FSIS values
+
+    private func rule(_ id: String, in book: Rulebook) throws -> Rule {
+        try XCTUnwrap(book.rules.first { $0.id == id }, "missing rule \(id)")
+    }
+
+    func testGroundPoultryPinnedAt165() throws {
+        let book = try Rulebook.decode(try rulesJSON())
+        let rule = try self.rule("ground-poultry-165", in: book)
+        let check = try XCTUnwrap(rule.check)
+        XCTAssertEqual(check.kind, .thermometer)
+        XCTAssertEqual(check.tempF, 165)
+        XCTAssertEqual(check.tempC, 74)
+        XCTAssertEqual(rule.foodClass, .meatPoultry)
+        XCTAssertTrue(rule.summary.contains("never meat_ground"),
+                      "ground poultry must be excluded from the 160 °F ground-mammal class")
+    }
+
+    func testWholeCutRulesCarryThreeMinuteRest() throws {
+        let book = try Rulebook.decode(try rulesJSON())
+        for (id, cls) in [("whole-cut-pork-145-rest-3", FoodClass.meatWholeCutPork),
+                          ("whole-cut-red-145-rest-3", FoodClass.meatWholeCutRed)] {
+            let rule = try self.rule(id, in: book)
+            let check = try XCTUnwrap(rule.check)
+            XCTAssertEqual(check.kind, .thermometer)
+            XCTAssertEqual(check.tempF, 145, "\(id) must be pinned at 145 °F")
+            XCTAssertEqual(check.tempC, 63)
+            XCTAssertEqual(check.restMinutes, 3, "\(id) must carry the FSIS 3-minute rest")
+            XCTAssertEqual(rule.foodClass, cls)
+            XCTAssertTrue(rule.summary.contains("rest"))
+        }
+    }
+
+    func testReheatingRuleStatesTheProductClassOverride() throws {
+        let book = try Rulebook.decode(try rulesJSON())
+        let rule = try self.rule("leftovers-reheat-165", in: book)
+        let check = try XCTUnwrap(rule.check)
+        XCTAssertEqual(rule.topic, .reheating)
+        XCTAssertEqual(check.kind, .thermometer)
+        XCTAssertEqual(check.tempF, 165)
+        XCTAssertEqual(check.tempC, 74)
+        XCTAssertEqual(rule.foodClass, .leftovers)
+        XCTAssertTrue(rule.summary.contains("overrides the product class"),
+                      "the rulebook must state that reheating overrides the product class")
+        XCTAssertTrue(rule.summary.contains("165 °F, not the 145 °F whole-cut minimum"),
+                      "the override example must name the reheated pork-roast case")
+    }
+
+    func testHamConditionalPinsTheThreeFSISCases() throws {
+        let book = try Rulebook.decode(try rulesJSON())
+        let rule = try self.rule("ham-reheat-140-165", in: book)
+        let check = try XCTUnwrap(rule.check)
+        XCTAssertEqual(check.kind, .thermometer)
+        XCTAssertEqual(check.tempF, 165)
+        XCTAssertEqual(check.alternativeTempF, 140)
+        XCTAssertEqual(rule.foodClass, .leftovers)
+        XCTAssertTrue(rule.summary.contains("USDA-inspected plants"),
+                      "140 °F is reserved for hams packaged in USDA-inspected plants")
+        XCTAssertTrue(rule.summary.contains("145 °F (63 °C)"),
+                      "fresh or smoked uncooked ham keeps 145 °F plus rest")
+        XCTAssertTrue(rule.summary.contains("165 °F (73.9 °C)"),
+                      "every other ham case goes to 165 °F")
+    }
+
+    func testCasseroleAndStuffingPinnedAt165() throws {
+        let book = try Rulebook.decode(try rulesJSON())
+        XCTAssertEqual(try self.rule("casseroles-165", in: book).check?.tempF, 165)
+        XCTAssertEqual(try self.rule("stuffed-poultry-stuffing-165", in: book).check?.tempF, 165)
+        XCTAssertEqual(try self.rule("casseroles-165", in: book).foodClass, .leftovers)
+        XCTAssertEqual(try self.rule("stuffed-poultry-stuffing-165", in: book).foodClass, .meatPoultry)
+        XCTAssertTrue(try self.rule("casseroles-165", in: book).summary.contains("meat and meatless"))
+        XCTAssertTrue(try self.rule("stuffed-poultry-stuffing-165", in: book).summary.contains("stuffing"))
+    }
+
+    /// The #97 error class: no doneness check may undercut its FSIS class minimum.
+    func testEveryCheckedRuleMeetsItsClassMinimum() throws {
+        let book = try Rulebook.decode(try rulesJSON())
+        for rule in book.rules {
+            guard let check = rule.check, let foodClass = rule.foodClass else { continue }
+            XCTAssertGreaterThanOrEqual(check.tempF, foodClass.minimumTempF,
+                                        "rule \(rule.id) undercuts the FSIS minimum for \(foodClass.rawValue)")
+        }
+    }
+
+    func testFoodCodeTwoStageCoolingRulePresent() throws {
+        let book = try Rulebook.decode(try rulesJSON())
+        let rule = try self.rule("cooling-two-stage-food-code", in: book)
+        XCTAssertEqual(rule.topic, .coolingWindow)
+        XCTAssertTrue(rule.citationIDs.contains("fda-food-code-2022"))
+        let citation = try XCTUnwrap(book.citation(id: "fda-food-code-2022"))
+        XCTAssertEqual(citation.url, "https://www.fda.gov/media/164194/download")
+        XCTAssertTrue(citation.quotes.contains { $0.contains("Within 2 hours from") })
+        XCTAssertTrue(citation.quotes.contains { $0.contains("Within a total of 6 hours from") })
+    }
+
     // MARK: Fail loudly on schema violations (mutated fixtures)
 
     private func mutated(_ transform: (inout [String: Any]) -> Void) throws -> Data {
