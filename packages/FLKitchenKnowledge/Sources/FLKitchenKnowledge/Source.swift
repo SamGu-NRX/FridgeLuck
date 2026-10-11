@@ -38,6 +38,23 @@ public struct SourceBody: Codable, Sendable, Hashable {
     public var notes: String?
 }
 
+/// Thrown when two records claim one identifier within a file's scope
+/// (duplicate card ids, pack ids, ingredient keys, source records). A file
+/// that fails this contract throws rather than silently keeping one record.
+public struct DuplicateIdError: Error, CustomStringConvertible, Sendable {
+    public let subject: String
+    public let id: String
+    public let reason: String
+
+    public init(subject: String, id: String, reason: String = "ids must be unique within the file") {
+        self.subject = subject
+        self.id = id
+        self.reason = reason
+    }
+
+    public var description: String { "duplicate id in \(subject): '\(id)' — \(reason)" }
+}
+
 /// Thrown when data would state, or compute from, a number with no cited source.
 /// The library refuses rather than guesses.
 public struct MissingSourceError: Error, CustomStringConvertible, Sendable {

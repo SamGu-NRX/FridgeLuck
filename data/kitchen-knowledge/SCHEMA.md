@@ -52,12 +52,19 @@ data/kitchen-knowledge/
    load (`MissingSourceError`). History prose must carry at least one citation.
    A source record's id IS the dictionary key it sits under — records must not
    repeat it (a redundant `id` field inside a record is ignored in favor of the key).
+   The same rule binds pack files at load time: every `citationIds` entry,
+   item-level `citationIds`, and `priceSourceId` must resolve in the pack file's own
+   `sources` list (`packSourcesByFile` captures those records so the app can
+   attribute claims, not just the offline validator).
 2. **Storage guidance is not duplicated.** Each card's storage section links
    `foodSafetyRef` to `data/food-safety/rules.json` (the rulebook owns the numbers).
 3. **Waste math never invents.** Price is a point estimate; emissions carry
    low/central/high. Grams whose ingredient lacks a price or an emission factor are
    reported as **refusals** per ingredient+reason — never silently dropped from or
-   folded into totals.
+   folded into totals. The ledger's binding output is the per-reason totals
+   (`unpricedGrams`, `missingEmissionFactorGrams`) plus the refused key sets, summed
+   unrounded and rounded once; the per-ingredient `refusals` rows are unrounded
+   detail, not the totals.
 4. **Buckets.** `discard` and `expire` are wasted. A dated `consume` on or before the
    lot's use-by is **saved**; after the use-by it is **used late**; without usable
    date/use-by evidence it is **consumed-unknown**. `add`/`adjust` are corrections, not
@@ -67,7 +74,23 @@ data/kitchen-knowledge/
 6. **Packs stay under budget.** A budget pack's summed item prices equal its stated
    total and never exceed `budgetUsd`.
 7. **Index agrees with cards.** `learn-cards/index.json` card ids must equal the set of
-   card files present.
+   card files present, and a listed card's `fdcId` must equal its nutrition block's
+   `fdcId` (the index is a mirror, not an independent opinion).
+
+## Envelope and id contracts (loader throws otherwise)
+
+- **Envelope.** Every load goes through `DataEnvelope.decode(_:expectingKind:)`:
+  a file claiming the wrong `kind` or an unsupported `schemaVersion` refuses
+  (`MissingSourceError`) instead of decoding half-checked data.
+- **Duplicate ids refuse.** Duplicate card-file ids, pack ids, seasonal region
+  ids, pack source-record ids, and waste factor ingredient keys throw
+  (`DuplicateIdError`) rather than silently keeping one record — a duplicate
+  previously crashed the card dictionary or lost a row to last-wins.
+- **Seasonal shape.** Months are unique and within 1...12; a month pack's
+  `regionId` must reference a declared region.
+- Loss-factor rows carry per-field citations: `citationId` for the loss
+  estimate and, where an `edibleSharePct` is present, `edibleShareCitationId`
+  naming the edible-share basis (SR28 refuse rows cite s4; TB-1927 rows s3).
 
 ## Join checklist (parent verification before the draft PR)
 

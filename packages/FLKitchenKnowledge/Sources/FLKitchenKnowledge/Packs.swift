@@ -151,20 +151,29 @@ public struct UseItUpPack: Codable, Sendable, Equatable {
 
 public struct BudgetPacksPayload: Codable, Sendable, Equatable {
     public var packs: [BudgetPack]
+    /// The file's source records. Every citationId in the file resolves here;
+    /// decoded so provenance survives loading, not just the offline validator.
+    public var sources: [SourceRecord]?
     public var notes: String?
 }
 
 public struct FoodBankPacksPayload: Codable, Sendable, Equatable {
     public var packs: [FoodBankPack]
+    /// The file's source records; see BudgetPacksPayload.sources.
+    public var sources: [SourceRecord]?
 }
 
 public struct SeasonalPacksPayload: Codable, Sendable, Equatable {
     public var regions: [SeasonalRegion]
     public var months: [SeasonalMonth]
+    /// The file's source records; see BudgetPacksPayload.sources.
+    public var sources: [SourceRecord]?
 }
 
 public struct UseItUpPacksPayload: Codable, Sendable, Equatable {
     public var packs: [UseItUpPack]
+    /// The file's source records; see BudgetPacksPayload.sources.
+    public var sources: [SourceRecord]?
 }
 
 public extension Array where Element == BudgetPack {
