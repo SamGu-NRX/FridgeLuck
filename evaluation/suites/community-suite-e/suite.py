@@ -164,7 +164,7 @@ def _run_scenarios(repo_root: Path, firebase: str, bun: str) -> tuple[dict[str, 
                 "--config",
                 EMULATOR_CONFIG,
                 "--",
-                f"{bun} test {SCENARIO_TEST_PATH}",
+                f"{bun} test --timeout=120000 {SCENARIO_TEST_PATH}",
             ],
             cwd=repo_root / AGENT_DIR,
             env=env,
@@ -172,6 +172,18 @@ def _run_scenarios(repo_root: Path, firebase: str, bun: str) -> tuple[dict[str, 
             text=True,
             timeout=1700,
         )
+        if proc.returncode != 0:
+            # afterAll flushes metrics.json even when a scenario body aborted
+            # mid-run, so the file existing proves nothing: partial metrics
+            # under-count transition coverage and make the step-failure bar
+            # pass vacuously (an empty scenarios array sums to zero). A run
+            # whose bun test failed is not evidence — report not-run with the
+            # output tail instead of deriving a verdict from the remainder.
+            tail = (proc.stdout + proc.stderr)[-1500:]
+            return None, (
+                f"bun scenario run exited {proc.returncode}; any metrics.json it "
+                f"flushed is partial and not evidence. Output tail: {tail}"
+            )
         if not metrics_path.exists():
             tail = (proc.stdout + proc.stderr)[-1500:]
             return None, (
@@ -182,6 +194,12 @@ def _run_scenarios(repo_root: Path, firebase: str, bun: str) -> tuple[dict[str, 
             metrics = json.loads(metrics_path.read_text())
         except json.JSONDecodeError as err:
             return None, f"metrics.json is not valid JSON: {err}"
+        if not metrics.get("scenarios"):
+            return None, (
+                "metrics.json recorded no scenario step audits — the run is "
+                "incomplete, so every bar reports not-run rather than a verdict "
+                "from a remainder."
+            )
         return metrics, None
 
 
@@ -267,7 +285,15 @@ def main() -> int:
             "Required queue transitions: " + ", ".join(REQUIRED_QUEUE_TRANSITIONS)
             + ". Required publication transitions: " + ", ".join(REQUIRED_PUBLICATION_TRANSITIONS) + "."
         ),
-        evidence={"queue": queue_covered, "publication": pub_covered},
+        evidence={
+            "queue": queue_covered,
+            "publication": pub_covered,
+            "missing": [
+                t
+                for t in (*REQUIRED_QUEUE_TRANSITIONS, *REQUIRED_PUBLICATION_TRANSITIONS)
+                if t not in set(queue_covered) | set(pub_covered)
+            ],
+        },
     )
 
     payload = {

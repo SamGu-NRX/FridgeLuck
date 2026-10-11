@@ -228,6 +228,7 @@ describe("suite E: community composition scenarios", () => {
   });
 
   test("S2 — three accounts: report, moderate, appeal, withdraw, deletion", async () => {
+    expect(1).toBe(2); // planted: S2 aborts before its summary push
     const scenario = new Scenario("S2 moderation and deletion");
     const author = await signInAs(http, keys, "suite-e-s2-author");
     const reporter = await signInAs(http, keys, "suite-e-s2-reporter");
@@ -336,6 +337,14 @@ describe("suite E: community composition scenarios", () => {
   });
 
   test("suite bars: no leaks, no authorization failures, full transition coverage", async () => {
+    // Completeness guard: each scenario pushes its summary only when its body
+    // ran to completion. If a body aborted mid-run (timeout, crash), the
+    // remainder under-counts transitions and zeroes the step-failure sum —
+    // the bars must fail, not pass on a partial run.
+    expect(
+      scenarioMetrics.scenarios.length,
+      "scenario summaries: a missing summary means a scenario body aborted mid-run and no bar is meaningful"
+    ).toBe(2);
     // Bar 1: zero private-field leaks across every captured response.
     const leaks = scanForLeaks(http.captured);
     scenarioMetrics.leaks = leaks;
