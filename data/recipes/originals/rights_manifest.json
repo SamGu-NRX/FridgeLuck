@@ -1615,6 +1615,806 @@
         "caching": true,
         "offline_use": true
       }
+    },
+    "fl-original-0102": {
+      "source_id": "fl-original-0102",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 27 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 27 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0103": {
+      "source_id": "fl-original-0103",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 28 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 28 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0104": {
+      "source_id": "fl-original-0104",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 29 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 29 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0105": {
+      "source_id": "fl-original-0105",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 30 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 30 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0106": {
+      "source_id": "fl-original-0106",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 31 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 31 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0107": {
+      "source_id": "fl-original-0107",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 32 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 32 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0108": {
+      "source_id": "fl-original-0108",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 34 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 34 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0109": {
+      "source_id": "fl-original-0109",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 36 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 36 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0110": {
+      "source_id": "fl-original-0110",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 38 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 38 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0111": {
+      "source_id": "fl-original-0111",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 39 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 39 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0112": {
+      "source_id": "fl-original-0112",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 40 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 40 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0113": {
+      "source_id": "fl-original-0113",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 41 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 41 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0114": {
+      "source_id": "fl-original-0114",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 42 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 42 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0115": {
+      "source_id": "fl-original-0115",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 43 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 43 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0116": {
+      "source_id": "fl-original-0116",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 44 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 44 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0117": {
+      "source_id": "fl-original-0117",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 45 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 45 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0118": {
+      "source_id": "fl-original-0118",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 47 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 47 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0119": {
+      "source_id": "fl-original-0119",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 48 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 48 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0120": {
+      "source_id": "fl-original-0120",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 49 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 49 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0121": {
+      "source_id": "fl-original-0121",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 51 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 51 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0122": {
+      "source_id": "fl-original-0122",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 52 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 52 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0123": {
+      "source_id": "fl-original-0123",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 54 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 54 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0124": {
+      "source_id": "fl-original-0124",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 55 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 55 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0125": {
+      "source_id": "fl-original-0125",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 56 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 56 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0126": {
+      "source_id": "fl-original-0126",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 57 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 57 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0127": {
+      "source_id": "fl-original-0127",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 58 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 58 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0128": {
+      "source_id": "fl-original-0128",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 60 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 60 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0129": {
+      "source_id": "fl-original-0129",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 61 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 61 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0130": {
+      "source_id": "fl-original-0130",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 62 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 62 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0131": {
+      "source_id": "fl-original-0131",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 63 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 63 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0132": {
+      "source_id": "fl-original-0132",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 64 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 64 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0133": {
+      "source_id": "fl-original-0133",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 65 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 65 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0134": {
+      "source_id": "fl-original-0134",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 67 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 67 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0135": {
+      "source_id": "fl-original-0135",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 69 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 69 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0136": {
+      "source_id": "fl-original-0136",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 70 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 70 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0137": {
+      "source_id": "fl-original-0137",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 71 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 71 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0138": {
+      "source_id": "fl-original-0138",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 72 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 72 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0139": {
+      "source_id": "fl-original-0139",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 73 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 73 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0140": {
+      "source_id": "fl-original-0140",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 74 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 74 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0141": {
+      "source_id": "fl-original-0141",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 75 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 75 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0142": {
+      "source_id": "fl-original-0142",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 76 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 76 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0143": {
+      "source_id": "fl-original-0143",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 78 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 78 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0144": {
+      "source_id": "fl-original-0144",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 79 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 79 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0145": {
+      "source_id": "fl-original-0145",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 80 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 80 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0146": {
+      "source_id": "fl-original-0146",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 81 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 81 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0147": {
+      "source_id": "fl-original-0147",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 82 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 82 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0148": {
+      "source_id": "fl-original-0148",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 83 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 83 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0149": {
+      "source_id": "fl-original-0149",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 84 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 84 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0150": {
+      "source_id": "fl-original-0150",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 85 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 85 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0151": {
+      "source_id": "fl-original-0151",
+      "source_type": "original-rewrite",
+      "origin": "fresh expression of bundled recipe 87 in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "rewrite of bundled recipe 87 per the rewrite verdict row for that dish in data/recipes/RIGHTS-AUDIT.md (branch obv/fl-next-recipe-fidelity); fresh expression authored for FridgeLuck on branch overhaul/original-recipes",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
     }
   }
 }
