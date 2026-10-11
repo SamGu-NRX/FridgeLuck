@@ -4927,7 +4927,7 @@
       ]
     },
     "mushrooms": {
-      "display": "white mushrooms",
+      "display": "mushrooms",
       "fdc_id": 169251,
       "usda_name": "Mushrooms, white, raw",
       "macros_per_100g": {
@@ -4940,11 +4940,13 @@
         "sodium_mg": 5.0
       },
       "classes": [],
-      "allergen_note": "No major allergen class.",
+      "allergen_note": null,
       "aliases": [
+        "mushroom",
         "mushrooms",
-        "white mushrooms",
-        "button mushrooms"
+        "white mushroom",
+        "button mushroom",
+        "white mushrooms"
       ]
     },
     "mustard": {
