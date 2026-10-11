@@ -11,6 +11,26 @@
     "soy sauce": {"basis": "$2.50/10 fl oz = $0.026/g"},
     "toasted sesame oil": {"basis": "$4.50/5 fl oz = $0.03/g"},
     "vegetable oil": {"basis": "$0.08/fl oz; 1 tbsp = 14g ~ $0.12"},
-    "white pepper": {"basis": "$3/100g, negligible per serving"}
+    "white pepper": {"basis": "$3/100g, negligible per serving"},
+    "dried rice noodles": {"basis": "$2.00/400 g pack = $0.50/100 g; 75 g = $0.38"},
+    "cucumber": {"basis": "$0.79 each (~300 g)"},
+    "salt": {"basis": "$1.20/1.36 kg iodized table salt; 1 tsp ~ $0.01"},
+    "tahini": {"basis": "$5.00/16 oz jar = $1.10/100 g; 2 tbsp = $0.33"},
+    "rice vinegar": {"basis": "$2.50/12 fl oz bottle ~ $0.04/tbsp"},
+    "sugar": {"basis": "$2.50/2 kg bag; 1 tbsp ~ $0.015"},
+    "chili flakes": {"basis": "$1.50/50 g jar = $0.06/tsp"},
+    "sichuan peppercorns": {"basis": "$4.00/100 g = $0.08/tsp"},
+    "cilantro": {"basis": "$1.20/bunch; 2 tbsp chopped ~ $0.10"},
+    "lime": {"basis": "$0.50 each"},
+    "black beans": {"basis": "$1.20/can (15 oz, no-salt-added), drained ~240 g"},
+    "corn": {"basis": "$1.80/907 g frozen bag = $0.20/100 g; 165 g = $0.33"},
+    "spinach": {"basis": "$2.50/10 oz (283 g) = $0.88/100 g; 90 g = $0.21"},
+    "honey": {"basis": "$4.00/500 g squeeze bottle = $0.008/g; 1 tbsp (21 g) = $0.17"},
+    "chipotle in adobo": {"basis": "$3.50/255 g can = $0.014/g; 1 tbsp = $0.21"},
+    "avocado": {"basis": "$1.25 each (medium, ~150 g flesh)"},
+    "tamari": {"basis": "$3.50/10 fl oz bottle (~330 g) = $0.0106/g; 8 g = $0.09"},
+    "watermelon": {"basis": "$4.50/whole melon ~5 kg = $0.90/kg; 2 cups (304 g) = $0.27"},
+    "peanuts": {"basis": "$2.00/16 oz (454 g) jar = $0.44/100 g; 3 tbsp (45 g) = $0.20"},
+    "mint": {"basis": "$1.50/bunch; 2 tbsp ~ $0.10"}
   }
 }

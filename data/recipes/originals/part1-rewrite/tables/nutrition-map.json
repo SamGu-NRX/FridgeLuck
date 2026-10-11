@@ -27,11 +27,131 @@
     },
     "eggs": {
       "bundled_id": "1"
+    },
+    "ground beef": {
+      "fdc_id": 168608
+    },
+    "black beans": {
+      "fdc_id": 173735
+    },
+    "tomato sauce": {
+      "fdc_id": 169074
+    },
+    "tomatoes": {
+      "fdc_id": 170457
+    },
+    "bell peppers": {
+      "fdc_id": 170108
+    },
+    "onion": {
+      "fdc_id": 170000
+    },
+    "cumin": {
+      "fdc_id": 170923
+    },
+    "chili flakes": {
+      "fdc_id": 170932
+    },
+    "cooked rice": {
+      "bundled_id": "2"
+    },
+    "cilantro": {
+      "fdc_id": 169997
+    },
+    "cooked rice noodles": {
+      "fdc_id": 168914
+    },
+    "cucumber": {
+      "fdc_id": 168409
+    },
+    "tahini": {
+      "fdc_id": 170191
+    },
+    "chicken breast": {
+      "fdc_id": 171077
+    },
+    "peanut butter": {
+      "bundled_id": "41"
+    },
+    "tamari": {
+      "fdc_id": 174278
+    },
+    "curry powder": {
+      "fdc_id": 170924
+    },
+    "lime": {
+      "fdc_id": 168155
+    },
+    "potatoes": {
+      "fdc_id": 170026
+    },
+    "canned tuna in water": {
+      "fdc_id": 171986
+    },
+    "greek yogurt": {
+      "fdc_id": 170903
+    },
+    "spinach": {
+      "fdc_id": 168462
+    },
+    "sesame oil": {
+      "fdc_id": 171016
+    },
+    "dried egg noodles": {
+      "fdc_id": 169731
+    },
+    "shiitake mushrooms": {
+      "fdc_id": 169242
+    },
+    "black pepper": {
+      "fdc_id": 170931
+    },
+    "edamame": {
+      "fdc_id": 169282
+    },
+    "carrots": {
+      "fdc_id": 170393
+    },
+    "romaine lettuce": {
+      "fdc_id": 169247
+    },
+    "sesame seeds": {
+      "fdc_id": 170150
+    },
+    "corn": {
+      "fdc_id": 169217
+    },
+    "jalapeño": {
+      "fdc_id": 168576
+    },
+    "watermelon": {
+      "fdc_id": 167765
+    },
+    "flour tortillas": {
+      "bundled_id": "28"
+    },
+    "sour cream": {
+      "bundled_id": "50"
+    },
+    "avocado": {
+      "bundled_id": "26"
     }
   },
   "unmapped-notes": {
     "white pepper": "spice weight negligible; no catalog row",
     "salt": "condiment; tracked by the salty-unmapped flag instead of a mapping",
+    "sriracha": "no catalog row for sriracha; unmapped - the salty-unmapped flag fires and the sodium number is shown as incomplete rather than guessed",
+    "smoked paprika": "no paprika row in the catalog; negligible gram weight",
+    "dried oregano": "no oregano row; negligible gram weight",
+    "honey": "no honey row; negligible gram weight",
+    "sugar": "no granulated-sugar row; negligible gram weight",
+    "rice vinegar": "no vinegar row; negligible gram weight, sodium-free",
+    "sichuan peppercorns": "no row; negligible gram weight",
+    "chipotle in adobo": "no catalog row; 15 g condiment weight, sodium-free per USDA",
+    "peanuts": "no plain-peanut row (only a peanut-butter row); small garnish weight",
+    "mint": "no row; negligible gram weight",
+    "tomato purée": "no purée row; 15 g, sodium-free per USDA",
+    "avocado row trap": "sqlite row 2710824 'Avocado, Hass, Raw' carries 0 kcal with nonzero macros - unusable; the clean avocado row is the app core table (bundled id 26)",
     "catalog row 168883 suspect": "catalog row 168883 'White Rice (Cooked)' carries 370 kcal and 81.7 g carbs per 100 g - dry-rice values under a cooked display name; unusable, recipes measure rice dry instead"
   }
 }

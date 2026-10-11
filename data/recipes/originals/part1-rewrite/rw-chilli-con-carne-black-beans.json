@@ -1,0 +1,272 @@
+{
+  "rs_version": "1",
+  "id": "rw-chilli-con-carne-black-beans",
+  "title": "Weeknight Chilli Con Carne with Black Beans",
+  "cuisine": "mexican",
+  "cuisine_detail": "tex-mex home style",
+  "family": "bundled-rewrite",
+  "minutes": 30,
+  "servings": 2,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "deep skillet",
+    "chef's knife",
+    "cutting board",
+    "can opener",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-chilli-con-carne-black-beans",
+  "replaces": {
+    "bundled_id": 59,
+    "change": "Fixes the bundled data anomaly: its own lines carried 400 g soy sauce (11,165 mg sodium/serving of bundled math). This version seasons with 1 tbsp soy sauce plus no-salt-added tomato sauce, bloomed spices and lime, landing near 600 mg/serving. Kidney beans swapped for no-salt-added black beans (no committed kidney-bean row exists; documented in the part README). Ground beef kept at the bundled 400 g-plus scale; doneness is a thermometer check at 160°F, replacing the bundled 'browned all over' colour cue."
+  },
+  "tags": [
+    "weeknight",
+    "one-pot",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "ground beef",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups crumbled",
+        "conversion_ref": "ground_beef_cup",
+        "grams_per_unit": 226,
+        "note": "about one 1-lb package of lean (85/15) ground beef"
+      }
+    },
+    {
+      "name": "black beans",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup",
+        "conversion_ref": "black_beans_cup",
+        "grams_per_unit": 240,
+        "note": "one 15-oz can, drained and rinsed (no salt added)"
+      }
+    },
+    {
+      "name": "tomato sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup",
+        "conversion_ref": "tomato_sauce_cup",
+        "grams_per_unit": 240,
+        "note": "no-salt-added canned tomato sauce"
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, diced",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, diced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "bell peppers",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, diced",
+        "conversion_ref": "bell_pepper_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp ground",
+        "conversion_ref": "cumin_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "smoked_paprika_tbsp",
+        "grams_per_unit": 7
+      }
+    },
+    {
+      "name": "dried oregano",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "oregano_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2,
+        "note": "plus more at the table for heat"
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16,
+        "note": "the umami backbone in place of the bundled 400 g soy line - taste before adding salt"
+      }
+    },
+    {
+      "name": "cooked rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cups",
+        "conversion_ref": "cooked_rice_cup",
+        "grams_per_unit": 175,
+        "note": "about 0.75 cup cooked per bowl, from 0.5 cup dry"
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "whole",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Dice the onion and bell pepper, mince the garlic, and dice the tomatoes. Keep them in separate piles - they go in at different times."
+    },
+    {
+      "text": "Heat the oil in a deep skillet over medium-high until it shimmers. Add the beef and let it sit undisturbed for 2 minutes to take colour, then break it up and brown it hard, about 4 minutes more."
+    },
+    {
+      "text": "Drain the rendered fat into a heatproof jar - lean beef still releases plenty, and leaving it behind greases the whole pot."
+    },
+    {
+      "text": "Add the onion and bell pepper to the beef and cook, stirring, until softened, about 4 minutes.",
+      "timer_min": 4
+    },
+    {
+      "text": "Stir in the garlic, cumin, smoked paprika, oregano and chili flakes. Cook for 1 minute, stirring - the spices should smell toasty, not acrid; pull the pan off the heat if they catch.",
+      "timer_min": 1
+    },
+    {
+      "text": "Add the tomato sauce, diced tomatoes, black beans and half a cup of water, scraping the base clean. Bring to a simmer."
+    },
+    {
+      "text": "Simmer partially covered for 15 minutes, stirring twice, until thickened enough that a spoon leaves a brief trail.",
+      "timer_min": 15
+    },
+    {
+      "text": "Take the pan off the heat and check the beef crumb at its thickest with a thermometer: it must read 160°F (71°C) - ground beef's FSIS safe minimum.",
+      "safety": {
+        "class": "meat_ground",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Stir in the soy sauce and the juice of half the lime. Taste: add a pinch of salt only if it still needs it - the soy sauce carries most of the seasoning."
+    },
+    {
+      "text": "Fluff the rice into bowls and ladle the chilli alongside. Finish with the remaining lime in wedges and the cilantro scattered over."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 968,
+    "protein_g": 64.1,
+    "carbs_g": 93.0,
+    "fat_g": 38.9,
+    "fiber_g": 18.3,
+    "sugar_g": 13.6,
+    "sodium_mg": 637,
+    "coverage": 0.996,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "dried oregano",
+      "smoked paprika"
+    ]
+  }
+}

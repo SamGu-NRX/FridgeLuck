@@ -1,0 +1,231 @@
+{
+  "rs_version": "1",
+  "id": "rw-chipotle-black-bean-burrito-bowls",
+  "title": "Chipotle Black Bean Burrito Bowls",
+  "cuisine": "mexican",
+  "cuisine_detail": "tex-mex home style",
+  "family": "bundled-rewrite",
+  "minutes": 25,
+  "servings": 2,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "skillet",
+    "saucepan"
+  ],
+  "tags": [
+    "weeknight",
+    "budget",
+    "use-it-up:corn"
+  ],
+  "cost_per_serving_usd": {
+    "value": 2.28,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-chipotle-black-bean-burrito-bowls",
+  "replaces": {
+    "bundled_id": 37,
+    "change": "The bundled burrito bowl poured 50 g of soy sauce (2,747 mg sodium) over a bowl whose other flavors are honey, sesame oil, and lime - it tasted only of salt and cost 1,393 mg/serving. The rewrite keeps the honey-chipotle idea on beans and rice, seasons the bowl with a quarter of that soy, and gets heat and smoke from chipotle in adobo instead. Added corn and spinach for a more balanced bowl; dropped the 50 g of sesame oil to a tablespoon of neutral oil."
+  },
+  "ingredients": [
+    {
+      "name": "cooked rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cup",
+        "conversion_ref": "cooked_rice_cup",
+        "grams_per_unit": 175
+      }
+    },
+    {
+      "name": "black beans",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup",
+        "conversion_ref": "black_beans_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "corn",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup",
+        "conversion_ref": "corn_cup",
+        "grams_per_unit": 165
+      }
+    },
+    {
+      "name": "spinach",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cup",
+        "conversion_ref": "spinach_cup",
+        "grams_per_unit": 30
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "piece",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      },
+      "note": "diced"
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "piece",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      },
+      "note": "half a red onion, very thinly sliced"
+    },
+    {
+      "name": "avocado",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "piece",
+        "conversion_ref": "avocado_piece",
+        "grams_per_unit": 150
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "honey",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "honey_tbsp",
+        "grams_per_unit": 21
+      }
+    },
+    {
+      "name": "chipotle in adobo",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "chipotle_tbsp",
+        "grams_per_unit": 15
+      },
+      "note": "one pepper pulled from the can, minced, plus a spoon of sauce"
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "piece",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "clove",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Start the rice first. Rinse 88 g of long-grain rice until the water runs clear, then cook it in a lidded pot with a pinch of salt by your preferred method; it should be done in about 18 minutes."
+    },
+    {
+      "text": "Make the glaze while the rice cooks: stir the soy sauce, honey, minced chipotle with a spoonful of its sauce, and half the lime juice together in a small bowl."
+    },
+    {
+      "text": "Char the corn: heat a dry skillet over high heat, add the kernels, and let them sit undressed in the pan for 2-3 minutes until blistered in spots, then tip them out and season with a little salt."
+    },
+    {
+      "text": "Build the beans in the same skillet: warm the oil over medium heat, cook the garlic for 30 seconds, add the drained beans and the glaze, and simmer for 3-4 minutes, pressing a few beans against the pan so the sauce thickens and clings."
+    },
+    {
+      "text": "Wilt the spinach into the bean pan for the last minute, just until collapsed, then finish with a squeeze of lime."
+    },
+    {
+      "text": "Quick-pickle the onion: toss the sliced red onion with the remaining lime juice and a small pinch of salt and let it sit while you assemble."
+    },
+    {
+      "text": "Assemble the bowls: rice on the bottom, then beans with their glaze, spinach, charred corn, diced tomato, avocado, and the pickled onion on top."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 653,
+    "protein_g": 21.9,
+    "carbs_g": 103.8,
+    "fat_g": 20.6,
+    "fiber_g": 21.3,
+    "sugar_g": 7.3,
+    "sodium_mg": 498,
+    "coverage": 0.97,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "chipotle in adobo",
+      "honey"
+    ]
+  },
+  "allergens": []
+}

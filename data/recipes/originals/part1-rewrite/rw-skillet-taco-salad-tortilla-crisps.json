@@ -1,0 +1,251 @@
+{
+  "rs_version": "1",
+  "id": "rw-skillet-taco-salad-tortilla-crisps",
+  "title": "Skillet Taco Salad with Tortilla Crisps",
+  "cuisine": "mexican",
+  "cuisine_detail": "tex-mex home style",
+  "family": "bundled-rewrite",
+  "minutes": 30,
+  "servings": 2,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "oven",
+    "sheet pan",
+    "skillet",
+    "instant-read thermometer"
+  ],
+  "tags": [
+    "weeknight",
+    "use-it-up:romaine"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-skillet-taco-salad-tortilla-crisps",
+  "replaces": {
+    "bundled_id": 151,
+    "change": "The bundled taco salad's measured lines held 50 g of soy sauce - 2,747 of its 2,829 mg of sodium - in a dish with no soy tradition; a packet of taco seasoning, a handful of tortilla chips, and feta would add more that the recipe never accounted for. Its ingredient table also omits the mince, beans, and chips its own method describes. The rewrite seasons the skillet beef with toasted spices and tomato purée instead of soy or a packet, bakes strips from two flour tortillas instead of bagged chips, swaps feta into extra lime crema, and replaces the bundled browning-only doneness with a 160°F / 71°C thermometer check for ground beef."
+  },
+  "ingredients": [
+    {
+      "name": "ground beef",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "cup",
+        "conversion_ref": "ground_beef_cup",
+        "grams_per_unit": 226
+      },
+      "note": "crumbled, about 170 g"
+    },
+    {
+      "name": "black beans",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "cup",
+        "conversion_ref": "black_beans_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "flour tortillas",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "piece",
+        "conversion_ref": "tortilla_piece",
+        "grams_per_unit": 45
+      },
+      "note": "cut into strips and baked as crisps"
+    },
+    {
+      "name": "romaine lettuce",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "cup",
+        "conversion_ref": "lettuce_shredded_cup",
+        "grams_per_unit": 47
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "piece",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      },
+      "note": "chopped in chunks"
+    },
+    {
+      "name": "avocado",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "piece",
+        "conversion_ref": "avocado_piece",
+        "grams_per_unit": 150
+      },
+      "note": "sliced"
+    },
+    {
+      "name": "sour cream",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "sour_cream_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "piece",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      },
+      "note": "half a red onion, sliced thin and quick-pickled in lime"
+    },
+    {
+      "name": "tomato purée",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "tomato_puree_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "smoked_paprika_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "clove",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "piece",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Heat the oven to 200°C / 400°F. Brush the tortillas with half the oil, cut them into 2 cm strips, spread them on a sheet pan, and bake 4-5 minutes, turning once, until gold and crisp. They stiffen as they cool."
+    },
+    {
+      "text": "Pickle the onion while everything else happens: toss the sliced red onion with half the lime juice and a small pinch of salt; it wilts and turns pink in 10 minutes."
+    },
+    {
+      "text": "Brown the beef: heat the remaining oil in a skillet over medium-high heat, add the beef and garlic, and break it up as it cooks, 6-8 minutes, until no pink remains and the crumbles are sizzling in their own fat."
+    },
+    {
+      "text": "Check the beef with an instant-read thermometer: 160°F / 71°C in the thickest clump. Browning alone can't tell you this - ground beef must reach 160°F to be safe.",
+      "safety": {
+        "class": "meat_ground",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Season: stir in the cumin, smoked paprika, and chili flakes for 30 seconds, then the tomato purée, toasting the spices dark; add the drained beans and cook until everything is hot and coated, about 2 minutes. Kill the heat."
+    },
+    {
+      "text": "Make the lime crema: stir the sour cream with the remaining lime juice and a pinch of salt; it should be spoonable, loosened with a teaspoon of water if needed."
+    },
+    {
+      "text": "Assemble at the table so nothing soggs: lettuce first, warm beef and beans, tomatoes, avocado, pickled onion with its pickling juice, then the crema in zigzags and the tortilla crisps scattered on last so they shatter when you serve."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 606,
+    "protein_g": 29.4,
+    "carbs_g": 54.4,
+    "fat_g": 32.1,
+    "fiber_g": 13.9,
+    "sugar_g": 7.3,
+    "sodium_mg": 366,
+    "coverage": 0.983,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "smoked paprika",
+      "tomato purée"
+    ]
+  },
+  "allergens": []
+}
