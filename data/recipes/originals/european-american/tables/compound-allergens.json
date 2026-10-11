@@ -1,0 +1,10 @@
+{
+  "schema": "fl-compound-allergens/1",
+  "entries": [
+    {
+      "pattern": "sour cream",
+      "classes": ["dairy"],
+      "note": "cultured cream; the suite alias table has no sour-cream key, so the strict layer must carry dairy for it"
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "rs_version": "1",
+  "id": "eu-lemon-caper-chicken-piccata",
+  "title": "Lemon Caper Chicken Piccata",
+  "cuisine": "italian",
+  "cuisine_detail": "italian-american",
+  "family": "european-american",
+  "minutes": 25,
+  "servings": 2,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "large skillet",
+    "chef's knife",
+    "cutting board",
+    "meat mallet or heavy pan",
+    "mixing bowl",
+    "plate for dredging"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-lemon-caper-chicken-piccata",
+  "tags": [
+    "weeknight",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken breast",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "halves, sliced into 4 thin cutlets",
+        "conversion_ref": "chicken_breast_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "all-purpose flour",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "flour_tbsp",
+        "grams_per_unit": 8
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "butter",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "butter_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "lemon juice",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "lemon_juice_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "capers",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp, drained",
+        "conversion_ref": "capers_tbsp",
+        "grams_per_unit": 8.5
+      }
+    },
+    {
+      "name": "parsley",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "parsley_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Slice each chicken breast half horizontally into two thin cutlets, then pat them dry and season with the salt and pepper."
+    },
+    {
+      "text": "Spread the flour on a plate. Press each cutlet into it on both sides and shake off the excess - a thin, even coat is all the sauce needs."
+    },
+    {
+      "text": "Heat the oil in a large skillet over medium-high until it shimmers. Lay in the cutlets without crowding and sear undisturbed for 4 minutes, until deep brown on the first side.",
+      "timer_min": 4
+    },
+    {
+      "text": "Flip and cook 3 minutes more. Chicken is safe at 165°F (74°C) - check the thickest cutlet with a thermometer before pulling it.",
+      "timer_min": 3,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Move the cutlets to a warm plate and pour off all but a thin film of fat from the pan."
+    },
+    {
+      "text": "Add the butter and let it foam for about 30 seconds, scraping the browned bits loose with a spatula - they are the sauce's backbone."
+    },
+    {
+      "text": "Pour in the lemon juice and add the capers; simmer for 1 minute until the sauce thickens slightly.",
+      "timer_min": 1
+    },
+    {
+      "text": "Return the cutlets and any resting juices to the pan and spoon the sauce over them for 30 seconds so they glaze."
+    },
+    {
+      "text": "Shower with the parsley and serve. Taste the sauce first: it should be bright and a little briny, with more lemon if it isn't."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 479,
+    "protein_g": 39.8,
+    "carbs_g": 11.2,
+    "fat_g": 30.0,
+    "fiber_g": 0.6,
+    "sugar_g": 0.6,
+    "sodium_mg": 80,
+    "coverage": 0.959,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "capers",
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "capers",
+      "salt"
+    ]
+  }
+}

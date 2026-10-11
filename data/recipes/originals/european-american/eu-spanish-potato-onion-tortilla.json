@@ -1,0 +1,177 @@
+{
+  "rs_version": "1",
+  "id": "eu-spanish-potato-onion-tortilla",
+  "title": "Spanish Potato and Onion Tortilla",
+  "cuisine": "american",
+  "cuisine_detail": "spanish (tortilla de patatas)",
+  "family": "european-american",
+  "minutes": 40,
+  "servings": 4,
+  "meal_slots": [
+    "breakfast",
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "10-inch nonstick or well-seasoned skillet",
+    "sieve",
+    "mixing bowl",
+    "spatula",
+    "large plate for flipping",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-spanish-potato-onion-tortilla",
+  "cost_per_serving_usd": {
+    "value": 1.2,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "tags": [
+    "budget",
+    "make-ahead",
+    "use-it-up",
+    "use-it-up:potatoes"
+  ],
+  "ingredients": [
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 6,
+        "unit": "large",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "potatoes",
+      "qty": {
+        "kind": "household",
+        "value": 3.5,
+        "unit": "medium, sliced thin",
+        "conversion_ref": "potato_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, sliced thin",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 5,
+        "unit": "tbsp, divided",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Heat the oil in a 10-inch skillet over medium. Add the potatoes and onion with a pinch of the salt and cook gently, stirring now and then, for 15 minutes - a knife should slide through a potato slice with no resistance.",
+      "timer_min": 15
+    },
+    {
+      "text": "Pour everything into a sieve set over a bowl and let it drain for 5 minutes; keep 2 tablespoons of the oil.",
+      "timer_min": 5
+    },
+    {
+      "text": "Beat the eggs with the remaining salt in a large bowl, then fold the warm potatoes through so every slice coats."
+    },
+    {
+      "text": "Let the mixture sit for 10 minutes - the potatoes drink some egg and the wedges hold together better.",
+      "timer_min": 10
+    },
+    {
+      "text": "Wipe the skillet, add the reserved oil, and set it over medium. Pour in the egg mixture and smooth the top."
+    },
+    {
+      "text": "Cook for 5 minutes, drawing the edges in with a spatula once or twice, until the bottom is deep brown and the top is barely wet.",
+      "timer_min": 5
+    },
+    {
+      "text": "Slide the tortilla onto a plate, set the pan over it, and flip both together in one confident motion; slide it back in to cook the soft side for 3 minutes.",
+      "timer_min": 3
+    },
+    {
+      "text": "An egg dish is safe at 160°F (71°C) - check the center with a thermometer; the middle should be just set and still tender.",
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Rest the tortilla for 10 minutes and serve warm or at room temperature, cut into wedges. It keeps three days chilled and eats well cold.",
+      "timer_min": 10
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 396,
+    "protein_g": 13.0,
+    "carbs_g": 28.7,
+    "fat_g": 25.9,
+    "fiber_g": 3.7,
+    "sugar_g": 3.2,
+    "sodium_mg": 103,
+    "coverage": 0.994,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

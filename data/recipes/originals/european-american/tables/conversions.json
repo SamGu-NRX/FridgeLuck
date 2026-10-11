@@ -1,0 +1,17 @@
+{
+  "schema": "fl-conversions/1",
+  "note": "Part-specific household refs for the european-american part; grams per unit are USDA household-measure standards, cited in basis. Suite refs are never redefined here.",
+  "conversions": {
+    "lemon_juice_tbsp": {"ingredient": "lemon juice", "grams_per_unit": 15, "basis": "1 US tbsp = 15 ml; citrus juice ~1 g/ml (USDA household)"},
+    "tomato_puree_cup": {"ingredient": "canned tomato puree", "grams_per_unit": 226, "basis": "USDA FoodData Central household measure: 1 cup tomato puree ~226 g"},
+    "water_cup": {"ingredient": "tap water", "grams_per_unit": 240, "basis": "1 US cup water ~240 g (water ~1 g/ml; US legal cup 240 ml)"},
+    "barley_cup": {"ingredient": "raw pearled barley", "grams_per_unit": 200, "basis": "USDA FoodData Central household measure: 1 cup raw pearled barley ~200 g"},
+    "mayonnaise_tbsp": {"ingredient": "mayonnaise", "grams_per_unit": 14, "basis": "USDA FoodData Central household measure: 1 tbsp mayonnaise ~14 g"},
+    "sour_cream_tbsp": {"ingredient": "sour cream", "grams_per_unit": 15, "basis": "USDA FoodData Central household measure: 1 tbsp sour cream ~15 g"},
+    "celery_stalk": {"ingredient": "medium celery stalk", "grams_per_unit": 40, "basis": "USDA FoodData Central household measure: 1 medium celery stalk ~40 g"},
+    "chives_tbsp": {"ingredient": "chopped chives", "grams_per_unit": 3, "basis": "USDA FoodData Central household measure: 1 tbsp chopped chives ~3 g"},
+    "green_bean_cup": {"ingredient": "trimmed green beans, 1/2-inch pieces", "grams_per_unit": 100, "basis": "USDA FoodData Central household measure: 1 cup green bean pieces ~100 g"},
+    "apple_piece": {"ingredient": "medium apple", "grams_per_unit": 180, "basis": "USDA FoodData Central household measure: 1 medium apple ~180 g"},
+    "sage_tsp": {"ingredient": "dried sage", "grams_per_unit": 1, "basis": "dried herb teaspoon ~1 g, consistent with the suite's dried-thyme/oregano refs"}
+  }
+}

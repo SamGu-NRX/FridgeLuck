@@ -1,0 +1,14 @@
+{
+  "schema": "fl-rights-manifest/1",
+  "records": {
+    "orig:authored:eu-lemon-caper-chicken-piccata": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:eu-sheet-pan-chicken-potatoes-thyme": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:eu-american-goulash": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:eu-pork-tenderloin-apples-sage": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:eu-open-faced-tuna-salad-toasts": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:eu-chicken-cacciatore-polenta": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:eu-spanish-potato-onion-tortilla": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:eu-mushroom-barley-skillet": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"},
+    "orig:authored:eu-oven-salmon-green-beans": {"kind": "original-authorship", "origin": "authored-for-frideluck", "status": "clear", "access_date": "2026-10-11"}
+  }
+}
