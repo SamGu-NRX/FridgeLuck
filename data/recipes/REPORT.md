@@ -356,24 +356,146 @@ so **2839 resolved lines** is the smallest count that satisfies the bar;
 the corpus has **2771** — the bar fails by **68 resolved lines**
 (2.26 points, 2771/2988 = 92.74%).
 
-**What the 217 unresolved lines are:** all originals-side, all
-`qty.kind="unknown"` with `grams` null, across **137 distinct ingredient
-names** (staples such as breadcrumbs 8, canned tuna 7, burger buns 6,
-dijon mustard 5, beef chuck roast 5, canned chopped tomatoes 5). Per the
-originals task's verification these are mostly cup/tbsp/tsp-style household
-measures whose foods have no matching ref in the suite's
-`conversions.json`; `rs.py` resolves a household line only when its
-`conversion_ref` exists with a `grams_per_unit`, so these lines cannot
-resolve without either a conversion-table entry or an invented mass.
+**What the 217 unresolved lines are (corrected by direct measurement, see §9):**
+all originals-side, all `qty.kind="unknown"` with `grams` null, across
+**137 distinct ingredient names** (staples such as breadcrumbs 8, canned
+tuna 7, burger buns 6, dijon mustard 5, beef chuck roast 5, canned chopped
+tomatoes 5). This section originally characterized them — per the
+originals task's verification — as mostly cup/tbsp/tsp-style household
+measures lacking a suite-table ref. Direct measurement (2026-10-11, §9)
+refuted that: the lines carry no value, unit, or grams at all, and no
+amount is stated anywhere in their recipes' records. `rs.py` resolves a
+household line only when its `conversion_ref` exists with a
+`grams_per_unit` — and a household annotation additionally requires a
+stated positive value and unit (SCHEMA §2), so a conversion-table entry
+alone cannot resolve these lines: there is no amount to multiply.
 
 **Why this task does not fix it:** the corpus is the release-candidate data;
 the conversion table is suite C's input. Inventing conversions, relabeling
 unknown lines, or massaging counts would fabricate mass evidence —
-prohibited by SCHEMA §2 and by this task's brief. Per the operator ruling (2026-10-11, see Limits and handoff), the fix is
-corpus-side on this branch — cited household-to-grams conversion rows in
-`data/recipes/` with per-line `conversion_ref`/`grams` evidence; the
-137-staple list above is the exact worklist. Nothing else blocks: every other suite C
-bar passes on the final corpus.
+prohibited by SCHEMA §2 and by this task's brief. The operator ruling
+(2026-10-11, see Limits and handoff) directs the fix corpus-side on this
+branch — cited household-to-grams conversion rows in `data/recipes/` with
+per-line `conversion_ref`/`grams` evidence. §9 records that the ruling's
+precondition (stated amounts to convert) fails for all 217 lines as
+shipped: the conversion-evidence pipeline is built and self-tested here,
+while the missing inputs live upstream in the originals records.
+
+## 9. Conversion-evidence pipeline — measured, the annotation precondition fails (2026-10-11)
+
+The operator ruling directs the 68-line gap to close corpus-side: a cited
+household-to-grams table in `data/recipes/` plus per-line evidence
+(`conversion_ref`, `grams`) in the corpus records. This section records
+what the records actually contain, the pipeline as built, and both
+measurements. Added by the conversion-evidence task on
+`fleet/fl-recipe-corpus-v2` (PR #113).
+
+**The measured shape of the 217 unresolved lines (reproducible, no
+corpus file modified):**
+
+1. `data/recipes/tools/extract_unresolved.py` — the exact worklist from
+   `corpus.jsonl`: 217 unresolved lines, 137 distinct (ingredient, unit)
+   pairs, 144 recipes. Every pair's unit is EMPTY: none of the 217 lines
+   carries `qty.value`, `qty.unit`, or a `grams` key, and no ingredient
+   name embeds a digit.
+2. `data/recipes/tools/scan_inrecord_amounts.py` — scans each unresolved
+   line's own recipe for an amount stated in the record (step text). One
+   digit-measure candidate exists and it is a mis-attribution:
+   fl-original-0028 "Soak the breadcrumbs in 1/4 cup milk" — the 1/4 cup
+   is the milk's measure, not the breadcrumbs'. All 56 word-measure
+   mentions in the affected recipes ("a splash of", "a pinch of", "a cup
+   of") measure water, salt, oil, or dressing — never the unresolved
+   ingredient.
+3. Net: **0 of the 217 lines has an amount stated anywhere in the
+   record.** The recipes genuinely do not quantify these ingredients
+   ("Dot each pancake with blueberries", "work in the onion, breadcrumbs,
+   egg", "Serve on buns with pickles and mustard").
+
+**Why the annotation precondition fails:** a cited conversion row converts
+a STATED measure to grams (`grams = amount × row grams`). These lines
+state no amount, so there is nothing to multiply; annotating them
+`household` would require inventing both an amount and a unit — fabricated
+recipe content, prohibited by SCHEMA §2, by the ruling's own honesty rules
+(estimated mass is never marked `weighed`; never an invented mass), and by
+this task's brief (lines without citable evidence stay unknown). A
+conversion table cannot conjure a measure.
+
+**The pipeline as built (ready and waiting for stated amounts):**
+
+- **Read path** (validate_corpus.py, commit 9eeef97): when
+  `data/recipes/conversions.json` exists, the validator integrity-checks
+  every row (id, ingredient, unit, grams > 0, source {name, url, verbatim
+  quote, retrieved YYYY-MM-DD}), reports corpus-side coverage, and lints
+  under BOTH read paths — pass A: the suite's current semantics (fixture
+  table only); pass B: the corpus table joined over the fixture table (the
+  read contract the eval harness adopts via fl-eval-harness-f1 / PR #88).
+  Self-tested on a scratch copy (clearly-marked fixture row + one
+  annotated line): pass B resolves the line (2772/2988, 92.77%), pass A
+  reports the exact R2 message as the anticipated hard-error (reported,
+  not gated; the suite itself is never modified), malformed rows fail
+  field-by-field. `--corpus`/`--conversions` overrides exist for such
+  scratch self-tests only.
+- **Row shape (for the first citable tranche):**
+  `{"id": "conv-<slug>", "ingredient": ..., "unit": ..., "grams": <number>,
+  "source": {"name", "url", "quote", "retrieved"}}` — `quote` must be the
+  verbatim sentence carrying the mass on the fetched page; `retrieved` the
+  actual access date. Authoritative public sources only (USDA FoodData
+  Central, FDA RACC, government or university-extension nutrition
+  publications; a recognized industry reference only when no government
+  source exists). Every row must come from a page actually fetched in the
+  authoring session; never an invented quote, URL, or date; never a row
+  approximated from a different food; no row for a (staple, unit) pair no
+  record uses.
+- **Annotation rule (applied when amounts exist):** only lines whose
+  (ingredient, unit) pair has a cited row, carrying a stated positive
+  amount and unit: `qty.kind="household"`, `qty.value`/`qty.unit` as
+  stated, `qty.conversion_ref` = the row id, `qty.grams` = amount × row
+  grams rounded to the nearest whole gram. Nothing else on the line
+  changes; `weighed` is never used.
+- **Why no empty table shipped:** a zero-row `conversions.json` at the
+  path the harness will read would imply a read path no line exercises
+  and invite the wrong inference (coverage where none exists). The table
+  ships with its first citable tranche; until then the suite's fixture
+  table remains the read path for the 2355 existing household refs (the
+  validator prints exactly this).
+
+**Measurements (both run this session against the extracted suite):**
+
+- **(a) Resolution under the suite's CURRENT semantics: 2771/2988 =
+  92.74% — unchanged**, exactly as predicted: the harness does not read
+  corpus evidence yet (PR #88 pending), and no line changed. Full run:
+  rights 428/428 clear (0 quarantined), 428/428 recipes lint clean, 0
+  unchecked claims, bands 14/14 — validation green under both passes.
+- **(b) Corpus-side evidence coverage: 0/217 lines annotated; 0/137
+  staples covered.** Uncovered staples = all 137 (each with no unit);
+  the list prints reproducibly from the validator and
+  `extract_unresolved.py`.
+
+**The precise blocker and the path to closing the gap:** the 68-line
+shortfall cannot close corpus-side on this branch because the defect is
+absent quantities in the authored recipes, not absent conversions — no
+honest data operation on `data/recipes/` can supply an amount the recipes
+never state. The fix lives upstream: the originals task
+(fl-original-recipes-f1, branch `overhaul/original-recipes`) must state
+amounts for these ingredients in its records (or the recipes be
+re-authored with them). Once a record carries a stated (amount, unit),
+this pipeline applies exactly as documented above: one cited row per
+(staple, unit) → lines annotated `household` with `conversion_ref` +
+`grams` → validator green under pass B → the final suite C re-proof runs
+when the harness reads conversion evidence from the corpus (the re-proof
+gate, unchanged).
+
+**Idempotent re-run instructions:**
+
+    git fetch origin eval/scorecard-runner
+    rm -rf /tmp/suite && mkdir -p /tmp/suite
+    git archive origin/eval/scorecard-runner evaluation/suites/recipes | tar -x -C /tmp/suite
+    python3 data/recipes/tools/validate_corpus.py --suite-dir /tmp/suite/evaluation/suites/recipes
+    python3 data/recipes/tools/extract_unresolved.py
+    python3 data/recipes/tools/scan_inrecord_amounts.py
+
+All three tools are deterministic, take no other inputs, and modify no
+repository file; re-running converges to the same reports.
 
 ## Limits and handoff
 
@@ -389,7 +511,11 @@ bar passes on the final corpus.
   (one row per conversion with source, quote, and retrieval date) and
   per-line conversion evidence (`conversion_ref` and `grams`) carried in
   the corpus record itself. Estimated masses are never marked `weighed`.
-  The final suite C re-proof runs when the eval-harness task
+  §9 records the direct measurement that all 217 lines state no amount
+  anywhere in the record, so the ruling's annotation precondition fails
+  as shipped: the pipeline is built and self-tested on this branch, the
+  missing inputs live upstream in the originals records, and the final
+  suite C re-proof runs when the eval-harness task
   (fl-eval-harness-f1, PR #88) makes suite C read conversion evidence from
   the corpus.
 - The `substitutions` annotation (section 7) is a corpus-level join field
