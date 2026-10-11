@@ -151,89 +151,52 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposePlan",
+          "id": "ml0",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              },
-              {
-                "recipeId": "r-shakshuka",
-                "ingredientIds": [
-                  "eggs",
-                  "canned-tomatoes",
-                  "onion",
-                  "bell-pepper",
-                  "garlic"
-                ]
-              },
-              {
-                "recipeId": "r-salmon",
-                "ingredientIds": [
-                  "salmon-fillet",
-                  "lemon",
-                  "green-beans",
-                  "butter"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "chickpeas",
-                "name": "chickpeas",
-                "quantity": {
-                  "value": 1,
-                  "unit": "g"
-                }
-              },
-              {
-                "ingredientId": "coconut-milk",
-                "name": "coconut milk",
-                "quantity": {
-                  "value": 1,
-                  "unit": "ml"
-                }
-              },
-              {
-                "ingredientId": "canned-tomatoes",
-                "name": "canned tomatoes",
-                "quantity": {
-                  "value": 1,
-                  "unit": "g"
-                }
-              },
-              {
-                "ingredientId": "spinach",
-                "name": "spinach",
-                "quantity": {
-                  "value": 1,
-                  "unit": "g"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              },
-              {
-                "ingredientId": "lime",
-                "name": "lime",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-shakshuka",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "eggs",
+              "canned-tomatoes",
+              "onion",
+              "bell-pepper",
+              "garlic"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-salmon",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "salmon-fillet",
+              "lemon",
+              "green-beans",
+              "butter"
             ]
           }
         }
@@ -242,7 +205,7 @@
     },
     {
       "role": "user",
-      "text": "Add that list to my shopping list.",
+      "text": "Add that starter list to my shopping list.",
       "toolCalls": [],
       "cancelledToolCallIds": []
     },
@@ -251,100 +214,27 @@
       "toolCalls": [
         {
           "id": "t2",
-          "name": "proposePlan",
+          "name": "proposeSaveNote",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              },
-              {
-                "recipeId": "r-shakshuka",
-                "ingredientIds": [
-                  "eggs",
-                  "canned-tomatoes",
-                  "onion",
-                  "bell-pepper",
-                  "garlic"
-                ]
-              },
-              {
-                "recipeId": "r-salmon",
-                "ingredientIds": [
-                  "salmon-fillet",
-                  "lemon",
-                  "green-beans",
-                  "butter"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "chickpeas",
-                "name": "chickpeas",
-                "quantity": {
-                  "value": 1,
-                  "unit": "g"
-                }
-              },
-              {
-                "ingredientId": "coconut-milk",
-                "name": "coconut milk",
-                "quantity": {
-                  "value": 1,
-                  "unit": "ml"
-                }
-              },
-              {
-                "ingredientId": "canned-tomatoes",
-                "name": "canned tomatoes",
-                "quantity": {
-                  "value": 1,
-                  "unit": "g"
-                }
-              },
-              {
-                "ingredientId": "spinach",
-                "name": "spinach",
-                "quantity": {
-                  "value": 1,
-                  "unit": "g"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              },
-              {
-                "ingredientId": "lime",
-                "name": "lime",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
-            ]
+            "text": "Shopping list: chickpeas, coconut milk, canned tomatoes, spinach, onion, lime",
+            "scope": "cook"
           }
         }
       ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Saved — thanks.",
+      "toolCalls": [],
       "cancelledToolCallIds": []
     }
   ],
   "expected": {
     "jobSuccessChecks": [
       {
-        "check": "shopping-list-under-8",
-        "detail": "the starter list stays under 8 items"
+        "check": "note-saved-with-receipt",
+        "detail": "the starter list reached the phone only via an approved, receipted note"
       },
       {
         "check": "plan-size-3-4",

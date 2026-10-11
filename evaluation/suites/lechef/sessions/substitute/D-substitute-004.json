@@ -128,11 +128,14 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeSwap",
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "from": "wheat-flour",
-            "to": "rice-flour"
+            "ingredientId": "wheat-flour",
+            "name": "wheat flour",
+            "observedState": "short",
+            "reason": "replaced by rice flour for this cook",
+            "swapTo": "rice-flour"
           }
         }
       ],

@@ -1,0 +1,149 @@
+{
+  "sessionId": "D-coach-024",
+  "job": "coach",
+  "cameraMode": "continuous",
+  "design": "unset",
+  "turns": [
+    {
+      "i": 0,
+      "role": "user",
+      "text": "Signal's gone \u2014 keep coaching me on Pan-Seared Salmon offline.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "t1"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 2,
+      "role": "user",
+      "text": "Next.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "t2"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 4,
+      "role": "user",
+      "text": "Is it done?",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 5,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [],
+      "prompted": false
+    }
+  ],
+  "toolCalls": [
+    {
+      "id": "t1",
+      "name": "proposeStepAdvance",
+      "args": {
+        "stepIndex": 1
+      },
+      "result": {
+        "proposalId": "proposal-0001",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    },
+    {
+      "id": "t2",
+      "name": "checkFoodSafety",
+      "args": {
+        "product": "salmon internal temperature"
+      },
+      "result": {
+        "answer": {
+          "kind": "sourced-check",
+          "check": {
+            "tool": "checkFoodSafety",
+            "product": "salmon internal temperature",
+            "test": "Check with a thermometer at the thickest part of the fillet: it must read 63 \u00b0C (145 \u00b0F) or hotter.",
+            "temperatureC": 63,
+            "temperatureF": 145,
+            "source": "USDA FSIS Safe Minimum Internal Temperature chart (fsis.usda.gov)"
+          }
+        },
+        "unknowns": [],
+        "sourceName": "USDA FSIS Safe Minimum Internal Temperature chart (fsis.usda.gov)"
+      },
+      "status": "ok"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "proposal-0001",
+      "tool": "proposeStepAdvance",
+      "payload": {
+        "kind": "stepAdvance",
+        "stepIndex": 1
+      },
+      "payloadHash": "3cf98a092983b70186bc5d82ebe745f9a8965e05bce674ddbfcb2b19d4e4d2d5",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    }
+  ],
+  "receipts": [
+    {
+      "proposalID": "proposal-0001",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    }
+  ],
+  "timers": [],
+  "events": [
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    }
+  ],
+  "answers": [
+    {
+      "turn": 3,
+      "type": "doneness",
+      "sourcedCheck": {
+        "tool": "checkFoodSafety",
+        "source": "USDA FSIS Safe Minimum Internal Temperature chart (fsis.usda.gov)",
+        "temperatureC": 63
+      }
+    }
+  ],
+  "camera": [],
+  "usage": {
+    "turns": 6,
+    "textTokensIn": 21,
+    "textTokensOut": 0,
+    "audioSeconds": 0,
+    "framesSent": 0,
+    "connectedSeconds": 1800000600
+  }
+}

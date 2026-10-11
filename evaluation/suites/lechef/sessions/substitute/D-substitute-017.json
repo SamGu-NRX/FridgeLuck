@@ -134,7 +134,15 @@
     },
     {
       "role": "model",
-      "toolCalls": [],
+      "toolCalls": [
+        {
+          "id": "lk",
+          "name": "lookupSubstitution",
+          "args": {
+            "ingredient": "peanut-oil"
+          }
+        }
+      ],
       "cancelledToolCallIds": []
     },
     {

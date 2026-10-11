@@ -238,51 +238,54 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposePlan",
+          "id": "ml0",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-pesto-pasta",
-                "ingredientIds": [
-                  "linguine",
-                  "basil",
-                  "pine-nuts",
-                  "parmesan",
-                  "garlic",
-                  "olive-oil"
-                ]
-              },
-              {
-                "recipeId": "r-shakshuka",
-                "ingredientIds": [
-                  "eggs",
-                  "canned-tomatoes",
-                  "onion",
-                  "bell-pepper",
-                  "garlic"
-                ]
-              },
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              }
+            "recipeId": "r-pesto-pasta",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "linguine",
+              "basil",
+              "pine-nuts",
+              "parmesan",
+              "garlic",
+              "olive-oil"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-shakshuka",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "eggs",
+              "canned-tomatoes",
+              "onion",
+              "bell-pepper",
+              "garlic"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
             ]
           }
         }

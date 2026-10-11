@@ -246,10 +246,28 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeAdaptation",
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "servings": 8
+            "ingredientId": "coconut-milk",
+            "name": "coconut milk",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 800.0,
+              "unit": "ml"
+            },
+            "reason": "rescaled Chickpea Coconut Curry from 4 to 8 servings",
+            "targetServings": 8
+          }
+        },
+        {
+          "id": "sc",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "chickpeas",
+            "name": "chickpeas",
+            "observedState": "needs-reconfirming",
+            "reason": "could not read the quantity before the rescale"
           }
         }
       ],

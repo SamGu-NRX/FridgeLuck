@@ -1,2 +1,7 @@
 __pycache__/
 *.pyc
+# Bulky generated artifacts: per-session RunRecords (155 files) and the derived
+# harness scripts are reproducible from the corpus (to_harness.py + the Part 1
+# harness CLI); results.json, summary.json and the ~10 evidence records commit.
+out/lechef/records/
+out/harness-scripts/

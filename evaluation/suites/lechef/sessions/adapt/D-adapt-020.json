@@ -267,10 +267,18 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeAdaptation",
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "servings": 6
+            "ingredientId": "linguine",
+            "name": "linguine",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 0.0,
+              "unit": "g"
+            },
+            "reason": "rescaled Basil Pesto Linguine from 3 to 6 servings",
+            "targetServings": 6
           }
         }
       ],

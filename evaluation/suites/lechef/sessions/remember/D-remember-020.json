@@ -160,7 +160,7 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "cameraLook",
+          "name": "requestCameraLook",
           "args": {
             "look": "plate"
           }

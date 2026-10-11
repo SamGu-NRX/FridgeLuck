@@ -247,10 +247,28 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeAdaptation",
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "servings": 4
+            "ingredientId": "canned-tomatoes",
+            "name": "canned tomatoes",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 800.0,
+              "unit": "g"
+            },
+            "reason": "rescaled Shakshuka for Two from 2 to 4 servings",
+            "targetServings": 4
+          }
+        },
+        {
+          "id": "sc",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "eggs",
+            "name": "eggs",
+            "observedState": "needs-reconfirming",
+            "reason": "could not read the quantity before the rescale"
           }
         }
       ],

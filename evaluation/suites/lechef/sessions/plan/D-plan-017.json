@@ -161,57 +161,52 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposePlan",
+          "id": "ml0",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-meatballs",
-                "ingredientIds": [
-                  "ground-beef",
-                  "wheat-flour",
-                  "eggs",
-                  "canned-tomatoes"
-                ]
-              },
-              {
-                "recipeId": "r-pork-loin",
-                "ingredientIds": [
-                  "pork-loin",
-                  "olive-oil",
-                  "garlic",
-                  "rosemary"
-                ]
-              },
-              {
-                "recipeId": "r-ginger-chicken",
-                "ingredientIds": [
-                  "chicken-thighs",
-                  "soy-sauce",
-                  "honey",
-                  "garlic",
-                  "jasmine-rice",
-                  "bok-choy"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-meatballs",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "ground-beef",
+              "wheat-flour",
+              "eggs",
+              "canned-tomatoes"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-pork-loin",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "pork-loin",
+              "olive-oil",
+              "garlic",
+              "rosemary"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-ginger-chicken",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chicken-thighs",
+              "soy-sauce",
+              "honey",
+              "garlic",
+              "jasmine-rice",
+              "bok-choy"
             ]
           }
         }
@@ -229,57 +224,52 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1-r2",
-          "name": "proposePlan",
+          "id": "ml0-r2",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-meatballs",
-                "ingredientIds": [
-                  "ground-beef",
-                  "wheat-flour",
-                  "eggs",
-                  "canned-tomatoes"
-                ]
-              },
-              {
-                "recipeId": "r-pork-loin",
-                "ingredientIds": [
-                  "pork-loin",
-                  "olive-oil",
-                  "garlic",
-                  "rosemary"
-                ]
-              },
-              {
-                "recipeId": "r-ginger-chicken",
-                "ingredientIds": [
-                  "chicken-thighs",
-                  "soy-sauce",
-                  "honey",
-                  "garlic",
-                  "jasmine-rice",
-                  "bok-choy"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-meatballs",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "ground-beef",
+              "wheat-flour",
+              "eggs",
+              "canned-tomatoes"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-pork-loin",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "pork-loin",
+              "olive-oil",
+              "garlic",
+              "rosemary"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-ginger-chicken",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chicken-thighs",
+              "soy-sauce",
+              "honey",
+              "garlic",
+              "jasmine-rice",
+              "bok-choy"
             ]
           }
         }
@@ -297,57 +287,52 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1-r3",
-          "name": "proposePlan",
+          "id": "ml0-r3",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-meatballs",
-                "ingredientIds": [
-                  "ground-beef",
-                  "wheat-flour",
-                  "eggs",
-                  "canned-tomatoes"
-                ]
-              },
-              {
-                "recipeId": "r-pork-loin",
-                "ingredientIds": [
-                  "pork-loin",
-                  "olive-oil",
-                  "garlic",
-                  "rosemary"
-                ]
-              },
-              {
-                "recipeId": "r-ginger-chicken",
-                "ingredientIds": [
-                  "chicken-thighs",
-                  "soy-sauce",
-                  "honey",
-                  "garlic",
-                  "jasmine-rice",
-                  "bok-choy"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-meatballs",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "ground-beef",
+              "wheat-flour",
+              "eggs",
+              "canned-tomatoes"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r3",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-pork-loin",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "pork-loin",
+              "olive-oil",
+              "garlic",
+              "rosemary"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r3",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-ginger-chicken",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chicken-thighs",
+              "soy-sauce",
+              "honey",
+              "garlic",
+              "jasmine-rice",
+              "bok-choy"
             ]
           }
         }
@@ -364,7 +349,8 @@
     {
       "role": "model",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "text": "Before I plan again — what should I honour: time, budget, or ingredients you already have?"
     },
     {
       "role": "user",
@@ -376,57 +362,52 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1-r4",
-          "name": "proposePlan",
+          "id": "ml0-r4",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-meatballs",
-                "ingredientIds": [
-                  "ground-beef",
-                  "wheat-flour",
-                  "eggs",
-                  "canned-tomatoes"
-                ]
-              },
-              {
-                "recipeId": "r-pork-loin",
-                "ingredientIds": [
-                  "pork-loin",
-                  "olive-oil",
-                  "garlic",
-                  "rosemary"
-                ]
-              },
-              {
-                "recipeId": "r-ginger-chicken",
-                "ingredientIds": [
-                  "chicken-thighs",
-                  "soy-sauce",
-                  "honey",
-                  "garlic",
-                  "jasmine-rice",
-                  "bok-choy"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-meatballs",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "ground-beef",
+              "wheat-flour",
+              "eggs",
+              "canned-tomatoes"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r4",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-pork-loin",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "pork-loin",
+              "olive-oil",
+              "garlic",
+              "rosemary"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r4",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-ginger-chicken",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chicken-thighs",
+              "soy-sauce",
+              "honey",
+              "garlic",
+              "jasmine-rice",
+              "bok-choy"
             ]
           }
         }
@@ -441,12 +422,8 @@
         "detail": "no fourth plan is executed after the third rejection; the model asks what constraint to honour"
       },
       {
-        "check": "plan-size-3-4",
-        "detail": "the executed plans carry 3-4 dinners"
-      },
-      {
-        "check": "shopping-list-under-8",
-        "detail": "plan shopping lists stay under 8 items"
+        "check": "no-unapproved-execution",
+        "detail": "every rejected plan stays rejected; nothing executes"
       }
     ]
   }

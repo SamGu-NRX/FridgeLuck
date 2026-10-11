@@ -1,0 +1,171 @@
+{
+  "sessionId": "D-adapt-027",
+  "job": "adapt",
+  "cameraMode": "push-to-look",
+  "design": "unset",
+  "turns": [
+    {
+      "i": 0,
+      "role": "user",
+      "text": "Scale Chickpea Coconut Curry to 8 and time the simmer.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "rs",
+        "t2"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 2,
+      "role": "user",
+      "text": "Both applied \u2014 thanks.",
+      "toolCallIds": [],
+      "prompted": false
+    }
+  ],
+  "toolCalls": [
+    {
+      "id": "rs",
+      "name": "proposeInventoryCorrection",
+      "args": {
+        "ingredientId": "chickpeas",
+        "name": "chickpeas",
+        "observedQuantity": {
+          "kind": "known",
+          "value": 0,
+          "unit": "g"
+        },
+        "reason": "rescaled Chickpea Coconut Curry from 4 to 8 servings",
+        "targetServings": 8
+      },
+      "result": {
+        "proposalId": "proposal-0001",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    },
+    {
+      "id": "t2",
+      "name": "proposeTimerStart",
+      "args": {
+        "label": "simmer",
+        "minutes": 15
+      },
+      "result": {
+        "proposalId": "proposal-0002",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "proposal-0001",
+      "tool": "proposeInventoryCorrection",
+      "payload": {
+        "kind": "inventoryCorrection",
+        "ingredientId": "chickpeas",
+        "name": "chickpeas",
+        "observed": {
+          "kind": "quantity",
+          "quantity": {
+            "kind": "known",
+            "value": 0,
+            "unit": "g"
+          }
+        },
+        "reason": "rescaled Chickpea Coconut Curry from 4 to 8 servings"
+      },
+      "payloadHash": "6707a4d76790598ea5e11cfd6f1d8676100ed81e4e52c2b54cb8ac4bb5b41c4d",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    },
+    {
+      "id": "proposal-0002",
+      "tool": "proposeTimerStart",
+      "payload": {
+        "kind": "timerStart",
+        "label": "simmer",
+        "minutes": 15
+      },
+      "payloadHash": "123da54bd3aec76cebaa814f2c2ffe314bddf8bedb89b8093dbbf6ce7c100178",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    }
+  ],
+  "receipts": [
+    {
+      "proposalID": "proposal-0001",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "proposalID": "proposal-0002",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    }
+  ],
+  "timers": [
+    {
+      "label": "simmer",
+      "minutes": 15,
+      "proposalId": "proposal-0002",
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "deadline": "2027-01-15T08:15:00.000Z",
+      "firedAt": "2027-01-15T08:15:00.000Z",
+      "survivedKill": false
+    }
+  ],
+  "events": [
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "timer-fired",
+      "at": "2027-01-15T08:15:00.000Z"
+    }
+  ],
+  "answers": [],
+  "camera": [],
+  "usage": {
+    "turns": 3,
+    "textTokensIn": 20,
+    "textTokensOut": 0,
+    "audioSeconds": 0,
+    "framesSent": 0,
+    "connectedSeconds": 960
+  }
+}

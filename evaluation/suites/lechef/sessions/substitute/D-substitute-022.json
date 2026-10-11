@@ -163,11 +163,14 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeSwap",
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "from": "pine-nuts",
-            "to": "pumpkin-seed-pesto"
+            "ingredientId": "pine-nuts",
+            "name": "pine nuts",
+            "observedState": "short",
+            "reason": "replaced by pumpkin-seed pesto for this cook",
+            "swapTo": "pumpkin-seed-pesto"
           }
         }
       ],

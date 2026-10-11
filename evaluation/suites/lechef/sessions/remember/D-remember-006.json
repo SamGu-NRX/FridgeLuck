@@ -152,11 +152,14 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeSwap",
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "from": "soy-sauce",
-            "to": "coconut-aminos"
+            "ingredientId": "soy-sauce",
+            "name": "soy sauce",
+            "observedState": "short",
+            "reason": "replaced by coconut aminos for this cook",
+            "swapTo": "coconut-aminos"
           }
         }
       ],

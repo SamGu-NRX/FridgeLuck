@@ -294,57 +294,52 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposePlan",
+          "id": "ml0",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              },
-              {
-                "recipeId": "r-shakshuka",
-                "ingredientIds": [
-                  "eggs",
-                  "canned-tomatoes",
-                  "onion",
-                  "bell-pepper",
-                  "garlic"
-                ]
-              },
-              {
-                "recipeId": "r-salmon",
-                "ingredientIds": [
-                  "salmon-fillet",
-                  "lemon",
-                  "green-beans",
-                  "butter"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "lime",
-                "name": "lime",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-shakshuka",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "eggs",
+              "canned-tomatoes",
+              "onion",
+              "bell-pepper",
+              "garlic"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-salmon",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "salmon-fillet",
+              "lemon",
+              "green-beans",
+              "butter"
             ]
           }
         }

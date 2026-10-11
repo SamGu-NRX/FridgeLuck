@@ -188,55 +188,64 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposePlan",
+          "id": "ml0",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-ginger-chicken",
-                "ingredientIds": [
-                  "chicken-thighs",
-                  "soy-sauce",
-                  "honey",
-                  "garlic",
-                  "jasmine-rice",
-                  "bok-choy"
-                ]
-              },
-              {
-                "recipeId": "r-shakshuka",
-                "ingredientIds": [
-                  "eggs",
-                  "canned-tomatoes",
-                  "onion",
-                  "bell-pepper",
-                  "garlic"
-                ]
-              },
-              {
-                "recipeId": "r-bean-tacos",
-                "ingredientIds": [
-                  "tortillas",
-                  "black-beans",
-                  "onion",
-                  "cheddar",
-                  "lime"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "lime",
-                "name": "lime",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-ginger-chicken",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chicken-thighs",
+              "soy-sauce",
+              "honey",
+              "garlic",
+              "jasmine-rice",
+              "bok-choy"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-shakshuka",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "eggs",
+              "canned-tomatoes",
+              "onion",
+              "bell-pepper",
+              "garlic"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
             ]
           }
         }
       ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Great — keep that plan.",
+      "toolCalls": [],
       "cancelledToolCallIds": []
     }
   ],

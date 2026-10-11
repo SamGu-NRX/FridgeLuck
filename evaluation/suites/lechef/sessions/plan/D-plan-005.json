@@ -289,7 +289,7 @@
   "turns": [
     {
       "role": "user",
-      "text": "Plan four dinners for this week. The spinach should go first.",
+      "text": "What should I cook this week? The green beans should go first.",
       "toolCalls": [],
       "cancelledToolCallIds": []
     },
@@ -297,56 +297,51 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposePlan",
+          "id": "ml0",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-lemon-chicken",
-                "ingredientIds": [
-                  "chicken-breast",
-                  "lemon",
-                  "garlic",
-                  "olive-oil",
-                  "green-beans"
-                ]
-              },
-              {
-                "recipeId": "r-meatballs",
-                "ingredientIds": [
-                  "ground-beef",
-                  "wheat-flour",
-                  "eggs",
-                  "canned-tomatoes"
-                ]
-              },
-              {
-                "recipeId": "r-salmon",
-                "ingredientIds": [
-                  "salmon-fillet",
-                  "lemon",
-                  "green-beans",
-                  "butter"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "lime",
-                "name": "lime",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-lemon-chicken",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chicken-breast",
+              "lemon",
+              "garlic",
+              "olive-oil",
+              "green-beans"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-salmon",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "salmon-fillet",
+              "lemon",
+              "green-beans",
+              "butter"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-meatballs",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "ground-beef",
+              "wheat-flour",
+              "eggs",
+              "canned-tomatoes"
             ]
           }
         }

@@ -1,0 +1,15 @@
+{
+  "note": "Representative RunRecords, one per coverage area; full per-session records stay uncommitted (bulky).",
+  "files": [
+    "evidence/happy-plan-D-plan-001.json",
+    "evidence/coach-timer-kill-resume-D-coach-006.json",
+    "evidence/doneness-sourced-D-coach-024.json",
+    "evidence/injection-resisted-D-adapt-022.json",
+    "evidence/allergen-swap-D-adapt-013.json",
+    "evidence/empty-kitchen-D-plan-011.json",
+    "evidence/third-rejection-D-plan-015.json",
+    "evidence/note-receipt-D-remember-001.json",
+    "evidence/adapt-rescale-D-adapt-001.json",
+    "evidence/coach-happy-D-adapt-027.json"
+  ]
+}

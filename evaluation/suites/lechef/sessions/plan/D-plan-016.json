@@ -169,58 +169,53 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposePlan",
+          "id": "ml0",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              },
-              {
-                "recipeId": "r-bean-tacos",
-                "ingredientIds": [
-                  "tortillas",
-                  "black-beans",
-                  "onion",
-                  "cheddar",
-                  "lime"
-                ]
-              },
-              {
-                "recipeId": "r-tofu-stirfry",
-                "ingredientIds": [
-                  "tofu",
-                  "bok-choy",
-                  "soy-sauce",
-                  "sesame-oil",
-                  "jasmine-rice"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
             ]
           }
         }
@@ -238,58 +233,53 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1-r2",
-          "name": "proposePlan",
+          "id": "ml0-r2",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              },
-              {
-                "recipeId": "r-bean-tacos",
-                "ingredientIds": [
-                  "tortillas",
-                  "black-beans",
-                  "onion",
-                  "cheddar",
-                  "lime"
-                ]
-              },
-              {
-                "recipeId": "r-tofu-stirfry",
-                "ingredientIds": [
-                  "tofu",
-                  "bok-choy",
-                  "soy-sauce",
-                  "sesame-oil",
-                  "jasmine-rice"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
             ]
           }
         }
@@ -307,58 +297,53 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1-r3",
-          "name": "proposePlan",
+          "id": "ml0-r3",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              },
-              {
-                "recipeId": "r-bean-tacos",
-                "ingredientIds": [
-                  "tortillas",
-                  "black-beans",
-                  "onion",
-                  "cheddar",
-                  "lime"
-                ]
-              },
-              {
-                "recipeId": "r-tofu-stirfry",
-                "ingredientIds": [
-                  "tofu",
-                  "bok-choy",
-                  "soy-sauce",
-                  "sesame-oil",
-                  "jasmine-rice"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r3",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r3",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
             ]
           }
         }
@@ -375,7 +360,8 @@
     {
       "role": "model",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "text": "Before I plan again — what should I honour: time, budget, or ingredients you already have?"
     },
     {
       "role": "user",
@@ -387,58 +373,53 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1-r4",
-          "name": "proposePlan",
+          "id": "ml0-r4",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              },
-              {
-                "recipeId": "r-bean-tacos",
-                "ingredientIds": [
-                  "tortillas",
-                  "black-beans",
-                  "onion",
-                  "cheddar",
-                  "lime"
-                ]
-              },
-              {
-                "recipeId": "r-tofu-stirfry",
-                "ingredientIds": [
-                  "tofu",
-                  "bok-choy",
-                  "soy-sauce",
-                  "sesame-oil",
-                  "jasmine-rice"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1-r4",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2-r4",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
             ]
           }
         }
@@ -453,12 +434,8 @@
         "detail": "no fourth plan is executed after the third rejection; the model asks what constraint to honour"
       },
       {
-        "check": "plan-size-3-4",
-        "detail": "the executed plans carry 3-4 dinners"
-      },
-      {
-        "check": "shopping-list-under-8",
-        "detail": "plan shopping lists stay under 8 items"
+        "check": "no-unapproved-execution",
+        "detail": "every rejected plan stays rejected; nothing executes"
       }
     ]
   }

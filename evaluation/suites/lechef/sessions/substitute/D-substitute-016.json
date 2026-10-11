@@ -137,11 +137,14 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeSwap",
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "from": "cheddar",
-            "to": "feta"
+            "ingredientId": "cheddar",
+            "name": "cheddar",
+            "observedState": "short",
+            "reason": "replaced by nutritional yeast for this cook",
+            "swapTo": "nutritional-yeast"
           }
         }
       ],

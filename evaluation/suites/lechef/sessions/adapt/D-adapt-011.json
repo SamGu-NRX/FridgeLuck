@@ -245,10 +245,28 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeAdaptation",
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "servings": 4
+            "ingredientId": "bok-choy",
+            "name": "bok choy",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 0.0,
+              "unit": "g"
+            },
+            "reason": "rescaled Tofu & Greens Stir-fry from 2 to 4 servings",
+            "targetServings": 4
+          }
+        },
+        {
+          "id": "sc",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "tofu",
+            "name": "firm tofu",
+            "observedState": "needs-reconfirming",
+            "reason": "could not read the quantity before the rescale"
           }
         }
       ],

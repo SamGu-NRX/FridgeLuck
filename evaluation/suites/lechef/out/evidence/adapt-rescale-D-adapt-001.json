@@ -1,0 +1,58 @@
+{
+  "sessionId": "D-adapt-001",
+  "job": "adapt",
+  "cameraMode": "push-to-look",
+  "design": "unset",
+  "turns": [
+    {
+      "i": 0,
+      "role": "user",
+      "text": "Cooking Chickpea Coconut Curry for 6 tonight instead of 4 \u2014 rescale.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "t1"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 2,
+      "role": "user",
+      "text": "Apply it.",
+      "toolCallIds": [],
+      "prompted": false
+    }
+  ],
+  "toolCalls": [
+    {
+      "id": "t1",
+      "name": "proposeAdaptation",
+      "args": {
+        "servings": 6
+      },
+      "result": {
+        "error": "unknown tool \"proposeAdaptation\""
+      },
+      "status": "error"
+    }
+  ],
+  "proposals": [],
+  "receipts": [],
+  "timers": [],
+  "events": [],
+  "answers": [],
+  "camera": [],
+  "usage": {
+    "turns": 3,
+    "textTokensIn": 20,
+    "textTokensOut": 0,
+    "audioSeconds": 0,
+    "framesSent": 0,
+    "connectedSeconds": 0
+  }
+}

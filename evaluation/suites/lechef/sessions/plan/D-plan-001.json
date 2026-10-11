@@ -285,7 +285,7 @@
   "turns": [
     {
       "role": "user",
-      "text": "Plan four dinners for this week. The spinach should go first.",
+      "text": "What should I cook this week? The spinach should go first.",
       "toolCalls": [],
       "cancelledToolCallIds": []
     },
@@ -293,58 +293,53 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposePlan",
+          "id": "ml0",
+          "name": "proposeMealLog",
           "args": {
-            "dinners": [
-              {
-                "recipeId": "r-chickpea-curry",
-                "ingredientIds": [
-                  "chickpeas",
-                  "coconut-milk",
-                  "onion",
-                  "canned-tomatoes",
-                  "spinach"
-                ]
-              },
-              {
-                "recipeId": "r-bean-tacos",
-                "ingredientIds": [
-                  "tortillas",
-                  "black-beans",
-                  "onion",
-                  "cheddar",
-                  "lime"
-                ]
-              },
-              {
-                "recipeId": "r-tofu-stirfry",
-                "ingredientIds": [
-                  "tofu",
-                  "bok-choy",
-                  "soy-sauce",
-                  "sesame-oil",
-                  "jasmine-rice"
-                ]
-              }
-            ],
-            "shoppingList": [
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "lime",
-                "name": "lime",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-bean-tacos",
+            "revision": 1,
+            "servings": 3,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tortillas",
+              "black-beans",
+              "onion",
+              "cheddar",
+              "lime"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-tofu-stirfry",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "tofu",
+              "bok-choy",
+              "soy-sauce",
+              "sesame-oil",
+              "jasmine-rice"
             ]
           }
         }

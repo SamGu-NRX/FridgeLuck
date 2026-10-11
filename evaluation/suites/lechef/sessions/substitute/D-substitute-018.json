@@ -146,7 +146,15 @@
     },
     {
       "role": "model",
-      "toolCalls": [],
+      "toolCalls": [
+        {
+          "id": "lk",
+          "name": "lookupSubstitution",
+          "args": {
+            "ingredient": "crushed-peanuts"
+          }
+        }
+      ],
       "cancelledToolCallIds": []
     },
     {

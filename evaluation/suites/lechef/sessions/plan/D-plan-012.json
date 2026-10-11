@@ -113,66 +113,9 @@
     },
     {
       "role": "model",
-      "toolCalls": [
-        {
-          "id": "t1",
-          "name": "proposePlan",
-          "args": {
-            "dinners": [],
-            "shoppingList": [
-              {
-                "ingredientId": "onion",
-                "name": "onion",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              },
-              {
-                "ingredientId": "garlic",
-                "name": "garlic",
-                "quantity": {
-                  "value": 1,
-                  "unit": "clove"
-                }
-              },
-              {
-                "ingredientId": "olive-oil",
-                "name": "olive oil",
-                "quantity": {
-                  "value": 1,
-                  "unit": "ml"
-                }
-              },
-              {
-                "ingredientId": "canned-tomatoes",
-                "name": "canned tomatoes",
-                "quantity": {
-                  "value": 1,
-                  "unit": "g"
-                }
-              },
-              {
-                "ingredientId": "jasmine-rice",
-                "name": "jasmine rice",
-                "quantity": {
-                  "value": 1,
-                  "unit": "g"
-                }
-              },
-              {
-                "ingredientId": "eggs",
-                "name": "eggs",
-                "quantity": {
-                  "value": 1,
-                  "unit": "piece"
-                }
-              }
-            ]
-          }
-        }
-      ],
-      "cancelledToolCallIds": []
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "text": "Nothing in the pantry is cookable yet — here's a starter list: rice, eggs, onions, canned tomatoes, garlic, olive oil."
     },
     {
       "role": "user",

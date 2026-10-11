@@ -129,7 +129,7 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "cameraLook",
+          "name": "requestCameraLook",
           "args": {
             "look": "counter"
           }
@@ -147,11 +147,14 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t2",
-          "name": "proposeSwap",
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "from": "butter",
-            "to": "olive-oil"
+            "ingredientId": "butter",
+            "name": "butter",
+            "observedState": "short",
+            "reason": "replaced by olive oil for this cook",
+            "swapTo": "olive-oil"
           }
         }
       ],

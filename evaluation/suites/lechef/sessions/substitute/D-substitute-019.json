@@ -151,7 +151,15 @@
     },
     {
       "role": "model",
-      "toolCalls": [],
+      "toolCalls": [
+        {
+          "id": "lk",
+          "name": "lookupSubstitution",
+          "args": {
+            "ingredient": "teriyaki-sauce"
+          }
+        }
+      ],
       "cancelledToolCallIds": []
     },
     {

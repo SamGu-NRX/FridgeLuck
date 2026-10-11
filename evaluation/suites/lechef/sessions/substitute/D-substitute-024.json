@@ -156,11 +156,14 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t1",
-          "name": "proposeSwap",
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "from": "butter",
-            "to": "olive-oil"
+            "ingredientId": "butter",
+            "name": "butter",
+            "observedState": "short",
+            "reason": "replaced by olive oil for this cook",
+            "swapTo": "olive-oil"
           }
         }
       ],

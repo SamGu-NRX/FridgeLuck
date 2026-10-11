@@ -148,7 +148,7 @@
       "toolCalls": [
         {
           "id": "t1",
-          "name": "cameraLook",
+          "name": "requestCameraLook",
           "args": {
             "look": "counter"
           }
@@ -166,11 +166,14 @@
       "role": "model",
       "toolCalls": [
         {
-          "id": "t2",
-          "name": "proposeSwap",
+          "id": "sw",
+          "name": "proposeInventoryCorrection",
           "args": {
-            "from": "parmesan",
-            "to": "nutritional-yeast"
+            "ingredientId": "parmesan",
+            "name": "parmesan",
+            "observedState": "short",
+            "reason": "replaced by nutritional yeast for this cook",
+            "swapTo": "nutritional-yeast"
           }
         }
       ],

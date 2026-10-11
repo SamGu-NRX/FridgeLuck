@@ -1,0 +1,283 @@
+{
+  "sessionId": "D-plan-009",
+  "job": "plan",
+  "cameraMode": "push-to-look",
+  "design": "unset",
+  "turns": [
+    {
+      "i": 0,
+      "role": "user",
+      "text": "I want the Chickpea Coconut Curry this week but I'm missing things \u2014 plan three dinners and tell me what to buy.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "ml0",
+        "ml1",
+        "ml2"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 2,
+      "role": "user",
+      "text": "Add that starter list to my shopping list.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "t2"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 4,
+      "role": "user",
+      "text": "Saved \u2014 thanks.",
+      "toolCallIds": [],
+      "prompted": false
+    }
+  ],
+  "toolCalls": [
+    {
+      "id": "ml0",
+      "name": "proposeMealLog",
+      "args": {
+        "recipeId": "r-chickpea-curry",
+        "revision": 1,
+        "servings": 4,
+        "sourcedFrom": "voice",
+        "ingredientIds": [
+          "chickpeas",
+          "coconut-milk",
+          "onion",
+          "canned-tomatoes",
+          "spinach"
+        ]
+      },
+      "result": {
+        "proposalId": "proposal-0001",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    },
+    {
+      "id": "ml1",
+      "name": "proposeMealLog",
+      "args": {
+        "recipeId": "r-shakshuka",
+        "revision": 1,
+        "servings": 2,
+        "sourcedFrom": "voice",
+        "ingredientIds": [
+          "eggs",
+          "canned-tomatoes",
+          "onion",
+          "bell-pepper",
+          "garlic"
+        ]
+      },
+      "result": {
+        "proposalId": "proposal-0002",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    },
+    {
+      "id": "ml2",
+      "name": "proposeMealLog",
+      "args": {
+        "recipeId": "r-salmon",
+        "revision": 1,
+        "servings": 2,
+        "sourcedFrom": "voice",
+        "ingredientIds": [
+          "salmon-fillet",
+          "lemon",
+          "green-beans",
+          "butter"
+        ]
+      },
+      "result": {
+        "proposalId": "proposal-0003",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    },
+    {
+      "id": "t2",
+      "name": "proposeSaveNote",
+      "args": {
+        "text": "Shopping list: chickpeas, coconut milk, canned tomatoes, spinach, onion, lime",
+        "scope": "cook"
+      },
+      "result": {
+        "proposalId": "proposal-0004",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "proposal-0001",
+      "tool": "proposeMealLog",
+      "payload": {
+        "kind": "mealLog",
+        "recipeId": "r-chickpea-curry",
+        "revision": 1,
+        "servings": 4,
+        "swaps": [],
+        "sourcedFrom": "voice"
+      },
+      "payloadHash": "f9392f11ef96f9179f941169e3bfc8ce5b826c6da9752ba0c7aa37425e8c08bf",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    },
+    {
+      "id": "proposal-0002",
+      "tool": "proposeMealLog",
+      "payload": {
+        "kind": "mealLog",
+        "recipeId": "r-shakshuka",
+        "revision": 1,
+        "servings": 2,
+        "swaps": [],
+        "sourcedFrom": "voice"
+      },
+      "payloadHash": "ba720764022767d290403442276290b17602cd205436775abc80b2f592405cb5",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    },
+    {
+      "id": "proposal-0003",
+      "tool": "proposeMealLog",
+      "payload": {
+        "kind": "mealLog",
+        "recipeId": "r-salmon",
+        "revision": 1,
+        "servings": 2,
+        "swaps": [],
+        "sourcedFrom": "voice"
+      },
+      "payloadHash": "61dad4d6b1de572193b2b73a8c3d26102bfa1a9a3bd19c8c2ce624af6cd471e1",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    },
+    {
+      "id": "proposal-0004",
+      "tool": "proposeSaveNote",
+      "payload": {
+        "kind": "note",
+        "text": "Shopping list: chickpeas, coconut milk, canned tomatoes, spinach, onion, lime",
+        "scope": "cook"
+      },
+      "payloadHash": "4215565d93c4b7313cbae4cd68fcf1fa9e4c404ac240d22941eb245629c863d4",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "state": "executed"
+    }
+  ],
+  "receipts": [
+    {
+      "proposalID": "proposal-0001",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "proposalID": "proposal-0002",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "proposalID": "proposal-0003",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "proposalID": "proposal-0004",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z"
+    }
+  ],
+  "timers": [],
+  "events": [
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    }
+  ],
+  "answers": [],
+  "camera": [],
+  "usage": {
+    "turns": 5,
+    "textTokensIn": 43,
+    "textTokensOut": 0,
+    "audioSeconds": 0,
+    "framesSent": 0,
+    "connectedSeconds": 0
+  }
+}
