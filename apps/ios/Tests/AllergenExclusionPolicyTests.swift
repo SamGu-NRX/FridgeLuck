@@ -157,6 +157,9 @@ final class AllergenExclusionPolicyTests: XCTestCase {
     let db = try DatabaseQueue()
     try DatabaseMigrations.migrate(db, upTo: "v18_cooking_history_swaps")
 
+    // migrate() takes a DatabaseQueue, not the Database inside a write
+    // closure (inherited from the base branch; minimal scope fix).
+    try DatabaseMigrations.migrate(db, upTo: "v18_cooking_history_swaps")
     try db.write { db in
       try db.execute(
         sql: """
