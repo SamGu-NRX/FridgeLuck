@@ -16,7 +16,6 @@ Before starting work, read the skills below that apply to the task; each SKILL.m
 - [`pstack-principle-type-system-discipline`](.obvious/skills/pstack-principle-type-system-discipline/SKILL.md): Apply when designing types, reviewing a function signature, or writing code in any statically-typed language
 - [`pstack-technical-writing`](.obvious/skills/pstack-technical-writing/SKILL.md): Layered technical-writing standard: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax
 - [`pstack-typescript-best-practices`](.obvious/skills/pstack-typescript-best-practices/SKILL.md): TypeScript best practices
-- [`swiftui-pro`](.obvious/skills/swiftui-pro/SKILL.md): Comprehensively reviews SwiftUI code for best practices on modern APIs, maintainability, and performance
 - [`pstack-arena`](.obvious/skills/pstack-arena/SKILL.md): Spawn N parallel candidates at the same task, pick a base, graft the strongest parts of the losers into it *(needed by `pstack/architect`)*
 - [`pstack-principle-explain-the-number`](.obvious/skills/pstack-principle-explain-the-number/SKILL.md): Apply before you trust, report, or act on a number you measured: a speedup, a regression, a throughput, a latency, or an eval result *(needed by `pstack/benchmark-checklist`)*
 <!-- agent-skills:end -->
