@@ -112,6 +112,21 @@ The council recommends winners (LeChef design and camera mode, learning model, c
 
 **Round 3 and later**: polish and the remaining gaps, until the stop rule fires.
 
+## Root causes, fixed once (19:10Z)
+
+The independent reviewer's first pass returned BLOCK on 21 FridgeLuck PRs and FIX on 10. Most share three causes, now fixed at the root instead of per PR:
+
+- **Food safety.** Each module kept its own temperature table and safety copy. `fl-root-food-safety-f1` takes over the rulebook (#97) as the one canonical source, makes the linter strict and fail-closed, and posts exact fix lists on every recipe, copy and LeChef PR.
+- **Ingredient composition and restrictions.** Each module kept its own allergen list, and unknown ingredients counted as allowed. `fl-root-ingredient-facts-f1` builds `FLIngredientFacts`: sourced compound composition and one evaluate() whose unknown result never means allowed, with a conformance kit and fix lists on the about ten affected PRs.
+- **Approval binding.** The phone (#98) and server (#102) both executed actions without binding approval to the proposal's revision and hash. The core-build and LeChef replacement tasks fix both sides.
+
+## Directions proposed (to be judged by the scorecard)
+
+- **Receipt-first intake.** A photo of a grocery receipt adds stock with quantities, which is the strongest quantity evidence the app can get cheaply. It feeds pantry truth (suite A) and needs only on-device text recognition.
+- **Use-it-up week.** A weekly plan built around what expires first, reserving quantities across dinners. It is measured by food actually cooked before its use-by in the waste model (#112), not by a claimed saving.
+- **Hands-free cook mode without the cloud.** The five-word grammar on on-device speech recognition, so cook mode needs no Gemini session. It is measured by suite D's offline sessions and by cost per cook.
+- **Cook-together challenges for a Table.** Everyone at the table cooks the same three-ingredient challenge in one week. Success is cooks completed, not posts.
+
 ## Directions held in reserve
 
 Used only if a round shows the need:
@@ -137,3 +152,4 @@ Record which condition fired and why in this file. The overhaul is done when eve
 - 2026-10-11 11:50Z: `alpha` set to the minimal-product stack, head 2e77938 (Sam's rule: the definitive latest version, not `main`). iOS CI build-and-test passed on #87 (run 38136461873); `alpha` fast-forwarded from 2fd0dfe.
 - 2026-10-11 12:30Z: no CI or workflow edits, by Sam's rule. Nothing had been installed on `alpha`. Workflows are staged under `ci/pending-workflows/` for his approval.
 - 2026-10-11 18:10Z: merge gate changed by Sam (item 12): merge on own tests plus a blocker-free independent review, staged through `fleet/alpha-next` and CI.
+- 2026-10-11 19:10Z: item 14. The native simulator run is held (web projects first; low disk). Root-cause tasks fl-root-food-safety-f1 and fl-root-ingredient-facts-f1 are queued. The redundant safety, core and backend audits are dropped because the reviewer covers them; the evals reproduction stays.
