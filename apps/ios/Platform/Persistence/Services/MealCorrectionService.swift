@@ -355,7 +355,22 @@ final class MealCorrectionService: Sendable {
         .filter { $0.resolvedIngredientId == line.resolvedIngredientId }
         .map(\.plannedGrams)
         .reduce(0, +)
-      let share = plannedTotal > 0 ? line.plannedGrams / plannedTotal : 0
+      // Spread by planned share. A fully zeroed ingredient has no planned share left,
+      // so spread by what the Kitchen actually lost to its lines instead — otherwise the
+      // applied delta lands nowhere and a later delete of the same meal would request
+      // the same grams twice.
+      let acceptedAppliedTotal = updated.lines
+        .filter { $0.resolvedIngredientId == line.resolvedIngredientId }
+        .compactMap { acceptedByKey[$0.lineKey] }
+        .reduce(0, +)
+      let share: Double
+      if plannedTotal > 0 {
+        share = line.plannedGrams / plannedTotal
+      } else if acceptedAppliedTotal > 0 {
+        share = (acceptedByKey[line.lineKey] ?? 0) / acceptedAppliedTotal
+      } else {
+        share = 0
+      }
       let acceptedApplied = acceptedByKey[line.lineKey] ?? 0
       updated.lines[index].appliedGrams = max(0, acceptedApplied - total * share)
     }

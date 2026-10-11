@@ -273,6 +273,70 @@ final class MealCorrectionTests: XCTestCase {
     XCTAssertEqual(try PlanFixture.historyCount(db), 0)
   }
 
+  // MARK: - Cross-operation idempotency
+
+  /// Correcting an ingredient to zero returns the meal's own grams through one
+  /// attributable operation; deleting the corrected meal afterwards must not request
+  /// those grams again — the delete carries only the claims the meal still holds. And
+  /// neither operation may touch what a later meal consumed.
+  func testCorrectionThenDeleteNeverCompensatesTheSameGramsTwice() throws {
+    let db = try PlanFixture.makeDatabase()
+    let inventory = InventoryRepository(db: db)
+    let compensator = RecordingCompensator()
+    let corrections = MealCorrectionService(db: db, inventoryCompensating: compensator)
+
+    // Meal A logged first; meal B consumes the same rice afterwards.
+    let mealA = try loggedMeal(db: db, servingsConsumed: 1, inventory: inventory)
+    let mealB = try loggedMeal(db: db, servingsConsumed: 2, inventory: inventory)
+
+    // Operation 1: the user ate no rice after all — A's own 150 g come back.
+    var corrected = try XCTUnwrap(
+      MealConsumptionPlan.decode(from: PlanFixture.acceptedRow(db, historyId: mealA.historyId)?["accepted_plan_json"])
+    )
+    corrected.lines[0].plannedGrams = 0
+    let correctionOutcome = try corrections.correctMeal(
+      historyId: mealA.historyId, correctedPlan: corrected)
+    XCTAssertTrue(correctionOutcome.compensationIntegrated)
+    XCTAssertEqual(compensator.calls.count, 1)
+    XCTAssertEqual(
+      compensator.calls.first?.sourceRef, "meal_correction:\(mealA.historyId):2")
+    let correctionRequest = try XCTUnwrap(compensator.calls.first?.deltas)
+    XCTAssertEqual(correctionRequest.count, 1)
+    XCTAssertEqual(correctionRequest.first?.ingredientId, 1)
+    XCTAssertEqual(try XCTUnwrap(correctionRequest.first?.grams), 150, accuracy: 0.001)
+
+    // The returned grams land in the stored applied grams: A's rice claim is spent.
+    let rowA = try XCTUnwrap(
+      try db.read {
+        try Row.fetchOne(
+          $0, sql: "SELECT accepted_plan_json FROM cooking_history WHERE id = ?",
+          arguments: [mealA.historyId])
+      })
+    let planA = try XCTUnwrap(MealConsumptionPlan.decode(from: rowA["accepted_plan_json"]))
+    assertEqual(planA.lines.map(\.appliedGrams), [0, 50, 10], accuracy: 0.001)
+
+    // Operation 2: deleting A requests only the claims it still holds — the 150 g of
+    // rice were already compensated, and B's 300 g of rice are never restorable here.
+    let deleteOutcome = try corrections.deleteMeal(historyId: mealA.historyId)
+    XCTAssertTrue(deleteOutcome.changed)
+    XCTAssertEqual(compensator.calls.count, 2)
+    XCTAssertEqual(compensator.calls.last?.sourceRef, "meal_delete:\(mealA.historyId)")
+    let deleteRequest = try XCTUnwrap(compensator.calls.last?.deltas)
+    XCTAssertEqual(deleteRequest.map(\.ingredientId), [2, 3])
+    assertEqual(deleteRequest.map(\.grams), [50, 10], accuracy: 0.001)
+
+    // B is untouched by both operations: its row, revision and recorded consumption.
+    let rowB = try XCTUnwrap(
+      try db.read {
+        try Row.fetchOne(
+          $0, sql: "SELECT * FROM cooking_history WHERE id = ?", arguments: [mealB.historyId])
+      })
+    XCTAssertEqual(rowB["accepted_revision"] as Int?, 1)
+    let planB = try XCTUnwrap(MealConsumptionPlan.decode(from: rowB["accepted_plan_json"]))
+    assertEqual(planB.lines.map(\.appliedGrams), [300, 100, 20], accuracy: 0.001)
+    XCTAssertEqual(try PlanFixture.historyCount(db), 1)
+  }
+
   // MARK: - Transaction-failure results
 
   func testUnknownMealThrowsAndWritesNothing() throws {
