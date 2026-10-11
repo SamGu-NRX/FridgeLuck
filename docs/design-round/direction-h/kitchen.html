@@ -8,8 +8,9 @@
     --bg:#F5F0E8; --surface:#FEFCF8; --ink:#2A2118; --ink2:#6B5D4C; --ink3:#8F8270;
     --rule:#E3DBC9; --rule2:#8F7F62; --acc:#C2613A; --accsoft:#F1DED1; --accink:#7E3A1D;
     --err:#BC2F1B; --photo:#EDE5D6; --btnfill:#2A2118; --onbtn:#FFFFFF;
-    --barbg:rgba(254,252,248,.78); --barline:rgba(42,33,24,.10); --barshadow:rgba(42,33,24,.22);
-    --dock:rgba(254,252,248,.84); --hatch:rgba(42,33,24,.035); --stroke8:rgba(42,33,24,.08) }
+    --barbg:rgba(254,252,248,.99); --barline:rgba(42,33,24,.10); --barshadow:rgba(42,33,24,.22);
+    --chipfill:#F6EEE1; --barfill:#FBF8F2; --chipstroke:#8F7F62;
+    --dock:rgba(254,252,248,.93); --hatch:rgba(42,33,24,.035); --stroke8:rgba(42,33,24,.08) }
 
 :root{--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;--serif:ui-serif,"New York","Iowan Old Style",Georgia,"Times New Roman",serif;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -51,7 +52,7 @@ button{border:0}
 .btn.primary{background:var(--btnfill);color:var(--onbtn)}
 .btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
 .btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:12px;font:inherit;font-size:15px;box-shadow:inset 0 0 0 1px var(--rule2);cursor:pointer;transition:transform 120ms var(--out);color:var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:12px;font:inherit;font-size:15px;background:var(--chipfill);box-shadow:inset 0 0 0 1px var(--chipstroke);cursor:pointer;transition:transform 120ms var(--out);color:var(--ink)}   /* fix 4: warm linen-tinted fill; stroke carries its own token so it passes on the fill in every theme */
 .chip:active{transform:scale(.97)}
 .chip.on{background:var(--accsoft);color:var(--accink);box-shadow:inset 0 0 0 1.5px var(--acc)}
 .chip.quiet{color:var(--ink2)}
@@ -64,17 +65,18 @@ button{border:0}
 .fit{display:inline-flex;gap:3px;align-items:center}
 .fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
 .fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--acc)}
-.photo{position:relative;background:var(--photo);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--stroke8);overflow:hidden}
+.photo{position:relative;background:var(--photo);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--stroke8);overflow:hidden;aspect-ratio:3/2;max-height:340px}   /* fix 1: 3:2, capped near 40% of height */
 .photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--hatch) 10px 11px)}
 .photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
 .photo.thumb{width:48px;height:48px;flex:none;border-radius:10px}
-.tabbar{position:absolute;left:0;right:0;bottom:0;display:flex;gap:8px;align-items:center;padding:8px 16px 30px;background:var(--barbg);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);box-shadow:inset 0 .5px 0 var(--barline);z-index:10}
-.tabs{flex:1;height:56px;display:flex;align-items:center;justify-content:space-around;padding:0 4px}
-.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;line-height:12px;font-weight:500;color:var(--ink3);flex:1;min-width:0}
-.tab.on{color:var(--ink)}
+.tabbar{position:absolute;left:12px;right:12px;bottom:22px;display:flex;align-items:center;padding:7px 10px;border-radius:34px;background:var(--barbg);backdrop-filter:blur(40px) saturate(1.8);-webkit-backdrop-filter:blur(40px) saturate(1.8);box-shadow:0 14px 34px -14px var(--barshadow),inset 0 .5px 0 var(--barline),inset 0 0 0 .5px rgba(255,255,255,.06);z-index:10}   /* fix 2: iOS 26 Liquid Glass floating platter; near-opaque fill, no content bleed */
+.tabs{flex:1;height:54px;display:flex;align-items:stretch;gap:0}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;line-height:12px;font-weight:500;color:var(--ink2);flex:1;min-width:0;border-radius:24px}
+.tab.on{color:var(--accink)}
 .tab svg{width:23px;height:23px}
-.scanbtn{width:56px;height:56px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--btnfill);color:var(--bg);box-shadow:0 10px 28px -10px var(--barshadow);transition:transform 120ms var(--out)}
-.scanbtn:active{transform:scale(.95)}
+.scanrole{display:flex;align-items:center;justify-content:center;width:44px;height:54px;flex:none;color:var(--ink2);border-radius:24px;margin-left:8px;position:relative}   /* Tab(Scan, role: .search) — separated trailing control */
+.scanrole::before{content:"";position:absolute;left:-8px;top:14px;bottom:14px;width:1px;background:var(--barline)}
+.scanrole svg{width:23px;height:23px}
 .dock{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:8px;padding:12px 20px 34px;background:var(--dock);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);box-shadow:inset 0 .5px 0 var(--barline);z-index:10}
 .dock .btnrow{display:flex;gap:10px}
 .in{animation:rise 220ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
@@ -150,9 +152,9 @@ button{border:0}
       <a href="#">Add by name</a>
     </div>
   </div></div>
-
+<nav class="tabbar" role="tablist"><div class="tabs"><a class="tab" role="tab" aria-selected='false'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a><a class="tab on" role="tab" aria-selected='true'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a><a class="tab" role="tab" aria-selected='false'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13.7 13.7 8.5 15.5l1.8-5.2z"/></svg>Explore</a><a class="tab" role="tab" aria-selected='false'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h10.5a2.5 2.5 0 0 1 2.5 2.5v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>Cookbook</a></div><a class="scanrole" role="button" aria-label="Scan" title="Tab(Signature: systemImage viewfinder, role .search)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3"/></svg></a></nav>
   <div class="homebar"></div>
-</div><nav class="tabbar"><div class="tabs"><a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a><a class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a><a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5h18M6 9.5V19M18 9.5V19"/><circle cx="12" cy="5" r="2.5"/></svg>Table</a><a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h10.5a2.5 2.5 0 0 1 2.5 2.5v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>Cookbook</a><a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13.7 13.7 8.5 15.5l1.8-5.2z"/></svg>Explore</a></div><a class="scanbtn" role="button" aria-label="Scan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3"/></svg></a></nav>
+</div>
 
 <aside class="note"><h1>Kitchen</h1><p>The dense screen: 20 px side margins, 44 pt rows, 12 within a row, sections at 24. The eye should take in a shelf's worth without scrolling. No icons per ingredient &mdash; text is faster to scan than fifty tiny vegetables.</p><p>Order is by what needs a decision. Use soon first, each tag a terracotta-soft chip with a word in it (the warning is an action). Then &ldquo;needs a look&rdquo;: dashed rows the app is unsure about, with Yes / Gone inline so the truth model improves without a separate chore. Then the locations.</p><p>Row states are shape-first, borrowed from F and extended for the pantry-truth contract: filled square = confirmed; hollow accent stroke = short or missing; dashed = unconfirmed; grey ring = assumed staple (always captioned &ldquo;assumed&rdquo;). Quantities and ages sit right in mono.</p><p>Assumed staples are a sentence, not a list, because they are a policy rather than inventory. &ldquo;Change&rdquo; opens the checklist.</p><h2>States</h2><dl><dt>empty</dt><dd>Never scanned: title, then &ldquo;Scan a shelf to start. One shelf, straight on, works best.&rdquo; with Scan groceries and Add by name of equal rank &mdash; manual entry is first-class when the kitchen is unknown. No sample data.</dd><dt>stale</dt><dd>Last scan over 7 days ago: an updated line becomes a row, &ldquo;Last scan 9 days ago. Tonight's picks may be off.&rdquo; with Scan now. Nothing is auto-expired; the app asks via &ldquo;needs a look&rdquo;.</dd><dt>reconcile</dt><dd>A shelf scan observes, never adds: rows read &ldquo;Still 2?&rdquo; with Yes / Bought more. Only a receipt or manual entry adds stock.</dd><dt>loading</dt><dd>None. Kitchen is local. After a scan, new rows enter at the top of their section with the snap rise and &ldquo;today&rdquo; in the age column.</dd><dt>error</dt><dd>None for reading. A failed backup is one line at the bottom, &ldquo;Not backed up since Tuesday&rdquo;, never a modal.</dd><dt>search</dt><dd>Inline field replaces the title; sections collapse to matching rows; &ldquo;Add 'tahini'&rdquo; appears as the last result when nothing matches.</dd><dt>edit</dt><dd>Tap a row: inline stepper for quantity and a date for use-by, plus Remove. Swipe left: Remove. Swipe right: Used up (deducts and teaches the app the real rate).</dd><dt>leftovers</dt><dd>A cooked meal saved as a portion shows as a row named after the dish with its date; on Tonight it carries its reheat time; frozen portions say how long they need to thaw.</dd></dl><h2>Motion</h2><dl><dt>answer</dt><dd>Yes / Gone chip press: the row loses its dashed state (150 ms crossfade) or slides out on the settle spring. Light haptic.</dd><dt>used up</dt><dd>Row slides right following the finger; release past 40% or a flick completes; the section count updates with the fade token.</dd><dt>reduced</dt><dd>Slides become fades; counts still update.</dd></dl></aside>
 

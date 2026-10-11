@@ -52,7 +52,7 @@ def recipe_body():
     <div class="nav in" style="--i:0"><a href="#"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 2 4 7l5 5"/></svg>Tonight</a><a href="#">Share</a></div>
     <h2 class="title in" style="--i:0">Ginger chicken udon noodles</h2>
     <p class="mono sec c2 in" style="--i:1">25 min &middot; 2 servings &middot; 520 kcal</p>
-    <div class="photo in" style="--i:1;aspect-ratio:4/5;margin-top:16px"><span>photo: overhead, daylight, 4:5</span></div>
+    <div class="photo in" style="--i:1;margin-top:16px"><span>photo: overhead, daylight, 3:2</span></div>
 
     <div class="fitblock in" style="--i:2">
       <div>

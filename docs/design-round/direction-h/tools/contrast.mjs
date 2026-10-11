@@ -7,17 +7,17 @@ const H = {
   light: {
     bg: '#F5F0E8', surface: '#FEFCF8', ink: '#2A2118', ink2: '#6B5D4C', ink3: '#8F8270',
     rule: '#E3DBC9', rule2: '#8F7F62', acc: '#C2613A', accsoft: '#F1DED1', accink: '#7E3A1D',
-    err: '#BC2F1B', photo: '#EDE5D6', hobbtn: '#2A2118', onink: '#FFFFFF',
+    err: '#BC2F1B', photo: '#EDE5D6', hobbtn: '#2A2118', onink: '#FFFFFF', chipfill: '#F6EEE1', barfill: '#FBF8F2', chipstroke: '#8F7F62',
   },
   dark: {
     bg: '#141210', surface: '#24211C', ink: '#F2EDE3', ink2: '#BDB09E', ink3: '#8B7F6C',
     rule: '#2B2620', rule2: '#716655', acc: '#D98059', accsoft: '#342218', accink: '#EFA47D',
-    err: '#FF6B57', photo: '#1E1B16', hobbtn: '#F2EDE3', onink: '#1E1C17',
+    err: '#FF6B57', photo: '#1E1B16', hobbtn: '#F2EDE3', onink: '#1E1C17', chipfill: '#2E2921', barfill: '#211E19', chipstroke: '#8B7F6C',
   },
   cook: {
     bg: '#1E1C17', surface: '#28251E', ink: '#F2EDE3', ink2: '#B5A995', ink3: '#7E7461',
     rule: '#312C24', rule2: '#7E7461', acc: '#E08B62', accsoft: '#35241A', accink: '#F0A97F',
-    err: '#FF6B57', photo: '#262219', hobbtn: '#F2EDE3', onink: '#1E1C17',
+    err: '#FF6B57', photo: '#262219', hobbtn: '#F2EDE3', onink: '#1E1C17', chipfill: '#2E2A21', barfill: '#2B2722', chipstroke: '#7E7461',
   },
 };
 
@@ -49,6 +49,11 @@ for (const t of ['light', 'dark', 'cook']) {
   add(t, 'acc', 'bg', 'accent digits on bg (large text >= 3)', 3.0);
   add(t, 'acc', 'surface', 'accent on surface (UI >= 3)', 3.0);
   add(t, 'rule2', 'bg', 'rule-2 hollow stroke on bg (UI >= 3)', 3.0);
+  add(t, 'ink', 'chipfill', 'ink on warm chip fill (fix 4)', 4.5);
+  add(t, 'ink2', 'chipfill', 'ink-2 on warm chip fill (quiet chips)', 4.5);
+  add(t, 'chipstroke', 'chipfill', 'chip stroke on warm chip fill (UI >= 3)', 3.0);
+  add(t, 'accink', 'barfill', 'accent-ink on bar fill (active tab)', 4.5);
+  add(t, 'ink2', 'barfill', 'ink-2 on bar fill (inactive tab labels)', 4.5);
 }
 add('light', 'onink', 'acc', 'white on accent (large text only, used >=24px)', 3.0);
 add('dark', 'onink', 'acc', 'dark text on accent fill (large text only)', 3.0);

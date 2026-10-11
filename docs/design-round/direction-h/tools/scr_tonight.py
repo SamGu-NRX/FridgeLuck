@@ -7,7 +7,7 @@ CSS = """
 .title{font-family:var(--serif);font-size:32px;line-height:34px;font-weight:700;letter-spacing:-.02em;margin:10px 0 6px}
 .fitrow{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
 .fitrow .why{margin-top:8px}
-.actions{margin-top:48px;display:grid;gap:4px}   /* deciding: 48 above primary */
+.actions{margin-top:16px;display:grid;gap:4px}   /* first-paint rule: pick, fit and primary action ride above the bar */
 """
 
 def body(xxl=False):
@@ -19,7 +19,7 @@ def body(xxl=False):
       <div class="eyebrow in" style="--i:0"><i></i><span class="label">From your fridge</span></div>
       <h2 class="title in" style="--i:1">Ginger chicken udon noodles</h2>
       <p class="mono sec c2 in" style="--i:2">25 min &middot; 2 servings &middot; 520 kcal</p>
-      <div class="photo in" style="--i:2;height:300px;margin-top:16px"><span>photo: overhead, daylight, 4:5 crop</span></div>
+      <div class="photo in" style="--i:2;margin-top:16px"><span>photo: overhead, daylight, 3:2 crop</span></div>
       <div class="fitrow in" style="--i:3">
         {fit(9, 10)}
         <span class="mono" style="font-weight:500">9 of 10 &middot; 1 swap</span>
@@ -72,7 +72,7 @@ MOTION = [
 ]
 
 NOTE_TXT = [
-  "Deciding density: 24 px side margins, 32 between blocks, 48 above the primary action. One pick, its fit, its reason, and the button; two alternatives and the use-soon list come after, so the screen still works when the pick is wrong.",
+  "Deciding density: 24 px side margins, 32 between blocks, 16 above the primary action on Tonight (the bar itself supplies the fold's separation, so the primary action stays visible on first paint at default text size). One pick, its fit, its reason, and the button; two alternatives and the use-soon list come after, so the screen still works when the pick is wrong.",
   "The hybrid keeps P's warmth (linen ground, walnut ink, terracotta as the single accent, a serif that appears only on the dish name) inside F's structure (flat content, hairlines, mono numerals, one accent with one meaning). The accent square beside &ldquo;From your fridge&rdquo; is the only chromatic mark above the fold; it marks the pick and nothing else.",
   "The serif is the dish's voice: display size only, never on labels, controls or numerals. Every numeral with a unit is mono and tabular &mdash; both directions agree on that.",
   "Fit is &ldquo;9 of 10 &middot; 1 swap&rdquo;, never a percentage. In the meter the nine filled squares are walnut and the one missing line is the only terracotta pixel on screen: the gap is the story, and it always has a word beside it.",
@@ -82,7 +82,7 @@ NOTE_TXT = [
 def build(write, page, phone):
     for theme in ("light", "dark"):
         n = note("Tonight", NOTE_TXT, STATES, MOTION)
-        html = page(f"Tonight ({theme})", theme, phone(body(), theme) + tabbar("tonight"), n, CSS)
+        html = page(f"Tonight ({theme})", theme, phone(body() + tabbar("tonight"), theme), n, CSS)
         write(f"tonight{'-dark' if theme == 'dark' else ''}.html", html)
 
     # Tonight at Dynamic Type XXL (light only, per the screen list).
@@ -109,5 +109,5 @@ def build(write, page, phone):
              [("clip", "At XXL nothing truncates silently: the title wraps to two lines and the use-soon tags wrap to their own row edge; the longest strings in the app (dish names) were set with these sizes."),
               ("hero", "The photo block keeps its 4:5 ratio and the pick stays above the fold: the deciding screen never pushes the primary action off screen at XXL.")],
              [("reduced", "Same reduced-motion contract as the base screen: opacity-only entrance, no stagger.")])
-    html = page("Tonight (XXL)", "light", phone(body(xxl=True), "light") + tabbar("tonight"), n, xxl_css)
+    html = page("Tonight (XXL)", "light", phone(body(xxl=True) + tabbar("tonight"), "light"), n, xxl_css)
     write("tonight-xxl.html", html)

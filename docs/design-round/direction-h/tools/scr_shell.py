@@ -48,9 +48,9 @@ def shell_body():
 '''
 
 def build_shell(write, page, phone):
-    n = note("Shell S &mdash; two tabs + orb", SHELL_NOTE, SHELL_STATES, [("orb", "Press: scale 0.96 over 120 ms; the camera sheet grows from the orb's own frame &mdash; origin-aware, per F."), ("tab", "Switch: content crossfades 150 ms; the bar never moves."), ("reduced", "Sheet becomes a fade; nothing else moves.")])
+    n = note("Shell S &mdash; two tabs + orb (ALTERNATE configuration)", ["<b>Alternate, not the default.</b> The default shell is four tabs &mdash; Tonight, Kitchen, Explore, Cookbook &mdash; with Scan as the separated trailing search-role tab (Tab('Scan', systemImage:'viewfinder', role:.search)) on the system Liquid Glass platter. This configuration keeps the custom central orb as the scan's home; it is the option that makes the scan a place, not a mode."] + SHELL_NOTE[1:], SHELL_STATES, [("orb", "Press: scale 0.96 over 120 ms; the camera sheet grows from the orb's own frame &mdash; origin-aware, per F."), ("tab", "Switch: content crossfades 150 ms; the bar never moves."), ("reduced", "Sheet becomes a fade; nothing else moves."), ("native", "The platter here is a faithful representation of the system glass with the orb as a custom control; the default configuration needs no custom control.")])
     for theme in ("light", "dark"):
-        html = page(f"Shell S ({theme})", theme, phone(shell_body(), theme) + tabbar("kitchen", shell="s"), n, SHELL_CSS)
+        html = page(f"Shell S ({theme})", theme, phone(shell_body() + tabbar("kitchen", shell="s"), theme), n, SHELL_CSS)
         write(f"shell-s-kitchen{'-dark' if theme == 'dark' else ''}.html", html)
 
 PROGRESS_NOTE = [
@@ -95,7 +95,7 @@ def progress_body():
 def build_shell_progress(write, page, phone):
     n = note("Shell S &mdash; Progress", PROGRESS_NOTE, PROGRESS_STATES, [("count", "Counters settle in place on entry; no count-up spin &mdash; the numbers are facts, not excitement.")])
     for theme in ("light", "dark"):
-        html = page(f"Shell S Progress ({theme})", theme, phone(progress_body(), theme) + tabbar("progress", shell="s"), n, SHELL_CSS + QUEST_CSS)
+        html = page(f"Shell S Progress ({theme})", theme, phone(progress_body() + tabbar("progress", shell="s"), theme), n, SHELL_CSS + QUEST_CSS)
         write(f"shell-s-progress{'-dark' if theme == 'dark' else ''}.html", html)
 
 PROFILE_NOTE = [
@@ -136,7 +136,7 @@ def profile_body():
 def build_shell_profile(write, page, phone):
     n = note("Shell S &mdash; Profile", PROFILE_NOTE, PROFILE_STATES, [("forget", "The Forget row never sits beside a primary action; it is the last row, quiet by position, confirmed by sheet.")])
     for theme in ("light", "dark"):
-        html = page(f"Shell S Profile ({theme})", theme, phone(profile_body(), theme) + tabbar("progress", shell="s"), n, SHELL_CSS)
+        html = page(f"Shell S Profile ({theme})", theme, phone(profile_body() + tabbar("progress", shell="s"), theme), n, SHELL_CSS)
         write(f"shell-s-profile{'-dark' if theme == 'dark' else ''}.html", html)
 
 QUEST_CSS = """
@@ -221,7 +221,7 @@ def tour_body():
     <div>
       <h2 class="title in" style="--i:0">Cook what you already have.</h2>
       <p class="sec in" style="--i:1" style2="">Scan a shelf and FridgeLuck counts it. Tonight picks from what's really there &mdash; and says when it's guessing.</p>
-      <div class="photo in" style="--i:1;height:240px;margin-top:16px"><span>photo: fridge shelf, daylight</span></div>
+      <div class="photo in" style="--i:1;margin-top:16px"><span>photo: fridge shelf, daylight</span></div>
       <div class="fitblock in" style="--i:2;margin-top:16px">
         <div>''' + fit(0, 10) + '''<p class="sec" style="margin-top:6px">Your fit &mdash; starts at zero, grows as it learns</p></div>
       </div>

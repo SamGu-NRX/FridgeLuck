@@ -15,6 +15,11 @@
 | `#C2613A` on `#F5F0E8` | accent digits on bg (large text >= 3) | 3.65 | 3 | yes |
 | `#C2613A` on `#FEFCF8` | accent on surface (UI >= 3) | 4.05 | 3 | yes |
 | `#8F7F62` on `#F5F0E8` | rule-2 hollow stroke on bg (UI >= 3) | 3.44 | 3 | yes |
+| `#2A2118` on `#F6EEE1` | ink on warm chip fill (fix 4) | 13.72 | 4.5 | yes |
+| `#6B5D4C` on `#F6EEE1` | ink-2 on warm chip fill (quiet chips) | 5.53 | 4.5 | yes |
+| `#8F7F62` on `#F6EEE1` | chip stroke on warm chip fill (UI >= 3) | 3.39 | 3 | yes |
+| `#7E3A1D` on `#FBF8F2` | accent-ink on bar fill (active tab) | 7.89 | 4.5 | yes |
+| `#6B5D4C` on `#FBF8F2` | ink-2 on bar fill (inactive tab labels) | 6.01 | 4.5 | yes |
 | `#FFFFFF` on `#C2613A` | white on accent (large text only, used >=24px) | 4.15 | 3 | yes |
 
 ### dark palette
@@ -34,6 +39,11 @@
 | `#D98059` on `#141210` | accent digits on bg (large text >= 3) | 6.39 | 3 | yes |
 | `#D98059` on `#24211C` | accent on surface (UI >= 3) | 5.49 | 3 | yes |
 | `#716655` on `#141210` | rule-2 hollow stroke on bg (UI >= 3) | 3.32 | 3 | yes |
+| `#F2EDE3` on `#2E2921` | ink on warm chip fill (fix 4) | 12.37 | 4.5 | yes |
+| `#BDB09E` on `#2E2921` | ink-2 on warm chip fill (quiet chips) | 6.78 | 4.5 | yes |
+| `#8B7F6C` on `#2E2921` | chip stroke on warm chip fill (UI >= 3) | 3.68 | 3 | yes |
+| `#EFA47D` on `#211E19` | accent-ink on bar fill (active tab) | 8.13 | 4.5 | yes |
+| `#BDB09E` on `#211E19` | ink-2 on bar fill (inactive tab labels) | 7.80 | 4.5 | yes |
 | `#1E1C17` on `#D98059` | dark text on accent fill (large text only) | 5.82 | 3 | yes |
 
 ### cook palette
@@ -53,5 +63,10 @@
 | `#E08B62` on `#1E1C17` | accent digits on bg (large text >= 3) | 6.52 | 3 | yes |
 | `#E08B62` on `#28251E` | accent on surface (UI >= 3) | 5.85 | 3 | yes |
 | `#7E7461` on `#1E1C17` | rule-2 hollow stroke on bg (UI >= 3) | 3.69 | 3 | yes |
+| `#F2EDE3` on `#2E2A21` | ink on warm chip fill (fix 4) | 12.25 | 4.5 | yes |
+| `#B5A995` on `#2E2A21` | ink-2 on warm chip fill (quiet chips) | 6.18 | 4.5 | yes |
+| `#7E7461` on `#2E2A21` | chip stroke on warm chip fill (UI >= 3) | 3.10 | 3 | yes |
+| `#F0A97F` on `#2B2722` | accent-ink on bar fill (active tab) | 7.55 | 4.5 | yes |
+| `#B5A995` on `#2B2722` | ink-2 on bar fill (inactive tab labels) | 6.41 | 4.5 | yes |
 | `#F2EDE3` on `#262219` | ink on photo placeholder | 13.58 | 4.5 | yes |
 

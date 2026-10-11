@@ -134,7 +134,7 @@ def tp_body():
 def build_tp(write, page, phone):
     n = note("Your taste", TP_NOTE, TP_STATES, TP_MOTION)
     for theme in ("light", "dark"):
-        html = page(f"Taste profile ({theme})", theme, phone(tp_body(), theme) + tabbar("cookbook"), n, SOCIAL_CSS)
+        html = page(f"Taste profile ({theme})", theme, phone(tp_body() + tabbar("cookbook"), theme), n, SOCIAL_CSS)
         write(f"taste-profile{'-dark' if theme == 'dark' else ''}.html", html)
 
 EXPLORE_NOTE = [
@@ -196,16 +196,22 @@ def explore_body():
       <h3>Made for your fridge</h3>
       <div class="row"><span class="n">Udon greens soup<br><span class="cap c2">Private draft &middot; no cook notes until tested</span></span><span class="rt"><span class="q c2">18 min</span><span class="q">10 of 10</span></span></div>
     </section>
+
+    <section class="sect in" style="--i:3">
+      <h3>More</h3>
+      <div class="row"><span class="n">Community tables <span class="tag">Beta</span><br><span class="cap c2">Cook together with 2&ndash;8 people you eat with</span></span><span class="q c2">&rsaquo;</span></div>
+    </section>
   </div></div>
 '''
 
 def build_explore(write, page, phone):
     n = note("Explore", EXPLORE_NOTE, EXPLORE_STATES, EXPLORE_MOTION)
     for theme in ("light", "dark"):
-        html = page(f"Explore ({theme})", theme, phone(explore_body(), theme) + tabbar("explore"), n, SOCIAL_CSS)
+        html = page(f"Explore ({theme})", theme, phone(explore_body() + tabbar("explore"), theme), n, SOCIAL_CSS)
         write(f"explore{'-dark' if theme == 'dark' else ''}.html", html)
 
 TABLE_NOTE = [
+  "Reached from Explore's &ldquo;Community tables &mdash; Beta&rdquo; row, not from a tab: the beta flag keeps the bar to four tabs plus the Scan search role. Everything below is unchanged by that move.",
   "A table is 2 to 8 people who eat together or near each other. The unit is a cook, created by finishing one: dish, who, when, the one-line note, rating, substitutions, optional photo. Nobody writes a post.",
   "Every card ends with the viewer's own fit meter and one button. That line is why this is not a dead feed: each card is a decision you can act on with what is in your fridge. &ldquo;Cook tonight&rdquo; sets the dish on Tonight with Maya's note attached to the relevant step.",
   "No likes, no comments, no follower counts, no ranking; cards are in time order. Your own cook has no button &mdash; it is here so the table sees what you see.",
@@ -273,7 +279,7 @@ def table_body():
 def build_table(write, page, phone):
     n = note("Table", TABLE_NOTE, TABLE_STATES, TABLE_MOTION)
     for theme in ("light", "dark"):
-        html = page(f"Table ({theme})", theme, phone(table_body(), theme) + tabbar("table"), n, SOCIAL_CSS)
+        html = page(f"Table ({theme})", theme, phone(table_body() + tabbar("explore"), theme), n, SOCIAL_CSS)
         write(f"table{'-dark' if theme == 'dark' else ''}.html", html)
 
 def build(write, page, phone):

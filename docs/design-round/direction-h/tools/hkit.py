@@ -11,20 +11,23 @@ VARS = {
     --bg:#F5F0E8; --surface:#FEFCF8; --ink:#2A2118; --ink2:#6B5D4C; --ink3:#8F8270;
     --rule:#E3DBC9; --rule2:#8F7F62; --acc:#C2613A; --accsoft:#F1DED1; --accink:#7E3A1D;
     --err:#BC2F1B; --photo:#EDE5D6; --btnfill:#2A2118; --onbtn:#FFFFFF;
-    --barbg:rgba(254,252,248,.78); --barline:rgba(42,33,24,.10); --barshadow:rgba(42,33,24,.22);
-    --dock:rgba(254,252,248,.84); --hatch:rgba(42,33,24,.035); --stroke8:rgba(42,33,24,.08)""",
+    --barbg:rgba(254,252,248,.99); --barline:rgba(42,33,24,.10); --barshadow:rgba(42,33,24,.22);
+    --chipfill:#F6EEE1; --barfill:#FBF8F2; --chipstroke:#8F7F62;
+    --dock:rgba(254,252,248,.93); --hatch:rgba(42,33,24,.035); --stroke8:rgba(42,33,24,.08)""",
   "dark": """
     --bg:#141210; --surface:#24211C; --ink:#F2EDE3; --ink2:#BDB09E; --ink3:#8B7F6C;
     --rule:#2B2620; --rule2:#716655; --acc:#D98059; --accsoft:#342218; --accink:#EFA47D;
     --err:#FF6B57; --photo:#1E1B16; --btnfill:#F2EDE3; --onbtn:#1E1C17;
-    --barbg:rgba(30,27,22,.78); --barline:rgba(242,237,227,.12); --barshadow:rgba(0,0,0,.45);
-    --dock:rgba(30,27,22,.86); --hatch:rgba(242,237,227,.04); --stroke8:rgba(242,237,227,.10)""",
+    --barbg:rgba(30,27,22,.99); --barline:rgba(242,237,227,.12); --barshadow:rgba(0,0,0,.45);
+    --chipfill:#2E2921; --barfill:#211E19; --chipstroke:#8B7F6C;
+    --dock:rgba(30,27,22,.93); --hatch:rgba(242,237,227,.04); --stroke8:rgba(242,237,227,.10)""",
   "cook": """
     --bg:#1E1C17; --surface:#28251E; --ink:#F2EDE3; --ink2:#B5A995; --ink3:#7E7461;
     --rule:#312C24; --rule2:#7E7461; --acc:#E08B62; --accsoft:#35241A; --accink:#F0A97F;
     --err:#FF6B57; --photo:#262219; --btnfill:#F2EDE3; --onbtn:#1E1C17;
-    --barbg:rgba(40,37,30,.85); --barline:rgba(242,237,227,.12); --barshadow:rgba(0,0,0,.5);
-    --dock:rgba(40,37,30,.86); --hatch:rgba(242,237,227,.04); --stroke8:rgba(242,237,227,.10)""",
+    --barbg:rgba(40,37,30,.99); --barline:rgba(242,237,227,.12); --barshadow:rgba(0,0,0,.5);
+    --chipfill:#2E2A21; --barfill:#2B2722; --chipstroke:#7E7461;
+    --dock:rgba(40,37,30,.93); --hatch:rgba(242,237,227,.04); --stroke8:rgba(242,237,227,.10)""",
 }
 
 SANS = '-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif'
@@ -72,7 +75,7 @@ button{border:0}
 .btn.primary{background:var(--btnfill);color:var(--onbtn)}
 .btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
 .btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:12px;font:inherit;font-size:15px;box-shadow:inset 0 0 0 1px var(--rule2);cursor:pointer;transition:transform 120ms var(--out);color:var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:12px;font:inherit;font-size:15px;background:var(--chipfill);box-shadow:inset 0 0 0 1px var(--chipstroke);cursor:pointer;transition:transform 120ms var(--out);color:var(--ink)}   /* fix 4: warm linen-tinted fill; stroke carries its own token so it passes on the fill in every theme */
 .chip:active{transform:scale(.97)}
 .chip.on{background:var(--accsoft);color:var(--accink);box-shadow:inset 0 0 0 1.5px var(--acc)}
 .chip.quiet{color:var(--ink2)}
@@ -85,17 +88,18 @@ button{border:0}
 .fit{display:inline-flex;gap:3px;align-items:center}
 .fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
 .fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--acc)}
-.photo{position:relative;background:var(--photo);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--stroke8);overflow:hidden}
+.photo{position:relative;background:var(--photo);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--stroke8);overflow:hidden;aspect-ratio:3/2;max-height:340px}   /* fix 1: 3:2, capped near 40% of height */
 .photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--hatch) 10px 11px)}
 .photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
 .photo.thumb{width:48px;height:48px;flex:none;border-radius:10px}
-.tabbar{position:absolute;left:0;right:0;bottom:0;display:flex;gap:8px;align-items:center;padding:8px 16px 30px;background:var(--barbg);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);box-shadow:inset 0 .5px 0 var(--barline);z-index:10}
-.tabs{flex:1;height:56px;display:flex;align-items:center;justify-content:space-around;padding:0 4px}
-.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;line-height:12px;font-weight:500;color:var(--ink3);flex:1;min-width:0}
-.tab.on{color:var(--ink)}
+.tabbar{position:absolute;left:12px;right:12px;bottom:22px;display:flex;align-items:center;padding:7px 10px;border-radius:34px;background:var(--barbg);backdrop-filter:blur(40px) saturate(1.8);-webkit-backdrop-filter:blur(40px) saturate(1.8);box-shadow:0 14px 34px -14px var(--barshadow),inset 0 .5px 0 var(--barline),inset 0 0 0 .5px rgba(255,255,255,.06);z-index:10}   /* fix 2: iOS 26 Liquid Glass floating platter; near-opaque fill, no content bleed */
+.tabs{flex:1;height:54px;display:flex;align-items:stretch;gap:0}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;line-height:12px;font-weight:500;color:var(--ink2);flex:1;min-width:0;border-radius:24px}
+.tab.on{color:var(--accink)}
 .tab svg{width:23px;height:23px}
-.scanbtn{width:56px;height:56px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--btnfill);color:var(--bg);box-shadow:0 10px 28px -10px var(--barshadow);transition:transform 120ms var(--out)}
-.scanbtn:active{transform:scale(.95)}
+.scanrole{display:flex;align-items:center;justify-content:center;width:44px;height:54px;flex:none;color:var(--ink2);border-radius:24px;margin-left:8px;position:relative}   /* Tab(Scan, role: .search) — separated trailing control */
+.scanrole::before{content:"";position:absolute;left:-8px;top:14px;bottom:14px;width:1px;background:var(--barline)}
+.scanrole svg{width:23px;height:23px}
 .dock{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:8px;padding:12px 20px 34px;background:var(--dock);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);box-shadow:inset 0 .5px 0 var(--barline);z-index:10}
 .dock .btnrow{display:flex;gap:10px}
 .in{animation:rise 220ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
@@ -137,18 +141,23 @@ def tab_icon(name):
 
 def tabbar(active, shell="f"):
     if shell == "f":
-        tabs = ["tonight", "kitchen", "table", "cookbook", "explore"]
-        names = {"tonight": "Tonight", "kitchen": "Kitchen", "table": "Table", "cookbook": "Cookbook", "explore": "Explore"}
+        # Default configuration (fix 3): Tonight, Kitchen, Explore, Cookbook -
+        # Table moved inside Explore behind the beta flag. Scan is the separated
+        # trailing control: Tab("Scan", systemImage:"viewfinder", role:.search).
+        tabs = ["tonight", "kitchen", "explore", "cookbook"]
+        names = {"tonight": "Tonight", "kitchen": "Kitchen", "cookbook": "Cookbook", "explore": "Explore"}
         inner = "".join(
-            f'<a class="tab{" on" if t == active else ""}">{tab_icon(t)}{names[t]}</a>' for t in tabs)
-        return (f'<nav class="tabbar"><div class="tabs">{inner}</div>'
-                f'<a class="scanbtn" role="button" aria-label="Scan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">{SCAN_GLYPH}</svg></a></nav>')
-    # shell S: Kitchen and Progress main tabs, central scan orb, Profile inside Progress
+            f'<a class="tab{" on" if t == active else ""}" role="tab" aria-selected=\'{"true" if t == active else "false"}\'>{tab_icon(t)}{names[t]}</a>' for t in tabs)
+        scan = ('<a class="scanrole" role="button" aria-label="Scan" title="Tab(Signature: systemImage viewfinder, role .search)">'
+                f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{SCAN_GLYPH}</svg></a>')
+        return f'<nav class="tabbar" role="tablist"><div class="tabs">{inner}</div>{scan}</nav>'
+    # ALTERNATE configuration (shell S): two tabs + the custom scan orb. Non-native
+    # by design - the default renders the system search-role tab instead.
     on_k = ' on' if active == 'kitchen' else ''
     on_p = ' on' if active == 'progress' else ''
-    orb = (f'<a class="scanbtn" role="button" aria-label="Scan" style="transform:translateY(-8px)">'
+    orb = (f'<a class="scanbtn" role="button" aria-label="Scan" style="width:54px;height:54px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--btnfill);color:var(--bg);box-shadow:0 10px 28px -10px var(--barshadow)">'
            f'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">{SCAN_GLYPH}</svg></a>')
-    return (f'<nav class="tabbar"><div class="tabs" style="max-width:290px;margin:0 auto">'
+    return (f'<nav class="tabbar" role="tablist"><div class="tabs" style="max-width:300px;margin:0 auto;align-items:center">'
             f'<a class="tab{on_k}" style="flex:1">{tab_icon("kitchen")}Kitchen</a>'
             f'{orb}'
             f'<a class="tab{on_p}" style="flex:1">{tab_icon("progress")}Progress</a>'

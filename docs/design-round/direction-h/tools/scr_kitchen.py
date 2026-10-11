@@ -92,7 +92,7 @@ def kitchen_body():
 def build_kitchen(write, page, phone):
     n = note("Kitchen", KITCHEN_NOTE, KITCHEN_STATES, KITCHEN_MOTION)
     for theme in ("light", "dark"):
-        html = page(f"Kitchen ({theme})", theme, phone(kitchen_body(), theme) + tabbar("kitchen"), n, CSS)
+        html = page(f"Kitchen ({theme})", theme, phone(kitchen_body() + tabbar("kitchen"), theme), n, CSS)
         write(f"kitchen{'-dark' if theme == 'dark' else ''}.html", html)
 
 SCAN_NOTE = [
