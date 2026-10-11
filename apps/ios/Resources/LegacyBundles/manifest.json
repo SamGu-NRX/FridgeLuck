@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "pins": [
+    {
+      "slug": "v1",
+      "bundleId": "62d9ed0ae7694cf3",
+      "dataFile": "v1_data.json",
+      "dataSha256": "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be",
+      "catalogExportFile": "v1_usda_catalog_export.json",
+      "catalogExportSha256": "7c2fd33e19be9d5c98a9614609a4705d1a143d945a5b0156f6bc43ffb9efdeda",
+      "expectedCatalogRowCount": 800
+    }
+  ]
+}

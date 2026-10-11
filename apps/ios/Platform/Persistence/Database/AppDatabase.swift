@@ -28,7 +28,16 @@ final class AppDatabase: Sendable {
   }
 
   /// Loads bundled recipes and USDA catalog data if needed.
-  func warmBundledContentIfNeeded() async throws {
+  ///
+  /// `readiness` is the historical-snapshot readiness contract consumed by the
+  /// ownership refresh; the default `.historicalNutrition` delegates to
+  /// `NutritionSnapshotService.verifyHistoricalSnapshotReadiness(in:)`, so a
+  /// refresh may only write when every logged meal carries a current-version
+  /// snapshot. Tests pass `.pending` to simulate the pre-provider stream or
+  /// `.ready` to bypass the snapshot check.
+  func warmBundledContentIfNeeded(
+    readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .historicalNutrition
+  ) async throws {
     let dbQueue = self.dbQueue
 
     let recipeCount = try await dbQueue.read { db in
@@ -42,6 +51,8 @@ final class AppDatabase: Sendable {
     try await BundledDataLoader.ensureBundledRecipesHydrated(into: self)
     try await BundledDataLoader.ensureUSDACatalogHydrated(into: self)
 
+    await runBundledOwnershipRefresh(readiness: readiness)
+
     #if DEBUG
       let diagnostics = try await dbQueue.read { db in
         let ingredientCount = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM ingredients") ?? 0
@@ -52,6 +63,58 @@ final class AppDatabase: Sendable {
         "[AppDatabase] Catalog counts: ingredients=\(diagnostics.0), ingredient_aliases=\(diagnostics.1)"
       )
     #endif
+  }
+
+  /// Runs the ownership refresh after hydration. Non-fatal by design: the pass is
+  /// atomic (any failure rolls the database back untouched), and the next launch
+  /// retries. Missing or tampered pins refuse the refresh for this launch —
+  /// adoption stays pending rather than guessing ownership from incomplete history.
+  /// Historical-snapshot readiness is consulted before any write; the default
+  /// `.historicalNutrition` verifies the snapshot migration and per-meal
+  /// snapshot coverage, so a pass that cannot prove history is frozen is
+  /// refused here and retried on a later launch.
+  private func runBundledOwnershipRefresh(
+    readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .historicalNutrition
+  ) async {
+    do {
+      guard let dataUrl = Bundle.main.url(forResource: "data", withExtension: "json") else {
+        return
+      }
+      let jsonData = try Data(contentsOf: dataUrl)
+      let bundled = try JSONDecoder().decode(BundledData.self, from: jsonData)
+      guard
+        let pinsDirectory = Bundle.main.url(forResource: "LegacyBundles", withExtension: nil)
+      else {
+        throw LegacyBundlePinError.manifestMissing
+      }
+      let pins = try LegacyBundlePins.load(from: pinsDirectory)
+      let currentCatalog: [LegacyCatalogIngredient]
+      if let catalogUrl = Bundle.main.url(
+        forResource: "usda_ingredient_catalog", withExtension: "sqlite")
+      {
+        currentCatalog = try BundledDataLoader.currentCatalogIngredients(from: catalogUrl)
+      } else {
+        currentCatalog = []
+      }
+      let pass = BundledDataRefresher.loadCurrentPass(
+        current: bundled,
+        currentDataSha256: LegacyBundlePins.sha256Hex(jsonData),
+        currentCatalog: currentCatalog,
+        pins: pins)
+      let outcome = try await BundledDataRefresher.refresh(
+        appDB: self, pass: pass, readiness: readiness)
+      #if DEBUG
+        print(
+          "[AppDatabase] Bundle refresh: adopted \(outcome.ingredientsAdopted) ingredients / "
+            + "\(outcome.recipesAdopted) recipes, updated \(outcome.ingredientsUpdated) / "
+            + "\(outcome.recipesUpdated), inserted \(outcome.ingredientsInserted) / "
+            + "\(outcome.recipesInserted)")
+      #endif
+    } catch {
+      #if DEBUG
+        print("[AppDatabase] Bundle refresh skipped: \(error)")
+      #endif
+    }
   }
 
   // MARK: - Database Path
