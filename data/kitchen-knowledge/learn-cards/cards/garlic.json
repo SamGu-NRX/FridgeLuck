@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep whole heads in a cool, dry, airy spot out of the sun; peeled cloves refrigerate in a sealed jar. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
-    }
+    "text": "Keep whole heads in a cool, dry, airy spot out of the sun; peeled cloves refrigerate in a sealed jar.",
+    "citations": []
    },
    "useItUp": {
     "text": "Roast whole heads for sweet paste, or blitz peeled cloves with oil and freeze in cubes; green-centred cloves are past their best for raw use but fine cooked.",

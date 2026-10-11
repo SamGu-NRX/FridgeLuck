@@ -1,16 +1,8 @@
 import Foundation
 
-/// Where storage and shelf-life guidance lives: the food-safety rulebook owns it
-/// (data/food-safety, PR #97); learn cards link to it rather than restating it.
-public struct FoodSafetyRef: Codable, Sendable, Equatable, Hashable {
-    public var path: String
-    public var note: String?
-}
-
 public struct CitedSection: Codable, Sendable, Equatable, Hashable {
     public var text: String
     public var citations: [String]
-    public var foodSafetyRef: FoodSafetyRef?
 }
 
 public struct Substitution: Codable, Sendable, Equatable, Hashable {
@@ -163,12 +155,6 @@ public extension LearnCard {
             throw MissingSourceError(
                 subject: "\(card.id).historyNote",
                 reason: "history note needs at least one citation"
-            )
-        }
-        guard let safety = card.sections.storage.foodSafetyRef, !safety.path.isEmpty else {
-            throw MissingSourceError(
-                subject: "\(card.id).storage",
-                reason: "storage must reference the food-safety rulebook"
             )
         }
         if let nutrition = card.nutritionPer100g {

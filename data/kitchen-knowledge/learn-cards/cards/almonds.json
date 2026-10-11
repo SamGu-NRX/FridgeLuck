@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate if you will keep them long — almonds store for around a year chilled but go rancid faster at room temperature. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "nut storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Refrigerate if you will keep them long — almonds store for around a year chilled but go rancid faster at room temperature.",
+    "citations": []
    },
    "useItUp": {
     "text": "Almonds go rancid through oxidation, and toasting will not hide it: a bitter, painty, or crayon-like smell means the bag goes out, not into a recipe. Use them while they still snap and smell sweet — toasted for snacks and salads, blitzed into frangipane, almond milk, or a crust for fish — and store the rest airtight, cool, and dark to slow staling.",

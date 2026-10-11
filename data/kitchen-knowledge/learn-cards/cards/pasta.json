@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Dried pasta keeps for years in a sealed box in a dry cupboard; fresh pasta needs the fridge. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "fresh/dried pasta windows live in the food-safety rulebook"
-    }
+    "text": "Dried pasta keeps for years in a sealed box in a dry cupboard; fresh pasta needs the fridge.",
+    "citations": []
    },
    "useItUp": {
     "text": "Leftover cooked pasta fries into crispy cakes with egg and cheese, or bakes into tomorrow's pasta al forno; slightly undercook it first and it holds.",

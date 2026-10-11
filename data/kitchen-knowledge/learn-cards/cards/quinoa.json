@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep dry and airtight in a cool cupboard. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "dry-goods storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep dry and airtight in a cool cupboard.",
+    "citations": []
    },
    "useItUp": {
     "text": "Cooked quinoa chills into salads, crisps into patties with egg, or fills peppers; it freezes well flat in bags, which solves the always-too-much problem.",

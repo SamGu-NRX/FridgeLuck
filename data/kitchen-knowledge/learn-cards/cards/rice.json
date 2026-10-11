@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep dry in a sealed container in a cool cupboard; cooked rice is the exception and goes straight to the fridge. The rulebook has the cooked-rice rules.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "cooked-rice cooling and storage windows live in the food-safety rulebook"
-    }
+    "text": "Keep dry in a sealed container in a cool cupboard; cooked rice is the exception and goes straight to the fridge.",
+    "citations": []
    },
    "useItUp": {
     "text": "Day-old rice is the best fried rice — drier grains stay separate; it also thickens soups and becomes rice pudding with milk and sugar.",

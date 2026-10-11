@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep submerged in its brine in the fridge, topping up with salty water if needed. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "cheese storage windows live in the food-safety rulebook"
-    }
+    "text": "Keep submerged in its brine in the fridge, topping up with salty water if needed.",
+    "citations": []
    },
    "useItUp": {
     "text": "Crumbling feta over anything hot is the easiest rescue; it also whips into dips, bakes into triangles with spinach, or grills until golden.",

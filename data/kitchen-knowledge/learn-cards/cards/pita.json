@@ -21,16 +21,12 @@
     ]
    },
    "howToChoose": {
-    "text": "Look for soft, flexible breads without dry, cracking edges; wholegrain versions hold fillings better, and very fresh pitas reheat beautifully.",
+    "text": "Look for soft, flexible breads without dry, cracking edges; wholegrain versions hold fillings better.",
     "citations": []
    },
    "storage": {
-    "text": "Keep at room temperature in a sealed bag for a day or two, or freeze — the fridge dries bread fastest. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "bread storage windows live in the food-safety rulebook"
-    }
+    "text": "Keep at room temperature in a sealed bag for a day or two, or freeze — the fridge dries bread fastest.",
+    "citations": []
    },
    "useItUp": {
     "text": "A day-old pita crisps into chips with oil and za'atar, toasts for breakfast, or splits for last-minute sandwiches; stale ones tear into soups and fattoush.",

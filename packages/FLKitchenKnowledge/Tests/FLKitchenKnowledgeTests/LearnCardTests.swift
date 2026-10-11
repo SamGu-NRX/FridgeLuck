@@ -18,9 +18,6 @@ final class LearnCardTests: XCTestCase {
         XCTAssertEqual(card.category, "vegetable")
         XCTAssertEqual(card.sources.count, 3)
 
-        // Storage defers to the food-safety rulebook instead of restating it.
-        XCTAssertEqual(card.sections.storage.foodSafetyRef?.path, "data/food-safety/rules.json")
-
         // Nutrition vector: present keys decode, absent keys stay nil.
         let nutrition = try XCTUnwrap(card.nutritionPer100g)
         XCTAssertEqual(nutrition.fdcId, 170606)

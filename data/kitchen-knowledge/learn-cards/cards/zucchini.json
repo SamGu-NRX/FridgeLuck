@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate loose in the crisper, unwashed until use. The rulebook has the window.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "fresh-vegetable windows live in the food-safety rulebook"
-    }
+    "text": "Refrigerate loose in the crisper, unwashed until use.",
+    "citations": []
    },
    "useItUp": {
     "text": "Soft zucchini grates into fritters, bakes into bread, or melts into pasta sauces and ratatouille; over-large ones peel, seed, and roast or stuff.",

@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep dried noodles dry and sealed; fresh noodles are perishable and go in the fridge for only days. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "fresh-noodle windows live in the food-safety rulebook"
-    }
+    "text": "Keep dried noodles dry and sealed; fresh noodles are perishable and go in the fridge for only days.",
+    "citations": []
    },
    "useItUp": {
     "text": "Soak dried noodles in hot water until pliable, then stir-fry — boiling makes them gummy; leftover cooked noodles refresh in hot water and crisp into noodle cakes.",

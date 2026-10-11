@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Dried beans keep airtight and dry; soaked or cooked beans refrigerate in their liquid. The rulebook has the cooked-bean window and the never-eat-raw rules.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "raw and cooked pulse safety lives in the food-safety rulebook"
-    }
+    "text": "Dried beans keep airtight and dry; soaked or cooked beans refrigerate in their liquid.",
+    "citations": []
    },
    "useItUp": {
     "text": "Cooked kidney beans blend into dips and burger patties, thicken chilli, or roast crisp with chilli powder for snacking.",

@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "It keeps essentially indefinitely, but flavour fades — refrigerate after opening. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "opened-condiment guidance lives in the food-safety rulebook"
-    }
+    "text": "It keeps essentially indefinitely, but flavour fades — refrigerate after opening.",
+    "citations": []
    },
    "useItUp": {
     "text": "Soy sauce seasons everything from fried rice to caramel-braised chicken; reduce it with sugar and star anise into a glaze, or mix with mayo for a quick dip.",

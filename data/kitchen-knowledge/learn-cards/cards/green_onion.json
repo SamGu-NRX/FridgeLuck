@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Stand roots-down in a jar of water, loosely covered, in the fridge; they regrow from the white base too. The rulebook has the timing.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "fresh-vegetable windows live in the food-safety rulebook"
-    }
+    "text": "Stand roots-down in a jar of water, loosely covered, in the fridge; they regrow from the white base too.",
+    "citations": []
    },
    "useItUp": {
     "text": "Chop the greens into everything — eggs, noodles, marinades — or make scallion oil by gently cooking them in oil; the whites char beautifully under a hot grill.",

@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate wrapped so it does not lose moisture and crunch. The rulebook has the shelf-life details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "shelf-life guidance lives in the food-safety rulebook"
-    }
+    "text": "Refrigerate wrapped so it does not lose moisture and crunch.",
+    "citations": []
    },
    "useItUp": {
     "text": "Limp celery perks up in iced water for salads, or goes straight into stock, soup bases, and braises where crispness does not matter. The leaves are the most flavourful part.",

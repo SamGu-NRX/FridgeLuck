@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep sealed away from light and heat, and replace yearly — old paprika tastes of dust. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "spice storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep sealed away from light and heat, and replace yearly — old paprika tastes of dust.",
+    "citations": []
    },
    "useItUp": {
     "text": "Bloom it in oil or butter for 30 seconds to wake it, then add roasted potatoes, eggs, beans, or mayo; it colours and flavours whatever it touches.",

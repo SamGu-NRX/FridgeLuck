@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in an airtight container in a cool, dark cupboard; wholemeal flours spoil faster than white. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "flour storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep in an airtight container in a cool, dark cupboard; wholemeal flours spoil faster than white.",
+    "citations": []
    },
    "useItUp": {
     "text": "A cup of flour thickens any soup or stew (bloom it in butter first), and small amounts turn into pancakes, roux, or a crisp coating for anything fried.",

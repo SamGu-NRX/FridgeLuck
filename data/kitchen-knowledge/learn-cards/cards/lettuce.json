@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Wash only when using, and keep leaves dry and loosely wrapped in the fridge. The rulebook has the shelf-life details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "leafy-green windows live in the food-safety rulebook"
-    }
+    "text": "Wash only when using, and keep leaves dry and loosely wrapped in the fridge.",
+    "citations": []
    },
    "useItUp": {
     "text": "Wilted lettuce still works: Blitz into a green soup base, or sear romaine halves cut-side down for a warm salad; the cores regrow in a dish of water.",

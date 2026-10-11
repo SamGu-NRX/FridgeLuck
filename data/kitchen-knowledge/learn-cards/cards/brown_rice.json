@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep dry in a sealed container in a cool cupboard; the rulebook covers the cooked-rice window, which is the safety-critical part.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "cooked-rice cooling and storage rules live in the food-safety rulebook"
-    }
+    "text": "Keep dry in a sealed container in a cool cupboard.",
+    "citations": []
    },
    "useItUp": {
     "text": "Cooked brown rice grains stay distinct in fried rice and grain bowls, and it makes a fine porridge with stock and a soft egg.",

@@ -18,6 +18,25 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 PROSE = os.path.join(HERE, "prose")
 RETRIEVED = "2026-10-11"
 
+REPO_ROOT = os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))
+FOOD_SAFETY_PATH = "data/food-safety/rules.json"
+
+
+def assert_resolvable_safety_references(docs):
+    """Fail the build, before any card is written, when storage advice leans
+    on the food-safety rulebook while it is absent from this tree (fail
+    closed until PR #97 / canon lands)."""
+    if os.path.exists(os.path.join(REPO_ROOT, FOOD_SAFETY_PATH)):
+        return
+    for cid, doc in sorted(docs.items()):
+        blob = json.dumps(doc, ensure_ascii=False).lower()
+        if "foodsafetyref" in blob or "rulebook" in blob:
+            raise SystemExit(
+                f"build_cards: {cid} references the food-safety rulebook but "
+                f"{FOOD_SAFETY_PATH} does not exist in this tree; fail closed "
+                "- remove the reference or land the rulebook first")
+
+
 USDA_SOURCE = {
     "title": "USDA FoodData Central — SR Legacy release 2018-04",
     "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
@@ -34,7 +53,7 @@ def main():
     cards_dir = os.path.join(ROOT, "cards")
     os.makedirs(cards_dir, exist_ok=True)
 
-    cards, missing_prose = [], []
+    cards, docs, missing_prose = [], {}, []
     for cid, meta in universe["cards"].items():
         ppath = os.path.join(PROSE, f"{cid}.json")
         if not os.path.exists(ppath):
@@ -50,12 +69,7 @@ def main():
                                            f"({nut['fdcDescription']}).")
         storage = dict(prose["sections"]["storage"])
         storage.setdefault("citations", [])
-        storage["foodSafetyRef"] = {
-            "path": "data/food-safety/rules.json",
-            "note": storage.pop("note", "storage and shelf-life guidance for "
-                                        "this ingredient lives in the food-safety "
-                                        "rulebook (PR #97)"),
-        }
+        storage.pop("note", None)
         data = {
             "id": cid,
             "displayName": meta["displayName"],
@@ -69,9 +83,7 @@ def main():
         data["sources"] = sources
         card = {"schemaVersion": 1, "kind": "learn-card",
                 "retrieved": RETRIEVED, "data": data}
-        with open(os.path.join(cards_dir, f"{cid}.json"), "w", encoding="utf-8") as f:
-            json.dump(card, f, indent=1, ensure_ascii=False)
-            f.write("\n")
+        docs[cid] = card
         cards.append({
             "id": cid,
             "displayName": meta["displayName"],
@@ -83,6 +95,13 @@ def main():
 
     if missing_prose:
         print(f"NOTE: prose not yet written for {len(missing_prose)}: {missing_prose}")
+
+    assert_resolvable_safety_references(docs)
+
+    for cid, card in docs.items():
+        with open(os.path.join(cards_dir, f"{cid}.json"), "w", encoding="utf-8") as f:
+            json.dump(card, f, indent=1, ensure_ascii=False)
+            f.write("\n")
 
     no_nut = sorted(c["id"] for c in cards if c["fdcId"] is None)
     summary = universe["summary"]

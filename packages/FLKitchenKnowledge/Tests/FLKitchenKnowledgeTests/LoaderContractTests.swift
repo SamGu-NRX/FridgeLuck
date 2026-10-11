@@ -42,8 +42,7 @@ final class LoaderContractTests: XCTestCase {
                 "whatItIs":{"text":"T","citations":["s1"]},
                 "historyNote":{"text":"T","citations":["s1"]},
                 "howToChoose":{"text":"T","citations":["s1"]},
-                "storage":{"text":"T","citations":["s1"],
-                           "foodSafetyRef":{"path":"data/food-safety/rulebook.md"}},
+                "storage":{"text":"T","citations":["s1"]},
                 "useItUp":{"text":"T","citations":["s1"]}},
               "sources":{\(Self.cardSource)}}}
             """)

@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep frozen until cooking; leftover cooked beans keep covered in the fridge. The rulebook has the window.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "frozen and cooked-vegetable windows live in the food-safety rulebook"
-    }
+    "text": "Keep frozen until cooking; leftover cooked beans keep covered in the fridge.",
+    "citations": []
    },
    "useItUp": {
     "text": "Boil straight from frozen for 3-4 minutes, salt generously, and squeeze the beans out; shelled leftovers join fried rice, grain bowls, and salads.",

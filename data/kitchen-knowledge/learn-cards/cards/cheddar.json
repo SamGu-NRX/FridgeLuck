@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Wrap in waxed or cheese paper and keep in the fridge's warmest spot. The rulebook has the windows and mould guidance.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "hard-cheese storage and mould guidance live in the food-safety rulebook"
-    }
+    "text": "Wrap in waxed or cheese paper and keep in the fridge's warmest spot.",
+    "citations": []
    },
    "useItUp": {
     "text": "Hard cheese ends melt into sauce, rarebit, or nachos; the rind-less trimmings of aged cheddar grate and freeze well for last-minute toasties.",

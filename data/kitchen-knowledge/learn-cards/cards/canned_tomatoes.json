@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Tins keep in the cupboard until their date; leftovers decant to a container — never store open tins in the fridge. The rulebook has the window.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "opened-can window lives in the food-safety rulebook"
-    }
+    "text": "Tins keep in the cupboard until their date; leftovers decant to a container — never store open tins in the fridge.",
+    "citations": []
    },
    "useItUp": {
     "text": "Half a tin becomes shakshuka, butter sauce, or soup — simmer with a pinch of sugar if acidity bites; leftover juice bounces into bloody marys or chilli.",

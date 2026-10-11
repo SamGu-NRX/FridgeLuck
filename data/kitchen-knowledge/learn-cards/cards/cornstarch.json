@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in an airtight container in a dry cupboard. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "dry-goods storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep in an airtight container in a dry cupboard.",
+    "citations": []
    },
    "useItUp": {
     "text": "Beyond sauces, cornstarch crispst — toss chicken or tofu in it before frying, or whisk a slurry into soup when it needs body; it never flours the flavour.",

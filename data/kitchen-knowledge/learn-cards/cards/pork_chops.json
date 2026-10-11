@@ -25,15 +25,11 @@
     "citations": []
    },
    "storage": {
-    "text": "Raw pork keeps on the coldest shelf for the rulebook's window; marinate in the fridge, never on the counter.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "raw-pork storage windows live in the food-safety rulebook"
-    }
+    "text": "Raw pork keeps on the coldest shelf; marinate in the fridge, never on the counter.",
+    "citations": []
    },
    "useItUp": {
-    "text": "Leftover chop slices cold into salads or warms through in a pan sauce — apple, mustard, or cream; reheated gently (not microwaved hard), it stays tender.",
+    "text": "Leftover chop goes into salads or a pan sauce — apple, mustard, or cream.",
     "citations": []
    }
   },

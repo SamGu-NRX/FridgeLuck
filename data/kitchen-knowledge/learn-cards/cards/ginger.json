@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep unwrapped in the crisper, or freeze whole and grate from frozen. The rulebook has the timing.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
-    }
+    "text": "Keep unwrapped in the crisper, or freeze whole and grate from frozen.",
+    "citations": []
    },
    "useItUp": {
     "text": "Cut ginger freezes well and grates beautifully from frozen; simmer bruised slices into tea, or candy the peel-off cuts.",

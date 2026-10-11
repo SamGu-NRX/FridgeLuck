@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate loosely bagged in the crisper and do not wash until use. The rulebook has the window.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
-    }
+    "text": "Refrigerate loosely bagged in the crisper and do not wash until use.",
+    "citations": []
    },
    "useItUp": {
     "text": "Even tired beans shine blanched then flash-fried with garlic, or in a slow braise with tomato; older pods can be stringed with a paring knife.",

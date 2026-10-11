@@ -16,7 +16,7 @@ final class RefusalTests: XCTestCase {
             "whatItIs":{"text":"x","citations":["s1"]},
             "historyNote":{"text":"x","citations":["s2"]},
             "howToChoose":{"text":"x","citations":[]},
-            "storage":{"text":"x","citations":[],"foodSafetyRef":{"path":"data/food-safety/rules.json","note":"rulebook"}},
+            "storage":{"text":"x","citations":[]},
             "useItUp":{"text":"x","citations":[]}},
           "sources":{"s1":{"title":"t","publisher":"p","url":"https://example.test/1","retrieved":"2026-10-11","licence":"PD"},
                      "s2":{"title":"t","publisher":"p","url":"https://example.test/2","retrieved":"2026-10-11","licence":"PD"}}
@@ -34,7 +34,7 @@ final class RefusalTests: XCTestCase {
             "whatItIs":{"text":"x","citations":["s1"]},
             "historyNote":{"text":"x","citations":["s2"]},
             "howToChoose":{"text":"x","citations":[]},
-            "storage":{"text":"x","citations":[],"foodSafetyRef":{"path":"data/food-safety/rules.json","note":"rulebook"}},
+            "storage":{"text":"x","citations":[]},
             "useItUp":{"text":"x","citations":[]}},
           "nutritionPer100g":{"fdcId":170190,"fdcDescription":"Rice, white, long-grain, regular, raw, unenriched","fdcDataType":"SR Legacy","sourceId":"s7","nutrients":{"energyKcal":365}},
           "sources":{"s1":{"title":"t","publisher":"p","url":"https://example.test/1","retrieved":"2026-10-11","licence":"PD"},
@@ -54,14 +54,6 @@ final class RefusalTests: XCTestCase {
         let broken = validCardJSON.replacingOccurrences(
             of: "\"historyNote\":{\"text\":\"x\",\"citations\":[\"s2\"]}",
             with: "\"historyNote\":{\"text\":\"x\",\"citations\":[]}"
-        )
-        XCTAssertThrowsError(try LearnCard.parse(from: cardData(broken)))
-    }
-
-    func testCardWithoutFoodSafetyRefRefuses() {
-        let broken = validCardJSON.replacingOccurrences(
-            of: "\"storage\":{\"text\":\"x\",\"citations\":[],\"foodSafetyRef\":{\"path\":\"data/food-safety/rules.json\",\"note\":\"rulebook\"}}",
-            with: "\"storage\":{\"text\":\"x\",\"citations\":[]}"
         )
         XCTAssertThrowsError(try LearnCard.parse(from: cardData(broken)))
     }

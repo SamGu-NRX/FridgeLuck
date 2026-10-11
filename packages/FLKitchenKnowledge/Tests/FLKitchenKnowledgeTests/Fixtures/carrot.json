@@ -11,7 +11,7 @@
       "whatItIs": {"text": "Fixture prose for decoder mechanics.", "citations": ["s1"]},
       "historyNote": {"text": "Fixture history prose.", "citations": ["s2"]},
       "howToChoose": {"text": "Fixture selection prose.", "citations": []},
-      "storage": {"text": "Fixture storage prose; numbers live in the rulebook.", "citations": [], "foodSafetyRef": {"path": "data/food-safety/rules.json", "note": "storage guidance lives in the food-safety rulebook"}},
+      "storage": {"text": "Fixture storage prose; keep it cold and dark.", "citations": []},
       "useItUp": {"text": "Fixture use-it-up prose.", "citations": []}
     },
     "substitutions": [

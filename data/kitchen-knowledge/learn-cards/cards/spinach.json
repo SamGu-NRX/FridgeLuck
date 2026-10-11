@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate dry and loosely bagged, unwashed until use. The rulebook has the window.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "leafy-green windows live in the food-safety rulebook"
-    }
+    "text": "Refrigerate dry and loosely bagged, unwashed until use.",
+    "citations": []
    },
    "useItUp": {
     "text": "Wilted spinach vanishes into dals, lasagnas, and smoothies; sauté with garlic and lemon, and squeeze the water out for anything baked.",

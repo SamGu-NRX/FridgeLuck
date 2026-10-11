@@ -56,8 +56,13 @@ data/kitchen-knowledge/
    item-level `citationIds`, and `priceSourceId` must resolve in the pack file's own
    `sources` list (`packSourcesByFile` captures those records so the app can
    attribute claims, not just the offline validator).
-2. **Storage guidance is not duplicated.** Each card's storage section links
-   `foodSafetyRef` to `data/food-safety/rules.json` (the rulebook owns the numbers).
+2. **Storage safety guidance fails closed.** While the food-safety rulebook
+   (`data/food-safety/rules.json`, PR #97) is absent from this tree, storage
+   sections carry no `foodSafetyRef` and no rulebook-dependent claims: the build
+   gate and the validator refuse any card that references the rulebook while it
+   cannot resolve. Once the rulebook lands, storage sections link
+   `foodSafetyRef` to it (the rulebook owns the numbers) and the same checks
+   require the reference.
 3. **Waste math never invents.** Price is a point estimate; emissions carry
    low/central/high. Grams whose ingredient lacks a price or an emission factor are
    reported as **refusals** per ingredient+reason — never silently dropped from or

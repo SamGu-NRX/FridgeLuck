@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep tightly lidded in the fridge; it darkens slowly and stays good for a very long time. The rulebook has the window.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "opened-jar guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep tightly lidded in the fridge; it darkens slowly and stays good for a very long time.",
+    "citations": []
    },
    "useItUp": {
     "text": "Miso soup is the obvious use, but it also whips into butter for steaks, marinades fish in minutes, and deepens any stew; never boil it hard — the aroma fades.",

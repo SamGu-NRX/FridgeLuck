@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep at room temperature stem-down, away from sun; use within a few days once fully ripe. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
-    }
+    "text": "Keep at room temperature stem-down, away from sun; use within a few days once fully ripe.",
+    "citations": []
    },
    "useItUp": {
     "text": "Soft tomatoes roast into sauce, blister under the grill, or simmer into soup — the uglier the tomato, the better the jam-like roast.",

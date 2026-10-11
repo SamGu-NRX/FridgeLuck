@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate in the crisper for weeks, or juice and freeze in cubes. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
-    }
+    "text": "Refrigerate in the crisper for weeks, or juice and freeze in cubes.",
+    "citations": []
    },
    "useItUp": {
     "text": "A tired lemon still has zest and juice: grate the zest first, squeeze the rest into ice-cube trays, and drop spent halves into the compost bin or the kettle to descale.",

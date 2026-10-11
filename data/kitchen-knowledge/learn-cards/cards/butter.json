@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate what you will use this week; extra blocks freeze well. The rulebook has the storage-window details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
-    }
+    "text": "Refrigerate what you will use this week; extra blocks freeze well.",
+    "citations": []
    },
    "useItUp": {
     "text": "Brown it for nutty sauces, whip softened butter with herbs for a topping, or freeze in spoonfuls for later baking.",

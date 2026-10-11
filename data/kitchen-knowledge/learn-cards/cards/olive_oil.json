@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep cool and away from light in a dark bottle; oil does not improve with age. The rulebook has the notes.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "oil storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep cool and away from light in a dark bottle; oil does not improve with age.",
+    "citations": []
    },
    "useItUp": {
     "text": "Aging oil still fries and bakes; whisk it into dressings, drizzle over soup, or freeze in ice-cube trays with herbs for instant flavour bombs.",

@@ -18,12 +18,11 @@
    "citations": []
   },
   "storage": {
-   "text": "Keep in the main body of the fridge, not the door, and never return unused milk from a jug. The rulebook has the storage window and spoilage signs.",
-   "citations": [],
-   "note": "dairy storage windows live in the food-safety rulebook"
+   "text": "Keep in the main body of the fridge, not the door, and never return unused milk from a jug.",
+   "citations": []
   },
   "useItUp": {
-   "text": "Milk moves fast — plan the carton's last days while it is still fresh: pancakes, scones, rice pudding, and mashed potatoes all take a generous splash. Any dish you make from it then follows the food-safety rulebook's leftovers window: refrigerate within two hours, use within 3-4 days. Milk that has already gone sour, off-smelling, or curdled has no safe salvage — discard it, including a carton that sat out past the two-hour rule.",
+   "text": "Milk moves fast — plan the carton's last days while it is still fresh: pancakes, scones, rice pudding, and mashed potatoes all take a generous splash. Milk that has already gone sour, off-smelling, or curdled has no safe salvage — discard it.",
    "citations": []
   }
  },

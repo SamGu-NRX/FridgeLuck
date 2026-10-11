@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in the original packaging or a paper bag in the fridge — plastic traps moisture and they go slimy. The rulebook has the timing.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
-    }
+    "text": "Keep in the original packaging or a paper bag in the fridge — plastic traps moisture and they go slimy.",
+    "citations": []
    },
    "useItUp": {
     "text": "Tired mushrooms bounce back in a hot pan — dry-sauté first so they brown rather than stew; older ones shrink happily into stock, duxelles, or risotto.",

@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep the tin tightly sealed in a dry cupboard; moisture is what sets it off. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "dry-goods storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep the tin tightly sealed in a dry cupboard; moisture is what sets it off.",
+    "citations": []
    },
    "useItUp": {
     "text": "Half-empty tins still leaven pancakes and scones; for the truly stale, the tin's bicarbonate fraction makes a fine fridge deodoriser — but buy fresh for baking.",

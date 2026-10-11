@@ -23,12 +23,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in the freezer; there is no need to thaw before cooking. The rulebook covers refreezing and leftovers.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "freezer guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep in the freezer; there is no need to thaw before cooking.",
+    "citations": []
    },
    "useItUp": {
     "text": "A handful of peas lifts fried rice, soup, or mashed potato; blitz the last of the bag into a bright soup with mint and stock.",

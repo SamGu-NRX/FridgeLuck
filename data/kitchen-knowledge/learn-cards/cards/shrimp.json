@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Shellfish has the shortest fridge clock of all — keep it cold and cook within the rulebook's window, or freeze.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "raw-shellfish storage windows live in the food-safety rulebook"
-    }
+    "text": "Shellfish has the shortest fridge clock of all — keep it cold, or freeze.",
+    "citations": []
    },
    "useItUp": {
     "text": "Shrimp overcook in a minute, so rescue them in hot pan at the last moment; cooked stragglers become fried rice, tacos, or a chilli-garlic pasta.",

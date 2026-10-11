@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate sealed and use within the rulebook's window; tempeh also freezes well.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "fermented-soy storage windows live in the food-safety rulebook"
-    }
+    "text": "Refrigerate sealed; tempeh also freezes well.",
+    "citations": []
    },
    "useItUp": {
     "text": "Steam it 10 minutes to remove bitterness, then marinate and crisp it — tempeh bacon, satay, or crumbled 'taco meat'; it drinks up marinades better than tofu.",

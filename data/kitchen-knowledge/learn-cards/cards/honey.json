@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep sealed at room temperature; if it crystallises, stand the jar in warm water. The rulebook has the storage notes.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep sealed at room temperature; if it crystallises, stand the jar in warm water.",
+    "citations": []
    },
    "useItUp": {
     "text": "Crystallised honey is fine — stir into porridge, whisk into salad dressing with mustard, or drizzle over yoghurt and roasted veg.",

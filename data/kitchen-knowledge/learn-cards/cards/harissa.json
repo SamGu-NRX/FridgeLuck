@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate after opening with a film of oil on top. The rulebook has the window.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "opened-jar guidance lives in the food-safety rulebook"
-    }
+    "text": "Refrigerate after opening with a film of oil on top.",
+    "citations": []
    },
    "useItUp": {
     "text": "Stir it into soups, stews, and couscous, or thin with oil and lemon for a grill marinade; a dab lifts eggs, yoghurt, and roast vegetables.",

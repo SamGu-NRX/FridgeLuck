@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Refrigerate in the crisper, loosely wrapped, and keep away from the coldest shelf, which can pit them. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "shelf-life guidance lives in the food-safety rulebook"
-    }
+    "text": "Refrigerate in the crisper, loosely wrapped, and keep away from the coldest shelf, which can pit them.",
+    "citations": []
    },
    "useItUp": {
     "text": "Soft cucumbers make quick pickles, raita, or chilled soup; peel and deseed if the skin has toughened.",

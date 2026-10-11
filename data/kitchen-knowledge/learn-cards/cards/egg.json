@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep eggs in the box in the main body of the fridge, not the door. The rulebook has the storage window and raw-egg cautions.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "egg storage and raw-egg guidance live in the food-safety rulebook"
-    }
+    "text": "Keep eggs in the box in the main body of the fridge, not the door.",
+    "citations": []
    },
    "useItUp": {
     "text": "Eggs approaching their date are ideal for baking, hard-boiling, or a straight-up omelette; one egg plus breadcrumbs rescues almost any leftover mash into patties.",

@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Opened cartons and homemade stock keep covered in the fridge; homemade has no preservatives, so follow the rulebook's window and freeze the rest.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "opened-carton and homemade-stock windows live in the food-safety rulebook"
-    }
+    "text": "Opened cartons and homemade stock keep covered in the fridge; homemade has no preservatives, so freeze the rest.",
+    "citations": []
    },
    "useItUp": {
     "text": "Freeze in cubes for cooking rice and deglazing pans; a cup of almost-forgotten stock plus leftovers and noodles is a 10-minute soup.",

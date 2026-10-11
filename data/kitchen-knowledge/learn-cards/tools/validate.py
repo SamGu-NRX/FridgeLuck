@@ -51,6 +51,11 @@ NUTRIENT_BOUNDS = {
 SECTIONS = ["whatItIs", "historyNote", "howToChoose", "storage", "useItUp"]
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 FOOD_SAFETY_PATH = "data/food-safety/rules.json"
+# The rulebook lives in the real repo tree, not in a mutated selftest copy:
+# its presence is decided once, from the validator's own location.
+REPO_ROOT = os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))
+RULEBOOK_PRESENT = os.path.exists(os.path.join(REPO_ROOT, FOOD_SAFETY_PATH))
+
 
 errors = []
 def err(msg):
@@ -125,11 +130,22 @@ def validate_card(path):
             if name == "historyNote":
                 check(bool(cites), f"{card_id}: historyNote needs >=1 citation")
             if name == "storage":
-                ref = sec.get("foodSafetyRef") or {}
-                check(ref.get("path") == FOOD_SAFETY_PATH,
-                      f"{card_id}: storage.foodSafetyRef.path must be {FOOD_SAFETY_PATH}")
-                check(isinstance(ref.get("note"), str) and ref["note"].strip(),
-                      f"{card_id}: storage.foodSafetyRef.note required")
+                ref = sec.get("foodSafetyRef")
+                if RULEBOOK_PRESENT:
+                    check(isinstance(ref, dict) and ref.get("path") == FOOD_SAFETY_PATH,
+                          f"{card_id}: storage.foodSafetyRef.path must be {FOOD_SAFETY_PATH}")
+                    check(isinstance((ref or {}).get("note"), str) and ref["note"].strip(),
+                          f"{card_id}: storage.foodSafetyRef.note required")
+                else:
+                    # Fail closed: the rulebook is not in this tree, so storage
+                    # may neither link to it nor lean on it. The check flips
+                    # back to requiring the reference once it lands (PR #97).
+                    check(ref is None,
+                          f"{card_id}: storage.foodSafetyRef present but {FOOD_SAFETY_PATH} "
+                          "does not exist in this tree (fail-closed)")
+                    check("rulebook" not in sec["text"].lower(),
+                          f"{card_id}: storage text leans on the rulebook while {FOOD_SAFETY_PATH} "
+                          "is absent (fail-closed)")
 
     subs = data.get("substitutions")
     check(isinstance(subs, list), f"{card_id}: substitutions must be a list")

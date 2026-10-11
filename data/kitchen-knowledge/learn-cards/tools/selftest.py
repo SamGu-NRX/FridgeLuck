@@ -80,6 +80,35 @@ def nutrient_mutation(nutrient, value):
     return apply
 
 
+def first_card(tmp):
+    return os.path.join(tmp, "cards", sorted(os.listdir(os.path.join(tmp, "cards")))[0])
+
+
+def write_card(path, doc):
+    with open(path, "w") as f:
+        json.dump(doc, f)
+
+
+def storage_ref_mutation():
+    def apply(tmp):
+        path = first_card(tmp)
+        doc = json.load(open(path))
+        doc["data"]["sections"]["storage"]["foodSafetyRef"] = {
+            "path": "data/food-safety/rules.json", "note": "rulebook"}
+        write_card(path, doc)
+    return apply
+
+
+def storage_text_mutation():
+    def apply(tmp):
+        path = first_card(tmp)
+        doc = json.load(open(path))
+        st = doc["data"]["sections"]["storage"]
+        st["text"] = st["text"].rstrip(".") + ". The rulebook has the details."
+        write_card(path, doc)
+    return apply
+
+
 def main():
     print("learn-cards validator selftest:")
     case("valid copy passes", lambda tmp: None, "", expect_pass=True)
@@ -100,6 +129,36 @@ def main():
     case("boolean nutrient refuses",
          nutrient_mutation("proteinG", True),
          "not numeric")
+
+    # Storage safety references fail closed while the food-safety rulebook is
+    # absent from this tree: a storage section may neither link to it nor lean
+    # on it, in the data and at build time. The same cases skip cleanly (and
+    # need re-deriving) once the rulebook lands and the checks flip back to
+    # requiring the reference.
+    import build_cards
+    rulebook_absent = not os.path.exists(
+        os.path.join(build_cards.REPO_ROOT, build_cards.FOOD_SAFETY_PATH))
+    if rulebook_absent:
+        case("dangling foodSafetyRef refuses", storage_ref_mutation(), "fail-closed")
+        case("rulebook pointer in storage text refuses", storage_text_mutation(), "fail-closed")
+
+        poisoned = {"x": {"data": {"sections": {"storage": {
+            "text": "keep cool", "citations": [],
+            "foodSafetyRef": {"path": "data/food-safety/rules.json", "note": "n"}}}}}}
+        try:
+            build_cards.assert_resolvable_safety_references(poisoned)
+            failures.append("build gate accepted an unresolvable rulebook reference")
+        except SystemExit:
+            print("  ok  build gate refuses unresolvable rulebook reference")
+        try:
+            build_cards.assert_resolvable_safety_references(
+                {"x": {"data": {"sections": {"storage": {
+                    "text": "keep cool", "citations": []}}}}})
+            print("  ok  build gate passes rule-free cards")
+        except SystemExit as e:
+            failures.append(f"build gate rejected a rule-free card: {e}")
+    else:
+        print("  ok  fail-closed cases skipped (rulebook present in tree)")
     if failures:
         print(f"\nSELFTEST FAIL ({len(failures)}):")
         for f in failures:

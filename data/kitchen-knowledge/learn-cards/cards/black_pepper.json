@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep whole in an airtight tin away from heat and light. The rulebook has the spice-shelf guidance.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "spice storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep whole in an airtight tin away from heat and light.",
+    "citations": []
    },
    "useItUp": {
     "text": "Old peppercorns still work cracked into marinades, pepper sauce, or bloomed in butter; a coarse grind in the mill may just taste tamer.",

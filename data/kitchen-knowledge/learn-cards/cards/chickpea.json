@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Opened canned chickpeas go into a covered container in the fridge; dry ones live in an airtight jar in a cool cupboard. The rulebook has the timing.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "opened-can and cooked-pulse windows live in the food-safety rulebook"
-    }
+    "text": "Opened canned chickpeas go into a covered container in the fridge; dry ones live in an airtight jar in a cool cupboard.",
+    "citations": []
    },
    "useItUp": {
     "text": "Leftover chickpeas crisp in a hot oven with oil and spice for snacks, mash into sandwich fillings, or stir into soups as a thickener.",

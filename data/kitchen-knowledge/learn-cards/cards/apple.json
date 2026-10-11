@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep in the fridge crisper, away from anything bruised (one bad apple really does spread). The rulebook has the shelf-life details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "crisper storage and when-to-bin guidance live in the food-safety rulebook"
-    }
+    "text": "Keep in the fridge crisper, away from anything bruised (one bad apple really does spread).",
+    "citations": []
    },
    "useItUp": {
     "text": "Soft apples are made for sauce, muffins or a quick spiced compote; peelings dry into crisps or steep into tea.",

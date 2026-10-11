@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep dry and sealed — salt keeps indefinitely. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage guidance lives in the food-safety rulebook"
-    }
+    "text": "Keep dry and sealed — salt keeps indefinitely.",
+    "citations": []
    },
    "useItUp": {
     "text": "Salt never spoils: season pasta water, crust roasts, or preserve lemons and egg yolks with it; clumped salt loosens with a toast-oven dry-out.",

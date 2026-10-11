@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Keep the whole head loosely bagged in the fridge; once cut, wrap the remainder tightly. The rulebook has the details.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "storage windows live in the food-safety rulebook"
-    }
+    "text": "Keep the whole head loosely bagged in the fridge; once cut, wrap the remainder tightly.",
+    "citations": []
    },
    "useItUp": {
     "text": "Outer leaves and cores make good stock; the rest shreds into slaws, ferments into sauerkraut or kimchi, or braises slowly with butter and caraway.",

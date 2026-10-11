@@ -25,12 +25,8 @@
     "citations": []
    },
    "storage": {
-    "text": "Let unripe fruit sit on the counter, then move it to the fridge once it yields to pressure. The rulebook covers the use-it window.",
-    "citations": [],
-    "foodSafetyRef": {
-     "path": "data/food-safety/rules.json",
-     "note": "ripening window and cut-avocado handling live in the food-safety rulebook"
-    }
+    "text": "Let unripe fruit sit on the counter, then move it to the fridge once it yields to pressure.",
+    "citations": []
    },
    "useItUp": {
     "text": "Overripe avocado blends into dressings, smoothies or chocolate mousse; mash with lime and salt for a two-minute guacamole.",
