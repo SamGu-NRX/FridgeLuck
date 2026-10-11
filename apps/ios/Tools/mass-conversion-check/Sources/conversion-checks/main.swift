@@ -3,21 +3,45 @@ import MassConversionKit
 
 // Source-bound checks over the pinned FNDDS conversion table:
 //
-//   1. Held-out recovery: withhold every 10th entry (sorted by
-//      fdcId, unit, magnitude — deterministic), match its own food + unit
-//      against the remaining table, and measure how well the matcher
-//      recovers the withheld grams. This scores the matcher's
-//      generalization, not entries' agreement with themselves.
-//   2. 100-meal conversion yield: build 100 deterministic meals of three
-//      ingredients each from the FNDDS food census and measure the fraction
-//      of ingredients that convert with evidence (exact or partial) rather
-//      than falling to unknown.
+//   1. Food-group-held-out recovery (leave-one-category-out): conversion
+//      entries are grouped by WWEIA food category and one ENTIRE category
+//      is withheld per arm, so no other record for the same food can stay
+//      in the lookup while its sibling is queried (a per-entry offset
+//      split would leave same-food records in training). Each withheld
+//      entry is recovered with convert(food:unit:magnitude:) against the
+//      reduced table. Reports per-category arms (sorted by category name)
+//      plus an aggregate across arms, keeping the relErr / evidence /
+//      unknown accounting and a worst-offenders list. This scores the
+//      matcher's generalization with within-food leakage removed, not
+//      entries' agreement with themselves.
+//   2. 100-meal conversion-path plumbing check: 100 deterministic meals of
+//      three ingredients each from the FNDDS food census. Queries are
+//      token prefixes of the source description, so they always overlap
+//      it — this exercises the end-to-end conversion path (unit choice,
+//      lookup, evidence levels). It is NOT a name-resolution measure and
+//      NOT a cooking-yield study; cooking-yield sensitivity is derived
+//      source-bound by the Python driver (yield_sensitivity reports).
 //
-// Prints one JSON object to stdout; the Python driver captures it and writes
-// the committed reports. Unknown conversions are never fabricated into a
-// number, so yield is a coverage metric.
+// Prints one JSON object to stdout; the Python driver captures it and
+// writes the committed reports. Unknown conversions are never fabricated
+// into a number, so every recovered figure comes from matched evidence.
 
-struct HeldoutResult: Codable {
+/// One per-category arm of the leave-one-category-out protocol.
+struct CategoryArm: Codable {
+  let category: String
+  let n: Int
+  let matched: Int
+  let unknown: Int
+  let exact: Int
+  let partial: Int
+  let medianRelErrPct: Double
+  let meanRelErrPct: Double
+  let within25Pct: Int
+  let within50Pct: Int
+}
+
+/// Aggregate accounting across all per-category arms.
+struct AggregateResult: Codable {
   let n: Int
   let matched: Int
   let unknown: Int
@@ -34,10 +58,24 @@ struct HeldoutResult: Codable {
     let actualGrams: Double
     let matchedGrams: Double
     let relErrPct: Double
+    let withheldCategory: String
+  }
+}
+
+struct HeldoutResult: Codable {
+  let protocolName: String
+  let categoryCount: Int
+  let arms: [CategoryArm]
+  let aggregate: AggregateResult
+
+  private enum CodingKeys: String, CodingKey {
+    case protocolName = "protocol"
+    case categoryCount, arms, aggregate
   }
 }
 
 struct MealsResult: Codable {
+  let label: String
   let nMeals: Int
   let nIngredients: Int
   let convertedIngredients: Int
@@ -56,44 +94,12 @@ struct Output: Codable {
 
 let table = try MassConversionTable.bundled
 
-// 1. Held-out recovery.
-let sorted = table.portions.sorted { a, b in
-  if a.fdcId != b.fdcId { return a.fdcId < b.fdcId }
-  if a.unit.rawValue != b.unit.rawValue {
-    return a.unit.rawValue < b.unit.rawValue
-  }
-  return a.magnitude < b.magnitude
+// 1. Food-group-held-out recovery: leave-one-WWEIA-category-out.
+var entriesByCategory: [String: [MassConversionEntry]] = [:]
+for portion in table.portions {
+  entriesByCategory[portion.category ?? "", default: []].append(portion)
 }
-let heldout = sorted.enumerated().filter { $0.offset % 10 == 0 }
-
-var relErrs: [Double] = []
-var exact = 0
-var partial = 0
-var unknown = 0
-var worst: [HeldoutResult.Worst] = []
-
-for (offset, entry) in heldout {
-  _ = offset
-  let reduced = MassConversionTable(
-    source: table.source,
-    portions: table.portions.filter { $0 != entry }
-  )
-  if let conversion = reduced.convert(
-    food: entry.food, unit: entry.unit, magnitude: entry.magnitude)
-  {
-    relErrs.append(abs(conversion.grams - entry.grams) / entry.grams * 100)
-    if conversion.evidence == .exact { exact += 1 } else { partial += 1 }
-    if conversion.fdcId != entry.fdcId {
-      worst.append(
-        HeldoutResult.Worst(
-          food: entry.food, unit: entry.unit.rawValue,
-          actualGrams: entry.grams, matchedGrams: conversion.grams,
-          relErrPct: relErrs.last!))
-    }
-  } else {
-    unknown += 1
-  }
-}
+let categoryNames = entriesByCategory.keys.sorted()
 
 func median(_ values: [Double]) -> Double {
   let s = values.sorted()
@@ -102,23 +108,90 @@ func median(_ values: [Double]) -> Double {
   return s.count % 2 == 1 ? s[mid] : (s[mid - 1] + s[mid]) / 2
 }
 
+var arms: [CategoryArm] = []
+var pooledRelErrs: [Double] = []
+var pooledExact = 0
+var pooledPartial = 0
+var pooledUnknown = 0
+var worst: [AggregateResult.Worst] = []
+
+for category in categoryNames {
+  let withheld = entriesByCategory[category]!
+  let reduced = MassConversionTable(
+    source: table.source,
+    portions: table.portions.filter { ($0.category ?? "") != category }
+  )
+  var relErrs: [Double] = []
+  var exact = 0
+  var partial = 0
+  var unknown = 0
+
+  for entry in withheld {
+    if let conversion = reduced.convert(
+      food: entry.food, unit: entry.unit, magnitude: entry.magnitude)
+    {
+      let relErr = abs(conversion.grams - entry.grams) / entry.grams * 100
+      relErrs.append(relErr)
+      pooledRelErrs.append(relErr)
+      if conversion.evidence == .exact {
+        exact += 1
+        pooledExact += 1
+      } else {
+        partial += 1
+        pooledPartial += 1
+      }
+      if conversion.fdcId != entry.fdcId {
+        worst.append(
+          AggregateResult.Worst(
+            food: entry.food, unit: entry.unit.rawValue,
+            actualGrams: entry.grams, matchedGrams: conversion.grams,
+            relErrPct: relErr, withheldCategory: category))
+      }
+    } else {
+      unknown += 1
+      pooledUnknown += 1
+    }
+  }
+
+  arms.append(
+    CategoryArm(
+      category: category,
+      n: withheld.count,
+      matched: relErrs.count,
+      unknown: unknown,
+      exact: exact,
+      partial: partial,
+      medianRelErrPct: relErrs.isEmpty ? 0 : median(relErrs),
+      meanRelErrPct: relErrs.isEmpty
+        ? 0 : relErrs.reduce(0, +) / Double(relErrs.count),
+      within25Pct: relErrs.filter { $0 <= 25 }.count,
+      within50Pct: relErrs.filter { $0 <= 50 }.count
+    ))
+}
+
 worst.sort { $0.relErrPct > $1.relErrPct }
 
 let heldoutResult = HeldoutResult(
-  n: heldout.count,
-  matched: relErrs.count,
-  unknown: unknown,
-  exact: exact,
-  partial: partial,
-  medianRelErrPct: relErrs.isEmpty ? 0 : median(relErrs),
-  meanRelErrPct: relErrs.isEmpty
-    ? 0 : relErrs.reduce(0, +) / Double(relErrs.count),
-  within25Pct: relErrs.filter { $0 <= 25 }.count,
-  within50Pct: relErrs.filter { $0 <= 50 }.count,
-  worst: Array(worst.prefix(5))
+  protocolName:
+    "leave-one-WWEIA-category-out: the entire category is withheld per arm",
+  categoryCount: categoryNames.count,
+  arms: arms,
+  aggregate: AggregateResult(
+    n: pooledRelErrs.count + pooledUnknown,
+    matched: pooledRelErrs.count,
+    unknown: pooledUnknown,
+    exact: pooledExact,
+    partial: pooledPartial,
+    medianRelErrPct: pooledRelErrs.isEmpty ? 0 : median(pooledRelErrs),
+    meanRelErrPct: pooledRelErrs.isEmpty
+      ? 0 : pooledRelErrs.reduce(0, +) / Double(pooledRelErrs.count),
+    within25Pct: pooledRelErrs.filter { $0 <= 25 }.count,
+    within50Pct: pooledRelErrs.filter { $0 <= 50 }.count,
+    worst: Array(worst.prefix(5))
+  )
 )
 
-// 2. 100-meal conversion yield.
+// 2. 100-meal conversion-path plumbing check (not a yield study).
 let unitPreference = [
   "cup", "tbsp", "piece", "slice", "oz", "egg", "tsp", "medium", "large",
   "small", "floz", "stick", "pat", "clove", "ear", "can", "package",
@@ -155,7 +228,9 @@ for meal in 0..<nMeals {
     // Realistic intake-style query: the leading words of the description
     // (up to 3). Note: a prefix query always overlaps its own description,
     // so this measures end-to-end path coverage, not name-resolution
-    // difficulty — the held-out arm above covers resolution error.
+    // difficulty and not cooking yield — the held-out arms above cover
+    // resolution error, and the driver derives yield sensitivity from
+    // source-bound raw/cooked pairs.
     let words =
       food
       .split(whereSeparator: { !$0.isLetter && !$0.isNumber })
@@ -175,6 +250,9 @@ for meal in 0..<nMeals {
 }
 
 let mealsResult = MealsResult(
+  label:
+    "conversion-path plumbing check: prefix queries always overlap their "
+    + "source description — not a name-resolution measure, not a yield study",
   nMeals: nMeals,
   nIngredients: ingredients,
   convertedIngredients: convertedIngredients,

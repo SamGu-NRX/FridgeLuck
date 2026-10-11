@@ -1,0 +1,984 @@
+{
+  "inputs": {
+    "perUnitGramsRule": "first fndds_household_units.csv row per (fdc_id, unit), the same first-occurrence order the conversion table dedups by",
+    "surveyJsonSha256": "2e7eb9fda92adf1d4d784dba5eaa3a7fd4418cd86ccff383c7c9294d79e9b808",
+    "unitsTable": "scripts/data/reference/household_measures/fndds_household_units.csv"
+  },
+  "missingInputs": [
+    {
+      "category": "Fish",
+      "cookedFdcId": 2706287,
+      "cookedFood": "Fish, salmon, grilled",
+      "rawFdcId": 2706284,
+      "rawFood": "Fish, salmon, raw",
+      "reason": "no shared unit with differing grams"
+    },
+    {
+      "category": "Fish",
+      "cookedFdcId": 2706289,
+      "cookedFood": "Fish, salmon, fried",
+      "rawFdcId": 2706284,
+      "rawFood": "Fish, salmon, raw",
+      "reason": "no shared unit with differing grams"
+    },
+    {
+      "category": "Fish",
+      "cookedFdcId": 2706290,
+      "cookedFood": "Fish, salmon, steamed",
+      "rawFdcId": 2706284,
+      "rawFood": "Fish, salmon, raw",
+      "reason": "no shared unit with differing grams"
+    },
+    {
+      "category": "Fish",
+      "cookedFdcId": 2706310,
+      "cookedFood": "Fish, tuna, cooked",
+      "rawFdcId": 2706308,
+      "rawFood": "Fish, tuna, raw",
+      "reason": "no shared unit with differing grams"
+    },
+    {
+      "category": "Mustard and other condiments",
+      "cookedFdcId": 2709932,
+      "cookedFood": "Garlic, cooked",
+      "rawFdcId": 2709786,
+      "rawFood": "Garlic, raw",
+      "reason": "no shared unit with differing grams"
+    },
+    {
+      "category": "Mustard and other condiments",
+      "cookedFdcId": 2709978,
+      "cookedFood": "Peppers, hot, cooked",
+      "rawFdcId": 2709798,
+      "rawFood": "Peppers, hot, raw",
+      "reason": "no shared unit with differing grams"
+    },
+    {
+      "category": "Other vegetables and combinations",
+      "cookedFdcId": 2709907,
+      "cookedFood": "Fennel bulb, cooked",
+      "rawFdcId": 2709779,
+      "rawFood": "Fennel bulb, raw",
+      "reason": "no shared unit with differing grams"
+    }
+  ],
+  "pairs": [
+    {
+      "category": "Apples",
+      "cookedFdcId": 2709220,
+      "cookedFood": "Apple, baked",
+      "cookedGramsPerUnit": 190.0,
+      "per100gCooked": {
+        "carbG": 22.7,
+        "fatG": 3.08,
+        "kcal": 113.0,
+        "proteinG": 0.32
+      },
+      "per100gRaw": {
+        "carbG": 14.8,
+        "fatG": 0.15,
+        "kcal": 61.0,
+        "proteinG": 0.17
+      },
+      "perUnitCooked": {
+        "carbG": 43.13,
+        "fatG": 5.852,
+        "kcal": 214.7,
+        "proteinG": 0.608
+      },
+      "perUnitDelta": {
+        "carbG": 24.63,
+        "fatG": 5.6645,
+        "kcal": 138.45,
+        "proteinG": 0.3955
+      },
+      "perUnitRaw": {
+        "carbG": 18.5,
+        "fatG": 0.1875,
+        "kcal": 76.25,
+        "proteinG": 0.2125
+      },
+      "ratio": 1.52,
+      "rawFdcId": 2709215,
+      "rawFood": "Apple, raw",
+      "rawGramsPerUnit": 125.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Bananas",
+      "cookedFdcId": 2709225,
+      "cookedFood": "Banana, baked",
+      "cookedGramsPerUnit": 140.0,
+      "per100gCooked": {
+        "carbG": 32.4,
+        "fatG": 3.21,
+        "kcal": 161.0,
+        "proteinG": 0.82
+      },
+      "per100gRaw": {
+        "carbG": 22.7,
+        "fatG": 0.28,
+        "kcal": 97.0,
+        "proteinG": 0.74
+      },
+      "perUnitCooked": {
+        "carbG": 45.36,
+        "fatG": 4.494,
+        "kcal": 225.4,
+        "proteinG": 1.148
+      },
+      "perUnitDelta": {
+        "carbG": -5.715,
+        "fatG": 3.864,
+        "kcal": 7.15,
+        "proteinG": -0.517
+      },
+      "perUnitRaw": {
+        "carbG": 51.075,
+        "fatG": 0.63,
+        "kcal": 218.25,
+        "proteinG": 1.665
+      },
+      "ratio": 0.622222,
+      "rawFdcId": 2709224,
+      "rawFood": "Banana, raw",
+      "rawGramsPerUnit": 225.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Broccoli",
+      "cookedFdcId": 2709573,
+      "cookedFood": "Broccoli raab, cooked",
+      "cookedGramsPerUnit": 170.0,
+      "per100gCooked": {
+        "carbG": 2.88,
+        "fatG": 3.15,
+        "kcal": 46.0,
+        "proteinG": 3.2
+      },
+      "per100gRaw": {
+        "carbG": 2.85,
+        "fatG": 0.49,
+        "kcal": 22.0,
+        "proteinG": 3.17
+      },
+      "perUnitCooked": {
+        "carbG": 4.896,
+        "fatG": 5.355,
+        "kcal": 78.2,
+        "proteinG": 5.44
+      },
+      "perUnitDelta": {
+        "carbG": 3.756,
+        "fatG": 5.159,
+        "kcal": 69.4,
+        "proteinG": 4.172
+      },
+      "perUnitRaw": {
+        "carbG": 1.14,
+        "fatG": 0.196,
+        "kcal": 8.8,
+        "proteinG": 1.268
+      },
+      "ratio": 4.25,
+      "rawFdcId": 2709572,
+      "rawFood": "Broccoli raab, raw",
+      "rawGramsPerUnit": 40.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Broccoli",
+      "cookedFdcId": 2709658,
+      "cookedFood": "Broccoli, Chinese, cooked",
+      "cookedGramsPerUnit": 88.0,
+      "per100gCooked": {
+        "carbG": 4.72,
+        "fatG": 3.42,
+        "kcal": 50.0,
+        "proteinG": 1.22
+      },
+      "per100gRaw": {
+        "carbG": 4.67,
+        "fatG": 0.76,
+        "kcal": 26.0,
+        "proteinG": 1.2
+      },
+      "perUnitCooked": {
+        "carbG": 4.1536,
+        "fatG": 3.0096,
+        "kcal": 44.0,
+        "proteinG": 1.0736
+      },
+      "perUnitDelta": {
+        "carbG": 2.4724,
+        "fatG": 2.736,
+        "kcal": 34.64,
+        "proteinG": 0.6416
+      },
+      "perUnitRaw": {
+        "carbG": 1.6812,
+        "fatG": 0.2736,
+        "kcal": 9.36,
+        "proteinG": 0.432
+      },
+      "ratio": 2.444444,
+      "rawFdcId": 2709657,
+      "rawFood": "Broccoli, chinese, raw",
+      "rawGramsPerUnit": 36.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Cabbage",
+      "cookedFdcId": 2709893,
+      "cookedFood": "Cabbage, red, cooked",
+      "cookedGramsPerUnit": 155.0,
+      "per100gCooked": {
+        "carbG": 6.85,
+        "fatG": 2.86,
+        "kcal": 58.0,
+        "proteinG": 1.26
+      },
+      "per100gRaw": {
+        "carbG": 6.79,
+        "fatG": 0.21,
+        "kcal": 34.0,
+        "proteinG": 1.24
+      },
+      "perUnitCooked": {
+        "carbG": 10.6175,
+        "fatG": 4.433,
+        "kcal": 89.9,
+        "proteinG": 1.953
+      },
+      "perUnitDelta": {
+        "carbG": 4.5065,
+        "fatG": 4.244,
+        "kcal": 59.3,
+        "proteinG": 0.837
+      },
+      "perUnitRaw": {
+        "carbG": 6.111,
+        "fatG": 0.189,
+        "kcal": 30.6,
+        "proteinG": 1.116
+      },
+      "ratio": 1.722222,
+      "rawFdcId": 2709775,
+      "rawFood": "Cabbage, red, raw",
+      "rawGramsPerUnit": 90.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Lettuce and lettuce salads",
+      "cookedFdcId": 2709949,
+      "cookedFood": "Lettuce, cooked",
+      "cookedGramsPerUnit": 86.0,
+      "per100gCooked": {
+        "carbG": 4.21,
+        "fatG": 3.11,
+        "kcal": 49.0,
+        "proteinG": 1.06
+      },
+      "per100gRaw": {
+        "carbG": 3.69,
+        "fatG": 0.1,
+        "kcal": 20.0,
+        "proteinG": 0.92
+      },
+      "perUnitCooked": {
+        "carbG": 3.6206,
+        "fatG": 2.6746,
+        "kcal": 42.14,
+        "proteinG": 0.9116
+      },
+      "perUnitDelta": {
+        "carbG": 2.3291,
+        "fatG": 2.6396,
+        "kcal": 35.14,
+        "proteinG": 0.5896
+      },
+      "perUnitRaw": {
+        "carbG": 1.2915,
+        "fatG": 0.035,
+        "kcal": 7.0,
+        "proteinG": 0.322
+      },
+      "ratio": 2.457143,
+      "rawFdcId": 2709789,
+      "rawFood": "Lettuce, raw",
+      "rawGramsPerUnit": 35.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Onions",
+      "cookedFdcId": 2709953,
+      "cookedFood": "Onions, green, cooked",
+      "cookedGramsPerUnit": 225.0,
+      "per100gCooked": {
+        "carbG": 8.37,
+        "fatG": 3.21,
+        "kcal": 63.0,
+        "proteinG": 2.09
+      },
+      "per100gRaw": {
+        "carbG": 7.34,
+        "fatG": 0.19,
+        "kcal": 32.0,
+        "proteinG": 1.83
+      },
+      "perUnitCooked": {
+        "carbG": 18.8325,
+        "fatG": 7.2225,
+        "kcal": 141.75,
+        "proteinG": 4.7025
+      },
+      "perUnitDelta": {
+        "carbG": 11.4925,
+        "fatG": 7.0325,
+        "kcal": 109.75,
+        "proteinG": 2.8725
+      },
+      "perUnitRaw": {
+        "carbG": 7.34,
+        "fatG": 0.19,
+        "kcal": 32.0,
+        "proteinG": 1.83
+      },
+      "ratio": 2.25,
+      "rawFdcId": 2709794,
+      "rawFood": "Onions, green, raw",
+      "rawGramsPerUnit": 100.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other dark green vegetables",
+      "cookedFdcId": 2709571,
+      "cookedFood": "Beet greens, cooked",
+      "cookedGramsPerUnit": 150.0,
+      "per100gCooked": {
+        "carbG": 4.51,
+        "fatG": 2.87,
+        "kcal": 48.0,
+        "proteinG": 2.3
+      },
+      "per100gRaw": {
+        "carbG": 4.33,
+        "fatG": 0.13,
+        "kcal": 22.0,
+        "proteinG": 2.2
+      },
+      "perUnitCooked": {
+        "carbG": 6.765,
+        "fatG": 4.305,
+        "kcal": 72.0,
+        "proteinG": 3.45
+      },
+      "perUnitDelta": {
+        "carbG": 5.1196,
+        "fatG": 4.2556,
+        "kcal": 63.64,
+        "proteinG": 2.614
+      },
+      "perUnitRaw": {
+        "carbG": 1.6454,
+        "fatG": 0.0494,
+        "kcal": 8.36,
+        "proteinG": 0.836
+      },
+      "ratio": 3.947368,
+      "rawFdcId": 2709570,
+      "rawFood": "Beet greens, raw",
+      "rawGramsPerUnit": 38.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other dark green vegetables",
+      "cookedFdcId": 2709575,
+      "cookedFood": "Chard, cooked",
+      "cookedGramsPerUnit": 150.0,
+      "per100gCooked": {
+        "carbG": 3.9,
+        "fatG": 2.95,
+        "kcal": 44.0,
+        "proteinG": 1.88
+      },
+      "per100gRaw": {
+        "carbG": 3.74,
+        "fatG": 0.2,
+        "kcal": 19.0,
+        "proteinG": 1.8
+      },
+      "perUnitCooked": {
+        "carbG": 5.85,
+        "fatG": 4.425,
+        "kcal": 66.0,
+        "proteinG": 2.82
+      },
+      "perUnitDelta": {
+        "carbG": 4.5036,
+        "fatG": 4.353,
+        "kcal": 59.16,
+        "proteinG": 2.172
+      },
+      "perUnitRaw": {
+        "carbG": 1.3464,
+        "fatG": 0.072,
+        "kcal": 6.84,
+        "proteinG": 0.648
+      },
+      "ratio": 4.166667,
+      "rawFdcId": 2709574,
+      "rawFood": "Chard, raw",
+      "rawGramsPerUnit": 36.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other dark green vegetables",
+      "cookedFdcId": 2709587,
+      "cookedFood": "Cress, cooked",
+      "cookedGramsPerUnit": 140.0,
+      "per100gCooked": {
+        "carbG": 5.73,
+        "fatG": 3.47,
+        "kcal": 58.0,
+        "proteinG": 2.72
+      },
+      "per100gRaw": {
+        "carbG": 5.5,
+        "fatG": 0.7,
+        "kcal": 32.0,
+        "proteinG": 2.6
+      },
+      "perUnitCooked": {
+        "carbG": 8.022,
+        "fatG": 4.858,
+        "kcal": 81.2,
+        "proteinG": 3.808
+      },
+      "perUnitDelta": {
+        "carbG": 5.272,
+        "fatG": 4.508,
+        "kcal": 65.2,
+        "proteinG": 2.508
+      },
+      "perUnitRaw": {
+        "carbG": 2.75,
+        "fatG": 0.35,
+        "kcal": 16.0,
+        "proteinG": 1.3
+      },
+      "ratio": 2.8,
+      "rawFdcId": 2709586,
+      "rawFood": "Cress, raw",
+      "rawGramsPerUnit": 50.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other dark green vegetables",
+      "cookedFdcId": 2709589,
+      "cookedFood": "Dandelion greens, cooked",
+      "cookedGramsPerUnit": 110.0,
+      "per100gCooked": {
+        "carbG": 9.58,
+        "fatG": 3.47,
+        "kcal": 71.0,
+        "proteinG": 2.82
+      },
+      "per100gRaw": {
+        "carbG": 9.2,
+        "fatG": 0.7,
+        "kcal": 45.0,
+        "proteinG": 2.7
+      },
+      "perUnitCooked": {
+        "carbG": 10.538,
+        "fatG": 3.817,
+        "kcal": 78.1,
+        "proteinG": 3.102
+      },
+      "perUnitDelta": {
+        "carbG": 5.478,
+        "fatG": 3.432,
+        "kcal": 53.35,
+        "proteinG": 1.617
+      },
+      "perUnitRaw": {
+        "carbG": 5.06,
+        "fatG": 0.385,
+        "kcal": 24.75,
+        "proteinG": 1.485
+      },
+      "ratio": 2.0,
+      "rawFdcId": 2709588,
+      "rawFood": "Dandelion greens, raw",
+      "rawGramsPerUnit": 55.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other dark green vegetables",
+      "cookedFdcId": 2709640,
+      "cookedFood": "Watercress, cooked",
+      "cookedGramsPerUnit": 142.0,
+      "per100gCooked": {
+        "carbG": 1.35,
+        "fatG": 2.84,
+        "kcal": 36.0,
+        "proteinG": 2.4
+      },
+      "per100gRaw": {
+        "carbG": 1.29,
+        "fatG": 0.1,
+        "kcal": 11.0,
+        "proteinG": 2.3
+      },
+      "perUnitCooked": {
+        "carbG": 1.917,
+        "fatG": 4.0328,
+        "kcal": 51.12,
+        "proteinG": 3.408
+      },
+      "perUnitDelta": {
+        "carbG": 1.4784,
+        "fatG": 3.9988,
+        "kcal": 47.38,
+        "proteinG": 2.626
+      },
+      "perUnitRaw": {
+        "carbG": 0.4386,
+        "fatG": 0.034,
+        "kcal": 3.74,
+        "proteinG": 0.782
+      },
+      "ratio": 4.176471,
+      "rawFdcId": 2709639,
+      "rawFood": "Watercress, raw",
+      "rawGramsPerUnit": 34.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other vegetables and combinations",
+      "cookedFdcId": 2709871,
+      "cookedFood": "Bean sprouts, cooked",
+      "cookedGramsPerUnit": 115.0,
+      "per100gCooked": {
+        "carbG": 6.08,
+        "fatG": 6.93,
+        "kcal": 116.0,
+        "proteinG": 9.8
+      },
+      "per100gRaw": {
+        "carbG": 5.94,
+        "fatG": 0.18,
+        "kcal": 30.0,
+        "proteinG": 3.04
+      },
+      "perUnitCooked": {
+        "carbG": 6.992,
+        "fatG": 7.9695,
+        "kcal": 133.4,
+        "proteinG": 11.27
+      },
+      "perUnitDelta": {
+        "carbG": 1.646,
+        "fatG": 7.8075,
+        "kcal": 106.4,
+        "proteinG": 8.534
+      },
+      "perUnitRaw": {
+        "carbG": 5.346,
+        "fatG": 0.162,
+        "kcal": 27.0,
+        "proteinG": 2.736
+      },
+      "ratio": 1.277778,
+      "rawFdcId": 2709768,
+      "rawFood": "Bean sprouts, raw",
+      "rawGramsPerUnit": 90.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other vegetables and combinations",
+      "cookedFdcId": 2709880,
+      "cookedFood": "Broccoflower, cooked",
+      "cookedGramsPerUnit": 90.0,
+      "per100gCooked": {
+        "carbG": 6.15,
+        "fatG": 2.96,
+        "kcal": 55.0,
+        "proteinG": 2.98
+      },
+      "per100gRaw": {
+        "carbG": 6.09,
+        "fatG": 0.3,
+        "kcal": 31.0,
+        "proteinG": 2.95
+      },
+      "perUnitCooked": {
+        "carbG": 5.535,
+        "fatG": 2.664,
+        "kcal": 49.5,
+        "proteinG": 2.682
+      },
+      "perUnitDelta": {
+        "carbG": 1.6374,
+        "fatG": 2.472,
+        "kcal": 29.66,
+        "proteinG": 0.794
+      },
+      "perUnitRaw": {
+        "carbG": 3.8976,
+        "fatG": 0.192,
+        "kcal": 19.84,
+        "proteinG": 1.888
+      },
+      "ratio": 1.40625,
+      "rawFdcId": 2709771,
+      "rawFood": "Broccoflower, raw",
+      "rawGramsPerUnit": 64.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other vegetables and combinations",
+      "cookedFdcId": 2709906,
+      "cookedFood": "Celery, cooked",
+      "cookedGramsPerUnit": 155.0,
+      "per100gCooked": {
+        "carbG": 3.46,
+        "fatG": 2.9,
+        "kcal": 42.0,
+        "proteinG": 0.52
+      },
+      "per100gRaw": {
+        "carbG": 3.32,
+        "fatG": 0.16,
+        "kcal": 17.0,
+        "proteinG": 0.49
+      },
+      "perUnitCooked": {
+        "carbG": 5.363,
+        "fatG": 4.495,
+        "kcal": 65.1,
+        "proteinG": 0.806
+      },
+      "perUnitDelta": {
+        "carbG": 1.379,
+        "fatG": 4.303,
+        "kcal": 44.7,
+        "proteinG": 0.218
+      },
+      "perUnitRaw": {
+        "carbG": 3.984,
+        "fatG": 0.192,
+        "kcal": 20.4,
+        "proteinG": 0.588
+      },
+      "ratio": 1.291667,
+      "rawFdcId": 2709778,
+      "rawFood": "Celery, raw",
+      "rawGramsPerUnit": 120.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other vegetables and combinations",
+      "cookedFdcId": 2709928,
+      "cookedFood": "Cucumber, cooked",
+      "cookedGramsPerUnit": 185.0,
+      "per100gCooked": {
+        "carbG": 3.37,
+        "fatG": 3.2,
+        "kcal": 45.0,
+        "proteinG": 0.72
+      },
+      "per100gRaw": {
+        "carbG": 2.95,
+        "fatG": 0.18,
+        "kcal": 16.0,
+        "proteinG": 0.62
+      },
+      "perUnitCooked": {
+        "carbG": 6.2345,
+        "fatG": 5.92,
+        "kcal": 83.25,
+        "proteinG": 1.332
+      },
+      "perUnitDelta": {
+        "carbG": 2.6945,
+        "fatG": 5.704,
+        "kcal": 64.05,
+        "proteinG": 0.588
+      },
+      "perUnitRaw": {
+        "carbG": 3.54,
+        "fatG": 0.216,
+        "kcal": 19.2,
+        "proteinG": 0.744
+      },
+      "ratio": 1.541667,
+      "rawFdcId": 2709784,
+      "rawFood": "Cucumber, raw",
+      "rawGramsPerUnit": 120.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other vegetables and combinations",
+      "cookedFdcId": 2709934,
+      "cookedFood": "Kohlrabi, cooked",
+      "cookedGramsPerUnit": 170.0,
+      "per100gCooked": {
+        "carbG": 6.26,
+        "fatG": 2.75,
+        "kcal": 51.0,
+        "proteinG": 1.72
+      },
+      "per100gRaw": {
+        "carbG": 6.2,
+        "fatG": 0.1,
+        "kcal": 27.0,
+        "proteinG": 1.7
+      },
+      "perUnitCooked": {
+        "carbG": 10.642,
+        "fatG": 4.675,
+        "kcal": 86.7,
+        "proteinG": 2.924
+      },
+      "perUnitDelta": {
+        "carbG": 2.272,
+        "fatG": 4.54,
+        "kcal": 50.25,
+        "proteinG": 0.629
+      },
+      "perUnitRaw": {
+        "carbG": 8.37,
+        "fatG": 0.135,
+        "kcal": 36.45,
+        "proteinG": 2.295
+      },
+      "ratio": 1.259259,
+      "rawFdcId": 2709788,
+      "rawFood": "Kohlrabi, raw",
+      "rawGramsPerUnit": 135.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other vegetables and combinations",
+      "cookedFdcId": 2709980,
+      "cookedFood": "Rutabaga, cooked",
+      "cookedGramsPerUnit": 245.0,
+      "per100gCooked": {
+        "carbG": 8.98,
+        "fatG": 2.9,
+        "kcal": 63.0,
+        "proteinG": 1.13
+      },
+      "per100gRaw": {
+        "carbG": 8.62,
+        "fatG": 0.16,
+        "kcal": 37.0,
+        "proteinG": 1.08
+      },
+      "perUnitCooked": {
+        "carbG": 22.001,
+        "fatG": 7.105,
+        "kcal": 154.35,
+        "proteinG": 2.7685
+      },
+      "perUnitDelta": {
+        "carbG": 9.933,
+        "fatG": 6.881,
+        "kcal": 102.55,
+        "proteinG": 1.2565
+      },
+      "perUnitRaw": {
+        "carbG": 12.068,
+        "fatG": 0.224,
+        "kcal": 51.8,
+        "proteinG": 1.512
+      },
+      "ratio": 1.75,
+      "rawFdcId": 2709804,
+      "rawFood": "Rutabaga, raw",
+      "rawGramsPerUnit": 140.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Other vegetables and combinations",
+      "cookedFdcId": 2710002,
+      "cookedFood": "Turnip, cooked",
+      "cookedGramsPerUnit": 235.0,
+      "per100gCooked": {
+        "carbG": 6.7,
+        "fatG": 2.84,
+        "kcal": 54.0,
+        "proteinG": 0.95
+      },
+      "per100gRaw": {
+        "carbG": 6.43,
+        "fatG": 0.1,
+        "kcal": 28.0,
+        "proteinG": 0.9
+      },
+      "perUnitCooked": {
+        "carbG": 15.745,
+        "fatG": 6.674,
+        "kcal": 126.9,
+        "proteinG": 2.2325
+      },
+      "perUnitDelta": {
+        "carbG": 7.386,
+        "fatG": 6.544,
+        "kcal": 90.5,
+        "proteinG": 1.0625
+      },
+      "perUnitRaw": {
+        "carbG": 8.359,
+        "fatG": 0.13,
+        "kcal": 36.4,
+        "proteinG": 1.17
+      },
+      "ratio": 1.807692,
+      "rawFdcId": 2709809,
+      "rawFood": "Turnip, raw",
+      "rawGramsPerUnit": 130.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Shellfish",
+      "cookedFdcId": 2706341,
+      "cookedFood": "Clams, fried",
+      "cookedGramsPerUnit": 135.0,
+      "per100gCooked": {
+        "carbG": 14.4,
+        "fatG": 12.9,
+        "kcal": 230.0,
+        "proteinG": 13.1
+      },
+      "per100gRaw": {
+        "carbG": 3.57,
+        "fatG": 0.96,
+        "kcal": 86.0,
+        "proteinG": 14.7
+      },
+      "perUnitCooked": {
+        "carbG": 19.44,
+        "fatG": 17.415,
+        "kcal": 310.5,
+        "proteinG": 17.685
+      },
+      "perUnitDelta": {
+        "carbG": 11.4075,
+        "fatG": 15.255,
+        "kcal": 117.0,
+        "proteinG": -15.39
+      },
+      "perUnitRaw": {
+        "carbG": 8.0325,
+        "fatG": 2.16,
+        "kcal": 193.5,
+        "proteinG": 33.075
+      },
+      "ratio": 0.6,
+      "rawFdcId": 2706338,
+      "rawFood": "Clams, raw",
+      "rawGramsPerUnit": 225.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Shellfish",
+      "cookedFdcId": 2706353,
+      "cookedFood": "Oysters, steamed",
+      "cookedGramsPerUnit": 135.0,
+      "per100gCooked": {
+        "carbG": 3.44,
+        "fatG": 2.16,
+        "kcal": 65.0,
+        "proteinG": 7.23
+      },
+      "per100gRaw": {
+        "carbG": 2.72,
+        "fatG": 1.71,
+        "kcal": 51.0,
+        "proteinG": 5.71
+      },
+      "perUnitCooked": {
+        "carbG": 4.644,
+        "fatG": 2.916,
+        "kcal": 87.75,
+        "proteinG": 9.7605
+      },
+      "perUnitDelta": {
+        "carbG": -1.476,
+        "fatG": -0.9315,
+        "kcal": -27.0,
+        "proteinG": -3.087
+      },
+      "perUnitRaw": {
+        "carbG": 6.12,
+        "fatG": 3.8475,
+        "kcal": 114.75,
+        "proteinG": 12.8475
+      },
+      "ratio": 0.6,
+      "rawFdcId": 2706351,
+      "rawFood": "Oysters, raw",
+      "rawGramsPerUnit": 225.0,
+      "unit": "cup"
+    },
+    {
+      "category": "Shellfish",
+      "cookedFdcId": 2706354,
+      "cookedFood": "Oysters, fried",
+      "cookedGramsPerUnit": 135.0,
+      "per100gCooked": {
+        "carbG": 13.8,
+        "fatG": 13.5,
+        "kcal": 203.0,
+        "proteinG": 6.26
+      },
+      "per100gRaw": {
+        "carbG": 2.72,
+        "fatG": 1.71,
+        "kcal": 51.0,
+        "proteinG": 5.71
+      },
+      "perUnitCooked": {
+        "carbG": 18.63,
+        "fatG": 18.225,
+        "kcal": 274.05,
+        "proteinG": 8.451
+      },
+      "perUnitDelta": {
+        "carbG": 12.51,
+        "fatG": 14.3775,
+        "kcal": 159.3,
+        "proteinG": -4.3965
+      },
+      "perUnitRaw": {
+        "carbG": 6.12,
+        "fatG": 3.8475,
+        "kcal": 114.75,
+        "proteinG": 12.8475
+      },
+      "ratio": 0.6,
+      "rawFdcId": 2706351,
+      "rawFood": "Oysters, raw",
+      "rawGramsPerUnit": 225.0,
+      "unit": "cup"
+    }
+  ],
+  "protocol": "raw-to-cooked survey-food pairs: same WWEIA category, same normalized description stem (state words removed), shared canonical household unit with differing per-unit grams; ratio = cooked grams per unit / raw grams per unit; per-unit nutrients from SurveyFoods per-100g anchors (208 kcal, 203 protein, 204 fat, 205 carbohydrate) of each side",
+  "summary": {
+    "categoriesCovered": 9,
+    "kcalPerUnitDeltaMax": 159.3,
+    "kcalPerUnitDeltaMedian": 61.47,
+    "kcalPerUnitDeltaMin": -27.0,
+    "missingInputReasons": {
+      "no shared unit with differing grams": 7
+    },
+    "missingInputs": 7,
+    "pairCount": 22,
+    "ratioMax": 4.25,
+    "ratioMedian": 1.736111,
+    "ratioMin": 0.6
+  }
+}

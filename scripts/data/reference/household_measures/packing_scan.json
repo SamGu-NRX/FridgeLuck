@@ -1,0 +1,78 @@
+{
+  "conclusion": "FNDDS attaches no packing evidence to household portions that survives into the pinned conversion table: container words appear as quantity units ('1 can', '1 package'), and qualifier-level hits are absent from the table after (food, unit, magnitude) dedup. The table carries 0 packing labels; packing matching in MassConversionKit is exercised only by synthetic unit tests, so packing generalization is UNMEASURED.",
+  "conversionTableLabels": {
+    "packing": 0,
+    "state": 558
+  },
+  "corpus": {
+    "portionsScanned": 22194,
+    "surveyFoods": 5432
+  },
+  "parsedHouseholdRows": 8319,
+  "protocol": "word-boundary scan of FNDDS portionDescription + modifier text over the full corpus",
+  "qualifierHitsSurvivingTableDedup": 0,
+  "qualifierPackingHits": [
+    {
+      "category": "Meat mixed dishes",
+      "classification": "canned",
+      "fdcId": 2706477,
+      "food": "Corned beef hash",
+      "magnitude": 1.0,
+      "modifier": "10029",
+      "portionDescription": "1 cup, canned",
+      "survivesIntoTable": false,
+      "tableEntryPacking": null,
+      "unit": "cup"
+    }
+  ],
+  "termCountsAllPortions": {
+    "bag": 342,
+    "bottle": 218,
+    "box": 45,
+    "can": 261,
+    "canned": 4,
+    "carton": 2,
+    "jar": 54,
+    "pack": 2,
+    "package": 204,
+    "pouch": 123,
+    "tub": 53
+  },
+  "termCountsParsedHouseholdRows": {
+    "can": 152,
+    "canned": 1,
+    "pack": 1,
+    "package": 83
+  },
+  "terms": [
+    "canned",
+    "jarred",
+    "packaged",
+    "can",
+    "cans",
+    "jar",
+    "jars",
+    "bag",
+    "bags",
+    "bagged",
+    "bottle",
+    "bottles",
+    "bottled",
+    "box",
+    "boxes",
+    "boxed",
+    "tin",
+    "tins",
+    "pouch",
+    "pouches",
+    "package",
+    "packages",
+    "pack",
+    "packs",
+    "pkg",
+    "carton",
+    "cartons",
+    "tub",
+    "tubs"
+  ]
+}

@@ -18,8 +18,22 @@ What this does:
        nameArm          estimateGrams(forName:) on the FNDDS description
        unitArm          estimateGrams(for:) with the canonical unit word
        unitPrefixedArm  estimateGrams(for:) with "1 <unit>"
-  4. Writes estimator_examples.json, estimator_evaluation.csv, and
-     estimator_evaluation.md under reference/household_measures/.
+  4. Runs the Swift `conversion-checks` executable (food-group-held-out
+     recovery by leaving entire WWEIA categories out, plus the 100-meal
+     conversion-path plumbing check).
+  5. Derives a source-bound cooking-yield sensitivity arm: raw/cooked
+     survey-food pairs (same normalized description stem, same WWEIA
+     category) sharing a household unit with differing per-unit grams,
+     with per-unit energy/macronutrient consequences computed from
+     SurveyFoods per-100g nutrients on both sides.
+  6. Scans the full FNDDS corpus portion text for packing terms and
+     states plainly that FNDDS attaches no packing evidence to household
+     portions — packing matching is exercised only by synthetic unit
+     tests, so packing generalization is unmeasured.
+  7. Writes estimator_examples.json, estimator_evaluation.csv,
+     estimator_evaluation.md, conversion_checks.{json,md},
+     yield_sensitivity.{json,md}, and packing_scan.{json,md} under
+     reference/household_measures/.
 
 The estimator file itself is never modified.
 """
@@ -41,6 +55,26 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = REPO_ROOT / "scripts" / "data"
 OUT_DIR = DATA_DIR / "reference" / "household_measures"
 CACHE_JSON = DATA_DIR / ".cache" / "surveyDownload.json"
+
+sys.path.insert(0, str(DATA_DIR))
+from usda_core.households import (  # noqa: E402
+    PACKING_SCAN_TERMS,
+    derive_yield_pairs,
+    scan_packing_terms,
+)
+
+CONVERSION_JSON = OUT_DIR / "conversion_checks.json"
+CONVERSION_MD = OUT_DIR / "conversion_checks.md"
+YIELD_JSON = OUT_DIR / "yield_sensitivity.json"
+YIELD_MD = OUT_DIR / "yield_sensitivity.md"
+PACKING_JSON = OUT_DIR / "packing_scan.json"
+PACKING_MD = OUT_DIR / "packing_scan.md"
+CONVERSION_TABLE_JSON = OUT_DIR / "mass_conversion_table.json"
+
+# Per-100g nutrient anchors consumed by the yield-sensitivity arm
+# (FNDDS foodNutrients entries are nested as nutrient.number).
+YIELD_NUTRIENT_NUMBERS = {"208": "kcal", "203": "proteinG", "204": "fatG", "205": "carbG"}
+
 EXTRACTOR = DATA_DIR / "extract_household_measures.py"
 UNITS_CSV = OUT_DIR / "fndds_household_units.csv"
 EXAMPLES_JSON = OUT_DIR / "estimator_examples.json"
@@ -400,6 +434,8 @@ def main() -> int:
 
     checks = run_conversion_checks()
     write_conversion_reports(checks)
+    yield_summary = run_yield_sensitivity()
+    packing_summary = run_packing_scan()
 
     print(f"examples: {len(examples)}")
     for arm in arms:
@@ -411,25 +447,57 @@ def main() -> int:
             f"mean={statistics.mean(rel) * 100:.0f}% "
             f"within50={sum(1 for r in rel if r <= 0.5)}"
         )
-    held, meals = checks["heldout"], checks["meals"]
+    held = checks["heldout"]
+    aggregate = held["aggregate"]
     print(
-        f"heldout: n={held['n']} recovered={held['matched']} "
-        f"unknown={held['unknown']} median={held['medianRelErrPct']:.1f}%"
+        f"heldout (leave-one-category-out, {held['categoryCount']} arms): "
+        f"n={aggregate['n']} recovered={aggregate['matched']} "
+        f"unknown={aggregate['unknown']} "
+        f"median={aggregate['medianRelErrPct']:.1f}% "
+        f"mean={aggregate['meanRelErrPct']:.1f}% "
+        f"within25={aggregate['within25Pct']} within50={aggregate['within50Pct']}"
     )
+    for arm in held["arms"]:
+        print(
+            f"  arm {arm['category']}: n={arm['n']} matched={arm['matched']} "
+            f"unknown={arm['unknown']} median={arm['medianRelErrPct']:.1f}%"
+        )
+    meals = checks["meals"]
     print(
-        f"meals: {meals['fullyConvertedMeals']}/{meals['nMeals']} fully "
-        f"converted, ingredient yield {meals['ingredientYieldPct']:.1f}%"
+        f"meals (conversion-path plumbing check, not a yield study): "
+        f"{meals['fullyConvertedMeals']}/{meals['nMeals']} fully "
+        f"converted, conversion rate {meals['ingredientYieldPct']:.1f}%"
     )
+    if yield_summary:
+        print(
+            f"yield sensitivity: {yield_summary['pairCount']} raw/cooked "
+            f"pairs, ratio {yield_summary['ratioMin']:.3f}–"
+            f"{yield_summary['ratioMedian']:.3f}–{yield_summary['ratioMax']:.3f}, "
+            f"missing inputs {yield_summary['missingInputs']}"
+        )
+    if packing_summary:
+        print(
+            f"packing scan: {packing_summary['qualifierHits']} qualifier-level "
+            "hits in parsed rows; packing generalization unmeasured"
+        )
     return 0
 
 
 def run_conversion_checks() -> dict:
-    """Runs the conversion-checks executable (held-out recovery + 100-meal
-    conversion yield) and returns its parsed JSON output."""
+    """Runs the conversion-checks executable (food-group-held-out recovery
+    via leave-one-category-out + the 100-meal conversion-path plumbing
+    check) and returns its parsed JSON output.
+
+    Release build: leave-one-category-out is O(entries^2) token work
+    (~7,300 withheld entries scanned against the full table per arm set);
+    release keeps a full run under two minutes where debug takes minutes.
+    """
     run = subprocess.run(
         [
             swift,
             "run",
+            "-c",
+            "release",
             "--package-path",
             str(PACKAGE_DIR),
             "conversion-checks",
@@ -455,59 +523,420 @@ def write_conversion_reports(checks: dict) -> None:
     )
 
     held = checks["heldout"]
+    aggregate = held["aggregate"]
+    arms = held["arms"]
     meals = checks["meals"]
     lines = [
-        "# Conversion checks: held-out recovery and 100-meal yield",
+        "# Conversion checks: food-group-held-out recovery and conversion-path plumbing",
         "",
         "Both checks run the shipped `MassConversionKit` matcher over the",
         "pinned FNDDS table. Unknown conversions are never fabricated into a",
-        "number, so yield is a coverage metric.",
+        "number, so every recovered figure comes from matched evidence.",
         "",
-        "## Held-out recovery (every 10th entry withheld, deterministic)",
+        "## Food-group-held-out recovery (leave-one-WWEIA-category-out)",
         "",
-        f"- Withheld entries: {held['n']}",
-        f"- Recovered by the matcher: {held['matched']} "
-        f"({held['exact']} exact, {held['partial']} partial)",
-        f"- Unknown (no entry matched): {held['unknown']}",
-        f"- Median rel. error: {held['medianRelErrPct']:.1f}% "
-        f"(mean {held['meanRelErrPct']:.1f}%)",
-        f"- Within ±25%: {held['within25Pct']} · within ±50%: "
-        f"{held['within50Pct']}",
+        f"Protocol: {held['protocol']} — {held['categoryCount']} arms.",
+        "Withholding the entire category means no other record for the same",
+        "food can remain in the lookup while its sibling is queried (the",
+        "earlier every-10th-entry split left same-food records in training,",
+        "which overstated recovery).",
         "",
-        "Worst matched-elsewhere recoveries:",
+        "### Aggregate across arms",
         "",
-        "| Food | Unit | Withheld g | Matched g | Rel. error |",
-        "|---|---|---|---|---|",
+        f"- Withheld entries: {aggregate['n']} across {held['categoryCount']} arms",
+        f"- Recovered by the matcher: {aggregate['matched']} "
+        f"({aggregate['exact']} exact, {aggregate['partial']} partial)",
+        f"- Unknown (no entry matched): {aggregate['unknown']}",
+        f"- Median rel. error: {aggregate['medianRelErrPct']:.1f}% "
+        f"(mean {aggregate['meanRelErrPct']:.1f}%)",
+        f"- Within ±25%: {aggregate['within25Pct']} · within ±50%: "
+        f"{aggregate['within50Pct']}",
+        "",
+        "Worst matched-elsewhere recoveries (aggregate):",
+        "",
+        "| Food | Unit | Withheld g | Matched g | Rel. error | Withheld category |",
+        "|---|---|---|---|---|---|",
     ]
-    for w in held["worst"]:
+    for w in aggregate["worst"]:
         lines.append(
             f"| {w['food']} | {w['unit']} | {w['actualGrams']:g} "
-            f"| {w['matchedGrams']:g} | {w['relErrPct']:.1f}% |"
+            f"| {w['matchedGrams']:g} | {w['relErrPct']:.1f}% "
+            f"| {w['withheldCategory']} |"
         )
     lines += [
         "",
-        "## 100-meal conversion yield (100 meals × 3 ingredients)",
+        "### Per-category arms (sorted by category name)",
+        "",
+        "Each row is one leave-one-category-out arm: the entire WWEIA",
+        "category was withheld from the lookup and every entry in it was",
+        "queried against the remaining table.",
+        "",
+        "| Category | n | Matched | Unknown | Exact | Partial | Median rel. err | Mean rel. err | Within ±25% | Within ±50% |",
+        "|---|---|---|---|---|---|---|---|---|---|",
+    ]
+
+    def pct(value: float) -> str:
+        return f"{value:.1f}%" if value else "—"
+
+    for arm in arms:
+        lines.append(
+            f"| {arm['category']} | {arm['n']} | {arm['matched']} "
+            f"| {arm['unknown']} | {arm['exact']} | {arm['partial']} "
+            f"| {pct(arm['medianRelErrPct'])} | {pct(arm['meanRelErrPct'])} "
+            f"| {arm['within25Pct']} | {arm['within50Pct']} |"
+        )
+    lines += [
+        "",
+        "## 100-meal conversion-path plumbing check (NOT a yield study)",
+        "",
+        f"Label: {meals['label']}.",
         "",
         f"- Ingredients: {meals['nIngredients']}",
         f"- Converted with evidence: {meals['convertedIngredients']} "
         f"({meals['exactIngredients']} exact, {meals['partialIngredients']} "
-        f"partial) — {meals['ingredientYieldPct']:.1f}% yield",
+        f"partial) — {meals['ingredientYieldPct']:.1f}% conversion rate",
         f"- Unknown: {meals['unknownIngredients']}",
         f"- Fully converted meals: {meals['fullyConvertedMeals']}/{meals['nMeals']}"
-        f" — {meals['mealYieldPct']:.1f}% meal yield",
+        f" — {meals['mealYieldPct']:.1f}% of meals",
         "",
         "Meal queries are intake-style (first three words of the FNDDS",
         "description). Because those words are a token prefix of the source",
         "description, they always overlap it — so this check validates the",
         "end-to-end conversion path (unit choice, lookup, evidence levels)",
-        "over census-derived meals, not name-resolution difficulty. The",
-        "held-out check above covers resolution error; real-world coverage",
-        "of partial user input is not measured here.",
+        "over census-derived meals. It is plumbing, not a yield study:",
+        "successful conversion of generated meal bundles says nothing about",
+        "cooking yield. Cooking-yield sensitivity is derived source-bound in",
+        "`yield_sensitivity.{json,md}`; real-world coverage of partial user",
+        "input is not measured here.",
         "",
     ]
     (OUT_DIR / "conversion_checks.md").write_text(
         "\n".join(lines), encoding="utf-8"
     )
+
+
+def run_yield_sensitivity() -> dict:
+    """Derives source-bound raw-to-cooked yield pairs and their per-unit
+    energy/macronutrient consequences.
+
+    Pairs join two survey foods in the same WWEIA category whose normalized
+    description stems (state words removed) are equal, one `raw` and one
+    `cooked`, sharing a canonical household unit whose per-unit grams differ
+    (first household-units row per food+unit, matching the conversion
+    table's dedup order). Per-unit nutrient values come from the
+    SurveyFoods per-100g anchors (208/203/204/205) of each side; deltas are
+    cooked minus raw. Candidates lacking shared units or nutrients are
+    returned as explicit missing-input records — never filled.
+    """
+    if not CACHE_JSON.exists():
+        print(
+            f"yield-sensitivity arm skipped: cache missing ({CACHE_JSON})",
+            file=sys.stderr,
+        )
+        return {}
+    document = json.loads(CACHE_JSON.read_text(encoding="utf-8"))
+    foods = document["SurveyFoods"]
+
+    nutrients: dict[int, dict[str, float]] = {}
+    for food in foods:
+        per100: dict[str, float] = {}
+        for nutrient in food.get("foodNutrients") or []:
+            number = (nutrient.get("nutrient") or {}).get("number")
+            if (
+                number in YIELD_NUTRIENT_NUMBERS
+                and nutrient.get("amount") is not None
+            ):
+                per100[YIELD_NUTRIENT_NUMBERS[number]] = float(nutrient["amount"])
+        nutrients[food["fdcId"]] = per100
+
+    units_by_food: dict[int, dict[str, float]] = {}
+    with UNITS_CSV.open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            fid = int(row["fdc_id"])
+            unit = row["unit"]
+            if unit in units_by_food.setdefault(fid, {}):
+                continue  # first row per (food, unit), matching table dedup
+            units_by_food[fid][unit] = (
+                float(row["gram_weight"]) / float(row["magnitude"])
+            )
+
+    pairs, missing = derive_yield_pairs(foods, units_by_food, nutrients)
+
+    enriched = []
+    for pair in pairs:
+        raw_n = nutrients[pair["rawFdcId"]]
+        cooked_n = nutrients[pair["cookedFdcId"]]
+        per_unit_raw = {
+            key: raw_n[key] * pair["rawGramsPerUnit"] / 100
+            for key in ("kcal", "proteinG", "fatG", "carbG")
+        }
+        per_unit_cooked = {
+            key: cooked_n[key] * pair["cookedGramsPerUnit"] / 100
+            for key in ("kcal", "proteinG", "fatG", "carbG")
+        }
+        enriched.append(
+            {
+                **pair,
+                "ratio": round(pair["ratio"], 6),
+                "per100gRaw": raw_n,
+                "per100gCooked": cooked_n,
+                "perUnitRaw": {k: round(v, 6) for k, v in per_unit_raw.items()},
+                "perUnitCooked": {
+                    k: round(v, 6) for k, v in per_unit_cooked.items()
+                },
+                "perUnitDelta": {
+                    k: round(per_unit_cooked[k] - per_unit_raw[k], 6)
+                    for k in ("kcal", "proteinG", "fatG", "carbG")
+                },
+            }
+        )
+
+    ratios = [p["ratio"] for p in enriched]
+    kcal_deltas = [p["perUnitDelta"]["kcal"] for p in enriched]
+    summary = {
+        "pairCount": len(enriched),
+        "categoriesCovered": len({p["category"] for p in enriched}),
+        "ratioMin": min(ratios) if ratios else None,
+        "ratioMedian": statistics.median(ratios) if ratios else None,
+        "ratioMax": max(ratios) if ratios else None,
+        "kcalPerUnitDeltaMin": min(kcal_deltas) if kcal_deltas else None,
+        "kcalPerUnitDeltaMedian": (
+            statistics.median(kcal_deltas) if kcal_deltas else None
+        ),
+        "kcalPerUnitDeltaMax": max(kcal_deltas) if kcal_deltas else None,
+        "missingInputs": len(missing),
+        "missingInputReasons": dict(
+            sorted(Counter(m["reason"] for m in missing).items())
+        ),
+    }
+    payload = {
+        "protocol": (
+            "raw-to-cooked survey-food pairs: same WWEIA category, same "
+            "normalized description stem (state words removed), shared "
+            "canonical household unit with differing per-unit grams; "
+            "ratio = cooked grams per unit / raw grams per unit; per-unit "
+            "nutrients from SurveyFoods per-100g anchors (208 kcal, 203 "
+            "protein, 204 fat, 205 carbohydrate) of each side"
+        ),
+        "inputs": {
+            "surveyJsonSha256": (
+                "2e7eb9fda92adf1d4d784dba5eaa3a7fd4418cd86ccff383c7c9294d79e9b808"
+            ),
+            "unitsTable": str(UNITS_CSV.relative_to(REPO_ROOT)),
+            "perUnitGramsRule": (
+                "first fndds_household_units.csv row per (fdc_id, unit), the "
+                "same first-occurrence order the conversion table dedups by"
+            ),
+        },
+        "summary": summary,
+        "pairs": enriched,
+        "missingInputs": missing,
+    }
+    YIELD_JSON.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+
+    lines = [
+        "# Cooking-yield sensitivity (source-bound raw/cooked pairs)",
+        "",
+        f"Protocol: {payload['protocol']}.",
+        "",
+        f"- Pairs: {summary['pairCount']} across "
+        f"{summary['categoriesCovered']} WWEIA categories",
+        "- Ratio spread (cooked g/unit ÷ raw g/unit): "
+        f"{summary['ratioMin']:.3f} – {summary['ratioMedian']:.3f} (median) "
+        f"– {summary['ratioMax']:.3f}",
+        "- Per-unit kcal delta (cooked − raw): "
+        f"{summary['kcalPerUnitDeltaMin']:+.1f} – "
+        f"{summary['kcalPerUnitDeltaMedian']:+.1f} (median) – "
+        f"{summary['kcalPerUnitDeltaMax']:+.1f}",
+        f"- Missing inputs (explicit, never filled): "
+        f"{summary['missingInputs']}"
+        + (
+            f" — {summary['missingInputReasons']}"
+            if summary["missingInputs"]
+            else ""
+        ),
+        "",
+        "The ratio is a mass-yield factor observed between two survey foods",
+        "of the same stem, not a universal cooking rule: it conflates water",
+        "loss/gain with per-100g density changes, and per-unit macro deltas",
+        "show the combined effect of both (per-unit grams × per-100g",
+        "nutrients). Nothing in MassConversionKit applies a yield factor;",
+        "this arm quantifies how much per-unit energy and macros move",
+        "between raw and cooked forms of the same food stem.",
+        "",
+        "This arm is NOT the 100-meal check: converting generated three-food",
+        "bundles is conversion-path plumbing (`conversion_checks.md`), not a",
+        "yield study.",
+        "",
+        "| Category | Raw food | g/unit | Cooked food | g/unit | Ratio | Δ kcal/unit | Δ protein g/unit | Δ fat g/unit | Δ carb g/unit |",
+        "|---|---|---|---|---|---|---|---|---|---|",
+    ]
+    for p in enriched:
+        lines.append(
+            f"| {p['category']} | {p['rawFood']} | {p['rawGramsPerUnit']:g} "
+            f"| {p['cookedFood']} | {p['cookedGramsPerUnit']:g} "
+            f"| {p['ratio']:.3f} | {p['perUnitDelta']['kcal']:+.1f} "
+            f"| {p['perUnitDelta']['proteinG']:+.1f} "
+            f"| {p['perUnitDelta']['fatG']:+.1f} "
+            f"| {p['perUnitDelta']['carbG']:+.1f} |"
+        )
+    if missing:
+        lines += [
+            "",
+            "## Missing inputs (explicit)",
+            "",
+            "| Category | Raw food | Cooked food | Unit | Reason |",
+            "|---|---|---|---|---|",
+        ]
+        for m in missing:
+            lines.append(
+                f"| {m['category']} | {m['rawFood']} | {m['cookedFood']} "
+                f"| {m.get('unit', '—')} | {m['reason']} |"
+            )
+    YIELD_MD.write_text("\n".join(lines), encoding="utf-8")
+    return summary
+
+
+def run_packing_scan() -> dict:
+    """Scans the full FNDDS corpus portion description+modifier text for
+    packing terms and reports why packing generalization stays unmeasured:
+    container words appear as quantity units, and qualifier-level hits lose
+    the conversion table's dedup, so the pinned table carries 0 packing
+    labels. Packing matching is exercised only by synthetic unit tests."""
+    if not CACHE_JSON.exists():
+        print(
+            f"packing arm skipped: cache missing ({CACHE_JSON})", file=sys.stderr
+        )
+        return {}
+    document = json.loads(CACHE_JSON.read_text(encoding="utf-8"))
+    scan = scan_packing_terms(document["SurveyFoods"])
+
+    table = json.loads(CONVERSION_TABLE_JSON.read_text(encoding="utf-8"))
+    table_labels = {
+        "state": sum(1 for p in table["portions"] if p.get("state")),
+        "packing": sum(1 for p in table["portions"] if p.get("packing")),
+    }
+
+    def table_entry(fdc_id: int, unit: str, magnitude: float) -> dict | None:
+        for portion in table["portions"]:
+            if (
+                portion["fdcId"] == fdc_id
+                and portion["unit"] == unit
+                and portion["magnitude"] == magnitude
+            ):
+                return portion
+        return None
+
+    survival_checks = []
+    survivors = 0
+    for hit in scan["qualifierPackingHits"]:
+        entry = table_entry(hit["fdcId"], hit["unit"], hit["magnitude"])
+        survived = bool(entry and entry.get("packing"))
+        survivors += 1 if survived else 0
+        survival_checks.append(
+            {
+                **hit,
+                "tableEntryPacking": (entry or {}).get("packing"),
+                "survivesIntoTable": survived,
+            }
+        )
+
+    statement = (
+        "FNDDS attaches no packing evidence to household portions that "
+        "survives into the pinned conversion table: container words appear "
+        "as quantity units ('1 can', '1 package'), and qualifier-level "
+        "hits are absent from the table after (food, unit, magnitude) "
+        "dedup. The table carries "
+        f"{table_labels['packing']} packing labels; packing matching in "
+        "MassConversionKit is exercised only by synthetic unit tests, so "
+        "packing generalization is UNMEASURED."
+    )
+    payload = {
+        "protocol": (
+            "word-boundary scan of FNDDS portionDescription + modifier text "
+            "over the full corpus"
+        ),
+        "terms": list(PACKING_SCAN_TERMS),
+        "corpus": {
+            "surveyFoods": len(document["SurveyFoods"]),
+            "portionsScanned": scan["portionsScanned"],
+        },
+        "termCountsAllPortions": scan["termCounts"],
+        "parsedHouseholdRows": scan["parsedHouseholdRows"],
+        "termCountsParsedHouseholdRows": scan["parsedTermCounts"],
+        "qualifierPackingHits": survival_checks,
+        "conversionTableLabels": table_labels,
+        "qualifierHitsSurvivingTableDedup": survivors,
+        "conclusion": statement,
+    }
+    PACKING_JSON.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+
+    lines = [
+        "# Packing-evidence scan (why packing generalization is unmeasured)",
+        "",
+        f"Protocol: {payload['protocol']}.",
+        "",
+        f"- Corpus: {payload['corpus']['surveyFoods']} survey foods, "
+        f"{payload['corpus']['portionsScanned']} portions scanned, "
+        f"{scan['parsedHouseholdRows']} parse into canonical household units",
+        "",
+        "## Raw term counts over the full corpus portion text",
+        "",
+        "| Term | All portions | Parsed household rows |",
+        "|---|---|---|",
+    ]
+    all_counts = scan["termCounts"]
+    parsed_counts = scan["parsedTermCounts"]
+    for term in PACKING_SCAN_TERMS:
+        if all_counts.get(term) or parsed_counts.get(term):
+            lines.append(
+                f"| {term} | {all_counts.get(term, 0)} "
+                f"| {parsed_counts.get(term, 0)} |"
+            )
+    lines += [
+        "",
+        "Container words hit the corpus overwhelmingly as quantity units —",
+        '\"1 can (5 oz) yields\", \"1 package (4.5 oz)\" — which is the',
+        "portion's own unit, not a packing qualifier on the grams.",
+        "",
+        "## Qualifier-level hits in parsed household rows",
+        "",
+        f"{len(scan['qualifierPackingHits'])} parsed row(s) would classify as",
+        "packing via qualifier text:",
+        "",
+    ]
+    for hit in survival_checks:
+        lines.append(
+            f"- fdcId {hit['fdcId']} '{hit['food']}' — "
+            f"'{hit['portionDescription']}' → {hit['classification']}; "
+            f"survives into the conversion table: "
+            f"{hit['survivesIntoTable']}"
+            + (
+                ""
+                if hit["survivesIntoTable"]
+                else " (dedup keeps an earlier same-key row)"
+            )
+        )
+    lines += [
+        "",
+        f"Conversion-table labels: {table_labels['state']} state, "
+        f"{table_labels['packing']} packing.",
+        "",
+        "## Conclusion",
+        "",
+        statement,
+        "",
+        "Packing matching is exercised only by synthetic unit tests",
+        "(`testCannedQueryPrefersCannedPacking` and friends); packing",
+        "generalization is unmeasured against real data.",
+        "",
+    ]
+    PACKING_MD.write_text("\n".join(lines), encoding="utf-8")
+    return {"qualifierHits": len(scan["qualifierPackingHits"])}
 
 
 
@@ -524,6 +953,10 @@ def verify_report() -> int:
             EVAL_MD,
             OUT_DIR / "conversion_checks.json",
             OUT_DIR / "conversion_checks.md",
+            OUT_DIR / "yield_sensitivity.json",
+            OUT_DIR / "yield_sensitivity.md",
+            OUT_DIR / "packing_scan.json",
+            OUT_DIR / "packing_scan.md",
             OUT_DIR / "mass_conversion_table.json",
         ]
     }

@@ -15,7 +15,10 @@ import pytest
 
 from usda_core.households import (
     classify_preparation_state,
+    derive_yield_pairs,
+    normalize_description_stem,
     parse_portion_description,
+    scan_packing_terms,
 )
 
 HOUSEHOLD_DIR = (
@@ -25,6 +28,9 @@ MANIFEST = HOUSEHOLD_DIR / "MANIFEST.json"
 PORTIONS_CSV = HOUSEHOLD_DIR / "fndds_portions.csv"
 UNITS_CSV = HOUSEHOLD_DIR / "fndds_household_units.csv"
 CONVERSION_JSON = HOUSEHOLD_DIR / "mass_conversion_table.json"
+CHECKS_JSON = HOUSEHOLD_DIR / "conversion_checks.json"
+YIELD_JSON = HOUSEHOLD_DIR / "yield_sensitivity.json"
+PACKING_JSON = HOUSEHOLD_DIR / "packing_scan.json"
 
 requires_tables = pytest.mark.skipif(
     not MANIFEST.exists(),
@@ -147,6 +153,258 @@ class TestConversionTable:
             assert portion["grams"] > 0
             assert portion["food"]
         assert len(table["portions"]) >= 7000
+
+    def test_every_entry_carries_wweia_category(self) -> None:
+        table = json.loads(CONVERSION_JSON.read_text(encoding="utf-8"))
+        assert all(
+            portion.get("category") for portion in table["portions"]
+        ), "every conversion entry must name its WWEIA category"
+        categories = {portion["category"] for portion in table["portions"]}
+        assert len(categories) >= 100  # WWEIA food-group inventory
+
+
+class TestDescriptionStem:
+    """Unit tests for normalize_description_stem (yield-pair matching)."""
+
+    def test_strips_state_words(self) -> None:
+        assert normalize_description_stem("Chard, raw") == ("chard",)
+        assert normalize_description_stem("Chard, cooked") == ("chard",)
+        assert normalize_description_stem("Apple, baked") == ("apple",)
+        assert normalize_description_stem("Oats, cooked, boiled") == ("oats",)
+
+    def test_keeps_non_state_words(self) -> None:
+        # Packing words are not state words and survive stemming.
+        assert normalize_description_stem("Sweet potatoes, canned") == (
+            "sweet",
+            "potatoes",
+            "canned",
+        )
+        assert normalize_description_stem("Milk, whole") == ("milk", "whole")
+
+    def test_empty_text(self) -> None:
+        assert normalize_description_stem("") == ()
+
+
+class TestDeriveYieldPairs:
+    """Synthetic-corpus tests for the raw/cooked yield-pair derivation."""
+
+    NUTRIENTS = {"kcal": 50.0, "proteinG": 1.0, "fatG": 0.2, "carbG": 12.0}
+
+    @staticmethod
+    def _food(fid: int, description: str, category: str) -> dict:
+        return {
+            "fdcId": fid,
+            "description": description,
+            "wweiaFoodCategory": {"wweiaFoodCategoryDescription": category},
+        }
+
+    def _run(self, foods, units, nutrients):
+        return derive_yield_pairs(foods, units, nutrients)
+
+    def test_pairs_same_stem_same_category_shared_unit(self) -> None:
+        foods = [
+            self._food(1, "Chard, raw", "Greens"),
+            self._food(2, "Chard, cooked", "Greens"),
+        ]
+        units = {1: {"cup": 36.0}, 2: {"cup": 150.0}}
+        nutrients = {1: self.NUTRIENTS, 2: self.NUTRIENTS}
+        pairs, missing = self._run(foods, units, nutrients)
+        assert len(pairs) == 1 and not missing
+        pair = pairs[0]
+        assert pair["rawFdcId"] == 1 and pair["cookedFdcId"] == 2
+        assert pair["unit"] == "cup"
+        assert pair["rawGramsPerUnit"] == 36.0
+        assert pair["cookedGramsPerUnit"] == 150.0
+        assert pair["ratio"] == pytest.approx(150.0 / 36.0)
+
+    def test_cross_category_candidates_are_not_pairs(self) -> None:
+        foods = [
+            self._food(1, "Chard, raw", "Greens"),
+            self._food(2, "Chard, cooked", "Other"),
+        ]
+        units = {1: {"cup": 36.0}, 2: {"cup": 150.0}}
+        nutrients = {1: self.NUTRIENTS, 2: self.NUTRIENTS}
+        pairs, missing = self._run(foods, units, nutrients)
+        assert not pairs and not missing
+
+    def test_no_shared_unit_counts_missing(self) -> None:
+        foods = [
+            self._food(1, "Chard, raw", "Greens"),
+            self._food(2, "Chard, cooked", "Greens"),
+        ]
+        units = {1: {"cup": 36.0}, 2: {"tbsp": 8.0}}
+        nutrients = {1: self.NUTRIENTS, 2: self.NUTRIENTS}
+        pairs, missing = self._run(foods, units, nutrients)
+        assert not pairs
+        assert len(missing) == 1
+        assert missing[0]["reason"] == "no shared unit with differing grams"
+
+    def test_identical_grams_per_unit_counts_missing(self) -> None:
+        foods = [
+            self._food(1, "Chard, raw", "Greens"),
+            self._food(2, "Chard, cooked", "Greens"),
+        ]
+        units = {1: {"cup": 36.0}, 2: {"cup": 36.0}}
+        nutrients = {1: self.NUTRIENTS, 2: self.NUTRIENTS}
+        pairs, missing = self._run(foods, units, nutrients)
+        assert not pairs
+        assert len(missing) == 1
+        assert missing[0]["reason"] == "no shared unit with differing grams"
+
+    def test_missing_nutrients_counts_missing_never_fills(self) -> None:
+        foods = [
+            self._food(1, "Chard, raw", "Greens"),
+            self._food(2, "Chard, cooked", "Greens"),
+        ]
+        units = {1: {"cup": 36.0}, 2: {"cup": 150.0}}
+        broken = dict(self.NUTRIENTS)
+        del broken["carbG"]
+        pairs, missing = self._run(foods, units, {1: self.NUTRIENTS, 2: broken})
+        assert not pairs
+        assert len(missing) == 1
+        assert missing[0]["reason"] == "missing nutrients"
+        assert "carbG" not in missing[0]
+
+    def test_same_state_never_pairs(self) -> None:
+        foods = [
+            self._food(1, "Chard, raw", "Greens"),
+            self._food(2, "Chard, raw (washed)", "Greens"),
+        ]
+        units = {1: {"cup": 36.0}, 2: {"cup": 40.0}}
+        nutrients = {1: self.NUTRIENTS, 2: self.NUTRIENTS}
+        pairs, missing = self._run(foods, units, nutrients)
+        assert not pairs and not missing
+
+
+class TestPackingScanHelper:
+    """Synthetic-corpus tests for the packing-term scan."""
+
+    def test_counts_terms_and_qualifier_hits(self) -> None:
+        foods = [
+            {
+                "fdcId": 1,
+                "description": "Cheese spread",
+                "wweiaFoodCategory": {"wweiaFoodCategoryDescription": "Cheese"},
+                "foodPortions": [
+                    {"portionDescription": "1 can (4.75 oz)", "modifier": ""},
+                    {"portionDescription": "1 cup, canned", "modifier": ""},
+                ],
+            },
+            {
+                "fdcId": 2,
+                "description": "Lemonade",
+                "wweiaFoodCategory": {"wweiaFoodCategoryDescription": "Fruit drink"},
+                "foodPortions": [
+                    {"portionDescription": "1 bottle", "modifier": ""},
+                ],
+            },
+        ]
+        scan = scan_packing_terms(foods)
+        assert scan["portionsScanned"] == 3
+        assert scan["termCounts"]["can"] == 1
+        assert scan["termCounts"]["canned"] == 1
+        assert scan["termCounts"]["bottle"] == 1
+        # "1 can ..." parses as a unit word; "1 cup, canned" parses as a cup.
+        assert scan["parsedTermCounts"].get("can", 0) == 1
+        assert scan["parsedTermCounts"].get("canned", 0) == 1
+        assert len(scan["qualifierPackingHits"]) == 1
+        hit = scan["qualifierPackingHits"][0]
+        assert hit["fdcId"] == 1
+        assert hit["classification"] == "canned"
+        assert hit["unit"] == "cup"
+        assert hit["magnitude"] == 1.0
+
+    def test_boundary_words_do_not_leak(self) -> None:
+        foods = [
+            {
+                "fdcId": 1,
+                "description": "Scrambled eggs",
+                "wweiaFoodCategory": {"wweiaFoodCategoryDescription": "Eggs"},
+                "foodPortions": [
+                    {"portionDescription": "1 cup", "modifier": "scrambled"},
+                ],
+            }
+        ]
+        scan = scan_packing_terms(foods)
+        assert scan["termCounts"] == {}
+        assert scan["qualifierPackingHits"] == []
+
+
+@requires_tables
+class TestConversionChecksReport:
+    """Binds the committed conversion_checks.json to the
+    leave-one-category-out protocol invariants."""
+
+    def test_protocol_and_arm_structure(self) -> None:
+        checks = json.loads(CHECKS_JSON.read_text(encoding="utf-8"))
+        held = checks["heldout"]
+        assert "leave-one" in held["protocol"].lower()
+        arms = held["arms"]
+        assert arms == sorted(arms, key=lambda arm: arm["category"])
+        assert held["categoryCount"] == len(arms)
+        aggregate = held["aggregate"]
+        assert sum(arm["n"] for arm in arms) == aggregate["n"]
+        assert sum(arm["matched"] for arm in arms) == aggregate["matched"]
+        assert sum(arm["unknown"] for arm in arms) == aggregate["unknown"]
+        assert sum(arm["exact"] for arm in arms) == aggregate["exact"]
+        assert sum(arm["partial"] for arm in arms) == aggregate["partial"]
+        assert aggregate["n"] >= 7000
+        for arm in arms:
+            assert arm["matched"] + arm["unknown"] == arm["n"]
+            assert arm["exact"] + arm["partial"] == arm["matched"]
+            assert arm["medianRelErrPct"] >= 0
+            assert arm["meanRelErrPct"] >= 0
+            assert arm["within25Pct"] <= arm["within50Pct"]
+
+    def test_meals_check_is_labeled_plumbing(self) -> None:
+        checks = json.loads(CHECKS_JSON.read_text(encoding="utf-8"))
+        label = checks["meals"]["label"].lower()
+        assert "plumbing" in label and "yield" in label
+
+
+@requires_tables
+class TestYieldSensitivityReport:
+    """Binds the committed yield_sensitivity.json to its inputs."""
+
+    def test_summary_matches_pairs(self) -> None:
+        payload = json.loads(YIELD_JSON.read_text(encoding="utf-8"))
+        pairs = payload["pairs"]
+        summary = payload["summary"]
+        assert summary["pairCount"] == len(pairs)
+        assert summary["pairCount"] >= 20  # source-bound inputs exist
+        assert summary["missingInputs"] == len(payload["missingInputs"])
+        assert summary["categoriesCovered"] == len({p["category"] for p in pairs})
+        for pair in pairs:
+            expected = pair["cookedGramsPerUnit"] / pair["rawGramsPerUnit"]
+            assert pair["ratio"] == pytest.approx(expected, abs=1e-6)
+            for key in ("kcal", "proteinG", "fatG", "carbG"):
+                delta = (
+                    pair["per100gCooked"][key] * pair["cookedGramsPerUnit"] / 100
+                    - pair["per100gRaw"][key] * pair["rawGramsPerUnit"] / 100
+                )
+                assert pair["perUnitDelta"][key] == pytest.approx(delta, abs=1e-3)
+
+    def test_spot_pairs(self) -> None:
+        payload = json.loads(YIELD_JSON.read_text(encoding="utf-8"))
+        by_names = {(p["rawFood"], p["cookedFood"]): p for p in payload["pairs"]}
+        chard = by_names[("Chard, raw", "Chard, cooked")]
+        assert chard["unit"] == "cup"
+        assert chard["rawGramsPerUnit"] == pytest.approx(36.0)
+        assert chard["cookedGramsPerUnit"] == pytest.approx(150.0)
+        apple = by_names[("Apple, raw", "Apple, baked")]
+        assert apple["unit"] == "cup"
+        assert apple["ratio"] == pytest.approx(190.0 / 125.0, abs=1e-6)
+
+
+@requires_tables
+class TestPackingScanReport:
+    def test_table_carries_no_packing_and_says_unmeasured(self) -> None:
+        payload = json.loads(PACKING_JSON.read_text(encoding="utf-8"))
+        assert payload["conversionTableLabels"]["packing"] == 0
+        assert payload["termCountsAllPortions"]  # raw counts exist
+        assert "UNMEASURED" in payload["conclusion"]
+        for hit in payload["qualifierPackingHits"]:
+            assert hit["survivesIntoTable"] is False
 
 
 class TestParser:
