@@ -52,8 +52,8 @@ public struct FLQuantityRow: View {
                     .lineLimit(1)
                 Spacer(minLength: 12)
                 Text(quantity)
-                    .flType(.quantity)
                     .flTracking(.quantity)
+                    .flType(.quantity)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
             }
         }
@@ -85,8 +85,7 @@ public struct FLQuantityRow: View {
             Rectangle()
                 .stroke(
                     Theme.swiftColor(.rule2, in: scheme),
-                    lineWidth: 1.5,
-                    dash: [2, 2]
+                    style: StrokeStyle(lineWidth: 1.5, dash: [2, 2])
                 )
                 .frame(width: 10, height: 10)
         }

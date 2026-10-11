@@ -45,8 +45,8 @@ public struct FLTasteSentence: View {
                 .foregroundStyle(rejected ? Theme.swiftColor(.ink2, in: scheme) : Theme.swiftColor(.ink, in: scheme))
 
             Text("\(evidenceCount) seen")
-                .flType(.evidence)
                 .flTracking(.evidence)
+                .flType(.evidence)
                 .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
 
             if rejected {

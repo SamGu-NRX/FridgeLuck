@@ -85,8 +85,8 @@ public struct FLTimerTile: View {
     private var digits: some View {
         VStack(spacing: 2) {
             Text(timeText)
-                .flType(.timer)
                 .flTracking(.timer)
+                .flType(.timer)
                 .foregroundStyle(Theme.swiftColor(.yolk, in: .hob))
             if paused {
                 Text("Paused")
