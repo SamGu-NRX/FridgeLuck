@@ -376,14 +376,21 @@ bar passes on the final corpus.
 
 ## Limits and handoff
 
-- **Release status:** the corpus is release-candidate **pending only the
-  resolution-bar decision** — 4/5 suite C bars pass on the full combined
+- **Release status (operator ruling recorded 2026-10-11):** the corpus is a
+  release candidate as shipped — 4/5 suite C bars pass on the full combined
   428 (rights >= 400, 100% linter pass, 0 unchecked claims, 14/14 bands);
-  the >= 95% quantity-evidence bar fails at 92.74% and its fix (conversion
-  refs for the 137 unresolved staples) belongs to the eval branch, with the
-  operator. If the operator rules the bar met differently or adds the
-  missing refs, re-run `data/recipes/tools/validate_corpus.py` — the corpus
-  needs no change unless the suite's resolution semantics change.
+  the >= 95% quantity-evidence bar honestly fails at 2771/2988 resolved
+  (92.74%), short exactly 68 resolved lines (0.95 x 2988 = 2838.6;
+  2838/2988 = 94.98%). The operator ruled HOLD: no edits to
+  `eval/scorecard-runner` or anything under `evaluation/` — the suite must
+  not grade data its own task supplied, so the gap closes on this branch
+  via properly cited household-to-grams conversion rows in `data/recipes/`
+  (one row per conversion with source, quote, and retrieval date) and
+  per-line conversion evidence (`conversion_ref` and `grams`) carried in
+  the corpus record itself. Estimated masses are never marked `weighed`.
+  The final suite C re-proof runs when the eval-harness task
+  (fl-eval-harness-f1, PR #88) makes suite C read conversion evidence from
+  the corpus.
 - The `substitutions` annotation (section 7) is a corpus-level join field
   documented here; SCHEMA.md does not describe it (not edited by this
   task). If the programme wants it normative, SCHEMA.md should gain a line
