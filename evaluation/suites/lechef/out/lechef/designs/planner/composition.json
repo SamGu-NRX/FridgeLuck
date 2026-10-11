@@ -1,0 +1,12 @@
+{
+  "arm": "planner",
+  "design": "planner",
+  "sessions": 155,
+  "scored": 153,
+  "failedSessionIds": [
+    "D-remember-027",
+    "D-substitute-031"
+  ],
+  "suppressedTurns": 4,
+  "policyDeniedCalls": 0
+}
