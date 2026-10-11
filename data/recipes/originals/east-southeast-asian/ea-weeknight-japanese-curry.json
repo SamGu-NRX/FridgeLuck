@@ -218,13 +218,13 @@
     }
   ],
   "nutrition_per_serving": {
-    "kcal": 616,
-    "protein_g": 38.3,
-    "carbs_g": 84.7,
+    "kcal": 619,
+    "protein_g": 38.7,
+    "carbs_g": 85.5,
     "fat_g": 12.8,
-    "fiber_g": 6.4,
-    "sugar_g": 9.0,
-    "sodium_mg": 382,
+    "fiber_g": 6.2,
+    "sugar_g": 9.1,
+    "sodium_mg": 385,
     "coverage": 0.689,
     "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
     "unmapped_ingredients": [
