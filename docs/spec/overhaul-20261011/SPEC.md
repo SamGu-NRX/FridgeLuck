@@ -6,7 +6,16 @@ Status: draft for Sam, 2026-10-11. Written by the overhaul lead (Opus 5.5) from 
 - `inputs/engineering-plan.md` (GPT-6.1 Sol): current-state evidence with file:line citations, PR topology, architecture options, task breakdown.
 - `inputs/product-review.md` (GPT-6 Astra): adversarial review of the product logic.
 
-This file records what was decided. Where it disagrees with an input, this file wins and says why. Each default that only Sam can settle is marked **Sam to confirm**; work proceeds on the default until he overrides it.
+This file records what was decided. Where it disagrees with an input, this file wins and says why.
+
+**Revision 2 (2026-10-11, about 11:30Z).** The first version overrode several things Sam asked for himself, as the project history shows (`~/.long-run/obvious-fleet/memory/fridgeluck.md`, from his own messages and planning docs). This revision:
+
+- restores sharing recipes, adding recipes and an explore page (section 6);
+- makes his continual-learning design, the Beta trust vector, a competing direction in the learning lab (3.3);
+- turns the visual direction into a round in which his approved pastel look competes with the new direction (section 5);
+- turns quests and badges, the Progress tab, the scan orb and the continuous LeChef camera from cuts into candidates (sections 2 and 4).
+
+The rule from now on: an idea Sam proposed is never cut by fiat. It competes and is judged by the scorecard in `PLAN.md`, or he decides. Each default that only Sam can settle is marked **Sam to confirm**; work proceeds on the default until he overrides it.
 
 ## 1. What FridgeLuck is
 
@@ -14,18 +23,19 @@ FridgeLuck helps one or two people decide what to cook tonight from what is actu
 
 Who it is for: people who cook most nights for one or two, shop weekly and throw out food they meant to use. Students on a budget are inside this group, served by a budget lens and by challenges (section 6), not a separate app. **Sam to confirm** the first audience; the reviewer asked whether students should lead instead.
 
-What it is not: a calorie tracker (Cal AI and MyFitnessPal own that), a recipe magazine, a social feed.
+What it is not, in Sam's own stage-0 words: "not a social platform where you perform your cooking for likes", "not a diet app that judges", "not a recipe database you have to search". It also isn't a calorie tracker: Cal AI and MyFitnessPal own that.
 
 ## 2. Shell and screens
 
-Adopted from the product direction, with the reviewer's corrections.
+Two shells compete in the visual round (section 5): Shell F below, from the product direction, and Shell S, Sam's stage-2 structure (Kitchen and Progress as main tabs, a central scan orb, Profile inside Progress; `planning/stage_2-features_to_build/product-structure-and-feature-redesign.md`). Both include Explore (section 6). The behaviour rules after the table hold for either shell.
 
 | Tab | Question | Mock |
 | --- | --- | --- |
 | Tonight | What do I cook now? | `mocks/home.html` |
 | Kitchen | What do I actually have? | `mocks/pantry.html`, `mocks/scan-review.html` |
 | Table | What are my people cooking, and what challenge am I in? | `mocks/community.html` |
-| Cookbook | What have I cooked, what do I like? (cooks, saved, taste profile, search, nutrition lens) | `mocks/taste-profile.html` |
+| Cookbook | What have I cooked, what do I like? (cooks, saved, my recipes, taste profile, search, nutrition lens) | `mocks/taste-profile.html` |
+| Explore | What could I cook that others made, ranked by what I can make now? | to be mocked in the visual round |
 | Scan (action) | One camera that tells shelf, receipt and plate apart | `mocks/scan-review.html` |
 
 LeChef has no tab. It is a mode entered from a recipe or Tonight (`mocks/cook-lechef.html`). Recipe detail: `mocks/recipe.html`.
@@ -38,7 +48,15 @@ Changes from the product direction:
 - **Nutrition** is out of the tab bar but stays: a line on cook-complete, a lens in Cookbook with honest coverage ("logged 9 of your 14 meals this week"). Apple Health stays optional and writes only confirmed meals.
 - **Reverse scan** ("log a meal you didn't cook here") asks whether the food came from your kitchen and defaults to no inventory deduction.
 - **Leftovers** are modelled: portions, storage, date, reheat or thaw time. They appear on Tonight with their real time.
-- Cut, as the product direction proposed: tutorial quests, spotlight overlays, streaks, confetti, the Progress tab, user-facing demo mode, the three-mode scan fan, hero gradients, olive slabs, ingredient sprite icons.
+- **Candidates, not cuts.** Sam proposed these, so each competes in a round:
+  - quests, badges and limited-time events, light in the style of Duolingo and Apple Fitness, rewarding cooks made and food saved rather than app opens;
+  - the Progress tab;
+  - the central scan orb;
+  - a guided tour that is short and constrained, auto-returns to Home after each step and has a back button, as Sam asked in March.
+- **Cut:**
+  - user-facing demo mode, kept behind a developer flag;
+  - olive-dominant panels, which Sam rejected himself in March;
+  - the three-mode scan fan, replaced by one scan that classifies.
 
 ## 3. Binding contracts
 
@@ -74,6 +92,7 @@ The taste profile is a page of sentences with evidence, each correctable (produc
 - Explicit "I don't like this" outweighs any frequency. A swap records whether it was necessary (didn't have it) or preferred, when the user says so.
 - "Don't ask again" is different from "This is wrong". Weak inferences expire. The user can reopen any sentence. Changing your mind never requires a full reset.
 - Learning runs on the phone. Nothing about taste leaves the device.
+- **Two learning problems, one lab.** (a) Taste: what to recommend. (b) Recognition confidence: how far to trust a detection, a portion or a recipe match. Problem (b) is Sam's own design, the Beta trust vector in `planning/stage_4-gemini_live/confidence-learning-without-large-datasets.md`. It is partly built (`ConfidenceLearningService`), with an offline harness against Decisions in PR #7 and a correction-history replay in PR #53. The lab evaluates his trust vector as built against alternatives on (b), using those harnesses. It also runs a trust-vector-style learner (Beta posteriors per source and feature, updated from accept, correct and skip actions) as one of the competing taste models on (a). Nothing replaces his design unless the same scorecard says so.
 - The learned ranker ships only when it beats the current rule-based ranking and an explicit-profile-only baseline on a frozen simulated suite with zero restriction violations (section 8, outcome 3).
 
 ### 3.4 Sharing and consent
@@ -82,6 +101,7 @@ The taste profile is a page of sentences with evidence, each correctable (produc
 - What a shared cook contains: recipe revision, servings, swaps, rating, an optional one-line note. Never pantry, health profile, taste data or exact time beyond the day. No photo sharing in the first release.
 - Contributing to aggregate statistics is a separate opt-in from sharing with a Table, and uses structured fields only (rating, swaps made), never notes or photos.
 - Tables: invite by link, which the owner approves; the owner can revoke invites and remove members; anyone can leave, block and report. Former members lose access.
+- **Publishing a recipe** to Explore is a separate, previewed action. The author declares the recipe is their own or that they have the right to share it, and confirms no personal data is in it. It is visible only to its author until a moderation check passes (automated screening plus a human queue). It can be withdrawn at any time, and reports hide it pending review. Explore shows no like counts or follower counts (Sam's "not a social platform where you perform your cooking for likes"). Rights, safety lint and allergen tagging apply to user recipes exactly as to the catalog.
 - Sharing requires a Sign in with Apple account and is **adult-only (18+)** in the first release. **Sam to confirm**, and name a moderation operator. Until one is named, reports go to a review queue and shared free text is limited to Table members.
 - LeChef's backend keeps no camera frames and no transcript beyond the live session unless the user explicitly saves a note. The current Firestore persistence of frames and text (`backend/gemini-agent/src/session/liveSessionStore.ts:242-290`) is removed or put behind a TTL by the backend trunk task.
 
@@ -91,6 +111,7 @@ The taste profile is a page of sentences with evidence, each correctable (produc
 - **The bundled catalog has a rights problem.** 141 of 166 bundled recipes cite BBC Good Food URLs with no licence evidence; the other 25 are not automatically clear. A recipe's ingredient list is generally not copyrightable, but its written expression is. Default: rewrite each kept dish as an original recipe in our own words with our own structured steps, and remove the rest. **Sam to confirm**, ideally with legal advice.
 - Structured or not shipped: ingredient lines with quantity evidence (weighed, source grams, household measure with a conversion, or unknown; never an invented mass), steps split at timer and action boundaries where real, equipment, safety checks. A step without a natural timer does not get a fake one; eggs can be counted, not weighed.
 - Corpus size follows the legal yield. Targets: about **400 reviewed recipes for the first release**, growing past 1,500 as sources allow. The corpus task (`fl-recipe-corpus-f1`) reports the honest yield. The reviewer's illustrative figures were about 100 for a pilot and 250-400 for a first release.
+- **User-added recipes are a recipe source** (Sam, 2026-09-30: "share recipes and add recipes"). They come from the personal cookbook (PR #71: create, edit, duplicate), stay private by default, and can be published under section 3.4. Imported text from someone else's website stays private: it cannot be published unless the author declares the right to share it.
 - LeChef-generated recipes are private drafts labelled "Made for your fridge". A rating of 4+ can nominate the version actually cooked for review; it enters the catalog only after rights, safety and a human test cook.
 - Substitutions come from a reviewed, context-specific table (ingredient pair, recipe context, quality note, macro delta, allergen check). LeChef reasons beyond the table only when it is empty, and says so.
 
@@ -108,24 +129,59 @@ LeChef is a cooking companion with five jobs: plan, substitute, coach, adapt, re
 
 - The phone is authoritative for pantry, cook sessions and logs (engineering plan, Goal 3 option A). The backend reads bounded snapshots and proposes typed actions; the phone checks revision and approval, executes, and returns a receipt. The model cannot manufacture approval. A voice transcript alone never authorizes a meal log or a share.
 - Timers live on the device with persisted deadlines, independent of the Live session; a timer is acknowledged only after the device created it.
-- Camera is push-to-look: a single frame or a clip of up to 3 seconds, with a visible viewfinder and an explicit upload.
+- **Camera: two candidates compete in the LeChef round.** Push-to-look sends a single frame or a clip of up to 3 seconds, with a visible viewfinder and an explicit upload. Continuous camera plus voice is Sam's stage-4 second priority. Both are scored on job success, frames sent and cost per cook, and on-device heat and battery measured on a real phone where possible (UNVERIFIED-NATIVE otherwise). Either way, a camera look never gives a safety verdict (3.1).
 - **Cost**: there is no budget yet. A benchmark task measures connected minutes, tokens and reconnects on realistic recorded sessions (with a fake provider for logic, and real pricing applied as a parameter). Until Sam sets a monthly cost per active cook, voice is opt-in per cook and "Just the steps" is the default. **Sam to confirm** what pays for LeChef.
 
 ## 5. Visual and motion system
 
-Adopted as written in `inputs/design-direction.md`: "a prep list, not a magazine"; paper and hob palettes; SF Pro for words, SF Mono for every number; one accent, yolk #F5C400, meaning attention; flat content with hairlines; Liquid Glass only where the system puts it; five motion tokens (snap, move, settle, fade, none) with frequency deciding duration; the Avoid list is binding. The yolk-as-only-accent risk is accepted, with tomato #D7301F as the one-line fallback if testing reads yellow as a warning.
+**The look is decided by a round, with mocks Sam can compare side by side.** Sam approved a pastel light palette in March 2026 ("lively, fun, but minimalistic clean and pastel"; light mode "hammered down and I verify them"), had the dark mode reworked to "Twilight Warmth", and now calls the current UI ugly. Both can be true: the palette he approved may be right while the layout, density and composition are what make it ugly. The candidates:
 
-The mocks were corrected for the safety and pantry contracts above (cook-mode doneness copy, swap copy, scan duplicates, leftovers, generated-recipe promotion).
+- **Direction P, Sam's palette, rebuilt.** His approved pastel light palette and Twilight Warmth dark, kept as the colour base, with the layout, hierarchy, density, type and motion rebuilt to the same craft bar.
+- **Direction F, the prep list** (`inputs/design-direction.md`): paper and hob palettes, SF Pro and SF Mono, yolk as the one accent, flat with hairlines.
+- **Direction H, optional:** a hybrid built from whatever the first two show works.
+
+Each direction renders the same screens (Tonight or Home, Kitchen, recipe, cook mode, taste profile, Explore, Table) in light, dark and cook mode, as HTML mocks and SwiftUI renders. Sam picks, or the council recommends and Sam confirms.
+
+These craft rules hold for every direction:
+- text never sits on a photo without a solid backing;
+- contrast is at least 4.5:1 for body text;
+- touch targets are at least 44 pt, and 64 pt in cook mode;
+- motion is chosen by frequency (frequent actions fast, rare moments richer);
+- reduced motion is respected;
+- Dynamic Type works to XXL;
+- the stated motion tokens are used.
+
+Direction F's Avoid list binds Direction F only. It cannot ban Sam's approved palette.
+
+The mocks in `mocks/` are Direction F. They were corrected for the safety and pantry contracts (cook-mode doneness copy, swap copy, scan duplicates, leftovers, generated-recipe promotion).
 
 ## 6. Community
 
-The order is solo first, then small groups, then aggregates, so each layer is useful without the next (findings 9 and 10):
+Sam's ask, 2026-09-30: "being a community to share recipes and add recipes, explore page". His stage-0 ideas add recipe battles ("3 ingredients, what can you make?" with voting), sharing creations with people who had the same ingredients, university and dining-hall challenges, "400 other people at your school made something this week" counters, seasonal challenges, food-bank packs and waste tracking. His guard rails: community is "small extensions ... not the main focus", and not a platform where you perform your cooking for likes.
 
-1. **Challenges (first release, works alone).** Restored from Sam's original idea: "three ingredients, what can you make?" A challenge is a constraint (three ingredients, a reviewed low-budget pack, a use-it-up item, a time limit). You get viable recipes, cook, and record your result privately. You can send the challenge to a friend as a link that reads without the app. This is where the student, budget, food-bank and sustainability story lives. A university or dining-hall partner can host challenges later.
-2. **Tables (first release, behind a beta flag).** Private groups of 2-8 who see each other's shared cooks (section 3.4). Each card carries the viewer's own fit line and "Cook tonight". No likes, comments, follower counts or ranking; cards are in time order. Success is measured by recipients who actually cook a shared recipe, not by invites sent.
-3. **Cook notes (after launch).** Aggregates of structured, opted-in outcomes per recipe revision, with distinct-contributor counts and minimum support per claim. Below the floor the section reads "Not enough shared notes yet". Not promised at launch.
+The first release has these, with privacy and moderation designed in (3.4):
 
-Backend: extend `backend/gemini-agent` with an isolated community module (engineering plan, Goal 1 option A): Sign in with Apple verified on the server, server-issued sessions, collections for accounts, tables, memberships, invites, shared cooks, challenges, challenge entries, blocks, reports and moderation decisions. Firestore is the store already in the dependency tree; its emulator is the test target. No media uploads in the first release.
+1. **Add and share recipes.** Write your own in the personal cookbook, keep them private, publish to Explore when you choose, and send to a friend or a Table.
+2. **Explore.** Browse published community recipes and the catalog, ranked by what you can cook now (your fit line on every card) and your taste. Search and filters work as everywhere else. There are no like counts or follower counts. A recipe can show "cooked by 37 people" only above a minimum count of distinct cooks, and only from opted-in data.
+3. **Challenges.** "Three ingredients, what can you make?", budget packs, use-it-up, time limits, seasonal ones. They work alone; you can send one as a link that reads without the app, and share your result.
+4. **Tables** (behind a beta flag): private groups of 2-8 who see each other's shared cooks, with "Cook tonight" on each card.
+
+Candidate directions for the community round, each built and judged by the same scorecard (suite E, plus the community-caused-cooking outcome in section 8):
+- (a) Explore-first: user recipes, sharing and Explore, with Tables;
+- (b) battle-first: recipe battles with voting, on a fixed ingredient set per battle, with anti-gaming rules;
+- (c) campus-first: university and dining-hall challenges with "people at your school cooked N things this week" and food-waste counters, built for a partner that does not exist yet.
+
+The council recommends which lead and which ride along; Sam confirms.
+
+Later, after launch: aggregate cook notes per recipe from structured opted-in outcomes, with minimum support per claim.
+
+Backend: extend `backend/gemini-agent` with an isolated community module (engineering plan, Goal 1 option A). Sign in with Apple is verified on the server and sessions are server-issued. Collections:
+- accounts, published recipes with immutable revisions, and moderation state;
+- tables, memberships, invites and shared cooks;
+- challenges, challenge entries and, for direction (b), votes;
+- blocks, reports and moderation decisions.
+
+Firestore is the store already in the dependency tree; its emulator is the test target. Media uploads (recipe photos) are a separate decision: a moderation operator and storage rules come first. Sam's earlier preference for Convex is noted in section 10.
 
 ## 7. Architecture
 
@@ -185,10 +241,12 @@ The work runs as five long programmes, each a parent thread with parallel sub-th
 
 ## 10. Decisions for Sam
 
-Defaults are in force until he overrides them.
+Work proceeds on these defaults until he overrides them:
 
-1. First audience: one- and two-person households, with students served through the budget lens and challenges.
-2. Bundled BBC-cited recipes: rewrite the kept dishes as original recipes and remove the rest, after legal advice.
-3. Community at launch: challenges plus Tables behind a beta flag; adult-only sharing; no photo sharing; a moderation operator to be named.
-4. LeChef cost: voice opt-in per cook until a monthly budget per active cook is set.
-5. Recipe rights and test-cooking budget: none assumed; the corpus grows with free, rights-clear sources and original recipes.
+1. **Look:** pick from the visual round's directions P, F and H.
+2. **First audience:** one- and two-person households, with students served through challenges and a budget lens. His stage-0 story centres students and a university partner, so the campus-first community direction stays a candidate.
+3. **Recipe rights:** 141 of the 166 bundled recipes cite bbcgoodfood.com with no licence evidence. This is a rights risk in the shipped app today. Default: rewrite the kept dishes as original recipes and remove the rest, after legal advice. Recipes are added from rights-clear sources, original recipes and user-added recipes, never by scraping.
+4. **Community:** user recipes, Explore and challenges at launch, Tables in beta, adult-only. Before public publishing turns on, he names a moderation operator; until then, published recipes stay visible only to their author and Tables.
+5. **LeChef:** push-to-look versus continuous camera decided by the LeChef round; voice is opt-in per cook until he sets a monthly cost per active cook.
+6. **Backend:** stay on Firestore and GCP, which is already in the code, or move community and sync to Convex, which he once preferred.
+7. **Recipe rights and test-cooking budget:** none assumed.
