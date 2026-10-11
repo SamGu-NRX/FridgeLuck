@@ -1,0 +1,80 @@
+Building for debugging...
+[Computing dependencies]
+[Using on-disk description]
+Build complete! (1.86 secs)
+Test Suite 'All tests' started at 2026-10-11 13:20:48.066
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-10-11 13:20:48.068
+Test Suite 'DinnerDecisionTests' started at 2026-10-11 13:20:48.068
+Test Case 'DinnerDecisionTests.testAllergenCandidateIsNeverProposed' started at 2026-10-11 13:20:48.068
+Test Case 'DinnerDecisionTests.testAllergenCandidateIsNeverProposed' passed (0.01 seconds)
+Test Case 'DinnerDecisionTests.testCustomExclusionBlocksByCanonicalName' started at 2026-10-11 13:20:48.078
+Test Case 'DinnerDecisionTests.testCustomExclusionBlocksByCanonicalName' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testEmptyPantryIsUnknownKitchen' started at 2026-10-11 13:20:48.078
+Test Case 'DinnerDecisionTests.testEmptyPantryIsUnknownKitchen' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testFitLineMatchesTheSpecShapes' started at 2026-10-11 13:20:48.079
+Test Case 'DinnerDecisionTests.testFitLineMatchesTheSpecShapes' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testFitLineRefusesInconsistentCounts' started at 2026-10-11 13:20:48.079
+Test Case 'DinnerDecisionTests.testFitLineRefusesInconsistentCounts' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testMaxFourOptionsAreProposed' started at 2026-10-11 13:20:48.079
+Test Case 'DinnerDecisionTests.testMaxFourOptionsAreProposed' passed (0.001 seconds)
+Test Case 'DinnerDecisionTests.testMidCookResumeLeadsTonight' started at 2026-10-11 13:20:48.080
+Test Case 'DinnerDecisionTests.testMidCookResumeLeadsTonight' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testOptionCarriesWhyItWasProposedAndWhatIsMissing' started at 2026-10-11 13:20:48.080
+Test Case 'DinnerDecisionTests.testOptionCarriesWhyItWasProposedAndWhatIsMissing' passed (0.003 seconds)
+Test Case 'DinnerDecisionTests.testPlanReservesStockAcrossOptions' started at 2026-10-11 13:20:48.083
+Test Case 'DinnerDecisionTests.testPlanReservesStockAcrossOptions' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testQuarantinedRevisionIsNeverProposed' started at 2026-10-11 13:20:48.084
+Test Case 'DinnerDecisionTests.testQuarantinedRevisionIsNeverProposed' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testRejectedRevisionsAreNotOfferedAgainButNothingIsRecordedAsTaste' started at 2026-10-11 13:20:48.084
+Test Case 'DinnerDecisionTests.testRejectedRevisionsAreNotOfferedAgainButNothingIsRecordedAsTaste' passed (0.1 seconds)
+Test Case 'DinnerDecisionTests.testRestrictionsOfTwoEatersAreUnited' started at 2026-10-11 13:20:48.184
+Test Case 'DinnerDecisionTests.testRestrictionsOfTwoEatersAreUnited' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testSameInputsProduceIdenticalProposals' started at 2026-10-11 13:20:48.185
+Test Case 'DinnerDecisionTests.testSameInputsProduceIdenticalProposals' passed (0.018 seconds)
+Test Case 'DinnerDecisionTests.testSparseKitchenWithFewLines' started at 2026-10-11 13:20:48.203
+Test Case 'DinnerDecisionTests.testSparseKitchenWithFewLines' passed (0.0 seconds)
+Test Case 'DinnerDecisionTests.testThirdRejectionOffersConstraintChoice' started at 2026-10-11 13:20:48.204
+Test Case 'DinnerDecisionTests.testThirdRejectionOffersConstraintChoice' passed (0.0 seconds)
+Test Suite 'DinnerDecisionTests' passed at 2026-10-11 13:20:48.204
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.136 (0.136) seconds
+Test Suite 'FeasibilityTests' started at 2026-10-11 13:20:48.204
+Test Case 'FeasibilityTests.testAssumedStapleCoversMissingLineAndIsSurfaced' started at 2026-10-11 13:20:48.204
+Test Case 'FeasibilityTests.testAssumedStapleCoversMissingLineAndIsSurfaced' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testFailedAllocationLeavesLedgerUntouched' started at 2026-10-11 13:20:48.204
+Test Case 'FeasibilityTests.testFailedAllocationLeavesLedgerUntouched' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testHouseholdMeasureConvertsWithItsEvidence' started at 2026-10-11 13:20:48.204
+Test Case 'FeasibilityTests.testHouseholdMeasureConvertsWithItsEvidence' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testMissingIngredientIsShortWithZeroAvailable' started at 2026-10-11 13:20:48.204
+Test Case 'FeasibilityTests.testMissingIngredientIsShortWithZeroAvailable' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testNeverConfirmedEvidenceNeedsReconfirming' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testNeverConfirmedEvidenceNeedsReconfirming' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testOptionalGarnishIsSeparateFromFeasibility' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testOptionalGarnishIsSeparateFromFeasibility' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testRepeatedLinesAreSummed' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testRepeatedLinesAreSummed' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testReservationCarriesAcrossTwoDinnersWithoutDoubleCounting' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testReservationCarriesAcrossTwoDinnersWithoutDoubleCounting' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testServingsScaleTheDemandLinearly' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testServingsScaleTheDemandLinearly' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testShortCarriesRequestedAndAvailableAmounts' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testShortCarriesRequestedAndAvailableAmounts' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testStaleEvidenceNeedsReconfirming' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testStaleEvidenceNeedsReconfirming' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testSufficientWhenStockCoversDemand' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testSufficientWhenStockCoversDemand' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testUnknownPantryQuantityStaysUnknownNeverGuessed' started at 2026-10-11 13:20:48.205
+Test Case 'FeasibilityTests.testUnknownPantryQuantityStaysUnknownNeverGuessed' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testUnknownRecipeQuantityStaysUnknown' started at 2026-10-11 13:20:48.206
+Test Case 'FeasibilityTests.testUnknownRecipeQuantityStaysUnknown' passed (0.0 seconds)
+Test Case 'FeasibilityTests.testUnknownStockIsNeverConsumedByKnownDemand' started at 2026-10-11 13:20:48.206
+Test Case 'FeasibilityTests.testUnknownStockIsNeverConsumedByKnownDemand' passed (0.0 seconds)
+Test Suite 'FeasibilityTests' passed at 2026-10-11 13:20:48.206
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-10-11 13:20:48.206
+	 Executed 30 tests, with 0 failures (0 unexpected) in 0.138 (0.138) seconds
+Test Suite 'All tests' passed at 2026-10-11 13:20:48.206
+	 Executed 30 tests, with 0 failures (0 unexpected) in 0.138 (0.138) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.4 (efd8d65801f569d)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
