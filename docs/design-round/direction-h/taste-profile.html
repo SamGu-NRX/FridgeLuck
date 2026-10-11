@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck H: Taste profile (light)</title>
+<style>.t-light{ 
+    --bg:#F5F0E8; --surface:#FEFCF8; --ink:#2A2118; --ink2:#6B5D4C; --ink3:#8F8270;
+    --rule:#E3DBC9; --rule2:#8F7F62; --acc:#C2613A; --accsoft:#F1DED1; --accink:#7E3A1D;
+    --err:#BC2F1B; --photo:#EDE5D6; --btnfill:#2A2118; --onbtn:#FFFFFF;
+    --barbg:rgba(254,252,248,.78); --barline:rgba(42,33,24,.10); --barshadow:rgba(42,33,24,.22);
+    --dock:rgba(254,252,248,.84); --hatch:rgba(42,33,24,.035); --stroke8:rgba(42,33,24,.08) }
+
+:root{--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;--serif:ui-serif,"New York","Iowan Old Style",Georgia,"Times New Roman",serif;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D6D3CC;color:#26241F;-webkit-font-smoothing:antialiased;display:flex;justify-content:center;align-items:flex-start;gap:36px;padding:40px 24px 80px;min-height:100vh;font-size:17px;line-height:24px}
+.phone{position:relative;width:393px;height:852px;flex:none;border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.16),0 30px 60px -20px rgba(0,0,0,.32);font-size:17px;line-height:24px}
+.t-light{background:var(--bg);color:var(--ink)}
+.t-dark{background:var(--bg);color:var(--ink)}
+.t-cook{background:var(--bg);color:var(--ink)}
+.island{position:absolute;top:11px;left:50%%;transform:translateX(-50%%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.t-cook .island{box-shadow:0 0 0 .5px #1c1c1c}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;color:var(--ink);z-index:11}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%%;transform:translateX(-50%%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%%;overflow:auto;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.scroll.dg{padding:0 24px 150px}   /* deciding: 24 side */
+.scroll.dn{padding:0 20px 150px}   /* dense: 20 side */
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.serif{font-family:var(--serif);letter-spacing:-.02em}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}
+button{border:0}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.cap{font-size:13px;line-height:16px}
+.sec{font-size:15px;line-height:20px}
+.head{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0 22px}
+.head a{text-decoration:none}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.sect{margin-top:24px}   /* dense sections: 24 */
+.sect h3{font-size:13px;line-height:16px;font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline}
+.sect h3 a,.sect h3 .lnk{font-weight:400;color:var(--ink2);text-decoration:none}
+.row{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:10px 0;border-top:1px solid var(--rule);gap:12px;transition:transform 120ms var(--out)}
+.row:active{transform:scale(.985)}
+.row:first-of-type{border-top:0}
+.row .n{flex:1}
+.row .q{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;line-height:20px;text-align:right;white-space:nowrap}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%%;height:52px;border-radius:12px;font:inherit;font-weight:600;font-size:17px;border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--btnfill);color:var(--onbtn)}
+.btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
+.btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:12px;font:inherit;font-size:15px;box-shadow:inset 0 0 0 1px var(--rule2);cursor:pointer;transition:transform 120ms var(--out);color:var(--ink)}
+.chip:active{transform:scale(.97)}
+.chip.on{background:var(--accsoft);color:var(--accink);box-shadow:inset 0 0 0 1.5px var(--acc)}
+.chip.quiet{color:var(--ink2)}
+.tag{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13px;line-height:16px;padding:3px 7px;border-radius:6px;background:var(--accsoft);color:var(--accink);white-space:nowrap}
+.sq{width:14px;height:14px;border-radius:3.5px;flex:none}
+.sq.have{background:var(--ink)}
+.sq.miss{background:transparent;box-shadow:inset 0 0 0 1.5px var(--acc)}
+.sq.unc{background:transparent;border:1.5px dashed var(--ink3)}
+.sq.ass{background:var(--ink3);box-shadow:inset 0 0 0 3px var(--bg)}
+.fit{display:inline-flex;gap:3px;align-items:center}
+.fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--acc)}
+.photo{position:relative;background:var(--photo);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--stroke8);overflow:hidden}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--hatch) 10px 11px)}
+.photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.photo.thumb{width:48px;height:48px;flex:none;border-radius:10px}
+.tabbar{position:absolute;left:0;right:0;bottom:0;display:flex;gap:8px;align-items:center;padding:8px 16px 30px;background:var(--barbg);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);box-shadow:inset 0 .5px 0 var(--barline);z-index:10}
+.tabs{flex:1;height:56px;display:flex;align-items:center;justify-content:space-around;padding:0 4px}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;line-height:12px;font-weight:500;color:var(--ink3);flex:1;min-width:0}
+.tab.on{color:var(--ink)}
+.tab svg{width:23px;height:23px}
+.scanbtn{width:56px;height:56px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--btnfill);color:var(--bg);box-shadow:0 10px 28px -10px var(--barshadow);transition:transform 120ms var(--out)}
+.scanbtn:active{transform:scale(.95)}
+.dock{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:8px;padding:12px 20px 34px;background:var(--dock);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);box-shadow:inset 0 .5px 0 var(--barline);z-index:10}
+.dock .btnrow{display:flex;gap:10px}
+.in{animation:rise 220ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}} *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media (max-width:800px){body{flex-direction:column;align-items:center}}
+.note{width:320px;flex:none;font-size:13px;line-height:19px;color:#2A2A26;padding-top:8px}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:12px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:18px 0 8px;color:#5E5A50}
+.note dl{display:grid;grid-template-columns:76px 1fr;gap:8px 12px}
+.note dt{font-family:var(--mono);font-size:11px;line-height:19px;color:#5E5A50}
+.note a{color:inherit}
+
+/* screen */
+
+.rt{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}
+.ts{padding:12px 0;border-top:1px solid var(--rule)}
+.ts:first-of-type{border-top:0}
+.ts .s{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.ts .s p{font-size:17px;line-height:24px;flex:1}
+.ts .ev{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13px;line-height:16px;color:var(--ink2);white-space:nowrap}
+.ts .ctl{display:flex;gap:8px;margin-top:8px;align-items:center}
+.sb{height:36px;padding:0 14px;border-radius:10px;box-shadow:inset 0 0 0 1px var(--rule2);background:transparent;font:inherit;font-size:15px;color:var(--ink);cursor:pointer;transition:transform 120ms var(--out)}
+.sb:active{transform:scale(.97)}
+.sb.on{background:var(--accsoft);color:var(--accink);box-shadow:inset 0 0 0 1.5px var(--acc)}
+.sb.q{color:var(--ink2)}
+.ts .state{font-size:13px;color:var(--ink2)}
+.ts.off .s p{color:var(--ink2);text-decoration:line-through}
+.mem{padding:12px 0;border-top:1px solid var(--rule)}
+.mem:first-of-type{border-top:0}
+.mem .t{display:flex;justify-content:space-between;align-items:baseline}
+.mem .t b{font-size:15px;font-weight:600}
+.mem .t a{font-size:13px;color:var(--ink2)}
+.mem q{display:block;font-size:15px;line-height:20px;margin:4px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip .x{display:inline-flex}
+.foot{display:flex;flex-direction:column;gap:10px;margin-top:28px;padding-top:16px;border-top:1px solid var(--rule)}
+.foot a{color:var(--ink2);font-size:15px;text-decoration:none}
+.foot a.danger{color:var(--err)}
+.searchf{display:flex;align-items:center;gap:8px;height:44px;border:1px solid var(--rule);border-radius:12px;padding:0 12px;color:var(--ink3);font-size:15px;margin-top:4px}
+.card{border:1px solid var(--rule);border-radius:14px;padding:14px 16px;margin-top:12px}
+.card .who{display:flex;justify-content:space-between;align-items:baseline}
+.card .who b{font-size:15px;font-weight:600}
+.card .dish{font-family:var(--serif);font-size:20px;line-height:25px;font-weight:600;letter-spacing:-.01em;margin:6px 0 10px}
+.card .body{display:flex;gap:12px}
+.card .body .photo{width:96px;height:96px;flex:none}
+.card .body q{display:block;font-size:15px;line-height:20px}
+.card .rate{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink2);margin-top:4px}
+.card .you{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;padding-top:12px;border-top:1px solid var(--rule)}
+.card .you .l{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card .you .btn{width:auto;height:44px;padding:0 16px;flex:none;border-radius:12px}
+.card.mine{background:var(--surface)}
+.pips{display:inline-flex;gap:4px}
+.pips i{width:10px;height:10px;border-radius:2px;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.pips i.d{background:var(--ink);box-shadow:none}
+</style>
+</head>
+<body>
+
+<div class="phone t-light">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z" fill="currentColor"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12" fill="none"><rect x=".5" y=".5" width="23" height="11" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="currentColor"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="currentColor" fill-opacity=".4"/></svg>
+  </span></div>
+  <div class="screen"><div class="scroll dn">
+    <header class="head in" style="--i:0"><h1>Your taste</h1><span class="cap c2 mono">23 cooks</span></header>
+
+    <section class="sect in" style="--i:0">
+      <h3>What I've learned</h3>
+      <div class="ts">
+        <div class="s"><p>You cook on weeknights, mostly under 30 minutes.</p><span class="ev">18 of 23</span></div>
+        <div class="ctl"><button class="sb">Right</button><button class="sb">Wrong</button></div>
+      </div>
+      <div class="ts">
+        <div class="s"><p>You reach for chicken thighs, chickpeas and noodles.</p><span class="ev">9 &middot; 6 &middot; 7</span></div>
+        <div class="ctl"><button class="sb">Right</button><button class="sb">Wrong</button></div>
+      </div>
+      <div class="ts">
+        <div class="s"><p>You skip coriander.</p><span class="ev">5 of 5</span></div>
+        <div class="ctl"><button class="sb on">Right</button><span class="state">Confirmed 3 Oct. Never suggested.</span></div>
+      </div>
+      <div class="ts">
+        <div class="s"><p>You like it hot. Three dishes marked &ldquo;hot&rdquo; got a 5 from you.</p><span class="ev">3 of 3</span></div>
+        <div class="ctl"><button class="sb">Right</button><button class="sb">Wrong</button></div>
+      </div>
+      <div class="ts off">
+        <div class="s"><p>You eat late, after 9 pm.</p><span class="ev">4 of 23</span></div>
+        <div class="ctl"><span class="state">Won't use this.</span><button class="sb q">Undo</button></div>
+      </div>
+      <div class="ts">
+        <div class="s"><p>You come back to Butter bean curry about every 10 days.</p><span class="ev">3 cooks</span></div>
+        <div class="ctl"><button class="sb">Right</button><button class="sb">Wrong</button></div>
+      </div>
+      <div class="ts">
+        <div class="s"><p>You've never cooked fish here.</p><span class="ev">0 of 23</span></div>
+        <div class="ctl"><button class="sb">Suggest some</button><button class="sb">Not interested</button></div>
+      </div>
+    </section>
+
+    <section class="sect in" style="--i:1">
+      <h3>Never suggest</h3>
+      <div class="chips">
+        <span class="chip">Coriander<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l8 8M11 3 3 11"/></svg></span>
+        <span class="chip">Blue cheese<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l8 8M11 3 3 11"/></svg></span>
+        <span class="chip">Shellfish <span class="cap c2">allergy &middot; edited in setup</span></span>
+        <span class="chip"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>Add</span>
+      </div>
+    </section>
+
+    <section class="sect in" style="--i:1">
+      <h3>LeChef remembers <span class="mono">4</span></h3>
+      <div class="mem"><div class="t"><b>Butter bean curry</b><a href="#">Forget</a></div><q>Too salty. Low-sodium stock next time.</q><span class="cap c2 mono">3 Oct</span></div>
+      <div class="mem"><div class="t"><b>Ginger chicken udon noodles</b><a href="#">Forget</a></div><q>Lemon instead of lime worked.</q><span class="cap c2 mono">28 Sept</span></div>
+      <div class="mem"><div class="t"><b>Chicken jalfrezi</b><a href="#">Forget</a></div><q>Needs another 10 min on the onions.</q><span class="cap c2 mono">21 Sept</span></div>
+    </section>
+
+    <section class="sect in" style="--i:2">
+      <h3>What you told me at setup <a href="#">Edit</a></h3>
+      <p class="sec c2" style="padding-top:8px">No shellfish &middot; cooking for 2 &middot; metric</p>
+    </section>
+
+    <div class="foot in" style="--i:2">
+      <a href="#">Export everything I know about you</a>
+      <a href="#" class="danger">Forget everything</a>
+    </div>
+  </div></div>
+
+  <div class="homebar"></div>
+</div><nav class="tabbar"><div class="tabs"><a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a><a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a><a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5h18M6 9.5V19M18 9.5V19"/><circle cx="12" cy="5" r="2.5"/></svg>Table</a><a class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h10.5a2.5 2.5 0 0 1 2.5 2.5v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>Cookbook</a><a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13.7 13.7 8.5 15.5l1.8-5.2z"/></svg>Explore</a></div><a class="scanbtn" role="button" aria-label="Scan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3"/></svg></a></nav>
+
+<aside class="note"><h1>Your taste</h1><p>The whole learning system in one readable page: sentences the app would say out loud, each with the count it is based on and a Right / Wrong control. No sliders, no percentages, no personality labels. Confidence lives in language and in counts.</p><p>Three layers keep their separation: explicit restrictions are the hard filters (edited in setup, never weakened here), stated preferences are the setup lines at the bottom, inferred taste is every sentence above. Evidence uses distinct opportunities with denominators and recency &mdash; &ldquo;4 of the 5 times&rdquo;, never &ldquo;5 observations&rdquo;.</p><p>The three row states: default Right / Wrong; confirmed, where Right holds in accent-soft and the row says what the app will now do (&ldquo;Never suggested.&rdquo;); rejected, where the row dims, the sentence strikes, and &ldquo;Won't use this&rdquo; sits beside Undo. Nothing is deleted on Wrong &mdash; it is excluded and kept so the app does not re-learn it next week. &ldquo;Don't ask again&rdquo; is a different control from &ldquo;This is wrong&rdquo;.</p><p>Hybrid note: the evidence counts and the confirmed chip are where the accent appears here (selection/attention); the sentences themselves stay in walnut ink &mdash; the learning page must feel like a ledger, not a horoscope.</p><h2>States</h2><dl><dt>new user</dt><dd>Under 3 cooks, one sentence instead of the list: &ldquo;Cook three things and I'll start writing this. Until then I'm using what you told me at setup.&rdquo;</dd><dt>rejected</dt><dd>Shown in the frame: the row dims, strikes, and reads &ldquo;Won't use this.&rdquo; with Undo. Undo restores it exactly.</dd><dt>forget one</dt><dd>&ldquo;Forget this&rdquo; under each remembered note removes that line with a visible receipt; the sentence can be reopened &mdash; changing your mind never requires a reset.</dd><dt>forget all</dt><dd>&ldquo;Forget everything&rdquo; at the bottom, in error red, asks once with the count of what will be deleted. Explicit restrictions survive any reset.</dd><dt>ask again</dt><dd>A weak inference expires on its own; the app never asks twice about the same pattern.</dd><dt>export</dt><dd>&ldquo;Export everything I know about you&rdquo; writes a readable file to Files. Learning runs on the phone; nothing about taste leaves the device except by that export.</dd></dl><h2>Motion</h2><dl><dt>judge</dt><dd>Right/Wrong press: the row state crossfades 150 ms under a stable height; the confirmed chip fills on snap.</dd><dt>undo</dt><dd>Undo reverses in one 150 ms fade; no reflow.</dd><dt>reduced</dt><dd>All becomes opacity-only.</dd></dl></aside>
+
+</body>
+</html>
