@@ -58,6 +58,9 @@ public struct FLShellView<Destination: View>: View {
                 Tab(tab.title, systemImage: tab.systemImage) {
                     destination(tab)
                         .accessibilityIdentifier("fl.shell.tab.\(tab.id)")
+                        // Optional count (Shell S's needs-a-look caption);
+                        // nil renders no badge.
+                        .badge(tab.badgeDisplay)
                 }
             }
             ForEach(search) { tab in
@@ -67,6 +70,7 @@ public struct FLShellView<Destination: View>: View {
                 Tab(tab.title, systemImage: tab.systemImage, role: .search) {
                     destination(tab)
                         .accessibilityIdentifier("fl.shell.tab.\(tab.id)")
+                        .badge(tab.badgeDisplay)
                 }
             }
         }

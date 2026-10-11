@@ -1,4 +1,8 @@
-# Proposed accessibility identifiers — Tonight, Kitchen, Explore, Table and Recipe screens
+# Proposed accessibility identifiers — all FLScreens screens
+
+(Part 6 adds Shell S's kitchen composition, Progress and Profile, and
+the quests and tour CANDIDATE screens; the earlier sections are
+unchanged.)
 
 **Status: PROPOSAL, not an agreement.** The evaluation `CONTRACTS.md` is
 absent on alpha, so nothing here has been agreed with the evaluation
@@ -368,6 +372,118 @@ fixtures, not the views.
 | `fl.lechef.nutrition` | The complete surface's nutrition line | Host verbatim, never derived |
 | `fl.lechef.done` | "Done" (dismiss the mode) | The host dismisses; the snapshot clears |
 | `fl.lechef.cancelled` | The cancelled-session container ("Nothing was saved. Start again from the recipe whenever you like.") | States what was (and was not) kept |
+
+## Shell S kitchen composition (`FLKitchen`, alternate configuration)
+
+Shell S presents the SAME `KitchenView` with alternate chrome around
+it — these identifiers belong to the composition, never to Kitchen
+itself (Kitchen's own ids are unchanged under either configuration).
+
+| Identifier | Element | Notes |
+|---|---|---|
+| `fl.kitchen.shellSScreen` | The Shell S kitchen composition root | Same `KitchenView` inside |
+| `fl.kitchen.shellSExplore` | The "Explore recipes" access row | Shell S has no Explore tab; Explore is reached from here |
+
+## Progress under Shell S (`FLProgress`)
+
+Shell S's second tab. All values are host-supplied; the counters row is
+structured counts, never personal rows.
+
+| Identifier | Element | Notes |
+|---|---|---|
+| `fl.progress.screen` | The Progress root container | |
+| `fl.progress.title` | Screen title ("Progress") | |
+| `fl.progress.weekLabel` | The host's week label line | |
+| `fl.progress.counters` | The counters row (cooks · recipes · food saved) | Saved grams render through the shared `FLSavedFoodLine` |
+| `fl.progress.weekSection` | The "Your week" section container | |
+| `fl.progress.weekRow.<cookId>` | One week row | e.g. `fl.progress.weekRow.mon` |
+| `fl.progress.asOf` | The provenance line ("As of 18:40") | |
+| `fl.progress.questsEntry` | The "Weekly quests" entry row | Present only while the quests CANDIDATE flag is on — its absence is the off state |
+| `fl.progress.profileEntry` | The profile entry row | Pushed destination; the host routes |
+
+## Profile (`FLProgress`, pushed from Progress)
+
+Identifiers use `fl.profile.` while the screen lives in the FLProgress
+target (the Table precedent: ids name the screen, not the module).
+
+| Identifier | Element | Notes |
+|---|---|---|
+| `fl.profile.screen` | The Profile root container | |
+| `fl.profile.title` | Screen title ("Profile") | |
+| `fl.profile.phoneCaption` | The "on this phone" caption | |
+| `fl.profile.householdSection` | The household section container | |
+| `fl.profile.household` | The household line ("Cooking for 2") | |
+| `fl.profile.evidenceSection` | The taste-evidence section container | Hidden while a confirmed forget is undoable; gone for good at expiry |
+| `fl.profile.tasteEntry` | The taste profile entry row | Host-routed |
+| `fl.profile.cookbookEntry` | The cookbook records entry row | Host-routed; records survive a forget |
+| `fl.profile.dataSection` | The data-controls section container | |
+| `fl.profile.exportRow` | The export row | Host-routed |
+| `fl.profile.signOutRow` | The sign-out row | Host-routed |
+| `fl.profile.forgetRow` | The "Forget" row | Present only with taste evidence to forget |
+| `fl.profile.forgetConfirm` | The forget confirmation container | |
+| `fl.profile.forgetConfirmTitle` | The confirmation's question line | States the size baked into its copy |
+| `fl.profile.forgetConfirmButton` | "Forget" (confirm) | |
+| `fl.profile.forgetCancelButton` | "Cancel" | |
+| `fl.profile.forgetReceipt` | The "Forgotten." receipt | |
+| `fl.profile.forgetUndo` | The undo row | Only within the window; expired windows offer no undo |
+| `fl.profile.onDeviceLine` | The on-device privacy line | |
+
+## Quests (`FLQuests`) — CANDIDATE, behind a default-off flag
+
+The whole screen exists only while the candidate flag is on: automation
+must enable the flag first — the identifiers' absence is the off state,
+not a bug.
+
+| Identifier | Element | Notes |
+|---|---|---|
+| `fl.quests.screen` | The Quests root container | |
+| `fl.quests.title` | Screen title ("Weekly quests") | |
+| `fl.quests.weekCaption` | The saved-food week caption ("620 g food saved") | Same `FLSavedFoodLine` grammar as Progress |
+| `fl.quests.asOf` | The provenance line ("As of 18:40") | |
+| `fl.quests.joinReceipt` | The offline-queued receipt ("You're in — this queued while offline.") | |
+| `fl.quests.empty` | The empty-quests container | |
+| `fl.quests.featuredSection` | The featured-quest section container | |
+| `fl.quests.featuredCard` | The featured card container | |
+| `fl.quests.featuredTitle` | The featured quest's name | |
+| `fl.quests.featuredBrief` | The featured quest's brief | |
+| `fl.quests.featuredRules` | The featured quest's rules line | |
+| `fl.quests.featuredCooks` | The aggregate cooks line ("14 cooking · 3 cooks made it") | Host counts, never personal rows |
+| `fl.quests.rewardChip` | The reward chip ("unlocks an explore filter") | A chip, never points or a currency |
+| `fl.quests.doneLine` | The done line ("You made it") | |
+| `fl.quests.joinButton` | "Join" | Offline joins queue with the visible receipt |
+| `fl.quests.leaveButton` | "Leave" | Quiet — no confirmation dialog |
+| `fl.quests.alsoSection` | The "Also this week" section container | |
+| `fl.quests.questRow.<questId>` | One other quest row | e.g. `fl.quests.questRow.swap-1` |
+| `fl.quests.yourWeekSection` | The "Your week" section container | |
+| `fl.quests.weekCounters` | The week counters container | |
+| `fl.quests.sharePreviewSection` | The share-preview container | Shows the EXACT payload before anything sends |
+| `fl.quests.sharePreview` | The preview's payload lines | The allowlisted fields only |
+| `fl.quests.shareConfirm` | "Share" | |
+| `fl.quests.shareCancel` | "Cancel" | |
+
+## Tour (`FLTour`) — CANDIDATE, behind a default-off flag
+
+The card exists only while a step is presenting (auto-returns home
+between steps); automation must enable the flag and `.start` the tour.
+
+| Identifier | Element | Notes |
+|---|---|---|
+| `fl.tour.backdrop` | The dimmed backdrop behind the card | |
+| `fl.tour.screen` | The tour container | |
+| `fl.tour.card` | The promise card | |
+| `fl.tour.pager` | The pager line ("1 of 3") | Counts from one |
+| `fl.tour.stepTitle` | The step's promise line | Host verbatim |
+| `fl.tour.stepBody` | The step's one-or-two sentences | Host verbatim |
+| `fl.tour.photo` | The step's decorative photo | 3:2 through `PhotoLayoutRule` |
+| `fl.tour.fitBlock` | The fit-meter block (first step) | Hidden when the step carries none |
+| `fl.tour.fitCount` | The fit meter ("0 of 24") | |
+| `fl.tour.fitLine` | The meter's caption ("starts at zero, grows as it learns") | |
+| `fl.tour.privacyBlock` | The step's privacy-lines container | |
+| `fl.tour.privacyLine.<offset>` | One privacy line, 0-based | e.g. `fl.tour.privacyLine.0` |
+| `fl.tour.back` | The back button | Never goes before the first step |
+| `fl.tour.skip` | "Skip" | Always available |
+| `fl.tour.primary` | The step's single action | Host-supplied label |
+| `fl.tour.footer` | The caption under the pager ("no account needed") | |
 
 ## Open to evaluation
 
