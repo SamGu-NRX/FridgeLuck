@@ -255,4 +255,144 @@ final class IngredientFactsCheckTests: XCTestCase {
     XCTAssertEqual(IngredientFactsQuantity.kilocalories(.infinity), "—")
     XCTAssertEqual(IngredientFactsQuantity.milligrams(.nan), "—")
   }
+
+  // MARK: - Proportionality: every value is reference x amount / 100
+
+  /// Across representative weights every scaled value is exactly the reference times
+  /// amount / 100. Expectations mirror the model's own two-step computation (factor =
+  /// grams / 100, then multiply), so exact double equality must hold.
+  func testProportionalitySweepScalesEveryValueExactly() {
+    let reference = model().reference
+    let weights: [Double] = [0.001, 1, 62.5, 50, 100, 250, 1e300]
+    for grams in weights {
+      guard case .valid(let portion) = model().portionOutcome(forGrams: grams) else {
+        return XCTFail("\(grams) g should produce a valid portion")
+      }
+      XCTAssertEqual(portion.grams, grams, "\(grams) g portion must echo its weight")
+      let factor = grams / 100
+      let scaled: [(String, Double, Double)] = [
+        ("energy kcal", reference.energyKilocalories, portion.energyKilocalories),
+        ("protein g", reference.proteinGrams, portion.proteinGrams),
+        ("carbohydrate g", reference.carbohydrateGrams, portion.carbohydrateGrams),
+        ("fat g", reference.fatGrams, portion.fatGrams),
+        ("fiber g", reference.fiberGrams, portion.fiberGrams),
+        ("sugar g", reference.sugarGrams, portion.sugarGrams),
+        ("sodium mg", reference.sodiumMilligrams, portion.sodiumMilligrams),
+      ]
+      for (name, per100, actual) in scaled {
+        XCTAssertEqual(actual, per100 * factor, "\(grams) g: \(name) must scale exactly")
+        XCTAssertTrue(actual.isFinite, "\(grams) g: \(name) must stay finite")
+      }
+    }
+  }
+
+  // MARK: - Immutability: every outcome path, including reset
+
+  /// Every outcome path on the default record, plus reset and a second valid portion,
+  /// leaves the whole model (record and reference) equal to a freshly constructed one.
+  func testReferenceIsImmutableAfterEveryOutcomePathIncludingReset() {
+    let record = IngredientFactsCheckTests.reference
+    let facts = model(record)
+    let pristine = IngredientFactsModel(record: record)
+
+    let paths: [(String, String)] = [
+      ("valid portion", "150"),
+      ("empty invitation", ""),
+      ("not a number", "abc"),
+      ("not finite", "nan"),
+      ("not positive", "-5"),
+      ("unsupported magnitude", "1e308"),
+      ("reset to empty", ""),
+      ("valid again", "250"),
+    ]
+    for (name, text) in paths {
+      _ = facts.portionOutcome(forText: text)
+      XCTAssertEqual(facts, pristine, "\(name) must not mutate the model")
+      XCTAssertEqual(facts.reference, pristine.reference, name)
+    }
+
+    // The unsupported-reference path is equally non-mutating on its own model.
+    let broken = IngredientFactsRecord(
+      energyKilocalories: .infinity, proteinGrams: 1, carbohydrateGrams: 1,
+      fatGrams: 1, fiberGrams: 1, sugarGrams: 1, sodiumGrams: 1
+    )
+    let brokenFacts = model(broken)
+    let brokenPristine = IngredientFactsModel(record: broken)
+    for text in ["", "150", "abc"] {
+      _ = brokenFacts.portionOutcome(forText: text)
+      XCTAssertEqual(brokenFacts, brokenPristine, "'\(text)' must not mutate the model")
+    }
+  }
+
+  // MARK: - Parse matrix: actual behavior, locked input by input
+
+  /// Pins what the text path actually does: point and comma decimals, surrounding
+  /// whitespace, an explicit plus, and exponent form all parse; each invalid input maps
+  /// to its specific case; 1e308 is finite text whose scaled values overflow.
+  func testParseMatrixLocksActualBehavior() {
+    let valid: [(String, Double)] = [
+      ("62.5", 62.5), ("62,5", 62.5), (" 100 ", 100), ("+50", 50), ("1e2", 100),
+    ]
+    for (text, grams) in valid {
+      guard case .valid(let portion) = textOutcome(text) else {
+        return XCTFail("'\(text)' should produce a valid portion")
+      }
+      XCTAssertEqual(portion.grams, grams, "'\(text)' must parse to \(grams) g")
+    }
+    XCTAssertEqual(textOutcome("abc"), .failed(.notANumber), "abc")
+    XCTAssertEqual(textOutcome(""), .empty, "empty string")
+    XCTAssertEqual(textOutcome("0"), .failed(.notPositive), "0")
+    XCTAssertEqual(textOutcome("-5"), .failed(.notPositive), "-5")
+    XCTAssertEqual(textOutcome("inf"), .failed(.notFinite), "inf")
+    XCTAssertEqual(textOutcome("nan"), .failed(.notFinite), "nan")
+    XCTAssertEqual(textOutcome("1e309"), .failed(.notFinite), "1e309")
+    // Finite text, but scaling this reference overflows: rejected, never shown as inf.
+    XCTAssertEqual(textOutcome("1e308"), .failed(.unsupportedMagnitude), "1e308")
+  }
+
+  // MARK: - Extreme weights: least representable and near-overflow
+
+  /// The smallest representable positive weight is finite and positive, so it stays a
+  /// valid, inspectable portion. Its factor underflows to zero, so the scaled nutrients
+  /// are exactly zero and always finite, never non-finite.
+  func testLeastNonzeroMagnitudeWeightStaysFiniteAndInspectable() {
+    let reference = model().reference
+    let grams = Double.leastNonzeroMagnitude
+    guard case .valid(let portion) = model().portionOutcome(forGrams: grams) else {
+      return XCTFail("the smallest positive weight must still produce a portion")
+    }
+    XCTAssertEqual(portion.grams, grams)
+    let factor = grams / 100
+    XCTAssertEqual(portion.energyKilocalories, reference.energyKilocalories * factor)
+    XCTAssertEqual(portion.proteinGrams, reference.proteinGrams * factor)
+    XCTAssertEqual(portion.carbohydrateGrams, reference.carbohydrateGrams * factor)
+    XCTAssertEqual(portion.fatGrams, reference.fatGrams * factor)
+    XCTAssertEqual(portion.fiberGrams, reference.fiberGrams * factor)
+    XCTAssertEqual(portion.sugarGrams, reference.sugarGrams * factor)
+    XCTAssertEqual(portion.sodiumMilligrams, reference.sodiumMilligrams * factor)
+    XCTAssertTrue(portion.energyKilocalories.isFinite)
+    XCTAssertTrue(portion.sodiumMilligrams.isFinite)
+  }
+
+  /// A near-overflow finite weight is refused with an accessible message instead of
+  /// displaying non-finite values. Whether 1e308 overflows depends on the reference it
+  /// scales: the broccoli-like reference does (sodium alone would exceed Double.max),
+  /// while a zero reference scales to all-zero finite values and stays inspectable.
+  func testHugeFiniteWeightIsRejectedRatherThanDisplayingInfinity() {
+    XCTAssertEqual(model().portionOutcome(forGrams: 1e308), .failed(.unsupportedMagnitude))
+    XCTAssertTrue(
+      IngredientFactsInputError.unsupportedMagnitude.errorMessage.lowercased().contains("too large"),
+      "error must tell the user the amount is too large")
+
+    let empty = IngredientFactsRecord(
+      energyKilocalories: 0, proteinGrams: 0, carbohydrateGrams: 0,
+      fatGrams: 0, fiberGrams: 0, sugarGrams: 0, sodiumGrams: 0
+    )
+    guard case .valid(let portion) = model(empty).portionOutcome(forGrams: 1e308) else {
+      return XCTFail("a zero reference scales to all-zero finite values at any weight")
+    }
+    XCTAssertEqual(portion.grams, 1e308)
+    XCTAssertEqual(portion.energyKilocalories, 0)
+    XCTAssertTrue(portion.sodiumMilligrams.isFinite)
+  }
 }
