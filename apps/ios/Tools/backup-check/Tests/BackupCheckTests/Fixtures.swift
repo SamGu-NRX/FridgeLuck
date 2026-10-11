@@ -286,4 +286,33 @@ enum Fixtures {
   static func rows(_ archive: BackupArchive, _ table: String) -> [[String?]] {
     archive.rows[table] ?? []
   }
+
+  /// Complete original-contents evidence: per-table canonical hashes over
+  /// the live rows of every catalog table. Equal maps mean the live
+  /// database kept its entire original content — not just its row counts.
+  static func fullContents(_ queue: DatabaseQueue) throws -> [String: String] {
+    try queue.read { db in
+      var hashes: [String: String] = [:]
+      for spec in BackupSchemaCatalog.tables {
+        let rows = try Row.fetchAll(db, sql: "SELECT * FROM \"\(spec.name)\"")
+        let columns =
+          try rows.first.map { Array($0.columnNames) }
+          ?? db.columns(in: spec.name).map(\.name)
+        let values: [[BackupValue?]] = rows.map { row in
+          row.databaseValues.map { value in
+            switch value.storage {
+            case .null: return nil
+            case .int64(let v): return .int(v)
+            case .double(let v): return .double(v)
+            case .string(let s): return .text(s)
+            case .blob: return nil
+            }
+          }
+        }
+        hashes[spec.name] = BackupArchiveCodec.canonicalHash(
+          table: spec.name, columns: columns, primaryKey: spec.primaryKey, rows: values)
+      }
+      return hashes
+    }
+  }
 }

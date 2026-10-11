@@ -18,6 +18,14 @@ struct BackupValidator {
     let detail: String
   }
 
+  /// Snapshot format version the validator accepts. Mirrors
+  /// `NutritionSnapshot.currentVersion` — the snapshot owner refuses to
+  /// read any other version, so restoring a different one would plant
+  /// rows that look present but never load. The app-target test
+  /// `BackupSnapshotVersionOwnershipTests` pins the two constants
+  /// together so drift fails the hosted macOS run.
+  static let supportedSnapshotVersion = 1
+
   // MARK: Semantic validation
 
   /// Inserts every archived row set into a throwaway migrated database and
@@ -232,7 +240,106 @@ struct BackupValidator {
           detail: "\(unknownSnapshots) snapshots point at missing cooking_history rows"))
     }
 
+    // Snapshot format versions are owned by NutritionSnapshot, which
+    // refuses to read any version other than its current one. A future
+    // snapshot_version must therefore be refused at staging: restoring it
+    // would plant rows the snapshot owner cannot read, poisoning reports
+    // with data that looks present but never loads.
+    let unsupportedSnapshots = try Int.fetchOne(
+      db,
+      sql: """
+        SELECT COUNT(*) FROM cooking_history_nutrition_snapshots
+        WHERE snapshot_version != \(Self.supportedSnapshotVersion)
+        """) ?? 0
+    if unsupportedSnapshots > 0 {
+      violations.append(
+        .init(
+          table: "cooking_history_nutrition_snapshots",
+          detail:
+            "\(unsupportedSnapshots) snapshots carry a snapshot_version unsupported by the snapshot owner (expected \(Self.supportedSnapshotVersion))"))
+    }
+
     return violations
+  }
+
+  // MARK: Live schema (pinned-catalog agreement)
+
+  /// Refusal raised when the live database's schema does not match the
+  /// pinned backup catalog. Exporting such a database would mislabel it as
+  /// the pinned schema version, and a replace-only restore that touched
+  /// only catalog tables would silently strand every other table's data.
+  struct BackupLiveSchemaError: Error, Equatable, Sendable {
+    /// Live tables absent from the catalog (a later migration added one).
+    let unknownTables: [String]
+    /// Catalog tables missing from the live database.
+    let missingTables: [String]
+    /// Catalog tables whose live columns disagree with the migrated schema.
+    let columnDrift: [String]
+  }
+
+  /// Tables SQLite manages internally (bookkeeping such as
+  /// `sqlite_sequence`, `sqlite_stat1`). They are supported, carry no
+  /// FridgeLuck user data, and never count as unknown live tables.
+  static let sqliteInternalPrefix = "sqlite_"
+
+  /// GRDB migrator bookkeeping. Created by every production database
+  /// (migrations run through GRDB) but absent from migrated throwaway
+  /// copies that do not use the migrator; it carries no user data.
+  static let grdbBookkeepingTable = "grdb_migrations"
+
+  /// The live database's user tables: everything in `sqlite_master`
+  /// except SQLite's internal bookkeeping and GRDB's migrator bookkeeping.
+  static func liveUserTables(_ db: Database) throws -> Set<String> {
+    let names = try String.fetchAll(
+      db, sql: "SELECT name FROM sqlite_master WHERE type = 'table'")
+    return Set(names.filter {
+      !$0.hasPrefix(sqliteInternalPrefix) && $0 != grdbBookkeepingTable
+    })
+  }
+
+  /// Cheap agreement check: the live user-table set must equal the catalog
+  /// exactly. Safe to run inside the replace transaction before anything
+  /// is wiped.
+  static func assertKnownLiveTables(_ db: Database) throws {
+    let live = try liveUserTables(db)
+    let catalog = Set(BackupSchemaCatalog.tables.map(\.name))
+    let unknown = live.subtracting(catalog).sorted()
+    let missing = catalog.subtracting(live).sorted()
+    guard unknown.isEmpty, missing.isEmpty else {
+      throw BackupLiveSchemaError(
+        unknownTables: unknown, missingTables: missing, columnDrift: [])
+    }
+  }
+
+  /// Full agreement check against the pinned schema: table-set equality
+  /// plus per-table column agreement with a throwaway database migrated
+  /// to the current schema. Runs before export and before the restore
+  /// transaction; never inside one (it opens its own connection).
+  static func validateLiveSchema(_ db: Database) throws {
+    try assertKnownLiveTables(db)
+
+    let staging = try DatabaseQueue()
+    defer { try? staging.close() }
+    try DatabaseMigrations.migrate(staging, upTo: nil)
+    let expectedColumns: [String: [String]] = try staging.read { migrated in
+      var columnsByTable: [String: [String]] = [:]
+      for spec in BackupSchemaCatalog.tables {
+        columnsByTable[spec.name] = try migrated.columns(in: spec.name).map(\.name).sorted()
+      }
+      return columnsByTable
+    }
+
+    var columnDrift: [String] = []
+    for spec in BackupSchemaCatalog.tables {
+      let liveColumns = try db.columns(in: spec.name).map(\.name).sorted()
+      if liveColumns != (expectedColumns[spec.name] ?? []) {
+        columnDrift.append(spec.name)
+      }
+    }
+    guard columnDrift.isEmpty else {
+      throw BackupLiveSchemaError(
+        unknownTables: [], missingTables: [], columnDrift: columnDrift.sorted())
+    }
   }
 }
 

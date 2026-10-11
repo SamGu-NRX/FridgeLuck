@@ -39,6 +39,11 @@ struct BackupRestoreEngine: Sendable {
   private var fileManager: FileManager { .default }
   let center: NotificationCenter
 
+  /// Test seam: invoked inside the replace transaction before any rows
+  /// are wiped, at the last point where cancellation still rolls back
+  /// cleanly. Never invoked after the commit.
+  var onReplaceTransactionStart: (@Sendable () -> Void)?
+
   init(
     writer: any DatabaseWriter,
     databasePath: String,
@@ -58,6 +63,7 @@ struct BackupRestoreEngine: Sendable {
         .appendingPathComponent("backup-staging", isDirectory: true)
     }
     self.center = center
+    self.onReplaceTransactionStart = nil
   }
 
   // MARK: - Errors
@@ -77,6 +83,13 @@ struct BackupRestoreEngine: Sendable {
     includesPhotos: Bool = false, appVersion: String? = nil
   ) async throws -> Data {
     var archive = try await writer.read { db in
+      // The archive below is labeled with the pinned schema version, so
+      // refuse to export a live database that does not actually match
+      // that schema: an unknown/later table would be silently omitted
+      // from a supposedly complete archive, and drifted columns would
+      // mislabel the export.
+      try BackupValidator.validateLiveSchema(db)
+
       var tables: [BackupTableManifest] = []
       var rowsByName: [String: [[String?]]] = [:]
 
@@ -210,6 +223,12 @@ struct BackupRestoreEngine: Sendable {
     let safetyDirectory = try makeSafetyCopy()
 
     do {
+      // Full live-schema agreement before the replace transaction opens:
+      // an unknown/later table must refuse the restore here — never be
+      // omitted from replacement or silently left stranded outside it.
+      try await writer.read { db in
+        try BackupValidator.validateLiveSchema(db)
+      }
       let report = try await replaceAllData(with: archive)
       // Staged validation completed and the transaction committed: the
       // original database content is no longer needed.
@@ -231,6 +250,19 @@ struct BackupRestoreEngine: Sendable {
   /// existing writer.
   private func replaceAllData(with archive: BackupArchive) async throws -> RestoreReport {
     try await writer.write { db in
+      // Re-check inside the transaction (cheap set comparison): the live
+      // user-table set must still equal the catalog before anything is
+      // wiped. SQLite internal bookkeeping (sqlite_*) is exempt.
+      try BackupValidator.assertKnownLiveTables(db)
+
+      // Cancellation checkpoint: still transaction-safe — a cancellation
+      // from here rolls the whole transaction back and the original data
+      // survives untouched. There is deliberately NO cancellation check
+      // after the commit below: reporting cancellation after an
+      // irreversible success would mislead the caller.
+      onReplaceTransactionStart?()
+      try Task.checkCancellation()
+
       // Wipe, reverse topological order so foreign keys never dangle
       // mid-flight.
       for spec in BackupSchemaCatalog.deleteOrder {

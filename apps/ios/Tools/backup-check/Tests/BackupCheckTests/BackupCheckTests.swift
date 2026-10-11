@@ -19,6 +19,23 @@ final class RestoreCounter: @unchecked Sendable {
   }
 }
 
+/// Holds the handle of a running restore task so a test seam running
+/// inside that task can cancel it (cancellation checkpoint test).
+final class TaskBox: @unchecked Sendable {
+  private let lock = NSLock()
+  private var current: Task<RestoreReport, Error>?
+  func set(_ task: Task<RestoreReport, Error>) {
+    lock.lock()
+    current = task
+    lock.unlock()
+  }
+  func cancelCurrent() {
+    lock.lock()
+    current?.cancel()
+    lock.unlock()
+  }
+}
+
 final class BackupCheckTests: XCTestCase {
   // MARK: Round trip
 
@@ -506,6 +523,245 @@ final class BackupCheckTests: XCTestCase {
   }
 
   // MARK: Helpers
+
+  // MARK: Frozen notification interface (literal observers)
+
+  func testObserverRegisteredWithFrozenLiteralNameIsNotifiedAfterCommit() async throws {
+    let data = try await Fixtures.makeArchive(from: Fixtures.populatedQueue("literal-src"))
+    let target = try Fixtures.populatedQueue("literal-target")
+
+    let center = NotificationCenter()
+    let engine = BackupRestoreEngine(
+      writer: target, databasePath: target.path, documentsDirectory: nil,
+      stagingRoot: URL(fileURLWithPath: NSTemporaryDirectory())
+        .appendingPathComponent("fl-safety-\(UUID().uuidString)"),
+      center: center)
+
+    // The constant must keep the frozen raw interface name ...
+    XCTAssertEqual(
+      Notification.Name("FridgeLuckUserDataDidRestore"), .fridgeLuckUserDataDidRestore,
+      "the shared constant must keep the frozen raw interface name")
+
+    // ... and an observer registered with the LITERAL (not the shared
+    // constant) must still receive the event after a real commit.
+    let notified = RestoreCounter()
+    let observer = center.addObserver(
+      forName: Notification.Name("FridgeLuckUserDataDidRestore"), object: nil, queue: nil
+    ) { _ in notified.bump() }
+    defer { center.removeObserver(observer) }
+
+    let preview = try await engine.stageRestore(archiveData: data)
+    _ = try await engine.commitRestore(preview)
+    XCTAssertEqual(notified.count, 1, "exactly one event per committed restore")
+  }
+
+  // MARK: Snapshot-version ownership
+
+  func testFutureSnapshotVersionRefusesAtStagingWithLiveDataUntouchedAndSilent() async throws {
+    let target = try Fixtures.populatedQueue("snapver")
+    let before = try snapshotCounts(target)
+
+    var archive = try await decodedSeededArchive()
+    // Bump one snapshot to snapshot_version 2 — a version the snapshot
+    // owner does not support — and re-sign so structural hashes stay
+    // valid and ONLY the owner-version gate can refuse it.
+    let snapshotManifest = archive.tables.first {
+      $0.name == "cooking_history_nutrition_snapshots"
+    }!
+    let versionColumn = snapshotManifest.columns.firstIndex(of: "snapshot_version")!
+    archive.rows["cooking_history_nutrition_snapshots"]![0][versionColumn] = "i:2"
+    Fixtures.resign(&archive)
+    let data = try BackupArchiveCodec.encode(archive)
+
+    let center = NotificationCenter()
+    let engine = BackupRestoreEngine(
+      writer: target, databasePath: target.path, documentsDirectory: nil,
+      stagingRoot: URL(fileURLWithPath: NSTemporaryDirectory())
+        .appendingPathComponent("fl-safety-\(UUID().uuidString)"),
+      center: center)
+    let notified = RestoreCounter()
+    let observer = center.addObserver(
+      forName: .fridgeLuckUserDataDidRestore, object: nil, queue: nil
+    ) { _ in notified.bump() }
+    defer { center.removeObserver(observer) }
+
+    do {
+      _ = try await engine.stageRestore(archiveData: data)
+      XCTFail("staging must refuse a snapshot version the owner cannot read")
+    } catch {
+      // expected: BackupValidationError
+    }
+    XCTAssertEqual(notified.count, 0, "no completion event before a commit")
+    XCTAssertEqual(try snapshotCounts(target), before, "failed staging mutated live state")
+  }
+
+  // MARK: Live schema agreement (pinned catalog)
+
+  func testUnknownLaterTableRefusesExportAndRestore() async throws {
+    let source = try Fixtures.populatedQueue("future-src")
+    try await source.write { db in
+      try db.execute(
+        sql: "CREATE TABLE fl_future_v21 (id INTEGER PRIMARY KEY, payload TEXT)")
+      try db.execute(sql: "INSERT INTO fl_future_v21 (payload) VALUES ('v21 data')")
+    }
+
+    // Export refuses: an archive labeled with the pinned schema version
+    // must not silently omit a live table.
+    let exportEngine = Fixtures.engine(source)
+    do {
+      _ = try await exportEngine.exportArchive()
+      XCTFail("export must refuse a live table outside the pinned catalog")
+    } catch {
+      // expected: BackupLiveSchemaError
+    }
+
+    // Restore refuses too: replace-only replacement would strand the
+    // future table's rows outside the replacement.
+    let target = try Fixtures.populatedQueue("future-target")
+    try await target.write { db in
+      try db.execute(
+        sql: "CREATE TABLE fl_future_v21 (id INTEGER PRIMARY KEY, payload TEXT)")
+      try db.execute(sql: "INSERT INTO fl_future_v21 (payload) VALUES ('keep me')")
+    }
+    let before = try snapshotCounts(target)
+    let data = try await Fixtures.makeArchive(from: Fixtures.populatedQueue("future-valid-src"))
+
+    let center = NotificationCenter()
+    let engine = BackupRestoreEngine(
+      writer: target, databasePath: target.path, documentsDirectory: nil,
+      stagingRoot: URL(fileURLWithPath: NSTemporaryDirectory())
+        .appendingPathComponent("fl-safety-\(UUID().uuidString)"),
+      center: center)
+    let notified = RestoreCounter()
+    let observer = center.addObserver(
+      forName: .fridgeLuckUserDataDidRestore, object: nil, queue: nil
+    ) { _ in notified.bump() }
+    defer { center.removeObserver(observer) }
+
+    do {
+      let preview = try await engine.stageRestore(archiveData: data)
+      _ = try await engine.commitRestore(preview)
+      XCTFail("restore must refuse a live table outside the pinned catalog")
+    } catch {
+      // expected: BackupLiveSchemaError (pre-transaction or in-transaction)
+    }
+    XCTAssertEqual(notified.count, 0, "no completion event for a refused restore")
+    XCTAssertEqual(try snapshotCounts(target), before, "refusal mutated live state")
+    let stranded = try await target.read {
+      try Int.fetchOne($0, sql: "SELECT COUNT(*) FROM fl_future_v21")
+    }
+    XCTAssertEqual(stranded, 1, "refusal must leave the live future table intact")
+  }
+
+  func testInternalBookkeepingTablesDoNotBlockExportOrRestore() async throws {
+    let source = try Fixtures.populatedQueue("bookkeeping-src")
+    try await source.write { db in
+      // ANALYZE creates SQLite's internal sqlite_stat1 bookkeeping.
+      try db.execute(sql: "ANALYZE")
+    }
+    let statTables = try await source.read {
+      try Int.fetchOne(
+        $0, sql: "SELECT COUNT(*) FROM sqlite_master WHERE name LIKE 'sqlite_%'")
+    }
+    XCTAssertGreaterThanOrEqual(
+      statTables ?? 0, 1, "fixture expects internal bookkeeping after ANALYZE")
+
+    // Internal bookkeeping is supported: export must succeed.
+    let engine = Fixtures.engine(source)
+    _ = try await engine.exportArchive()
+
+    // ... and so must a full restore into a target that also carries it.
+    let target = try Fixtures.populatedQueue("bookkeeping-target")
+    try await target.write { db in try db.execute(sql: "ANALYZE") }
+    let data = try await Fixtures.makeArchive(from: source)
+    let targetEngine = Fixtures.engine(target)
+    let preview = try await targetEngine.stageRestore(archiveData: data)
+    _ = try await targetEngine.commitRestore(preview)
+  }
+
+  // MARK: Cancellation
+
+  func testCancellationBeforeWorkLeavesLiveDataUntouchedAndSilent() async throws {
+    let target = try Fixtures.populatedQueue("cancel-pre")
+    let before = try Fixtures.fullContents(target)
+    let data = try await Fixtures.makeArchive(from: Fixtures.populatedQueue("cancel-pre-src"))
+
+    let center = NotificationCenter()
+    let engine = BackupRestoreEngine(
+      writer: target, databasePath: target.path, documentsDirectory: nil,
+      stagingRoot: URL(fileURLWithPath: NSTemporaryDirectory())
+        .appendingPathComponent("fl-safety-\(UUID().uuidString)"),
+      center: center)
+    let notified = RestoreCounter()
+    let observer = center.addObserver(
+      forName: .fridgeLuckUserDataDidRestore, object: nil, queue: nil
+    ) { _ in notified.bump() }
+    defer { center.removeObserver(observer) }
+
+    let task = Task {
+      let preview = try await engine.stageRestore(archiveData: data)
+      return try await engine.commitRestore(preview)
+    }
+    task.cancel()
+    do {
+      _ = try await task.value
+      XCTFail("a cancelled restore must not report success")
+    } catch is CancellationError {
+      // expected
+    } catch {
+      XCTFail("expected CancellationError, got \(error)")
+    }
+
+    XCTAssertEqual(notified.count, 0, "no completion event for a cancelled restore")
+    XCTAssertEqual(
+      try Fixtures.fullContents(target), before,
+      "cancellation before work must leave the complete original contents")
+  }
+
+  func testCancellationDuringReplacementRollsBackWithCompleteOriginalContentsAndSilent() async
+    throws
+  {
+    let target = try Fixtures.populatedQueue("cancel-mid")
+    let before = try Fixtures.fullContents(target)
+    let data = try await Fixtures.makeArchive(from: Fixtures.populatedQueue("cancel-mid-src"))
+
+    let center = NotificationCenter()
+    var engine = BackupRestoreEngine(
+      writer: target, databasePath: target.path, documentsDirectory: nil,
+      stagingRoot: URL(fileURLWithPath: NSTemporaryDirectory())
+        .appendingPathComponent("fl-safety-\(UUID().uuidString)"),
+      center: center)
+    let notified = RestoreCounter()
+    let observer = center.addObserver(
+      forName: .fridgeLuckUserDataDidRestore, object: nil, queue: nil
+    ) { _ in notified.bump() }
+    defer { center.removeObserver(observer) }
+
+    // Cancel the running task from the transaction-start seam: the
+    // checkpoint inside the transaction must roll everything back.
+    let box = TaskBox()
+    engine.onReplaceTransactionStart = { box.cancelCurrent() }
+    let task = Task {
+      let preview = try await engine.stageRestore(archiveData: data)
+      return try await engine.commitRestore(preview)
+    }
+    box.set(task)
+
+    do {
+      _ = try await task.value
+      XCTFail("cancellation at the transaction checkpoint must not report success")
+    } catch is CancellationError {
+      // expected
+    } catch {
+      XCTFail("expected CancellationError, got \(error)")
+    }
+
+    XCTAssertEqual(
+      notified.count, 0, "no completion event for a rolled-back replacement")
+    XCTAssertEqual(
+      try Fixtures.fullContents(target), before,
+      "a rolled-back replacement must preserve the complete original contents")
+  }
 
   func snapshotCounts(_ queue: DatabaseQueue) throws -> [String: Int] {
     try queue.read { db in

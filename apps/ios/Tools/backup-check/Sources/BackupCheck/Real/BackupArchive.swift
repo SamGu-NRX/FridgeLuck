@@ -13,8 +13,12 @@ extension Notification.Name {
   /// Posted exactly once, only after a staged user-data restore has fully
   /// committed to the live database. Consumers (dashboard, kitchen, and any
   /// future unified search) must re-read user data when they receive it.
+  ///
+  /// The raw name is a frozen interface: observers may register it as a
+  /// literal (`Notification.Name("FridgeLuckUserDataDidRestore")`) without
+  /// linking this constant, and future releases must not rename it.
   public static let fridgeLuckUserDataDidRestore = Notification.Name(
-    "samgu.FridgeLuck.userDataDidRestore")
+    "FridgeLuckUserDataDidRestore")
 }
 
 // MARK: - Values
