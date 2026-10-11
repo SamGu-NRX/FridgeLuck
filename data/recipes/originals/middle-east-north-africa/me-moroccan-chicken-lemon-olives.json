@@ -1,0 +1,282 @@
+{
+  "rs_version": "1",
+  "id": "me-moroccan-chicken-lemon-olives",
+  "title": "Moroccan Skillet Chicken with Lemon, Olives, and Chickpeas",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "moroccan (tagine-style)",
+  "family": "middle-east-north-africa",
+  "minutes": 30,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "deep skillet with lid",
+    "chef's knife",
+    "cutting board",
+    "mixing bowl"
+  ],
+  "cuisine_note": "A tagine's flavor logic on a weeknight: brown the meat, build a warm-spice sauce, let the olives and lemon sharpen it at the end. Chickpeas stand in for the second hour of braising.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-moroccan-chicken-lemon-olives",
+  "tags": [
+    "weeknight",
+    "one-pot",
+    "use-it-up",
+    "use-it-up:chickpeas"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken breast",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "halves, cut into chunks",
+        "conversion_ref": "chicken_breast_piece",
+        "grams_per_unit": 170,
+        "note": "boneless, skinless"
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, thinly sliced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, chopped",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tsp",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "turmeric",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "smoked_paprika_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "cinnamon",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "cinnamon_tsp",
+        "grams_per_unit": 2.6
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "canned tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup crushed",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "chicken stock",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup",
+        "conversion_ref": "chicken_stock_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "chickpeas",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup, drained",
+        "conversion_ref": "chickpeas_cup",
+        "grams_per_unit": 240,
+        "note": "canned - the line the use-it-up tag is for; half-cans hanging in the fridge finish here"
+      }
+    },
+    {
+      "name": "kalamata olives",
+      "qty": {
+        "kind": "household",
+        "value": 14,
+        "unit": "pitted",
+        "conversion_ref": "pitted_kalamata_olive_piece",
+        "grams_per_unit": 5
+      }
+    },
+    {
+      "name": "lemon",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "halves (juice)",
+        "conversion_ref": "lemon_half",
+        "grams_per_unit": 22
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp chopped",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp, divided",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Season the chicken with half the salt and the black pepper. Brown it in the oil in the deep skillet over medium-high for 6 minutes, turning - the bits that stick will season the sauce. Move to a plate.",
+      "timer_min": 6
+    },
+    {
+      "text": "Cook the onion for 4 minutes, then add the garlic, cumin, turmeric, paprika, cinnamon, and chili flakes and fry for 1 minute, until fragrant.",
+      "timer_min": 5
+    },
+    {
+      "text": "Add the crushed tomatoes and stock and scrape the pan bottom clean. Nestle the chicken back in with any juices, cover, and simmer on medium-low for 8 minutes.",
+      "timer_min": 8
+    },
+    {
+      "text": "Add the chickpeas and olives and simmer, uncovered, for 6 minutes more to thicken the sauce.",
+      "timer_min": 6
+    },
+    {
+      "text": "Lift out a thick piece of chicken: it is safe at 165°F (74°C) on a thermometer, which it should reach in the simmered sauce.",
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Add the lemon juice, taste, and adjust: it should read salty from the olives and sour from the lemon before the spice catches up - balance with more juice or a pinch of salt."
+    },
+    {
+      "text": "Shower with cilantro and serve in shallow bowls with rice or a green salad to round it out."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 430,
+    "protein_g": 45.5,
+    "carbs_g": 26.4,
+    "fat_g": 16.1,
+    "fiber_g": 7.3,
+    "sugar_g": 7.1,
+    "sodium_mg": 468,
+    "coverage": 0.852,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "chicken stock",
+      "cinnamon",
+      "salt",
+      "smoked paprika",
+      "turmeric"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "chicken stock",
+      "salt"
+    ]
+  }
+}
