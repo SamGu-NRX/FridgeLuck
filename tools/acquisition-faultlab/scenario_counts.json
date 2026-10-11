@@ -1,0 +1,14 @@
+{
+  "total": 16,
+  "by_fault": {
+    "clean": 3,
+    "empty": 1,
+    "redirect": 3,
+    "transient_status": 2,
+    "truncation": 2,
+    "truncation_rst": 1,
+    "wrong_content_length": 2,
+    "wrong_content_type": 1,
+    "wrong_hash": 1
+  }
+}

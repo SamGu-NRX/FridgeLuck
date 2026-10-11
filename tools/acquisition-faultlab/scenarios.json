@@ -1,0 +1,329 @@
+{
+  "schema": "acquisition-faultlab/scenarios@1",
+  "loopback_only": true,
+  "description": "Synthetic loopback fault fixtures with exact expected final-byte records",
+  "counts": {
+    "total": 16,
+    "by_fault": {
+      "clean": 3,
+      "empty": 1,
+      "redirect": 3,
+      "transient_status": 2,
+      "truncation": 2,
+      "truncation_rst": 1,
+      "wrong_content_length": 2,
+      "wrong_content_type": 1,
+      "wrong_hash": 1
+    }
+  },
+  "scenarios": [
+    {
+      "id": "clean-rgb-control",
+      "fault": "clean",
+      "dish_id": "dish_1550704750",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/clean-rgb-control",
+        "size": 2048
+      },
+      "serve": {},
+      "expect": {
+        "content_sha256": "2cee045978722a05e595bc16b9b7a16e6d2d61f5dc199117edc2b10c6b74ed29",
+        "content_size": 2048,
+        "served_sha256": "2cee045978722a05e595bc16b9b7a16e6d2d61f5dc199117edc2b10c6b74ed29",
+        "served_size": 2048
+      }
+    },
+    {
+      "id": "truncation-rgb-clean-eof",
+      "fault": "truncation",
+      "dish_id": "dish_1550704903",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/truncation-rgb",
+        "size": 2048
+      },
+      "serve": {
+        "truncate_at_bytes": 1024,
+        "end": "eof"
+      },
+      "expect": {
+        "content_sha256": "920d31534965d9b086915dd5eeac78963eccc3f78c0b44fddf88d88f09215062",
+        "content_size": 2048,
+        "served_sha256": "150338881ab666bc22851e47bc6af86c60eb96f389fab0061c61ae5d5f268ec1",
+        "served_size": 1024
+      }
+    },
+    {
+      "id": "truncation-depth-clean-eof",
+      "fault": "truncation",
+      "dish_id": "dish_1556572657",
+      "file": "depth_raw.png",
+      "content": {
+        "seed": "faultlab/truncation-depth",
+        "size": 1536
+      },
+      "serve": {
+        "truncate_at_bytes": 614,
+        "end": "eof"
+      },
+      "expect": {
+        "content_sha256": "e5eca2b8a5501405c0a53b97e9cb351e639599b9aa56d9ed35c2d7dd589a78d0",
+        "content_size": 1536,
+        "served_sha256": "98ace58c3152b4aa12e05f78283432fd01150643e982aacab4fbaae1a44cec45",
+        "served_size": 614
+      }
+    },
+    {
+      "id": "interrupted-write-rgb-rst",
+      "fault": "truncation",
+      "dish_id": "dish_1550705288",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/interrupted-rgb",
+        "size": 2048
+      },
+      "serve": {
+        "truncate_at_bytes": 512,
+        "end": "rst"
+      },
+      "expect": {
+        "content_sha256": "d9376758d95e5379fdcabfed301d8760c204d732e4d12e43919d11b18d13d1cf",
+        "content_size": 2048,
+        "served_sha256": "34bc90b603faab5fbb9a5e7e4845516b6acf8335b272e0157e7d7a6fcfbb4560",
+        "served_size": 512
+      }
+    },
+    {
+      "id": "wrong-content-length-understated",
+      "fault": "wrong_content_length",
+      "dish_id": "dish_1550705370",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/wcl-under",
+        "size": 2048
+      },
+      "serve": {
+        "length_delta": -256
+      },
+      "expect": {
+        "content_sha256": "d485fb4b6555cb33890ca9a7bd07e0ab261a66009d08a5184cb303b9e27ee2c2",
+        "content_size": 2048,
+        "served_sha256": "d485fb4b6555cb33890ca9a7bd07e0ab261a66009d08a5184cb303b9e27ee2c2",
+        "served_size": 2048
+      }
+    },
+    {
+      "id": "wrong-content-length-overstated",
+      "fault": "wrong_content_length",
+      "dish_id": "dish_1550704750",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/wcl-over",
+        "size": 1536
+      },
+      "serve": {
+        "length_delta": 512
+      },
+      "expect": {
+        "content_sha256": "7239b1ccbc1c726dd908e1ea4277586e80b0df5c7f635007e1ff0ea400249ae7",
+        "content_size": 1536,
+        "served_sha256": "7239b1ccbc1c726dd908e1ea4277586e80b0df5c7f635007e1ff0ea400249ae7",
+        "served_size": 1536
+      }
+    },
+    {
+      "id": "wrong-content-type-html",
+      "fault": "wrong_content_type",
+      "dish_id": "dish_1550704903",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/wct-html",
+        "size": 2048
+      },
+      "serve": {
+        "content_type": "text/html; charset=utf-8"
+      },
+      "expect": {
+        "content_sha256": "eabf52c78d44ea9e326252dcf4798cc00017799af1c5005b5a03d0a1c1c4a2e6",
+        "content_size": 2048,
+        "served_sha256": "eabf52c78d44ea9e326252dcf4798cc00017799af1c5005b5a03d0a1c1c4a2e6",
+        "served_size": 2048
+      }
+    },
+    {
+      "id": "wrong-hash-same-size-depth",
+      "fault": "wrong_hash",
+      "dish_id": "dish_1556573514",
+      "file": "depth_raw.png",
+      "content": {
+        "seed": "faultlab/wrong-hash-depth",
+        "size": 1536
+      },
+      "serve": {
+        "corrupt_at_bytes": 1024
+      },
+      "expect": {
+        "content_sha256": "e5afe511c0eb0eb447ec1fabf8032585af7ff91ac90f9e04875967e81819aebc",
+        "content_size": 1536,
+        "served_sha256": "de11132e9f89f221c21aca5dc8176875b3025cac8b8065d201120a88c0c0665b",
+        "served_size": 1536
+      }
+    },
+    {
+      "id": "redirect-one-hop",
+      "fault": "redirect",
+      "dish_id": "dish_1550705288",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/redirect-1",
+        "size": 2048
+      },
+      "serve": {
+        "hops": 1
+      },
+      "expect": {
+        "content_sha256": "ef47becf44670a2e7f4ff066473e935e5710066f44e31eb9dfddb63b508e33fc",
+        "content_size": 2048,
+        "served_sha256": "ef47becf44670a2e7f4ff066473e935e5710066f44e31eb9dfddb63b508e33fc",
+        "served_size": 2048
+      }
+    },
+    {
+      "id": "redirect-three-hops",
+      "fault": "redirect",
+      "dish_id": "dish_1550705370",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/redirect-3",
+        "size": 2048
+      },
+      "serve": {
+        "hops": 3
+      },
+      "expect": {
+        "content_sha256": "fa4dc68c1756ec954fa9c940f9fc51652f8a8a02f44500c3fb5593e412e702b5",
+        "content_size": 2048,
+        "served_sha256": "fa4dc68c1756ec954fa9c940f9fc51652f8a8a02f44500c3fb5593e412e702b5",
+        "served_size": 2048
+      }
+    },
+    {
+      "id": "redirect-final-404",
+      "fault": "redirect",
+      "dish_id": "dish_1550704750",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/redirect-404",
+        "size": 1536
+      },
+      "serve": {
+        "hops": 1,
+        "final_404": true
+      },
+      "expect": {
+        "content_sha256": "e67f74781339f2f272531aef1df50c880985e50bb5304fd88295ad20a0f7b2a8",
+        "content_size": 1536,
+        "served_sha256": "e67f74781339f2f272531aef1df50c880985e50bb5304fd88295ad20a0f7b2a8",
+        "served_size": 1536
+      }
+    },
+    {
+      "id": "empty-depth-raw",
+      "fault": "empty",
+      "dish_id": "dish_1556575014",
+      "file": "depth_raw.png",
+      "content": {
+        "seed": "faultlab/empty-depth",
+        "size": 1536
+      },
+      "serve": {},
+      "expect": {
+        "content_sha256": "42527fc504de23b4aab620ed984be9d0e92d476b96d5888692b27422aad4f8a5",
+        "content_size": 1536,
+        "served_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "served_size": 0
+      }
+    },
+    {
+      "id": "transient-503-recovers",
+      "fault": "transient_status",
+      "dish_id": "dish_1550704903",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/transient-503",
+        "size": 2048
+      },
+      "serve": {
+        "status": 503,
+        "fail_times": 2
+      },
+      "expect": {
+        "content_sha256": "682ca51a01a0a00e0df6ee04aad58eb877116ee18e1b2870b405ac983132eef9",
+        "content_size": 2048,
+        "served_sha256": "682ca51a01a0a00e0df6ee04aad58eb877116ee18e1b2870b405ac983132eef9",
+        "served_size": 2048
+      }
+    },
+    {
+      "id": "transient-429-exhausted",
+      "fault": "transient_status",
+      "dish_id": "dish_1550705288",
+      "file": "rgb.png",
+      "content": {
+        "seed": "faultlab/transient-429",
+        "size": 1536
+      },
+      "serve": {
+        "status": 429,
+        "fail_times": 4
+      },
+      "expect": {
+        "content_sha256": "c781d2083fb927063fb8bf295b3373a7cfc172d2b48f489c63d9925a3ff5813b",
+        "content_size": 1536,
+        "served_sha256": "c781d2083fb927063fb8bf295b3373a7cfc172d2b48f489c63d9925a3ff5813b",
+        "served_size": 1536
+      }
+    },
+    {
+      "id": "stale-cache-manifest-skip",
+      "fault": "clean",
+      "dish_id": "dish_1556575083",
+      "file": "depth_raw.png",
+      "content": {
+        "seed": "faultlab/stale-skip",
+        "size": 2048
+      },
+      "serve": {},
+      "expect": {
+        "content_sha256": "55605ec314e1b32d60c8c49f4f541de54f898210a14782e6ecc74c7c4d3ff701",
+        "content_size": 2048,
+        "served_sha256": "55605ec314e1b32d60c8c49f4f541de54f898210a14782e6ecc74c7c4d3ff701",
+        "served_size": 2048
+      },
+      "harness": {
+        "preseed": "stale_manifest_ok"
+      }
+    },
+    {
+      "id": "stale-cache-partial-overwrite",
+      "fault": "clean",
+      "dish_id": "dish_1556572657",
+      "file": "depth_raw.png",
+      "content": {
+        "seed": "faultlab/stale-partial",
+        "size": 2048
+      },
+      "serve": {},
+      "expect": {
+        "content_sha256": "18a52a08fa42c75b0295e14e9a5d184022f200b3169a81e2296b70a01a33c096",
+        "content_size": 2048,
+        "served_sha256": "18a52a08fa42c75b0295e14e9a5d184022f200b3169a81e2296b70a01a33c096",
+        "served_size": 2048
+      },
+      "harness": {
+        "preseed": "partial_file"
+      }
+    }
+  ]
+}
