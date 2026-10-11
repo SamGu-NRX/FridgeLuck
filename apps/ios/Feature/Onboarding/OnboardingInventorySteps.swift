@@ -442,7 +442,7 @@ struct OnboardingKitchenReviewStep: View {
           Text("\(selectedCount) of \(shown.count) selected")
             .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
-            .accessibilityLiveRegion(.polite)
+            .accessibilityAddTraits(.updatesFrequently)
             .contentTransition(reduceMotion ? ContentTransition.identity : .numericText())
         }
         .padding(.top, AppTheme.Space.xs)

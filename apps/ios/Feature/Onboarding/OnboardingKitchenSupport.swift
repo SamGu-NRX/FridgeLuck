@@ -209,7 +209,7 @@ struct OnboardingKitchenCaptureStep: View {
           Text("\(photos.count) of \(configuration.maxPhotos) photos")
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.sage)
-            .accessibilityLiveRegion(.polite)
+            .accessibilityAddTraits(.updatesFrequently)
         }
 
         Text("You can skip this step and add items later from the scan orb.")
