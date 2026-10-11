@@ -121,6 +121,15 @@ conversion table speak.
   that sodium as a trustworthy number. Do not "fix" it by mapping fish sauce
   to soy sauce: leave it unmapped and let the flag speak.
 - `coverage ≥ 0.8` is the craft target; below 0.65 explain why in the README.
+- **One corpus, one source.** The corpus-wide merge rejects an ingredient
+  name mapped to different sources in two parts. Before adding a mapping
+  for a name that likely appears in other parts (ground beef, potatoes,
+  rice, chili flakes, eggs, soy sauce, ...), check the existing parts'
+  `tables/nutrition-map.json` shards and reuse their source. Conflicts
+  found at join time are resolved by the lead: catalog row first
+  (`fdc_id`), the app's bundled row (`bundled_id`) when the catalog has no
+  clean match for the plain form (e.g. only a 70/30 ground-beef variant);
+  the minority shards are then realigned and recomputed.
 
 ## 5. Food safety (the FSIS ladder)
 
