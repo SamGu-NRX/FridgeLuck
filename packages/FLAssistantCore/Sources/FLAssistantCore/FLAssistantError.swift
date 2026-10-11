@@ -50,6 +50,14 @@ public enum FLAssistantError: Error, Equatable, Sendable, CustomStringConvertibl
     /// A revision below the domain floor (at least 1) was requested.
     case revisionBelowFloor(value: Int)
 
+    /// The proposal's validity window has passed. An expired proposal can
+    /// never execute, whatever the approval says.
+    case proposalExpired(proposalID: String)
+
+    /// This proposal was already decided; the earlier receipt stands. A
+    /// second approval never re-executes the action.
+    case alreadyDecided(proposalID: String)
+
     public var description: String {
         switch self {
         case let .unknownProposal(id):
@@ -72,6 +80,10 @@ public enum FLAssistantError: Error, Equatable, Sendable, CustomStringConvertibl
             return "FLAssistant refused: read tool '\(tool.rawValue)' cannot propose an action"
         case let .revisionBelowFloor(value):
             return "FLAssistant refused: revision must be at least 1 (got \(value))"
+        case let .proposalExpired(id):
+            return "FLAssistant refused: proposal '\(id)' has expired"
+        case let .alreadyDecided(id):
+            return "FLAssistant refused: proposal '\(id)' was already decided; the earlier receipt stands"
         }
     }
 }

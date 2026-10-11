@@ -1,0 +1,246 @@
+import Foundation
+import FLDomain
+
+// MARK: - Authority facade
+// The AssistantAuthority is the phone's single authority object for the
+// assistant loop. Everything the model can reach funnels through it; the
+// invariants the spec demands are enforced here, in one place:
+//
+// 1. The assistant proposes — via the engine, bound to a snapshot revision.
+// 2. Only an approval matching proposalID + payloadHash + snapshotRevision
+//    executes — the broker's rule, checked on every approval.
+// 3. Expired or revision-stale proposals refuse — with a receipt recording
+//    why (expired / staleRevision / rejected).
+// 4. Every executed action leaves a receipt — recorded after the effects
+//    succeed, so "executed" is never claimed for work that did not happen.
+// 5. Transcript-only authorization is structurally impossible: no API accepts
+//    model bytes and produces an executed receipt. An ActionApproval value is
+//    minted only by the host's approval UI, never from model output.
+
+/// Applies a proposal's effects on the device (create the timer, advance the
+/// step, correct the pantry, commit the meal log). The host injects its
+/// implementation; this package never touches app state directly.
+public protocol ActionExecutor: Sendable {
+    func apply(_ payload: ActionPayload, proposal: ActionProposal) async throws
+}
+
+/// Records the receipt lifecycle. The GRDB-backed production ledger lands
+/// with its own milestone; `InMemoryReceiptLedger` serves tests and previews.
+/// Requirements are async so implementations may be actors or locked classes.
+public protocol ReceiptLedger: Sendable {
+    /// Append one receipt row.
+    func record(_ receipt: ActionReceipt) async throws
+    /// The most recent receipt for a proposal, if any.
+    func latestReceipt(proposalID: String) async throws -> ActionReceipt?
+}
+
+/// Thread-safe in-memory ledger. Receipt rows are kept in arrival order per
+/// proposal.
+public actor InMemoryReceiptLedger: ReceiptLedger {
+    private var receipts: [String: [ActionReceipt]] = [:]
+
+    public init() {}
+
+    public func record(_ receipt: ActionReceipt) throws {
+        receipts[receipt.proposalID, default: []].append(receipt)
+    }
+
+    public func latestReceipt(proposalID: String) throws -> ActionReceipt? {
+        receipts[proposalID]?.last
+    }
+
+    /// All rows, in insertion order — test and diagnostics convenience.
+    public func allReceipts() -> [ActionReceipt] {
+        receipts.values.flatMap { $0 }.sorted { $0.recordedAt < $1.recordedAt }
+    }
+}
+
+/// One minted proposal and the session it was computed for. Kept private to
+/// the authority; proposals cross to callers as FLDomain values.
+private struct OpenProposal: Sendable {
+    let proposal: ActionProposal
+    let sessionID: String
+}
+
+/// The phone-side authority. One instance serves all sessions; proposals are
+/// keyed by ID and remember the session they were computed against, so an
+/// approval presented from another session is refused.
+public actor AssistantAuthority {
+    private let engine: ActionProposalEngine
+    private let ledger: any ReceiptLedger
+    private var openProposals: [String: OpenProposal] = [:]
+
+    public init(engine: ActionProposalEngine = ActionProposalEngine(), ledger: any ReceiptLedger) {
+        self.engine = engine
+        self.ledger = ledger
+    }
+
+    // MARK: Proposing
+
+    /// Mint a proposal from a validated model invocation against `snapshot`.
+    /// The proposal is stored as `pendingApproval` — the arrival receipt —
+    /// before the caller sees it, so every proposal leaves an evidence trail
+    /// even if it is never approved.
+    public func propose(
+        from invocation: ToolInvocation,
+        against snapshot: AssistantContextSnapshot,
+        now: Date
+    ) async throws -> ActionProposal {
+        let proposal = try engine.propose(from: invocation, against: snapshot, now: now)
+        try await storePending(proposal, sessionID: snapshot.sessionID)
+        return proposal
+    }
+
+    /// Mint a proposal directly (host-initiated flows use the same authority
+    /// path, so receipts stay complete).
+    public func propose(
+        tool: AssistantTool,
+        payload: ActionPayload,
+        against snapshot: AssistantContextSnapshot,
+        now: Date,
+        expiresAt: Date? = nil
+    ) async throws -> ActionProposal {
+        let proposal = try engine.propose(
+            tool: tool, payload: payload, against: snapshot, now: now, expiresAt: expiresAt
+        )
+        try await storePending(proposal, sessionID: snapshot.sessionID)
+        return proposal
+    }
+
+    private func storePending(_ proposal: ActionProposal, sessionID: String) async throws {
+        try await ledger.record(try ActionReceipt(
+            proposalID: proposal.id,
+            state: .pendingApproval,
+            payloadHash: proposal.payloadHash,
+            snapshotRevision: proposal.snapshotRevision,
+            recordedAt: proposal.createdAt
+        ))
+        openProposals[proposal.id] = OpenProposal(proposal: proposal, sessionID: sessionID)
+    }
+
+    // MARK: Deciding
+
+    /// Apply an approval. Runs the broker's full rule (ID + hash + revision +
+    /// expiry + session), executes the effects, and records the `.executed`
+    /// receipt after the effects succeed. A refused approval records the
+    /// refusal receipt (`rejected` / `staleRevision` / `expired`) and throws.
+    /// An executor failure propagates without recording — the proposal stays
+    /// pending and can be retried; "executed" is only claimed for work that
+    /// actually happened.
+    @discardableResult
+    public func approve(
+        _ approval: ActionApproval,
+        executor: any ActionExecutor,
+        now: Date
+    ) async throws -> ActionReceipt {
+        guard let entry = openProposals[approval.proposalID] else {
+            // Not open: either it never existed here, or it was decided and
+            // closed. The ledger decides which refusal is true — a receipt
+            // means the proposal was minted and the earlier receipt stands.
+            if (try await ledger.latestReceipt(proposalID: approval.proposalID)) != nil {
+                throw FLAssistantError.alreadyDecided(proposalID: approval.proposalID)
+            }
+            throw FLAssistantError.unknownProposal(proposalID: approval.proposalID)
+        }
+        // A decided proposal never re-executes. The earlier receipt stands;
+        // this attempt is refused and leaves no new row.
+        if let latest = try await ledger.latestReceipt(proposalID: entry.proposal.id),
+           latest.state != .pendingApproval {
+            throw FLAssistantError.alreadyDecided(proposalID: entry.proposal.id)
+        }
+        do {
+            try ApprovalBroker.authorize(
+                proposal: entry.proposal,
+                approval: approval,
+                inSession: entry.sessionID,
+                proposalSessionID: entry.sessionID,
+                now: now
+            )
+        } catch let error as FLAssistantError {
+            // Record the refusal reason as a receipt — the evidence trail
+            // shows the forgery attempt and what was NOT executed.
+            let state: ActionReceiptState
+            switch error {
+            case .snapshotRevisionMismatch:
+                state = .staleRevision
+            case .proposalExpired:
+                state = .expired
+            default:
+                // Hash mismatch, session mismatch — a user-facing refusal of
+                // the presented approval.
+                state = .rejected
+            }
+            try await ledger.record(try ActionReceipt(
+                proposalID: entry.proposal.id,
+                state: state,
+                payloadHash: entry.proposal.payloadHash,
+                snapshotRevision: entry.proposal.snapshotRevision,
+                recordedAt: now
+            ))
+            throw error
+        }
+        // Authorized: effects first, then the executed receipt.
+        try await executor.apply(entry.proposal.payload, proposal: entry.proposal)
+        let receipt = try ActionReceipt(
+            proposalID: entry.proposal.id,
+            state: .executed,
+            payloadHash: entry.proposal.payloadHash,
+            snapshotRevision: entry.proposal.snapshotRevision,
+            recordedAt: now
+        )
+        try await ledger.record(receipt)
+        openProposals[entry.proposal.id] = nil
+        return receipt
+    }
+
+    /// Record an explicit user decline for an open proposal.
+    @discardableResult
+    public func decline(proposalID: String, now: Date) async throws -> ActionReceipt {
+        guard let entry = openProposals[proposalID] else {
+            if (try await ledger.latestReceipt(proposalID: proposalID)) != nil {
+                throw FLAssistantError.alreadyDecided(proposalID: proposalID)
+            }
+            throw FLAssistantError.unknownProposal(proposalID: proposalID)
+        }
+        if let latest = try await ledger.latestReceipt(proposalID: proposalID),
+           latest.state != .pendingApproval {
+            throw FLAssistantError.alreadyDecided(proposalID: proposalID)
+        }
+        let receipt = try ActionReceipt(
+            proposalID: proposalID,
+            state: .rejected,
+            payloadHash: entry.proposal.payloadHash,
+            snapshotRevision: entry.proposal.snapshotRevision,
+            recordedAt: now
+        )
+        try await ledger.record(receipt)
+        openProposals[proposalID] = nil
+        return receipt
+    }
+
+    /// Expire every open proposal past its validity window at `now` and
+    /// return the receipts recorded. The host calls this when a session ends
+    /// or periodically, so stale proposals cannot linger as approvable.
+    public func sweepExpired(now: Date) async throws -> [ActionReceipt] {
+        var expired: [ActionReceipt] = []
+        for (id, entry) in openProposals {
+            guard let expiresAt = entry.proposal.expiresAt, now > expiresAt else { continue }
+            let receipt = try ActionReceipt(
+                proposalID: id,
+                state: .expired,
+                payloadHash: entry.proposal.payloadHash,
+                snapshotRevision: entry.proposal.snapshotRevision,
+                recordedAt: now
+            )
+            try await ledger.record(receipt)
+            openProposals[id] = nil
+            expired.append(receipt)
+        }
+        return expired.sorted { $0.proposalID < $1.proposalID }
+    }
+
+    /// The most recent receipt for a proposal, if any.
+    public func latestReceipt(proposalID: String) async throws -> ActionReceipt? {
+        try await ledger.latestReceipt(proposalID: proposalID)
+    }
+}
