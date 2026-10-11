@@ -1,0 +1,42 @@
+{
+  "capsule_id": "fixture-self-referential",
+  "coverage_gaps": [],
+  "model_transport": {
+    "mode": "offline-deterministic",
+    "model": null,
+    "network": "none",
+    "seed": null,
+    "temperature": null
+  },
+  "notes": "The broken generator hashed the table, appended '# output_sha256: <digest>', and declared the pre-embed digest for the finished file. No digest can be simultaneously correct and embedded in the content it covers (that would be a sha256 fixed point), so the checker rejects with exactly one self-referential-hash finding.",
+  "outputs": [
+    {
+      "bytes": 203,
+      "path": "tools/experiment-capsules/fixtures/contracts/self-referential/outputs/table.txt",
+      "sha256": "611a3d1c6ed7ff86db416aa51b8ad08888d51991ab82b9ece97ce823fe66e011"
+    }
+  ],
+  "owner": "experiment-capsules fixtures",
+  "permitted_inputs": [
+    "tools/experiment-capsules/fixtures/contracts/self-referential/inputs/rows.json"
+  ],
+  "schema_version": "1",
+  "sources": [
+    {
+      "path": "tools/experiment-capsules/fixtures/contracts/self-referential/sources/table_text.py",
+      "role": "source",
+      "sha256": "31d2e4479f1dee0c465f09de4ea9daec4e9ca7bc1dcda31471b4726302291ccc"
+    },
+    {
+      "path": "tools/experiment-capsules/fixtures/contracts/self-referential/sources/cellfmt.py",
+      "role": "import",
+      "sha256": "c166e8a5e7afe6f4ff9a43cc8a8165c7d3eed55a88a349f22bd32edc7c93dde4"
+    }
+  ],
+  "title": "Fixture: an output embeds the digest declared for it (rejection case 3)",
+  "toolchain": {
+    "dependencies": [],
+    "language": "python",
+    "language_version": "3.13.14"
+  }
+}
