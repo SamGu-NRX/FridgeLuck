@@ -19,6 +19,7 @@ export type StableErrorCode =
   | "payload_too_large"
   | "rate_limited"
   | "not_found"
+  | "model_unavailable"
   | "internal_error"
   | PublicErrorCode;
 
