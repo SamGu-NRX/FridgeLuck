@@ -23,6 +23,58 @@ struct RunManifest: Codable {
     var note: String
 }
 
+/// Run identity for the scorecard's fail-close check: results produced by a
+/// binary that cannot name its producing commit are not publishable (the
+/// suite wiring rejects an empty SHA).
+struct Provenance: Codable {
+    var gitSHA: String
+    var producedAt: String
+    var dirtyFiles: Int
+    var note: String
+
+    enum CodingKeys: String, CodingKey {
+        case gitSHA = "git_sha"
+        case producedAt = "produced_at"
+        case dirtyFiles = "dirty_files"
+        case note
+    }
+}
+
+/// Shells out to git; fail-soft returns an empty SHA (which the suite
+/// wiring then rejects) so the campaign never crashes on provenance.
+func runProvenance() -> Provenance {
+    func git(_ arguments: [String]) -> String? {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+        task.arguments = ["git"] + arguments
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        task.standardError = Pipe()
+        do {
+            try task.run()
+            task.waitUntilExit()
+            guard task.terminationStatus == 0 else { return nil }
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            return String(data: data, encoding: .utf8)?
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+        } catch {
+            return nil
+        }
+    }
+
+    let sha = git(["rev-parse", "HEAD"]) ?? ""
+    let status = git(["status", "--porcelain"]) ?? ""
+    let dirty = status.split(separator: "\n").count
+    return Provenance(
+        gitSHA: sha,
+        producedAt: ISO8601String(Date()),
+        dirtyFiles: dirty,
+        note: sha.isEmpty
+            ? "empty git_sha: producing commit unknown — NOT publishable"
+            : "produced by the commit named in git_sha"
+    )
+}
+
 /// Thread-safe accumulator box: worker threads fold household metrics in
 /// under a lock; the caller reads the pooled result when they all finish.
 final class LockedAccumulator: @unchecked Sendable {
@@ -222,6 +274,8 @@ func main() throws {
         corpusPath: dataPath, corpusRecipeCount: catalog.recipes.count,
         note: "suite-B campaign, staged weekly replay, checkpointed per (seed, arm)")
     try encoder.encode(manifest).write(to: URL(fileURLWithPath: "\(outDir)/manifest.json"))
+    try encoder.encode(runProvenance())
+        .write(to: URL(fileURLWithPath: "\(outDir)/PROVENANCE.json"))
 }
 
 func ISO8601String(_ date: Date) -> String {
