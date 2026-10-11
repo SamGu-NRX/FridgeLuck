@@ -14,6 +14,9 @@ struct IngredientReviewView: View {
   let scanProvenance: ScanProvenance
   let scanDiagnostics: ScanDiagnostics?
   let fridgeImage: UIImage?
+  /// True only for the user's own scan. Demo, tutorial and replay reviews show bundled or demo
+  /// photos, and writing those would put fictional food into the real Kitchen.
+  let savesToInventory: Bool
   let scopedDependencies: Dependencies?
 
   struct Dependencies {
@@ -87,6 +90,7 @@ struct IngredientReviewView: View {
   @State private var suggestedOutcomeByDetection: [UUID: Bool] = [:]
   @State private var didInitialize = false
   @State private var inventorySourceRef = "scan-review:\(UUID().uuidString)"
+  @State private var kitchenSaveError: String?
 
   // MARK: - Tutorial Integration
   @Environment(TutorialFlowContext.self) private var tutorialFlowContext: TutorialFlowContext?
@@ -102,6 +106,7 @@ struct IngredientReviewView: View {
     scanProvenance: ScanProvenance = .realScan,
     scanDiagnostics: ScanDiagnostics? = nil,
     fridgeImage: UIImage? = nil,
+    savesToInventory: Bool,
     dependencies: Dependencies? = nil,
     replaySpotlightOnAppear: Bool = false
   ) {
@@ -111,6 +116,7 @@ struct IngredientReviewView: View {
     self.scanProvenance = scanProvenance
     self.scanDiagnostics = scanDiagnostics
     self.fridgeImage = fridgeImage
+    self.savesToInventory = savesToInventory
     self.scopedDependencies = dependencies
   }
 
@@ -244,13 +250,13 @@ struct IngredientReviewView: View {
           .padding(.bottom, AppTheme.Space.lg)
         }
         .onAppear {
-          reviewSpotlight.onScrollToAnchor = { anchorID in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-              withAnimation(AppMotion.spotlightMove) {
-                scrollProxy.scrollTo(anchorID, anchor: .center)
-              }
-            }
-          }
+          reviewSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onChange(of: reduceMotion) { _, reduceMotion in
+          reviewSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onDisappear {
+          reviewSpotlight.stopScrolling()
         }
       }
 
@@ -258,32 +264,7 @@ struct IngredientReviewView: View {
         confirmedCount: confirmedIds.count,
         unresolvedCount: unresolvedCount,
         reduceMotion: reduceMotion,
-        onFindRecipes: {
-          logger.info(
-            "Find recipes tapped. confirmed=\(confirmedIds.count, privacy: .public), unresolved=\(unresolvedCount, privacy: .public)"
-          )
-          do {
-            try dependencies.ingestInventoryFromScan(
-              detections,
-              confirmedIds,
-              selectedIngredientForDetection,
-              inventorySourceRef
-            )
-            logger.info("Inventory intake from scan review succeeded.")
-          } catch {
-            logger.error(
-              "Inventory intake from scan review failed: \(error.localizedDescription, privacy: .public)"
-            )
-          }
-          flushLearningTelemetry()
-
-          if tutorialFlowContext?.activeQuest == .ingredientReview {
-            tutorialFlowContext?.completeObjective()
-            return
-          }
-
-          navigateToResults = true
-        }
+        onFindRecipes: { findRecipes(savingToKitchen: savesToInventory) }
       )
     }
     .onPreferenceChange(SpotlightAnchorKey.self) { newAnchors in
@@ -352,6 +333,20 @@ struct IngredientReviewView: View {
     .sheet(item: $selectedIngredientForDetail) { ingredient in
       IngredientDetailSheet(ingredient: ingredient)
     }
+    .alert(
+      "Couldn't save to your Kitchen",
+      isPresented: Binding(
+        get: { kitchenSaveError != nil },
+        set: { if !$0 { kitchenSaveError = nil } }
+      )
+    ) {
+      Button("Try Again") { findRecipes(savingToKitchen: true) }
+      Button("Find Recipes Without Saving", role: .cancel) {
+        findRecipes(savingToKitchen: false)
+      }
+    } message: {
+      Text(kitchenSaveError ?? "")
+    }
     .sheet(isPresented: $showFridgePhoto) {
       if let fridgeImage {
         FridgePhotoViewer(image: fridgeImage)
@@ -363,6 +358,8 @@ struct IngredientReviewView: View {
         ingredientNames: confirmedIngredientNames(),
         fridgePhoto: fridgeImage,
         scanConfidenceScore: averageConfirmedDetectionConfidence(),
+        includesKitchenInventory: savesToInventory,
+        logsMeals: savesToInventory,
         engine: dependencies.makeRecommendationEngine()
       )
     }
@@ -383,6 +380,40 @@ struct IngredientReviewView: View {
       guard pendingReviewSpotlightTrigger else { return }
       presentReviewSpotlight(markSeen: !replaySpotlightPending)
     }
+  }
+
+  // MARK: - Find Recipes
+
+  private func findRecipes(savingToKitchen: Bool) {
+    logger.info(
+      "Find recipes tapped. confirmed=\(confirmedIds.count, privacy: .public), unresolved=\(unresolvedCount, privacy: .public)"
+    )
+    if savingToKitchen {
+      do {
+        try dependencies.ingestInventoryFromScan(
+          detections,
+          confirmedIds,
+          selectedIngredientForDetection,
+          inventorySourceRef
+        )
+      } catch {
+        logger.error(
+          "Inventory intake from scan review failed: \(error.localizedDescription, privacy: .public)"
+        )
+        // Intake is one transaction, so nothing was saved; the user picks retry or skip.
+        kitchenSaveError =
+          "Your confirmed ingredients weren't added. Try again, or find recipes now and add them later from Kitchen."
+        return
+      }
+    }
+    flushLearningTelemetry()
+
+    if tutorialFlowContext?.activeQuest == .ingredientReview {
+      tutorialFlowContext?.completeObjective()
+      return
+    }
+
+    navigateToResults = true
   }
 
   // MARK: - Review Spotlight

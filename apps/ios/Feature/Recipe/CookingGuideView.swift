@@ -10,6 +10,8 @@ struct CookingGuideView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let scoredRecipe: ScoredRecipe
+  let logsMeal: Bool
+  private let guide: CookingGuideSteps
   private let scopedDependencies: Dependencies?
   var onComplete: () -> Void
 
@@ -21,10 +23,15 @@ struct CookingGuideView: View {
 
   init(
     scoredRecipe: ScoredRecipe,
+    logsMeal: Bool,
+    initialSubstitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:],
     dependencies: Dependencies? = nil,
     onComplete: @escaping () -> Void
   ) {
     self.scoredRecipe = scoredRecipe
+    self.logsMeal = logsMeal
+    self.guide = CookingGuideSteps(instructions: scoredRecipe.recipe.instructions)
+    self._activeSubstitutions = State(initialValue: initialSubstitutions)
     self.scopedDependencies = dependencies
     self.onComplete = onComplete
   }
@@ -42,12 +49,22 @@ struct CookingGuideView: View {
 
   private var recipe: Recipe { scoredRecipe.recipe }
 
-  private var instructionSteps: [String] {
-    recipe.instructions
-      .components(separatedBy: "\n")
-      .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-      .filter { !$0.isEmpty }
+  /// Substitutions of required ingredients, in the form the meal log records. Optional
+  /// ingredients never count toward logged nutrition or consumption, so their swaps aren't saved.
+  private var swaps: [IngredientSwap] {
+    let requiredIDs = Set(ingredients.filter(\.quantity.isRequired).map(\.quantity.ingredientId))
+    return activeSubstitutions.compactMap { originalId, chosen in
+      guard requiredIDs.contains(originalId) else { return nil }
+      return IngredientSwap(
+        originalIngredientId: originalId,
+        substituteIngredientId: chosen.substitution.substituteId,
+        ratio: chosen.substitution.ratio
+      )
+    }
+    .sorted { $0.originalIngredientId < $1.originalIngredientId }
   }
+
+  private var instructionSteps: [String] { guide.steps }
 
   private var totalPages: Int { 1 + instructionSteps.count }
   private var totalSteps: Int { instructionSteps.count }
@@ -116,6 +133,8 @@ struct CookingGuideView: View {
       if showCelebration {
         CookingCelebrationView(
           scoredRecipe: scoredRecipe,
+          logsMeal: logsMeal,
+          swaps: swaps,
           onDismiss: {
             dismiss()
             onComplete()
@@ -180,6 +199,7 @@ struct CookingGuideView: View {
           index: currentStepIndex,
           totalSteps: totalSteps,
           step: instructionSteps[currentStepIndex],
+          attribution: isOnLastStep ? guide.attribution : nil,
           completedSteps: $completedSteps,
           pageAppeared: pageAppeared,
           reduceMotion: reduceMotion,

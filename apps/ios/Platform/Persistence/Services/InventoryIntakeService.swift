@@ -4,7 +4,19 @@ struct InventoryScanIngestionSummary: Sendable {
   let sourceRef: String
   let ingredientCount: Int
   let lotsAdded: Int
+  var lotsRetired: Int = 0
+  var lotsRestored: Int = 0
   let skippedAsDuplicate: Bool
+}
+
+enum IntakeError: LocalizedError {
+  case missingSourceRef
+
+  var errorDescription: String? {
+    switch self {
+    case .missingSourceRef: return "Scan intake needs a review-session reference."
+    }
+  }
 }
 
 /// Converts confirmed scan detections into inventory lot updates.
@@ -21,6 +33,13 @@ final class InventoryIntakeService: Sendable {
     self.inventoryRepository = inventoryRepository
   }
 
+  /// Makes the Kitchen match what the user confirmed in one scan-review session.
+  ///
+  /// The review can be revisited (back from recipes, correct a tomato to a pepper, search again),
+  /// so each call reconciles the session's lots in one transaction: newly confirmed foods are
+  /// added, lots for foods the user no longer confirms are emptied, and a lot emptied that way
+  /// comes back if the user confirms the food again. Lots already cooked from are never
+  /// retired, restored or re-added, so a revisit can't bring back eaten food.
   @discardableResult
   func ingestConfirmedScan(
     detections: [Detection],
@@ -31,83 +50,92 @@ final class InventoryIntakeService: Sendable {
   ) throws -> InventoryScanIngestionSummary {
     let normalizedSourceRef = sourceRef.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !normalizedSourceRef.isEmpty else {
-      return InventoryScanIngestionSummary(
-        sourceRef: sourceRef,
-        ingredientCount: 0,
-        lotsAdded: 0,
-        skippedAsDuplicate: false
-      )
+      throw IntakeError.missingSourceRef
     }
 
-    if try inventoryRepository.hasEvent(eventType: .add, sourceRef: normalizedSourceRef) {
-      return InventoryScanIngestionSummary(
-        sourceRef: normalizedSourceRef,
-        ingredientCount: 0,
-        lotsAdded: 0,
-        skippedAsDuplicate: true
-      )
-    }
-
-    var observations: [Int64: (count: Int, confidenceSum: Double)] = [:]
-
+    // `estimateLabel` is the name the review showed its estimate for, so the stored amount is
+    // the amount the user confirmed. A corrected detection's label names the wrong food, so
+    // those use the chosen ingredient's name instead.
+    var observations: [Int64: (count: Int, confidenceSum: Double, estimateLabel: String?)] = [:]
     for detection in detections {
       let selectedIngredientID =
         selectedIngredientByDetection[detection.id] ?? detection.ingredientId
       guard confirmedIngredientIDs.contains(selectedIngredientID) else { continue }
 
-      let existing = observations[selectedIngredientID] ?? (count: 0, confidenceSum: 0)
+      let existing =
+        observations[selectedIngredientID] ?? (count: 0, confidenceSum: 0, estimateLabel: nil)
+      let wasCorrected = selectedIngredientID != detection.ingredientId
       observations[selectedIngredientID] = (
         count: existing.count + 1,
-        confidenceSum: existing.confidenceSum + max(0, min(Double(detection.confidence), 1.0))
+        confidenceSum: existing.confidenceSum + max(0, min(Double(detection.confidence), 1.0)),
+        estimateLabel: existing.estimateLabel ?? (wasCorrected ? nil : detection.label)
       )
     }
 
-    guard !observations.isEmpty else {
+    let ingredients = try ingredientRepository.fetch(ids: Set(observations.keys))
+    let ingredientByID: [Int64: Ingredient] = Dictionary(
+      uniqueKeysWithValues: ingredients.compactMap { ingredient in
+        ingredient.id.map { ($0, ingredient) }
+      }
+    )
+
+    return try inventoryRepository.write { db in
+      let sessionLots = try inventoryRepository.lots(in: db, addedBy: normalizedSourceRef)
+      let alreadyAdded = Set(sessionLots.map(\.ingredientId))
+
+      var lotsRetired = 0
+      var lotsRestored = 0
+      for lot in sessionLots where !lot.wasConsumed {
+        let isConfirmed = observations[lot.ingredientId] != nil
+        if !isConfirmed && lot.remainingGrams > 0 {
+          try inventoryRepository.retireLot(
+            in: db,
+            lot,
+            reason: InventoryRepository.reviewRetirementReason,
+            sourceRef: normalizedSourceRef
+          )
+          lotsRetired += 1
+        } else if isConfirmed && lot.wasRetiredByReview {
+          try inventoryRepository.restoreRetiredLot(in: db, lot, sourceRef: normalizedSourceRef)
+          lotsRestored += 1
+        }
+      }
+
+      var lotsAdded = 0
+      for (ingredientID, observation) in observations where !alreadyAdded.contains(ingredientID) {
+        let ingredient = ingredientByID[ingredientID]
+        // Same estimator and input the review screens display, with no extra floor, so the
+        // Kitchen stores what the user confirmed. The catalog-unit estimate it replaced stored
+        // e.g. 120 g for an egg the review had shown as ~50 g.
+        let gramsPerDetection = Self.estimatedGrams(
+          forName: observation.estimateLabel ?? ingredient?.displayName ?? ingredient?.name)
+        let quantityGrams = gramsPerDetection * Double(max(1, observation.count))
+        let averageConfidence = observation.confidenceSum / Double(max(1, observation.count))
+
+        try inventoryRepository.addLot(
+          in: db,
+          ingredientId: ingredientID,
+          quantityGrams: quantityGrams,
+          location: Self.inferredLocation(for: ingredient),
+          confidenceScore: max(0.35, min(averageConfidence, 1.0)),
+          source: .scan,
+          acquiredAt: acquiredAt,
+          reason: "Scan-confirmed inventory intake",
+          sourceRef: normalizedSourceRef,
+          quantityIsEstimate: true
+        )
+        lotsAdded += 1
+      }
+
       return InventoryScanIngestionSummary(
         sourceRef: normalizedSourceRef,
-        ingredientCount: 0,
-        lotsAdded: 0,
+        ingredientCount: observations.count,
+        lotsAdded: lotsAdded,
+        lotsRetired: lotsRetired,
+        lotsRestored: lotsRestored,
         skippedAsDuplicate: false
       )
     }
-
-    let ingredientIDs = Set(observations.keys)
-    let ingredients = try ingredientRepository.fetch(ids: ingredientIDs)
-    let ingredientPairs: [(Int64, Ingredient)] = ingredients.compactMap { ingredient in
-      guard let id = ingredient.id else { return nil }
-      return (id, ingredient)
-    }
-    let ingredientByID: [Int64: Ingredient] = Dictionary(uniqueKeysWithValues: ingredientPairs)
-
-    var lotsAdded = 0
-    for (ingredientID, observation) in observations {
-      let ingredient = ingredientByID[ingredientID]
-      let gramsPerDetection = Self.estimatedGrams(for: ingredient)
-      let quantityGrams = max(30, gramsPerDetection * Double(max(1, observation.count)))
-
-      let averageConfidence = observation.confidenceSum / Double(max(1, observation.count))
-      let confidence = max(0.35, min(averageConfidence, 1.0))
-      let location = Self.inferredLocation(for: ingredient)
-
-      _ = try inventoryRepository.addLot(
-        ingredientId: ingredientID,
-        quantityGrams: quantityGrams,
-        location: location,
-        confidenceScore: confidence,
-        source: .scan,
-        acquiredAt: acquiredAt,
-        reason: "Scan-confirmed inventory intake",
-        sourceRef: normalizedSourceRef
-      )
-      lotsAdded += 1
-    }
-
-    return InventoryScanIngestionSummary(
-      sourceRef: normalizedSourceRef,
-      ingredientCount: observations.count,
-      lotsAdded: lotsAdded,
-      skippedAsDuplicate: false
-    )
   }
 
   // MARK: - Grocery Intake (explicit quantities + locations)
@@ -182,10 +210,6 @@ final class InventoryIntakeService: Sendable {
     inferredLocation(forName: ingredientName)
   }
 
-  static func estimateGrams(for ingredient: Ingredient?) -> Double {
-    estimatedGrams(for: ingredient)
-  }
-
   static func estimateGrams(forName ingredientName: String?) -> Double {
     estimatedGrams(forName: ingredientName)
   }
@@ -222,26 +246,6 @@ final class InventoryIntakeService: Sendable {
     }
 
     return .unknown
-  }
-
-  private static func estimatedGrams(for ingredient: Ingredient?) -> Double {
-    guard let typicalUnit = ingredient?.typicalUnit?.lowercased() else { return 120 }
-
-    if let grams = extractNumber(from: typicalUnit, unitTokens: ["g", "gram", "grams"]) {
-      return max(20, grams)
-    }
-
-    if let ounces = extractNumber(from: typicalUnit, unitTokens: ["oz", "ounce", "ounces"]) {
-      return max(20, ounces * 28.3495)
-    }
-
-    if typicalUnit.contains("cup") { return 240 }
-    if typicalUnit.contains("tbsp") || typicalUnit.contains("tablespoon") { return 15 }
-    if typicalUnit.contains("tsp") || typicalUnit.contains("teaspoon") { return 5 }
-    if typicalUnit.contains("slice") { return 35 }
-    if typicalUnit.contains("piece") || typicalUnit.contains("whole") { return 90 }
-
-    return 120
   }
 
   private static func estimatedGrams(forName ingredientName: String?) -> Double {
@@ -300,21 +304,4 @@ final class InventoryIntakeService: Sendable {
     "onion", "tomato", "pepper", "potato", "carrot", "mushroom", "broccoli", "cucumber",
     "avocado", "apple", "banana", "lemon", "lime", "zucchini", "celery",
   ]
-
-  private static func extractNumber(from text: String, unitTokens: [String]) -> Double? {
-    let pattern = "([0-9]+(?:\\.[0-9]+)?)\\s*(\\b(?:" + unitTokens.joined(separator: "|") + ")\\b)"
-    guard let regex = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else {
-      return nil
-    }
-
-    let fullRange = NSRange(text.startIndex..<text.endIndex, in: text)
-    guard let match = regex.firstMatch(in: text, options: [], range: fullRange),
-      match.numberOfRanges >= 2,
-      let numberRange = Range(match.range(at: 1), in: text)
-    else {
-      return nil
-    }
-
-    return Double(text[numberRange])
-  }
 }

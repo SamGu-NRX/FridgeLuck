@@ -3,7 +3,9 @@ import GRDB
 
 /// All database schema migrations in one place.
 enum DatabaseMigrations {
-  static func migrate(_ db: DatabaseQueue) throws {
+  /// Applies registered migrations. `upTo` stops after the named migration, which upgrade tests
+  /// use to build a database as an older app version left it.
+  static func migrate(_ db: DatabaseQueue, upTo target: String? = nil) throws {
     var migrator = DatabaseMigrator()
 
     // MARK: - V1: Initial Schema
@@ -479,6 +481,57 @@ enum DatabaseMigrations {
       )
     }
 
-    try migrator.migrate(db)
+    // MARK: - V16: Inventory Quantity Estimates
+
+    // Fridge-photo intake guesses one typical unit per detection (a 12-egg carton becomes 50 g).
+    // The flag keeps those amounts visibly estimated in Kitchen until the user sets an amount.
+    migrator.registerMigration("v16_inventory_quantity_estimates") { db in
+      try db.alter(table: "inventory_lots") { t in
+        t.add(column: "quantity_is_estimate", .boolean).notNull().defaults(to: false)
+      }
+      // Existing photo-intake lots carry this event reason; it is the only record of where
+      // their amount came from.
+      try db.execute(
+        sql: """
+          UPDATE inventory_lots SET quantity_is_estimate = 1
+          WHERE id IN (
+            SELECT lot_id FROM inventory_events
+            WHERE event_type = 'add' AND reason = 'Scan-confirmed inventory intake'
+          )
+          """
+      )
+    }
+
+    // MARK: - V17: Cooking Portion Multiplier
+
+    // Meal-photo logging lets the user say the plate was small (~70%) or large (~140%). Servings
+    // stay whole numbers, so the portion is stored beside them and every nutrition total and
+    // inventory deduction multiplies by it. Existing rows are full portions.
+    migrator.registerMigration("v17_cooking_portion_multiplier") { db in
+      try db.alter(table: "cooking_history") { t in
+        t.add(column: "portion_multiplier", .double).notNull().defaults(to: 1.0)
+      }
+    }
+
+    // MARK: - V18: Cooking Swaps
+
+    // Swaps made while cooking change what was eaten and what leaves the Kitchen. Each logged
+    // meal keeps its swaps so reports, consumption and Apple Health use the substitute.
+    migrator.registerMigration("v18_cooking_history_swaps") { db in
+      try db.create(table: "cooking_history_swaps") { t in
+        t.column("history_id", .integer).notNull()
+          .references("cooking_history", onDelete: .cascade)
+        t.column("original_ingredient_id", .integer).notNull()
+        t.column("substitute_ingredient_id", .integer).notNull().references("ingredients")
+        t.column("ratio", .double).notNull().check { $0 > 0 }
+        t.primaryKey(["history_id", "original_ingredient_id"])
+      }
+    }
+
+    if let target {
+      try migrator.migrate(db, upTo: target)
+    } else {
+      try migrator.migrate(db)
+    }
   }
 }

@@ -10,6 +10,21 @@ final class InventoryRepository: Sendable {
     self.db = db
   }
 
+  /// Calls `onChange` on the main actor after any committed write to inventory tables.
+  /// Observing the database catches every writer, including MealLogService's in-transaction
+  /// consumption, which never reaches `notifyInventoryDidChange()`.
+  func observeInventoryChanges(
+    onError: @escaping @MainActor (Error) -> Void = { _ in },
+    onChange: @escaping @MainActor () -> Void
+  ) -> AnyDatabaseCancellable {
+    DatabaseRegionObservation(tracking: Table("inventory_lots"), Table("inventory_items"))
+      .start(
+        in: db,
+        onError: { error in Task { @MainActor in onError(error) } },
+        onChange: { _ in Task { @MainActor in onChange() } }
+      )
+  }
+
   // MARK: - Inbound Inventory
 
   @discardableResult
@@ -22,67 +37,181 @@ final class InventoryRepository: Sendable {
     acquiredAt: Date = Date(),
     expiresAt: Date? = nil,
     reason: String? = nil,
-    sourceRef: String? = nil
+    sourceRef: String? = nil,
+    quantityIsEstimate: Bool = false
+  ) throws -> Int64 {
+    let lotID = try db.write { db in
+      try addLot(
+        in: db,
+        ingredientId: ingredientId,
+        quantityGrams: quantityGrams,
+        location: location,
+        confidenceScore: confidenceScore,
+        source: source,
+        acquiredAt: acquiredAt,
+        expiresAt: expiresAt,
+        reason: reason,
+        sourceRef: sourceRef,
+        quantityIsEstimate: quantityIsEstimate
+      )
+    }
+    notifyInventoryDidChange()
+    return lotID
+  }
+
+  /// Transaction-scoped lot insert for services that compose several inventory writes.
+  @discardableResult
+  func addLot(
+    in db: Database,
+    ingredientId: Int64,
+    quantityGrams: Double,
+    location: InventoryStorageLocation,
+    confidenceScore: Double,
+    source: InventoryLotSource,
+    acquiredAt: Date = Date(),
+    expiresAt: Date? = nil,
+    reason: String? = nil,
+    sourceRef: String? = nil,
+    quantityIsEstimate: Bool = false
   ) throws -> Int64 {
     let safeQuantity = max(0, quantityGrams)
     let safeConfidence = max(0, min(confidenceScore, 1.0))
 
-    let lotID = try db.write { db in
-      let resolvedExpiry: Date?
-      if let expiresAt {
-        resolvedExpiry = expiresAt
-      } else {
-        resolvedExpiry = try deriveExpiryDate(
-          db: db,
-          ingredientId: ingredientId,
-          location: location,
-          acquiredAt: acquiredAt
-        )
-      }
-
-      try db.execute(
-        sql: """
-          INSERT INTO inventory_lots (
-            ingredient_id,
-            quantity_grams,
-            remaining_grams,
-            storage_location,
-            confidence_score,
-            source,
-            acquired_at,
-            expires_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-          """,
-        arguments: [
-          ingredientId,
-          safeQuantity,
-          safeQuantity,
-          location.rawValue,
-          safeConfidence,
-          source.rawValue,
-          acquiredAt,
-          resolvedExpiry,
-        ]
-      )
-
-      let lotID = db.lastInsertedRowID
-
-      try insertEvent(
+    let resolvedExpiry: Date?
+    if let expiresAt {
+      resolvedExpiry = expiresAt
+    } else {
+      resolvedExpiry = try deriveExpiryDate(
         db: db,
         ingredientId: ingredientId,
-        lotId: lotID,
-        eventType: .add,
-        quantityDeltaGrams: safeQuantity,
-        confidenceScore: safeConfidence,
-        reason: reason,
-        sourceRef: sourceRef
+        location: location,
+        acquiredAt: acquiredAt
       )
-
-      try refreshInventoryItem(db: db, ingredientId: ingredientId)
-      return lotID
     }
-    notifyInventoryDidChange()
+
+    try db.execute(
+      sql: """
+        INSERT INTO inventory_lots (
+          ingredient_id,
+          quantity_grams,
+          remaining_grams,
+          storage_location,
+          confidence_score,
+          source,
+          acquired_at,
+          expires_at,
+          quantity_is_estimate
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+      arguments: [
+        ingredientId,
+        safeQuantity,
+        safeQuantity,
+        location.rawValue,
+        safeConfidence,
+        source.rawValue,
+        acquiredAt,
+        resolvedExpiry,
+        quantityIsEstimate,
+      ]
+    )
+
+    let lotID = db.lastInsertedRowID
+
+    try insertEvent(
+      db: db,
+      ingredientId: ingredientId,
+      lotId: lotID,
+      eventType: .add,
+      quantityDeltaGrams: safeQuantity,
+      confidenceScore: safeConfidence,
+      reason: reason,
+      sourceRef: sourceRef
+    )
+
+    try refreshInventoryItem(db: db, ingredientId: ingredientId)
     return lotID
+  }
+
+  static let reviewRetirementReason = "Removed during scan review"
+
+  /// Every lot a scan-review session added, including ones since used up or retired.
+  func lots(in db: Database, addedBy sourceRef: String) throws -> [ScanSessionLot] {
+    try Row.fetchAll(
+      db,
+      sql: """
+        SELECT il.id AS lot_id, il.ingredient_id, il.quantity_grams, il.remaining_grams,
+          EXISTS(
+            SELECT 1 FROM inventory_events c WHERE c.lot_id = il.id AND c.event_type = 'consume'
+          ) AS was_consumed,
+          COALESCE((
+            SELECT latest.event_type = 'adjust' AND latest.reason = ?
+            FROM inventory_events latest
+            WHERE latest.lot_id = il.id
+            ORDER BY latest.id DESC LIMIT 1
+          ), 0) AS was_retired_by_review
+        FROM inventory_lots il
+        JOIN inventory_events ie ON ie.lot_id = il.id
+        WHERE ie.event_type = 'add' AND ie.source_ref = ?
+        """,
+      arguments: [Self.reviewRetirementReason, sourceRef]
+    ).map { row in
+      ScanSessionLot(
+        lotId: row["lot_id"],
+        ingredientId: row["ingredient_id"],
+        quantityGrams: row["quantity_grams"],
+        remainingGrams: row["remaining_grams"],
+        wasConsumed: row["was_consumed"],
+        wasRetiredByReview: row["was_retired_by_review"]
+      )
+    }
+  }
+
+  /// Refills a lot this review emptied earlier, after the user confirmed the food again.
+  func restoreRetiredLot(in db: Database, _ lot: ScanSessionLot, sourceRef: String) throws {
+    try db.execute(
+      sql: "UPDATE inventory_lots SET remaining_grams = quantity_grams, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+      arguments: [lot.lotId]
+    )
+    try insertEvent(
+      db: db,
+      ingredientId: lot.ingredientId,
+      lotId: lot.lotId,
+      eventType: .adjust,
+      quantityDeltaGrams: lot.quantityGrams,
+      confidenceScore: 1.0,
+      reason: "Restored during scan review",
+      sourceRef: sourceRef
+    )
+    try refreshInventoryItem(db: db, ingredientId: lot.ingredientId)
+  }
+
+  /// Empties a lot the user un-confirmed during scan review, keeping an audit event.
+  func retireLot(in db: Database, _ lot: ScanSessionLot, reason: String, sourceRef: String)
+    throws
+  {
+    try db.execute(
+      sql: "UPDATE inventory_lots SET remaining_grams = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+      arguments: [lot.lotId]
+    )
+    try insertEvent(
+      db: db,
+      ingredientId: lot.ingredientId,
+      lotId: lot.lotId,
+      eventType: .adjust,
+      quantityDeltaGrams: -lot.remainingGrams,
+      confidenceScore: 1.0,
+      reason: reason,
+      sourceRef: sourceRef
+    )
+    try refreshInventoryItem(db: db, ingredientId: lot.ingredientId)
+  }
+
+  /// Runs `body` in one write transaction and announces the inventory change after commit.
+  func write<T>(_ body: (Database) throws -> T) throws -> T {
+    let result = try db.write(body)
+    notifyInventoryDidChange()
+    return result
   }
 
   func upsertShelfLifeProfile(
@@ -119,6 +248,8 @@ final class InventoryRepository: Sendable {
   func applyConsumption(
     recipeId: Int64,
     servingsConsumed: Int,
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = [],
     sourceRef: String? = nil
   ) throws -> [InventoryConsumptionResult] {
     let safeServingsConsumed = max(0, servingsConsumed)
@@ -129,6 +260,8 @@ final class InventoryRepository: Sendable {
         in: db,
         recipeId: recipeId,
         servingsConsumed: safeServingsConsumed,
+        portionMultiplier: portionMultiplier,
+        swaps: swaps,
         sourceRef: sourceRef
       )
     }
@@ -142,10 +275,14 @@ final class InventoryRepository: Sendable {
     in db: Database,
     recipeId: Int64,
     servingsConsumed: Int,
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = [],
     sourceRef: String? = nil
   ) throws -> [InventoryConsumptionResult] {
     let safeServingsConsumed = max(0, servingsConsumed)
     guard safeServingsConsumed > 0 else { return [] }
+    let swapByOriginal = Dictionary(
+      swaps.map { ($0.originalIngredientId, $0) }, uniquingKeysWith: { _, last in last })
 
     guard
       let recipeServings = try Int.fetchOne(
@@ -157,7 +294,8 @@ final class InventoryRepository: Sendable {
       return []
     }
 
-    let servingFactor = Double(safeServingsConsumed) / Double(max(recipeServings, 1))
+    let servingFactor =
+      Double(safeServingsConsumed) * portionMultiplier / Double(max(recipeServings, 1))
     let rows = try Row.fetchAll(
       db,
       sql: """
@@ -170,9 +308,12 @@ final class InventoryRepository: Sendable {
 
     var results: [InventoryConsumptionResult] = []
     for row in rows {
-      let ingredientId: Int64 = row["ingredient_id"]
+      let recipeIngredientId: Int64 = row["ingredient_id"]
       let baseGrams: Double = row["quantity_grams"]
-      let requiredGrams = max(0, baseGrams * servingFactor)
+      // A swap takes the substitute out of the Kitchen instead of the original.
+      let swap = swapByOriginal[recipeIngredientId]
+      let ingredientId = swap?.substituteIngredientId ?? recipeIngredientId
+      let requiredGrams = max(0, baseGrams * (swap?.ratio ?? 1.0) * servingFactor)
 
       let consumedGrams = try consumeIngredientLots(
         db: db,
@@ -305,6 +446,7 @@ final class InventoryRepository: Sendable {
             MIN(il.expires_at) AS earliest_expires_at,
             MAX(il.updated_at) AS last_updated_at,
             COUNT(il.id) AS lot_count,
+            MAX(il.quantity_is_estimate) AS has_estimated_quantity,
             (SELECT source FROM inventory_lots sub
              WHERE sub.ingredient_id = il.ingredient_id
                AND sub.storage_location = il.storage_location
@@ -351,7 +493,8 @@ final class InventoryRepository: Sendable {
           daysUntilExpiry: daysUntilExpiry,
           lastUpdatedAt: lastUpdatedAt,
           lotCount: lotCount,
-          mostRecentSource: mostRecentSource
+          mostRecentSource: mostRecentSource,
+          hasEstimatedQuantity: (row["has_estimated_quantity"] as Bool?) ?? false
         )
       }
     }
