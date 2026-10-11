@@ -2,20 +2,26 @@
 
 Every suite in `evaluation/suites/<id>/` emits a `results.json` that conforms
 to this contract. The runner (`run.py`) re-validates everything a suite emits
-and derives pass/fail itself from value + bar + interval, so a broken or lying
-check cannot report pass.
+and derives pass/fail itself from the **registry bar** + value + interval, so
+a broken or lying check cannot report pass.
 
 Design rules (see SCORECARD.md for the full document):
 
 1. A suite whose inputs are missing reports `not-run` with a reason, never pass.
-2. `status` is DERIVED by this contract from `value`, `bar` and `interval`.
-   A suite never asserts `pass` or `fail` on a bared numeric metric; it only
-   declares `not-run` (with a reason) for metrics it could not measure.
-3. When an `interval` is present, the bar is applied to the conservative
-   bound (`>=` bars use the interval low, `<=` bars the high). Equality bars
-   apply to the measured value exactly; a recorded interval is kept as
-   evidence and does not affect derivation.
-4. The runner fail-closes: a crashed, timed-out or malformed suite run is
+2. `status` is DERIVED by this contract from `value`, the registry bar and
+   `interval`. A suite never asserts `pass` or `fail` on a bared metric; it
+   only declares `not-run` (with a reason) for metrics it could not measure.
+3. The registry (`evaluation/registry.json`) owns the bars. When the runner
+   passes a suite's registry metrics, the metric set, labels and bars are
+   judged against it: a missing metric, an extra metric, a different label
+   or a different bar is a mismatch that FAILS with a reason naming the
+   exact difference. Emitter-supplied bars are never trusted — derivation
+   always uses the registry bar.
+4. Every admitted result is bound to its run: the runner stamps `run`
+   (run_id, git_sha, started_at) and re-validates it; imported results must
+   first prove CI provenance and a matching head. Anything lacking or
+   contradicting the binding fails closed to `not-run`.
+5. The runner fail-closes: a crashed, timed-out or malformed suite run is
    `not-run` with the reason, never pass.
 """
 
@@ -28,9 +34,25 @@ from typing import Any
 VALID_STATUS = ("pass", "fail", "not-run")
 VALID_OPS = ("<=", ">=", "==")
 
+RUN_BINDING_FIELDS = ("run_id", "git_sha", "started_at")
+
 
 class ContractError(ValueError):
     """Raised when a results payload violates the suite contract."""
+
+
+class RegistryMismatch(ContractError):
+    """A payload whose metric set, labels or bars differ from the registry.
+
+    Carries the fully-built metric rows (valid metrics derived from registry
+    bars, every mismatch forced to `fail` with its reason) so the runner can
+    show the mismatch instead of hiding it.
+    """
+
+    def __init__(self, metrics: list[dict[str, Any]], reasons: list[str]):
+        self.metrics = metrics
+        self.reasons = reasons
+        super().__init__("; ".join(reasons))
 
 
 def check_bar(value: float, bar: dict[str, Any], interval: list[float] | None) -> bool:
@@ -90,11 +112,128 @@ def derive_status(metric: dict[str, Any]) -> str:
     return "pass" if check_bar(value, bar, interval) else "fail"
 
 
-def validate_results(payload: Any, expected_suite_id: str | None = None) -> dict[str, Any]:
+def _bars_differ(a: dict[str, Any], b: dict[str, Any]) -> bool:
+    """Compare two bars by op and value (a bar's free-text label is not identity)."""
+    return a.get("op") != b.get("op") or a.get("value") != b.get("value")
+
+
+def _enforce_registry(
+    metrics: list[dict[str, Any]], suite_id: str, registry_metrics: dict[str, dict[str, Any]]
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Judge emitted metrics against the runner-owned registry metrics.
+
+    Returns (rows, reasons). Every mismatch — a metric the registry requires
+    but the suite dropped, an extra metric, a different label, a different
+    bar — becomes a `fail` row whose reason names the exact difference.
+    Derivation always uses the registry bar; a suite-set bar that differs is
+    recorded as the mismatch it is, never trusted.
+    """
+    rows: list[dict[str, Any]] = []
+    reasons: list[str] = []
+    emitted: set[str] = set()
+    for m in metrics:
+        mid = m["id"]
+        emitted.add(mid)
+        spec = registry_metrics.get(mid)
+        row = dict(m)
+        mismatches: list[str] = []
+        reg_bar: dict[str, Any] | None = None
+        if spec is None:
+            mismatches.append(
+                f"metric {mid!r} is not in the registry for suite {suite_id!r} "
+                "(extra metric) — suites cannot add, drop or re-bar metrics; "
+                "register it with a recorded reason first"
+            )
+        else:
+            reg_label = spec.get("label")
+            reg_bar = spec.get("bar")
+            if reg_label is not None and m.get("metric") != reg_label:
+                mismatches.append(
+                    f"metric {mid!r}: label {m.get('metric')!r} differs from the "
+                    f"registry label {reg_label!r}"
+                )
+            emitted_bar = m.get("bar")
+            if reg_bar is None:
+                if emitted_bar is not None or (
+                    "value" in m and m.get("value") is not None
+                ):
+                    mismatches.append(
+                        f"metric {mid!r}: the registry records no bar for it — a "
+                        "suite-set bar or bare value cannot be judged; declare it "
+                        "not-run (with a reason) or set the bar in the registry "
+                        "with a recorded reason"
+                    )
+            else:
+                # The registry bar is the only trusted bar; inject it for
+                # derivation and rendering.
+                row["bar"] = dict(reg_bar)
+                if emitted_bar is not None and _bars_differ(emitted_bar, reg_bar):
+                    mismatches.append(
+                        f"metric {mid!r}: suite bar {{op {emitted_bar.get('op')!r}, "
+                        f"value {emitted_bar.get('value')!r}}} differs from the "
+                        f"registry bar {{op {reg_bar['op']!r}, value "
+                        f"{reg_bar['value']!r}}} — emitter bars are never trusted"
+                    )
+
+        if m.get("status") == "not-run":
+            if not m.get("reason") or not str(m["reason"]).strip():
+                mismatches.append(f"metric {mid!r}: not-run requires a reason")
+            else:
+                row["status"] = "not-run"
+        elif reg_bar is not None:
+            row["status"] = derive_status({**row, "bar": dict(reg_bar)})
+        elif spec is not None:
+            # No registry bar and the metric claims to be measurable: it can
+            # never pass (covered by the no-bar mismatch above); force fail.
+            row["status"] = "fail"
+        else:
+            # Extra metric: unjudgable by definition.
+            row["status"] = "fail"
+        if mismatches:
+            row["status"] = "fail"
+            row["reason"] = "; ".join(mismatches)
+            reasons.extend(mismatches)
+        elif row.get("status") != "not-run":
+            row.pop("reason", None)
+        rows.append(row)
+    for mid, spec in registry_metrics.items():
+        if mid in emitted:
+            continue
+        reason = (
+            f"metric {mid!r} ({spec.get('label', mid)}) is missing from the suite "
+            "results — the registry requires it; dropping a metric cannot hide "
+            "a failing bar"
+        )
+        row: dict[str, Any] = {"id": mid, "metric": spec.get("label", mid),
+                               "status": "fail", "reason": reason}
+        if spec.get("bar") is not None:
+            row["bar"] = dict(spec["bar"])
+        rows.append(row)
+        reasons.append(reason)
+    return rows, reasons
+
+
+def validate_results(
+    payload: Any,
+    expected_suite_id: str | None = None,
+    registry_metrics: dict[str, dict[str, Any]] | None = None,
+    expected_identity: dict[str, str] | None = None,
+) -> dict[str, Any]:
     """Validate a suite `results.json` payload in place; returns it.
 
     Raises ContractError with a precise message on any violation. Validated
-    metrics get their derived `status` written back.
+    metrics get their derived `status` written back. When `registry_metrics`
+    is given (the runner always gives it), any deviation from the registry —
+    missing or extra metric, different label, different bar — raises
+    RegistryMismatch carrying the fail-marked rows and exact reasons.
+
+    `expected_identity` (the runner supplies it with `registry_metrics`)
+    carries the suite's registered `letter` and `title`. The results.json
+    schema requires both on every emission, and they must match the
+    registered identity — a payload without them is how a scorecard renders
+    "?. suite" (defect seen on suite A before its fix): missing or differing
+    identity is a RegistryMismatch, never silently re-labelled. Identity is
+    judged only when the registry is in play; bare checks stay structural.
     """
     if not isinstance(payload, dict):
         raise ContractError("results must be a JSON object")
@@ -108,6 +247,31 @@ def validate_results(payload: Any, expected_suite_id: str | None = None) -> dict
     metrics = payload.get("metrics")
     if not isinstance(metrics, list) or not metrics:
         raise ContractError("results.metrics must be a non-empty list")
+    # Suite identity (results.json schema): letter + title are required on
+    # every emission and must match the registered suite identity. Without
+    # this check a suite omitting them renders as "?. suite". Enforced when
+    # the registry is in play (runner-side judging); a bare contract check
+    # (suite-internal self-tests) stays structural, so the identity rule has
+    # exactly one owner: the runner, against the registry.
+    identity_reasons: list[str] = []
+    if registry_metrics is not None:
+        for key in ("letter", "title"):
+            value = payload.get(key)
+            if not value or not isinstance(value, str) or not value.strip():
+                identity_reasons.append(
+                    f"results are missing {key!r} — required by the results.json "
+                    "schema (the suite's identity from its suite.json/registry entry)"
+                )
+            elif (
+                expected_identity
+                and isinstance(expected_identity.get(key), str)
+                and expected_identity[key]
+                and value != expected_identity[key]
+            ):
+                identity_reasons.append(
+                    f"results declare {key} {value!r} but the suite is registered "
+                    f"as {expected_identity[key]!r}"
+                )
     seen: set[str] = set()
     for m in metrics:
         if not isinstance(m, dict):
@@ -120,15 +284,96 @@ def validate_results(payload: Any, expected_suite_id: str | None = None) -> dict
         seen.add(mid)
         if not m.get("metric") or not isinstance(m["metric"], str):
             raise ContractError(f"metric {mid!r}: 'metric' (human label) is required")
-        derived = derive_status(m)
-        m["status"] = derived
+        if registry_metrics is None:
+            derived = derive_status(m)
+            m["status"] = derived
         bar = m.get("bar")
         if bar is not None:
             if not isinstance(bar, dict) or bar.get("op") not in VALID_OPS:
                 raise ContractError(f"metric {mid!r}: bar.op must be one of {VALID_OPS}")
             if not isinstance(bar.get("value"), (int, float)) or isinstance(bar["value"], bool):
                 raise ContractError(f"metric {mid!r}: bar.value must be numeric")
+    if registry_metrics is not None:
+        rows, reasons = _enforce_registry(metrics, suite_id, registry_metrics)
+        if identity_reasons:
+            # suite-level failure: surface it as its own fail-marked row so
+            # the summary counts it even when every metric row looks fine
+            rows.append({
+                "id": f"{suite_id}_contract",
+                "metric": "suite identity (letter/title per registry)",
+                "status": "fail",
+                "reason": "; ".join(identity_reasons),
+            })
+        reasons = identity_reasons + reasons
+        if reasons:
+            raise RegistryMismatch(rows, reasons)
+        payload["metrics"] = rows
     return payload
+
+
+def validate_run_binding(result: dict[str, Any], expected_run: dict[str, str]) -> None:
+    """Fail closed unless the result carries exactly this run's binding.
+
+    Every result the runner admits — run, imported or not-run — must carry
+    `run` = {run_id, git_sha, started_at} equal to the stamping run. Anything
+    lacking or contradicting them is not evidence of this run.
+    """
+    run = result.get("run")
+    if not isinstance(run, dict):
+        raise ContractError(
+            "result carries no run binding — expected run.run_id, run.git_sha, "
+            "run.started_at stamped by the runner"
+        )
+    for field in RUN_BINDING_FIELDS:
+        value = run.get(field)
+        if not value or not isinstance(value, str):
+            raise ContractError(f"run binding is missing {field!r}")
+        if value != expected_run.get(field):
+            raise ContractError(
+                f"run binding {field} is {value!r}, contradicting this run's "
+                f"{expected_run.get(field)!r}"
+            )
+
+
+def validate_import_provenance(payload: dict[str, Any], expected_sha: str | None) -> None:
+    """The macos-import rule: committed native results must prove themselves.
+
+    An import is only evidence when it was produced by a CI run at the
+    current head. The payload must carry:
+      - `git.sha`: the full SHA of the producing run, equal to the runner's HEAD;
+      - `run_url`: the URL of the CI run that produced the results;
+      - `run.run_id` and `run.started_at`: the producing run's identity.
+    Anything missing or contradicting fails closed (the runner reports
+    not-run with this reason) — never pass.
+    """
+    git = payload.get("git")
+    sha = git.get("sha") if isinstance(git, dict) else None
+    if not sha or not isinstance(sha, str) or not sha.strip():
+        raise ContractError(
+            "imported results carry no git.sha — the macos-import rule "
+            "(SCORECARD.md) requires the producing run's full SHA"
+        )
+    if expected_sha and sha != expected_sha:
+        raise ContractError(
+            f"imported results were produced at git {sha[:12]}, not the current "
+            f"head {expected_sha[:12]} — refusing (matching head required)"
+        )
+    run_url = payload.get("run_url")
+    if not run_url or not isinstance(run_url, str) or not run_url.startswith("https://"):
+        raise ContractError(
+            "imported results carry no run_url — the macos-import rule "
+            "(SCORECARD.md) requires the URL of the CI run that produced them"
+        )
+    run = payload.get("run")
+    if not isinstance(run, dict):
+        raise ContractError(
+            "imported results carry no run binding — expected run.run_id and "
+            "run.started_at of the producing run"
+        )
+    for field in ("run_id", "started_at"):
+        value = run.get(field)
+        if not value or not isinstance(value, str):
+            raise ContractError(f"imported results' run binding is missing {field!r}")
 
 
 def write_results(out_dir: Path, payload: dict[str, Any]) -> Path:

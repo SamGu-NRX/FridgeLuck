@@ -1,54 +1,301 @@
 {
-  "_comment": "The expected suite spine for the FridgeLuck overhaul scorecard, from PLAN.md 'The scorecard (evals first)' on docs/spec-overhaul-20261011 (revision 2, 2026-10-11). Suites are run from evaluation/suites/<id>/ when their directory exists; suites listed here but not yet delivered report not-run with their owner named. platform: 'any' runs on any host; 'macos' suites run only on macOS and are imported from committed out/<id>/results.json (produced by an approved native CI run — the existing iOS CI targets, or a workflow Sam approves from ci/pending-workflows/) elsewhere.",
+  "_comment": "The expected suite spine AND the runner-owned bars for the FridgeLuck overhaul scorecard. Suites A-G and their owners come from PLAN.md 'The scorecard (evals first)' on docs/spec-overhaul-20261011 (revision 2, 2026-10-11). The bars are the lead's choice, not measured optima: a suite can only move a bar with a recorded reason (a change to this registry citing PLAN.md or an operator decision). Suites must emit metric ids and labels that match this registry exactly; they may omit bars (the runner injects the registered bar) and their own bars are never trusted: a missing metric, an extra metric, or a different label/op/value FAILS with a reason naming the exact mismatch. platform: 'any' runs on any host; 'macos' suites run only on macOS and are imported from committed out/<id>/results.json elsewhere (matching head + CI-run provenance required - see SCORECARD.md).",
   "suites": [
     {
       "id": "pantry-truth",
       "letter": "A",
       "title": "Pantry truth",
       "owner_task": "fl-eval-harness-f1 (suite A sub-thread)",
-      "platform": "any"
+      "platform": "any",
+      "metrics": {
+        "stock_counted_twice": {
+          "label": "Stock counted twice (plan battery)",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row A: 0 stock counted twice"
+        },
+        "sufficient_claimed_without_quantity_evidence": {
+          "label": "Sufficient claimed without quantity evidence (line audit over 200 pairs)",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row A: 0 'sufficient' without evidence"
+        },
+        "fit_line_text_correct_200": {
+          "label": "Fit-line text correct (200-pair audit)",
+          "bar": {
+            "op": "==",
+            "value": 200
+          },
+          "source": "PLAN.md row A: fit-line text correct on 200 of 200"
+        },
+        "plan_battery_rows_present": {
+          "label": "Plan battery rows present (PLAN.md line 49)",
+          "bar": {
+            "op": "==",
+            "value": 3
+          },
+          "reason": "completeness row delivered by suite A (eval/suite-pantry-truth 564482c): the plan-probe battery must fail closed when required PLAN.md battery rows are missing, so presence of all 3 rows is itself a bar (== 3), not silent decoration"
+        }
+      }
     },
     {
       "id": "learning",
       "letter": "B",
       "title": "Learning",
       "owner_task": "fl-learning-lab-f1",
-      "platform": "any"
+      "platform": "any",
+      "metrics": {
+        "ndcg10_vs_rule_ranker_pct": {
+          "label": "NDCG@10 vs the rule ranker: relative gain among feasible picks (95% interval low, %)",
+          "bar": {
+            "op": ">=",
+            "value": 10
+          },
+          "source": "PLAN.md row B: engine beats the current rule ranker on NDCG@10 with the 95% interval above 0 and at least +10% relative",
+          "note": "The contract applies >= bars to the interval's low end, so a low end >= +10 also keeps the 95% interval above 0."
+        },
+        "ndcg10_vs_profile_only_pct": {
+          "label": "NDCG@10 vs explicit-profile-only: relative gain (95% interval low, %)",
+          "bar": {
+            "op": ">=",
+            "value": 10
+          },
+          "source": "PLAN.md row B: engine beats explicit-profile-only on NDCG@10 with the 95% interval above 0 and at least +10% relative",
+          "note": "The contract applies >= bars to the interval's low end, so a low end >= +10 also keeps the 95% interval above 0."
+        },
+        "restriction_violations": {
+          "label": "Restriction violations",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row B: 0 restriction violations"
+        },
+        "taste_shift_recovery_cooks_median": {
+          "label": "Cooks to recover from a taste shift (median)",
+          "bar": {
+            "op": "<=",
+            "value": 6
+          },
+          "source": "PLAN.md row B: recovers from a taste shift within 6 cooks (median)"
+        }
+      }
     },
     {
       "id": "recipes",
       "letter": "C",
       "title": "Recipes",
       "owner_task": "fl-eval-harness-f1 (suite C sub-thread)",
-      "platform": "any"
+      "platform": "any",
+      "metrics": {
+        "rights_clear_recipes": {
+          "label": "Rights-clear recipes (complete per-recipe manifest evidence)",
+          "bar": {
+            "op": ">=",
+            "value": 400
+          },
+          "source": "PLAN.md row C: at least 400 rights-clear recipes, growing toward 1,500"
+        },
+        "food_safety_linter_pass": {
+          "label": "Food-safety linter pass (% of corpus)",
+          "bar": {
+            "op": "==",
+            "value": 100
+          },
+          "source": "PLAN.md row C: 100% pass the linter"
+        },
+        "lines_with_quantity_evidence": {
+          "label": "Lines resolved with quantity evidence (%)",
+          "bar": {
+            "op": ">=",
+            "value": 95
+          },
+          "source": "PLAN.md row C: at least 95% of lines resolved with quantity evidence"
+        },
+        "unchecked_allergen_diet_claims": {
+          "label": "Unchecked allergen/diet claims (after linter strip)",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row C: 0 unchecked allergen or diet claims"
+        },
+        "cuisine_time_band_coverage": {
+          "label": "Declared cuisines and time bands represented (%)",
+          "bar": {
+            "op": "==",
+            "value": 100
+          },
+          "source": "PLAN.md row C: every cuisine and time band in SPEC 3.5 represented"
+        }
+      }
     },
     {
       "id": "lechef",
       "letter": "D",
       "title": "LeChef",
       "owner_task": "fl-lechef-f1",
-      "platform": "any"
+      "platform": "any",
+      "metrics": {
+        "food_safety_violations": {
+          "label": "Food-safety violations",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row D: 0 food-safety violations"
+        },
+        "actions_without_approval": {
+          "label": "Actions executed without approval",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row D: 0 actions executed without approval"
+        },
+        "harness_conformance_pct": {
+          "label": "Harness conformance (% of scripted cook jobs)",
+          "bar": {
+            "op": ">=",
+            "value": 90
+          },
+          "source": "PLAN.md row D: at least 90% job success - renamed 'harness conformance' by operator decision: the scripted fake-provider metric measures harness conformance, not LeChef design quality"
+        },
+        "timer_correctness_pct": {
+          "label": "Timer correctness across kill and resume (%)",
+          "bar": {
+            "op": "==",
+            "value": 100
+          },
+          "source": "PLAN.md row D: 100% timer correctness across kill and resume"
+        }
+      }
     },
     {
       "id": "community",
       "letter": "E",
       "title": "Community",
       "owner_task": "fl-community-f1",
-      "platform": "any"
+      "platform": "any",
+      "metrics": {
+        "private_field_leaks": {
+          "label": "Private-field leaks",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row E: 0 private-field leaks"
+        },
+        "authorization_failures": {
+          "label": "Authorization failures",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row E: 0 authorization failures"
+        },
+        "moderation_transitions_covered_pct": {
+          "label": "Moderation transitions covered (%)",
+          "bar": {
+            "op": "==",
+            "value": 100
+          },
+          "source": "PLAN.md row E: every moderation transition covered"
+        }
+      }
     },
     {
       "id": "ui-polish",
       "letter": "F",
       "title": "UI polish",
       "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
-      "platform": "macos"
+      "platform": "macos",
+      "metrics": {
+        "f_body_text_contrast_violations": {
+          "label": "Body-text contrast violations (< 4.5:1)",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row F: body-text contrast at least 4.5:1"
+        },
+        "f_touch_target_violations": {
+          "label": "Touch-target violations (44 pt; 64 pt cook)",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row F: touch targets at least 44 pt (64 pt in cook mode)"
+        },
+        "f_clipped_primary_labels_xxl": {
+          "label": "Clipped primary labels at XXL Dynamic Type",
+          "bar": {
+            "op": "==",
+            "value": 0
+          },
+          "source": "PLAN.md row F: no clipped primary labels at XXL"
+        },
+        "f_audit_screen_coverage": {
+          "label": "Audited screens reachable",
+          "bar": null,
+          "source": "PLAN.md row F describes the screens the suite renders; no bared metric is set for coverage",
+          "note": "No runner bar: this counter must be declared not-run until the lead sets a bar with a recorded reason. A suite-set bar or bare value cannot be judged and fails."
+        },
+        "f_static_body_text_contrast_violations": {
+          "label": "STATIC (supporting evidence): declared-token contrast violations",
+          "bar": {
+            "op": "<=",
+            "value": 0
+          },
+          "source": "Suite F static arm; supporting evidence only, the bar is judged by the macOS XCUITest arm"
+        },
+        "f_static_declared_minimums_below_44pt": {
+          "label": "STATIC (supporting evidence): declared frame minimums below 44 pt",
+          "bar": {
+            "op": "<=",
+            "value": 0
+          },
+          "source": "Suite F static arm; supporting evidence only, the bar is judged by the macOS XCUITest arm"
+        },
+        "f_static_xxl_clipping_risks": {
+          "label": "STATIC (supporting evidence): XXL clipping-risk markers",
+          "bar": {
+            "op": "<=",
+            "value": 0
+          },
+          "source": "Suite F static arm; supporting evidence only, the bar is judged by the macOS XCUITest arm"
+        }
+      }
     },
     {
       "id": "journeys",
       "letter": "G",
       "title": "Journeys",
       "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
-      "platform": "macos"
+      "platform": "macos",
+      "metrics": {
+        "g_journeys_passed_pct": {
+          "label": "Runnable journeys passing with no crash",
+          "bar": {
+            "op": "==",
+            "value": 100
+          },
+          "source": "PLAN.md row G: all of these pass with no crash - first run, scan and review, Tonight, recipe, cook, complete, share, challenge, taste-profile edit"
+        },
+        "g_static_entry_points_discoverable": {
+          "label": "STATIC (supporting evidence): journeys with a discoverable entry affordance",
+          "bar": {
+            "op": "==",
+            "value": 9
+          },
+          "source": "Suite G static arm; the 9 journeys planned in PLAN.md row G",
+          "note": "Pinned to the 9 planned journeys; it moves only with a recorded registry change when the planned journey list changes."
+        }
+      }
     }
   ]
 }

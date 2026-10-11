@@ -1,203 +1,180 @@
-# Scorecard: schema and suite contract
+# SCORECARD.md — the scorecard contract (runner side)
 
-This directory decides what "best" means for the FridgeLuck overhaul. The suite
-names, owners and pass bars come from `PLAN.md` ("The scorecard (evals first)")
-on `docs/spec-overhaul-20261011` (revision 2, 2026-10-11, commit `062d20f`).
-Every overhaul task reports its results through a suite here, so that the
-variants the overhaul builds are judged by the same instrument that measured
-the baseline.
+This document is the contract between the **scorecard runner**
+(`evaluation/run.py`, owned by fl-eval-harness-f1) and the **suites** it
+runs. PLAN.md ("The scorecard (evals first)",
+`docs/spec/overhaul-20261011/PLAN.md`) defines the suites A–G and their
+bars. `evaluation/CONTRACTS.md` (suite A sub-thread) indexes each suite to
+its canonical sources.
 
-The runner is `evaluation/run.py`, built by `fl-eval-harness-f1`.
+## 1. The registry owns the bars (defect 3)
 
-## Running
+`evaluation/registry.json` is the **runner-owned source of truth** for the
+expected suite spine *and* every metric's label and bar. PLAN.md says:
+*"The bars are the lead's choice, not measured optima. A suite can only
+move a bar with a recorded reason."*
 
-```bash
-python3 evaluation/run.py --list        # expected suites, present or not, with owners
-python3 evaluation/run.py --all         # run every suite runnable on this host
-python3 evaluation/run.py --suite pantry-truth --suite recipes
-python3 evaluation/run.py --self-test   # planted failures must all be caught (exit 2 if not)
-```
+- Suites **declare metric ids and labels** that match the registry exactly.
+  They may omit bars entirely (the runner injects the registered bar).
+- A suite's own bars are **never trusted**. Pass/fail is derived by the
+  runner from the **registry bar** + the emitted value + the emitted
+  interval (`suite_contract.derive_status`). For `>=` bars the interval's
+  **low end** must clear the bar; for `<=` bars the high end must; an
+  `==` bar ignores the interval (it is kept as evidence only).
+- A suite whose results differ from the registry — **missing metric,
+  extra metric, different label, different bar** — FAILS with a reason
+  naming the exact mismatch. Dropping a metric cannot hide a failing bar;
+  adding one cannot inflate a pass.
+- Moving a bar: edit `registry.json` with a recorded reason (the `reason`
+  or `source` field on the metric), citing PLAN.md or an operator
+  decision. A suite cannot move a bar from its own code.
 
-Outputs: `evaluation/out/scorecard.json` and `evaluation/out/scorecard.md`,
-plus per-suite artifacts under `evaluation/out/<suite>/`.
+Registry metric fields: `label` (exact human label the suite must emit),
+`bar` (`{"op": "<=|>=|==", "value": n}`), and `source` or `reason`
+(recorded provenance — PLAN row or operator decision). Suite fields:
+`id`, `letter`, `title`, `owner_task`, `platform` (`any`|`macos`),
+optional `timeout_s` (default 1800 s).
 
-Exit codes: `0` when the scorecard was produced (pass/fail is data reported
-honestly — a failing bar is a correct scorecard, not a runner failure);
-`1` on infrastructure errors; `2` when `--self-test` finds an uncaught planted
-failure.
+## 2. Suite file contract (how B, D and E wire in — defect 6)
 
-## The one rule
+A delivering task adds **exactly one directory**,
+`evaluation/suites/<id>/` (e.g. `learning/`, `lechef/`, `community/`),
+containing:
 
-**A suite whose inputs are missing reports `not-run` with the reason, never
-pass.** The runner fail-closes the same way: a suite that crashes, times out,
-or emits malformed results is `not-run` with the reason. Nothing in this
-directory can upgrade `not-run` to `pass`, and no suite can declare `pass` on
-a violated bar — status is derived (below), not asserted.
+1. `suite.json` — manifest: `{"id", "letter", "title", "owner_task",
+   "platform", "timeout_s" (optional)}`. The manifest must not carry
+   `metrics`: the registry owns the bars, and a manifest cannot set them.
+2. `suite.py` — executable checker with the CLI:
+   - `suite.py --out DIR --repo-root ROOT` — run the checks, write
+     `DIR/results.json`, exit 0. Exit code is **not** a verdict; the
+     results file is. Missing inputs ⇒ still exit 0, with every affected
+     metric `not-run` and a reason.
+   - `suite.py --self-test` — plant the suite's own failure cases and
+     verify they are caught (section 6). Exit 0 only when all are.
+3. Optional: `selftest/*.json` planted cases for the runner-level
+   convention (section 5).
 
-## Suite layout (file contract for every suite, including B, D and E)
+**No runner-side changes are needed** to wire a suite: the runner
+discovers the directory, merges the manifest over the registry spine, and
+judges its results against the registered metrics. Suites B (learning,
+fl-learning-lab-f1), D (lechef, fl-lechef-f1) and E (community,
+fl-community-f1) are registered in `registry.json` today; until their
+directories exist they report **not-run naming the owner task**.
 
-```
-evaluation/suites/<suite-id>/
-  suite.json     # manifest (below)
-  suite.py       # entry point (below)
-  ...            # datasets, fixtures, adapters, checker code
-```
+Suite D's job-success metric is named **"Harness conformance (% of
+scripted cook jobs)"** (`harness_conformance_pct`, bar `>= 90`): it
+measures the scripted fake-provider harness's conformance, not LeChef
+quality.
 
-`suite.json`:
+## 3. results.json schema
 
 ```json
 {
-  "id": "pantry-truth",          // must equal the directory name; the scorecard suite field
-  "letter": "A",                 // letter in PLAN.md's scorecard table
-  "title": "Pantry truth",
-  "owner_task": "fl-eval-harness-f1 (suite A sub-thread)",
-  "platform": "any",             // "any" | "macos" — macos suites run only in approved native CI (see "macOS-only suites")
-  "timeout_s": 1800              // optional, default 1800
-}
-```
-
-`suite.py` interface: the runner invokes
-
-```bash
-python3 suite.py --out <abs evaluation/out/<id>> --repo-root <abs repo root>
-```
-
-(cwd is the suite directory). The suite writes `<out>/results.json` and may
-write any other artifacts next to it. Printing human progress to
-stdout/stderr is fine; the results file is the interface.
-
-## results.json schema
-
-```json
-{
-  "suite": "pantry-truth",
-  "letter": "A",
-  "title": "Pantry truth",
-  "run_at": "2026-10-11T12:00:00Z",
-  "toolchain": {"swift": "swift-6.4 ...", "...": "..."},
+  "suite": "<registry id>",
+  "letter": "<registry letter>",          // required, must match registry
+  "title": "<registry title>",            // required, must match registry
   "metrics": [
     {
-      "id": "stock_double_count",
-      "metric": "Stock counted twice (audit)",
-      "value": 0,
-      "interval": [0, 0],
-      "bar": {"op": "<=", "value": 0, "label": "0 stock counted twice"},
-      "status": "pass",
-      "detail": "optional human explanation",
-      "evidence": {"path": "…", "note": "…"}
+      "id": "<registry metric id>",
+      "metric": "<registry label>",
+      "value": 55,                         // for measurable metrics
+      "interval": [0.22, 0.35],            // optional; required sense for >=/<= bars
+      "bar": {"op": "==", "value": 200},   // optional; NEVER trusted (evidence only)
+      "status": "not-run",                 // only allowed value: "not-run"
+      "reason": "why not-run"              // required for not-run
     }
   ]
 }
 ```
 
-Field rules:
+Rules:
 
-- `id` unique within the suite; `metric` is the human label shown on the card.
-- `value` is numeric for any bared metric. String findings go in `detail`.
-- `bar` is `{"op": "<=" | ">=" | "==", "value": n}` and may carry a `label`.
-- `interval` is an optional `[low, high]` confidence/observed interval.
-  **When present, the bar is applied to the conservative bound** (`>=` bars
-  use the low end, `<=` bars the high end). Equality bars apply to the
-  measured value exactly; a recorded interval is kept as evidence and does
-  not affect derivation.
-- `reason` is **required** for `not-run` and should say precisely which input
-  is missing or why the check could not run.
+- `letter`/`title` are **required on every emission** and must match the
+  registry identity. A payload without them is how a scorecard renders
+  "?. suite" (defect seen on suite A before its fix); the runner rejects
+  missing or differing identity as a registry mismatch.
+- A `status` of `pass`/`fail` emitted by the suite is **stripped and
+  re-derived** by the runner from the registry bar. Only `not-run` (with a
+  reason) is honoured as declared.
+- Do **not** emit a `run` binding — the runner stamps it (section 4).
 
-### Status is derived, not declared
+## 4. Run binding and fresh output (defect 4)
 
-For any metric with a `bar`, the contract computes the status from `value`,
-`bar` and `interval` (`suite_contract.check_bar`). A suite cannot assert
-`pass`; a planted or buggy "pass" on a violated bar is stripped and the honest
-`fail` is reported. The only status a suite declares is `not-run`, which
-requires a reason. Suite self-tests exploit this: they plant corrupted inputs
-and assert the derived status flips to `fail`.
+Every admitted result is bound to **this run**. The runner stamps
 
-Running the runner rewrites the tracked `evaluation/out/scorecard.*` files
-(and any suite `results.json` it re-executes). That is the evidence trail,
-not noise: commit the refreshed files with the change that produced them.
-
-## Suite identity: the registry
-
-`evaluation/registry.json` is the expected spine (suites A–G from PLAN.md,
-with owner tasks). `run.py --list` shows every expected suite with `present:
-yes/no`. A registry entry without a directory reports:
-
-> `not-run — suite not yet delivered by <owner_task> (no evaluation/suites/<id>/)`
-
-so the scorecard shows the whole programme shape before every suite exists.
-A directory with a manifest but no registry entry is also discovered, so a
-delivering task is never silently dropped.
-
-## macOS-only suites (F `ui-polish`, G `journeys`)
-
-They run under XCUITest on macOS (macos-26, Xcode 26.6). Per the standing
-rule, the fleet never edits or installs CI: native execution happens only in
-the existing iOS CI targets, or in a workflow proposed under
-`ci/pending-workflows/eval-macos.yml` and approved and installed by Sam.
-Native arms without a real run are labelled UNVERIFIED-NATIVE in the
-delivering PR — never reported as verified-native-ci. On non-macOS hosts the
-runner imports the suite's committed `evaluation/out/<id>/results.json`
-(produced from an approved native run and committed together with the run
-URL) and re-validates it under this contract; `source` is marked `imported`. With no committed results the suite
-reports `not-run` with that reason — never pass.
-
-## Wiring contract for suites B (learning), D (lechef) and E (community)
-
-The learning, LeChef and community tasks own their directories
-`evaluation/suites/learning/`, `evaluation/suites/lechef/` and
-`evaluation/suites/community/` respectively. To join the scorecard a task
-commits its suite directory (manifest + `suite.py` + fixtures) following this
-document — no runner file needs to change; discovery is by convention. Until
-then the registry shows them `not-run` with their owner named.
-
-Result-file contract if a task wants the runner to pick up results it
-produced elsewhere (e.g. on a cluster): write
-`evaluation/out/<suite-id>/results.json` in exactly this schema and commit it
-with the git SHA and toolchain it was produced at; the runner validates it as
-`source: "imported"` on the next run. Anything invalid is not-run, never pass.
-
-## Bars
-
-Bars are the lead's choices recorded in PLAN.md, not measured optima. A suite
-can only move a bar with a recorded reason in PLAN.md. The bundled bars:
-
-| Suite | Metric | Bar |
-| --- | --- | --- |
-| A | stock counted twice | `== 0` |
-| A | "sufficient" without evidence | `== 0` |
-| A | fit-line text correct (200-pair audit) | `== 200` |
-| B | NDCG@10 vs rule ranker / profile-only | interval low ≥ +10% relative, 0 restriction violations, shift recovery ≤ 6 cooks (owner suite implements) |
-| C | rights-clear recipes | `>= 400` (toward 1,500) |
-| C | food-safety linter pass | `== 100%` |
-| C | lines resolved with quantity evidence | `>= 95%` |
-| C | unchecked allergen/diet claims | `== 0` |
-| C | cuisines and time bands represented | every declared band has >= 1 recipe |
-| D | food-safety violations / unapproved actions | `== 0` |
-| D | job success / timer correctness | `>= 90%` / `== 100%` |
-| E | private-field leaks / authorization failures | `== 0` |
-| E | moderation transitions covered | `== 100%` |
-| F | body-text contrast violations | `== 0` |
-| F | touch-target violations (44 pt; 64 pt cook) | `== 0` |
-| F | clipped primary labels at XXL Dynamic Type | `== 0` |
-| G | journeys pass with no crash | `== 100%` of runnable journeys |
-
-## Self-tests: a broken check cannot report pass
-
-Every suite implements `--self-test`:
-
-```bash
-python3 evaluation/suites/<id>/suite.py --self-test
+```json
+"run": {"run_id": "r-YYYYMMDDTHHMMSSZ-xxxxxxxx", "git_sha": "<head>", "started_at": "...Z"}
 ```
 
-It plants deliberate failures (corrupted fixtures, flipped labels, a lying
-emitter) and asserts its own scoring catches each one, printing
-`caught k/k planted failures`. `run.py --self-test` runs five planted runner
-scenarios (crash, honest-fail, honest-pass, liar, missing-inputs) plus every
-present suite's `--self-test`, and exits 2 if anything is uncaught.
+onto every suite result (run, imported, and not-run) and re-validates the
+stamp before admission. Results that lack or contradict the binding fail
+closed to `not-run` with the reason — never `pass`.
 
-## Baselines and what is committed
+Fresh output per run: the runner **removes `out/<id>/` before executing a
+suite**, so an exit-zero suite that emits nothing cannot reuse a previous
+pass — it reports `not-run` ("wrote no results.json"). A prior run's
+results can never survive into a new scorecard.
 
-`evaluation/out/` holds committed evidence, refreshed deliberately:
-`BASELINE.md` is the current app's first full scorecard; `out/<suite>/`
-holds each suite's latest committed results and artifact summaries. Regenerated
-files (scorecard.json/md) are committed when they document a milestone.
+## 5. macos-import rule
+
+Suites with `platform: "macos"` (F ui-polish, G journeys) run only on
+macOS: via the existing iOS CI targets, or via a workflow proposed under
+`ci/pending-workflows/` and approved by Sam. On other hosts the runner
+imports the committed `out/<id>/results.json` **only when the payload
+proves itself**:
+
+- `git.sha` — the **full SHA of the producing run**, equal to the current
+  head;
+- `run_url` — the URL of the CI run that produced it (`https://…`);
+- `run.run_id`, `run.started_at` — the producing run's identity.
+
+Anything missing or contradicting the current head is refused:
+**not-run** with the reason, never `pass`. An admitted import is marked
+`"source": "imported"` and keeps the producing run's identity under
+`native_run` alongside this run's binding.
+
+## 6. Planted-failure self-tests
+
+`python3 evaluation/run.py --self-test` plants failures and verifies every
+one is caught; it exits **0 only when every planted failure is caught**
+(exit 2 otherwise, 1 on infrastructure errors). Three layers:
+
+1. **Runner-owned cases** (`RUNNER_CASES` in `run.py`): the minimum set —
+   dropped metric, weakened bar, extra metric, stale-result reuse attempt,
+   missing binding fields, unbound imported result, head-mismatched
+   import, absent suite dir, missing/wrong `letter`/`title` identity, plus
+   the legacy honesty cases (crash, honest fail, honest pass, liar,
+   missing inputs, interval on an `==` bar) and B/D/E wiring cases against
+   the real registry. Each case plants a synthetic suite (or import
+   payload) in a temp tree and asserts the exact reported rows.
+2. **Per-suite planted cases** — the convention other sub-threads use to
+   add cases from their own directories: put JSON case files in
+   `evaluation/suites/<id>/selftest/*.json`. Schema (same keys as the
+   runner-owned cases): `case` (name), `emit` (results payload the planted
+   `suite.py` writes — `null` for exit-0-silence, `"crash"` for a crash),
+   optional `import_source` (macos suites), `expect_rows` (list of
+   `{"id", "status", "reason_contains"}`), optional `expect_source`,
+   `forbid_ids`, `expect_file_absent`, `skip_on_macos`. Cases run against
+   the real registry; the runner reports `caught`/`UNCAUGHT` per case.
+3. **Suite-internal `--self-test`**: every present suite must also catch
+   its own planted failures (exit 0), and the runner runs it as part of
+   `--self-test`.
+
+A planted failure that comes back uncaught fails the whole self-test with
+the offending rows named. Suite-internal self-tests validate against the
+bare contract (structure + derivation); **registry and identity rules are
+judged by the runner only**, so they have exactly one owner.
+
+## 7. Ownership and boundaries
+
+- Runner-owned (this task): `evaluation/run.py`,
+  `evaluation/suite_contract.py`, `evaluation/registry.json`,
+  `evaluation/SCORECARD.md`, `evaluation/out/**` (regeneration).
+- Suite-owned (their tasks): everything under
+  `evaluation/suites/<id>/` — including that suite's `selftest/` cases.
+- `evaluation/CONTRACTS.md`: suite A sub-thread (canonical source index).
+- No CI/workflow edits: proposals are staged under
+  `ci/pending-workflows/` with a first-line purpose+trigger comment.
+- Regenerated `out/` artifacts are committed only when produced from a
+  **clean tree** — the scorecard header records the git SHA and dirty
+  state, and a dirty-tree scorecard is not evidence.

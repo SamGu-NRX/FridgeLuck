@@ -12,8 +12,17 @@ and writes `evaluation/out/scorecard.json` and `evaluation/out/scorecard.md`.
 Contract (full document in evaluation/SCORECARD.md):
 
 - A suite whose inputs are missing reports not-run with the reason, never pass.
-- The runner derives pass/fail itself from value + bar + interval via
-  suite_contract.py, so a broken or lying check cannot report pass.
+- The registry (evaluation/registry.json) owns the bars. The runner judges
+  every suite's metric set, labels and bars against it: a missing metric, an
+  extra metric, or a different label/op/value FAILS with a reason naming the
+  exact mismatch. Emitter-supplied bars are never trusted — pass/fail is
+  derived from the registry bar + value + interval via suite_contract.py.
+- Every admitted result is bound to THIS run: the runner stamps run_id, git
+  SHA and run start time, and fails closed to not-run on anything that lacks
+  or contradicts them. Fresh output per run: a suite's out directory is
+  removed before execution, so a prior run's results can never survive.
+- Imported native results (macos suites) additionally require a matching
+  head plus CI-run provenance per SCORECARD.md's macos-import rule.
 - The runner fail-closes: a suite that crashes, times out, or emits malformed
   results is not-run with the reason.
 - Exit code: 0 when the scorecard was produced (pass/fail is data, reported
@@ -24,18 +33,21 @@ macOS-only suites (ui-polish, journeys) run on macOS only: via the existing
 iOS CI targets, or via a workflow proposed under ci/pending-workflows/ and
 approved and installed by Sam (the fleet never edits or installs CI).
 On other hosts the runner imports their committed `evaluation/out/<id>/results.json`
-(produced from that workflow's artifacts and committed with its run URL) after
-re-validating it under the same contract; absent that, they are not-run.
+after re-validating it under the same contract AND the macos-import rule;
+absent or unproven, they are not-run.
 """
 
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
 import time
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -51,8 +63,26 @@ NOT_RUN = "not-run"
 
 
 # --------------------------------------------------------------------------
-# host and git identity
+# run identity: every admitted result is bound to this run
 # --------------------------------------------------------------------------
+
+
+def make_run_binding() -> dict[str, str]:
+    """The identity of THIS run, stamped onto every result it admits."""
+    started = datetime.now(timezone.utc)
+    return {
+        "run_id": f"r-{started.strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}",
+        "git_sha": git_info()["sha"],
+        "started_at": started.strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+
+
+def bind_result(result: dict[str, Any], run_binding: dict[str, str]) -> dict[str, Any]:
+    """Stamp the run binding and re-validate it. Raises ContractError (a
+    runner bug) if the stamp could not be applied — never silently admit."""
+    result["run"] = dict(run_binding)
+    contract.validate_run_binding(result, run_binding)
+    return result
 
 
 def git_info() -> dict[str, Any]:
@@ -99,8 +129,38 @@ def host_toolchain() -> dict[str, str]:
 
 
 def load_registry() -> list[dict[str, Any]]:
+    """Load and shape-check the runner-owned registry (suites + bars)."""
     reg_path = EVAL_DIR / "registry.json"
     reg = json.loads(reg_path.read_text())
+    if not isinstance(reg.get("suites"), list):
+        raise ValueError(f"{reg_path}: expected a 'suites' list")
+    for entry in reg["suites"]:
+        sid = entry.get("id")
+        if not sid or not isinstance(sid, str):
+            raise ValueError(f"{reg_path}: every suite needs a string id")
+        metrics = entry.get("metrics")
+        if not isinstance(metrics, dict):
+            raise ValueError(
+                f"{reg_path}: suite {sid!r} needs a 'metrics' object "
+                "(the runner owns the bars; an empty object registers no metrics)"
+            )
+        for mid, spec in metrics.items():
+            if not isinstance(spec, dict) or not spec.get("label"):
+                raise ValueError(
+                    f"{reg_path}: suite {sid!r} metric {mid!r} needs a 'label'"
+                )
+            bar = spec.get("bar")
+            if bar is None:
+                continue
+            if not isinstance(bar, dict) or bar.get("op") not in contract.VALID_OPS:
+                raise ValueError(
+                    f"{reg_path}: suite {sid!r} metric {mid!r}: bar.op must be "
+                    f"one of {contract.VALID_OPS}"
+                )
+            if not isinstance(bar.get("value"), (int, float)) or isinstance(bar["value"], bool):
+                raise ValueError(
+                    f"{reg_path}: suite {sid!r} metric {mid!r}: bar.value must be numeric"
+                )
     return reg["suites"]
 
 
@@ -109,7 +169,8 @@ def discover_suites() -> list[dict[str, Any]]:
 
     Registry entries without directories still appear (not-run, owner named).
     Directories with a manifest but no registry entry are included too, so a
-    delivering task is never silently dropped.
+    delivering task is never silently dropped — but they carry no registry
+    metrics, so their results cannot be judged (not-run until registered).
     """
     suites_dir = EVAL_DIR / "suites"
     entries: dict[str, dict[str, Any]] = {}
@@ -127,8 +188,12 @@ def discover_suites() -> list[dict[str, Any]]:
                 continue
             sid = manifest.get("id") or manifest_path.parent.name
             if sid in entries:
-                # merge manifest detail over the registry spine
-                merged = {**entries[sid], **{k: v for k, v in manifest.items() if k != "id"}}
+                # merge manifest detail over the registry spine; the runner
+                # owns 'metrics' (the bars) — a manifest cannot set them
+                merged = {
+                    **entries[sid],
+                    **{k: v for k, v in manifest.items() if k not in ("id", "metrics")},
+                }
                 merged["dir"] = manifest_path.parent
                 merged["present"] = True
                 entries[sid] = merged
@@ -139,6 +204,7 @@ def discover_suites() -> list[dict[str, Any]]:
                 entry.setdefault("title", sid)
                 entry.setdefault("owner_task", "unregistered")
                 entry.setdefault("platform", "any")
+                entry.setdefault("metrics", {})
                 entry["dir"] = manifest_path.parent
                 entry["present"] = True
                 entries[sid] = entry
@@ -172,36 +238,90 @@ def not_run_suite(entry: dict[str, Any], reason: str, started: float) -> dict[st
     }
 
 
-def import_committed_results(entry: dict[str, Any], started: float) -> dict[str, Any]:
-    """Pick up a macOS suite's committed results (produced on macOS CI)."""
+def mismatch_suite(
+    entry: dict[str, Any], exc: contract.RegistryMismatch, started: float, source: str
+) -> dict[str, Any]:
+    """A suite whose metric set/labels/bars — or declared identity — differ
+    from the registry: FAIL, with every mismatch named. Never not-run, never
+    pass. A suite-level mismatch (e.g. missing letter/title, no metric rows
+    affected) still surfaces as one fail-marked contract row."""
+    metrics = exc.metrics or [
+        {
+            "id": f"{entry['id']}_contract",
+            "metric": f"{entry.get('letter', '?')}. {entry.get('title', entry['id'])}",
+            "status": "fail",
+            "reason": "; ".join(exc.reasons),
+        }
+    ]
+    return {
+        "suite": entry["id"],
+        "letter": entry.get("letter", "?"),
+        "title": entry.get("title", entry["id"]),
+        "owner_task": entry.get("owner_task", "unregistered"),
+        "source": source,
+        "registry_mismatches": exc.reasons,
+        "metrics": metrics,
+        "duration_ms": int((time.monotonic() - started) * 1000),
+    }
+
+
+def import_committed_results(
+    entry: dict[str, Any], run_binding: dict[str, str], started: float
+) -> dict[str, Any]:
+    """Pick up a macOS suite's committed results (produced by an approved
+    native CI run) — only after the macos-import rule proves them: matching
+    head plus CI-run provenance. Anything less is not-run, never pass."""
     path = EVAL_DIR / "out" / entry["id"] / "results.json"
     if not path.is_file():
         return not_run_suite(
             entry,
             "requires macOS (Xcode/simulator). Native runs need the existing iOS CI "
             "targets or a workflow approved from ci/pending-workflows/eval-macos.yml "
-            "(staged proposal, not installed); "
-            "no committed results imported from a CI run yet.",
+            "(staged proposal, not installed); no committed results from a proven "
+            "CI run at this head are available to import.",
             started,
         )
     try:
         payload = json.loads(path.read_text())
-        contract.validate_results(payload, expected_suite_id=entry["id"])
+        contract.validate_import_provenance(payload, expected_sha=run_binding["git_sha"])
+        contract.validate_results(
+            payload,
+            expected_suite_id=entry["id"],
+            registry_metrics=entry.get("metrics") or {},
+            expected_identity={
+                "letter": entry.get("letter"),
+                "title": entry.get("title"),
+            },
+        )
+    except contract.RegistryMismatch as exc:
+        res = mismatch_suite(entry, exc, started, source="imported")
+        res["imported_from"] = str(path.relative_to(REPO_ROOT))
+        return res
     except (json.JSONDecodeError, contract.ContractError) as exc:
         return not_run_suite(
-            entry, f"committed results failed contract validation: {exc}", started
+            entry, f"committed results refused (macos-import rule): {exc}", started
         )
+    # proven: keep the producing run's identity, then bind to THIS run
+    payload["native_run"] = {
+        **payload.pop("run", {}),
+        "run_url": payload.pop("run_url", None),
+    }
     payload["source"] = "imported"
     payload["imported_from"] = str(path.relative_to(REPO_ROOT))
     return payload
 
 
-def run_suite(entry: dict[str, Any], out_root: Path, timeout_s: int) -> dict[str, Any]:
+def run_suite(
+    entry: dict[str, Any],
+    out_root: Path,
+    timeout_s: int,
+    run_binding: dict[str, str],
+) -> dict[str, Any]:
     started = time.monotonic()
     platform = entry.get("platform", "any")
     host = "macos" if sys.platform.startswith("darwin") else "linux"
     if platform not in ("any", host):
-        return import_committed_results(entry, started)
+        return import_committed_results(entry, run_binding, started)
 
     suite_dir: Path = entry["dir"]
     suite_py = suite_dir / "suite.py"
@@ -209,6 +329,10 @@ def run_suite(entry: dict[str, Any], out_root: Path, timeout_s: int) -> dict[str
         return not_run_suite(entry, "suite directory has no suite.py", started)
 
     out_dir = out_root / entry["id"]
+    # Fresh output per run: remove whatever a previous run left behind before
+    # executing, so an exit-zero suite that emits nothing can never reuse a
+    # previous pass.
+    shutil.rmtree(out_dir, ignore_errors=True)
     out_dir.mkdir(parents=True, exist_ok=True)
     cmd = [
         sys.executable, str(suite_py),
@@ -235,13 +359,26 @@ def run_suite(entry: dict[str, Any], out_root: Path, timeout_s: int) -> dict[str
         return not_run_suite(entry, f"suite wrote no results.json: {tail or '(no output)'}", started)
     try:
         payload = json.loads(results_path.read_text())
-        contract.validate_results(payload, expected_suite_id=entry["id"])
+        contract.validate_results(
+            payload,
+            expected_suite_id=entry["id"],
+            registry_metrics=entry.get("metrics") or {},
+            expected_identity={
+                "letter": entry.get("letter"),
+                "title": entry.get("title"),
+            },
+        )
+    except contract.RegistryMismatch as exc:
+        return mismatch_suite(entry, exc, started, source="run")
     except (json.JSONDecodeError, contract.ContractError) as exc:
         return not_run_suite(entry, f"suite results failed contract validation: {exc}", started)
 
     payload["source"] = "run"
     payload["duration_ms"] = int((time.monotonic() - started) * 1000)
     payload["timeout_s"] = timeout_s
+    # write the stamped payload back: the committed per-suite evidence then
+    # carries this run's binding too (the scorecard embeds the same object)
+    results_path.write_text(json.dumps(payload, indent=2) + "\n")
     return payload
 
 
@@ -250,34 +387,47 @@ def run_suite(entry: dict[str, Any], out_root: Path, timeout_s: int) -> dict[str
 # --------------------------------------------------------------------------
 
 
-def collect(selected: list[str] | None, out_root: Path) -> dict[str, Any]:
+def collect(
+    selected: list[str] | None, out_root: Path, run_binding: dict[str, str]
+) -> list[dict[str, Any]]:
     suites_out = []
     for entry in discover_suites():
         sid = entry["id"]
         if selected and sid not in selected:
             continue
         present = entry["present"]
-        platform = entry.get("platform", "any")
-        host = "macos" if sys.platform.startswith("darwin") else "linux"
         if not present:
             reason = (
                 f"suite not yet delivered by {entry.get('owner_task', 'its owner')} "
                 f"(no evaluation/suites/{sid}/)"
             )
-            suites_out.append(not_run_suite(entry, reason, time.monotonic()))
+            suites_out.append(bind_result(not_run_suite(entry, reason, time.monotonic()), run_binding))
+            continue
+        if entry.get("metrics") is None:
+            # a discovered directory with no registry entry: the runner owns
+            # no bars for it, so its results cannot be judged
+            reason = (
+                "suite directory present but not in evaluation/registry.json — the "
+                "runner owns no bars for it; register the suite (with the lead's "
+                "recorded bars) before its results can be judged"
+            )
+            suites_out.append(bind_result(not_run_suite(entry, reason, time.monotonic()), run_binding))
             continue
         timeout_s = int(entry.get("timeout_s", DEFAULT_TIMEOUT_S))
-        suites_out.append(run_suite(entry, out_root, timeout_s))
+        suites_out.append(bind_result(run_suite(entry, out_root, timeout_s, run_binding), run_binding))
     return suites_out
 
 
-def build_scorecard(suites_out: list[dict[str, Any]]) -> dict[str, Any]:
+def build_scorecard(
+    suites_out: list[dict[str, Any]], run_binding: dict[str, str]
+) -> dict[str, Any]:
     counts = {"pass": 0, "fail": 0, "not-run": 0}
     for s in suites_out:
         for m in s.get("metrics", []):
             counts[m["status"]] += 1
     return {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "run": dict(run_binding),
         "git": git_info(),
         "toolchain": host_toolchain(),
         "summary": counts,
@@ -289,10 +439,12 @@ def render_markdown(card: dict[str, Any]) -> str:
     lines: list[str] = []
     s = card["summary"]
     git = card["git"]
+    run = card.get("run", {})
     lines.append("# FridgeLuck overhaul scorecard")
     lines.append("")
     lines.append(
-        f"Generated {card['generated_at']} · git `{git['sha'][:12]}` ({git['branch']}"
+        f"Generated {card['generated_at']} · run `{run.get('run_id', '?')}` "
+        f"(started {run.get('started_at', '?')}) · git `{git['sha'][:12]}` ({git['branch']}"
         f"{', dirty' if git['dirty'] else ''}) · "
         f"python {card['toolchain']['python']} · {card['toolchain']['runner']}"
     )
@@ -312,6 +464,9 @@ def render_markdown(card: dict[str, Any]) -> str:
             f"({source}{f', {dur/1000:.1f}s' if isinstance(dur, int) else ''})"
         )
         lines.append("")
+        for reason in suite.get("registry_mismatches", []):
+            lines.append(f"**registry mismatch:** {reason}")
+            lines.append("")
         lines.append("| metric | value | interval | bar | status | reason |")
         lines.append("| --- | --- | --- | --- | --- | --- |")
         for m in suite.get("metrics", []):
@@ -326,143 +481,470 @@ def render_markdown(card: dict[str, Any]) -> str:
                 f"| {bar_s} | {m['status']} | {reason} |"
             )
         lines.append("")
+    native = card.get("run", {}).get("git_sha", "?")
     lines.append(
-        "*Bars are the lead's choices from PLAN.md (\"The scorecard\"), not measured "
-        "optima. Suites B, D and E are delivered by the learning, LeChef and community "
-        "tasks (see SCORECARD.md for their file contract).*"
+        "*Bars are the lead's choices, owned by `evaluation/registry.json` from "
+        "PLAN.md (\"The scorecard\"); a suite cannot add, drop or re-bar a metric. "
+        "Every result is bound to this run (run id, git "
+        f"`{native[:12]}`, start time). Suites B, D and E are delivered by the "
+        "learning, LeChef and community tasks (see SCORECARD.md for their file "
+        "contract).*"
     )
     return "\n".join(lines) + "\n"
 
 
 # --------------------------------------------------------------------------
-# self-test: planted failures must be caught
+# self-test: planted failures must be caught (data-driven)
 # --------------------------------------------------------------------------
 
 
-def planted_suite(source: str) -> str:
-    return f"""import json, sys
-from pathlib import Path
-out = Path(sys.argv[sys.argv.index('--out') + 1])
-payload = {source}
-(out / 'results.json').write_text(json.dumps(payload))
-"""
+def _planted_suite_py(emit: Any) -> str:
+    """Source for a planted suite.py: write `emit` as results.json, exit 0
+    silently (emit None), or crash (emit 'crash')."""
+    if emit == "crash":
+        return "import os; os._exit(3)\n"
+    if emit is None:
+        return "import sys; sys.exit(0)\n"
+    payload_literal = json.dumps(json.dumps(emit))  # double-encoded: quote-proof
+    return (
+        "import json, sys\n"
+        "from pathlib import Path\n"
+        "out = Path(sys.argv[sys.argv.index('--out') + 1])\n"
+        "out.mkdir(parents=True, exist_ok=True)\n"
+        f"(out / 'results.json').write_text(json.dumps(json.loads({payload_literal})))\n"
+    )
 
 
-PLANTED = {
-    # A suite that crashes without writing results -> all not-run, never pass.
-    "crash": ("evaluation-crash", []),
-    # An honest fail must stay fail.
-    "honest-fail": ("evaluation-honest-fail", [
-        {"id": "m1", "metric": "planted honest fail", "value": 5, "bar": {"op": "<=", "value": 0}}
-    ]),
-    # An honest pass must stay pass.
-    "honest-pass": ("evaluation-honest-pass", [
-        {"id": "m1", "metric": "planted honest pass", "value": 0, "bar": {"op": "<=", "value": 0}}
-    ]),
-    # A lying suite: bar violated but status declared pass. The contract strips
-    # the declared status and reports the derived one, so the lie becomes an
-    # honest fail, never a pass.
-    "liar": ("evaluation-liar", [
-        {"id": "m1", "metric": "planted liar", "value": 5, "bar": {"op": "<=", "value": 0}, "status": "pass"}
-    ]),
-    # Missing inputs: the suite itself reports not-run with a reason.
-    "missing-inputs": ("evaluation-missing-inputs", [
-        {"id": "m1", "metric": "planted missing inputs", "status": "not-run",
-         "reason": "planted: input corpus absent"}
-    ]),
-    # An interval recorded on an equality bar is kept as evidence and must not
-    # affect derivation: 55 != 200 derives fail, never pass.
-    "interval-equality": ("evaluation-interval-equality", [
-        {"id": "m1", "metric": "planted interval on equality bar", "value": 55,
-         "bar": {"op": "==", "value": 200}, "interval": [0.2226, 0.3501]}
-    ]),
-}
-
-# What the runner must report for each planted suite's single metric.
-EXPECTED = {
-    "crash": NOT_RUN,
-    "honest-fail": "fail",
-    "honest-pass": "pass",
-    "liar": "fail",         # declared pass stripped -> derived fail
-    "missing-inputs": NOT_RUN,
-    "interval-equality": "fail",
-}
+def _synthetic_entry(
+    sid: str,
+    metrics: dict[str, Any],
+    *,
+    letter: str = "T",
+    owner: str = "selftest",
+    platform: str = "any",
+) -> dict[str, Any]:
+    return {
+        "id": sid,
+        "letter": letter,
+        "title": sid,
+        "owner_task": owner,
+        "platform": platform,
+        "timeout_s": 60,
+        "metrics": metrics,
+    }
 
 
-def self_test() -> int:
+_M_LE0 = {"label": "kept metric", "bar": {"op": "<=", "value": 0}}
+_HEAD = "@HEAD@"                      # substituted with the real head at plant time
+_HEAD_MISMATCH = "@HEAD-MISMATCH@"    # substituted with a non-head SHA
+
+
+def _import_payload(metrics: list[dict[str, Any]], sha: str, *, with_run: bool = True,
+                    with_url: bool = True) -> dict[str, Any]:
+    payload: dict[str, Any] = {"suite": "@SUITE@", "metrics": metrics, "git": {"sha": sha}}
+    if with_url:
+        payload["run_url"] = "https://ci.example.test/FridgeLuck/actions/runs/123"
+    if with_run:
+        payload["run"] = {"run_id": "ci-native-0001", "started_at": "2026-10-11T00:00:00Z"}
+    return payload
+
+
+def _m1(value: Any, **extra: Any) -> dict[str, Any]:
+    m = {"id": "m1", "metric": "kept metric", "value": value,
+         "bar": {"op": "<=", "value": 0}}
+    m.update(extra)
+    return m
+
+
+# Runner-owned planted cases. Each runs in its own temp tree against its own
+# synthetic registry (or the real registry when use_real_registry is set), so
+# the minimum set is deterministic regardless of which suites are delivered.
+RUNNER_CASES: list[dict[str, Any]] = [
+    # --- legacy runner behaviour: still must hold ---
+    {"case": "crash", "suite_id": "selftest-crash",
+     "registry_entry": _synthetic_entry("selftest-crash", {"m1": _M_LE0}),
+     "emit": "crash",
+     "expect_rows": [{"id": "selftest-crash_suite", "status": "not-run",
+                      "reason_contains": ["exited with code"]}]},
+    {"case": "honest-fail", "suite_id": "selftest-honest",
+     "registry_entry": _synthetic_entry("selftest-honest", {"m1": _M_LE0}),
+     "emit": {"suite": "selftest-honest", "metrics": [_m1(5)]},
+     "expect_rows": [{"id": "m1", "status": "fail"}]},
+    {"case": "honest-pass", "suite_id": "selftest-honest",
+     "registry_entry": _synthetic_entry("selftest-honest", {"m1": _M_LE0}),
+     "emit": {"suite": "selftest-honest", "metrics": [_m1(0)]},
+     "expect_rows": [{"id": "m1", "status": "pass"}]},
+    {"case": "liar", "suite_id": "selftest-liar",
+     "registry_entry": _synthetic_entry("selftest-liar", {"m1": _M_LE0}),
+     "emit": {"suite": "selftest-liar", "metrics": [_m1(5, status="pass")]},
+     "expect_rows": [{"id": "m1", "status": "fail"}]},
+    {"case": "missing-inputs", "suite_id": "selftest-missing",
+     "registry_entry": _synthetic_entry("selftest-missing", {"m1": _M_LE0}),
+     "emit": {"suite": "selftest-missing",
+              "metrics": [{"id": "m1", "metric": "kept metric", "status": "not-run",
+                           "reason": "planted: input corpus absent"}]},
+     "expect_rows": [{"id": "m1", "status": "not-run"}]},
+    {"case": "interval-equality", "suite_id": "selftest-interval",
+     "registry_entry": _synthetic_entry(
+         "selftest-interval",
+         {"m1": {"label": "equality metric", "bar": {"op": "==", "value": 200}}}),
+     "emit": {"suite": "selftest-interval",
+              "metrics": [{"id": "m1", "metric": "equality metric", "value": 55,
+                           "bar": {"op": "==", "value": 200},
+                           "interval": [0.22, 0.35]}]},
+     "expect_rows": [{"id": "m1", "status": "fail"}]},
+
+    # --- defect 3: the registry owns the metric set and the bars ---
+    {"case": "dropped-metric", "suite_id": "selftest-drop",
+     "registry_entry": _synthetic_entry("selftest-drop", {
+         "m1": _M_LE0, "m2": {"label": "second metric", "bar": {"op": "==", "value": 0}}}),
+     "emit": {"suite": "selftest-drop", "metrics": [_m1(0)]},   # m2 quietly dropped
+     "expect_rows": [
+         {"id": "m1", "status": "pass"},
+         {"id": "m2", "status": "fail",
+          "reason_contains": ["missing from the suite results"]}]},
+    {"case": "weakened-bar", "suite_id": "selftest-weaken",
+     "registry_entry": _synthetic_entry("selftest-weaken", {"m1": _M_LE0}),
+     # the suite re-bars its own metric: value 5 violates <=0, so it declares <=10
+     "emit": {"suite": "selftest-weaken",
+              "metrics": [{"id": "m1", "metric": "kept metric", "value": 5,
+                           "bar": {"op": "<=", "value": 10}}]},
+     "expect_rows": [{"id": "m1", "status": "fail",
+                      "reason_contains": ["differs from the registry bar"]}]},
+    {"case": "extra-metric", "suite_id": "selftest-extra",
+     "registry_entry": _synthetic_entry("selftest-extra", {"m1": _M_LE0}),
+     "emit": {"suite": "selftest-extra",
+              "metrics": [_m1(0),
+                          {"id": "m_extra", "metric": "sneaky extra", "value": 0,
+                           "bar": {"op": "<=", "value": 0}}]},
+     "expect_rows": [
+         {"id": "m1", "status": "pass"},
+         {"id": "m_extra", "status": "fail",
+          "reason_contains": ["not in the registry"]}]},
+    # --- suite identity: letter/title are schema-required on every emission
+    # (the "?. suite" rendering defect seen on suite A before its fix) ---
+    {"case": "missing-identity", "suite_id": "selftest-ident",
+     "registry_entry": _synthetic_entry("selftest-ident", {"m1": _M_LE0}),
+     "emit": {"suite": "selftest-ident", "metrics": [_m1(0)]},  # no letter/title
+     "expect_rows": [{"id": "selftest-ident_contract", "status": "fail",
+                      "reason_contains": ["missing 'letter'"]}]},
+    {"case": "wrong-identity", "suite_id": "selftest-ident2",
+     "registry_entry": _synthetic_entry("selftest-ident2", {"m1": _M_LE0},
+                                        letter="T"),
+     "emit": {"suite": "selftest-ident2", "letter": "Z", "title": "selftest-ident2",
+              "metrics": [_m1(0)]},  # declares a letter it is not registered under
+     "expect_rows": [{"id": "selftest-ident2_contract", "status": "fail",
+                      "reason_contains": ["declare letter 'Z'",
+                                          "registered as 'T'"]}]},
+    # --- defect 4: fresh output per run — a stale pass cannot survive ---
+    {"case": "stale-result-reuse", "suite_id": "selftest-stale",
+     "registry_entry": _synthetic_entry("selftest-stale", {"m1": _M_LE0}),
+     "plant_out": {"suite": "selftest-stale", "metrics": [_m1(0)]},  # last run's pass
+     "emit": None,   # exits 0 and emits nothing
+     "expect_rows": [{"id": "selftest-stale_suite", "status": "not-run",
+                      "reason_contains": ["wrote no results.json"]}],
+     "forbid_ids": ["m1"], "expect_file_absent": True},
+    # --- defect 4: imported native results must prove themselves ---
+    {"case": "missing-binding-import", "suite_id": "selftest-import-missing",
+     "registry_entry": _synthetic_entry("selftest-import-missing", {"m1": _M_LE0},
+                                        platform="macos"),
+     "import_source": _import_payload([_m1(0)], _HEAD, with_run=False),
+     "emit": None, "skip_on_macos": True,
+     "expect_rows": [{"id": "selftest-import-missing_suite", "status": "not-run",
+                      "reason_contains": ["carry no run binding"]}]},
+    {"case": "unbound-import", "suite_id": "selftest-import-unbound",
+     "registry_entry": _synthetic_entry("selftest-import-unbound", {"m1": _M_LE0},
+                                        platform="macos"),
+     "import_source": {"suite": "selftest-import-unbound", "metrics": [_m1(0)]},
+     "emit": None, "skip_on_macos": True,
+     "expect_rows": [{"id": "selftest-import-unbound_suite", "status": "not-run",
+                      "reason_contains": ["no git.sha"]}]},
+    {"case": "head-mismatch-import", "suite_id": "selftest-import-head",
+     "registry_entry": _synthetic_entry("selftest-import-head", {"m1": _M_LE0},
+                                        platform="macos"),
+     "import_source": _import_payload([_m1(0)], _HEAD_MISMATCH),
+     "emit": None, "skip_on_macos": True,
+     "expect_rows": [{"id": "selftest-import-head_suite", "status": "not-run",
+                      "reason_contains": ["not the current head"]}]},
+    # positive control: a proven import is admitted (source: imported)
+    {"case": "bound-import", "suite_id": "selftest-import-bound",
+     "registry_entry": _synthetic_entry("selftest-import-bound", {"m1": _M_LE0},
+                                        platform="macos"),
+     "import_source": _import_payload([_m1(0)], _HEAD),
+     "emit": None, "skip_on_macos": True,
+     "expect_source": "imported",
+     "expect_rows": [{"id": "m1", "status": "pass"}]},
+    # --- defect 6: an absent suite dir reports not-run with the owner named ---
+    {"case": "absent-suite-dir", "suite_id": "selftest-absent",
+     "registry_entry": _synthetic_entry("selftest-absent", {"m1": _M_LE0},
+                                        owner="fl-selftest-owner"),
+     "absent_dir": True,
+     "expect_rows": [{"id": "selftest-absent_suite", "status": "not-run",
+                      "reason_contains": ["fl-selftest-owner",
+                                          "no evaluation/suites/selftest-absent/"]}]},
+
+    # --- defect 6: the real registry's B/D/E wiring, tested end to end ---
+    {"case": "real-registry-learning-dropped", "suite_id": "learning",
+     "use_real_registry": True,
+     "emit": {"suite": "learning",
+              "metrics": [{"id": "restriction_violations",
+                           "metric": "Restriction violations", "value": 0}]},
+     "expect_rows": [
+         {"id": "restriction_violations", "status": "pass"},
+         {"id": "ndcg10_vs_rule_ranker_pct", "status": "fail",
+          "reason_contains": ["missing from the suite results"]},
+         {"id": "ndcg10_vs_profile_only_pct", "status": "fail",
+          "reason_contains": ["missing from the suite results"]},
+         {"id": "taste_shift_recovery_cooks_median", "status": "fail",
+          "reason_contains": ["missing from the suite results"]}]},
+    {"case": "real-registry-lechef-harness-conformance", "suite_id": "lechef",
+     "use_real_registry": True,
+     # bars omitted entirely: the runner injects them; 50% fails the >=90 bar
+     "emit": {"suite": "lechef", "metrics": [
+         {"id": "food_safety_violations", "metric": "Food-safety violations", "value": 0},
+         {"id": "actions_without_approval",
+          "metric": "Actions executed without approval", "value": 0},
+         {"id": "harness_conformance_pct",
+          "metric": "Harness conformance (% of scripted cook jobs)", "value": 50},
+         {"id": "timer_correctness_pct",
+          "metric": "Timer correctness across kill and resume (%)", "value": 100}]},
+     "expect_rows": [
+         {"id": "food_safety_violations", "status": "pass"},
+         {"id": "actions_without_approval", "status": "pass"},
+         {"id": "harness_conformance_pct", "status": "fail"},
+         {"id": "timer_correctness_pct", "status": "pass"}]},
+    {"case": "real-registry-community-pass", "suite_id": "community",
+     "use_real_registry": True,
+     "emit": {"suite": "community", "metrics": [
+         {"id": "private_field_leaks", "metric": "Private-field leaks", "value": 0},
+         {"id": "authorization_failures", "metric": "Authorization failures", "value": 0},
+         {"id": "moderation_transitions_covered_pct",
+          "metric": "Moderation transitions covered (%)", "value": 100}]},
+     "expect_rows": [
+         {"id": "private_field_leaks", "status": "pass"},
+         {"id": "authorization_failures", "status": "pass"},
+         {"id": "moderation_transitions_covered_pct", "status": "pass"}]},
+]
+
+
+def _collect_under(run_mod: Any, selected: list[str], out_root: Path,
+                   binding: dict[str, str]) -> list[dict[str, Any]]:
+    """collect() through the module under test, old or new signature."""
+    if "run_binding" in inspect.signature(run_mod.collect).parameters:
+        return run_mod.collect(selected, out_root, binding)
+    return run_mod.collect(selected, out_root)  # pre-binding runner: plant away
+
+
+def _check_case(case: dict[str, Any], result: dict[str, Any], sid: str) -> list[str]:
+    """Assert one planted case's expected literal rows against the result."""
+    errors: list[str] = []
+    rows = {m.get("id"): m for m in result.get("metrics", [])}
+    want_source = case.get("expect_source")
+    if want_source and result.get("source") != want_source:
+        errors.append(
+            f"source is {result.get('source')!r}, expected {want_source!r}"
+        )
+    for want in case.get("expect_rows", []):
+        row = rows.get(want["id"])
+        if row is None:
+            errors.append(
+                f"expected row {want['id']!r} absent (rows: {sorted(rows)})"
+            )
+            continue
+        if row.get("status") != want["status"]:
+            errors.append(
+                f"row {want['id']!r} reported {row.get('status')!r}, "
+                f"expected {want['status']!r} (reason: {row.get('reason')!r})"
+            )
+        for sub in want.get("reason_contains", []):
+            if sub not in (row.get("reason") or ""):
+                errors.append(
+                    f"row {want['id']!r} reason {row.get('reason')!r} "
+                    f"does not name {sub!r}"
+                )
+    for fid in case.get("forbid_ids", []):
+        if fid in rows:
+            errors.append(
+                f"forbidden row {fid!r} present — a stale result survived"
+            )
+    if case.get("expect_file_absent"):
+        if (case["_case_root"] / "out" / sid / "results.json").is_file():
+            errors.append("out/<suite>/results.json still exists after a silent suite")
+    return errors
+
+
+def _run_case(case: dict[str, Any], tmp_root: Path, run_mod: Any,
+              real_registry: dict[str, Any], binding: dict[str, str]) -> list[str]:
+    case_root = tmp_root / case["case"]
+    case_root.mkdir()
+    case["_case_root"] = case_root
+    sid = case["suite_id"]
+    registry = real_registry if case.get("use_real_registry") else {
+        "suites": [case["registry_entry"]]
+    }
+    (case_root / "registry.json").write_text(json.dumps(registry))
+    platform = next(
+        (s.get("platform", "any") for s in registry["suites"] if s["id"] == sid), "any"
+    )
+    if not case.get("absent_dir"):
+        d = case_root / "suites" / sid
+        d.mkdir(parents=True)
+        (d / "suite.json").write_text(json.dumps(
+            {"id": sid, "platform": platform, "timeout_s": 60}))
+        emit = case.get("emit")
+        if isinstance(emit, dict) and "suite" in emit and emit["suite"] != sid:
+            raise ValueError(f"case {case['case']}: emit targets {emit['suite']!r}, not {sid!r}")
+        (d / "suite.py").write_text(_planted_suite_py(emit))
+    if case.get("import_source") is not None:
+        src = json.loads(json.dumps(case["import_source"]))  # deep copy
+        src["suite"] = sid
+        for node in (src, src.get("git")):
+            if isinstance(node, dict) and node.get("sha") == _HEAD:
+                node["sha"] = binding["git_sha"]
+            if isinstance(node, dict) and node.get("sha") == _HEAD_MISMATCH:
+                node["sha"] = "0" * 40
+        out_dir = case_root / "out" / sid
+        out_dir.mkdir(parents=True)
+        (out_dir / "results.json").write_text(json.dumps(src))
+    if case.get("plant_out") is not None:
+        out_dir = case_root / "out" / sid
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "results.json").write_text(json.dumps(case["plant_out"]))
+
+    # The module under test derives paths from its module globals: point both
+    # at the temp tree (eval dir and the repo root its imported-from paths are
+    # made relative to), then restore. Use its own originals, not ours - the
+    # module under test may be an extracted base-content copy.
+    originals = (run_mod.EVAL_DIR, run_mod.REPO_ROOT)
+    try:
+        run_mod.EVAL_DIR = case_root
+        run_mod.REPO_ROOT = case_root
+        results_list = _collect_under(run_mod, [sid], case_root / "out", binding)
+    except Exception as exc:  # the module under test crashed: record, don't abort
+        import traceback
+
+        return [
+            f"module under test crashed instead of failing closed: "
+            f"{type(exc).__name__}: {exc} (tail: {traceback.format_exc()[-200:]})"
+        ]
+    finally:
+        run_mod.EVAL_DIR, run_mod.REPO_ROOT = originals
+    results = {s["suite"]: s for s in results_list}
+    result = results.get(sid)
+    if result is None:
+        return [f"suite {sid!r} vanished from collection"]
+    return _check_case(case, result, sid)
+
+
+def _per_suite_case_files() -> list[tuple[str, Path]]:
+    """The per-suite planted-case convention: every suite may ship
+    `evaluation/suites/<id>/selftest/*.json` case files (schema in
+    SCORECARD.md). The runner owns none of them — suites add their own."""
+    found: list[tuple[str, Path]] = []
+    for suite_dir in sorted((EVAL_DIR / "suites").glob("*")):
+        cases_dir = suite_dir / "selftest"
+        if not cases_dir.is_dir():
+            continue
+        for case_path in sorted(cases_dir.glob("*.json")):
+            found.append((suite_dir.name, case_path))
+    return found
+
+
+def self_test(run_mod: Any | None = None) -> int:
+    """Plant failures; every one must be caught. Exits 0 only when every
+    planted failure is caught (2 otherwise).
+
+    Runs the runner-owned RUNNER_CASES plus each suite's own planted cases
+    from `evaluation/suites/<id>/selftest/*.json`, then every present suite's
+    internal `suite.py --self-test`. `run_mod` defaults to this same file
+    imported as module `run` (a separate module object so the temp-tree
+    EVAL_DIR swap does not touch this module).
+    """
     failures: list[str] = []
     caught = 0
-    total = len(PLANTED)
+    total = 0  # runner cases + per-suite cases + present-suite self-tests
+    if run_mod is None:
+        import run as run_mod  # type: ignore  (this same file, module name `run`)
+
+    real_registry = {"suites": load_registry()}
+    binding = {
+        "run_id": "r-selftest-000000",
+        "git_sha": git_info()["sha"],
+        "started_at": "1970-01-01T00:00:00Z",
+    }
+    on_macos = sys.platform.startswith("darwin")
 
     with tempfile.TemporaryDirectory(prefix="fl-scorecard-selftest-") as tmp:
         tmp_root = Path(tmp)
-        suites_dir = tmp_root / "suites"
-        for name, (sid, metrics) in PLANTED.items():
-            d = suites_dir / sid
-            d.mkdir(parents=True)
-            (d / "suite.json").write_text(
-                json.dumps({"id": sid, "letter": "T", "title": sid, "owner_task": "selftest",
-                            "platform": "any", "timeout_s": 60})
-            )
-            (d / "suite.py").write_text(
-                planted_suite(json.dumps({"suite": sid, "metrics": metrics}))
-                + ("import os; os._exit(3)" if name == "crash" else "")
-            )
-        # run the collector core against the planted tree: import this file as a
-        # module named `run` and point its module-level EVAL_DIR at the temp tree
-        # (reloading would not work: the module body recomputes EVAL_DIR from __file__).
-        # This module's own EVAL_DIR is untouched — `run` is a separate module object.
-        (tmp_root / "registry.json").write_text(json.dumps({"suites": []}))
-        import run as run_mod  # type: ignore  (this same file, under module name `run`)
-
-        run_mod.EVAL_DIR = tmp_root
-        out_root = tmp_root / "out"
-        results = {s["suite"]: s for s in run_mod.collect(None, out_root)}
-
-        for name, (sid, _) in PLANTED.items():
-            suite_res = results.get(sid)
-            if suite_res is None:
-                failures.append(f"planted {name}: suite vanished from collection")
+        all_cases: list[dict[str, Any]] = [dict(c) for c in RUNNER_CASES]
+        for sid, case_path in _per_suite_case_files():
+            try:
+                case = json.loads(case_path.read_text())
+            except (json.JSONDecodeError, OSError) as exc:
+                failures.append(f"per-suite case {case_path}: unreadable: {exc}")
                 continue
-            for m in suite_res.get("metrics", []):
-                want = EXPECTED[name]
-                got = m["status"]
-                label = f"planted {name}: {m.get('id')}"
-                if got == want:
-                    caught += 1
-                    print(f"  caught  {label} -> {got}")
-                else:
-                    failures.append(f"{label} reported {got}, expected {want}")
+            case.setdefault("case", f"{sid}:{case_path.stem}")
+            case["suite_id"] = sid
+            case["use_real_registry"] = True
+            all_cases.append(case)
+        skipped = []
+        for case in all_cases:
+            if case.get("skip_on_macos") and on_macos:
+                skipped.append(case["case"])
+                continue
+            case_errors = _run_case(case, tmp_root, run_mod, real_registry, binding)
+            label = f"planted {case['case']}"
+            total += 1
+            if case_errors:
+                failures.extend(f"{label}: {e}" for e in case_errors)
+                print(f"  UNCAUGHT {label}: {case_errors[0]}")
+            else:
+                caught += 1
+                print(f"  caught  {label}")
 
-    # every present real suite must also catch its own planted failures
-    for entry in discover_suites():
-        if not entry["present"]:
-            continue
-        suite_py = entry["dir"] / "suite.py"
-        if not suite_py.is_file():
-            continue
-        proc = subprocess.run(
-            [sys.executable, str(suite_py), "--self-test"],
-            capture_output=True, text=True, timeout=DEFAULT_TIMEOUT_S, cwd=str(entry["dir"]),
-        )
-        label = f"suite {entry['id']} --self-test"
-        total += 1
-        if proc.returncode == 0:
-            caught += 1
-            print(f"  caught  {label}: {(proc.stdout or '').strip().splitlines()[-1] if (proc.stdout or '').strip() else 'ok'}")
-        else:
-            failures.append(
-                f"{label} failed (exit {proc.returncode}): "
-                f"{(proc.stderr or proc.stdout or '').strip()[-300:]}"
+        # every present real suite must also catch its own planted failures
+        # (this module's discover: the real tree, whatever run_mod points at)
+        for entry in discover_suites():
+            if not entry["present"]:
+                continue
+            suite_py = entry["dir"] / "suite.py"
+            if not suite_py.is_file():
+                continue
+            proc = subprocess.run(
+                [sys.executable, str(suite_py), "--self-test"],
+                capture_output=True, text=True, timeout=DEFAULT_TIMEOUT_S,
+                cwd=str(entry["dir"]),
             )
+            label = f"suite {entry['id']} --self-test"
+            total += 1
+            caught += 1
+            if proc.returncode == 0:
+                print(f"  caught  {label}: "
+                      f"{(proc.stdout or '').strip().splitlines()[-1] if (proc.stdout or '').strip() else 'ok'}")
+            else:
+                caught -= 1
+                failures.append(
+                    f"{label} failed (exit {proc.returncode}): "
+                    f"{(proc.stderr or proc.stdout or '').strip()[-300:]}"
+                )
+
+    # present suites shipping no planted cases of their own: warn, don't fail
+    shipped = {sid for sid, _ in _per_suite_case_files()}
+    for entry in discover_suites():
+        if entry["present"] and entry["id"] not in shipped:
+            print(f"  note    suite {entry['id']}: no selftest/ cases yet — "
+                  "add evaluation/suites/" + entry["id"] + "/selftest/*.json "
+                  "(convention in SCORECARD.md)")
 
     print("")
+    if skipped:
+        print(f"(skipped on this host: {', '.join(skipped)})")
     if failures:
-        print(f"SELF-TEST FAILED: {caught}/{total} planted checks behaved as required")
+        print(f"SELF-TEST FAILED: {caught}/{total} runner cases + suites behaved as required")
         for f in failures:
             print(f"  UNCAUGHT: {f}")
         return 2
-    print(f"self-test ok: {caught}/{total} planted checks behaved as required")
+    print(f"self-test ok: {caught}/{total} runner cases + suites behaved as required")
     return 0
 
 
@@ -483,10 +965,12 @@ def main() -> int:
     args = ap.parse_args()
 
     if args.list:
-        print(f"{'id':<16} {'letter':<6} {'platform':<8} {'present':<8} owner")
+        print(f"{'id':<16} {'letter':<6} {'platform':<8} {'present':<8} {'bars':<5} owner")
         for e in discover_suites():
+            bars = e.get("metrics")
+            bars_s = str(len(bars)) if isinstance(bars, dict) else "—"
             print(f"{e['id']:<16} {e.get('letter', '?'):<6} {e.get('platform', 'any'):<8} "
-                  f"{'yes' if e['present'] else 'no':<8} {e.get('owner_task', '')}")
+                  f"{'yes' if e['present'] else 'no':<8} {bars_s:<5} {e.get('owner_task', '')}")
         return 0
 
     if args.self_test:
@@ -496,9 +980,10 @@ def main() -> int:
     out_root = Path(args.out)
     out_root.mkdir(parents=True, exist_ok=True)
 
+    run_binding = make_run_binding()
     started = time.monotonic()
-    suites_out = collect(selected, out_root)
-    card = build_scorecard(suites_out)
+    suites_out = collect(selected, out_root, run_binding)
+    card = build_scorecard(suites_out, run_binding)
     card["runner_duration_ms"] = int((time.monotonic() - started) * 1000)
 
     json_path = out_root / "scorecard.json"
