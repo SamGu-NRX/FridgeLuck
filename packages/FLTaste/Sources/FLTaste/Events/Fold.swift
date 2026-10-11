@@ -45,14 +45,11 @@ public struct ExplicitLayer: Equatable, Sendable {
     public var restrictions: [Restriction]
     public var neverSuggest: [IngredientID: NeverSuggestRecord]
     public var stated: [FeatureKey: StatedPreference]
-    /// The user's verdict on a profile sentence, by stable sentence id.
-    public var sentenceMarks: [String: SentenceMark]
 
     public init() {
         self.restrictions = []
         self.neverSuggest = [:]
         self.stated = [:]
-        self.sentenceMarks = [:]
     }
 
     public struct NeverSuggestRecord: Equatable, Sendable {
@@ -62,21 +59,6 @@ public struct ExplicitLayer: Equatable, Sendable {
     public struct StatedPreference: Equatable, Sendable {
         public let polarity: Polarity
         public let addedAt: Instant
-    }
-
-    /// The user's verdict on one profile sentence. Rejection is soft: the
-    /// sentence is kept (so the app does not re-learn it next week, per the
-    /// mock) but excluded from acting; it can be reopened.
-    public struct SentenceMark: Equatable, Sendable {
-        public enum Verdict: Equatable, Sendable {
-            case confirmed(at: Instant)
-            case rejected(at: Instant)
-            /// Stronger than rejection: pins an explicit override ("this is
-            /// wrong"), which beats any learned frequency (SPEC 3.3).
-            case corrected(at: Instant)
-        }
-
-        public let verdict: Verdict
     }
 }
 

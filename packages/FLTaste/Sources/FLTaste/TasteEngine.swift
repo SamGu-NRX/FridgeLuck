@@ -76,6 +76,18 @@ public struct TasteEngine: Sendable {
         return ranker.rank(input, rng: &rng)
     }
 
+    // MARK: Profile
+
+    /// The human-readable taste profile (SPEC 3.3): sentences with evidence,
+    /// denominators and recency, each carrying the exact profile-edit
+    /// operations the app can offer. Deterministic for a given state and
+    /// clock reading.
+    public func profile() -> TasteProfile {
+        ProfileBuilder.build(
+            state: state, catalog: catalog, config: config,
+            now: Ranker.clockAnchor(model: model))
+    }
+
     // MARK: Snapshots
 
     /// Canonical snapshot bytes. Identical logical state produces identical

@@ -68,6 +68,12 @@ struct Ranker {
         return precision
     }
 
+    /// One definition of "now" for every read path: an explicit context
+    /// clock, else the log's last event, else the epoch (a fresh log).
+    static func clockAnchor(model: TasteModel) -> Instant {
+        model.anchor ?? Instant(Date(timeIntervalSince1970: 0))
+    }
+
     /// Hard-filtered and soft-never-suggest ingredient ids, given "now".
     func blockedIngredients(now: Instant) -> (hard: Set<IngredientID>, soft: Set<IngredientID>) {
         var hard = Set<IngredientID>()
@@ -100,7 +106,7 @@ struct Ranker {
     /// Ranks the feasible candidates. Hard-filtered recipes are dropped
     /// before any model math; unknown recipes are dropped as well.
     func rank(_ input: RankInput, rng: inout SeededRNG) -> [RankedRecipe] {
-        let now = input.context?.now ?? model.anchor ?? Instant(Date(timeIntervalSince1970: 0))
+        let now = input.context?.now ?? Self.clockAnchor(model: model)
         let blocked = blockedIngredients(now: now)
 
         var candidates: [(RecipeID, CatalogRecipe)] = []
