@@ -8,6 +8,7 @@ import type {
   BlockDirectory,
   ModerationDecisionKind,
   ModerationQueue,
+  ModerationQueueItem,
   ModerationSubmitReason,
   PublicationRef,
   ScreeningStage,
@@ -54,8 +55,6 @@ export interface ModerationQueueStub extends ModerationQueue {
   }>;
   /** The handler registered via registerDecisionHandler, exposed for assertions. */
   decisionHandler: ((target: PublicationRef, decision: ModerationDecisionKind, note: string) => Promise<void>) | null;
-  /** Test control: act as the human moderator deciding a queued item. */
-  decide(publicationId: PublicationId, revisionId: RecipeRevisionId, decision: ModerationDecisionKind, note: string): Promise<void>;
 }
 
 export function stubModerationQueue(): ModerationQueueStub {
@@ -66,11 +65,11 @@ export function stubModerationQueue(): ModerationQueueStub {
       stub.submitted.push({ target, submitter, reason, note, itemId });
       return itemId;
     },
-    async decide(publicationId, revisionId, decision, note): Promise<void> {
-      if (stub.decisionHandler === null) {
-        throw new Error("no decision handler registered");
-      }
-      await stub.decisionHandler({ publicationId, revisionId }, decision, note);
+    async list(): Promise<readonly never[]> {
+      return [];
+    },
+    async resolve(): Promise<ModerationQueueItem> {
+      throw new Error("stubModerationQueue does not resolve; use the Firestore queue for moderator flows");
     },
     registerDecisionHandler(handler): void {
       stub.decisionHandler = handler;

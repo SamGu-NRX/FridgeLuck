@@ -7,6 +7,8 @@
  * ownership always comes from the verified session token.
  */
 
+import { errValidation } from "./errors.js";
+
 function brandedId<Brand extends string>(prefix: string, field: string) {
   const pattern = new RegExp(`^${prefix}[0-9a-f-]{36}$`);
   return {
@@ -15,7 +17,9 @@ function brandedId<Brand extends string>(prefix: string, field: string) {
     },
     parse(raw: unknown, where: string): string & { readonly __brand: Brand } {
       if (typeof raw !== "string" || !pattern.test(raw)) {
-        throw new Error(`${where}: expected ${field} matching ${prefix}<uuid>`);
+        // A malformed id is client input, not a server fault: it must ride the
+        // module error envelope (422), not surface as an unhandled 500.
+        throw errValidation(`${where}: expected ${field} matching ${prefix}<uuid>`);
       }
       return raw as string & { readonly __brand: Brand };
     },

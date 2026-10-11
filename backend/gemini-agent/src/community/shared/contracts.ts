@@ -29,15 +29,54 @@ export type ModerationSubmitReason = "automated-screening" | "user-report" | "au
 
 export type ModerationDecisionKind = "approved" | "rejected";
 
+/** Lifecycle of one moderation queue item. */
+export type ModerationQueueStatus = "open" | "resolved";
+
+/** One append-only entry in an item's audit trail: who did what, when. */
+export interface ModerationAuditEntry {
+  readonly at: string;
+  readonly actor: AccountId | null;
+  readonly action: string;
+  readonly detail: string | null;
+}
+
+/** A moderation queue item as the moderator surface sees it. */
+export interface ModerationQueueItem {
+  readonly itemId: ModerationItemId;
+  readonly target: PublicationRef;
+  readonly submitter: AccountId | null;
+  readonly reason: ModerationSubmitReason;
+  readonly note: string | null;
+  readonly status: ModerationQueueStatus;
+  readonly createdAt: string;
+  readonly decision: ModerationDecisionKind | null;
+  readonly resolvedBy: AccountId | null;
+  readonly resolvedAt: string | null;
+  readonly audit: readonly ModerationAuditEntry[];
+}
+
 /**
- * The human moderation queue, implemented by the safety part. No LLM decides
- * moderation: decisions are made by a human moderator role through a
- * server-held endpoint and are stored server-side only.
+ * The human moderation queue, implemented over Firestore by the explore
+ * milestone. No LLM decides moderation: automated stages can only enqueue,
+ * and decisions are made by a human moderator role through a server-held
+ * endpoint and are stored server-side only.
  */
 export interface ModerationQueue {
-  submit(target: PublicationRef, submitter: AccountId | null, reason: ModerationSubmitReason, note: string | null): Promise<ModerationItemId>;
   /**
-   * Registers the handler fired exactly once per decision. The recipes part
+   * Enqueues a target for human review. Enqueueing hides the publication
+   * pending review (SPEC 3.4: "reports hide it pending review") unless the
+   * reason is author-appeal, where the publication is already hidden.
+   */
+  submit(target: PublicationRef, submitter: AccountId | null, reason: ModerationSubmitReason, note: string | null): Promise<ModerationItemId>;
+  list(status: ModerationQueueStatus): Promise<readonly ModerationQueueItem[]>;
+  /**
+   * A human moderator decides an open item. Fires the registered decision
+   * handler and appends the audit entry exactly once; resolving an already
+   * resolved item throws ConflictError.
+   */
+  resolve(itemId: ModerationItemId, decision: ModerationDecisionKind, moderator: AccountId, note: string | null): Promise<ModerationQueueItem>;
+  /**
+   * Registers the handler fired exactly once per decision. The explore part
    * registers the publication state-machine transition at wiring time.
    */
   registerDecisionHandler(handler: (target: PublicationRef, decision: ModerationDecisionKind, note: string) => Promise<void>): void;

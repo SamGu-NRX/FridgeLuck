@@ -34,6 +34,7 @@ export interface CommunityDeps {
 /** Parts' router factories (landed by their own tasks, wired here). */
 export interface CommunityPartRouters {
   identity?: (deps: CommunityDeps, runtime: CommunityRuntime) => ExpressRouter;
+  explore?: (deps: CommunityDeps, runtime: CommunityRuntime) => ExpressRouter;
 }
 
 export interface CommunityRuntime {
@@ -76,6 +77,9 @@ export function createCommunityRouter(deps: CommunityDeps, parts: CommunityPartR
   // Part routers are mounted here as the parent join merges them.
   if (parts.identity !== undefined) {
     router.use(parts.identity(deps, runtime));
+  }
+  if (parts.explore !== undefined) {
+    router.use(parts.explore(deps, runtime));
   }
 
   // The error boundary: middleware-thrown CommunityErrors (requireAccount)
