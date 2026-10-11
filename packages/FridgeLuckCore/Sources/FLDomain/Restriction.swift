@@ -41,23 +41,44 @@ public struct Restriction: Hashable, Sendable {
     public var allergens: Set<Allergen>
     public var dietExclusions: Set<DietExclusion>
     /// Canonical ingredient names the person excludes that the fixed enums do
-    /// not cover. Never empty strings.
-    public var customExclusions: Set<String>
+    /// not cover. Stored normalized (Review round 1, item 3): trimmed and
+    /// case-folded, never empty — the stored form IS the matching form. The
+    /// storage is read-only; extend through `addingCustomExclusion(_:)`,
+    /// which applies the same validation as construction.
+    public private(set) var customExclusions: Set<String>
+
+    /// The one normalization rule for custom exclusions: trim surrounding
+    /// whitespace, case-fold. Construction, mutation and matching all share
+    /// it, so storage and matching can never drift apart.
+    private static func normalized(_ name: String) -> String {
+        name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+    }
 
     public init(
         allergens: Set<Allergen> = [],
         dietExclusions: Set<DietExclusion> = [],
         customExclusions: Set<String> = []
     ) throws {
+        var normalizedExclusions: Set<String> = []
         for name in customExclusions {
-            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            let trimmed = Self.normalized(name)
             guard !trimmed.isEmpty else {
                 throw FLDomainError.validation(target: "Restriction.customExclusions", reason: "custom exclusion names must not be empty")
             }
+            normalizedExclusions.insert(trimmed)
         }
         self.allergens = allergens
         self.dietExclusions = dietExclusions
-        self.customExclusions = customExclusions
+        self.customExclusions = normalizedExclusions
+    }
+
+    /// Adds one custom exclusion through the same validation as construction.
+    public mutating func addingCustomExclusion(_ name: String) throws {
+        self = try Restriction(
+            allergens: allergens,
+            dietExclusions: dietExclusions,
+            customExclusions: customExclusions.union([name])
+        )
     }
 
     public var isEmpty: Bool {
@@ -79,7 +100,9 @@ public struct Restriction: Hashable, Sendable {
     ///
     /// - Parameters:
     ///   - canonicalName: the ingredient or dish's canonical name; a custom
-    ///     exclusion matches exactly.
+    ///     exclusion matches after the same normalization exclusions receive
+    ///     at construction (trim + case-fold), so padded or differently-cased
+    ///     queries still block.
     ///   - allergens: allergens declared for it, including compound ingredients
     ///     (soy sauce contains wheat, pesto contains nuts) — the caller
     ///     resolves compound ingredients to their declared allergen set.
@@ -89,7 +112,7 @@ public struct Restriction: Hashable, Sendable {
         allergens: Set<Allergen> = [],
         dietTags: Set<DietExclusion> = []
     ) -> Bool {
-        if customExclusions.contains(canonicalName) { return false }
+        if customExclusions.contains(Self.normalized(canonicalName)) { return false }
         if !allergens.isDisjoint(with: self.allergens) { return false }
         if !dietTags.isDisjoint(with: dietExclusions) { return false }
         return true

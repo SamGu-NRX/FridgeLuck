@@ -174,4 +174,19 @@ final class RecipeTests: XCTestCase {
         let decoded = try FLJSON.canonicalDecoder().decode(RecipeRevision.self, from: FLJSON.canonicalData(revision))
         XCTAssertEqual(decoded, revision)
     }
+
+    // MARK: - Review round 1, item 7: invalid safety temperatures are rejected
+
+    func testSafetyCheckRejectsImplausibleInternalTemperatures() {
+        XCTAssertThrowsError(try SafetyCheck(instruction: "read the thigh", minimumInternalCelsius: .nan, source: "USDA FSIS"), "NaN is not a safety bound")
+        XCTAssertThrowsError(try SafetyCheck(instruction: "read the thigh", minimumInternalCelsius: -200, source: "USDA FSIS"), "an internal temperature below absolute zero is not a bound")
+        XCTAssertThrowsError(try SafetyCheck(instruction: "read the thigh", minimumInternalCelsius: 999, source: "USDA FSIS"), "no food doneness bound approaches the boiling point of fat at 999 °C")
+        XCTAssertNoThrow(try SafetyCheck(instruction: "read the thigh", minimumInternalCelsius: 74, source: "USDA FSIS"))
+    }
+
+    func testCookingTemperatureRejectsImplausibleValues() {
+        XCTAssertThrowsError(try CookingTemperature(celsius: .nan, purpose: .ovenTarget), "NaN is not an oven setting")
+        XCTAssertThrowsError(try CookingTemperature(celsius: 1e9, purpose: .ovenTarget), "an oven does not run at a billion degrees")
+        XCTAssertNoThrow(try CookingTemperature(celsius: 180, purpose: .ovenTarget))
+    }
 }
