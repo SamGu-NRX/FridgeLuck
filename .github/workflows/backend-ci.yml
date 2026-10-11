@@ -1,0 +1,74 @@
+# Backend and data-pipeline checks for pull requests and pushes to main.
+# iOS build/test CI lives in ios-ci.yml; this workflow does not touch it.
+name: Backend and Data CI
+
+on:
+  pull_request:
+    paths:
+      - "backend/gemini-agent/**"
+      - "scripts/data/**"
+      - "scripts/recipe_scraper/**"
+      - ".github/workflows/backend-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/gemini-agent/**"
+      - "scripts/data/**"
+      - "scripts/recipe_scraper/**"
+      - ".github/workflows/backend-ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend typecheck and unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: backend/gemini-agent
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          # Declared as packageManager in backend/gemini-agent/package.json.
+          bun-version: "1.3.10"
+
+      - name: Install dependencies (frozen lockfile)
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck
+        run: bun run check
+
+      - name: Unit tests (offline)
+        run: bun run test
+
+  data:
+    name: Data pipeline validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: scripts/data
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup uv
+        # setup-uv publishes only exact version tags (no floating major tag).
+        uses: astral-sh/setup-uv@v10.2.0
+
+      - name: Sync dependencies (locked lockfile)
+        run: uv sync --locked
+
+      - name: Validate canonical catalog
+        run: uv run --frozen usda validate --canonical catalog/usda_curated_ingredients.json
