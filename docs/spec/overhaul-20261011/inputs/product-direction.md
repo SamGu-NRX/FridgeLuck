@@ -74,7 +74,7 @@ LeChef is a cooking companion with five jobs. Chat is the fallback for when none
 | Job | Trigger | What it does | What it must not do |
 | --- | --- | --- | --- |
 | Plan | "What can I make this week?" from Tonight or Kitchen | Three or four dinners from what is on hand plus a short shopping list (under 8 items), ordered so use-soon items go first | Produce a 7-day grid |
-| Substitute | "I don't have X" or a missing row on recipe detail | One swap, grounded in the kitchen, with the macro delta if it matters ("lemon for lime, no change") | Offer five options |
+| Substitute | "I don't have X" or a missing row on recipe detail | One swap, grounded in the kitchen, with the macro delta if it matters ("lemon for lime: a little sharper, less floral", superseded by SPEC 3.1: swaps describe the difference, never "no change") | Offer five options |
 | Coach | In cook mode | Reads the step on request, starts and names timers by voice, answers "how do I know when it's done", looks at the pan on request | Talk unprompted between steps |
 | Adapt | Quantity mismatch found at scan or by voice | Rescales the recipe, flags the step that changes ("one breast, so 6 minutes not 8") | Silently change quantities |
 | Remember | Cook-complete | Captures the one-line note by voice, files it against the recipe and the taste profile | Ask more than one question |

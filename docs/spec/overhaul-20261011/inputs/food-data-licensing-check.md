@@ -15,3 +15,5 @@ Not covered by the document, and found during the check:
 - The document is about nutrition and food-image datasets. It does not evaluate recipe-text sources beyond Recipe1M and RecipeDB, so it does not answer where licensable recipe text comes from. Its conclusion still stands for recipes: no large open dataset of recipe text is cleared for a paid app, which supports writing original recipes (SPEC 3.5).
 
 Usable for FridgeLuck without licence friction: USDA FDC (CC0) for nutrition. OFF only through per-scan lookup with an ODbL notice, not as a bundled derived store (document §9.3). The image-dataset conclusions concern recognition training, not the recipe corpus.
+
+Image datasets: the source document's recommendation to use FoodSeg103 (§9.1) is not adopted. FoodSeg103's images come from Recipe1M, which is research-only, and the Apache 2.0 licence on the repository does not clearly clear rights in those photographs. FoodSeg103 stays excluded until those image rights are resolved with counsel. The same applies to any model trained on it that ships in the app.
