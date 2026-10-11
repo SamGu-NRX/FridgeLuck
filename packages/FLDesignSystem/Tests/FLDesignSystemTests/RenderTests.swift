@@ -48,7 +48,7 @@ final class RenderTests: XCTestCase {
 
     /// Platform renderer → PNG data: ImageRenderer.uiImage on iOS,
     /// ImageRenderer.nsImage (via TIFF rep) on macOS.
-    private func pngData(from renderer: ImageRenderer, name: String) throws -> Data {
+    private func pngData<Content: View>(from renderer: ImageRenderer<Content>, name: String) throws -> Data {
         #if canImport(AppKit)
         let image = try XCTUnwrap(renderer.nsImage, "ImageRenderer produced no NSImage for \(name)")
         let tiff = try XCTUnwrap(image.tiffRepresentation, "no TIFF for \(name)")
