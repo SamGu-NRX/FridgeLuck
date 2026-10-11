@@ -99,9 +99,22 @@ colour), and COPY.md's never-say list matches the same set.
 ## Provenance of the quotes
 
 Quotes were verified on 2026-10-11 against the live pages by fetching each URL and
-reading the rendered text (fsis.usda.gov and foodsafety.gov sit behind an Akamai
-bot filter; the verification fetch went through the r.jina.ai text proxy of the same
-live URL, which returns the page content verbatim). The FoodSafety.gov and FSIS
-tables are reproduced as pipe-separated rows inside `table_quote` so the quoted
-cells survive JSON. `SHELF-LIFE.json` quotes the USDA FoodKeeper dataset rows
-verbatim and marks all values as quality guidance, never safety certification.
+reading the rendered text. fsis.usda.gov and foodsafety.gov sit behind an Akamai bot
+filter; those pages (plus cdc.gov, the FoodKeeper JSON and the FDA Food Code PDF)
+were verified through the r.jina.ai text proxy of the same live URL, which returns
+the page content verbatim; fda.gov (egg safety) was fetched directly. Every `quote`,
+`second_quote`/…/`tenth_quote` and `table_quote` field is a whitespace-normalized
+contiguous span of that fetch: markdown link decoration (`[text](url)` → `text`),
+bold/code markers and PDF-artifact characters are collapsed on both sides, then the
+quote must appear in the fetched text as an exact substring. Five quotes had drifted
+from the live page wording on 2026-10-11 (the two `table_quote`s, the People-at-Risk
+list, the Cold Food Storage rows, and the FoodKeeper provenance note) and were
+replaced with the current verbatim spans. The FoodSafety.gov and FSIS tables are
+reproduced as pipe-separated rows inside `table_quote` exactly as the proxy renders
+them, so the quoted cells survive JSON. `SHELF-LIFE.json` quotes the USDA FoodKeeper
+dataset rows verbatim and marks all values as quality guidance, never safety
+certification; the FoodKeeper citation pins the dataset version (`108.0`,
+`FMA-Data-v128.xlsx`, Published Time Fri, 07 Sep 2018) with fragments of the fetched
+JSON itself. The FDA Food Code 2022 § 3-501.14 cooling citation (added 2026-10-11)
+quotes the two-stage cooling requirement and the § 3-501.15 cooling-methods list
+from the official full-document PDF.
