@@ -114,7 +114,7 @@ struct FullWeekScenarioTests {
 
         // ── Seed (2026-09-19): flour bought 16 days before the week starts —
         // the staleness probe that goes stale mid-scenario. ──
-        var seedClock = WeekClock(startingAt: Week.day(-16, hour: 10))
+        let seedClock = WeekClock(startingAt: Week.day(-16, hour: 10))
         try world.ledger.apply(Fixtures.purchase(
             "ev-flour", "all-purpose flour", grams: 1000,
             household: hh, command: "cmd-seed-flour", at: seedClock.now,
