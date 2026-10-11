@@ -81,7 +81,7 @@ def build_diff_b(path):
     one_ulp = math.nextafter(120.5, math.inf)
     rows = [
         (1, "alpha-bar", one_ulp, "a", b"\x00\x01\xff", 3),
-        (3, "gamma-gems", 2.75, "c", b"\x01", "7"),
+        (3, "gamma-gems", 2.75, "c", b"\x01", "7x"),
         (4, "delta-drops", 90.0, "d", b"\x00\x02\xff", 2),
         (5, "epsilon-chips", 210.25, "e", b"\x07", 1),
     ]
