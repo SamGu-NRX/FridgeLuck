@@ -3,8 +3,13 @@ import GRDB
 
 /// Resolves ingredient names against the runtime catalog tables.
 /// Returns nil for ambiguous matches so curated fallbacks can take over.
+enum IngredientCatalogMatching: Sendable {
+  case exact
+  case allowPrefix
+}
+
 protocol IngredientCatalogResolving: Sendable {
-  func resolve(_ rawValue: String) -> Int64?
+  func resolve(_ rawValue: String, matching: IngredientCatalogMatching) -> Int64?
   func resolveFromText(_ rawText: String) -> Int64?
   func displayName(for ingredientId: Int64) -> String?
 }
@@ -16,11 +21,15 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
     self.db = db
   }
 
-  func resolve(_ rawValue: String) -> Int64? {
+  func resolve(_ rawValue: String, matching: IngredientCatalogMatching) -> Int64? {
     let candidates = Self.normalizedCandidates(for: rawValue)
     guard !candidates.isEmpty else { return nil }
 
     return try? db.read { db in
+      // Prefix matching mapped generic Vision labels such as "drink" to Strawberry Kefir.
+      if matching == .exact {
+        return try uniqueExactMatch(in: db, candidates: candidates)
+      }
       for candidate in candidates {
         if let id = try uniqueNameMatch(in: db, candidate: candidate) {
           return id
@@ -55,7 +64,9 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
     for window in stride(from: maxWindow, through: 1, by: -1) {
       for start in 0...(tokens.count - window) {
         let phrase = tokens[start..<(start + window)].joined(separator: " ")
-        if let id = resolve(phrase) {
+        // A lone OCR descriptor such as "EXTRA" matched the alias "extra sweet pineapple".
+        // Require a unique exact name or alias for single-token windows, as for Vision labels.
+        if let id = resolve(phrase, matching: window == 1 ? .exact : .allowPrefix) {
           return id
         }
       }
@@ -77,6 +88,23 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
       }
       return Self.makeDisplayName(from: name)
     }
+  }
+
+  private func uniqueExactMatch(in db: Database, candidates: [String]) throws -> Int64? {
+    let placeholders = Array(repeating: "?", count: candidates.count).joined(separator: ",")
+    let ids = try Int64.fetchAll(
+      db,
+      sql: """
+        SELECT id FROM ingredients WHERE lower(name) IN (\(placeholders))
+        UNION
+        SELECT i.id FROM ingredients i
+        JOIN ingredient_aliases a ON a.ingredient_id = i.id
+        WHERE lower(a.alias) IN (\(placeholders))
+        LIMIT 2
+        """,
+      arguments: StatementArguments(candidates + candidates)
+    )
+    return Self.uniqueMatch(from: ids)
   }
 
   private func uniqueNameMatch(in db: Database, candidate: String) throws -> Int64? {

@@ -41,9 +41,22 @@ final class NutritionService: Sendable {
     self.db = db
   }
 
+  enum NutritionError: LocalizedError {
+    case unknownSubstitute(Int64)
+
+    var errorDescription: String? {
+      switch self {
+      case .unknownSubstitute(let id): return "Substitute ingredient \(id) is not in the database."
+      }
+    }
+  }
+
   /// Compute full macros for a recipe by summing all ingredient contributions.
-  func macros(for recipeId: Int64) throws -> RecipeMacros {
-    try db.read { db in
+  /// `swaps` replace an ingredient with its substitute at the substitute's ratio.
+  func macros(for recipeId: Int64, swaps: [IngredientSwap] = []) throws -> RecipeMacros {
+    let swapByOriginal = Dictionary(
+      swaps.map { ($0.originalIngredientId, $0) }, uniquingKeysWith: { _, last in last })
+    return try db.read { db in
       let servings =
         try Double.fetchOne(
           db,
@@ -56,7 +69,7 @@ final class NutritionService: Sendable {
         sql: """
           SELECT i.calories, i.protein, i.carbs, i.fat,
                  i.fiber, i.sugar, i.sodium,
-                 ri.quantity_grams
+                 ri.quantity_grams, ri.ingredient_id
           FROM recipe_ingredients ri
           JOIN ingredients i ON i.id = ri.ingredient_id
           WHERE ri.recipe_id = ? AND ri.is_required = 1
@@ -70,8 +83,26 @@ final class NutritionService: Sendable {
       var totalSug = 0.0
       var totalSod = 0.0
 
-      for row in rows {
-        let grams: Double = row["quantity_grams"]
+      for recipeRow in rows {
+        let originalId: Int64 = recipeRow["ingredient_id"]
+        var row = recipeRow
+        var grams: Double = recipeRow["quantity_grams"]
+        if let swap = swapByOriginal[originalId] {
+          guard
+            let substitute = try Row.fetchOne(
+              db,
+              sql: """
+                SELECT calories, protein, carbs, fat, fiber, sugar, sodium
+                FROM ingredients WHERE id = ?
+                """,
+              arguments: [swap.substituteIngredientId]
+            )
+          else {
+            throw NutritionError.unknownSubstitute(swap.substituteIngredientId)
+          }
+          row = substitute
+          grams *= swap.ratio
+        }
         let factor = grams / 100.0
 
         totalCal += (row["calories"] as Double) * factor
