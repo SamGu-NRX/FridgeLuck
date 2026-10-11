@@ -53,6 +53,10 @@ final class OnboardingGatePolicyTests: XCTestCase {
         table.column("fat_pct", .double).notNull()
         table.column("dietary_restrictions", .text).notNull()
         table.column("allergen_ingredient_ids", .text).notNull()
+        // Mirrors v19_explicit_allergen_groups in Migrations.swift — this
+        // hand-rolled fixture stands in for a migrated database.
+        table.column("allergen_selected_groups", .text).notNull().defaults(to: "[]")
+        table.column("allergen_preferences_version", .integer).notNull().defaults(to: 0)
         table.column("updated_at", .datetime)
       }
     }

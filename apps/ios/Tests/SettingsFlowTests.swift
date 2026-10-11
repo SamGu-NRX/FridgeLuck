@@ -12,6 +12,7 @@ final class SettingsFlowTests: XCTestCase {
         .profileBasics,
         .nutritionTargets,
         .foodPreferences,
+        .weeklyPlan,
         .trackingReminders,
         .integrations,
         .permissions,

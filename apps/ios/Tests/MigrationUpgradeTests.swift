@@ -18,8 +18,8 @@ final class MigrationUpgradeTests: XCTestCase {
     XCTAssertEqual(
       Array(applied.suffix(3)),
       [
-        "v16_inventory_quantity_estimates", "v17_cooking_portion_multiplier",
-        "v18_cooking_history_swaps",
+        "v17_cooking_portion_multiplier", "v18_cooking_history_swaps",
+        "v19_explicit_allergen_groups",
       ])
   }
 

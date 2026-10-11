@@ -68,6 +68,9 @@ struct SettingsHubView: View {
         NavigationLink(value: SettingsRoute.foodPreferences) {
           iconRow(icon: "leaf.fill", tint: AppTheme.oat, title: "Diet & Allergens")
         }
+        NavigationLink(value: SettingsRoute.weeklyPlan) {
+          iconRow(icon: "calendar", tint: AppTheme.sage, title: "Weekly Meal Plan")
+        }
       } header: {
         sectionHeader("Profile & Nutrition")
       }
