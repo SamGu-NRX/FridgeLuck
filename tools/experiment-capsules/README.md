@@ -96,6 +96,39 @@ Re-packing is digest-stable: the same spec, files, and interpreter produce
 byte-identical capsules (bindings serialize canonically; no wall-clock or
 HEAD values enter a binding).
 
+## Regeneration proof (M3)
+
+```bash
+python3 tools/experiment-capsules/regen.py \
+    --capsules tools/experiment-capsules/results \
+    --out tools/experiment-capsules/reports/regen-proof
+```
+
+`regen.py` proves report regeneration **from capsule-stored outputs alone**:
+it first requires the capsules to verify clean, then rebuilds the
+food-study table (per-category ingredient counts and macro-completeness
+shares) purely from the packed catalog copy — owner files are not read for
+the table, owner code is never executed, and no live endpoint is contacted.
+The volatile `generated_at_utc` field of the origin artifact is deliberately
+not carried into regenerated table content; the table is rebuilt twice and
+must be byte-identical, and the volatile-content scanner must find nothing
+in it.
+
+Every comparison in the committed proof (`reports/regen-proof/regen-proof.md`
+plus `table-from-capsule.tsv`, both timestamp-free and digest-stable) is a
+**labeled** result:
+
+- `AGREEMENT (numerical)` — numbers match today; this is **never** identical
+  provenance (the table's provenance is the packed output digests).
+- `DIFFERENCE [...]` — a divergence between capsule-derived and
+  origin-derived tables, or between the two capsule-stored artifacts, is
+  listed explicitly. The committed proof carries one: the Swift export's
+  `ingredientCount` (50, internally consistent with its 50 embedded
+  records) differs from the capsule catalog's 800 records — the two owner
+  artifacts cover different record sets; no equality claim is made.
+
+Dynamic imports that cannot be statically resolved remain declared coverage
+gaps in the capsule; regeneration never guesses them closed.
 
 ## Volatility policy
 
