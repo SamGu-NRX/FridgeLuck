@@ -12,6 +12,19 @@ Verdicts:
 - **rewrite** - keep the dish, replace the bundled text with an original recipe in our own words with our own structured steps (SPEC 3.5 default).
 - **remove** - no rights evidence and no rewrite planned; the recipe leaves the bundle.
 
+## Rights-record vocabulary (Suite C alignment)
+
+The downstream corpus lands at `data/recipes/corpus.jsonl`, and every corpus recipe ships with a rights record (contract: `evaluation/SCORECARD.md` and `evaluation/suites/recipes/rights.py` on branch `eval/scorecard-runner`, retrieved 2026-10-11). A rights record is **complete** - and the recipe rights-clear - only when it has all of:
+
+- `source_id`, `source_type`, `origin`, `license`, `access_date` (YYYY-MM-DD), and `license_evidence`;
+- all six boolean permissions: `text`, `images`, `modification`, `attribution`, `caching`, `offline_use`.
+
+A URL attribution grants **none** of the six permissions. Each of the 141 BBC rows carries exactly that - a bare `Source:` URL with no licence evidence - so its rights record is incomplete and the recipe quarantines (rights.py: a bbcgoodfood.com source with no licence is quarantine, SPEC 10 "no licence evidence"). That is the same finding as the rewrite verdicts below, in the Suite C vocabulary.
+
+The 25 seed recipes' "keep" verdicts rest on in-house authorship traced through git history. Their corpus records still must be completed (origin: FridgeLuck seed; license: in-house; license_evidence: this audit) before shipping; a record that cannot be completed quarantines the recipe.
+
+Corpus ingredient lines carry quantity evidence using exactly the kinds `weighed`, `source_grams`, `household`, `unknown` (rs.py `RESOLVED_KINDS`/`ALL_KINDS`). `weighed` means measured on a scale, never a builder estimate; a computed mass is at best `household` with a conversion (a documented `conversions.json` row, `conversion_ref` recorded); `unknown` keeps grams null and blocks "complete nutrition" and fit claims. `scripts/recipe_scraper/scrape_recipes.py` now emits exactly these kinds.
+
 ## Where the Source: line lives
 
 The bundled schema is a positional array: `[id, title, minutes, servings, required_ingredient_pairs, optional_ingredient_pairs, instructions, tag_bitmask]`.
@@ -253,4 +266,5 @@ Regenerate with: `python3 scripts/recipe_scraper/generate_rights_audit.py`
 None of the 141 rewritten recipes can contribute text to the corpus. After the rewrite or removal of the BBC rows, the honest starting corpus is the 25 seed originals plus newly written original recipes.
 Cleared sources (`SOURCES.md` in this directory) add: NHS recipe content under the Open Government Licence v3.0 with attribution, NHLBI federal recipe collections for recipes NHLBI itself authored, and a subset of MyPlate Kitchen recipes recorded per contributor.
 No large open recipe-text dataset is cleared for a paid app (see `food-data-licensing.md` on branch `docs/spec-overhaul-20261011`), so original recipes are expected to be a large share of the corpus (SPEC 3.5).
+The corpus lands at `data/recipes/corpus.jsonl`; each recipe ships with a rights record in the vocabulary defined above, and a recipe whose record cannot be completed stays quarantined out of the corpus.
 The corpus task must also decide the fate of the committed BBC caches (removal or synthetic-fixture replacement).

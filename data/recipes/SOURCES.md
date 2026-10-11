@@ -9,6 +9,10 @@ Evidence rules for this document:
 - No bulk downloads were performed. Spot-checks were single-page fetches; `robots.txt` was checked before each (see "Method notes").
 - Sam makes the final legal call; this document supplies the evidence.
 
+## Suite C rights-record vocabulary
+
+The downstream corpus lands at `data/recipes/corpus.jsonl` with a rights record per recipe (contract: `evaluation/SCORECARD.md` and `evaluation/suites/recipes/rights.py` on branch `eval/scorecard-runner`, retrieved 2026-10-11). A rights record is **complete** - and its recipe rights-clear - only when it has all of `source_id`, `source_type`, `origin`, `license`, `access_date` (YYYY-MM-DD), `license_evidence`, and all six boolean permissions: `text`, `images`, `modification`, `attribution`, `caching`, `offline_use`. Anything less is quarantine. A bare URL attribution grants **none** of the six permissions and never completes a record. Per source below, this document states which of the six permissions it grants or denies at source level; per-recipe records must still be completed in the corpus manifest.
+
 ## Already-settled conclusions (carried forward, not re-litigated)
 
 From `docs/spec/overhaul-20261011/inputs/food-data-licensing.md` and its check document on branch `docs/spec-overhaul-20261011` (lead-verified 2026-10-11):
@@ -30,6 +34,7 @@ Dishes written in our own words with our own structured steps, authored for Frid
 - Commercial redistribution: permitted (our own work).
 - Attribution: none owed.
 - Share-alike: none.
+- Suite C permissions: `text` true; `images` true; `modification` true; `attribution` true (no obligation); `caching` true; `offline_use` true. Record template: `source_id` `frideluck_original`, `source_type` `original`, `origin` per-recipe author entry, `license` in-house, `access_date` the corpus build date, `license_evidence` the authoring record.
 - Yield: unbounded; constrained by writing and test-cooking effort, not rights. A dish concept (name plus ingredient list) is not copyrightable, so existing dishes can be *reinterpreted*; what must never be copied is another site's expressive method text.
 
 ### 2. NHS website recipes - usable under the Open Government Licence v3.0
@@ -48,6 +53,7 @@ The NHS website is owned by the Department of Health and Social Care. Its terms 
 - **Exclusions to respect** (same page, verbatim): "any logos, visuals, image rights, trademarks, trade names and design styles", and "information owned by third parties which we are not authorised to licence on to you... Many images on the NHS website are included as these are licensed by stock sites." **Ship no NHS photographs**; recipe text only.
 - **Yield (spot-check):** the Healthier Families recipe index (`https://www.nhs.uk/healthier-families/recipes/`, retrieved 2026-10-11) lists **202 distinct recipe pages** (counted programmatically from the index HTML). Recipes are nutritionist-developed, under 600 calories per portion - a natural fit for the catalog.
 - **Verdict: usable**, with the OGL attribution implemented in the app's source-credits surface and per-recipe source URLs kept in the rights record.
+- Suite C permissions: `text` true (OGL, quoted above); `images` **false** (third-party stock images are excluded content - ship no NHS photographs); `modification` true (adaptation allowed with the adapted-content statement, not attributed to the NHS); `attribution` true (obligations quoted above, implementable in the app); `caching` true; `offline_use` true (no OGL clause restricts either). Record template: `source_id` `nhs_website`, `source_type` `government`, `origin` "NHS Website Content (Department of Health and Social Care)", `license` `OGL-3.0`, `access_date` `2026-10-11`, `license_evidence` the quoted terms URL.
 
 ### 3. NHLBI Healthy Eating Recipes - usable for NHLBI-authored recipes, checked per recipe
 
@@ -58,6 +64,7 @@ The National Heart, Lung, and Blood Institute is a US federal agency. Works auth
 - **The trap:** some NHLBI pages credit an external "Recipe Source" - for example the "Pinto Beans" page credits *Honoring the Gift of Heart Health Manual for American Indians and Native Alaskans*. Those recipes are not NHLBI works. Record each recipe's stated source; skip or individually clear the externally credited ones.
 - **Yield (spot-check):** "More than 50 delicious heart-healthy recipes" (collection landing page, `https://www.nhlbi.nih.gov/health/heart-healthy-living/healthy-foods/healthy-eating-recipes`, retrieved 2026-10-11).
 - **Verdict: usable** for NHLBI-authored recipes after a per-recipe contributor check; externally credited ones go to the unknown-rights path (quarantine until shown otherwise).
+- Suite C permissions (NHLBI-authored recipes only): `text` true (federal works, 17 U.S.C. § 105); `images` **false** pending per-image verification (site artwork may include non-federal material); `modification` true (public-domain works may be adapted); `attribution` true (credit requested, not a license condition); `caching` true; `offline_use` true. Record template: `source_id` `nhlbi_recipes`, `source_type` `government`, `origin` "NHLBI federal work (per-recipe contributor check)", `license` `public-domain (US government work)`, `access_date` `2026-10-11`, `license_evidence` the quoted site notice; a recipe crediting an external source has no complete record and quarantines.
 
 ### 4. USDA MyPlate Kitchen - conditional; per-recipe contributor record required
 
@@ -80,10 +87,11 @@ That sentence is USDA speaking about its partners' resources; USDA cannot speak 
 - **Site status:** myplate.gov's consumer site was retired in January 2026 per an unofficial mirror (`https://myplate.food/`, which claims the retirement date 2026-01-07); the legacy `myplate-prd.kwaps.platform.usda.gov` platform still serves the recipe pages. The retirement claim is unverified against a USDA primary source - do not rely on the mirror; use the USDA-hosted pages.
 - **Yield:** the unofficial mirror claims 1,072 MyPlate Kitchen recipes preserved; unverified count from a non-USDA host. The usable subset (USDA-authored, or partner recipes with cleared rights) is unknown until per-recipe contributor records exist.
 - **Verdict: conditional** - USDA-authored recipes are usable with the citation format above; partner/extension recipes are quarantined as unknown rights until their contributors' terms say otherwise. This is the per-recipe rights-record work SPEC 3.5 requires.
+- Suite C permissions: no complete source-level record exists - `origin` and each recipe's contributor are per-recipe facts, so the source quarantines as a whole until per-recipe records are made. For a USDA-authored recipe once recorded: `text` true; `images` false pending per-image checks (the attribution clause covers "formatting, artwork" but contributor-held images are not USDA's to license); `modification` true (federal works); `attribution` true (USDA citation format quoted above); `caching` true; `offline_use` true. For partner/extension recipes: all six permissions unknown - quarantine. Record template: `source_id` `myplate_kitchen_<recipe>`, `source_type` `government_mixed`, `origin` the recipe's recorded contributor, `license` `public-domain (US government work)` only for USDA-authored recipes, `access_date` the retrieval date, `license_evidence` the quoted About-page attribution clause plus the contributor record.
 
 ## Quarantine list
 
-Sources that fail the evidence bar, with the reason. Quarantined sources do not enter the corpus.
+Sources that fail the evidence bar, with the reason. Quarantined sources do not enter the corpus. In Suite C terms: every quarantined source either denies at least one of the six permissions or cannot complete the required record fields (`source_id`, `source_type`, `origin`, `license`, `access_date`, `license_evidence`, six booleans) - the record fails closed.
 
 | Source | Terms (quote or citation) | Why quarantined |
 |---|---|---|
