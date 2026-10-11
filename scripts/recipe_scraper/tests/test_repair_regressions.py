@@ -123,32 +123,114 @@ def test_count_unit_words_strip_from_name():
     assert mod._resolve_ingredient_id(mod.normalize_ingredient_name("2 piece onion"), index) == 4
 
 
-# --- gram estimation ---------------------------------------------------------
+# --- quantity evidence (SPEC 3.5 / Suite C rs.py vocabulary) ------------------
+# Kinds, exactly: weighed, source_grams, household, unknown.
+#   weighed      = measured on a scale (never produced by this parser)
+#   source_grams = a mass the source line states itself (g/kg, oz/lb, parenthetical)
+#   household    = a household measure with a documented conversions.json row
+#   unknown      = no evidence: grams stays None and no mass is invented
 
 
-def test_estimate_grams_prefers_parenthetical_metric():
-    ing = _ing("1 cup (240 g / 8.5 oz) milk", name="milk")
-    assert mod._estimate_grams(ing) == 240.0
-
-
-def test_estimate_grams_uses_the_quantity_unit():
-    assert mod._estimate_grams(_ing("1 cup milk", name="milk")) == 240.0
-    assert mod._estimate_grams(_ing("2 cups milk", name="milk")) == 480.0
-    assert mod._estimate_grams(_ing("2 tbsp olive oil", name="olive oil")) == 30.0
-    assert mod._estimate_grams(_ing("1 kg potatoes", name="potato")) == 1000.0
-
-
-def test_estimate_grams_count_items_and_defaults():
-    assert mod._estimate_grams(_ing("2 eggs", name="eggs")) == 100.0
-    # "eggplant" must not match the "egg" per-unit entry (word boundary)
-    assert mod._estimate_grams(_ing("3 eggplants", name="eggplant")) == 150.0
-    # no unit, no table hit -> documented 50 g default
-    assert mod._estimate_grams(_ing("1 splash milk", name="milk")) == 50.0
-
-
-def test_estimate_grams_metric_amount_path_unchanged():
+def test_evidence_source_grams_from_stated_masses():
+    ev = mod._quantity_evidence(_ing("1 cup (240 g / 8.5 oz) milk", name="milk"))
+    assert ev.kind == "source_grams"
+    assert ev.grams == 240.0
     ing = mod.IngredientOut(raw="500 g tomatoes", scaled_raw="500 g tomatoes", name="tomatoes", amount_value=500, amount_unit="g")
-    assert mod._estimate_grams(ing) == 500.0
+    ev = mod._quantity_evidence(ing)
+    assert ev.kind == "source_grams"
+    assert ev.grams == 500.0
+    kg = mod._quantity_evidence(_ing("1 kg potatoes", name="potato"))
+    assert kg.kind == "source_grams"
+    assert kg.grams == 1000.0
+    oz = mod._quantity_evidence(_ing("4 oz butter", name="butter"))
+    assert oz.kind == "source_grams"
+    assert abs(oz.grams - 4 * 28.35) < 1e-9
+    assert "1 oz = 28.35 g" in (oz.provenance or "")
+
+
+def test_evidence_household_requires_documented_conversion():
+    ev = mod._quantity_evidence(_ing("1 cup milk", name="milk"))
+    assert ev.kind == "household"
+    assert ev.grams == 244.0
+    assert ev.conversion_ref == "milk_cup"
+    assert "conversions.json" in (ev.provenance or "")
+    assert mod._quantity_evidence(_ing("2 cups milk", name="milk")).grams == 488.0
+    ev = mod._quantity_evidence(_ing("2 tbsp olive oil", name="olive oil"))
+    assert ev.kind == "household"
+    assert ev.grams == 28.0
+    assert ev.conversion_ref == "olive_oil_tbsp"
+    ev = mod._quantity_evidence(_ing("2 eggs", name="eggs"))
+    assert ev.kind == "household"
+    assert ev.grams == 100.0
+    assert ev.conversion_ref == "egg_piece"
+    # count units resolve through the documented per-piece rows only
+    ev = mod._quantity_evidence(_ing("3 eggplants", name="eggplant"))
+    assert ev.kind == "household"
+    assert ev.grams == 1200.0
+    assert ev.conversion_ref == "eggplant_piece"
+
+
+def test_evidence_ml_is_never_grams():
+    ing = mod.IngredientOut(raw="500 ml milk", scaled_raw="500 ml milk", name="milk", amount_value=500, amount_unit="ml")
+    ev = mod._quantity_evidence(ing)
+    assert ev.kind == "unknown"
+    assert ev.grams is None
+    assert ev.volume_ml == 500.0
+    ev = mod._quantity_evidence(_ing("1 l milk", name="milk"))
+    assert ev.kind == "unknown"
+    assert ev.grams is None
+    assert ev.volume_ml == 1000.0
+    ev = mod._quantity_evidence(_ing("1 carton (8 fl oz) cream", name="cream"))
+    assert ev.kind == "unknown"
+    assert ev.grams is None
+    assert ev.volume_ml is not None
+
+
+def test_evidence_unknown_stays_visible_and_never_invents_grams():
+    for raw, name in [
+        ("1 splash milk", "milk"),
+        ("2 sticks butter", "butter"),
+        ("3 bananas", "banana"),
+        ("1 cup water", "water"),
+        ("1 pinch salt", "salt"),
+    ]:
+        ev = mod._quantity_evidence(_ing(raw, name=name))
+        assert ev.kind == "unknown", raw
+        assert ev.grams is None, raw
+        assert ev.provenance, raw
+
+
+def test_weighed_is_reserved_for_measured_records():
+    # the parser never claims a scale measurement; the kind exists for
+    # corpus records that carry a real weighed value
+    for raw, name in [("1 cup milk", "milk"), ("500 g tomatoes", "tomatoes"), ("2 eggs", "eggs"), ("1 splash milk", "milk")]:
+        assert mod._quantity_evidence(_ing(raw, name=name)).kind != "weighed"
+    assert "weighed" in mod.EVIDENCE_KINDS
+    assert "source_grams" in mod.EVIDENCE_KINDS
+    assert "household" in mod.EVIDENCE_KINDS
+    assert "unknown" in mod.EVIDENCE_KINDS
+
+
+def test_evidence_merges_repeated_lines_and_sums_grams():
+    a = mod._quantity_evidence(_ing("100 g tomatoes", name="tomatoes"))
+    b = mod._quantity_evidence(_ing("50 g tomatoes", name="tomatoes"))
+    merged = mod._merge_evidence(a, b)
+    assert merged.grams == 150.0
+    assert merged.merged_raw == ["100 g tomatoes", "50 g tomatoes"]
+    # mixed evidence takes the weakest part and keeps every source line
+    a = mod._quantity_evidence(_ing("100 g milk", name="milk"))
+    b = mod._quantity_evidence(_ing("1 cup milk", name="milk"))
+    merged = mod._merge_evidence(a, b)
+    assert merged.kind == "household"
+    assert merged.grams == 344.0
+    assert merged.merged_raw == ["100 g milk", "1 cup milk"]
+    # any unknown part poisons the total: no partial mass is carried forward
+    a = mod._quantity_evidence(_ing("100 g milk", name="milk"))
+    b = mod._quantity_evidence(_ing("1 splash milk", name="milk"))
+    merged = mod._merge_evidence(a, b)
+    assert merged.kind == "unknown"
+    assert merged.grams is None
+    assert merged.merged_raw == ["100 g milk", "1 splash milk"]
 
 
 # --- diet tag inference ------------------------------------------------------
@@ -220,10 +302,10 @@ def _scraped_payload() -> list[dict]:
     ]
 
 
-def _invoke_merge(tmp_path: Path, overrides: Path | None):
+def _invoke_merge(tmp_path: Path, overrides: Path | None, payload: list | None = None):
     runner = CliRunner()
     scraped = tmp_path / "scraped.json"
-    scraped.write_text(json.dumps(_scraped_payload()))
+    scraped.write_text(json.dumps(payload if payload is not None else _scraped_payload()))
     bundled = tmp_path / "bundled.json"
     bundled.write_text(json.dumps(_catalog_payload()))
     out = tmp_path / "out.json"
@@ -270,3 +352,84 @@ def test_merge_report_counts_match_rows(tmp_path):
     assert len(merged["recipes"]) == report["accepted_recipe_count"]
     for row in merged["recipes"]:
         assert len(row) == 8
+
+
+def _repeat_payload() -> list[dict]:
+    def line(raw: str, name: str) -> dict:
+        return {"raw": raw, "scaled_raw": raw, "name": name, "amount_value": None, "amount_unit": None, "prep_actions": []}
+
+    return [
+        {
+            "source_url": "https://example.com/r",
+            "title": "Repeat Dish",
+            "servings_original": 2,
+            "servings_target": 2,
+            "ingredients": [
+                line("100 g tomatoes", "tomatoes"),
+                line("50 g tomatoes", "tomatoes"),
+                line("2 cloves garlic", "garlic"),
+            ],
+            "steps": ["Step one.", "Step two.", "Step three.", "Step four.", "Step five.", "Step six."],
+        }
+    ]
+
+
+def test_merge_aggregates_repeated_lines_instead_of_dropping(tmp_path):
+    report, merged = _invoke_merge(tmp_path, None, _repeat_payload())
+    assert report["accepted_recipe_count"] == 1
+    row = next(r for r in merged["recipes"] if r[1] == "Repeat Dish")
+    pairs = {pair[0]: pair[1] for pair in row[4]}
+    # tomato (id 5): 100 g + 50 g summed; garlic (id 3): 2 cloves -> 6 g
+    assert pairs[5] == 150
+    assert pairs[3] == 6
+    evidence = next(e for e in report["ingredient_evidence"] if e["recipe_title"] == "Repeat Dish" and e["ingredient_id"] == 5)
+    assert evidence["kind"] == "source_grams"
+    assert evidence["grams"] == 150.0
+    assert evidence["merged_raw"] == ["100 g tomatoes", "50 g tomatoes"]
+
+
+def test_merge_reports_unresolved_lines_with_reason(tmp_path):
+    report, _ = _invoke_merge(tmp_path, None)
+    raws = {entry["raw"]: entry for entry in report["unresolved_ingredient_lines"]}
+    entry = raws["salt to taste"]
+    assert entry["reason"] == "unmapped_ingredient_name"
+    assert entry["name"] == "salt taste"
+    assert entry["recipe_title"] == "Garlic Tomato Fry"
+    # the previously silent drop paths keep zero unresolved lines in the report
+    assert report["unresolved_ingredient_lines"], "unresolved lines must stay visible"
+
+
+def test_merge_records_evidence_and_flags_unknown(tmp_path):
+    payload = [
+        {
+            "source_url": "https://example.com/m",
+            "title": "Mixed Dish",
+            "servings_original": 2,
+            "servings_target": 2,
+            "ingredients": [
+                {"raw": "100 g milk", "scaled_raw": "100 g milk", "name": "milk", "amount_value": None, "amount_unit": None, "prep_actions": []},
+                {"raw": "1 cup milk", "scaled_raw": "1 cup milk", "name": "milk", "amount_value": None, "amount_unit": None, "prep_actions": []},
+                {"raw": "2 eggs", "scaled_raw": "2 eggs", "name": "eggs", "amount_value": None, "amount_unit": None, "prep_actions": []},
+                {"raw": "1 splash milk", "scaled_raw": "1 splash milk", "name": "milk", "amount_value": None, "amount_unit": None, "prep_actions": []},
+            ],
+            "steps": ["Step one.", "Step two.", "Step three.", "Step four.", "Step five.", "Step six."],
+        }
+    ]
+    report, _ = _invoke_merge(tmp_path, None, payload)
+    assert report["accepted_recipe_count"] == 1
+    flagged = {r["title"]: {f["kind"] for f in r["flags"]} for r in report["review_recipes"]}
+    assert "unknown_quantity_evidence" in flagged["Mixed Dish"]
+    milk = next(e for e in report["ingredient_evidence"] if e["recipe_title"] == "Mixed Dish" and e["ingredient_id"] == 1)
+    # the splash poisons the milk total: grams stays null, every line recorded
+    assert milk["kind"] == "unknown"
+    assert milk["grams"] is None
+    assert milk["merged_raw"] == ["100 g milk", "1 cup milk", "1 splash milk"]
+    eggs = next(e for e in report["ingredient_evidence"] if e["recipe_title"] == "Mixed Dish" and e["ingredient_id"] == 2)
+    assert eggs["kind"] == "household"
+    assert eggs["grams"] == 100.0
+    assert eggs["conversion_ref"] == "egg_piece"
+    _, merged = _invoke_merge(tmp_path, None, payload)
+    row = next(r for r in merged["recipes"] if r[1] == "Mixed Dish")
+    pairs = {pair[0]: pair[1] for pair in row[4]}
+    assert pairs[1] is None, "unknown evidence must keep grams null, never invent a mass"
+    assert pairs[2] == 100

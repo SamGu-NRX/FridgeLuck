@@ -818,104 +818,317 @@ def _resolve_ingredient_id(name: str, index: dict[str, int]) -> int | None:
     return None
 
 
-_VOLUME_UNIT_GRAMS: dict[str, float] = {
-    "cup": 240.0,
-    "cups": 240.0,
-    "tbsp": 15.0,
-    "tablespoon": 15.0,
-    "tablespoons": 15.0,
-    "tsp": 5.0,
-    "teaspoon": 5.0,
-    "teaspoons": 5.0,
-    "oz": 28.35,
-    "ounce": 28.35,
-    "ounces": 28.35,
-    "lb": 453.6,
-    "lbs": 453.6,
-    "pound": 453.6,
-    "pounds": 453.6,
-    "stick": 113.0,
-    "sticks": 113.0,
-    "pint": 473.0,
-    "pints": 473.0,
-    "quart": 946.0,
-    "quarts": 946.0,
+# --- quantity evidence (SPEC 3.5 / Suite C rs.py vocabulary) ------------------
+#
+# Every ingredient line carries evidence of exactly one kind:
+#   weighed      - actually measured on a scale. Never produced by this parser:
+#                  reserved for corpus records that carry a real measurement.
+#   source_grams - a mass the source line states itself: metric g/kg, an
+#                  oz/lb value converted with the exact avoirdupois unit
+#                  definition, or a parenthetical mass ("1 cup (240 g)").
+#   household    - a household measure WITH a conversion from the documented
+#                  conversions table (conversion_ref + grams_per_unit).
+#   unknown      - no evidence. grams stays None; the line blocks "complete
+#                  nutrition" and fit claims. A computed mass from a
+#                  density/typical-weight guess is NEVER taken: ml is not g.
+
+EVIDENCE_WEIGHED = "weighed"
+EVIDENCE_SOURCE_GRAMS = "source_grams"
+EVIDENCE_HOUSEHOLD = "household"
+EVIDENCE_UNKNOWN = "unknown"
+EVIDENCE_KINDS = (EVIDENCE_WEIGHED, EVIDENCE_SOURCE_GRAMS, EVIDENCE_HOUSEHOLD, EVIDENCE_UNKNOWN)
+
+# Weakest-first precedence used when aggregating lines: a mix takes the
+# weakest part, and any unknown part makes the total unknown.
+_EVIDENCE_PRECEDENCE: dict[str, int] = {
+    EVIDENCE_UNKNOWN: 0,
+    EVIDENCE_HOUSEHOLD: 1,
+    EVIDENCE_SOURCE_GRAMS: 2,
+    EVIDENCE_WEIGHED: 3,
+}
+
+# Exact avoirdupois unit definitions. Converting a source-stated oz/lb mass
+# with these is unit conversion, not estimation.
+_MASS_UNIT_GRAMS: dict[str, float] = {
+    "g": 1.0, "gram": 1.0, "grams": 1.0, "gm": 1.0,
+    "kg": 1000.0, "kilogram": 1000.0, "kilograms": 1000.0,
+    "oz": 28.35, "ounce": 28.35, "ounces": 28.35,
+    "lb": 453.6, "lbs": 453.6, "pound": 453.6, "pounds": 453.6,
+}
+_MASS_UNIT_PROVENANCE = (
+    "mass stated by the source line (g/kg directly; oz/lb via exact unit definitions: 1 oz = 28.35 g, 1 lb = 453.6 g)"
+)
+
+# Exact kitchen-volume definitions in ml (US legal cup, metric spoons): used
+# to record the volume on unknown-evidence lines, never to fabricate grams.
+_VOLUME_UNIT_ML: dict[str, float] = {
+    "ml": 1.0, "l": 1000.0, "liter": 1000.0, "liters": 1000.0,
+    "litre": 1000.0, "litres": 1000.0,
+    "cup": 240.0, "cups": 240.0,
+    "tbsp": 15.0, "tablespoon": 15.0, "tablespoons": 15.0,
+    "tsp": 5.0, "teaspoon": 5.0, "teaspoons": 5.0,
+    "pint": 473.0, "pints": 473.0,
+    "quart": 946.0, "quarts": 946.0,
+}
+
+_CONVERSIONS_PATH = Path(__file__).with_name("conversions.json")
+
+# Qualifiers stripped from a documented conversion's ingredient name to build
+# its lookup key ("medium onion" -> "onion"). Food words are kept: "heavy
+# cream" deliberately does not match a bare "cream" line.
+_CONVERSION_NAME_STOPWORDS = {
+    "medium", "large", "small", "whole", "cooked", "canned", "uncooked",
+    "sliced", "chopped", "grated", "shredded", "crumbled", "drained",
+    "diced", "packed", "peeled", "boneless", "skinless", "raw", "firm",
+    "baby", "roasted", "minced", "fresh", "dry", "dried", "half", "juice",
+    "clove", "inch", "a", "an",
 }
 
 
-def _parenthetical_grams(text: str) -> float | None:
-    """Metric/imperial mass stated in parentheses, e.g. '1 cup (240 g / 8.5 oz)'.
+def _load_conversions() -> dict[str, dict[str, Any]]:
+    with open(_CONVERSIONS_PATH, "r", encoding="utf-8") as fh:
+        return json.load(fh)["conversions"]
 
-    Wikibooks lines carry conversions this way; the first number+unit pair
-    inside the parens is the most precise estimate available.
+
+def _conversion_base_name(name: str) -> str:
+    words = []
+    for token in re.sub(r"[,/()]", " ", name.lower()).split():
+        if token in _CONVERSION_NAME_STOPWORDS or re.fullmatch(r"[\d.]+", token):
+            continue
+        words.append(token)
+    if not words:
+        return ""
+    words[-1] = _singularize_word(words[-1])
+    return " ".join(words)
+
+
+def _build_conversion_lookup(conversions: dict[str, dict[str, Any]]) -> dict[tuple[str, str], tuple[str, float]]:
+    """(base ingredient name, unit key) -> (conversion_ref, grams_per_unit)."""
+    lookup: dict[tuple[str, str], tuple[str, float]] = {}
+    for ref, row in conversions.items():
+        grams = row.get("grams_per_unit")
+        name = str(row.get("ingredient", ""))
+        if not grams or not name:
+            continue
+        base = _conversion_base_name(name)
+        if not base:
+            continue
+        unit_key = ref.rsplit("_", 1)[-1]
+        lookup.setdefault((base, unit_key), (ref, float(grams)))
+    return lookup
+
+
+_CONVERSIONS: dict[str, dict[str, Any]] = _load_conversions()
+_CONVERSION_LOOKUP = _build_conversion_lookup(_CONVERSIONS)
+
+
+class QuantityEvidence(BaseModel):
+    """Explicit quantity evidence for one ingredient line (SPEC 3.5).
+
+    `grams` is present only when the kind resolves it; unknown evidence never
+    carries a mass, and `provenance` names the documented table row or exact
+    unit definition that produced any computed grams.
+    """
+
+    kind: str = EVIDENCE_UNKNOWN
+    grams: float | None = None
+    value: float | None = None
+    unit: str | None = None
+    conversion_ref: str | None = None
+    provenance: str | None = None
+    volume_ml: float | None = None
+    merged_raw: list[str] = Field(default_factory=list)
+
+
+def _parenthetical_quantity(text: str) -> tuple[str, float] | None:
+    """A quantity the source states in parentheses, e.g. '1 cup (240 g / 8.5 oz)'.
+
+    Returns ("source_grams", grams) when a stated mass is present (metric
+    directly, oz/lb via the exact unit definition), or ("volume_ml", ml) when
+    only a volume is stated. ml is never treated as g.
     """
     for inner in re.findall(r"\(([^)]*)\)", text):
-        match = re.search(r"(?P<qty>\d+(?:\.\d+)?)\s*(?P<unit>kg|g|ml|l|oz|lb)\b", inner, flags=re.IGNORECASE)
-        if not match:
-            continue
-        unit = match.group("unit").lower()
-        qty = float(match.group("qty"))
-        factor = {"g": 1.0, "kg": 1000.0, "ml": 1.0, "l": 1000.0, "oz": 28.35, "lb": 453.6}[unit]
-        return qty * factor
+        mass = re.search(r"(?P<qty>\d+(?:\.\d+)?)\s*(?P<unit>kg|g|oz|lb)\b", inner, flags=re.IGNORECASE)
+        if mass:
+            unit = mass.group("unit").lower()
+            qty = float(mass.group("qty"))
+            factor = {"g": 1.0, "kg": 1000.0, "oz": 28.35, "lb": 453.6}[unit]
+            return "source_grams", qty * factor
+        vol = re.search(r"(?P<qty>\d+(?:\.\d+)?)\s*(?P<unit>fl\s?oz|ml|l)\b", inner, flags=re.IGNORECASE)
+        if vol:
+            unit = re.sub(r"\s+", "", vol.group("unit").lower())
+            qty = float(vol.group("qty"))
+            ml = {"floz": qty * 29.57, "ml": qty, "l": qty * 1000.0}[unit]
+            return "volume_ml", ml
     return None
 
 
-def _estimate_grams(ingredient: IngredientOut) -> float:
+def _phrase_lookup_key(text: str) -> str:
+    phrase = _canonical_text(text)
+    if not phrase:
+        return ""
+    words = phrase.split()
+    words[-1] = _singularize_word(words[-1])
+    return " ".join(words)
+
+
+def _conversion_for(lookup_name: str, unit_key: str) -> tuple[str, float] | None:
+    return _CONVERSION_LOOKUP.get((lookup_name, unit_key))
+
+
+def _household_evidence(qty: float, unit_word: str, unit_key: str, lookup_name: str, raw: str, volume_ml: float | None) -> QuantityEvidence:
+    conv = _conversion_for(lookup_name, unit_key) or _conversion_for(lookup_name, "piece")
+    if conv:
+        ref, per_unit = conv
+        return QuantityEvidence(
+            kind=EVIDENCE_HOUSEHOLD,
+            grams=qty * per_unit,
+            value=qty,
+            unit=unit_word or "piece",
+            conversion_ref=ref,
+            provenance=f"documented household conversion {ref} ({per_unit:g} g per unit) from conversions.json",
+            volume_ml=volume_ml,
+            merged_raw=[raw],
+        )
+    return QuantityEvidence(
+        kind=EVIDENCE_UNKNOWN,
+        value=qty,
+        unit=unit_word or None,
+        volume_ml=volume_ml,
+        provenance=(
+            f"no documented conversion for {lookup_name!r} per {unit_key or 'count'}; "
+            "no mass invented"
+        ),
+        merged_raw=[raw],
+    )
+
+
+def _quantity_evidence(ingredient: IngredientOut) -> QuantityEvidence:
+    """Classify one ingredient line's quantity evidence. Never invents a mass."""
+    raw = ingredient.scaled_raw or ""
+    lookup_name = _phrase_lookup_key(ingredient.name)
+
+    paren = _parenthetical_quantity(raw)
+    if paren and paren[0] == "source_grams":
+        return QuantityEvidence(
+            kind=EVIDENCE_SOURCE_GRAMS,
+            grams=paren[1],
+            value=paren[1],
+            provenance=f"source-stated parenthetical mass; {_MASS_UNIT_PROVENANCE}",
+            merged_raw=[raw],
+        )
+    if paren and paren[0] == "volume_ml":
+        conv = _conversion_for(lookup_name, "ml")
+        if conv:
+            ref, per_ml = conv
+            return QuantityEvidence(
+                kind=EVIDENCE_HOUSEHOLD,
+                grams=paren[1] * per_ml,
+                value=paren[1],
+                unit="ml",
+                conversion_ref=ref,
+                provenance=f"documented household conversion {ref} ({per_ml:g} g per ml); source-stated parenthetical volume",
+                merged_raw=[raw],
+            )
+        return QuantityEvidence(
+            kind=EVIDENCE_UNKNOWN,
+            volume_ml=paren[1],
+            provenance=f"source-stated parenthetical volume {paren[1]:g} ml; ml is not g and no documented conversion applies",
+            merged_raw=[raw],
+        )
+
     if ingredient.amount_value and ingredient.amount_value > 0:
-        if ingredient.amount_unit in {"g", "ml"}:
-            return float(ingredient.amount_value)
+        if ingredient.amount_unit == "g":
+            return QuantityEvidence(
+                kind=EVIDENCE_SOURCE_GRAMS,
+                grams=float(ingredient.amount_value),
+                value=float(ingredient.amount_value),
+                unit="g",
+                provenance="mass stated by the source line (g/kg)",
+                merged_raw=[raw],
+            )
+        if ingredient.amount_unit == "ml":
+            conv = _conversion_for(lookup_name, "ml")
+            if conv:
+                ref, per_ml = conv
+                return QuantityEvidence(
+                    kind=EVIDENCE_HOUSEHOLD,
+                    grams=float(ingredient.amount_value) * per_ml,
+                    value=float(ingredient.amount_value),
+                    unit="ml",
+                    conversion_ref=ref,
+                    provenance=f"documented household conversion {ref} ({per_ml:g} g per ml)",
+                    merged_raw=[raw],
+                )
+            return QuantityEvidence(
+                kind=EVIDENCE_UNKNOWN,
+                volume_ml=float(ingredient.amount_value),
+                provenance=(
+                    f"volume only ({ingredient.amount_value:g} ml); ml is not g and no "
+                    "documented ml->g conversion applies to this ingredient"
+                ),
+                merged_raw=[raw],
+            )
 
-    scaled = ingredient.scaled_raw or ""
+    qty, rest = parse_leading_quantity(raw)
+    if qty is not None and qty > 0:
+        rest_lower = rest.lower()
+        if rest_lower.startswith("fl oz"):
+            unit_word = "fl oz"
+        else:
+            unit_match = re.match(r"^(?P<unit>[a-zA-Z]+)\b", rest)
+            unit_word = unit_match.group("unit").lower().rstrip(".") if unit_match else ""
+        mass_factor = _MASS_UNIT_GRAMS.get(unit_word)
+        if mass_factor:
+            return QuantityEvidence(
+                kind=EVIDENCE_SOURCE_GRAMS,
+                grams=qty * mass_factor,
+                value=qty,
+                unit=unit_word,
+                provenance=_MASS_UNIT_PROVENANCE,
+                merged_raw=[raw],
+            )
+        if unit_word in _VOLUME_UNIT_ML:
+            volume_ml = qty * _VOLUME_UNIT_ML[unit_word]
+            return _household_evidence(qty, unit_word, _singularize_word(unit_word), lookup_name, raw, volume_ml)
+        if unit_word in {"stick", "sticks"}:
+            return _household_evidence(qty, unit_word, "stick", lookup_name, raw, None)
+        unit_key = _singularize_word(unit_word) if unit_word else ""
+        return _household_evidence(qty, unit_word, unit_key, lookup_name, raw, None)
 
-    paren_grams = _parenthetical_grams(scaled)
-    if paren_grams is not None and paren_grams > 0:
-        return min(1000.0, max(5.0, paren_grams))
+    return QuantityEvidence(
+        kind=EVIDENCE_UNKNOWN,
+        provenance="no parseable quantity; no mass invented",
+        merged_raw=[raw],
+    )
 
-    qty, rest = parse_leading_quantity(scaled)
-    if qty is None or qty <= 0:
-        return 50.0
 
-    # Use the unit after the quantity ("1 cup milk" -> 240 g) instead of
-    # discarding it; metric units come from UNIT_NORMALIZATION, kitchen
-    # units from _VOLUME_UNIT_GRAMS.
-    rest_lower = rest.lower()
-    if rest_lower.startswith("fl oz"):
-        factor = 29.57
-    else:
-        unit_match = re.match(r"^(?P<unit>[a-zA-Z]+)\b", rest)
-        unit_word = unit_match.group("unit").lower().rstrip(".") if unit_match else ""
-        unit_data = _normalize_unit(unit_word)
-        factor = unit_data[1] if unit_data else _VOLUME_UNIT_GRAMS.get(unit_word)
-    if factor:
-        return min(1000.0, max(5.0, float(qty) * factor))
+def _merge_evidence(a: QuantityEvidence, b: QuantityEvidence) -> QuantityEvidence:
+    """Aggregate repeated ingredient lines (SPEC 3.5: sum, never drop).
 
-    single_unit_grams = {
-        "egg": 50.0,
-        "onion": 110.0,
-        "garlic": 3.0,
-        "tomato": 123.0,
-        "pepper": 119.0,
-        "potato": 150.0,
-        "sweet potato": 114.0,
-        "carrot": 61.0,
-        "banana": 118.0,
-        "apple": 182.0,
-        "avocado": 150.0,
-        "bread": 30.0,
-        "tortilla": 45.0,
-        "lemon": 58.0,
-        "lime": 67.0,
-    }
-
-    canonical_name = _canonical_text(ingredient.name)
-    per_unit = 50.0
-    for key, grams in single_unit_grams.items():
-        # word-boundary match: "egg" must not hit "eggplant"
-        if re.search(rf"\b{re.escape(key)}\b", canonical_name):
-            per_unit = grams
-            break
-    estimated = qty * per_unit
-    return min(1000.0, max(5.0, estimated))
+    Any unknown part makes the total unknown: a partial mass is not carried
+    forward as if it were complete.
+    """
+    merged_raw = list(dict.fromkeys([*a.merged_raw, *b.merged_raw]))
+    if a.grams is None or b.grams is None:
+        parts = "; ".join(p for p in (a.provenance, b.provenance) if p)
+        return QuantityEvidence(
+            kind=EVIDENCE_UNKNOWN,
+            grams=None,
+            provenance=f"aggregated repeated lines with an unknown-evidence part ({parts}); total mass unknown",
+            volume_ml=a.volume_ml if a.volume_ml is not None else b.volume_ml,
+            merged_raw=merged_raw,
+        )
+    weakest = min(a.kind, b.kind, key=lambda kind: _EVIDENCE_PRECEDENCE[kind])
+    refs = ", ".join(dict.fromkeys(ref for ref in (a.conversion_ref, b.conversion_ref) if ref))
+    provenance = "; ".join(dict.fromkeys(p for p in (a.provenance, b.provenance) if p))
+    return QuantityEvidence(
+        kind=weakest,
+        grams=(a.grams or 0.0) + (b.grams or 0.0),
+        provenance=provenance,
+        conversion_ref=refs or None,
+        merged_raw=merged_raw,
+    )
 
 
 def _infer_tag_bitmask(recipe: RecipeOut) -> int:
@@ -1018,6 +1231,16 @@ def _build_override_index(path: Optional[Path]) -> dict[str, str]:
     return index
 
 
+def _ingredient_display_name(source_data: dict[str, Any], ingredient_id: int) -> str | None:
+    entry = source_data.get("ingredients", {}).get(str(ingredient_id))
+    if isinstance(entry, dict):
+        name = entry.get("name")
+        return str(name) if name else None
+    if isinstance(entry, list) and entry and isinstance(entry[0], str):
+        return entry[0]
+    return None
+
+
 @app.command("merge-grdb")
 def merge_grdb(
     scraped: Path = typer.Option(
@@ -1080,6 +1303,8 @@ def merge_grdb(
     review: list[dict[str, Any]] = []
     overridden: list[dict[str, Any]] = []
     unmatched_ingredients: dict[str, int] = {}
+    unresolved_ingredient_lines: list[dict[str, Any]] = []
+    ingredient_evidence: list[dict[str, Any]] = []
     override_index = _build_override_index(overrides)
 
     for raw_item in scraped_payload:
@@ -1098,25 +1323,34 @@ def merge_grdb(
             rejected.append({"title": recipe.title, "source_url": recipe.source_url, "reasons": ["duplicate_source_url"]})
             continue
 
-        required: list[list[Any]] = []
-        optional: list[list[Any]] = []
-        used_ids: set[int] = set()
+        # SPEC 3.5: repeated lines aggregate (sum, never drop); unresolved
+        # lines stay visible in the report with raw text and reason.
+        evidence_by_id: dict[int, QuantityEvidence] = {}
+        optional_ids: set[int] = set()
+        unresolved_lines: list[dict[str, Any]] = []
         for ing in recipe.ingredients:
             ingredient_id = _resolve_ingredient_id(ing.name, ingredient_index)
             if ingredient_id is None:
                 key = _canonical_text(ing.name)
                 if key:
                     unmatched_ingredients[key] = unmatched_ingredients.get(key, 0) + 1
+                unresolved_lines.append({"raw": ing.raw, "name": ing.name, "reason": "unmapped_ingredient_name"})
                 continue
-            if ingredient_id in used_ids:
-                continue
-            used_ids.add(ingredient_id)
-            grams = _estimate_grams(ing)
-            pair = [ingredient_id, int(round(grams))]
+            evidence = _quantity_evidence(ing)
+            existing = evidence_by_id.get(ingredient_id)
+            evidence_by_id[ingredient_id] = _merge_evidence(existing, evidence) if existing else evidence
             if "optional" in ing.raw.lower():
-                optional.append(pair)
-            else:
-                required.append(pair)
+                optional_ids.add(ingredient_id)
+
+        for line in unresolved_lines:
+            unresolved_ingredient_lines.append({"recipe_title": recipe.title, "source_url": recipe.source_url, **line})
+
+        def _pair(ingredient_id: int) -> list[Any]:
+            grams = evidence_by_id[ingredient_id].grams
+            return [ingredient_id, int(round(grams)) if grams is not None else None]
+
+        required = [_pair(i) for i in evidence_by_id if i not in optional_ids]
+        optional = [_pair(i) for i in optional_ids]
 
         if len(required) < min_required_matches:
             entry = {
@@ -1133,12 +1367,27 @@ def merge_grdb(
                 rejected.append(entry)
                 continue
 
+        for ingredient_id, evidence in evidence_by_id.items():
+            ingredient_evidence.append({
+                "recipe_title": recipe.title,
+                "source_url": recipe.source_url,
+                "ingredient_id": ingredient_id,
+                "ingredient": _ingredient_display_name(source_data, ingredient_id),
+                "kind": evidence.kind,
+                "grams": evidence.grams,
+                "conversion_ref": evidence.conversion_ref,
+                "provenance": evidence.provenance,
+                "merged_raw": evidence.merged_raw,
+            })
+
         flags: list[dict[str, Any]] = []
-        default50_count = sum(1 for pair in required if pair[1] == 50)
-        if default50_count:
-            flags.append({"kind": "default_50g_estimate", "required_count": default50_count})
+        unknown_evidence_count = sum(1 for pair in [*required, *optional] if pair[1] is None)
+        if unknown_evidence_count:
+            # unknown evidence keeps grams null and blocks "complete nutrition"
+            # and fit claims downstream (SPEC 3.5)
+            flags.append({"kind": "unknown_quantity_evidence", "count": unknown_evidence_count})
         total_lines = len(recipe.ingredients)
-        unsupported_lines = total_lines - len(required) - len(optional)
+        unsupported_lines = len(unresolved_lines)
         if total_lines and unsupported_lines / total_lines >= 0.5:
             flags.append({"kind": "high_unsupported_share", "unsupported": unsupported_lines, "total": total_lines})
         if not recipe.servings_target or recipe.servings_target <= 0:
@@ -1182,12 +1431,16 @@ def merge_grdb(
             key=lambda item: item["count"],
             reverse=True,
         )[:100],
+        "unresolved_ingredient_lines": unresolved_ingredient_lines,
+        "ingredient_evidence": ingredient_evidence,
         "notes": [
             "Merge is non-destructive by default: ingredients are untouched and recipes are appended only.",
             "Rejections are structural (blank title, duplicate title, duplicate source URL, or too few mapped required ingredients).",
             "Overrides can force-include recipes rejected only for too_few_mapped_required_ingredients; every forced import is listed under overridden_recipes.",
             "Accepted recipes with heuristic quality flags are listed under review_recipes; they are imported regardless.",
-            "Unknown ingredients are reported for later nutrition curation.",
+            "Ingredient lines carry explicit quantity evidence (weighed / source_grams / household / unknown); unknown lines keep grams null and block 'complete nutrition' and fit claims (SPEC 3.5).",
+            "Household grams come only from the documented conversions table (conversion_ref recorded); ml is never treated as g without a documented row.",
+            "Unresolved ingredient lines (no mapped ingredient id) stay visible in unresolved_ingredient_lines with their raw text and reason.",
         ],
         "collision_checks": {
             "existing_recipe_id_collisions": len(existing_ids) - len(set(existing_ids)),
