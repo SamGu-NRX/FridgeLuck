@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck mock: Table</title>
+<style>
+:root{--paper:#F7F8F6;--ink:#131313;--ink2:#5E5E59;--ink3:#8A8A84;--rule:#E4E5E0;--rule2:#CFD0CA;--yolk:#F5C400;--yolk-soft:#FFF3B8;--yolk-ink:#6A5300;--err:#C8321E;
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D8D8D2;color:var(--ink);-webkit-font-smoothing:antialiased;display:flex;justify-content:center;align-items:flex-start;gap:36px;padding:40px 24px 80px;min-height:100vh;font-size:17px;line-height:24px}
+.phone{position:relative;width:393px;height:852px;flex:none;background:var(--paper);border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.14),0 30px 60px -20px rgba(0,0,0,.3)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;z-index:11}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%;overflow:auto;scrollbar-width:none;padding:0 20px 150px}
+.scroll::-webkit-scrollbar{display:none}
+.tabbar{position:absolute;left:16px;right:16px;bottom:22px;display:flex;gap:10px;z-index:10}
+.tabs{flex:1;height:62px;border-radius:31px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;background:rgba(250,250,247,.76);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);box-shadow:inset 0 0 0 .5px rgba(0,0,0,.09),0 10px 28px -10px rgba(0,0,0,.22)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;line-height:12px;font-weight:500;color:var(--ink3);width:62px}
+.tab.on{color:var(--ink)}
+.tab svg{width:24px;height:24px}
+.scanbtn{width:62px;height:62px;border-radius:31px;display:grid;place-items:center;background:var(--ink);color:#fff;box-shadow:0 10px 28px -10px rgba(0,0,0,.45);transition:transform 120ms var(--out)}
+.scanbtn:active{transform:scale(.95)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.cap{font-size:13px;line-height:16px}
+.sec{font-size:15px;line-height:20px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border-radius:11px;font:inherit;font-weight:600;font-size:15px;border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent;padding:0 16px}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.in{animation:rise 200ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fit{display:inline-flex;gap:3px;align-items:center}
+.fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.photo{position:relative;background:#E9EAE4;border-radius:10px;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08);overflow:hidden}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(0,0,0,.035) 10px 11px)}
+.photo span{position:absolute;left:10px;bottom:8px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.note{width:320px;flex:none;font-size:13px;line-height:19px;color:#2A2A28;padding-top:8px}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:12px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:18px 0 8px;color:#5E5E59}
+.note dl{display:grid;grid-template-columns:76px 1fr;gap:8px 12px}
+.note dt{font-family:var(--mono);font-size:11px;line-height:19px;color:#5E5E59}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}}}
+@media (max-width:800px){body{flex-direction:column;align-items:center}}
+
+/* screen */
+.head{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0 4px}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.head a{color:var(--ink);text-decoration:none;font-size:17px}
+.sub{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:18px}
+.week{padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;justify-content:space-between}
+.card{margin-top:16px;border-radius:14px;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12);padding:14px 14px 12px;background:#FBFBF9;transition:transform 120ms var(--out)}
+.card:active{transform:scale(.985)}
+.card .who{display:flex;justify-content:space-between;align-items:baseline}
+.card .who b{font-weight:600}
+.card .dish{font-size:17px;line-height:24px;font-weight:600;margin-top:2px}
+.card .body{display:flex;gap:12px;margin-top:10px;align-items:flex-start}
+.card .photo{width:96px;height:96px;flex:none}
+.card q{display:block;font-size:15px;line-height:20px;color:var(--ink2);quotes:"\201C" "\201D";flex:1}
+.card .rate{font-family:var(--mono);font-size:13px;color:var(--ink2);margin-top:6px}
+.card .you{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--rule)}
+.card .you .l{display:flex;flex-direction:column;gap:4px}
+.card.mine{background:transparent;box-shadow:inset 0 0 0 1px var(--rule)}
+.sect{margin-top:32px}
+.sect h3{font-size:13px;line-height:16px;font-weight:600;margin-bottom:4px}
+.row{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 0;border-top:1px solid var(--rule)}
+.row:first-of-type{border-top:0}
+.row .n{flex:1}
+.row .q{font-family:var(--mono);font-size:13px;color:var(--ink2);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".8" fill="#131313"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8" fill="#131313"/><rect x="10" y="3" width="3" height="9" rx=".8" fill="#131313"/><rect x="15" y="0" width="3" height="12" rx=".8" fill="#131313"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z" fill="#131313"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3" fill="none" stroke="#131313" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="#131313"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="#131313" fill-opacity=".4"/></svg>
+  </span></div>
+
+  <div class="screen"><div class="scroll">
+    <header class="head in" style="--i:0"><h1>Table</h1><a href="#">Invite</a></header>
+    <div class="sub in" style="--i:0"><span class="sec c2">Flat 4B · Maya, Dev, you</span></div>
+
+    <div class="week in" style="--i:1"><span class="sec">This week</span><span class="mono sec c2">9 cooks · 2 repeats · 1 new</span></div>
+
+    <article class="card in" style="--i:2">
+      <div class="who"><b>Maya</b><span class="cap c2 mono">Tue</span></div>
+      <div class="dish">Butter bean curry</div>
+      <div class="body">
+        
+        <div><q>Add lemon at the end, trust me.</q><div class="rate">5 of 5 · swapped spinach for kale</div></div>
+      </div>
+      <div class="you">
+        <div class="l"><span class="fit"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="cap">You have everything</span></div>
+        <button class="btn primary">Cook tonight</button>
+      </div>
+    </article>
+
+    <article class="card in" style="--i:3">
+      <div class="who"><b>Dev</b><span class="cap c2 mono">Mon</span></div>
+      <div class="dish">Egg-fried noodles with beansprouts</div>
+      <div class="body">
+        <div><q>Doubled the garlic. No regrets.</q><div class="rate">4 of 5 · 18 min</div></div>
+      </div>
+      <div class="you">
+        <div class="l"><span class="fit"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i></span><span class="cap">Missing beansprouts · 1 swap</span></div>
+        <button class="btn ghost">Cook with swap</button>
+      </div>
+    </article>
+
+    <article class="card mine in" style="--i:4">
+      <div class="who"><b>You</b><span class="cap c2 mono">Sun</span></div>
+      <div class="dish">Ginger chicken udon noodles</div>
+      <div class="body">
+        
+        <div><q>Lemon instead of lime worked.</q><div class="rate">4 of 5 · 27 min</div></div>
+      </div>
+    </article>
+
+    <section class="sect in" style="--i:5">
+      <h3>Notes on recipes you've cooked</h3>
+      <div class="row"><span class="n">Ginger chicken udon noodles<br><span class="cap c2">"Add the ginger late or it burns."</span></span><span class="q">212 cooks</span></div>
+      <div class="row"><span class="n">Butter bean curry<br><span class="cap c2">38% add lemon. You and Maya both do.</span></span><span class="q">94 cooks</span></div>
+      <div class="row"><span class="n">Chicken jalfrezi<br><span class="cap c2">Be the first to leave a note.</span></span><span class="q c3">under 10</span></div>
+    </section>
+  </div></div>
+
+  <nav class="tabbar">
+    <div class="tabs">
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a>
+      <a class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5h18M6 9.5V19M18 9.5V19"/><circle cx="12" cy="5" r="2.5"/></svg>Table</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4.5h10.5a2.5 2.5 0 0 1 2.5 2.5v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>Cookbook</a>
+    </div>
+    <a class="scanbtn" aria-label="Scan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3"/></svg></a>
+  </nav>
+  <div class="homebar"></div>
+</div>
+
+<aside class="note">
+  <h1>Table</h1>
+  <p>A table is 2 to 8 people who eat together or near each other. The unit is a cook the user chose to share. Finishing a cook saves it on the phone; Share shows a preview of exactly what leaves the phone (dish, servings, swaps, rating, an optional one-line note, the day). It never includes pantry, health or taste data, exact times or photos (no photo sharing in the first release). Sharing needs an 18+ account; members can leave, block and report, and the owner approves invites.</p>
+  <p>Every card ends with the viewer's own fit meter and one button. That line is why this is not a dead feed: each card is a decision the viewer can act on with what is in their fridge. "Cook tonight" sets the dish on Tonight with Maya's note attached to the relevant step.</p>
+  <p>No likes, no comments, no follower counts, no ranking. Cards are in time order. Your own cook has no button because you cannot cook it at yourself; it is here so the table sees what you see.</p>
+  <p>"Notes on recipes you've cooked" is the aggregate layer. Counts appear at 10 cooks or more; below that the row says "Be the first to leave a note" and nothing is invented.</p>
+
+  <h2>States</h2>
+  <dl>
+    <dt>no table</dt><dd>Title "Table", then: "Tables are small on purpose: 2 to 8 people who cook. Start one with someone you eat with." Buttons: Start a table, Join with a code. Below, the notes section still renders from your own cooks.</dd>
+    <dt>alone</dt><dd>Table with one member (you): your cooks as cards, and a single row at the top, "Invite someone. Tables work from 2."</dd>
+    <dt>quiet</dt><dd>No cooks this week: the week line reads "Nobody's cooked this week. Your last was Sunday." Cards from last week follow.</dd>
+    <dt>loading</dt><dd>Cached cards render instantly; new ones arrive at the top with the rise animation. One 2 px line under the week row while fetching.</dd>
+    <dt>offline</dt><dd>Cached cards with "As of 18:40" in the sub line. Fit meters still compute locally. Notes section hidden.</dd>
+    <dt>error</dt><dd>Fetch failed with nothing cached: "Couldn't reach your table. Your cooks are safe on this phone." Retry.</dd>
+    <dt>invite</dt><dd>Share sheet with a code and a link. The table name is editable there. The invite prompt never appears in onboarding; it first appears after the third cook.</dd>
+    <dt>leave</dt><dd>From the table name: "Leave Flat 4B? Your cooks stay in your Cookbook." Leave / Stay.</dd>
+  </dl>
+
+  <h2>Motion</h2>
+  <dl>
+    <dt>enter</dt><dd>Header, week line and first three cards rise 40 ms apart. Later cards appear without stagger.</dd>
+    <dt>new cook</dt><dd>Arrives at the top from scale 0.96 with the move spring; the list below shifts with a transition.</dd>
+    <dt>cook tonight</dt><dd>Medium haptic, switch to Tonight with the hero already swapped (150 ms crossfade on arrival).</dd>
+  </dl>
+</aside>
+
+</body>
+</html>
