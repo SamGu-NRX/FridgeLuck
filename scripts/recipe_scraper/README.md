@@ -55,6 +55,13 @@ uv run scrape-recipes run --max-recipes 10
 
 The output file is deterministic JSON and written atomically.
 
+The committed files under `.cache/` are synthetic fixtures, not scraper
+output — see `.cache/README.md`. A scrape run recreates
+`.cache/bbc_goodfood_recipes.json` locally; keep it out of the repo unless
+the rights position for the source changes. `generate_rights_audit.py`
+reads `.cache/synthetic_fixtures.json` and
+`.cache/synthetic_fixtures.test.json` for its cache cross-checks.
+
 ## Merge Into GRDB Seed Shape (Non-Destructive)
 
 Transforms scraper output into bundled `data.json` recipe-array format while:

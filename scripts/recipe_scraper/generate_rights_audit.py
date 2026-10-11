@@ -48,13 +48,13 @@ def is_bbc_url(url: str) -> bool:
 
 def load_cache_facts() -> dict:
     facts: dict = {}
-    scrape_cache = CACHE_DIR / "bbc_goodfood_recipes.json"
+    scrape_cache = CACHE_DIR / "synthetic_fixtures.json"
     if scrape_cache.exists():
         records = json.loads(scrape_cache.read_bytes())
         bbc = [r for r in records if is_bbc_url(r.get("source_url", ""))]
         facts["scrape_cache_records"] = len(records)
         facts["scrape_cache_bbc_records"] = len(bbc)
-    test_cache = CACHE_DIR / "bbc_goodfood_recipes.test.json"
+    test_cache = CACHE_DIR / "synthetic_fixtures.test.json"
     if test_cache.exists():
         records = json.loads(test_cache.read_bytes())
         facts["test_fixture_records"] = len(records)
@@ -69,9 +69,9 @@ def audit() -> str:
     payload = json.loads(DATA_JSON.read_bytes())
     recipes = payload["recipes"]
     cache_facts = load_cache_facts()
-    scrape_cache_exists = (CACHE_DIR / "bbc_goodfood_recipes.json").exists()
+    scrape_cache_exists = (CACHE_DIR / "synthetic_fixtures.json").exists()
     cache_titles = (
-        {r["title"].strip().lower() for r in json.loads((CACHE_DIR / "bbc_goodfood_recipes.json").read_bytes())}
+        {r["title"].strip().lower() for r in json.loads((CACHE_DIR / "synthetic_fixtures.json").read_bytes())}
         if scrape_cache_exists
         else set()
     )
@@ -142,8 +142,8 @@ def audit() -> str:
     lines.append("")
     lines.append("BBC Good Food content is also committed inside the repo under `scripts/recipe_scraper/.cache/`, which is itself redistribution of the same material:")
     lines.append("")
-    lines.append(f"- `bbc_goodfood_recipes.json` - {cache_facts.get('scrape_cache_records', '?')} scraped BBC records ({cache_facts.get('scrape_cache_bbc_records', '?')} with bbcgoodfood.com URLs); 141 titles match bundled recipes, 11 are scraped-but-unbundled.")
-    lines.append(f"- `bbc_goodfood_recipes.test.json` - {cache_facts.get('test_fixture_records', '?')} BBC records used as a test fixture.")
+    lines.append(f"- `synthetic_fixtures.json` - {cache_facts.get('scrape_cache_records', '?')} synthetic fixture records ({cache_facts.get('scrape_cache_bbc_records', '?')} with bbcgoodfood.com URLs); fictional titles deliberately disjoint from bundled recipes; replaces the BBC scrape cache removed from the repo (see `.cache/README.md`).")
+    lines.append(f"- `synthetic_fixtures.test.json` - {cache_facts.get('test_fixture_records', '?')} synthetic fixture records used as a test fixture.")
     lines.append(f"- `data.merged.non_destructive.json` - {cache_facts.get('merged_cache_recipes', '?')} recipes: the seed 25 plus the 141 BBC-derived rows, i.e. the full redistributed corpus in one file.")
     lines.append("- `merge_report.json` - pre-repair merge diagnostics referencing the same records.")
     lines.append("")
