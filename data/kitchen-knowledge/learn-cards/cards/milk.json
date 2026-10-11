@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "milk",
+  "displayName": "Milk",
+  "isCore": true,
+  "category": "dairy_egg",
+  "sections": {
+   "whatItIs": {
+    "text": "Milk from dairy cows — the reference liquid the food world measures everything against; international standards have defined it as an unadulterated mammary secretion since 1961.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "As an adult food, milk is a biological newcomer: most adults originally lacked the enzyme to digest its lactose, and milk drinking spread only where a genetic quirk for digesting it spread among dairying cultures.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Check the date and grab from the coldest part of the chiller; whole, semi-skimmed, and skimmed differ mainly in fat, so match to the recipe — whole milk for custards and baking, skimmed where richness does not matter.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep in the main body of the fridge, not the door, and never return unused milk from a jug. The rulebook has the storage window and spoilage signs.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "dairy storage windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Milk on the turn is still useful: bake it into pancakes or scones, simmer into rice pudding, or freeze cubes for coffee — sour baked-goods milk (not off-smelling milk) is what buttermilk does anyway.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "oat milk",
+    "ratio": "1:1",
+    "note": "closest dairy-free swap for sauces and baking; slightly sweet",
+    "citations": []
+   },
+   {
+    "substitute": "milk powder + water",
+    "ratio": "per pack instructions",
+    "note": "pantry-stable backup for baking",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171265,
+   "fdcDescription": "Milk, whole, 3.25% milkfat, with added vitamin D",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminARaeMcg": 46,
+    "fatG": 3.25,
+    "sugarG": 5.05,
+    "carbohydrateG": 4.8,
+    "energyKcal": 61,
+    "saturatedFatG": 1.86,
+    "folateMcg": 5,
+    "fiberG": 0,
+    "ironMg": 0.03,
+    "sodiumMg": 43,
+    "proteinG": 3.15,
+    "vitaminCMg": 0,
+    "calciumMg": 113,
+    "potassiumMg": 132
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Milk — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Milk",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171265 (Milk, whole, 3.25% milkfat, with added vitamin D)."
+   }
+  }
+ }
+}

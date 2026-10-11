@@ -1,0 +1,54 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A leaf salad plant grown in hundreds of forms, from crisp iceberg to loose-leaf types; the milky latex in the stem gave it its Latin name lactuca.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Lettuce was farmed by the ancient Egyptians, who turned an oilseed plant into a leafy crop; the Greeks and Romans took it up — romaine is named for the Roman papal gardens and cos for the Greek island of Kos.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose heads or leaves that look crisp and brightly coloured with no rust spots or slimy bases; the lighter the weight for its size, the more it has dried out.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Wash only when using, and keep leaves dry and loosely wrapped in the fridge. The rulebook has the shelf-life details.",
+   "citations": [],
+   "note": "leafy-green windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Wilted lettuce still works: Blitz into a green soup base, or sear romaine halves cut-side down for a warm salad; the cores regrow in a dish of water.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "spinach",
+   "ratio": "1:1",
+   "note": "tenderer leaves; wilts faster so dress at the table",
+   "citations": []
+  },
+  {
+   "substitute": "cabbage (shredded)",
+   "ratio": "1:1",
+   "note": "much more crunch; holds up hot dressings and take-away lunches",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Lettuce — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Lettuce",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

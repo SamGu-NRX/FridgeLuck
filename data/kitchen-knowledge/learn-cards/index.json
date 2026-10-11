@@ -163,12 +163,92 @@
     "category": "dairy_egg",
     "frequencyInBundledRecipes": 14,
     "fdcId": 171287
+   },
+   {
+    "id": "frozen_peas",
+    "displayName": "Frozen Peas",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 11,
+    "fdcId": 170016
+   },
+   {
+    "id": "garlic",
+    "displayName": "Garlic",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 95,
+    "fdcId": 169230
+   },
+   {
+    "id": "ginger",
+    "displayName": "Ginger",
+    "isCore": true,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 14,
+    "fdcId": 169231
+   },
+   {
+    "id": "green_onion",
+    "displayName": "Green Onion",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 96,
+    "fdcId": 170005
+   },
+   {
+    "id": "ground_beef",
+    "displayName": "Ground Beef",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 174036
+   },
+   {
+    "id": "honey",
+    "displayName": "Honey",
+    "isCore": true,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 9,
+    "fdcId": 169640
+   },
+   {
+    "id": "lemon",
+    "displayName": "Lemon",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 22,
+    "fdcId": 167746
+   },
+   {
+    "id": "lettuce",
+    "displayName": "Lettuce",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 8,
+    "fdcId": 169248
+   },
+   {
+    "id": "lime",
+    "displayName": "Lime",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 20,
+    "fdcId": 168155
+   },
+   {
+    "id": "milk",
+    "displayName": "Milk",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 171265
    }
   ],
   "coverage": {
    "coreIngredients": 50,
    "bundledDistinctIngredients": 47,
-   "cardsWritten": 20,
+   "cardsWritten": 30,
    "seedCorpusDistinctNames": 113,
    "missingNutrition": [],
    "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."

@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "ginger",
+  "displayName": "Ginger",
+  "isCore": true,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "The knobbly rhizome of a tropical plant, related to turmeric and cardamom; used fresh, dried, and ground as both spice and folk remedy.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Ginger originated in Maritime Southeast Asia and is a true cultigen with no wild form; Austronesian voyagers carried it across the Pacific from around 5,000 years ago, making it one of the first spices exported from Asia.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose rhizomes that feel firm and heavy with smooth, taut skin; wrinkled or shrivelled pieces are dried out and fibrous.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep unwrapped in the crisper, or freeze whole and grate from frozen. The rulebook has the timing.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "storage windows live in the food-safety rulebook"
+    }
+   },
+   "useItUp": {
+    "text": "Cut ginger freezes well and grates beautifully from frozen; simmer bruised slices into tea, or candy the peel-off cuts.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "ground ginger",
+    "ratio": "1/4 tsp per tbsp fresh",
+    "note": "warmer and drier; best in bakes, not stir-fries",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169231,
+   "fdcDescription": "Ginger root, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 1.7,
+    "calciumMg": 16,
+    "potassiumMg": 415,
+    "fatG": 0.75,
+    "vitaminCMg": 5,
+    "folateMcg": 11,
+    "ironMg": 0.6,
+    "sodiumMg": 13,
+    "proteinG": 1.82,
+    "vitaminARaeMcg": 0,
+    "carbohydrateG": 17.77,
+    "energyKcal": 80,
+    "fiberG": 2,
+    "saturatedFatG": 0.2
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Ginger — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Ginger",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169231 (Ginger root, raw)."
+   }
+  }
+ }
+}

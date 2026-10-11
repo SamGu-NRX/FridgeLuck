@@ -1,0 +1,48 @@
+{
+ "category": "fruit",
+ "sections": {
+  "whatItIs": {
+   "text": "A small, sour green citrus — really several species, most sold as seedless Persian limes; the juice and zest cut through rich food like nothing else.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Limes originated in tropical Southeast Asia and rode the Austronesian expansion across the Pacific (c. 3000-1500 BC); British sailors later ate them against scurvy so faithfully that 'limey' became their nickname, a closely guarded military secret.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose limes that feel heavy and give slightly; smaller Key limes are more aromatic, Persian limes juicier and seedless.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate in the crisper, or juice and freeze in cubes. The rulebook has the details.",
+   "citations": [],
+   "note": "storage windows live in the food-safety rulebook"
+  },
+  "useItUp": {
+   "text": "Roll a dry lime before juicing to get the last out; spent halves scrub cutting boards and limescale, and the zest flavours almost anything before the fruit goes in the compost.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "lemon juice",
+   "ratio": "1:1",
+   "note": "sweeter, sunnier acidity; slightly less sharp",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Lime (fruit) — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Lime_(fruit)",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}
