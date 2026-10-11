@@ -8,10 +8,17 @@ ledger exactly at the specified rounding (grams 1 dp, USD 2 dp, kg CO2e 3 dp,
 half-up, decimal arithmetic throughout).
 
 Run from the repo root: python3 data/kitchen-knowledge/waste/tools/reference.py
-Exit 0 = all 20 examples reproduce.
+Exit 0 = all examples reproduce exactly AND every negative case
+(negative_cases.json) is refused with its expected reason.
+
+The input contract (model.md section 1) is enforced strictly: a malformed
+date or a non-positive grams value refuses the whole event stream, loudly.
 """
+import datetime
 import json
+import math
 import os
+import re
 import sys
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -61,31 +68,104 @@ def round_field(field, value):
     raise AssertionError(f"unknown ledger field: {field}")
 
 
-def bucket_for(event):
-    """Bucket assignment per model.md section 2."""
-    kind = event["kind"]
+class EventError(ValueError):
+    """A malformed or out-of-contract event: the whole event stream is refused."""
+
+
+REFUSAL_MALFORMED_DATE = "malformed-date"
+REFUSAL_NON_POSITIVE_GRAMS = "non-positive-grams"
+
+EVENT_KINDS = ("add", "consume", "adjust", "discard", "expire")
+
+ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def parse_strict_date(value, field, where):
+    """Strict ISO calendar date: exactly YYYY-MM-DD and a real calendar day.
+
+    Absent (a missing key or an explicit null) returns None — that is the
+    only way to leave a date unset. Anything else raises EventError: a
+    malformed date must never be compared as a raw string (lexicographic
+    order would happily read "" or " 2026-10-02" or "0000-01-01" as
+    on-or-before a real use-by) and must never be treated as absent.
+    """
+    if value is None:
+        return None
+    if not isinstance(value, str) or not ISO_DATE_RE.match(value):
+        raise EventError(
+            f"{REFUSAL_MALFORMED_DATE}: {where}.{field} must be an ISO YYYY-MM-DD "
+            f"string or null, got {value!r}"
+        )
+    year, month, day = (int(part) for part in value.split("-"))
+    try:
+        datetime.date(year, month, day)
+    except ValueError:
+        raise EventError(
+            f"{REFUSAL_MALFORMED_DATE}: {where}.{field} is not a real calendar "
+            f"date: {value!r}"
+        ) from None
+    return value
+
+
+def validate_event(event, where):
+    """Enforce the model.md section 1 input contract on one event.
+
+    Returns (kind, ingredientKey, grams, on, lotUseBy) with grams a positive
+    Decimal. A non-positive grams value (a negative outcome is a data error,
+    not savings) or a malformed date refuses the whole stream, loudly —
+    never loads as 0 or nil, never reaches the buckets.
+    """
+    if not isinstance(event, dict):
+        raise EventError(f"bad-event: {where} must be an object")
+    kind = event.get("kind")
+    if kind not in EVENT_KINDS:
+        raise EventError(
+            f"bad-event: {where}.kind must be one of {EVENT_KINDS}, got {kind!r}"
+        )
+    key = event.get("ingredientKey")
+    if not isinstance(key, str) or not key:
+        raise EventError(
+            f"bad-event: {where}.ingredientKey must be a non-empty string, got {key!r}"
+        )
+    grams = event.get("grams")
+    if isinstance(grams, bool) or not isinstance(grams, (int, float)) or not math.isfinite(grams):
+        raise EventError(
+            f"{REFUSAL_NON_POSITIVE_GRAMS}: {where}.grams must be a finite number, got {grams!r}"
+        )
+    if grams <= 0:
+        raise EventError(
+            f"{REFUSAL_NON_POSITIVE_GRAMS}: {where}.grams must be positive — a negative "
+            f"or zero outcome is a data error, never classified, got {grams!r}"
+        )
+    on = parse_strict_date(event.get("on"), "on", where)
+    use_by = parse_strict_date(event.get("lotUseBy"), "lotUseBy", where)
+    return kind, key, D(grams), on, use_by
+
+
+def bucket_for(kind, on, use_by):
+    """Bucket assignment per model.md section 2 (event already validated)."""
     if kind in ("add", "adjust"):
         return "notCounted"
     if kind in ("discard", "expire"):
         return "wasted"
-    if kind == "consume":
-        use_by = event.get("lotUseBy")
-        on = event.get("on")
-        if use_by is None or on is None:
-            return "consumedUnknown"
-        return "saved" if on <= use_by else "usedLate"
-    raise AssertionError(f"unknown event kind: {kind}")
+    # kind == "consume"
+    if use_by is None or on is None:
+        return "consumedUnknown"
+    return "saved" if on <= use_by else "usedLate"
 
 
 def compute_ledger(events, factors):
-    """Compute the unrounded ledger plus refusal bookkeeping."""
+    """Compute the unrounded ledger plus refusal bookkeeping.
+
+    Every event is validated first (validate_event); a stream containing one
+    malformed event is refused in full — no partial ledger, no silent zero.
+    """
     buckets = {
         "saved": {}, "usedLate": {}, "consumedUnknown": {}, "wasted": {}, "notCounted": {},
     }
-    for event in events:
-        key = event["ingredientKey"]
-        grams = D(abs(event["grams"]))
-        target = buckets[bucket_for(event)]
+    for i, event in enumerate(events):
+        kind, key, grams, on, use_by = validate_event(event, f"events[{i}]")
+        target = buckets[bucket_for(kind, on, use_by)]
         target[key] = target.get(key, Decimal(0)) + grams
 
     ledger = {name: Decimal(0) for name in LEDGER_FIELDS}
@@ -136,7 +216,53 @@ def check_factor_file(name, kind):
     return doc
 
 
+def run_negative_cases(path=None):
+    """Run the negative-case suite: malformed input must be refused, loudly.
+
+    Each case's event stream is fed to compute_ledger; the case passes only
+    if the engine raises EventError carrying the case's expectedRefusalCode.
+    A refused stream produces no ledger at all (fail closed), so a malformed
+    date can never fall through a string comparison into "saved" and a
+    negative outcome can never be laundered into positive grams. Returns
+    the number of failed cases (0 = all refused as required).
+    """
+    path = path or os.path.join(WASTE_DIR, "negative_cases.json")
+    with open(path) as fh:
+        doc = json.load(fh)
+    cases = doc["data"]["cases"]
+    failures = 0
+    for case in cases:
+        cid, code = case["id"], case["expectedRefusalCode"]
+        try:
+            compute_ledger(case["events"], case.get("factors", {}))
+        except EventError as exc:
+            got = str(exc).split(":", 1)[0]
+            if got == code:
+                print(f"PASS {cid}: refused ({code}) — {case['description']}")
+            else:
+                failures += 1
+                print(f"FAIL {cid}: refused as {got!r}, expected {code!r}")
+        except (KeyError, AssertionError, ValueError) as exc:
+            failures += 1
+            print(f"FAIL {cid}: wrong error kind ({type(exc).__name__}: {exc}), "
+                  f"expected EventError ({code})")
+        else:
+            failures += 1
+            print(f"FAIL {cid}: NOT refused — {case['description']} "
+                  "(a ledger was produced; malformed input loaded instead of failing loudly)")
+    print()
+    if failures:
+        print(f"FAILED: {failures}/{len(cases)} negative cases were not refused as required")
+    else:
+        print(f"OK: all {len(cases)} negative cases refused with their expected reason — "
+              "malformed dates and non-positive outcomes can never load, never count as saved.")
+    return failures
+
+
 def main():
+    if "--negative-cases" in sys.argv[1:]:
+        sys.exit(1 if run_negative_cases() else 0)
+
     emission = check_factor_file("emission_factors.json", "emission-factors")
     price = check_factor_file("price_factors.json", "price-factors")
     loss = check_factor_file("loss_factors.json", "loss-factors")
@@ -205,6 +331,10 @@ def main():
           f"under the stated rounding (grams 1 dp, USD 2 dp, kg CO2e 3 dp, half-up, decimal).")
     print(f"factor files loaded: emission={len(emission['data']['factors'])} rows, "
           f"price={len(price['data']['prices'])} rows, loss={len(loss['data']['factors'])} rows.")
+    print()
+    negative_failures = run_negative_cases()
+    if negative_failures:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

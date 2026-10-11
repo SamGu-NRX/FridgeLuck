@@ -129,6 +129,8 @@ outcomes would double-count.
 ## 8. What the model must never do
 
 - Never claim `usedLate` or `consumedUnknown` grams as "saved".
+- Never accept a malformed date or a non-positive `grams` value; refuse the
+  stream loudly (§1).
 - Never invent a price or an emission factor for an unmapped key (§5).
 - Never apply loss factors to event-derived totals (§7).
 - Never round intermediate values (§4).

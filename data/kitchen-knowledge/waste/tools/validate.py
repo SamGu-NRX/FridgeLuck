@@ -174,6 +174,50 @@ def validate_loss(doc):
     return keys
 
 
+def validate_negative_cases():
+    """Envelope-check negative_cases.json, then run its refusal suite.
+
+    The suite lives in tools/reference.py (the normative engine): every case
+    must be refused with its expected reason. A case that produces a ledger
+    instead of raising is a validation error — malformed input must never
+    load.
+    """
+    doc = load("negative_cases.json")
+    if doc is None:
+        return
+    data = check_common_envelope("negative_cases.json", doc, "negative-cases")
+    if data is None:
+        return
+    cases = data.get("cases")
+    if not isinstance(cases, list) or not cases:
+        err("negative_cases.json: data.cases must be a non-empty list")
+        return
+    seen = set()
+    for i, case in enumerate(cases):
+        cid = case.get("id", f"cases[{i}]")
+        if cid in seen:
+            err(f"negative_cases.json: duplicate case id {cid}")
+        seen.add(cid)
+        if not isinstance(case.get("events"), list) or not case["events"]:
+            err(f"negative_cases.json {cid}: events must be a non-empty list")
+        if not isinstance(case.get("expectedRefusalCode"), str) or not case["expectedRefusalCode"]:
+            err(f"negative_cases.json {cid}: expectedRefusalCode missing")
+    try:
+        import reference
+    except ImportError:
+        err("negative_cases.json: cannot run refusal suite (tools/reference.py not importable)")
+        return
+    try:
+        failures = reference.run_negative_cases()
+    except Exception as exc:
+        err(f"negative_cases.json: refusal suite crashed: {exc!r}")
+        return
+    if failures:
+        err(f"negative_cases.json: {failures} case(s) were not refused as required")
+    else:
+        notes.append(f"negative cases: all {len(cases)} refused as required")
+
+
 def validate_examples_envelope():
     path = os.path.join(DIR, "hand_computed_examples.json")
     if not os.path.exists(path):
@@ -204,6 +248,7 @@ def main():
     pr = validate_price(load("price_factors.json"))
     lo = validate_loss(load("loss_factors.json"))
     validate_examples_envelope()
+    validate_negative_cases()
     notes.append(f"key coverage: emission={len(em)} price={len(pr)} loss={len(lo)}")
     overlap = len(em & pr & lo)
     notes.append(f"keys present in all three files: {overlap}")
@@ -214,7 +259,7 @@ def main():
         for e in errors:
             print(f"  - {e}")
         sys.exit(1)
-    print("\nOK: factor files conform")
+    print("\nOK: factor files conform; negative cases refuse as required")
 
 
 if __name__ == "__main__":
