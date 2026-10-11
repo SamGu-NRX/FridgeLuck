@@ -1,0 +1,580 @@
+{
+  "tool": "confidence-contract-runner",
+  "seed": 20261010,
+  "expectedModel": "model.ts (hand-derived from confidenceService.ts at main@1151588d)",
+  "host": {
+    "platform": "linux",
+    "arch": "x64",
+    "bunVersion": "1.3.14",
+    "cpuCount": 2,
+    "memory": {
+      "rssStartMb": 38.3,
+      "heapUsedStartMb": 0.17
+    }
+  },
+  "memoryEnd": {
+    "rssEndMb": 57.95,
+    "heapUsedEndMb": 0.17
+  },
+  "variants": {
+    "baseLabel": "exact",
+    "records": [
+      {
+        "label": "exact",
+        "key": "vision.scan",
+        "priorClass": "vision",
+        "firstAssess": {
+          "adjustedScore": 0.7072292342338756,
+          "trustMean": 0.7142857142857143,
+          "trustUncertainty": 0.14734589232268477,
+          "mode": "review_required",
+          "overallScore": 0.7072292342338756,
+          "reasons": [
+            "Confidence mode: review_required."
+          ]
+        },
+        "perStepTrustMean": [
+          0.7142857142857143,
+          0.7305616957407944,
+          0.6798086819509234,
+          0.6979200114528014,
+          0.6693805639623721,
+          0.6805979396889938
+        ],
+        "perStepAdjusted": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.226859884241418,
+          0.5984527614345628,
+          0.41528391909729917
+        ],
+        "perStepOverall": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.146859884241418,
+          0.5984527614345628,
+          0.33528391909729915
+        ],
+        "finalTrustMean": 0.6512064651275954,
+        "finalTrustUncertainty": 0.1220784793563869,
+        "eventCount": 6,
+        "snapshotKey": "vision.scan",
+        "lowStepReason": [
+          "Low confidence in vision.scan."
+        ]
+      },
+      {
+        "label": "mixed-case",
+        "key": "Vision.Scan",
+        "priorClass": "vision",
+        "firstAssess": {
+          "adjustedScore": 0.7072292342338756,
+          "trustMean": 0.7142857142857143,
+          "trustUncertainty": 0.14734589232268477,
+          "mode": "review_required",
+          "overallScore": 0.7072292342338756,
+          "reasons": [
+            "Confidence mode: review_required."
+          ]
+        },
+        "perStepTrustMean": [
+          0.7142857142857143,
+          0.7305616957407944,
+          0.6798086819509234,
+          0.6979200114528014,
+          0.6693805639623721,
+          0.6805979396889938
+        ],
+        "perStepAdjusted": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.226859884241418,
+          0.5984527614345628,
+          0.41528391909729917
+        ],
+        "perStepOverall": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.146859884241418,
+          0.5984527614345628,
+          0.33528391909729915
+        ],
+        "finalTrustMean": 0.6512064651275954,
+        "finalTrustUncertainty": 0.1220784793563869,
+        "eventCount": 6,
+        "snapshotKey": "Vision.Scan",
+        "lowStepReason": [
+          "Low confidence in vision.scan."
+        ]
+      },
+      {
+        "label": "upper-case",
+        "key": "VISION.SCAN",
+        "priorClass": "vision",
+        "firstAssess": {
+          "adjustedScore": 0.7072292342338756,
+          "trustMean": 0.7142857142857143,
+          "trustUncertainty": 0.14734589232268477,
+          "mode": "review_required",
+          "overallScore": 0.7072292342338756,
+          "reasons": [
+            "Confidence mode: review_required."
+          ]
+        },
+        "perStepTrustMean": [
+          0.7142857142857143,
+          0.7305616957407944,
+          0.6798086819509234,
+          0.6979200114528014,
+          0.6693805639623721,
+          0.6805979396889938
+        ],
+        "perStepAdjusted": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.226859884241418,
+          0.5984527614345628,
+          0.41528391909729917
+        ],
+        "perStepOverall": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.146859884241418,
+          0.5984527614345628,
+          0.33528391909729915
+        ],
+        "finalTrustMean": 0.6512064651275954,
+        "finalTrustUncertainty": 0.1220784793563869,
+        "eventCount": 6,
+        "snapshotKey": "VISION.SCAN",
+        "lowStepReason": [
+          "Low confidence in vision.scan."
+        ]
+      },
+      {
+        "label": "surrounding-whitespace",
+        "key": " vision.scan ",
+        "priorClass": "vision",
+        "firstAssess": {
+          "adjustedScore": 0.7072292342338756,
+          "trustMean": 0.7142857142857143,
+          "trustUncertainty": 0.14734589232268477,
+          "mode": "review_required",
+          "overallScore": 0.7072292342338756,
+          "reasons": [
+            "Confidence mode: review_required."
+          ]
+        },
+        "perStepTrustMean": [
+          0.7142857142857143,
+          0.7305616957407944,
+          0.6798086819509234,
+          0.6979200114528014,
+          0.6693805639623721,
+          0.6805979396889938
+        ],
+        "perStepAdjusted": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.226859884241418,
+          0.5984527614345628,
+          0.41528391909729917
+        ],
+        "perStepOverall": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.146859884241418,
+          0.5984527614345628,
+          0.33528391909729915
+        ],
+        "finalTrustMean": 0.6512064651275954,
+        "finalTrustUncertainty": 0.1220784793563869,
+        "eventCount": 6,
+        "snapshotKey": " vision.scan ",
+        "lowStepReason": [
+          "Low confidence in  vision.scan ."
+        ]
+      },
+      {
+        "label": "tab-newline-whitespace",
+        "key": "\tvision.scan\n",
+        "priorClass": "vision",
+        "firstAssess": {
+          "adjustedScore": 0.7072292342338756,
+          "trustMean": 0.7142857142857143,
+          "trustUncertainty": 0.14734589232268477,
+          "mode": "review_required",
+          "overallScore": 0.7072292342338756,
+          "reasons": [
+            "Confidence mode: review_required."
+          ]
+        },
+        "perStepTrustMean": [
+          0.7142857142857143,
+          0.7305616957407944,
+          0.6798086819509234,
+          0.6979200114528014,
+          0.6693805639623721,
+          0.6805979396889938
+        ],
+        "perStepAdjusted": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.226859884241418,
+          0.5984527614345628,
+          0.41528391909729917
+        ],
+        "perStepOverall": [
+          0.7072292342338756,
+          0.5417511691158078,
+          0.7470083673983987,
+          0.146859884241418,
+          0.5984527614345628,
+          0.33528391909729915
+        ],
+        "finalTrustMean": 0.6512064651275954,
+        "finalTrustUncertainty": 0.1220784793563869,
+        "eventCount": 6,
+        "snapshotKey": "\tvision.scan\n",
+        "lowStepReason": [
+          "Low confidence in \tvision.scan\n."
+        ]
+      },
+      {
+        "label": "fullwidth-unicode",
+        "key": "ＶＩＳＩＯＮ.scan",
+        "priorClass": "default",
+        "firstAssess": {
+          "adjustedScore": 0.6873882417697641,
+          "trustMean": 0.5714285714285714,
+          "trustUncertainty": 0.1749635530559413,
+          "mode": "review_required",
+          "overallScore": 0.6873882417697641,
+          "reasons": [
+            "Confidence mode: review_required."
+          ]
+        },
+        "perStepTrustMean": [
+          0.5714285714285714,
+          0.6074295189475759,
+          0.5635109652442428,
+          0.5949086649905562,
+          0.5726622449417753,
+          0.5925949587361932
+        ],
+        "perStepAdjusted": [
+          0.6873882417697641,
+          0.5238790029587637,
+          0.7248401549835887,
+          0.2166757279824626,
+          0.5782412957852171,
+          0.3994500740841679
+        ],
+        "perStepOverall": [
+          0.6873882417697641,
+          0.5238790029587637,
+          0.7248401549835887,
+          0.13667572798246258,
+          0.5782412957852171,
+          0.31945007408416787
+        ],
+        "finalTrustMean": 0.5674972765696902,
+        "finalTrustUncertainty": 0.13304637171130884,
+        "eventCount": 6,
+        "snapshotKey": "ＶＩＳＩＯＮ.scan",
+        "lowStepReason": [
+          "Low confidence in ｖｉｓｉｏｎ.scan."
+        ]
+      }
+    ],
+    "comparisons": [
+      {
+        "label": "mixed-case",
+        "numbersIdenticalToExact": true,
+        "maxTrustMeanDiff": 0,
+        "maxAdjustedDiff": 0,
+        "maxOverallDiff": 0,
+        "lowStepReasonIdenticalToExact": true,
+        "snapshotKeyDiffersFromExact": true
+      },
+      {
+        "label": "upper-case",
+        "numbersIdenticalToExact": true,
+        "maxTrustMeanDiff": 0,
+        "maxAdjustedDiff": 0,
+        "maxOverallDiff": 0,
+        "lowStepReasonIdenticalToExact": true,
+        "snapshotKeyDiffersFromExact": true
+      },
+      {
+        "label": "surrounding-whitespace",
+        "numbersIdenticalToExact": true,
+        "maxTrustMeanDiff": 0,
+        "maxAdjustedDiff": 0,
+        "maxOverallDiff": 0,
+        "lowStepReasonIdenticalToExact": false,
+        "snapshotKeyDiffersFromExact": true
+      },
+      {
+        "label": "tab-newline-whitespace",
+        "numbersIdenticalToExact": true,
+        "maxTrustMeanDiff": 0,
+        "maxAdjustedDiff": 0,
+        "maxOverallDiff": 0,
+        "lowStepReasonIdenticalToExact": false,
+        "snapshotKeyDiffersFromExact": true
+      },
+      {
+        "label": "fullwidth-unicode",
+        "numbersIdenticalToExact": false,
+        "maxTrustMeanDiff": 0.1428571428571429,
+        "maxAdjustedDiff": 0.02216821241481004,
+        "maxOverallDiff": 0.02216821241481004,
+        "lowStepReasonIdenticalToExact": false,
+        "snapshotKeyDiffersFromExact": true
+      }
+    ]
+  },
+  "withinInstance": {
+    "twoKey": {
+      "keys": [
+        "vision.scan",
+        "Vision.Scan"
+      ],
+      "interleavedBuckets": [
+        {
+          "signalKey": "vision.scan",
+          "eventCount": 3,
+          "averageRawScore": 0.8333333333333334,
+          "averageOutcomeReward": 0.8714312234268521,
+          "averageAbsoluteError": 0.04352155542112002,
+          "trustMean": 0.7554117946769181,
+          "trustUncertainty": 0.12239538131903403
+        },
+        {
+          "signalKey": "Vision.Scan",
+          "eventCount": 3,
+          "averageRawScore": 0.49666666666666665,
+          "averageOutcomeReward": 0.26985332714626414,
+          "averageAbsoluteError": 0.25819062962912626,
+          "trustMean": 0.5966717849747772,
+          "trustUncertainty": 0.13968586027376786
+        }
+      ],
+      "mergedCounterfactualBuckets": [
+        {
+          "signalKey": "vision.scan",
+          "eventCount": 6,
+          "averageRawScore": 0.665,
+          "averageOutcomeReward": 0.5651596542959235,
+          "averageAbsoluteError": 0.14833032908479638,
+          "trustMean": 0.6512064651275954,
+          "trustUncertainty": 0.1220784793563869
+        }
+      ]
+    },
+    "allVariants": {
+      "stepCount": 12,
+      "buckets": [
+        {
+          "signalKey": "vision.scan",
+          "eventCount": 2,
+          "averageRawScore": 0.82,
+          "averageOutcomeReward": 0.867046082722507,
+          "averageAbsoluteError": 0.04704608272250704,
+          "trustMean": 0.7434874964859152,
+          "trustUncertainty": 0.12957690433091962
+        },
+        {
+          "signalKey": "Vision.Scan",
+          "eventCount": 2,
+          "averageRawScore": 0.64,
+          "averageOutcomeReward": 0.20996341169917515,
+          "averageAbsoluteError": 0.43003658830082486,
+          "trustMean": 0.6168133473760975,
+          "trustUncertainty": 0.1442509107822146
+        },
+        {
+          "signalKey": "VISION.SCAN",
+          "eventCount": 2,
+          "averageRawScore": 0.91,
+          "averageOutcomeReward": 0.9036057865913627,
+          "averageAbsoluteError": 0.006394213408637328,
+          "trustMean": 0.7505357312489654,
+          "trustUncertainty": 0.12838856864437834
+        },
+        {
+          "signalKey": " vision.scan ",
+          "eventCount": 2,
+          "averageRawScore": 0.3,
+          "averageOutcomeReward": 0.34404251414859177,
+          "averageAbsoluteError": 0.044042514148591755,
+          "trustMean": 0.6426608889986973,
+          "trustUncertainty": 0.14218955906100408
+        },
+        {
+          "signalKey": "\tvision.scan\n",
+          "eventCount": 2,
+          "averageRawScore": 0.77,
+          "averageOutcomeReward": 0.846763229574591,
+          "averageAbsoluteError": 0.07676322957459097,
+          "trustMean": 0.7395772346544314,
+          "trustUncertainty": 0.13021701516665773
+        },
+        {
+          "signalKey": "ＶＩＳＩＯＮ.scan",
+          "eventCount": 2,
+          "averageRawScore": 0.55,
+          "averageOutcomeReward": 0.25190218081082577,
+          "averageAbsoluteError": 0.2980978191891743,
+          "trustMean": 0.5001746092057288,
+          "trustUncertainty": 0.15837505121325504
+        }
+      ]
+    }
+  },
+  "restart": {
+    "inProcess": {
+      "firstStepTrustMean": 0.7142857142857143,
+      "finalTrustMean": 0.6676314512306336,
+      "finalEventCount": 5,
+      "afterRecreateTrustMean": 0.7142857142857143,
+      "afterRecreateSnapshotCount": 0,
+      "resetDiff": 0
+    },
+    "subprocess": {
+      "command": [
+        "<bun>",
+        "restart-probe.ts",
+        "--seed",
+        "20261010"
+      ],
+      "exitCode": 0,
+      "parsed": {
+        "seed": 20261010,
+        "platform": "linux",
+        "arch": "x64",
+        "bunVersion": "1.3.14",
+        "initialTrustMean": 0.7142857142857143,
+        "afterHistoryTrustMean": 0.6676314512306336,
+        "afterHistoryEventCount": 5
+      },
+      "stderrTail": ""
+    },
+    "subprocessMatchesInProcess": true
+  },
+  "calibrationCost": [
+    {
+      "events": 100,
+      "distinctKeys": 10,
+      "recordLoopMs": 0.619,
+      "snapshotMedianMs": 0.059,
+      "snapshotMinMs": 0.041,
+      "snapshotMaxMs": 0.085,
+      "bucketCount": 10,
+      "rssAfterMb": 43.8
+    },
+    {
+      "events": 1000,
+      "distinctKeys": 10,
+      "recordLoopMs": 133.621,
+      "snapshotMedianMs": 0.199,
+      "snapshotMinMs": 0.099,
+      "snapshotMaxMs": 17.089,
+      "bucketCount": 10,
+      "rssAfterMb": 47.07
+    },
+    {
+      "events": 5000,
+      "distinctKeys": 10,
+      "recordLoopMs": 144.802,
+      "snapshotMedianMs": 0.277,
+      "snapshotMinMs": 0.223,
+      "snapshotMaxMs": 19.86,
+      "bucketCount": 10,
+      "rssAfterMb": 57.96
+    }
+  ],
+  "counts": {
+    "variants": 6,
+    "totalPairs": 15,
+    "priorEquivalent": 10,
+    "priorDistinct": 5,
+    "learnedStateDistinct": 15,
+    "learnedStateShared": 0,
+    "priorEquivalentButStateDistinct": 10,
+    "priorEquivalentPairs": [
+      [
+        "exact",
+        "mixed-case"
+      ],
+      [
+        "exact",
+        "upper-case"
+      ],
+      [
+        "exact",
+        "surrounding-whitespace"
+      ],
+      [
+        "exact",
+        "tab-newline-whitespace"
+      ],
+      [
+        "mixed-case",
+        "upper-case"
+      ],
+      [
+        "mixed-case",
+        "surrounding-whitespace"
+      ],
+      [
+        "mixed-case",
+        "tab-newline-whitespace"
+      ],
+      [
+        "upper-case",
+        "surrounding-whitespace"
+      ],
+      [
+        "upper-case",
+        "tab-newline-whitespace"
+      ],
+      [
+        "surrounding-whitespace",
+        "tab-newline-whitespace"
+      ]
+    ],
+    "priorDistinctPairs": [
+      [
+        "exact",
+        "fullwidth-unicode"
+      ],
+      [
+        "mixed-case",
+        "fullwidth-unicode"
+      ],
+      [
+        "upper-case",
+        "fullwidth-unicode"
+      ],
+      [
+        "surrounding-whitespace",
+        "fullwidth-unicode"
+      ],
+      [
+        "tab-newline-whitespace",
+        "fullwidth-unicode"
+      ]
+    ]
+  }
+}

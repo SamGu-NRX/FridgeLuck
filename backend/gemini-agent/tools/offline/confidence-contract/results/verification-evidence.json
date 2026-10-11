@@ -1,0 +1,163 @@
+{
+  "tool": "confidence-contract-report-verifier",
+  "verifiedReport": "results/measurements.json + results/m1-variant-counts.json",
+  "seed": 20261010,
+  "cleanChecks": [
+    {
+      "name": "priorTableLiterals",
+      "status": "pass",
+      "detail": "model prior table matches embedded literals"
+    },
+    {
+      "name": "variantChain:exact",
+      "status": "pass",
+      "detail": "per-step diffs mean=0 adjusted=0 overall=0; finalTrustMean=0.651206465128 vs 0.651206465128; eventCount=6; firstStep=0.714285714286 vs priorMean=0.714285714286"
+    },
+    {
+      "name": "variantChain:mixed-case",
+      "status": "pass",
+      "detail": "per-step diffs mean=0 adjusted=0 overall=0; finalTrustMean=0.651206465128 vs 0.651206465128; eventCount=6; firstStep=0.714285714286 vs priorMean=0.714285714286"
+    },
+    {
+      "name": "variantChain:upper-case",
+      "status": "pass",
+      "detail": "per-step diffs mean=0 adjusted=0 overall=0; finalTrustMean=0.651206465128 vs 0.651206465128; eventCount=6; firstStep=0.714285714286 vs priorMean=0.714285714286"
+    },
+    {
+      "name": "variantChain:surrounding-whitespace",
+      "status": "pass",
+      "detail": "per-step diffs mean=0 adjusted=0 overall=0; finalTrustMean=0.651206465128 vs 0.651206465128; eventCount=6; firstStep=0.714285714286 vs priorMean=0.714285714286"
+    },
+    {
+      "name": "variantChain:tab-newline-whitespace",
+      "status": "pass",
+      "detail": "per-step diffs mean=0 adjusted=0 overall=0; finalTrustMean=0.651206465128 vs 0.651206465128; eventCount=6; firstStep=0.714285714286 vs priorMean=0.714285714286"
+    },
+    {
+      "name": "variantChain:fullwidth-unicode",
+      "status": "pass",
+      "detail": "per-step diffs mean=0 adjusted=0 overall=0; finalTrustMean=0.56749727657 vs 0.56749727657; eventCount=6; firstStep=0.571428571429 vs priorMean=0.571428571429"
+    },
+    {
+      "name": "variantComparison:mixed-case",
+      "status": "pass",
+      "detail": "numbersIdentical=true maxTrustMeanDiff=0 reasonIdentical=true snapshotKeyDiffers=true"
+    },
+    {
+      "name": "variantComparison:upper-case",
+      "status": "pass",
+      "detail": "numbersIdentical=true maxTrustMeanDiff=0 reasonIdentical=true snapshotKeyDiffers=true"
+    },
+    {
+      "name": "variantComparison:surrounding-whitespace",
+      "status": "pass",
+      "detail": "numbersIdentical=true maxTrustMeanDiff=0 reasonIdentical=false snapshotKeyDiffers=true"
+    },
+    {
+      "name": "variantComparison:tab-newline-whitespace",
+      "status": "pass",
+      "detail": "numbersIdentical=true maxTrustMeanDiff=0 reasonIdentical=false snapshotKeyDiffers=true"
+    },
+    {
+      "name": "variantComparison:fullwidth-unicode",
+      "status": "pass",
+      "detail": "numbersIdentical=false maxTrustMeanDiff=0.142857142857 reasonIdentical=false snapshotKeyDiffers=true"
+    },
+    {
+      "name": "withinInstance.twoKey.interleaved",
+      "status": "pass",
+      "detail": "buckets=2 [vision.scan#3@0.755411794677, Vision.Scan#3@0.596671784975]"
+    },
+    {
+      "name": "withinInstance.twoKey.counterfactual",
+      "status": "pass",
+      "detail": "buckets=1 eventCount=6 trustMean=0.651206465128 vs 0.651206465128"
+    },
+    {
+      "name": "withinInstance.allVariants",
+      "status": "pass",
+      "detail": "6 verbatim buckets, each matching its 2-step chain"
+    },
+    {
+      "name": "restart.inProcess",
+      "status": "pass",
+      "detail": "firstStep=0.714285714286 final=0.667631451231 events=5 afterRecreate=0.714285714286 snapshots=0 resetDiff=0"
+    },
+    {
+      "name": "restart.subprocess",
+      "status": "pass",
+      "detail": "exitCode=0 initial=0.714285714286 afterHistory=0.667631451231 events=5 matchesFlag=true"
+    },
+    {
+      "name": "cost.structure",
+      "status": "pass",
+      "detail": "100: record=0.619ms snap=0.059ms buckets=10 rss=43.8MB; 1000: record=133.621ms snap=0.199ms buckets=10 rss=47.07MB; 5000: record=144.802ms snap=0.277ms buckets=10 rss=57.96MB"
+    },
+    {
+      "name": "counts.measured",
+      "status": "pass",
+      "detail": "measured={\"variants\":6,\"totalPairs\":15,\"priorEquivalent\":10,\"priorDistinct\":5,\"learnedStateDistinct\":15,\"learnedStateShared\":0,\"priorEquivalentButStateDistinct\":10,\"priorEquivalentPairs\":[[\"exact\",\"mixed-case\"],[\"exact\",\"upper-case\"],[\"exact\",\"surrounding-whitespace\"],[\"exact\",\"tab-newline-whitespace\"],[\"mixed-case\",\"upper-case\"],[\"mixed-case\",\"surrounding-whitespace\"],[\"mixed-case\",\"tab-newline-whitespace\"],[\"upper-case\",\"surrounding-whitespace\"],[\"upper-case\",\"tab-newline-whitespace\"],[\"surrounding-whitespace\",\"tab-newline-whitespace\"]],\"priorDistinctPairs\":[[\"exact\",\"fullwidth-unicode\"],[\"mixed-case\",\"fullwidth-unicode\"],[\"upper-case\",\"fullwidth-unicode\"],[\"surrounding-whitespace\",\"fullwidth-unicode\"],[\"tab-newline-whitespace\",\"fullwidth-unicode\"]]} expected={\"variants\":6,\"totalPairs\":15,\"priorEquivalent\":10,\"priorDistinct\":5,\"learnedStateDistinct\":15,\"learnedStateShared\":0,\"priorEquivalentButStateDistinct\":10}"
+    },
+    {
+      "name": "m1Counts.file",
+      "status": "pass",
+      "detail": "m1-variant-counts.json matches literals"
+    },
+    {
+      "name": "m1Counts.variants",
+      "status": "pass",
+      "detail": "variant list matches fixture literals"
+    }
+  ],
+  "mutations": [
+    {
+      "name": "keys-merged-case-insensitively",
+      "expectedDetectionPrefix": "withinInstance",
+      "detected": true,
+      "failingChecks": [
+        {
+          "name": "withinInstance.twoKey.interleaved",
+          "detail": "buckets=1 [vision.scan#6@0.676041789826]"
+        },
+        {
+          "name": "withinInstance.allVariants",
+          "detail": "exact: eventCount=6 trustMean=0.703612191704 vs 0.743487496486; missing bucket \"Vision.Scan\"; missing bucket \"VISION.SCAN\""
+        }
+      ]
+    },
+    {
+      "name": "events-dropped",
+      "expectedDetectionPrefix": "withinInstance",
+      "detected": true,
+      "failingChecks": [
+        {
+          "name": "withinInstance.twoKey.interleaved",
+          "detail": "buckets=2 [vision.scan#2@0.755411794677, Vision.Scan#3@0.596671784975]"
+        },
+        {
+          "name": "withinInstance.allVariants",
+          "detail": "missing bucket \"ＶＩＳＩＯＮ.scan\""
+        }
+      ]
+    },
+    {
+      "name": "value-tampered",
+      "expectedDetectionPrefix": "variantChain:mixed-case",
+      "detected": true,
+      "failingChecks": [
+        {
+          "name": "variantChain:mixed-case",
+          "detail": "per-step diffs mean=0 adjusted=0 overall=0; finalTrustMean=0.661206465128 vs 0.651206465128; eventCount=6; firstStep=0.714285714286 vs priorMean=0.714285714286"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "cleanChecksTotal": 21,
+    "cleanChecksPassed": 21,
+    "cleanChecksFailed": 0,
+    "mutationsTotal": 3,
+    "mutationsDetected": 3,
+    "verdict": "VERIFIED"
+  }
+}
