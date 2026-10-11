@@ -170,7 +170,8 @@ export function generateItems(seed: number): { items: InventoryItem[]; meta: Mat
     (it) => it.expiresAt && Number.isNaN(new Date(it.expiresAt).getTime())
   ).length;
   meta.dateOnlyExpiries = items.filter(
-    (it) => it.expiresAt && dateOnlyRe.test(it.expiresAt)
+    (it) =>
+      it.expiresAt && dateOnlyRe.test(it.expiresAt) && !Number.isNaN(new Date(it.expiresAt).getTime())
   ).length;
   meta.timestampedExpiries = items.filter(
     (it) =>
