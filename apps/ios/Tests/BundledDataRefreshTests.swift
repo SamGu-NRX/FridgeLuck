@@ -555,6 +555,125 @@ final class BundledDataRefreshTests: XCTestCase {
     }
   }
 
+  /// User data that references a removed recipe keeps working. The refresh
+  /// never deletes rows: the removed entry is diagnosed (`removed_from_bundle`)
+  /// and its row stays, so the journal's join still finds the meal and the
+  /// frozen snapshot still supplies its macros. This is the contract a bundle
+  /// author relies on when dropping a recipe: removing it from the payload
+  /// retires it from updates, not from the user's history.
+  func testMealReferencingARemovedRecipeStaysInTheJournalAfterTheRefresh() async throws {
+    let db = try makeLegacyDatabase()
+    let payload = decodeData(Self.fixtureDataJSON)
+    let pin = makePin(data: payload)
+    _ = try await refresh(db, pass: makePass(current: payload, pins: [pin]))
+
+    // Log a meal against the adopted Egg Bowl and freeze its snapshot.
+    let eggBowlRowId = try await db.read { db in
+      try Int64.fetchOne(
+        db, sql: "SELECT id FROM recipes WHERE ownership_key = 'fridgeluck.bundle.recipe/7'")
+    }!
+    let snapshotService = NutritionSnapshotService(db: db)
+    try await db.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO cooking_history
+            (id, recipe_id, cooked_at, rating, servings_consumed, portion_multiplier)
+          VALUES (?, ?, datetime('now'), NULL, 2, 1.0)
+          """,
+        arguments: [Int64(1), eggBowlRowId])
+      try snapshotService.captureSnapshot(in: db, historyId: 1, recipeId: eggBowlRowId)
+    }
+    let preCaptured = try snapshotService.capturedMacros(historyId: 1)
+
+    // A later bundle drops the recipe (and the seaweed ingredient).
+    _ = try await refresh(
+      db, pass: makePass(current: decodeData(Self.smallerDataJSON), pins: [pin]))
+
+    // The removal is explained, not silent.
+    let removedRefs = Set(try diagnostics(db).filter { $0.code == "removed_from_bundle" }.map(\.ref))
+    XCTAssertTrue(
+      removedRefs.contains("fridgeluck.bundle.recipe/7"),
+      "the removal must be diagnosed")
+    // The meal is still in the journal: the row was kept, only retired.
+    let journal = try UserDataRepository(db: db).cookingJournal()
+    XCTAssertEqual(journal.count, 1, "the meal survives the removal refresh")
+    XCTAssertEqual(journal[0].recipe.id, eggBowlRowId)
+    XCTAssertEqual(journal[0].recipe.title, "Egg Bowl")
+    // The frozen macros are untouched by the removal.
+    let postCaptured = try snapshotService.capturedMacros(historyId: 1)
+    XCTAssertEqual(
+      postCaptured.caloriesPerServing.bitPattern, preCaptured.caloriesPerServing.bitPattern,
+      "snapshot macros must not move when the entry is removed")
+  }
+
+  /// The contract's ID-stability rule, and what the code actually does when a
+  /// bundle breaks it. A bundle id is the ownership identity: reusing id 7 for
+  /// a different dish updates the same owned row in place, so past meals keep
+  /// pointing at the row and now describe the new dish. The frozen snapshot
+  /// keeps their recorded macros honest; only the title and live content move.
+  /// A bundle that means to replace a dish must ship it under a NEW id and
+  /// retire the old one (a removal), never recycle the id.
+  func testReusingABundleIdRewritesTheDishInPlaceAndTheJournalFollowsIt() async throws {
+    let db = try makeLegacyDatabase()
+    let payload = decodeData(Self.fixtureDataJSON)
+    let pin = makePin(data: payload)
+    _ = try await refresh(db, pass: makePass(current: payload, pins: [pin]))
+
+    let eggBowlRowId = try await db.read { db in
+      try Int64.fetchOne(
+        db, sql: "SELECT id FROM recipes WHERE ownership_key = 'fridgeluck.bundle.recipe/7'")
+    }!
+    let snapshotService = NutritionSnapshotService(db: db)
+    try await db.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO cooking_history
+            (id, recipe_id, cooked_at, rating, servings_consumed, portion_multiplier)
+          VALUES (?, ?, datetime('now'), NULL, 2, 1.0)
+          """,
+        arguments: [Int64(1), eggBowlRowId])
+      try snapshotService.captureSnapshot(in: db, historyId: 1, recipeId: eggBowlRowId)
+    }
+    let preCaptured = try snapshotService.capturedMacros(historyId: 1)
+
+    // The broken contract: id 7 comes back as a different dish.
+    let hijackedJSON = """
+      {
+        "tags": ["breakfast", "dinner", "snack"],
+        "ingredients": {
+          "1": ["egg", 140.0, 12.0, 1.0, 10.0, 0.0, 0.0, 0.14, "piece", "keep cold", "salt", null],
+          "2": ["rice", 130.0, 2.7, 28.0, 0.3, 0.4, 0.1, 0.001, "cup", "dry pantry", null, null],
+          "3": ["seaweed", 20.0, 0.6, 3.0, 0.2, 0.5, 0.1, 8.7, "sheet", "dry pantry", null, "toasty"]
+        },
+        "recipes": [[7, "Lentil Stew", 40, 4, [[1, 100.0], [2, 200.0]], [], "Simmer lentils.", 1]]
+      }
+      """
+    _ = try await refresh(
+      db, pass: makePass(current: decodeData(hijackedJSON), pins: [pin]))
+
+    // The reused id maps to exactly one row, rewritten in place — the row id
+    // (and every reference to it) survives, now describing the new dish.
+    try await db.read { db in
+      let keyRows = try Int.fetchOne(
+        db, sql: "SELECT COUNT(*) FROM recipes WHERE ownership_key = 'fridgeluck.bundle.recipe/7'")
+      XCTAssertEqual(keyRows, 1, "an id owns exactly one row")
+      let title = try String.fetchOne(
+        db, sql: "SELECT title FROM recipes WHERE id = ?", arguments: [eggBowlRowId])
+      XCTAssertEqual(title, "Lentil Stew", "the reused id rewrites the row in place")
+    }
+    // The journal follows the row: the meal now shows the new dish.
+    let journal = try UserDataRepository(db: db).cookingJournal()
+    XCTAssertEqual(journal.count, 1)
+    XCTAssertEqual(journal[0].recipe.id, eggBowlRowId)
+    XCTAssertEqual(journal[0].recipe.title, "Lentil Stew")
+    // The frozen snapshot keeps the meal's recorded macros honest even though
+    // the live row changed under it.
+    let postCaptured = try snapshotService.capturedMacros(historyId: 1)
+    XCTAssertEqual(
+      postCaptured.caloriesPerServing.bitPattern, preCaptured.caloriesPerServing.bitPattern,
+      "snapshot macros survive the in-place rewrite")
+  }
+
   func testRerunningTheSamePassIsIdempotent() async throws {
     let db = try makeLegacyDatabase()
     let payload = decodeData(Self.fixtureDataJSON)
