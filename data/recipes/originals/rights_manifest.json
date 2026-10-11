@@ -959,6 +959,326 @@
         "caching": true,
         "offline_use": true
       }
+    },
+    "fl-original-0061": {
+      "source_id": "fl-original-0061",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0062": {
+      "source_id": "fl-original-0062",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0063": {
+      "source_id": "fl-original-0063",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0064": {
+      "source_id": "fl-original-0064",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0065": {
+      "source_id": "fl-original-0065",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0066": {
+      "source_id": "fl-original-0066",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0067": {
+      "source_id": "fl-original-0067",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0068": {
+      "source_id": "fl-original-0068",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0069": {
+      "source_id": "fl-original-0069",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0070": {
+      "source_id": "fl-original-0070",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0071": {
+      "source_id": "fl-original-0071",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0072": {
+      "source_id": "fl-original-0072",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0073": {
+      "source_id": "fl-original-0073",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0074": {
+      "source_id": "fl-original-0074",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0075": {
+      "source_id": "fl-original-0075",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0076": {
+      "source_id": "fl-original-0076",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0077": {
+      "source_id": "fl-original-0077",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0078": {
+      "source_id": "fl-original-0078",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0079": {
+      "source_id": "fl-original-0079",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "fl-original-0080": {
+      "source_id": "fl-original-0080",
+      "source_type": "original",
+      "origin": "fresh expression of bundled recipe None in apps/ios/Resources/data.json, authored for FridgeLuck",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "task fl-original-recipes-f1: original expression authored for FridgeLuck on branch overhaul/original-recipes, first committed in data/recipes/originals/originals.jsonl",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
     }
   }
 }
