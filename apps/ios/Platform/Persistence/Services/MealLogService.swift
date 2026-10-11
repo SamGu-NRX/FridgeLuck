@@ -13,8 +13,9 @@ enum MealLogError: LocalizedError {
   }
 }
 
-/// Coordinates meal logging so cooking history + inventory mutations are persisted
-/// atomically inside a single database transaction.
+/// Coordinates meal logging so cooking history, swap, streak, inventory, and
+/// nutrition-snapshot mutations are persisted atomically inside a single
+/// database transaction.
 final class MealLogService: Sendable {
   struct Outcome: Sendable {
     let historyId: Int64
@@ -100,6 +101,11 @@ final class MealLogService: Sendable {
         swaps: swaps,
         sourceRef: sourceRef
       )
+
+      // The nutrition snapshot is captured inside recordCooking(in:),
+      // which shares this transaction: history, swaps, streak, inventory,
+      // and the frozen nutrition all commit together or not at all. Later
+      // catalog corrections cannot rewrite what was consumed.
 
       return Outcome(
         historyId: historyId,
