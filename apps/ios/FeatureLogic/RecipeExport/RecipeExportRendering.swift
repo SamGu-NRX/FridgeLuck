@@ -56,12 +56,17 @@ enum RecipeExportNaming {
 
   /// Lowercase, keep only ASCII [a-z0-9] runs, join runs with a single '-',
   /// collapse repeats, trim '-'. Diacritics are stripped after canonical
-  /// decomposition (è → e), never transliterated; 'Crème brûlée' → 'creme-brulee'.
+  /// decomposition (è → e + U+0300), never transliterated; 'Crème brûlée' →
+  /// 'creme-brulee'. Combining marks are transparent: they drop without
+  /// breaking the surrounding run.
   private static func asciiSlug(_ name: String) -> String {
     let lowered = name.lowercased().decomposedStringWithCanonicalMapping
     var runs: [String] = []
     var current = ""
     for scalar in lowered.unicodeScalars {
+      if isCanonicalCombiningMark(scalar) {
+        continue
+      }
       if isASCIILowercaseOrDigit(scalar) {
         current.unicodeScalars.append(scalar)
       } else if !current.isEmpty {
@@ -81,6 +86,14 @@ enum RecipeExportNaming {
   private static func isASCIILowercaseOrDigit(_ scalar: Unicode.Scalar) -> Bool {
     switch scalar.value {
     case 0x61...0x7A, 0x30...0x39: return true
+    default: return false
+    }
+  }
+
+  /// Canonical combining blocks; decomposition puts accented Latin here.
+  private static func isCanonicalCombiningMark(_ scalar: Unicode.Scalar) -> Bool {
+    switch scalar.value {
+    case 0x0300...0x036F, 0x1AB0...0x1AFF, 0x1DC0...0x1DFF, 0x20D0...0x20F0: return true
     default: return false
     }
   }
