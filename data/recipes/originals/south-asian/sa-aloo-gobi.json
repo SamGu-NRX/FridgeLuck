@@ -1,0 +1,289 @@
+{
+  "rs_version": "1",
+  "id": "sa-aloo-gobi",
+  "title": "Aloo Gobi",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "punjabi dry-style",
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "minutes": 30,
+  "servings": 3,
+  "equipment": [
+    "wide skillet with lid",
+    "chef's knife",
+    "cutting board",
+    "colander"
+  ],
+  "dietary_tags": [
+    "weeknight",
+    "budget",
+    "use-it-up:cauliflower"
+  ],
+  "ingredients": [
+    {
+      "name": "cauliflower",
+      "qty": {
+        "value": 5,
+        "unit": "cups, 1 1/2-inch florets",
+        "kind": "household",
+        "conversion_ref": "cauliflower_cup",
+        "grams_per_unit": 100
+      }
+    },
+    {
+      "name": "potatoes",
+      "qty": {
+        "value": 2,
+        "unit": "medium, 1/2-inch dice",
+        "kind": "household",
+        "conversion_ref": "potato_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "value": 1,
+        "unit": "medium, finely chopped",
+        "kind": "household",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "value": 1,
+        "unit": "medium, finely chopped",
+        "kind": "household",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "value": 3,
+        "unit": "cloves, minced",
+        "kind": "household",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "value": 1,
+        "unit": "tbsp, grated",
+        "kind": "household",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 1,
+        "unit": "slit lengthwise",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "cumin seeds",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cumin_seed_whole_tsp",
+        "grams_per_unit": 2.4
+      }
+    },
+    {
+      "name": "ground cumin",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground coriander",
+      "qty": {
+        "value": 1.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "coriander_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground turmeric",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "garam masala",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "note": "to finish",
+        "conversion_ref": "garam_masala_tsp",
+        "grams_per_unit": 2.5
+      }
+    },
+    {
+      "name": "cayenne pepper",
+      "qty": {
+        "value": 0.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cayenne_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "value": 3,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp, chopped",
+        "kind": "household",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Heat the oil in the skillet over medium-high. Add the potatoes in one layer and cook about 10 minutes, turning now and then, until spotty with crust. Move them to a bowl. Timer: 10 minutes.",
+      "timer_min": 10
+    },
+    {
+      "n": 2,
+      "text": "Lower to medium. Add the cumin seeds; wait 10 seconds until they sputter and smell toasted."
+    },
+    {
+      "n": 3,
+      "text": "Add the onion and cook about 6 minutes until it softens and its edges pick up color. Timer: 6 minutes.",
+      "timer_min": 6
+    },
+    {
+      "n": 4,
+      "text": "Add the garlic, ginger, and green chili; 1 minute until fragrant.",
+      "timer_min": 1
+    },
+    {
+      "n": 5,
+      "text": "Add the ground cumin, coriander, turmeric, and cayenne; stir 30 seconds so the spices bloom without scorching."
+    },
+    {
+      "n": 6,
+      "text": "Add the tomato and cook about 4 minutes, mashing the pieces, until it collapses into a thick masala. Timer: 4 minutes.",
+      "timer_min": 4
+    },
+    {
+      "n": 7,
+      "text": "Return the potatoes, add the cauliflower and the salt, and fold so the masala coats everything."
+    },
+    {
+      "n": 8,
+      "text": "Cover and cook on medium-low about 12 minutes, tossing once halfway, until the florets are tender at the stem when pierced. No water — the vegetables release their own steam. Timer: 12 minutes.",
+      "timer_min": 12
+    },
+    {
+      "n": 9,
+      "text": "Off the heat, sprinkle the garam masala and cilantro; fold gently so the florets keep their shape."
+    },
+    {
+      "n": 10,
+      "text": "Taste for salt and serve hot with roti or rice."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 166,
+    "protein_g": 6.9,
+    "carbs_g": 35.9,
+    "fat_g": 1.2,
+    "fiber_g": 7.7,
+    "sugar_g": 7.0,
+    "sodium_mg": 64,
+    "coverage": 0.956,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "garam masala",
+      "ground turmeric",
+      "salt",
+      "vegetable oil"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  },
+  "source_ref": "orig:authored:sa-aloo-gobi",
+  "provenance": "authored"
+}

@@ -1,0 +1,281 @@
+{
+  "rs_version": "1",
+  "id": "sa-sri-lankan-coconut-chicken-curry",
+  "title": "Sri Lankan Coconut Chicken Curry",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "sri lankan village-style chicken curry",
+  "meal_slots": [
+    "dinner"
+  ],
+  "minutes": 45,
+  "servings": 4,
+  "equipment": [
+    "heavy pot with lid",
+    "chef's knife",
+    "cutting board",
+    "grater"
+  ],
+  "dietary_tags": [
+    "one-pot",
+    "make-ahead",
+    "leftovers"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken thighs",
+      "qty": {
+        "value": 4,
+        "unit": "boneless thighs, 1 1/2-inch pieces",
+        "kind": "household",
+        "conversion_ref": "chicken_thigh_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "coconut milk",
+      "qty": {
+        "value": 1,
+        "unit": "cup",
+        "kind": "household",
+        "conversion_ref": "coconut_milk_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "value": 1,
+        "unit": "medium, thinly sliced",
+        "kind": "household",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "value": 4,
+        "unit": "cloves, minced",
+        "kind": "household",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "value": 1,
+        "unit": "tbsp, grated",
+        "kind": "household",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 2,
+        "unit": "slit lengthwise",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "curry leaves",
+      "qty": {
+        "value": 2,
+        "unit": "sprigs",
+        "kind": "household",
+        "conversion_ref": "curry_leaf_sprig",
+        "grams_per_unit": 4
+      }
+    },
+    {
+      "name": "cinnamon stick",
+      "qty": {
+        "value": 1,
+        "unit": "3-inch stick",
+        "kind": "household",
+        "conversion_ref": "cinnamon_stick",
+        "grams_per_unit": 2.8
+      }
+    },
+    {
+      "name": "green cardamom",
+      "qty": {
+        "value": 2,
+        "unit": "pods, cracked",
+        "kind": "household",
+        "conversion_ref": "cardamom_pod",
+        "grams_per_unit": 0.2
+      }
+    },
+    {
+      "name": "ground coriander",
+      "qty": {
+        "value": 2,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "coriander_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground turmeric",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "cayenne pepper",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cayenne_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "value": 1.5,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "value": 0.5,
+        "unit": "cup",
+        "kind": "household",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "value": 2,
+        "unit": "halves, juiced",
+        "kind": "household",
+        "conversion_ref": "lime_half",
+        "grams_per_unit": 33
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "value": 1.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Rub the chicken with the coriander, turmeric, cayenne, and half the salt; set aside while you start the base (10 minutes is enough)."
+    },
+    {
+      "n": 2,
+      "text": "Heat the oil in the pot over medium. Add the curry leaves, cinnamon, and cardamom; stand back — the leaves spatter — and let them sizzle 30 seconds until the oil smells toasted and green."
+    },
+    {
+      "n": 3,
+      "text": "Add the onion and cook about 6 minutes, stirring, until it softens and turns light gold at the edges. Timer: 6 minutes.",
+      "timer_min": 6
+    },
+    {
+      "n": 4,
+      "text": "Add the garlic, ginger, and green chilies; 1 minute until fragrant.",
+      "timer_min": 1
+    },
+    {
+      "n": 5,
+      "text": "Add the chicken with all its rub and cook about 5 minutes, turning the pieces, until their outsides whiten and the spices toast. Timer: 5 minutes.",
+      "timer_min": 5
+    },
+    {
+      "n": 6,
+      "text": "Pour in the coconut milk and water with the remaining salt, scraping the pot bottom; bring to a gentle simmer."
+    },
+    {
+      "n": 7,
+      "text": "Cover partially and simmer about 15 minutes, stirring once, until the curry thickens to a thin-gravy coat and the chicken is firm through. Timer: 15 minutes.",
+      "timer_min": 15
+    },
+    {
+      "n": 8,
+      "text": "Check a large piece with a thermometer — 165°F (74°C) minimum at the thickest point.",
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS"
+      }
+    },
+    {
+      "n": 9,
+      "text": "Off the heat, stir in the lime juice; rest 2 minutes so the coconut milk settles. Timer: 2 minutes.",
+      "timer_min": 2
+    },
+    {
+      "n": 10,
+      "text": "Taste for salt and lime, pick out the cinnamon stick, and serve with rice or string hoppers."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 303,
+    "protein_g": 24.4,
+    "carbs_g": 10.1,
+    "fat_g": 19.4,
+    "fiber_g": 3.1,
+    "sugar_g": 3.8,
+    "sodium_mg": 106,
+    "coverage": 0.849,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "cinnamon stick",
+      "curry leaves",
+      "ground turmeric",
+      "salt",
+      "vegetable oil",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  },
+  "source_ref": "orig:authored:sa-sri-lankan-coconut-chicken-curry",
+  "provenance": "authored"
+}

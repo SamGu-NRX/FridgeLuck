@@ -1,0 +1,289 @@
+{
+  "rs_version": "1",
+  "id": "sa-bengali-egg-curry",
+  "title": "Bengali Egg Curry",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "bengali (dim kosha)",
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "minutes": 30,
+  "servings": 2,
+  "equipment": [
+    "saucepan",
+    "skillet",
+    "slotted spoon",
+    "chef's knife",
+    "cutting board"
+  ],
+  "dietary_tags": [
+    "weeknight",
+    "high-protein",
+    "budget"
+  ],
+  "ingredients": [
+    {
+      "name": "eggs",
+      "qty": {
+        "value": 8,
+        "unit": "large",
+        "kind": "household",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "value": 2,
+        "unit": "medium, finely chopped",
+        "kind": "household",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "value": 2,
+        "unit": "medium, finely chopped",
+        "kind": "household",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "value": 3,
+        "unit": "cloves, minced",
+        "kind": "household",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "value": 1,
+        "unit": "tbsp, grated",
+        "kind": "household",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 2,
+        "unit": "slit lengthwise",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "ground cumin",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground coriander",
+      "qty": {
+        "value": 2,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "coriander_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground turmeric",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "note": "half for the eggs, half for the gravy",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "garam masala",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "note": "to finish",
+        "conversion_ref": "garam_masala_tsp",
+        "grams_per_unit": 2.5
+      }
+    },
+    {
+      "name": "cayenne pepper",
+      "qty": {
+        "value": 0.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cayenne_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "value": 3,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "value": 0.5,
+        "unit": "cup",
+        "kind": "household",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp, chopped",
+        "kind": "household",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Lower the eggs into a saucepan of cold water, bring to a boil, then hold at a lazy simmer 10 minutes. Eggs are safe at 160°F (71°C) on a thermometer; ten minutes at a simmer takes them well past that. Timer: 10 minutes.",
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS"
+      },
+      "timer_min": 10
+    },
+    {
+      "n": 2,
+      "text": "Drain and run the eggs under cold water; peel when cool enough to hold. Rub each with a pinch of the turmeric and a pinch of the salt."
+    },
+    {
+      "n": 3,
+      "text": "Heat the oil in a skillet over medium. Slide the eggs in and turn them for about 2 minutes until the surfaces blister and pick up a light crust; lift them out with a slotted spoon. Timer: 2 minutes.",
+      "timer_min": 2
+    },
+    {
+      "n": 4,
+      "text": "In that oil, cook the onion about 6 minutes, scraping the brown bits, until it softens and deepens in color. Timer: 6 minutes.",
+      "timer_min": 6
+    },
+    {
+      "n": 5,
+      "text": "Add the garlic, ginger, and green chilies; 1 minute until fragrant.",
+      "timer_min": 1
+    },
+    {
+      "n": 6,
+      "text": "Add the cumin, coriander, remaining turmeric, and cayenne; stir 30 seconds."
+    },
+    {
+      "n": 7,
+      "text": "Add the tomatoes with the rest of the salt and cook about 6 minutes, mashing the pieces, until the masala thickens and the oil slicks at the edges. Timer: 6 minutes.",
+      "timer_min": 6
+    },
+    {
+      "n": 8,
+      "text": "Pour in the water and bring to a simmer; the gravy should be loose enough to spoon. Slip the eggs in gently."
+    },
+    {
+      "n": 9,
+      "text": "Simmer 4 minutes so the eggs drink the gravy, spooning it over them once. Timer: 4 minutes.",
+      "timer_min": 4
+    },
+    {
+      "n": 10,
+      "text": "Off the heat, finish with garam masala and cilantro; taste for salt before serving with rice or roti."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 400,
+    "protein_g": 29.3,
+    "carbs_g": 21.7,
+    "fat_g": 23.1,
+    "fiber_g": 5.0,
+    "sugar_g": 10.6,
+    "sodium_mg": 264,
+    "coverage": 0.842,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "garam masala",
+      "ground turmeric",
+      "salt",
+      "vegetable oil",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  },
+  "source_ref": "orig:authored:sa-bengali-egg-curry",
+  "provenance": "authored"
+}
