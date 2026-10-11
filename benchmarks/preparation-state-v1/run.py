@@ -18,7 +18,21 @@ production_replay
     ships. Nothing in production is imported at runtime or modified.
 swift_replay
     The same probes through the real Swift sources (SwiftReplay package).
-    Recorded as an unrun arm when no Swift toolchain is available.
+    Executed in this environment when a Swift toolchain is available: the
+    production IngredientLexicon.swift is synced verbatim, its XCTests run,
+    and every probe is replayed through the compiled swift-replay executable.
+    The full GRDB-backed catalog resolver is NOT replayable in Swift here
+    (needs GRDB 7.x and the app host) — recorded as an unrun check.
+preparation_candidate_selection
+    DISTINCT candidate-selection arm using the preparation intent the probe
+    text states (leading raw/cooked/dried/frozen/canned surface word):
+    resolve identity state-blind, then select among the resolved group's
+    members by the stated state. Unknown-state abstention: a stated intent no
+    member carries, an ambiguous alternative, or an unresolved identity
+    abstains instead of guessing. Evaluated per record with source/group-
+    held-out slices (the group is the held-out unit; the test split scores
+    fully held-out groups). Unlike heldout_alternative, this arm never
+    returns a record for an intent the resolved group does not carry.
 
 Read-only guarantees: the catalog is opened mode=ro by the port; this script
 only reads the manifest and writes to benchmarks/preparation-state-v1/results.
@@ -36,6 +50,7 @@ import re
 import shutil
 import sqlite3
 import statistics
+import subprocess
 import sys
 import time
 from importlib import util as importlib_util
@@ -92,6 +107,201 @@ def load_port():
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
+
+# --------------------------------------------------------------------------
+# Arm: swift_replay (real IngredientLexicon.swift, executed when a toolchain exists)
+# --------------------------------------------------------------------------
+
+SWIFT_REPLAY_DIR = BENCH_ROOT / "SwiftReplay"
+
+# Known toolchain locations tried after `which swift` (the benchmark sandbox
+# installs the Swift toolchain here without putting it on PATH).
+_SWIFT_FALLBACKS = (
+    "/home/user/swift612/usr/bin/swift",
+    "/home/user/work/swift-toolchain/usr/bin/swift",
+)
+
+
+class SwiftReplayError(RuntimeError):
+    pass
+
+
+def discover_swift() -> dict | None:
+    """Locate a usable Swift toolchain; return {"binary", "version"} or None."""
+    candidates = [shutil.which("swift")] + [
+        p for p in _SWIFT_FALLBACKS if Path(p).exists()
+    ]
+    for binary in candidates:
+        if not binary:
+            continue
+        try:
+            proc = subprocess.run(
+                [binary, "--version"], capture_output=True, text=True, timeout=60
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            continue
+        if proc.returncode == 0:
+            return {"binary": binary, "version": proc.stdout.splitlines()[0].strip()}
+    return None
+
+
+def execute_swift_replay(probes: list[dict], swift: dict, out_dir: Path) -> dict:
+    """Build, test, and run the SwiftReplay package over the probes.
+
+    Executes the REAL production IngredientLexicon.swift (synced verbatim by
+    scripts/sync_production_sources.sh), runs its XCTests, then replays every
+    probe through the compiled swift-replay executable. Raises SwiftReplayError
+    on any failure; the caller records the arm as unrun with the reason.
+    """
+    sync = subprocess.run(
+        ["sh", str(SWIFT_REPLAY_DIR / "scripts" / "sync_production_sources.sh")],
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
+    if sync.returncode != 0:
+        raise SwiftReplayError(
+            f"source sync failed: {(sync.stderr or sync.stdout)[-400:]}"
+        )
+
+    tests = subprocess.run(
+        [swift["binary"], "test", "--package-path", str(SWIFT_REPLAY_DIR)],
+        capture_output=True,
+        text=True,
+        timeout=1800,
+    )
+    if tests.returncode != 0:
+        raise SwiftReplayError(
+            f"swift test failed (exit {tests.returncode}): "
+            f"{(tests.stderr or tests.stdout)[-400:]}"
+        )
+    test_match = re.search(r"Executed (\d+) tests?, with (\d+) failures?", tests.stdout)
+    if test_match is None:
+        raise SwiftReplayError("could not parse swift test summary")
+    test_summary = {"executed": int(test_match.group(1)), "failures": int(test_match.group(2))}
+    if test_summary["failures"] != 0:
+        raise SwiftReplayError(f"swift test failures: {test_summary}")
+
+    probes_path = out_dir / "swift_probes.jsonl"
+    probes_path.write_text(
+        "".join(
+            json.dumps({"probe_id": p["probe_id"], "text": p["text"]}, sort_keys=True) + "\n"
+            for p in probes
+        )
+    )
+    raw_path = out_dir / "swift_lexicon_replay.jsonl"
+    with probes_path.open() as fin, raw_path.open("w") as fout:
+        run = subprocess.run(
+            [
+                swift["binary"],
+                "run",
+                "--package-path",
+                str(SWIFT_REPLAY_DIR),
+                "swift-replay",
+            ],
+            stdin=fin,
+            stdout=fout,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=1800,
+        )
+    probes_path.unlink()
+    if run.returncode != 0:
+        raise SwiftReplayError(
+            f"swift-replay failed (exit {run.returncode}): {run.stderr[-400:]}"
+        )
+
+    parsed: dict[str, dict] = {}
+    for line in raw_path.read_text().splitlines():
+        rec = json.loads(line)
+        if rec.get("probe_id") is None or rec.get("error"):
+            raise SwiftReplayError(f"undecodable replay line: {line[:120]}")
+        parsed[rec["probe_id"]] = rec
+    if len(parsed) != len(probes):
+        raise SwiftReplayError(f"replay covered {len(parsed)} of {len(probes)} probes")
+    return {"predictions": parsed, "test_summary": test_summary}
+
+
+# --------------------------------------------------------------------------
+# Arm: preparation_candidate_selection (stated preparation intent, distinct arm)
+# --------------------------------------------------------------------------
+
+
+def stated_preparation_intent(
+    text: str, surface_words: dict[str, str]
+) -> tuple[str | None, str]:
+    """Extract the stated preparation intent from the leading surface word.
+
+    Returns (canonical_intent_or_None, remaining_text). Only a leading,
+    whitespace-delimited surface word counts as *stated* — the arm must not
+    infer state from anything the text does not say.
+    """
+    lowered = text.lower().strip()
+    parts = lowered.split(None, 1)
+    if not parts:
+        return None, text
+    canonical = surface_words.get(parts[0])
+    if canonical is None:
+        return None, text
+    remaining = parts[1].strip() if len(parts) > 1 else ""
+    return canonical, remaining
+
+
+def run_candidate_selection(
+    text: str, ctx: dict
+) -> tuple[int | None, str, str, str | None]:
+    """Select one candidate record using the text's stated preparation intent.
+
+    Distinct from heldout_alternative: that arm scores the unchanged production
+    resolver on its probes; this arm resolves identity state-blind, then
+    *selects among the resolved group's members* using the preparation intent
+    the probe text states. Unknown-state abstention: a stated intent no member
+    carries, an ambiguous alternative, or an unresolved identity abstains
+    instead of guessing. Returns (record_id_or_None, provenance, basis, intent).
+    """
+    intent, base_text = stated_preparation_intent(text, ctx["surface_words"])
+    if not base_text:
+        return None, "none", "no_base_text", intent
+    resolved = ctx["port"].resolve_label(base_text, ctx["lexicon"], ctx["resolver"])
+    if resolved is not None:
+        rid = resolved.ingredient_id
+    else:
+        rid = ctx["port"].resolve_text_from_catalog(
+            base_text, ctx["lexicon"], ctx["resolver"]
+        )
+    if rid is None:
+        return None, "none", "identity_unresolved", intent
+    group_id = ctx["id_to_group"].get(rid)
+    if group_id is None:
+        # Curated-lexicon hit: no catalog group to select within, and the
+        # curated record carries no preparation states. With no stated intent
+        # the curated identity stands; with one stated, the arm cannot honor
+        # it and must abstain rather than return a stateless record.
+        if intent is None:
+            return rid, "curated", "curated_lexicon_direct", intent
+        return None, "none", "unsupported_intent_abstain", intent
+    members = ctx["groups_by_base"][group_id]["members"]
+    if intent is None:
+        if len(members) == 1:
+            return (
+                members[0]["catalog_id"],
+                "candidate_selection",
+                "single_member_identity",
+                intent,
+            )
+        return None, "none", "intent_required_on_alternatives", intent
+    matching = [m for m in members if intent in m["states"]]
+    if len(matching) == 1:
+        return (
+            matching[0]["catalog_id"],
+            "candidate_selection",
+            "stated_state_member",
+            intent,
+        )
+    if len(matching) > 1:
+        return None, "none", "ambiguous_state_members", intent
+    return None, "none", "unsupported_intent_abstain", intent
 
 
 def catalog_rows() -> dict[int, dict]:
@@ -246,7 +456,11 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=str(BENCH_ROOT / "results" / "text_arms"))
     ap.add_argument("--manifest", default=str(BENCH_ROOT / "manifest.json"))
-    ap.add_argument("--arms", default="pinned_cpu_baseline,production_replay,swift_replay,heldout_alternative")
+    ap.add_argument(
+        "--arms",
+        default="pinned_cpu_baseline,production_replay,swift_replay,"
+        "heldout_alternative,preparation_candidate_selection",
+    )
     args = ap.parse_args()
 
     out = Path(args.out)
@@ -254,6 +468,7 @@ def main() -> int:
     manifest = json.loads(Path(args.manifest).read_text())
     probes = manifest["probes"]
     groups_by_base = {g["group_id"]: g for g in manifest["groups"]}
+    surface_words = manifest["provenance"]["surface_words"]
 
     rows = catalog_rows()
     usda_ids = set(rows)
@@ -266,30 +481,113 @@ def main() -> int:
     env = environment()
     manifest_sha = sha256_file(Path(args.manifest))
 
-    ctx: dict = {}
+    ctx: dict = {
+        "surface_words": surface_words,
+        "groups_by_base": groups_by_base,
+        "id_to_group": id_to_group,
+    }
     arm_status: dict[str, str] = {}
     if "pinned_cpu_baseline" in arms_requested:
         ctx["baseline"] = BaselineCatalog(rows)
-    if "production_replay" in arms_requested or "heldout_alternative" in arms_requested:
+    if (
+        "production_replay" in arms_requested
+        or "heldout_alternative" in arms_requested
+        or "preparation_candidate_selection" in arms_requested
+    ):
         port = load_port()
         ctx["lexicon"] = port.IngredientLexicon()
         ctx["resolver"] = port.IngredientCatalogResolver()
         ctx["port"] = port
-    swift_path = shutil.which("swift")
+
+    # Swift replay: executed for real when a toolchain is available. The raw
+    # per-probe output and the XCTest summary are recorded; what the package
+    # cannot replay stays an explicitly unrun check in the report.
+    swift_artifacts_dir = out.parent / "swift_replay"
+    swift_meta: dict | None = None
     if "swift_replay" in arms_requested:
-        if swift_path:
+        swift = discover_swift()
+        if swift is None:
             arm_status["swift_replay"] = (
-                "toolchain present but runner requires macOS host: unrun here"
+                "unrun: swift toolchain unavailable in this environment"
             )
         else:
-            arm_status["swift_replay"] = "unrun: swift toolchain unavailable in this environment"
+            try:
+                swift_artifacts_dir.mkdir(parents=True, exist_ok=True)
+                executed = execute_swift_replay(probes, swift, swift_artifacts_dir)
+                ctx["swift_predictions"] = executed["predictions"]
+                swift_meta = {
+                    "binary": swift["binary"],
+                    "swift_version": swift["version"],
+                    "xctests": executed["test_summary"],
+                    "raw_output": str(
+                        swift_artifacts_dir / "swift_lexicon_replay.jsonl"
+                    ),
+                }
+                arm_status["swift_replay"] = (
+                    "ran: real IngredientLexicon.swift replay on "
+                    f"{swift['version']} (xctests "
+                    f"{executed['test_summary']['executed']} executed, "
+                    f"{executed['test_summary']['failures']} failures)"
+                )
+            except SwiftReplayError as error:
+                arm_status["swift_replay"] = f"unrun: {error}"
 
     predictions_path = out / "predictions.jsonl"
     all_records: list[dict] = []
     wall_start = time.perf_counter()
     for arm in arms_requested:
         if arm == "swift_replay":
-            continue  # unrun arm; status recorded in the report
+            if "swift_predictions" not in ctx:
+                continue  # unrun arm; status recorded in the report
+            for probe in probes:
+                replay = ctx["swift_predictions"].get(probe["probe_id"])
+                if replay is None:
+                    raise RuntimeError(f"swift replay missing probe {probe['probe_id']}")
+                rid = int(replay["resolved_id"]) if replay.get("resolved_id") else None
+                group_of_probe = probe["probe_id"].split("::", 1)[0]
+                all_records.append(
+                    {
+                        "arm": arm,
+                        "probe_id": probe["probe_id"],
+                        "family": probe["family"],
+                        "split": probe["split"],
+                        "text": probe["text"],
+                        "target_record_id": probe["target"]["record_id"],
+                        "target_state": probe["target"]["state"],
+                        "predicted_record_id": rid,
+                        "provenance": (
+                            "curated_lexicon_swift" if rid is not None else "none"
+                        ),
+                        "elapsed_ms": None,  # no per-probe timing across the process boundary
+                        "outcome": classify(rid, probe, group_of_probe, id_to_group, usda_ids),
+                    }
+                )
+            continue
+        if arm == "preparation_candidate_selection":
+            # Stated-intent candidate selection: per-record outputs carry the
+            # stated intent and the selection basis, so every decision (and
+            # every abstention) is auditable row by row.
+            for probe in probes:
+                rid, prov, basis, intent = run_candidate_selection(probe["text"], ctx)
+                group_of_probe = probe["probe_id"].split("::", 1)[0]
+                all_records.append(
+                    {
+                        "arm": arm,
+                        "probe_id": probe["probe_id"],
+                        "family": probe["family"],
+                        "split": probe["split"],
+                        "text": probe["text"],
+                        "target_record_id": probe["target"]["record_id"],
+                        "target_state": probe["target"]["state"],
+                        "predicted_record_id": rid,
+                        "provenance": prov,
+                        "elapsed_ms": None,
+                        "stated_intent": intent,
+                        "selection_basis": basis,
+                        "outcome": classify(rid, probe, group_of_probe, id_to_group, usda_ids),
+                    }
+                )
+            continue
         if arm == "heldout_alternative":
             # Held-out preparation alternatives: only probes on TEST-split groups
             # that have >= 2 distinct records (state alternatives). The arm asks
@@ -340,6 +638,49 @@ def main() -> int:
         for rec in all_records:
             f.write(json.dumps(rec, sort_keys=True) + "\n")
 
+    unrun_checks: list[dict] = [
+        {
+            "check": "swift_full_resolver_replay",
+            "reason": (
+                "IngredientCatalogResolver requires GRDB 7.x and the app host; "
+                "replaying it in Swift needs a macOS harness (see "
+                "SwiftReplay/README.md). Its behavior is covered by the "
+                "read-only Python production_replay arm."
+            ),
+        },
+        {
+            "check": "foodseg103_preparation_accuracy",
+            "reason": (
+                "FoodSeg103 has no preparation-state labels; preparation "
+                "accuracy is not scoreable and is not scored in the image arm."
+            ),
+        },
+    ]
+    actual_checks: list[dict] = []
+    if swift_meta is not None:
+        actual_checks.append(
+            {
+                "check": "swift_lexicon_replay",
+                "detail": (
+                    "real IngredientLexicon.swift replayed over "
+                    f"{len(probes)} probes; XCTests "
+                    f"{swift_meta['xctests']['executed']} executed, "
+                    f"{swift_meta['xctests']['failures']} failures"
+                ),
+                "toolchain": {
+                    "binary": swift_meta["binary"],
+                    "version": swift_meta["swift_version"],
+                },
+            }
+        )
+    else:
+        unrun_checks.append(
+            {
+                "check": "swift_lexicon_replay",
+                "reason": arm_status.get("swift_replay", "unrun"),
+            }
+        )
+
     report: dict = {
         "benchmark": manifest["benchmark"],
         "generated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -348,15 +689,21 @@ def main() -> int:
         "predictions_sha256": sha256_file(predictions_path),
         "arm_status": arm_status,
         "wall_seconds": round(wall_s, 3),
+        "execution": {
+            "actual_checks": actual_checks,
+            "unrun_checks": unrun_checks,
+        },
         "arms": {},
     }
 
     for arm in arms_requested:
-        if arm == "swift_replay":
+        if arm == "swift_replay" and swift_meta is None:
             report["arms"][arm] = {"status": arm_status.get(arm, "unrun"), "ran": False}
             continue
         recs = [r for r in all_records if r["arm"] == arm]
         arm_report: dict = {"ran": True, "probe_count": len(recs)}
+        if arm == "swift_replay":
+            arm_report["swift_replay_meta"] = swift_meta
         outcomes: dict[str, int] = {}
         for r in recs:
             outcomes[r["outcome"]] = outcomes.get(r["outcome"], 0) + 1
@@ -401,7 +748,48 @@ def main() -> int:
                 ),
             }
 
-        times = [r["elapsed_ms"] for r in recs]
+        if arm == "preparation_candidate_selection":
+            # Group-held-out evaluation: every probe of a group shares the
+            # group's split, so the test slice evaluates groups fully held out
+            # of train/dev. The manifest carries no source labels; the group is
+            # the held-out unit.
+            arm_report["held_out_unit"] = (
+                "group — each group's probes all share its split; the test "
+                "slice evaluates groups held out from train/dev"
+            )
+            per_split: dict[str, dict] = {}
+            for split in ("train", "dev", "test"):
+                sr = [r for r in recs if r["split"] == split]
+                if not sr:
+                    continue
+                oc: dict[str, int] = {}
+                for r in sr:
+                    oc[r["outcome"]] = oc.get(r["outcome"], 0) + 1
+                per_split[split] = {
+                    "n": len(sr),
+                    "outcomes": dict(sorted(oc.items())),
+                    "exact_rate": round(
+                        sum(1 for r in sr if r["outcome"] == "correct") / len(sr), 4
+                    ),
+                }
+            arm_report["per_split"] = per_split
+            basis_counts: dict[str, int] = {}
+            for r in recs:
+                basis_counts[r["selection_basis"]] = (
+                    basis_counts.get(r["selection_basis"], 0) + 1
+                )
+            arm_report["selection_basis"] = dict(sorted(basis_counts.items()))
+            intent_counts: dict[str, int] = {}
+            for r in recs:
+                key = (
+                    r["stated_intent"]
+                    if r["stated_intent"] is not None
+                    else "none_stated"
+                )
+                intent_counts[key] = intent_counts.get(key, 0) + 1
+            arm_report["intent_counts"] = dict(sorted(intent_counts.items()))
+
+        times = [r["elapsed_ms"] for r in recs if r["elapsed_ms"] is not None]
         arm_report["timing_ms"] = {
             "p50": round(percentile(times, 0.50), 4),
             "p95": round(percentile(times, 0.95), 4),
@@ -430,8 +818,8 @@ def main() -> int:
 
     print(json.dumps({k: v for k, v in report.items() if k != "environment"}, indent=1)[:4000])
     print(f"wrote {predictions_path} and {report_path}")
-    if swift_path is None:
-        print("swift_replay: UNRUN (swift toolchain unavailable) — run SwiftReplay on macOS")
+    if "swift_replay" in arms_requested and swift_meta is None:
+        print(f"swift_replay: {arm_status.get('swift_replay', 'unrun')}")
     return 0
 
 

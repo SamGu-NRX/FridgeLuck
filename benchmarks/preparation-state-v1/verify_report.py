@@ -108,6 +108,29 @@ def alternative_selection(recs: list[dict]) -> dict:
     }
 
 
+def candidate_selection_summaries(recs: list[dict]) -> tuple[dict, dict]:
+    """Recompute the per-split (group-held-out) and selection-basis summaries."""
+    per_split: dict[str, dict] = {}
+    for split in ("train", "dev", "test"):
+        sr = [r for r in recs if r["split"] == split]
+        if not sr:
+            continue
+        oc: dict[str, int] = {}
+        for r in sr:
+            oc[r["outcome"]] = oc.get(r["outcome"], 0) + 1
+        per_split[split] = {
+            "n": len(sr),
+            "outcomes": dict(sorted(oc.items())),
+            "exact_rate": round(
+                sum(1 for r in sr if r["outcome"] == "correct") / len(sr), 4
+            ),
+        }
+    basis: dict[str, int] = {}
+    for r in recs:
+        basis[r["selection_basis"]] = basis.get(r["selection_basis"], 0) + 1
+    return per_split, dict(sorted(basis.items()))
+
+
 def verify_text(bench: Path, c: Checker) -> None:
     report = json.loads((bench / "results" / "text_arms" / "report.json").read_text())
     prep = json.loads((bench / "manifest.json").read_text())
@@ -175,6 +198,118 @@ def verify_text(bench: Path, c: Checker) -> None:
                 arm_report.get("alternative_selection") == alternative_selection(arm_recs),
                 "alternative selection differs",
             )
+        if arm == "preparation_candidate_selection":
+            per_split, basis = candidate_selection_summaries(arm_recs)
+            c.check(
+                "text.arm[preparation_candidate_selection].per_split",
+                arm_report.get("per_split") == per_split,
+                "per-split summaries differ",
+            )
+            c.check(
+                "text.arm[preparation_candidate_selection].selection_basis",
+                arm_report.get("selection_basis") == basis,
+                "selection-basis counts differ",
+            )
+            # No state guessing: when the resolved identity carries the stated
+            # intent the arm selects it; it never returns a record whose states
+            # do not include the stated intent. An identity miss (the resolver
+            # picks a different group that does carry the intent) surfaces as
+            # wrong_identity and is scored upstream, but wrong_state must be
+            # impossible in this arm.
+            guessed = [
+                r["probe_id"]
+                for r in arm_recs
+                if r["family"] == "unknown_state" and r["outcome"] == "wrong_state"
+            ]
+            c.check(
+                "text.arm[preparation_candidate_selection].unknown_state_no_state_guessing",
+                not guessed,
+                f"{len(guessed)} unknown-state probes got a wrong-state record, e.g. {guessed[:3]}",
+            )
+            never_carried = [
+                r["probe_id"]
+                for r in arm_recs
+                if r["selection_basis"] == "stated_state_member"
+                and not (
+                    r["predicted_record_id"] is not None
+                    and r["stated_intent"] is not None
+                    and r["predicted_record_id"] in id_to_group
+                    and r["stated_intent"]
+                    in next(
+                        m["states"]
+                        for m in groups_by_base[
+                            id_to_group[r["predicted_record_id"]]
+                        ]["members"]
+                        if m["catalog_id"] == r["predicted_record_id"]
+                    )
+                )
+            ]
+            c.check(
+                "text.arm[preparation_candidate_selection].stated_intent_always_carried",
+                not never_carried,
+                f"{len(never_carried)} predictions lack the stated intent, e.g. {never_carried[:3]}",
+            )
+
+
+def verify_execution(bench: Path, c: Checker) -> None:
+    """Actual-vs-unrun check recording: every executed Swift check and every
+    unrun check must be explicitly recorded in report.json."""
+    report = json.loads((bench / "results" / "text_arms" / "report.json").read_text())
+    execution = report.get("execution")
+    c.check(
+        "text.execution.section",
+        isinstance(execution, dict)
+        and isinstance(execution.get("actual_checks"), list)
+        and isinstance(execution.get("unrun_checks"), list)
+        and all(
+            u.get("check") and isinstance(u.get("reason"), str) and u["reason"]
+            for u in execution["unrun_checks"]
+        ),
+        f"execution section malformed: {execution}",
+    )
+    if not isinstance(execution, dict):
+        return
+    swift_ran = report["arms"].get("swift_replay", {}).get("ran") is True
+    actual_names = {a.get("check") for a in execution["actual_checks"]}
+    unrun_names = {u.get("check") for u in execution["unrun_checks"]}
+    if swift_ran:
+        c.check(
+            "text.execution.swift_actual_recorded",
+            "swift_lexicon_replay" in actual_names,
+            "swift arm ran but no actual check recorded",
+        )
+        raw = bench / "results" / "swift_replay" / "swift_lexicon_replay.jsonl"
+        c.check(
+            "text.execution.swift_raw_output_exists",
+            raw.exists(),
+            "raw swift replay output missing from results/swift_replay",
+        )
+        if raw.exists():
+            raw_ids = {
+                json.loads(line)["probe_id"] for line in raw.read_text().splitlines()
+            }
+            preds_path = bench / "results" / "text_arms" / "predictions.jsonl"
+            swift_preds = {
+                json.loads(line)["probe_id"]
+                for line in preds_path.read_text().splitlines()
+                if json.loads(line)["arm"] == "swift_replay"
+            }
+            c.check(
+                "text.execution.swift_raw_covers_predictions",
+                swift_preds <= raw_ids,
+                f"{len(swift_preds - raw_ids)} predictions missing from raw output",
+            )
+        c.check(
+            "text.execution.swift_full_resolver_stays_unrun",
+            "swift_full_resolver_replay" in unrun_names,
+            "full GRDB resolver replay must stay recorded as unrun",
+        )
+    else:
+        c.check(
+            "text.execution.swift_unrun_recorded",
+            "swift_lexicon_replay" in unrun_names,
+            "swift arm unrun but not recorded in unrun_checks",
+        )
 
 
 def verify_image(bench: Path, c: Checker) -> None:
@@ -312,6 +447,7 @@ def main() -> int:
     verify_text(bench, c)
     verify_image(bench, c)
     verify_nutrients(bench, c)
+    verify_execution(bench, c)
     print(f"\n{c.passes} passed, {len(c.failures)} failed")
     if c.failures:
         for f in c.failures:

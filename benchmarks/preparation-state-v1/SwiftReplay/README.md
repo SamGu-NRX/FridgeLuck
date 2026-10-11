@@ -1,11 +1,17 @@
-# SwiftReplay (unrun arm in the Linux benchmark sandbox)
+# SwiftReplay (executed on Linux with a Swift toolchain)
 
 Replays preparation-state-v1 probes through the **real** production
 `IngredientLexicon.swift` (synced verbatim by `scripts/sync_production_sources.sh`;
 the synced copy is gitignored so it can never drift silently).
 
-Status in the Python benchmark environment: **unrun — no Swift toolchain
-available**. Run on macOS:
+Status in the Python benchmark environment: **executed** — Swift 6.1.2 on Linux
+(x86_64). `run.py` discovers the toolchain (`which swift`, then known
+sandbox locations including `/home/user/swift612/usr/bin/swift`), syncs the
+production source,
+runs this package's XCTests (4 executed, 0 failures), and replays all 1,375
+probes through the compiled `swift-replay` executable. The raw per-probe output
+is committed at `../results/swift_replay/swift_lexicon_replay.jsonl`, and the
+report records the execution under `execution.actual_checks`. Reproduce by hand:
 
 ```sh
 benchmarks/preparation-state-v1/SwiftReplay/scripts/sync_production_sources.sh

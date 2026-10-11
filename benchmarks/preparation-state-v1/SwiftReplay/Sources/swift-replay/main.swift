@@ -1,5 +1,7 @@
 import Foundation
-import SwiftReplayProduction
+// @testable: the production lexicon is intentionally internal to its module and must
+// not be made public for the replay harness; SwiftPM debug builds enable -enable-testing.
+@testable import SwiftReplayProduction
 
 // Reads probe records on stdin: {"probe_id": "...", "text": "..."} per line.
 // Emits one JSON line per probe: {"probe_id", "resolved_id" (Int64?), "matched_token"}.

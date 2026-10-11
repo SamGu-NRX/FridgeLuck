@@ -1,4 +1,6 @@
-import SwiftReplayProduction
+// @testable: the production lexicon is intentionally internal to its module and must
+// not be made public for the replay harness; SwiftPM debug builds enable -enable-testing.
+@testable import SwiftReplayProduction
 import XCTest
 
 final class SwiftReplayTests: XCTestCase {
@@ -12,11 +14,15 @@ final class SwiftReplayTests: XCTestCase {
         XCTAssertEqual(IngredientLexicon.resolve("greek yogurt"), 32)
     }
 
-    func testLexiconIsStateBlindOnCookedModifier() {
-        // The production lexicon has no state dimension: "cooked rice" must
-        // resolve to the same id as "rice". This is the exact confusion the
-        // preparation-state benchmark isolates.
-        XCTAssertEqual(IngredientLexicon.resolve("cooked rice"), IngredientLexicon.resolve("rice"))
+    func testLexiconKeepsStateModifiersUnresolved() {
+        // REAL behavior, verified by running this package (Linux, Swift 6.1.2):
+        // the lexicon itself has no state dimension — it does NOT strip state
+        // modifiers, so "cooked rice" resolves to nil, not to "rice" (2).
+        // The state-blind modifier stripping lives in
+        // IngredientCatalogResolver + IngredientIdentityResolution, which the
+        // benchmark replays in Python (production_replay arm).
+        XCTAssertNil(IngredientLexicon.resolve("cooked rice"))
+        XCTAssertEqual(IngredientLexicon.resolve("rice"), 2)
         XCTAssertNil(IngredientLexicon.resolve("cooked"))
     }
 

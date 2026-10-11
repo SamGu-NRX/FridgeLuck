@@ -108,11 +108,22 @@ def test_report_predictions_hash_matches_committed_file():
     ).hexdigest()
 
 
-def test_report_records_unrun_swift_arm():
+def test_report_records_swift_arm_execution_status():
+    # The arm runs when a toolchain exists; either way the report must record
+    # what actually ran and keep the full-resolver replay explicitly unrun.
     report = json.loads((TEXT_RESULTS / "report.json").read_text())
     swift = report["arms"]["swift_replay"]
-    assert swift["ran"] is False
-    assert "unrun" in swift["status"]
+    unrun_checks = {u["check"] for u in report["execution"]["unrun_checks"]}
+    actual_checks = {a["check"] for a in report["execution"]["actual_checks"]}
+    if swift.get("ran") is True:
+        assert "swift_lexicon_replay" in actual_checks
+        assert "swift_full_resolver_replay" in unrun_checks
+        meta = swift["swift_replay_meta"]
+        assert meta["xctests"]["failures"] == 0
+        assert swift["probe_count"] > 0
+    else:
+        assert "swift_lexicon_replay" in unrun_checks
+        assert "unrun" in swift["status"]
 
 
 def test_predictions_cover_every_probe_per_ran_arm():

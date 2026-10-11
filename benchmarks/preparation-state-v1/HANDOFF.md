@@ -128,3 +128,22 @@ and is ~9 min cold, <1 min warm.
 3. Product decision from the confusion table: unknown-state probes should
    abstain or ask, never silently pick `raw` — `IngredientCatalogResolver`'s
    unique-or-nil prefix match is the code path to change.
+
+## Handoff — round 4 (2026-10-11): executed Swift lexicon replay and preparation_candidate_selection arm
+
+### What changed and why
+
+- **swift_replay now executes for real when a toolchain exists.** `run.py`
+  discovers Swift (`which swift`, then
+  known sandbox locations incl. `/home/user/swift612/usr/bin/swift`), runs
+  the sync script,
+  runs the SwiftReplay XCTests, and replays all 1,375 probes through the
+  compiled `swift-replay` executable. Executed here on Swift 6.1.2 (Linux):
+  4 XCTests, 0 failures. Raw output committed at
+  `results/swift_replay/swift_lexicon_replay.jsonl`; the report's new
+  `execution` section separates `actual_checks` (with toolchain details) from
+  `unrun_checks` (each with an explicit reason).
+- **Corrected a wrong claim the old package pinned:** the lexicon does NOT
+  strip `cooked` from `cooked rice` — the real source returns nil. The
+  previous test (`testLexiconIsStateBlindOnCookedModifier`) asserted behavior
+  the production source does not have and had never run; the
