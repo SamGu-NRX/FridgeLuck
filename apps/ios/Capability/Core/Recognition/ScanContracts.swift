@@ -40,6 +40,12 @@ struct ScanBucketCounts: Sendable, Codable {
   let possible: Int
 }
 
+/// Whether a scan produced a result. A failed scan still has diagnostics worth keeping.
+enum ScanOutcome: Sendable, Codable, Equatable {
+  case completed
+  case failed(message: String)
+}
+
 struct ScanDiagnostics: Sendable, Codable {
   let captureCount: Int
   let cropCount: Int
@@ -49,11 +55,12 @@ struct ScanDiagnostics: Sendable, Codable {
   let passErrors: [String]
   let elapsedMs: Int
   let requestFailures: [ScanRequestFailure]
+  let outcome: ScanOutcome
 
   init(
     captureCount: Int, cropCount: Int, topRawLabels: [String], ocrCandidates: [String],
     bucketCounts: ScanBucketCounts, passErrors: [String], elapsedMs: Int,
-    requestFailures: [ScanRequestFailure] = []
+    requestFailures: [ScanRequestFailure] = [], outcome: ScanOutcome = .completed
   ) {
     self.captureCount = captureCount
     self.cropCount = cropCount
@@ -63,14 +70,16 @@ struct ScanDiagnostics: Sendable, Codable {
     self.passErrors = passErrors
     self.elapsedMs = elapsedMs
     self.requestFailures = requestFailures
+    self.outcome = outcome
   }
 
   private enum CodingKeys: String, CodingKey {
-    case captureCount, cropCount, topRawLabels, ocrCandidates, bucketCounts, passErrors, elapsedMs, requestFailures
+    case captureCount, cropCount, topRawLabels, ocrCandidates, bucketCounts, passErrors, elapsedMs, requestFailures, outcome
   }
 
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
+    outcome = try values.decodeIfPresent(ScanOutcome.self, forKey: .outcome) ?? .completed
     captureCount = try values.decode(Int.self, forKey: .captureCount)
     cropCount = try values.decode(Int.self, forKey: .cropCount)
     topRawLabels = try values.decode([String].self, forKey: .topRawLabels)
