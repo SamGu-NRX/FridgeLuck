@@ -153,3 +153,4 @@ Record which condition fired and why in this file. The overhaul is done when eve
 - 2026-10-11 12:30Z: no CI or workflow edits, by Sam's rule. Nothing had been installed on `alpha`. Workflows are staged under `ci/pending-workflows/` for his approval.
 - 2026-10-11 18:10Z: merge gate changed by Sam (item 12): merge on own tests plus a blocker-free independent review, staged through `fleet/alpha-next` and CI.
 - 2026-10-11 19:10Z: item 14. The native simulator run is held (web projects first; low disk). Root-cause tasks fl-root-food-safety-f1 and fl-root-ingredient-facts-f1 are queued. The redundant safety, core and backend audits are dropped because the reviewer covers them; the evals reproduction stays.
+- 2026-10-11 21:45Z: `alpha` at 0309dd1: #124 brought the shared PR template and pr-writing skill (item 17) onto it.
