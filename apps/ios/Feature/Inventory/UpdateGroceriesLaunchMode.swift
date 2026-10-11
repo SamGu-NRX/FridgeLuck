@@ -5,8 +5,9 @@ enum UpdateGroceriesLaunchMode: String, Identifiable, Sendable {
   case photo
   case receipt
   case manual
+  case barcode
 
-  static let entryModes: [UpdateGroceriesLaunchMode] = [.photo, .receipt, .manual]
+  static let entryModes: [UpdateGroceriesLaunchMode] = [.photo, .receipt, .manual, .barcode]
 
   var id: String { rawValue }
 
@@ -20,6 +21,8 @@ enum UpdateGroceriesLaunchMode: String, Identifiable, Sendable {
       "Scan a receipt"
     case .manual:
       "Add items manually"
+    case .barcode:
+      "Scan a barcode"
     }
   }
 
@@ -33,6 +36,8 @@ enum UpdateGroceriesLaunchMode: String, Identifiable, Sendable {
       "OCR your shopping receipt"
     case .manual:
       "Search and add by hand"
+    case .barcode:
+      "Point at the package or type the number"
     }
   }
 
@@ -46,6 +51,8 @@ enum UpdateGroceriesLaunchMode: String, Identifiable, Sendable {
       "doc.text.viewfinder"
     case .manual:
       "text.badge.plus"
+    case .barcode:
+      "barcode.viewfinder"
     }
   }
 
@@ -59,6 +66,8 @@ enum UpdateGroceriesLaunchMode: String, Identifiable, Sendable {
       AppTheme.sage
     case .manual:
       AppTheme.oat
+    case .barcode:
+      AppTheme.accent
     }
   }
 
@@ -66,6 +75,8 @@ enum UpdateGroceriesLaunchMode: String, Identifiable, Sendable {
     switch self {
     case .receipt:
       "Scan Receipt"
+    case .barcode:
+      "Scan Barcode"
     case .chooser, .photo, .manual:
       "Photograph Groceries"
     }
@@ -75,6 +86,8 @@ enum UpdateGroceriesLaunchMode: String, Identifiable, Sendable {
     switch self {
     case .receipt:
       "Center the receipt in frame"
+    case .barcode:
+      "Center the barcode in frame"
     case .chooser, .photo, .manual:
       "Lay out items for best results"
     }

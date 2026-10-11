@@ -1,0 +1,28 @@
+{
+  "attribution": "Contains Open Food Facts data (https://world.openfoodfacts.org), licensed under ODbL-1.0.",
+  "bucket_note": "Curation-aid classification of quantity text by regex; the Swift evaluator (PackageMassParser + CatalogBinder) is the ground truth for outcome counts. Several \"mass\" records use spelled-out units (e.g. \"150 gram\").",
+  "dataset": "Open Food Facts search API extract (fields: code, product_name, brands, quantity, serving_size, ingredients_text)",
+  "fetch_command": "curl -sS --max-time 90 -A 'FridgeLuck-dev/1.0 (contact: sgu07966@gmail.com)' '<source_url>' -o raw_page_<n>.json (run per URL, 3 s apart)",
+  "license": "ODbL-1.0 (Open Database License) — contents of the Open Food Facts database are licensed under CC-BY-SA 3.0 for text and ODbL 1.0 for data; see https://opendatacommons.org/licenses/odbl/1-0/",
+  "notes": "Page 2 excluded: OFF served an HTML 'Page temporarily unavailable' error page on two attempts (raw_page_2.json kept out of the fixture). 700 unique code+name records from 7 pages; 340 selected deterministically for outcome diversity. OFF carries no price field, so the price-only mass-rejection class is exercised by unit tests on synthetic strings, not by this fixture.",
+  "retrieved_at": "2026-10-10T20:03:24Z",
+  "selected_buckets": {
+    "count_only": 12,
+    "mass": 235,
+    "missing": 31,
+    "multipack_mass": 14,
+    "other": 3,
+    "volume": 45
+  },
+  "selection": "All multipack-mass, serving, serving-size-with-missing-quantity, and missing-quantity records; first-by-code up to 45 volume, 45 count-only, 40 free-text; up to 20 with >=2 catalog-ingredient-token name matches (identity-ambiguity preference); remainder explicit-mass records to reach 340. Sorted by code; no RNG.",
+  "source_urls": [
+    "https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,brands,quantity,serving_size,ingredients_text&page_size=100&page=1",
+    "https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,brands,quantity,serving_size,ingredients_text&page_size=100&page=3",
+    "https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,brands,quantity,serving_size,ingredients_text&page_size=100&page=4",
+    "https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,brands,quantity,serving_size,ingredients_text&page_size=100&page=5",
+    "https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,brands,quantity,serving_size,ingredients_text&page_size=100&page=6",
+    "https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,brands,quantity,serving_size,ingredients_text&page_size=100&page=7",
+    "https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,brands,quantity,serving_size,ingredients_text&page_size=100&page=8"
+  ],
+  "user_agent": "FridgeLuck-dev/1.0 (contact: sgu07966@gmail.com)"
+}

@@ -14,6 +14,10 @@ let package = Package(
     .library(
       name: "FLFeatureLogic",
       targets: ["FLFeatureLogic"]
+    ),
+    .library(
+      name: "FLBarcode",
+      targets: ["FLBarcode"]
     )
   ],
   dependencies: [
@@ -22,12 +26,18 @@ let package = Package(
   targets: [
     .target(
       name: "FLFeatureLogic",
-      path: "FeatureLogic"
+      path: "FeatureLogic",
+      exclude: ["Barcode"]
+    ),
+    .target(
+      name: "FLBarcode",
+      path: "FeatureLogic/Barcode"
     ),
     .testTarget(
       name: "AppModuleTests",
       dependencies: [
         "FLFeatureLogic",
+        "FLBarcode",
         .product(name: "GRDB", package: "GRDB.swift"),
       ],
       path: "Tests"

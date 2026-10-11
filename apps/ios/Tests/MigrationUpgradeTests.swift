@@ -3,7 +3,7 @@ import XCTest
 
 @testable import FridgeLuck
 
-/// v16-v18 run on databases people already have. These tests build a v15 database the way the
+/// v16-v19 run on databases people already have. These tests build a v15 database the way the
 /// previous app version wrote it, upgrade it, and check that nothing existing is lost or
 /// re-marked. A fresh-install migration can't show that.
 final class MigrationUpgradeTests: XCTestCase {
@@ -18,8 +18,8 @@ final class MigrationUpgradeTests: XCTestCase {
     XCTAssertEqual(
       Array(applied.suffix(3)),
       [
-        "v16_inventory_quantity_estimates", "v17_cooking_portion_multiplier",
-        "v18_cooking_history_swaps",
+        "v17_cooking_portion_multiplier", "v18_cooking_history_swaps",
+        "v19_grocery_amount_provenance",
       ])
   }
 
