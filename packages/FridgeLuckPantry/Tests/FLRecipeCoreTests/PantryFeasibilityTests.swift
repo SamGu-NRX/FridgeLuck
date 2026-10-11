@@ -25,12 +25,13 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000),
                 RecipeFixtures.purchase("p2", ingredient: milk, grams: 500),
             ]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .complete)
         XCTAssertEqual(report.lines.map(\.state), [.satisfied, .satisfied])
         XCTAssertTrue(report.missingIngredients.isEmpty)
-        XCTAssertEqual(report.fitLine, "You can cook Test Recipe with what's on the shelf.")
+        XCTAssertEqual(report.fitLine, "2 of 2")
     }
 
     func testPartialNamesTheMissingIngredientsInOrder() throws {
@@ -44,13 +45,15 @@ final class PantryFeasibilityTests: XCTestCase {
             stock: RecipeFixtures.stock([
                 RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000),
             ]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .partial)
         // First appearance order: milk (line 2) before egg (line 3).
         XCTAssertEqual(report.missingIngredients.map(\.canonicalName), ["whole milk", "egg"])
-        XCTAssertTrue(report.fitLine.contains("Not yet — shop whole milk, egg"), report.fitLine)
+        XCTAssertEqual(report.fitLine, "1 recorded · check whole milk and egg", report.fitLine)
         XCTAssertFalse(report.fitLine.lowercased().contains("can cook"), "a partial fit line never suggests cookability")
+        XCTAssertFalse(report.fitLine.contains("%"), "a fit line never states a percentage")
     }
 
     func testShortLineReportsTheShortfall() throws {
@@ -60,13 +63,14 @@ final class PantryFeasibilityTests: XCTestCase {
         let report = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: milk, grams: 100)]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .short)
         XCTAssertEqual(report.lines[0].availableGrams, 100)
         XCTAssertEqual(report.lines[0].requiredGrams, 250)
         XCTAssertEqual(report.outcome, .partial)
-        XCTAssertTrue(report.fitLine.contains("short by 150 g"), report.fitLine)
+        XCTAssertEqual(report.fitLine, "0 recorded · check whole milk", "the shortfall lives on the line's numbers, not in the fit line")
     }
 
     func testUnknownRecipeAmountNeverYieldsSatisfiedOrComplete() throws {
@@ -80,12 +84,14 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000),
                 RecipeFixtures.purchase("p2", ingredient: milk, grams: 500),
             ]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .satisfied)
         XCTAssertEqual(report.lines[1].state, .uncertainStock, "an unmeasured requirement is a decision the evidence cannot make")
         XCTAssertEqual(report.outcome, .partial, "unknown quantity evidence must block a complete claim")
-        XCTAssertTrue(report.fitLine.contains("uncounted"), report.fitLine)
+        XCTAssertTrue(report.lines[1].reason.contains("unmeasured"), report.lines[1].reason)
+        XCTAssertEqual(report.fitLine, "1 recorded · check whole milk")
     }
 
     func testUncountedShelfStockNeverYieldsSatisfiedOrComplete() throws {
@@ -97,7 +103,8 @@ final class PantryFeasibilityTests: XCTestCase {
             stock: RecipeFixtures.stock([
                 RecipeFixtures.purchase("p1", ingredient: milk, grams: nil, preparation: nil),
             ]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .uncertainStock, "present but uncounted stock is evidence of presence, not of sufficiency")
         XCTAssertNil(report.lines[0].availableGrams)
@@ -122,7 +129,8 @@ final class PantryFeasibilityTests: XCTestCase {
         let report = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: try FLStockFold.fold(events: events + [consumed]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .missing, "zero left is 'not on the shelf', not 'short'")
         XCTAssertEqual(report.lines[0].availableGrams, 0)
@@ -139,14 +147,16 @@ final class PantryFeasibilityTests: XCTestCase {
         let enough = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: flour, grams: 320)]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(enough.outcome, .complete, "310 g covers 300 + 20 only when the two lines do not each see the full shelf")
 
         let notEnough = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p2", ingredient: flour, grams: 310)]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(notEnough.lines[0].state, .satisfied)
         XCTAssertEqual(notEnough.lines[1].state, .short, "the second line sees the remainder after the first line reserved")
@@ -166,7 +176,8 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p1", ingredient: chicken, grams: 200, preparation: "cooked"),
                 RecipeFixtures.purchase("p2", ingredient: chicken, grams: 200),
             ]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .satisfied)
         XCTAssertEqual(report.lines[1].state, .short, "only 200 g of raw stock exists; the cooked lot must not be silently consumed by a raw line")
@@ -183,7 +194,8 @@ final class PantryFeasibilityTests: XCTestCase {
         let report = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000)]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .complete, "optional garnish is not required")
         XCTAssertEqual(report.garnishLines.count, 1)
@@ -199,7 +211,8 @@ final class PantryFeasibilityTests: XCTestCase {
         let report = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: flour, grams: 310)]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .satisfied)
         XCTAssertEqual(report.garnishLines[0].state, .short, "the garnish sees the 10 g the required line left")
@@ -219,7 +232,8 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000),
                 RecipeFixtures.purchase("p2", ingredient: peanutButter, grams: 500),
             ]),
-            restriction: try Restriction(customExclusions: ["peanut butter"])
+            restriction: try Restriction(customExclusions: ["peanut butter"]),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .blocked)
         XCTAssertEqual(report.lines[0].state, .satisfied)
@@ -234,7 +248,8 @@ final class PantryFeasibilityTests: XCTestCase {
         let report = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: [],
-            restriction: try Restriction(customExclusions: ["peanut butter"])
+            restriction: try Restriction(customExclusions: ["peanut butter"]),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .blockedByRestriction, "the restriction is judged before the shelf")
         XCTAssertEqual(report.outcome, .blocked)
@@ -248,7 +263,8 @@ final class PantryFeasibilityTests: XCTestCase {
         let report = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000)]),
-            restriction: try Restriction(customExclusions: ["peanut butter"])
+            restriction: try Restriction(customExclusions: ["peanut butter"]),
+            reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .complete, "a forbidden garnish is shown as forbidden, not allowed to block dinner")
         XCTAssertEqual(report.garnishLines[0].state, .blockedByRestriction)
@@ -293,7 +309,8 @@ final class PantryFeasibilityTests: XCTestCase {
         let report = try FLPantryFeasibility.evaluate(
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: milk, grams: 100)]),
-            restriction: Restriction()
+            restriction: Restriction(),
+            reconfirmWindow: nil
         )
         let data = try FLJSON.canonicalData(report)
         let decoded = try FLJSON.canonicalDecoder().decode(FLFeasibilityReport.self, from: data)

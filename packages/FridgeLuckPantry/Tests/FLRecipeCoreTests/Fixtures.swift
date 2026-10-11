@@ -67,7 +67,8 @@ enum RecipeFixtures {
         ingredient: IngredientReference,
         grams: Double?,
         preparation: String? = nil,
-        household: FLHouseholdID = try! FLHouseholdID("hh-test-1")
+        household: FLHouseholdID = try! FLHouseholdID("hh-test-1"),
+        timestamp: Date = Date(timeIntervalSince1970: 1_760_000_000)
     ) -> FLStockEvent {
         try! FLStockEvent(
             id: id,
@@ -78,7 +79,28 @@ enum RecipeFixtures {
             quantity: grams.map { try! QuantityEvidence.sourceGrams(GramMass(grams: $0)) } ?? .unknown,
             preparation: preparation,
             source: .receipt,
-            timestamp: Date(timeIntervalSince1970: 1_760_000_000)
+            timestamp: timestamp
+        )
+    }
+
+    static func consume(
+        _ id: String,
+        ingredient: IngredientReference,
+        grams: Double?,
+        preparation: String? = nil,
+        household: FLHouseholdID = try! FLHouseholdID("hh-test-1"),
+        timestamp: Date = Date(timeIntervalSince1970: 1_760_000_000)
+    ) -> FLStockEvent {
+        try! FLStockEvent(
+            id: id,
+            commandID: "cmd-\(id)",
+            householdID: household,
+            kind: .consumption,
+            ingredient: ingredient,
+            quantity: grams.map { try! QuantityEvidence.sourceGrams(GramMass(grams: $0)) } ?? .unknown,
+            preparation: preparation,
+            source: .manual,
+            timestamp: timestamp
         )
     }
 

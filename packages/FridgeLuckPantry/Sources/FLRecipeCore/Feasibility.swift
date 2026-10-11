@@ -10,6 +10,13 @@ import FLInventoryCore
 
 /// The state of one required ingredient line against the household's pantry
 /// evidence. Raw values are part of the cross-language fixture contract.
+///
+/// The five SPEC 3.2 states are `satisfied`, `short`, `missing` (quantity
+/// unknown for an unrecorded shelf), `assumedStaple`, and `needsReconfirming`
+/// (stale evidence). `uncertainStock` and `blockedByRestriction` keep the
+/// operational distinctions the fit line needs: unknown-but-present stock is
+/// a different action from absent stock, and a restricted line is a hard
+/// stop, not a shopping trip.
 public enum FLFeasibilityLineState: String, Codable, Sendable, CaseIterable {
     /// Known stock covers the line. Only reachable when both the requirement
     /// and the covering stock are known amounts.
@@ -23,6 +30,14 @@ public enum FLFeasibilityLineState: String, Codable, Sendable, CaseIterable {
     /// unknown, or the shelf stock exists but is uncounted. Counts against
     /// completeness — unknown never becomes a number.
     case uncertainStock
+    /// The ingredient is a kitchen staple with no pantry record at all; the
+    /// app assumes it rather than sending the user shopping for salt.
+    /// Assumption is not evidence: the line never counts as satisfied.
+    case assumedStaple
+    /// The stock evidence behind the line was last confirmed before the
+    /// reconfirm window, so the amount may have drifted. The action is to
+    /// look at the shelf, not to shop.
+    case needsReconfirming
     /// The household's hard restrictions forbid this ingredient.
     case blockedByRestriction
 }
@@ -40,6 +55,10 @@ public struct FLFeasibilityLine: Hashable, Sendable {
     public let requiredGrams: Double?
     /// Human-facing why. States what IS known; never invents a number.
     public let reason: String
+    /// True when the line is satisfied through an accepted swap (the pantry
+    /// covered it with the substitute's lots, not the asked-for identity).
+    /// Feeds the fit line's "· K swaps" attribution (SPEC 3.2).
+    public let viaSwap: Bool
 
     public init(
         lineID: String,
@@ -47,7 +66,8 @@ public struct FLFeasibilityLine: Hashable, Sendable {
         ingredient: IngredientReference,
         availableGrams: Double?,
         requiredGrams: Double?,
-        reason: String
+        reason: String,
+        viaSwap: Bool = false
     ) throws {
         let trimmedLine = lineID.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedLine.isEmpty else {
@@ -73,12 +93,13 @@ public struct FLFeasibilityLine: Hashable, Sendable {
         self.availableGrams = availableGrams
         self.requiredGrams = requiredGrams
         self.reason = trimmedReason
+        self.viaSwap = viaSwap
     }
 }
 
 extension FLFeasibilityLine: Codable {
     private enum CodingKeys: String, CodingKey {
-        case lineID, state, ingredient, availableGrams, requiredGrams, reason
+        case lineID, state, ingredient, availableGrams, requiredGrams, reason, viaSwap
     }
 
     public init(from decoder: Decoder) throws {
@@ -89,7 +110,8 @@ extension FLFeasibilityLine: Codable {
             ingredient: try container.decode(IngredientReference.self, forKey: .ingredient),
             availableGrams: try container.decodeIfPresent(Double.self, forKey: .availableGrams),
             requiredGrams: try container.decodeIfPresent(Double.self, forKey: .requiredGrams),
-            reason: try container.decode(String.self, forKey: .reason)
+            reason: try container.decode(String.self, forKey: .reason),
+            viaSwap: try container.decodeIfPresent(Bool.self, forKey: .viaSwap) ?? false
         )
     }
 }
