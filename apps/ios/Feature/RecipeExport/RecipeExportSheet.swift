@@ -255,16 +255,16 @@ struct RecipeExportSheet: View {
   private func message(for error: RecipeExportError) -> String {
     switch error {
     case .recipeReadFailed:
-      "The recipe's ingredients could not be read."
+      return "The recipe's ingredients could not be read."
     case .recipeMissing:
-      "This recipe is no longer available."
+      return "This recipe is no longer available."
     case .inconsistentRecipeRead(let detail):
-      "The recipe's data is inconsistent (\(detail))."
+      return "The recipe's data is inconsistent (\(detail))."
     case .invalidOriginalServings(let value):
       let shown = value.map(String.init) ?? "missing"
-      "The recipe's original serving count is invalid (\(shown))."
+      return "The recipe's original serving count is invalid (\(shown))."
     case .invalidExportServings(let value):
-      "The export serving count must be a positive number (got \(value))."
+      return "The export serving count must be a positive number (got \(value))."
     }
   }
 
