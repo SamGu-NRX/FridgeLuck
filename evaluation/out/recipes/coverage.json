@@ -16,24 +16,24 @@
     "cuisine:mexican"
   ],
   "counts": {
-    "slot:breakfast": 9,
-    "slot:lunch": 72,
-    "slot:dinner": 497,
-    "time:0-15": 4,
-    "time:16-30": 111,
-    "time:31-45": 216,
-    "time:46-60": 125,
-    "time:61+": 41,
-    "cuisine:american": 55,
-    "cuisine:asian": 122,
-    "cuisine:indian": 65,
-    "cuisine:italian": 80,
-    "cuisine:mediterranean": 121,
-    "cuisine:mexican": 54
+    "slot:breakfast": 19,
+    "slot:lunch": 82,
+    "slot:dinner": 515,
+    "time:0-15": 11,
+    "time:16-30": 121,
+    "time:31-45": 223,
+    "time:46-60": 130,
+    "time:61+": 45,
+    "cuisine:american": 60,
+    "cuisine:asian": 129,
+    "cuisine:indian": 71,
+    "cuisine:italian": 84,
+    "cuisine:mediterranean": 127,
+    "cuisine:mexican": 59
   },
   "missing": [],
   "represented": 14,
   "total_declared": 14,
   "cross_product_cells": 90,
-  "cross_product_filled": 36
+  "cross_product_filled": 51
 }

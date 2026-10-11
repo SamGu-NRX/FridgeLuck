@@ -2,7 +2,7 @@
   "suite": "recipes",
   "letter": "C",
   "title": "Recipe corpus quality and rights",
-  "run_at": "2026-10-11T12:49:56Z",
+  "run_at": "2026-10-11T12:51:27Z",
   "toolchain": {
     "python": "3.13.14"
   },
@@ -10,13 +10,13 @@
     {
       "id": "rights_clear_recipes",
       "metric": "Rights-clear recipes (complete per-recipe manifest evidence)",
-      "value": 497,
+      "value": 530,
       "bar": {
         "op": ">=",
         "value": 400,
         "label": ">= 400 rights-clear recipes (programme target 1,500)"
       },
-      "detail": "497 rights-clear; 33 quarantined (fail-closed; see quarantined.json). Bundled-catalog audit: see bundled_rights_audit.json.",
+      "detail": "530 rights-clear; 0 quarantined (fail-closed; see quarantined.json). Bundled-catalog audit: see bundled_rights_audit.json.",
       "evidence": {
         "path": "rights_manifest.json",
         "note": "per-recipe manifest validated by rights.validate_manifest"
@@ -32,7 +32,7 @@
         "value": 100,
         "label": "100% of corpus passes the food-safety linter"
       },
-      "detail": "497/497 recipes pass the RS linter (R1 schema, R2 quantity evidence, R3 FSIS thermometer checks, R4 claim evidence, R5 timers); see lint_report.json.",
+      "detail": "530/530 recipes pass the RS linter (R1 schema, R2 quantity evidence, R3 FSIS thermometer checks, R4 claim evidence, R5 timers); see lint_report.json.",
       "evidence": {
         "path": "lint_report.json",
         "note": "per-recipe violations listed with ids"
@@ -48,7 +48,7 @@
         "value": 95,
         "label": ">= 95% of lines resolved with quantity evidence"
       },
-      "detail": "4074/4074 ingredient lines resolve to grams (weighed, source_grams, or household measure with a conversion); unknown-quantity lines are honest but unresolved.",
+      "detail": "4334/4334 ingredient lines resolve to grams (weighed, source_grams, or household measure with a conversion); unknown-quantity lines are honest but unresolved.",
       "evidence": {
         "path": "lint_report.json",
         "note": "line counts from the linter"
@@ -80,7 +80,7 @@
         "value": 100,
         "label": "every declared cuisine/time band represented"
       },
-      "detail": "14/14 declared bands hold >=1 recipe; missing: none. Cross-product cells filled: 36/90 (informational). Per-band counts in coverage.json.",
+      "detail": "14/14 declared bands hold >=1 recipe; missing: none. Cross-product cells filled: 51/90 (informational). Per-band counts in coverage.json.",
       "evidence": {
         "path": "coverage.json",
         "note": "per-band counts"

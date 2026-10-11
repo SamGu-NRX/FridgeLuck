@@ -101,7 +101,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:am-egg-toast-001",
       "provenance": "authored"
     },
     {
@@ -178,7 +178,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:am-parfait-002",
       "provenance": "authored"
     },
     {
@@ -309,7 +309,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:in-omelette-003",
       "provenance": "authored"
     },
     {
@@ -409,7 +409,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:as-miso-rice-004",
       "provenance": "authored"
     },
     {
@@ -503,8 +503,14 @@
           "timer_min": 5
         },
         {
-          "text": "Cook quarter-cup rounds over medium heat until bubbles pop on top, about 2 minutes per side.",
-          "timer_min": 4
+          "text": "Cook quarter-cup rounds over medium heat; flip when the edges set. Egg dishes are done at 160 F on a thermometer.",
+          "timer_min": 4,
+          "safety": {
+            "method": "thermometer",
+            "class": "egg",
+            "temp_f": 160,
+            "source": "USDA FSIS"
+          }
         },
         {
           "text": "Serve stacked with the maple syrup."
@@ -526,7 +532,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:am-pancakes-005",
       "provenance": "authored"
     },
     {
@@ -648,7 +654,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:mx-chilaquiles-006",
       "provenance": "authored"
     },
     {
@@ -772,7 +778,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:in-poha-007",
       "provenance": "authored"
     },
     {
@@ -926,7 +932,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:md-shakshuka-008",
       "provenance": "authored"
     },
     {
@@ -1064,7 +1070,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:it-frittata-009",
       "provenance": "authored"
     },
     {
@@ -1178,7 +1184,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:in-chaat-010",
       "provenance": "authored"
     },
     {
@@ -1293,7 +1299,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:md-pita-011",
       "provenance": "authored"
     },
     {
@@ -1421,7 +1427,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:it-panzanella-012",
       "provenance": "authored"
     },
     {
@@ -1530,7 +1536,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:mx-quesadilla-013",
       "provenance": "authored"
     },
     {
@@ -1653,7 +1659,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:as-soba-014",
       "provenance": "authored"
     },
     {
@@ -1770,7 +1776,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:am-grilled-cheese-015",
       "provenance": "authored"
     },
     {
@@ -1919,7 +1925,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:md-lentil-soup-016",
       "provenance": "authored"
     },
     {
@@ -2057,7 +2063,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:am-beef-broccoli-017",
       "provenance": "authored"
     },
     {
@@ -2181,7 +2187,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:as-salmon-teriyaki-018",
       "provenance": "authored"
     },
     {
@@ -2316,7 +2322,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:mx-shrimp-lime-019",
       "provenance": "authored"
     },
     {
@@ -2457,7 +2463,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:as-tofu-peanut-020",
       "provenance": "authored"
     },
     {
@@ -2582,7 +2588,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:md-pork-chops-021",
       "provenance": "authored"
     },
     {
@@ -2706,7 +2712,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:md-cauliflower-harissa-022",
       "provenance": "authored"
     },
     {
@@ -2825,7 +2831,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:mx-sweet-potato-tacos-023",
       "provenance": "authored"
     },
     {
@@ -2949,7 +2955,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:it-mushroom-orzo-024",
       "provenance": "authored"
     },
     {
@@ -3075,7 +3081,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:it-cod-tomato-025",
       "provenance": "authored"
     },
     {
@@ -3230,7 +3236,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:in-chana-masala-026",
       "provenance": "authored"
     },
     {
@@ -3360,7 +3366,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:in-dal-tadka-027",
       "provenance": "authored"
     },
     {
@@ -3499,7 +3505,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:as-bibimbap-028",
       "provenance": "authored"
     },
     {
@@ -3644,7 +3650,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:it-eggplant-curry-029",
       "provenance": "authored"
     },
     {
@@ -3766,8 +3772,14 @@
           "timer_min": 5
         },
         {
-          "text": "Add the spices, tomatoes and beans; simmer covered low and slow, 60 minutes, topping up with water if it thickens too far.",
-          "timer_min": 60
+          "text": "Add the spices, tomatoes and beans; simmer covered low and slow, 25 minutes, until the ground beef reaches 160 F on a thermometer.",
+          "timer_min": 60,
+          "safety": {
+            "method": "thermometer",
+            "class": "meat_ground",
+            "temp_f": 160,
+            "source": "USDA FSIS"
+          }
         },
         {
           "text": "Stir in the corn, season, and serve topped with the cheddar."
@@ -3789,7 +3801,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:am-beef-chili-030",
       "provenance": "authored"
     },
     {
@@ -3927,7 +3939,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:md-braised-beans-031",
       "provenance": "authored"
     },
     {
@@ -4050,7 +4062,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:as-congee-032",
       "provenance": "authored"
     },
     {
@@ -4199,7 +4211,7 @@
           }
         }
       ],
-      "source_ref": "orig:authored",
+      "source_ref": "orig:authored:mx-pork-tinga-033",
       "provenance": "authored"
     }
   ]

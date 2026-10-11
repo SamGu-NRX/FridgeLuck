@@ -1,10 +1,522 @@
 {
   "schema": "fl-rights-manifest/1",
   "records": {
-    "orig:authored": {
-      "source_id": "orig:authored",
+    "orig:authored:am-egg-toast-001": {
+      "source_id": "orig:authored:am-egg-toast-001",
       "source_type": "original",
-      "origin": "",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:am-parfait-002": {
+      "source_id": "orig:authored:am-parfait-002",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:in-omelette-003": {
+      "source_id": "orig:authored:in-omelette-003",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:as-miso-rice-004": {
+      "source_id": "orig:authored:as-miso-rice-004",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:am-pancakes-005": {
+      "source_id": "orig:authored:am-pancakes-005",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:mx-chilaquiles-006": {
+      "source_id": "orig:authored:mx-chilaquiles-006",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:in-poha-007": {
+      "source_id": "orig:authored:in-poha-007",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:md-shakshuka-008": {
+      "source_id": "orig:authored:md-shakshuka-008",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:it-frittata-009": {
+      "source_id": "orig:authored:it-frittata-009",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:in-chaat-010": {
+      "source_id": "orig:authored:in-chaat-010",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:md-pita-011": {
+      "source_id": "orig:authored:md-pita-011",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:it-panzanella-012": {
+      "source_id": "orig:authored:it-panzanella-012",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:mx-quesadilla-013": {
+      "source_id": "orig:authored:mx-quesadilla-013",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:as-soba-014": {
+      "source_id": "orig:authored:as-soba-014",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:am-grilled-cheese-015": {
+      "source_id": "orig:authored:am-grilled-cheese-015",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:md-lentil-soup-016": {
+      "source_id": "orig:authored:md-lentil-soup-016",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:am-beef-broccoli-017": {
+      "source_id": "orig:authored:am-beef-broccoli-017",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:as-salmon-teriyaki-018": {
+      "source_id": "orig:authored:as-salmon-teriyaki-018",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:mx-shrimp-lime-019": {
+      "source_id": "orig:authored:mx-shrimp-lime-019",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:as-tofu-peanut-020": {
+      "source_id": "orig:authored:as-tofu-peanut-020",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:md-pork-chops-021": {
+      "source_id": "orig:authored:md-pork-chops-021",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:md-cauliflower-harissa-022": {
+      "source_id": "orig:authored:md-cauliflower-harissa-022",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:mx-sweet-potato-tacos-023": {
+      "source_id": "orig:authored:mx-sweet-potato-tacos-023",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:it-mushroom-orzo-024": {
+      "source_id": "orig:authored:it-mushroom-orzo-024",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:it-cod-tomato-025": {
+      "source_id": "orig:authored:it-cod-tomato-025",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:in-chana-masala-026": {
+      "source_id": "orig:authored:in-chana-masala-026",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:in-dal-tadka-027": {
+      "source_id": "orig:authored:in-dal-tadka-027",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:as-bibimbap-028": {
+      "source_id": "orig:authored:as-bibimbap-028",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:it-eggplant-curry-029": {
+      "source_id": "orig:authored:it-eggplant-curry-029",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:am-beef-chili-030": {
+      "source_id": "orig:authored:am-beef-chili-030",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:md-braised-beans-031": {
+      "source_id": "orig:authored:md-braised-beans-031",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:as-congee-032": {
+      "source_id": "orig:authored:as-congee-032",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-11",
+      "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      }
+    },
+    "orig:authored:mx-pork-tinga-033": {
+      "source_id": "orig:authored:mx-pork-tinga-033",
+      "source_type": "original",
+      "origin": "authored seed corpus: hand-written for FridgeLuck suite C on branch eval/suite-recipes",
       "license": "LicenseRef-FL-Original",
       "access_date": "2026-10-11",
       "license_evidence": "Original expression created for FridgeLuck evaluation fixtures; no third-party text copied. Provenance recorded per recipe via source_ref; builder replay: python3 corpus_build.py. See PR Proof section.",
