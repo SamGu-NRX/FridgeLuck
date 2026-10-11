@@ -24,11 +24,18 @@ Metrics (bars from PLAN.md's scorecard table via SCORECARD.md row C):
 Inputs are all committed inside this suite directory, so the suite reports
 `not-run` (with a precise reason) rather than pass when one is missing.
 
-Self-test (SCORECARD.md): plants 5 sabotage scenarios against small synthetic
-fixtures — a corrupted fixture, a flipped diet label, a lying emitter, a
-missing rights record, and a missing coverage band — and asserts each flips
-the derived status to fail. Prints `caught k/k planted failures` and exits 0
-only when all are caught. Real corpus files are never mutated.
+Self-test (SCORECARD.md): a planted-failure battery plus passing controls.
+Passing controls first: a 400-recipe synthetic corpus with complete rights
+records and every canonical doneness pattern (poultry 165F, ground poultry
+165F, whole cuts 145F + 3-minute rest, fish 145F, egg 160F, reheat/casserole
+165F) must derive ALL FIVE metrics as pass. Then 12 plants re-introduce the
+PR #88 BLOCK defects one at a time (uncited conversions, flipped labels, a
+lying emitter, denied permissions, coverage holes, wrong-class/lower-temp/
+restless doneness checks, unknown-composition claims, mislabeled `weighed`,
+and scoring the suite's own fixtures) and each must flip the derived status
+to fail. Prints `caught k/12 planted failures` + `controls m/1 held` and
+exits 0 only when every plant is caught and every control holds. Real
+corpus files are never mutated.
 
 Run:
     python3 suite.py --out <abs evaluation/out/recipes> --repo-root <abs root>
@@ -39,6 +46,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import itertools
 import json
 import sys
 from datetime import datetime, timezone
@@ -356,71 +364,317 @@ def _tables() -> tuple[dict[str, Any], dict[str, Any]]:
     return conversions, allergens
 
 
+def _fsis_source() -> str:
+    """The RS safety source string the canon rulebook directs corpora to cite."""
+    return ("USDA FSIS Safe Minimum Internal Temperature Chart, "
+            "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/"
+            "food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11")
+
+
+# Protein rotation for the control corpus: (name, FSIS class, temp_f, rest_min).
+# Covers every canon doneness pattern: poultry 165, ground poultry 165 (never
+# meat_ground 160), whole cuts 145 + 3-minute rest, fish 145, egg 160.
+_PROTEIN_ROTATION = (
+    ("chicken thighs", "meat_poultry", 165, 0),
+    ("ground turkey", "meat_poultry", 165, 0),
+    ("pork loin", "meat_whole_cut_pork", 145, 3),
+    ("beef steak", "meat_whole_cut_red", 145, 3),
+    ("salmon fillet", "flesh_fish", 145, 0),
+    ("eggs", "egg", 160, 0),
+)
+
+_STAPLE_ROTATION = (
+    ("cooked rice", "cup", 175, "cooked_rice_cup"),
+    ("broccoli", "cup", 90, "broccoli_cup"),
+    ("chickpeas", "cup", 165, "chickpeas_cup"),
+    ("tofu", "block", 350, "tofu_block"),
+    ("brown rice", "cup", 195, "cooked_brown_rice_cup"),
+)
+
+
+def _ctl_recipe(i: int, cuisine: str, slot: str, minutes: int) -> dict[str, Any]:
+    """One clean schema-true control recipe. Deterministic in i."""
+    protein, p_cls, p_temp, p_rest = _PROTEIN_ROTATION[i % len(_PROTEIN_ROTATION)]
+    staple, s_unit, s_grams, s_ref = _STAPLE_ROTATION[i % len(_STAPLE_ROTATION)]
+    source = _fsis_source()
+
+    if p_rest:
+        protein_text = (f"Roast the {protein} to temperature, checking with a "
+                        "thermometer, then rest for at least 3 minutes before serving.")
+    else:
+        protein_text = f"Cook the {protein}, checking with a thermometer before serving."
+    steps: list[dict[str, Any]] = [
+        {"text": protein_text,
+         "safety": {"class": p_cls, "temp_f": p_temp, "method": "thermometer",
+                    "source": source}},
+        {"text": f"Cook the {staple} until tender and season to taste."},
+    ]
+    title = f"Control Dish {i:04d}"
+    if i % 7 == 0:  # casserole-titled: combination dishes must reach 165 F
+        title = f"{cuisine.title()} {protein.title()} Casserole"
+        steps.append({"text": "Bake the dish and verify the centre with a thermometer.",
+                      "safety": {"class": "leftovers", "temp_f": 165,
+                                 "method": "thermometer", "source": source}})
+    if i % 5 == 0:  # reheat step: leftovers must reach 165 F with a thermometer
+        steps.append({"text": "Next day, reheat a portion, checking with a thermometer.",
+                      "reheat": True,
+                      "safety": {"class": "leftovers", "temp_f": 165,
+                                 "method": "thermometer", "source": source}})
+    return {
+        "rs_version": "1", "id": f"ctl-{i:04d}", "title": title,
+        "cuisine": cuisine, "meal_slots": [slot], "minutes": minutes, "servings": 2,
+        "ingredients": [
+            {"name": protein, "qty": {"kind": "source_grams", "grams": 300}},
+            {"name": staple, "qty": {"kind": "household", "value": 1, "unit": s_unit,
+                                     "grams": s_grams, "conversion_ref": s_ref}},
+            {"name": "rice vinegar", "qty": {"kind": "household", "value": 1,
+                                             "unit": "tbsp", "grams": 15,
+                                             "conversion_ref": "rice_vinegar_tbsp"}},
+        ],
+        "steps": steps,
+        "claims": [], "source_ref": f"ctl-src-{i:04d}", "provenance": "suite-selftest",
+    }
+
+
+def _ctl_rights_record(source_ref: str, *, permissions_all_true: bool = True) -> dict[str, Any]:
+    flag = permissions_all_true
+    return {
+        "source_id": source_ref, "source_type": "original", "origin": "suite-selftest",
+        "license": "LicenseRef-FL-Original", "access_date": "2026-10-11",
+        "license_evidence": "suite C self-test control (original work)",
+        "permissions": {"text": flag, "images": False, "modification": flag,
+                        "attribution": flag, "caching": flag, "offline_use": flag},
+    }
+
+
+def _control_corpus(n_recipes: int = 400) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """A deterministic control corpus spanning every declared band, with one
+    complete rights record per recipe. Every canon doneness pattern appears
+    and PASSES, so each plant below is the only difference from a passing run.
+    """
+    combos = [
+        (c, s, (lo + min(hi, 90)) // 2)
+        for c, s, (_name, lo, hi) in itertools.product(
+            bands.CUISINES, bands.MEAL_SLOTS, bands.TIME_BANDS)
+    ]
+    recipes = [_ctl_recipe(i, *combos[i % len(combos)]) for i in range(n_recipes)]
+    manifest = {"records": {
+        f"ctl-src-{i:04d}": _ctl_rights_record(f"ctl-src-{i:04d}")
+        for i in range(n_recipes)
+    }}
+    return recipes, manifest
+
+
+def _planted_mini(recipe_mutator,
+                  manifest_mutator: Any = None,
+                  ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Mini fixture (one recipe + manifest) with a plant applied."""
+    corpus, manifest = _mini_fixtures()
+    recipe_mutator(corpus[0])
+    if manifest_mutator:
+        manifest_mutator(manifest)
+    return corpus, manifest
+
+
+
+
+
 def self_test() -> int:
+    """Planted-failure battery for the suite C defect fixes.
+
+    Passing controls: a 400-recipe corpus with complete rights records and
+    every canon doneness pattern present must derive ALL FIVE metrics as
+    pass — proving the gates are satisfiable, not vacuously failing (the
+    review BLOCK on PR #88 demanded exactly these controls).
+
+    Planted failures: each plant mutates the control or the mini fixture to
+    reintroduce one defect the BLOCK lists, and asserts the derived status
+    flips to fail. The battery exits 0 only when every control holds and
+    every plant is caught; a planted failure that goes uncaught is a defect
+    again, so the battery fails.
+    """
     conversions, allergens = _tables()
 
-    def derived(corpus: list[dict[str, Any]], manifest: dict[str, Any]) -> dict[str, str]:
+    def derived(corpus: list[dict[str, Any]], manifest: dict[str, Any],
+                ) -> tuple[dict[str, str], dict[str, Any]]:
         ev = evaluate_corpus(copy.deepcopy(corpus), manifest, conversions, allergens)
         metrics = metric_list(copy.deepcopy(ev), Path("/tmp"))  # evidence to /tmp
-        return {m["id"]: suite_contract.derive_status(m) for m in metrics}
+        return {m["id"]: suite_contract.derive_status(m) for m in metrics}, ev
 
     caught = 0
-    planted = 5
+    controls_held = 0
+    plants_total = 0
 
-    # P1 corrupted fixture: quantity evidence destroyed on a line
-    corpus, manifest = _mini_fixtures()
-    broken = copy.deepcopy(corpus)
-    broken[0]["ingredients"][0]["qty"] = {"kind": "household", "value": 1,
-                                          "unit": "block", "conversion_ref": "nonexistent_ref"}
-    st = derived(broken, manifest)
-    ok1 = st["food_safety_linter_pass"] == "fail"
-    caught += ok1
-    print(f"  P1 corrupted fixture (invented conversion): "
-          f"{'caught' if ok1 else 'MISSED'} (food_safety_linter_pass={st['food_safety_linter_pass']})")
+    def plant(label: str, ok: bool, detail: str) -> None:
+        nonlocal caught, plants_total
+        plants_total += 1
+        caught += ok
+        print(f"  plant {label}: {'caught' if ok else 'MISSED'} ({detail})")
+
+    # ---- passing control: the 400-recipe clean corpus must derive all-pass --
+    control, control_manifest = _control_corpus()
+    st, ev = derived(control, control_manifest)
+    ctrl_ok = (all(s == "pass" for s in st.values())
+               and ev["rights_clear_count"] == 400)
+    controls_held += ctrl_ok
+    print(f"  control clean 400-recipe corpus derives all five metrics pass: "
+          f"{'held' if ctrl_ok else 'BROKEN'} "
+          f"({', '.join(f'{k}={v}' for k, v in st.items())})")
+
+    # P1 corrupted fixture: a household line citing a conversion it does not carry
+    def _p1(r: dict[str, Any]) -> None:
+        r["ingredients"][0]["qty"] = {"kind": "household", "value": 1, "unit": "block",
+                                      "conversion_ref": "nonexistent_ref"}
+    st, _ = derived(*_planted_mini(_p1))
+    plant("P1 household line without cited gram evidence",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
 
     # P2 flipped label: vegan claim over a meat ingredient
-    corpus, manifest = _mini_fixtures()
-    flipped = copy.deepcopy(corpus)
-    flipped[0]["ingredients"][0] = {
-        "name": "chicken thighs",
-        "qty": {"kind": "household", "value": 3, "unit": "piece", "grams": 360,
-                "conversion_ref": "chicken_thigh_piece"}}
-    flipped[0]["claims"] = [{"claim": "vegan", "evidence": {"conflicts": []}}]
-    st = derived(flipped, manifest)
-    ok2 = st["unchecked_allergen_diet_claims"] == "fail"
-    caught += ok2
-    print(f"  P2 flipped label (vegan over chicken): "
-          f"{'caught' if ok2 else 'MISSED'} (unchecked_allergen_diet_claims={st['unchecked_allergen_diet_claims']})")
+    def _p2(r: dict[str, Any]) -> None:
+        r["ingredients"][0] = {
+            "name": "chicken thighs",
+            "qty": {"kind": "source_grams", "grams": 360}}
+        r["claims"] = [{"claim": "vegan", "evidence": {"conflicts": []}}]
+    st, _ = derived(*_planted_mini(_p2))
+    plant("P2 vegan claim over chicken", st["unchecked_allergen_diet_claims"] == "fail",
+          f"unchecked_allergen_diet_claims={st['unchecked_allergen_diet_claims']}")
 
     # P3 lying emitter: a 'pass' declared on a violated bar
     liar = {"id": "rights_clear_recipes", "metric": "Rights-clear recipes",
             "value": 3, "bar": BAR_RIGHTS, "status": "pass"}
     st3 = suite_contract.derive_status(liar)
-    ok3 = st3 == "fail"
-    caught += ok3
-    print(f"  P3 lying emitter (pass declared on value=3, bar>=400): "
-          f"{'caught' if ok3 else 'MISSED'} (derived={st3})")
+    plant("P3 lying emitter (pass declared on value=3, bar>=400)", st3 == "fail",
+          f"derived={st3}")
 
-    # P4 missing rights record: recipe falls out of the rights-clear corpus
-    corpus, manifest = _mini_fixtures()
-    short_manifest = copy.deepcopy(manifest)
-    short_manifest["records"].pop("test:ok")
-    st = derived(corpus, short_manifest)
-    ok4 = st["rights_clear_recipes"] == "fail"
-    caught += ok4
-    print(f"  P4 missing rights record: "
-          f"{'caught' if ok4 else 'MISSED'} (rights_clear_recipes={st['rights_clear_recipes']})")
+    # P4 denied permissions: flipping one control record's permissions to all
+    # false must drop the count below the bar. On a tree where a record with
+    # every permission denied still counts as rights-clear, this stays MISSED.
+    flipped_corpus, flipped_manifest = _control_corpus()
+    flipped_manifest["records"]["ctl-src-0000"]["permissions"] = {
+        "text": False, "images": False, "modification": False, "attribution": False,
+        "caching": False, "offline_use": False}
+    st, _ = derived(flipped_corpus, flipped_manifest)
+    plant("P4 record with every permission denied counts as rights-clear",
+          st["rights_clear_recipes"] == "fail",
+          f"rights_clear_recipes={st['rights_clear_recipes']}")
 
-    # P5 coverage hole: a corpus that misses declared bands
-    corpus, manifest = _mini_fixtures()
-    st = derived(corpus, manifest)
-    ok5 = st["cuisine_time_band_coverage"] == "fail"
-    caught += ok5
-    print(f"  P5 coverage hole (1 recipe vs all declared bands): "
-          f"{'caught' if ok5 else 'MISSED'} (cuisine_time_band_coverage={st['cuisine_time_band_coverage']})")
+    # P5 coverage hole: the control corpus minus one cuisine
+    hole_corpus, hole_manifest = _control_corpus()
+    hole_corpus = [r for r in hole_corpus if r["cuisine"] != "indian"]
+    st, _ = derived(hole_corpus, hole_manifest)
+    plant("P5 coverage hole (control minus one cuisine)",
+          st["cuisine_time_band_coverage"] == "fail",
+          f"cuisine_time_band_coverage={st['cuisine_time_band_coverage']}")
 
-    print(f"caught {caught}/{planted} planted failures")
-    return 0 if caught == planted else 1
+    # D1a actual-class coverage: a chicken recipe carrying ONLY a fish-class
+    # 145 F check. The ingredient's actual class (meat_poultry, 165 F) is never
+    # checked — this is the BLOCK's rs.py:148-164 scenario.
+    def _d1a(r: dict[str, Any]) -> None:
+        r["ingredients"][0] = {"name": "chicken thighs",
+                               "qty": {"kind": "source_grams", "grams": 300}}
+        r["steps"] = [{"text": "Sear the chicken thighs in a hot pan, checking "
+                               "with a thermometer before serving.",
+                       "safety": {"class": "flesh_fish", "temp_f": 145,
+                                  "method": "thermometer", "source": _fsis_source()}}]
+    st, _ = derived(*_planted_mini(_d1a))
+    plant("D1a chicken recipe passes with a fish-class 145F check",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # D1b reheat gating: a reheat step with no thermometer check while an
+    # unrelated (valid) whole-cut check exists elsewhere in the recipe.
+    def _d1b(r: dict[str, Any]) -> None:
+        r["ingredients"][0] = {"name": "pork loin",
+                               "qty": {"kind": "source_grams", "grams": 300}}
+        r["steps"] = [
+            {"text": "Roast the pork loin to temperature with a thermometer, then "
+                     "rest for at least 3 minutes before serving.",
+             "safety": {"class": "meat_whole_cut_pork", "temp_f": 145,
+                        "method": "thermometer", "source": _fsis_source()}},
+            {"text": "Next day, reheat a portion and serve.", "reheat": True},
+        ]
+    st, _ = derived(*_planted_mini(_d1b))
+    plant("D1b reheat step passes on an unrelated lower-threshold check",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # D1c required rest: a whole-cut check at 145 F with no 3-minute rest
+    # stated anywhere (not in the step text, not on the check).
+    def _d1c(r: dict[str, Any]) -> None:
+        r["ingredients"][0] = {"name": "beef steak",
+                               "qty": {"kind": "source_grams", "grams": 300}}
+        r["steps"] = [{"text": "Sear the beef steak, checking with a thermometer "
+                               "before serving.",
+                       "safety": {"class": "meat_whole_cut_red", "temp_f": 145,
+                                  "method": "thermometer", "source": _fsis_source()}}]
+    st, _ = derived(*_planted_mini(_d1c))
+    plant("D1c whole-cut check without the required 3-minute rest",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # D1d ground poultry: a ground-turkey check citing meat_ground at 160 F.
+    # The canon requires ground poultry at meat_poultry 165 F.
+    def _d1d(r: dict[str, Any]) -> None:
+        r["ingredients"][0] = {"name": "ground turkey",
+                               "qty": {"kind": "source_grams", "grams": 300}}
+        r["steps"] = [{"text": "Brown the ground turkey, checking with a "
+                               "thermometer before serving.",
+                       "safety": {"class": "meat_ground", "temp_f": 160,
+                                  "method": "thermometer", "source": _fsis_source()}}]
+    st, _ = derived(*_planted_mini(_d1d))
+    plant("D1d ground poultry checked at meat_ground 160F",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # D2 unknown composition: an ingredient name no table resolves, carrying a
+    # dairy-free claim with empty recorded conflicts. Unknown composition must
+    # make the claim UNCHECKED, never clear (BLOCK's rs.py:259-285).
+    def _d2(r: dict[str, Any]) -> None:
+        r["ingredients"] = [
+            {"name": "cream cheese",
+             "qty": {"kind": "source_grams", "grams": 200}},
+            {"name": "rice vinegar",
+             "qty": {"kind": "household", "value": 1, "unit": "tbsp", "grams": 15,
+                     "conversion_ref": "rice_vinegar_tbsp"}},
+        ]
+        r["claims"] = [{"claim": "dairy-free", "evidence": {"conflicts": []}}]
+    st, _ = derived(*_planted_mini(_d2))
+    plant("D2 dairy-free claim clears over an unresolvable ingredient",
+          st["unchecked_allergen_diet_claims"] == "fail",
+          f"unchecked_allergen_diet_claims={st['unchecked_allergen_diet_claims']}")
+
+    # D5 mislabeled 'weighed': a builder constant labeled weighed with no scale
+    # measurement recorded (BLOCK's corpus_build.py:369-372).
+    def _d5(r: dict[str, Any]) -> None:
+        r["ingredients"][0]["qty"] = {"kind": "weighed", "grams": 350}
+    st, _ = derived(*_planted_mini(_d5))
+    plant("D5 'weighed' line with no recorded scale measurement",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # D4 scored input: run() must grade the scored tree's data/recipes corpus,
+    # not this suite's own fixtures (BLOCK's suite.py:77-93). A temp repo-root
+    # with a one-recipe corpus must produce rights_clear_count == 1.
+    import tempfile
+    with tempfile.TemporaryDirectory(prefix="suite-c-d4-") as td:
+        tmp_root = Path(td) / "repo"
+        (tmp_root / "data" / "recipes").mkdir(parents=True)
+        d4_corpus, _ = _mini_fixtures()
+        d4_corpus[0]["source_ref"] = "temp:ok"
+        (tmp_root / "data" / "recipes" / "corpus.jsonl").write_text(
+            json.dumps(d4_corpus[0]) + "\n")
+        (tmp_root / "data" / "recipes" / "rights_manifest.json").write_text(
+            json.dumps({"records": {"temp:ok": _ctl_rights_record("temp:ok")}}) + "\n")
+        results_d4 = run(Path(td) / "out", tmp_root)
+    d4_value = results_d4["metrics"][0]["value"]
+    plant("D4 suite grades its own fixtures instead of the scored tree",
+          d4_value == 1,
+          f"rights_clear value scored from repo-root corpus = {d4_value} (want 1)")
+
+    print(f"caught {caught}/{plants_total} planted failures; "
+          f"controls {controls_held}/1 held")
+    return 0 if (caught == plants_total and controls_held == 1) else 1
 
 
 # ---------------------------------------------------------------------------
