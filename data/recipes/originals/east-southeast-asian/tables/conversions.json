@@ -12,6 +12,7 @@
     "sesame_seeds_tsp": {"ingredient": "whole sesame seeds", "grams_per_unit": 3, "basis": "USDA: whole sesame seeds 1 tbsp ~9g -> 1 tsp ~3g"},
     "chili_pepper_piece": {"ingredient": "small fresh red chili", "grams_per_unit": 3, "basis": "bird's-eye/Thai chili: 1 small pepper ~3g (USDA hot red chili range 2-4g)"},
     "coconut_water_cup": {"ingredient": "coconut water", "grams_per_unit": 240, "basis": "coconut water 1 cup = 240g (water density)"},
-    "rice_noodles_oz_dry": {"ingredient": "dried rice noodles", "grams_per_unit": 28, "basis": "dry noodle standard: 1 oz = 28g (matches suite dry_pasta_oz); rice vermicelli nests weigh the same dry"}
+    "rice_noodles_oz_dry": {"ingredient": "dried rice noodles", "grams_per_unit": 28, "basis": "dry noodle standard: 1 oz = 28g (matches suite dry_pasta_oz); rice vermicelli nests weigh the same dry"},
+    "water_tbsp": {"ingredient": "water", "grams_per_unit": 15, "basis": "water 1 tbsp = 15g (water density)"}
   }
 }

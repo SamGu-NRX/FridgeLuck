@@ -31,8 +31,10 @@
     "kimchi": {"fdc_id": 170392},
     "tomatoes": {"fdc_id": 170457},
     "coconut water": {"fdc_id": 170174},
+    "onions": {"fdc_id": 170000},
     "black pepper": {"fdc_id": 170931},
     "white pepper": {"fdc_id": 170933},
+    "curry powder": {"fdc_id": 170924},
     "lime": {"fdc_id": 168155},
     "romaine lettuce": {"fdc_id": 169247},
     "cilantro": {"fdc_id": 169997}
@@ -49,7 +51,6 @@
     "thai basil": "no thai-basil row; unmapped",
     "fresh mint": "no mint row in the catalog; unmapped",
     "bay leaves": "no row; negligible weight",
-    "curry powder": "no row; negligible weight",
     "red chilies": "no fresh bird-chili row (only sun-dried/jalapeno); 3g each, negligible",
     "chicken stock": "no liquid-stock row in the catalog; unmapped - the salty-unmapped sodium flag covers it",
     "peanuts": "no plain-peanut row in the catalog (peanut butter only); unmapped, small weight"
