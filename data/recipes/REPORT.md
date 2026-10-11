@@ -45,9 +45,9 @@ quarantined recipe in `corpus.jsonl`), `bands.py` counts above.
 | Declared bands covered | every band >= 1 recipe | 14/14 bands | **PASS** |
 | Lines resolved with quantity evidence | >= 95% | 2771/2988 = 92.74% | **FAIL — see section 8** |
 
-One bar fails. The shortfall arithmetic, its exact size, and why this task
-may not fix it are in section 8; the conversion-table fix belongs to the
-eval branch and is with the operator.
+One bar fails. The shortfall arithmetic, its exact size, and the fix path
+are in section 8; per the operator ruling, the gap closes corpus-side on
+this branch via cited conversion evidence in `data/recipes/`.
 
 ## 1. Bundled seed conversion — 25 recipes ingested
 
@@ -369,9 +369,10 @@ resolve without either a conversion-table entry or an invented mass.
 **Why this task does not fix it:** the corpus is the release-candidate data;
 the conversion table is suite C's input. Inventing conversions, relabeling
 unknown lines, or massaging counts would fabricate mass evidence —
-prohibited by SCHEMA §2 and by this task's brief. The conversion-table fix
-belongs to `eval/scorecard-runner` and is with the operator; the 137-staple
-list above is the exact worklist. Nothing else blocks: every other suite C
+prohibited by SCHEMA §2 and by this task's brief. Per the operator ruling (2026-10-11, see Limits and handoff), the fix is
+corpus-side on this branch — cited household-to-grams conversion rows in
+`data/recipes/` with per-line `conversion_ref`/`grams` evidence; the
+137-staple list above is the exact worklist. Nothing else blocks: every other suite C
 bar passes on the final corpus.
 
 ## Limits and handoff
