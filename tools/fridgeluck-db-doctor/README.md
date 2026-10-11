@@ -179,3 +179,18 @@ $ python3 doctor/cli.py --input /tmp/fl-artifact.sqlite   # sibling -wal present
 $ echo $?
 2
 ```
+
+## Known open questions (from integration testing, 2026-10-11)
+
+- A byte-corrupted fixture (sentinel overwriting the start of page 2) raises
+  `sqlite3.DatabaseError` from a direct `PRAGMA integrity_check` probe, yet the
+  CLI reported exit 0 (clean verdict) on the same file during example
+  generation. The pytest suite covers the truncated-file path (exit 1, verified
+  green), but this header-corruption path behaves inconsistently between the
+  direct probe and the CLI pipeline and is NOT yet explained. Corruption
+  examples in `examples/` are recorded as observation-only; their recorded
+  exits are real, not verified expectations. Resolve before treating any
+  clean verdict on a suspect file as trustworthy.
+- `PRAGMA integrity_check` does not traverse unused page regions: corruption
+  placed mid-page in free space is genuinely undetected (exit 0). The doctor
+  is a structural canary, not a byte-level integrity guarantee.

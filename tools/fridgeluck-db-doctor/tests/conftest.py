@@ -20,7 +20,7 @@ import pytest  # noqa: E402
 def sha256_and_listing(path: pathlib.Path):
     """File digest + directory snapshot used to assert zero byte/dir changes."""
     h = hashlib.sha256()
-    if path.exists():
+    if path.exists() and path.is_file():
         h.update(path.read_bytes())
     listing = sorted(
         (p.name, p.stat().st_size if p.is_file() else -1) for p in path.parent.iterdir()

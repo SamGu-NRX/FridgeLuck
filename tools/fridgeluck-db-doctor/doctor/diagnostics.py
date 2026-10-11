@@ -101,7 +101,18 @@ def fingerprint(con: sqlite3.Connection) -> "model.CheckResult":
     except sqlite3.OperationalError as exc:
         if _interrupted(exc):
             return _limited_result(codes.CHECK_SCHEMA_FINGERPRINT)
-        raise
+        return model.CheckResult(
+            codes.CHECK_SCHEMA_FINGERPRINT,
+            codes.STATUS_FAIL,
+            {"schema_objects": 0, "error_class": type(exc).__name__},
+        )
+    except sqlite3.Error as exc:
+        # Malformed/truncated images can raise DatabaseError directly.
+        return model.CheckResult(
+            codes.CHECK_SCHEMA_FINGERPRINT,
+            codes.STATUS_FAIL,
+            {"schema_objects": 0, "error_class": type(exc).__name__},
+        )
     digest = hashlib.sha256("\n".join(sorted(lines)).encode("utf-8")).hexdigest()
     return model.CheckResult(
         codes.CHECK_SCHEMA_FINGERPRINT,
@@ -314,7 +325,13 @@ def run_diagnostics(
         except sqlite3.OperationalError as exc:
             if _interrupted(exc):
                 return model.CheckResult(code, codes.STATUS_LIMITED, {})
-            raise
+            return model.CheckResult(
+                code, codes.STATUS_FAIL, {"error_class": type(exc).__name__}
+            )
+        except sqlite3.Error as exc:
+            return model.CheckResult(
+                code, codes.STATUS_FAIL, {"error_class": type(exc).__name__}
+            )
 
     fingerprint_result = _guarded(
         codes.CHECK_SCHEMA_FINGERPRINT, lambda: fingerprint(con)
@@ -343,7 +360,31 @@ def run_diagnostics(
                 model.CheckResult(codes.CHECK_MIGRATION_STATE, codes.STATUS_LIMITED, {}),
             ]
         else:
-            raise
+            marker_results = [
+                model.CheckResult(
+                    codes.CHECK_TABLE_PRESENCE,
+                    codes.STATUS_FAIL,
+                    {"error_class": type(exc).__name__},
+                ),
+                model.CheckResult(
+                    codes.CHECK_MIGRATION_STATE,
+                    codes.STATUS_FAIL,
+                    {"error_class": type(exc).__name__},
+                ),
+            ]
+    except sqlite3.Error as exc:
+        marker_results = [
+            model.CheckResult(
+                codes.CHECK_TABLE_PRESENCE,
+                codes.STATUS_FAIL,
+                {"error_class": type(exc).__name__},
+            ),
+            model.CheckResult(
+                codes.CHECK_MIGRATION_STATE,
+                codes.STATUS_FAIL,
+                {"error_class": type(exc).__name__},
+            ),
+        ]
     for marker_result in marker_results:
         _take(marker_result)
 

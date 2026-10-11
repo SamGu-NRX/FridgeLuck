@@ -1,0 +1,483 @@
+[
+  {
+    "actual_exit": 0,
+    "case": "healthy_full_shape",
+    "expected_exit": 0,
+    "invocation": "python3 doctor/cli.py --input <healthy_full_shape.sqlite>",
+    "report": {
+      "checks": [
+        {
+          "code": "HEADER_MAGIC",
+          "detail": {
+            "verified_by": "reader"
+          },
+          "status": "pass"
+        },
+        {
+          "code": "SCHEMA_FINGERPRINT",
+          "detail": {
+            "fingerprint": "7b0a7f3be6a9b4e1",
+            "schema_objects": 4
+          },
+          "status": "pass"
+        },
+        {
+          "code": "INTEGRITY_CHECK",
+          "detail": {
+            "error_count": 0
+          },
+          "status": "pass"
+        },
+        {
+          "code": "FOREIGN_KEY_CHECK",
+          "detail": {
+            "truncated": false,
+            "violation_count": 0
+          },
+          "status": "pass"
+        },
+        {
+          "code": "TABLE_PRESENCE",
+          "detail": {
+            "expected_missing": [],
+            "expected_present": [
+              "cooking_history",
+              "grdb_migrations",
+              "recipes",
+              "streaks"
+            ],
+            "table_count": 4
+          },
+          "status": "pass"
+        },
+        {
+          "code": "MIGRATION_STATE",
+          "detail": {
+            "applied_count": 1,
+            "latest_identifier": "v15_notification_rules_and_opportunities",
+            "ledger_present": true,
+            "user_version": 0
+          },
+          "status": "pass"
+        }
+      ],
+      "fingerprint": "7b0a7f3be6a9b4e1",
+      "input": {
+        "basename": "healthy-fixture.sqlite",
+        "sha256_16": "09f0561677d18d16",
+        "size_bytes": 20480
+      },
+      "issues": [],
+      "limits": {
+        "cancelled": false,
+        "deadline_hit": false,
+        "steps_max": 200000,
+        "steps_used": 0,
+        "truncated": false
+      },
+      "report_version": 1,
+      "tool": "fridgeluck-db-doctor",
+      "verdict": "restorable_candidate"
+    },
+    "stderr_empty": true
+  },
+  {
+    "actual_exit": 1,
+    "case": "broken_foreign_keys",
+    "expected_exit": 1,
+    "invocation": "python3 doctor/cli.py --input <broken_foreign_keys.sqlite>",
+    "report": {
+      "checks": [
+        {
+          "code": "HEADER_MAGIC",
+          "detail": {
+            "verified_by": "reader"
+          },
+          "status": "pass"
+        },
+        {
+          "code": "SCHEMA_FINGERPRINT",
+          "detail": {
+            "fingerprint": "4376b353d92e0a17",
+            "schema_objects": 2
+          },
+          "status": "pass"
+        },
+        {
+          "code": "INTEGRITY_CHECK",
+          "detail": {
+            "error_count": 0
+          },
+          "status": "pass"
+        },
+        {
+          "code": "FOREIGN_KEY_CHECK",
+          "detail": {
+            "truncated": false,
+            "violation_count": 1
+          },
+          "status": "fail"
+        },
+        {
+          "code": "TABLE_PRESENCE",
+          "detail": {
+            "expected_missing": [
+              "grdb_migrations",
+              "streaks"
+            ],
+            "expected_present": [
+              "cooking_history",
+              "recipes"
+            ],
+            "table_count": 2
+          },
+          "status": "fail"
+        },
+        {
+          "code": "MIGRATION_STATE",
+          "detail": {
+            "ledger_present": false,
+            "user_version": 0
+          },
+          "status": "fail"
+        }
+      ],
+      "fingerprint": "4376b353d92e0a17",
+      "input": {
+        "basename": "broken-fk-fixture.sqlite",
+        "sha256_16": "c51a57814290a6a5",
+        "size_bytes": 12288
+      },
+      "issues": [
+        {
+          "code": "FOREIGN_KEY_VIOLATIONS",
+          "count": 1
+        },
+        {
+          "code": "EXPECTED_TABLE_MISSING",
+          "count": 2
+        },
+        {
+          "code": "MIGRATION_STATE_UNKNOWN",
+          "count": 1
+        }
+      ],
+      "limits": {
+        "cancelled": false,
+        "deadline_hit": false,
+        "steps_max": 200000,
+        "steps_used": 0,
+        "truncated": false
+      },
+      "report_version": 1,
+      "tool": "fridgeluck-db-doctor",
+      "verdict": "readable_with_issues"
+    },
+    "stderr_empty": true
+  },
+  {
+    "actual_exit": 1,
+    "case": "plain_sqlite_no_markers",
+    "expected_exit": 1,
+    "invocation": "python3 doctor/cli.py --input <plain_sqlite_no_markers.sqlite>",
+    "report": {
+      "checks": [
+        {
+          "code": "HEADER_MAGIC",
+          "detail": {
+            "verified_by": "reader"
+          },
+          "status": "pass"
+        },
+        {
+          "code": "SCHEMA_FINGERPRINT",
+          "detail": {
+            "fingerprint": "b5ff68bedfbf4744",
+            "schema_objects": 1
+          },
+          "status": "pass"
+        },
+        {
+          "code": "INTEGRITY_CHECK",
+          "detail": {
+            "error_count": 0
+          },
+          "status": "pass"
+        },
+        {
+          "code": "FOREIGN_KEY_CHECK",
+          "detail": {
+            "truncated": false,
+            "violation_count": 0
+          },
+          "status": "pass"
+        },
+        {
+          "code": "TABLE_PRESENCE",
+          "detail": {
+            "expected_missing": [
+              "cooking_history",
+              "grdb_migrations",
+              "recipes",
+              "streaks"
+            ],
+            "expected_present": [],
+            "table_count": 1
+          },
+          "status": "fail"
+        },
+        {
+          "code": "MIGRATION_STATE",
+          "detail": {
+            "ledger_present": false,
+            "user_version": 0
+          },
+          "status": "fail"
+        }
+      ],
+      "fingerprint": "b5ff68bedfbf4744",
+      "input": {
+        "basename": "plain-fixture.sqlite",
+        "sha256_16": "e895f76d866810dc",
+        "size_bytes": 8192
+      },
+      "issues": [
+        {
+          "code": "EXPECTED_TABLE_MISSING",
+          "count": 4
+        },
+        {
+          "code": "MIGRATION_STATE_UNKNOWN",
+          "count": 1
+        }
+      ],
+      "limits": {
+        "cancelled": false,
+        "deadline_hit": false,
+        "steps_max": 200000,
+        "steps_used": 0,
+        "truncated": false
+      },
+      "report_version": 1,
+      "tool": "fridgeluck-db-doctor",
+      "verdict": "readable_with_issues"
+    },
+    "stderr_empty": true
+  },
+  {
+    "actual_exit": 0,
+    "case": "corrupt_midpage_with_sentinel",
+    "expected_exit": 1,
+    "invocation": "python3 doctor/cli.py --input <corrupt_midpage_with_sentinel.sqlite>",
+    "report": {
+      "checks": [
+        {
+          "code": "HEADER_MAGIC",
+          "detail": {
+            "verified_by": "reader"
+          },
+          "status": "pass"
+        },
+        {
+          "code": "SCHEMA_FINGERPRINT",
+          "detail": {
+            "fingerprint": "7b0a7f3be6a9b4e1",
+            "schema_objects": 4
+          },
+          "status": "pass"
+        },
+        {
+          "code": "INTEGRITY_CHECK",
+          "detail": {
+            "error_count": 0
+          },
+          "status": "pass"
+        },
+        {
+          "code": "FOREIGN_KEY_CHECK",
+          "detail": {
+            "truncated": false,
+            "violation_count": 0
+          },
+          "status": "pass"
+        },
+        {
+          "code": "TABLE_PRESENCE",
+          "detail": {
+            "expected_missing": [],
+            "expected_present": [
+              "cooking_history",
+              "grdb_migrations",
+              "recipes",
+              "streaks"
+            ],
+            "table_count": 4
+          },
+          "status": "pass"
+        },
+        {
+          "code": "MIGRATION_STATE",
+          "detail": {
+            "applied_count": 1,
+            "latest_identifier": "v15_notification_rules_and_opportunities",
+            "ledger_present": true,
+            "user_version": 0
+          },
+          "status": "pass"
+        }
+      ],
+      "fingerprint": "7b0a7f3be6a9b4e1",
+      "input": {
+        "basename": "corrupted-fixture.sqlite",
+        "sha256_16": "6d82fcbc76d5d57d",
+        "size_bytes": 20480
+      },
+      "issues": [],
+      "limits": {
+        "cancelled": false,
+        "deadline_hit": false,
+        "steps_max": 200000,
+        "steps_used": 0,
+        "truncated": false
+      },
+      "report_version": 1,
+      "tool": "fridgeluck-db-doctor",
+      "verdict": "restorable_candidate"
+    },
+    "stderr_empty": true
+  },
+  {
+    "actual_exit": 2,
+    "case": "missing_path",
+    "expected_exit": 2,
+    "invocation": "python3 doctor/cli.py --input <missing_path.sqlite>",
+    "report": {
+      "input": {
+        "basename": "does-not-exist.sqlite",
+        "sha256_16": null,
+        "size_bytes": 0
+      },
+      "refused": {
+        "code": "INPUT_MISSING",
+        "detail": "input file does not exist"
+      },
+      "report_version": 1,
+      "tool": "fridgeluck-db-doctor",
+      "verdict": "not_readable"
+    },
+    "stderr_empty": true
+  },
+  {
+    "actual_exit": 2,
+    "case": "wal_sidecar_present",
+    "expected_exit": 2,
+    "invocation": "python3 doctor/cli.py --input <wal_sidecar_present.sqlite>",
+    "report": {
+      "input": {
+        "basename": "wal-pending-fixture.sqlite",
+        "sha256_16": null,
+        "size_bytes": 0
+      },
+      "refused": {
+        "code": "INPUT_SIDECAR_PRESENT",
+        "detail": "pending -wal/-shm/-journal sidecar present"
+      },
+      "report_version": 1,
+      "tool": "fridgeluck-db-doctor",
+      "verdict": "not_readable"
+    },
+    "stderr_empty": true
+  },
+  {
+    "actual_exit": 3,
+    "case": "budget_limited_max_steps_1",
+    "expected_exit": 3,
+    "invocation": "python3 doctor/cli.py --input <budget_limited_max_steps_1.sqlite> --max-steps 1",
+    "report": {
+      "checks": [
+        {
+          "code": "HEADER_MAGIC",
+          "detail": {
+            "verified_by": "reader"
+          },
+          "status": "pass"
+        },
+        {
+          "code": "SCHEMA_FINGERPRINT",
+          "detail": {
+            "fingerprint": "dc2e4f04ed92763d",
+            "schema_objects": 1
+          },
+          "status": "pass"
+        },
+        {
+          "code": "INTEGRITY_CHECK",
+          "detail": {},
+          "status": "limited"
+        },
+        {
+          "code": "FOREIGN_KEY_CHECK",
+          "detail": {
+            "truncated": false,
+            "violation_count": 0
+          },
+          "status": "pass"
+        },
+        {
+          "code": "TABLE_PRESENCE",
+          "detail": {
+            "expected_missing": [
+              "cooking_history",
+              "grdb_migrations",
+              "streaks"
+            ],
+            "expected_present": [
+              "recipes"
+            ],
+            "table_count": 1
+          },
+          "status": "fail"
+        },
+        {
+          "code": "MIGRATION_STATE",
+          "detail": {
+            "ledger_present": false,
+            "user_version": 0
+          },
+          "status": "fail"
+        }
+      ],
+      "fingerprint": "dc2e4f04ed92763d",
+      "input": {
+        "basename": "budget-fixture.sqlite",
+        "sha256_16": "743ef7769dedecc9",
+        "size_bytes": 36864
+      },
+      "issues": [
+        {
+          "code": "CHECK_CANCELLED",
+          "count": 1
+        },
+        {
+          "code": "EXPECTED_TABLE_MISSING",
+          "count": 3
+        },
+        {
+          "code": "MIGRATION_STATE_UNKNOWN",
+          "count": 1
+        }
+      ],
+      "limits": {
+        "cancelled": true,
+        "deadline_hit": false,
+        "steps_max": 1,
+        "steps_used": 1,
+        "truncated": false
+      },
+      "report_version": 1,
+      "tool": "fridgeluck-db-doctor",
+      "verdict": "readable_with_issues"
+    },
+    "stderr_empty": true
+  }
+]
