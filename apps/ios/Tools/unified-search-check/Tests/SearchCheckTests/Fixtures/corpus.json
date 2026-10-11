@@ -1,0 +1,8112 @@
+{
+ "version": "unified-search-eval-corpus-v2",
+ "counts": {
+  "ingredients": 24,
+  "inventory": 9,
+  "recipes": 30,
+  "journal": 20
+ },
+ "docs": [
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:1",
+   "title": "Chicken Breast",
+   "subtitle": "protein",
+   "keywords": "chicken",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:2",
+   "title": "Whole Egg",
+   "subtitle": "protein",
+   "keywords": "eggs",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:3",
+   "title": "Whole Milk",
+   "subtitle": "dairy",
+   "keywords": "milk",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:4",
+   "title": "Butter",
+   "subtitle": "dairy",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:5",
+   "title": "Cheddar Cheese",
+   "subtitle": "dairy",
+   "keywords": "cheddar",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:6",
+   "title": "Greek Yogurt",
+   "subtitle": "dairy",
+   "keywords": "yogurt",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:7",
+   "title": "Soy Sauce",
+   "subtitle": "condiment",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:8",
+   "title": "Olive Oil",
+   "subtitle": "condiment",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:9",
+   "title": "Garlic",
+   "subtitle": "produce",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:10",
+   "title": "Yellow Onion",
+   "subtitle": "produce",
+   "keywords": "onion",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:11",
+   "title": "Tomato",
+   "subtitle": "produce",
+   "keywords": "tomatoes",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:12",
+   "title": "Spinach",
+   "subtitle": "produce",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:13",
+   "title": "Mushrooms",
+   "subtitle": "produce",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:14",
+   "title": "Bell Pepper",
+   "subtitle": "produce",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:15",
+   "title": "Jasmine Rice",
+   "subtitle": "pantry",
+   "keywords": "rice",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:16",
+   "title": "Dried Pasta",
+   "subtitle": "pantry",
+   "keywords": "pasta",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:17",
+   "title": "Canned Chickpeas",
+   "subtitle": "pantry",
+   "keywords": "chickpeas",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:18",
+   "title": "Flour Tortillas",
+   "subtitle": "pantry",
+   "keywords": "tortillas",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:19",
+   "title": "Salmon Fillet",
+   "subtitle": "protein",
+   "keywords": "salmon",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:20",
+   "title": "Chives",
+   "subtitle": "herbs",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:21",
+   "title": "Maple Syrup",
+   "subtitle": "condiment",
+   "keywords": "",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:22",
+   "title": "Aubergine",
+   "subtitle": "produce",
+   "keywords": "eggplant",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:23",
+   "title": "Courgette",
+   "subtitle": "produce",
+   "keywords": "zucchini",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_ingredient",
+   "canonicalID": "kitchen_ingredient:24",
+   "title": "Cilantro",
+   "subtitle": "herbs",
+   "keywords": "coriander",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:1_fridge",
+   "title": "Chicken Breast",
+   "subtitle": "fridge \u00b7 350 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": "2026-10-13 2026-10 2026 13 october oct"
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:2_fridge",
+   "title": "Ground Beef",
+   "subtitle": "fridge \u00b7 400 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": "2026-10-12 2026-10 2026 12 october oct"
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:3_fridge",
+   "title": "Whole Milk",
+   "subtitle": "fridge \u00b7 900 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": "2026-10-20 2026-10 2026 20 october oct"
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:4_fridge",
+   "title": "Butter",
+   "subtitle": "fridge \u00b7 250 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": "2026-11-01 2026-11 2026 01 november nov"
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:5_fridge",
+   "title": "Spinach",
+   "subtitle": "fridge \u00b7 150 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": "2026-10-11 2026-10 2026 11 october oct"
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:6_fridge",
+   "title": "Tomato",
+   "subtitle": "fridge \u00b7 300 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": "2026-10-14 2026-10 2026 14 october oct"
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:7_pantry",
+   "title": "Jasmine Rice",
+   "subtitle": "pantry \u00b7 2000 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:8_pantry",
+   "title": "Dried Pasta",
+   "subtitle": "pantry \u00b7 900 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": ""
+  },
+  {
+   "kind": "kitchen_inventory",
+   "canonicalID": "kitchen_inventory:9_pantry",
+   "title": "Canned Chickpeas",
+   "subtitle": "pantry \u00b7 400 g in stock",
+   "keywords": "inventory in stock kitchen",
+   "dateTokens": ""
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:1",
+   "title": "Garlic Butter Chicken",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "chicken breast butter garlic",
+   "dateTokens": "2026-04-02 2026-04 2026 02 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:2",
+   "title": "Lemon Herb Chicken",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "chicken lemon olive oil",
+   "dateTokens": "2026-04-02 2026-04 2026 02 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:3",
+   "title": "Chicken Noodle Soup",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "chicken pasta onion garlic",
+   "dateTokens": "2026-04-03 2026-04 2026 03 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:4",
+   "title": "Creamy Tomato Pasta",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "pasta tomato garlic milk",
+   "dateTokens": "2026-04-03 2026-04 2026 03 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:5",
+   "title": "Pesto Pasta Salad",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "pasta spinach olive oil",
+   "dateTokens": "2026-04-05 2026-04 2026 05 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:6",
+   "title": "Mushroom Risotto",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "rice mushrooms onion butter",
+   "dateTokens": "2026-04-06 2026-04 2026 06 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:7",
+   "title": "Egg Fried Rice",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "rice egg soy sauce chives",
+   "dateTokens": "2026-04-06 2026-04 2026 06 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:8",
+   "title": "Salmon Teriyaki",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "salmon soy sauce maple syrup",
+   "dateTokens": "2026-04-08 2026-04 2026 08 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:9",
+   "title": "Baked Salmon Fillet",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "salmon olive oil garlic",
+   "dateTokens": "2026-04-08 2026-04 2026 08 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:10",
+   "title": "Cheese Quesadilla",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "tortillas cheddar butter",
+   "dateTokens": "2026-04-10 2026-04 2026 10 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:11",
+   "title": "Spinach Frittata",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "egg spinach cheddar",
+   "dateTokens": "2026-04-11 2026-04 2026 11 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:12",
+   "title": "Veggie Omelette",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "egg bell pepper onion mushrooms",
+   "dateTokens": "2026-04-11 2026-04 2026 11 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:13",
+   "title": "Chili Con Carne",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "beef tomato onion garlic",
+   "dateTokens": "2026-04-13 2026-04 2026 13 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:14",
+   "title": "Beef Stir Fry",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "beef soy sauce bell pepper",
+   "dateTokens": "2026-04-13 2026-04 2026 13 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:15",
+   "title": "Vegetable Stir Fry",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "bell pepper mushrooms soy sauce rice",
+   "dateTokens": "2026-04-15 2026-04 2026 15 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:16",
+   "title": "Chickpea Buddha Bowl",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "chickpeas rice spinach",
+   "dateTokens": "2026-04-16 2026-04 2026 16 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:17",
+   "title": "Hummus Wrap",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "chickpeas tortillas olive oil",
+   "dateTokens": "2026-04-17 2026-04 2026 17 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:18",
+   "title": "Eggplant Parmigiana",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "eggplant tomato cheddar",
+   "dateTokens": "2026-04-18 2026-04 2026 18 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:19",
+   "title": "Ratatouille",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "eggplant tomato bell pepper onion",
+   "dateTokens": "2026-04-19 2026-04 2026 19 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:20",
+   "title": "Zucchini Fritters",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "zucchini egg olive oil",
+   "dateTokens": "2026-04-20 2026-04 2026 20 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:21",
+   "title": "Greek Salad",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "tomato onion olive oil",
+   "dateTokens": "2026-04-21 2026-04 2026 21 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:22",
+   "title": "Garlic Mushrooms on Toast",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "mushrooms butter garlic",
+   "dateTokens": "2026-04-22 2026-04 2026 22 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:23",
+   "title": "Maple Glazed Carrots",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "maple syrup butter",
+   "dateTokens": "2026-04-23 2026-04 2026 23 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:24",
+   "title": "Butter Garlic Rice",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "rice butter garlic",
+   "dateTokens": "2026-04-24 2026-04 2026 24 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:25",
+   "title": "Tomato Basil Soup",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "tomato onion garlic",
+   "dateTokens": "2026-04-25 2026-04 2026 25 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:26",
+   "title": "Chicken Quesadilla",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "chicken tortillas cheddar",
+   "dateTokens": "2026-04-26 2026-04 2026 26 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:27",
+   "title": "Beef Tacos",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "beef tortillas tomato",
+   "dateTokens": "2026-04-27 2026-04 2026 27 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:28",
+   "title": "Soy Glazed Salmon Rice Bowl",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "salmon soy sauce rice",
+   "dateTokens": "2026-04-28 2026-04 2026 28 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:29",
+   "title": "Spinach Garlic Pasta",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "pasta spinach garlic",
+   "dateTokens": "2026-04-29 2026-04 2026 29 april apr"
+  },
+  {
+   "kind": "recipe",
+   "canonicalID": "recipe:30",
+   "title": "Chive Egg Scramble",
+   "subtitle": "30 min \u00b7 2 servings",
+   "keywords": "egg chives butter",
+   "dateTokens": "2026-04-30 2026-04 2026 30 april apr"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:1",
+   "title": "Chicken Noodle Soup",
+   "subtitle": "Cooked Wed, May 06, 2026 \u00b7 rated 4",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-05-06 2026-05 2026 06 may may"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:2",
+   "title": "Mushroom Risotto",
+   "subtitle": "Cooked Mon, May 18, 2026 \u00b7 rated 5",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-05-18 2026-05 2026 18 may may"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:3",
+   "title": "Egg Fried Rice",
+   "subtitle": "Cooked Tue, June 02, 2026 \u00b7 rated 3",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-06-02 2026-06 2026 02 june jun"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:4",
+   "title": "Garlic Butter Chicken",
+   "subtitle": "Cooked Tue, June 09, 2026 \u00b7 rated 5",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-06-09 2026-06 2026 09 june jun"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:5",
+   "title": "Creamy Tomato Pasta",
+   "subtitle": "Cooked Sun, June 21, 2026 \u00b7 rated 4",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-06-21 2026-06 2026 21 june jun"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:6",
+   "title": "Salmon Teriyaki",
+   "subtitle": "Cooked Sat, July 04, 2026 \u00b7 rated 5",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-07-04 2026-07 2026 04 july jul"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:7",
+   "title": "Spinach Frittata",
+   "subtitle": "Cooked Sat, July 11, 2026 \u00b7 rated 2",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-07-11 2026-07 2026 11 july jul"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:8",
+   "title": "Chickpea Buddha Bowl",
+   "subtitle": "Cooked Sun, July 19, 2026 \u00b7 rated 3",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-07-19 2026-07 2026 19 july jul"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:9",
+   "title": "Cheese Quesadilla",
+   "subtitle": "Cooked Mon, July 27, 2026 \u00b7 rated 1",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-07-27 2026-07 2026 27 july jul"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:10",
+   "title": "Vegetable Stir Fry",
+   "subtitle": "Cooked Sun, August 02, 2026 \u00b7 rated 4",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-08-02 2026-08 2026 02 august aug"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:11",
+   "title": "Chili Con Carne",
+   "subtitle": "Cooked Sat, August 08, 2026 \u00b7 rated 5",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-08-08 2026-08 2026 08 august aug"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:12",
+   "title": "Chicken Noodle Soup",
+   "subtitle": "Cooked Fri, August 14, 2026 \u00b7 rated 3",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-08-14 2026-08 2026 14 august aug"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:13",
+   "title": "Egg Fried Rice",
+   "subtitle": "Cooked Fri, August 14, 2026 \u00b7 rated 4",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-08-14 2026-08 2026 14 august aug"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:14",
+   "title": "Mushroom Risotto",
+   "subtitle": "Cooked Fri, August 21, 2026 \u00b7 rated 4",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-08-21 2026-08 2026 21 august aug"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:15",
+   "title": "Garlic Butter Chicken",
+   "subtitle": "Cooked Sat, August 29, 2026 \u00b7 rated 5",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-08-29 2026-08 2026 29 august aug"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:16",
+   "title": "Creamy Tomato Pasta",
+   "subtitle": "Cooked Sat, September 05, 2026 \u00b7 rated 3",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-09-05 2026-09 2026 05 september sep"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:17",
+   "title": "Salmon Teriyaki",
+   "subtitle": "Cooked Sat, September 12, 2026 \u00b7 rated 4",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-09-12 2026-09 2026 12 september sep"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:18",
+   "title": "Chickpea Buddha Bowl",
+   "subtitle": "Cooked Sat, September 19, 2026 \u00b7 rated 2",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-09-19 2026-09 2026 19 september sep"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:19",
+   "title": "Cheese Quesadilla",
+   "subtitle": "Cooked Sat, September 26, 2026 \u00b7 rated 3",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-09-26 2026-09 2026 26 september sep"
+  },
+  {
+   "kind": "journal",
+   "canonicalID": "journal:20",
+   "title": "Spinach Frittata",
+   "subtitle": "Cooked Sat, October 03, 2026 \u00b7 rated 5",
+   "keywords": "journal meal logged",
+   "dateTokens": "2026-10-03 2026-10 2026 03 october oct"
+  }
+ ],
+ "queries": [
+  {
+   "q": "chicken",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:1",
+    "kitchen_inventory:1_fridge",
+    "recipe:1",
+    "recipe:2",
+    "recipe:26",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "aubergine",
+   "expected": [
+    "kitchen_ingredient:22"
+   ]
+  },
+  {
+   "q": "eggplant",
+   "expected": [
+    "kitchen_ingredient:22",
+    "recipe:18",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "soy sauce",
+   "expected": [
+    "kitchen_ingredient:7",
+    "recipe:14",
+    "recipe:15",
+    "recipe:28",
+    "recipe:7",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "chickpeas",
+   "expected": [
+    "kitchen_ingredient:17",
+    "kitchen_inventory:9_pantry",
+    "recipe:16",
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "pasta",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "kitchen_ingredient:16",
+    "kitchen_inventory:8_pantry",
+    "recipe:29",
+    "recipe:3",
+    "recipe:4",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "cheddar",
+   "expected": [
+    "kitchen_ingredient:5",
+    "recipe:10",
+    "recipe:11",
+    "recipe:18",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "spinach",
+   "expected": [
+    "journal:20",
+    "journal:7",
+    "kitchen_ingredient:12",
+    "kitchen_inventory:5_fridge",
+    "recipe:11",
+    "recipe:16",
+    "recipe:29",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "milk",
+   "expected": [
+    "kitchen_ingredient:3",
+    "kitchen_inventory:3_fridge",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "garlic chicken",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "recipe:1",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "tomato pasta",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "spinach egg",
+   "expected": [
+    "recipe:11"
+   ]
+  },
+  {
+   "q": "rice soy",
+   "expected": [
+    "recipe:15",
+    "recipe:28",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "june",
+   "expected": [
+    "journal:3",
+    "journal:4",
+    "journal:5"
+   ]
+  },
+  {
+   "q": "july",
+   "expected": [
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "2026-08-14",
+   "expected": [
+    "journal:12",
+    "journal:13"
+   ]
+  },
+  {
+   "q": "august",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "september",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "october",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "01",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "02",
+   "expected": [
+    "journal:10",
+    "journal:3",
+    "recipe:1",
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "03",
+   "expected": [
+    "journal:20",
+    "recipe:3",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "04",
+   "expected": [
+    "journal:6",
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "05",
+   "expected": [
+    "journal:1",
+    "journal:16",
+    "journal:2",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "06",
+   "expected": [
+    "journal:1",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "recipe:6",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "07",
+   "expected": [
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "08",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "09",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:4"
+   ]
+  },
+  {
+   "q": "10",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "11",
+   "expected": [
+    "journal:7",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "recipe:11",
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "12",
+   "expected": [
+    "journal:17",
+    "kitchen_inventory:2_fridge"
+   ]
+  },
+  {
+   "q": "13",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "recipe:13",
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "14",
+   "expected": [
+    "journal:12",
+    "journal:13",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "15",
+   "expected": [
+    "kitchen_inventory:5_fridge",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "150",
+   "expected": [
+    "kitchen_inventory:5_fridge"
+   ]
+  },
+  {
+   "q": "150 fridge",
+   "expected": [
+    "kitchen_inventory:5_fridge"
+   ]
+  },
+  {
+   "q": "150 stock",
+   "expected": [
+    "kitchen_inventory:5_fridge"
+   ]
+  },
+  {
+   "q": "16",
+   "expected": [
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "17",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "18",
+   "expected": [
+    "journal:2",
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "19",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "20",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "200",
+   "expected": [
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "2000",
+   "expected": [
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "2000 pantry",
+   "expected": [
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "2000 stock",
+   "expected": [
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "202",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "2026",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "2026 apr",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "2026 april",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "2026 aug",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "2026 august",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "2026 cooked",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "2026 fri",
+   "expected": [
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:20",
+    "journal:3",
+    "journal:7",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "recipe:11",
+    "recipe:20",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "2026 jul",
+   "expected": [
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "2026 july",
+   "expected": [
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "2026 jun",
+   "expected": [
+    "journal:3",
+    "journal:4",
+    "journal:5"
+   ]
+  },
+  {
+   "q": "2026 june",
+   "expected": [
+    "journal:3",
+    "journal:4",
+    "journal:5"
+   ]
+  },
+  {
+   "q": "2026 may",
+   "expected": [
+    "journal:1",
+    "journal:2"
+   ]
+  },
+  {
+   "q": "2026 mon",
+   "expected": [
+    "journal:2",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "2026 nov",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "2026 november",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "2026 oct",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "2026 october",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "2026 rated",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "2026 sat",
+   "expected": [
+    "journal:11",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:20",
+    "journal:6",
+    "journal:7"
+   ]
+  },
+  {
+   "q": "2026 sep",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "2026 september",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "2026 sun",
+   "expected": [
+    "journal:10",
+    "journal:5",
+    "journal:8"
+   ]
+  },
+  {
+   "q": "2026 tue",
+   "expected": [
+    "journal:3",
+    "journal:4"
+   ]
+  },
+  {
+   "q": "2026 wed",
+   "expected": [
+    "journal:1"
+   ]
+  },
+  {
+   "q": "2026-04-02",
+   "expected": [
+    "recipe:1",
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "2026-04-03",
+   "expected": [
+    "recipe:3",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "2026-04-05",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "2026-04-06",
+   "expected": [
+    "recipe:6",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "2026-04-08",
+   "expected": [
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "2026-04-10",
+   "expected": [
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "2026-04-11",
+   "expected": [
+    "recipe:11",
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "2026-04-13",
+   "expected": [
+    "recipe:13",
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "2026-04-15",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "2026-04-16",
+   "expected": [
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "2026-04-17",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "2026-04-18",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "2026-04-19",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "2026-04-20",
+   "expected": [
+    "journal:6",
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "2026-04-21",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "2026-04-22",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "2026-04-23",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "2026-04-24",
+   "expected": [
+    "recipe:24"
+   ]
+  },
+  {
+   "q": "2026-04-25",
+   "expected": [
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "2026-04-26",
+   "expected": [
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "2026-04-27",
+   "expected": [
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "2026-04-28",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "2026-04-29",
+   "expected": [
+    "recipe:29"
+   ]
+  },
+  {
+   "q": "2026-04-30",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "2026-05-06",
+   "expected": [
+    "journal:1"
+   ]
+  },
+  {
+   "q": "2026-05-18",
+   "expected": [
+    "journal:2"
+   ]
+  },
+  {
+   "q": "2026-06-02",
+   "expected": [
+    "journal:3"
+   ]
+  },
+  {
+   "q": "2026-06-09",
+   "expected": [
+    "journal:4"
+   ]
+  },
+  {
+   "q": "2026-06-21",
+   "expected": [
+    "journal:5"
+   ]
+  },
+  {
+   "q": "2026-07-04",
+   "expected": [
+    "journal:6"
+   ]
+  },
+  {
+   "q": "2026-07-11",
+   "expected": [
+    "journal:7"
+   ]
+  },
+  {
+   "q": "2026-07-19",
+   "expected": [
+    "journal:8"
+   ]
+  },
+  {
+   "q": "2026-07-27",
+   "expected": [
+    "journal:9"
+   ]
+  },
+  {
+   "q": "2026-08-02",
+   "expected": [
+    "journal:10"
+   ]
+  },
+  {
+   "q": "2026-08-08",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "2026-08-21",
+   "expected": [
+    "journal:14"
+   ]
+  },
+  {
+   "q": "2026-08-29",
+   "expected": [
+    "journal:15"
+   ]
+  },
+  {
+   "q": "2026-09-05",
+   "expected": [
+    "journal:16"
+   ]
+  },
+  {
+   "q": "2026-09-12",
+   "expected": [
+    "journal:17"
+   ]
+  },
+  {
+   "q": "2026-09-19",
+   "expected": [
+    "journal:18"
+   ]
+  },
+  {
+   "q": "2026-09-26",
+   "expected": [
+    "journal:19"
+   ]
+  },
+  {
+   "q": "2026-10-03",
+   "expected": [
+    "journal:20"
+   ]
+  },
+  {
+   "q": "2026-10-11",
+   "expected": [
+    "kitchen_inventory:5_fridge"
+   ]
+  },
+  {
+   "q": "2026-10-12",
+   "expected": [
+    "kitchen_inventory:2_fridge"
+   ]
+  },
+  {
+   "q": "2026-10-13",
+   "expected": [
+    "kitchen_inventory:1_fridge"
+   ]
+  },
+  {
+   "q": "2026-10-14",
+   "expected": [
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "2026-10-20",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "2026-11-01",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "21",
+   "expected": [
+    "journal:14",
+    "journal:5",
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "22",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "23",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "24",
+   "expected": [
+    "recipe:24"
+   ]
+  },
+  {
+   "q": "25",
+   "expected": [
+    "kitchen_inventory:4_fridge",
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "250",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "250 fridge",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "250 stock",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "26",
+   "expected": [
+    "journal:19",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "27",
+   "expected": [
+    "journal:9",
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "28",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "29",
+   "expected": [
+    "journal:15",
+    "recipe:29"
+   ]
+  },
+  {
+   "q": "30",
+   "expected": [
+    "kitchen_inventory:6_fridge",
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "300",
+   "expected": [
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "300 fridge",
+   "expected": [
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "300 stock",
+   "expected": [
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "350",
+   "expected": [
+    "kitchen_inventory:1_fridge"
+   ]
+  },
+  {
+   "q": "350 fridge",
+   "expected": [
+    "kitchen_inventory:1_fridge"
+   ]
+  },
+  {
+   "q": "350 stock",
+   "expected": [
+    "kitchen_inventory:1_fridge"
+   ]
+  },
+  {
+   "q": "400",
+   "expected": [
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "400 fridge",
+   "expected": [
+    "kitchen_inventory:2_fridge"
+   ]
+  },
+  {
+   "q": "400 pantry",
+   "expected": [
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "400 stock",
+   "expected": [
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "900",
+   "expected": [
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:8_pantry"
+   ]
+  },
+  {
+   "q": "900 fridge",
+   "expected": [
+    "kitchen_inventory:3_fridge"
+   ]
+  },
+  {
+   "q": "900 pantry",
+   "expected": [
+    "kitchen_inventory:8_pantry"
+   ]
+  },
+  {
+   "q": "900 stock",
+   "expected": [
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:8_pantry"
+   ]
+  },
+  {
+   "q": "apr",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "apr april",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "apri",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "april",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "aub",
+   "expected": [
+    "kitchen_ingredient:22"
+   ]
+  },
+  {
+   "q": "aube",
+   "expected": [
+    "kitchen_ingredient:22"
+   ]
+  },
+  {
+   "q": "auber",
+   "expected": [
+    "kitchen_ingredient:22"
+   ]
+  },
+  {
+   "q": "aug",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "aug august",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "augu",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "augus",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "august cooked",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "august fri",
+   "expected": [
+    "journal:12",
+    "journal:13",
+    "journal:14"
+   ]
+  },
+  {
+   "q": "august rated",
+   "expected": [
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "august sat",
+   "expected": [
+    "journal:11",
+    "journal:15"
+   ]
+  },
+  {
+   "q": "august sun",
+   "expected": [
+    "journal:10"
+   ]
+  },
+  {
+   "q": "bak",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "bake",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "baked",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "baked fillet",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "baked salmon",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "bas",
+   "expected": [
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "basi",
+   "expected": [
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "basil",
+   "expected": [
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "basil soup",
+   "expected": [
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "basil tomato",
+   "expected": [
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "bee",
+   "expected": [
+    "kitchen_inventory:2_fridge",
+    "recipe:13",
+    "recipe:14",
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "beef",
+   "expected": [
+    "kitchen_inventory:2_fridge",
+    "recipe:13",
+    "recipe:14",
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "beef bell",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef bell pepper",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef bell sauce",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef bell soy",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef fry",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef garlic",
+   "expected": [
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "beef garlic onion",
+   "expected": [
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "beef garlic tomato",
+   "expected": [
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "beef ground",
+   "expected": [
+    "kitchen_inventory:2_fridge"
+   ]
+  },
+  {
+   "q": "beef onion",
+   "expected": [
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "beef onion tomato",
+   "expected": [
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "beef pepper",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef pepper sauce",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef pepper soy",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef sauce",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef sauce soy",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef soy",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef stir",
+   "expected": [
+    "recipe:14"
+   ]
+  },
+  {
+   "q": "beef tacos",
+   "expected": [
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "beef tomato",
+   "expected": [
+    "recipe:13",
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "beef tomato tortillas",
+   "expected": [
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "beef tortillas",
+   "expected": [
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "bel",
+   "expected": [
+    "kitchen_ingredient:14",
+    "recipe:12",
+    "recipe:14",
+    "recipe:15",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell",
+   "expected": [
+    "kitchen_ingredient:14",
+    "recipe:12",
+    "recipe:14",
+    "recipe:15",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell egg",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell egg mushrooms",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "bell egg onion",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell egg pepper",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell eggplant",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell eggplant onion",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell eggplant pepper",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell eggplant tomato",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell mushrooms",
+   "expected": [
+    "recipe:12",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell mushrooms onion",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "bell mushrooms pepper",
+   "expected": [
+    "recipe:12",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell mushrooms rice",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell mushrooms sauce",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell mushrooms soy",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell onion",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell onion pepper",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell onion tomato",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell pepper",
+   "expected": [
+    "kitchen_ingredient:14",
+    "recipe:12",
+    "recipe:14",
+    "recipe:15",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell pepper rice",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell pepper sauce",
+   "expected": [
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell pepper soy",
+   "expected": [
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell pepper tomato",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell rice",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell rice sauce",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell rice soy",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell sauce",
+   "expected": [
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell sauce soy",
+   "expected": [
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell soy",
+   "expected": [
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "bell tomato",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bell_pepper",
+   "expected": [
+    "kitchen_ingredient:14",
+    "recipe:12",
+    "recipe:14",
+    "recipe:15",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "bow",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16",
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "bowl",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16",
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "bowl buddha",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "bowl chickpea",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "bowl glazed",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "bowl rice",
+   "expected": [
+    "recipe:16",
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "bowl salmon",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "bowl soy",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "bre",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_inventory:1_fridge",
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "brea",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_inventory:1_fridge",
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "breas",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_inventory:1_fridge",
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "breast",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_inventory:1_fridge",
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "breast butter",
+   "expected": [
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "breast butter chicken",
+   "expected": [
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "breast butter garlic",
+   "expected": [
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "breast chicken",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_inventory:1_fridge",
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "breast chicken garlic",
+   "expected": [
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "breast garlic",
+   "expected": [
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "bud",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "budd",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "buddh",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "buddha",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "buddha chickpea",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "but",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:4",
+    "kitchen_inventory:4_fridge",
+    "recipe:1",
+    "recipe:10",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:30",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butt",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:4",
+    "kitchen_inventory:4_fridge",
+    "recipe:1",
+    "recipe:10",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:30",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butte",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:4",
+    "kitchen_inventory:4_fridge",
+    "recipe:1",
+    "recipe:10",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:30",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butter",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:4",
+    "kitchen_inventory:4_fridge",
+    "recipe:1",
+    "recipe:10",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:30",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butter cheddar",
+   "expected": [
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "butter cheddar tortillas",
+   "expected": [
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "butter chicken",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "butter chicken garlic",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "butter chives",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "butter chives egg",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "butter egg",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "butter garlic",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "recipe:1",
+    "recipe:22",
+    "recipe:24"
+   ]
+  },
+  {
+   "q": "butter garlic mushrooms",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "butter garlic rice",
+   "expected": [
+    "recipe:24"
+   ]
+  },
+  {
+   "q": "butter maple",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "butter maple syrup",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "butter mushrooms",
+   "expected": [
+    "recipe:22",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butter mushrooms onion",
+   "expected": [
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butter mushrooms rice",
+   "expected": [
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butter onion",
+   "expected": [
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butter onion rice",
+   "expected": [
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butter rice",
+   "expected": [
+    "recipe:24",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "butter syrup",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "butter tortillas",
+   "expected": [
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "can",
+   "expected": [
+    "kitchen_ingredient:17",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "cann",
+   "expected": [
+    "kitchen_ingredient:17",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "canne",
+   "expected": [
+    "kitchen_ingredient:17",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "canned",
+   "expected": [
+    "kitchen_ingredient:17",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "canned chickpeas",
+   "expected": [
+    "kitchen_ingredient:17",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "canned_chickpeas",
+   "expected": [
+    "kitchen_ingredient:17",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "car",
+   "expected": [
+    "journal:11",
+    "recipe:13",
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "carn",
+   "expected": [
+    "journal:11",
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "carne",
+   "expected": [
+    "journal:11",
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "carne chili",
+   "expected": [
+    "journal:11",
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "carne con",
+   "expected": [
+    "journal:11",
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "carr",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "carro",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "carrots",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "carrots glazed",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "carrots maple",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "che",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "kitchen_ingredient:5",
+    "recipe:10",
+    "recipe:11",
+    "recipe:18",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "ched",
+   "expected": [
+    "kitchen_ingredient:5",
+    "recipe:10",
+    "recipe:11",
+    "recipe:18",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "chedd",
+   "expected": [
+    "kitchen_ingredient:5",
+    "recipe:10",
+    "recipe:11",
+    "recipe:18",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "cheddar cheese",
+   "expected": [
+    "kitchen_ingredient:5",
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "cheddar chicken",
+   "expected": [
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "cheddar chicken tortillas",
+   "expected": [
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "cheddar egg",
+   "expected": [
+    "recipe:11",
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "cheddar egg spinach",
+   "expected": [
+    "recipe:11"
+   ]
+  },
+  {
+   "q": "cheddar eggplant",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "cheddar eggplant tomato",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "cheddar spinach",
+   "expected": [
+    "recipe:11"
+   ]
+  },
+  {
+   "q": "cheddar tomato",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "cheddar tortillas",
+   "expected": [
+    "recipe:10",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "cheddar_cheese",
+   "expected": [
+    "kitchen_ingredient:5"
+   ]
+  },
+  {
+   "q": "chee",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "kitchen_ingredient:5",
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "chees",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "kitchen_ingredient:5",
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "cheese",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "kitchen_ingredient:5",
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "cheese quesadilla",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "recipe:10"
+   ]
+  },
+  {
+   "q": "chi",
+   "expected": [
+    "journal:1",
+    "journal:11",
+    "journal:12",
+    "journal:15",
+    "journal:18",
+    "journal:4",
+    "journal:8",
+    "kitchen_ingredient:1",
+    "kitchen_ingredient:17",
+    "kitchen_ingredient:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:9_pantry",
+    "recipe:1",
+    "recipe:13",
+    "recipe:16",
+    "recipe:17",
+    "recipe:2",
+    "recipe:26",
+    "recipe:3",
+    "recipe:30",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chic",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "journal:15",
+    "journal:18",
+    "journal:4",
+    "journal:8",
+    "kitchen_ingredient:1",
+    "kitchen_ingredient:17",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:9_pantry",
+    "recipe:1",
+    "recipe:16",
+    "recipe:17",
+    "recipe:2",
+    "recipe:26",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chick",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "journal:15",
+    "journal:18",
+    "journal:4",
+    "journal:8",
+    "kitchen_ingredient:1",
+    "kitchen_ingredient:17",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:9_pantry",
+    "recipe:1",
+    "recipe:16",
+    "recipe:17",
+    "recipe:2",
+    "recipe:26",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken garlic",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "recipe:1",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken garlic onion",
+   "expected": [
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken garlic pasta",
+   "expected": [
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken herb",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "chicken lemon",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "chicken lemon oil",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "chicken lemon olive",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "chicken noodle",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken oil",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "chicken oil olive",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "chicken olive",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "chicken onion",
+   "expected": [
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken onion pasta",
+   "expected": [
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken pasta",
+   "expected": [
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken quesadilla",
+   "expected": [
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "chicken soup",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "chicken tortillas",
+   "expected": [
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "chicken_breast",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_inventory:1_fridge",
+    "recipe:1"
+   ]
+  },
+  {
+   "q": "chickpea",
+   "expected": [
+    "journal:18",
+    "journal:8",
+    "kitchen_ingredient:17",
+    "kitchen_inventory:9_pantry",
+    "recipe:16",
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "chickpeas oil",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "chickpeas oil olive",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "chickpeas oil tortillas",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "chickpeas olive",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "chickpeas olive tortillas",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "chickpeas rice",
+   "expected": [
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "chickpeas rice spinach",
+   "expected": [
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "chickpeas spinach",
+   "expected": [
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "chickpeas tortillas",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "chil",
+   "expected": [
+    "journal:11",
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "chili",
+   "expected": [
+    "journal:11",
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "chili con",
+   "expected": [
+    "journal:11",
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "chiv",
+   "expected": [
+    "kitchen_ingredient:20",
+    "recipe:30",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chive",
+   "expected": [
+    "kitchen_ingredient:20",
+    "recipe:30",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chive egg",
+   "expected": [
+    "recipe:30",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chive scramble",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "chives",
+   "expected": [
+    "kitchen_ingredient:20",
+    "recipe:30",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives egg",
+   "expected": [
+    "recipe:30",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives egg rice",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives egg sauce",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives egg soy",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives rice",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives rice sauce",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives rice soy",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives sauce",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives sauce soy",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "chives soy",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "cil",
+   "expected": [
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "cila",
+   "expected": [
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "cilan",
+   "expected": [
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "cilantro",
+   "expected": [
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "con",
+   "expected": [
+    "journal:11",
+    "kitchen_ingredient:21",
+    "kitchen_ingredient:7",
+    "kitchen_ingredient:8",
+    "recipe:13"
+   ]
+  },
+  {
+   "q": "cond",
+   "expected": [
+    "kitchen_ingredient:21",
+    "kitchen_ingredient:7",
+    "kitchen_ingredient:8"
+   ]
+  },
+  {
+   "q": "condi",
+   "expected": [
+    "kitchen_ingredient:21",
+    "kitchen_ingredient:7",
+    "kitchen_ingredient:8"
+   ]
+  },
+  {
+   "q": "condiment",
+   "expected": [
+    "kitchen_ingredient:21",
+    "kitchen_ingredient:7",
+    "kitchen_ingredient:8"
+   ]
+  },
+  {
+   "q": "coo",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "cook",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "cooke",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "cooked",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "cooked fri",
+   "expected": [
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:20",
+    "journal:3",
+    "journal:7"
+   ]
+  },
+  {
+   "q": "cooked july",
+   "expected": [
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "cooked june",
+   "expected": [
+    "journal:3",
+    "journal:4",
+    "journal:5"
+   ]
+  },
+  {
+   "q": "cooked may",
+   "expected": [
+    "journal:1",
+    "journal:2"
+   ]
+  },
+  {
+   "q": "cooked mon",
+   "expected": [
+    "journal:2",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "cooked october",
+   "expected": [
+    "journal:20"
+   ]
+  },
+  {
+   "q": "cooked rated",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "cooked sat",
+   "expected": [
+    "journal:11",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:20",
+    "journal:6",
+    "journal:7"
+   ]
+  },
+  {
+   "q": "cooked september",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "cooked sun",
+   "expected": [
+    "journal:10",
+    "journal:5",
+    "journal:8"
+   ]
+  },
+  {
+   "q": "cooked tue",
+   "expected": [
+    "journal:3",
+    "journal:4"
+   ]
+  },
+  {
+   "q": "cooked wed",
+   "expected": [
+    "journal:1"
+   ]
+  },
+  {
+   "q": "cor",
+   "expected": [
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "cori",
+   "expected": [
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "coria",
+   "expected": [
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "coriander",
+   "expected": [
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "cou",
+   "expected": [
+    "kitchen_ingredient:23"
+   ]
+  },
+  {
+   "q": "cour",
+   "expected": [
+    "kitchen_ingredient:23"
+   ]
+  },
+  {
+   "q": "courg",
+   "expected": [
+    "kitchen_ingredient:23"
+   ]
+  },
+  {
+   "q": "courgette",
+   "expected": [
+    "kitchen_ingredient:23"
+   ]
+  },
+  {
+   "q": "cre",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "crea",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "cream",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "creamy",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "creamy pasta",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "creamy tomato",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "dai",
+   "expected": [
+    "kitchen_ingredient:3",
+    "kitchen_ingredient:4",
+    "kitchen_ingredient:5",
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "dair",
+   "expected": [
+    "kitchen_ingredient:3",
+    "kitchen_ingredient:4",
+    "kitchen_ingredient:5",
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "dairy",
+   "expected": [
+    "kitchen_ingredient:3",
+    "kitchen_ingredient:4",
+    "kitchen_ingredient:5",
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "dri",
+   "expected": [
+    "kitchen_ingredient:16",
+    "kitchen_inventory:8_pantry"
+   ]
+  },
+  {
+   "q": "drie",
+   "expected": [
+    "kitchen_ingredient:16",
+    "kitchen_inventory:8_pantry"
+   ]
+  },
+  {
+   "q": "dried",
+   "expected": [
+    "kitchen_ingredient:16",
+    "kitchen_inventory:8_pantry"
+   ]
+  },
+  {
+   "q": "dried pasta",
+   "expected": [
+    "kitchen_ingredient:16",
+    "kitchen_inventory:8_pantry"
+   ]
+  },
+  {
+   "q": "dried_pasta",
+   "expected": [
+    "kitchen_ingredient:16",
+    "kitchen_inventory:8_pantry"
+   ]
+  },
+  {
+   "q": "egg",
+   "expected": [
+    "journal:13",
+    "journal:3",
+    "kitchen_ingredient:2",
+    "kitchen_ingredient:22",
+    "recipe:11",
+    "recipe:12",
+    "recipe:18",
+    "recipe:19",
+    "recipe:20",
+    "recipe:30",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "egg fried",
+   "expected": [
+    "journal:13",
+    "journal:3",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "egg mushrooms",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "egg mushrooms onion",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "egg mushrooms pepper",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "egg oil",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "egg oil olive",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "egg oil zucchini",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "egg olive",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "egg olive zucchini",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "egg onion",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "egg onion pepper",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "egg pepper",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "egg rice",
+   "expected": [
+    "journal:13",
+    "journal:3",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "egg rice sauce",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "egg rice soy",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "egg sauce",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "egg sauce soy",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "egg scramble",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "egg soy",
+   "expected": [
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "egg spinach",
+   "expected": [
+    "recipe:11"
+   ]
+  },
+  {
+   "q": "egg whole",
+   "expected": [
+    "kitchen_ingredient:2"
+   ]
+  },
+  {
+   "q": "egg zucchini",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "eggp",
+   "expected": [
+    "kitchen_ingredient:22",
+    "recipe:18",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "eggpl",
+   "expected": [
+    "kitchen_ingredient:22",
+    "recipe:18",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "eggplant onion",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "eggplant onion pepper",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "eggplant onion tomato",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "eggplant parmigiana",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "eggplant pepper",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "eggplant pepper tomato",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "eggplant tomato",
+   "expected": [
+    "recipe:18",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "eggs",
+   "expected": [
+    "kitchen_ingredient:2"
+   ]
+  },
+  {
+   "q": "fil",
+   "expected": [
+    "kitchen_ingredient:19",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "fill",
+   "expected": [
+    "kitchen_ingredient:19",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "fille",
+   "expected": [
+    "kitchen_ingredient:19",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "fillet",
+   "expected": [
+    "kitchen_ingredient:19",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "fillet salmon",
+   "expected": [
+    "kitchen_ingredient:19",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "flo",
+   "expected": [
+    "kitchen_ingredient:18"
+   ]
+  },
+  {
+   "q": "flou",
+   "expected": [
+    "kitchen_ingredient:18"
+   ]
+  },
+  {
+   "q": "flour",
+   "expected": [
+    "kitchen_ingredient:18"
+   ]
+  },
+  {
+   "q": "flour tortillas",
+   "expected": [
+    "kitchen_ingredient:18"
+   ]
+  },
+  {
+   "q": "flour_tortillas",
+   "expected": [
+    "kitchen_ingredient:18"
+   ]
+  },
+  {
+   "q": "fri",
+   "expected": [
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:20",
+    "journal:3",
+    "journal:7",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "recipe:11",
+    "recipe:20",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "fri rated",
+   "expected": [
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:20",
+    "journal:3",
+    "journal:7"
+   ]
+  },
+  {
+   "q": "frid",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "fridg",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "fridge",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "fridge stock",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "frie",
+   "expected": [
+    "journal:13",
+    "journal:3",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "fried",
+   "expected": [
+    "journal:13",
+    "journal:3",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "fried rice",
+   "expected": [
+    "journal:13",
+    "journal:3",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "frit",
+   "expected": [
+    "journal:20",
+    "journal:7",
+    "recipe:11",
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "fritt",
+   "expected": [
+    "journal:20",
+    "journal:7",
+    "recipe:11",
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "frittata",
+   "expected": [
+    "journal:20",
+    "journal:7",
+    "recipe:11"
+   ]
+  },
+  {
+   "q": "frittata spinach",
+   "expected": [
+    "journal:20",
+    "journal:7",
+    "recipe:11"
+   ]
+  },
+  {
+   "q": "fritters",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "fritters zucchini",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "fry",
+   "expected": [
+    "journal:10",
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "fry stir",
+   "expected": [
+    "journal:10",
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "fry vegetable",
+   "expected": [
+    "journal:10",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "gar",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:9",
+    "recipe:1",
+    "recipe:13",
+    "recipe:22",
+    "recipe:24",
+    "recipe:25",
+    "recipe:29",
+    "recipe:3",
+    "recipe:4",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garl",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:9",
+    "recipe:1",
+    "recipe:13",
+    "recipe:22",
+    "recipe:24",
+    "recipe:25",
+    "recipe:29",
+    "recipe:3",
+    "recipe:4",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garli",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:9",
+    "recipe:1",
+    "recipe:13",
+    "recipe:22",
+    "recipe:24",
+    "recipe:25",
+    "recipe:29",
+    "recipe:3",
+    "recipe:4",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garlic",
+   "expected": [
+    "journal:15",
+    "journal:4",
+    "kitchen_ingredient:9",
+    "recipe:1",
+    "recipe:13",
+    "recipe:22",
+    "recipe:24",
+    "recipe:25",
+    "recipe:29",
+    "recipe:3",
+    "recipe:4",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garlic milk",
+   "expected": [
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "garlic milk pasta",
+   "expected": [
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "garlic milk tomato",
+   "expected": [
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "garlic mushrooms",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "garlic oil",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garlic oil olive",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garlic oil salmon",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garlic olive",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garlic olive salmon",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garlic onion",
+   "expected": [
+    "recipe:13",
+    "recipe:25",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "garlic onion pasta",
+   "expected": [
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "garlic onion tomato",
+   "expected": [
+    "recipe:13",
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "garlic pasta",
+   "expected": [
+    "recipe:29",
+    "recipe:3",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "garlic pasta spinach",
+   "expected": [
+    "recipe:29"
+   ]
+  },
+  {
+   "q": "garlic pasta tomato",
+   "expected": [
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "garlic rice",
+   "expected": [
+    "recipe:24"
+   ]
+  },
+  {
+   "q": "garlic salmon",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "garlic spinach",
+   "expected": [
+    "recipe:29"
+   ]
+  },
+  {
+   "q": "garlic toast",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "garlic tomato",
+   "expected": [
+    "recipe:13",
+    "recipe:25",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "gla",
+   "expected": [
+    "recipe:23",
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "glaz",
+   "expected": [
+    "recipe:23",
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "glaze",
+   "expected": [
+    "recipe:23",
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "glazed",
+   "expected": [
+    "recipe:23",
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "glazed maple",
+   "expected": [
+    "recipe:23"
+   ]
+  },
+  {
+   "q": "glazed rice",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "glazed salmon",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "glazed soy",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "gre",
+   "expected": [
+    "kitchen_ingredient:6",
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "gree",
+   "expected": [
+    "kitchen_ingredient:6",
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "greek",
+   "expected": [
+    "kitchen_ingredient:6",
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "greek salad",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "greek yogurt",
+   "expected": [
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "greek_yogurt",
+   "expected": [
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "gro",
+   "expected": [
+    "kitchen_inventory:2_fridge"
+   ]
+  },
+  {
+   "q": "grou",
+   "expected": [
+    "kitchen_inventory:2_fridge"
+   ]
+  },
+  {
+   "q": "groun",
+   "expected": [
+    "kitchen_inventory:2_fridge"
+   ]
+  },
+  {
+   "q": "ground",
+   "expected": [
+    "kitchen_inventory:2_fridge"
+   ]
+  },
+  {
+   "q": "her",
+   "expected": [
+    "kitchen_ingredient:20",
+    "kitchen_ingredient:24",
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "herb",
+   "expected": [
+    "kitchen_ingredient:20",
+    "kitchen_ingredient:24",
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "herb lemon",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "herbs",
+   "expected": [
+    "kitchen_ingredient:20",
+    "kitchen_ingredient:24"
+   ]
+  },
+  {
+   "q": "hum",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "humm",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "hummu",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "hummus",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "hummus wrap",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "in",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "inv",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "inve",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "inven",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "inventory",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "inventory kitchen",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "inventory stock",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "jas",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "jasm",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "jasmi",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "jasmine",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "jasmine rice",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "jasmine_rice",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_inventory:7_pantry"
+   ]
+  },
+  {
+   "q": "jou",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "jour",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "journ",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "journal",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "journal logged",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "journal meal",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "jul",
+   "expected": [
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "jul july",
+   "expected": [
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "july mon",
+   "expected": [
+    "journal:9"
+   ]
+  },
+  {
+   "q": "july rated",
+   "expected": [
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "july sat",
+   "expected": [
+    "journal:6",
+    "journal:7"
+   ]
+  },
+  {
+   "q": "july sun",
+   "expected": [
+    "journal:8"
+   ]
+  },
+  {
+   "q": "jun",
+   "expected": [
+    "journal:3",
+    "journal:4",
+    "journal:5"
+   ]
+  },
+  {
+   "q": "jun june",
+   "expected": [
+    "journal:3",
+    "journal:4",
+    "journal:5"
+   ]
+  },
+  {
+   "q": "june rated",
+   "expected": [
+    "journal:3",
+    "journal:4",
+    "journal:5"
+   ]
+  },
+  {
+   "q": "june sun",
+   "expected": [
+    "journal:5"
+   ]
+  },
+  {
+   "q": "june tue",
+   "expected": [
+    "journal:3",
+    "journal:4"
+   ]
+  },
+  {
+   "q": "kit",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "kitc",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "kitch",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "kitchen",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "kitchen stock",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "lem",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "lemo",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "lemon",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "lemon oil",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "lemon oil olive",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "lemon olive",
+   "expected": [
+    "recipe:2"
+   ]
+  },
+  {
+   "q": "log",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "logg",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "logge",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "logged",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "logged meal",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "map",
+   "expected": [
+    "kitchen_ingredient:21",
+    "recipe:23",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "mapl",
+   "expected": [
+    "kitchen_ingredient:21",
+    "recipe:23",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple",
+   "expected": [
+    "kitchen_ingredient:21",
+    "recipe:23",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple salmon",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple salmon sauce",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple salmon soy",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple salmon syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple sauce",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple sauce soy",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple sauce syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple soy",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple soy syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple syrup",
+   "expected": [
+    "kitchen_ingredient:21",
+    "recipe:23",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "maple_syrup",
+   "expected": [
+    "kitchen_ingredient:21",
+    "recipe:23",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "may",
+   "expected": [
+    "journal:1",
+    "journal:2"
+   ]
+  },
+  {
+   "q": "may mon",
+   "expected": [
+    "journal:2"
+   ]
+  },
+  {
+   "q": "may rated",
+   "expected": [
+    "journal:1",
+    "journal:2"
+   ]
+  },
+  {
+   "q": "may wed",
+   "expected": [
+    "journal:1"
+   ]
+  },
+  {
+   "q": "mea",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "meal",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "mil",
+   "expected": [
+    "kitchen_ingredient:3",
+    "kitchen_inventory:3_fridge",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "milk pasta",
+   "expected": [
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "milk pasta tomato",
+   "expected": [
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "milk tomato",
+   "expected": [
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "milk whole",
+   "expected": [
+    "kitchen_ingredient:3",
+    "kitchen_inventory:3_fridge"
+   ]
+  },
+  {
+   "q": "min",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "min servings",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "mon",
+   "expected": [
+    "journal:2",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "mon rated",
+   "expected": [
+    "journal:2",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "mus",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "kitchen_ingredient:13",
+    "recipe:12",
+    "recipe:15",
+    "recipe:22",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mush",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "kitchen_ingredient:13",
+    "recipe:12",
+    "recipe:15",
+    "recipe:22",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mushr",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "kitchen_ingredient:13",
+    "recipe:12",
+    "recipe:15",
+    "recipe:22",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mushroom",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "kitchen_ingredient:13",
+    "recipe:12",
+    "recipe:15",
+    "recipe:22",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mushroom risotto",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mushrooms",
+   "expected": [
+    "kitchen_ingredient:13",
+    "recipe:12",
+    "recipe:15",
+    "recipe:22",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mushrooms onion",
+   "expected": [
+    "recipe:12",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mushrooms onion pepper",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "mushrooms onion rice",
+   "expected": [
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mushrooms pepper",
+   "expected": [
+    "recipe:12",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms pepper rice",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms pepper sauce",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms pepper soy",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms rice",
+   "expected": [
+    "recipe:15",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "mushrooms rice sauce",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms rice soy",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms sauce",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms sauce soy",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms soy",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "mushrooms toast",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "noo",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "nood",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "noodl",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "noodle",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "noodle soup",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "nov",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "nov november",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "nove",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "novem",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "november",
+   "expected": [
+    "kitchen_inventory:4_fridge"
+   ]
+  },
+  {
+   "q": "oct",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "oct october",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "octo",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "octob",
+   "expected": [
+    "journal:20",
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge"
+   ]
+  },
+  {
+   "q": "october rated",
+   "expected": [
+    "journal:20"
+   ]
+  },
+  {
+   "q": "october sat",
+   "expected": [
+    "journal:20"
+   ]
+  },
+  {
+   "q": "oil",
+   "expected": [
+    "kitchen_ingredient:8",
+    "recipe:17",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:5",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "oil olive",
+   "expected": [
+    "kitchen_ingredient:8",
+    "recipe:17",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:5",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "oil olive onion",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "oil olive pasta",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "oil olive salmon",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "oil olive spinach",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "oil olive tomato",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "oil olive tortillas",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "oil olive zucchini",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "oil onion",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "oil onion tomato",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "oil pasta",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "oil pasta spinach",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "oil salmon",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "oil spinach",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "oil tomato",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "oil tortillas",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "oil zucchini",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "oli",
+   "expected": [
+    "kitchen_ingredient:8",
+    "recipe:17",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:5",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "oliv",
+   "expected": [
+    "kitchen_ingredient:8",
+    "recipe:17",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:5",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "olive",
+   "expected": [
+    "kitchen_ingredient:8",
+    "recipe:17",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:5",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "olive onion",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "olive onion tomato",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "olive pasta",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "olive pasta spinach",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "olive salmon",
+   "expected": [
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "olive spinach",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "olive tomato",
+   "expected": [
+    "recipe:21"
+   ]
+  },
+  {
+   "q": "olive tortillas",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "olive zucchini",
+   "expected": [
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "olive_oil",
+   "expected": [
+    "kitchen_ingredient:8",
+    "recipe:17",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:5",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "ome",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "omel",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "omele",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "omelette",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "omelette veggie",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "on",
+   "expected": [
+    "kitchen_ingredient:10",
+    "recipe:12",
+    "recipe:13",
+    "recipe:19",
+    "recipe:21",
+    "recipe:22",
+    "recipe:25",
+    "recipe:3",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "oni",
+   "expected": [
+    "kitchen_ingredient:10",
+    "recipe:12",
+    "recipe:13",
+    "recipe:19",
+    "recipe:21",
+    "recipe:25",
+    "recipe:3",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "onio",
+   "expected": [
+    "kitchen_ingredient:10",
+    "recipe:12",
+    "recipe:13",
+    "recipe:19",
+    "recipe:21",
+    "recipe:25",
+    "recipe:3",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "onion",
+   "expected": [
+    "kitchen_ingredient:10",
+    "recipe:12",
+    "recipe:13",
+    "recipe:19",
+    "recipe:21",
+    "recipe:25",
+    "recipe:3",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "onion pasta",
+   "expected": [
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "onion pepper",
+   "expected": [
+    "recipe:12",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "onion pepper tomato",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "onion rice",
+   "expected": [
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "onion tomato",
+   "expected": [
+    "recipe:13",
+    "recipe:19",
+    "recipe:21",
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "onion yellow",
+   "expected": [
+    "kitchen_ingredient:10"
+   ]
+  },
+  {
+   "q": "pan",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_ingredient:16",
+    "kitchen_ingredient:17",
+    "kitchen_ingredient:18",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "pant",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_ingredient:16",
+    "kitchen_ingredient:17",
+    "kitchen_ingredient:18",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "pantr",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_ingredient:16",
+    "kitchen_ingredient:17",
+    "kitchen_ingredient:18",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "pantry",
+   "expected": [
+    "kitchen_ingredient:15",
+    "kitchen_ingredient:16",
+    "kitchen_ingredient:17",
+    "kitchen_ingredient:18",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "pantry stock",
+   "expected": [
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "par",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "parm",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "parmi",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "parmigiana",
+   "expected": [
+    "recipe:18"
+   ]
+  },
+  {
+   "q": "pas",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "kitchen_ingredient:16",
+    "kitchen_inventory:8_pantry",
+    "recipe:29",
+    "recipe:3",
+    "recipe:4",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "past",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "kitchen_ingredient:16",
+    "kitchen_inventory:8_pantry",
+    "recipe:29",
+    "recipe:3",
+    "recipe:4",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "pasta pesto",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "pasta salad",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "pasta spinach",
+   "expected": [
+    "recipe:29",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "pasta tomato",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "pep",
+   "expected": [
+    "kitchen_ingredient:14",
+    "recipe:12",
+    "recipe:14",
+    "recipe:15",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "pepp",
+   "expected": [
+    "kitchen_ingredient:14",
+    "recipe:12",
+    "recipe:14",
+    "recipe:15",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "peppe",
+   "expected": [
+    "kitchen_ingredient:14",
+    "recipe:12",
+    "recipe:14",
+    "recipe:15",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "pepper",
+   "expected": [
+    "kitchen_ingredient:14",
+    "recipe:12",
+    "recipe:14",
+    "recipe:15",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "pepper rice",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "pepper rice sauce",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "pepper rice soy",
+   "expected": [
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "pepper sauce",
+   "expected": [
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "pepper sauce soy",
+   "expected": [
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "pepper soy",
+   "expected": [
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "pepper tomato",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "pes",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "pest",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "pesto",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "pesto salad",
+   "expected": [
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "pro",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_ingredient:10",
+    "kitchen_ingredient:11",
+    "kitchen_ingredient:12",
+    "kitchen_ingredient:13",
+    "kitchen_ingredient:14",
+    "kitchen_ingredient:19",
+    "kitchen_ingredient:2",
+    "kitchen_ingredient:22",
+    "kitchen_ingredient:23",
+    "kitchen_ingredient:9"
+   ]
+  },
+  {
+   "q": "prod",
+   "expected": [
+    "kitchen_ingredient:10",
+    "kitchen_ingredient:11",
+    "kitchen_ingredient:12",
+    "kitchen_ingredient:13",
+    "kitchen_ingredient:14",
+    "kitchen_ingredient:22",
+    "kitchen_ingredient:23",
+    "kitchen_ingredient:9"
+   ]
+  },
+  {
+   "q": "produ",
+   "expected": [
+    "kitchen_ingredient:10",
+    "kitchen_ingredient:11",
+    "kitchen_ingredient:12",
+    "kitchen_ingredient:13",
+    "kitchen_ingredient:14",
+    "kitchen_ingredient:22",
+    "kitchen_ingredient:23",
+    "kitchen_ingredient:9"
+   ]
+  },
+  {
+   "q": "produce",
+   "expected": [
+    "kitchen_ingredient:10",
+    "kitchen_ingredient:11",
+    "kitchen_ingredient:12",
+    "kitchen_ingredient:13",
+    "kitchen_ingredient:14",
+    "kitchen_ingredient:22",
+    "kitchen_ingredient:23",
+    "kitchen_ingredient:9"
+   ]
+  },
+  {
+   "q": "prot",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_ingredient:19",
+    "kitchen_ingredient:2"
+   ]
+  },
+  {
+   "q": "prote",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_ingredient:19",
+    "kitchen_ingredient:2"
+   ]
+  },
+  {
+   "q": "protein",
+   "expected": [
+    "kitchen_ingredient:1",
+    "kitchen_ingredient:19",
+    "kitchen_ingredient:2"
+   ]
+  },
+  {
+   "q": "que",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "recipe:10",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "ques",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "recipe:10",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "quesa",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "recipe:10",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "quesadilla",
+   "expected": [
+    "journal:19",
+    "journal:9",
+    "recipe:10",
+    "recipe:26"
+   ]
+  },
+  {
+   "q": "rat",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9",
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "rata",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "ratat",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "ratatouille",
+   "expected": [
+    "recipe:19"
+   ]
+  },
+  {
+   "q": "rate",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "rated",
+   "expected": [
+    "journal:1",
+    "journal:10",
+    "journal:11",
+    "journal:12",
+    "journal:13",
+    "journal:14",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:2",
+    "journal:20",
+    "journal:3",
+    "journal:4",
+    "journal:5",
+    "journal:6",
+    "journal:7",
+    "journal:8",
+    "journal:9"
+   ]
+  },
+  {
+   "q": "rated sat",
+   "expected": [
+    "journal:11",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:20",
+    "journal:6",
+    "journal:7"
+   ]
+  },
+  {
+   "q": "rated september",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "rated sun",
+   "expected": [
+    "journal:10",
+    "journal:5",
+    "journal:8"
+   ]
+  },
+  {
+   "q": "rated tue",
+   "expected": [
+    "journal:3",
+    "journal:4"
+   ]
+  },
+  {
+   "q": "rated wed",
+   "expected": [
+    "journal:1"
+   ]
+  },
+  {
+   "q": "ric",
+   "expected": [
+    "journal:13",
+    "journal:3",
+    "kitchen_ingredient:15",
+    "kitchen_inventory:7_pantry",
+    "recipe:15",
+    "recipe:16",
+    "recipe:24",
+    "recipe:28",
+    "recipe:6",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "rice",
+   "expected": [
+    "journal:13",
+    "journal:3",
+    "kitchen_ingredient:15",
+    "kitchen_inventory:7_pantry",
+    "recipe:15",
+    "recipe:16",
+    "recipe:24",
+    "recipe:28",
+    "recipe:6",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "rice salmon",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "rice salmon sauce",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "rice salmon soy",
+   "expected": [
+    "recipe:28"
+   ]
+  },
+  {
+   "q": "rice sauce",
+   "expected": [
+    "recipe:15",
+    "recipe:28",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "rice sauce soy",
+   "expected": [
+    "recipe:15",
+    "recipe:28",
+    "recipe:7"
+   ]
+  },
+  {
+   "q": "rice spinach",
+   "expected": [
+    "recipe:16"
+   ]
+  },
+  {
+   "q": "ris",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "riso",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "risot",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "risotto",
+   "expected": [
+    "journal:14",
+    "journal:2",
+    "recipe:6"
+   ]
+  },
+  {
+   "q": "sal",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "kitchen_ingredient:19",
+    "recipe:21",
+    "recipe:28",
+    "recipe:5",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "sala",
+   "expected": [
+    "recipe:21",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "salad",
+   "expected": [
+    "recipe:21",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "salm",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "kitchen_ingredient:19",
+    "recipe:28",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "salmo",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "kitchen_ingredient:19",
+    "recipe:28",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "salmon",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "kitchen_ingredient:19",
+    "recipe:28",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "salmon sauce",
+   "expected": [
+    "recipe:28",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "salmon sauce soy",
+   "expected": [
+    "recipe:28",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "salmon sauce syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "salmon soy",
+   "expected": [
+    "recipe:28",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "salmon soy syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "salmon syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "salmon teriyaki",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "salmon_fillet",
+   "expected": [
+    "kitchen_ingredient:19",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "sat",
+   "expected": [
+    "journal:11",
+    "journal:15",
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19",
+    "journal:20",
+    "journal:6",
+    "journal:7"
+   ]
+  },
+  {
+   "q": "sat september",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "sau",
+   "expected": [
+    "kitchen_ingredient:7",
+    "recipe:14",
+    "recipe:15",
+    "recipe:28",
+    "recipe:7",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "sauc",
+   "expected": [
+    "kitchen_ingredient:7",
+    "recipe:14",
+    "recipe:15",
+    "recipe:28",
+    "recipe:7",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "sauce",
+   "expected": [
+    "kitchen_ingredient:7",
+    "recipe:14",
+    "recipe:15",
+    "recipe:28",
+    "recipe:7",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "sauce soy",
+   "expected": [
+    "kitchen_ingredient:7",
+    "recipe:14",
+    "recipe:15",
+    "recipe:28",
+    "recipe:7",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "sauce soy syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "sauce syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "scr",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "scra",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "scram",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "scramble",
+   "expected": [
+    "recipe:30"
+   ]
+  },
+  {
+   "q": "sep",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "sep september",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "sept",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "septe",
+   "expected": [
+    "journal:16",
+    "journal:17",
+    "journal:18",
+    "journal:19"
+   ]
+  },
+  {
+   "q": "ser",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "serv",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "servi",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "servings",
+   "expected": [
+    "recipe:1",
+    "recipe:10",
+    "recipe:11",
+    "recipe:12",
+    "recipe:13",
+    "recipe:14",
+    "recipe:15",
+    "recipe:16",
+    "recipe:17",
+    "recipe:18",
+    "recipe:19",
+    "recipe:2",
+    "recipe:20",
+    "recipe:21",
+    "recipe:22",
+    "recipe:23",
+    "recipe:24",
+    "recipe:25",
+    "recipe:26",
+    "recipe:27",
+    "recipe:28",
+    "recipe:29",
+    "recipe:3",
+    "recipe:30",
+    "recipe:4",
+    "recipe:5",
+    "recipe:6",
+    "recipe:7",
+    "recipe:8",
+    "recipe:9"
+   ]
+  },
+  {
+   "q": "sou",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:25",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "soup",
+   "expected": [
+    "journal:1",
+    "journal:12",
+    "recipe:25",
+    "recipe:3"
+   ]
+  },
+  {
+   "q": "soup tomato",
+   "expected": [
+    "recipe:25"
+   ]
+  },
+  {
+   "q": "soy",
+   "expected": [
+    "kitchen_ingredient:7",
+    "recipe:14",
+    "recipe:15",
+    "recipe:28",
+    "recipe:7",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "soy syrup",
+   "expected": [
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "soy_sauce",
+   "expected": [
+    "kitchen_ingredient:7",
+    "recipe:14",
+    "recipe:15",
+    "recipe:28",
+    "recipe:7",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "spi",
+   "expected": [
+    "journal:20",
+    "journal:7",
+    "kitchen_ingredient:12",
+    "kitchen_inventory:5_fridge",
+    "recipe:11",
+    "recipe:16",
+    "recipe:29",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "spin",
+   "expected": [
+    "journal:20",
+    "journal:7",
+    "kitchen_ingredient:12",
+    "kitchen_inventory:5_fridge",
+    "recipe:11",
+    "recipe:16",
+    "recipe:29",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "spina",
+   "expected": [
+    "journal:20",
+    "journal:7",
+    "kitchen_ingredient:12",
+    "kitchen_inventory:5_fridge",
+    "recipe:11",
+    "recipe:16",
+    "recipe:29",
+    "recipe:5"
+   ]
+  },
+  {
+   "q": "sti",
+   "expected": [
+    "journal:10",
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "stir",
+   "expected": [
+    "journal:10",
+    "recipe:14",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "stir vegetable",
+   "expected": [
+    "journal:10",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "sto",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "stoc",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "stock",
+   "expected": [
+    "kitchen_inventory:1_fridge",
+    "kitchen_inventory:2_fridge",
+    "kitchen_inventory:3_fridge",
+    "kitchen_inventory:4_fridge",
+    "kitchen_inventory:5_fridge",
+    "kitchen_inventory:6_fridge",
+    "kitchen_inventory:7_pantry",
+    "kitchen_inventory:8_pantry",
+    "kitchen_inventory:9_pantry"
+   ]
+  },
+  {
+   "q": "sun",
+   "expected": [
+    "journal:10",
+    "journal:5",
+    "journal:8"
+   ]
+  },
+  {
+   "q": "syr",
+   "expected": [
+    "kitchen_ingredient:21",
+    "recipe:23",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "syru",
+   "expected": [
+    "kitchen_ingredient:21",
+    "recipe:23",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "syrup",
+   "expected": [
+    "kitchen_ingredient:21",
+    "recipe:23",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "tac",
+   "expected": [
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "taco",
+   "expected": [
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "tacos",
+   "expected": [
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "ter",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "teri",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "teriy",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "teriyaki",
+   "expected": [
+    "journal:17",
+    "journal:6",
+    "recipe:8"
+   ]
+  },
+  {
+   "q": "toa",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "toas",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "toast",
+   "expected": [
+    "recipe:22"
+   ]
+  },
+  {
+   "q": "tom",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "kitchen_ingredient:11",
+    "kitchen_inventory:6_fridge",
+    "recipe:13",
+    "recipe:18",
+    "recipe:19",
+    "recipe:21",
+    "recipe:25",
+    "recipe:27",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "toma",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "kitchen_ingredient:11",
+    "kitchen_inventory:6_fridge",
+    "recipe:13",
+    "recipe:18",
+    "recipe:19",
+    "recipe:21",
+    "recipe:25",
+    "recipe:27",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "tomat",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "kitchen_ingredient:11",
+    "kitchen_inventory:6_fridge",
+    "recipe:13",
+    "recipe:18",
+    "recipe:19",
+    "recipe:21",
+    "recipe:25",
+    "recipe:27",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "tomato",
+   "expected": [
+    "journal:16",
+    "journal:5",
+    "kitchen_ingredient:11",
+    "kitchen_inventory:6_fridge",
+    "recipe:13",
+    "recipe:18",
+    "recipe:19",
+    "recipe:21",
+    "recipe:25",
+    "recipe:27",
+    "recipe:4"
+   ]
+  },
+  {
+   "q": "tomato tortillas",
+   "expected": [
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "tomatoes",
+   "expected": [
+    "kitchen_ingredient:11"
+   ]
+  },
+  {
+   "q": "tor",
+   "expected": [
+    "kitchen_ingredient:18",
+    "recipe:10",
+    "recipe:17",
+    "recipe:26",
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "tort",
+   "expected": [
+    "kitchen_ingredient:18",
+    "recipe:10",
+    "recipe:17",
+    "recipe:26",
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "torti",
+   "expected": [
+    "kitchen_ingredient:18",
+    "recipe:10",
+    "recipe:17",
+    "recipe:26",
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "tortillas",
+   "expected": [
+    "kitchen_ingredient:18",
+    "recipe:10",
+    "recipe:17",
+    "recipe:26",
+    "recipe:27"
+   ]
+  },
+  {
+   "q": "tue",
+   "expected": [
+    "journal:3",
+    "journal:4"
+   ]
+  },
+  {
+   "q": "veg",
+   "expected": [
+    "journal:10",
+    "recipe:12",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "vege",
+   "expected": [
+    "journal:10",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "veget",
+   "expected": [
+    "journal:10",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "vegetable",
+   "expected": [
+    "journal:10",
+    "recipe:15"
+   ]
+  },
+  {
+   "q": "vegg",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "veggi",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "veggie",
+   "expected": [
+    "recipe:12"
+   ]
+  },
+  {
+   "q": "wed",
+   "expected": [
+    "journal:1"
+   ]
+  },
+  {
+   "q": "who",
+   "expected": [
+    "kitchen_ingredient:2",
+    "kitchen_ingredient:3",
+    "kitchen_inventory:3_fridge"
+   ]
+  },
+  {
+   "q": "whol",
+   "expected": [
+    "kitchen_ingredient:2",
+    "kitchen_ingredient:3",
+    "kitchen_inventory:3_fridge"
+   ]
+  },
+  {
+   "q": "whole",
+   "expected": [
+    "kitchen_ingredient:2",
+    "kitchen_ingredient:3",
+    "kitchen_inventory:3_fridge"
+   ]
+  },
+  {
+   "q": "whole_egg",
+   "expected": [
+    "kitchen_ingredient:2"
+   ]
+  },
+  {
+   "q": "whole_milk",
+   "expected": [
+    "kitchen_ingredient:3",
+    "kitchen_inventory:3_fridge"
+   ]
+  },
+  {
+   "q": "wra",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "wrap",
+   "expected": [
+    "recipe:17"
+   ]
+  },
+  {
+   "q": "yel",
+   "expected": [
+    "kitchen_ingredient:10"
+   ]
+  },
+  {
+   "q": "yell",
+   "expected": [
+    "kitchen_ingredient:10"
+   ]
+  },
+  {
+   "q": "yello",
+   "expected": [
+    "kitchen_ingredient:10"
+   ]
+  },
+  {
+   "q": "yellow",
+   "expected": [
+    "kitchen_ingredient:10"
+   ]
+  },
+  {
+   "q": "yellow_onion",
+   "expected": [
+    "kitchen_ingredient:10"
+   ]
+  },
+  {
+   "q": "yog",
+   "expected": [
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "yogu",
+   "expected": [
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "yogur",
+   "expected": [
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "yogurt",
+   "expected": [
+    "kitchen_ingredient:6"
+   ]
+  },
+  {
+   "q": "zuc",
+   "expected": [
+    "kitchen_ingredient:23",
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "zucc",
+   "expected": [
+    "kitchen_ingredient:23",
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "zucch",
+   "expected": [
+    "kitchen_ingredient:23",
+    "recipe:20"
+   ]
+  },
+  {
+   "q": "zucchini",
+   "expected": [
+    "kitchen_ingredient:23",
+    "recipe:20"
+   ]
+  }
+ ]
+}

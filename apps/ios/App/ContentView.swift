@@ -121,6 +121,7 @@ struct ContentView: View {
   @State private var selectedTab: AppTab = .home
   @State private var hasOnboarded = false
   @State private var navigateToScan = false
+  @State private var navigateToSearch = false
   @State private var navigateToReverseScan = false
   @State private var navigateToDemoMode = false
   @State private var navigateToDirectReview = false
@@ -162,7 +163,8 @@ struct ContentView: View {
   private let orbLongPressThreshold: TimeInterval = 0.35
 
   private var hasActiveHomeDestination: Bool {
-    navigateToScan || navigateToReverseScan || navigateToDemoMode || navigateToDirectReview
+    navigateToScan || navigateToSearch || navigateToReverseScan || navigateToDemoMode
+      || navigateToDirectReview
       || navigateToDirectResults || homeUpdateGroceriesLaunchMode != nil
       || homeRecommendationRoute != nil || liveAssistantRoute != nil
   }
@@ -311,8 +313,22 @@ struct ContentView: View {
           spotlightCoordinator: spotlightCoordinator
         )
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+          ToolbarItem(placement: .topBarTrailing) {
+            Button {
+              openSearch()
+            } label: {
+              Image(systemName: "magnifyingglass")
+            }
+            .accessibilityLabel(Text("Search"))
+          }
+        }
         .navigationDestination(isPresented: $navigateToScan) {
           ScanView()
+        }
+        .navigationDestination(isPresented: $navigateToSearch) {
+          SearchScreen()
+            .environmentObject(deps)
         }
         .navigationDestination(isPresented: $navigateToReverseScan) {
           ReverseScanMealView()
@@ -530,6 +546,11 @@ struct ContentView: View {
     case .onboarding:
       showOnboarding = true
     }
+  }
+
+  private func openSearch() {
+    selectedTab = .home
+    navigateToSearch = true
   }
 
   private func openReverseScan() {
@@ -793,6 +814,7 @@ struct ContentView: View {
 
   private func clearHomeNavigation() {
     navigateToScan = false
+    navigateToSearch = false
     navigateToReverseScan = false
     navigateToDemoMode = false
     navigateToDirectReview = false

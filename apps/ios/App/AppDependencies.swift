@@ -44,6 +44,16 @@ final class AppDependencies: ObservableObject {
 
   let recipeGenerator: RecipeGenerating
 
+  /// Shared unified-search index. Owns its own SQLite file; revalidates
+  /// lazily against the app database's epoch at each search. Stored as a
+  /// var (never mutated after init) because @EnvironmentObject member
+  /// lookup resolves through a ReferenceWritableKeyPath, which `let`
+  /// properties do not provide.
+  private(set) var searchIndexService: SearchIndexService
+  /// Kept for the process lifetime so the restore notification observer
+  /// (which triggers a full index rebuild) is never deallocated.
+  private(set) var searchRestoreToken: Any
+
   init(appDatabase: AppDatabase) {
     self.appDatabase = appDatabase
     let db = appDatabase.dbQueue
@@ -130,6 +140,28 @@ final class AppDependencies: ObservableObject {
       recipeRepository: recipeRepository,
       ingredientResolver: ingredientCatalogResolver
     )
+
+    let searchSources = SearchSources(
+      db: db,
+      ingredientRepository: ingredientRepository,
+      inventoryRepository: inventoryRepository,
+      recipeRepository: recipeRepository
+    )
+    let appDatabasePath = appDatabase.path
+    // Plain concatenation: on macOS, UniformTypeIdentifiers adds
+    // appendingPathComponent(_:conformingTo:) to String and that overload
+    // wins over the NSString one, breaking the build.
+    let searchIndexPath =
+      (appDatabasePath as NSString).deletingLastPathComponent
+      + "/fridgeluck-search-index.sqlite"
+    self.searchIndexService = SearchIndexService(
+      indexPath: searchIndexPath,
+      sources: searchSources,
+      sourceEpochProvider: {
+        SearchIndexService.sourceEpoch(forDatabaseAtPath: appDatabasePath)
+      }
+    )
+    self.searchRestoreToken = self.searchIndexService.observeRestoreNotifications()
   }
 
   func makeRecommendationEngine() -> RecommendationEngine {
