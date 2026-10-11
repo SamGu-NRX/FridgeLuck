@@ -7,7 +7,7 @@ public struct TasteConfig: Equatable, Sendable {
     public let configVersion: Int
 
     // Recency and drift (days). The posterior forgets with one half-life;
-    // per-evidence-class counters use their own.
+    // per-evidence-class updates use their own half-life.
     public var posteriorHalfLifeDays: Double
     public var cookedEvidenceHalfLifeDays: Double
     public var savedEvidenceHalfLifeDays: Double
@@ -17,22 +17,27 @@ public struct TasteConfig: Equatable, Sendable {
     public var substitutionEvidenceHalfLifeDays: Double
     public var feedbackEvidenceHalfLifeDays: Double
 
-    // Exposure weighting (availability as confound).
-    public var exposureVarietyReference: Double
+    // Exposure weighting (availability as confound). The factor is
+    // shown/feasible with a floor; the ratio itself carries the signal
+    // (DESIGN.md WEIGHTING-1).
     public var exposureFloor: Double
 
     // Linear-Gaussian model.
     public var observationNoiseVariance: Double
     public var priorWeightVariance: Double
 
+    // Rank-time utility blending (outside the learned posterior).
+    public var pantryFitWeight: Double
+    public var popularityWeight: Double
+
     // Exploration: Thompson draw inflation decays with evidence.
     public var explorationInflation: Double
     public var explorationDecayEvidence: Double
 
-    // Cold start: blend of prior/baseline until this much effective evidence.
+    // Cold start: prior/stated model until this much effective evidence.
     public var coldStartEvidence: Double
 
-    // Repeat affinity (per-recipe decayed cook count multiplier).
+    // Repeat affinity (per-recipe decayed positive-cook count multiplier).
     public var repeatAffinityWeight: Double
     public var repeatAffinityHalfLifeDays: Double
 
@@ -49,10 +54,11 @@ public struct TasteConfig: Equatable, Sendable {
         skippedEvidenceHalfLifeDays: 45,
         substitutionEvidenceHalfLifeDays: 90,
         feedbackEvidenceHalfLifeDays: 45,
-        exposureVarietyReference: 6,
         exposureFloor: 0.15,
         observationNoiseVariance: 1,
         priorWeightVariance: 0.25,
+        pantryFitWeight: 0.5,
+        popularityWeight: 0.5,
         explorationInflation: 2,
         explorationDecayEvidence: 8,
         coldStartEvidence: 12,
@@ -62,15 +68,26 @@ public struct TasteConfig: Equatable, Sendable {
     )
 
     public init(
-        configVersion: Int, posteriorHalfLifeDays: Double, cookedEvidenceHalfLifeDays: Double,
-        savedEvidenceHalfLifeDays: Double, openedEvidenceHalfLifeDays: Double,
-        viewedEvidenceHalfLifeDays: Double, skippedEvidenceHalfLifeDays: Double,
-        substitutionEvidenceHalfLifeDays: Double, feedbackEvidenceHalfLifeDays: Double,
-        exposureVarietyReference: Double, exposureFloor: Double,
-        observationNoiseVariance: Double, priorWeightVariance: Double,
-        explorationInflation: Double, explorationDecayEvidence: Double,
-        coldStartEvidence: Double, repeatAffinityWeight: Double,
-        repeatAffinityHalfLifeDays: Double, softDismissalExpiryDays: Int64
+        configVersion: Int,
+        posteriorHalfLifeDays: Double,
+        cookedEvidenceHalfLifeDays: Double,
+        savedEvidenceHalfLifeDays: Double,
+        openedEvidenceHalfLifeDays: Double,
+        viewedEvidenceHalfLifeDays: Double,
+        skippedEvidenceHalfLifeDays: Double,
+        substitutionEvidenceHalfLifeDays: Double,
+        feedbackEvidenceHalfLifeDays: Double,
+        exposureFloor: Double,
+        observationNoiseVariance: Double,
+        priorWeightVariance: Double,
+        pantryFitWeight: Double,
+        popularityWeight: Double,
+        explorationInflation: Double,
+        explorationDecayEvidence: Double,
+        coldStartEvidence: Double,
+        repeatAffinityWeight: Double,
+        repeatAffinityHalfLifeDays: Double,
+        softDismissalExpiryDays: Int64
     ) {
         self.configVersion = configVersion
         self.posteriorHalfLifeDays = posteriorHalfLifeDays
@@ -81,10 +98,11 @@ public struct TasteConfig: Equatable, Sendable {
         self.skippedEvidenceHalfLifeDays = skippedEvidenceHalfLifeDays
         self.substitutionEvidenceHalfLifeDays = substitutionEvidenceHalfLifeDays
         self.feedbackEvidenceHalfLifeDays = feedbackEvidenceHalfLifeDays
-        self.exposureVarietyReference = exposureVarietyReference
         self.exposureFloor = exposureFloor
         self.observationNoiseVariance = observationNoiseVariance
         self.priorWeightVariance = priorWeightVariance
+        self.pantryFitWeight = pantryFitWeight
+        self.popularityWeight = popularityWeight
         self.explorationInflation = explorationInflation
         self.explorationDecayEvidence = explorationDecayEvidence
         self.coldStartEvidence = coldStartEvidence

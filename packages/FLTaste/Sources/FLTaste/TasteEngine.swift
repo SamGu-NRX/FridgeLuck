@@ -14,6 +14,9 @@ public struct TasteEngine: Sendable {
     /// Append-only in ingest order. Snapshot serialization sorts canonically.
     public private(set) var events: [TasteEvent]
     public private(set) var state: EngineState
+    /// Behavioral posteriors per eater, refolded with the state after every
+    /// ingest (same total-cost model as the state refold).
+    public private(set) var model: TasteModel
 
     public init(catalog: RecipeCatalog, config: TasteConfig = .standard) {
         self.catalog = catalog
@@ -21,6 +24,9 @@ public struct TasteEngine: Sendable {
         self.config = config
         self.events = []
         self.state = EngineState()
+        self.model = TasteModel(
+            events: [], extractor: FeatureExtractor(catalog: catalog), catalog: catalog,
+            config: config)
     }
 
     /// Restores from canonical snapshot bytes: parses, migrates forward,
@@ -35,6 +41,8 @@ public struct TasteEngine: Sendable {
         self.config = config
         self.events = events
         self.state = Fold.apply(events)
+        self.model = TasteModel(
+            events: events, extractor: self.extractor, catalog: catalog, config: config)
     }
 
     // MARK: Ingest
@@ -53,6 +61,19 @@ public struct TasteEngine: Sendable {
         guard !fresh.isEmpty else { return }
         events.append(contentsOf: fresh)
         state = Fold.apply(events)
+        model = TasteModel(
+            events: events, extractor: extractor, catalog: catalog, config: config)
+    }
+
+    // MARK: Ranking
+
+    /// Ranks feasible candidates (SPEC 3.3 contract). Hard restrictions are
+    /// applied before the model sees any candidate. Deterministic given the
+    /// seeded RNG; `context.now` defaults to the log's last event time.
+    public func rank(_ input: RankInput, rng: inout SeededRNG) -> [RankedRecipe] {
+        let ranker = Ranker(
+            config: config, catalog: catalog, extractor: extractor, model: model, state: state)
+        return ranker.rank(input, rng: &rng)
     }
 
     // MARK: Snapshots

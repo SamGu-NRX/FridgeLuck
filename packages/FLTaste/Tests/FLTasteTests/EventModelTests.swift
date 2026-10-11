@@ -73,6 +73,25 @@ final class EventModelTests: XCTestCase {
         XCTAssertEqual(engine.state, before)
     }
 
+    /// Voiding a CORRECTION inerts the correction (the original event stands
+    /// as amended by any other corrections); voiding that void revives the
+    /// correction. Changing your mind never requires a full reset.
+    func testVoidingACorrectionInertsItAndVoidingTheVoidRevivesIt() {
+        var engine = Fixtures.engine()
+        engine.ingest([
+            Fixtures.cooked("c1", "r_rice_bowl", at: Fixtures.instant(1), rating: Rating(2), eater: "sam"),
+            Fixtures.correction("x1", amends: "c1", .setRating(Rating(5)!), at: Fixtures.instant(2)),
+            Fixtures.correction("x2", amends: "x1", .void, at: Fixtures.instant(3)),
+        ])
+        let inert = engine.state.eaters[EaterID("sam")!]? .recipeHistory[RecipeID("r_rice_bowl")!]?.cooks.first?.rating
+        XCTAssertEqual(inert, Rating(2), "voided correction must leave the original rating")
+
+        // Un-voiding (voiding the void) revives the correction.
+        engine.ingest(Fixtures.correction("x3", amends: "x2", .void, at: Fixtures.instant(4)))
+        let revived = engine.state.eaters[EaterID("sam")!]? .recipeHistory[RecipeID("r_rice_bowl")!]?.cooks.first?.rating
+        XCTAssertEqual(revived, Rating(5), "voiding the void revives the correction")
+    }
+
     func testReattributeMovesCookToAnotherEater() {
         var engine = Fixtures.engine()
         engine.ingest(Fixtures.scenarioEvents())
