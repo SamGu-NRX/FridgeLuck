@@ -5,15 +5,6 @@ import XCTest
 
 @testable import FridgeLuck
 
-/// The stored entry when present and decodable; absent, corrupt, and
-/// unreadable all read as nil for these tests' purposes.
-private extension WeeklyPlanAppFlowTests.Fixture {
-  var storedEntry: WeeklyPlanStoreEntry? {
-    if case .entry(let entry) = store.read() { return entry }
-    return nil
-  }
-}
-
 /// Acceptance tests for the app flow through the separate plan store: relaunch
 /// restore, editable review actions, stale-input detection, and persistence.
 /// Uses the real repositories over fully migrated in-memory SQLite.
@@ -93,6 +84,13 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
       directory: directory)
   }
 
+  /// The stored entry when present and decodable; absent, corrupt, and
+  /// unreadable all read as nil for these tests' purposes.
+  private func storedEntry(_ fixture: Fixture) -> WeeklyPlanStoreEntry? {
+    if case .entry(let entry) = fixture.store.read() { return entry }
+    return nil
+  }
+
   private func makeViewModel(_ fixture: Fixture) -> WeeklyPlanViewModel {
     let model = WeeklyPlanViewModel(
       inventoryRepository: fixture.inventoryRepository,
@@ -117,7 +115,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
     let plan = try XCTUnwrap(model.flowState.plan)
     XCTAssertTrue(plan.isFeasible, "Fixture stock covers three recipes across three slots.")
     XCTAssertEqual(model.flowState.entry?.phase, .draft)
-    XCTAssertNotNil(fixture.storedEntry, "The draft persists through the separate store.")
+    XCTAssertNotNil(storedEntry(fixture), "The draft persists through the separate store.")
   }
 
   func testRelaunchRestoresTheAcceptedPlanUnstale() throws {
@@ -139,7 +137,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
     let model = makeViewModel(fixture)
     model.recompute()
     model.accept()
-    let stored = try XCTUnwrap(fixture.storedEntry)
+    let stored = try XCTUnwrap(storedEntry(fixture))
 
     // The kitchen moves underneath the accepted plan.
     try fixture.inventoryRepository.addLot(
@@ -169,7 +167,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
     XCTAssertNil(model.flowState.entry?.acceptedAt)
     XCTAssertNil(model.flowState.rejectionReason)
     XCTAssertEqual(
-      fixture.storedEntry?.phase, .draft, "The demotion persists.")
+      storedEntry(fixture)?.phase, .draft, "The demotion persists.")
   }
 
   func testInfeasibleEditIsRejectedAndNothingChanges() throws {
@@ -177,7 +175,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
     let model = makeViewModel(fixture)
     model.recompute()
     model.accept()
-    let before = try XCTUnwrap(fixture.storedEntry)
+    let before = try XCTUnwrap(storedEntry(fixture))
 
     // Feast needs 5000 g of rice; the fixture holds 1000 g.
     let target = try XCTUnwrap(
@@ -186,7 +184,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
 
     XCTAssertNotNil(model.flowState.rejectionReason, "A breaking edit shows its reason.")
     XCTAssertEqual(model.flowState.entry?.phase, .accepted, "Rejection never demotes.")
-    XCTAssertEqual(fixture.storedEntry, before, "Disk is untouched.")
+    XCTAssertEqual(storedEntry(fixture), before, "Disk is untouched.")
   }
 
   func testRemovingASlotKeepsTheRemainderAndDemotesToDraft() throws {
@@ -213,7 +211,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
     model.discard()
 
     XCTAssertNil(model.flowState.entry)
-    XCTAssertNil(fixture.storedEntry, "Removing the plan clears the store.")
+    XCTAssertNil(storedEntry(fixture), "Removing the plan clears the store.")
   }
 
   // MARK: - Fresh recompute, stale acceptance, failure-safe persistence
@@ -266,7 +264,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
     XCTAssertTrue(model.flowState.isStale)
     XCTAssertEqual(model.flowState.entry?.phase, .draft, "Refusal never promotes.")
     XCTAssertEqual(
-      fixture.storedEntry?.plan.fingerprint, draftFingerprint, "Disk keeps the draft.")
+      storedEntry(fixture)?.plan.fingerprint, draftFingerprint, "Disk keeps the draft.")
 
     // The remedy is the explicit one: recompute over current inputs, accept.
     model.recompute()
@@ -279,7 +277,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
     let fixture = try makeFixture()
     let model = makeViewModel(fixture)
     model.recompute()
-    let storedBefore = try XCTUnwrap(fixture.storedEntry)
+    let storedBefore = try XCTUnwrap(storedEntry(fixture))
 
     // Make the store directory unwritable (execute bit kept so reads work).
     try FileManager.default.setAttributes(
@@ -296,7 +294,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
 
     XCTAssertNotNil(model.errorMessage, "A failed save must be reported, not swallowed.")
     XCTAssertEqual(model.flowState.entry, storedBefore, "The published plan is the disk's plan.")
-    XCTAssertEqual(fixture.storedEntry, storedBefore, "Disk is unchanged.")
+    XCTAssertEqual(storedEntry(fixture), storedBefore, "Disk is unchanged.")
   }
 
   func testDiscardFailureKeepsThePlanAndReportsTheError() throws {
@@ -315,7 +313,7 @@ final class WeeklyPlanAppFlowTests: XCTestCase {
 
     XCTAssertNotNil(model.flowState.entry, "A failed removal keeps the plan.")
     XCTAssertNotNil(model.errorMessage, "A failed removal must be reported.")
-    XCTAssertNotNil(fixture.storedEntry, "Disk still holds the plan.")
+    XCTAssertNotNil(storedEntry(fixture), "Disk still holds the plan.")
   }
 
   func testCorruptStoreIsReportedAndLeftInPlace() throws {
