@@ -87,11 +87,18 @@ struct OnboardingView: View {
   @State private var pendingNameFocusTask: Task<Void, Never>?
 
   // Kitchen inventory capture state
-  @State private var fridgeCapturedImages: [UIImage] = []
-  @State private var pantryCapturedImages: [UIImage] = []
-  @State private var kitchenDetections: [Detection] = []
-  @State private var kitchenConfirmedIds: Set<Int64> = []
-  @State private var isAnalyzingKitchen = false
+  @State private var fridgePhotos: [FLCapturedPhoto] = []
+  @State private var pantryPhotos: [FLCapturedPhoto] = []
+  @State private var kitchenScan: OnboardingKitchenScanSession?
+  @State private var kitchenChoices = OnboardingKitchenChoices()
+  @State private var kitchenCommitRecord = OnboardingKitchenCommitRecord()
+  /// One intake session for the whole onboarding run, like `IngredientReviewView`'s
+  /// `inventorySourceRef`. Coming back to the review, even with new photos, and adding again
+  /// reconciles the lots this run added instead of adding a second copy.
+  @State private var kitchenReviewSourceRef = "onboarding-kitchen-review:\(UUID().uuidString)"
+  /// A confirmation whose save failed, kept for Try Again. Nil once saved or discarded.
+  @State private var pendingKitchenConfirmation: OnboardingKitchenConfirmation?
+  @State private var isShowingKitchenSaveError = false
 
   @FocusState private var isNameFocused: Bool
 
@@ -333,20 +340,38 @@ struct OnboardingView: View {
           OnboardingVirtualFridgeIntroStep()
 
         case .fridgeCapture:
-          OnboardingFridgeCaptureStep(capturedImages: $fridgeCapturedImages)
+          OnboardingFridgeCaptureStep(photos: $fridgePhotos)
 
         case .pantryCapture:
-          OnboardingPantryCaptureStep(capturedImages: $pantryCapturedImages)
+          OnboardingPantryCaptureStep(photos: $pantryPhotos)
 
         case .kitchenReview:
           OnboardingKitchenReviewStep(
-            fridgeCapturedImages: fridgeCapturedImages,
-            pantryCapturedImages: pantryCapturedImages,
-            detections: $kitchenDetections,
-            confirmedIds: $kitchenConfirmedIds,
-            isAnalyzing: $isAnalyzingKitchen,
-            onConfirm: commitKitchenInventory
+            fridgePhotos: $fridgePhotos,
+            pantryPhotos: $pantryPhotos,
+            scan: $kitchenScan,
+            choices: $kitchenChoices,
+            onConfirm: commitKitchenInventory,
+            onSkip: {
+              setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
+            }
           )
+          // Same choices as the main scan review's save failure.
+          .alert("Couldn't save to your Kitchen", isPresented: $isShowingKitchenSaveError) {
+            Button("Try Again") {
+              guard let pending = pendingKitchenConfirmation else { return }
+              // After the alert finishes dismissing, so a second failure can present it again.
+              Task { @MainActor in saveKitchenConfirmation(pending) }
+            }
+            Button("Continue Without Saving", role: .cancel) {
+              pendingKitchenConfirmation = nil
+              setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
+            }
+          } message: {
+            Text(
+              "Your selected ingredients weren\u{2019}t added. Try again, or continue and add them later from Kitchen."
+            )
+          }
 
         case .setupBridge:
           OnboardingSetupBridgeStep(
@@ -492,9 +517,9 @@ struct OnboardingView: View {
     } else {
       guard isReadyForPrimaryAction else { return }
     }
-    guard stepIndex > 0 else { return }
+    guard let backStep = currentStep.backStep else { return }
     clearNameFocus()
-    setStep(stepIndex - 1, direction: .backward)
+    setStep(backStep.rawValue, direction: .backward)
   }
 
   private func setStep(_ newValue: Int, direction: StepDirection) {
@@ -794,29 +819,34 @@ struct OnboardingView: View {
 
   // MARK: - Kitchen Inventory Commit
 
+  /// Only the review's own detections reach intake, so nothing the photos didn't show can be
+  /// written. Called with an empty selection too, so a revisit can take back earlier additions.
   private func commitKitchenInventory() {
-    let confirmedDetections = kitchenDetections.filter {
-      kitchenConfirmedIds.contains($0.ingredientId)
-    }
-    guard !confirmedDetections.isEmpty else {
+    guard let kitchenScan else {
       setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
       return
     }
+    saveKitchenConfirmation(
+      OnboardingKitchenConfirmation(session: kitchenScan, choices: kitchenChoices))
+  }
 
-    Task {
-      do {
-        _ = try deps.inventoryIntakeService.ingestConfirmedScan(
-          detections: confirmedDetections,
-          confirmedIngredientIDs: kitchenConfirmedIds,
-          selectedIngredientByDetection: [:],
-          sourceRef: "onboarding_kitchen_capture_\(UUID().uuidString)"
-        )
-      } catch {
-        // Non-blocking: inventory seeding failure shouldn't stop onboarding
-        errorMessage = nil
-      }
-      setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
+  /// Saves exactly `confirmation`. Intake is one transaction, so a failure saved nothing; the
+  /// confirmation waits in `pendingKitchenConfirmation` for Try Again or Continue Without Saving.
+  private func saveKitchenConfirmation(_ confirmation: OnboardingKitchenConfirmation) {
+    do {
+      kitchenCommitRecord = try OnboardingKitchenIntake.commit(
+        confirmation,
+        record: kitchenCommitRecord,
+        sourceRef: kitchenReviewSourceRef,
+        intake: deps.inventoryIntakeService
+      )
+    } catch {
+      pendingKitchenConfirmation = confirmation
+      isShowingKitchenSaveError = true
+      return
     }
+    pendingKitchenConfirmation = nil
+    setStep(OnboardingStep.setupBridge.rawValue, direction: .forward)
   }
 
   // MARK: - Completion
