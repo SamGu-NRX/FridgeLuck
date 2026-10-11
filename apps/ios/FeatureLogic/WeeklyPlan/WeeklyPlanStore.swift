@@ -130,7 +130,9 @@ public final class WeeklyPlanStore: @unchecked Sendable {
 
   public static let defaultFileName = "weekly-plan-store.json"
 
-  private let fileURL: URL
+  /// The store file's location; exposed read-only so callers (and tests) can
+  /// inspect or repair the file. Never write to it directly outside recovery.
+  public let fileURL: URL
   private let lock = NSLock()
 
   /// - Parameter directory: existing or creatable directory for the store.

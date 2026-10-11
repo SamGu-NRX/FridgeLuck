@@ -164,7 +164,7 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
 
   // MARK: - Needs (production serving contract)
 
-  func testNeedsMapRequirednessAndGramsPerServing() {
+  func testNeedsMapRequirednessAndGramsPerServing() throws {
     // Stored quantityGrams is the whole recipe as persisted for
     // recipe.servings (2 here): 120 g / 2 = 60 g per serving.
     let recipe = makeRecipe(10)
@@ -175,16 +175,18 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
     let input = WeeklyPlanInputAdapter.makeInput(
       recipes: [recipe], ingredientsByRecipe: [10: rows], lots: [], profile: makeProfile())
 
-    let planned = input.recipes.first
-    XCTAssertEqual(planned?.needs.count, 2)
-    XCTAssertEqual(planned?.needs.first?.isOptional, false)
-    XCTAssertEqual(planned?.needs.first?.gramsPerServing, 60, accuracy: 1e-9)
-    XCTAssertEqual(planned?.needs.last?.isOptional, true)
-    XCTAssertEqual(planned?.needs.last?.gramsPerServing, 7.5, accuracy: 1e-9)
-    XCTAssertEqual(planned?.needs.first?.substitutes, [], "The schema stores no substitutes.")
+    let planned = try XCTUnwrap(input.recipes.first)
+    XCTAssertEqual(planned.needs.count, 2)
+    let first = try XCTUnwrap(planned.needs.first)
+    let last = try XCTUnwrap(planned.needs.last)
+    XCTAssertEqual(first.isOptional, false)
+    XCTAssertEqual(first.gramsPerServing, 60, accuracy: 1e-9)
+    XCTAssertEqual(last.isOptional, true)
+    XCTAssertEqual(last.gramsPerServing, 7.5, accuracy: 1e-9)
+    XCTAssertEqual(first.substitutes, [], "The schema stores no substitutes.")
   }
 
-  func testWholeRecipeQuantityNormalizesByTheRecipeServings() {
+  func testWholeRecipeQuantityNormalizesByTheRecipeServings() throws {
     // The reported defect: a 200 g two-serving recipe must require 200 g for
     // a two-serving plan (100 g/serving × 2 planned servings), not 400 g.
     let recipe = makeRecipe(11, servings: 2)
@@ -193,7 +195,8 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
       recipes: [recipe], ingredientsByRecipe: [11: rows], lots: [], profile: makeProfile(),
       servingsPerMeal: 2)
 
-    XCTAssertEqual(input.recipes.first?.needs.first?.gramsPerServing, 100, accuracy: 1e-9)
+    XCTAssertEqual(
+      try XCTUnwrap(input.recipes.first?.needs.first?.gramsPerServing), 100, accuracy: 1e-9)
   }
 
   /// Adapter-to-allocation control: normalized per-serving grams flow into the
@@ -221,8 +224,10 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
 
     // The adapter normalized whole-recipe grams by the recipe's own servings.
     let planned = try XCTUnwrap(input.recipes.first)
-    XCTAssertEqual(planned.needs.first?.gramsPerServing, 25.125, accuracy: 1e-9)
-    XCTAssertEqual(planned.needs.last?.gramsPerServing, 10.05, accuracy: 1e-9)
+    let need1 = try XCTUnwrap(planned.needs.first { $0.ingredientId == 1 })
+    let need2 = try XCTUnwrap(planned.needs.first { $0.ingredientId == 2 })
+    XCTAssertEqual(need1.gramsPerServing, 25.125, accuracy: 1e-9)
+    XCTAssertEqual(need2.gramsPerServing, 10.05, accuracy: 1e-9)
 
     // Allocation multiplies by the planned servings per meal: three servings
     // of a four-serving recipe.
@@ -232,10 +237,10 @@ final class WeeklyPlanInputAdapterTests: XCTestCase {
 
     XCTAssertEqual(rowsOut.count, 2, "The optional need is reported, not silently dropped.")
     let forIngredient1 = try XCTUnwrap(rowsOut.first { $0.ingredientId == 1 })
-    XCTAssertEqual(forIngredient1.requestedGrams, 75.375, accuracy: 1e-9)
+    XCTAssertEqual(forIngredient1.grams, 75.375, accuracy: 1e-9)
     XCTAssertEqual(forIngredient1.shortfallGrams, 4.875, accuracy: 1e-9)
     let forIngredient2 = try XCTUnwrap(rowsOut.first { $0.ingredientId == 2 })
-    XCTAssertEqual(forIngredient2.requestedGrams, 30.15, accuracy: 1e-9)
+    XCTAssertEqual(forIngredient2.grams, 30.15, accuracy: 1e-9)
     XCTAssertEqual(forIngredient2.shortfallGrams, 0, accuracy: 1e-9)
   }
 
