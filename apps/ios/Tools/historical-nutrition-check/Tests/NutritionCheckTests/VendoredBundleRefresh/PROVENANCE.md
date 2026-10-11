@@ -25,12 +25,7 @@ app targets; it exists only under `Tests/NutritionCheckTests/`.
 | `BundledDataValidator.swift` | `apps/ios/Platform/Persistence/Bundle/BundledDataValidator.swift` |
 | `LegacyBundlePins.swift` | `apps/ios/Platform/Persistence/Bundle/LegacyBundlePins.swift` |
 
-Only `VendoredBundleOwnershipMigration.swift` is written here, not vendored: it
-extracts the `v21_bundle_ownership` migration body verbatim from
-`apps/ios/Platform/Persistence/Database/Migrations.swift` on the same head, so
-the Flow E fixture can apply the refresh owner's schema after this branch's
-`v20_historical_nutrition_snapshots` (the package migrator does not carry PR
-#44's stream yet).
+**Retired on the trunk merge (2026-10-11):** `VendoredBundleOwnershipMigration.swift` was a written-here helper that extracted the `v21_bundle_ownership` body verbatim so the Flow E fixture could apply the refresh owner's schema after `v20_historical_nutrition_snapshots` while this branch's migrator still stopped at v20. PR #44 is now merged and the app migrator registers v21 itself, so the fixture relies on the real migration sequence and the helper is deleted (the real body is byte-identical: verified `git diff 7dc2b219204c..c316f5fa9e2fd -- apps/ios/Platform/Persistence/Database/Migrations.swift` is empty).
 
 ## Modifications (mechanical, behaviour-preserving)
 

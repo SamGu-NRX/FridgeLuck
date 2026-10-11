@@ -150,15 +150,10 @@ final class BundleRefreshFlowETests: XCTestCase {
 
     // Cutover, then the refresh owner's stream: this branch migrates to
     // v20_historical_nutrition_snapshots (backfilling snapshot headers), and
-    // PR #44 registers v21_bundle_ownership after it. The two streams'
-    // migrations apply cleanly in sequence against one database; the fixture
-    // applies the owner's body by hand (see
-    // VendoredBundleOwnershipMigration.swift) so the real refresher sees the
-    // ownership schema it expects.
+    // v21_bundle_ownership after it (merged from PR #44's stream) — the app
+    // migrator owns the full sequence now, so the hand-applied vendored copy
+    // this fixture carried before the merge is retired.
     try DatabaseMigrations.migrate(queue)
-    try queue.write { db in
-      try VendoredBundleOwnershipMigration.apply(db)
-    }
     return queue
   }
 

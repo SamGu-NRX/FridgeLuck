@@ -71,6 +71,7 @@ cp "$IOS_ROOT/Tests/BundledDataRefreshTests.swift" "$TEST_REAL/"
 # The shipped resources the launch-path tests read through Bundle.main.
 FIX="Tests/FridgeLuckCheckTests/Fixtures"
 rm -rf "$FIX/data.json" "$FIX/LegacyBundles" "$FIX/usda_ingredient_catalog.sqlite"
+mkdir -p "$FIX"
 cp "$IOS_ROOT/Resources/data.json" "$FIX/data.json"
 cp -R "$IOS_ROOT/Resources/LegacyBundles" "$FIX/LegacyBundles"
 cp "$IOS_ROOT/Resources/usda_ingredient_catalog.sqlite" "$FIX/usda_ingredient_catalog.sqlite"
