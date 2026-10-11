@@ -30,7 +30,8 @@ A FridgeLuck that someone would keep on their home screen, running end to end on
   - the repo has no GitHub environments or deployments;
   - `cloudbuild.yaml` builds an image without deploying;
   - `deploy-cloud-run.sh` only runs by hand.
-- Accepted work merges into `alpha` with `--no-ff` after the caretaker's pass. Never into `main`.
+- **Merge gate (Sam, 18:05Z):** a PR merges into `alpha` with `--no-ff` once its head passes its own tests and its latest independent review has no blockers. The independent review is the native Codex Sol reviewer's verdict in `~/.long-run/obvious-fleet/reviews/FridgeLuck.jsonl`, plus the lead's own review replies. This happens before any final accept or caretaker pass. Never into `main`.
+- **How merges are staged.** The repo's CI runs only on PRs, so each round the lead merges the eligible heads into a staging branch, `fleet/alpha-next`, cut from `alpha`. A draft PR from it into `alpha` runs iOS CI on the combined tree. When that is green, `alpha` is fast-forwarded to it; if a merge later breaks `alpha`, it is reverted with a new commit, never a rewrite. Stacked PRs merge only after their base PR. Every merged head is recorded in the log below.
 - New tasks start from `alpha` and target it.
 
 - **No CI or workflow edits** (Sam's standing rule, covering the lead too). Proposed workflows are staged under `ci/pending-workflows/`, each with a one-line purpose and trigger, for Sam to approve. Until then, checks run in Obvious sandboxes or on this Mac under the leases, and their output goes into each PR's Proof.
@@ -135,3 +136,4 @@ Record which condition fired and why in this file. The overhaul is done when eve
 - 2026-10-11 11:45Z: the integration branch is `alpha`, cut from main at 2fd0dfe, by Sam's direction. The earlier `beta` and `fleet/beta` (both at 2fd0dfe, no PRs) were deleted.
 - 2026-10-11 11:50Z: `alpha` set to the minimal-product stack, head 2e77938 (Sam's rule: the definitive latest version, not `main`). iOS CI build-and-test passed on #87 (run 38136461873); `alpha` fast-forwarded from 2fd0dfe.
 - 2026-10-11 12:30Z: no CI or workflow edits, by Sam's rule. Nothing had been installed on `alpha`. Workflows are staged under `ci/pending-workflows/` for his approval.
+- 2026-10-11 18:10Z: merge gate changed by Sam (item 12): merge on own tests plus a blocker-free independent review, staged through `fleet/alpha-next` and CI.
