@@ -1,0 +1,247 @@
+{
+  "rs_version": "1",
+  "id": "me-harissa-shakshuka",
+  "title": "Harissa Shakshuka with Feta",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "levantine (tunisian-style shakshuka)",
+  "family": "middle-east-north-africa",
+  "minutes": 25,
+  "servings": 4,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "deep skillet with lid",
+    "chef's knife",
+    "cutting board",
+    "spatula"
+  ],
+  "cuisine_note": "Shakshuka travels from the Maghreb to the Levant; this version leans on harissa for depth instead of a long-cooked pepper base, which is what makes it weeknight-feasible.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-harissa-shakshuka",
+  "tags": [
+    "weeknight",
+    "one-pot",
+    "use-it-up",
+    "use-it-up:bell peppers"
+  ],
+  "ingredients": [
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, finely chopped",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "bell peppers",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, cored and sliced",
+        "conversion_ref": "bell_pepper_piece",
+        "grams_per_unit": 120,
+        "note": "red or green; softening peppers past their prime is exactly what this sauce wants - the use-it-up tag is for them"
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, sliced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "harissa",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "harissa_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "smoked_paprika_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "canned tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups crushed",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 8,
+        "unit": "large",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "feta",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "cup crumbled",
+        "conversion_ref": "feta_cup",
+        "grams_per_unit": 150
+      }
+    },
+    {
+      "name": "parsley",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "parsley_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, divided",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Warm the oil in the skillet over medium heat. Cook the onion and bell pepper with a pinch of the salt for 8 minutes, stirring now and then, until the onion is translucent and the pepper has slumped.",
+      "timer_min": 8
+    },
+    {
+      "text": "Add the garlic and cook for 1 minute - pull it off the heat if it darkens past pale gold.",
+      "timer_min": 1
+    },
+    {
+      "text": "Stir in the harissa, cumin, and smoked paprika and fry for 30 seconds, stirring constantly, until the paste darkens a shade and smells dusty-sweet rather than raw."
+    },
+    {
+      "text": "Pour in the crushed tomatoes with the remaining salt and the black pepper. Simmer for 10 minutes, stirring occasionally, until the sauce thickens enough to hold a spoon-track.",
+      "timer_min": 10
+    },
+    {
+      "text": "Taste the sauce: it should taste sharply of tomato with a chili burn that arrives late. Add another spoonful of harissa here if you cook for heat-lovers."
+    },
+    {
+      "text": "Make a well with the spatula for each egg and crack an egg into it. Season the whites with a little salt and keep the yolks whole."
+    },
+    {
+      "text": "Cover and cook for 6 minutes, until the whites are set and the yolks still move when the pan is jostled. Eggs are safe at 160°F (71°C); open one well and spot-check the thickest white with a thermometer.",
+      "timer_min": 6,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Scatter the feta and parsley over the pan and carry it to the table as is - the feta softens from the steam rather than melting."
+    },
+    {
+      "text": "Serve straight from the skillet with rice or a green salad to round the meal."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 266,
+    "protein_g": 15.8,
+    "carbs_g": 15.3,
+    "fat_g": 16.8,
+    "fiber_g": 3.5,
+    "sugar_g": 8.8,
+    "sodium_mg": 351,
+    "coverage": 0.912,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "feta",
+      "harissa",
+      "salt",
+      "smoked paprika"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "feta",
+      "salt"
+    ]
+  }
+}

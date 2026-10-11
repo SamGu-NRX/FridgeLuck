@@ -1,0 +1,230 @@
+{
+  "rs_version": "1",
+  "id": "la-cuban-picadillo",
+  "title": "Cuban Picadillo",
+  "cuisine": "mexican",
+  "cuisine_detail": "cuban (picadillo a la habanera)",
+  "family": "latin-american",
+  "minutes": 30,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "large skillet",
+    "second saucepan",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-cuban-picadillo",
+  "tags": [
+    "one-pot",
+    "weeknight",
+    "freezer-friendly"
+  ],
+  "ingredients": [
+    {
+      "name": "uncooked white rice",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup dry (for steamed rice)",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    },
+    {
+      "name": "ground beef",
+      "qty": {
+        "kind": "weighed",
+        "grams": 454,
+        "note": "1 lb"
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, finely chopped",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "canned tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cups crushed",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "green olives",
+      "qty": {
+        "kind": "household",
+        "value": 5,
+        "unit": "tbsp sliced, drained",
+        "conversion_ref": "sliced_olives_tbsp",
+        "grams_per_unit": 8.5
+      }
+    },
+    {
+      "name": "raisins",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "cup",
+        "conversion_ref": "raisins_cup",
+        "grams_per_unit": 145
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp, ground",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "oregano",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, dried",
+        "conversion_ref": "oregano_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "bay leaves",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "leaf",
+        "conversion_ref": "bay_leaf_piece",
+        "grams_per_unit": 0.2
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, coarsely ground",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Start the rice: rinse it, cook it with 1 1/2 cups water, covered, over the lowest heat for 15 minutes, then rest it off the heat.",
+      "timer_min": 15
+    },
+    {
+      "text": "Heat the oil in a large skillet over medium-high. Add the beef and cook 5-6 minutes, breaking it small with a spoon, until it loses its red color. Ground beef is safe at 160°F (71°C) — check a clump on a thermometer.",
+      "timer_min": 6,
+      "safety": {
+        "class": "meat_ground",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Spoon off all but a tablespoon of fat. Add the onion and cook 4 minutes, softening it in the drippings.",
+      "timer_min": 4
+    },
+    {
+      "text": "Add the garlic, cumin, oregano, and bay leaf for 30 seconds, then the tomatoes, olives, and raisins with their brines and half the salt."
+    },
+    {
+      "text": "Simmer 12 minutes, uncovered, stirring once or twice, until the sauce is dark and thick enough to hold a spoon-drag.",
+      "timer_min": 12
+    },
+    {
+      "text": "Pull the bay leaf, season with the rest of the salt and the pepper, and serve the picadillo over rice — sweet, salty, and briny all at once."
+    }
+  ],
+  "cuisine_note": "Cuban picadillo runs on contrast: olives for salt, raisins for sweet, cumin for warmth. The same pot feeds tacos, empanada filling, or next week's freezer — it freezes beautifully.",
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 577,
+    "protein_g": 25.3,
+    "carbs_g": 55.0,
+    "fat_g": 28.6,
+    "fiber_g": 3.6,
+    "sugar_g": 11.2,
+    "sodium_mg": 415,
+    "coverage": 0.996,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "oregano",
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

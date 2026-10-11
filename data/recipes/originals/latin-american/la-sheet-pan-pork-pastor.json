@@ -1,0 +1,235 @@
+{
+  "rs_version": "1",
+  "id": "la-sheet-pan-pork-pastor",
+  "title": "Sheet-Pan Pork Pastor",
+  "cuisine": "mexican",
+  "cuisine_detail": "mexican (tacos al pastor, home oven)",
+  "family": "latin-american",
+  "minutes": 40,
+  "servings": 3,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "sheet pan",
+    "blender",
+    "chef's knife",
+    "cutting board",
+    "tongs"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-sheet-pan-pork-pastor",
+  "tags": [
+    "sheet-pan",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "pork tenderloin",
+      "qty": {
+        "kind": "weighed",
+        "grams": 450,
+        "note": "one 1-lb tenderloin, sliced into 1/2-inch medallions"
+      }
+    },
+    {
+      "name": "ancho peppers",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "dried anchos, seeded and torn",
+        "conversion_ref": "ancho_piece",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "chipotle in adobo",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp, minced",
+        "conversion_ref": "chipotle_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "orange juice",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "cup",
+        "conversion_ref": "orange_juice_cup",
+        "grams_per_unit": 248
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp, ground",
+        "conversion_ref": "cumin_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "oregano",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp, dried",
+        "conversion_ref": "oregano_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1.25,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "pineapple",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups chunks (about half a pineapple)",
+        "conversion_ref": "pineapple_cup",
+        "grams_per_unit": 165
+      }
+    },
+    {
+      "name": "corn tortillas",
+      "qty": {
+        "kind": "household",
+        "value": 12,
+        "unit": "6-inch tortillas",
+        "conversion_ref": "corn_tortilla_piece",
+        "grams_per_unit": 26
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "limes, in wedges",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp chopped",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Soak the ancho pieces in hot water for 10 minutes until supple; keep the soaking water.",
+      "timer_min": 10
+    },
+    {
+      "text": "Blend the anchos, chipotle, orange juice, garlic, cumin, oregano, oil, and salt into a smooth adobo, thinning with a spoonful of the chile water if the blades stall."
+    },
+    {
+      "text": "Toss the pork medallions and the pineapple chunks in the adobo on the sheet pan, coating everything. Rest 15 minutes while the oven heats to 425°F.",
+      "timer_min": 15
+    },
+    {
+      "text": "Spread the pork and pineapple out — crowded pieces steam instead of char — and roast 14 minutes. Pork tenderloin is safe at 145°F (63°C); pull the pan and check a thick medallion on a thermometer.",
+      "timer_min": 14,
+      "safety": {
+        "class": "meat_whole_cut_pork",
+        "temp_f": 145,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Rest the pork 5 minutes on the pan, then chop the medallions roughly — the al pastor trompo shaves its meat, and a rough chop is the sheet-pan echo of that.",
+      "timer_min": 5
+    },
+    {
+      "text": "Char the pineapple edge-side against the hot pan while you toast the tortillas in a dry skillet until pliable and freckled."
+    },
+    {
+      "text": "Build tacos: pork, pineapple, cilantro, and a hard squeeze of lime. Pass the rest of the lime at the table."
+    }
+  ],
+  "cuisine_note": "Tacos al pastor come off a spinning trompo; the home-oven version is a sheet pan of adobo-marinated pork and pineapple roasted hot until the edges char. Same sweet-smoky-sour architecture, no trompo required.",
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 384,
+    "protein_g": 34.1,
+    "carbs_g": 33.4,
+    "fat_g": 14.4,
+    "fiber_g": 6.4,
+    "sugar_g": 15.1,
+    "sodium_mg": 379,
+    "coverage": 0.771,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "chipotle in adobo",
+      "corn tortillas",
+      "oregano",
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

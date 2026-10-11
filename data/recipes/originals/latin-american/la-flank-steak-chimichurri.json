@@ -1,0 +1,193 @@
+{
+  "rs_version": "1",
+  "id": "la-flank-steak-chimichurri",
+  "title": "Flank Steak with Chimichurri",
+  "cuisine": "mexican",
+  "cuisine_detail": "argentine (parrilla home style)",
+  "family": "latin-american",
+  "minutes": 25,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "grill pan or cast-iron skillet",
+    "chef's knife",
+    "cutting board",
+    "mixing bowl",
+    "tongs"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-flank-steak-chimichurri",
+  "tags": [
+    "weeknight",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "flank steak",
+      "qty": {
+        "kind": "weighed",
+        "grams": 680,
+        "note": "about 1.5 lb"
+      }
+    },
+    {
+      "name": "parsley",
+      "qty": {
+        "kind": "household",
+        "value": 16,
+        "unit": "tbsp chopped (1 cup)",
+        "conversion_ref": "parsley_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, finely chopped",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "oregano",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tsp, dried",
+        "conversion_ref": "oregano_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "red wine vinegar",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "red_wine_vinegar_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 6,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, coarsely ground",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Chop the parsley and garlic together until the pieces are rice-grain small — knife-work, not a food processor, which would bruise the herbs bitter. Tip into a bowl."
+    },
+    {
+      "text": "Stir in the oregano, vinegar, chili flakes, half the salt, and the olive oil. Let the chimichurri sit while you cook; the vinegar mellows and the oregano swells.",
+      "timer_min": 10
+    },
+    {
+      "text": "Pat the steak very dry and season both sides with the rest of the salt and the pepper. Dry steak browns; wet steak grays."
+    },
+    {
+      "text": "Heat the grill pan over high heat until it just smokes. Lay the steak down and leave it alone for 4-5 minutes, then flip and cook 3-4 more. Flank steak is safe at 145°F (63°C) — check the thick end on a thermometer.",
+      "timer_min": 9,
+      "safety": {
+        "class": "meat_whole_cut_red",
+        "temp_f": 145,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Move the steak to a board and rest it 5 minutes; the juices re-settle into the meat instead of the board.",
+      "timer_min": 5
+    },
+    {
+      "text": "Slice the steak thin, against the grain and at a slight angle — this shortens the chew of a flank."
+    },
+    {
+      "text": "Spoon half the chimichurri over the slices and bring the rest to the table; in Argentina there is always more sauce than steak."
+    }
+  ],
+  "cuisine_note": "Chimichurri is Argentina's everyday sauce — parsley, garlic, oregano, vinegar, oil, and heat, chopped raw, never blended. The same bowl seasons the steak, bread, and whatever the grill had left.",
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 447,
+    "protein_g": 37.4,
+    "carbs_g": 1.6,
+    "fat_g": 31.8,
+    "fiber_g": 0.5,
+    "sugar_g": 0.1,
+    "sodium_mg": 102,
+    "coverage": 0.955,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "oregano",
+      "red wine vinegar",
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

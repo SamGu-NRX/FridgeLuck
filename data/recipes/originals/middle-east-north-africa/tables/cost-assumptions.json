@@ -1,0 +1,28 @@
+{
+  "schema": "fl-cost-assumptions/1",
+  "locale": "US mid-cost supermarket, October 2026, shelf prices",
+  "items": {
+    "white rice": {"basis": "long-grain white rice $2.20/kg"},
+    "pasta": {"basis": "small elbow pasta $1.60/lb"},
+    "red lentils": {"basis": "$2.20/lb from a 2-lb bag"},
+    "chickpeas": {"basis": "$1.00 per 15-oz can, drained 240g"},
+    "canned tomatoes": {"basis": "28-oz can crushed tomatoes $1.30 (794g)"},
+    "tomato paste": {"basis": "6-oz can $1.20 (170g)"},
+    "bulgur": {"basis": "medium bulgur $2.80/kg"},
+    "onion": {"basis": "$0.70/lb; 1 medium ~110g = $0.17"},
+    "red onion": {"basis": "$0.90/lb; 1 medium ~110g = $0.22"},
+    "carrots": {"basis": "$0.90/lb; 1 medium ~60g = $0.12"},
+    "garlic": {"basis": "$0.60/head ~ 50 cloves = $0.012/clove"},
+    "lemon": {"basis": "$0.60 each; a squeezed half ~$0.30"},
+    "olive oil": {"basis": "$9.00/L; 1 tbsp (14g) ~ $0.13"},
+    "vegetable oil": {"basis": "$0.08/fl oz; 1 tbsp = 14g ~ $0.12"},
+    "butter": {"basis": "$4.50/lb = $0.99/100g"},
+    "greek yogurt": {"basis": "$5.50 per 32-oz tub (905g) = $0.61/100g"},
+    "green bell pepper": {"basis": "$0.80 each"},
+    "dried mint": {"basis": "$3/50g jar; 1 tsp ~ $0.06"},
+    "sumac": {"basis": "$5/100g; 1 tsp ~ $0.10"},
+    "warm spices (cumin, paprika, cinnamon, allspice, coriander, chili flakes)": {"basis": "$4-6/100g jars; blended allowance $0.05 per tsp used"},
+    "kalamata olives": {"basis": "$3.50 per 6-oz drained jar (170g) = $0.021/g"},
+    "salt, black pepper": {"basis": "pantry staples, negligible per serving"}
+  }
+}

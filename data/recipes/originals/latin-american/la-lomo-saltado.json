@@ -1,0 +1,219 @@
+{
+  "rs_version": "1",
+  "id": "la-lomo-saltado",
+  "title": "Lomo Saltado",
+  "cuisine": "mexican",
+  "cuisine_detail": "peruvian (chifa home style)",
+  "family": "latin-american",
+  "minutes": 25,
+  "servings": 3,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "wok or large skillet",
+    "second skillet",
+    "chef's knife",
+    "cutting board",
+    "mixing bowl"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-lomo-saltado",
+  "tags": [
+    "weeknight",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "uncooked white rice",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup dry (for steamed rice)",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    },
+    {
+      "name": "flank steak",
+      "qty": {
+        "kind": "weighed",
+        "grams": 680,
+        "note": "about 1.5 lb, cut into 2-inch strips against the grain"
+      }
+    },
+    {
+      "name": "potatoes",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "medium, cut into fries",
+        "conversion_ref": "potato_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "red onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, cut lengthwise in wedges",
+        "conversion_ref": "red_onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "ripe tomatoes, cut in wedges",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "lime, juiced",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14,
+        "note": "split between the potatoes and the wok"
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, coarsely ground",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Start the rice: rinse it, then cook with 1 1/2 cups water, covered, over the lowest heat for 15 minutes. Keep the lid on while you work; it steams in its own heat.",
+      "timer_min": 15
+    },
+    {
+      "text": "Pat the beef strips dry and season them with half the salt and all the black pepper. Dry beef sears; wet beef steams."
+    },
+    {
+      "text": "Heat 2 tbsp oil in a wide skillet over medium-high. Lay the potatoes in one layer and fry for 12 minutes, turning every few minutes, until tender inside with deep gold edges. Drain on a plate.",
+      "timer_min": 12
+    },
+    {
+      "text": "Wipe the skillet, add the last tbsp of oil, and raise the heat to high. When the oil shimmers, add the beef in one uncrowded layer. Sear 2 minutes, turning once. Beef strips are safe at 145°F (63°C) — spot-check the thickest strip on a thermometer.",
+      "timer_min": 2,
+      "safety": {
+        "class": "meat_whole_cut_red",
+        "temp_f": 145,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Push the beef to the edge of the pan. Add the onion wedges and stir-fry 1 minute — they should stay crisp, barely losing their bite.",
+      "timer_min": 1
+    },
+    {
+      "text": "Add the garlic for 15 seconds, then the tomato wedges, and toss twice. Saltado means 'jumped': the point is a quick toss, not a stew."
+    },
+    {
+      "text": "Pour the soy sauce and lime juice down the side of the pan, return the fries, and toss everything 30 seconds so the sauce coats and the fries stay crisp."
+    },
+    {
+      "text": "Fluff the rice. Plate the saltado over rice with the pan juices poured on top, and scatter the cilantro over all of it."
+    }
+  ],
+  "cuisine_note": "Lomo saltado is Peru's Chinese-Peruvian (chifa) bistro dish: hot pan, soy and lime, and potatoes stir-fried right in with the beef instead of served beside it.",
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 864,
+    "protein_g": 59.7,
+    "carbs_g": 89.4,
+    "fat_g": 29.1,
+    "fiber_g": 6.8,
+    "sugar_g": 5.7,
+    "sodium_mg": 745,
+    "coverage": 0.998,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

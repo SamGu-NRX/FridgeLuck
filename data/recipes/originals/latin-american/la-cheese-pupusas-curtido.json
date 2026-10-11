@@ -1,0 +1,205 @@
+{
+  "rs_version": "1",
+  "id": "la-cheese-pupusas-curtido",
+  "title": "Cheese Pupusas with Curtido",
+  "cuisine": "mexican",
+  "cuisine_detail": "salvadoran (pupusas de queso)",
+  "family": "latin-american",
+  "minutes": 50,
+  "servings": 4,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "griddle or cast-iron skillet",
+    "mixing bowl",
+    "chef's knife",
+    "cutting board",
+    "jar with a lid"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-cheese-pupusas-curtido",
+  "tags": [
+    "budget",
+    "make-ahead"
+  ],
+  "cost_per_serving_usd": {
+    "currency": "USD",
+    "value": 0.89,
+    "per": "serving",
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "ingredients": [
+    {
+      "name": "masa harina",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups",
+        "conversion_ref": "masa_cup",
+        "grams_per_unit": 114
+      }
+    },
+    {
+      "name": "warm water",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cups",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6,
+        "note": "split between the dough and the curtido"
+      }
+    },
+    {
+      "name": "ricotta",
+      "qty": {
+        "kind": "weighed",
+        "grams": 170,
+        "note": "3/4 cup, drained if watery — the requesón stand-in"
+      }
+    },
+    {
+      "name": "monterey jack",
+      "qty": {
+        "kind": "weighed",
+        "grams": 85,
+        "note": "3 oz, shredded — the melter"
+      }
+    },
+    {
+      "name": "cabbage",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "cups finely shredded (about a quarter head)",
+        "conversion_ref": "cabbage_cup",
+        "grams_per_unit": 70
+      }
+    },
+    {
+      "name": "carrots",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, peeled and grated",
+        "conversion_ref": "carrot_piece",
+        "grams_per_unit": 60
+      }
+    },
+    {
+      "name": "apple cider vinegar",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp (1/4 cup)",
+        "conversion_ref": "apple_cider_vinegar_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "oregano",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, dried",
+        "conversion_ref": "oregano_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp, for the griddle",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Make the curtido first: toss the cabbage and carrot with half the salt in a colander and let it sweat 5 minutes. Squeeze out the brine with your hands.",
+      "timer_min": 5
+    },
+    {
+      "text": "Pack the cabbage into the jar with the vinegar, oregano, and the rest of the salt, pressing so the liquid rises. Let it pickle on the counter while you shape pupusas — at least 30 minutes.",
+      "timer_min": 30
+    },
+    {
+      "text": "Stir the masa harina into the warm water with a spoon, then knead 2 minutes into a soft play-dough ball. It should not crack at the edges; add water by the tablespoon if it does. Rest 5 minutes.",
+      "timer_min": 5
+    },
+    {
+      "text": "Mix the ricotta and jack with a fork and season lightly — the filling is the whole point, so taste it."
+    },
+    {
+      "text": "Roll the dough into 8 balls. Press each into a 4-inch disc in a cupped palm, thumb pushing a deep pocket. Spoon in a generous tablespoon of filling, pinch the dough closed, and flatten gently to 4 inches again."
+    },
+    {
+      "text": "Heat the griddle over medium and film it with oil. Cook the pupusas 4 minutes a side — they will puff faintly and spot brown; a filling leak is normal and cooks into a lace edge.",
+      "timer_min": 8
+    },
+    {
+      "text": "Keep the first batch warm under a towel while the second cooks. Serve hot, two pupusas each, with curtido spooned over."
+    }
+  ],
+  "cuisine_note": "A pupusa is a masa pocket sealed around its filling — unlike an arepa, it is never split; you stuff before cooking. Requesón, the traditional filling, is a soft whey cheese; well-drained whole-milk ricotta stands in honestly.",
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 405,
+    "protein_g": 14.3,
+    "carbs_g": 52.4,
+    "fat_g": 16.5,
+    "fiber_g": 5.8,
+    "sugar_g": 4.1,
+    "sodium_mg": 200,
+    "coverage": 0.663,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "apple cider vinegar",
+      "oregano",
+      "salt",
+      "warm water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

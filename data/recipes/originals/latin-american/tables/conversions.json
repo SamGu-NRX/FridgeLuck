@@ -1,0 +1,20 @@
+{
+  "schema": "fl-conversions/1",
+  "note": "Part-specific household refs for the latin-american part; grams per unit follow USDA FoodData Central household weights, cited in basis. Suite refs are never redefined here, and refs defined by other parts are not reused (they are not loaded in single-part runs).",
+  "conversions": {
+    "corn_tortilla_piece": {"ingredient": "6-inch corn tortilla", "grams_per_unit": 26, "basis": "USDA: corn tortilla, 1 tortilla (~6 inch) ~26g"},
+    "masa_cup": {"ingredient": "masa harina (dry)", "grams_per_unit": 114, "basis": "USDA: corn flour, masa harina, 1 cup ~114g"},
+    "water_cup": {"ingredient": "water", "grams_per_unit": 240, "basis": "USDA: water, 1 cup ~240g"},
+    "crema_tbsp": {"ingredient": "Mexican crema / sour cream", "grams_per_unit": 12, "basis": "USDA: sour cream, 1 tbsp ~12g"},
+    "red_onion_piece": {"ingredient": "medium red onion", "grams_per_unit": 110, "basis": "USDA: 1 medium onion ~110g (red onion same class)"},
+    "orange_juice_cup": {"ingredient": "orange juice", "grams_per_unit": 248, "basis": "USDA: orange juice, chilled, 1 cup ~248g"},
+    "pineapple_cup": {"ingredient": "pineapple chunks", "grams_per_unit": 165, "basis": "USDA: pineapple, chunks, 1 cup ~165g"},
+    "sliced_olives_tbsp": {"ingredient": "sliced potted green olives, drained", "grams_per_unit": 8.5, "basis": "USDA: canned green olives ~135g/cup sliced -> 1 tbsp ~8.5g"},
+    "raisins_cup": {"ingredient": "seedless raisins", "grams_per_unit": 145, "basis": "USDA: raisins, seedless, 1 cup (not packed) ~145g"},
+    "bay_leaf_piece": {"ingredient": "dried bay leaf", "grams_per_unit": 0.2, "basis": "USDA: 1 dried bay leaf ~0.2g"},
+    "ancho_piece": {"ingredient": "dried ancho chile pod", "grams_per_unit": 15, "basis": "USDA: peppers, ancho, dried, 1 pepper ~15g"},
+    "palm_oil_tbsp": {"ingredient": "red palm oil (dende)", "grams_per_unit": 14, "basis": "USDA: palm oil, 1 tbsp ~14g (same class as other liquid fats)"},
+    "apple_cider_vinegar_tbsp": {"ingredient": "apple cider vinegar", "grams_per_unit": 15, "basis": "USDA: vinegar, cider, 1 tbsp ~15g"},
+    "lime_juice_tbsp": {"ingredient": "lime juice", "grams_per_unit": 15, "basis": "USDA: lime juice, raw, 1 tbsp ~15g"}
+  }
+}

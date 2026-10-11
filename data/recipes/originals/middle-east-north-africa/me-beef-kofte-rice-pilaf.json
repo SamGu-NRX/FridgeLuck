@@ -1,0 +1,254 @@
+{
+  "rs_version": "1",
+  "id": "me-beef-kofte-rice-pilaf",
+  "title": "Turkish Beef Kofte over Buttered Rice",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "turkish (kofte and pilav)",
+  "family": "middle-east-north-africa",
+  "minutes": 30,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "skillet or griddle",
+    "saucepan with lid",
+    "mixing bowl",
+    "chef's knife",
+    "cutting board"
+  ],
+  "cuisine_note": "Turkish kofte knead grated onion and soaked bread into the meat - the onion keeps them juicy and the bread keeps them tender, so they stay soft even after hard browning.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-beef-kofte-rice-pilaf",
+  "tags": [
+    "weeknight",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "ground beef",
+      "qty": {
+        "kind": "weighed",
+        "grams": 600,
+        "note": "about 1 1/3 lb from a standard tray"
+      }
+    },
+    {
+      "name": "bread",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "slice, soaked in water and squeezed dry",
+        "conversion_ref": "bread_slice",
+        "grams_per_unit": 30,
+        "note": "stale white bread, crusts on"
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, coarsely grated",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, crushed",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "parsley",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp chopped",
+        "conversion_ref": "parsley_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "smoked_paprika_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp, divided",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "white rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cup, rinsed",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    },
+    {
+      "name": "butter",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "butter_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, cut into wedges",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "cucumber",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup diced",
+        "conversion_ref": "cucumber_cup",
+        "grams_per_unit": 150
+      }
+    },
+    {
+      "name": "lemon",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "halves (juice)",
+        "conversion_ref": "lemon_half",
+        "grams_per_unit": 22
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Soak the bread in a shallow bowl of water for 2 minutes, then squeeze it dry - it should be a damp paste, not a sponge.",
+      "timer_min": 2
+    },
+    {
+      "text": "Knead the beef, squeezed bread, grated onion, garlic, half the parsley, cumin, paprika, chili flakes, black pepper, and 2 teaspoons' worth of salt together with your hands for 2 minutes. The mix should feel sticky, not crumbly.",
+      "timer_min": 2
+    },
+    {
+      "text": "With wet hands, roll into 16 oblong kofte, each about the length of a thumb, and set them on a plate."
+    },
+    {
+      "text": "Start the pilaf: rinse the rice until the water runs clear, drain, then melt the butter in the saucepan and toast the rice for 2 minutes, stirring, until it clicks and smells nutty.",
+      "timer_min": 2
+    },
+    {
+      "text": "Add 2 1/4 cups hot water and a pinch of salt, stir once, cover, and cook on the lowest heat for 15 minutes. Turn the heat off and leave the lid on.",
+      "timer_min": 15
+    },
+    {
+      "text": "Heat the oil in the skillet over medium-high. Cook the kofte in a single layer for 9 minutes, turning every few minutes, until they crust dark brown outside. Beef is safe at 160°F (71°C); check a thicker kofte with a thermometer.",
+      "timer_min": 9,
+      "safety": {
+        "class": "meat_ground",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Toss the tomatoes, cucumber, lemon juice, and the last of the salt together in the mixing bowl while the pan works."
+    },
+    {
+      "text": "Fluff the pilaf with a fork and plate it with the kofte and the salad; drag the last of the parsley over everything."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 779,
+    "protein_g": 33.0,
+    "carbs_g": 67.8,
+    "fat_g": 40.9,
+    "fiber_g": 3.1,
+    "sugar_g": 4.2,
+    "sodium_mg": 147,
+    "coverage": 0.995,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt",
+      "smoked paprika"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}
