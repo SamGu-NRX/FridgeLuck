@@ -180,8 +180,8 @@ part("malt-vinegar", "Malt vinegar", "plant", gluten="contains",
      note="malt vinegar is brewed from barley; UK Worcestershire recipes use it, US ones distilled vinegar")
 part("basil", "Basil", "plant")
 simple("garlic", "Garlic", "plant", fdc=usda(169230, "Garlic (Raw)"))
-part("pine-nuts", "Pine nuts", "plant", contains=["treeNuts"],
-     fdc=usda(170591, "Pine Nuts (Dried)"))
+simple("pine-nuts", "Pine nuts", "plant", contains=["treeNuts"],
+       fdc=usda(170591, "Pine Nuts (Dried)"))
 part("olive-oil", "Olive oil", "plant", fdc=usda(171413, "Olive Oil"))
 part("lemon-juice", "Lemon juice", "plant", fdc=usda(167747, "Lemon Juice (Raw)"))
 part("chili-peppers", "Chili peppers", "plant")
@@ -237,11 +237,13 @@ part("annatto", "Annatto (achiote) seeds", "plant")
 part("lime-juice", "Lime juice", "plant", fdc=usda(168156, "Lime Juice (Raw)"))
 part("sour-orange-juice", "Sour orange juice", "plant")
 part("yogurt-part", "Yogurt", "dairy", contains=["milk"])
-part("ghee", "Ghee (clarified butter)", "dairy", contains=["milk"])
-part("coconut", "Coconut", "plant",
-     allergen_overrides={"treeNuts": f("unknown", "reference", "FDA tree nut list",
-         "coconut was historically listed by FDA as a tree nut; 2025 draft guidance proposes removing it; "
-         "some tree-nut-allergic individuals react to coconut — treat as unknown")})
+simple("ghee", "Ghee", "dairy", contains=["milk"], synonyms=["clarified butter"],
+       note="clarified butter: milk fat; lactose reduced but still a milk product")
+simple("coconut", "Coconut", "plant",
+       allergen_overrides={"treeNuts": f("unknown", "reference", "FDA tree nut list",
+          "coconut was historically listed by FDA as a tree nut; 2025 draft guidance proposes removing it; "
+          "some tree-nut-allergic individuals react to coconut — treat as unknown")},
+       note="botanically a fruit; confirm with the user when their nut allergy excludes coconut")
 
 # ===========================================================================
 # Simple identities: the 50 app core ingredients + allergen-bearing corpus names
@@ -354,7 +356,8 @@ simple("almonds", "Almonds", "plant", contains=["treeNuts"], fdc=usda(170568, "B
 simple("peanut-oil", "Peanut oil", "plant", contains=["peanuts"],
        note="unrefined peanut oil contains peanut protein; refined peanut oil is FDA-exempt — "
             "kept 'contains' because unrefined forms exist")
-simple("tahini", "Tahini", "plant", contains=["sesame"], fdc=usda(170191, "Sesame Butter (Tahini)"))
+simple("tahini", "Tahini", "plant", contains=["sesame"], synonyms=["tahina", "sesame paste"],
+       fdc=usda(170191, "Sesame Butter (Tahini)"))
 simple("masa-harina", "Masa harina", "plant", fdc=usda(169696, "Masa Harina (White Corn Flour)"))
 simple("semolina", "Semolina", "plant", contains=["wheat"], gluten="contains",
        fdc=usda(168933, "Semolina (Unenriched)"))
@@ -905,6 +908,277 @@ compound("chorizo", "Chorizo", [
         "pescatarian": f("violated", "standard", "chorizo composition", "pork is a certain component"),
     },
     note="casing and fillers vary; some fresh chorizo contains wheat-based rusk or starch")
+
+# ---- corpus compound expansion (from the originals compound-allergens tables) ----
+
+part("cocoa", "Cocoa powder", "plant", fdc=usda(170150, "Cocoa (Unsweetened)"))
+part("vinegar", "Vinegar", "plant", gluten="unknown",
+     note="generic vinegar: distilled/spirit vinegar is gluten-free, malt vinegar is not; "
+          "variety varies by product")
+
+compound("chocolate", "Chocolate", [
+    comp("cocoa", "certain", ev("standard", "chocolate composition",
+         "chocolate is cocoa solids and cocoa butter")),
+    comp("sugar", "certain", ev("standard", "chocolate composition")),
+    comp("milk", "variable", ev("standard", "chocolate composition varies",
+         "dark chocolate usually contains no milk (but check the label for milk fat); "
+         "milk chocolate always does")),
+], composition_complete=False,
+    note="generic chocolate: milk presence varies by type; nut inclusions vary")
+
+simple("pecan", "Pecan", "plant", contains=["treeNuts"], synonyms=["pecans", "pecan nuts"],
+       fdc=usda(170182, "Pecans (Raw)"))
+simple("pistachio", "Pistachio", "plant", contains=["treeNuts"], synonyms=["pistachios"],
+       fdc=usda(170183, "Pistachios (Roasted)"))
+simple("hazelnut", "Hazelnut", "plant", contains=["treeNuts"], synonyms=["hazelnuts", "filberts", "cobnuts"],
+       fdc=usda(170589, "Hazelnuts (Raw)"))
+simple("macadamia", "Macadamia", "plant", contains=["treeNuts"], synonyms=["macadamias", "macadamia nuts"],
+       fdc=usda(170586, "Macadamia Nuts (Raw)"))
+simple("crab", "Crab", "shellfish", contains=["crustaceanShellfish"], synonyms=["crab meat"],
+       fdc=usda(2684537, "Crab (Blue, Canned)", "closest catalog row for crab meat"))
+simple("lobster", "Lobster", "shellfish", contains=["crustaceanShellfish"])
+simple("scallop", "Scallop", "shellfish", synonyms=["scallops", "scallop meat"],
+       note="molluscan bivalve: FALCPA does not list molluscs among the nine major allergens, "
+            "but shellfish allergy covers them; declared unknown pending user confirmation")
+simple("mussel", "Mussel", "shellfish", synonyms=["mussels"],
+       note="molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it")
+simple("clam", "Clam", "shellfish", synonyms=["clams"],
+       note="molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it")
+simple("cod", "Cod", "fish", contains=["fish"])
+simple("trout", "Trout", "fish", contains=["fish"])
+simple("halibut", "Halibut", "fish", contains=["fish"])
+simple("mackerel", "Mackerel", "fish", contains=["fish"])
+simple("sardine", "Sardine", "fish", contains=["fish"], synonyms=["sardines"])
+simple("whitefish", "Whitefish", "fish", contains=["fish"], synonyms=["white fish"],
+       note="generic white-fleshed fish; species varies")
+simple("smoked-salmon", "Smoked salmon", "fish", contains=["fish"], synonyms=["gravlax"],
+       note="curing/serving temperature is a food-safety question, not an allergen one")
+simple("fish-fillet", "Fish fillet", "fish", contains=["fish"],
+       synonyms=["fish fillets", "white fish fillet", "white fish fillets"],
+       note="generic fillet: species varies")
+simple("fish-stock", "Fish stock", "fish", contains=["fish"], synonyms=["fish broth", "fumet"],
+       note="fish stock is fish-based by definition")
+simple("beef-stock", "Beef stock", "meat", synonyms=["beef broth"],
+       note="beef stock is beef-based by definition")
+simple("shrimp-stock", "Shrimp stock", "shellfish", contains=["crustaceanShellfish"],
+       synonyms=["shrimp broth"],
+       note="shrimp stock is shellfish-based by definition")
+simple("turkey", "Turkey", "meat", synonyms=["turkey breast"])
+simple("ground-turkey", "Ground turkey", "meat", synonyms=["turkey mince", "minced turkey"])
+simple("duck", "Duck", "meat", synonyms=["duck breast"])
+simple("lamb", "Lamb", "meat", synonyms=["lamb shoulder", "lamb leg"])
+simple("ground-lamb", "Ground lamb", "meat", synonyms=["lamb mince", "minced lamb"])
+simple("steak", "Steak", "meat", synonyms=["beef steak", "rump steak", "sirloin"])
+simple("pork-chop", "Pork chop", "meat", synonyms=["pork chops"])
+simple("sausage", "Sausage", "meat", note="generic sausage: meat species and fillers vary by product")
+simple("chicken-liver", "Chicken liver", "meat", synonyms=["livers"],
+       note="offal: animal flesh for diet purposes")
+simple("bacon", "Bacon", "meat", synonyms=["streaky bacon", "bacon rashers"])
+simple("duck-fat", "Duck fat", "animal-derived", synonyms=["rendered duck fat"])
+simple("cotija", "Cotija", "dairy", contains=["milk"], synonyms=["cotija cheese"])
+simple("condensed-milk", "Condensed milk", "dairy", contains=["milk"],
+       synonyms=["sweetened condensed milk"],
+       fdc=usda(167945, "Sweetened Condensed Milk (Canned)"))
+simple("whey", "Whey", "dairy", contains=["milk"], note="milk-derived protein")
+
+compound("teriyaki", "Teriyaki", [
+    comp("soy-sauce", "certain", ev("standard", "teriyaki composition",
+         "teriyaki sauce is soy-sugar-mirin based")),
+    comp("sugar", "certain", ev("standard", "teriyaki composition")),
+    comp("mirin", "typical", ev("standard", "teriyaki composition")),
+], composition_complete=False,
+    note="thickeners (corn starch) vary; some bottled teriyaki contains sesame oil")
+
+compound("hoisin", "Hoisin sauce", [
+    comp("soybeans", "certain", ev("standard", "hoisin composition",
+         "hoisin is fermented soybean paste based")),
+    comp("sugar", "certain", ev("standard", "hoisin composition")),
+    comp("vinegar", "typical", ev("standard", "hoisin composition")),
+    comp("garlic", "typical", ev("standard", "hoisin composition")),
+    comp("spices", "typical", ev("standard", "hoisin composition")),
+    comp("wheat-flour", "variable", ev("standard", "hoisin thickener varies",
+         "some recipes and brands use wheat flour or wheat-containing colourings")),
+    comp("sesame-oil", "variable", ev("standard", "hoisin composition varies",
+         "some brands include sesame oil or sesame paste")),
+], composition_complete=False,
+    note="fermented soybean sauce: sweet bean sauce variants differ by region")
+
+compound("doenjang", "Doenjang", [
+    comp("soybeans", "certain", ev("standard", "doenjang composition",
+         "doenjang is Korean fermented soybean paste")),
+    comp("salt", "certain", ev("standard", "doenjang composition")),
+    comp("rice-koji", "typical", ev("standard", "doenjang fermentation",
+         "traditionally fermented with meju (soybean brick); rice or barley koji is common")),
+], composition_complete=True,
+    note="barley-koji variants introduce gluten; meju-only fermentation does not")
+
+compound("ssamjang", "Ssamjang", [
+    comp("doenjang", "typical", ev("standard", "ssamjang composition",
+         "ssamjang blends doenjang and gochujang")),
+    comp("gochujang", "typical", ev("standard", "ssamjang composition")),
+    comp("garlic", "typical", ev("standard", "ssamjang composition")),
+    comp("sesame-oil", "typical", ev("standard", "ssamjang composition")),
+], composition_complete=False,
+    note="brand blends vary; some contain sugar or MSG")
+
+compound("doubanjiang", "Doubanjiang", [
+    comp("soybeans", "certain", ev("standard", "doubanjiang composition",
+         "doubanjiang is fermented soybean and chili paste")),
+    comp("chili-peppers", "certain", ev("standard", "doubanjiang composition")),
+    comp("wheat-flour", "variable", ev("standard", "doubanjiang fermentation varies",
+         "some styles use wheat flour in the fermentation (e.g. broad bean pastes with flour)")),
+    comp("salt", "certain", ev("standard", "doubanjiang composition")),
+], composition_complete=False,
+    note="pixian doubanjiang uses broad beans; ingredient lists vary on wheat")
+
+compound("black-bean-sauce", "Black bean sauce", [
+    comp("soybeans", "certain", ev("standard", "black bean sauce composition",
+         "fermented black soybeans are the base")),
+    comp("wheat-flour", "variable", ev("standard", "black bean sauce composition varies",
+         "some brands add wheat flour as binder")),
+    comp("garlic", "typical", ev("standard", "black bean sauce composition")),
+    comp("sugar", "typical", ev("standard", "black bean sauce composition")),
+    comp("salt", "typical", ev("standard", "black bean sauce composition")),
+    comp("soybean-oil-refined", "typical", ev("standard", "black bean sauce composition")),
+], composition_complete=False,
+    note="salted fermented black beans; brand formulations vary")
+
+compound("shrimp-paste", "Shrimp paste", [
+    comp("shrimp-part", "certain", ev("standard", "shrimp paste composition",
+         "shrimp paste is fermented ground shrimp and salt")),
+    comp("salt", "certain", ev("standard", "shrimp paste composition")),
+], composition_complete=True,
+    note="kapi/belacan/trasi: regional names for the same fermented shrimp product")
+
+compound("thai-curry-paste", "Thai curry paste", [
+    comp("chili-peppers", "certain", ev("standard", "thai curry paste composition")),
+    comp("spices", "certain", ev("standard", "thai curry paste composition",
+         "lemongrass, galangal, coriander root and kaffir lime are the aromatics")),
+    comp("garlic", "typical", ev("standard", "thai curry paste composition")),
+    comp("shrimp-paste", "typical", ev("standard", "thai curry paste composition",
+         "most commercial and traditional pastes contain shrimp paste (kapi); "
+         "vegan pastes exist — check the brand")),
+], composition_complete=False,
+    note="color and heat vary by curry type (red/green/yellow)")
+
+compound("satay", "Satay", [
+    comp("peanuts-part", "certain", ev("standard", "satay composition",
+         "satay is grilled skewered meat with peanut sauce")),
+    comp("chicken", "typical", ev("standard", "satay composition",
+         "chicken is the most common satay meat; beef, pork and lamb exist")),
+    comp("soy-sauce", "typical", ev("standard", "satay marinade",
+         "marinades commonly use soy sauce, turmeric and lemongrass")),
+], composition_complete=False,
+    note="generic satay: meat species and marinade vary by vendor")
+
+compound("peanut-sauce", "Peanut sauce", [
+    comp("peanuts-part", "certain", ev("standard", "peanut sauce composition")),
+    comp("coconut-milk", "typical", ev("standard", "peanut sauce composition")),
+    comp("soy-sauce", "typical", ev("standard", "peanut sauce composition",
+         "most recipes include soy sauce or tamari")),
+    comp("sugar", "typical", ev("standard", "peanut sauce composition")),
+    comp("salt", "typical", ev("standard", "peanut sauce composition")),
+], composition_complete=True,
+    note="satay sauce / gado-gado sauce")
+
+compound("mole", "Mole", [
+    comp("chili-peppers", "certain", ev("standard", "mole composition",
+         "dried chiles are the base of every mole")),
+    comp("chocolate", "typical", ev("standard", "mole composition",
+         "mexican chocolate or cocoa is typical of mole poblano")),
+    comp("peanuts-part", "typical", ev("standard", "mole composition",
+         "peanuts are a common thickener in mole poblano and almond-based moles exist")),
+    comp("sesame-seeds", "typical", ev("standard", "mole composition",
+         "sesame is a standard garnish and thickener for mole poblano")),
+    comp("sugar", "typical", ev("standard", "mole composition")),
+    comp("spices", "certain", ev("standard", "mole composition")),
+], composition_complete=False,
+    allergen_overrides={"treeNuts": f("unknown", "standard", "mole composition varies",
+                                      "almond-based moles exist; nuts vary by recipe")},
+    note="generic mole: recipes differ radically by family and region")
+
+compound("aioli", "Aioli", [
+    comp("garlic", "certain", ev("standard", "aioli composition",
+         "traditional aioli is garlic and olive oil emulsion")),
+    comp("olive-oil", "certain", ev("standard", "aioli composition")),
+    comp("egg", "certain", ev("standard", "aioli composition",
+         "modern/provencal aioli adds egg yolk as emulsifier")),
+], composition_complete=True,
+    note="garlic mayonnaise: always contains raw egg in the modern form")
+
+compound("hollandaise", "Hollandaise", [
+    comp("egg", "certain", ev("standard", "hollandaise composition",
+         "hollandaise is an emulsion of egg yolk and butter")),
+    comp("butter", "certain", ev("standard", "hollandaise composition")),
+    comp("lemon-juice", "typical", ev("standard", "hollandaise composition")),
+], composition_complete=True,
+    note="contains raw or lightly cooked egg")
+
+compound("bechamel", "Bechamel", [
+    comp("milk", "certain", ev("standard", "bechamel composition",
+         "bechamel is milk thickened with a flour-butter roux")),
+    comp("wheat-flour", "certain", ev("standard", "bechamel composition")),
+    comp("butter", "typical", ev("standard", "bechamel composition")),
+], composition_complete=True,
+    note="white sauce; the classic French roux is wheat flour and butter")
+
+compound("fresh-pasta", "Fresh pasta", [
+    comp("durum-wheat-flour", "certain", ev("standard", "fresh pasta composition",
+         "fresh pasta is durum wheat flour or semolina")),
+    comp("egg", "certain", ev("standard", "fresh pasta composition",
+         "egg is the defining difference from dried pasta")),
+], composition_complete=True,
+    note="pasta fresca: flour + egg")
+
+compound("wonton-wrappers", "Wonton wrappers", [
+    comp("wheat-flour", "certain", ev("standard", "wonton wrapper composition")),
+    comp("water", "certain", ev("standard", "wonton wrapper composition")),
+    comp("egg", "variable", ev("standard", "wonton wrapper composition varies",
+         "traditional hong kong wrappers contain egg (alkaline noodles); "
+         "shanghai-style are often egg-free")),
+    comp("salt", "certain", ev("standard", "wonton wrapper composition")),
+], composition_complete=False,
+    note="check the label for egg; wheat is always present")
+
+compound("gyoza-skins", "Gyoza skins", [
+    comp("wheat-flour", "certain", ev("standard", "gyoza skin composition")),
+    comp("water", "certain", ev("standard", "gyoza skin composition")),
+    comp("salt", "certain", ev("standard", "gyoza skin composition")),
+], composition_complete=True,
+    synonyms=["dumpling wrappers", "dumpling skins", "potsticker wrappers"],
+    note="gyoza/dumpling/potsticker wrappers are typically egg-free wheat dough")
+
+compound("gnocchi", "Gnocchi", [
+    comp("potato", "typical", ev("standard", "gnocchi composition",
+         "potato gnocchi is the most common form; flour-only variants exist")),
+    comp("wheat-flour", "typical", ev("standard", "gnocchi composition")),
+    comp("egg", "variable", ev("standard", "gnocchi composition varies",
+         "some recipes bind with egg, others not")),
+], composition_complete=False,
+    note="check the label; wheat is present in most commercial gnocchi")
+
+compound("orzo", "Orzo", [
+    comp("durum-wheat-flour", "certain", ev("standard", "orzo composition",
+         "orzo is durum wheat semolina pasta shaped like rice")),
+], composition_complete=True,
+    synonyms=["risoni"],
+    note="risoni/orzo is pasta, not rice")
+
+simple("khoya", "Khoya", "dairy", contains=["milk"], synonyms=["mawa", "khoa"],
+       note="reduced milk solids used in indian sweets")
+
+compound("tempeh", "Tempeh", [
+    comp("soybeans", "certain", ev("standard", "tempeh composition",
+         "tempeh is fermented whole soybeans bound by mycelium")),
+], composition_complete=True,
+    note="fermented soybean cake; check labels for grains in mixed tempeh")
+
+compound("soy-milk", "Soy milk", [
+    comp("soybeans", "certain", ev("standard", "soy milk composition")),
+    comp("water", "certain", ev("standard", "soy milk composition")),
+], composition_complete=True,
+    synonyms=["soya milk"],
+    note="plain soy milk; flavoured variants may add sugar or thickeners")
 part("soya-flour", "Soya flour", "plant", contains=["soy"])
 part("rice-flour", "Rice flour", "plant", gluten="free",
      note="rice contains no gluten grain")

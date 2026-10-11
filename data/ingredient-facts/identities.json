@@ -11,6 +11,13 @@
       ]
     },
     {
+      "key": "aioli",
+      "display": "Aioli",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "garlic mayonnaise: always contains raw egg in the modern form"
+    },
+    {
       "key": "all-purpose-flour",
       "display": "All-purpose flour",
       "kind": "simple",
@@ -75,6 +82,15 @@
       ]
     },
     {
+      "key": "bacon",
+      "display": "Bacon",
+      "kind": "simple",
+      "synonyms": [
+        "bacon rashers",
+        "streaky bacon"
+      ]
+    },
+    {
       "key": "balsamic-vinegar",
       "display": "Balsamic vinegar",
       "kind": "simple",
@@ -104,10 +120,26 @@
       "note": "barley carries gluten but is not wheat"
     },
     {
+      "key": "bechamel",
+      "display": "Bechamel",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "white sauce; the classic French roux is wheat flour and butter"
+    },
+    {
       "key": "beef",
       "display": "Beef",
       "kind": "simple",
       "synonyms": []
+    },
+    {
+      "key": "beef-stock",
+      "display": "Beef stock",
+      "kind": "simple",
+      "synonyms": [
+        "beef broth"
+      ],
+      "note": "beef stock is beef-based by definition"
     },
     {
       "key": "bell-pepper",
@@ -124,6 +156,13 @@
       "appLocalIds": [
         "8"
       ]
+    },
+    {
+      "key": "black-bean-sauce",
+      "display": "Black bean sauce",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "salted fermented black beans; brand formulations vary"
     },
     {
       "key": "black-beans",
@@ -281,6 +320,15 @@
       ]
     },
     {
+      "key": "chicken-liver",
+      "display": "Chicken liver",
+      "kind": "simple",
+      "synonyms": [
+        "livers"
+      ],
+      "note": "offal: animal flesh for diet purposes"
+    },
+    {
       "key": "chicken-stock",
       "display": "Chicken stock",
       "kind": "compound",
@@ -337,6 +385,13 @@
       ]
     },
     {
+      "key": "chocolate",
+      "display": "Chocolate",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "generic chocolate: milk presence varies by type; nut inclusions vary"
+    },
+    {
       "key": "chorizo",
       "display": "Chorizo",
       "kind": "compound",
@@ -358,6 +413,22 @@
       ]
     },
     {
+      "key": "clam",
+      "display": "Clam",
+      "kind": "simple",
+      "synonyms": [
+        "clams"
+      ],
+      "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it"
+    },
+    {
+      "key": "coconut",
+      "display": "Coconut",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "botanically a fruit; confirm with the user when their nut allergy excludes coconut"
+    },
+    {
       "key": "coconut-milk",
       "display": "Coconut milk",
       "kind": "compound",
@@ -367,6 +438,22 @@
       "appLocalIds": [
         "49"
       ]
+    },
+    {
+      "key": "cod",
+      "display": "Cod",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "condensed-milk",
+      "display": "Condensed milk",
+      "kind": "simple",
+      "synonyms": [
+        "sweetened condensed milk"
+      ],
+      "usdaFdcId": "167945",
+      "usdaFdcRef": "fdc 167945 'Sweetened Condensed Milk (Canned)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
     },
     {
       "key": "corn",
@@ -391,6 +478,14 @@
       ]
     },
     {
+      "key": "cotija",
+      "display": "Cotija",
+      "kind": "simple",
+      "synonyms": [
+        "cotija cheese"
+      ]
+    },
+    {
       "key": "couscous",
       "display": "Couscous",
       "kind": "simple",
@@ -401,6 +496,16 @@
       ],
       "usdaFdcId": "169700",
       "usdaFdcRef": "fdc 169700 'Couscous (Cooked)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+    },
+    {
+      "key": "crab",
+      "display": "Crab",
+      "kind": "simple",
+      "synonyms": [
+        "crab meat"
+      ],
+      "usdaFdcId": "2684537",
+      "usdaFdcRef": "fdc 2684537 'Crab (Blue, Canned)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row for crab meat"
     },
     {
       "key": "cream-cheese",
@@ -448,6 +553,20 @@
       "usdaFdcRef": "fdc 170924 'Curry Powder' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
     },
     {
+      "key": "doenjang",
+      "display": "Doenjang",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "barley-koji variants introduce gluten; meju-only fermentation does not"
+    },
+    {
+      "key": "doubanjiang",
+      "display": "Doubanjiang",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "pixian doubanjiang uses broad beans; ingredient lists vary on wheat"
+    },
+    {
       "key": "dried-egg-noodles",
       "display": "Dried egg noodles",
       "kind": "compound",
@@ -457,6 +576,22 @@
       ],
       "usdaFdcId": "169731",
       "usdaFdcRef": "fdc 169731 'Egg Noodles (Dry, Enriched)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+    },
+    {
+      "key": "duck",
+      "display": "Duck",
+      "kind": "simple",
+      "synonyms": [
+        "duck breast"
+      ]
+    },
+    {
+      "key": "duck-fat",
+      "display": "Duck fat",
+      "kind": "simple",
+      "synonyms": [
+        "rendered duck fat"
+      ]
     },
     {
       "key": "edamame",
@@ -501,6 +636,17 @@
       ]
     },
     {
+      "key": "fish-fillet",
+      "display": "Fish fillet",
+      "kind": "simple",
+      "synonyms": [
+        "fish fillets",
+        "white fish fillet",
+        "white fish fillets"
+      ],
+      "note": "generic fillet: species varies"
+    },
+    {
       "key": "fish-sauce",
       "display": "Fish sauce",
       "kind": "compound",
@@ -510,6 +656,16 @@
         "thai fish sauce",
         "vietnamese fish sauce"
       ]
+    },
+    {
+      "key": "fish-stock",
+      "display": "Fish stock",
+      "kind": "simple",
+      "synonyms": [
+        "fish broth",
+        "fumet"
+      ],
+      "note": "fish stock is fish-based by definition"
     },
     {
       "key": "flank-steak",
@@ -537,6 +693,13 @@
         "flour tortilla",
         "wheat tortillas"
       ]
+    },
+    {
+      "key": "fresh-pasta",
+      "display": "Fresh pasta",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "pasta fresca: flour + egg"
     },
     {
       "key": "frozen-peas",
@@ -581,6 +744,15 @@
       ]
     },
     {
+      "key": "ghee",
+      "display": "Ghee",
+      "kind": "simple",
+      "synonyms": [
+        "clarified butter"
+      ],
+      "note": "clarified butter: milk fat; lactose reduced but still a milk product"
+    },
+    {
       "key": "ginger",
       "display": "Ginger",
       "kind": "simple",
@@ -603,6 +775,13 @@
         "gluten free bread"
       ],
       "note": "the FDA case: gluten-free label AND declared wheat-derived component — gluten-free diet allowed, wheat allergen still violated"
+    },
+    {
+      "key": "gnocchi",
+      "display": "Gnocchi",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "check the label; wheat is present in most commercial gnocchi"
     },
     {
       "key": "gochujang",
@@ -667,6 +846,15 @@
       ]
     },
     {
+      "key": "ground-lamb",
+      "display": "Ground lamb",
+      "kind": "simple",
+      "synonyms": [
+        "lamb mince",
+        "minced lamb"
+      ]
+    },
+    {
       "key": "ground-pork",
       "display": "Ground pork",
       "kind": "simple",
@@ -674,6 +862,32 @@
         "minced pork",
         "pork mince"
       ]
+    },
+    {
+      "key": "ground-turkey",
+      "display": "Ground turkey",
+      "kind": "simple",
+      "synonyms": [
+        "minced turkey",
+        "turkey mince"
+      ]
+    },
+    {
+      "key": "gyoza-skins",
+      "display": "Gyoza skins",
+      "kind": "compound",
+      "synonyms": [
+        "dumpling skins",
+        "dumpling wrappers",
+        "potsticker wrappers"
+      ],
+      "note": "gyoza/dumpling/potsticker wrappers are typically egg-free wheat dough"
+    },
+    {
+      "key": "halibut",
+      "display": "Halibut",
+      "kind": "simple",
+      "synonyms": []
     },
     {
       "key": "halloumi",
@@ -691,6 +905,32 @@
       ]
     },
     {
+      "key": "hazelnut",
+      "display": "Hazelnut",
+      "kind": "simple",
+      "synonyms": [
+        "cobnuts",
+        "filberts",
+        "hazelnuts"
+      ],
+      "usdaFdcId": "170589",
+      "usdaFdcRef": "fdc 170589 'Hazelnuts (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+    },
+    {
+      "key": "hoisin",
+      "display": "Hoisin sauce",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "fermented soybean sauce: sweet bean sauce variants differ by region"
+    },
+    {
+      "key": "hollandaise",
+      "display": "Hollandaise",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "contains raw or lightly cooked egg"
+    },
+    {
       "key": "honey",
       "display": "Honey",
       "kind": "simple",
@@ -706,6 +946,16 @@
       "synonyms": []
     },
     {
+      "key": "khoya",
+      "display": "Khoya",
+      "kind": "simple",
+      "synonyms": [
+        "khoa",
+        "mawa"
+      ],
+      "note": "reduced milk solids used in indian sweets"
+    },
+    {
       "key": "kimchi",
       "display": "Kimchi",
       "kind": "compound",
@@ -715,6 +965,15 @@
       ],
       "usdaFdcId": "170392",
       "usdaFdcRef": "fdc 170392 'Cabbage (Kimchi)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+    },
+    {
+      "key": "lamb",
+      "display": "Lamb",
+      "kind": "simple",
+      "synonyms": [
+        "lamb leg",
+        "lamb shoulder"
+      ]
     },
     {
       "key": "lard",
@@ -761,6 +1020,29 @@
       "appLocalIds": [
         "29"
       ]
+    },
+    {
+      "key": "lobster",
+      "display": "Lobster",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "macadamia",
+      "display": "Macadamia",
+      "kind": "simple",
+      "synonyms": [
+        "macadamia nuts",
+        "macadamias"
+      ],
+      "usdaFdcId": "170586",
+      "usdaFdcRef": "fdc 170586 'Macadamia Nuts (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+    },
+    {
+      "key": "mackerel",
+      "display": "Mackerel",
+      "kind": "simple",
+      "synonyms": []
     },
     {
       "key": "masa-harina",
@@ -819,6 +1101,13 @@
       ]
     },
     {
+      "key": "mole",
+      "display": "Mole",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "generic mole: recipes differ radically by family and region"
+    },
+    {
       "key": "monterey-jack",
       "display": "Monterey Jack",
       "kind": "simple",
@@ -853,6 +1142,15 @@
       "appLocalIds": [
         "18"
       ]
+    },
+    {
+      "key": "mussel",
+      "display": "Mussel",
+      "kind": "simple",
+      "synonyms": [
+        "mussels"
+      ],
+      "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it"
     },
     {
       "key": "naan",
@@ -918,6 +1216,15 @@
       ]
     },
     {
+      "key": "orzo",
+      "display": "Orzo",
+      "kind": "compound",
+      "synonyms": [
+        "risoni"
+      ],
+      "note": "risoni/orzo is pasta, not rice"
+    },
+    {
       "key": "oyster-sauce",
       "display": "Oyster sauce",
       "kind": "compound",
@@ -981,6 +1288,13 @@
       "note": "unrefined peanut oil contains peanut protein; refined peanut oil is FDA-exempt — kept 'contains' because unrefined forms exist"
     },
     {
+      "key": "peanut-sauce",
+      "display": "Peanut sauce",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "satay sauce / gado-gado sauce"
+    },
+    {
       "key": "peanuts",
       "display": "Peanuts",
       "kind": "simple",
@@ -988,6 +1302,17 @@
         "roasted peanuts",
         "salted peanuts"
       ]
+    },
+    {
+      "key": "pecan",
+      "display": "Pecan",
+      "kind": "simple",
+      "synonyms": [
+        "pecan nuts",
+        "pecans"
+      ],
+      "usdaFdcId": "170182",
+      "usdaFdcRef": "fdc 170182 'Pecans (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
     },
     {
       "key": "pesto",
@@ -998,6 +1323,24 @@
         "pesto alla genovese",
         "pesto sauce"
       ]
+    },
+    {
+      "key": "pine-nuts",
+      "display": "Pine nuts",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": "170591",
+      "usdaFdcRef": "fdc 170591 'Pine Nuts (Dried)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+    },
+    {
+      "key": "pistachio",
+      "display": "Pistachio",
+      "kind": "simple",
+      "synonyms": [
+        "pistachios"
+      ],
+      "usdaFdcId": "170183",
+      "usdaFdcRef": "fdc 170183 'Pistachios (Roasted)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
     },
     {
       "key": "pitta",
@@ -1016,6 +1359,14 @@
       "synonyms": [
         "corn meal",
         "cornmeal"
+      ]
+    },
+    {
+      "key": "pork-chop",
+      "display": "Pork chop",
+      "kind": "simple",
+      "synonyms": [
+        "pork chops"
       ]
     },
     {
@@ -1151,6 +1502,38 @@
       ]
     },
     {
+      "key": "sardine",
+      "display": "Sardine",
+      "kind": "simple",
+      "synonyms": [
+        "sardines"
+      ]
+    },
+    {
+      "key": "satay",
+      "display": "Satay",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "generic satay: meat species and marinade vary by vendor"
+    },
+    {
+      "key": "sausage",
+      "display": "Sausage",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "generic sausage: meat species and fillers vary by product"
+    },
+    {
+      "key": "scallop",
+      "display": "Scallop",
+      "kind": "simple",
+      "synonyms": [
+        "scallop meat",
+        "scallops"
+      ],
+      "note": "molluscan bivalve: FALCPA does not list molluscs among the nine major allergens, but shellfish allergy covers them; declared unknown pending user confirmation"
+    },
+    {
       "key": "semolina",
       "display": "Semolina",
       "kind": "simple",
@@ -1192,6 +1575,31 @@
       ]
     },
     {
+      "key": "shrimp-paste",
+      "display": "Shrimp paste",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "kapi/belacan/trasi: regional names for the same fermented shrimp product"
+    },
+    {
+      "key": "shrimp-stock",
+      "display": "Shrimp stock",
+      "kind": "simple",
+      "synonyms": [
+        "shrimp broth"
+      ],
+      "note": "shrimp stock is shellfish-based by definition"
+    },
+    {
+      "key": "smoked-salmon",
+      "display": "Smoked salmon",
+      "kind": "simple",
+      "synonyms": [
+        "gravlax"
+      ],
+      "note": "curing/serving temperature is a food-safety question, not an allergen one"
+    },
+    {
       "key": "sour-cream",
       "display": "Sour cream",
       "kind": "simple",
@@ -1204,6 +1612,15 @@
       "appLocalIds": [
         "50"
       ]
+    },
+    {
+      "key": "soy-milk",
+      "display": "Soy milk",
+      "kind": "compound",
+      "synonyms": [
+        "soya milk"
+      ],
+      "note": "plain soy milk; flavoured variants may add sugar or thickeners"
     },
     {
       "key": "soy-sauce",
@@ -1256,6 +1673,23 @@
       "synonyms": []
     },
     {
+      "key": "ssamjang",
+      "display": "Ssamjang",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "brand blends vary; some contain sugar or MSG"
+    },
+    {
+      "key": "steak",
+      "display": "Steak",
+      "kind": "simple",
+      "synonyms": [
+        "beef steak",
+        "rump steak",
+        "sirloin"
+      ]
+    },
+    {
       "key": "stock-cube",
       "display": "Stock cube (bouillon)",
       "kind": "compound",
@@ -1291,7 +1725,10 @@
       "key": "tahini",
       "display": "Tahini",
       "kind": "simple",
-      "synonyms": [],
+      "synonyms": [
+        "sesame paste",
+        "tahina"
+      ],
       "usdaFdcId": "170191",
       "usdaFdcRef": "fdc 170191 'Sesame Butter (Tahini)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
     },
@@ -1318,6 +1755,27 @@
         }
       ],
       "note": "tamari vs wheat: unknown unless a product ingredient declaration settles it; a gluten-free label never establishes wheat absence (FDA permits processed wheat-derived ingredients in gluten-free foods)"
+    },
+    {
+      "key": "tempeh",
+      "display": "Tempeh",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "fermented soybean cake; check labels for grains in mixed tempeh"
+    },
+    {
+      "key": "teriyaki",
+      "display": "Teriyaki",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "thickeners (corn starch) vary; some bottled teriyaki contains sesame oil"
+    },
+    {
+      "key": "thai-curry-paste",
+      "display": "Thai curry paste",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "color and heat vary by curry type (red/green/yellow)"
     },
     {
       "key": "tofu",
@@ -1380,6 +1838,12 @@
       "note": "generic tortilla; corn and flour forms are separate entries"
     },
     {
+      "key": "trout",
+      "display": "Trout",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
       "key": "tuna",
       "display": "Tuna",
       "kind": "simple",
@@ -1387,6 +1851,14 @@
         "tuna steak"
       ],
       "note": "generic tuna covers fresh steaks and canned; canned tuna is a separate entry"
+    },
+    {
+      "key": "turkey",
+      "display": "Turkey",
+      "kind": "simple",
+      "synonyms": [
+        "turkey breast"
+      ]
     },
     {
       "key": "vegetable-stock",
@@ -1405,6 +1877,29 @@
       "synonyms": [],
       "usdaFdcId": "170187",
       "usdaFdcRef": "fdc 170187 'English Walnuts' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+    },
+    {
+      "key": "whey",
+      "display": "Whey",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "milk-derived protein"
+    },
+    {
+      "key": "whitefish",
+      "display": "Whitefish",
+      "kind": "simple",
+      "synonyms": [
+        "white fish"
+      ],
+      "note": "generic white-fleshed fish; species varies"
+    },
+    {
+      "key": "wonton-wrappers",
+      "display": "Wonton wrappers",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "check the label for egg; wheat is always present"
     },
     {
       "key": "worcestershire-sauce",

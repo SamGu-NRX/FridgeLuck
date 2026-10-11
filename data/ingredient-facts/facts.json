@@ -146,6 +146,138 @@
         }
       }
     },
+    "aioli": {
+      "components": [
+        {
+          "key": "garlic",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "aioli composition",
+            "note": "traditional aioli is garlic and olive oil emulsion"
+          }
+        },
+        {
+          "key": "olive-oil",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "aioli composition"
+          }
+        },
+        {
+          "key": "egg",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "aioli composition",
+            "note": "modern/provencal aioli adds egg yolk as emulsifier"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "garlic mayonnaise: always contains raw egg in the modern form",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'egg' is a certain or typical ingredient"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "closed composition (garlic, olive-oil, egg); no gluten grain"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "closed composition (garlic, olive-oil, egg); no gluten grain"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: garlic, olive-oil, egg; no source of this allergen"
+          }
+        }
+      }
+    },
     "all-purpose-flour": {
       "allergens": {
         "wheat": {
@@ -606,6 +738,34 @@
         }
       }
     },
+    "bacon": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
     "balsamic-vinegar": {
       "diets": {
         "vegetarian": {
@@ -820,7 +980,167 @@
         }
       }
     },
+    "bechamel": {
+      "components": [
+        {
+          "key": "milk",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "bechamel composition",
+            "note": "bechamel is milk thickened with a flour-butter roux"
+          }
+        },
+        {
+          "key": "wheat-flour",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "bechamel composition"
+          }
+        },
+        {
+          "key": "butter",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "bechamel composition"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "white sauce; the classic French roux is wheat flour and butter",
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'milk' is a certain or typical ingredient"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: milk, wheat-flour, butter; no source of this allergen"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: milk, wheat-flour, butter; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: milk, wheat-flour, butter; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: milk, wheat-flour, butter; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: milk, wheat-flour, butter; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'wheat-flour' is a certain or typical ingredient"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: milk, wheat-flour, butter; no source of this allergen"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: milk, wheat-flour, butter; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
+          }
+        },
+        "dairyFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'milk' is a certain or typical ingredient"
+          }
+        }
+      }
+    },
     "beef": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
+    "beef-stock": {
+      "note": "beef stock is beef-based by definition",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -880,6 +1200,80 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "black-bean-sauce": {
+      "components": [
+        {
+          "key": "soybeans",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "black bean sauce composition",
+            "note": "fermented black soybeans are the base"
+          }
+        },
+        {
+          "key": "wheat-flour",
+          "certainty": "variable",
+          "evidence": {
+            "kind": "standard",
+            "ref": "black bean sauce composition varies",
+            "note": "some brands add wheat flour as binder"
+          }
+        },
+        {
+          "key": "garlic",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "black bean sauce composition"
+          }
+        },
+        {
+          "key": "sugar",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "black bean sauce composition"
+          }
+        },
+        {
+          "key": "salt",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "black bean sauce composition"
+          }
+        },
+        {
+          "key": "soybean-oil-refined",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "black bean sauce composition"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "salted fermented black beans; brand formulations vary",
+      "allergens": {
+        "wheat": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition varies",
+            "note": "component 'wheat-flour' is variable: some products carry this allergen, some do not"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soybeans' is a certain or typical ingredient"
           }
         }
       }
@@ -1574,6 +1968,35 @@
         }
       }
     },
+    "chicken-liver": {
+      "note": "offal: animal flesh for diet purposes",
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
     "chicken-stock": {
       "components": [
         {
@@ -1914,6 +2337,48 @@
         }
       }
     },
+    "chocolate": {
+      "components": [
+        {
+          "key": "cocoa",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "chocolate composition",
+            "note": "chocolate is cocoa solids and cocoa butter"
+          }
+        },
+        {
+          "key": "sugar",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "chocolate composition"
+          }
+        },
+        {
+          "key": "milk",
+          "certainty": "variable",
+          "evidence": {
+            "kind": "standard",
+            "ref": "chocolate composition varies",
+            "note": "dark chocolate usually contains no milk (but check the label for milk fat); milk chocolate always does"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "generic chocolate: milk presence varies by type; nut inclusions vary",
+      "allergens": {
+        "milk": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition varies",
+            "note": "component 'milk' is variable: some products carry this allergen, some do not"
+          }
+        }
+      }
+    },
     "chorizo": {
       "components": [
         {
@@ -2008,7 +2473,73 @@
         }
       }
     },
+    "clam": {
+      "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it",
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
+    "cocoa": {
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
     "coconut": {
+      "note": "botanically a fruit; confirm with the user when their nut allergy excludes coconut",
       "allergens": {
         "treeNuts": {
           "state": "unknown",
@@ -2172,6 +2703,90 @@
             "kind": "standard",
             "ref": "compound composition",
             "note": "closed composition from certain/typical components: coconut, water; no source of this allergen"
+          }
+        }
+      }
+    },
+    "cod": {
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Cod is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
+    "condensed-milk": {
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Condensed milk is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Condensed milk is a milk product"
           }
         }
       }
@@ -2378,6 +2993,52 @@
         }
       }
     },
+    "cotija": {
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Cotija is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Cotija is a milk product"
+          }
+        }
+      }
+    },
     "couscous": {
       "allergens": {
         "wheat": {
@@ -2436,6 +3097,44 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "crab": {
+      "allergens": {
+        "crustaceanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Crab is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
           }
         }
       }
@@ -2786,6 +3485,196 @@
         }
       }
     },
+    "doenjang": {
+      "components": [
+        {
+          "key": "soybeans",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "doenjang composition",
+            "note": "doenjang is Korean fermented soybean paste"
+          }
+        },
+        {
+          "key": "salt",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "doenjang composition"
+          }
+        },
+        {
+          "key": "rice-koji",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "doenjang fermentation",
+            "note": "traditionally fermented with meju (soybean brick); rice or barley koji is common"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "barley-koji variants introduce gluten; meju-only fermentation does not",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soybeans' is a certain or typical ingredient"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "closed composition (soybeans, salt, rice-koji); no gluten grain"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "closed composition (soybeans, salt, rice-koji); no gluten grain"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, salt, rice-koji; no source of this allergen"
+          }
+        }
+      }
+    },
+    "doubanjiang": {
+      "components": [
+        {
+          "key": "soybeans",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "doubanjiang composition",
+            "note": "doubanjiang is fermented soybean and chili paste"
+          }
+        },
+        {
+          "key": "chili-peppers",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "doubanjiang composition"
+          }
+        },
+        {
+          "key": "wheat-flour",
+          "certainty": "variable",
+          "evidence": {
+            "kind": "standard",
+            "ref": "doubanjiang fermentation varies",
+            "note": "some styles use wheat flour in the fermentation (e.g. broad bean pastes with flour)"
+          }
+        },
+        {
+          "key": "salt",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "doubanjiang composition"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "pixian doubanjiang uses broad beans; ingredient lists vary on wheat",
+      "allergens": {
+        "wheat": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition varies",
+            "note": "component 'wheat-flour' is variable: some products carry this allergen, some do not"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soybeans' is a certain or typical ingredient"
+          }
+        }
+      }
+    },
     "dried-egg-noodles": {
       "components": [
         {
@@ -2912,6 +3801,62 @@
             "kind": "standard",
             "ref": "compound composition",
             "note": "closed composition from certain/typical components: wheat-flour, egg, water; no source of this allergen"
+          }
+        }
+      }
+    },
+    "duck": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
+    "duck-fat": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal-derived ingredient; not vegetarian, vegan or pescatarian (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal-derived ingredient; not vegetarian, vegan or pescatarian (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal-derived ingredient; not vegetarian, vegan or pescatarian (diet fact: violated)"
           }
         }
       }
@@ -3247,6 +4192,45 @@
         }
       }
     },
+    "fish-fillet": {
+      "note": "generic fillet: species varies",
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Fish fillet is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
     "fish-sauce": {
       "components": [
         {
@@ -3385,6 +4369,45 @@
             "kind": "standard",
             "ref": "FDA FALCPA major food allergens",
             "note": "Fish sauce is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
+    "fish-stock": {
+      "note": "fish stock is fish-based by definition",
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Fish stock is a source of this FDA major allergen (standard composition)"
           }
         }
       },
@@ -3639,6 +4662,130 @@
         }
       }
     },
+    "fresh-pasta": {
+      "components": [
+        {
+          "key": "durum-wheat-flour",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fresh pasta composition",
+            "note": "fresh pasta is durum wheat flour or semolina"
+          }
+        },
+        {
+          "key": "egg",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fresh pasta composition",
+            "note": "egg is the defining difference from dried pasta"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "pasta fresca: flour + egg",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour, egg; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'egg' is a certain or typical ingredient"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour, egg; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour, egg; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour, egg; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour, egg; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'durum-wheat-flour' is a certain or typical ingredient"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour, egg; no source of this allergen"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour, egg; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour, egg; no source of this allergen"
+          }
+        }
+      }
+    },
     "frozen-peas": {
       "diets": {
         "vegetarian": {
@@ -3849,13 +4996,14 @@
       }
     },
     "ghee": {
+      "note": "clarified butter: milk fat; lactose reduced but still a milk product",
       "allergens": {
         "milk": {
           "state": "contains",
           "evidence": {
             "kind": "standard",
             "ref": "FDA FALCPA major food allergens",
-            "note": "Ghee (clarified butter) is a source of this FDA major allergen (standard composition)"
+            "note": "Ghee is a source of this FDA major allergen (standard composition)"
           }
         }
       },
@@ -3889,7 +5037,7 @@
           "evidence": {
             "kind": "standard",
             "ref": "FDA FALCPA major food allergens",
-            "note": "Ghee (clarified butter) is a milk product"
+            "note": "Ghee is a milk product"
           }
         }
       }
@@ -4032,6 +5180,74 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "gnocchi": {
+      "components": [
+        {
+          "key": "potato",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gnocchi composition",
+            "note": "potato gnocchi is the most common form; flour-only variants exist"
+          }
+        },
+        {
+          "key": "wheat-flour",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gnocchi composition"
+          }
+        },
+        {
+          "key": "egg",
+          "certainty": "variable",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gnocchi composition varies",
+            "note": "some recipes bind with egg, others not"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "check the label; wheat is present in most commercial gnocchi",
+      "allergens": {
+        "egg": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition varies",
+            "note": "component 'egg' is variable: some products carry this allergen, some do not"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'wheat-flour' is a certain or typical ingredient"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
           }
         }
       }
@@ -4444,6 +5660,34 @@
         }
       }
     },
+    "ground-lamb": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
     "ground-pork": {
       "diets": {
         "vegetarian": {
@@ -4468,6 +5712,202 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
+    "ground-turkey": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
+    "gyoza-skins": {
+      "components": [
+        {
+          "key": "wheat-flour",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gyoza skin composition"
+          }
+        },
+        {
+          "key": "water",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gyoza skin composition"
+          }
+        },
+        {
+          "key": "salt",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gyoza skin composition"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "gyoza/dumpling/potsticker wrappers are typically egg-free wheat dough",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'wheat-flour' is a certain or typical ingredient"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: wheat-flour, water, salt; no source of this allergen"
+          }
+        }
+      }
+    },
+    "halibut": {
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Halibut is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
           }
         }
       }
@@ -4660,6 +6100,274 @@
             "kind": "standard",
             "ref": "compound composition",
             "note": "closed composition from certain/typical components: chili-peppers, garlic, spices, olive-oil, salt; no source of this allergen"
+          }
+        }
+      }
+    },
+    "hazelnut": {
+      "allergens": {
+        "treeNuts": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Hazelnut is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "hoisin": {
+      "components": [
+        {
+          "key": "soybeans",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hoisin composition",
+            "note": "hoisin is fermented soybean paste based"
+          }
+        },
+        {
+          "key": "sugar",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hoisin composition"
+          }
+        },
+        {
+          "key": "vinegar",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hoisin composition"
+          }
+        },
+        {
+          "key": "garlic",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hoisin composition"
+          }
+        },
+        {
+          "key": "spices",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hoisin composition"
+          }
+        },
+        {
+          "key": "wheat-flour",
+          "certainty": "variable",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hoisin thickener varies",
+            "note": "some recipes and brands use wheat flour or wheat-containing colourings"
+          }
+        },
+        {
+          "key": "sesame-oil",
+          "certainty": "variable",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hoisin composition varies",
+            "note": "some brands include sesame oil or sesame paste"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "fermented soybean sauce: sweet bean sauce variants differ by region",
+      "allergens": {
+        "wheat": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition varies",
+            "note": "component 'wheat-flour' is variable: some products carry this allergen, some do not"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soybeans' is a certain or typical ingredient"
+          }
+        },
+        "sesame": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition varies",
+            "note": "component 'sesame-oil' is variable: some products carry this allergen, some do not"
+          }
+        }
+      }
+    },
+    "hollandaise": {
+      "components": [
+        {
+          "key": "egg",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hollandaise composition",
+            "note": "hollandaise is an emulsion of egg yolk and butter"
+          }
+        },
+        {
+          "key": "butter",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hollandaise composition"
+          }
+        },
+        {
+          "key": "lemon-juice",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "hollandaise composition"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "contains raw or lightly cooked egg",
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'butter' is a certain or typical ingredient"
+          }
+        },
+        "egg": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'egg' is a certain or typical ingredient"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: egg, butter, lemon-juice; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: egg, butter, lemon-juice; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: egg, butter, lemon-juice; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: egg, butter, lemon-juice; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: egg, butter, lemon-juice; no source of this allergen"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: egg, butter, lemon-juice; no source of this allergen"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: egg, butter, lemon-juice; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "closed composition (egg, butter, lemon-juice); no gluten grain"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "closed composition (egg, butter, lemon-juice); no gluten grain"
+          }
+        },
+        "dairyFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'butter' is a certain or typical ingredient"
           }
         }
       }
@@ -4891,6 +6599,53 @@
         }
       }
     },
+    "khoya": {
+      "note": "reduced milk solids used in indian sweets",
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Khoya is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Khoya is a milk product"
+          }
+        }
+      }
+    },
     "kimchi": {
       "components": [
         {
@@ -4988,6 +6743,34 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "fungal food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "lamb": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
           }
         }
       }
@@ -5318,6 +7101,128 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "lobster": {
+      "allergens": {
+        "crustaceanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Lobster is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
+    "macadamia": {
+      "allergens": {
+        "treeNuts": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Macadamia is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "mackerel": {
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Mackerel is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
           }
         }
       }
@@ -5878,6 +7783,90 @@
         }
       }
     },
+    "mole": {
+      "components": [
+        {
+          "key": "chili-peppers",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "mole composition",
+            "note": "dried chiles are the base of every mole"
+          }
+        },
+        {
+          "key": "chocolate",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "mole composition",
+            "note": "mexican chocolate or cocoa is typical of mole poblano"
+          }
+        },
+        {
+          "key": "peanuts-part",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "mole composition",
+            "note": "peanuts are a common thickener in mole poblano and almond-based moles exist"
+          }
+        },
+        {
+          "key": "sesame-seeds",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "mole composition",
+            "note": "sesame is a standard garnish and thickener for mole poblano"
+          }
+        },
+        {
+          "key": "sugar",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "mole composition"
+          }
+        },
+        {
+          "key": "spices",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "mole composition"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "generic mole: recipes differ radically by family and region",
+      "allergens": {
+        "treeNuts": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "mole composition varies",
+            "note": "almond-based moles exist; nuts vary by recipe"
+          }
+        },
+        "peanuts": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'peanuts-part' is a certain or typical ingredient"
+          }
+        },
+        "sesame": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'sesame-seeds' is a certain or typical ingredient"
+          }
+        }
+      }
+    },
     "monosodium-glutamate": {
       "diets": {
         "vegetarian": {
@@ -6028,6 +8017,35 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "fungal food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "mussel": {
+      "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it",
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
           }
         }
       }
@@ -6371,6 +8389,121 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "orzo": {
+      "components": [
+        {
+          "key": "durum-wheat-flour",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "orzo composition",
+            "note": "orzo is durum wheat semolina pasta shaped like rice"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "risoni/orzo is pasta, not rice",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'durum-wheat-flour' is a certain or typical ingredient"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: durum-wheat-flour; no source of this allergen"
           }
         }
       }
@@ -7045,6 +9178,153 @@
         }
       }
     },
+    "peanut-sauce": {
+      "components": [
+        {
+          "key": "peanuts-part",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "peanut sauce composition"
+          }
+        },
+        {
+          "key": "coconut-milk",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "peanut sauce composition"
+          }
+        },
+        {
+          "key": "soy-sauce",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "peanut sauce composition",
+            "note": "most recipes include soy sauce or tamari"
+          }
+        },
+        {
+          "key": "sugar",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "peanut sauce composition"
+          }
+        },
+        {
+          "key": "salt",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "peanut sauce composition"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "satay sauce / gado-gado sauce",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'peanuts-part' is a certain or typical ingredient"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "closed composition (peanuts-part, coconut-milk, soy-sauce, sugar, salt); no gluten grain"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "closed composition (peanuts-part, coconut-milk, soy-sauce, sugar, salt); no gluten grain"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+          }
+        }
+      }
+    },
     "peanuts": {
       "allergens": {
         "peanuts": {
@@ -7099,6 +9379,52 @@
             "kind": "standard",
             "ref": "FDA FALCPA major food allergens",
             "note": "Peanuts is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "pecan": {
+      "allergens": {
+        "treeNuts": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Pecan is a source of this FDA major allergen (standard composition)"
           }
         }
       },
@@ -7338,6 +9664,52 @@
         }
       }
     },
+    "pistachio": {
+      "allergens": {
+        "treeNuts": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Pistachio is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
     "pitta": {
       "components": [
         {
@@ -7465,6 +9837,34 @@
       }
     },
     "pork": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
+    "pork-chop": {
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -8395,6 +10795,145 @@
         }
       }
     },
+    "sardine": {
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Sardine is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
+    "satay": {
+      "components": [
+        {
+          "key": "peanuts-part",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "satay composition",
+            "note": "satay is grilled skewered meat with peanut sauce"
+          }
+        },
+        {
+          "key": "chicken",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "satay composition",
+            "note": "chicken is the most common satay meat; beef, pork and lamb exist"
+          }
+        },
+        {
+          "key": "soy-sauce",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "satay marinade",
+            "note": "marinades commonly use soy sauce, turmeric and lemongrass"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "generic satay: meat species and marinade vary by vendor",
+      "allergens": {
+        "peanuts": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'peanuts-part' is a certain or typical ingredient"
+          }
+        }
+      }
+    },
+    "sausage": {
+      "note": "generic sausage: meat species and fillers vary by product",
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
+    "scallop": {
+      "note": "molluscan bivalve: FALCPA does not list molluscs among the nine major allergens, but shellfish allergy covers them; declared unknown pending user confirmation",
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
     "semolina": {
       "allergens": {
         "wheat": {
@@ -8625,6 +11164,207 @@
         }
       }
     },
+    "shrimp-paste": {
+      "components": [
+        {
+          "key": "shrimp-part",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "shrimp paste composition",
+            "note": "shrimp paste is fermented ground shrimp and salt"
+          }
+        },
+        {
+          "key": "salt",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "shrimp paste composition"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "kapi/belacan/trasi: regional names for the same fermented shrimp product",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'shrimp-part' is a certain or typical ingredient"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "closed composition (shrimp-part, salt); no gluten grain"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "closed composition (shrimp-part, salt); no gluten grain"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: shrimp-part, salt; no source of this allergen"
+          }
+        }
+      }
+    },
+    "shrimp-stock": {
+      "note": "shrimp stock is shellfish-based by definition",
+      "allergens": {
+        "crustaceanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Shrimp stock is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
+    "smoked-salmon": {
+      "note": "curing/serving temperature is a food-safety question, not an allergen one",
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Smoked salmon is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
     "sour-cream": {
       "allergens": {
         "milk": {
@@ -8703,6 +11443,128 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "soy-milk": {
+      "components": [
+        {
+          "key": "soybeans",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "soy milk composition"
+          }
+        },
+        {
+          "key": "water",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "soy milk composition"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "plain soy milk; flavoured variants may add sugar or thickeners",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soybeans' is a certain or typical ingredient"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "closed composition (soybeans, water); no gluten grain"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "closed composition (soybeans, water); no gluten grain"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans, water; no source of this allergen"
           }
         }
       }
@@ -9279,6 +12141,83 @@
         }
       }
     },
+    "ssamjang": {
+      "components": [
+        {
+          "key": "doenjang",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "ssamjang composition",
+            "note": "ssamjang blends doenjang and gochujang"
+          }
+        },
+        {
+          "key": "gochujang",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "ssamjang composition"
+          }
+        },
+        {
+          "key": "garlic",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "ssamjang composition"
+          }
+        },
+        {
+          "key": "sesame-oil",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "ssamjang composition"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "brand blends vary; some contain sugar or MSG",
+      "allergens": {
+        "sesame": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'sesame-oil' is a certain or typical ingredient"
+          }
+        }
+      }
+    },
+    "steak": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        }
+      }
+    },
     "stock-additives": {
       "note": "commercial stocks list unspecific additives; sources vary by brand",
       "diets": {
@@ -9727,6 +12666,192 @@
           }
         }
       }
+    },
+    "tempeh": {
+      "components": [
+        {
+          "key": "soybeans",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "tempeh composition",
+            "note": "tempeh is fermented whole soybeans bound by mycelium"
+          }
+        }
+      ],
+      "compositionComplete": true,
+      "note": "fermented soybean cake; check labels for grains in mixed tempeh",
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soybeans' is a certain or typical ingredient"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten is the protein of wheat, barley and rye",
+          "note": "closed composition (soybeans); no gluten grain"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten is the protein of wheat, barley and rye",
+            "note": "closed composition (soybeans); no gluten grain"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "closed composition from certain/typical components: soybeans; no source of this allergen"
+          }
+        }
+      }
+    },
+    "teriyaki": {
+      "components": [
+        {
+          "key": "soy-sauce",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "teriyaki composition",
+            "note": "teriyaki sauce is soy-sugar-mirin based"
+          }
+        },
+        {
+          "key": "sugar",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "teriyaki composition"
+          }
+        },
+        {
+          "key": "mirin",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "teriyaki composition"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "thickeners (corn starch) vary; some bottled teriyaki contains sesame oil"
+    },
+    "thai-curry-paste": {
+      "components": [
+        {
+          "key": "chili-peppers",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "thai curry paste composition"
+          }
+        },
+        {
+          "key": "spices",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "thai curry paste composition",
+            "note": "lemongrass, galangal, coriander root and kaffir lime are the aromatics"
+          }
+        },
+        {
+          "key": "garlic",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "thai curry paste composition"
+          }
+        },
+        {
+          "key": "shrimp-paste",
+          "certainty": "typical",
+          "evidence": {
+            "kind": "standard",
+            "ref": "thai curry paste composition",
+            "note": "most commercial and traditional pastes contain shrimp paste (kapi); vegan pastes exist — check the brand"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "color and heat vary by curry type (red/green/yellow)"
     },
     "tofu": {
       "components": [
@@ -10180,6 +13305,44 @@
         }
       }
     },
+    "trout": {
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Trout is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
     "tuna": {
       "note": "generic tuna covers fresh steaks and canned; canned tuna is a separate entry",
       "allergens": {
@@ -10215,6 +13378,34 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
+    "turkey": {
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "animal flesh; not compatible with vegetarian/vegan/pescatarian-excluding-flesh diets (diet fact: violated)"
           }
         }
       }
@@ -10348,6 +13539,57 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "vinegar": {
+      "note": "generic vinegar: distilled/spirit vinegar is gluten-free, malt vinegar is not; variety varies by product",
+      "gluten": {
+        "state": "unknown",
+        "evidence": {
+          "kind": "standard",
+          "ref": "gluten status varies"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "plant food: no animal-derived components (diet fact: allowed)"
+          }
+        },
+        "glutenFree": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "gluten status varies"
           }
         },
         "dairyFree": {
@@ -10624,6 +13866,167 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "plant food: no animal-derived components (no milk component)"
+          }
+        }
+      }
+    },
+    "whey": {
+      "note": "milk-derived protein",
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Whey is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: allowed)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "dairy food: animal milk product; vegetarian yes, vegan no (diet fact: allowed)"
+          }
+        },
+        "dairyFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Whey is a milk product"
+          }
+        }
+      }
+    },
+    "whitefish": {
+      "note": "generic white-fleshed fish; species varies",
+      "allergens": {
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "FDA FALCPA major food allergens",
+            "note": "Whitefish is a source of this FDA major allergen (standard composition)"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: violated)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "diet composition standard",
+            "note": "fin fish; pescatarian diets include fish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      }
+    },
+    "wonton-wrappers": {
+      "components": [
+        {
+          "key": "wheat-flour",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "wonton wrapper composition"
+          }
+        },
+        {
+          "key": "water",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "wonton wrapper composition"
+          }
+        },
+        {
+          "key": "egg",
+          "certainty": "variable",
+          "evidence": {
+            "kind": "standard",
+            "ref": "wonton wrapper composition varies",
+            "note": "traditional hong kong wrappers contain egg (alkaline noodles); shanghai-style are often egg-free"
+          }
+        },
+        {
+          "key": "salt",
+          "certainty": "certain",
+          "evidence": {
+            "kind": "standard",
+            "ref": "wonton wrapper composition"
+          }
+        }
+      ],
+      "compositionComplete": false,
+      "note": "check the label for egg; wheat is always present",
+      "allergens": {
+        "egg": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition varies",
+            "note": "component 'egg' is variable: some products carry this allergen, some do not"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'wheat-flour' is a certain or typical ingredient"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
           }
         }
       }
