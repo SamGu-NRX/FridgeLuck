@@ -7,13 +7,10 @@ struct KitchenView: View {
   private let onOpenGroceriesFlow: (UpdateGroceriesLaunchMode) -> Void
 
   @State private var viewModel: KitchenViewModel
-  @State private var selectedLocation: InventoryStorageLocation? = nil
   @State private var headerAppeared = false
   @State private var sectionsAppeared = false
   @State private var showStaplePicker = false
   @State private var selectedStapleIDs: Set<Int64> = []
-
-  private let locationOrder: [InventoryStorageLocation] = [.fridge, .pantry, .freezer]
 
   init(
     deps: AppDependencies,
@@ -66,7 +63,7 @@ struct KitchenView: View {
 
             KitchenOnHandSection(
               groupedItems: viewModel.groupedByLocation,
-              locationOrder: effectiveLocationOrder
+              locationOrder: KitchenLocationOrder.all
             )
             .opacity(sectionsAppeared ? 1 : 0)
             .offset(y: sectionsAppeared ? 0 : 12)
@@ -142,11 +139,6 @@ struct KitchenView: View {
     }
   }
 
-  private var effectiveLocationOrder: [InventoryStorageLocation] {
-    let hasUnknown = viewModel.filteredItems.contains { $0.storageLocation == .unknown }
-    return hasUnknown ? locationOrder + [.unknown] : locationOrder
-  }
-
   private var hasKitchenContent: Bool {
     !viewModel.allItems.isEmpty || !viewModel.pantryAssumptions.isEmpty
   }
@@ -188,25 +180,22 @@ struct KitchenView: View {
         locationChip(
           title: "All",
           count: viewModel.allItems.count,
-          isActive: selectedLocation == nil
+          isActive: viewModel.selectedLocation == nil
         ) {
           withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-            selectedLocation = nil
             viewModel.selectedLocation = nil
           }
         }
-        ForEach(locationOrder, id: \.self) { location in
-          let count = viewModel.locationCounts[location, default: 0]
-          if count > 0 {
-            locationChip(
-              title: location.displayLabel,
-              count: count,
-              isActive: selectedLocation == location
-            ) {
-              withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-                selectedLocation = location
-                viewModel.selectedLocation = location
-              }
+        ForEach(
+          KitchenLocationOrder.chipLocations(counts: viewModel.locationCounts), id: \.self
+        ) { location in
+          locationChip(
+            title: location.displayLabel,
+            count: viewModel.locationCounts[location, default: 0],
+            isActive: viewModel.selectedLocation == location
+          ) {
+            withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+              viewModel.selectedLocation = location
             }
           }
         }
@@ -242,8 +231,12 @@ struct KitchenView: View {
         Capsule()
           .stroke(isActive ? Color.clear : AppTheme.oat.opacity(0.25), lineWidth: 1)
       )
+      // The capsule stays compact; the tappable area grows to the 44 pt minimum around it.
+      .frame(minHeight: 44)
+      .contentShape(Rectangle())
     }
     .buttonStyle(.plain)
+    .accessibilityAddTraits(isActive ? .isSelected : [])
     .animation(reduceMotion ? nil : AppMotion.colorTransition, value: isActive)
   }
 

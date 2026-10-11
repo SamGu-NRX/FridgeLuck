@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import SwiftUI
 import UIKit
 
@@ -245,8 +246,11 @@ struct RecipePreviewMacroSection: View {
 }
 
 struct RecipePreviewIngredientSection: View {
+  @Environment(AppPreferencesStore.self) private var prefs
   let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
   let activeSubstitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
+  /// Required ingredients the recipe search didn't have, as the results card lists them.
+  let missingIngredientIDs: Set<Int64>
   let hasSubstitutions: (Int64) -> Bool
   let onIngredientSelected: (Ingredient) -> Void
   let onSwapSelected: (Ingredient, RecipeIngredient) -> Void
@@ -309,16 +313,22 @@ struct RecipePreviewIngredientSection: View {
     let ingredientID = ingredient.id ?? -1
     let hasSwap = hasSubstitutions(ingredientID)
     let activeSub = activeSubstitutions[ingredientID]
+    let mark = RecipeIngredientMark.mark(
+      ingredientID: ingredientID,
+      isRequired: isRequired,
+      isSubstituted: activeSub != nil,
+      missingRequiredIDs: missingIngredientIDs
+    )
 
     return HStack(spacing: AppTheme.Space.sm) {
       Button {
         onIngredientSelected(activeSub?.ingredient ?? ingredient)
       } label: {
         HStack(spacing: AppTheme.Space.sm) {
-          Image(systemName: isRequired ? "checkmark.circle.fill" : "circle.dashed")
-            .foregroundStyle(isRequired ? AppTheme.positive : AppTheme.textSecondary)
+          Image(systemName: mark.symbolName)
+            .foregroundStyle(mark.tint)
             .font(AppTheme.Typography.label)
-            .animation(.default, value: isRequired)
+            .accessibilityHidden(true)
 
           if let sub = activeSub {
             VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
@@ -326,6 +336,15 @@ struct RecipePreviewIngredientSection: View {
                 .font(AppTheme.Typography.bodyMedium)
                 .foregroundStyle(AppTheme.sage)
               Text("replaces \(ingredient.displayName)")
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textSecondary)
+            }
+          } else if mark == .missing {
+            VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+              Text(ingredient.displayName)
+                .font(AppTheme.Typography.bodyMedium)
+                .foregroundStyle(AppTheme.textPrimary)
+              Text("Missing")
                 .font(AppTheme.Typography.labelSmall)
                 .foregroundStyle(AppTheme.textSecondary)
             }
@@ -337,12 +356,18 @@ struct RecipePreviewIngredientSection: View {
 
           Spacer()
 
-          Text(quantity.displayQuantity)
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.textSecondary)
+          // A substitute uses its own amount (recipe grams × ratio), the amount that gets logged.
+          Text(
+            activeSub.map {
+              prefs.formatWeight(grams: quantity.quantityGrams * $0.substitution.ratio)
+            } ?? quantity.displayQuantity
+          )
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
         }
       }
       .buttonStyle(.plain)
+      .accessibilityValue(mark.accessibilityValue)
 
       if hasSwap {
         if isSwapSpotlightTarget {
@@ -389,14 +414,61 @@ struct RecipePreviewIngredientSection: View {
   }
 }
 
+extension RecipeIngredientMark {
+  /// Missing reuses the results card's "Missing" glyph; optional and substituted rows use the
+  /// dashed circle, which makes no claim about the kitchen.
+  fileprivate var symbolName: String {
+    switch self {
+    case .have: "checkmark.circle.fill"
+    case .missing: "exclamationmark.circle"
+    case .optional, .substituted: "circle.dashed"
+    }
+  }
+
+  fileprivate var tint: Color {
+    switch self {
+    case .have: AppTheme.positive
+    case .missing: AppTheme.warning
+    case .optional: AppTheme.textSecondary
+    case .substituted: AppTheme.sage
+    }
+  }
+
+  fileprivate var accessibilityValue: String {
+    switch self {
+    case .have: "You have it"
+    case .missing: "Missing"
+    case .optional: "Optional"
+    case .substituted: "Substitute"
+    }
+  }
+}
+
+/// "Start cooking" is primary because the offline guide always works and ends in the meal
+/// log; Le Chef needs the live backend, so it stays one quiet tap away.
 struct RecipePreviewBottomCTA: View {
   let onStartCooking: () -> Void
+  let onCookWithLeChef: () -> Void
 
   var body: some View {
-    VStack(spacing: AppTheme.Space.xs) {
-      FLPrimaryButton("Cook with Le Chef", systemImage: "waveform.and.mic") {
+    VStack(spacing: AppTheme.Space.xxs) {
+      FLPrimaryButton("Start cooking", systemImage: "list.number") {
         onStartCooking()
       }
+
+      Button(action: onCookWithLeChef) {
+        HStack(spacing: AppTheme.Space.xs) {
+          Image(systemName: "waveform.and.mic")
+            .foregroundStyle(AppTheme.accent)
+          Text("Cook hands-free with Le Chef")
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+        .font(AppTheme.Typography.bodyMedium)
+        .frame(maxWidth: .infinity, minHeight: 44)
+        .contentShape(Rectangle())
+      }
+      .buttonStyle(FLPressableButtonStyle())
+      .accessibilityHint("Opens the live voice assistant from Home")
     }
     .padding(.horizontal, AppTheme.Space.page)
     .padding(.top, AppTheme.Space.xs)
