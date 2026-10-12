@@ -86,6 +86,40 @@ final class RecipeShareRoundTripTests: XCTestCase {
         XCTAssertThrowsError(try TestSupport.payload(license: TestSupport.license(caching: .forbidden), sharedAt: Date(timeIntervalSince1970: 0)), "forbidden caching must refuse export")
     }
 
+    // MARK: Export refuses missing required attribution (review round 2)
+
+    func testExportRefusesAttributionRequiredButMissing() throws {
+        // Review round 2: attribution the license requires is part of the
+        // evidence chain the payload claims on its face; exporting without
+        // it violates the attribution condition before any recipient's
+        // import check could quarantine the copy. The gate fails closed.
+        let sharedAt = try TestSupport.date("2026-10-11T10:00:00.000Z")
+        XCTAssertThrowsError(try RecipeSharePayload(
+            revision: try TestSupport.revision(license: TestSupport.license(attributionRequired: true)),
+            declaration: try TestSupport.declaration(declaredAt: sharedAt),
+            sharedAt: sharedAt
+        )) { error in
+            guard case let FLDomainError.validation(target, reason) = error else { return XCTFail("wrong error: \(error)") }
+            XCTAssertEqual(target, "RecipeSharePayload.revision")
+            XCTAssertTrue(reason.contains("attribution"), "unexpected reason: \(reason)")
+        }
+    }
+
+    func testExportRefusesWhitespaceOnlyAttribution() throws {
+        // Import trims before judging attribution present; export must apply
+        // the same measure, not a raw nil check.
+        let sharedAt = try TestSupport.date("2026-10-11T10:00:00.000Z")
+        XCTAssertThrowsError(try RecipeSharePayload(
+            revision: try TestSupport.revision(license: TestSupport.license(attributionRequired: true), attribution: "   "),
+            declaration: try TestSupport.declaration(declaredAt: sharedAt),
+            sharedAt: sharedAt
+        )) { error in
+            guard case let FLDomainError.validation(target, reason) = error else { return XCTFail("wrong error: \(error)") }
+            XCTAssertEqual(target, "RecipeSharePayload.revision")
+            XCTAssertTrue(reason.contains("attribution"), "unexpected reason: \(reason)")
+        }
+    }
+
     // MARK: Import classifies untrusted payloads
 
     /// Builds a payload JSON with the given license grants and declaration
