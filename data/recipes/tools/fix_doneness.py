@@ -44,6 +44,17 @@ class Edit:
     reheat: bool | None = None
 
 
+@dataclass(frozen=True)
+class Replace:
+    """Replace one fragment of a step's text; it must occur exactly once."""
+    rid: str
+    step: int
+    find: str
+    repl: str
+    safety: tuple[str, int] | str | None = None
+    reheat: bool | None = None
+
+
 def check(cls: str, temp: int) -> tuple[str, int]:
     if cls not in food_safety.MIN_F or temp < food_safety.MIN_F[cls]:
         raise ValueError(f"{cls} {temp} is below the FSIS minimum")
@@ -227,7 +238,120 @@ ENDPOINT_EDITS: tuple[Edit, ...] = (
          check("leftovers", 165)),
 )
 
-EDITS: tuple[Edit, ...] = ENDPOINT_EDITS
+_REHEAT_165 = "Reheat leftovers until a food thermometer reads 165 °F (74 °C)."
+
+# Finding 2: the check is in the words the cook reads. Every step with a
+# check names the thermometer and the temperature; a check that sat on a
+# browning step moves to the step where the food finishes cooking.
+TEXT_EDITS: tuple[Edit | Replace, ...] = (
+    Replace("fl-original-0004", 4, "Reheat any extras to 165 °F before serving.",
+            "Reheat any extras until a food thermometer reads 165 °F (74 °C) before serving."),
+    Replace("fl-original-0005", 4, "Reheat any second-round tacos to 165 °F.",
+            "Reheat any second-round tacos until a food thermometer in the filling reads 165 °F (74 °C)."),
+    Replace("fl-original-0006", 4, "wrap extras and reheat to 165 °F on busy mornings.",
+            "wrap extras, and on busy mornings reheat them until a food thermometer reads 165 °F (74 °C)."),
+    Replace("fl-original-0007", 3, "Leftover squares reheat to 165 °F.",
+            "Reheat leftover squares until a food thermometer reads 165 °F (74 °C)."),
+    Replace("fl-original-0008", 5, "Reheat portions to 165 °F.",
+            "Reheat portions until a food thermometer reads 165 °F (74 °C)."),
+    Replace("fl-original-0014", 4, "Reheat leftovers to 165 °F.", _REHEAT_165),
+    Replace("fl-original-0015", 4, "Reheat leftovers to a full simmer, 165 °F.",
+            "Reheat leftovers to a full simmer, until a food thermometer reads 165 °F (74 °C)."),
+    Replace("fl-original-0016", 4, "Reheat leftovers to a full simmer, 165 °F, before serving.",
+            "Reheat leftovers to a full simmer, until a food thermometer reads 165 °F (74 °C), "
+            "before serving."),
+    Replace("fl-original-0017", 4, "Reheat any extras to 165 °F.",
+            "Reheat any extras until a food thermometer in the centre reads 165 °F (74 °C)."),
+    Replace("fl-original-0018", 4, "Reheat leftovers to 165 °F.", _REHEAT_165),
+    Replace("fl-original-0026", 2, "roast until the chicken reads 165 °F at the thickest point",
+            "roast until a food thermometer in the thickest part of the chicken reads 165 °F (74 °C)"),
+    Replace("fl-original-0026", 3, "Reheat leftovers to 165 °F.", _REHEAT_165),
+    Replace("fl-original-0028", 4, "Reheat slices to 165 °F.",
+            "Reheat slices until a food thermometer reads 165 °F (74 °C)."),
+    Replace("fl-original-0030", 3, "Reheat leftovers to 165 °F.", _REHEAT_165),
+    Replace("fl-original-0031", 4, "Reheat leftovers to 165 °F.", _REHEAT_165),
+    Replace("fl-original-0033", 4, "reheated bowls go to 165 °F.",
+            "reheat leftover bowls until a food thermometer reads 165 °F (74 °C)."),
+    Replace("fl-original-0034", 5, "Reheat leftovers to 165 °F.", _REHEAT_165),
+    Replace("fl-original-0035", 3, "Reheat leftovers to 165 °F.", _REHEAT_165),
+    Replace("fl-original-0036", 3, "Reheat leftovers to 165 °F.", _REHEAT_165),
+    Replace("fl-original-0080", 2, "until the chicken reads 165 °F and yields easily to a fork.",
+            "until a food thermometer in the thickest piece of chicken reads 165 °F (74 °C) and "
+            "the meat yields easily to a fork."),
+    Replace("fl-original-0088", 2, "Check the eggs read 160 °F,",
+            "Check the eggs read 160 °F (71 °C) on a food thermometer,"),
+    Replace("fl-original-0109", 3, "watching it rise and souffle.",
+            "watching it rise and souffle, until a food thermometer in the centre reads 160 °F (71 °C)."),
+    Replace("fl-original-0134", 2,
+            "until the flakes part in thick petals and read 145 °F at the centre.",
+            "until the flakes part in thick petals and a food thermometer in the centre of a "
+            "fillet reads 145 °F (63 °C)."),
+    # the check sat on the shredding step; the duck finishes in the braise
+    Replace("fl-original-0137", 2, "until the meat gives up on the bone.",
+            "until the meat gives up on the bone and a food thermometer in the thickest leg reads "
+            "165 °F (74 °C).", check("meat_poultry", 165)),
+    Edit("fl-original-0137", 3,
+         "Lift out the duck, shred the meat, skim the fat from the sauce, and return the meat with the swede; simmer until the swede slumps into the gravy.",
+         "Lift out the duck, shred the meat, skim the fat from the sauce, and return the meat with the swede; simmer until the swede slumps into the gravy.",
+         REMOVE),
+    Replace("fl-original-0140", 1, "until they are just set in soft curds; slide out.",
+            "until they set in soft curds and a food thermometer reads 160 °F (71 °C); slide out."),
+    Replace("fl-original-0141", 4,
+            "until it flakes and reads 145 °F at the centre of the thickest fillet.",
+            "until a food thermometer in the centre of the thickest fillet reads 145 °F (63 °C)."),
+    # the check sat on the milk step; the beef finishes in the long simmer
+    Replace("fl-original-0146", 2, "topping with water if it tightens.",
+            "topping with water if it tightens, until a food thermometer in the sauce reads at "
+            "least 160 °F (71 °C).", check("meat_ground", 160)),
+    Edit("fl-original-0146", 3,
+         "Pour in the milk at the end and let it bubble into the sauce — the old trick that rounds the acidity.",
+         "Pour in the milk at the end and let it bubble into the sauce — the old trick that rounds the acidity.",
+         REMOVE),
+    Replace("fl-original-0148", 3, "until barely set.",
+            "until set and a food thermometer reads 160 °F (71 °C)."),
+    Replace("fl-original-0169", 2, "and simmer to a gravy that clings.",
+            "and simmer to a gravy that clings and a food thermometer in the beef reads 160 °F (71 °C)."),
+    # the check sat on the browning step; the beef finishes in the sauce
+    Edit("fl-original-0171", 0,
+         "Brown the beef in the oil in a wide pan, letting it sit undisturbed long enough to crust, then push it aside and soften the pepper and green onions.",
+         "Brown the beef in the oil in a wide pan, letting it sit undisturbed long enough to crust, then push it aside and soften the pepper and green onions.",
+         REMOVE),
+    Replace("fl-original-0171", 2, "return the beef, and simmer to a thick sauce.",
+            "return the beef, and simmer until the sauce is thick and a food thermometer in it "
+            "reads 160 °F (71 °C).", check("meat_ground", 160)),
+    Replace("fl-original-0185", 0, "until the fat runs clear.",
+            "until a food thermometer reads 160 °F (71 °C)."),
+    Edit("fl-original-0227", 0,
+         "Brown the beef hard in a dry pot, breaking it only twice, then push it aside and soften the diced onion in the rendered fat.",
+         "Brown the beef hard in a dry pot, breaking it only twice, then push it aside and soften the diced onion in the rendered fat.",
+         REMOVE),
+    Replace("fl-original-0227", 2, "until the fat rises and the sauce turns brick red.",
+            "until the fat rises, the sauce turns brick red and a food thermometer in it reads "
+            "160 °F (71 °C)."),
+    Replace("fl-original-0228", 0, "and simmer until the chicken is just done.",
+            "and simmer until a food thermometer in the thickest thigh reads 165 °F (74 °C)."),
+    Replace("fl-original-0292", 0, "until it takes on real color.",
+            "until it takes on real color and a food thermometer reads 160 °F (71 °C)."),
+    Replace("fl-original-0294", 0, "until it sticks and browns in patches.",
+            "until it sticks, browns in patches and a food thermometer reads 160 °F (71 °C)."),
+    Replace("fl-original-0350", 1, "until it crisps at the edges.",
+            "until it crisps at the edges and a food thermometer reads 160 °F (71 °C)."),
+    Edit("fl-original-0377", 0,
+         "Brown the salted thighs slowly in oil until the skin releases and turns deep amber; move them to a plate.",
+         "Brown the salted thighs slowly in oil until the skin releases and turns deep amber; move them to a plate.",
+         REMOVE),
+    Replace("fl-original-0377", 2, "and braise covered until tender.",
+            "and braise covered until tender and a food thermometer in the thickest thigh reads "
+            "165 °F (74 °C).", check("meat_poultry", 165)),
+    Replace("fl-original-0392", 0, "until the pan picks up a crust.",
+            "until the pan picks up a crust and a food thermometer reads 160 °F (71 °C)."),
+    Edit("fl-original-0396", 0,
+         "Season the cubed thighs and sear them in oil until browned all over; they finish in the sauce.",
+         "Season the cubed thighs and sear them in oil until browned all over; they finish in the sauce.",
+         REMOVE),
+)
+
+EDITS: tuple[Edit | Replace, ...] = ENDPOINT_EDITS + TEXT_EDITS
 
 
 def _safety(cls: str, temp: int, current: Any) -> dict[str, Any]:
@@ -237,7 +361,22 @@ def _safety(cls: str, temp: int, current: Any) -> dict[str, Any]:
             "source": food_safety.FSIS_SOURCE}
 
 
-def apply(recipes: dict[str, dict[str, Any]], edits: tuple[Edit, ...]) -> list[str]:
+def _new_text(e: Edit | Replace, text: str) -> str:
+    where = f"{e.rid} step[{e.step}]"
+    if isinstance(e, Replace):
+        if e.repl in text:
+            return text
+        if text.count(e.find) != 1:
+            raise SystemExit(f"{where}: fragment must occur exactly once\n"
+                             f"  found: {text!r}\n  fragment: {e.find!r}")
+        return text.replace(e.find, e.repl)
+    if text not in (e.old, e.new):
+        raise SystemExit(f"{where}: text no longer matches the edit\n"
+                         f"  found: {text!r}\n  expected: {e.old!r}")
+    return e.new
+
+
+def apply(recipes: dict[str, dict[str, Any]], edits: tuple[Edit | Replace, ...]) -> list[str]:
     """Apply edits in place; return the ids changed. Raises on a stale edit."""
     changed: list[str] = []
     for e in edits:
@@ -248,11 +387,8 @@ def apply(recipes: dict[str, dict[str, Any]], edits: tuple[Edit, ...]) -> list[s
         if e.step >= len(steps):
             raise SystemExit(f"{e.rid} step[{e.step}]: recipe has {len(steps)} steps")
         step = steps[e.step]
-        if step["text"] not in (e.old, e.new):
-            raise SystemExit(f"{e.rid} step[{e.step}]: text no longer matches the edit\n"
-                             f"  found: {step['text']!r}\n  expected: {e.old!r}")
         before = dict(step)
-        step["text"] = e.new
+        step["text"] = _new_text(e, step["text"])
         if e.safety == REMOVE:
             step.pop("safety", None)
         elif isinstance(e.safety, tuple):
@@ -275,12 +411,12 @@ def main() -> int:
     recipes = {l.obj["id"]: l.obj for l in lines}
     changed = apply(recipes, EDITS)
     print(f"{len(EDITS)} edits; {len(changed)} recipe(s) changed")
-    remaining = {rid: food_safety.endpoint_violations(r) for rid, r in recipes.items()}
+    remaining = {rid: food_safety.safety_violations(r) for rid, r in recipes.items()}
     remaining = {k: v for k, v in remaining.items() if v}
     for rid, v in remaining.items():
         for x in v:
             print(f"  still failing: {x}")
-    print(f"endpoint rules: {len(remaining)} recipe(s) still failing")
+    print(f"food-safety rules: {len(remaining)} recipe(s) still failing")
     if args.write and changed:
         corpus_io.write_jsonl(corpus_io.CORPUS, lines)
         print(f"wrote {corpus_io.CORPUS.name}")

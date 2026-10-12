@@ -96,13 +96,14 @@ def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
     Rights: every shipped recipe carries affirmative rights evidence
     (rights_evidence.rights_violations), and FridgeLuck-original text does not
     reuse the bundled catalog's wording (rights_evidence.overlap_violation).
-    Food safety: every food reaches its FSIS endpoint
-    (food_safety.endpoint_violations).
+    Food safety: every food reaches its FSIS endpoint and the step text the
+    cook reads names the thermometer and the temperature
+    (food_safety.safety_violations).
     """
     errors: list[str] = []
     ref = rights_evidence.reference_ngrams(rights_evidence.bundled_texts(bundled))
     for r in recipes:
-        errors.extend(food_safety.endpoint_violations(r))
+        errors.extend(food_safety.safety_violations(r))
         rec = records.get(r.get("source_ref"))
         errors.extend(rights_evidence.rights_violations(r, rec))
         if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
@@ -296,7 +297,7 @@ def main() -> int:
           f"{len(quarantined)} in quarantine.jsonl "
           f"({', '.join(f'{k} {v}' for k, v in sorted(by_stage.items())) or 'none'})")
     print(f"release gates: {len(gate_errors)} violation(s) "
-          "(rights evidence, original-text overlap, FSIS endpoints)")
+          "(rights evidence, original-text overlap, FSIS endpoints, thermometer in step text)")
 
     # ---- lint (same pipeline as suite.py evaluate_corpus) -----------------
     work = copy.deepcopy(clear)

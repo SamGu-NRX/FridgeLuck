@@ -252,6 +252,10 @@ def timer_from_text(text: str) -> float | None:
     return value if 0 < value <= 240 else None
 
 
+# Celsius as FoodSafety.gov rounds the FSIS minimums.
+C_FOR_F = {145: 63, 160: 71, 165: 74}
+
+
 def safety_dict(fs_class: str, temp_f: int) -> dict[str, Any]:
     return {
         "class": fs_class,
@@ -330,6 +334,10 @@ def main() -> int:
             if (rid, idx) in SAFETY_ATTACH:
                 fs_class, temp = SAFETY_ATTACH[(rid, idx)]
                 step["safety"] = safety_dict(fs_class, temp)
+                # the cook reads the step, not the metadata
+                if "thermometer" not in text.lower():
+                    step["text"] = (f"{text.rstrip('.')}. Check with a food thermometer: "
+                                    f"it must read {temp} °F ({C_FOR_F[temp]} °C).")
             steps.append(step)
 
         fl_id = f"fl-seed-{rid:04d}"
@@ -399,6 +407,11 @@ def main() -> int:
     n_claims = sum(len(r["claims"]) for r in recipes_out)
     print(f"wrote {len(recipes_out)} recipes / {n_lines} ingredient lines / "
           f"{n_claims} verified claims to {out} (not the corpus)")
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import food_safety
+    for recipe in recipes_out:
+        for v in food_safety.safety_violations(recipe):
+            print(f"  food-safety review: {v}")
     print(f"unaliased ingredient names (no allergen classes; scanned as absent): "
           f"{sorted(unaliased) or 'none'}")
     return 0

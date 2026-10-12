@@ -252,6 +252,52 @@ class DonenessEndpoints(unittest.TestCase):
         self.assertTrue(any("casserole" in e or "title" in e for e in errors), errors)
 
 
+class CookFacingText(unittest.TestCase):
+    """Finding 2: the thermometer check is in the instruction, not only metadata."""
+
+    def test_metadata_only_egg_check_is_refused(self):
+        # fl-seed-0001 at 4b6e163: "Scramble eggs, set aside" with an egg check
+        bad = recipe(ingredients=ing("eggs"), steps=[
+            {"text": "Scramble eggs, set aside", "safety": chk("egg", 160)}])
+        errors = food_safety.text_violations(bad)
+        self.assertTrue(any("metadata only" in e for e in errors), errors)
+        self.assertTrue(any("does not state the 160" in e for e in errors), errors)
+        good = copy.deepcopy(bad)
+        good["steps"][0]["text"] = "Scramble the eggs until a food thermometer reads 160 °F."
+        self.assertEqual(food_safety.safety_violations(good), [])
+
+    def test_metadata_only_reheat_check_is_refused(self):
+        # fl-seed-0001 at 4b6e163: leftover rice reheated with the check in metadata
+        bad = recipe(ingredients=ing("cooked rice"), steps=[
+            {"text": "Stir-fry rice for 2-3 minutes", "reheat": True,
+             "safety": chk("leftovers", 165)}])
+        self.assertTrue(food_safety.text_violations(bad))
+
+    def test_doneness_by_colour_without_a_check_is_refused(self):
+        bad = recipe(ingredients=ing("ground beef"), steps=[
+            {"text": "Brown the beef until no longer pink."},
+            {"text": "Simmer until a food thermometer reads 160 °F.",
+             "safety": chk("meat_ground", 160)}])
+        errors = food_safety.text_violations(bad)
+        self.assertTrue(any("by look or touch" in e for e in errors), errors)
+
+    def test_temperature_on_a_step_without_a_check_is_refused(self):
+        bad = recipe(ingredients=ing("cod fillets"), steps=[
+            {"text": "Poach the cod until a food thermometer reads 145 °F.",
+             "safety": chk("flesh_fish", 145)},
+            {"text": "The centres are held at 145 °F from the poach."}])
+        errors = food_safety.text_violations(bad)
+        self.assertTrue(any("carries no safety check" in e for e in errors), errors)
+
+    def test_validator_refuses_a_metadata_only_check(self):
+        bad = recipe(ingredients=ing("chicken thighs"), steps=[
+            {"text": "Reduce heat, cover, simmer 18-20 min",
+             "safety": chk("meat_poultry", 165)}])
+        errors = validate_corpus.release_gate_errors(
+            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []})
+        self.assertTrue(any("metadata only" in e for e in errors), errors)
+
+
 class CommittedCorpus(unittest.TestCase):
     """The committed corpus passes every gate."""
 
