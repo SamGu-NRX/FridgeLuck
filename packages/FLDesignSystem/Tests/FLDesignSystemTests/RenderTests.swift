@@ -376,7 +376,7 @@ final class RenderTests: XCTestCase {
         let png = try pngData(from: blank, name: "blank-control")
         let distinct = try distinctPixelValues(in: png, name: "blank-control")
         XCTAssertEqual(distinct, 1, "the blank control should be one flat colour")
-        XCTExpectFailure("the content check must reject the blank control") {
+        try XCTExpectFailure("the content check must reject the blank control") {
             try assertRendersContent(png, name: "blank-control")
         }
     }
