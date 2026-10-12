@@ -42,6 +42,18 @@ public enum FLAssistantMigrations {
                 ON fl_assistant_receipt(proposalID)
                 """)
         }
+        // Round 2, item 3 — the DURABLE half of exactly-once execution: two
+        // executed receipts for one proposal is corruption, so storage itself
+        // refuses the second even if a code path skips the in-transaction
+        // recheck. Pending and refusal receipts may repeat; "executed" may
+        // not.
+        migrator.registerMigration("v3-assistant-receipt-executed-once") { db in
+            try db.execute(sql: """
+                CREATE UNIQUE INDEX fl_assistant_receipt_executed_once
+                ON fl_assistant_receipt(proposalID)
+                WHERE state = 'executed'
+                """)
+        }
         return migrator
     }
 }
@@ -111,8 +123,42 @@ public struct GRDBReceiptLedger: ReceiptLedger, Sendable {
         executor: any GRDBActionExecutor,
         recordedAt: Date
     ) async throws -> ActionReceipt {
+        try await executeAndRecord(
+            proposal: proposal, executor: executor, recordedAt: recordedAt, betweenWrites: nil
+        )
+    }
+
+    /// The same write with the rollback-test seam: `betweenWrites` runs after
+    /// the effect writes and before the receipt insert, inside the open
+    /// transaction — exactly the gap an injected failure must fall into to
+    /// prove the pair cannot persist half-written. Mirrors the foundation's
+    /// `writeCompletedCook(betweenWrites:)` seam (round 2, item 4: the
+    /// receipt failure that follows an effect rolls the effect back).
+    /// `@Sendable`: the closure runs on the writer's connection thread.
+    func executeAndRecord(
+        proposal: ActionProposal,
+        executor: any GRDBActionExecutor,
+        recordedAt: Date,
+        betweenWrites: (@Sendable (Database) throws -> Void)?
+    ) async throws -> ActionReceipt {
         try await database.dbWriter.write { db in
+            // Round 2, item 3 — the durable claim is RE-CHECKED inside the
+            // transaction: the writer serializes executions, so a second one
+            // reads the first's committed receipt here and refuses before
+            // applying anything. This is what makes exactly-once hold across
+            // processes and restarts, not just within one authority.
+            if let latest = try Row.fetchOne(
+                db,
+                sql: """
+                    SELECT * FROM fl_assistant_receipt
+                    WHERE proposalID = ? ORDER BY id DESC LIMIT 1
+                    """,
+                arguments: [proposal.id]
+            ), try Self.receipt(from: latest).state != .pendingApproval {
+                throw FLAssistantError.alreadyDecided(proposalID: proposal.id)
+            }
             try executor.apply(proposal.payload, proposal: proposal, in: db)
+            try betweenWrites?(db)
             let receipt = try ActionReceipt(
                 proposalID: proposal.id,
                 state: .executed,

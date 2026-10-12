@@ -49,10 +49,11 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         )
     }
 
-    private func makeAuthority(ledger: any ReceiptLedger, id: String) -> AssistantAuthority {
-        AssistantAuthority(
+    private func makeAuthority(ledger: any ReceiptLedger, id: String) throws -> AssistantAuthority {
+        try AssistantAuthority(
             engine: ActionProposalEngine(idSource: { id }),
-            ledger: ledger
+            ledger: ledger,
+            revisionClock: AssistantRevisionClock(revision: 1)
         )
     }
 
@@ -108,13 +109,15 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         XCTAssertTrue(try appDatabase.tableExists("fl_assistant_receipt"), "the assistant table was appended")
     }
 
-    func testMigrationRegistryRecordsBothVersions() throws {
+    func testMigrationRegistryRecordsAllThreeVersions() throws {
         let ledger = try GRDBReceiptLedger.inMemory()
         let applied = try ledger.database.read { db in
             try String.fetchAll(db, sql: "SELECT identifier FROM grdb_migrations")
         }
         XCTAssertTrue(applied.contains("v1-baseline"))
         XCTAssertTrue(applied.contains("v2-assistant-receipts"))
+        // Round 2, item 3: the durable exactly-once claim.
+        XCTAssertTrue(applied.contains("v3-assistant-receipt-executed-once"))
     }
 
     // MARK: Receipt round-trips
@@ -189,7 +192,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
 
     func testAtomicApproveCommitsEffectsAndReceiptTogether() async throws {
         let ledger = try makeLedger()
-        let authority = makeAuthority(ledger: ledger, id: "proposal-atomic")
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-atomic")
         let proposal = try await authority.propose(
             tool: .proposeTimer,
             payload: .timerCreate(label: "Boil water", seconds: 90),
@@ -198,7 +201,8 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         )
         let receipt = try await authority.approve(
             try makeApproval(for: proposal),
-            atomicExecutor: InsertExecutor(),
+            executor: InsertExecutor(),
+            sessionID: "s1",
             now: t0.addingTimeInterval(2)
         )
         XCTAssertEqual(receipt.state, .executed)
@@ -209,7 +213,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
 
     func testAtomicApproveRollsBackEffectsAndReceiptWhenExecutorThrows() async throws {
         let ledger = try makeLedger()
-        let authority = makeAuthority(ledger: ledger, id: "proposal-rollback")
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-rollback")
         let proposal = try await authority.propose(
             tool: .proposeTimer,
             payload: .timerCreate(label: "Boil water", seconds: 90),
@@ -219,7 +223,8 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         await expectError(.malformedReply(detail: "executor failure injected by test")) {
             try await authority.approve(
                 try self.makeApproval(for: proposal),
-                atomicExecutor: InsertExecutor(shouldThrow: true),
+                executor: InsertExecutor(shouldThrow: true),
+                sessionID: "s1",
                 now: t0.addingTimeInterval(2)
             )
         }
@@ -236,7 +241,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         try first.database.write { db in
             try db.execute(sql: "CREATE TABLE fl_test_effects (proposalID TEXT NOT NULL)")
         }
-        let authority1 = makeAuthority(ledger: first, id: "proposal-restart")
+        let authority1 = try makeAuthority(ledger: first, id: "proposal-restart")
         let proposal = try await authority1.propose(
             tool: .proposeStepAdvance,
             payload: .stepAdvance(stepIndex: 2),
@@ -244,16 +249,16 @@ final class GRDBReceiptLedgerTests: XCTestCase {
             now: t0
         )
         let approval = try makeApproval(for: proposal)
-        _ = try await authority1.approve(approval, atomicExecutor: InsertExecutor(), now: t0.addingTimeInterval(2))
+        _ = try await authority1.approve(approval, executor: InsertExecutor(), sessionID: "s1", now: t0.addingTimeInterval(2))
 
         // Process 2: fresh authority over the same database, empty open set.
         let second = try GRDBReceiptLedger.open(at: url)
         try second.database.write { db in
             try db.execute(sql: "CREATE TABLE IF NOT EXISTS fl_test_effects (proposalID TEXT NOT NULL)")
         }
-        let authority2 = makeAuthority(ledger: second, id: "proposal-restart")
+        let authority2 = try makeAuthority(ledger: second, id: "proposal-restart")
         await expectError(.alreadyDecided(proposalID: "proposal-restart")) {
-            try await authority2.approve(approval, atomicExecutor: InsertExecutor(), now: t0.addingTimeInterval(4))
+            try await authority2.approve(approval, executor: InsertExecutor(), sessionID: "s1", now: t0.addingTimeInterval(4))
         }
         let receipts = try await second.allReceipts()
         XCTAssertEqual(receipts.map(\.state), [.pendingApproval, .executed], "the earlier receipt stands; no duplicate row")
@@ -262,7 +267,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
 
     func testAtomicApproveRefusesNonTransactionalLedger() async throws {
         let ledger = InMemoryReceiptLedger()
-        let authority = makeAuthority(ledger: ledger, id: "proposal-notx")
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-notx")
         let proposal = try await authority.propose(
             tool: .proposePantryCorrection,
             payload: .pantryCorrection(canonicalName: "Milk", quantity: .unknown),
@@ -272,23 +277,191 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         await expectError(.ledgerCannotExecuteAtomically) {
             try await authority.approve(
                 try makeApproval(for: proposal),
-                atomicExecutor: InsertExecutor(),
+                executor: InsertExecutor(),
+                sessionID: "s1",
                 now: t0.addingTimeInterval(2)
             )
         }
         let receipts = try await ledger.allReceipts()
         XCTAssertEqual(receipts.map(\.state), [.pendingApproval], "nothing ran, nothing was consumed")
-        // The proposal is still open: a retry through the non-atomic path works.
-        let retryReceipt = try await authority.approve(
-            try makeApproval(for: proposal),
-            executor: NoopExecutor(),
-            now: t0.addingTimeInterval(3)
-        )
-        XCTAssertEqual(retryReceipt.state, ActionReceiptState.executed)
+        // The proposal is still open: a decline (no executor needed) proves
+        // it was not consumed by the refused approval.
+        let declined = try await authority.decline(proposalID: proposal.id, now: t0.addingTimeInterval(3))
+        XCTAssertEqual(declined.state, .rejected)
     }
 
-    /// Minimal non-transactional executor for the retry path above.
-    private struct NoopExecutor: ActionExecutor {
-        func apply(_ payload: ActionPayload, proposal: ActionProposal) async throws {}
+    // MARK: Review round 2, item 4 — receipt failure after the effect rolls the effect back
+
+    /// Thrown from the `betweenWrites` seam: occupies exactly the gap a
+    /// receipt persistence failure occupies — after the effects, before the
+    /// receipt insert, inside the open transaction.
+    private static let seamFailure = FLAssistantError.malformedReply(
+        detail: "seam failure injected by test"
+    )
+
+    /// The paired write's injected-failure test (mirrors the foundation's
+    /// `writeCompletedCook` seam test): the effect writes, then the receipt
+    /// half fails — and the EFFECT ROLLS BACK. A retry therefore cannot apply
+    /// the effect a second time: nothing survived the failed attempt.
+    func testInjectedFailureBetweenEffectAndReceiptPersistsNeither() async throws {
+        let ledger = try makeLedger()
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-seam-fail")
+        let proposal = try await authority.propose(
+            tool: .proposeTimer,
+            payload: .timerCreate(label: "Boil water", seconds: 90),
+            against: try makeSnapshot(),
+            now: t0
+        )
+        await expectError(.malformedReply(detail: "seam failure injected by test")) {
+            _ = try await ledger.executeAndRecord(
+                proposal: proposal,
+                executor: InsertExecutor(),
+                recordedAt: t0.addingTimeInterval(2),
+                betweenWrites: { _ in throw Self.seamFailure }
+            )
+        }
+        XCTAssertEqual(
+            try effectCount(ledger), 0,
+            "the effect rolled back with the receipt it was paired with"
+        )
+        let receipts = try await ledger.allReceipts()
+        XCTAssertEqual(receipts.map(\.state), [.pendingApproval], "no executed receipt for work that did not happen")
+        // The retry with a healthy path applies exactly once: nothing
+        // survived the rolled-back attempt, so there is no double mutation.
+        let receipt = try await authority.approve(
+            try makeApproval(for: proposal),
+            executor: InsertExecutor(),
+            sessionID: "s1",
+            now: t0.addingTimeInterval(3)
+        )
+        XCTAssertEqual(receipt.state, .executed)
+        XCTAssertEqual(try effectCount(ledger), 1, "the retry applied the effect exactly once")
+        let statesAfter = try await ledger.allReceipts().map(\.state)
+        XCTAssertEqual(statesAfter, [.pendingApproval, .executed])
+    }
+
+    /// The seam's control: a non-throwing injection between the halves must
+    /// not disturb the pairing — both writes persist.
+    func testNonThrowingInjectionBetweenEffectAndReceiptPersistsBoth() async throws {
+        let ledger = try makeLedger()
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-seam-ok")
+        let proposal = try await authority.propose(
+            tool: .proposeTimer,
+            payload: .timerCreate(label: "Boil water", seconds: 90),
+            against: try makeSnapshot(),
+            now: t0
+        )
+        _ = try await ledger.executeAndRecord(
+            proposal: proposal,
+            executor: InsertExecutor(),
+            recordedAt: t0.addingTimeInterval(2),
+            betweenWrites: { db in
+                try db.execute(
+                    sql: "INSERT INTO fl_test_effects (proposalID) VALUES ('seam-witness')"
+                )
+            }
+        )
+        XCTAssertEqual(
+            try effectCount(ledger), 2,
+            "the executor's row and the seam's witness row both committed"
+        )
+        let states = try await ledger.allReceipts().map(\.state)
+        XCTAssertEqual(states, [.pendingApproval, .executed])
+    }
+
+    // MARK: Review round 2, item 3 — exactly-once execution (durable half)
+
+    /// RED-FIRST (round 2, item 3, durable half): a second atomic execution
+    /// of the same proposal must refuse INSIDE the transaction — the first
+    /// execution's receipt is already durable — and apply nothing. Against
+    /// pre-fix code the second call re-applies the effect: this test failed
+    /// with `2` effect rows where exactly-once demands `1`.
+    func testSecondAtomicExecutionRefusesInsideTheTransactionAndAppliesNothing() async throws {
+        let ledger = try makeLedger()
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-recheck")
+        let proposal = try await authority.propose(
+            tool: .proposeTimer,
+            payload: .timerCreate(label: "Boil water", seconds: 90),
+            against: try makeSnapshot(),
+            now: t0
+        )
+        _ = try await ledger.executeAndRecord(
+            proposal: proposal, executor: InsertExecutor(), recordedAt: t0.addingTimeInterval(2)
+        )
+        XCTAssertEqual(try effectCount(ledger), 1)
+        await expectError(.alreadyDecided(proposalID: proposal.id)) {
+            _ = try await ledger.executeAndRecord(
+                proposal: proposal, executor: InsertExecutor(), recordedAt: t0.addingTimeInterval(3)
+            )
+        }
+        XCTAssertEqual(try effectCount(ledger), 1, "the refused second execution applied nothing")
+        let receipts = try await ledger.allReceipts()
+        XCTAssertEqual(receipts.map(\.state), [.pendingApproval, .executed], "no duplicate executed receipt")
+    }
+
+    /// RED-FIRST (round 2, item 3, storage half): the DURABLE claim backs the
+    /// in-transaction recheck — a UNIQUE index refuses a second executed
+    /// receipt per proposal against any code path that skips the recheck.
+    /// Against pre-fix code the duplicate insert succeeded: this test failed
+    /// on `XCTAssertThrowsError` before the index existed.
+    func testDurableExecutedClaimIsUniquePerProposal() async throws {
+        let ledger = try GRDBReceiptLedger.inMemory()
+        let hash = String(repeating: "ab", count: 32)
+        try await ledger.record(try ActionReceipt(
+            proposalID: "p-dup",
+            state: .executed,
+            payloadHash: hash,
+            snapshotRevision: 1,
+            recordedAt: t0
+        ))
+        XCTAssertThrowsError(
+            try ledger.database.write { db in
+                try db.execute(sql: """
+                    INSERT INTO fl_assistant_receipt
+                        (proposalID, state, payloadHash, snapshotRevision, recordedAt)
+                    VALUES ('p-dup', 'executed', NULL, NULL, '2026-10-11T12:00:05.000Z')
+                    """)
+            },
+            "a second executed receipt for one proposal violates the unique durable claim"
+        )
+        let rows = try await ledger.allReceipts()
+        XCTAssertEqual(rows.count, 1, "only the first executed receipt stands")
+    }
+
+    /// Round 2, item 3 (lesser-finding semantics, red-first against the
+    /// pre-claim head: the approval was mislabeled `.alreadyDecided` while
+    /// nothing had been decided): a proposal minted but undecided before the
+    /// process ended refuses fail-closed as unresumable-in-flight. It never
+    /// silently becomes "already decided", and it never executes from a
+    /// stale in-memory table. Full proposal recovery is the documented PR
+    /// Handoff follow-up.
+    func testUndecidedProposalAfterRestartRefusesFailClosed() async throws {
+        let url = tempDatabaseURL()
+        let first = try GRDBReceiptLedger.open(at: url)
+        try first.database.write { db in
+            try db.execute(sql: "CREATE TABLE fl_test_effects (proposalID TEXT NOT NULL)")
+        }
+        let authority1 = try makeAuthority(ledger: first, id: "proposal-orphan")
+        let orphan = try await authority1.propose(
+            tool: .proposeStepAdvance,
+            payload: .stepAdvance(stepIndex: 2),
+            against: try makeSnapshot(),
+            now: t0
+        )  // minted, never decided
+        // Process restart: a fresh authority over the same ledger.
+        let second = try GRDBReceiptLedger.open(at: url)
+        try second.database.write { db in
+            try db.execute(sql: "CREATE TABLE IF NOT EXISTS fl_test_effects (proposalID TEXT NOT NULL)")
+        }
+        let authority2 = try makeAuthority(ledger: second, id: "proposal-orphan")
+        await expectError(.proposalInFlight(proposalID: "proposal-orphan")) {
+            try await authority2.approve(
+                try makeApproval(for: orphan),
+                executor: InsertExecutor(),
+                sessionID: "s1",
+                now: t0.addingTimeInterval(4)
+            )
+        }
+        XCTAssertEqual(try effectCount(second), 0, "an unresumable proposal never executes")
     }
 }
