@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "name": "Strictest-applicable-minimum refusals (every applicable class applies)",
+  "description": "Refusal cases for the class-selection contract: a step is verified against EVERY applicable class minimum — ingredient species classes, dish classes (casserole, stuffing) and reheating — and the strictest governs, with casseroles, stuffing and reheating overriding to 165 °F. Each refusal case passed the linter before the strictest-wins fix (species beat the dish and reheating missed its override); the final case pins the matching compliant true negative so the override never over-blocks a casserole that meets 165 °F.",
+  "cases": [
+    {
+      "id": "strictest-salmon-casserole-145-flagged",
+      "record": {
+        "file": "conformance/cases-strictest-refusal.json",
+        "id": "cx-strictest-salmon-casserole",
+        "kind": "recipe",
+        "title": "Salmon casserole",
+        "ingredients": "500 g salmon fillet, cream, peas",
+        "instructions": "1. Bake the salmon casserole until the centre reaches 145 °F on a food thermometer."
+      },
+      "expect": {
+        "kinds": ["belowMinimumTemperature"],
+        "rule_id": "casseroles-165",
+        "rewrite_contains": ["165 °F"]
+      }
+    },
+    {
+      "id": "strictest-mixed-chicken-pork-145-flagged",
+      "record": {
+        "file": "conformance/cases-strictest-refusal.json",
+        "id": "cx-strictest-mixed-chicken-pork",
+        "kind": "recipe",
+        "title": "Chicken and pork tray bake",
+        "ingredients": "2 chicken thighs, 1 pork loin",
+        "instructions": "1. Cook the chicken thigh and pork loin together until the thickest part reaches 145 °F on a food thermometer, then rest 3 minutes."
+      },
+      "expect": {
+        "kinds": ["belowMinimumTemperature"],
+        "rule_id": "poultry-all-cuts-165",
+        "rewrite_contains": ["165 °F"]
+      }
+    },
+    {
+      "id": "strictest-reheated-fish-curry-below-165-flagged",
+      "record": {
+        "file": "conformance/cases-strictest-refusal.json",
+        "id": "cx-strictest-reheated-fish-curry",
+        "kind": "recipe",
+        "title": "Next-day fish curry",
+        "ingredients": "cooked fish curry",
+        "instructions": "1. Warm the fish curry in the oven until it reaches 145 °F on a food thermometer."
+      },
+      "expect": {
+        "kinds": ["belowMinimumTemperature"],
+        "rule_id": "leftovers-reheat-165",
+        "rewrite_contains": ["165 °F"]
+      }
+    },
+    {
+      "id": "strictest-salmon-casserole-165-passes",
+      "record": {
+        "file": "conformance/cases-strictest-refusal.json",
+        "id": "cx-strictest-salmon-casserole-165",
+        "kind": "recipe",
+        "title": "Salmon casserole",
+        "ingredients": "500 g salmon fillet, cream, peas",
+        "instructions": "1. Bake the salmon casserole until the centre reaches 165 °F on a food thermometer."
+      },
+      "expect": { "kinds": [] }
+    }
+  ]
+}
