@@ -11,18 +11,13 @@ import FLDomain
 //    executes — the broker's rule, checked on every approval.
 // 3. Expired or revision-stale proposals refuse — with a receipt recording
 //    why (expired / staleRevision / rejected).
-// 4. Every executed action leaves a receipt — recorded after the effects
-//    succeed, so "executed" is never claimed for work that did not happen.
+// 4. Every executed action leaves a receipt — committed in the SAME
+//    transaction as the effects (the foundation's paired-write pattern), so
+//    "executed" is never claimed for work that did not happen, and no effect
+//    survives without its receipt.
 // 5. Transcript-only authorization is structurally impossible: no API accepts
 //    model bytes and produces an executed receipt. An ActionApproval value is
 //    minted only by the host's approval UI, never from model output.
-
-/// Applies a proposal's effects on the device (create the timer, advance the
-/// step, correct the pantry, commit the meal log). The host injects its
-/// implementation; this package never touches app state directly.
-public protocol ActionExecutor: Sendable {
-    func apply(_ payload: ActionPayload, proposal: ActionProposal) async throws
-}
 
 /// Records the receipt lifecycle. The GRDB-backed production ledger lands
 /// with its own milestone; `InMemoryReceiptLedger` serves tests and previews.
@@ -179,43 +174,23 @@ public actor AssistantAuthority {
 
     /// Apply an approval. Runs the broker's full rule (ID + hash + revision +
     /// expiry + session), executes the effects, and records the `.executed`
-    /// receipt after the effects succeed. A refused approval records the
-    /// refusal receipt (`rejected` / `staleRevision` / `expired`) and throws.
-    /// An executor failure propagates without recording — the proposal stays
-    /// pending and can be retried; "executed" is only claimed for work that
-    /// actually happened.
+    /// receipt — the effects and the receipt commit in ONE transaction, so a
+    /// failure in either rolls both back (review round 2, item 4: a receipt
+    /// failure after the effect can never be retried into a second mutation,
+    /// because no effect survives without its receipt). A refused approval
+    /// records the refusal receipt (`rejected` / `staleRevision` / `expired`)
+    /// and throws. An executor failure propagates without recording — the
+    /// proposal stays pending and can be retried; "executed" is only claimed
+    /// for work that actually happened and committed.
     ///
-    /// For effects that must commit atomically with their receipt (device
-    /// timers), use `approve(_:atomicExecutor:now:)`.
-    @discardableResult
-    public func approve(
-        _ approval: ActionApproval,
-        executor: any ActionExecutor,
-        now: Date
-    ) async throws -> ActionReceipt {
-        let entry = try await validateForExecution(approval, now: now)
-        // Authorized: effects first, then the executed receipt.
-        try await executor.apply(entry.proposal.payload, proposal: entry.proposal)
-        let receipt = try ActionReceipt(
-            proposalID: entry.proposal.id,
-            state: .executed,
-            payloadHash: entry.proposal.payloadHash,
-            snapshotRevision: entry.proposal.snapshotRevision,
-            recordedAt: now
-        )
-        try await ledger.record(receipt)
-        openProposals[entry.proposal.id] = nil
-        return receipt
-    }
-
-    /// Approve with transactional atomicity: the GRDB executor's effect
-    /// writes and the executed receipt commit in ONE transaction — a failure
-    /// in either rolls both back. Requires a `GRDBReceiptLedger`; any other
+    /// There is no non-transactional approval path: every propose* tool
+    /// mutates device state, so every approval requires the durable
+    /// effect/receipt pairing. Requires a `GRDBReceiptLedger`; any other
     /// ledger refuses with `.ledgerCannotExecuteAtomically` and nothing runs.
     @discardableResult
     public func approve(
         _ approval: ActionApproval,
-        atomicExecutor: any GRDBActionExecutor,
+        executor: any GRDBActionExecutor,
         now: Date
     ) async throws -> ActionReceipt {
         let entry = try await validateForExecution(approval, now: now)
@@ -224,7 +199,7 @@ public actor AssistantAuthority {
         }
         let receipt = try await grdbLedger.executeAndRecord(
             proposal: entry.proposal,
-            executor: atomicExecutor,
+            executor: executor,
             recordedAt: now
         )
         openProposals[entry.proposal.id] = nil

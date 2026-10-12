@@ -198,7 +198,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         )
         let receipt = try await authority.approve(
             try makeApproval(for: proposal),
-            atomicExecutor: InsertExecutor(),
+            executor: InsertExecutor(),
             now: t0.addingTimeInterval(2)
         )
         XCTAssertEqual(receipt.state, .executed)
@@ -219,7 +219,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         await expectError(.malformedReply(detail: "executor failure injected by test")) {
             try await authority.approve(
                 try self.makeApproval(for: proposal),
-                atomicExecutor: InsertExecutor(shouldThrow: true),
+                executor: InsertExecutor(shouldThrow: true),
                 now: t0.addingTimeInterval(2)
             )
         }
@@ -244,7 +244,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
             now: t0
         )
         let approval = try makeApproval(for: proposal)
-        _ = try await authority1.approve(approval, atomicExecutor: InsertExecutor(), now: t0.addingTimeInterval(2))
+        _ = try await authority1.approve(approval, executor: InsertExecutor(), now: t0.addingTimeInterval(2))
 
         // Process 2: fresh authority over the same database, empty open set.
         let second = try GRDBReceiptLedger.open(at: url)
@@ -253,7 +253,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         }
         let authority2 = makeAuthority(ledger: second, id: "proposal-restart")
         await expectError(.alreadyDecided(proposalID: "proposal-restart")) {
-            try await authority2.approve(approval, atomicExecutor: InsertExecutor(), now: t0.addingTimeInterval(4))
+            try await authority2.approve(approval, executor: InsertExecutor(), now: t0.addingTimeInterval(4))
         }
         let receipts = try await second.allReceipts()
         XCTAssertEqual(receipts.map(\.state), [.pendingApproval, .executed], "the earlier receipt stands; no duplicate row")
@@ -272,23 +272,93 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         await expectError(.ledgerCannotExecuteAtomically) {
             try await authority.approve(
                 try makeApproval(for: proposal),
-                atomicExecutor: InsertExecutor(),
+                executor: InsertExecutor(),
                 now: t0.addingTimeInterval(2)
             )
         }
         let receipts = try await ledger.allReceipts()
         XCTAssertEqual(receipts.map(\.state), [.pendingApproval], "nothing ran, nothing was consumed")
-        // The proposal is still open: a retry through the non-atomic path works.
-        let retryReceipt = try await authority.approve(
-            try makeApproval(for: proposal),
-            executor: NoopExecutor(),
-            now: t0.addingTimeInterval(3)
-        )
-        XCTAssertEqual(retryReceipt.state, ActionReceiptState.executed)
+        // The proposal is still open: a decline (no executor needed) proves
+        // it was not consumed by the refused approval.
+        let declined = try await authority.decline(proposalID: proposal.id, now: t0.addingTimeInterval(3))
+        XCTAssertEqual(declined.state, .rejected)
     }
 
-    /// Minimal non-transactional executor for the retry path above.
-    private struct NoopExecutor: ActionExecutor {
-        func apply(_ payload: ActionPayload, proposal: ActionProposal) async throws {}
+    // MARK: Review round 2, item 4 — receipt failure after the effect rolls the effect back
+
+    /// Thrown from the `betweenWrites` seam: occupies exactly the gap a
+    /// receipt persistence failure occupies — after the effects, before the
+    /// receipt insert, inside the open transaction.
+    private static let seamFailure = FLAssistantError.malformedReply(
+        detail: "seam failure injected by test"
+    )
+
+    /// The paired write's injected-failure test (mirrors the foundation's
+    /// `writeCompletedCook` seam test): the effect writes, then the receipt
+    /// half fails — and the EFFECT ROLLS BACK. A retry therefore cannot apply
+    /// the effect a second time: nothing survived the failed attempt.
+    func testInjectedFailureBetweenEffectAndReceiptPersistsNeither() async throws {
+        let ledger = try makeLedger()
+        let authority = makeAuthority(ledger: ledger, id: "proposal-seam-fail")
+        let proposal = try await authority.propose(
+            tool: .proposeTimer,
+            payload: .timerCreate(label: "Boil water", seconds: 90),
+            against: try makeSnapshot(),
+            now: t0
+        )
+        await expectError(.malformedReply(detail: "seam failure injected by test")) {
+            _ = try await ledger.executeAndRecord(
+                proposal: proposal,
+                executor: InsertExecutor(),
+                recordedAt: t0.addingTimeInterval(2),
+                betweenWrites: { _ in throw Self.seamFailure }
+            )
+        }
+        XCTAssertEqual(
+            try effectCount(ledger), 0,
+            "the effect rolled back with the receipt it was paired with"
+        )
+        let receipts = try await ledger.allReceipts()
+        XCTAssertEqual(receipts.map(\.state), [.pendingApproval], "no executed receipt for work that did not happen")
+        // The retry with a healthy path applies exactly once: nothing
+        // survived the rolled-back attempt, so there is no double mutation.
+        let receipt = try await authority.approve(
+            try makeApproval(for: proposal),
+            executor: InsertExecutor(),
+            now: t0.addingTimeInterval(3)
+        )
+        XCTAssertEqual(receipt.state, .executed)
+        XCTAssertEqual(try effectCount(ledger), 1, "the retry applied the effect exactly once")
+        let statesAfter = try await ledger.allReceipts().map(\.state)
+        XCTAssertEqual(statesAfter, [.pendingApproval, .executed])
+    }
+
+    /// The seam's control: a non-throwing injection between the halves must
+    /// not disturb the pairing — both writes persist.
+    func testNonThrowingInjectionBetweenEffectAndReceiptPersistsBoth() async throws {
+        let ledger = try makeLedger()
+        let authority = makeAuthority(ledger: ledger, id: "proposal-seam-ok")
+        let proposal = try await authority.propose(
+            tool: .proposeTimer,
+            payload: .timerCreate(label: "Boil water", seconds: 90),
+            against: try makeSnapshot(),
+            now: t0
+        )
+        _ = try await ledger.executeAndRecord(
+            proposal: proposal,
+            executor: InsertExecutor(),
+            recordedAt: t0.addingTimeInterval(2),
+            betweenWrites: { db in
+                try db.execute(
+                    sql: "INSERT INTO fl_test_effects (proposalID) VALUES ('seam-witness')"
+                )
+            }
+        )
+        XCTAssertEqual(
+            try effectCount(ledger), 2,
+            "the executor's row and the seam's witness row both committed"
+        )
+        let states = try await ledger.allReceipts().map(\.state)
+        XCTAssertEqual(states, [.pendingApproval, .executed])
     }
 }
