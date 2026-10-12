@@ -375,7 +375,27 @@ TEXT_EDITS: tuple[Edit | Replace, ...] = (
          REMOVE),
 )
 
-EDITS: tuple[Edit | Replace, ...] = ENDPOINT_EDITS + TEXT_EDITS
+# Finding 2, second review: a check counts only when a clause tells the cook
+# to read the temperature on a thermometer in the food. These steps named
+# the thermometer and the number without a reading instruction, or (0365)
+# took the eggs off early and relied on carryover.
+READING_EDITS: tuple[Edit | Replace, ...] = (
+    Replace("fl-original-0124", 4,
+            "let the cheese melt into a molten blanket while the chicken settles at 165 °F on a "
+            "food thermometer.",
+            "let the cheese melt into a molten blanket until a food thermometer in the thickest "
+            "cutlet reads 165 °F (74 °C)."),
+    Replace("fl-original-0147", 0, "until crusty outside and 165 °F on a food thermometer inside.",
+            "until crusty outside and a food thermometer inside reads 165 °F (74 °C)."),
+    Edit("fl-original-0365", 2,
+         "Pull the pan off at a food thermometer's 160 °F and fold the crumbled feta through — the carryover finishes the eggs while the feta stays in crumbles.",
+         "Pull the pan off when a food thermometer in the eggs reads 160 °F (71 °C), and fold the crumbled feta through so it stays in crumbles."),
+    Edit("fl-original-0375", 1,
+         "Check the breast with a food thermometer — 165 °F at the centre — then lift and shred it.",
+         "Check the breast with a food thermometer: it must read 165 °F (74 °C) at the centre. Then lift and shred it."),
+)
+
+EDITS: tuple[Edit | Replace, ...] = ENDPOINT_EDITS + TEXT_EDITS + READING_EDITS
 
 
 def _safety(cls: str, temp: int, current: Any) -> dict[str, Any]:

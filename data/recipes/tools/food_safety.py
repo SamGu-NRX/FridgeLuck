@@ -244,9 +244,52 @@ def text_temps(text: str) -> list[int]:
     return [int(m.group(1)) for m in _INTERNAL_F.finditer(str(text))]
 
 
+# A check counts only when a sentence tells the cook to measure the food and
+# read the endpoint. Keyword presence is not enough: "a thermometer reading
+# 165 F is unnecessary" names both and instructs neither.
+_CLAUSE_BREAK = re.compile(r"(?<=[.;!?])\s+|\s+—\s+")
+# A negation counts when it governs the measurement or the rest ("do not
+# rest", "without a thermometer", "a reading is unnecessary"), not when it
+# sits elsewhere in the clause ("no longer pink", "without peeking").
+_MEASURE_WORD = (r"(?:thermometer|read|reads|reading|check|checking|measure|measuring|"
+                 r"rest|resting|temperature)")
+_NEGATION = re.compile(
+    r"\b(?:not|no|never|don't|do not|doesn't|does not|needn't|need not|no need to|without|"
+    r"skip|ignore|instead of|rather than)(?:\W+\w+)?\W+(?:a |the )?(?:food |instant-read )?"
+    + _MEASURE_WORD + r"\b"
+    r"|\b" + _MEASURE_WORD + r"\b[^.;]{0,40}\b(?:unnecessary|optional|not needed|"
+    r"isn't needed|is not needed|not required)\b", re.IGNORECASE)
+_MEASURE = re.compile(
+    r"\b(?:reads?|reading|reach(?:es|ed)?|registers?|hits?|check(?:s|ed)?|"
+    r"done at|must read|should read)\b", re.IGNORECASE)
+_HEAT_SETTING = re.compile(r"\b(?:oven|preheat|broiler|grill|bake at|roast at)\b",
+                           re.IGNORECASE)
+
+
+def clauses(text: str) -> list[str]:
+    return [c for c in _CLAUSE_BREAK.split(str(text)) if c.strip()]
+
+
+def affirmative_check(text: str, temp: int) -> bool:
+    """True when one clause instructs a thermometer reading of `temp` F in the
+    food: names the thermometer, a measuring verb and the temperature, is not
+    negated, and does not tie the temperature to an oven or grill setting."""
+    deg = re.compile(rf"\b{int(temp)}\s*(?:°\s*F|degrees F|F)\b")
+    for c in clauses(text):
+        if not (_THERMOMETER.search(c) and _MEASURE.search(c)) or _NEGATION.search(c):
+            continue
+        for m in deg.finditer(c):
+            near = c[max(0, m.start() - 25):m.end() + 12]
+            if not _HEAT_SETTING.search(near):
+                return True
+    return False
+
+
 def stated_rest(text: str) -> int | None:
-    m = _REST.search(str(text))
-    return int(m.group(1)) if m else None
+    """Minutes of rest an un-negated clause tells the cook to give, or None."""
+    rests = [int(m.group(1)) for c in clauses(text) if not _NEGATION.search(c)
+             for m in _REST.finditer(c)]
+    return max(rests) if rests else None
 
 
 # ---------------------------------------------------------------------------
@@ -396,9 +439,10 @@ def text_violations(recipe: dict[str, Any]) -> list[str]:
         if not _THERMOMETER.search(text):
             out.append(f"{rid}: step[{i}] {cls} check is metadata only: the step text "
                        "never tells the cook to use a thermometer")
-        if _is_num(temp) and int(temp) not in text_temps(text):
-            out.append(f"{rid}: step[{i}] step text does not state the {int(temp)} °F "
-                       f"endpoint its {cls} check records")
+        elif _is_num(temp) and not affirmative_check(text, int(temp)):
+            out.append(f"{rid}: step[{i}] step text does not tell the cook to read "
+                       f"{int(temp)} °F on a thermometer in the food, the endpoint its "
+                       f"{cls} check records")
     for i, step in enumerate(steps):
         if isinstance(step.get("safety"), dict):
             continue

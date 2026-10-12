@@ -345,6 +345,42 @@ class CookFacingText(unittest.TestCase):
         errors = food_safety.text_violations(bad)
         self.assertTrue(any("carries no safety check" in e for e in errors), errors)
 
+    def test_negated_reading_is_not_a_check(self):
+        # second review: keywords present, no instruction to measure
+        bad = recipe(ingredients=ing("ground beef"), steps=[
+            {"text": "A thermometer reading 160 F is unnecessary; cook until no longer pink.",
+             "safety": chk("meat_ground", 160)}])
+        self.assertTrue(any("does not tell the cook to read" in e
+                            for e in food_safety.text_violations(bad)))
+        bad["steps"][0]["text"] = "Do not use a thermometer; it reads 160 °F anyway."
+        self.assertTrue(food_safety.text_violations(bad))
+
+    def test_oven_setting_is_not_a_reading(self):
+        bad = recipe(ingredients=ing("eggs"), steps=[
+            {"text": "Bake in a 160 °F oven and check with a thermometer.",
+             "safety": chk("egg", 160)}])
+        self.assertTrue(any("does not tell the cook to read" in e
+                            for e in food_safety.text_violations(bad)))
+
+    def test_reading_without_a_measuring_verb_is_refused(self):
+        # fl-original-0124 before READING_EDITS: "settles at 165 °F on a food thermometer"
+        bad = recipe(ingredients=ing("chicken breast"), steps=[
+            {"text": "Let the chicken settle at 165 °F on a food thermometer.",
+             "safety": chk("meat_poultry", 165)}])
+        self.assertTrue(food_safety.text_violations(bad))
+
+    def test_negated_rest_is_not_a_rest(self):
+        bad = recipe(ingredients=ing("pork chops"), steps=[
+            {"text": "Cook until a food thermometer reads 145 °F. Do not rest 3 minutes.",
+             "safety": chk("meat_whole_cut_pork", 145)}])
+        self.assertTrue(any("rest" in e for e in endpoint_errors(bad)))
+
+    def test_unrelated_negation_does_not_void_the_check(self):
+        ok = recipe(ingredients=ing("ground beef"), steps=[
+            {"text": "Cook until no longer pink and an instant-read thermometer reads 160 °F.",
+             "safety": chk("meat_ground", 160)}])
+        self.assertEqual(food_safety.safety_violations(ok), [])
+
     def test_validator_refuses_a_metadata_only_check(self):
         bad = recipe(ingredients=ing("chicken thighs"), steps=[
             {"text": "Reduce heat, cover, simmer 18-20 min",
