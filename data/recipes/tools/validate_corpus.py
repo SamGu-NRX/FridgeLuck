@@ -91,10 +91,12 @@ def quarantine_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
 
 
 def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
-                        bundled: dict[str, Any], *, allergens: dict[str, Any]) -> list[str]:
+                        bundled: dict[str, Any], *, allergens: dict[str, Any],
+                        evidence: dict[str, Any]) -> list[str]:
     """The corpus-side gates the suite linter does not enforce.
 
-    Rights: every shipped recipe carries affirmative rights evidence
+    Rights: every shipped recipe's rights evidence is pinned in
+    data/recipes/evidence/rights.json and agrees with it
     (rights_evidence.rights_violations), and FridgeLuck-original text does not
     reuse the bundled catalog's wording (rights_evidence.overlap_violation).
     Food safety: every food reaches its FSIS endpoint and the step text the
@@ -111,7 +113,7 @@ def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
             errors.append(f"{r.get('id', '?')}: claim {cname!r} is not proven: "
                           + "; ".join(reasons))
         rec = records.get(r.get("source_ref"))
-        errors.extend(rights_evidence.rights_violations(r, rec))
+        errors.extend(rights_evidence.rights_violations(r, rec, evidence))
         if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
             hit = rights_evidence.overlap_violation(r, ref)
             if hit:
@@ -293,7 +295,8 @@ def main() -> int:
     q_errors = quarantine_errors(recipes, records, quarantined)
     gate_errors = release_gate_errors(recipes, records,
                                       json.loads(BUNDLED.read_text(encoding="utf-8")),
-                                      allergens=allergens)
+                                      allergens=allergens,
+                                      evidence=rights_evidence.load_evidence())
     for e in q_errors + gate_errors:
         fail(e)
     errors.extend(q_errors + gate_errors)

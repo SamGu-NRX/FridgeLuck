@@ -92,6 +92,19 @@ def recipe(rid: str = "fl-original-9001", title: str = "Planted Lentil Soup",
     }
 
 
+def _mini_evidence() -> dict:
+    r = recipe()
+    return {"originals": {"commit": "607ef996e685ed250c0c0036690736587fddf728", "records": {
+        "fl-original-9001": {"source_type": "original", "license": "LicenseRef-FL-Original",
+                             "permissions": dict(ORIGINAL_RECORD["permissions"]),
+                             "title": r["title"],
+                             "ingredients_sha256": rights_evidence.ingredients_sha256(r)}}},
+            "sources": {}}
+
+
+MINI_EVIDENCE = _mini_evidence()
+
+
 class RightsGate(unittest.TestCase):
     """Finding 3: rights need affirmative evidence, not missing attribution."""
 
@@ -111,36 +124,64 @@ class RightsGate(unittest.TestCase):
 
     def test_absence_only_seed_record_is_refused(self):
         r = recipe("fl-seed-9001")
-        problems = rights_evidence.rights_violations(r, self.SEED_RECORD)
+        problems = rights_evidence.rights_violations(r, self.SEED_RECORD, MINI_EVIDENCE)
         self.assertTrue(any("missing attribution" in p for p in problems), problems)
         self.assertTrue(any("authoring task's record" in p for p in problems), problems)
 
     def test_validator_refuses_the_planted_seed(self):
         r = recipe("fl-seed-9001")
         errors = validate_corpus.release_gate_errors(
-            [r], {"fl-seed-9001": self.SEED_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS)
+            [r], {"fl-seed-9001": self.SEED_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS,
+            evidence=MINI_EVIDENCE)
         self.assertTrue(errors)
 
-    def test_original_with_its_authoring_record_passes(self):
-        self.assertEqual(rights_evidence.rights_violations(recipe(), ORIGINAL_RECORD), [])
+    def test_original_with_its_pinned_authoring_record_passes(self):
+        self.assertEqual(
+            rights_evidence.rights_violations(recipe(), ORIGINAL_RECORD, MINI_EVIDENCE), [])
 
     def test_authoring_record_for_another_recipe_is_refused(self):
         r = recipe("fl-original-9002")
-        problems = rights_evidence.rights_violations(r, ORIGINAL_RECORD)
+        problems = rights_evidence.rights_violations(r, ORIGINAL_RECORD, MINI_EVIDENCE)
         self.assertTrue(any("not fl-original-9002" in p for p in problems), problems)
+
+    def test_well_spelled_citation_of_an_unpinned_record_is_refused(self):
+        # second review: an id- and SHA-shaped string passed without lookup
+        r = recipe("fl-original-9003")
+        rec = dict(ORIGINAL_RECORD, license_evidence=ORIGINAL_RECORD["license_evidence"]
+                   .replace("9001", "9003"))
+        problems = rights_evidence.rights_violations(r, rec, MINI_EVIDENCE)
+        self.assertTrue(any("no authoring record" in p for p in problems), problems)
+
+    def test_citation_of_another_commit_is_refused(self):
+        rec = dict(ORIGINAL_RECORD, license_evidence=ORIGINAL_RECORD["license_evidence"]
+                   .replace("607ef99", "deadbee"))
+        problems = rights_evidence.rights_violations(recipe(), rec, MINI_EVIDENCE)
+        self.assertTrue(any("not the pinned originals commit" in p for p in problems), problems)
+
+    def test_record_for_a_different_recipe_body_is_refused(self):
+        r = recipe(title="Another Dish Entirely")
+        problems = rights_evidence.rights_violations(r, ORIGINAL_RECORD, MINI_EVIDENCE)
+        self.assertTrue(any("describes a different recipe" in p for p in problems), problems)
 
     def test_unknown_source_type_is_refused(self):
         rec = dict(ORIGINAL_RECORD, source_type="community")
-        problems = rights_evidence.rights_violations(recipe(), rec)
+        problems = rights_evidence.rights_violations(recipe(), rec, MINI_EVIDENCE)
         self.assertTrue(any("no affirmative-evidence form" in p for p in problems), problems)
 
-    def test_open_licence_needs_licence_and_page_urls(self):
+    def test_two_https_urls_are_not_a_licence(self):
+        # second review: any two HTTPS URLs passed as OGL evidence
         rec = dict(ORIGINAL_RECORD, source_type="government", license="OGL-3.0",
-                   license_evidence="OGL v3.0 per SOURCES.md")
-        self.assertTrue(rights_evidence.rights_violations(recipe(), rec))
-        rec["license_evidence"] = ("OGL v3.0 at https://www.nhs.uk/our-policies/terms-and-"
-                                   "conditions/; page https://www.nhs.uk/healthier-families/x/")
-        self.assertEqual(rights_evidence.rights_violations(recipe(), rec), [])
+                   source_id="some_council",
+                   license_evidence="OGL at https://example.org/terms; page https://example.org/r")
+        problems = rights_evidence.rights_violations(recipe(), rec, MINI_EVIDENCE)
+        self.assertTrue(any("no pinned terms evidence" in p for p in problems), problems)
+
+    def test_source_whose_terms_were_refused_stays_refused(self):
+        rec = dict(ORIGINAL_RECORD, source_type="government", license="OGL-3.0",
+                   source_id="nhs_website",
+                   license_evidence="https://www.nhs.uk/our-policies/terms-and-conditions/")
+        problems = rights_evidence.rights_violations(recipe(), rec, rights_evidence.load_evidence())
+        self.assertTrue(any("not verified" in p for p in problems), problems)
 
     def test_original_that_copies_bundled_wording_is_refused(self):
         source = ("Heat the oven to 200C and toss the bread with two tablespoons of the "
@@ -321,7 +362,8 @@ class DonenessEndpoints(unittest.TestCase):
         bad = recipe(title="Breakfast Casserole", ingredients=ing("eggs"), steps=[
             {"text": "Bake until a thermometer reads 160 °F.", "safety": chk("egg", 160)}])
         errors = validate_corpus.release_gate_errors(
-            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS)
+            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS,
+            evidence=MINI_EVIDENCE)
         self.assertTrue(any("casserole" in e or "title" in e for e in errors), errors)
 
 
@@ -402,7 +444,8 @@ class CookFacingText(unittest.TestCase):
             {"text": "Reduce heat, cover, simmer 18-20 min",
              "safety": chk("meat_poultry", 165)}])
         errors = validate_corpus.release_gate_errors(
-            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS)
+            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS,
+            evidence=MINI_EVIDENCE)
         self.assertTrue(any("metadata only" in e for e in errors), errors)
 
 
@@ -487,7 +530,8 @@ class ClaimComposition(unittest.TestCase):
         bad = recipe(ingredients=ing("red lentils", "ghee or vegetable oil"),
                      claims=[claim("dairy-free")])
         errors = validate_corpus.release_gate_errors(
-            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS)
+            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS,
+            evidence=MINI_EVIDENCE)
         self.assertTrue(any("'dairy-free' is not proven" in e for e in errors), errors)
 
 
@@ -558,7 +602,8 @@ class CommittedCorpus(unittest.TestCase):
 
     def test_release_gates(self):
         errors = validate_corpus.release_gate_errors(
-            copy.deepcopy(self.recipes), self.records, self.bundled, allergens=self.allergens)
+            copy.deepcopy(self.recipes), self.records, self.bundled, allergens=self.allergens,
+            evidence=rights_evidence.load_evidence())
         self.assertEqual(errors, [], "\n".join(errors[:20]))
 
     def test_safety_edits_reproduce_the_corpus_from_the_ingested_originals(self):
@@ -576,6 +621,13 @@ class CommittedCorpus(unittest.TestCase):
         mismatched = [rid for rid, r in ingested.items()
                       if r["steps"] != committed[rid]["steps"]]
         self.assertEqual(mismatched, [])
+
+    def test_pinned_rights_evidence_matches_git(self):
+        # data/recipes/evidence/rights.json re-derives from the originals at 607ef99
+        import pin_rights_evidence
+        built = json.dumps(pin_rights_evidence.build(), ensure_ascii=False, indent=1,
+                           sort_keys=True) + "\n"
+        self.assertEqual(built, pin_rights_evidence.EVIDENCE.read_text(encoding="utf-8"))
 
     def test_quarantine_file(self):
         errors = validate_corpus.quarantine_errors(self.recipes, self.records, self.quarantine)

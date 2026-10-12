@@ -36,12 +36,13 @@ import rights_evidence  # noqa: E402
 BUNDLED = corpus_io.REPO_ROOT / "apps/ios/Resources/data.json"
 
 
-def rights_failures(recipes: list[dict], records: dict, bundled: dict) -> dict[str, list[str]]:
+def rights_failures(recipes: list[dict], records: dict, bundled: dict,
+                    evidence: dict) -> dict[str, list[str]]:
     ref = rights_evidence.reference_ngrams(rights_evidence.bundled_texts(bundled))
     out: dict[str, list[str]] = {}
     for r in recipes:
         rec = records.get(r.get("source_ref"))
-        problems = rights_evidence.rights_violations(r, rec)
+        problems = rights_evidence.rights_violations(r, rec, evidence)
         if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
             hit = rights_evidence.overlap_violation(r, ref)
             if hit:
@@ -64,7 +65,8 @@ def main() -> int:
     quarantine = corpus_io.read_jsonl(corpus_io.QUARANTINE)
     bundled = json.loads(BUNDLED.read_text(encoding="utf-8"))
 
-    failures = rights_failures([l.obj for l in corpus], records, bundled)
+    failures = rights_failures([l.obj for l in corpus], records, bundled,
+                               rights_evidence.load_evidence())
     today = datetime.date.today().isoformat()
     for rid, problems in sorted(failures.items()):
         print(f"quarantine {rid}:")

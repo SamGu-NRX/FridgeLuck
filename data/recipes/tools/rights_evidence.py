@@ -7,9 +7,15 @@ passed it with license_evidence that only listed absences: no Source line,
 present since the initial commit, title not in the BBC scrape cache. None of
 those shows who wrote the text or that anyone gave permission.
 
-This gate accepts a record only when its evidence takes one of the forms in
-`AFFIRMATIVE_FORMS`, keyed by source_type, and refuses any source_type it has
-no form for. Adding a source means adding its form here, on purpose.
+This gate accepts a record only when the evidence it cites is pinned in
+data/recipes/evidence/rights.json (written by pin_rights_evidence.py) and
+agrees with it. An original must cite its authoring record by id and commit;
+the pinned record must exist at that commit, carry LicenseRef-FL-Original
+and the app's permissions, and describe this recipe (same title, same
+ingredient names). An external source must be pinned with the verdict
+"verified" for its terms; a source whose terms were checked and found not to
+grant the use is refused with the pinned reason. A citation's spelling alone
+never clears a recipe, and a source_type with no form here is refused.
 
 It also tests the claim that FridgeLuck-original text is original:
 `overlap_violation` refuses an original whose title and steps share a run of
@@ -21,16 +27,16 @@ salt in a small bowl", "pour in the stock and bring to").
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
+from pathlib import Path
 from typing import Any, Iterable
-
-# License strings that grant the app's required permissions by their terms.
-OPEN_LICENCES = {"OGL-3.0"}
 
 _ORIGINALS_RECORD = re.compile(
     r"^data/recipes/originals/rights_manifest\.json record (?P<id>fl-original-\d{4}) "
-    r"\(branch overhaul/original-recipes at [0-9a-f]{7,40}\)")
-_URL = re.compile(r"https://\S+")
+    r"\(branch overhaul/original-recipes at (?P<sha>[0-9a-f]{7,40})\)")
+_URL = re.compile(r"https://[^\s;,)]+")
 
 # Evidence that describes what is missing rather than who holds the rights.
 _ABSENCE = re.compile(
@@ -38,42 +44,79 @@ _ABSENCE = re.compile(
     r"initial commit|no source recorded|absent from", re.IGNORECASE)
 
 MAX_SHARED_WORDS = 12
+APP_PERMISSIONS = ("text", "modification", "caching", "offline_use")
+EVIDENCE_PATH = Path(__file__).resolve().parents[1] / "evidence" / "rights.json"
 
 
-def _original_form(recipe: dict[str, Any], rec: dict[str, Any]) -> str | None:
+def load_evidence(path: Path = EVIDENCE_PATH) -> dict[str, Any]:
+    """The pinned evidence; a missing file is an error, never an empty pass."""
+    if not path.is_file():
+        raise SystemExit(f"{path} is missing; run tools/pin_rights_evidence.py")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def ingredients_sha256(recipe: dict[str, Any]) -> str:
+    names = [str(i.get("name")) for i in recipe.get("ingredients", []) if isinstance(i, dict)]
+    return hashlib.sha256(json.dumps(names, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def _original_form(recipe: dict[str, Any], rec: dict[str, Any],
+                   evidence: dict[str, Any]) -> str | None:
     m = _ORIGINALS_RECORD.match(str(rec.get("license_evidence", "")))
     if not m:
         return ("license_evidence does not cite the authoring task's record "
                 "(data/recipes/originals/rights_manifest.json record <id> "
                 "(branch overhaul/original-recipes at <sha>))")
-    if m.group("id") != recipe.get("id"):
-        return (f"license_evidence cites the authoring record for {m.group('id')}, "
-                f"not {recipe.get('id')}")
-    if rec.get("license") != "LicenseRef-FL-Original":
-        return "an original must carry license LicenseRef-FL-Original"
+    rid = recipe.get("id")
+    if m.group("id") != rid:
+        return f"license_evidence cites the authoring record for {m.group('id')}, not {rid}"
+    pinned = evidence.get("originals", {})
+    if not str(pinned.get("commit", "")).startswith(m.group("sha")):
+        return (f"cited commit {m.group('sha')} is not the pinned originals commit "
+                f"{pinned.get('commit')!r}; the record cannot be verified")
+    prec = pinned.get("records", {}).get(rid)
+    if prec is None:
+        return f"no authoring record for {rid} at {m.group('sha')}"
+    if prec.get("license") != "LicenseRef-FL-Original" or rec.get("license") != prec["license"]:
+        return "the authoring record does not license this as FridgeLuck-original text"
+    if prec.get("source_type") != rec.get("source_type"):
+        return (f"source_type {rec.get('source_type')!r} differs from the authoring "
+                f"record's {prec.get('source_type')!r}")
+    denied = [p for p in APP_PERMISSIONS if prec.get("permissions", {}).get(p) is not True]
+    if denied:
+        return f"the authoring record does not grant {denied}"
+    if prec.get("title") != recipe.get("title") or \
+            prec.get("ingredients_sha256") != ingredients_sha256(recipe):
+        return f"the authoring record for {rid} describes a different recipe"
     return None
 
 
-def _open_licence_form(recipe: dict[str, Any], rec: dict[str, Any]) -> str | None:
-    if rec.get("license") not in OPEN_LICENCES:
-        return (f"license {rec.get('license')!r} is not one of the open licences "
-                f"{sorted(OPEN_LICENCES)}")
-    urls = _URL.findall(str(rec.get("license_evidence", "")))
-    if len(urls) < 2:
-        return ("license_evidence must link both the licence terms and the "
-                "recipe's own page")
+def _external_form(recipe: dict[str, Any], rec: dict[str, Any],
+                   evidence: dict[str, Any]) -> str | None:
+    source = evidence.get("sources", {}).get(str(rec.get("source_id")))
+    if source is None:
+        return (f"source {rec.get('source_id')!r} has no pinned terms evidence; "
+                "its licence cannot be verified")
+    if source.get("verdict") != "verified":
+        return f"source terms checked and not verified: {source.get('reason')}"
+    pages = source.get("pages", {})
+    cited = _URL.findall(str(rec.get("license_evidence", "")))
+    unpinned = [u for u in cited if u not in pages]
+    if not cited or unpinned:
+        return f"cited pages {unpinned or cited} are not pinned evidence"
     return None
 
 
 AFFIRMATIVE_FORMS = {
     "original": _original_form,
     "original-rewrite": _original_form,
-    "government": _open_licence_form,
+    "government": _external_form,
 }
 
 
-def rights_violations(recipe: dict[str, Any], rec: Any) -> list[str]:
-    """Why this recipe's rights record is not affirmative evidence (empty = ok)."""
+def rights_violations(recipe: dict[str, Any], rec: Any, evidence: dict[str, Any]) -> list[str]:
+    """Why this recipe's rights record is not verified affirmative evidence
+    (empty = ok). `evidence` is data/recipes/evidence/rights.json."""
     rid = recipe.get("id", "?")
     if not isinstance(rec, dict):
         return [f"{rid}: no rights record"]
@@ -84,7 +127,7 @@ def rights_violations(recipe: dict[str, Any], rec: Any) -> list[str]:
         out.append(f"{rid}: no affirmative-evidence form for source_type {stype!r}; "
                    "add one to rights_evidence.AFFIRMATIVE_FORMS before shipping it")
     else:
-        problem = form(recipe, rec)
+        problem = form(recipe, rec, evidence)
         if problem:
             out.append(f"{rid}: {problem}")
     evidence = f"{rec.get('origin', '')} {rec.get('license_evidence', '')}"
