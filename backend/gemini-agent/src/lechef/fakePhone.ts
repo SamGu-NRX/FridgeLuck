@@ -388,7 +388,11 @@ export class FakePhone {
         timer.minutes =
           p.target.kind === "set" ? p.target.newMinutes : Math.max(0, timer.minutes + p.target.deltaMinutes);
         timer.deadline = (
-          p.target.kind === "set" ? now + Math.round(p.target.newMinutes * 60) : now + Math.round(timer.minutes * 60)
+          p.target.kind === "set"
+            ? now + Math.round(p.target.newMinutes * 60)
+            : // Delta extends the timer's existing device-owned deadline —
+              // elapsed time counts (review fix 7). A set is a fresh start.
+            timer.deadline + Math.round(p.target.deltaMinutes * 60)
         ) as EpochSeconds;
         this.revisionCounter += 1;
         break;
