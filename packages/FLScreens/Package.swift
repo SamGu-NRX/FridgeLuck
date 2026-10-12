@@ -29,6 +29,9 @@ let package = Package(
         .library(name: "FLScan", targets: ["FLScan"]),
         .library(name: "FLTasteProfile", targets: ["FLTasteProfile"]),
         .library(name: "FLLeChef", targets: ["FLLeChef"]),
+        .library(name: "FLProgress", targets: ["FLProgress"]),
+        .library(name: "FLQuests", targets: ["FLQuests"]),
+        .library(name: "FLTour", targets: ["FLTour"]),
     ],
     dependencies: [
         .package(path: "../FLDesignTokens"),
@@ -128,6 +131,45 @@ let package = Package(
                 .product(name: "FLDesignSystem", package: "FLDesignSystem"),
             ]
         ),
+        // Progress: the Shell S Progress tab and the Profile destination
+        // pushed from it (Part 6). One target because they share state
+        // vocabulary and Profile is reached only from Progress; the
+        // quests CANDIDATE's entry row renders here behind the
+        // default-off flag, and the saved-food counter renders through
+        // FLSavedFoodLine so it cannot drift from Quests's counter.
+        .target(
+            name: "FLProgress",
+            dependencies: [
+                "FLScreenSupport",
+                .product(name: "FLDesignTokens", package: "FLDesignTokens"),
+                .product(name: "FLDesignSystem", package: "FLDesignSystem"),
+            ]
+        ),
+        // Quests: the weekly quests CANDIDATE (Part 6). Its own target so
+        // it can be dropped (delete the target and its tests) or promoted
+        // (flip the flag's default, remove the flag) with nothing else
+        // entangled. Community-adjacent, privacy-safe: the share payload
+        // is an explicit allowlist (SPEC §3.4).
+        .target(
+            name: "FLQuests",
+            dependencies: [
+                "FLScreenSupport",
+                .product(name: "FLDesignTokens", package: "FLDesignTokens"),
+                .product(name: "FLDesignSystem", package: "FLDesignSystem"),
+            ]
+        ),
+        // Tour: the constrained onboarding tour CANDIDATE (Part 6). Its
+        // own target for the same drop/promote economics as Quests; the
+        // state machine owns the auto-return between steps, capped at
+        // five host-supplied promises.
+        .target(
+            name: "FLTour",
+            dependencies: [
+                "FLScreenSupport",
+                .product(name: "FLDesignTokens", package: "FLDesignTokens"),
+                .product(name: "FLDesignSystem", package: "FLDesignSystem"),
+            ]
+        ),
         .testTarget(
             name: "FLScreenSupportTests",
             dependencies: ["FLScreenSupport", .product(name: "FLDesignTokens", package: "FLDesignTokens")]
@@ -139,6 +181,9 @@ let package = Package(
         .testTarget(name: "FLScanTests", dependencies: ["FLScan", "FLScreenSupport"]),
         .testTarget(name: "FLTasteProfileTests", dependencies: ["FLTasteProfile", "FLScreenSupport"]),
         .testTarget(name: "FLLeChefTests", dependencies: ["FLLeChef", "FLScreenSupport"]),
+        .testTarget(name: "FLProgressTests", dependencies: ["FLProgress", "FLScreenSupport"]),
+        .testTarget(name: "FLQuestsTests", dependencies: ["FLQuests", "FLScreenSupport"]),
+        .testTarget(name: "FLTourTests", dependencies: ["FLTour", "FLScreenSupport"]),
         // The no-hardcoded-style lint: scans this package's sources for hex
         // colour literals and font names. Needs no module dependency.
         .testTarget(name: "FLScreensLintTests", dependencies: []),

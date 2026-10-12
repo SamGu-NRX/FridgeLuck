@@ -34,12 +34,22 @@ public struct FLShellTab: Equatable, Identifiable, Sendable {
     public var title: String
     public var systemImage: String
     public var role: Role
+    /// A small count shown on the tab itself (Shell S's mock carries the
+    /// Kitchen needs-a-look count in the tab caption — mono, never a red
+    /// dot on the scan accessory). Display-only: the host computes it from
+    /// the kitchen's state and this type never reads a screen. nil = no
+    /// badge; the scan accessory slot has no badge field by construction.
+    public var badgeDisplay: String?
 
-    public init(id: String, title: String, systemImage: String, role: Role = .regular) {
+    public init(
+        id: String, title: String, systemImage: String, role: Role = .regular,
+        badgeDisplay: String? = nil
+    ) {
         self.id = id
         self.title = title
         self.systemImage = systemImage
         self.role = role
+        self.badgeDisplay = badgeDisplay
     }
 
     /// The Scan tab, as a search-role entry with a custom label and icon
