@@ -36,11 +36,15 @@ Canonical sources and fail-closed behavior:
 - When the rulebook cannot be loaded or fails validation, doneness validation
   fails closed: every recipe with any safety-relevant signal is a violation.
   The linter never substitutes its own temperature table.
-- Ingredient composition comes from the suite's interim alias table
-  (``allergens.json``). The FLIngredientFacts package (overhaul task
-  fl-root-ingredient-facts-f1) will replace it; until it lands, an
-  unresolvable ingredient name is classification INCOMPLETE and every claim
-  on the recipe is UNCHECKED — never clear.
+- Ingredient composition for allergen/diet claim verdicts comes ONLY from
+  FLIngredientFacts data (``data/ingredient-facts``, branch
+  overhaul/ingredient-facts — PR #127; loaded scored-tree-first, else the
+  pinned snapshot in ``canon/ingredient-facts/``). When the facts source is
+  absent, or an ingredient has no identity or no facts row, or the claim's
+  axes are unknown, every dependent claim is HELD — counted unchecked with a
+  reason naming the absent or incomplete source; never cleared, never
+  silently skipped. The suite's interim alias table (``allergens.json``)
+  no longer clears claims: it only feeds R3 doneness classification.
 """
 
 from __future__ import annotations
@@ -257,10 +261,10 @@ def lint_recipe(recipe: dict[str, Any], *, cuisines: set[str],
     validator passes its table) but is no longer consulted: each scored
     line carries its own cited conversion (conversion_ref + grams).
 
-    `allergen_scan.verify_claim` re-computes each claim's evidence from the
-    ingredient tables; a claim whose evidence is missing, contradicted, or
-    resting on unresolvable ingredient composition is reported as an
-    unchecked claim (the suite strips it and counts it).
+    `allergen_scan.verify_claim` re-computes each claim's evidence from
+    FLIngredientFacts composition; a claim whose evidence is missing,
+    contradicted, or resting on unknown or missing composition is reported
+    as an unchecked claim (the suite strips it and counts it).
 
     When ``canon`` is None every doneness judgment fails closed.
     """
@@ -554,25 +558,342 @@ def _line_resolves(qty: dict[str, Any], recipe: dict[str, Any]) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# allergen / diet claims: the scanner is the only evidence source
+# allergen / diet claims: FLIngredientFacts is the only evidence source
 # ---------------------------------------------------------------------------
 
 
-class AllergenScanner:
-    """Verify allergen/diet claims by scanning ingredient classes.
+# Canonical facts dataset provenance (canon/ingredient-facts/PROVENANCE.md):
+# the head of branch overhaul/ingredient-facts the snapshot was pinned from.
+PINNED_FACTS_HEAD = "b0deecce36bf6ee91e6f5933e746d75466165288"
+CANON_FACTS_DIR = Path(__file__).resolve().parent / "canon" / "ingredient-facts"
 
-    Evidence is recomputed here from the interim alias table
-    (`allergens.json`). An ingredient whose composition no table resolves
-    makes the recipe's classification INCOMPLETE and every claim on it
-    UNCHECKED — unknown composition never means allowed. When the
-    FLIngredientFacts package (one ``evaluate()`` whose unknown result never
-    means allowed) lands, this class becomes its thin consumer: the same
-    fail-closed contract, sourced composition instead of an alias table.
+# Corpus claim type -> FLIngredientFacts axes that must be free/allowed for
+# the claim to clear (data/ingredient-facts/README.md: nine FDA allergens,
+# the separate gluten property, five diets).
+CLAIM_AXES: dict[str, tuple[tuple[str, ...], tuple[str, ...]]] = {
+    "gluten-free": ((), ("glutenFree",)),
+    "dairy-free": (("milk",), ()),
+    "nut-free": (("treeNuts", "peanuts"), ()),
+    "vegetarian": ((), ("vegetarian",)),
+    "vegan": ((), ("vegan",)),
+}
+# The gluten property is its own axis (never merged with wheat): a gluten-free
+# claim is contradicted by gluten 'contains' and undecided while gluten is
+# 'unknown'. A gluten-free label never settles wheat (FDA 21 CFR 101.100), so
+# wheat stays out of claim verdicts.
+GLUTEN_PROPERTY_CLAIMS = ("gluten-free",)
+
+
+class FLIngredientFacts:
+    """The validated FLIngredientFacts dataset behind every claim verdict.
+
+    A thin, read-only consumer of the canonical dataset
+    ``data/ingredient-facts`` (branch ``overhaul/ingredient-facts``, PR
+    #127): identities resolve an ingredient line name (key, display,
+    synonym, or product form) to a facts row; facts rows carry allergen,
+    diet and gluten states with evidence. Load-time validation mirrors the
+    dataset's own conformance runner so all consumers reject the same
+    malformed data.
     """
 
-    def __init__(self, table: dict[str, Any]) -> None:
+    ALLERGENS = ("milk", "egg", "fish", "crustaceanShellfish", "treeNuts",
+                 "peanuts", "wheat", "soy", "sesame")
+    DIETS = ("vegetarian", "vegan", "pescatarian", "glutenFree", "dairyFree")
+    EVIDENCE_KINDS = ("usda", "label", "reference", "recipe", "standard")
+    FACT_STATES = ("contains", "free", "unknown", "allowed", "violated")
+    CERTAINTIES = ("certain", "typical", "variable", "unknown")
+
+    def __init__(self, identities: dict[str, Any], facts: dict[str, Any],
+                 source: str) -> None:
+        self.source = source
+        if identities.get("version") != 1 or facts.get("version") != 1:
+            raise ValueError("FLIngredientFacts dataset version must be 1")
+        rows = identities.get("ingredients")
+        if not isinstance(rows, list) or not rows:
+            raise ValueError("identities.json carries no ingredients")
+        self.facts: dict[str, dict[str, Any]] = facts.get("facts", {})
+        if not self.facts:
+            raise ValueError("facts.json carries no facts")
+        self._name_index: dict[str, str] = {}
+        self._form_index: dict[str, tuple[str, str]] = {}
+        self._validate(rows)
+
+    # -- validation (mirrors the dataset conformance runner) ----------------
+
+    def _index_name(self, raw: str, key: str) -> None:
+        name = raw.strip().lower()
+        existing = self._name_index.get(name)
+        if existing is not None and existing != key:
+            raise ValueError(f"name {raw!r} maps to both {existing} and {key}")
+        self._name_index[name] = key
+
+    def _index_form_name(self, raw: str, identity: str, form: str) -> None:
+        name = raw.strip().lower()
+        if name in self._form_index or name in self._name_index:
+            raise ValueError(f"match name {raw!r} is not unique "
+                             f"(identity {identity}, form {form})")
+        self._form_index[name] = (identity, form)
+        self._name_index[name] = identity
+
+    def _check_evidence(self, evidence: Any, where: str) -> None:
+        if not isinstance(evidence, dict):
+            raise ValueError(f"{where}: fact lacks evidence")
+        if evidence.get("kind") not in self.EVIDENCE_KINDS:
+            raise ValueError(f"{where}: bad evidence kind {evidence.get('kind')!r}")
+        for field in ("ref", "note"):
+            value = evidence.get(field)
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"{where}: evidence {field} must be a non-empty string")
+
+    def _check_axis(self, fact: Any, where: str) -> None:
+        if not isinstance(fact, dict):
+            raise ValueError(f"{where}: malformed fact")
+        state = fact.get("state")
+        if state not in self.FACT_STATES:
+            raise ValueError(f"{where}: bad state {state!r}")
+        if state == "unknown" and fact.get("evidence") is None:
+            return
+        self._check_evidence(fact.get("evidence"), where)
+        if state in ("free", "allowed") and fact["evidence"].get("kind") in ("usda", "recipe"):
+            raise ValueError(f"{where}: absence state {state!r} may not use "
+                             "catalog/recipe evidence (absence never rests on them)")
+
+    def _validate_entry(self, entry: dict[str, Any], *, where: str) -> None:
+        for axis, fact in (entry.get("allergens") or {}).items():
+            if axis not in self.ALLERGENS:
+                raise ValueError(f"{where}: unknown allergen {axis!r}")
+            self._check_axis(fact, f"{where}.allergens.{axis}")
+        for axis, fact in (entry.get("diets") or {}).items():
+            if axis not in self.DIETS:
+                raise ValueError(f"{where}: unknown diet {axis!r}")
+            self._check_axis(fact, f"{where}.diets.{axis}")
+        if entry.get("gluten"):
+            self._check_axis(entry["gluten"], f"{where}.gluten")
+        for form_key, override in (entry.get("forms") or {}).items():
+            self._validate_entry(override, where=f"{where}.forms.{form_key}")
+        for component in entry.get("components") or []:
+            comp_key = component.get("key")
+            if comp_key not in self.facts:
+                raise ValueError(f"{where}: component key {comp_key!r} does not resolve")
+            if component.get("certainty") not in self.CERTAINTIES:
+                raise ValueError(f"{where}: component {comp_key!r} has bad certainty")
+            if component.get("certainty") != "unknown":
+                self._check_evidence(component.get("evidence"),
+                                     f"{where}.components.{comp_key}")
+
+    def _validate(self, rows: list[Any]) -> None:
+        keys: set[str] = set()
+        for row in rows:
+            key = row.get("key") if isinstance(row, dict) else None
+            if not key:
+                raise ValueError("identity row without a key")
+            if key in keys:
+                raise ValueError(f"duplicate identity key {key!r}")
+            keys.add(key)
+            self._index_name(str(key), str(key))
+            display = row.get("display")
+            if isinstance(display, str) and display:
+                self._index_name(display, str(key))
+            for syn in row.get("synonyms") or []:
+                self._index_name(str(syn), str(key))
+            entry = self.facts.get(str(key))
+            for form in row.get("forms") or []:
+                form_key = str(form.get("key") or "")
+                if not form_key:
+                    raise ValueError(f"identity {key!r}: form without a key")
+                for syn in form.get("synonyms") or []:
+                    self._index_form_name(str(syn), str(key), form_key)
+                override = (entry or {}).get("forms", {}).get(form_key)
+                if not isinstance(override, dict):
+                    raise ValueError(f"identity {key!r} form {form_key!r} "
+                                     "has no fact override")
+            if entry is None:
+                # A resolvable identity without a facts row stays loadable:
+                # verdicts on it FAIL CLOSED per ingredient (verify_claim),
+                # the same direction the dataset demonstrates with its own
+                # 'artisan-granola-bar' fail-closed case.
+                continue
+            self._validate_entry(entry, where=str(key))
+        for fkey, entry in self.facts.items():
+            if entry.get("key") != fkey:
+                raise ValueError(f"fact entry key mismatch: {fkey!r} vs {entry.get('key')!r}")
+
+    # -- lookups ------------------------------------------------------------
+
+    def resolve(self, name: str) -> tuple[str, str | None] | None:
+        """(identity key, form key) for one ingredient line name, or None."""
+        folded = str(name).strip().lower()
+        key = self._name_index.get(folded)
+        if key is None:
+            return None
+        form = self._form_index.get(folded)
+        return (key, form[1] if form else None)
+
+    def entry(self, key: str) -> dict[str, Any] | None:
+        """The facts row for one identity key (None when the row is absent)."""
+        return self.facts.get(key)
+
+    # -- loading ------------------------------------------------------------
+
+    @classmethod
+    def load(cls, repo_root: Path | None = None,
+             ) -> tuple["FLIngredientFacts | None", str]:
+        """Load the facts dataset; returns (store, provenance) or (None, reason).
+
+        Precedence: the scored tree's ``data/ingredient-facts/`` when
+        ``repo_root`` carries one, else the suite-pinned snapshot
+        (``canon/ingredient-facts/``, see canon/ingredient-facts/PROVENANCE.md).
+        Any parse or validation failure returns (None, reason) — callers fail
+        closed and every claim is held with this reason.
+        """
+        candidates: list[tuple[Path, str]] = []
+        if repo_root is not None:
+            candidates.append((Path(repo_root) / "data" / "ingredient-facts",
+                               "scored tree data/ingredient-facts"))
+        candidates.append((CANON_FACTS_DIR,
+                           f"suite-pinned snapshot canon/ingredient-facts "
+                           f"(overhaul/ingredient-facts @ {PINNED_FACTS_HEAD[:12]})"))
+        tried: list[str] = []
+        for data_dir, desc in candidates:
+            ids_path = data_dir / "identities.json"
+            facts_path = data_dir / "facts.json"
+            if not (ids_path.is_file() and facts_path.is_file()):
+                tried.append(f"{desc}: not present")
+                continue
+            try:
+                store = cls(json.loads(ids_path.read_text()),
+                            json.loads(facts_path.read_text()), desc)
+                return store, f"FLIngredientFacts: {desc}"
+            except (json.JSONDecodeError, ValueError, OSError) as exc:
+                tried.append(f"{desc}: invalid ({exc})")
+        return None, ("FLIngredientFacts unavailable (canonical source: branch "
+                      "overhaul/ingredient-facts, PR #127); tried: "
+                      + "; ".join(tried))
+
+
+def _axis_fact(entry: dict[str, Any], form: str | None, kind: str,
+               axis: str) -> dict[str, Any] | None:
+    """One axis fact for an ingredient: the product-form override when the
+    line names a form, else the base entry (per-axes merge, as the dataset's
+    conformance runner resolves)."""
+    if form:
+        override = (entry.get("forms") or {}).get(form)
+        if isinstance(override, dict):
+            fact = (override.get(f"{kind}s") or {}).get(axis)
+            if fact is not None:
+                return fact
+    return (entry.get(f"{kind}s") or {}).get(axis)
+
+
+def _gluten_fact(entry: dict[str, Any], form: str | None) -> dict[str, Any] | None:
+    """The gluten property fact (separate axis), form override first."""
+    if form:
+        override = (entry.get("forms") or {}).get(form)
+        if isinstance(override, dict) and override.get("gluten") is not None:
+            return override["gluten"]
+    return entry.get("gluten")
+
+
+def _claim_axis_verdicts(entry: dict[str, Any] | None, form: str | None,
+                         claim_name: str, line_name: str, key: str | None,
+                         ) -> tuple[list[str], list[str]]:
+    """Pure: one ingredient's facts row against one claim's axes.
+
+    Returns (conflict labels, hold reasons). Conflicts are fact states that
+    contradict the claim ('contains'/'violated'); holds are undecided
+    compositions (no facts row, unknown or absent axis state). Unknown
+    composition never means allowed.
+    """
+    conflicts: list[str] = []
+    holds: list[str] = []
+    where = (f"ingredient {line_name!r} (FLIngredientFacts {key!r})"
+             if key else f"ingredient {line_name!r}")
+    if entry is None:
+        holds.append(f"{where}: no facts row — source incomplete, fail closed")
+        return conflicts, holds
+    allergens, diets = CLAIM_AXES[claim_name]
+    for axis in allergens:
+        fact = _axis_fact(entry, form, "allergen", axis)
+        state = fact.get("state") if isinstance(fact, dict) else None
+        if state == "contains":
+            conflicts.append(f"allergen:{axis}")
+        elif state != "free":
+            holds.append(f"{where}: allergen {axis!r} state missing or unknown "
+                         "— held (unknown composition never means allowed)")
+    for axis in diets:
+        fact = _axis_fact(entry, form, "diet", axis)
+        state = fact.get("state") if isinstance(fact, dict) else None
+        if state == "violated":
+            conflicts.append(f"diet:{axis}")
+        elif state != "allowed":
+            holds.append(f"{where}: diet {axis!r} state missing or unknown "
+                         "— held (unknown composition never means allowed)")
+    if claim_name in GLUTEN_PROPERTY_CLAIMS:
+        fact = _gluten_fact(entry, form)
+        state = fact.get("state") if isinstance(fact, dict) else None
+        if state == "contains":
+            conflicts.append("gluten")
+        elif state == "unknown":
+            holds.append(f"{where}: gluten property unknown "
+                         "— held (unknown composition never means allowed)")
+        # 'free' clears only together with the diet axis above; an absent
+        # gluten property leaves the decision to the diet axis.
+    return conflicts, holds
+
+
+class AllergenScanner:
+    """Verify allergen/diet claims against FLIngredientFacts — thin consumer.
+
+    Verdicts come ONLY from the FLIngredientFacts dataset (loaded
+    scored-tree-first, else the pinned snapshot ``canon/ingredient-facts/``):
+    a claim clears only when every ingredient resolves to a facts row whose
+    claim-relevant axes are free/allowed with valid evidence and the
+    recomputed conflicts match the recorded evidence. When the facts source
+    is absent, or an ingredient has no identity or no facts row, or its
+    composition is unknown, every dependent claim is HELD — unchecked, with
+    a reason naming the absent or incomplete source. Unknown composition
+    never means allowed, and the fixture alias table (``allergens.json``)
+    never clears a claim: it only feeds R3 doneness classification.
+    """
+
+    def __init__(self, table: dict[str, Any],
+                 facts: "FLIngredientFacts | None" = None,
+                 facts_reason: str | None = None) -> None:
         self.table = table
         self.claim_defs: dict[str, dict[str, Any]] = table["claims"]
+        if facts is None and facts_reason is None:
+            self.facts, self.facts_reason = FLIngredientFacts.load()
+        else:
+            self.facts, self.facts_reason = facts, facts_reason
+
+    def ingredient_verdicts(self, recipe: dict[str, Any], claim_name: str,
+                            ) -> tuple[list[str], list[str], list[str]]:
+        """Per-ingredient verdicts for one claim type: (conflict labels,
+        conflicting ingredient names, hold reasons)."""
+        conflicts: list[str] = []
+        conflicted_names: list[str] = []
+        holds: list[str] = []
+        for line in recipe.get("ingredients", []):
+            name = str(line.get("name", "")).strip() if isinstance(line, dict) else ""
+            if not name:
+                continue
+            if self.facts is None:
+                holds.append(f"ingredient {name!r}: {self.facts_reason}")
+                continue
+            resolved = self.facts.resolve(name)
+            if resolved is None:
+                holds.append(f"ingredient {name!r}: no FLIngredientFacts identity "
+                             "(unknown name — composition unknown, fail closed)")
+                continue
+            key, form = resolved
+            entry = self.facts.entry(key)
+            line_conflicts, line_holds = _claim_axis_verdicts(
+                entry, form, claim_name, name, key)
+            if line_conflicts:
+                conflicted_names.append(name)
+            conflicts.extend(line_conflicts)
+            holds.extend(line_holds)
+        return conflicts, conflicted_names, holds
 
     def classify(self, recipe: dict[str, Any]) -> tuple[set[str], list[str]]:
         """Allergen classes for a recipe's ingredients, plus the names whose
@@ -596,24 +917,35 @@ class AllergenScanner:
         return self.classify(recipe)[0]
 
     def verify_claim(self, recipe: dict[str, Any], claim: dict[str, Any]) -> Any:
-        """True when the claim is backed by a matching recomputed scan;
-        a human-readable reason string when it is unchecked."""
+        """True when FLIngredientFacts composition backs the claim; a
+        human-readable reason string when it is HELD (unchecked)."""
         cname = claim.get("claim")
         if cname not in self.claim_defs:
             return f"unknown claim type {cname!r}"
         if not isinstance(claim.get("evidence"), dict):
             return "claim carries no evidence field"
-        _classes, unknown = self.classify(recipe)
-        if unknown:
-            return (f"ingredient composition unresolved for {unknown} "
-                    "(classification INCOMPLETE; unknown never means allowed)")
-        forbid = set(self.claim_defs[cname].get("forbids", []))
-        present = self.classes_for(recipe)
-        conflicts = sorted(present & forbid)
+        if cname not in CLAIM_AXES:
+            return (f"claim type {cname!r} maps to no FLIngredientFacts axes "
+                    "— held (fail closed: no composition path clears this claim)")
+        if self.facts is None:
+            return ("FLIngredientFacts unavailable (canonical source: branch "
+                    "overhaul/ingredient-facts, PR #127) — "
+                    f"{self.facts_reason}: claim HELD (fail closed — verdicts "
+                    "come only from FLIngredientFacts, never the fixture alias "
+                    "table; unknown composition never means allowed)")
+        conflicts, conflicted_names, holds = self.ingredient_verdicts(recipe, cname)
+        if holds:
+            return ("; ".join(holds) + " — claim HELD (fail closed; source: "
+                    f"{self.facts.source})")
         recorded = set(claim["evidence"].get("conflicts", []))
-        if conflicts != sorted(recorded):
-            return (f"evidence disagrees with recomputed scan "
-                    f"(recorded {sorted(recorded)}, recomputed {conflicts})")
+        if sorted(conflicts) != sorted(recorded):
+            return (f"evidence disagrees with FLIngredientFacts-recomputed "
+                    f"conflicts (recorded {sorted(recorded)}, recomputed "
+                    f"{sorted(conflicts)}; offending ingredients: "
+                    f"{sorted(set(conflicted_names))}")
         if conflicts:
-            return f"ingredients contain forbidden classes {conflicts}"
+            return (f"ingredients contain forbidden properties per "
+                    f"FLIngredientFacts {sorted(conflicts)} "
+                    f"({sorted(set(conflicted_names))}) — claim HELD (a "
+                    "contradicted claim is never machine-cleared)")
         return True
