@@ -46,6 +46,20 @@
         "kinds": ["failClosed"],
         "detail_contains": ["no lintable step lines"]
       }
+    },
+    {
+      "id": "unnumbered-attribution-line-stays-clean",
+      "record": {
+        "file": "conformance/cases-unnumbered-instruction-refusal.json",
+        "id": "cx-unnumbered-attribution",
+        "kind": "recipe",
+        "title": "Pickled onion salad",
+        "ingredients": "2 red onions, vinegar, sugar",
+        "instructions": "Source: https://recipes.example.example/synthetic-pickled-onion-salad\n1. Slice the onions into thin rings.\n2. Cover with the vinegar and sugar mixture."
+      },
+      "expect": {
+        "kinds": []
+      }
     }
   ]
 }

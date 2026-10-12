@@ -230,15 +230,17 @@ public struct StepLinter {
     }
 
     /// Splits "1. Do this\n2. Do that" style instructions into steps;
-    /// continuation lines join the step they belong to.
+    /// continuation lines join the step they belong to. An unnumbered line
+    /// before the first numbered one starts a step of its own: instruction
+    /// text the user reads is never dropped before linting.
     public static func numberedSteps(in instructions: String) -> [String] {
         var steps: [String] = []
         for line in instructions.components(separatedBy: .newlines) {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
             if trimmed.isEmpty { continue }
-            if startsWithStepNumber(trimmed) {
+            if startsWithStepNumber(trimmed) || steps.isEmpty {
                 steps.append(trimmed)
-            } else if !steps.isEmpty {
+            } else {
                 steps[steps.count - 1] += " " + trimmed
             }
         }
@@ -529,7 +531,19 @@ public extension StepLinter {
     /// safety field (empty dictionary when the records carry none).
     func findingsForRecipe(title: String, ingredients: String, instructions: String, safetyFields: [Int: Data] = [:]) -> [(stepIndex: Int, step: String, findings: [LintFinding])] {
         let context = title + " " + ingredients + " " + instructions
-        return Self.numberedSteps(in: instructions).enumerated().map { index, step in
+        let steps = Self.numberedSteps(in: instructions)
+        // Clause 7: instructions that decode but yield no lintable step lines
+        // cannot be evaluated — fail closed instead of reporting a clean pass.
+        if steps.isEmpty {
+            return [(0, "", [LintFinding(
+                kind: .failClosed, ruleID: "", phrase: "",
+                sourceAttribution: "", sourceURL: "", sourceQuote: "",
+                suggestedRewrite: "",
+                detail: "the record's instructions contain no lintable step lines — unparseable instruction text fails closed instead of passing clean",
+                currentText: instructions
+            )])]
+        }
+        return steps.enumerated().map { index, step in
             (index, step, findings(step: step, recipe: context, safetyField: safetyFields[index]))
         }
     }
