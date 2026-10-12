@@ -25,24 +25,35 @@ the ingredient, not that every use of it is verified.
 - App ingredients with no table identity: 0
 - Table: 279 pairs, 381 ingredients, 23 sources
 
+## Composition status (canonical facts store)
+
+Ingredient records by composition status in the canonical dataset (data/ingredient-facts):
+
+- Resolved in the canonical store (composition reviewed): 124
+- Unknown composition (no canonical record; rechecks ask the user under restrictions): 257
+
+Unknown-composition ingredients, first 40 by key:
+
+active_dry_yeast, agar, agave_syrup, allspice, almond_butter, almond_flour, almond_milk, anchovy_paste, ap_cornstarch_mix, ap_flour_leaven_mix, apple_cider, apple_juice, applesauce, aquafaba, arrowroot, avocado_oil, bacon_fat, baking_powder, baking_soda, baking_soda_cream_of_tartar, baking_soda_soured_milk, basil, beer, bittersweet_chips, black_pepper, bouillon_water, brewed_coffee, brisket, broth_beer_mix, broth_lemon_mix, broth_vinegar_mix, brown_rice, brown_sugar, buckwheat, buttered_cocoa_fat, buttermilk, cabbage, cake_flour, cane_syrup, canned_chicken, …
+
 ## Verified-swap coverage
 
 | Eater scope | Lines covered | Share |
 | --- | --- | --- |
 | No restrictions | 299 | 38.3% |
-| dairy-free | 265 | 33.9% |
-| egg-free | 299 | 38.3% |
-| fish-free | 299 | 38.3% |
-| gluten-free | 299 | 38.3% |
-| nut-free | 299 | 38.3% |
-| peanut-free | 299 | 38.3% |
-| pescatarian | 299 | 38.3% |
-| sesame-free | 299 | 38.3% |
-| shellfish-free | 299 | 38.3% |
-| soy-free | 278 | 35.6% |
-| tree-nut-free | 299 | 38.3% |
-| vegan | 265 | 33.9% |
-| vegetarian | 299 | 38.3% |
+| dairy-free | 90 | 11.5% |
+| egg-free | 21 | 2.7% |
+| fish-free | 21 | 2.7% |
+| gluten-free | 24 | 3.1% |
+| nut-free | 21 | 2.7% |
+| peanut-free | 21 | 2.7% |
+| pescatarian | 113 | 14.5% |
+| sesame-free | 21 | 2.7% |
+| shellfish-free | 21 | 2.7% |
+| soy-free | 0 | 0.0% |
+| tree-nut-free | 21 | 2.7% |
+| vegan | 90 | 11.5% |
+| vegetarian | 113 | 14.5% |
 
 ## Most common gaps
 
@@ -83,7 +94,7 @@ Evenly spaced across the sorted pair ids; verdicts recomputed by
 | buttermilk-acid-to-milk-vinegar | buttermilk → milk + vinegar | acid | verified | USU row verbatim. |
 | canola-oil-fat-to-coconut-oil | canola oil → coconut oil | fat | plausible | Same-oil-family convention; melting profile from SR data. |
 | chicken-breast-protein-to-chickpeas | chicken breast → chickpeas (cooked) | protein | plausible | PR #49 4-35: beans supported as meat replacements by extension guidance; 1.3 ratio is convention. |
-| chicken-protein-to-seitan | chicken breast → seitan | protein | unsupported | Convention; gluten class on substitute side (S-CONTRACT). |
+| chicken-protein-to-seitan | chicken breast → seitan | protein | plausible | Convention; gluten class on substitute side (S-CONTRACT). |
 | cilantro-aromatic-to-parsley | cilantro → fresh parsley | aromatic | plausible | Convention. |
 | cod-fish-to-haddock | cod fillets → haddock | protein | plausible | Convention; macro delta negligible (SR). |
 | cornstarch-thickener-to-arrowroot | cornstarch → arrowroot starch | thickener | plausible | Convention anchored on USU's starch family. |
@@ -109,7 +120,7 @@ Evenly spaced across the sorted pair ids; verdicts recomputed by
 | shortening-fat-to-butter | vegetable shortening → butter | fat | verified | USU chart row verbatim. |
 | sour-cream-fat-to-avocado | sour cream → avocado | fat | unknown | PR #49 50-26: blended avocado for creamy richness is convention; no primary source for the 0.8 ratio. |
 | soy-sauce-umami-to-maggi-seasoning | soy sauce → Maggi seasoning | umami | verified | NDSU record; gluten class retained on substitute per the same source's caveat. |
-| tofu-ricotta-binder-to-real-ricotta | tofu ricotta → ricotta | binder | unsupported | Convention; recorded for the dairy-allowed direction. |
+| tofu-ricotta-binder-to-real-ricotta | tofu ricotta → ricotta | binder | plausible | Convention; recorded for the dairy-allowed direction. |
 | vinegar-acid-to-lemon-juice | distilled white vinegar → lemon juice | acid | verified | USU row verbatim. |
 | whole-grain-mustard-liquid-to-dijon | whole-grain mustard → Dijon mustard | liquid | plausible | Convention. |
 | whole-milk-liquid-to-rice-milk | whole milk → rice milk | liquid | verified | Wyoming row verbatim. |

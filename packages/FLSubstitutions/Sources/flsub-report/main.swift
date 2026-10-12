@@ -1,3 +1,4 @@
+import FLIngredientFacts
 import Foundation
 import FLSubstitutions
 
@@ -10,13 +11,16 @@ import FLSubstitutions
 // iteration sorted; two runs are byte-identical.
 
 struct UsageError: Error, CustomStringConvertible {
-    var description: String { "usage: flsub-report --table <pairs.json> --recipes <data.json>" }
+    var description: String {
+        "usage: flsub-report --table <pairs.json> --recipes <data.json> [--facts <ingredient-facts-dir>]"
+    }
 }
 
-func parseArgs() throws -> (table: String, recipes: String) {
+func parseArgs() throws -> (table: String, recipes: String, facts: String?) {
     var args = Array(CommandLine.arguments.dropFirst())
     var table: String?
     var recipes: String?
+    var facts: String?
     while !args.isEmpty {
         let flag = args.removeFirst()
         switch flag {
@@ -26,12 +30,22 @@ func parseArgs() throws -> (table: String, recipes: String) {
         case "--recipes":
             guard !args.isEmpty else { throw UsageError() }
             recipes = args.removeFirst()
+        case "--facts":
+            guard !args.isEmpty else { throw UsageError() }
+            facts = args.removeFirst()
         default:
             throw UsageError()
         }
     }
     guard let tablePath = table, let recipesPath = recipes else { throw UsageError() }
-    return (tablePath, recipesPath)
+    // Default: the canonical dataset sits beside the table (data/substitutions
+    // -> data/ingredient-facts), mirroring SubstitutionTable.loadDefault().
+    let factsDefault = URL(fileURLWithPath: tablePath).deletingLastPathComponent()
+        .deletingLastPathComponent()
+        .appendingPathComponent("ingredient-facts")
+    let factsDir = facts
+        ?? (FileManager.default.fileExists(atPath: factsDefault.path) ? factsDefault.path : nil)
+    return (tablePath, recipesPath, factsDir)
 }
 
 // MARK: - data.json reading (positional arrays, JSONSerialization)
@@ -77,7 +91,12 @@ func loadRecipes(path: String) throws -> (names: [String: String], lines: [Recip
 func main() throws {
     let paths = try parseArgs()
     let tableData = try Data(contentsOf: URL(fileURLWithPath: paths.table))
-    let table = try SubstitutionTable(data: tableData)
+    // The canonical composition referee: without it every restricted lookup
+    // would fail closed for want of facts and the coverage table would lie.
+    let table = try SubstitutionTable(
+        data: tableData,
+        factsDirectory: paths.facts.map { URL(fileURLWithPath: $0) }
+    )
     let corpus = try loadRecipes(path: paths.recipes)
 
     var out: [String] = []
@@ -164,6 +183,40 @@ func main() throws {
     emit("- Distinct app ingredients referenced: \(distinctAppIngredients)")
     emit("- App ingredients with no table identity: \(unmapped.count)\(unmapped.isEmpty ? "" : " — " + unmapped.sorted().joined(separator: ", "))")
     emit("- Table: \(table.pairs.count) pairs, \(table.ingredients.count) ingredients, \(table.sources.count) sources")
+    emit("")
+
+    // Composition status from the canonical facts store (PR #114 fix list):
+    // unknown-composition ingredients are their own class so the formerly
+    // "empty class list" bulk resolves into reviewed facts vs explicit
+    // unknowns instead of hiding inside the label lists.
+    let factsStore = table.factsStore
+    var reviewed = 0
+    var unknownComposition: [String] = []
+    for key in table.ingredients.keys.sorted() {
+        let record = table.ingredient(key)
+        let probe = record?.factsKey ?? record?.display ?? key
+        if factsStore?.resolve(probe) != nil {
+            reviewed += 1
+        } else {
+            unknownComposition.append(key)
+        }
+    }
+    emit("## Composition status (canonical facts store)")
+    emit("")
+    if factsStore == nil {
+        emit("No facts dataset loaded — restricted coverage below is meaningless.")
+    } else {
+        emit("Ingredient records by composition status in the canonical dataset (data/ingredient-facts):")
+    }
+    emit("")
+    emit("- Resolved in the canonical store (composition reviewed): \(reviewed)")
+    emit("- Unknown composition (no canonical record; rechecks ask the user under restrictions): \(unknownComposition.count)")
+    if !unknownComposition.isEmpty {
+        emit("")
+        emit("Unknown-composition ingredients, first 40 by key:")
+        emit("")
+        emit("\(unknownComposition.prefix(40).joined(separator: ", "))\(unknownComposition.count > 40 ? ", …" : "")")
+    }
     emit("")
 
     emit("## Verified-swap coverage")
