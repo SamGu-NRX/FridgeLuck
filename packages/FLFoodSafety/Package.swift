@@ -27,7 +27,7 @@ let package = Package(
         ),
         .testTarget(
             name: "FLFoodSafetyTests",
-            dependencies: ["FLFoodSafety"],
+            dependencies: ["FLFoodSafety", "fl-safety-lint"],
             path: "Tests/FLFoodSafetyTests"
         ),
     ]
