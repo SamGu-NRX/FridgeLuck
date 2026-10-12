@@ -108,32 +108,48 @@ struct HealthProfile: Sendable, Codable {
     return array
   }
 
-  /// The explicitly selected allergen group identifiers, filtered to canonical groups.
-  /// Unknown or malformed strings are dropped, never interpreted.
+  /// Enforcement-grade classification of the stored group-selection JSON. A selection
+  /// is valid only when every element is a canonical group identifier (case and
+  /// whitespace normalized); malformed JSON or an unknown identifier is unreadable and
+  /// fails closed (see `effectiveAllergenExclusionIds`).
+  var allergenGroupSelectionEvaluation: AllergenExclusions.GroupSelectionEvaluation {
+    AllergenExclusions.evaluateGroupSelection(allergenSelectedGroups)
+  }
+
+  /// The explicitly selected canonical allergen group identifiers, for rendering and
+  /// prefill only. An unreadable selection contributes nothing here — it must not
+  /// prefill the picker as if it were a complete, trusted state. Enforcement never
+  /// routes through this property: `effectiveAllergenExclusionIds` fails closed.
   var parsedAllergenSelectedGroups: Set<String> {
-    guard let data = allergenSelectedGroups.data(using: .utf8),
-      let array = try? JSONDecoder().decode([String].self, from: data)
-    else {
+    switch allergenGroupSelectionEvaluation {
+    case .valid(let groups):
+      return Set(groups.map(\.rawValue))
+    case .unreadable:
       return []
     }
-    return Set(
-      AllergenExclusions.normalizedGroupIDs(from: Set(array)).map(\.rawValue))
   }
 
   /// True when the profile has no explicit group confirmation on record (all legacy
-  /// profiles land here after migration). Such profiles keep their explicit ingredient
-  /// exclusions but are asked to reconfirm groups; their exclusions are not presented
-  /// as complete.
+  /// profiles land here after migration), or when its stored group selection cannot be
+  /// read (malformed JSON or an unknown group identifier). Such profiles keep their
+  /// explicit ingredient exclusions but are asked to reconfirm groups; their
+  /// exclusions are not presented as complete.
   var allergenNeedsGroupConfirmation: Bool {
-    AllergenExclusions.needsGroupConfirmation(preferencesVersion: allergenPreferencesVersion)
+    if case .unreadable = allergenGroupSelectionEvaluation {
+      return true
+    }
+    return AllergenExclusions.needsGroupConfirmation(preferencesVersion: allergenPreferencesVersion)
   }
 
   /// Effective allergen exclusion set: members of the explicitly selected groups plus
-  /// the individually excluded ingredient IDs. Group intent is never reconstructed from
-  /// the individual IDs.
+  /// the individually excluded ingredient IDs. FAIL CLOSED: when the stored group
+  /// selection is malformed or names an unknown identifier, every curated core
+  /// ingredient is excluded until the profile reconfirms — an unreadable allergen
+  /// preference must never evaluate to "no restrictions". Group intent is never
+  /// reconstructed from the individual IDs.
   var effectiveAllergenExclusionIds: Set<Int64> {
     AllergenExclusions.effectiveExcludedIngredientIDs(
-      selectedGroups: parsedAllergenSelectedGroups,
+      evaluation: allergenGroupSelectionEvaluation,
       individualExclusions: Set(parsedAllergenIds)
     )
   }

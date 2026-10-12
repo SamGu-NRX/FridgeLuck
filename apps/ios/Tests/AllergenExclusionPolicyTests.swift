@@ -49,7 +49,7 @@ final class AllergenExclusionPolicyTests: XCTestCase {
 
   func testEffectiveExclusionsUnionGroupsAndIndividualIDs() {
     let effective = AllergenExclusions.effectiveExcludedIngredientIDs(
-      selectedGroups: ["egg"], individualExclusions: [15, 2])
+      evaluation: .valid(groups: [.egg]), individualExclusions: [15, 2])
     // Egg group excludes only bundled ID 1; bread (15) and rice (2) are individual picks.
     XCTAssertEqual(effective, [1, 15, 2])
   }
@@ -114,25 +114,46 @@ final class AllergenExclusionPolicyTests: XCTestCase {
 
   // MARK: - HealthProfile wiring
 
-  func testHealthProfileEffectiveExclusionsAndReconfirmationFlag() {
+  func testHealthProfileValidSelectionFiltersExactlyAsBefore() {
+    let profile = HealthProfile(
+      displayName: "Test", age: 30, goal: .general, dailyCalories: 2000,
+      proteinPct: 0.25, carbsPct: 0.45, fatPct: 0.30,
+      dietaryRestrictions: "[]",
+      allergenIngredientIds: "[15,2]",
+      allergenSelectedGroups: "[\"tree_nut\",\"Milk\"]",
+      allergenPreferencesVersion: AllergenExclusions.currentPreferencesVersion
+    )
+
+    XCTAssertFalse(profile.allergenNeedsGroupConfirmation)
+    XCTAssertEqual(
+      profile.parsedAllergenSelectedGroups,
+      ["tree_nut", "milk"],
+      "Normalization still filters case before groups are used.")
+    XCTAssertEqual(
+      profile.effectiveAllergenExclusionIds,
+      [49, 12, 13, 14, 32, 50, 15, 2],
+      "Tree Nuts + Milk group members, plus the individual picks (bread, rice).")
+  }
+
+  func testHealthProfileUnreadableSelectionFailsClosed() {
+    // One unknown identifier among valid ones poisons the whole selection: the
+    // profile's group intent cannot be read, so enforcement must exclude everything
+    // curated (never evaluate to "no groups") until reconfirmation.
     let profile = HealthProfile(
       displayName: "Test", age: 30, goal: .general, dailyCalories: 2000,
       proteinPct: 0.25, carbsPct: 0.45, fatPct: 0.30,
       dietaryRestrictions: "[]",
       allergenIngredientIds: "[15,2]",
       allergenSelectedGroups: "[\"tree_nut\",\"Milk\",\"junk\"]",
-      allergenPreferencesVersion: 0
+      allergenPreferencesVersion: AllergenExclusions.currentPreferencesVersion
     )
 
     XCTAssertTrue(profile.allergenNeedsGroupConfirmation)
-    XCTAssertEqual(
-      profile.parsedAllergenSelectedGroups,
-      ["tree_nut", "milk"],
-      "Normalization filters case and junk before groups are used.")
+    XCTAssertTrue(profile.parsedAllergenSelectedGroups.isEmpty)
     XCTAssertEqual(
       profile.effectiveAllergenExclusionIds,
-      [49, 12, 13, 14, 32, 50, 15, 2],
-      "Tree Nuts + Milk group members, plus the individual picks (bread, rice).")
+      Set(AllergenExclusions.coreMemberships.map(\.ingredientID)).union([15, 2]),
+      "Unreadable group intent fails closed: every curated core ingredient is excluded.")
   }
 
   func testConfirmedLegacyFreeProfileHasNoImplicitExclusions() {

@@ -225,6 +225,11 @@ extension AllergenExclusions {
   /// The set of bundled core ingredient IDs excluded by the explicitly selected groups.
   /// Accepts raw persisted strings; unrecognized group identifiers contribute nothing
   /// (they cannot be honored, and they must not be guessed at).
+  ///
+  /// This is a pure table query: unknown identifiers contribute nothing, so feeding a
+  /// raw stored selection straight through here would fail open. Enforcement callers
+  /// must classify the stored JSON first (`evaluateGroupSelection`) and compute the
+  /// exclusions through `failClosedExcludedCoreIngredientIDs`.
   static func coreIngredientIDs(excludedByGroups selectedGroups: Set<String>) -> Set<Int64> {
     let groupIDs = normalizedGroupIDs(from: selectedGroups)
     guard !groupIDs.isEmpty else { return [] }
@@ -236,14 +241,61 @@ extension AllergenExclusions {
     return excluded
   }
 
-  /// The profile's effective allergen exclusion set: members of the explicitly selected
-  /// groups UNION the individually excluded ingredient IDs. Group intent is never
+  /// Enforcement-grade classification of a profile's stored group-selection JSON
+  /// (`health_profile.allergen_selected_groups`).
+  ///
+  /// A selection is `valid` only when the JSON parses to an array of strings and every
+  /// element normalizes (trimmed, lowercased) to a canonical `AllergenGroupID`; the
+  /// confirmed "no groups" choice (`[]`) is valid. Anything else — unparseable JSON, a
+  /// non-string element, or an identifier no version of this app defines (e.g. written
+  /// by a newer release) — is `unreadable`: the group intent cannot be honored, and it
+  /// must never be interpreted as "no allergies".
+  enum GroupSelectionEvaluation: Equatable, Sendable {
+    case valid(groups: Set<AllergenGroupID>)
+    case unreadable
+  }
+
+  static func evaluateGroupSelection(_ json: String) -> GroupSelectionEvaluation {
+    guard let data = json.data(using: .utf8),
+      let array = try? JSONDecoder().decode([String].self, from: data)
+    else {
+      return .unreadable
+    }
+
+    var groups: Set<AllergenGroupID> = []
+    for raw in array {
+      let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+      guard let group = AllergenGroupID(rawValue: trimmed) else {
+        return .unreadable
+      }
+      groups.insert(group)
+    }
+    return .valid(groups: groups)
+  }
+
+  /// Fail-closed exclusions for a stored group selection. A valid selection excludes
+  /// exactly its groups' bundled members; an unreadable selection excludes the entire
+  /// curated core universe — nothing from the bundled catalog is served until the
+  /// profile reconfirms its groups.
+  static func failClosedExcludedCoreIngredientIDs(
+    from evaluation: GroupSelectionEvaluation
+  ) -> Set<Int64> {
+    switch evaluation {
+    case .valid(let groups):
+      return coreIngredientIDs(excludedByGroups: Set(groups.map(\.rawValue)))
+    case .unreadable:
+      return Set(coreMemberships.map(\.ingredientID))
+    }
+  }
+
+  /// The profile's effective allergen exclusion set: the fail-closed group exclusions
+  /// UNION the individually excluded ingredient IDs. Group intent is never
   /// reconstructed from the individual IDs, and individual IDs never widen a group.
   static func effectiveExcludedIngredientIDs(
-    selectedGroups: Set<String>,
+    evaluation: GroupSelectionEvaluation,
     individualExclusions: Set<Int64>
   ) -> Set<Int64> {
-    coreIngredientIDs(excludedByGroups: selectedGroups).union(individualExclusions)
+    failClosedExcludedCoreIngredientIDs(from: evaluation).union(individualExclusions)
   }
 
   /// Filters raw persisted group identifiers down to canonical ones
