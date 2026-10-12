@@ -56,12 +56,13 @@ records and every canonical doneness pattern (poultry 165F, ground poultry
 165F) must derive ALL FIVE metrics as pass. Then 17 plants re-introduce the
 PR #88 BLOCK defects one at a time (uncited conversions, flipped labels, a
 lying emitter, denied permissions, coverage holes, wrong-class/lower-temp/
-restless doneness checks, metadata-only doneness with a too-short rest,
+restless doneness checks, an oven setting passing as the internal reading,
+metadata-only doneness with a too-short rest,
 no-canon escapes, unclassified proteins, an invalid canonical rulebook,
 unknown-composition claims, mislabeled `weighed`, scoring the suite's own
 fixtures, and identity drift) and each must flip the
 derived status to fail. Prints `caught k/17 planted failures` +
-`controls m/1 held` and exits 0 only when every plant is caught and every
+`controls m/2 held` and exits 0 only when every plant is caught and every
 control holds. Real corpus files are never mutated.
 
 Run:
@@ -998,6 +999,25 @@ def self_test() -> int:
                                   "method": "thermometer", "source": _fsis_source()}}]
     st, _ = derived(*_planted_mini(_d1d))
     plant("D1d ground poultry checked at meat_ground 160F",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # D1e (reviewer-reproduced at 393b5de by calling rs.py directly): the
+    # oven setting in a thermometer sentence must never pass as the food's
+    # internal reading. 'Heat the oven to 350°F and check the chicken with a
+    # thermometer.' carries no reading of the chicken itself, yet the old
+    # sentence-level max() handed the 350 F oven setting to the poultry
+    # check and the recipe passed.
+    def _d1e(r: dict[str, Any]) -> None:
+        r["ingredients"][0] = {"name": "chicken thighs",
+                               "qty": {"kind": "source_grams", "grams": 300}}
+        r["steps"] = [{"text": "Heat the oven to 350°F and check the chicken "
+                               "with a thermometer.",
+                       "safety": {"class": "meat_poultry", "temp_f": 165,
+                                  "method": "thermometer",
+                                  "source": _fsis_source()}}]
+    st, _ = derived(*_planted_mini(_d1e))
+    plant("D1e poultry check clears on an oven setting in the same sentence",
           st["food_safety_linter_pass"] == "fail",
           f"food_safety_linter_pass={st['food_safety_linter_pass']}")
 
