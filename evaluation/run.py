@@ -1164,6 +1164,12 @@ def self_test(run_mod: Any | None = None) -> int:
             case.setdefault("case", f"{sid}:{case_path.stem}")
             case["suite_id"] = sid
             case["use_real_registry"] = True
+            # per-suite cases are their author's scope: expect_rows names the
+            # rows under test and honest rows may sit alongside them. The
+            # runner's OWN cases assert the exact row set instead — a
+            # positive control must not be 'caught' while an extra
+            # identity-contract failure hides beside it.
+            case.setdefault("allow_extra_rows", True)
             all_cases.append(case)
         skipped = []
         for case in all_cases:
