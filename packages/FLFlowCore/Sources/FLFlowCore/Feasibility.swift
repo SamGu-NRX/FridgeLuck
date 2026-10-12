@@ -19,6 +19,8 @@ public enum LineState: Hashable, Sendable {
     /// No quantity evidence exists on one side. Never resolved by guessing.
     case quantityUnknown
     /// No evidence needed: a policy staple assumed present without stock.
+    /// Assumed is never sufficient (SPEC 3.2): the line is a check prompt,
+    /// never a ready claim.
     case assumedStaple
     /// Quantity evidence exists but is stale (or never confirmed) — reconfirm
     /// before trusting it.
@@ -51,11 +53,14 @@ public struct FeasibilityResult: Sendable {
         self.lineFits = lineFits
     }
 
+    /// Ready means every required line is backed by real, current stock
+    /// evidence. An assumed staple is an assumption, never evidence
+    /// (review round 2, blocker 2; SPEC 3.2): it cannot back a ready claim.
     public var isReady: Bool {
         lineFits.allSatisfy { fit in
             switch fit.state {
-            case .sufficient, .assumedStaple: return true
-            case .short, .quantityUnknown, .needsReconfirming: return false
+            case .sufficient: return true
+            case .assumedStaple, .short, .quantityUnknown, .needsReconfirming: return false
             }
         }
     }
@@ -63,35 +68,40 @@ public struct FeasibilityResult: Sendable {
     /// Required line count in the summed bill.
     public var requiredCount: Int { lineFits.count }
 
-    /// Count of lines whose state lets tonight proceed (sufficient or staple).
+    /// Count of lines backed by sufficient shelf evidence. An assumed
+    /// staple is assumed, never sufficient (round 2, blocker 2), so it does
+    /// not count here — the option's assumed-staples list names it instead.
     public var sufficientCount: Int {
         lineFits.filter { fit in
             switch fit.state {
-            case .sufficient, .assumedStaple: return true
-            case .short, .quantityUnknown, .needsReconfirming: return false
+            case .sufficient: return true
+            case .assumedStaple, .short, .quantityUnknown, .needsReconfirming: return false
             }
         }.count
     }
 
-    /// Count of lines whose evidence shows the ingredient is present at all
-    /// (sufficient, assumed staple, or short-but-on-the-shelf). The reason
-    /// line may honestly call these "in stock"; shortfalls live in the
-    /// missing list. Unknown and stale evidence are not presence.
+    /// Count of lines whose evidence shows the ingredient on the shelf
+    /// (sufficient, or short-but-on-the-shelf). The reason line may honestly
+    /// call these "in stock"; shortfalls live in the missing list. An
+    /// assumed staple has no shelf evidence at all, and unknown and stale
+    /// evidence are not presence — none of them count (round 2, blocker 2).
     public var presentCount: Int {
         lineFits.filter { fit in
             switch fit.state {
-            case .sufficient, .assumedStaple, .short: return true
-            case .quantityUnknown, .needsReconfirming: return false
+            case .sufficient, .short: return true
+            case .assumedStaple, .quantityUnknown, .needsReconfirming: return false
             }
         }.count
     }
 
     /// Canonical names of required lines that need attention, in bill order.
+    /// An assumed staple needs attention too: it must be confirmed before
+    /// the cook relies on it (round 2, blocker 2).
     public var checkNames: [String] {
         lineFits.filter { fit in
             switch fit.state {
-            case .sufficient, .assumedStaple: return false
-            case .short, .quantityUnknown, .needsReconfirming: return true
+            case .sufficient: return false
+            case .assumedStaple, .short, .quantityUnknown, .needsReconfirming: return true
             }
         }.map(\.canonicalName)
     }

@@ -94,7 +94,11 @@ final class FeasibilityTests: XCTestCase {
         XCTAssertEqual(result.lineFits.first?.state, .needsReconfirming(lastConfirmedAt: nil))
     }
 
-    func testAssumedStapleCoversMissingLineAndIsSurfaced() throws {
+    func testAssumedStapleIsAssumedNeverSufficient() throws {
+        // SPEC 3.2 (review round 2, blocker 2): an assumed staple backs a
+        // line ONLY as an assumption. The line keeps its own state, never
+        // reports sufficient, never claims ready, is not counted present,
+        // and is named in the check prompts so the cook confirms it.
         let revision = TestBuilders.revision("a", lines: [
             TestBuilders.line("l1", "salt", TestBuilders.grams(5)),
         ])
@@ -102,8 +106,10 @@ final class FeasibilityTests: XCTestCase {
         let ledger = StockLedger(pantry: view)
         let result = try FeasibilityEngine.evaluate(revision: revision, servings: 2, pantry: view, ledger: ledger)
         XCTAssertEqual(result.lineFits.first?.state, .assumedStaple)
-        XCTAssertTrue(result.isReady, "a policy staple lets tonight proceed — surfaced as assumed, not as stock")
-        XCTAssertEqual(result.sufficientCount, result.requiredCount)
+        XCTAssertFalse(result.isReady, "assumed is never sufficient: the candidate is not ready")
+        XCTAssertEqual(result.sufficientCount, 0, "only evidence-backed lines count as sufficient")
+        XCTAssertEqual(result.presentCount, 0, "an assumed staple has no shelf evidence at all")
+        XCTAssertEqual(result.checkNames, ["salt"], "the assumption becomes a check prompt")
     }
 
     // MARK: Summation, garnish, servings

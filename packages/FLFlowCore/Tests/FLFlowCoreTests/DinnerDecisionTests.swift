@@ -139,6 +139,42 @@ final class DinnerDecisionTests: XCTestCase {
         XCTAssertEqual(proposal.options.count, 1, "no restriction, no composition check to resolve")
     }
 
+    // MARK: Review round 2, blocker 2 — assumed staples are never sufficient
+
+    func testAssumedStapleIsNeverClaimedReady() throws {
+        // A rice dish fully in stock except the policy staple salt, which
+        // has NO pantry line: the dish may still be proposed, but it must
+        // not claim "all lines in stock", and its assumption must be named
+        // and turned into a check prompt (SPEC 3.2, round 2, blocker 2).
+        let friedRice = TestBuilders.revision("fried-rice", lines: [
+            TestBuilders.line("l1", "rice", TestBuilders.grams(200)),
+            TestBuilders.line("l2", "salt", TestBuilders.grams(5)),
+        ])
+        let candidates = [(revision: friedRice, claims: RecipeClaims())]
+        let view = pantry(
+            [TestBuilders.pantryLine("rice", TestBuilders.grams(900), confirmedAt: t0)],
+            staples: ["salt"]
+        )
+        let proposal = try DinnerDecisionService.propose(
+            candidates: candidates,
+            context: context(),
+            pantry: view,
+            reservations: StockLedger(pantry: view),
+            now: t0
+        )
+        let option = try XCTUnwrap(proposal.options.first, "the dish stays proposed with the assumption surfaced")
+        XCTAssertFalse(
+            option.reasons.contains(where: { $0.contains("all 2 required lines are in stock") }),
+            "an assumed staple never backs a ready claim"
+        )
+        XCTAssertTrue(
+            option.reasons.contains(where: { $0.contains("assumes salt") }),
+            "the assumption is named, not hidden"
+        )
+        XCTAssertTrue(option.fit.checkNames.contains("salt"), "the staple becomes a check prompt, not a silent pass")
+        XCTAssertEqual(option.fit.sufficientCount, 1, "only evidence-backed lines count as sufficient")
+    }
+
     func testRestrictionsOfTwoEatersAreUnited() throws {
         // Eater 1 avoids peanuts, eater 2 avoids shellfish. A dish with
         // shellfish must be blocked even though eater 1 could eat it.
