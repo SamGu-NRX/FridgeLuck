@@ -42,6 +42,52 @@ final class AllergySweepTests: XCTestCase {
         XCTAssertGreaterThan(refusalChecks, 100, "sweep never exercised refusals — the test would be vacuous")
     }
 
+    /// The store-level sweep, independent of the table's own class lists
+    /// (review finding c: the label sweep cannot catch taxonomy errors
+    /// because it derives from the same lists). The canonical facts store
+    /// decides: wherever it settles a VIOLATION for the substitute, the
+    /// candidate must be refused.
+    func testStoreViolationsRefuseAcrossAllPairsAndRestrictions() throws {
+        let table = try Fixtures.table()
+        let store = try XCTUnwrap(table.factsStore, "the canonical facts store must load")
+        var checked = 0
+        for restrictionName in table.restrictionNames {
+            let axes = try RestrictionSet(names: [restrictionName], table: table).fl
+            for pair in table.pairs {
+                guard let substitute = table.ingredient(pair.substitute) else {
+                    continue
+                }
+                guard case .violated(let reason) = store.evaluate(
+                    ingredient: substitute.factsKey ?? substitute.display,
+                    restrictions: axes
+                ) else { continue }
+
+                for role in Fixtures.connectedRoles(pair) {
+                    let candidates = try table.swapCandidates(
+                        for: pair.original, role: role, restrictions: [restrictionName]
+                    )
+                    let candidate = try XCTUnwrap(
+                        candidates.first { $0.pair.id == pair.id },
+                        "\(restrictionName)/\(role): \(pair.id) missing from candidates"
+                    )
+                    XCTAssertTrue(
+                        candidate.isRefused,
+                        "\(restrictionName)/\(role): \(pair.id) offered despite store violation: \(reason)"
+                    )
+                    let offered = try table.swaps(
+                        for: pair.original, role: role, restrictions: [restrictionName]
+                    )
+                    XCTAssertFalse(
+                        offered.contains { $0.pair.id == pair.id },
+                        "\(restrictionName)/\(role): \(pair.id) offered despite store violation"
+                    )
+                    checked += 1
+                }
+            }
+        }
+        XCTAssertGreaterThan(checked, 20, "sweep never exercised a store violation — vacuous")
+    }
+
     func testUnrestrictedLookupsNeverRefuseAnything() throws {
         let table = try Fixtures.table()
         for pair in table.pairs {

@@ -18,16 +18,18 @@ public enum ContextRules {
     /// recipe's steps is `role`.
     ///
     /// Rules (documented in data/substitutions/SCHEMA.md):
-    /// - Explicit failure evidence wins: a `fails` entry for the role makes
-    ///   the verdict `unsupported` unless the ratio evidence for that role is
-    ///   sourced (a sourced row with a fails entry is eater-conditional, and
-    ///   the restriction refusal — not the verdict — carries the safety rule).
+    /// - A FUNCTIONAL failure row is absolute: the substitute cannot perform
+    ///   the role, and evidence for an amount does not create the function —
+    ///   a sourced ratio can never override it (review finding e).
+    /// - A CONDITIONAL failure row does not block the verdict: the swap works
+    ///   in general and is refused at the recheck layer for the eaters the
+    ///   row names (e.g. seitan as protein is refused for gluten-free).
     /// - `verified` requires BOTH sourced function evidence and sourced ratio
     ///   evidence (PR #49 semantics). A conflicting ratio never verifies.
     /// - Unknown function or ratio evidence stays `unknown`.
     /// - A pair with no row connecting it to the requested role is `unknown`
     ///   (or `unsupported` with the recorded reason when the pair records a
-    ///   failure for that role).
+    ///   FUNCTIONAL failure for that role).
     public static func verdict(for pair: Pair, requestedRole role: Role) -> Verdict {
         let ratioStatus: EvidenceStatus
         if role == pair.role {
@@ -35,10 +37,17 @@ public enum ContextRules {
         } else if let also = pair.supportedAlso.first(where: { $0.role == role }) {
             ratioStatus = also.status
         } else {
-            return pair.fails.contains { $0.role == role } ? .unsupported : .unknown
+            // No ratio row connects the pair to this role. A functional
+            // failure row still rules the role out; a conditional row is a
+            // restriction note, not evidence either way.
+            if let fail = pair.fails.first(where: { $0.role == role }), fail.kind == .functional {
+                return .unsupported
+            }
+            return .unknown
         }
 
-        if pair.fails.contains(where: { $0.role == role }) && ratioStatus != .sourced {
+        // Functional failures cannot be outvoted by ratio evidence.
+        if let fail = pair.fails.first(where: { $0.role == role }), fail.kind == .functional {
             return .unsupported
         }
 

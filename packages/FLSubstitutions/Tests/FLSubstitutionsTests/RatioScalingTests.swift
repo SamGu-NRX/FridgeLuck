@@ -15,17 +15,16 @@ final class RatioScalingTests: XCTestCase {
         let quarterCupsPerEgg = pair.ratio.value * 0.25
         XCTAssertEqual(eggs * quarterCupsPerEgg, 0.5, accuracy: 0.0001)
 
-        // Kitchen-unit bases are never silently converted to grams.
+        // Kitchen-unit bases are never silently converted to grams (review
+        // finding d: a volume ratio is not a mass ratio).
         let candidate = try table.swapCandidates(for: "egg", role: .binder, restrictions: [])
             .first { $0.pair.id == pair.id }
-        XCTAssertNil(candidate?.scaledSubstituteGrams(originalGrams: 50))
+        XCTAssertNil(candidate?.scaledSubstituteGrams(originalGrams: 50, role: .binder))
 
-        // Macro direction sanity: fruit puree loses the egg's protein and
-        // sodium and adds moisture carbs.
-        let delta = try XCTUnwrap(pair.macroDelta)
-        XCTAssertLessThan(delta.proteinG, 0)
-        XCTAssertLessThan(delta.sodiumMg, 0)
-        XCTAssertGreaterThan(delta.carbsG, 0)
+        // Macro arithmetic is GONE for this volume-basis row (review finding
+        // d): the delta is unknown, with the dimensional reason recorded.
+        XCTAssertNil(pair.macroDelta, "\(pair.id): delta on a quarter-cup-per-egg ratio")
+        XCTAssertFalse((pair.macroDeltaNullReason ?? "").isEmpty)
     }
 
     func testEggToMashedBananaWeightMathWithRecordedConflict() throws {
@@ -37,7 +36,7 @@ final class RatioScalingTests: XCTestCase {
         // 1 large egg is about 50 g -> 60 g mashed banana.
         let candidate = try table.swapCandidates(for: "egg", role: .binder, restrictions: [])
             .first { $0.pair.id == pair.id }
-        let scaled = try XCTUnwrap(candidate?.scaledSubstituteGrams(originalGrams: 50))
+        let scaled = try XCTUnwrap(candidate?.scaledSubstituteGrams(originalGrams: 50, role: .binder))
         XCTAssertEqual(scaled, 60.0, accuracy: 0.01)
 
         // The shipped 0.6 ratio conflicts with the supported ~1.2: the swap
@@ -48,12 +47,18 @@ final class RatioScalingTests: XCTestCase {
 
     /// Every computable macro delta must reproduce from the table's own USDA
     /// per-100 g values: delta = substitute(typical x ratio g) - original(typical g),
-    /// kcal rounded to integers and the rest to one decimal.
+    /// kcal rounded to integers and the rest to one decimal. Mass arithmetic
+    /// is only defined on a mass ratio (review finding d) — deltas now exist
+    /// exclusively on `weight`/`weight-cooked` rows.
     func testEveryMacroDeltaReproducesFromUSDAValues() throws {
         let table = try Fixtures.table()
         var checked = 0
         for pair in table.pairs {
             guard let delta = pair.macroDelta, let typical = pair.typicalAmountG else { continue }
+            XCTAssertTrue(
+                ["weight", "weight-cooked"].contains(pair.ratio.basis),
+                "\(pair.id): macro delta without a mass ratio"
+            )
             let original = try XCTUnwrap(table.ingredient(pair.original), pair.id)
             let substitute = try XCTUnwrap(table.ingredient(pair.substitute), pair.id)
             let om = try XCTUnwrap(original.macrosPer100g, "\(pair.id): original macros missing")
@@ -72,7 +77,24 @@ final class RatioScalingTests: XCTestCase {
             check(delta.sodiumMg, sm.sodiumMg * subG / 100 - om.sodiumMg * typical / 100, 0.11, "sodium_mg")
             checked += 1
         }
-        XCTAssertGreaterThan(checked, 150, "most pairs should carry a computable delta")
+        XCTAssertGreaterThan(checked, 30, "mass-basis pairs should still carry computable deltas")
+    }
+
+    /// Review finding d's data half: a row whose ratio is not a mass
+    /// statement never carries a macro delta — the delta is unknown, with an
+    /// explicit reason (partial fat retention included).
+    func testNonMassRatioRowsNeverCarryAMacroDelta() throws {
+        let table = try Fixtures.table()
+        var checked = 0
+        for pair in table.pairs where !["weight", "weight-cooked"].contains(pair.ratio.basis) {
+            XCTAssertNil(pair.macroDelta, "\(pair.id): macro delta on a non-mass ratio")
+            XCTAssertFalse(
+                (pair.macroDeltaNullReason ?? "").isEmpty,
+                "\(pair.id): nulled delta without a reason"
+            )
+            checked += 1
+        }
+        XCTAssertGreaterThan(checked, 100, "non-mass rows vanished — the migration invariant is unexercised")
     }
 
     func testNullMacroDeltasAlwaysExplainThemselves() throws {

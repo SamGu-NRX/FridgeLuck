@@ -1,3 +1,5 @@
+import FLIngredientFacts
+
 import Foundation
 
 /// Per-100 g nutrient values (USDA SR Legacy fields).
@@ -31,6 +33,12 @@ public struct IngredientRecord: Codable, Sendable {
     public let classes: [AllergenClass]
     public let allergenNote: String?
     public let aliases: [String]
+    /// The canonical FLIngredientFacts identity this record maps to (PR #114
+    /// fix list §3.2). Nil means no confidently matched fact record exists —
+    /// the recheck then tries the display name and otherwise fails closed
+    /// (ask the user). Never fuzzy-matched at runtime; the mapping is
+    /// reviewed data.
+    public let factsKey: String?
 
     enum CodingKeys: String, CodingKey {
         case display
@@ -40,6 +48,7 @@ public struct IngredientRecord: Codable, Sendable {
         case classes
         case allergenNote = "allergen_note"
         case aliases
+        case factsKey = "facts_key"
     }
 }
 
@@ -64,9 +73,28 @@ public struct Ratio: Codable, Sendable {
 }
 
 /// A second role the swap can serve, with that role's own ratio evidence.
+/// `ratio` records THAT role's actual ratio when it has been evidenced;
+/// scaling is never offered from the primary ratio for an alternative role
+/// (review finding f). Absent `ratio` means scaling is unavailable for the
+/// role until the amount is sourced and stored.
 public struct SupportedAlso: Codable, Sendable {
     public let role: Role
     public let status: EvidenceStatus
+    public let ratio: Ratio?
+}
+
+/// Why a recorded failure fails: outright, or only for the named eaters.
+///
+/// - `functional`: the substitute cannot perform the role at all (a flax gel
+///   does not aerate). A sourced ratio can never override this — evidence for
+///   an amount does not create the function (review finding e).
+/// - `conditional`: the swap works in general but is refused for the named
+///   restrictions (seitan works as protein but is refused for gluten-free
+///   eaters). The refusal is enforced at the recheck layer, separately from
+///   the context verdict.
+public enum FailsKind: String, Codable, Sendable {
+    case functional
+    case conditional
 }
 
 /// A role where the swap FAILS, and why (for example a flax egg fails as a
@@ -74,6 +102,9 @@ public struct SupportedAlso: Codable, Sendable {
 public struct FailsRole: Codable, Sendable {
     public let role: Role
     public let why: String
+    public let kind: FailsKind
+    /// For `conditional` rows: the restriction names that trigger the refusal.
+    public let restrictions: [String]?
 }
 
 /// One reviewed substitution pair. Every field is evidence-honest:
@@ -139,8 +170,69 @@ public struct SourceRecord: Codable, Sendable {
     }
 }
 
-/// A named restriction and the classes it forbids, following the shared
-/// Suite C contract (`evaluation/suites/recipes/allergens.json`).
+/// A named restriction: the classes it forbids (the table's label registry,
+/// used for evidence labels and diffing) and its mapping into the shared
+/// restriction vocabulary (`FLRestrictions`), which is the operative
+/// semantics the recheck evaluates (fix list §3.4).
 public struct Restriction: Codable, Sendable {
     public let forbids: [AllergenClass]
+    /// The shared-vocabulary restriction this name means. Unknown enum
+    /// strings are load errors (SubstitutionTable validation).
+    public let fl: FLMapping
+}
+
+/// The per-restriction bridge into FLIngredientFacts' vocabulary: which
+/// FLAllergen/FLDiet axes the restriction name stands for.
+///
+/// Codable is explicit over raw strings rather than synthesized over the
+/// FLIngredientFacts enums: unknown axis strings are LOADING ERRORS (thrown
+/// as DecodingError), and the JSON shape stays plain strings.
+public struct FLMapping: Codable, Sendable {
+    public let allergens: [FLAllergen]
+    public let diets: [FLDiet]
+
+    public init(allergens: [FLAllergen], diets: [FLDiet]) {
+        self.allergens = allergens
+        self.diets = diets
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case allergens
+        case diets
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let rawAllergens = try container.decode([String].self, forKey: .allergens)
+        var allergens: [FLAllergen] = []
+        for raw in rawAllergens {
+            guard let axis = FLAllergen(rawValue: raw) else {
+                throw DecodingError.dataCorruptedError(
+                    forKey: .allergens, in: container, debugDescription: "unknown FLAllergen '\(raw)'"
+                )
+            }
+            allergens.append(axis)
+        }
+
+        let rawDiets = try container.decode([String].self, forKey: .diets)
+        var diets: [FLDiet] = []
+        for raw in rawDiets {
+            guard let axis = FLDiet(rawValue: raw) else {
+                throw DecodingError.dataCorruptedError(
+                    forKey: .diets, in: container, debugDescription: "unknown FLDiet '\(raw)'"
+                )
+            }
+            diets.append(axis)
+        }
+
+        self.allergens = allergens
+        self.diets = diets
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(allergens.map(\.rawValue), forKey: .allergens)
+        try container.encode(diets.map(\.rawValue), forKey: .diets)
+    }
 }

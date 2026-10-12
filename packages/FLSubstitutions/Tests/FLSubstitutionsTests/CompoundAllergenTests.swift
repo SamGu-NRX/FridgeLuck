@@ -33,16 +33,15 @@ final class CompoundAllergenTests: XCTestCase {
             XCTAssertFalse(candidate.recheck.substituteClasses.contains(.gluten))
         }
 
-        // Tamari is the honest fix for a wheat allergy: accepted, and the
-        // recheck shows the gluten class leaving, not appearing.
-        let accepted = try table.swaps(for: "soy sauce", role: .umami, restrictions: ["gluten-free"])
+        // Generic tamari is NOT silently accepted anymore (review blocker b):
+        // its gluten status is unknown, so the recheck asks the user instead
+        // of trusting a "wheat-free" alias. Full case in ReviewerExamplesTests.
         let tamari = try XCTUnwrap(
-            accepted.first { $0.pair.id == "soy-sauce-umami-to-tamari" },
-            "tamari swap missing for gluten-free eater"
+            candidates.first { $0.pair.id == "soy-sauce-umami-to-tamari" },
+            "tamari candidate missing for gluten-free eater"
         )
-        XCTAssertTrue(tamari.recheck.removed.contains(.gluten))
-        XCTAssertTrue(tamari.recheck.introduced.isEmpty)
-        XCTAssertFalse(tamari.isRefused)
+        XCTAssertTrue(tamari.isRefused, "generic tamari offered to a gluten-free eater without label evidence")
+        XCTAssertTrue(tamari.needsConfirmation, "unknown gluten must ask the user, never pass silently")
     }
 
     func testCoconutAminosIntroducingTreeNutsIsRefusedForNutFreeEater() throws {

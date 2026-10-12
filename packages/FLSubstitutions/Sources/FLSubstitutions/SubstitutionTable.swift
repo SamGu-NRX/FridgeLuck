@@ -1,4 +1,5 @@
 import Foundation
+import FLIngredientFacts
 
 /// The reviewed substitution table loaded from `data/substitutions/pairs.json`.
 ///
@@ -16,6 +17,10 @@ public struct SubstitutionTable: Sendable {
     public let sources: [SourceRecord]
     public let ingredients: [String: IngredientRecord]
     public let pairs: [Pair]
+    /// The canonical composition store (fix list §3.2). Nil when the caller
+    /// supplies no facts directory — every recheck then fails closed (ask
+    /// the user) instead of passing on absent evidence.
+    public let factsStore: FLIngredientFactsStore?
 
     private let aliasToKey: [String: String]
     private let pairsByOriginal: [String: [Pair]]
@@ -53,8 +58,13 @@ public struct SubstitutionTable: Sendable {
     }
 
     /// Decode and validate. Fails loudly on any unknown enum value, dangling
-    /// reference, missing citation, or alias collision.
-    public init(data: Data) throws {
+    /// reference, missing citation, alias collision, or a restriction whose
+    /// forbidden classes its FL axes cannot screen.
+    ///
+    /// `factsDirectory` (when given) loads the canonical FLIngredientFacts
+    /// store for rechecks. Omit it and every recheck fails closed (ask the
+    /// user) rather than passing on absent evidence.
+    public init(data: Data, factsDirectory: URL? = nil) throws {
         let doc = try JSONDecoder().decode(Document.self, from: data)
 
         var problems: [String] = []
@@ -115,6 +125,42 @@ public struct SubstitutionTable: Sendable {
             }
         }
 
+        // Restriction definitions must be self-consistent with the FL axes
+        // (fix list §3.3): every class a restriction forbids must be screened
+        // by at least one FL axis the restriction maps to, so the label
+        // vocabulary and the canonical facts cannot silently drift apart.
+        for (name, restriction) in doc.restrictions.sorted(by: { $0.key < $1.key }) {
+            let axes = Set(restriction.fl.allergens.map(FLRestriction.allergen))
+                .union(restriction.fl.diets.map(FLRestriction.diet))
+            for c in restriction.forbids.sorted(by: { $0.rawValue < $1.rawValue }) {
+                let coverage = classCoverage[c] ?? []
+                if coverage.isDisjoint(with: axes) {
+                    problems.append(
+                        "restriction \(name): forbids \(c.rawValue) but its FL axes cannot screen it"
+                    )
+                }
+            }
+        }
+
+        // Conditional failure rows may only name known restrictions (review
+        // finding a: the refusal must resolve against the registry).
+        for pair in doc.pairs {
+            for fail in pair.fails where fail.kind == .conditional {
+                for r in fail.restrictions ?? [] where doc.restrictions[r] == nil {
+                    problems.append(
+                        "pair \(pair.id): conditional failure names unknown restriction \(r)"
+                    )
+                }
+            }
+            for also in pair.supportedAlso {
+                if let r = also.ratio, !(r.value.isFinite) || r.value < 0 {
+                    problems.append(
+                        "pair \(pair.id): supported_also ratio for \(also.role.rawValue) must be finite and non-negative"
+                    )
+                }
+            }
+        }
+
         if !problems.isEmpty {
             throw ValidationError(problems: problems.sorted())
         }
@@ -137,10 +183,15 @@ public struct SubstitutionTable: Sendable {
         }
         self.pairsByOriginal = byOriginal
         self.restrictions = doc.restrictions
+        if let factsDirectory {
+            self.factsStore = try FLIngredientFactsStore(dataDirectory: factsDirectory)
+        } else {
+            self.factsStore = nil
+        }
     }
 
-    public init(json: String) throws {
-        try self.init(data: Data(json.utf8))
+    public init(json: String, factsDirectory: URL? = nil) throws {
+        try self.init(data: Data(json.utf8), factsDirectory: factsDirectory)
     }
 
     /// The named restrictions with their forbidden-class sets.
@@ -178,7 +229,13 @@ public struct SubstitutionTable: Sendable {
             let candidate = dir.appendingPathComponent("data/substitutions/pairs.json")
             if FileManager.default.fileExists(atPath: candidate.path) {
                 let data = try Data(contentsOf: candidate)
-                return try SubstitutionTable(data: data)
+                // The canonical facts dataset sits beside the table:
+                // <root>/data/ingredient-facts next to <root>/data/substitutions.
+                let facts = dir
+                    .appendingPathComponent("data/ingredient-facts")
+                let factsDirectory = FileManager.default.fileExists(atPath: facts.path)
+                    ? facts : nil
+                return try SubstitutionTable(data: data, factsDirectory: factsDirectory)
             }
             let parent = dir.deletingLastPathComponent()
             guard parent != dir else { break }

@@ -1,8 +1,9 @@
 import Foundation
 
 /// One candidate swap for a lookup: the pair, the context verdict, and the
-/// allergen-recheck result. Refused candidates carry the violated classes;
-/// `swaps(for:role:restrictions:)` filters them out.
+/// allergen-recheck result. Refused candidates carry the refusal in the
+/// recheck (a settled store violation, unknown composition, or a conditional
+/// refusal for the eater); `swaps(for:role:restrictions:)` filters them out.
 public struct SwapCandidate: Sendable {
     public let pair: Pair
     /// The requested role this candidate was evaluated for.
@@ -11,17 +12,34 @@ public struct SwapCandidate: Sendable {
     public let recheck: AllergenRecheck
 
     public var isRefused: Bool { recheck.isRefused }
+    /// Unknown composition anywhere in the recheck — ask the user rather
+    /// than offering silently.
+    public var needsConfirmation: Bool { recheck.needsConfirmation }
     public var differenceText: String { pair.difference }
     public var preparation: [String] { pair.preparation }
     public var macroDelta: Macros? { pair.macroDelta }
+    /// The PRIMARY role's ratio (the pair's own role). For an alternative
+    /// requested role use `ratio(for:)` — the primary ratio must not leak
+    /// into another role's scaling (review finding f).
     public var ratio: Ratio { pair.ratio }
 
-    /// Substitute grams for a given original amount. Only defined when the
-    /// ratio basis is `weight`; other bases are kitchen-unit statements
-    /// (see the ratio note) and are never silently converted.
-    public func scaledSubstituteGrams(originalGrams: Double) -> Double? {
-        guard pair.ratio.basis == "weight" else { return nil }
-        return originalGrams * pair.ratio.value
+    /// The ratio evidenced for THIS role: the pair's own ratio for the
+    /// primary role, or the `supported_also` row's OWN ratio for an
+    /// alternative role. Nil for an alternative role whose row carries no
+    /// ratio yet — scaling is unavailable there until the amount is sourced
+    /// and stored, rather than reusing the primary ratio.
+    public func ratio(for role: Role) -> Ratio? {
+        if role == pair.role { return pair.ratio }
+        return pair.supportedAlso.first { $0.role == role }?.ratio
+    }
+
+    /// Substitute grams for a given original amount, for the requested role.
+    /// Only defined when THAT role's ratio basis is `weight`; other bases are
+    /// kitchen-unit statements (see the ratio note) and are never silently
+    /// converted.
+    public func scaledSubstituteGrams(originalGrams: Double, role: Role) -> Double? {
+        guard let ratio = ratio(for: role), ratio.basis == "weight" else { return nil }
+        return originalGrams * ratio.value
     }
 }
 
@@ -39,20 +57,23 @@ extension SubstitutionTable {
     ) throws -> [SwapCandidate] {
         let key = try resolveIngredientKey(ingredientName)
         let restrictionSet = try RestrictionSet(names: restrictions, table: self)
-        let originalClasses = sortedClasses(ingredients[key]?.classes ?? [])
+        guard let original = ingredients[key] else {
+            throw SubstitutionError.unknownIngredient(key)
+        }
 
         var candidates: [SwapCandidate] = []
         for pair in pairs(forOriginal: key) where pairConnects(pair, to: role) {
-            let substituteClasses = sortedClasses(ingredients[pair.substitute]?.classes ?? [])
-            let violated = sortedClasses(substituteClasses.filter { restrictionSet.forbidden.contains($0) })
-            let introduced = sortedClasses(substituteClasses.filter { !originalClasses.contains($0) })
-            let removed = sortedClasses(originalClasses.filter { !substituteClasses.contains($0) })
+            // Load validation guarantees every pair's keys resolve.
+            guard let substitute = ingredients[pair.substitute] else {
+                throw SubstitutionError.invalidData("pair \(pair.id): missing substitute record")
+            }
             let recheck = AllergenRecheck(
-                originalClasses: originalClasses,
-                substituteClasses: substituteClasses,
-                introduced: introduced,
-                removed: removed,
-                violated: violated
+                originalName: original.display,
+                original: original,
+                substitute: substitute,
+                set: restrictionSet,
+                table: self,
+                conditionalRefusal: conditionalRefusal(for: pair, role: role, set: restrictionSet)
             )
             candidates.append(
                 SwapCandidate(
@@ -73,8 +94,9 @@ extension SubstitutionTable {
     /// Ranked swaps that are usable in this context and safe for every eater:
     /// verdicts `verified` or `plausible` only — `unknown` stays unknown and
     /// is never offered as if it were evidence, `unsupported` is never
-    /// offered at all — and candidates whose substitute would violate a
-    /// restriction are refused. Use `swapCandidates` for the full picture.
+    /// offered at all — and candidates the recheck refuses (a settled
+    /// violation, unknown composition, or a conditional refusal) are filtered.
+    /// Use `swapCandidates` for the full picture.
     public func swaps(
         for ingredientName: String,
         role: Role,
@@ -96,7 +118,9 @@ extension SubstitutionTable {
     ) throws -> [SwapCandidate] {
         let key = try resolveIngredientKey(ingredientName)
         let restrictionSet = try RestrictionSet(names: restrictions, table: self)
-        let originalClasses = sortedClasses(ingredients[key]?.classes ?? [])
+        guard let original = ingredients[key] else {
+            throw SubstitutionError.unknownIngredient(key)
+        }
 
         var out: [SwapCandidate] = []
         for pair in pairs(forOriginal: key) {
@@ -104,24 +128,43 @@ extension SubstitutionTable {
             roles.append(contentsOf: pair.supportedAlso.map(\.role))
             for role in roles.sorted(by: { $0.rawValue < $1.rawValue }) {
                 guard ContextRules.verdict(for: pair, requestedRole: role) == .verified else { continue }
-                let substituteClasses = sortedClasses(ingredients[pair.substitute]?.classes ?? [])
-                let violated = sortedClasses(substituteClasses.filter { restrictionSet.forbidden.contains($0) })
-                guard violated.isEmpty else { continue }
+                // Load validation guarantees every pair's keys resolve.
+                guard let substitute = ingredients[pair.substitute] else {
+                    throw SubstitutionError.invalidData("pair \(pair.id): missing substitute record")
+                }
+                let recheck = AllergenRecheck(
+                    originalName: original.display,
+                    original: original,
+                        substitute: substitute,
+                    set: restrictionSet,
+                    table: self,
+                    conditionalRefusal: conditionalRefusal(for: pair, role: role, set: restrictionSet)
+                )
+                guard !recheck.isRefused else { continue }
                 out.append(SwapCandidate(
                     pair: pair,
                     requestedRole: role,
                     verdict: .verified,
-                    recheck: AllergenRecheck(
-                        originalClasses: originalClasses,
-                        substituteClasses: substituteClasses,
-                        introduced: sortedClasses(substituteClasses.filter { !originalClasses.contains($0) }),
-                        removed: sortedClasses(originalClasses.filter { !substituteClasses.contains($0) }),
-                        violated: []
-                    )
+                    recheck: recheck
                 ))
             }
         }
         return out
+    }
+
+    /// A CONDITIONAL failure row refuses the swap when the eater's
+    /// restrictions include one the row names. Kept separate from the
+    /// context verdict so sourced ratio evidence cannot launder a
+    /// restriction refusal into an offer (review finding e), and functional
+    /// rows never reach here — they make the verdict `unsupported` outright.
+    private func conditionalRefusal(for pair: Pair, role: Role, set: RestrictionSet) -> String? {
+        for fail in pair.fails where fail.role == role && fail.kind == .conditional {
+            let hits = (fail.restrictions ?? []).filter { set.names.contains($0) }
+            if !hits.isEmpty {
+                return "\(hits.joined(separator: ", ")): \(fail.why)"
+            }
+        }
+        return nil
     }
 
     private func pairConnects(_ pair: Pair, to role: Role) -> Bool {
