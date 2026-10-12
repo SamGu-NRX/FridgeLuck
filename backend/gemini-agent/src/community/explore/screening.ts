@@ -24,20 +24,34 @@ export interface ScreeningResult {
   readonly failures: readonly ScreeningFailure[];
   /** Union of the tags produced by passing stages (e.g. allergen tags). */
   readonly tags: readonly string[];
+  /**
+   * Every stage that ran, in order, with its verdict — the evaluation record
+   * approval later consults to prove a passing mandatory lint at the exact
+   * content this run judged.
+   */
+  readonly stageOutcomes: readonly ScreeningStageOutcome[];
+}
+
+/** One stage's verdict in a pipeline run. */
+export interface ScreeningStageOutcome {
+  readonly name: string;
+  readonly passed: boolean;
 }
 
 export async function runScreeningPipeline(stages: readonly ScreeningStage[], publication: ScreenablePublication): Promise<ScreeningResult> {
   const failures: ScreeningFailure[] = [];
   const tags: string[] = [];
+  const stageOutcomes: ScreeningStageOutcome[] = [];
   for (const stage of stages) {
     const verdict: ScreeningVerdict = await stage.run(publication);
+    stageOutcomes.push({ name: stage.name, passed: verdict.outcome === "pass" });
     if (verdict.outcome === "pass") {
       tags.push(...verdict.tags);
     } else {
       failures.push({ stage: verdict.stage, reasons: [...verdict.reasons] });
     }
   }
-  return { passed: failures.length === 0, failures, tags };
+  return { passed: failures.length === 0, failures, tags, stageOutcomes };
 }
 
 /**

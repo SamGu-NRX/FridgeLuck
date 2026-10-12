@@ -18,6 +18,7 @@
  * It is written only by the opt-in aggregation (a later part); the API never
  * returns the raw map, only floored counts.
  */
+import { createHash } from "node:crypto";
 import type { DocumentSnapshot } from "@google-cloud/firestore";
 import type { CommunityStore } from "../shared/store.js";
 import type { Clock } from "../shared/time.js";
@@ -30,8 +31,8 @@ import {
   type PublicationId,
   type RecipeRevisionId,
 } from "../shared/ids.js";
-import type { ModerationDecisionKind, PublicationRef, ScreeningStage } from "../shared/contracts.js";
-import { runScreeningPipeline, textHygieneStage, type ScreeningFailure } from "./screening.js";
+import type { ModerationDecisionKind, PublicationRef, ScreenablePublication, ScreeningStage } from "../shared/contracts.js";
+import { runScreeningPipeline, textHygieneStage, type ScreeningFailure, type ScreeningStageOutcome } from "./screening.js";
 
 export type PublicationStatus = "published" | "queued" | "rejected" | "withdrawn";
 
@@ -93,6 +94,25 @@ export interface PublicationRecord {
   readonly withdrawnAtIso: string | null;
   readonly rejectedAtIso: string | null;
   readonly optedInCooks: Readonly<Record<string, string>>;
+  /**
+   * The screening evaluation bound to the exact content it judged, recorded
+   * at creation. Null on records that predate it — such a record cannot
+   * prove a passing food-safety lint at its current revision, so approval
+   * refuses it (fail closed).
+   */
+  readonly screenedEvaluation: ScreenedEvaluation | null;
+}
+
+/**
+ * The record of one pipeline run: every stage that executed, in order, with
+ * its verdict, bound to a hash of the exact screenable content it judged.
+ * Approval consults it to verify a passing food-safety lint at the exact
+ * revision being approved — visibility still derives solely from moderation
+ * state; this only gates whether approval may change that state.
+ */
+export interface ScreenedEvaluation {
+  readonly contentHash: string;
+  readonly stages: readonly ScreeningStageOutcome[];
 }
 
 export interface PublicationDeps {
@@ -246,7 +266,63 @@ export function parsePublicationDoc(snap: DocumentSnapshot): PublicationRecord |
     withdrawnAtIso: readIsoOrNull(data, "withdrawnAtIso"),
     rejectedAtIso: readIsoOrNull(data, "rejectedAtIso"),
     optedInCooks: readOptedInCooks(data),
+    screenedEvaluation: readScreenedEvaluation(data),
   };
+}
+
+/**
+ * The recorded screening evaluation. Null when the field is absent (a record
+ * created before it existed); malformed data throws like any other malformed
+ * field.
+ */
+function readScreenedEvaluation(data: Record<string, unknown>): ScreenedEvaluation | null {
+  const raw = data["screenedEvaluation"];
+  if (raw === undefined || raw === null) {
+    return null;
+  }
+  if (typeof raw !== "object") {
+    throw errValidation("publication record field screenedEvaluation is malformed");
+  }
+  const value = raw as { contentHash?: unknown; stages?: unknown };
+  if (typeof value.contentHash !== "string" || value.contentHash.length === 0 || !Array.isArray(value.stages)) {
+    throw errValidation("publication record field screenedEvaluation is malformed");
+  }
+  const stages: ScreeningStageOutcome[] = [];
+  for (const entry of value.stages) {
+    if (typeof entry !== "object" || entry === null) {
+      throw errValidation("publication record field screenedEvaluation is malformed");
+    }
+    const outcome = entry as { name?: unknown; passed?: unknown };
+    if (typeof outcome.name !== "string" || typeof outcome.passed !== "boolean") {
+      throw errValidation("publication record field screenedEvaluation is malformed");
+    }
+    stages.push({ name: outcome.name, passed: outcome.passed });
+  }
+  return { contentHash: value.contentHash, stages };
+}
+
+/**
+ * The screenable projection of a publication — exactly the content the
+ * screening pipeline judged. Creation and the approval-side check both use
+ * it, so a hash recorded at creation still describes the record's content
+ * at approval time unless the record was mutated underneath.
+ */
+export function screenablePublicationOf(
+  publication: Pick<PublicationRecord, "title" | "summary" | "note" | "ingredientLines" | "steps">,
+): ScreenablePublication {
+  return {
+    title: publication.title,
+    summary: [publication.summary, publication.note].filter((s) => s !== null).join(" ").trim() || null,
+    ingredientLines: publication.ingredientLines,
+    steps: publication.steps,
+  };
+}
+
+/** A stable hash of the exact screenable content a pipeline run judged. */
+export function contentHashOf(screenable: ScreenablePublication): string {
+  return createHash("sha256")
+    .update(JSON.stringify([screenable.title, screenable.summary, screenable.ingredientLines, screenable.steps]))
+    .digest("hex");
 }
 
 /**
@@ -267,12 +343,7 @@ export async function createPublication(deps: PublicationDeps, input: NewPublica
   }
 
   const nowIso = toIso(deps.clock.now());
-  const screenable = {
-    title: input.title,
-    summary: [input.summary, input.note].filter((s) => s !== null).join(" ").trim() || null,
-    ingredientLines: input.ingredientLines,
-    steps: input.steps,
-  };
+  const screenable = screenablePublicationOf(input);
   const result = await runScreeningPipeline([textHygieneStage(), ...input.screeningStages], screenable);
   const failures: readonly ScreeningFailure[] = result.passed ? [] : result.failures;
   // Tags produced by passing stages — for the mandatory gate, the
@@ -298,6 +369,10 @@ export async function createPublication(deps: PublicationDeps, input: NewPublica
     campus: input.campus,
     status: result.passed ? "published" : "queued",
     screeningFailures: failures,
+    screenedEvaluation: {
+      contentHash: contentHashOf(screenable),
+      stages: result.stageOutcomes,
+    },
     createdAtIso: nowIso,
     publishedAtIso: result.passed ? nowIso : null,
     withdrawnAtIso: null,
@@ -319,6 +394,7 @@ export async function createPublication(deps: PublicationDeps, input: NewPublica
     campus: record.campus,
     status: record.status,
     screeningFailures: record.screeningFailures,
+    screenedEvaluation: record.screenedEvaluation,
     createdAtIso: record.createdAtIso,
     publishedAtIso: record.publishedAtIso,
     withdrawnAtIso: null,
@@ -409,11 +485,56 @@ export async function transitionOnDecision(deps: PublicationDeps, target: Public
       return;
     }
     if (decision === "approved") {
+      // Blocker 1: approval publishes only when the recorded screening
+      // proves a passing food-safety lint at exactly this content. A failed
+      // lint, a stale pass on an older revision, or a record that cannot
+      // prove the mandatory gate ran all refuse the approval — the decision
+      // does not land, the item stays open, and nothing is written.
+      const refusal = approvalRefusal(existing);
+      if (refusal !== null) {
+        throw errConflict(refusal);
+      }
       tx.update(doc, { status: "published", publishedAtIso: nowIso });
     } else {
       tx.update(doc, { status: "rejected", rejectedAtIso: nowIso });
     }
   });
+}
+
+/**
+ * Stage names owned by the food-safety gate (foodSafety/gate.ts) — the
+ * mandatory screening no human decision may overrule. Referenced by name so
+ * approval can verify they ran and passed at the exact content being
+ * approved; gate.ts internals are not touched.
+ */
+const MANDATORY_FOOD_SAFETY_STAGES = ["food-safety-lint", "compound-allergens"] as const;
+
+/**
+ * The approval-side food-safety check (PR #104 review blocker 1): approval
+ * may publish only when the recorded evaluation proves the mandatory
+ * food-safety lint passed at the exact content being approved. Returns null
+ * when approval may proceed, otherwise the refusal reason. Fails closed —
+ * no recorded evaluation, an evaluation bound to older content, a missing
+ * mandatory stage, or a failing one all refuse.
+ */
+export function approvalRefusal(record: PublicationRecord): string | null {
+  const evaluation = record.screenedEvaluation;
+  if (evaluation === null) {
+    return "approval refused: no screening evaluation is recorded for this publication, so a passing food-safety lint at its current revision cannot be verified";
+  }
+  if (evaluation.contentHash !== contentHashOf(screenablePublicationOf(record))) {
+    return "approval refused: the recorded screening was produced for an older revision of this content; approval requires a passing lint at the exact revision";
+  }
+  for (const stageName of MANDATORY_FOOD_SAFETY_STAGES) {
+    const outcome = evaluation.stages.find((stage) => stage.name === stageName);
+    if (outcome === undefined) {
+      return `approval refused: the mandatory food-safety stage "${stageName}" did not run for this publication`;
+    }
+    if (!outcome.passed) {
+      return `approval refused: the mandatory food-safety stage "${stageName}" does not pass at this revision`;
+    }
+  }
+  return null;
 }
 
 /**
