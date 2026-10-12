@@ -73,10 +73,45 @@ final class RenderTests: XCTestCase {
         let url = rendersDir.appendingPathComponent("fl-\(name).png")
         try png.write(to: url)
         XCTAssertTrue(FileManager.default.fileExists(atPath: url.path), "missing render \(url.lastPathComponent)")
-        // A blank render compresses to a few hundred bytes; the hairline
-        // loading-line renders (2 pt stroke in a 320×16 frame) land near
-        // 800 B at 2x. 500 separates a blank from any drawn content.
-        XCTAssertGreaterThan(png.count, 500, "suspiciously small PNG for \(name)")
+        try assertRendersContent(png, name: name)
+    }
+
+    /// Decodes PNG data and counts distinct pixel colours. A blank render
+    /// is exactly one flat colour; anything drawn adds antialiasing or a
+    /// second tone, so the content guard asks for at least two.
+    private func distinctPixelValues(in png: Data, name: String) throws -> Int {
+        #if canImport(AppKit)
+        let nsImage = try XCTUnwrap(NSImage(data: png), "undecodable PNG for \(name)")
+        let cgImage = try XCTUnwrap(nsImage.cgImage(forProposedRect: nil, context: nil, hints: nil), "no CGImage for \(name)")
+        #elseif canImport(UIKit)
+        let uiImage = try XCTUnwrap(UIImage(data: png), "undecodable PNG for \(name)")
+        let cgImage = try XCTUnwrap(uiImage.cgImage, "no CGImage for \(name)")
+        #endif
+        let width = cgImage.width
+        let height = cgImage.height
+        var pixels = [UInt32](repeating: 0, count: width * height)
+        let context = try XCTUnwrap(
+            CGContext(
+                data: &pixels,
+                width: width,
+                height: height,
+                bitsPerComponent: 8,
+                bytesPerRow: width * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            ),
+            "no bitmap context for \(name)"
+        )
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        return Set(pixels).count
+    }
+
+    private func assertRendersContent(_ png: Data, name: String) throws {
+        let distinct = try distinctPixelValues(in: png, name: name)
+        XCTAssertGreaterThanOrEqual(
+            distinct, 2,
+            "blank render for \(name): \(distinct) distinct pixel colour; a drawn component has at least two"
+        )
     }
 
     // MARK: Surfaces
@@ -330,6 +365,20 @@ final class RenderTests: XCTestCase {
         #else
         throw XCTSkip("Contact sheets assemble on macOS only; the render matrix still ran.")
         #endif
+    }
+
+    /// Teeth for the content guard: a deliberately blank view must FAIL
+    /// the check. The expected-failure wrapper records the trip; if the
+    /// guard ever stopped detecting blanks, this test fails instead.
+    func testBlankRenderTripsTheContentCheck() throws {
+        let blank = ImageRenderer(content: Color.white.frame(width: 32, height: 32))
+        blank.scale = 2
+        let png = try pngData(from: blank, name: "blank-control")
+        let distinct = try distinctPixelValues(in: png, name: "blank-control")
+        XCTAssertEqual(distinct, 1, "the blank control should be one flat colour")
+        XCTExpectFailure("the content check must reject the blank control") {
+            try assertRendersContent(png, name: "blank-control")
+        }
     }
 }
 #endif
