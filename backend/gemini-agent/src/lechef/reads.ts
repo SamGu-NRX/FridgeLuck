@@ -22,6 +22,7 @@ import type {
   ToolEnvelope
 } from "./types.js";
 import { computeCandidateFits } from "./fit.js";
+import { CameraLintError, lintCameraObservations } from "./cameraLint.js";
 
 /** Where candidate recipes come from (phone-side, bounded; the real client reads recipe cards). */
 export type RecipeCatalog = () => readonly RecipeContext[];
@@ -229,6 +230,15 @@ export interface CameraLookResult extends ToolEnvelope {
 export function requestCameraLook(deps: ReadDeps, device: CameraDevice, input: { maxClipSeconds?: number } = {}): CameraLookResult {
   const maxClipSeconds = Math.min(input.maxClipSeconds ?? 3, 3); // hard cap 3 s
   const capture = device.capture({ maxClipSeconds });
+  // SPEC 3.1 (binding): a camera look describes what a picture can show and
+  // says what it cannot assess — it never gives a safety verdict. The capture
+  // strings are free text, so the lint refuses verdict language here, failing
+  // closed instead of relaying it (safetyVerdict: null alone cannot prevent
+  // verdict language riding inside `observed`).
+  const lintFindings = lintCameraObservations(capture.observed);
+  if (lintFindings.length > 0) {
+    throw new CameraLintError(lintFindings);
+  }
   return {
     look: {
       observed: capture.observed,
