@@ -1010,6 +1010,10 @@ compound("doenjang", "Doenjang", [
     comp("rice-koji", "typical", ev("standard", "doenjang fermentation",
          "traditionally fermented with meju (soybean brick); rice or barley koji is common")),
 ], composition_complete=True,
+    gluten_override=f("unknown", "standard", "doenjang koji variants",
+                      "doenjang is also produced with barley koji (mugi), which contains gluten; "
+                      "generic doenjang carries no evidence ruling out barley-koji production, "
+                      "so gluten stays unknown"),
     note="barley-koji variants introduce gluten; meju-only fermentation does not")
 
 compound("ssamjang", "Ssamjang", [

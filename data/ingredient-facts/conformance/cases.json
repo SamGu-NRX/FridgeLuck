@@ -316,6 +316,16 @@
         "missingMention": ["composition of 'chilli-sauce' is incomplete"]
       },
       "note": "generic chilli sauce: thickeners and preservatives vary by brand — every listed component is vegan, but incomplete composition clears nothing, diets included"
+    },
+    {
+      "id": "doenjang-vs-glutenfree",
+      "ingredient": "doenjang",
+      "restrictions": { "diets": ["glutenFree"] },
+      "expected": {
+        "result": "unknown",
+        "missingMention": ["doenjang"]
+      },
+      "note": "generic doenjang: barley-koji (mugi) variants exist and barley carries gluten, so generic composition evidence cannot rule out barley-koji production — the gluten clear must stay unknown"
     }
   ]
 }

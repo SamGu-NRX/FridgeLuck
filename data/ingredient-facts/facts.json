@@ -3999,11 +3999,11 @@
         }
       },
       "gluten": {
-        "state": "free",
+        "state": "unknown",
         "evidence": {
           "kind": "standard",
-          "ref": "gluten is the protein of wheat, barley and rye",
-          "note": "closed composition (soybeans, salt, rice-koji); no gluten grain"
+          "ref": "doenjang koji variants",
+          "note": "doenjang is also produced with barley koji (mugi), which contains gluten; generic doenjang carries no evidence ruling out barley-koji production, so gluten stays unknown"
         }
       },
       "diets": {
@@ -4032,11 +4032,11 @@
           }
         },
         "glutenFree": {
-          "state": "allowed",
+          "state": "unknown",
           "evidence": {
             "kind": "standard",
-            "ref": "gluten is the protein of wheat, barley and rye",
-            "note": "closed composition (soybeans, salt, rice-koji); no gluten grain"
+            "ref": "doenjang koji variants",
+            "note": "doenjang is also produced with barley koji (mugi), which contains gluten; generic doenjang carries no evidence ruling out barley-koji production, so gluten stays unknown"
           }
         },
         "dairyFree": {
