@@ -40,6 +40,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -312,6 +313,9 @@ def run(out_dir: Path, repo_root: Path | None) -> dict[str, Any]:
         results["metrics"] = metric_list(ev, out_dir)
 
     results = suite_contract.validate_results(results, expected_suite_id="recipes")
+    run_id = os.environ.get("EVAL_RUN_ID")
+    if run_id:
+        results["run_id"] = run_id
     (out_dir / "results.json").write_text(json.dumps(results, indent=2) + "\n")
     for m in results["metrics"]:
         print(f"  {m['id']}: {m.get('status')} (value={m.get('value', '-')})")

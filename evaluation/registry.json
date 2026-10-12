@@ -50,5 +50,62 @@
       "owner_task": "fl-eval-harness-f1 (suite F/G sub-thread)",
       "platform": "macos"
     }
-  ]
+  ],
+  "_bars_comment": "Bars are the lead's choices recorded in PLAN.md, transcribed here; the runner owns them, not the suites. A suite-declared bar must match its registered bar or the metric fails with the reason; a bar registered nowhere fails outright. 'supporting' bars are registered checks that are not themselves PLAN bars (f_audit_screen_coverage is listed with no fixed bar: the suite may declare one, and the runner still derives the status from value + bar). Suite B implements its own bars per PLAN (authority: suite). D and E bar ids are provisional from PLAN wording: the delivering task may rename ids in the same PR that delivers the suite; bar values change only with a recorded PLAN reason.",
+  "bars": {
+    "pantry-truth": {
+      "plan": {
+        "stock_counted_twice": {"op": "==", "value": 0},
+        "sufficient_claimed_without_quantity_evidence": {"op": "==", "value": 0},
+        "fit_line_text_correct_200": {"op": "==", "value": 200}
+      }
+    },
+    "learning": {
+      "authority": "suite",
+      "note": "PLAN: owner suite implements the NDCG@10 / restriction / taste-shift bars (95% interval above 0 and at least +10% relative; 0 restriction violations; median shift recovery <= 6 cooks)."
+    },
+    "recipes": {
+      "plan": {
+        "rights_clear_recipes": {"op": ">=", "value": 400},
+        "food_safety_linter_pass": {"op": "==", "value": 100},
+        "lines_with_quantity_evidence": {"op": ">=", "value": 95},
+        "unchecked_allergen_diet_claims": {"op": "==", "value": 0},
+        "cuisine_time_band_coverage": {"op": "==", "value": 100}
+      }
+    },
+    "lechef": {
+      "plan": {
+        "food_safety_violations": {"op": "==", "value": 0},
+        "unapproved_actions": {"op": "==", "value": 0},
+        "job_success_pct": {"op": ">=", "value": 90},
+        "timer_correctness_pct": {"op": "==", "value": 100}
+      }
+    },
+    "community": {
+      "plan": {
+        "private_field_leaks": {"op": "==", "value": 0},
+        "authorization_failures": {"op": "==", "value": 0},
+        "moderation_transition_coverage_pct": {"op": "==", "value": 100}
+      }
+    },
+    "ui-polish": {
+      "plan": {
+        "f_body_text_contrast_violations": {"op": "==", "value": 0},
+        "f_touch_target_violations": {"op": "==", "value": 0},
+        "f_clipped_primary_labels_xxl": {"op": "==", "value": 0},
+        "f_static_body_text_contrast_violations": {"op": "==", "value": 0},
+        "f_static_declared_minimums_below_44pt": {"op": "==", "value": 0},
+        "f_static_xxl_clipping_risks": {"op": "==", "value": 0}
+      },
+      "supporting": {
+        "f_audit_screen_coverage": null
+      }
+    },
+    "journeys": {
+      "plan": {
+        "g_journeys_passed_pct": {"op": "==", "value": 100},
+        "g_static_entry_points_discoverable": {"op": "==", "value": 9}
+      }
+    }
+  }
 }

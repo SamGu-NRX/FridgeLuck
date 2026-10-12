@@ -22,6 +22,7 @@ Design rules (see SCORECARD.md for the full document):
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -132,7 +133,15 @@ def validate_results(payload: Any, expected_suite_id: str | None = None) -> dict
 
 
 def write_results(out_dir: Path, payload: dict[str, Any]) -> Path:
-    """Write a validated results payload to <out_dir>/results.json."""
+    """Write a validated results payload to <out_dir>/results.json.
+
+    When the runner is executing this suite it supplies its run id via env
+    EVAL_RUN_ID; the payload must carry it so the runner can reject stale
+    output.
+    """
+    run_id = os.environ.get("EVAL_RUN_ID")
+    if run_id:
+        payload["run_id"] = run_id
     validate_results(payload)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)

@@ -354,6 +354,12 @@ def audit_plans(manifest: dict, probe_out: dict) -> dict:
     rows_by_plan_recipe = {
         (r["planId"], r["recipeId"]): _snake(r) for r in probe_out["plans"]
     }
+    missing_probe_rows = [
+        {"plan_id": plan["plan_id"], "recipe_id": rid}
+        for plan in manifest["plans"]
+        for rid in plan["recipes"]
+        if (plan["plan_id"], rid) not in rows_by_plan_recipe
+    ]
     findings = []
     anomalies = []
     for plan in manifest["plans"]:
@@ -370,10 +376,15 @@ def audit_plans(manifest: dict, probe_out: dict) -> dict:
             findings.append(entry)
         if res["anomaly"]:
             anomalies.append({"plan_id": plan["plan_id"], "detail": res["anomaly"]})
+    expected_plans = manifest_builder.PLAN_CURATED + manifest_builder.PLAN_RANDOM
     return {
         "findings": findings,
         "n_findings": len(findings),
         "n_plans": len(manifest["plans"]),
+        "expected_plans": expected_plans,
+        "battery_complete": len(manifest["plans"]) == expected_plans,
+        "n_missing_probe_rows": len(missing_probe_rows),
+        "missing_probe_rows": missing_probe_rows[:20],
         "anomalies": anomalies,
     }
 
@@ -448,24 +459,49 @@ def run_suite(repo_root: Path, out_dir: Path) -> dict:
     except Exception:  # pragma: no cover - provenance only
         git_sha = None
 
-    m1 = suite_contract.metric(
-        METRIC_DEFS[0][0], METRIC_DEFS[0][1],
-        value=plans_audit["n_findings"], bar=suite_contract.eq(0),
-        detail=(
-            f"{plans_audit['n_plans']} plan scenarios (2 curated + "
-            f"{plans_audit['n_plans'] - 2} seeded) replayed through the production fit; "
-            f"each dinner asked independently, as production composes it "
-            f"(RecommendationEngine.findRecipes; AppDependencies maps inventory lots "
-            f"to IDs, quantities dropped). A finding = production calls both dinners "
-            f"makeable while the shared lot cannot cover both. "
-            f"{len(plans_audit['anomalies'])} anomalies."
-        ),
-        evidence={
-            "n_findings_total": plans_audit["n_findings"],
-            "findings_first_20": plans_audit["findings"][:20],
-            "anomalies": plans_audit["anomalies"],
-        },
+    battery_unsound = (
+        not plans_audit["battery_complete"]
+        or plans_audit["n_missing_probe_rows"] > 0
     )
+    if battery_unsound:
+        # A battery with missing rows reads absence as innocence: fail closed
+        # to not-run with the precise reason, never pass silently.
+        unsound = []
+        if not plans_audit["battery_complete"]:
+            unsound.append(
+                f"plan battery incomplete: manifest built {plans_audit['n_plans']} "
+                f"plan scenarios, the battery spec pins {plans_audit['expected_plans']}"
+            )
+        if plans_audit["n_missing_probe_rows"]:
+            unsound.append(
+                f"{plans_audit['n_missing_probe_rows']} plan-recipe probe rows missing "
+                "from the probe output; a missing row reads as unmeasured, never as "
+                "absence of a double count"
+            )
+        m1 = suite_contract.metric_not_run(
+            METRIC_DEFS[0][0], METRIC_DEFS[0][1],
+            "plan battery unsound, fail-closed: " + "; ".join(unsound),
+        )
+    else:
+        m1 = suite_contract.metric(
+            METRIC_DEFS[0][0], METRIC_DEFS[0][1],
+            value=plans_audit["n_findings"], bar=suite_contract.eq(0),
+            detail=(
+                f"{plans_audit['n_plans']} plan scenarios (2 curated + "
+                f"{plans_audit['n_plans'] - 2} seeded) replayed through the production fit; "
+                f"each dinner asked independently, as production composes it "
+                f"(RecommendationEngine.findRecipes; AppDependencies maps inventory lots "
+                f"to IDs, quantities dropped). A finding = production calls both dinners "
+                f"makeable while the shared lot cannot cover both. "
+                f"{len(plans_audit['anomalies'])} anomalies."
+            ),
+            evidence={
+                "n_findings_total": plans_audit["n_findings"],
+                "findings_first_20": plans_audit["findings"][:20],
+                "n_missing_probe_rows": plans_audit["n_missing_probe_rows"],
+                "anomalies": plans_audit["anomalies"],
+            },
+        )
     m2 = suite_contract.metric(
         METRIC_DEFS[1][0], METRIC_DEFS[1][1],
         value=pairs_audit["bad_lines"], bar=suite_contract.eq(0),

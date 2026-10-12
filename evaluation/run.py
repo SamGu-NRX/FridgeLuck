@@ -16,6 +16,11 @@ Contract (full document in evaluation/SCORECARD.md):
   suite_contract.py, so a broken or lying check cannot report pass.
 - The runner fail-closes: a suite that crashes, times out, or emits malformed
   results is not-run with the reason.
+- Bars come from the plan (evaluation/registry.json "bars"), not from the
+  suites: a suite-declared bar that differs from the registered bar, or that
+  is registered nowhere, fails the metric with the reason.
+- Executed suites must echo the runner's run id (env EVAL_RUN_ID) in their
+  results; the runner rejects stale output as not-run, never scores it.
 - Exit code: 0 when the scorecard was produced (pass/fail is data, reported
   honestly); 1 on infrastructure errors; 2 when --self-test catches an
   uncaught planted failure.
@@ -32,6 +37,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -98,11 +104,14 @@ def host_toolchain() -> dict[str, str]:
 # --------------------------------------------------------------------------
 
 
-def load_registry() -> list[dict[str, Any]]:
+def load_registry() -> dict[str, Any]:
     reg_path = EVAL_DIR / "registry.json"
-    reg = json.loads(reg_path.read_text())
-    return reg["suites"]
+    return json.loads(reg_path.read_text())
 
+
+def load_bars() -> dict[str, Any]:
+    """Plan bars live here, keyed by suite, not in the suites' own results."""
+    return load_registry().get("bars", {})
 
 def discover_suites() -> list[dict[str, Any]]:
     """Merge the expected registry with whatever suite directories exist.
@@ -113,7 +122,7 @@ def discover_suites() -> list[dict[str, Any]]:
     """
     suites_dir = EVAL_DIR / "suites"
     entries: dict[str, dict[str, Any]] = {}
-    for expected in load_registry():
+    for expected in load_registry()["suites"]:
         entry = dict(expected)
         entry["dir"] = suites_dir / entry["id"]
         entry["present"] = (entry["dir"] / "suite.json").is_file()
@@ -146,6 +155,95 @@ def discover_suites() -> list[dict[str, Any]]:
         letter = e.get("letter", "?")
         return (letter if isinstance(letter, str) else "z", e["id"])
     return [entries[k] for k in sorted(entries, key=lambda k: letter_key(entries[k]))]
+
+
+# --------------------------------------------------------------------------
+# bar governance: the plan's bars, not the suite's
+# --------------------------------------------------------------------------
+
+
+def _bar_core(bar: Any) -> tuple[Any, Any] | None:
+    if not isinstance(bar, dict):
+        return None
+    return (bar.get("op"), bar.get("value"))
+
+
+def _bars_for(suite_id: str) -> dict[str, Any]:
+    return load_bars().get(suite_id, {})
+
+
+def _bar_source(suite_id: str) -> str:
+    return _bars_for(suite_id).get("authority", "plan")
+
+
+def _registry_bar(suite_id: str, metric_id: str) -> tuple[dict[str, Any] | None, str | None]:
+    """The registered bar for a metric, and which section registered it.
+
+    Returns (bar, "plan" | "supporting") for a fixed bar, (None,
+    "supporting-free") when the metric is listed as supporting with no fixed
+    bar, and (None, None) when the metric is not registered at all.
+    """
+    section = _bars_for(suite_id)
+    sup = section.get("supporting", {})
+    if metric_id in sup:
+        bar = sup.get(metric_id)
+        return (dict(bar), "supporting") if isinstance(bar, dict) else (None, "supporting-free")
+    plan_bar = section.get("plan", {}).get(metric_id)
+    if isinstance(plan_bar, dict):
+        return dict(plan_bar), "plan"
+    return None, None
+
+
+def apply_plan_bars_pre(suite_id: str, payload: dict[str, Any]) -> None:
+    """Before derivation: a value with no declared bar takes the plan's bar."""
+    if _bar_source(suite_id) != "plan":
+        return
+    for m in payload.get("metrics", []):
+        if not isinstance(m, dict):
+            continue
+        rb, _group = _registry_bar(suite_id, str(m.get("id", "")))
+        if rb is not None and m.get("bar") is None and m.get("value") is not None:
+            m["bar"] = rb
+
+
+def apply_plan_bars_post(suite_id: str, payload: dict[str, Any]) -> None:
+    """After derivation: the registry's bar governs. A suite-declared bar that
+    differs from the registered bar, or that is registered nowhere, fails the
+    metric with the reason — a suite cannot lower its own bar and pass."""
+    if _bar_source(suite_id) != "plan":
+        return
+    for m in payload.get("metrics", []):
+        if not isinstance(m, dict):
+            continue
+        sb = m.get("bar")
+        if sb is None:
+            continue
+        rb, group = _registry_bar(suite_id, str(m.get("id", "")))
+        if group == "supporting-free":
+            continue
+        if rb is None:
+            m["status"] = "fail"
+            m["reason"] = (
+                f"metric {m.get('id')!r} declares a bar that is not in "
+                "evaluation/registry.json (no plan or supporting bar); "
+                "suites may not set their own bars"
+            )
+            continue
+        if _bar_core(sb) != _bar_core(rb):
+            m["declared_bar"] = sb
+            m["bar"] = rb
+            m["status"] = "fail"
+            m["reason"] = (
+                "suite-declared bar differs from the registered "
+                f"{group} bar (evaluation/registry.json is authoritative): "
+                f"declared {json.dumps(_bar_core(sb))}, registered {json.dumps(_bar_core(rb))}"
+            )
+
+
+def stamp_identity(payload: dict[str, Any], entry: dict[str, Any]) -> None:
+    """The runner stamps suite identity from the registry; suites do not."""
+    payload.setdefault("letter", entry.get("letter", "?"))
+    payload.setdefault("title", entry.get("title", entry["id"]))
 
 
 # --------------------------------------------------------------------------
@@ -186,17 +284,22 @@ def import_committed_results(entry: dict[str, Any], started: float) -> dict[str,
         )
     try:
         payload = json.loads(path.read_text())
+        apply_plan_bars_pre(entry["id"], payload)
         contract.validate_results(payload, expected_suite_id=entry["id"])
     except (json.JSONDecodeError, contract.ContractError) as exc:
         return not_run_suite(
             entry, f"committed results failed contract validation: {exc}", started
         )
+    apply_plan_bars_post(entry["id"], payload)
+    stamp_identity(payload, entry)
     payload["source"] = "imported"
     payload["imported_from"] = str(path.relative_to(REPO_ROOT))
     return payload
 
 
-def run_suite(entry: dict[str, Any], out_root: Path, timeout_s: int) -> dict[str, Any]:
+def run_suite(
+    entry: dict[str, Any], out_root: Path, timeout_s: int, run_id: str | None = None
+) -> dict[str, Any]:
     started = time.monotonic()
     platform = entry.get("platform", "any")
     host = "macos" if sys.platform.startswith("darwin") else "linux"
@@ -215,9 +318,15 @@ def run_suite(entry: dict[str, Any], out_root: Path, timeout_s: int) -> dict[str
         "--out", str(out_dir),
         "--repo-root", str(REPO_ROOT),
     ]
+    if run_id:
+        cmd += ["--run-id", run_id]
+    env = dict(os.environ)
+    if run_id:
+        env["EVAL_RUN_ID"] = run_id
     try:
         proc = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=timeout_s, cwd=str(suite_dir)
+            cmd, capture_output=True, text=True, timeout=timeout_s, cwd=str(suite_dir),
+            env=env,
         )
     except subprocess.TimeoutExpired:
         return not_run_suite(entry, f"suite exceeded its {timeout_s}s timeout", started)
@@ -235,10 +344,22 @@ def run_suite(entry: dict[str, Any], out_root: Path, timeout_s: int) -> dict[str
         return not_run_suite(entry, f"suite wrote no results.json: {tail or '(no output)'}", started)
     try:
         payload = json.loads(results_path.read_text())
+        if run_id is not None and payload.get("run_id") != run_id:
+            return not_run_suite(
+                entry,
+                f"stale results rejected: results.json carries run_id "
+                f"{payload.get('run_id')!r} but this run is {run_id!r}; a suite "
+                "exiting 0 must write fresh output carrying the runner's run id "
+                "(env EVAL_RUN_ID) every time",
+                started,
+            )
+        apply_plan_bars_pre(entry["id"], payload)
         contract.validate_results(payload, expected_suite_id=entry["id"])
     except (json.JSONDecodeError, contract.ContractError) as exc:
         return not_run_suite(entry, f"suite results failed contract validation: {exc}", started)
 
+    apply_plan_bars_post(entry["id"], payload)
+    stamp_identity(payload, entry)
     payload["source"] = "run"
     payload["duration_ms"] = int((time.monotonic() - started) * 1000)
     payload["timeout_s"] = timeout_s
@@ -250,7 +371,7 @@ def run_suite(entry: dict[str, Any], out_root: Path, timeout_s: int) -> dict[str
 # --------------------------------------------------------------------------
 
 
-def collect(selected: list[str] | None, out_root: Path) -> dict[str, Any]:
+def collect(selected: list[str] | None, out_root: Path, run_id: str) -> dict[str, Any]:
     suites_out = []
     for entry in discover_suites():
         sid = entry["id"]
@@ -267,16 +388,17 @@ def collect(selected: list[str] | None, out_root: Path) -> dict[str, Any]:
             suites_out.append(not_run_suite(entry, reason, time.monotonic()))
             continue
         timeout_s = int(entry.get("timeout_s", DEFAULT_TIMEOUT_S))
-        suites_out.append(run_suite(entry, out_root, timeout_s))
+        suites_out.append(run_suite(entry, out_root, timeout_s, run_id))
     return suites_out
 
 
-def build_scorecard(suites_out: list[dict[str, Any]]) -> dict[str, Any]:
+def build_scorecard(suites_out: list[dict[str, Any]], run_id: str) -> dict[str, Any]:
     counts = {"pass": 0, "fail": 0, "not-run": 0}
     for s in suites_out:
         for m in s.get("metrics", []):
             counts[m["status"]] += 1
     return {
+        "run_id": run_id,
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "git": git_info(),
         "toolchain": host_toolchain(),
@@ -340,10 +462,14 @@ def render_markdown(card: dict[str, Any]) -> str:
 
 
 def planted_suite(source: str) -> str:
-    return f"""import json, sys
+    return f"""import json, sys, os
 from pathlib import Path
 out = Path(sys.argv[sys.argv.index('--out') + 1])
 payload = {source}
+if isinstance(payload, dict) and 'run_id' not in payload:
+    env_run = os.environ.get('EVAL_RUN_ID')
+    if env_run is not None:
+        payload['run_id'] = env_run
 (out / 'results.json').write_text(json.dumps(payload))
 """
 
@@ -376,6 +502,20 @@ PLANTED = {
         {"id": "m1", "metric": "planted interval on equality bar", "value": 55,
          "bar": {"op": "==", "value": 200}, "interval": [0.2226, 0.3501]}
     ]),
+    # A suite exits 0 but writes stale results (wrong run id): the runner
+    # refuses to score old output as this run's evidence.
+    "stale-results": ("evaluation-stale", [
+        {"id": "m1", "metric": "planted stale results", "value": 0, "bar": {"op": "<=", "value": 0}}
+    ]),
+    # A suite weakening its own bar (0 -> 999) must not turn a violation into
+    # a pass: the plan bar in the registry governs.
+    "weakened-bar": ("evaluation-weakened", [
+        {"id": "m1", "metric": "planted weakened bar", "value": 5, "bar": {"op": "<=", "value": 999}}
+    ]),
+    # A suite inventing a bar that is not in the registry fails outright.
+    "unregistered-bar": ("evaluation-unregistered", [
+        {"id": "m1", "metric": "planted unregistered bar", "value": 5, "bar": {"op": ">=", "value": 1}}
+    ]),
 }
 
 # What the runner must report for each planted suite's single metric.
@@ -386,6 +526,9 @@ EXPECTED = {
     "liar": "fail",         # declared pass stripped -> derived fail
     "missing-inputs": NOT_RUN,
     "interval-equality": "fail",
+    "stale-results": NOT_RUN,   # wrong run id -> stale, rejected
+    "weakened-bar": "fail",     # registry bar governs; the weakened bar is a violation
+    "unregistered-bar": "fail", # suites may not set their own bars
 }
 
 
@@ -404,15 +547,29 @@ def self_test() -> int:
                 json.dumps({"id": sid, "letter": "T", "title": sid, "owner_task": "selftest",
                             "platform": "any", "timeout_s": 60})
             )
+            payload_src: dict[str, Any] = {"suite": sid, "metrics": metrics}
+            if name == "stale-results":
+                # writes a deliberately stale run id; the emitter template
+                # must keep it so the runner rejects the results
+                payload_src["run_id"] = "stale-run"
             (d / "suite.py").write_text(
-                planted_suite(json.dumps({"suite": sid, "metrics": metrics}))
+                planted_suite(json.dumps(payload_src))
                 + ("import os; os._exit(3)" if name == "crash" else "")
             )
         # run the collector core against the planted tree: import this file as a
         # module named `run` and point its module-level EVAL_DIR at the temp tree
         # (reloading would not work: the module body recomputes EVAL_DIR from __file__).
         # This module's own EVAL_DIR is untouched — `run` is a separate module object.
-        (tmp_root / "registry.json").write_text(json.dumps({"suites": []}))
+        (tmp_root / "registry.json").write_text(json.dumps({
+            "suites": [],
+            "bars": {
+                "evaluation-honest-fail": {"plan": {"m1": {"op": "<=", "value": 0}}},
+                "evaluation-honest-pass": {"plan": {"m1": {"op": "<=", "value": 0}}},
+                "evaluation-liar": {"plan": {"m1": {"op": "<=", "value": 0}}},
+                "evaluation-interval-equality": {"plan": {"m1": {"op": "==", "value": 200}}},
+                "evaluation-weakened": {"plan": {"m1": {"op": "<=", "value": 0}}},
+            },
+        }))
         import run as run_mod  # type: ignore  (this same file, under module name `run`)
 
         run_mod.EVAL_DIR = tmp_root
@@ -496,9 +653,10 @@ def main() -> int:
     out_root = Path(args.out)
     out_root.mkdir(parents=True, exist_ok=True)
 
+    run_id = f"r{time.time_ns():x}"
     started = time.monotonic()
-    suites_out = collect(selected, out_root)
-    card = build_scorecard(suites_out)
+    suites_out = collect(selected, out_root, run_id)
+    card = build_scorecard(suites_out, run_id)
     card["runner_duration_ms"] = int((time.monotonic() - started) * 1000)
 
     json_path = out_root / "scorecard.json"
