@@ -296,11 +296,24 @@ final class HomeFlowStateMapTests: XCTestCase {
   // MARK: - Compile-time contract: no tutorial progress in the input surface
 
   func testInputsCarryNoTutorialField() {
-    // The gate's old input was `tutorialProgress.isComplete`. The new input struct
-    // has no such field; this test pins the replacement contract by exercising the
-    // full memberwise surface the flow actually reads.
+    // The gate's old input was `tutorialProgress.isComplete`. The flow's inputs
+    // must never reintroduce tutorial progress: the state map is a pure function
+    // of repository outputs. This inspects the real stored surface of
+    // HomeFlowInputs, so adding a tutorial-shaped field breaks this test.
+    // (Structural by design — the behavioral guarantee is the map's purity,
+    // covered by the determinism and agreement tests throughout this file.)
     let inputs = makeInputs()
-    XCTAssertFalse(inputs.hasCompletedOnboarding == false && inputs.totalMealsCooked < 0)
+    let labels = Mirror(reflecting: inputs).children.compactMap(\.label)
+    XCTAssertFalse(labels.isEmpty, "HomeFlowInputs must expose its stored surface")
+    for label in labels {
+      XCTAssertFalse(
+        label.lowercased().contains("tutorial"),
+        "HomeFlowInputs must not carry tutorial progress (found field \(label))"
+      )
+    }
+    // The same inputs always re-map to the same state.
+    let state = HomeFlowStateMap.state(inputs: inputs, cookContext: nil)
+    XCTAssertEqual(HomeFlowStateMap.state(inputs: inputs, cookContext: nil), state)
   }
 
   // MARK: - Fork projection (the shipped view's gate seam)
@@ -309,11 +322,11 @@ final class HomeFlowStateMapTests: XCTestCase {
   /// presentation-neutral zeros.
   private func makeSnapshot(
     hasOnboarded: Bool,
-    ingredientCount: Int,
+    stockedIngredientCount: Int,
     totalMealsCooked: Int
   ) -> HomeDashboardSnapshot {
     HomeDashboardSnapshot(
-      ingredientCount: ingredientCount,
+      stockedIngredientCount: stockedIngredientCount,
       recipeCount: 12,
       hasOnboarded: hasOnboarded,
       currentStreak: 0,
@@ -338,7 +351,7 @@ final class HomeFlowStateMapTests: XCTestCase {
   }
 
   func testProjectionAgreesWithCanonicalMapForEmptyNew() {
-    let snapshot = makeSnapshot(hasOnboarded: true, ingredientCount: 0, totalMealsCooked: 0)
+    let snapshot = makeSnapshot(hasOnboarded: true, stockedIngredientCount: 0, totalMealsCooked: 0)
     let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
     let canonical = HomeFlowStateMap.state(
       inputs: makeInputs(hasOnboarded: true, items: [], totalMealsCooked: 0),
@@ -349,7 +362,7 @@ final class HomeFlowStateMapTests: XCTestCase {
   }
 
   func testProjectionAgreesWithCanonicalMapForPartlyStocked() {
-    let snapshot = makeSnapshot(hasOnboarded: true, ingredientCount: 2, totalMealsCooked: 0)
+    let snapshot = makeSnapshot(hasOnboarded: true, stockedIngredientCount: 2, totalMealsCooked: 0)
     let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
     let canonical = HomeFlowStateMap.state(
       inputs: makeInputs(
@@ -364,7 +377,7 @@ final class HomeFlowStateMapTests: XCTestCase {
   }
 
   func testProjectionAgreesWithCanonicalMapForReturning() {
-    let snapshot = makeSnapshot(hasOnboarded: true, ingredientCount: 0, totalMealsCooked: 3)
+    let snapshot = makeSnapshot(hasOnboarded: true, stockedIngredientCount: 0, totalMealsCooked: 3)
     let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
     let canonical = HomeFlowStateMap.state(
       inputs: makeInputs(items: [], totalMealsCooked: 3),
@@ -377,13 +390,22 @@ final class HomeFlowStateMapTests: XCTestCase {
   func testProjectionHidesStockBeforeOnboarding() {
     // A not-yet-onboarded device with rows present still resolves empty-new:
     // onboarding is the entry door, matching the read model's hiding rule.
-    let snapshot = makeSnapshot(hasOnboarded: false, ingredientCount: 5, totalMealsCooked: 0)
+    let snapshot = makeSnapshot(hasOnboarded: false, stockedIngredientCount: 5, totalMealsCooked: 0)
+    let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
+    XCTAssertEqual(projected, .emptyNew)
+  }
+
+  func testProjectionStockEvidenceIsInventoryNotCatalog() {
+    // recipeCount is a catalog statistic and never stock evidence: a populated
+    // catalog with an empty pantry is empty-new, not partly-stocked.
+    let snapshot = makeSnapshot(hasOnboarded: true, stockedIngredientCount: 0, totalMealsCooked: 0)
+    XCTAssertEqual(snapshot.recipeCount, 12, "the fixture models a populated catalog")
     let projected = HomeFlowStateMap.state(from: snapshot, cookContext: nil)
     XCTAssertEqual(projected, .emptyNew)
   }
 
   func testProjectionCookingWinsOverReturningAndStock() {
-    let snapshot = makeSnapshot(hasOnboarded: true, ingredientCount: 4, totalMealsCooked: 3)
+    let snapshot = makeSnapshot(hasOnboarded: true, stockedIngredientCount: 4, totalMealsCooked: 3)
     let projected = HomeFlowStateMap.state(
       from: snapshot,
       cookContext: HomeCookContext(recipeName: "Chili")
@@ -395,10 +417,10 @@ final class HomeFlowStateMapTests: XCTestCase {
     // Totality of the projection: every reachable shape resolves to a data state;
     // .error stays owned by the nil-snapshot branch in the view.
     let shapes: [HomeDashboardSnapshot] = [
-      makeSnapshot(hasOnboarded: true, ingredientCount: 0, totalMealsCooked: 0),
-      makeSnapshot(hasOnboarded: true, ingredientCount: 2, totalMealsCooked: 0),
-      makeSnapshot(hasOnboarded: true, ingredientCount: 0, totalMealsCooked: 9),
-      makeSnapshot(hasOnboarded: false, ingredientCount: 7, totalMealsCooked: 2),
+      makeSnapshot(hasOnboarded: true, stockedIngredientCount: 0, totalMealsCooked: 0),
+      makeSnapshot(hasOnboarded: true, stockedIngredientCount: 2, totalMealsCooked: 0),
+      makeSnapshot(hasOnboarded: true, stockedIngredientCount: 0, totalMealsCooked: 9),
+      makeSnapshot(hasOnboarded: false, stockedIngredientCount: 7, totalMealsCooked: 2),
     ]
     for snapshot in shapes {
       let state = HomeFlowStateMap.state(from: snapshot, cookContext: nil)

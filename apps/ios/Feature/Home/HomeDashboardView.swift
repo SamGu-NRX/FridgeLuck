@@ -19,7 +19,7 @@ struct HomeDashboardView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(LiveAssistantCoordinator.self) private var liveAssistantCoordinator
 
-  @StateObject private var viewModel: HomeDashboardViewModel
+  @StateObject private var viewModel: HomeFlowViewModel
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
 
   @State private var heroAppeared = false
@@ -72,7 +72,18 @@ struct HomeDashboardView: View {
     prefersAcceleratedOnboardingSpotlight: Bool = false,
     spotlightCoordinator: SpotlightCoordinator
   ) {
-    _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
+    _viewModel = StateObject(
+      wrappedValue: HomeFlowViewModel(
+        readModel: HomeFlowReadModel(
+          inventory: deps.inventoryRepository,
+          userData: deps.userDataRepository,
+          personalization: deps.personalizationService,
+          spoilage: deps.spoilageService,
+          recipes: deps.recipeRepository,
+          ingredients: deps.ingredientRepository
+        )
+      )
+    )
     self.onScan = onScan
     self.onQuestCTA = onQuestCTA
     self.onDemoMode = onDemoMode
@@ -98,29 +109,26 @@ struct HomeDashboardView: View {
     ScrollViewReader { scrollProxy in
       ScrollView {
         VStack(alignment: .leading, spacing: 0) {
-          if let snapshot = viewModel.snapshot {
-            // FL4 operational gate: the fork switches on the flow state map, not
-            // on tutorial progress — a user who stocked a real fridge but skipped
-            // the tour sees their kitchen. Tutorial cards are only for a genuinely
-            // empty-new kitchen with an incomplete tour; the cooking state comes
-            // solely from the Live Assistant coordinator's surfaced context.
+          if let snapshot = viewModel.snapshot, let inputs = viewModel.inputs {
+            // FL4 operational gate: the fork switches on the canonical state map
+            // over repository outputs, not on tutorial progress — a user who
+            // stocked a real fridge but skipped the tour sees their kitchen.
+            // Tutorial cards survive only as optional practice below the empty-new
+            // kitchen's dashboard; the cooking state comes solely from the Live
+            // Assistant coordinator's surfaced context.
             switch HomeFlowStateMap.state(
-              from: snapshot,
+              inputs: inputs,
               cookContext: liveAssistantCoordinator.matchedRecipeContext.map {
                 HomeCookContext(recipeName: $0.title)
               }
             ) {
             case .emptyNew:
-              if tutorialProgress.isComplete {
-                graduatedDashboard(snapshot: snapshot)
-              } else {
-                tutorialHome(snapshot: snapshot)
-              }
+              emptyNewDashboard(snapshot: snapshot)
             case .partlyStocked, .returning, .cooking:
               graduatedDashboard(snapshot: snapshot)
             case .error:
-              // Unreachable with a non-nil snapshot: .error is the nil-inputs
-              // state and the nil-snapshot branch above owns it. Kept for switch
+              // Unreachable with non-nil inputs: .error is the nil-inputs state
+              // and the nil-snapshot branch above owns it. Kept for switch
               // totality; renders the existing error state.
               errorState
                 .padding(.horizontal, AppTheme.Space.page)
@@ -314,17 +322,25 @@ struct HomeDashboardView: View {
     }
   }
 
-  // MARK: - Tutorial Home
+  // MARK: - Empty-new kitchen (dashboard + optional tutorial practice)
 
-  private func tutorialHome(snapshot: HomeDashboardSnapshot) -> some View {
-    let shouldFeatureLiveCook =
-      tutorialProgress.currentQuest == .cookWithLeChef
-      && liveAssistantCoordinator.matchedRecipeContext != nil
+  /// The empty-new kitchen: the operational dashboard always renders. The tutorial
+  /// lands below it as optional practice while the tour is incomplete — it no
+  /// longer gates the kitchen view.
+  private func emptyNewDashboard(snapshot: HomeDashboardSnapshot) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
+      graduatedDashboard(snapshot: snapshot)
+      if !tutorialProgress.isComplete {
+        optionalPracticeSection
+      }
+    }
+  }
 
-    return VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
-      HomeTutorialWelcomeHeader(heroAppeared: heroAppeared)
-        .padding(.horizontal, AppTheme.Space.page)
-
+  /// Optional tutorial practice: the same progress, quest, and quick-start pieces
+  /// the tutorial landing uses (including their spotlight anchors), without the
+  /// welcome header that belongs to the full-screen landing.
+  private var optionalPracticeSection: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
       TutorialProgressView(progress: tutorialProgress)
         .padding(.horizontal, AppTheme.Space.page)
         .id("progressView")
@@ -332,25 +348,14 @@ struct HomeDashboardView: View {
         .opacity(heroAppeared ? 1 : 0)
         .offset(y: heroAppeared ? 0 : 10)
 
-      if shouldFeatureLiveCook, let recipeContext = liveAssistantCoordinator.matchedRecipeContext {
-        HomeLiveAssistantSection(
-          recipeContext: recipeContext,
-          isTutorialActive: true,
-          onOpenAssistant: onOpenAssistant
-        )
-        .padding(.horizontal, AppTheme.Space.page)
-        .id("liveAssistantEntry")
-        .spotlightAnchor("liveAssistantEntry")
-      } else {
-        HomeTutorialQuestSection(
-          tutorialProgress: tutorialProgress,
-          tutorialStorageString: tutorialStorageString,
-          heroAppeared: heroAppeared,
-          reduceMotion: reduceMotion,
-          onQuestAction: handleQuestAction
-        )
-        .padding(.horizontal, AppTheme.Space.page)
-      }
+      HomeTutorialQuestSection(
+        tutorialProgress: tutorialProgress,
+        tutorialStorageString: tutorialStorageString,
+        heroAppeared: heroAppeared,
+        reduceMotion: reduceMotion,
+        onQuestAction: handleQuestAction
+      )
+      .padding(.horizontal, AppTheme.Space.page)
 
       if tutorialProgress.completedCount == 0 {
         HomeTutorialQuickStartHint()
@@ -456,7 +461,7 @@ struct HomeDashboardView: View {
         .id("myRhythm")
         .spotlightAnchor("myRhythm")
 
-      if snapshot.ingredientCount == 0 {
+      if snapshot.stockedIngredientCount == 0 {
         HomeGraduatedHeroSection(
           heroAppeared: heroAppeared,
           onDemoMode: onDemoMode

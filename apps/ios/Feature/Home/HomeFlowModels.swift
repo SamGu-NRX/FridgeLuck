@@ -115,6 +115,9 @@ enum HomeFlowStateMap {
     guard let inputs else { return .error }
     if let cookContext { return .cooking(cookContext) }
     if inputs.totalMealsCooked > 0 { return .returning }
+    // NOTE: `inventoryItems` is quantity evidence — active lots with remaining
+    // grams > 0. The snapshot projection below reads the same evidence from
+    // `stockedIngredientCount`, so both paths agree.
     if inputs.inventoryItems.isEmpty { return .emptyNew }
     return .partlyStocked
   }
@@ -226,6 +229,11 @@ extension HomeFlowStateMap {
   /// evaluated over the dashboard snapshot the sections already consume plus the
   /// view-supplied cook context.
   ///
+  /// `stockedIngredientCount` carries the same quantity evidence as
+  /// `inventoryItems` — distinct ingredients with active inventory quantity
+  /// (remaining grams > 0) — so both paths resolve the same state. A populated
+  /// recipe catalog with an empty pantry is empty-new, not partly-stocked.
+  ///
   /// The canonical `HomeFlowInputs` path remains the redesigned Home's entry point;
   /// this projection exists so the shipped view can switch its fork on the map
   /// without re-plumbing the sections. It never reports `.error`: a non-nil
@@ -233,6 +241,7 @@ extension HomeFlowStateMap {
   /// nil-snapshot/loading/error branches keep owning that state. Tutorial
   /// progress is deliberately not an input — the view decides what an `.emptyNew`
   /// kitchen displays.
+  ///
   static func state(
     from snapshot: HomeDashboardSnapshot,
     cookContext: HomeCookContext?
@@ -246,7 +255,7 @@ extension HomeFlowStateMap {
     if snapshot.totalMealsCooked >= 1 {
       return .returning
     }
-    if snapshot.ingredientCount > 0 {
+    if snapshot.stockedIngredientCount > 0 {
       return .partlyStocked
     }
     return .emptyNew

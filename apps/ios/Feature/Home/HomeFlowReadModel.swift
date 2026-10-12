@@ -5,10 +5,10 @@ import FLFeatureLogic
 
 // The Home flow read layer (FL4).
 //
-// `HomeFlowReadModel` reads the same public repository APIs, in the same order, as
-// HomeDashboardViewModel did, and produces both shapes the flow needs in one pass:
-// `HomeFlowInputs` for the state map and `HomeDashboardSnapshot` for the existing
-// dashboard sections.
+// `HomeFlowReadModel` reads the same public repository APIs, in the same order,
+// Home's dashboard load has always used, and produces both shapes the flow needs in
+// one pass: `HomeFlowInputs` for the state map and `HomeDashboardSnapshot` for the
+// existing dashboard sections.
 //
 // This file is SwiftUI- and Combine-free so the `home-flow-check` package can
 // compile and test it on Linux against the real repositories (see
@@ -97,7 +97,8 @@ struct HomeFlowReadModel: HomeFlowReading {
   /// The single load pass. Synchronous repository reads, MainActor-bound, identical
   /// in behavior to the load this layer succeeded.
   func load() async throws -> HomeFlowReadResult {
-    let ingredientCount = try ingredients.count()
+    // `ingredients` stays injected for the composition work pending the canonical
+    // FLIngredientFacts package; the catalog count no longer feeds this pass.
     let recipeCount = try recipes.count()
     let hasOnboarded = try userData.hasCompletedOnboarding()
     let totalMealsCooked = try userData.totalMealsCooked()
@@ -127,14 +128,24 @@ struct HomeFlowReadModel: HomeFlowReading {
     let todayMacros = try userData.todayMacros()
 
     // Fetched once for both the recommendation assembly and the state-map inputs.
+    // Stock evidence comes from inventory lots, never the recipe catalog: fetch
+    // active items whenever onboarding is complete, regardless of catalog size. A
+    // populated catalog with an empty pantry must stay an empty-new kitchen.
     let activeItems: [InventoryActiveItem] =
-      (hasOnboarded && ingredientCount > 0)
+      hasOnboarded
       ? try inventory.fetchAllActiveItems()
       : []
+    // Quantity evidence: distinct ingredients with remaining grams > 0. This — not
+    // IngredientRepository.count() — is what Home treats as "stocked".
+    let stockedIngredientCount = Set(
+      activeItems
+        .filter { $0.totalRemainingGrams > 0 }
+        .map(\.ingredientId)
+    ).count
 
     var primary: HomeRecommendation?
     var fallbacks: [HomeRecommendation] = []
-    if hasOnboarded, ingredientCount > 0 {
+    if hasOnboarded, stockedIngredientCount > 0 {
       let ingredientIds = Set(activeItems.map(\.ingredientId))
       if !ingredientIds.isEmpty {
         let effectiveIds = RecommendationPolicy.effectiveIngredientIDs(from: ingredientIds)
@@ -180,7 +191,7 @@ struct HomeFlowReadModel: HomeFlowReading {
     }
 
     let snapshot = HomeDashboardSnapshot(
-      ingredientCount: ingredientCount,
+      stockedIngredientCount: stockedIngredientCount,
       recipeCount: recipeCount,
       hasOnboarded: hasOnboarded,
       currentStreak: currentStreak,
