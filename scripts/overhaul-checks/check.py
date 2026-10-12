@@ -14,8 +14,11 @@ Suites:
   fixtures           FixtureContractTests (core fixture integrity)
   sharing            CookSharingTests (share-card round-trips, day contract)
   round2-validation  ShareCardDecodeValidationTests + ConstructedPayloadValidationTests
-  imports            the import-boundary checker (import_rules.py)
   all                the full swift test bundle
+  core               the FridgeLuckCore tests AND the fixture check
+  data               scripts/data/check_core_fixtures.py
+  backend            bun test in backend/gemini-agent
+  imports            the import-boundary checker (import_rules.py)
 
 `swift test --filter` still builds every test target (SwiftPM compiles the
 whole bundle) but RUNS only the matching tests — that is the fastest
@@ -37,6 +40,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE_DIR = REPO_ROOT / "packages" / "FridgeLuckCore"
 CHECKS_DIR = Path(__file__).resolve().parent
+FIXTURE_CHECK = REPO_ROOT / "scripts" / "data" / "check_core_fixtures.py"
+BACKEND_DIR = REPO_ROOT / "backend" / "gemini-agent"
 
 SUITES = {
     "domain": ["--filter", "FLDomainTests"],
@@ -100,10 +105,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     if args.list:
-        for name in sorted(SUITES):
+        for name in sorted(list(SUITES) + ["all", "core", "backend", "data", "imports"]):
             print(name)
-        print("imports")
-        print("all")
         return 0
 
     if not args.suite:
@@ -114,6 +117,25 @@ def main(argv=None):
 
     if suite == "imports":
         return run([sys.executable, str(CHECKS_DIR / "import_rules.py")], cwd=REPO_ROOT)
+
+    if suite == "data":
+        return run([sys.executable, str(FIXTURE_CHECK)], cwd=REPO_ROOT)
+
+    if suite == "core":
+        # The FridgeLuckCore tests AND the fixture contract check.
+        code = run(["swift", "test"], cwd=PACKAGE_DIR)
+        if code != 0:
+            return code
+        return run([sys.executable, str(FIXTURE_CHECK)], cwd=REPO_ROOT)
+
+    if suite == "backend":
+        if not (BACKEND_DIR / "package.json").is_file():
+            print(f"backend package not found: {BACKEND_DIR}", file=sys.stderr)
+            return 2
+        code = run(["bun", "install", "--frozen-lockfile"], cwd=BACKEND_DIR)
+        if code != 0:
+            return code
+        return run(["bun", "test", "src/__tests__"], cwd=BACKEND_DIR)
 
     if suite == "all":
         return run(["swift", "test"], cwd=PACKAGE_DIR)
