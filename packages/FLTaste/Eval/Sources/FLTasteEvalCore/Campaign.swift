@@ -54,7 +54,7 @@ public struct CampaignConfig: Codable, Sendable {
 public enum Regimes {
     public static let names = [
         "baseline", "sparse-feedback", "slow-drift", "two-eater", "abrupt-shift",
-        "exposure-bias",
+        "exposure-bias", "rule-blind",
     ]
 
     /// Vegetarian shift landing late enough that arms have history to unlearn.
@@ -90,6 +90,14 @@ public enum Regimes {
             // Only 5 of ~20+ feasible shown: strong partial exposure.
             config.slateSize = 5
             config.positionBias = 0.4
+            config.shifts = [.diet(eaterIndex: 0, diet: .vegetarian, week: shiftWeek)]
+        case "rule-blind":
+            // Latent loads only on rule-invisible drivers (hidden ingredient
+            // affinities, technique keys, spice affinity) — the rule port is
+            // structurally blind to them (SIM-ASSUMPTIONS §11/§12: the
+            // standard-vs-blind gap is the learning signal this suite
+            // measures). Same week-8 shift keeps recovery measurable here.
+            config.latentRegime = .ruleBlind
             config.shifts = [.diet(eaterIndex: 0, diet: .vegetarian, week: shiftWeek)]
         default:
             break
