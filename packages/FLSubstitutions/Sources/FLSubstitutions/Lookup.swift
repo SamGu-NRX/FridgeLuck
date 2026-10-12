@@ -10,6 +10,12 @@ public struct SwapCandidate: Sendable {
     public let requestedRole: Role
     public let verdict: Verdict
     public let recheck: AllergenRecheck
+    /// Both sides' per-100 g macros and the pair's typical original amount —
+    /// the inputs the macro-delta method needs to compute an ALTERNATIVE
+    /// role's delta from that role's own ratio. Captured at construction so
+    /// the nutrition accessor needs no table reference; a missing side
+    /// leaves that delta unknown (SPEC §3.5).
+    let nutrition: NutritionInputs
 
     public var isRefused: Bool { recheck.isRefused }
     /// Unknown composition anywhere in the recheck — ask the user rather
@@ -17,7 +23,20 @@ public struct SwapCandidate: Sendable {
     public var needsConfirmation: Bool { recheck.needsConfirmation }
     public var differenceText: String { pair.difference }
     public var preparation: [String] { pair.preparation }
-    public var macroDelta: Macros? { pair.macroDelta }
+    /// The macro delta for the REQUESTED role: the pair's recorded delta for
+    /// the primary role; for an alternative role, computed from THAT role's
+    /// own evidenced mass ratio — or nil, unknown nutrition, until that
+    /// role's amount has evidence (PR #114 review round 2, fix 2). The
+    /// primary delta never appears under another role's name.
+    public var macroDelta: Macros? {
+        guard requestedRole != pair.role else { return pair.macroDelta }
+        return Self.macroDelta(
+            ratio: ratio(for: requestedRole),
+            originalPer100g: nutrition.originalPer100g,
+            substitutePer100g: nutrition.substitutePer100g,
+            typicalG: nutrition.typicalG
+        )
+    }
     /// The PRIMARY role's ratio (the pair's own role). For an alternative
     /// requested role use `ratio(for:)` — the primary ratio must not leak
     /// into another role's scaling (review finding f).
@@ -33,6 +52,40 @@ public struct SwapCandidate: Sendable {
         return pair.supportedAlso.first { $0.role == role }?.ratio
     }
 
+    /// The macro-delta method (data/substitutions/SCHEMA.md) on one ratio:
+    /// substitute grams are the typical original amount × the ratio, kcal
+    /// rounded to the nearest integer and the other nutrients to one
+    /// decimal. Nil — unknown nutrition, never an approximation — when any
+    /// input is missing, the amount is recorded `unknown`/`unsupported`, or
+    /// the ratio is not a mass statement: a volume, count, or per-egg ratio
+    /// is dimensionally invalid as a gram multiplier (review finding d).
+    static func macroDelta(
+        ratio: Ratio?, originalPer100g: Macros?, substitutePer100g: Macros?, typicalG: Double?
+    ) -> Macros? {
+        guard let ratio, let originalPer100g, let substitutePer100g, let typicalG else { return nil }
+        switch ratio.status {
+        case .sourced, .convention, .conflict:
+            break // recorded amounts the verdict table trusts
+        case .unknown, .unsupported:
+            return nil // an amount with no (or refuted) evidence is not a computation input
+        }
+        guard massRatioBases.contains(ratio.basis) else { return nil }
+        let substituteG = typicalG * ratio.value
+        func delta(_ substitutePer100: Double, _ originalPer100: Double) -> Double {
+            (substitutePer100 * substituteG - originalPer100 * typicalG) / 100
+        }
+        func oneDecimal(_ value: Double) -> Double { (value * 10).rounded() / 10 }
+        return Macros(
+            kcal: delta(substitutePer100g.kcal, originalPer100g.kcal).rounded(),
+            proteinG: oneDecimal(delta(substitutePer100g.proteinG, originalPer100g.proteinG)),
+            carbsG: oneDecimal(delta(substitutePer100g.carbsG, originalPer100g.carbsG)),
+            fatG: oneDecimal(delta(substitutePer100g.fatG, originalPer100g.fatG)),
+            fiberG: oneDecimal(delta(substitutePer100g.fiberG, originalPer100g.fiberG)),
+            sugarG: oneDecimal(delta(substitutePer100g.sugarG, originalPer100g.sugarG)),
+            sodiumMg: oneDecimal(delta(substitutePer100g.sodiumMg, originalPer100g.sodiumMg))
+        )
+    }
+
     /// Substitute grams for a given original amount, for the requested role.
     /// Only defined when THAT role's ratio basis is `weight`; other bases are
     /// kitchen-unit statements (see the ratio note) and are never silently
@@ -41,6 +94,19 @@ public struct SwapCandidate: Sendable {
         guard let ratio = ratio(for: role), ratio.basis == "weight" else { return nil }
         return originalGrams * ratio.value
     }
+}
+
+/// Ratio bases that are mass statements (data/substitutions/SCHEMA.md): the
+/// only numeric values that scale grams. Every other basis is a kitchen-unit
+/// statement, dimensionally invalid as a gram multiplier (review finding d).
+let massRatioBases: Set<String> = ["weight", "weight-cooked"]
+
+/// Nutrition inputs for the alternative-role macro delta (review round 2,
+/// fix 2). See `SwapCandidate.nutrition`.
+struct NutritionInputs: Sendable {
+    let originalPer100g: Macros?
+    let substitutePer100g: Macros?
+    let typicalG: Double?
 }
 
 extension SubstitutionTable {
@@ -80,7 +146,12 @@ extension SubstitutionTable {
                     pair: pair,
                     requestedRole: role,
                     verdict: ContextRules.verdict(for: pair, requestedRole: role),
-                    recheck: recheck
+                    recheck: recheck,
+                    nutrition: NutritionInputs(
+                        originalPer100g: original.macrosPer100g,
+                        substitutePer100g: substitute.macrosPer100g,
+                        typicalG: pair.typicalAmountG
+                    )
                 )
             )
         }
@@ -214,7 +285,12 @@ extension SubstitutionTable {
                     pair: pair,
                     requestedRole: role,
                     verdict: .verified,
-                    recheck: recheck
+                    recheck: recheck,
+                    nutrition: NutritionInputs(
+                        originalPer100g: original.macrosPer100g,
+                        substitutePer100g: substitute.macrosPer100g,
+                        typicalG: pair.typicalAmountG
+                    )
                 ))
             }
         }
