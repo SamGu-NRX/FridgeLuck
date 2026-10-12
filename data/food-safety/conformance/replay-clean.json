@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "description": "Clean-replay records: a small fully conforming recipe and a conforming copy record. Running these through the normal lint path must produce ZERO findings; this is the end-to-end proof that the canon accepts valid content, not just that it rejects the named error classes.",
+  "records": [
+    {
+      "kind": "recipe",
+      "file": "data/food-safety/conformance/replay-clean.json",
+      "id": "replay-roast-chicken",
+      "title": "Simple roast chicken",
+      "ingredients": "1 whole chicken, olive oil, salt",
+      "instructions": "1. Pat the chicken dry and rub it with oil and salt.\n2. Insert an instant-read thermometer into the thickest part of the thigh and cook to 165 °F (74 °C).\n3. Rest the bird for 10 minutes before carving."
+    },
+    {
+      "kind": "recipe",
+      "file": "data/food-safety/conformance/replay-clean.json",
+      "id": "replay-pan-burger",
+      "title": "Weeknight burgers",
+      "ingredients": "500 g ground beef, salt, pepper",
+      "instructions": "1. Form the beef into patties.\n2. Cook to 160 °F, checked with a thermometer."
+    },
+    {
+      "kind": "recipe",
+      "file": "data/food-safety/conformance/replay-clean.json",
+      "id": "replay-pork-chops",
+      "title": "Juicy pork chops",
+      "ingredients": "2 pork chops, butter, thyme",
+      "instructions": "1. Cook to 145 °F with a food thermometer, then rest at least 3 minutes."
+    },
+    {
+      "kind": "copy",
+      "file": "data/food-safety/conformance/replay-clean.json",
+      "id": "replay-copy-storage",
+      "field": "storage_tip",
+      "text": "Cool leftovers in shallow containers and refrigerate within two hours."
+    }
+  ]
+}

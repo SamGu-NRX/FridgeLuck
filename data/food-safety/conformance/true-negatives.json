@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "name": "True negatives - valid checks and non-protein steps pass clean",
+  "description": "Every case here must produce ZERO findings: steps that carry a complete thermometer check (named thermometer, internal temperature at or above the class minimum, required rest time), steps that need no check, and copy text that praises none of the unsafe salvage patterns. A true negative that produces a finding is a canon failure, not a fixture bug - investigate before editing.",
+  "cases": [
+    {
+      "id": "tn-poultry-check-complete",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-poultry",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken, olive oil",
+        "instructions": "1. Insert an instant-read thermometer into the thickest part and cook to 165 °F (74 °C)."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-pork-check-with-rest",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-pork-rest",
+        "kind": "recipe",
+        "title": "Pork chops",
+        "ingredients": "2 pork chops, butter",
+        "instructions": "1. Cook to 145 °F with a food thermometer, then rest at least 3 minutes."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-ground-beef-check",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-beef",
+        "kind": "recipe",
+        "title": "Beef burger",
+        "ingredients": "500 g ground beef",
+        "instructions": "1. Cook to 160 °F, checked with a thermometer."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-reheat-with-thermometer",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-reheat",
+        "kind": "recipe",
+        "title": "Leftover chilli",
+        "ingredients": "leftover chilli",
+        "instructions": "1. Reheat to 165 °F with a food thermometer."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-no-protein-no-check-needed",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-onions",
+        "kind": "recipe",
+        "title": "Beef stew",
+        "ingredients": "onions, stock, flour",
+        "instructions": "1. Browning the onions for the stew."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-bread-bake-needs-no-check",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-bread",
+        "kind": "recipe",
+        "title": "Sandwich bread",
+        "ingredients": "flour, yeast, water",
+        "instructions": "1. Bake the bread at 400 °F."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-two-hour-rule-step",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-fridge",
+        "kind": "recipe",
+        "title": "Chicken soup",
+        "ingredients": "chicken stock, vegetables",
+        "instructions": "1. Refrigerate within 2 hours."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-golden-onions-no-protein-context",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-onion-relish",
+        "kind": "recipe",
+        "title": "Onion relish",
+        "ingredients": "onions, vinegar, sugar",
+        "instructions": "1. Fry the onions until golden."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-metadata-shown-in-text",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-metadata-shown",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken, olive oil",
+        "instructions": "1. Insert an instant-read thermometer into the thickest part and cook to 165 °F (74 °C).",
+        "safety_fields": {
+          "0": {
+            "class": "meat_poultry",
+            "temp_f": 165,
+            "method": "thermometer",
+            "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling"
+          }
+        }
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-copy-freeze-fish-safe-raw-use",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-copy-fish",
+        "kind": "copy",
+        "field": "tip",
+        "text": "Buy previously frozen fish for raw preparations like poke - freezing kills parasites."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-copy-storage-advice",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-copy-storage",
+        "kind": "copy",
+        "field": "tip",
+        "text": "Store raw chicken on the bottom shelf so juices cannot drip onto other food."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "tn-copy-cool-leftovers-promptly",
+      "record": {
+        "file": "conformance/true-negatives.json",
+        "id": "tn-copy-cooling",
+        "kind": "copy",
+        "field": "tip",
+        "text": "Cool leftovers in shallow containers and refrigerate within two hours."
+      },
+      "expect": { "kinds": [] }
+    }
+  ]
+}
