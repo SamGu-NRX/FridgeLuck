@@ -586,7 +586,10 @@ function assembleRunRecord(
   const receipts = world.phone.receipts().map((r) => ({
     proposalID: r.proposalID,
     state: r.state,
-    recordedAt: f(r.recordedAt)
+    recordedAt: f(r.recordedAt),
+    payloadHash: r.payloadHash,
+    snapshotRevision: r.snapshotRevision,
+    ...(r.reason !== undefined ? { reason: r.reason } : {})
   }));
   const timers = world.phone.timerRecords().map((t) => ({
     label: t.label,
