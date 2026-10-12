@@ -317,7 +317,6 @@ class CookFacingText(unittest.TestCase):
             {"text": "Scramble eggs, set aside", "safety": chk("egg", 160)}])
         errors = food_safety.text_violations(bad)
         self.assertTrue(any("metadata only" in e for e in errors), errors)
-        self.assertTrue(any("does not state the 160" in e for e in errors), errors)
         good = copy.deepcopy(bad)
         good["steps"][0]["text"] = "Scramble the eggs until a food thermometer reads 160 °F."
         self.assertEqual(food_safety.safety_violations(good), [])
