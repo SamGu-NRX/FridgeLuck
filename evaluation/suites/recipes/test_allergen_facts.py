@@ -78,7 +78,10 @@ def _lint(recipes: list[dict[str, Any]], scanner: "rs.AllergenScanner",
     """Lint through the real pipeline (same entry point the suite uses)."""
     return rs.lint_corpus(
         recipes, cuisines=bands.CUISINE_SET, meal_slots=bands.SLOT_SET,
-        conversions={}, allergen_scan=scanner, canon=None,
+        # renamed with the record-carried evidence contract: {} is the same
+        # empty conversion-evidence set these tests always passed (their
+        # allergen/diet assertions are untouched by quantity resolution)
+        conversion_rows={}, allergen_scan=scanner, canon=None,
     )
 
 
