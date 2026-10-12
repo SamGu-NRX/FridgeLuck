@@ -4,11 +4,16 @@ RS is the structured recipe schema suite C validates against. It encodes the
 SPEC 3.5 rule "structured or not shipped":
 
 - ingredient lines carry quantity evidence: ``weighed`` (a recorded scale
-  measurement in provenance — a builder estimate is never weighed),
-  ``source_grams``, ``household`` (a household measure whose line carries its
-  own cited conversion: ``conversion_ref`` plus the resolved ``grams``), or
-  ``unknown`` — never an invented mass. An unresolvable conversion_ref is
-  unresolved, not weighed;
+  measurement in provenance, LINKED to that line — a builder estimate is
+  never weighed, and a recipe-level flag clears nothing), ``source_grams``,
+  ``household`` (a household measure whose line carries its own cited
+  conversion: ``conversion_ref`` plus the resolved ``grams``), or
+  ``unknown`` — never an invented mass. Every citation must RESOLVE from
+  the corpus record itself (the record's own conversion-evidence rows or
+  the corpus-owned ``data/recipes/conversions.json`` on the scored tree —
+  never a harness-internal lookup table): the cited reference must exist
+  AND cover that line. An unresolvable conversion_ref is a violation and
+  an unresolved line, not weighed;
 - steps split at timer and action boundaries where real: a ``timer_min`` only
   where the step has a natural one;
 - doneness for meat, poultry, fish, eggs and leftovers is a thermometer check
@@ -247,15 +252,146 @@ def _is_num(x: Any) -> bool:
     return isinstance(x, (int, float)) and not isinstance(x, bool)
 
 
+# ---------------------------------------------------------------------------
+# quantity evidence: resolution from the corpus record itself
+# ---------------------------------------------------------------------------
+# A line's citation is not its own evidence. Each conversion_ref must resolve
+# to a conversion-evidence row the CORPUS supplies — the record's own rows
+# (record["conversions"] or provenance.conversions) or the corpus-owned
+# data/recipes/conversions.json on the scored tree — and that row must cover
+# the line it clears. The suite's fixture table is never consulted here.
+
+
+def _norm_name(s: Any) -> str:
+    return " ".join(str(s).split()).lower()
+
+
+def as_conversion_rows(value: Any) -> dict[str, dict[str, Any]]:
+    """Normalize a corpus-supplied conversion-evidence payload to ref -> row.
+
+    Accepts a mapping ref -> row, ``{"conversions": <mapping or list>}``, or
+    a list of rows each naming its ref (``ref`` or ``id``). Boundary parsing
+    for everything the corpus may ship; callers downstream get one shape.
+    """
+    if value is None:
+        return {}
+    if isinstance(value, dict):
+        rows = value.get("conversions", value)
+    else:
+        rows = value
+    out: dict[str, dict[str, Any]] = {}
+    if isinstance(rows, dict):
+        items: list[tuple[Any, Any]] = list(rows.items())
+    elif isinstance(rows, list):
+        items = [(r.get("ref") or r.get("id"), r) for r in rows
+                 if isinstance(r, dict)]
+    else:
+        return out
+    for ref, row in items:
+        if isinstance(ref, str) and ref.strip() and isinstance(row, dict):
+            out[ref.strip()] = row
+    return out
+
+
+def record_conversion_rows(recipe: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """The conversion-evidence rows the corpus RECORD itself carries.
+
+    Accepted on the record: ``recipe["conversions"]`` or
+    ``recipe["provenance"]["conversions"]`` — a mapping ref -> row or a
+    list of rows each naming its ref. This is the record's OWN evidence;
+    a row here must still cover the line it clears.
+    """
+    rows: Any = recipe.get("conversions")
+    if rows is None:
+        prov = recipe.get("provenance")
+        rows = prov.get("conversions") if isinstance(prov, dict) else None
+    return as_conversion_rows(rows)
+
+
+def _row_covers(row: dict[str, Any], qty: dict[str, Any], name: str) -> bool:
+    """True when a conversion row actually covers THIS line: the row names
+    the line's ingredient (``ingredient``/``covers``), and a declared unit
+    matches the line's unit. A real row covering a different line never
+    resolves this one."""
+    covers: Any = row.get("ingredient", row.get("covers"))
+    if isinstance(covers, str):
+        covers = [covers]
+    covered = {_norm_name(c) for c in covers} if isinstance(covers, list) else set()
+    if _norm_name(name) not in covered:
+        return False
+    row_unit = row.get("unit")
+    if isinstance(row_unit, str) and row_unit and row_unit != qty.get("unit"):
+        return False
+    return True
+
+
+def _conversion_row_for(qty: dict[str, Any], name: str, recipe: dict[str, Any],
+                        corpus_rows: dict[str, dict[str, Any]]) -> dict[str, Any] | None:
+    """The conversion row that resolves this line's citation AND covers it,
+    or None. Record-carried rows take precedence over corpus-level rows;
+    either way the row must exist, carry a positive ``grams_per_unit``, and
+    cover this line."""
+    ref = qty.get("conversion_ref")
+    if not (isinstance(ref, str) and ref.strip()):
+        return None
+    merged = {**corpus_rows, **record_conversion_rows(recipe)}
+    row = merged.get(ref.strip())
+    if not isinstance(row, dict):
+        return None
+    gpu = row.get("grams_per_unit")
+    if not _is_num(gpu) or gpu <= 0:
+        return None
+    return row if _row_covers(row, qty, name) else None
+
+
+def _scale_row_for(prov: Any, index: int, name: str) -> dict[str, Any] | None:
+    """The recorded scale measurement linked to THIS line, or None.
+
+    ``provenance.scale_measurements`` must be a list of per-line rows, each
+    linked to its line by ``ingredient`` (the line's name) or ``line`` (the
+    ingredient's index). A recipe-level flag, a bare ``true``, or a
+    measurement of a different line is not evidence for this one.
+    """
+    if not isinstance(prov, dict):
+        return None
+    rows = prov.get("scale_measurements")
+    if not isinstance(rows, list):
+        return None
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        by_index = row.get("line")
+        if isinstance(by_index, int) and not isinstance(by_index, bool):
+            if by_index == index:
+                return row
+            continue  # linked to a different line
+        if "ingredient" in row:
+            if _norm_name(row.get("ingredient")) == _norm_name(name):
+                return row
+            continue
+        # linked to no line at all: evidence for nothing
+    return None
+
+
+def _grams_agree(carried: Any, expected: Any) -> bool:
+    """The line's carried grams agree with what its evidence supports
+    (rounding slack: 1 g or 2%, whichever is larger). A disagreement means
+    the carried mass is not the one the cited evidence supports."""
+    return (_is_num(carried) and _is_num(expected)
+            and abs(float(carried) - float(expected)) <= max(1.0, 0.02 * float(expected)))
+
+
 def lint_recipe(recipe: dict[str, Any], *, cuisines: set[str],
-                meal_slots: set[str], conversions: dict[str, dict[str, float]] | None,
+                meal_slots: set[str], conversion_rows: dict[str, dict[str, Any]] | None,
                 allergen_scan: "AllergenScanner", canon: CanonRulebook | None,
                 ) -> list[str]:
     """Return the list of lint violations for one RS recipe (empty = pass).
 
-    ``conversions`` is accepted for call compatibility (the corpus-side
-    validator passes its table) but is no longer consulted: each scored
-    line carries its own cited conversion (conversion_ref + grams).
+    ``conversion_rows`` is the corpus's OWN conversion-evidence rows
+    (ref -> row, from the scored tree's ``data/recipes/conversions.json``);
+    the record's own carried rows take precedence. A line's citation must
+    resolve there AND cover that line — a nonempty ``conversion_ref``
+    string plus positive grams clears nothing by itself.
 
     `allergen_scan.verify_claim` re-computes each claim's evidence from the
     ingredient tables; a claim whose evidence is missing, contradicted, or
@@ -286,8 +422,12 @@ def lint_recipe(recipe: dict[str, Any], *, cuisines: set[str],
         v.append(f"{rid}: R1 meal_slots {slots!r} outside declared slots")
 
     # R2 quantity evidence per line ----------------------------------------
+    # Resolution source: the corpus record's own conversion-evidence rows
+    # (record-carried rows over corpus-level rows). A citation that resolves
+    # nowhere is a violation naming the absent evidence, and the line counts
+    # as unresolved (see _line_resolves).
     prov = recipe.get("provenance")
-    scale_evidence = isinstance(prov, dict) and bool(prov.get("scale_measurements"))
+    corpus_rows = as_conversion_rows(conversion_rows)
     for i, line in enumerate(recipe["ingredients"]):
         name = line.get("name", "?") if isinstance(line, dict) else "?"
         qty = line.get("qty") if isinstance(line, dict) else None
@@ -299,26 +439,55 @@ def lint_recipe(recipe: dict[str, Any], *, cuisines: set[str],
         if kind not in ALL_KINDS:
             v.append(f"{rid}: R2 ingredient[{i}] {name!r} qty.kind {kind!r} is not quantity evidence")
         elif kind == "household":
+            conv_ref = qty.get("conversion_ref")
+            unit = qty.get("unit")
+            value = qty.get("value")
+            cited = isinstance(conv_ref, str) and bool(conv_ref.strip())
             # the line's own cited conversion IS the evidence: conversion_ref
             # plus the resolved grams carried on the line
-            conv_ref = qty.get("conversion_ref")
-            if not isinstance(conv_ref, str) or not conv_ref.strip():
+            if not cited:
                 v.append(f"{rid}: R2 ingredient[{i}] {name!r} household measure carries no cited conversion_ref")
             if not _is_num(grams) or grams <= 0:
                 v.append(f"{rid}: R2 ingredient[{i}] {name!r} household measure carries no resolved grams "
                          "(unresolved, not weighed; conversion evidence must be cited on the line)")
-            unit = qty.get("unit")
             if not isinstance(unit, str) or not unit:
                 v.append(f"{rid}: R2 ingredient[{i}] {name!r} household measure missing unit")
-            value = qty.get("value")
             if not _is_num(value) or value <= 0:
                 v.append(f"{rid}: R2 ingredient[{i}] {name!r} household measure missing positive value")
+            # the citation must RESOLVE in the record's own rows and cover
+            # this line — a nonempty string alone clears nothing
+            if cited and _is_num(grams) and grams > 0 and _is_num(value) and value > 0:
+                row = _conversion_row_for(qty, name, recipe, corpus_rows)
+                if row is None:
+                    v.append(f"{rid}: R2 ingredient[{i}] {name!r} cites conversion_ref "
+                             f"{conv_ref.strip()!r}, which does not resolve to a covering row in the "
+                             "corpus record's conversion-evidence rows (record-carried rows or the "
+                             "corpus's data/recipes/conversions.json); the cited reference must "
+                             "exist AND cover this line — an invented reference resolves nothing")
+                elif not _grams_agree(grams, value * row["grams_per_unit"]):
+                    v.append(f"{rid}: R2 ingredient[{i}] {name!r} carries grams {grams}, which "
+                             f"disagrees with its cited conversion {conv_ref.strip()!r} "
+                             f"({value} x {row['grams_per_unit']} g/unit) — the carried mass is "
+                             "not the one the cited evidence supports")
         elif kind == "weighed":
             if not _is_num(grams) or grams <= 0:
                 v.append(f"{rid}: R2 ingredient[{i}] {name!r} weighed requires positive grams")
-            if not scale_evidence:
+            # per-line linkage: a measurement linked to THIS line, not a
+            # recipe-level flag or a measurement of some other line
+            row = _scale_row_for(prov, i, name)
+            if row is None:
                 v.append(f"{rid}: R2 ingredient[{i}] {name!r} 'weighed' requires a recorded scale "
-                         "measurement in provenance (a builder estimate is never weighed)")
+                         "measurement in provenance LINKED TO THIS LINE (a recipe-level flag "
+                         "alone clears nothing, and a measurement of another line covers "
+                         "nothing here; a builder estimate is never weighed)")
+            elif _is_num(grams) and grams > 0:
+                recorded = row.get("grams")
+                if not _is_num(recorded) or recorded <= 0:
+                    v.append(f"{rid}: R2 ingredient[{i}] {name!r} has a linked scale measurement "
+                             "that records no positive grams")
+                elif not _grams_agree(grams, recorded):
+                    v.append(f"{rid}: R2 ingredient[{i}] {name!r} carries grams {grams}, which "
+                             f"disagrees with its linked scale measurement {recorded}")
         elif kind == "source_grams":
             if not _is_num(grams) or grams <= 0:
                 v.append(f"{rid}: R2 ingredient[{i}] {name!r} source_grams requires positive grams")
@@ -477,10 +646,15 @@ def _stated_rest(step: dict[str, Any], chk: dict[str, Any]) -> float | None:
 
 
 def lint_corpus(recipes: list[dict[str, Any]], *, cuisines: set[str],
-                meal_slots: set[str], conversions: dict[str, dict[str, float]] | None,
+                meal_slots: set[str], conversion_rows: dict[str, dict[str, Any]] | None,
                 allergen_scan: "AllergenScanner", canon: CanonRulebook | None = None,
                 ) -> dict[str, Any]:
-    """Lint every recipe; return per-recipe violations and corpus line stats."""
+    """Lint every recipe; return per-recipe violations and corpus line stats.
+
+    ``conversion_rows``: the corpus's OWN conversion-evidence rows
+    (ref -> row) from the scored tree — never a harness-internal table.
+    """
+    corpus_rows = as_conversion_rows(conversion_rows)
     report: dict[str, Any] = {
         "recipes_with_violations": {},
         "total_lines": 0,
@@ -497,15 +671,15 @@ def lint_corpus(recipes: list[dict[str, Any]], *, cuisines: set[str],
     for recipe in recipes:
         violations = lint_recipe(
             recipe, cuisines=cuisines, meal_slots=meal_slots,
-            conversions=conversions, allergen_scan=allergen_scan, canon=canon,
+            conversion_rows=conversion_rows, allergen_scan=allergen_scan, canon=canon,
         )
         if violations:
             report["recipes_with_violations"][recipe["id"]] = violations
         # quantity evidence stats over ALL ingredient lines
-        for line in recipe.get("ingredients", []):
+        for i, line in enumerate(recipe.get("ingredients", [])):
             report["total_lines"] += 1
             qty = line.get("qty") if isinstance(line, dict) else None
-            if isinstance(qty, dict) and _line_resolves(qty, recipe):
+            if isinstance(qty, dict) and _line_resolves(qty, i, recipe, corpus_rows):
                 report["resolved_lines"] += 1
         # allergen classification: unknown composition is surfaced, never silent
         _classes, unknown = allergen_scan.classify(recipe)
@@ -529,27 +703,46 @@ def lint_corpus(recipes: list[dict[str, Any]], *, cuisines: set[str],
     return report
 
 
-def _line_resolves(qty: dict[str, Any], recipe: dict[str, Any]) -> bool:
-    """A line resolves to grams only when its OWN carried evidence supports it.
+def _line_resolves(qty: dict[str, Any], index: int, recipe: dict[str, Any],
+                   corpus_rows: dict[str, dict[str, Any]]) -> bool:
+    """A line resolves to grams only when its OWN carried evidence supports
+    it, RESOLVED from the corpus record itself (the record's own
+    conversion-evidence rows over the corpus's data/recipes rows — never a
+    harness-internal lookup table):
 
     - source_grams: positive grams;
-    - household: a cited conversion (conversion_ref) AND positive grams on
-      the line;
-    - weighed: positive grams AND a recorded scale measurement in provenance
-      (a builder estimate is never weighed).
+    - household: a cited conversion that RESOLVES to a row in the record's
+      (or corpus's) conversion-evidence rows, that row COVERS this line,
+      and positive grams on the line agreeing with the cited conversion;
+    - weighed: positive grams AND a scale measurement linked to THIS line
+      in provenance agreeing with the line's grams (a builder estimate is
+      never weighed; a recipe-level flag clears nothing).
+
+    Honest ``unknown`` stays allowed and counts as unresolved.
     """
-    kind = qty.get("kind")
     grams = qty.get("grams")
     if not _is_num(grams) or grams <= 0:
         return False
+    kind = qty.get("kind")
     if kind == "source_grams":
         return True
+    lines = recipe.get("ingredients")
+    name = ""
+    if isinstance(lines, list) and 0 <= index < len(lines) and isinstance(lines[index], dict):
+        name = str(lines[index].get("name", ""))
     if kind == "household":
-        ref = qty.get("conversion_ref")
-        return isinstance(ref, str) and bool(ref.strip())
+        row = _conversion_row_for(qty, name, recipe, corpus_rows)
+        if row is None:
+            return False
+        value = qty.get("value")
+        return (_is_num(value) and value > 0
+                and _grams_agree(grams, value * row["grams_per_unit"]))
     if kind == "weighed":
-        prov = recipe.get("provenance")
-        return isinstance(prov, dict) and bool(prov.get("scale_measurements"))
+        row = _scale_row_for(recipe.get("provenance"), index, name)
+        if row is None:
+            return False
+        recorded = row.get("grams")
+        return _is_num(recorded) and recorded > 0 and _grams_agree(grams, recorded)
     return False
 
 

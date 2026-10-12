@@ -23,14 +23,18 @@ What this does (and does not do, honestly):
   framework + starch/vegetable side). Titles, ingredient lines and steps
   are generated fresh from the grammar; no third-party text is copied.
 
-- Quantity evidence: household measures resolve through the fixture
-  conversions table (USDA-based gram weights, approximations recorded openly
-  in that file) and each emitted line CARRIES its evidence (conversion_ref
-  plus the resolved grams on the line, the schema data/recipes/SCHEMA.md
-  defines). Gram amounts written directly into a recipe by the builder are
+- Quantity evidence: household measures resolve at BUILD time through the
+  fixture conversions table (USDA-based gram weights, approximations recorded
+  openly in that file), and each emitted record CARRIES its evidence: the
+  record's own `conversions` rows (ref -> ingredient/unit/grams_per_unit)
+  plus the cited conversion_ref and resolved grams on each line — so the
+  citation RESOLVES from the corpus record itself at score time. The fixture
+  table is build-time material and is never consulted by the scorer. Gram
+  amounts written directly into a recipe by the builder are
   kind=source_grams — never "weighed": "weighed" means measured on a scale
-  with the measurement recorded in provenance, and a builder estimate can
-  never claim that. No line invents a mass it cannot support.
+  with the measurement recorded in provenance, linked to that line, and a
+  builder estimate can never claim that. No line invents a mass it cannot
+  support.
 
 - Safety language: recipes whose ingredient classes include flesh or egg
   carry explicit thermometer doneness language with the right target
@@ -432,6 +436,21 @@ def compose() -> list[dict]:
                 steps = _steps_for(base, sauce_first=f"{sauce_lines[0][0]} and {sauce_lines[1][0]}",
                                    side_title=side_title, method=method, timings=timings)
 
+                # the record's OWN conversion-evidence rows: build-time
+                # resolution from the fixture table is emitted onto the
+                # record, so each citation resolves from the corpus record
+                # itself at score time (the fixture table is never a
+                # scoring input)
+                conversions: list[dict] = []
+                for line in ingredients:
+                    q = line["qty"]
+                    if q.get("kind") == "household" and q.get("conversion_ref"):
+                        src = table[q["conversion_ref"]]
+                        conversions.append({
+                            "ref": q["conversion_ref"], "ingredient": line["name"],
+                            "unit": q["unit"], "grams_per_unit": src["grams_per_unit"],
+                        })
+
                 recipes.append({
                     "rs_version": "1",
                     "id": f"comp-{fkey}-{bkey}-{skey}",
@@ -445,6 +464,7 @@ def compose() -> list[dict]:
                     "claims": [],
                     "source_ref": f"orig:composed:{fkey}:{bkey}:{skey}",
                     "provenance": "composed",
+                    "conversions": conversions,
                 })
     return recipes
 

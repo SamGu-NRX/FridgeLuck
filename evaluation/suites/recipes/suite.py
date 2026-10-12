@@ -137,17 +137,87 @@ BUNDLED_CATALOG_CANDIDATES = ("apps/ios/Resources/data.json",   # eval branches
                               "assets/recipes.json")             # suite C brief
 
 
+def _read_product_jsonl(path: Path, repo_root: Path
+                        ) -> tuple[list[dict[str, Any]], str | None]:
+    """Parse one product JSONL corpus file; returns (recipes, error)."""
+    recipes: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    for lineno, raw in enumerate(path.read_text().splitlines(), 1):
+        line = raw.strip()
+        if not line:
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError as exc:
+            return [], (f"unreadable {path.relative_to(repo_root)} line {lineno}: {exc}")
+        if not isinstance(rec, dict) or not rec.get("id"):
+            return [], (f"{path.relative_to(repo_root)} line {lineno}: "
+                        "recipe object with an id required")
+        if rec["id"] in seen_ids:
+            return [], (f"{path.relative_to(repo_root)}: "
+                        f"duplicate recipe id {rec['id']!r}")
+        seen_ids.add(rec["id"])
+        recipes.append(rec)
+    return recipes, None
+
+
+def _read_rights_manifest(path: Path, repo_root: Path
+                          ) -> tuple[dict[str, Any], str | None]:
+    """Parse one rights manifest; returns (ref -> record rows, error)."""
+    try:
+        data = json.loads(path.read_text())
+    except json.JSONDecodeError as exc:
+        return {}, f"unreadable {path.relative_to(repo_root)}: {exc}"
+    rows = data.get("records", data) if isinstance(data, dict) else {}
+    if not isinstance(rows, dict):
+        return {}, (f"{path.relative_to(repo_root)}: rights manifest must "
+                    "map source_ref -> record")
+    return rows, None
+
+
+# rights-substance fields: a substantive contradiction between two manifests
+# for the same ref fails the run; purely descriptive differences do not
+_RIGHTS_SUBSTANCE_FIELDS = ("license", "source_type", "access_date")
+
+
+def _merge_rights_rows(dst: dict[str, Any], rows: dict[str, Any],
+                       src_label: str) -> str | None:
+    """Merge one manifest's rows into dst; substantive conflicts error."""
+    for ref, mrec in rows.items():
+        if ref in dst and dst[ref] != mrec:
+            prior = dst[ref]
+            if isinstance(prior, dict) and isinstance(mrec, dict):
+                for field in _RIGHTS_SUBSTANCE_FIELDS:
+                    if prior.get(field) != mrec.get(field):
+                        return (f"conflicting rights records for {ref!r} across the "
+                                f"tree's manifests: {field} differs ({src_label})")
+            else:
+                return (f"conflicting rights records for {ref!r} across the "
+                        f"tree's manifests ({src_label})")
+        dst[ref] = mrec
+    return None
+
+
 def load_scored_corpus(repo_root: Path
                        ) -> tuple[list[dict[str, Any]], dict[str, Any], str, str | None]:
     """Load the corpus suite C scores, with the tree's own rights evidence.
 
-    Precedence:
-    1. the scored tree's product corpus: data/recipes/corpus.jsonl (plus
-       data/recipes/originals/originals.jsonl when present), rights evidence
-       from the tree's own manifests (data/recipes/rights_manifest.json and
-       data/recipes/originals/rights_manifest.json);
-    2. the bundled catalog as an honest BASELINE: positional records with no
-       per-recipe rights evidence — 0 rights-clear, and the suite fails it.
+    Each product source is scored INDEPENDENTLY as product data, with the
+    rights evidence its own tree carries:
+
+    1. data/recipes/corpus.jsonl (PR #113) — the ingested corpus of record;
+    2. data/recipes/originals/originals.jsonl (PR #107) — the originals.
+
+    When both are present, originals already ingested into corpus.jsonl are
+    skipped by id (counted and described in the scored-input line) and the
+    corpus of record's manifest governs the ingested refs after a
+    rights-substance check (license, source type, access date and
+    permissions must agree — a substantive contradiction still fails the
+    run); originals NOT ingested score from their own manifest.
+
+    Only when NEITHER product source exists does the bundled catalog score,
+    as an honest failing BASELINE: positional records with no per-recipe
+    rights evidence — 0 rights-clear, and the suite fails it.
 
     Returns (recipes, manifest, description, error). The suite's own fixture
     files (fixtures/selftest/*) are NEVER scoring inputs.
@@ -155,86 +225,93 @@ def load_scored_corpus(repo_root: Path
     product = repo_root / "data" / "recipes"
     corpus_path = product / "corpus.jsonl"
     originals_path = product / "originals" / "originals.jsonl"
-    if corpus_path.is_file():
-        recipes: list[dict[str, Any]] = []
-        seen_ids: set[str] = set()
+    has_main = corpus_path.is_file()
+    has_orig = originals_path.is_file()
 
-        def read_jsonl(path: Path) -> str | None:
-            for lineno, raw in enumerate(path.read_text().splitlines(), 1):
-                line = raw.strip()
-                if not line:
-                    continue
-                try:
-                    rec = json.loads(line)
-                except json.JSONDecodeError as exc:
-                    return (f"unreadable {path.relative_to(repo_root)} line {lineno}: {exc}")
-                if not isinstance(rec, dict) or not rec.get("id"):
-                    return (f"{path.relative_to(repo_root)} line {lineno}: "
-                            "recipe object with an id required")
-                if rec["id"] in seen_ids:
-                    return (f"{path.relative_to(repo_root)}: "
-                            f"duplicate recipe id {rec['id']!r}")
-                seen_ids.add(rec["id"])
-                recipes.append(rec)
-            return None
-
-        err0 = read_jsonl(corpus_path)
-        if err0:
-            return [], {}, "", err0
-        n_main = len(recipes)
-        if originals_path.is_file():
-            err1 = read_jsonl(originals_path)
-            if err1:
-                return [], {}, "", err1
-        manifest: dict[str, Any] = {"records": {}}
-        manifest_paths: list[str] = []
-        for rel in ("rights_manifest.json", "originals/rights_manifest.json"):
-            p = product / rel
+    if not has_main and not has_orig:
+        for rel in BUNDLED_CATALOG_CANDIDATES:
+            p = repo_root / rel
             if not p.is_file():
                 continue
             try:
-                data = json.loads(p.read_text())
-            except json.JSONDecodeError as exc:
-                return [], {}, "", f"unreadable {p.relative_to(repo_root)}: {exc}"
-            rows = data.get("records", data) if isinstance(data, dict) else {}
-            if not isinstance(rows, dict):
-                return [], {}, "", (f"{p.relative_to(repo_root)}: rights manifest must "
-                                    "map source_ref -> record")
-            manifest_paths.append(str(p.relative_to(repo_root)))
-            for ref, mrec in rows.items():
-                if ref in manifest["records"] and manifest["records"][ref] != mrec:
-                    return [], {}, "", (f"conflicting rights records for {ref!r} "
-                                        "across the tree's manifests")
-                manifest["records"][ref] = mrec
-        desc = (f"scored tree corpus: {corpus_path.relative_to(repo_root)} ({n_main} recipes"
-                + (f" + {len(recipes) - n_main} originals from {originals_path.relative_to(repo_root)}"
-                   if len(recipes) != n_main else "")
-                + f"); rights evidence: "
-                f"{', '.join(manifest_paths) or 'NONE FOUND (0 rights-clear)'}")
-        return recipes, manifest, desc, None
+                raw = json.loads(p.read_text())
+            except (json.JSONDecodeError, OSError) as exc:
+                return [], {}, "", f"unreadable {rel}: {exc}"
+            decoded = rights.decode_bundled_catalog(raw)
+            recipes = [{
+                "rs_version": "1", "id": f"bundled-{r['bundled_id']}", "title": r["title"],
+                "cuisine": None, "meal_slots": [], "minutes": r["minutes"],
+                "servings": r["servings"], "ingredients": [], "steps": [],
+                "claims": [], "source_ref": r.get("source_url") or f"bundled:{r['bundled_id']}",
+                "_bundled": True,
+            } for r in decoded]
+            desc = (f"BUNDLED BASELINE (neither product source on this tree): {rel}, "
+                    f"{len(recipes)} positional recipes; no per-recipe rights evidence in data")
+            return recipes, {"records": {}}, desc, None
+        return [], {}, "", (f"no scored corpus found under {repo_root}: "
+                            "no product source (data/recipes/corpus.jsonl or "
+                            "data/recipes/originals/) and no bundled catalog")
 
-    for rel in BUNDLED_CATALOG_CANDIDATES:
-        p = repo_root / rel
-        if not p.is_file():
-            continue
-        try:
-            raw = json.loads(p.read_text())
-        except (json.JSONDecodeError, OSError) as exc:
-            return [], {}, "", f"unreadable {rel}: {exc}"
-        decoded = rights.decode_bundled_catalog(raw)
-        recipes = [{
-            "rs_version": "1", "id": f"bundled-{r['bundled_id']}", "title": r["title"],
-            "cuisine": None, "meal_slots": [], "minutes": r["minutes"],
-            "servings": r["servings"], "ingredients": [], "steps": [],
-            "claims": [], "source_ref": r.get("source_url") or f"bundled:{r['bundled_id']}",
-            "_bundled": True,
-        } for r in decoded]
-        desc = (f"BUNDLED BASELINE (no data/recipes/corpus.jsonl on this tree): {rel}, "
-                f"{len(recipes)} positional recipes; no per-recipe rights evidence in data")
-        return recipes, {"records": {}}, desc, None
+    manifest: dict[str, Any] = {"records": {}}
+    manifest_paths: list[str] = []
+    desc_parts: list[str] = []
+    recipes: list[dict[str, Any]] = []
 
-    return [], {}, "", (f"no scored corpus found under {repo_root}: "
-                        "data/recipes/corpus.jsonl and no bundled catalog")
+    if has_orig:
+        orig_recipes, err = _read_product_jsonl(originals_path, repo_root)
+        if err:
+            return [], {}, "", err
+        orig_mp = product / "originals" / "rights_manifest.json"
+        orig_rows, merr = (_read_rights_manifest(orig_mp, repo_root)
+                           if orig_mp.is_file() else ({}, None))
+        if merr:
+            return [], {}, "", merr
+        err = _merge_rights_rows(manifest["records"], orig_rows,
+                                 str(orig_mp.relative_to(repo_root)))
+        if err:
+            return [], {}, "", err
+        if orig_mp.is_file():
+            manifest_paths.append(str(orig_mp.relative_to(repo_root)))
+
+    if has_main:
+        main_recipes, err = _read_product_jsonl(corpus_path, repo_root)
+        if err:
+            return [], {}, "", err
+        main_mp = product / "rights_manifest.json"
+        main_rows, merr = (_read_rights_manifest(main_mp, repo_root)
+                           if main_mp.is_file() else ({}, None))
+        if merr:
+            return [], {}, "", merr
+        # the corpus of record governs ingested refs; a substantive
+        # contradiction with the originals manifest still fails the run
+        err = _merge_rights_rows(manifest["records"], main_rows,
+                                 str(main_mp.relative_to(repo_root)))
+        if err:
+            return [], {}, "", err
+        if main_mp.is_file():
+            manifest_paths.append(str(main_mp.relative_to(repo_root)))
+
+        main_ids = {r["id"] for r in main_recipes}
+        ingested = sum(1 for r in orig_recipes if r["id"] in main_ids) if has_orig else 0
+        # originals NOT already ingested score as their own product source
+        not_ingested = [r for r in orig_recipes if r["id"] not in main_ids] \
+            if has_orig else []
+        recipes = main_recipes + not_ingested
+        desc_parts.append(
+            f"scored tree corpus: {corpus_path.relative_to(repo_root)} ({len(main_recipes)} recipes"
+            + (f"; {ingested} of them ingested originals" if ingested else "")
+            + ")"
+            + (f" + {originals_path.relative_to(repo_root)} ({len(not_ingested)} not already ingested)"
+               if has_orig else ""))
+    else:
+        recipes = orig_recipes  # originals-only tree: product data, its own manifest
+        desc_parts.append(
+            f"scored tree originals: {originals_path.relative_to(repo_root)} "
+            f"({len(recipes)} recipes)")
+
+    desc_parts.append("rights evidence: "
+                      + (", ".join(manifest_paths) or "NONE FOUND (0 rights-clear)"))
+    return recipes, manifest, "; ".join(desc_parts), None
 
 
 def load_json(path: Path) -> tuple[Any, str | None]:
@@ -252,7 +329,7 @@ def load_json(path: Path) -> tuple[Any, str | None]:
 
 
 def evaluate_corpus(corpus: list[dict[str, Any]], manifest: dict[str, Any],
-                    conversions: dict[str, Any], allergen_table: dict[str, Any],
+                    corpus_conversions: dict[str, Any], allergen_table: dict[str, Any],
                     *, canon: "rs.CanonRulebook | None" = None,
                     scored_desc: str = "suite fixture corpus",
                     ) -> dict[str, Any]:
@@ -263,12 +340,13 @@ def evaluate_corpus(corpus: list[dict[str, Any]], manifest: dict[str, Any],
     THIS to flip a status.
 
     `canon` is the validated food-safety rulebook (rs.CanonRulebook.load);
-    None fails every doneness judgment closed. `conversions` is accepted for
-    call compatibility (the corpus-side validator passes its table) but is
-    no longer consulted: each line carries its own conversion evidence.
+    None fails every doneness judgment closed. `corpus_conversions` is the
+    scored tree's OWN conversion-evidence payload (its
+    data/recipes/conversions.json, normalized ref -> row) — never a
+    harness-internal table; the suite passes {} for planted corpora, whose
+    records must carry their own evidence.
     """
     scanner = rs.AllergenScanner(allergen_table)
-    conversions_tbl = conversions.get("conversions", conversions)
 
     statuses = rights.validate_manifest(manifest)
 
@@ -287,7 +365,7 @@ def evaluate_corpus(corpus: list[dict[str, Any]], manifest: dict[str, Any],
         clear,
         cuisines=bands.CUISINE_SET,
         meal_slots=bands.SLOT_SET,
-        conversions=conversions_tbl,
+        conversion_rows=rs.as_conversion_rows(corpus_conversions),
         allergen_scan=scanner,
         canon=canon,
     )
@@ -441,6 +519,32 @@ def metric_list(ev: dict[str, Any], out_dir: Path) -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 
+def _load_corpus_conversions(repo_root: Path) -> tuple[dict[str, Any], str | None]:
+    """The scored tree's OWN corpus-level conversion-evidence rows (ref ->
+    row), merged across its product sources (originals first; the corpus of
+    record overrides). The suite's fixture table is NEVER consulted here.
+    Empty when the tree ships no conversion file — records must then carry
+    their own rows; a ref defined twice across the tree's files fails closed.
+    """
+    merged: dict[str, Any] = {}
+    for rel in ("data/recipes/originals/conversions.json",
+                "data/recipes/conversions.json"):
+        p = repo_root / rel
+        if not p.is_file():
+            continue
+        try:
+            payload = json.loads(p.read_text())
+        except (json.JSONDecodeError, OSError) as exc:
+            return {}, f"unreadable {rel}: {exc}"
+        rows = rs.as_conversion_rows(payload)
+        conflicts = sorted(set(rows) & set(merged))
+        if conflicts:
+            return {}, (f"conflicting conversion rows for {len(conflicts)} ref(s) "
+                        f"across the tree's conversion files (e.g. {conflicts[0]!r})")
+        merged.update(rows)
+    return merged, None
+
+
 def run(out_dir: Path, repo_root: Path | None) -> dict[str, Any]:
     out_dir.mkdir(parents=True, exist_ok=True)
     results: dict[str, Any] = {
@@ -477,6 +581,12 @@ def run(out_dir: Path, repo_root: Path | None) -> dict[str, Any]:
     print(f"  scored input: {scored_desc}" if not err else f"  not-run: scored corpus: {err}")
     if err:
         not_run.append(("scored corpus", err))
+    corpus_rows, err = _load_corpus_conversions(repo_root)
+    if err:
+        not_run.append(("corpus conversion evidence", err))
+    elif corpus_rows:
+        scored_desc += (f"; corpus conversion evidence: {len(corpus_rows)} ref(s) "
+                        "from the tree's own data/recipes conversion file")
     allergens, err = load_json(SUITE_DIR / "allergens.json")
     if err:
         not_run.append(("allergen classification table", err))
@@ -492,7 +602,7 @@ def run(out_dir: Path, repo_root: Path | None) -> dict[str, Any]:
         results["metrics"] = _not_run(reasons)
     else:
         assert manifest is not None and allergens is not None
-        ev = evaluate_corpus(corpus, manifest, {}, allergens,
+        ev = evaluate_corpus(corpus, manifest, corpus_rows, allergens,
                              canon=canon, scored_desc=scored_desc)
 
         # bundled catalog audit: read-only, evidence for the rights metric
@@ -531,6 +641,15 @@ def _mini_fixtures() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         ],
         "steps": [{"text": "Sear, then serve over rice."}],
         "claims": [], "source_ref": "test:ok", "provenance": "test",
+        # the record's OWN conversion-evidence rows: the citations above must
+        # resolve from these (or the corpus's own data/recipes file) — the
+        # suite passes no fixture table at score time
+        "conversions": [
+            {"ref": "tofu_block", "ingredient": "tofu", "unit": "block",
+             "grams_per_unit": 350},
+            {"ref": "rice_vinegar_tbsp", "ingredient": "rice vinegar", "unit": "tbsp",
+             "grams_per_unit": 15},
+        ],
     }
     manifest = {"records": {
         "test:ok": {
@@ -627,6 +746,13 @@ def _ctl_recipe(i: int, cuisine: str, slot: str, minutes: int) -> dict[str, Any]
         ],
         "steps": steps,
         "claims": [], "source_ref": f"ctl-src-{i:04d}", "provenance": "suite-selftest",
+        # the record's OWN conversion-evidence rows for its household lines
+        "conversions": [
+            {"ref": s_ref, "ingredient": staple, "unit": s_unit,
+             "grams_per_unit": s_grams},
+            {"ref": "rice_vinegar_tbsp", "ingredient": "rice vinegar", "unit": "tbsp",
+             "grams_per_unit": 15},
+        ],
     }
 
 
@@ -692,7 +818,10 @@ def self_test() -> int:
 
     def derived(corpus: list[dict[str, Any]], manifest: dict[str, Any],
                 ) -> tuple[dict[str, str], dict[str, Any]]:
-        ev = evaluate_corpus(copy.deepcopy(corpus), manifest, conversions, allergens,
+        # the suite passes NO conversion table at score time: every record
+        # carries its own evidence (the fixture table is build-time material,
+        # never a scoring input)
+        ev = evaluate_corpus(copy.deepcopy(corpus), manifest, {}, allergens,
                              canon=book)
         metrics = metric_list(copy.deepcopy(ev), Path("/tmp"))  # evidence to /tmp
         return {m["id"]: suite_contract.derive_status(m) for m in metrics}, ev
@@ -717,6 +846,20 @@ def self_test() -> int:
           f"{'held' if ctrl_ok else 'BROKEN'} "
           f"({', '.join(f'{k}={v}' for k, v in st.items())})")
 
+    # ---- passing control (review case iv, weighed side): a line whose OWN
+    # linked scale measurement agrees with its carried grams RESOLVES — the
+    # per-line linkage gate is satisfiable, not vacuously failing.
+    def _qc(r: dict[str, Any]) -> None:
+        r["ingredients"][0]["qty"] = {"kind": "weighed", "grams": 350}
+        r["provenance"] = {"scale_measurements": [{"ingredient": "tofu", "grams": 350}]}
+    st, _ = derived(*_planted_mini(_qc))
+    qc_ok = (st["food_safety_linter_pass"] == "pass"
+             and st["lines_with_quantity_evidence"] == "pass")
+    controls_held += qc_ok
+    print(f"  control linked scale measurement resolves its weighed line: "
+          f"{'held' if qc_ok else 'BROKEN'} "
+          f"(lint={st['food_safety_linter_pass']}, qty={st['lines_with_quantity_evidence']})")
+
     # P1 corrupted fixture: a household line citing a conversion it does not carry
     def _p1(r: dict[str, Any]) -> None:
         r["ingredients"][0]["qty"] = {"kind": "household", "value": 1, "unit": "block",
@@ -725,6 +868,30 @@ def self_test() -> int:
     plant("P1 household line without cited gram evidence",
           st["food_safety_linter_pass"] == "fail",
           f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # P6 (review case i): a household line citing a NONEXISTENT conversion_ref
+    # while grams ARE present. The citation must RESOLVE from the record's own
+    # rows — grams plus a nonempty ref string clear nothing.
+    def _p6(r: dict[str, Any]) -> None:
+        r["ingredients"][0]["qty"] = {"kind": "household", "value": 1, "unit": "block",
+                                      "grams": 350, "conversion_ref": "nonexistent_ref"}
+    st, _ = derived(*_planted_mini(_p6))
+    plant("P6 nonexistent conversion_ref with grams present still clears",
+          st["food_safety_linter_pass"] == "fail"
+          and st["lines_with_quantity_evidence"] == "fail",
+          f"lint={st['food_safety_linter_pass']}, qty={st['lines_with_quantity_evidence']}")
+
+    # P7 (review case ii): a weighed line 'covered' by a REAL scale measurement
+    # of a DIFFERENT line. Per-line linkage: an unrelated row covers nothing.
+    def _p7(r: dict[str, Any]) -> None:
+        r["ingredients"][0]["qty"] = {"kind": "weighed", "grams": 350}
+        r["provenance"] = {"scale_measurements": [{"ingredient": "rice vinegar",
+                                                   "grams": 15}]}
+    st, _ = derived(*_planted_mini(_p7))
+    plant("P7 weighed line clears on an unrelated scale measurement",
+          st["food_safety_linter_pass"] == "fail"
+          and st["lines_with_quantity_evidence"] == "fail",
+          f"lint={st['food_safety_linter_pass']}, qty={st['lines_with_quantity_evidence']}")
 
     # P2 flipped label: vegan claim over a meat ingredient
     def _p2(r: dict[str, Any]) -> None:
@@ -868,6 +1035,30 @@ def self_test() -> int:
           d4_value == 1,
           f"rights_clear value scored from repo-root corpus = {d4_value} (want 1)")
 
+    # P8 (review case iii): a tree carrying ONLY the originals product source
+    # (data/recipes/originals/) is scored as PRODUCT DATA — never as the
+    # bundled baseline, even when a bundled catalog is also present.
+    with tempfile.TemporaryDirectory(prefix="suite-c-p8-") as td:
+        tmp_root = Path(td) / "repo"
+        (tmp_root / "data" / "recipes" / "originals").mkdir(parents=True)
+        (tmp_root / "apps" / "ios" / "Resources").mkdir(parents=True)
+        (tmp_root / "apps" / "ios" / "Resources" / "data.json").write_text(json.dumps({
+            "recipes": [["bundled-1", "Some Bundled Dish", 20, 2, [], [], "Cook it."]]}))
+        p8_corpus, _ = _mini_fixtures()
+        p8_corpus[0]["id"] = "fl-original-9999"
+        p8_corpus[0]["source_ref"] = "temp:orig"
+        (tmp_root / "data" / "recipes" / "originals" / "originals.jsonl").write_text(
+            json.dumps(p8_corpus[0]) + "\n")
+        (tmp_root / "data" / "recipes" / "originals" / "rights_manifest.json").write_text(
+            json.dumps({"records": {"temp:orig": _ctl_rights_record("temp:orig")}}) + "\n")
+        results_p8 = run(Path(td) / "out", tmp_root)
+    m0 = results_p8["metrics"][0]
+    p8_ok = (m0["value"] == 1
+             and "originals.jsonl" in str(m0.get("detail", "")))
+    plant("P8 originals-only tree scored as the bundled baseline", p8_ok,
+          f"rights_clear value = {m0['value']}, scored input = "
+          f"{str(m0.get('detail', ''))[:120]}")
+
     # D6 identity drift: the runner renders the scorecard row from the run
     # payload's letter/title; a payload that omits or mismatches suite.json
     # renders `?. <id>` (the gap suite A fixed at 564482c5). check_identity
@@ -882,8 +1073,8 @@ def self_test() -> int:
           f"check_identity(missing)={check_identity({'suite': 'recipes'})}")
 
     print(f"caught {caught}/{plants_total} planted failures; "
-          f"controls {controls_held}/1 held")
-    return 0 if (caught == plants_total and controls_held == 1) else 1
+          f"controls {controls_held}/2 held")
+    return 0 if (caught == plants_total and controls_held == 2) else 1
 
 
 # ---------------------------------------------------------------------------
