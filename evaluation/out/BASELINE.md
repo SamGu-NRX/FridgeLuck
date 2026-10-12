@@ -1,16 +1,16 @@
 # BASELINE — full scorecard run at the joined runner head (r3)
 
-**Date:** 2026-10-12 · **Git head:** `f5fe7f1826b7d39d9ef42a7414f137b24811cdee` (short `f5fe7f1826b7`, branch `eval/scorecard-runner`) · **Run id:** `r-20261012T030131Z-83c68ad8` (started 2026-10-12T03:01:31Z) · **Toolchain:** python 3.13.14, linux, Swift 6.4.
+**Date:** 2026-10-12 · **Git head:** `2eedb0a22c7ed54510c9ab83a029bbba04a5de1e` (short `2eedb0a22c7e`, branch `eval/scorecard-runner`) · **Run id:** `r-20261012T041423Z-716a5d80` (started 2026-10-12T04:14:23Z) · **Toolchain:** python 3.13.14, linux, Swift 6.4.
 
-Produced by `python3 evaluation/run.py --all` from a fresh clone with a completely clean working tree at `f5fe7f1` (`git status --porcelain` empty immediately before the run; the scorecard header binds run id + git SHA with **no dirty flag**). `f5fe7f1` is the join of the r3 review-fix parts (A safety lint, B allergen facts, C corpus/quantity evidence, D runner identity/provenance, E suite-A battery completeness), where suites A and C now stamp the `FL_RUN_BINDING` producer binding the runner hands them (SCORECARD.md §3/§4): the runner verifies the emitted binding and refuses unbound or stale results to not-run — it never overwrites one. Immediately before the run, `python3 evaluation/run.py --self-test` exited 0 — **36/36 runner cases**, with per-suite planted-failure batteries: pantry-truth 7/7, recipes 16/16 + controls 2/2 + part-A safety-lint battery 4/4, ui-polish 5/5, journeys 6/6; the full five-command battery was re-run green (all exit 0) on the committed record tree. The harness is sound; the failures below are the product's honest baseline.
+Produced by `python3 evaluation/run.py --all` from a completely clean working tree at `2eedb0a` (`git status --porcelain` empty immediately before the run; the scorecard header binds run id + git SHA with **no dirty flag**). `2eedb0a` is the r3 join (`f5fe7f1`: A safety lint, B allergen facts, C corpus/quantity evidence, D runner identity/provenance, E suite-A battery completeness) plus the two reviewer-finding fixes — oven-reading (PR #137) and rest-metadata (PR #138) — which landed red-first as plants **D1e/D1f/D1g**, each reviewer-reproduced at `393b5de` by calling `rs.py` directly. Suites A and C stamp the `FL_RUN_BINDING` producer binding the runner hands them (SCORECARD.md §3/§4): the runner verifies the emitted binding and refuses unbound or stale results to not-run — it never overwrites one. Immediately before the run, `python3 evaluation/run.py --self-test` exited 0 — **36/36 runner cases**, with per-suite planted-failure batteries: pantry-truth 7/7, recipes **19/19** + controls 2/2 + part-A safety-lint battery 4/4, ui-polish 5/5, journeys 6/6; the full five-command battery was re-run green (all exit 0) on the committed record tree. The harness is sound; the failures below are the product's honest baseline.
 
-**Totals: 1 pass · 4 fail · 9 not-run.** (Unchanged from the r2 baseline at `80c4f1de`: the r3 parts hardened provenance and harness conformance, not the measured product values.)
+**Totals: 1 pass · 4 fail · 9 not-run.** Every recorded value is identical to the `393b5de` record: the reviewer-finding fixes bind `rs.py`'s cook-visible reading and stated-rest logic, whose metrics are not-run fail-closed on this tree, so no measured product value moved.
 
 ## Per-suite table
 
 | Suite | id | status | key values |
 | --- | --- | --- | --- |
-| A. Pantry truth | `pantry-truth` | run (native, 82.3s, producer-bound) — 3 fail, 1 pass | stock counted twice **37** (bar == 0); sufficient claimed without quantity evidence **209** (bar == 0); fit-line text correct **55 / 200** (bar == 200); plan battery rows present **3/3** pass |
+| A. Pantry truth | `pantry-truth` | run (native, 42.4s, producer-bound) — 3 fail, 1 pass | stock counted twice **37** (bar == 0); sufficient claimed without quantity evidence **209** (bar == 0); fit-line text correct **55 / 200** (bar == 200); plan battery rows present **3/3** pass |
 | B. Learning | `learning` | not-run | suite not yet delivered by `fl-learning-lab-f1` (no `evaluation/suites/learning/`) |
 | C. Recipe corpus quality and rights | `recipes` | run (producer-bound) — 1 fail, 4 not-run | rights-clear recipes **0** of 166 (bar >= 400, fail); remaining metrics not-run, fail-closed: the scored corpus is quarantined outright |
 | D. LeChef | `lechef` | not-run | suite not yet delivered by `fl-lechef-f1` (no `evaluation/suites/lechef/`) |
@@ -18,7 +18,7 @@ Produced by `python3 evaluation/run.py --all` from a fresh clone with a complete
 | F. UI polish | `ui-polish` | not-run | committed macos results refused (macos-import rule): imported results carry no git.sha |
 | G. Journeys | `journeys` | not-run | committed macos results refused (macos-import rule): imported results carry no git.sha |
 
-Both `evaluation/out/pantry-truth/results.json` and `evaluation/out/recipes/results.json` carry the verified producer binding of this run (`run_id` `r-20261012T030131Z-83c68ad8`, `git_sha` `f5fe7f1…`, `started_at` `2026-10-12T03:01:31Z`).
+Both `evaluation/out/pantry-truth/results.json` and `evaluation/out/recipes/results.json` carry the verified producer binding of this run (`run_id` `r-20261012T041423Z-716a5d80`, `git_sha` `2eedb0a22c7e…`, `started_at` `2026-10-12T04:14:23Z`).
 
 ## Suite C — the honest bundled-baseline fail
 
@@ -28,13 +28,13 @@ This is the expected, correct behavior, not a harness defect: the bundled catalo
 
 ## Suite A — true product failures (harness sound)
 
-Suite A ran natively on Linux (Swift 6.4, 82.3s) and its self-test battery caught 7/7 planted failures, so the three failing metrics are genuine product signals for later work to fix, recorded here without chasing:
+Suite A ran natively on Linux (Swift 6.4, 42.4s) and its self-test battery caught 7/7 planted failures, so the three failing metrics are genuine product signals for later work to fix, recorded here without chasing:
 
 1. **Stock counted twice: 37** (bar == 0) — the plan battery double-counts pantry stock in 37 cases.
 2. **Sufficient claimed without quantity evidence: 209** (bar == 0) — across the 200-pair line audit, 209 lines claim sufficiency without quantity evidence.
 3. **Fit-line text correct: 55/200** (bar == 200) — only 55 of 200 audited fit lines render correct text.
 
-The completeness row passes (plan battery rows present 3/3, PLAN.md line 49), confirming the battery itself is intact. The values are identical to the r2 baseline — the r3 parts changed the evaluation harness, not these product behaviors — and remain the product baseline later rounds improve.
+The completeness row passes (plan battery rows present 3/3, PLAN.md line 49), confirming the battery itself is intact. The values are identical to the r2 and r3 baselines — the harness fixes to date changed evaluation code, not these product behaviors — and remain the product baseline later rounds improve.
 
 ## Pending and blocked suites
 

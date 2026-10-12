@@ -1,6 +1,6 @@
 # Suite A (pantry-truth) — audit evidence
 
-Run: 2026-10-12T03:02:53Z · seed 20261011 · corpus apps/ios/Resources/data.json (sha256 62d9ed0ae769…)
+Run: 2026-10-12T04:15:05Z · seed 20261011 · corpus apps/ios/Resources/data.json (sha256 62d9ed0ae769…)
 
 ## Grounding
 

@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-12T03:02:53Z",
+  "generated_at": "2026-10-12T04:15:06Z",
   "run": {
-    "run_id": "r-20261012T030131Z-83c68ad8",
-    "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-    "started_at": "2026-10-12T03:01:31Z"
+    "run_id": "r-20261012T041423Z-716a5d80",
+    "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+    "started_at": "2026-10-12T04:14:23Z"
   },
   "git": {
-    "sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+    "sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
     "branch": "eval/scorecard-runner",
     "dirty": false
   },
@@ -27,7 +27,7 @@
       "suite": "pantry-truth",
       "letter": "A",
       "title": "Pantry truth",
-      "run_at": "2026-10-12T03:02:53Z",
+      "run_at": "2026-10-12T04:15:05Z",
       "toolchain": {
         "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
         "python": "3.13.14",
@@ -36,7 +36,7 @@
         "probe_cache_key": "98b3c5b81e33caa66d074c93"
       },
       "revision": {
-        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee"
+        "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e"
       },
       "grounding": {
         "corpus": "apps/ios/Resources/data.json",
@@ -431,12 +431,12 @@
         }
       ],
       "run": {
-        "run_id": "r-20261012T030131Z-83c68ad8",
-        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-        "started_at": "2026-10-12T03:01:31Z"
+        "run_id": "r-20261012T041423Z-716a5d80",
+        "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+        "started_at": "2026-10-12T04:14:23Z"
       },
       "source": "run",
-      "duration_ms": 82278,
+      "duration_ms": 42449,
       "timeout_s": 1800
     },
     {
@@ -455,16 +455,16 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261012T030131Z-83c68ad8",
-        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-        "started_at": "2026-10-12T03:01:31Z"
+        "run_id": "r-20261012T041423Z-716a5d80",
+        "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+        "started_at": "2026-10-12T04:14:23Z"
       }
     },
     {
       "suite": "recipes",
       "letter": "C",
       "title": "Recipe corpus quality and rights",
-      "run_at": "2026-10-12T03:02:53Z",
+      "run_at": "2026-10-12T04:15:06Z",
       "toolchain": {
         "python": "3.13.14"
       },
@@ -526,12 +526,12 @@
         }
       ],
       "run": {
-        "run_id": "r-20261012T030131Z-83c68ad8",
-        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-        "started_at": "2026-10-12T03:01:31Z"
+        "run_id": "r-20261012T041423Z-716a5d80",
+        "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+        "started_at": "2026-10-12T04:14:23Z"
       },
       "source": "run",
-      "duration_ms": 392,
+      "duration_ms": 731,
       "timeout_s": 1800
     },
     {
@@ -550,9 +550,9 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261012T030131Z-83c68ad8",
-        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-        "started_at": "2026-10-12T03:01:31Z"
+        "run_id": "r-20261012T041423Z-716a5d80",
+        "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+        "started_at": "2026-10-12T04:14:23Z"
       }
     },
     {
@@ -571,9 +571,9 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261012T030131Z-83c68ad8",
-        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-        "started_at": "2026-10-12T03:01:31Z"
+        "run_id": "r-20261012T041423Z-716a5d80",
+        "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+        "started_at": "2026-10-12T04:14:23Z"
       }
     },
     {
@@ -590,11 +590,11 @@
           "reason": "committed results refused (macos-import rule): imported results carry no git.sha \u2014 the macos-import rule (SCORECARD.md) requires the producing run's full SHA"
         }
       ],
-      "duration_ms": 0,
+      "duration_ms": 6,
       "run": {
-        "run_id": "r-20261012T030131Z-83c68ad8",
-        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-        "started_at": "2026-10-12T03:01:31Z"
+        "run_id": "r-20261012T041423Z-716a5d80",
+        "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+        "started_at": "2026-10-12T04:14:23Z"
       }
     },
     {
@@ -613,11 +613,11 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261012T030131Z-83c68ad8",
-        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-        "started_at": "2026-10-12T03:01:31Z"
+        "run_id": "r-20261012T041423Z-716a5d80",
+        "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+        "started_at": "2026-10-12T04:14:23Z"
       }
     }
   ],
-  "runner_duration_ms": 82940
+  "runner_duration_ms": 43508
 }

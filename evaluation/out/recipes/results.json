@@ -2,7 +2,7 @@
   "suite": "recipes",
   "letter": "C",
   "title": "Recipe corpus quality and rights",
-  "run_at": "2026-10-12T03:02:53Z",
+  "run_at": "2026-10-12T04:15:06Z",
   "toolchain": {
     "python": "3.13.14"
   },
@@ -64,11 +64,11 @@
     }
   ],
   "run": {
-    "run_id": "r-20261012T030131Z-83c68ad8",
-    "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
-    "started_at": "2026-10-12T03:01:31Z"
+    "run_id": "r-20261012T041423Z-716a5d80",
+    "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+    "started_at": "2026-10-12T04:14:23Z"
   },
   "source": "run",
-  "duration_ms": 392,
+  "duration_ms": 731,
   "timeout_s": 1800
 }
