@@ -252,33 +252,50 @@ final class InventoryIntakeService: Sendable {
   }
 
   private static func inferredLocation(for ingredient: Ingredient?) -> InventoryStorageLocation {
-    guard let tip = ingredient?.storageTip?.lowercased() else { return .unknown }
-
-    if tip.contains("freezer") || tip.contains("freeze") {
-      return .freezer
+    // A recognized storage word in the tip wins over the name, and the FIRST
+    // storage word in the text is the primary instruction ("Refrigerate or
+    // freeze" means fridge; "Cool dark place, not fridge" means pantry). A tip
+    // that names no storage word is ignored and the name decides.
+    if let tip = ingredient?.storageTip {
+      let fromTip = storageWordLocation(in: tip)
+      if fromTip != .unknown {
+        return fromTip
+      }
     }
-    if tip.contains("pantry") || tip.contains("shelf") {
-      return .pantry
-    }
-    if tip.contains("fridge") || tip.contains("refriger") || tip.contains("chill") {
-      return .fridge
-    }
-    return .unknown
+    return inferredLocation(forName: ingredient?.name)
   }
 
-  private static func inferredLocation(forName ingredientName: String?) -> InventoryStorageLocation
-  {
-    guard let normalizedName = normalizeIngredientName(ingredientName) else { return .unknown }
+  /// The earliest recognized storage word in a tip decides its class.
+  private static func storageWordLocation(in tip: String) -> InventoryStorageLocation {
+    let loweredTip = tip.lowercased()
+    var best: (offset: Int, location: InventoryStorageLocation)?
+    for (word, location) in storageWords {
+      guard let range = loweredTip.range(of: word) else { continue }
+      let offset = loweredTip.distance(from: loweredTip.startIndex, to: range.lowerBound)
+      if best == nil || offset < best!.offset {
+        best = (offset, location)
+      }
+    }
+    return best?.location ?? .unknown
+  }
 
-    if normalizedName.contains("frozen") {
+  private static func inferredLocation(forName ingredientName: String?) -> InventoryStorageLocation {
+    guard let normalizedName = normalizeIngredientName(ingredientName) else { return .unknown }
+    let nameTokens = nameTokens(of: normalizedName)
+
+    if let pinned = collisionOverride(for: normalizedName, tokens: nameTokens) {
+      return pinned.location
+    }
+
+    if nameTokens.contains("frozen") {
       return .freezer
     }
 
-    if pantryLocationKeywords.contains(where: normalizedName.contains) {
+    if pantryLocationKeywords.contains(where: { matches($0, in: nameTokens) }) {
       return .pantry
     }
 
-    if fridgeLocationKeywords.contains(where: normalizedName.contains) {
+    if fridgeLocationKeywords.contains(where: { matches($0, in: nameTokens) }) {
       return .fridge
     }
 
@@ -287,18 +304,97 @@ final class InventoryIntakeService: Sendable {
 
   private static func estimatedGrams(forName ingredientName: String?) -> Double {
     guard let normalizedName = normalizeIngredientName(ingredientName) else { return 120 }
+    let nameTokens = nameTokens(of: normalizedName)
 
-    if normalizedName.contains("egg") { return 50 }
-    if liquidMassKeywords.contains(where: normalizedName.contains) { return 240 }
-    if oilAndCondimentKeywords.contains(where: normalizedName.contains) { return 30 }
-    if leafyProduceKeywords.contains(where: normalizedName.contains) { return 40 }
-    if aromaticKeywords.contains(where: normalizedName.contains) { return 20 }
-    if proteinKeywords.contains(where: normalizedName.contains) { return 150 }
-    if dryGoodsKeywords.contains(where: normalizedName.contains) { return 180 }
-    if breadKeywords.contains(where: normalizedName.contains) { return 60 }
-    if produceKeywords.contains(where: normalizedName.contains) { return 120 }
+    if let pinned = collisionOverride(for: normalizedName, tokens: nameTokens),
+      let grams = pinned.grams
+    {
+      return grams
+    }
+
+    if matches("egg", in: nameTokens) { return 50 }
+    if liquidMassKeywords.contains(where: { matches($0, in: nameTokens) }) { return 240 }
+    if oilAndCondimentKeywords.contains(where: { matches($0, in: nameTokens) }) { return 30 }
+    if leafyProduceKeywords.contains(where: { matches($0, in: nameTokens) }) { return 40 }
+    if aromaticKeywords.contains(where: { matches($0, in: nameTokens) }) { return 20 }
+    if proteinKeywords.contains(where: { matches($0, in: nameTokens) }) { return 150 }
+    if dryGoodsKeywords.contains(where: { matches($0, in: nameTokens) }) { return 180 }
+    if breadKeywords.contains(where: { matches($0, in: nameTokens) }) { return 60 }
+    if produceKeywords.contains(where: { matches($0, in: nameTokens) }) { return 120 }
 
     return 120
+  }
+
+  /// Recognized storage words in tips, with the class each word votes for.
+  private static let storageWords: [(String, InventoryStorageLocation)] = [
+    ("freezer", .freezer), ("freeze", .freezer), ("frozen", .freezer),
+    ("pantry", .pantry), ("shelf", .pantry), ("room temp", .pantry), ("cool", .pantry),
+    ("fridge", .fridge), ("refriger", .fridge), ("chill", .fridge),
+  ]
+
+  /// A pinned name collision that tier matching gets wrong, matched as a
+  /// phrase inside the normalized name ("green beans" also covers "fresh
+  /// green beans"). `grams` nil keeps the tier estimate.
+  private struct NameOverride {
+    let phrase: String
+    let location: InventoryStorageLocation
+    let grams: Double?
+  }
+
+  private static let collisionOverrides: [NameOverride] = [
+    NameOverride(phrase: "red pepper flakes", location: .pantry, grams: 30),  // a spice jar, not a fresh pepper
+    NameOverride(phrase: "green beans", location: .fridge, grams: 120),  // fresh pods, not the dried-bean rule
+    NameOverride(phrase: "coconut milk", location: .pantry, grams: nil),  // canned; the name alone rides "milk"
+    NameOverride(phrase: "sour cream", location: .fridge, grams: nil),
+    NameOverride(phrase: "sweet potato", location: .pantry, grams: nil),  // a cool dark place, not the fridge
+    NameOverride(phrase: "peanut butter", location: .pantry, grams: 30),
+    NameOverride(phrase: "green onion", location: .fridge, grams: 40),  // leafy, before the onion pantry rule
+    NameOverride(phrase: "oatmeal", location: .pantry, grams: 180),
+    NameOverride(phrase: "potato", location: .pantry, grams: nil),
+    NameOverride(phrase: "eggplant", location: .fridge, grams: 120),
+    NameOverride(phrase: "peach", location: .fridge, grams: 120),
+    NameOverride(phrase: "peanut", location: .pantry, grams: 180),
+    NameOverride(phrase: "cumin", location: .pantry, grams: 30),
+  ]
+
+  private static func collisionOverride(
+    for normalizedName: String, tokens: [String]
+  ) -> (location: InventoryStorageLocation, grams: Double?)? {
+    for entry in collisionOverrides {
+      let hit =
+        entry.phrase.contains(" ")
+        ? normalizedName.contains(entry.phrase)
+        : tokens.contains { $0 == entry.phrase || singularized($0) == entry.phrase }
+      if hit {
+        return (entry.location, entry.grams)
+      }
+    }
+    return nil
+  }
+
+  private static func nameTokens(of normalizedName: String) -> [String] {
+    normalizedName
+      .components(separatedBy: CharacterSet.alphanumerics.inverted)
+      .filter { !$0.isEmpty }
+  }
+
+  /// Trivial English plural folding ("eggs" -> "egg", "tomatoes" ->
+  /// "tomato", "peaches" -> "peach"); keywords still match the raw token,
+  /// so "cheese" never depends on this.
+  private static func singularized(_ token: String) -> String {
+    if token.count > 3, token.hasSuffix("es") {
+      return String(token.dropLast(2))
+    }
+    if token.count > 2, token.hasSuffix("s") {
+      return String(token.dropLast(1))
+    }
+    return token
+  }
+
+  /// Whole-word, plural-aware keyword match: "pea" never rides "peanut" or
+  /// "peach", "egg" never rides "eggplant", "oat" never rides "goat".
+  private static func matches(_ keyword: String, in tokens: [String]) -> Bool {
+    tokens.contains { $0 == keyword || singularized($0) == keyword }
   }
 
   private static func normalizeIngredientName(_ ingredientName: String?) -> String? {
@@ -321,7 +417,7 @@ final class InventoryIntakeService: Sendable {
   private static let fridgeLocationKeywords = [
     "milk", "yogurt", "cheese", "butter", "egg", "spinach", "lettuce", "pepper", "tomato",
     "carrot", "broccoli", "cucumber", "zucchini", "celery", "avocado", "apple", "banana",
-    "lemon", "lime", "salmon", "chicken", "beef", "tofu", "mushroom",
+    "lemon", "lime", "salmon", "chicken", "beef", "tofu", "mushroom", "cilantro",
   ]
 
   private static let liquidMassKeywords = ["milk", "yogurt"]
