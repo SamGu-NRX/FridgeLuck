@@ -24,12 +24,33 @@ public struct CookSession: Hashable, Sendable {
     public let checkpoint: CookingSessionCheckpoint
     /// Step IDs of the revision being cooked, in bill order.
     public let stepIDs: [String]
+    /// Substitutions the user accepted during this cook, in acceptance order
+    /// (SPEC 3.3: the cook records what was swapped and why). App-side
+    /// session state like pause: it does not ride the FLDomain checkpoint
+    /// (the checkpoint is FLDomain's cross-language contract), so it does
+    /// not survive a restart kill — the join layer's mid-cook persistence
+    /// (PR #119) gives app-side state its durable home.
+    public let acceptedSubstitutions: [CookSubstitution]
 
     public var stepCount: Int { stepIDs.count }
     /// The step currently being worked, while cooking.
     public var currentStepID: String? {
         guard stage == .cooking, checkpoint.stepIndex < stepIDs.count else { return nil }
         return stepIDs[checkpoint.stepIndex]
+    }
+    /// Internal memberwise construction. Every live transition carries the
+    /// accepted substitutions through — only `start` and `reinstate` begin
+    /// without any (app-side state is born with the session).
+    init(
+        stage: SessionStage,
+        checkpoint: CookingSessionCheckpoint,
+        stepIDs: [String],
+        acceptedSubstitutions: [CookSubstitution] = []
+    ) {
+        self.stage = stage
+        self.checkpoint = checkpoint
+        self.stepIDs = stepIDs
+        self.acceptedSubstitutions = acceptedSubstitutions
     }
 
     /// Timers whose deadline has passed but that were never acknowledged.
@@ -85,7 +106,12 @@ public struct CookSession: Hashable, Sendable {
             timers: checkpoint.timers,
             updatedAt: now
         )
-        return CookSession(stage: finished ? .finished : .cooking, checkpoint: next, stepIDs: stepIDs)
+        return CookSession(
+            stage: finished ? .finished : .cooking,
+            checkpoint: next,
+            stepIDs: stepIDs,
+            acceptedSubstitutions: acceptedSubstitutions
+        )
     }
 
     /// Advances to a later step without completing the current one
@@ -106,7 +132,12 @@ public struct CookSession: Hashable, Sendable {
             timers: checkpoint.timers,
             updatedAt: now
         )
-        return CookSession(stage: .cooking, checkpoint: next, stepIDs: stepIDs)
+        return CookSession(
+            stage: .cooking,
+            checkpoint: next,
+            stepIDs: stepIDs,
+            acceptedSubstitutions: acceptedSubstitutions
+        )
     }
 
     // MARK: Timers
@@ -135,7 +166,12 @@ public struct CookSession: Hashable, Sendable {
             timers: checkpoint.timers + [record],
             updatedAt: now
         )
-        return CookSession(stage: stage, checkpoint: next, stepIDs: stepIDs)
+        return CookSession(
+            stage: stage,
+            checkpoint: next,
+            stepIDs: stepIDs,
+            acceptedSubstitutions: acceptedSubstitutions
+        )
     }
 
     /// Acknowledges a timer. A timer not created on this device can never be
@@ -170,7 +206,12 @@ public struct CookSession: Hashable, Sendable {
             timers: timers,
             updatedAt: now
         )
-        return CookSession(stage: stage, checkpoint: next, stepIDs: stepIDs)
+        return CookSession(
+            stage: stage,
+            checkpoint: next,
+            stepIDs: stepIDs,
+            acceptedSubstitutions: acceptedSubstitutions
+        )
     }
 
     // MARK: Pause and resume
@@ -187,7 +228,12 @@ public struct CookSession: Hashable, Sendable {
             timers: checkpoint.timers,
             updatedAt: now
         )
-        return CookSession(stage: .paused, checkpoint: next, stepIDs: stepIDs)
+        return CookSession(
+            stage: .paused,
+            checkpoint: next,
+            stepIDs: stepIDs,
+            acceptedSubstitutions: acceptedSubstitutions
+        )
     }
 
     public func resume(now: Date) throws -> CookSession {
@@ -202,7 +248,32 @@ public struct CookSession: Hashable, Sendable {
             timers: checkpoint.timers,
             updatedAt: now
         )
-        return CookSession(stage: .cooking, checkpoint: next, stepIDs: stepIDs)
+        return CookSession(
+            stage: .cooking,
+            checkpoint: next,
+            stepIDs: stepIDs,
+            acceptedSubstitutions: acceptedSubstitutions
+        )
+    }
+
+    // MARK: Accepted substitutions
+
+    /// Records a substitution the user accepted mid-cook (SPEC 3.3: the cook
+    /// records what was swapped and why). Allowed while the cook is live —
+    /// cooking or paused; a finished cook's record is complete and takes no
+    /// new swaps.
+    public func accept(substitution: CookSubstitution) throws -> CookSession {
+        guard stage != .finished else {
+            throw FLFlowError.invalidTransition(phase: String(describing: stage), operation: "accept(substitution:)")
+        }
+        var accepted = acceptedSubstitutions
+        accepted.append(substitution)
+        return CookSession(
+            stage: stage,
+            checkpoint: checkpoint,
+            stepIDs: stepIDs,
+            acceptedSubstitutions: accepted
+        )
     }
 
     // MARK: Recovery after a restart

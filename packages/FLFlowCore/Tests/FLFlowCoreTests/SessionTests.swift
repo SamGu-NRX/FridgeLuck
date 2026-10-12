@@ -298,4 +298,76 @@ final class SessionTests: XCTestCase {
         XCTAssertEqual(finished.stage, .finished)
         XCTAssertEqual(finished.checkpoint.completedStepIDs, ["s1", "s2"])
     }
+
+    // MARK: Accepted substitutions
+
+    /// SPEC 3.3: the cook records what was swapped and why. The session
+    /// carries the user's mid-cook accepts so the meal-log hand-off can put
+    /// them on the Cook record.
+
+    private func makeSwap(
+        from: String = "butter",
+        to: String = "olive oil",
+        necessity: CookSubstitution.Necessity = .necessary
+    ) throws -> CookSubstitution {
+        try CookSubstitution(
+            from: try IngredientReference(canonicalName: from),
+            to: try IngredientReference(canonicalName: to),
+            necessity: necessity
+        )
+    }
+
+    func testAcceptedSubstitutionRidesLaterTransitions() throws {
+        let session = try startSession(steps: [TestBuilders.step("s1"), TestBuilders.step("s2")])
+        let swap = try makeSwap()
+        let accepted = try session.accept(substitution: swap)
+        let afterStep = try accepted.completeStep(now: t0.addingTimeInterval(10))
+        let paused = try afterStep.pause(now: t0.addingTimeInterval(20))
+        let resumed = try paused.resume(now: t0.addingTimeInterval(30))
+        XCTAssertEqual(accepted.acceptedSubstitutions, [swap])
+        XCTAssertEqual(afterStep.acceptedSubstitutions, [swap])
+        XCTAssertEqual(paused.acceptedSubstitutions, [swap])
+        XCTAssertEqual(resumed.acceptedSubstitutions, [swap])
+    }
+
+    func testAcceptsAreOrderedAndValueSemantic() throws {
+        let session = try startSession()
+        let first = try makeSwap()
+        let second = try makeSwap(from: "salt", to: "kosher salt", necessity: .preferred)
+        let one = try session.accept(substitution: first)
+        let two = try one.accept(substitution: second)
+        XCTAssertEqual(two.acceptedSubstitutions, [first, second])
+        XCTAssertEqual(one.acceptedSubstitutions, [first])
+        XCTAssertEqual(session.acceptedSubstitutions, [])
+    }
+
+    func testAcceptRefusedAfterFinish() throws {
+        // A finished cook's record is complete: no new swaps.
+        let single = try startSession(steps: [TestBuilders.step("s1")])
+        let finished = try single.completeStep(now: t0.addingTimeInterval(10))
+        XCTAssertEqual(finished.stage, .finished)
+        XCTAssertThrowsError(try finished.accept(substitution: makeSwap())) { error in
+            guard let flowError = error as? FLFlowError, case let .invalidTransition(phase, operation) = flowError else {
+                return XCTFail("expected invalidTransition, got \(error)")
+            }
+            XCTAssertEqual(operation, "accept(substitution:)")
+            XCTAssertTrue(phase.contains("finished"))
+        }
+    }
+
+    func testReinstateStartsWithoutSubstitutions() throws {
+        // App-side state does not ride the FLDomain checkpoint: a restart
+        // rebuilds from the bare checkpoint, so accepted substitutions begin
+        // empty again. The join layer's mid-cook persistence gives them a
+        // durable home (PR #119).
+        let session = try startSession()
+        let accepted = try session.accept(substitution: makeSwap())
+        let reinstated = try CookSession.reinstate(
+            checkpoint: session.checkpoint,
+            stepIDs: session.stepIDs,
+            now: t0.addingTimeInterval(10)
+        )
+        XCTAssertEqual(accepted.acceptedSubstitutions.count, 1)
+        XCTAssertEqual(reinstated.acceptedSubstitutions, [])
+    }
 }
