@@ -6,6 +6,7 @@ corpus itself: a checker that rewrote its inputs would be useless.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -25,12 +26,15 @@ def run_checker(pins: Path) -> subprocess.CompletedProcess:
   )
 
 
-def run_exporter(slug: str, data_ref: str, out_dir: Path) -> subprocess.CompletedProcess:
+def run_exporter(slug: str, data_ref: str, out_dir: Path, omit_recipes: bool = False) -> subprocess.CompletedProcess:
+  command = [
+    sys.executable, str(EXPORT_SCRIPT),
+    "--slug", slug, "--data-ref", data_ref, "--out-dir", str(out_dir),
+  ]
+  if omit_recipes:
+    command.append("--omit-recipes")
   return subprocess.run(
-    [
-      sys.executable, str(EXPORT_SCRIPT),
-      "--slug", slug, "--data-ref", data_ref, "--out-dir", str(out_dir),
-    ],
+    command,
     capture_output=True,
     text=True,
     check=False,
@@ -44,7 +48,7 @@ def test_committed_corpus_passes(pins_dir: Path) -> None:
   assert "OK: 1 pin(s) verified" in result.stdout
   # The exact committed values, restated by the checker's own output.
   assert COMMITTED_MANIFEST["pins"][0]["dataSha256"] == (
-    "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be"
+    "b9fb4b3c11b84a2684d382640c9b8b7445fb3cccc63c88a36c0a8a83f5eb42a6"
   )
   assert COMMITTED_MANIFEST["pins"][0]["catalogExportSha256"] == (
     "7c2fd33e19be9d5c98a9614609a4705d1a143d945a5b0156f6bc43ffb9efdeda"
@@ -105,11 +109,35 @@ def test_row_count_mismatch_fails(pins_copy: Path) -> None:
   assert "catalog row count mismatch: manifest 799, actual 800" in result.stderr
 
 
+def test_recipe_text_in_a_pin_fails(pins_copy: Path) -> None:
+  """The rights rule: a pin carrying recipe entries fails even when the
+  manifest hashes are kept consistent with the mutated payload."""
+  data_path = pins_copy / "v1_data.json"
+  payload = json.loads(data_path.read_text(encoding="utf-8"))
+  payload["recipes"].append([7, "Fixture Bowl", 15, 1, [], [], "Cook it.", 0])
+  data_path.write_bytes(
+    (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+  )
+  manifest_path = pins_copy / "manifest.json"
+  manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+  data_hash = hashlib.sha256(data_path.read_bytes()).hexdigest()
+  manifest["pins"][0]["dataSha256"] = data_hash
+  manifest["pins"][0]["bundleId"] = data_hash[:16]
+  manifest_path.write_bytes(
+    (json.dumps(manifest, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+  )
+  result = run_checker(pins_copy)
+  assert result.returncode == 1
+  assert "recipe entries" in result.stderr
+  assert "--omit-recipes" in result.stderr
+
+
 def test_exporter_reproduces_the_committed_corpus(tmp_path: Path) -> None:
   """Re-running the exporter for v1 must reproduce the committed corpus
   byte for byte: same data payload (read from the pin commit's git
-  object), same catalog export, same manifest."""
-  result = run_exporter("v1", "42d9dc9", tmp_path)
+  object, recipe-redacted per the rights rule), same catalog export, same
+  manifest."""
+  result = run_exporter("v1", "42d9dc9", tmp_path, omit_recipes=True)
   assert result.returncode == 0, result.stdout + result.stderr
   for name in ("manifest.json", "v1_data.json", "v1_usda_catalog_export.json"):
     exported = (tmp_path / name).read_bytes()
@@ -118,15 +146,16 @@ def test_exporter_reproduces_the_committed_corpus(tmp_path: Path) -> None:
 
 
 def test_exporter_preserves_other_slugs_and_sorts(tmp_path: Path) -> None:
-  first = run_exporter("v2", "42d9dc9", tmp_path)
+  first = run_exporter("v2", "42d9dc9", tmp_path, omit_recipes=True)
   assert first.returncode == 0, first.stdout + first.stderr
-  second = run_exporter("v1", "42d9dc9", tmp_path)
+  second = run_exporter("v1", "42d9dc9", tmp_path, omit_recipes=True)
   assert second.returncode == 0, second.stdout + second.stderr
 
   manifest = json.loads((tmp_path / "manifest.json").read_text(encoding="utf-8"))
   assert [pin["slug"] for pin in manifest["pins"]] == ["v1", "v2"]
   data_by_slug = {pin["slug"]: pin["dataSha256"] for pin in manifest["pins"]}
-  # Both slugs pinned the same git object, so the payloads agree.
+  # Both slugs pinned the same git object through the same redaction, so
+  # the payloads agree.
   assert data_by_slug["v1"] == data_by_slug["v2"] == (
-    "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be"
+    "b9fb4b3c11b84a2684d382640c9b8b7445fb3cccc63c88a36c0a8a83f5eb42a6"
   )

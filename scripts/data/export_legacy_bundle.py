@@ -20,6 +20,13 @@ Usage:
 Run from a checkout whose HEAD contains the payload you want to pin. The data
 pin is read from the git object named by --data-ref (never from the working
 tree, so accidental local edits cannot enter a pin).
+
+Rights rule: the trunk does not ship recipe instruction text. Pass
+--omit-recipes to redact the payload's recipe list (an empty "recipes" array)
+while keeping the ingredient provenance intact. Legacy recipe rows then stay
+unowned with diagnostics — the refresh's documented fail-closed path — instead
+of being matched against shipped unlicensed text. The checker enforces this:
+a pinned payload that carries recipe entries fails the corpus check.
 """
 
 from __future__ import annotations
@@ -111,6 +118,14 @@ def main() -> int:
   )
   parser.add_argument("--repo-root", default=None)
   parser.add_argument(
+    "--omit-recipes",
+    action="store_true",
+    help="Redact the payload's recipe list (rights rule: the trunk ships no "
+    "recipe instruction text). The pin keeps ingredients and tags; legacy "
+    "recipe adoption is unavailable in such a pin, and the refresh records "
+    "the legacy recipe rows as unowned with diagnostics.",
+  )
+  parser.add_argument(
     "--out-dir",
     default=None,
     help="Directory for the pin corpus (default: apps/ios/Resources/LegacyBundles "
@@ -126,6 +141,10 @@ def main() -> int:
   out_dir.mkdir(parents=True, exist_ok=True)
 
   data_bytes = git_show(repo_root, args.data_ref, data_path)
+  if args.omit_recipes:
+    payload = json.loads(data_bytes)
+    payload["recipes"] = []
+    data_bytes = json_bytes(payload)
   catalog_rows = export_catalog(catalog_path)
 
   data_file = f"{args.slug}_data.json"
