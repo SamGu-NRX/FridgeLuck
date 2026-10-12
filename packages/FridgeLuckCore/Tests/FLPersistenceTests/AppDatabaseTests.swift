@@ -9,7 +9,7 @@ final class AppDatabaseTests: XCTestCase {
         try db.migrate()
         XCTAssertTrue(try db.tableExists("fl_schema_baseline"))
         let applied = try db.appliedMigrations()
-        XCTAssertEqual(applied, ["v1-baseline"])
+        XCTAssertEqual(applied, ["v1-baseline", "v2-cooks-preference-events"])
     }
 
     // MARK: On-disk
@@ -31,7 +31,7 @@ final class AppDatabaseTests: XCTestCase {
         // Reopening applies no new migrations and sees the same schema.
         let reopened = try AppDatabase.open(at: url)
         try reopened.migrate()
-        XCTAssertEqual(try reopened.appliedMigrations(), ["v1-baseline"])
+        XCTAssertEqual(try reopened.appliedMigrations(), ["v1-baseline", "v2-cooks-preference-events"])
     }
 
     // MARK: Default directory contract
