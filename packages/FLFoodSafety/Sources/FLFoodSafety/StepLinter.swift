@@ -606,7 +606,7 @@ public extension StepLinter {
         let temps = Self.parseTempMentions(step)
         let internalTemps = temps.filter { !$0.isDevice }
         let deviceTemps = temps.filter { $0.isDevice }
-        let thermometer = Self.matches(Self.thermometerWordPattern, in: lowered)
+        let thermometer = Self.hasAffirmativeMatch(Self.thermometerWordPattern, in: lowered)
         let statedRest = Self.statedRestMinutes(step)
         let restRequired = check.restMinutes > 0
         let belowMinimum = internalTemps.first { !Self.meetsMinimum($0, check: check) }
@@ -788,7 +788,7 @@ public extension StepLinter {
             guard let check = match.rule.check else { return false }
             let temps = Self.parseTempMentions(step)
             let internalTemps = temps.filter { !$0.isDevice }
-            let thermometer = Self.matches(Self.thermometerWordPattern, in: step.lowercased())
+            let thermometer = Self.hasAffirmativeMatch(Self.thermometerWordPattern, in: step.lowercased())
             let restRequired = check.restMinutes > 0
             let statedRest = Self.statedRestMinutes(step)
             return thermometer
@@ -845,6 +845,9 @@ public extension StepLinter {
             let lowered = sentence.lowercased() as NSString
             guard let regex = try? NSRegularExpression(pattern: tempPattern, options: [.caseInsensitive]) else { continue }
             for match in regex.matches(in: lowered as String, options: [], range: NSRange(location: 0, length: lowered.length)) {
+                // A temperature inside a negation's scope ("do not … check
+                // for 165 °F") is not an affirmative statement — skip it.
+                if Self.negationScopes(match.range, in: lowered as String) { continue }
                 let unitRange = match.range(at: 3).location != NSNotFound ? match.range(at: 3) : match.range(at: 4)
                 guard unitRange.length > 0, match.range(at: 1).length > 0,
                       let first = Double(lowered.substring(with: match.range(at: 1)).replacingOccurrences(of: ",", with: ".")) else { continue }
@@ -921,6 +924,53 @@ public extension StepLinter {
         }
     }
 
+    // MARK: Affirmative check scoping (canon clause 1)
+
+    /// Prohibitive, negative, conditional-negative and hypothetical cues
+    /// whose scope removes a check element from counting: a thermometer
+    /// mention, internal temperature or rest statement reached through one
+    /// of these is not an affirmative instruction to check ("do not use a
+    /// thermometer", "never rest for 3 minutes", "without a thermometer",
+    /// "avoid checking", "unless you own a probe").
+    static let negationCuePattern =
+        #"(?:\b(?:do|does|did|can|could|will|would|should|must)\s+not\b|never\b|without\b|avoid\w*|skip\w*|omit\w*|prohibit\w*|forbid\w*|don'?t\b|doesn'?t\b|didn'?t\b|can'?t\b|cannot\b|won'?t\b|wouldn'?t\b|shouldn'?t\b|mustn'?t\b|unless\b|neither\b|nor\b|no\s+need\b)"#
+
+    /// Clause boundaries that end a negation cue's scope: sentence ends,
+    /// `;`, `:`, `,`, newlines and spaced dashes. A period or comma between
+    /// digits ("1.5", "1,5") is a decimal mark, not a boundary, and a hyphen
+    /// inside a word ("instant-read") is never a boundary.
+    static let clauseBoundaryPattern = #"(?:[.!?;,]+(?=\s|$)|\n+|(?<=\s)[—–]+(?=\s))"#
+
+    /// Whether the element matched at `range` sits inside the scope of a
+    /// negation cue: a cue ahead of it in the same clause. A cue after the
+    /// element never scopes backwards, and an affirmative clause is never
+    /// read through a later negated one.
+    static func negationScopes(_ range: NSRange, in text: String) -> Bool {
+        let lowered = text.lowercased() as NSString
+        guard range.location != NSNotFound, range.location <= lowered.length else { return false }
+        let before = lowered.substring(with: NSRange(location: 0, length: range.location))
+        let clauseStart = Self.lastCueEnd(Self.clauseBoundaryPattern, in: before) ?? 0
+        guard clauseStart <= range.location else { return false }
+        return Self.matches(Self.negationCuePattern, in: lowered.substring(with: NSRange(location: clauseStart, length: range.location - clauseStart)))
+    }
+
+    /// Whether the text contains at least one match of `pattern` that no
+    /// negation cue scopes — an affirmative mention. Canon clause 1: a
+    /// doneness check counts only when the user-visible text affirmatively
+    /// names the element ("Use a food thermometer to check the thigh reads
+    /// 165 °F"), never through a negation ("Do not use a thermometer or
+    /// check for 165 °F").
+    static func hasAffirmativeMatch(_ pattern: String, in text: String) -> Bool {
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else { return false }
+        let nsText = text as NSString
+        for match in regex.matches(in: text, options: [], range: NSRange(location: 0, length: nsText.length)) {
+            if !Self.negationScopes(match.range, in: text) {
+                return true
+            }
+        }
+        return false
+    }
+
     /// The rest time the step text states, in minutes (nil when none). Rest
     /// and standing wording, digits or common number words, minutes or hours.
     static func statedRestMinutes(_ text: String) -> Double? {
@@ -930,6 +980,9 @@ public extension StepLinter {
         let restWordPattern = #"(?<!the )\brest(?:s|ing|ed)?\b|(?<!the )\bstand(?:s|ing)?\b"#
         if let regex = try? NSRegularExpression(pattern: restWordPattern, options: [.caseInsensitive]) {
             for match in regex.matches(in: text, options: [], range: NSRange(text.startIndex..., in: text)) {
+                // A negated rest statement ("do not rest for 3 minutes")
+                // states no rest — the requirement stays unsatisfied.
+                if Self.negationScopes(match.range, in: text) { continue }
                 guard let afterRange = Range(NSRange(location: match.range.upperBound, length: max(text.count - match.range.upperBound, 0)), in: text) else { continue }
                 let after = String(text[afterRange]).prefix(60)
                 if let duration = Self.durationMinutes(String(after), wordNumbers: wordNumbers) {
@@ -940,6 +993,7 @@ public extension StepLinter {
         // Reversed: "3 minutes rest".
         if let regex = try? NSRegularExpression(pattern: #"\b(\d+|one|two|three|four|five|ten|fifteen|twenty|thirty|forty[- ]?five)\s*(?:minutes?|mins?|hours?|hrs?)\b[^.]{0,20}\brest"#, options: [.caseInsensitive]),
            let match = regex.firstMatch(in: text, options: [], range: NSRange(text.startIndex..., in: text)),
+           !Self.negationScopes(match.range, in: text),
            let numberRange = Range(match.range(at: 1), in: text) {
             let word = String(text[numberRange]).lowercased()
             let value = wordNumbers[word].map(Double.init) ?? Double(word) ?? 0
