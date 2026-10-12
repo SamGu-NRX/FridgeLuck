@@ -98,7 +98,7 @@ public enum MealLog {
             id: cookID,
             recipeRevision: session.checkpoint.recipeRevision,
             servings: servings,
-            substitutions: [],
+            substitutions: session.acceptedSubstitutions,
             rating: rating,
             note: note,
             startedAt: startedAt,
