@@ -30,4 +30,25 @@ public enum PhotoLayoutRule {
         let cap = availableHeight * maxHeightFraction
         return min(idealHeight, cap)
     }
+
+    /// The reference device geometry the round decision was drawn against:
+    /// the layout the mocks render at and the width Tonight's hero was
+    /// sized to. One named pair so the cap and the hero ideal measure the
+    /// same screen everywhere, instead of each call site guessing.
+    public static let referenceScreenWidth: Double = 300
+    public static let referenceScreenHeight: Double = 852
+
+    /// The hero ideal: the 3:2 height for the reference width, capped once
+    /// at 40% of the reference screen height. THE derivation for every
+    /// screen-top photo area — Tonight's pick photo, the Recipe hero, Scan's
+    /// analysing and problem photos, the Tour card's photo — so the areas
+    /// render at one height and the cap is applied exactly once, against
+    /// the screen, never against the photo frame itself. (Part 7 audit:
+    /// the earlier per-site pattern re-derived the height inside each
+    /// area's own frame, double-capping — 40% of the already-ideal
+    /// height — and the areas rendered far short of 3:2. This named
+    /// derivation is the one call a hero area makes.)
+    public static var heroIdealHeight: Double {
+        height(forWidth: referenceScreenWidth, availableHeight: referenceScreenHeight)
+    }
 }

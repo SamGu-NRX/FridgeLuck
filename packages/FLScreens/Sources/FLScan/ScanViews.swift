@@ -126,6 +126,7 @@ private struct IdleLanding: View {
                 .flType(.screenTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.scan.title")
+                .accessibilityAddTraits(.isHeader)
 
             Text("Point at a shelf of groceries and I'll read it. Add by hand any time — both count the same.")
                 .flType(.body)
@@ -274,12 +275,14 @@ private struct AnalysingSurface: View {
                     .flType(.screenTitle)
                     .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                     .accessibilityIdentifier("fl.scan.analysingTitle")
-                // One indeterminate line under the title. Under reduce
-                // motion it is a still hairline.
-                Rectangle()
-                    .fill(Theme.swiftColor(.rule2, in: scheme))
-                    .frame(height: 2)
-                    .opacity(reduceMotion ? 1 : 0.6)
+                    .accessibilityAddTraits(.isHeader)
+                // One indeterminate line under the title — the SHARED
+                // loading line (Part 7 audit: this surface drew its own
+                // 2 pt Rectangle, a second loading grammar alongside
+                // FLEmptyLoadingLine; the shared line carries the same
+                // reduce-motion behaviour and one component now carries
+                // the grammar everywhere).
+                FLEmptyLoadingLine()
                     .accessibilityIdentifier("fl.scan.progressLine")
                 arrivalList
             }
@@ -291,24 +294,16 @@ private struct AnalysingSurface: View {
         .accessibilityIdentifier("fl.scan.analysing")
     }
 
-    /// 3:2, capped at 40% of the available height — the round decision
-    /// supersedes the mock's 4:5 analysing frame.
+    /// 3:2 via the shared hero derivation — the round decision supersedes
+    /// the mock's 4:5 analysing frame. Part 7 audit: this area used to
+    /// re-derive the height inside its own frame (double-capping); every
+    /// hero now makes the same single `heroIdealHeight` call.
     @ViewBuilder
     private var photoArea: some View {
-        GeometryReader { geo in
-            let height = PhotoLayoutRule.height(
-                forWidth: Double(geo.size.width),
-                availableHeight: Double(geo.size.height)
-            )
-            photoPlaceholder
-                .frame(height: CGFloat(height), alignment: .top)
-                .frame(maxWidth: .infinity, alignment: .top)
-        }
-        .frame(height: CGFloat(PhotoLayoutRule.height(
-            forWidth: 300,
-            availableHeight: 852 * PhotoLayoutRule.maxHeightFraction
-        )))
-        .accessibilityIdentifier("fl.scan.analysingPhoto")
+        photoPlaceholder
+            .frame(height: CGFloat(PhotoLayoutRule.heroIdealHeight), alignment: .top)
+            .frame(maxWidth: .infinity, alignment: .top)
+            .accessibilityIdentifier("fl.scan.analysingPhoto")
     }
 
     private var photoPlaceholder: some View {
@@ -393,6 +388,7 @@ private struct ReviewSurface: View {
                 .flType(.screenTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.scan.title")
+                .accessibilityAddTraits(.isHeader)
             Spacer()
             if let count = state.headerCountDisplay {
                 Text(count)
@@ -576,14 +572,12 @@ private struct ReviewSurface: View {
     @ViewBuilder
     private var problemSection: some View {
         VStack(alignment: .leading, spacing: CGFloat(Density.dense.blockGap) / 2) {
-            // The photo stays over the problem — retry keeps it.
+            // The photo stays over the problem — retry keeps it. The
+            // shared hero derivation, like every screen-top photo area.
             ZStack {
                 RoundedRectangle(cornerRadius: CGFloat(Radius.card.rawValue), style: .continuous)
                     .fill(Theme.swiftColor(.pillGone, in: scheme))
-                    .frame(height: CGFloat(PhotoLayoutRule.height(
-                        forWidth: 300,
-                        availableHeight: 852 * PhotoLayoutRule.maxHeightFraction
-                    )))
+                    .frame(height: CGFloat(PhotoLayoutRule.heroIdealHeight))
                 if let caption = state.photoCaption {
                     Text(caption)
                         .flType(.evidence)

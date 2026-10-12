@@ -84,6 +84,7 @@ public struct TasteProfileView: View {
                 .flType(.screenTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.taste.title")
+                .accessibilityAddTraits(.isHeader)
             if let cooks = state.cooksCountDisplay {
                 Text(cooks)
                     .flTracking(.evidence)
@@ -137,16 +138,17 @@ public struct TasteProfileView: View {
                     .accessibilityIdentifier("fl.taste.sentence.\(sentence.id)")
                 Spacer()
                 // The evidence tag: the accent's home on this screen.
+                // Part 7 audit: this tag drew RoundedRectangle(6) at 7/3
+                // padding while the tag family elsewhere (Tonight's
+                // use-soon, Kitchen's leftover) is Capsule at 8/4 — one
+                // tag grammar now: Capsule, the family padding.
                 Text(sentence.evidenceDisplay)
                     .flTracking(.evidence)
                     .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.yolkInk, in: scheme))
-                    .padding(.horizontal, 7)
-                    .padding(.vertical, 3)
-                    .background(
-                        RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .fill(Theme.swiftColor(.yolkSoft, in: scheme))
-                    )
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Capsule().fill(Theme.swiftColor(.yolkSoft, in: scheme)))
                     .accessibilityIdentifier("fl.taste.evidence.\(sentence.id)")
             }
 

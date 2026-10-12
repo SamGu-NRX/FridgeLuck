@@ -80,7 +80,9 @@ public struct FLQuestsView: View {
                     shareSection
                 }
                 .padding(.horizontal, CGFloat(Density.dense.sideMargin))
-                .padding(.top, 8)
+                // The family's root rhythm — 16/24, as Parts 2–5 (Part 7
+                // audit: these roots sat at 8 with no recorded reason).
+                .padding(.top, 16)
                 .padding(.bottom, 24)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -96,6 +98,7 @@ public struct FLQuestsView: View {
                 .flType(.screenTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.quests.title")
+                .accessibilityAddTraits(.isHeader)
             Text(state.weekCaption)
                 .flType(.evidence)
                 .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))

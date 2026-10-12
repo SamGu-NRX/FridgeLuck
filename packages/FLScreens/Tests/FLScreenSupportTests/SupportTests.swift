@@ -49,6 +49,38 @@ final class SupportTests: XCTestCase {
         XCTAssertLessThan(cap, 852 / 2)
     }
 
+    // MARK: The shared hero derivation (Part 7 audit: one height, cap once)
+
+    func testHeroIdealHeightIsTheThreeTwoIdealAtTheReferenceWidth() {
+        // The single derivation every screen-top hero uses: 3:2 at the
+        // reference width, so the scroll layout is stable and the four
+        // hero sites (Tonight, Recipe, Scan, Tour) cannot drift.
+        XCTAssertEqual(
+            PhotoLayoutRule.heroIdealHeight,
+            PhotoLayoutRule.referenceScreenWidth / PhotoLayoutRule.aspectRatio,
+            accuracy: 0.001
+        )
+    }
+
+    func testHeroIdealHeightIsCappedOnceAgainstTheReferenceScreen() {
+        // The cap is applied exactly once, against the reference SCREEN
+        // height — never against the photo frame's own height (the
+        // double-cap the Part 7 audit removed). 40% of 852 is 340.8, well
+        // above the 200 pt ideal, so the ideal is the binding value and
+        // the hero renders at 3:2.
+        let cap = PhotoLayoutRule.referenceScreenHeight * PhotoLayoutRule.maxHeightFraction
+        XCTAssertEqual(PhotoLayoutRule.heroIdealHeight, 200, accuracy: 0.001)
+        XCTAssertLessThanOrEqual(PhotoLayoutRule.heroIdealHeight, cap)
+        XCTAssertEqual(
+            PhotoLayoutRule.heroIdealHeight,
+            PhotoLayoutRule.height(
+                forWidth: PhotoLayoutRule.referenceScreenWidth,
+                availableHeight: PhotoLayoutRule.referenceScreenHeight
+            ),
+            accuracy: 0.001
+        )
+    }
+
     // MARK: Shell configuration (Sam's round decision)
 
     func testStandardShellIsFourTabsPlusTrailingSearchRoleScan() {

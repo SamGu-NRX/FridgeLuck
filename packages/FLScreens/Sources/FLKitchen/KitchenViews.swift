@@ -84,6 +84,7 @@ public struct KitchenView: View {
                     .flType(.screenTitle)
                     .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                     .accessibilityIdentifier("fl.kitchen.title")
+                    .accessibilityAddTraits(.isHeader)
                 Spacer()
                 searchButton
             }
@@ -354,15 +355,19 @@ public struct KitchenView: View {
 
     /// Shape-first row state: filled = confirmed, dashed = unconfirmed,
     /// ring = assumed staple (always captioned by its evidence line).
+    /// Part 7 audit: the squares drew `cornerRadius: 4` and dash [3, 3]
+    /// while the same grammar's component (FLQuantityRow) draws square
+    /// (Radius.row) with dash [2, 2] — two spellings of one glyph on one
+    /// screen. Now the component's grammar at this row's size.
     private func stateGlyph(_ s: KitchenViewState.ItemState) -> some View {
         Group {
             switch s {
             case .confirmed:
-                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                Rectangle()
                     .fill(Theme.swiftColor(.ink, in: scheme))
             case .unconfirmed:
-                RoundedRectangle(cornerRadius: 4, style: .continuous)
-                    .stroke(Theme.swiftColor(.rule2, in: scheme), style: StrokeStyle(lineWidth: 1.5, dash: [3, 3]))
+                Rectangle()
+                    .stroke(Theme.swiftColor(.rule2, in: scheme), style: StrokeStyle(lineWidth: 1.5, dash: [2, 2]))
             case .assumedStaple:
                 Circle().stroke(Theme.swiftColor(.ink3, in: scheme), lineWidth: 1.5)
             }

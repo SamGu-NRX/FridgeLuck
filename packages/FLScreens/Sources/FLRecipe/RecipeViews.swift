@@ -79,38 +79,22 @@ public struct RecipeView: View {
     // MARK: Hero, title, stats
 
     private var heroPhoto: some View {
-        GeometryReader { geo in
-            let height = PhotoLayoutRule.height(
-                forWidth: Double(geo.size.width),
-                availableHeight: Double(geo.size.height)
-            )
-            ZStack {
-                RoundedRectangle(cornerRadius: CGFloat(Radius.card.rawValue), style: .continuous)
-                    .fill(Theme.swiftColor(.rule, in: scheme))
-                VStack(spacing: 6) {
-                    Image(systemName: "photo")
-                        .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
-                    Text(state.heroCaption ?? "")
-                        .flType(.caption)
-                        .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 12)
-                }
+        ZStack {
+            RoundedRectangle(cornerRadius: CGFloat(Radius.card.rawValue), style: .continuous)
+                .fill(Theme.swiftColor(.rule, in: scheme))
+            VStack(spacing: 6) {
+                Image(systemName: "photo")
+                    .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                Text(state.heroCaption ?? "")
+                    .flType(.caption)
+                    .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 12)
             }
-            .frame(height: CGFloat(height), alignment: .top)
-            .frame(maxWidth: .infinity, alignment: .top)
         }
-        .frame(height: heroIdealHeight)
+        .frame(height: CGFloat(PhotoLayoutRule.heroIdealHeight), alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
         .accessibilityIdentifier("fl.recipe.hero")
-    }
-
-    /// The 3:2 ideal for the document width; the GeometryReader applies
-    /// the height cap inside. Same derivation as Tonight's hero.
-    private var heroIdealHeight: CGFloat {
-        CGFloat(PhotoLayoutRule.height(
-            forWidth: 300,
-            availableHeight: 852 * PhotoLayoutRule.maxHeightFraction
-        ))
     }
 
     private var titleBlock: some View {
@@ -119,6 +103,7 @@ public struct RecipeView: View {
                 .flType(.dishTitle)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.recipe.title")
+                .accessibilityAddTraits(.isHeader)
             Text("\(state.publisherDisplay) · \(state.revisionDisplay)")
                 .flType(.caption)
                 .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
@@ -303,23 +288,21 @@ public struct RecipeView: View {
     }
 
     private func stepPhotoArea(_ caption: String) -> some View {
-        GeometryReader { geo in
-            let height = PhotoLayoutRule.height(
-                forWidth: Double(geo.size.width),
-                availableHeight: Double(geo.size.height)
-            )
-            ZStack {
-                RoundedRectangle(cornerRadius: CGFloat(Radius.row.rawValue), style: .continuous)
-                    .fill(Theme.swiftColor(.rule, in: scheme))
-                Text(caption)
-                    .flType(.caption)
-                    .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
-                    .padding(.horizontal, 12)
-            }
-            .frame(height: CGFloat(height), alignment: .top)
-            .frame(maxWidth: .infinity)
+        // Part 7 audit: this area had a fixed 120 pt frame whose inner
+        // derivation re-capped against the frame's own height, rendering
+        // ~48 pt. It now uses the shared in-card treatment — full-width
+        // 3:2 through PhotoLayoutRule, the same treatment as the Table
+        // card's photo and Explore's thumbnails.
+        ZStack {
+            RoundedRectangle(cornerRadius: CGFloat(Radius.row.rawValue), style: .continuous)
+                .fill(Theme.swiftColor(.rule, in: scheme))
+            Text(caption)
+                .flType(.caption)
+                .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                .padding(.horizontal, 12)
         }
-        .frame(height: 120)
+        .aspectRatio(CGFloat(PhotoLayoutRule.aspectRatio), contentMode: .fit)
+        .frame(maxWidth: .infinity)
         .accessibilityHidden(true)
     }
 

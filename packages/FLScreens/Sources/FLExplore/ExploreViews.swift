@@ -44,6 +44,23 @@ public struct ExploreView: View {
         ZStack {
             Theme.swiftColor(.bg, in: scheme).ignoresSafeArea()
             VStack(alignment: .leading, spacing: 0) {
+                // The screen's title — the plain large-title header Part 3
+                // recorded as the adaptation of the mock's decorative
+                // header. Part 7 audit: the recorded adaptation never made
+                // it into the view — Explore was the only main-tab screen
+                // without a heading. Added as the family's screen title:
+                // same type role, same header trait, above the search
+                // field like the mock (h1 "Explore").
+                HStack {
+                    Text("Explore")
+                        .flType(.screenTitle)
+                        .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
+                        .accessibilityIdentifier("fl.explore.title")
+                        .accessibilityAddTraits(.isHeader)
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal, CGFloat(Density.dense.sideMargin))
+                .padding(.top, 16)
                 searchField
                 filterChips
                 feed
@@ -71,7 +88,7 @@ public struct ExploreView: View {
                 .fill(Theme.swiftColor(.pillIdle, in: scheme))
         )
         .padding(.horizontal, CGFloat(Density.dense.sideMargin))
-        .padding(.top, 12)
+        .padding(.top, 16)
     }
 
     private var searchBinding: Binding<String> {
@@ -117,7 +134,7 @@ public struct ExploreView: View {
                 }
             }
             .padding(.horizontal, CGFloat(Density.dense.sideMargin))
-            .padding(.top, 8)
+            .padding(.top, 16)
             .padding(.bottom, 24)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
