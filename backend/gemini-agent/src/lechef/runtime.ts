@@ -13,7 +13,7 @@
  * phone.
  */
 
-import type { Clock, PantryLineState, Quantity, NoteScope, SubstitutionSwap } from "./types.js";
+import type { Clock, PantryLineState, ProposalTool, Quantity, NoteScope, SubstitutionSwap } from "./types.js";
 import { createProposalLayer, noAbort, type AbortCheck, type PhoneExecutor, type ProposalLayer } from "./proposals.js";
 import {
   getRecipeCandidates,
@@ -85,9 +85,27 @@ function asNumber(args: Record<string, unknown>, key: string): number | undefine
   return typeof v === "number" && Number.isFinite(v) ? v : undefined;
 }
 
-function asBoolean(args: Record<string, unknown>, key: string): boolean | undefined {
-  const v = args[key];
-  return typeof v === "boolean" ? v : undefined;
+/**
+ * User initiation is derived, never asserted. The model may cite ONE device
+ * event (a phone-authored user command, exposed in session snapshots); the
+ * runtime accepts the citation only when the event still exists in the
+ * current snapshot, is at the current revision, and matches the tool being
+ * proposed. Anything else — absent, stale, mismatched, or a bare
+ * `userInitiated` flag in the args — is not user initiation (SPEC 4).
+ */
+function deriveUserInitiation(
+  phone: PhoneExecutor,
+  tool: ProposalTool,
+  args: Record<string, unknown>
+): { eventId: string } | undefined {
+  const cited = asString(args, "deviceEventId");
+  if (cited === undefined) return undefined;
+  const snapshot = phone.sessionSnapshot();
+  const event = snapshot.deviceEvents?.find((e) => e.id === cited);
+  if (event === undefined) return undefined; // absent or already consumed
+  if (event.revision !== phone.revision()) return undefined; // stale
+  if (event.command !== tool) return undefined; // mismatched
+  return { eventId: event.id };
 }
 
 /** Accepts {kind:"known",value,unit} | {kind:"unknown"} | undefined. */
@@ -217,19 +235,19 @@ export function createLeChefRuntime(deps: LeChefRuntimeDeps): LeChefRuntime {
             if (!label || minutes === undefined) {
               return { ...base, result: { error: "proposeTimerStart needs a label and minutes" }, status: "error" };
             }
-            const userInitiated = asBoolean(args, "userInitiated") ?? false;
-            const outcome = proposals.proposeTimerStart({ callId: call.id, label, minutes, userInitiated, abort: stop });
+            const userInitiation = deriveUserInitiation(deps.phone, "proposeTimerStart", args);
+            const outcome = proposals.proposeTimerStart({ callId: call.id, label, minutes, userInitiation, abort: stop });
             return toDispatch(base, outcome);
           }
           case "proposeTimerAdjust": {
-            const userInitiated = asBoolean(args, "userInitiated") ?? false;
+            const userInitiation = deriveUserInitiation(deps.phone, "proposeTimerAdjust", args);
             const outcome = proposals.proposeTimerAdjust({
               callId: call.id,
               ...(asString(args, "timerId") !== undefined ? { timerId: asString(args, "timerId") } : {}),
               ...(asString(args, "label") !== undefined ? { label: asString(args, "label") } : {}),
               ...(asNumber(args, "newMinutes") !== undefined ? { newMinutes: asNumber(args, "newMinutes") } : {}),
               ...(asNumber(args, "deltaMinutes") !== undefined ? { deltaMinutes: asNumber(args, "deltaMinutes") } : {}),
-              userInitiated,
+              userInitiation,
               abort: stop
             });
             return toDispatch(base, outcome);
@@ -288,8 +306,9 @@ export function createLeChefRuntime(deps: LeChefRuntimeDeps): LeChefRuntime {
               proposals.proposeMealLog({
                 callId: call.id,
                 // mealLog is ALWAYS explicit — but whether this replayed a direct
-                // user command is still a recorded fact about the request.
-                userInitiated: asBoolean(args, "userInitiated") ?? false,
+                // user command is still a recorded fact about the request, and
+                // that fact is only ever a device event the phone authored.
+                userInitiation: deriveUserInitiation(deps.phone, "proposeMealLog", args),
                 recipeId,
                 revision,
                 servings,

@@ -32,7 +32,7 @@ import type {
 import type { CameraLookResult } from "./reads.js";
 import type { LeChefRuntime, DispatchResult } from "./runtime.js";
 import type { FakePhone } from "./fakePhone.js";
-import type { Clock } from "./types.js";
+import type { Clock, ProposalTool } from "./types.js";
 
 // ---------------------------------------------------------------------------
 // Script schema (pinned; see lechef/README.md "Session script schema")
@@ -483,6 +483,30 @@ export function estimateTokens(text: string): number {
 }
 
 /**
+ * Scripted dictation replay. A scripted model call marked `userInitiated`
+ * means the SCENARIO's user dictated that command — the marker is script
+ * material, never a trusted tool argument. The phone records the user
+ * command as a device event and the dispatched call cites it, so the
+ * authority layer (runtime.ts) derives initiation from the phone's own
+ * record. Timer tools only: the phone's device-auto policy (timers only,
+ * never meal logs, notes or shares) stays the ceiling, and any other tool
+ * marked with the bare argument stays explicit.
+ */
+const DICTATED_TIMER_TOOLS: readonly string[] = ["proposeTimerStart", "proposeTimerAdjust"];
+
+function prepareDictatedCall(
+  phone: FakePhone,
+  call: ScriptToolCall
+): { id: string; name: string; args?: Record<string, unknown> } {
+  const args = { ...(call.args ?? {}) };
+  if (!DICTATED_TIMER_TOOLS.includes(call.name) || args.userInitiated !== true) {
+    return { id: call.id, name: call.name, args };
+  }
+  const event = phone.recordUserCommand({ command: call.name as ProposalTool, source: "voice" });
+  return { id: call.id, name: call.name, args: { ...args, deviceEventId: event.id } };
+}
+
+/**
  * Replay a session script against a runtime + fake phone on an injected
  * clock. Emits raw streams only — no scoring, no verdicts, no approvals
  * beyond what the script's user actions perform.
@@ -531,10 +555,7 @@ export function replayScript(
       for (const call of turn.toolCalls ?? []) {
         callIds.push(call.id);
         const abort = cancelled.has(call.id) ? { aborted: () => true } : undefined;
-        const dispatch = runtime.dispatch(
-          { id: call.id, name: call.name, ...(call.args !== undefined ? { args: { ...call.args } } : {}) },
-          abort
-        );
+        const dispatch = runtime.dispatch(prepareDictatedCall(phone, call), abort);
         toolCalls.push({
           id: dispatch.id,
           name: dispatch.name,

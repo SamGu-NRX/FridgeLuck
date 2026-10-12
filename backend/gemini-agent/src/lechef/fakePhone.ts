@@ -26,14 +26,17 @@ import type {
   ActionReceipt,
   ActiveTimer,
   CookSessionSnapshot,
+  DeviceEvent,
   EpochSeconds,
   Eater,
   PantryLine,
   PantrySnapshot,
   ProposalState,
+  ProposalTool,
   ReceiptState,
   StepHistoryEntry
 } from "./types.js";
+import { payloadHash } from "./wire.js";
 
 /** Thrown when the phone is offline (unreachable) — never silently swallowed. */
 export class PhoneOfflineError extends Error {
@@ -56,6 +59,12 @@ interface TimerRecord {
   survivedKill: boolean;
 }
 
+/** Internal device-event ledger entry: the event plus when it was consumed. */
+interface DeviceEventRecord extends DeviceEvent {
+  /** Set the first time the phone accepts the event as initiation evidence. */
+  consumedAt?: EpochSeconds;
+}
+
 interface MealLogRecord {
   readonly recipeId: string;
   readonly revision: number;
@@ -73,7 +82,7 @@ export interface CookNoteRecord {
 }
 
 export interface PhoneEvents {
-  readonly kind: "proposal-submitted" | "executed" | "rejected" | "expired" | "timer-fired" | "revision-bumped" | "kill" | "resume" | "offline" | "reconnect";
+  readonly kind: "proposal-submitted" | "executed" | "rejected" | "expired" | "timer-fired" | "revision-bumped" | "kill" | "resume" | "offline" | "reconnect" | "device-event";
   readonly at: EpochSeconds;
   readonly detail: string;
 }
@@ -109,6 +118,13 @@ export class FakePhone {
   private readonly pending = new Map<string, ActionProposal>();
   private readonly receiptLog: ActionReceipt[] = [];
   private readonly eventLog: PhoneEvents[] = [];
+  /**
+   * Phone-authored device events (user commands observed on the device).
+   * Only the phone writes here; the model layer can read them through
+   * session snapshots and cite them — nothing else.
+   */
+  private readonly deviceEvents = new Map<string, DeviceEventRecord>();
+  private deviceEventSeq = 0;
   private online = true;
   private killed = false;
   private timerSeq = 0;
@@ -163,8 +179,47 @@ export class FakePhone {
       eaters: this.eaters.map((e) => ({ ...e, restrictions: [...e.restrictions] })),
       activeTimers: this.activeTimers(),
       cameraMode: this.camera,
-      stepHistory: this.stepHistory.map((h) => ({ ...h }))
+      stepHistory: this.stepHistory.map((h) => ({ ...h })),
+      deviceEvents: this.liveDeviceEvents()
     };
+  }
+
+  /**
+   * Record a user command the DEVICE observed — a touch on a control, or a
+   * voice command transcribed with the transcript toggle on. This is the
+   * only way user initiation enters the system: the event is phone-authored,
+   * stamped with the current snapshot revision, and citable exactly once as
+   * initiation evidence. The model layer never calls this; the device does.
+   */
+  recordUserCommand(input: { command: ProposalTool; source?: "voice" | "touch"; detail?: string }): DeviceEvent {
+    this.deviceEventSeq += 1;
+    const event: DeviceEvent = {
+      id: `cmd-${String(this.deviceEventSeq).padStart(4, "0")}`,
+      kind: "user-command",
+      command: input.command,
+      source: input.source ?? "touch",
+      ...(input.detail !== undefined ? { detail: input.detail } : {}),
+      at: this.now(),
+      revision: this.revisionCounter
+    };
+    this.deviceEvents.set(event.id, { ...event });
+    this.eventLog.push({ kind: "device-event", at: event.at, detail: `${event.id} ${event.command} (${event.source})` });
+    return { ...event };
+  }
+
+  /** All device events ever recorded, with consumption state — for tests. */
+  deviceEventRecords(): readonly DeviceEventRecord[] {
+    return [...this.deviceEvents.values()].map((r) => ({ ...r }));
+  }
+
+  /** Live (unconsumed) device events, in recording order — what snapshots expose. */
+  private liveDeviceEvents(): DeviceEvent[] {
+    return [...this.deviceEvents.values()]
+      .filter((r) => r.consumedAt === undefined)
+      .map((r) => {
+        const { consumedAt: _consumedAt, ...event } = r;
+        return { ...event };
+      });
   }
 
   activeTimers(): readonly ActiveTimer[] {
@@ -192,17 +247,49 @@ export class FakePhone {
   submitProposal(proposal: ActionProposal): void {
     if (!this.online) throw new PhoneOfflineError();
     this.expirePending();
+    // A consumed proposal id (executed, rejected, or expired) is never re-filed:
+    // resubmission is refused with a receipt that says why (no second execution).
+    if (this.receiptFor(proposal.id)) {
+      this.refuseConsumed(proposal.id, "resubmission of a consumed proposal id — refused");
+      return;
+    }
+    // Idempotent re-file: a proposal already pending stays as first filed.
+    if (this.pending.has(proposal.id)) return;
     if (proposal.expiresAt <= this.now()) {
       this.recordReceipt(proposal, "expired");
       this.eventLog.push({ kind: "expired", at: this.now(), detail: `${proposal.id} arrived past expiry` });
       return;
     }
+    // The phone computes approval from ITS OWN policy and evidence — the
+    // proposal's requiredApproval and userInitiated fields are claims for
+    // audit, never authority (review fix 2).
+    const effective = this.effectiveApproval(proposal);
     this.pending.set(proposal.id, proposal);
-    this.eventLog.push({ kind: "proposal-submitted", at: this.now(), detail: `${proposal.id} (${proposal.tool})` });
-    if (proposal.requiredApproval === "device-auto") {
-      // The phone's timer rule: device-auto proposals execute without a tap.
+    this.eventLog.push({ kind: "proposal-submitted", at: this.now(), detail: `${proposal.id} (${proposal.tool}) approval=${effective}` });
+    if (effective === "device-auto") {
+      // The phone's timer rule: a device-initiated timer proposal executes without a tap.
       this.approve(proposal.id, "device-auto");
     }
+  }
+
+  /**
+   * The phone's own approval policy (review fix 2). device-auto is possible
+   * for timer proposals only — never meal logs, notes, or anything else — and
+   * only when the proposal cites a device event the phone can still accept:
+   * recorded here, unconsumed, at the current snapshot revision, naming this
+   * tool. The accepted event is consumed — one command initiates one action.
+   */
+  private effectiveApproval(proposal: ActionProposal): "device-auto" | "explicit" {
+    const kind = proposal.payload.kind;
+    if (kind !== "timerStart" && kind !== "timerAdjust") return "explicit";
+    const cited = proposal.userInitiation?.eventId;
+    if (cited === undefined) return "explicit";
+    const record = this.deviceEvents.get(cited);
+    if (!record || record.consumedAt !== undefined) return "explicit"; // absent or spent
+    if (record.revision !== this.revisionCounter) return "explicit"; // stale
+    if (record.command !== proposal.tool) return "explicit"; // mismatched
+    record.consumedAt = this.now();
+    return "device-auto";
   }
 
   /** Scripted user action: approve a pending explicit proposal. */
@@ -221,7 +308,30 @@ export class FakePhone {
 
   private approve(proposalId: string, by: "device-auto" | "explicit-user"): void {
     const proposal = this.pending.get(proposalId);
-    if (!proposal) return;
+    if (!proposal) {
+      // A replayed approval for an already-consumed (executed/rejected/expired)
+      // proposal is refused with a receipt that says why — never a silent no-op.
+      if (this.receiptFor(proposalId)) {
+        this.refuseConsumed(proposalId, `approval replayed for a consumed proposal — refused (${by})`);
+      }
+      return;
+    }
+    // Binding 1 — payload integrity: the bytes about to execute must still
+    // hash to the hash filed with the proposal. An altered payload is refused.
+    if (payloadHash(proposal.payload) !== proposal.payloadHash) {
+      this.pending.delete(proposalId);
+      this.recordReceipt(proposal, "rejected", "payload hash mismatch — the proposal bytes were altered after filing; refused");
+      this.eventLog.push({ kind: "rejected", at: this.now(), detail: `${proposalId} payload hash mismatch — altered payload refused` });
+      return;
+    }
+    // Binding 2 — revision: the proposal must still address the current
+    // snapshot. A proposal built at an older revision is superseded.
+    if (proposal.snapshotRevision !== this.revisionCounter) {
+      this.pending.delete(proposalId);
+      this.recordReceipt(proposal, "rejected", `superseded — proposal targets snapshot revision ${proposal.snapshotRevision}, current is ${this.revisionCounter}`);
+      this.eventLog.push({ kind: "rejected", at: this.now(), detail: `${proposalId} superseded at revision ${this.revisionCounter}` });
+      return;
+    }
     this.pending.delete(proposalId);
     // Expiry is checked at approval time: a stale approval cannot execute.
     if (proposal.expiresAt <= this.now()) {
@@ -229,6 +339,20 @@ export class FakePhone {
       return;
     }
     this.executeApproved(proposal);
+  }
+
+  /** Refusal receipt for a proposal id that was already consumed (review fix 2). */
+  private refuseConsumed(proposalId: string, why: string): void {
+    const prior = this.receiptFor(proposalId);
+    this.receiptLog.push({
+      proposalID: proposalId,
+      payloadHash: prior?.payloadHash ?? "",
+      snapshotRevision: this.revisionCounter,
+      state: "rejected",
+      recordedAt: this.now(),
+      reason: why
+    });
+    this.eventLog.push({ kind: "rejected", at: this.now(), detail: `${proposalId} ${why}` });
   }
 
   /**
@@ -264,7 +388,11 @@ export class FakePhone {
         timer.minutes =
           p.target.kind === "set" ? p.target.newMinutes : Math.max(0, timer.minutes + p.target.deltaMinutes);
         timer.deadline = (
-          p.target.kind === "set" ? now + Math.round(p.target.newMinutes * 60) : now + Math.round(timer.minutes * 60)
+          p.target.kind === "set"
+            ? now + Math.round(p.target.newMinutes * 60)
+            : // Delta extends the timer's existing device-owned deadline —
+              // elapsed time counts (review fix 7). A set is a fresh start.
+            timer.deadline + Math.round(p.target.deltaMinutes * 60)
         ) as EpochSeconds;
         this.revisionCounter += 1;
         break;
@@ -314,13 +442,14 @@ export class FakePhone {
     this.eventLog.push({ kind: "revision-bumped", at: this.now(), detail: `revision=${this.revisionCounter}` });
   }
 
-  private recordReceipt(proposal: ActionProposal, state: ReceiptState): void {
+  private recordReceipt(proposal: ActionProposal, state: ReceiptState, reason?: string): void {
     const receipt: ActionReceipt = {
       proposalID: proposal.id,
       payloadHash: proposal.payloadHash,
       snapshotRevision: this.revisionCounter,
       state,
-      recordedAt: this.now()
+      recordedAt: this.now(),
+      ...(reason !== undefined ? { reason } : {})
     };
     this.receiptLog.push(receipt);
   }
