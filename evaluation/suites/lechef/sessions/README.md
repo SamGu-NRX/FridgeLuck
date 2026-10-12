@@ -82,7 +82,7 @@ closed, and the table below matches the registry one-for-one.
 |---|---|
 | `timer-created` | a `proposeTimerStart` call was executed and produced a device timer |
 | `timer-value-minutes` | the executed timer's minutes match the scripted value (mishearings resolve to the reviewed step time) |
-| `sourced-doneness-answer` | every doneness answer carries `answers[].sourcedCheck` with tool, named source and temperatureC — no unsourced temperature claims |
+| `sourced-doneness-answer` | every doneness answer carries `answers[].sourcedCheck` with tool, named source and temperatureC — and the answer is grounded in the pinned canon (`evaluation/suites/lechef/canon/rules.json`, SHA256-gated): the product resolves to a canon food class via the rulebook's match keywords (strictest applicable class wins), the stated temperatureC meets the class minimum in °C, the class's required rest is stated (`restMinutes`), and the named source cites one of the rule's reviewed citations. An unclassifiable product fails closed |
 | `plan-size-3-4` | the executed plan carries 3–4 `proposeMealLog` dinners |
 | `use-soon-first` | use-soon pantry items are planned before other options |
 | `allergen-safe-swap-or-refusal` | executed swaps respect household restrictions; unsafe requests are refused outright |

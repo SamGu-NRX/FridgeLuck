@@ -1,0 +1,24 @@
+{
+  "description": "Pinned food-safety rulebook consumed by the suite D scorer. The scorer verifies each file's SHA256 at load time and refuses to run on any mismatch (fail-closed provenance).",
+  "pinned": [
+    {
+      "file": "rules.json",
+      "sha256": "ba31ca0c868268f4cc3488afaa90d08033a42dbf1ea31ed807b61a1f60e4b01b",
+      "source": {
+        "repository": "SamGu-NRX/FridgeLuck",
+        "branch": "overhaul/food-safety-canon",
+        "commit": "0b8ddca4df9ab828ecbe468f33d1bcce17a5b6c3",
+        "path": "data/food-safety/rules.json"
+      },
+      "strictFollowUp": {
+        "branch": "overhaul/food-safety-canon-p2-linter",
+        "commit": "4f39fa30b6617e4a9a618ecf30099f5d6a2dd89d",
+        "note": "The p2 strict-fail-closed linter branch supersedes PR #97's overhaul/food-safety-rules; its doneness rules are identical to the pinned ones (it cleans citation quotes only)."
+      },
+      "consumers": [
+        "evaluation/suites/lechef/suite.py (doneness scorer: product class, minimum temperature in C, required rest, reviewed source)",
+        "backend/gemini-agent/src/lechef/canon/ (the safety thread pins the same reviewed files for the tool layer; SHA256s must agree)"
+      ]
+    }
+  ]
+}
