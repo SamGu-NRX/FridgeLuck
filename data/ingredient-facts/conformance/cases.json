@@ -301,6 +301,17 @@
       "restrictions": { "diets": ["vegetarian", "dairyFree"] },
       "expected": { "result": "violated", "reasonContains": ["vegetarian"] },
       "note": "union of eater A's vegetarian and eater B's dairy-free restrictions"
+    },
+    {
+      "id": "chilli-sauce-incomplete-vs-vegan",
+      "ingredient": "chilli sauce",
+      "restrictions": { "diets": ["vegan"] },
+      "expected": {
+        "result": "unknown",
+        "reasonContains": ["incomplete composition clears nothing"],
+        "missingMention": ["composition of 'chilli-sauce' is incomplete"]
+      },
+      "note": "generic chilli sauce: thickeners and preservatives vary by brand — every listed component is vegan, but incomplete composition clears nothing, diets included"
     }
   ]
 }
