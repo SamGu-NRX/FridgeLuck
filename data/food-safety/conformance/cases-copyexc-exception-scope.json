@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "name": "Copy-lint exception scope — sentence-bound exceptions and the FDA freezing caveat (review fix F4)",
+  "description": "Refusal and accepted-control cases for the review finding at 0b8ddca. (a) A record whose banned salvage sentence is followed by an exception-style clause in a DIFFERENT sentence must be flagged: an exception may suppress only within its own sentence, never the whole record. (b) An accepted-control record whose exception applies in the same sentence keeps passing. (c) Raw-fish advice that relies on the freezing mitigation must carry FDA's caveat that freezing does not kill all harmful germs: without the caveat it is flagged, with the caveat it passes.",
+  "cases": [
+    {
+      "id": "copyexc-exception-elsewhere-does-not-suppress",
+      "record": {
+        "file": "conformance/cases-copyexc-exception-scope.json",
+        "id": "cx-copyexc-sprouted-except-elsewhere",
+        "kind": "copy",
+        "field": "tip",
+        "text": "Roast the sprouted potatoes. Do not discard them."
+      },
+      "expect": { "kinds": ["cook-decayed-or-sprouted"] }
+    },
+    {
+      "id": "copyexc-sentence-scoped-exception-still-passes",
+      "record": {
+        "file": "conformance/cases-copyexc-exception-scope.json",
+        "id": "cx-copyexc-before-it-turns",
+        "kind": "copy",
+        "field": "tip",
+        "text": "Use the broccoli within a week, before it turns slimy. Keep the carrots dry and they will last longer."
+      },
+      "expect": { "kinds": [] }
+    },
+    {
+      "id": "copyexc-rawfish-freeze-without-caveat-flagged",
+      "record": {
+        "file": "conformance/cases-copyexc-exception-scope.json",
+        "id": "cx-copyexc-rawfish-no-caveat",
+        "kind": "copy",
+        "field": "tip",
+        "text": "Buy previously frozen fish for raw preparations like poke - freezing kills parasites."
+      },
+      "expect": {
+        "kinds": ["fish-curing-rescue"],
+        "rewrite_contains": ["harmful germs"]
+      }
+    },
+    {
+      "id": "copyexc-rawfish-freeze-with-caveat-passes",
+      "record": {
+        "file": "conformance/cases-copyexc-exception-scope.json",
+        "id": "cx-copyexc-rawfish-with-caveat",
+        "kind": "copy",
+        "field": "tip",
+        "text": "Buy previously frozen fish for raw preparations like poke - freezing kills parasites, but freezing does not kill all harmful germs."
+      },
+      "expect": { "kinds": [] }
+    }
+  ]
+}
