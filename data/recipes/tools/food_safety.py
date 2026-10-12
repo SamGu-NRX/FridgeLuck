@@ -19,7 +19,10 @@ Endpoint rules (`endpoint_violations`):
    or meat is reheated, so 165 F. A title naming a casserole-type dish
    (MIXED_DISH_TITLE) adds the 165 F casserole endpoint for the finished dish.
    Ready-to-eat products (stock, fish sauce, canned fish, anchovies, buns)
-   carry no doneness class of their own.
+   carry no doneness class of their own. Ham takes 165 F, because the name
+   does not say whether it is uncooked (145 F) or reheated (165 F). An animal
+   food with no chart row (venison, rabbit, offal other than poultry
+   giblets) refuses the recipe; the gate never guesses an endpoint.
 2. Coverage. Every required class is met by a thermometer check
    (`step.safety`) that names it at or above its minimum, or by a stricter
    check on a step that cooks that ingredient, or by the dish's 165 F
@@ -98,22 +101,43 @@ _NO_DONENESS = re.compile(
 # Already-cooked poultry or meat: heating it is reheating (165 F).
 _PRECOOKED = re.compile(r"\b(?:cooked|rotisserie|leftover)\b|\broast (?:chicken|turkey)\b")
 
+# Each pattern maps to a row of the FSIS chart (FSIS_ROWS); nothing else
+# gets an endpoint. Order matters: ground poultry before ground meat, and
+# poultry (giblets included) before the uncharted organ meats.
 _CLASS_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
-    # ground poultry before ground meat: FSIS puts it at 165 F, not 160 F
+    # "Ground Poultry | 165 degrees F"
     (re.compile(r"\b(?:ground|minced)\s+(?:chicken|turkey)\b|\b(?:chicken|turkey)\s+"
                 r"(?:mince|sausages?|burgers?|meatballs?)\b"), "meat_poultry"),
+    # "All Poultry (Breasts, Whole Bird, Legs, Thighs, Wings, Ground Poultry,
+    # Giblets and Stuffing)"; Cornish game hens are chicken
+    (re.compile(r"\b(?:chicken|turkey|duck|goose|poussin|poultry|game hens?)\b"),
+     "meat_poultry"),
     (re.compile(r"\b(?:ground|minced)\s+(?:beef|pork|lamb|veal|meat)\b|"
                 r"\b(?:beef|pork|lamb|veal)\s+mince\b|\bmince\b|\bsausages?\b|"
-                r"\bchorizo\b|\bmeatballs?\b|\bburgers?\b"), "meat_ground"),
-    (re.compile(r"\b(?:chicken|turkey|duck|goose|quail|poussin|poultry)\b"), "meat_poultry"),
-    (re.compile(r"\b(?:pork|bacon|lardons?|pancetta|gammon|ham)\b"), "meat_whole_cut_pork"),
-    (re.compile(r"\b(?:beef|steak|lamb|veal|venison|brisket|sirloin)\b"), "meat_whole_cut_red"),
+                r"\bchorizo\b|\bmeatballs?\b|\bburgers?\b"), "meat_ground"),  # Ground Meats
+    # ham may be uncooked (145 F plus rest) or cooked and reheated (165 F);
+    # the name does not say which, so the reheat row, which satisfies both
+    (re.compile(r"\bham\b"), "leftovers"),
+    # "Beef, Pork, Veal and Lamb Steaks, Chops and Roasts", and fresh or
+    # smoked uncooked ham (gammon); bacon and salt pork are uncooked pork belly
+    (re.compile(r"\b(?:pork|bacon|lardons?|pancetta|gammon)\b"), "meat_whole_cut_pork"),
+    (re.compile(r"\b(?:beef|steak|lamb|veal|brisket|sirloin)\b"), "meat_whole_cut_red"),
+    # "Fish & Shellfish | 145 degrees F"
     (re.compile(r"\b(?:shrimps?|prawns?|crab|lobster|scallops?|clams?|mussels?|oysters?|"
                 r"squid|calamari|octopus|crayfish)\b"), "flesh_shellfish"),
     (re.compile(r"\b(?:fish|salmon|cod|tuna|tilapia|trout|haddock|pollock|catfish|bass|"
                 r"halibut|mackerel|snapper|hake|sardines?|swordfish)\b"), "flesh_fish"),
-    (re.compile(r"\beggs?\b|\byolks?\b|\begg whites?\b"), "egg"),
+    (re.compile(r"\beggs?\b|\byolks?\b|\begg whites?\b"), "egg"),  # Eggs
 )
+
+# Animal foods with no row in the chart. The gate refuses a recipe that uses
+# one rather than guess an endpoint (venison is not a 145 F whole cut).
+UNCHARTED = "uncharted"
+_UNCHARTED_FOODS = re.compile(
+    r"\b(?:venison|bison|buffalo|elk|moose|boar|rabbit|hare|goat|mutton|game|quail|"
+    r"pheasant|grouse|partridge|squab|pigeon|frogs?|snails?|escargots?|alligator|"
+    r"kangaroo|horse|livers?|kidneys?|offal|tripe|sweetbreads?|tongue|oxtail|"
+    r"bone marrow)\b(?!\s+beans?)")
 
 # Dish types the FSIS chart lists at 165 F (casseroles; stuffing), matched
 # on the title. "Traybake" (a sheet-pan roast) and "stuffed" vegetables or
@@ -136,16 +160,24 @@ _MIXING = re.compile(r"\b(?:mix|mixed|work|fold|combine|bind|dredge|dip|bread|co
 
 
 def ingredient_class(name: str) -> str | None:
-    """The FSIS doneness class of one ingredient name, or None."""
+    """The FSIS doneness class of one ingredient name, UNCHARTED for an animal
+    food the chart has no row for, or None for a food with no endpoint."""
     low = str(name).strip().lower()
     if not low or _NO_DONENESS.search(low):
         return None
-    for pattern, cls in _CLASS_PATTERNS:
+    for i, (pattern, cls) in enumerate(_CLASS_PATTERNS):
+        if i == 2 and _UNCHARTED_FOODS.search(low):
+            return UNCHARTED  # after poultry, before every red-meat row
         if pattern.search(low):
-            if cls != "egg" and _PRECOOKED.search(low):
+            if cls not in ("egg", "leftovers") and _PRECOOKED.search(low):
                 return "leftovers"
             return cls
-    return None
+    return UNCHARTED if _UNCHARTED_FOODS.search(low) else None
+
+
+def uncharted_ingredients(recipe: dict[str, Any]) -> list[str]:
+    return [str(l.get("name")) for l in recipe.get("ingredients", [])
+            if isinstance(l, dict) and ingredient_class(l.get("name", "")) == UNCHARTED]
 
 
 def is_mixed_dish(title: str) -> bool:
@@ -159,7 +191,7 @@ def required_classes(recipe: dict[str, Any]) -> dict[str, list[str]]:
         if not isinstance(line, dict):
             continue
         cls = ingredient_class(line.get("name", ""))
-        if cls:
+        if cls and cls != UNCHARTED:
             need.setdefault(cls, []).append(str(line.get("name")))
     if is_mixed_dish(recipe.get("title", "")):
         need.setdefault("leftovers", []).append(f"title {recipe.get('title')!r}")
@@ -178,7 +210,7 @@ def _mention_words(recipe: dict[str, Any]) -> dict[str, set[str]]:
             continue
         name = str(line.get("name", "")).lower()
         cls = ingredient_class(name)
-        if not cls:
+        if not cls or cls == UNCHARTED:
             continue
         for w in _PROTEIN_WORDS.findall(name):
             words.setdefault(cls, set()).add(_singular(w))
@@ -324,6 +356,10 @@ def endpoint_violations(recipe: dict[str, Any]) -> list[str]:
     mixed = is_mixed_dish(recipe.get("title", ""))
     groups = mixtures(steps, mention)
     checks = _checks(recipe, out)
+
+    for name in uncharted_ingredients(recipe):
+        out.append(f"{rid}: {name!r} has no row in the FSIS chart; the gate refuses it "
+                   "rather than guess an endpoint")
 
     def dish_check(i: int, chk: dict[str, Any]) -> bool:
         """A 165 F check on the finished casserole (not a later reheat)."""

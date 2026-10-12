@@ -201,6 +201,16 @@ class IngredientClasses(unittest.TestCase):
             "burger buns": None,
             "egg noodles": None,
             "eggplant": None,
+            "chicken livers": "meat_poultry",      # giblets are poultry
+            "cornish game hens": "meat_poultry",
+            "ham": "leftovers",                    # uncooked 145 F or reheated 165 F
+            "kidney beans": None,
+            # no chart row: refused, never guessed
+            "venison steaks": food_safety.UNCHARTED,
+            "ground venison": food_safety.UNCHARTED,
+            "rabbit legs": food_safety.UNCHARTED,
+            "lamb's liver": food_safety.UNCHARTED,
+            "quail": food_safety.UNCHARTED,
         }
         for name, want in cases.items():
             self.assertEqual(food_safety.ingredient_class(name), want, name)
@@ -273,6 +283,13 @@ class DonenessEndpoints(unittest.TestCase):
             {"text": "Fry the cakes until a thermometer reads 160 °F.",
              "safety": chk("egg", 160)}])
         self.assertEqual(endpoint_errors(ok), [])
+
+    def test_food_without_a_chart_row_is_refused(self):
+        # second review: venison passed as a 145 F whole cut
+        bad = recipe(ingredients=ing("venison steaks"), steps=[
+            {"text": "Sear until a food thermometer reads 145 °F; rest it 3 minutes.",
+             "safety": chk("meat_whole_cut_red", 145)}])
+        self.assertTrue(any("no row in the FSIS chart" in e for e in endpoint_errors(bad)))
 
     def test_jammy_yolk_is_refused(self):
         # fl-original-0152 at 4b6e163: 160 F in the white, yolk still jammy
