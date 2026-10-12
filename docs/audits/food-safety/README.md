@@ -12,4 +12,12 @@ apply the fixes on their own branches.
 
 ## Reviewed
 
-- (index filled as fix lists land)
+- [PR #107 — overhaul/original-recipes — 101-original corpus (originals.jsonl)](107-original-recipes.md) · head `607ef99` · 401 records · **322 findings**
+- [PR #111 — fleet/fl-recipe-originals — per-cuisine originals (59 recipe files)](111-recipe-originals.md) · head `ef1d159` · 59 records · **114 findings**
+- [PR #113 — fleet/fl-recipe-corpus-v2 — corpus.jsonl (428 records)](113-recipe-corpus-v2.md) · head `4b6e163` · 428 records · **360 findings**
+- [PR #109 — overhaul/learn-cards — 116 kitchen-knowledge learn cards](109-learn-cards.md) · head `a1f3c7a` · 771 records · **5 findings**
+- [PR #116 — overhaul/challenge-packs — use-it-up, budget, food-bank and seasonal packs](116-challenge-packs.md) · head `f11333a` · 82 records · **2 findings**
+- [PR #102 — overhaul/lechef-f1 — embedded FSIS table, design scripts, WORLD_RECIPE fixture](102-lechef-f1.md) · head `41597b1` · 60 records · **2 findings**
+- [PR #94 — fleet/fl-backend-trunk-20261011 — recipeService.ts prompt and agent system prompt](94-backend-recipe-service.md) · head `b7e2208` · 9 records · **0 findings**
+- [PR #86 — docs/spec-overhaul-20261011 — spec mocks and SPEC §3.1](86-spec-mocks.md) · head `2e33b5a` · 41 records · **0 findings**
+- [PR #95 — overhaul/design-round — design mocks, directions f / h / p](95-design-mocks.md) · head `a332905` · 299 records · **4 findings**
