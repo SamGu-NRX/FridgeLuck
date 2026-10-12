@@ -86,8 +86,8 @@ public struct TasteProfileView: View {
                 .accessibilityIdentifier("fl.taste.title")
             if let cooks = state.cooksCountDisplay {
                 Text(cooks)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                     .accessibilityIdentifier("fl.taste.cooks")
             }
@@ -138,8 +138,8 @@ public struct TasteProfileView: View {
                 Spacer()
                 // The evidence tag: the accent's home on this screen.
                 Text(sentence.evidenceDisplay)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.yolkInk, in: scheme))
                     .padding(.horizontal, 7)
                     .padding(.vertical, 3)
@@ -309,8 +309,8 @@ public struct TasteProfileView: View {
                     .accessibilityIdentifier("fl.taste.memoriesLabel")
                 Spacer()
                 Text(state.memoriesCountDisplay)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                     .accessibilityIdentifier("fl.taste.memoriesCount")
             }

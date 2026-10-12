@@ -14,9 +14,13 @@
 //   connectivity.
 // - Typed proposals distinguish READS (applied without ceremony — shown
 //   as soon as delivered) from MUTATIONS (require an explicit approval
-//   action; the model cannot manufacture approval — only
-//   `.approveProposal` applies one, and voice commands can never reach
-//   it). Phone-controlled timers are NOT proposals: set, pause and
+//   action; the model cannot manufacture approval — only a user's tap
+//   can, and voice commands can never reach it). Approval is consent,
+//   not success: it hands the proposal to the phone's authority layer
+//   (the host seam routes it) and the mutation is applied ONLY by the
+//   receipt that layer returns (`.mutationReceipt`) — the receipt is
+//   the phone's word, and the screen layer never manufactures one.
+//   Phone-controlled timers are NOT proposals: set, pause and
 //   complete live in the state machine; a timer suggestion is a read
 //   whose "Set N min timer" chip routes to the same local timer intent
 //   as the touch control.
@@ -26,8 +30,11 @@
 //   round's other candidate, flagged but deliberately NOT built
 //   (`LeChefCameraCandidate`). A look NEVER yields a safety verdict:
 //   `LookResult` carries observations and nothing else — doneness and
-//   safety have no field to arrive in, and the display always pairs the
-//   result with what the look cannot assess.
+//   safety have no field to arrive in; the free-text lines are filtered
+//   at the state layer (`LookLineFilter`) so a verdict-shaped line
+//   never reaches display, a transcript, a spoken line or a saved
+//   record; and the display always pairs the result with what the look
+//   cannot assess.
 // - Voice is opt-in per cook and "Just the steps" is the DEFAULT until a
 //   cost budget exists; the transcript/chat fallback sits behind the
 //   same toggle, off by default.
@@ -204,6 +211,32 @@ public struct LeChefViewState: Equatable, Sendable {
         }
     }
 
+    /// The timer machine's ONE firing rule, at a host clock reading: a
+    /// running timer whose deadline has passed resolves to the fired
+    /// state — its check line earned once — never a silent zero. The
+    /// reducer's `tick` applies it live; the persisted restore applies
+    /// it at hydration, so a returning session never renders an un-rung
+    /// zero. Paused, fired and deadline-less timers pass through
+    /// untouched, and nothing here reads a wall clock: `now` is always
+    /// the host's.
+    static func resolvingExpiredTimers(
+        timers: [CookTimer], checkLines: [String], at now: TimeInterval
+    ) -> (timers: [CookTimer], checkLines: [String]) {
+        var timers = timers
+        var checkLines = checkLines
+        for index in timers.indices {
+            guard timers[index].isRunning,
+                  let endAt = timers[index].endAt, now >= endAt
+            else { continue }
+            timers[index].fired = true
+            timers[index].endAt = nil
+            if let line = timers[index].onDoneLine, !line.isEmpty {
+                checkLines.append(line)
+            }
+        }
+        return (timers, checkLines)
+    }
+
     // MARK: Proposals — reads vs. approved mutations
 
     /// What a proposal carries. The read cases are applied without
@@ -248,15 +281,27 @@ public struct LeChefViewState: Equatable, Sendable {
         public var id: String
         public var job: Job
         public var payload: Payload
-        /// Mutations only: set by the explicit approval action and by
-        /// nothing else.
+        /// Mutations only: the phone's authority layer returned the
+        /// applied receipt (`.mutationReceipt`) — the receipt is the
+        /// phone's word, and nothing in this package can set it. A
+        /// mutation is never applied by delivery, by approval alone, by
+        /// a step change, or by the model's judgement.
         public var isApplied: Bool
+        /// Mutations only: approval given, the proposal handed to the
+        /// phone's authority layer (the host routes it), no receipt
+        /// back yet. The UI shows waiting on the phone — never
+        /// success. Cleared when a receipt (applied or failed) returns.
+        public var isAwaitingReceipt: Bool
 
-        public init(id: String, job: Job, payload: Payload, isApplied: Bool = false) {
+        public init(
+            id: String, job: Job, payload: Payload,
+            isApplied: Bool = false, isAwaitingReceipt: Bool = false
+        ) {
             self.id = id
             self.job = job
             self.payload = payload
             self.isApplied = isApplied
+            self.isAwaitingReceipt = isAwaitingReceipt
         }
 
         /// Reads are applied without ceremony; mutations wait.
@@ -328,11 +373,13 @@ public struct LeChefViewState: Equatable, Sendable {
         case sendFailed
     }
 
-    /// What a picture can show: observations, verbatim from the host.
-    /// There is deliberately NO doneness, safety, verdict or temperature
-    /// field — a look's claims have nowhere to arrive from (SPEC §3.1:
-    /// a camera look never gives a safety verdict). The display always
-    /// pairs the result with `cannotAssessDisplay`.
+    /// What a picture can show: the host's observations, filtered —
+    /// verdict-shaped lines never survive the state layer (see
+    /// `LookLineFilter`). There is deliberately NO doneness, safety,
+    /// verdict or temperature field — a look's claims have nowhere to
+    /// arrive from (SPEC §3.1: a camera look never gives a safety
+    /// verdict). The display always pairs the result with
+    /// `cannotAssessDisplay`.
     public struct LookResult: Equatable, Sendable {
 
         /// What the picture shows (browning, size, consistency).
@@ -515,6 +562,19 @@ public struct LeChefViewState: Equatable, Sendable {
             lastKnownNow: now
         )
         self.timerCount = persisted.timers.count
+        // Hydration seeds the clock from the session's persisted
+        // deadlines: `now` is the host's clock reading (never a wall
+        // clock read here), so a timer still counting shows
+        // deadline − now; a deadline that passed while closed resolves
+        // to the expired state per the timer machine — never a silent
+        // zero; a timer with no persisted deadline is untouched.
+        // Initialization, not an intent — the reducer stays the only
+        // authority over timers.
+        let seeded = Self.resolvingExpiredTimers(
+            timers: self.timers, checkLines: self.checkLines, at: now
+        )
+        self.timers = seeded.timers
+        self.checkLines = seeded.checkLines
     }
 
     // MARK: Current step
@@ -588,8 +648,40 @@ public struct LeChefViewState: Equatable, Sendable {
         }
     }
 
+    /// How a substitution's allergen recheck stands, for display. The
+    /// mapping FAILS CLOSED (SPEC §3.1 — every substitution rechecks
+    /// all eaters' allergens): a recheck the host did not supply —
+    /// absent, empty, or blank — is `.unknown`, and `.unknown` renders
+    /// as the check affordance, never as clear. There is no case in
+    /// which an unknown allergen state reads as safe.
+    public enum AllergenRecheckStatus: Equatable, Sendable {
+        /// The host supplied an explicit recheck line; shown verbatim.
+        case supplied(line: String)
+        /// No usable recheck arrived. Renders as the fail-closed check
+        /// line — the user is sent to check, never waved through.
+        case unknown
+    }
+
+    /// The fail-closed check line shown when a substitution's
+    /// allergen recheck is unknown.
+    public static let unknownAllergenCheckLine =
+        "Allergen check unavailable — check with everyone before you swap."
+
+    /// The fail-closed mapping from a substitution's recheck line to
+    /// its display status. The unknown case is explicit: blank in
+    /// never means clear out.
+    public static func allergenRecheckStatus(_ line: String?) -> AllergenRecheckStatus {
+        guard let line,
+              !line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        else { return .unknown }
+        return .supplied(line: line)
+    }
+
     /// A proposal's rendered lines for the LeChef panel: the payload's
-    /// own words, host-verbatim where the host supplied them.
+    /// own words — look lines filtered (SPEC §3.1), everything else
+    /// host-verbatim where the host supplied them, except a
+    /// substitution's allergen recheck, which fails closed (see
+    /// `AllergenRecheckStatus`).
     public func proposalDisplay(_ proposal: Proposal) -> [String] {
         switch proposal.payload {
         case .information(let text):
@@ -597,11 +689,24 @@ public struct LeChefViewState: Equatable, Sendable {
         case .timerSuggestion(let seconds, _):
             return ["Want a \(Self.minutesText(seconds)) timer to check again?"]
         case .lookResult(let result):
-            return result.observedLines + [lookCannotAssessDisplay]
+            // Filtered again at the last gate before the view's text —
+            // redundant with the reducer's ingress filter by design:
+            // state built by hand (the type is public) still cannot
+            // render a verdict. See `LookLineFilter` (SPEC §3.1).
+            return LookLineFilter.filtered(result.observedLines)
+                + [lookCannotAssessDisplay]
         case .adaptAnnouncement(let text):
             return [text]
         case .substitution(let name, let difference, let recheck):
-            return [name, difference, recheck]
+            // Allergen display fails closed: a recheck that did not
+            // arrive renders as the check affordance, never as blank
+            // (which would read as clear).
+            switch Self.allergenRecheckStatus(recheck) {
+            case .supplied(let line):
+                return [name, difference, line]
+            case .unknown:
+                return [name, difference, Self.unknownAllergenCheckLine]
+            }
         case .adaptChange(let text, let rule):
             return [text, rule]
         }
@@ -656,5 +761,115 @@ public struct LeChefViewState: Equatable, Sendable {
         case .cancelled:
             return []
         }
+    }
+}
+
+// MARK: - The look-line filter (SPEC §3.1)
+
+/// The state-layer filter between a look's free-text observations and
+/// anything that could display, persist or speak them.
+///
+/// SPEC §3.1: "A camera look describes what a picture can show
+/// (browning, size, consistency) and says what it cannot assess. It
+/// never gives a safety verdict." `LookResult` has no verdict field —
+/// but its lines are free text, so a malformed host pipeline could
+/// still put a verdict-shaped sentence inside one. This filter is the
+/// second gate: the reducer's ingress runs every look's lines through
+/// it before state holds them, and the display grammar runs them
+/// through it again before the view's text. A doneness or safety
+/// judgement therefore cannot reach the screen, a transcript, a spoken
+/// line or a saved record by any path out of this module.
+///
+/// Deterministic by construction: one fixed vocabulary below, matched
+/// as case-insensitive whole-word phrases, plus a thermometer-reading
+/// pattern — no heuristics, no model, no context. When in doubt, drop:
+/// hiding a descriptive line costs one missing observation, showing a
+/// verdict costs the safety contract. This type is the vocabulary's
+/// single auditable home; `LeChefLookLineFilterTests` pins both the
+/// dropped and the surviving lines (including every example named in
+/// the review brief: "fully cooked", "cooked through", "undercooked",
+/// "raw in the middle", "safe to eat", "not safe", "food-safe",
+/// "this is done", "ready to eat", and temperature-read doneness
+/// conclusions such as "reads 74 °C — fully cooked").
+public enum LookLineFilter: Sendable {
+
+    /// Verdict-shaped vocabulary, lowercased whole-word phrases.
+    /// Bare words appear where the word alone is always a verdict in a
+    /// look's lines ("done", "safe"); the brief's named phrases are
+    /// spelled out for audit. Anything here drops the whole line.
+    public static let verdictPhrases: [String] = [
+        // Doneness asserted — SPEC §3.1: doneness is a checkable
+        // thermometer test, never colour or time alone, and a look
+        // never asserts it at all.
+        "fully cooked", "cooked through", "cooked all the way",
+        "undercooked", "overcooked", "undercook", "overcook",
+        "underdone", "uncooked", "raw in the middle", "raw inside",
+        "still raw", "raw", "cooked", "doneness", "done",
+        // Doneness judged by colour — the thermometer decides.
+        "pink in the middle", "pink inside", "pink", "bloody",
+        // Safety asserted ("safe" also covers "food-safe" and
+        // "not safe" at word boundaries; both are spelled out for
+        // audit).
+        "safe to eat", "safe to consume", "not safe", "food-safe",
+        "food safe", "unsafe", "safely", "safer", "safe", "safety",
+        "edible", "inedible", "spoiled", "spoilt", "gone bad",
+        "gone off", "contaminated",
+        // Ready-verbs — a verdict on what to do with the food.
+        "ready to eat", "ready to serve", "ready to plate", "ready",
+        // Thermometer claims — a picture cannot show a temperature;
+        // temperature-read doneness conclusions ride these.
+        "internal temperature", "internal temp", "internal",
+        "thermometer",
+    ]
+
+    /// A temperature reading with units ("74 °C", "165 degrees
+    /// fahrenheit", "180 degrees") or a named scale — never an
+    /// appearance observation.
+    private static let thermometerReading = try! NSRegularExpression(
+        pattern: "[0-9]+(?:\\.[0-9]+)?\\s*(?:°\\s*)?[fc]\\b"
+            + "|°\\s*[fc]\\b"
+            + "|[0-9]+(?:\\.[0-9]+)?\\s*degrees?\\b"
+            + "|\\b(?:fahrenheit|celsius)\\b",
+        options: [.caseInsensitive]
+    )
+
+    /// The whole vocabulary as one word-boundary expression. Spaces in
+    /// a phrase stand for any run of whitespace or hyphens.
+    private static let verdictExpression: NSRegularExpression = {
+        let alternation = verdictPhrases
+            .map { phrase in
+                phrase.split(separator: " ")
+                    .map { NSRegularExpression.escapedPattern(for: String($0)) }
+                    .joined(separator: "[\\s\\-]+")
+            }
+            .joined(separator: "|")
+        return try! NSRegularExpression(
+            pattern: "\\b(?:" + alternation + ")\\b",
+            options: [.caseInsensitive]
+        )
+    }()
+
+    /// Whether the line reads as a doneness or safety judgement (or a
+    /// thermometer read) rather than a description of what the picture
+    /// shows. Verdict-shaped lines are dropped whole — never trimmed
+    /// into something safer.
+    public static func drops(_ line: String) -> Bool {
+        let range = NSRange(line.startIndex..., in: line)
+        return thermometerReading.firstMatch(in: line, range: range) != nil
+            || verdictExpression.firstMatch(in: line, range: range) != nil
+    }
+
+    /// The lines a look may surface: every line that survives the
+    /// filter, in order.
+    public static func filtered(_ lines: [String]) -> [String] {
+        lines.filter { !drops($0) }
+    }
+
+    /// The result the state layer will hold and surface: the same look
+    /// with only its descriptive lines.
+    public static func enforced(_ result: LeChefViewState.LookResult)
+        -> LeChefViewState.LookResult
+    {
+        LeChefViewState.LookResult(observedLines: filtered(result.observedLines))
     }
 }

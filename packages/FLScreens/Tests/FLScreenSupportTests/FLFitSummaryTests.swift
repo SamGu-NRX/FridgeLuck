@@ -28,16 +28,55 @@ final class FLFitSummaryTests: XCTestCase {
     // MARK: The numeric form — earned only
 
     func testRealSwapCoveredShortfallEarnsTheNumericForm() {
+        // Validated coverage: the host accepted a swap for the named
+        // shortfall — the numeric form is earned.
         let summary = FLFitSummary(
-            have: 9, total: 10, swapsNeeded: 1, shortfallNames: ["eggs"])
+            have: 9, total: 10, swapsNeeded: 1, shortfallNames: ["eggs"],
+            swapCoveredNames: ["eggs"])
         XCTAssertEqual(summary.lineText, "9 of 10 · 1 swap")
         XCTAssertEqual(summary.missingCaption, "Missing eggs · 1 swap")
         XCTAssertFalse(summary.isComplete)
+        XCTAssertTrue(summary.isCompleteAfterSwaps)
+    }
+
+    func testBareSwapCountNeverEarnsTheNumericForm() {
+        // The reviewer's case: have=7, total=10, swapsNeeded=1 with three
+        // named shortfalls and NO accepted swap must not read as complete
+        // after swaps — coverage of the three names is unproven.
+        let summary = FLFitSummary(
+            have: 7, total: 10, swapsNeeded: 1,
+            shortfallNames: ["eggs", "oil", "butter"])
+        XCTAssertEqual(summary.lineText, "7 recorded · check eggs and oil and 1 more")
+        XCTAssertFalse(summary.isCompleteAfterSwaps)
+    }
+
+    func testPartiallyValidatedCoverageStatesWhatIsKnown() {
+        // One shortfall's swap accepted, two still to check: the summary
+        // says exactly that — never the numeric complete form.
+        let summary = FLFitSummary(
+            have: 7, total: 10, swapsNeeded: 1,
+            shortfallNames: ["eggs", "oil", "butter"],
+            swapCoveredNames: ["eggs"])
+        XCTAssertEqual(summary.lineText, "1 swap accepted, 2 items still to check")
+        XCTAssertFalse(summary.isCompleteAfterSwaps)
+        let caption = summary.missingCaption
+        XCTAssertTrue(caption.contains("1 swap accepted"), caption)
+    }
+
+    func testASwapAcceptedForANonShortfallCoversNothing() {
+        // A validated name that does not name a shortfall validates no
+        // line: the summary keeps the recorded form.
+        let summary = FLFitSummary(
+            have: 8, total: 10, swapsNeeded: 1, shortfallNames: ["eggs"],
+            swapCoveredNames: ["butter"])
+        XCTAssertEqual(summary.lineText, "8 recorded · check eggs")
+        XCTAssertFalse(summary.isCompleteAfterSwaps)
     }
 
     func testPluralSwaps() {
         let summary = FLFitSummary(
-            have: 8, total: 10, swapsNeeded: 2, shortfallNames: ["eggs", "oil"])
+            have: 8, total: 10, swapsNeeded: 2, shortfallNames: ["eggs", "oil"],
+            swapCoveredNames: ["eggs", "oil"])
         XCTAssertEqual(summary.lineText, "8 of 10 · 2 swaps")
         XCTAssertEqual(summary.missingCaption, "Missing eggs and oil · 2 swaps")
     }

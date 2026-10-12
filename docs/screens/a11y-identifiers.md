@@ -2,7 +2,13 @@
 
 (Part 6 adds Shell S's kitchen composition, Progress and Profile, and
 the quests and tour CANDIDATE screens; the earlier sections are
-unchanged.)
+unchanged. Part 7's cross-screen polish adds exactly ONE identifier:
+Explore's screen title (`fl.explore.title`) — the plain large-title
+header Part 3's notes had already recorded as the mock adaptation; it
+now exists in the view. No other identifier changed. Part 7 also marks
+the screen-title elements as accessibility headers
+(`.accessibilityAddTraits(.isHeader)`) — a trait, not an identifier, so
+it is not a table row anywhere.)
 
 **Status: PROPOSAL, not an agreement.** The evaluation `CONTRACTS.md` is
 absent on alpha, so nothing here has been agreed with the evaluation
@@ -110,6 +116,7 @@ renamed section heading does not break a query.
 | Identifier | Element | Notes |
 |---|---|---|
 | `fl.explore.screen` | The Explore root container | |
+| `fl.explore.title` | Screen title ("Explore") | Part 7: the large-title header, matching the mock's h1 |
 | `fl.explore.search` | The search field | Query text is read from the field's value, never from the identifier |
 | `fl.explore.filter.<rawValue>` | One filter chip | `.canCookNow`, `.underThirtyMinutes`, `.vegetarian`; selected state is a trait, not a name |
 | `fl.explore.section.<band>` | A feed section container | Bands: `.madeForYourFridge`, `.canCookNow`, `.oneSwapAway`, `.moreToCook` |

@@ -24,8 +24,45 @@
 
 import FLScreenSupport
 
+/// A day-only "when" — the only time precision the Table share contract
+/// allows. The vocabulary is the seven weekdays and nothing else: the
+/// type has no field for an exact time of day, so an exact time cannot be
+/// stored on a card, frozen into a share preview, or leaked string-side.
+/// The same value renders everywhere (card row, share preview).
+public enum TableCookedDay: String, Equatable, Sendable, CaseIterable {
+    case monday = "Mon"
+    case tuesday = "Tue"
+    case wednesday = "Wed"
+    case thursday = "Thu"
+    case friday = "Fri"
+    case saturday = "Sat"
+    case sunday = "Sun"
+
+    /// The share-safe display: the weekday alone.
+    public var display: String { rawValue }
+}
+
 /// The whole Table screen as a value.
 public struct TableViewState: Equatable, Sendable {
+
+    /// One recorded substitution, as typed parts. A swap is what was
+    /// replaced and with what — duration remarks ("18 min") are not
+    /// substitutions and cannot masquerade as one: only `Swap` values
+    /// feed the share preview's swaps clause.
+    public struct Swap: Equatable, Sendable {
+
+        public var replaces: String
+        public var with: String
+
+        public init(replaces: String, with: String) {
+            self.replaces = replaces
+            self.with = with
+        }
+
+        /// "swapped spinach for kale" — the recorded clause, rebuilt from
+        /// the typed parts.
+        public var display: String { "swapped \(replaces) for \(with)" }
+    }
 
     /// One cook card: what a member actually cooked.
     public struct Cook: Equatable, Sendable, Identifiable {
@@ -35,44 +72,62 @@ public struct TableViewState: Equatable, Sendable {
         public var cookName: String
         /// The viewer cooked this one — no button renders on it.
         public var isOwn: Bool
-        /// "Mon 21:40" — the day precision the share rule allows. Exact
-        /// times beyond the day never leave the phone; display is host's.
-        public var whenDisplay: String
+        /// The day the cook happened — typed day-only (`TableCookedDay`),
+        /// the precision the share contract allows. An exact time has no
+        /// field here, so it cannot be carried into a card, a preview or
+        /// a share.
+        public var when: TableCookedDay
         /// Servings the cook actually made — part of the cook record, and
         /// the only source for the share preview's "for 2" clause.
         public var servings: Int
         /// The dish that was cooked — pushed to Recipe by the button.
         public var recipeID: String
+        /// The recipe revision this cook used — the identity a share must
+        /// carry. Required: a preview can never omit it.
+        public var recipeRevisionKey: String
         public var dishTitle: String
         /// The one-line note, when the cook wrote one.
         public var note: String?
         /// "5 of 5" — the cook's own rating of the result.
         public var ratingDisplay: String?
-        /// "swapped spinach for kale", "18 min" — the trailing clause.
+        /// "swapped spinach for kale", "18 min" — the trailing clause as
+        /// the cook recorded it, for the CARD's rate line only. It never
+        /// feeds the share preview: it may describe duration, not a
+        /// substitution — the typed `swaps` list is the share's source.
         public var detailDisplay: String?
         /// The 1:1 thumbnail's working caption, when a photo exists.
         public var photoCaption: String?
+        /// The substitutions the cook recorded, typed. The share preview
+        /// freezes these — never `detailDisplay`.
+        public var swaps: [Swap]
         public var fit: FLFitSummary
 
         public init(
-            id: String, cookName: String, isOwn: Bool, whenDisplay: String,
-            servings: Int, recipeID: String, dishTitle: String, note: String? = nil,
+            id: String, cookName: String, isOwn: Bool, when: TableCookedDay,
+            servings: Int, recipeID: String, recipeRevisionKey: String, dishTitle: String,
+            note: String? = nil,
             ratingDisplay: String? = nil, detailDisplay: String? = nil,
-            photoCaption: String? = nil, fit: FLFitSummary
+            photoCaption: String? = nil, swaps: [Swap] = [], fit: FLFitSummary
         ) {
             self.id = id
             self.cookName = cookName
             self.isOwn = isOwn
-            self.whenDisplay = whenDisplay
+            self.when = when
             self.servings = max(1, servings)
             self.recipeID = recipeID
+            self.recipeRevisionKey = recipeRevisionKey
             self.dishTitle = dishTitle
             self.note = note
             self.ratingDisplay = ratingDisplay
             self.detailDisplay = detailDisplay
             self.photoCaption = photoCaption
+            self.swaps = swaps
             self.fit = fit
         }
+
+        /// The card's day line: "\(cookName) · Mon". Derived from the
+        /// typed day-only value — no string-side exact time can enter.
+        public var whenDisplay: String { when.display }
 
         /// "5 of 5 · swapped spinach for kale" — the mono line under the
         /// note. Parts the cook actually recorded; nothing invented.
@@ -82,13 +137,18 @@ public struct TableViewState: Equatable, Sendable {
         }
 
         /// The one button per card, derived from the viewer's own fit:
-        /// complete → "Cook tonight"; a real swap → "Cook with swap";
-        /// neither → "Open recipe" (never a promise the kitchen cannot
-        /// keep). The viewer's own cook has no button at all.
+        /// complete → "Cook tonight"; every shortfall covered by an
+        /// ACCEPTED swap → "Cook with swap"; neither → "Open recipe"
+        /// (never a promise the kitchen cannot keep). The viewer's own
+        /// cook has no button at all.
         public var buttonTitle: String? {
             guard !isOwn else { return nil }
             if fit.isComplete { return "Cook tonight" }
-            if fit.swapsNeeded > 0 { return "Cook with swap" }
+            // "Cook with swap" promises the dish is cookable once the
+            // swaps land — earned only by validated coverage of every
+            // shortfall (`FLFitSummary.isCompleteAfterSwaps`), never by
+            // a bare positive swap count.
+            if fit.isCompleteAfterSwaps { return "Cook with swap" }
             return "Open recipe"
         }
 
@@ -155,21 +215,41 @@ public struct TableViewState: Equatable, Sendable {
 
         public var cookID: String
         public var recipeDisplay: String
+        /// Which version of the recipe was cooked — the revision key the
+        /// dish title names ("Prawn linguine (v4)"). A share without its
+        /// revision identity cannot be re-found when the recipe changes.
+        public var revisionDisplay: String
+        /// The cook day — the same day-only convention the Table share
+        /// grammar uses. There is no string field an exact time could
+        /// hide in: day precision is structural.
+        public var when: TableCookedDay
         public var servingsDisplay: String
-        public var swapsDisplay: String?
+        /// The recorded substitutions, as the typed swap list. Duration
+        /// text (`detailDisplay`) never feeds the share.
+        public var swaps: [Swap]
         public var ratingDisplay: String?
         /// The one-line note, only if the cook wrote one.
         public var noteDisplay: String?
 
+        /// The swaps as display text: "chicken thighs for thighs and
+        /// lemongrass" — nil when the cook swapped nothing.
+        public var swapsDisplay: String? {
+            guard !swaps.isEmpty else { return nil }
+            return swaps.map(\.display).joined(separator: ", ")
+        }
+
         public init(
-            cookID: String, recipeDisplay: String, servingsDisplay: String,
-            swapsDisplay: String? = nil, ratingDisplay: String? = nil,
+            cookID: String, recipeDisplay: String, revisionDisplay: String,
+            when: TableCookedDay, servingsDisplay: String,
+            swaps: [Swap] = [], ratingDisplay: String? = nil,
             noteDisplay: String? = nil
         ) {
             self.cookID = cookID
             self.recipeDisplay = recipeDisplay
+            self.revisionDisplay = revisionDisplay
+            self.when = when
             self.servingsDisplay = servingsDisplay
-            self.swapsDisplay = swapsDisplay
+            self.swaps = swaps
             self.ratingDisplay = ratingDisplay
             self.noteDisplay = noteDisplay
         }

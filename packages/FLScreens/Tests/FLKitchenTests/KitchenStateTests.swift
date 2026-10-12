@@ -148,12 +148,34 @@ final class KitchenStateTests: XCTestCase {
 
     // MARK: Staleness — nothing is auto-expired
 
-    func testScanNowClearsTheStaleNoticeOnly() {
+    func testScanRequestKeepsTheStaleNoticeUntilAReconciliationSettles() {
+        // FIX: a scan that is merely REQUESTED must not clear the
+        // warning — a cancelled or failed scan would otherwise leave the
+        // notice falsely gone. `.scanNow` is host-routed; the notice
+        // clears when a reconciliation settles (Still there / Gone).
         var s = state()
         s.stale = .init(line: "Last scan 9 days ago. Tonight's picks may be off.")
         s.apply(.scanNow)
-        XCTAssertNil(s.stale)
-        XCTAssertEqual(s.allItems.count, 6, "the notice never touches rows")
+        XCTAssertEqual(
+            s.stale?.line, "Last scan 9 days ago. Tonight's picks may be off.",
+            "a requested scan is not a successful reconciliation"
+        )
+        XCTAssertEqual(s.allItems.count, 6, "the request never touches rows")
+    }
+
+    func testSettledReconciliationClearsTheStaleNotice() {
+        // Still-there and gone answers are the settled observations: the
+        // warning is answered by what the scan saw.
+        var still = state()
+        still.stale = .init(line: "Last scan 9 days ago. Tonight's picks may be off.")
+        still.apply(.stillThere(itemID: "eggs"))
+        XCTAssertNil(still.stale)
+
+        var gone = state()
+        gone.stale = .init(line: "Last scan 9 days ago. Tonight's picks may be off.")
+        gone.apply(.gone(itemID: "eggs"))
+        XCTAssertNil(gone.stale)
+        XCTAssertNil(gone.allItems.first { $0.id == "eggs" }, "the gone answer still removes the row")
     }
 
     // MARK: Host-routed intents are identity
@@ -161,7 +183,7 @@ final class KitchenStateTests: XCTestCase {
     func testHostRoutedIntentsAreIdentity() {
         let base = state()
         let identity: [KitchenIntent] = [
-            .scanGroceries, .addByName, .newGroceries, .scanShelf,
+            .scanGroceries, .addByName, .newGroceries, .scanShelf, .scanNow,
             .openItem(itemID: "eggs"), .editItem(itemID: "eggs"),
             .adjustQuantity(itemID: "eggs", delta: 1), .changeAssumedStaples,
         ]

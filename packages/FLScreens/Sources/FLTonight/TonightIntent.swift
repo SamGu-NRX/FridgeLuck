@@ -89,7 +89,17 @@ public enum TonightReducer {
         case .setServings(let servings):
             let clamped = min(max(servings, 1), 12)
             next.content = next.content.updatingPick { pick in
+                // A no-op — clamped back to the value already shown — is
+                // not a change: the bill on file still answers.
+                guard pick.meta.servings != clamped else { return }
                 pick.meta.servings = clamped
+                // The fit bill was computed for the previous servings: its
+                // sufficiency claim is withdrawn here, and nothing in this
+                // layer restores it. The host returns a recalculated bill
+                // as new state (a whole-pick replacement) — the only thing
+                // that sets a current bill again. The reducer never keeps
+                // asserting a stale claim.
+                pick.fitStanding = .pendingRecalc
             }
 
         case .lateLinesArrived:

@@ -128,8 +128,8 @@ public struct RecipeView: View {
 
     private var statsRow: some View {
         Text(state.statsDisplay)
-            .flType(.fitCount)
             .flTracking(.fitCount)
+            .flType(.fitCount)
             .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
             .accessibilityIdentifier("fl.recipe.stats")
     }
@@ -161,8 +161,8 @@ public struct RecipeView: View {
             .accessibilityLabel("Fewer servings")
             .accessibilityIdentifier("fl.recipe.servingsMinus")
             Text("\(state.targetServings)")
-                .flType(.fitCount)
                 .flTracking(.fitCount)
+                .flType(.fitCount)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.recipe.servingsValue")
             Button {
@@ -256,8 +256,8 @@ public struct RecipeView: View {
         return VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top, spacing: 12) {
                 Text("\(index + 1)")
-                    .flType(.fitCount)
                     .flTracking(.fitCount)
+                    .flType(.fitCount)
                     .foregroundStyle(
                         isCurrent ? Theme.swiftColor(.yolkInk, in: scheme)
                             : Theme.swiftColor(.ink2, in: scheme)
@@ -362,8 +362,8 @@ public struct RecipeView: View {
                                     .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                                     .multilineTextAlignment(.leading)
                                 Text(related.fitLine)
-                                    .flType(.fitCount)
                                     .flTracking(.fitCount)
+                                    .flType(.fitCount)
                                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                             }
                             .padding(12)
