@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "name": "FridgeLuck copy-lint patterns — spoilage and use-it-up (canon Part 3)",
+  "retrieved": "2026-10-11",
+  "policy_doc": "data/food-safety/COPY.md — section \"Spoilage and use-it-up policy\"",
+  "notes": "Each pattern fires when every group in \"all\" matches somewhere in a record (case-insensitive) and no \"except\" regex matches the record. \"except\" carries precision guards only (discard instructions, \"before it turns\" quality phrasing, intentionally sprouted ingredient names, previously-frozen/thermometer mitigations) — never a salvage permission.",
+  "patterns": [
+    {
+      "id": "salvage-spoiled",
+      "all": [
+        [
+          "slimy|slime|rotten|rotting|decaying|decayed|moldy|mouldy|going bad|gone bad|went bad|going off|gone off|went off|spoiled|spoilt|too far gone|off-smelling|off smelling|mushy|past (?:its|their) prime|past (?:its|their) best|no longer (?:good|fresh|edible)"
+        ],
+        [
+          "blend\\w*|blitz\\w*|puree\\w*|purée\\w*|whizz\\w*|juic\\w*|use|using|used|eat|eating|cook\\w*|reheat\\w*|roast\\w*|bake\\w*|boil\\w*|steam\\w*|fry\\w*|saut\\w*|simmer\\w*|grill\\w*|microwav\\w*|add\\w*|toss(?:ing)? into|stir(?:ring)? into|mix(?:ing)? into|hide|hiding|sneak\\w*|smoothie|soup|stew|frittata|still (?:fine|good|safe|ok|okay|edible)|probably (?:fine|good|safe|ok|okay)|rescu\\w*|salvag\\w*|sav(?:e|ing)|make the most of|don'?t waste|do not waste|don'?t (?:toss|throw|bin|discard)|do not (?:toss|throw|bin|discard)"
+        ]
+      ],
+      "except": [
+        "\\bbefore\\b[^.?!]{0,40}?\\b(?:turns?|turning|goes?|going|went|gets?|spoils?|spoiling|expires?|rots?)\\b"
+      ],
+      "rewrite": "Do not use food that has spoiled — gone slimy, moldy, decayed or off-smelling. Discard it, and plan to buy less next time. When in doubt, throw it out.",
+      "citation": {
+        "org": "US FDA",
+        "title": "Are You Storing Food Safely?",
+        "url": "https://www.fda.gov/consumers/consumer-updates/are-you-storing-food-safely",
+        "retrieved": "2026-10-11",
+        "id": "fda-storing-food-safely",
+        "quote": "Be aware that food can make you very sick even when it doesn't look, smell, or taste spoiled. That's because foodborne illnesses are caused by pathogenic bacteria, which are different from the spoilage bacteria that make foods \"go bad.\""
+      }
+    },
+    {
+      "id": "leafy-greens-too-far-gone",
+      "all": [
+        [
+          "spinach|kale|lettuce|salad greens?|spring greens|arugula|rocket|chard|silverbeet|collard greens?|mixed greens?|bagged greens?|leafy greens?|salad leaves"
+        ],
+        [
+          "slimy|slime|too far gone|going bad|gone bad|went bad|going off|gone off|went off|mushy|rotting|rotten|decaying|decayed|past saving|beyond saving|wilted to mush|turning to mush|past (?:its|their) best"
+        ],
+        [
+          "blend\\w*|blitz\\w*|puree\\w*|purée\\w*|whizz\\w*|juic\\w*|use|using|used|eat|eating|cook\\w*|reheat\\w*|roast\\w*|bake\\w*|boil\\w*|steam\\w*|fry\\w*|saut\\w*|simmer\\w*|grill\\w*|microwav\\w*|add\\w*|toss(?:ing)? into|stir(?:ring)? into|mix(?:ing)? into|hide|hiding|sneak\\w*|smoothie|soup|stew|frittata|still (?:fine|good|safe|ok|okay|edible)|probably (?:fine|good|safe|ok|okay)|rescu\\w*|salvag\\w*|sav(?:e|ing)|make the most of|don'?t waste|do not waste|don'?t (?:toss|throw|bin|discard)|do not (?:toss|throw|bin|discard)"
+        ]
+      ],
+      "except": [
+        "(?<!don't )(?<!dont )(?<!do not )(?<!never )\\b(?:discard|compost|throw (?:away|it|them|any|the greens)|toss (?:it|them|the greens|out the)|bin (?:it|them))\\b",
+        "\\bbefore\\b[^.?!]{0,40}?\\b(?:turns?|turning|goes?|going|went|gets?|spoils?|spoiling|expires?|rots?)\\b"
+      ],
+      "rewrite": "Leafy greens that are slimy, mushy or too far gone go in the bin — spoilage cannot be washed, trimmed or cooked away. Use greens within their quality window (spinach keeps 3–7 days refrigerated) and freeze what you cannot use in time. When in doubt, throw it out.",
+      "citation": {
+        "org": "US FDA",
+        "title": "Are You Storing Food Safely?",
+        "url": "https://www.fda.gov/consumers/consumer-updates/are-you-storing-food-safely",
+        "retrieved": "2026-10-11",
+        "id": "fda-storing-food-safely",
+        "quote": "Be alert for spoiled food. Anything that looks or smells suspicious should be thrown out."
+      }
+    },
+    {
+      "id": "cook-decayed-or-sprouted",
+      "all": [
+        [
+          "cook\\w*|roast\\w*|bake\\w*|boil\\w*|steam\\w*|fry\\w*|simmer\\w*|mash\\w*|grill\\w*|microwav\\w*|use|using|used|eat|eating|still (?:fine|good|safe|ok|okay)|perfectly (?:fine|good|edible)|fine to eat|good to eat|salvag\\w*|rescu\\w*|sav(?:e|ing)"
+        ],
+        [
+          "decaying|decayed|rotting|rotten|gone (?:rotten|bad|off)|sprouted|sprouting|has sprouts?|with sprouts?|sprouts? (?:on it|on them|growing)|moldy|mouldy|going bad|going off"
+        ]
+      ],
+      "except": [
+        "\\bsprouted (?:grain|grains|wheat|rye|bread|lentils?|beans?|alfalfa|mung|broccoli|radish|peas?|seeds?|tofu)\\b",
+        "\\b(?:discard|compost|throw (?:away|it|them|any)|when in doubt)\\b"
+      ],
+      "rewrite": "Discard produce that is rotten, decaying or has sprouted — cooking does not make spoiled produce safe. Use produce before its quality window instead. When in doubt, throw it out.",
+      "citation": {
+        "org": "US FDA",
+        "title": "Selecting and Serving Produce Safely",
+        "url": "https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-produce-safely",
+        "retrieved": "2026-10-11",
+        "id": "fda-produce-safely",
+        "quote": "Cut away any damaged or bruised areas on fresh fruits and vegetables before preparing and/or eating. Throw away any produce that looks rotten."
+      }
+    },
+    {
+      "id": "fish-curing-rescue",
+      "all": [
+        [
+          "\\b(?:raw|uncooked)\\b"
+        ],
+        [
+          "fish|salmon|tuna|cod|bass|snapper|trout|mackerel|sardines?|halibut|seafood|sushi|sashimi|ceviche|poke"
+        ],
+        [
+          "make(?:s|ing)?\\s+(?:it|them)?\\s*safe|safe\\s+(?:to eat|raw|for sashimi|for sushi|as is)|kills?\\s+(?:the\\s+)?(?:parasites?|bacteria|germs)|rescu\\w*|salvag\\w*|reviv\\w*|effectively cooks?|no longer raw|cooks?\\s+the\\s+(?:fish|seafood)|(?:lime|lemon|citrus|acid|vinegar)[^.?!]{0,30}\\bcooks?\\b"
+        ]
+      ],
+      "except": [
+        "\\b(?:previously frozen|prior to freezing|freezing (?:will|does|kills)|will kill any parasites|food thermometer|63 ?°?C|145 ?°?F|cook\\w*\\s+(?:it|them|the (?:fish|seafood))?\\s*(?:to|thoroughly)|thoroughly cooked)\\b"
+      ],
+      "rewrite": "Raw fish is not made safe by curing, marinating or citrus juice. Use fish that was previously frozen — freezing kills parasites — or cook it to 63 °C (145 °F) on a food thermometer.",
+      "citation": {
+        "org": "US FDA",
+        "title": "Fresh and Frozen Seafood: Selecting and Serving It Safely",
+        "url": "https://www.fda.gov/food/buy-store-serve-safe-food/fresh-and-frozen-seafood-selecting-and-serving-it-safely",
+        "retrieved": "2026-10-11",
+        "id": "fda-seafood-selecting-serving",
+        "quote": "It's always best to cook seafood thoroughly to minimize the risk of foodborne illness. However, if you choose to eat raw fish anyway, one rule of thumb is to eat fish that has been previously frozen. Some species of fish can contain parasites, and freezing will kill any parasites that may be present. However, be aware that freezing doesn't kill all harmful germs. That's why the safest route is to cook your seafood."
+      }
+    },
+    {
+      "id": "smell-safety-test",
+      "all": [
+        [
+          "smell|smells|smelling|smelled"
+        ],
+        [
+          "safe|safety|fine to (?:eat|use)|good to (?:eat|go)|ok(?:ay)? to (?:eat|use|keep)|still (?:be )?(?:good|fine|edible|safe|ok|okay)|edible|eat it|use it|keep it|no problem|nothing wrong|perfectly (?:fine|good|safe)"
+        ]
+      ],
+      "except": [
+        "not a safety test|smell (?:is|isn't) not|smells? (?:do|does) not (?:make|mean|tell|guarantee)|doesn'?t make (?:it|them) safe|do not make (?:it|them) safe"
+      ],
+      "rewrite": "Smell is not a safety test: bacteria that cause food poisoning do not change how food smells or looks. Judge by time and temperature instead — the 2-hour rule and the storage window — and discard what has passed them. When in doubt, throw it out.",
+      "citation": {
+        "org": "USDA Food Safety and Inspection Service",
+        "title": "Refrigeration and Food Safety",
+        "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/refrigeration",
+        "retrieved": "2026-10-11",
+        "id": "fsis-refrigeration-and-food-safety",
+        "quote": "Pathogenic bacteria can grow rapidly in the \"Danger Zone,\" the temperature range between 40 and 140 °F, but they do not generally affect the taste, smell, or appearance of a food. In other words, one cannot tell that a pathogen is present."
+      }
+    }
+  ]
+}

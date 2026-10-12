@@ -437,7 +437,11 @@ describe("explore feed floors and ranking", () => {
       recipe: {
         title: "Classic fried rice",
         ingredientLines: ["3 cups cooked jasmine rice", "2 tbsp soy sauce", "2 eggs", "1 cup frozen peas"],
-        steps: ["Stir-fry."],
+        // The canon's classify reads recipe context: eggs in the ingredient
+        // lines bind the egg class to a cooking-verb step, so the step must
+        // carry a complete thermometer check to publish (the canon's
+        // raw-eggs-firm rule: 160 °F on a food thermometer).
+        steps: ["Stir-fry until an instant-read thermometer reads 160 °F in the egg."],
       },
       campus: "fit-test",
     }));

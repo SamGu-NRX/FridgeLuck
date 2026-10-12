@@ -220,7 +220,10 @@ describe("the publish gate is fail closed while canon/facts are not loaded", () 
 });
 
 describe("the mandatory lint and allergen-claim checks block unsound recipes", () => {
-  test("a doneness claim without thermometer evidence fails the lint into the queue, hidden", async () => {
+  test("a doneness claim without a thermometer check fails the lint into the queue, hidden", async () => {
+    // The canon's appearance-based-doneness conformance case, through the
+    // HTTP publish path: the appearance phrase is a finding, the publication
+    // queues for human review, and the feed stays empty.
     const alice = await signInAs(openUrl, "gate-lint-alice");
     const res = await publish(openUrl, alice, publishBody({
       source: { recipeId: "recipes/test-gate-chicken", recipeRevision: "rev-000003" },
@@ -236,7 +239,7 @@ describe("the mandatory lint and allergen-claim checks block unsound recipes", (
     const created = (await json(res)) as unknown as PublicationJson;
     expect(created.status).toBe("queued");
     expect(created.screeningFailures.map((f) => f.stage)).toContain("food-safety-lint");
-    expect(created.screeningFailures.some((f) => f.reasons.some((r) => r.includes("doneness")))).toBe(true);
+    expect(created.screeningFailures.some((f) => f.reasons.some((r) => r.includes("appearanceDoneness") && r.includes("food-safety-canon")))).toBe(true);
 
     const bob = await signInAs(openUrl, "gate-lint-bob");
     const feed = (await json(await fetch(`${openUrl}/v1/community/explore/gate-lint`, { headers: { authorization: `Bearer ${bob.accessToken}` } }))) as unknown as FeedJson;
@@ -244,6 +247,9 @@ describe("the mandatory lint and allergen-claim checks block unsound recipes", (
   });
 
   test("a supported doneness claim passes the lint", async () => {
+    // The canon's tn-poultry-check-complete true negative, through the HTTP
+    // publish path: thermometer, temperature at the reviewed poultry
+    // minimum, in the cooking step itself — published, not queued.
     const alice = await signInAs(openUrl, "gate-lint-ok-alice");
     const res = await publish(openUrl, alice, publishBody({
       source: { recipeId: "recipes/test-gate-chicken-ok", recipeRevision: "rev-000004" },
@@ -251,7 +257,7 @@ describe("the mandatory lint and allergen-claim checks block unsound recipes", (
         title: "Skillet chicken, checked",
         summary: "Weeknight chicken with a thermometer check.",
         ingredientLines: ["400 g chicken thigh"],
-        steps: ["Cook the chicken until it is no longer pink.", "Confirm 74°C at the thickest point with a thermometer."],
+        steps: ["Insert an instant-read thermometer into the thickest part and cook to 165 °F (74 °C)."],
       },
       campus: "gate-lint-ok",
     }));

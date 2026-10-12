@@ -1,0 +1,21 @@
+{
+  "schema": "fridgeluck/community-food-safety-canon-provenance@v1",
+  "description": "Verbatim copy of the canonical food-safety rulebook, copy-lint patterns and conformance kit from FridgeLuck branch overhaul/food-safety-canon (PR #126). The adapter in ../canonLinter.ts and the gate in ../gate.ts enforce THIS data, not local heuristics; every file is hash-verified at load and the gate fails closed on drift or absence.",
+  "sourceRepo": "SamGu-NRX/FridgeLuck",
+  "sourceBranch": "overhaul/food-safety-canon",
+  "sourceCommit": "0b8ddca4df9ab828ecbe468f33d1bcce17a5b6c3",
+  "sourceCommitNote": "Canon head at vendoring time; descends from fix 2's a092c9a4aa8a5fbb7e62e88da26a1a3dce3970b7 pin (rules.json is byte-identical: sha256 ba31ca0c868268f4cc3488afaa90d08033a42dbf1ea31ed807b61a1f60e4b01b).",
+  "vendoredAt": "2026-10-12",
+  "verify": "At load, each file below is re-read and its sha256 must equal the recorded hash; any mismatch or missing file closes the gate (fail closed, no fallback pass).",
+  "files": [
+    { "path": "rules.json", "sha256": "ba31ca0c868268f4cc3488afaa90d08033a42dbf1ea31ed807b61a1f60e4b01b" },
+    { "path": "copy-lint-patterns.json", "sha256": "3d1565fa41a702ef90b9a203bc34cbdff9810c315db7c009fb5f020b16875323" },
+    { "path": "conformance/README.md", "sha256": "d1998fc789bf0828217fef78f82345c6c50767c2f13e33ac8f14c5bf6b7dddac" },
+    { "path": "conformance/cases-copy-lint.json", "sha256": "346ff8f39d6c501b36c9b6d22e89338f7ea92cc679dd4746afa9ee21cca61a6c" },
+    { "path": "conformance/cases-fail-closed.json", "sha256": "b79509b149070e5eeb3aca4d7ca1852b0ec88bb462cfcacb839e757f0734a61b" },
+    { "path": "conformance/cases-review-and-legacy.json", "sha256": "6c5e9007b9ebb7716c38248fa3fcdc93800dcc499344b31d0cc0838dff6d1ed5" },
+    { "path": "conformance/cases-temperature-errors.json", "sha256": "b7fdc918c9c6a3905b8389369f75747645497d2e04a2cd7bdf735aac00e76c93" },
+    { "path": "conformance/replay-clean.json", "sha256": "eae4ec7fb1f704b045dc7244f01d4fb7e47d0343604eb162e72fb1272ea7d66b" },
+    { "path": "conformance/true-negatives.json", "sha256": "19fd15a8ebbfa86f931a1a33dd8c99c9acc986a9abe11a57b2944298649233a6" }
+  ]
+}
