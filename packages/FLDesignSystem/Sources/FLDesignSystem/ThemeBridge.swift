@@ -178,7 +178,7 @@ public enum FLHaptics {
         }
         #elseif canImport(AppKit)
         // macOS has no per-style impact generator; one coarse feedback hit.
-        NSHapticFeedbackManager.defaultPerformer.perform(.alignmentHit, performanceTime: .now)
+        NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
         #endif
     }
 }
