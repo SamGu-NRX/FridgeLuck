@@ -30,6 +30,15 @@ public enum ColorRole: String, Sendable, CaseIterable {
     case yolkInk
     /// Errors only.
     case error
+    /// Warm surface fill for the "still there" pill family (Kitchen's
+    /// reconciliation answers). The confirming answer rides this; its text
+    /// is `ink`. Added for the Kitchen screens (Part 2) as additive API so
+    /// pills tint from the theme, never from screen-local values.
+    case pillIdle
+    /// Quiet surface fill for the "gone" pill family. The negating answer
+    /// rides this, de-emphasised; its text is `ink2`. Same provenance as
+    /// `pillIdle`.
+    case pillGone
 }
 
 /// A fully resolved colour palette. Typed properties so removing or renaming
@@ -56,11 +65,19 @@ public struct Palette: Sendable, Equatable {
     public let yolkInk: ColorToken
     /// Errors only.
     public let error: ColorToken
+    /// Warm surface fill for the still-there pill family.
+    public let pillIdle: ColorToken
+    /// Quiet surface fill for the gone pill family.
+    public let pillGone: ColorToken
 
     public init(
         bg: ColorToken, ink: ColorToken, ink2: ColorToken, ink3: ColorToken,
         rule: ColorToken, rule2: ColorToken, yolk: ColorToken, yolkSoft: ColorToken,
-        yolkInk: ColorToken, error: ColorToken
+        yolkInk: ColorToken, error: ColorToken,
+        // Additive (Kitchen pills): defaulted so pre-existing call sites
+        // keep compiling; the Theme tables below pass explicit values.
+        pillIdle: ColorToken = ColorToken(hex: 0xF3EEE0),
+        pillGone: ColorToken = ColorToken(hex: 0xE9E9E4)
     ) {
         self.bg = bg
         self.ink = ink
@@ -72,6 +89,8 @@ public struct Palette: Sendable, Equatable {
         self.yolkSoft = yolkSoft
         self.yolkInk = yolkInk
         self.error = error
+        self.pillIdle = pillIdle
+        self.pillGone = pillGone
     }
 
     /// Resolves a role against this palette.
@@ -87,6 +106,8 @@ public struct Palette: Sendable, Equatable {
         case .yolkSoft: return yolkSoft
         case .yolkInk: return yolkInk
         case .error: return error
+        case .pillIdle: return pillIdle
+        case .pillGone: return pillGone
         }
     }
 }
@@ -127,7 +148,13 @@ public enum Theme {
                 yolk: ColorToken(hex: 0xF5C400),
                 yolkSoft: ColorToken(hex: 0xFFF3B8),
                 yolkInk: ColorToken(hex: 0x6A5300),
-                error: ColorToken(hex: 0xC8321E)
+                error: ColorToken(hex: 0xC8321E),
+                // Kitchen pill surfaces (Direction H provisional): the
+                // confirming pill rides a warm cream off the paper ground
+                // (ink text, ≈13:1); the gone pill a quiet grey (ink2 text,
+                // ≈5.3:1).
+                pillIdle: ColorToken(hex: 0xF3EEE0),
+                pillGone: ColorToken(hex: 0xE9E9E4)
             )
         case .hob:
             return Palette(
@@ -140,7 +167,11 @@ public enum Theme {
                 yolk: ColorToken(hex: 0xF5C400),
                 yolkSoft: ColorToken(hex: 0x2A2300),
                 yolkInk: ColorToken(hex: 0xF5C400),
-                error: ColorToken(hex: 0xFF6B57)
+                error: ColorToken(hex: 0xFF6B57),
+                // Warm dark for the confirming pill (ink text, ≈11:1);
+                // quiet near-black for the gone pill (ink2 text, ≈5.2:1).
+                pillIdle: ColorToken(hex: 0x2C2A1E),
+                pillGone: ColorToken(hex: 0x1C1D1A)
             )
         case .dark:
             return Palette(
@@ -153,7 +184,11 @@ public enum Theme {
                 yolk: ColorToken(hex: 0xF5C400),
                 yolkSoft: ColorToken(hex: 0x2A2300),
                 yolkInk: ColorToken(hex: 0xF5C400),
-                error: ColorToken(hex: 0xFF6B57)
+                error: ColorToken(hex: 0xFF6B57),
+                // Dark scheme (paper inverted): warm dark pillIdle per the
+                // named rule; pillGone quiet near-black (ink2 text, ≈4.6:1).
+                pillIdle: ColorToken(hex: 0x2E2C20),
+                pillGone: ColorToken(hex: 0x1F201C)
             )
         }
     }
