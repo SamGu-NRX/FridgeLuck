@@ -304,10 +304,10 @@ struct HomeFridgeLuckPanelsSection: View {
               }
             }
 
-            Text("\(snapshot.ingredientCount)")
+            Text("\(snapshot.stockedIngredientCount)")
               .font(AppTheme.Typography.displayLarge)
               .foregroundStyle(AppTheme.sage)
-            Text("ingredients scanned")
+            Text("in your kitchen")
               .font(AppTheme.Typography.labelSmall)
               .foregroundStyle(AppTheme.textSecondary)
           }

@@ -30,7 +30,9 @@ struct HomeRecommendation: Identifiable, Sendable {
 }
 
 struct HomeDashboardSnapshot: Sendable {
-  let ingredientCount: Int
+  /// Distinct ingredients with active inventory quantity (remaining grams > 0) —
+  /// pantry stock evidence, not the recipe-catalog ingredient count.
+  let stockedIngredientCount: Int
   let recipeCount: Int
   let hasOnboarded: Bool
   let currentStreak: Int
