@@ -133,6 +133,76 @@ final class SharedCookRedactionTests: XCTestCase {
         let json = try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys])
         XCTAssertThrowsError(try FLJSON.canonicalDecoder().decode(SharedCook.self, from: json))
     }
+
+    // MARK: Export policy — the same rights gate as recipe sharing (review round 2)
+
+    /// A shared cook embeds the full revision text, so constructing one is an
+    /// export and must pass the same gate as `RecipeSharePayload`: forbidden
+    /// or quarantined text must never leave the phone (SPEC 3.5), failing
+    /// closed when rights are missing or unknown.
+    func testSharedCookRefusesForbiddenTextRevision() throws {
+        let revision = try TestSupport.revision(license: TestSupport.license(text: .forbidden))
+        let cook = try TestSupport.cook(id: "cook-1", key: revision.key, completedAt: Date(timeIntervalSince1970: 0))
+        XCTAssertThrowsError(try SharedCook(cook: cook, revision: revision, completedOn: "2026-10-11")) { error in
+            guard case let FLDomainError.validation(target, reason) = error else { return XCTFail("wrong error: \(error)") }
+            XCTAssertEqual(target, "SharedCook.recipeRevision")
+            XCTAssertTrue(reason.contains("forbidden"), "unexpected reason: \(reason)")
+        }
+    }
+
+    func testSharedCookRefusesForbiddenOfflineUse() throws {
+        let revision = try TestSupport.revision(license: TestSupport.license(offline: .forbidden))
+        let cook = try TestSupport.cook(id: "cook-1", key: revision.key, completedAt: Date(timeIntervalSince1970: 0))
+        XCTAssertThrowsError(try SharedCook(cook: cook, revision: revision, completedOn: "2026-10-11"))
+    }
+
+    func testSharedCookRefusesQuarantinedRevision() throws {
+        // Unknown rights mean quarantine, and a quarantined revision is
+        // "private, not re-shareable, not shippable" — including embedded in
+        // a shared cook. Caching must be explicitly permitted (2026-10-11).
+        let quarantined: [(String, RecipeLicense)] = [
+            ("unknown text rights", try TestSupport.license(text: .unknown)),
+            ("unknown modification rights", try TestSupport.license(modification: .unknown)),
+            ("unknown offline rights", try TestSupport.license(offline: .unknown)),
+            ("unknown caching rights", try TestSupport.license(caching: .unknown)),
+            ("forbidden caching rights", try TestSupport.license(caching: .forbidden)),
+        ]
+        for (label, license) in quarantined {
+            let revision = try TestSupport.revision(license: license)
+            let cook = try TestSupport.cook(id: "cook-1", key: revision.key, completedAt: Date(timeIntervalSince1970: 0))
+            XCTAssertThrowsError(
+                try SharedCook(cook: cook, revision: revision, completedOn: "2026-10-11"),
+                "\(label) must refuse shared-cook export"
+            )
+        }
+    }
+
+    func testSharedCookRefusesLeChefDraft() throws {
+        let revision = try TestSupport.revision(origin: .lechef, license: TestSupport.license())
+        let cook = try TestSupport.cook(id: "cook-1", key: revision.key, completedAt: Date(timeIntervalSince1970: 0))
+        XCTAssertThrowsError(try SharedCook(cook: cook, revision: revision, completedOn: "2026-10-11")) { error in
+            guard case let FLDomainError.validation(target, reason) = error else { return XCTFail("wrong error: \(error)") }
+            XCTAssertEqual(target, "SharedCook.recipeRevision")
+            XCTAssertTrue(reason.contains("LeChef drafts are private"), "unexpected reason: \(reason)")
+        }
+    }
+
+    func testSharedCookRefusesAttributionRequiredButMissing() throws {
+        let revision = try TestSupport.revision(license: TestSupport.license(attributionRequired: true), attribution: nil)
+        let cook = try TestSupport.cook(id: "cook-1", key: revision.key, completedAt: Date(timeIntervalSince1970: 0))
+        XCTAssertThrowsError(try SharedCook(cook: cook, revision: revision, completedOn: "2026-10-11")) { error in
+            guard case let FLDomainError.validation(target, reason) = error else { return XCTFail("wrong error: \(error)") }
+            XCTAssertEqual(target, "SharedCook.recipeRevision")
+            XCTAssertTrue(reason.contains("attribution"), "unexpected reason: \(reason)")
+        }
+    }
+
+    func testSharedCookAcceptsAttributionRequiredWithAttributionPresent() throws {
+        // The gate blocks the missing case, not attribution itself.
+        let revision = try TestSupport.revision(license: TestSupport.license(attributionRequired: true), attribution: "Recipe by Ama Boateng")
+        let cook = try TestSupport.cook(id: "cook-1", key: revision.key, completedAt: Date(timeIntervalSince1970: 0))
+        XCTAssertNoThrow(try SharedCook(cook: cook, revision: revision, completedOn: "2026-10-11"))
+    }
 }
 
 /// Local helper so the redaction tests read cleanly.

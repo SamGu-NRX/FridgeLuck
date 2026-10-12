@@ -87,6 +87,12 @@ public struct SharedCook: Hashable, Sendable {
 
     /// Build the shareable shape from a finished cook.
     ///
+    /// Constructing one is an export: the revision text embeds here, so the
+    /// `RecipeExportGate` runs first — a forbidden or quarantined revision
+    /// (LeChef draft, forbidden text/offline rights, unknown rights,
+    /// non-permitted caching, required attribution missing) is refused, the
+    /// same policy as recipe sharing (SPEC 3.5).
+    ///
     /// - Parameters:
     ///   - cook: the finished cook. Only its shareable fields are read; its
     ///     `startedAt` instant and any local identifiers stay behind.
@@ -95,6 +101,10 @@ public struct SharedCook: Hashable, Sendable {
     ///   - completedOn: the calendar day, "yyyy-MM-dd", computed by the host
     ///     in the household's time zone (this library never guesses a zone).
     public init(cook: Cook, revision: RecipeRevision, completedOn: String) throws {
+        // Export gate first: rights are judged before anything else about
+        // the payload — the cook's own fields never rehabilitate a revision
+        // that may not leave the phone.
+        try RecipeExportGate.validateExportable(revision, target: "SharedCook.recipeRevision")
         guard cook.recipeRevision == revision.key else {
             throw FLDomainError.validation(
                 target: "SharedCook.recipeRevision",
