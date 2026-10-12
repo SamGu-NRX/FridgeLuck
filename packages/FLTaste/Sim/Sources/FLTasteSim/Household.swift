@@ -66,11 +66,17 @@ public enum HouseholdFactory {
         let styleKeys = space.keys.filter { $0.namespace == "style" }
         let techniqueKeys = space.keys.filter { $0.namespace == "technique" }
 
+        let clusterKeys = presentClusterKeys(in: space)
         var eaters: [Eater] = []
         for index in 0..<max(1, min(2, config.householdSize)) {
-            let latent = drawLatent(
-                &rng, space: space, ingredientKeys: ingredientKeys,
-                cuisineKeys: cuisineKeys, styleKeys: styleKeys, techniqueKeys: techniqueKeys)
+            let latent = config.latentRegime == .ruleBlind
+                ? drawRuleBlindLatent(
+                    &rng, space: space, clusterKeys: clusterKeys,
+                    techniqueKeys: techniqueKeys)
+                : drawLatent(
+                    &rng, space: space, ingredientKeys: ingredientKeys,
+                    cuisineKeys: cuisineKeys, styleKeys: styleKeys,
+                    techniqueKeys: techniqueKeys)
             eaters.append(
                 Eater(
                     id: EaterID("e\(index + 1)")!,
@@ -93,45 +99,35 @@ public enum HouseholdFactory {
         // one liked feature adds roughly one unit of utility, so a recipe
         // matching three liked ingredients beats one matching none by about
         // three softmax temperature units — decisive but not certain.
-        func sampleKeys(_ keys: [FeatureKey], _ count: Int) -> [FeatureKey] {
-            var pool = keys
-            var picked: [FeatureKey] = []
-            for _ in 0..<count {
-                guard !pool.isEmpty else { break }
-                let i = Int(rng.nextUniform() * Double(pool.count))
-                picked.append(pool.remove(at: min(i, pool.count - 1)))
-            }
-            return picked
-        }
-        let likedIngredients = sampleKeys(ingredientKeys, 5 + Int(rng.nextUniform() * 6))
+        let likedIngredients = sampleKeys(&rng, ingredientKeys, 5 + Int(rng.nextUniform() * 6))
         for key in likedIngredients {
             if let i = space.index(of: key) { latent[i] += 0.6 + 1.2 * rng.nextUniform() }
         }
-        let dislikedIngredients = sampleKeys(ingredientKeys, 2 + Int(rng.nextUniform() * 3))
+        let dislikedIngredients = sampleKeys(&rng, ingredientKeys, 2 + Int(rng.nextUniform() * 3))
         for key in dislikedIngredients {
             if let i = space.index(of: key) { latent[i] -= 0.6 + 1.0 * rng.nextUniform() }
         }
 
         // Cuisine: one liked (+0.8), one disliked (-0.5) among the three.
-        let cuisinePicks = sampleKeys(cuisineKeys, min(2, cuisineKeys.count))
+        let cuisinePicks = sampleKeys(&rng, cuisineKeys, min(2, cuisineKeys.count))
         for (offset, key) in cuisinePicks.enumerated() {
             if let i = space.index(of: key) { latent[i] += offset == 0 ? 0.8 : -0.5 }
         }
 
         // Style: 1-2 liked (+0.5), 1 disliked (-0.5).
-        for key in sampleKeys(styleKeys, 1 + Int(rng.nextUniform() * 2)) {
+        for key in sampleKeys(&rng, styleKeys, 1 + Int(rng.nextUniform() * 2)) {
             if let i = space.index(of: key) { latent[i] += 0.5 }
         }
-        for key in sampleKeys(styleKeys, 1) {
+        for key in sampleKeys(&rng, styleKeys, 1) {
             if let i = space.index(of: key) { latent[i] -= 0.5 }
         }
 
         // Technique: 1-2 liked (+0.5), occasionally one disliked (-0.4).
-        for key in sampleKeys(techniqueKeys, 1 + Int(rng.nextUniform() * 2)) {
+        for key in sampleKeys(&rng, techniqueKeys, 1 + Int(rng.nextUniform() * 2)) {
             if let i = space.index(of: key) { latent[i] += 0.5 }
         }
         if rng.nextUniform() < 0.35 {
-            for key in sampleKeys(techniqueKeys, 1) {
+            for key in sampleKeys(&rng, techniqueKeys, 1) {
                 if let i = space.index(of: key) { latent[i] -= 0.4 }
             }
         }
@@ -172,6 +168,105 @@ public enum HouseholdFactory {
         // bias.one stays 0: the intercept is a model-side parameter, not
         // taste. nutrition/servings/cost/complexity stay 0 in v1 (documented
         // in SIM-ASSUMPTIONS.md).
+        return latent
+    }
+
+    /// Sample `count` distinct keys from `keys` with the seeded RNG.
+    /// Shared by both latent regimes; `sampleKeys(&rng, keys, n)` preserves
+    /// the exact draw order the inlined version had.
+    private static func sampleKeys(
+        _ rng: inout SeededRNG, _ keys: [FeatureKey], _ count: Int
+    ) -> [FeatureKey] {
+        var pool = keys
+        var picked: [FeatureKey] = []
+        for _ in 0..<count {
+            guard !pool.isEmpty else { break }
+            let i = Int(rng.nextUniform() * Double(pool.count))
+            picked.append(pool.remove(at: min(i, pool.count - 1)))
+        }
+        return picked
+    }
+
+    // MARK: Rule-blind regime
+
+    /// Hidden ingredient-affinity clusters: cuisine-like groupings over
+    /// ingredient identities that are NOT tags and NOT on the ranker seam.
+    /// Only clusters with members present in the active catalog are used.
+    /// Calibrated in SIM-ASSUMPTIONS.md §12.
+    static let hiddenAffinityClusters: [[String]] = [
+        ["soy_sauce", "sesame_oil", "ginger", "green_onion"],
+        ["coconut_milk", "cumin", "red_pepper_flakes"],
+        ["cilantro", "lime", "lemon"],
+        ["tomato", "onion", "garlic"],
+    ]
+
+    /// The hidden clusters the catalog can actually support.
+    private static func presentClusterKeys(in space: FeatureSpace) -> [[FeatureKey]] {
+        hiddenAffinityClusters.compactMap { members in
+            let keys = members
+                .map { FeatureKey(namespace: "ingredient", value: $0) }
+                .filter { space.index(of: $0) != nil }
+            return keys.isEmpty ? nil : keys
+        }
+    }
+
+    /// Latent taste for the rule-blind regime: loads ONLY on rule-invisible
+    /// drivers — hidden ingredient-affinity clusters, technique keys from
+    /// instruction text, and spice affinity. Every seam-visible namespace
+    /// (cuisine/style tags, time, effort, servings, cost, complexity,
+    /// nutrition, bias) stays exactly zero, so a ranker restricted to the
+    /// seam's projection cannot track utility, while a learner that ingests
+    /// the event history (viewed/opened/cooked reactions, ingredient-level
+    /// signals) can.
+    private static func drawRuleBlindLatent(
+        _ rng: inout SeededRNG, space: FeatureSpace, clusterKeys: [[FeatureKey]],
+        techniqueKeys: [FeatureKey]
+    ) -> [Double] {
+        var latent = [Double](repeating: 0.0, count: space.dimension)
+        precondition(
+            !clusterKeys.isEmpty || !techniqueKeys.isEmpty,
+            "ruleBlind regime needs hidden-cluster or technique keys in the catalog")
+
+        // One liked cluster (+), and when possible a disliked one (−):
+        // affinities over ingredient identities the seam never shows.
+        if let liked = clusterKeys.isEmpty
+            ? nil
+            : clusterKeys[Int(rng.nextUniform() * Double(clusterKeys.count)) % clusterKeys.count]
+        {
+            for key in liked {
+                if let i = space.index(of: key) { latent[i] += 0.6 + 1.2 * rng.nextUniform() }
+            }
+            let rest = clusterKeys.filter { $0 != liked }
+            if !rest.isEmpty {
+                let disliked = rest[Int(rng.nextUniform() * Double(rest.count)) % rest.count]
+                for key in disliked {
+                    if let i = space.index(of: key) { latent[i] -= 0.6 + 1.0 * rng.nextUniform() }
+                }
+            }
+        }
+
+        // Technique tastes from instruction text — invisible to the seam.
+        for key in sampleKeys(&rng, techniqueKeys, 1 + Int(rng.nextUniform() * 2)) {
+            if let i = space.index(of: key) { latent[i] += 0.5 }
+        }
+        if rng.nextUniform() < 0.35 {
+            for key in sampleKeys(&rng, techniqueKeys, 1) {
+                if let i = space.index(of: key) { latent[i] -= 0.4 }
+            }
+        }
+
+        // Spice affinity, exactly as the standard regime draws it
+        // (ingredient-identity driven).
+        let heatRoll = rng.nextUniform()
+        let heatAffinity: Double = heatRoll < 0.3 ? -1 : (heatRoll < 0.7 ? 0 : 1)
+        if let hot = space.index(of: FeatureKey(namespace: "spice", value: "hot")) {
+            latent[hot] += 0.7 * heatAffinity
+        }
+        if let none = space.index(of: FeatureKey(namespace: "spice", value: "none")) {
+            latent[none] -= 0.3 * heatAffinity
+        }
+
+        // Everything seam-visible stays zero by construction.
         return latent
     }
 

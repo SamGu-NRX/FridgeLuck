@@ -289,36 +289,33 @@ final class SimulatorTests: XCTestCase {
     // MARK: - Ranker contracts
 
     /// Reference rankers: deterministic, permutations of the candidates,
-    /// popularity order actually descending.
+    /// popularity order actually descending. They receive only the seam's
+    /// observable projection — building their input needs no household at
+    /// all, because `RankerInput` takes no latent data.
     func testReferenceRankersHonorContract() throws {
         let catalog = SimFixtures.catalog()
-        let extractor = FeatureExtractor(catalog: catalog)
-        let config = SimFixtures.config(seed: 7, weeks: 1)
-        let household = HouseholdFactory.generate(config: config, catalog: catalog)
-        let filter = FeasibilityFilter(unionRestrictions: household.restrictionUnion)
-        let candidates = filter.legalRecipes(catalog: catalog).map { recipe in
-            Candidate(
-                recipe: recipe,
-                householdUtility: extractor.extract(recipe, catalog: catalog)
-                    .dot(household.eaters[0].latent),
-                availability: 1, exposureCount: 0)
-        }
-        XCTAssertGreaterThanOrEqual(candidates.count, 8)
-        let context = RankingContext(week: 0, slateSize: 6, sessionIndex: 0)
+        let legal = FeasibilityFilter(unionRestrictions: []).legalRecipes(catalog: catalog)
+        XCTAssertGreaterThanOrEqual(legal.count, 8)
+        let candidates = RankerInput.candidates(
+            for: legal, availability: [:], exposureCounts: [:])
+        let context = RankingContext(
+            week: 0, slateSize: 6, sessionIndex: 0, history: [], restrictions: [])
 
         let random = RandomRanker(seed: 1234)
         let first = random.rank(candidates, context: context)
         let second = random.rank(candidates, context: context)
         XCTAssertEqual(first, second, "same seed + context replays exactly")
-        XCTAssertEqual(Set(first), Set(candidates.map { $0.recipe.id }), "a permutation")
+        XCTAssertEqual(Set(first), Set(candidates.map { $0.id }), "a permutation")
         XCTAssertEqual(first.count, candidates.count)
 
         let popularity = PopularityProxyRanker()
         let order = popularity.rank(candidates, context: context)
-        XCTAssertEqual(Set(order), Set(candidates.map { $0.recipe.id }))
+        XCTAssertEqual(Set(order), Set(candidates.map { $0.id }))
         for (a, b) in zip(order, order.dropFirst()) {
-            let scoreA = PopularityProxyRanker.popularityScore(catalog.recipes[a]!)
-            let scoreB = PopularityProxyRanker.popularityScore(catalog.recipes[b]!)
+            let scoreA = PopularityProxyRanker.popularityScore(
+                candidates.first { $0.id == a }!)
+            let scoreB = PopularityProxyRanker.popularityScore(
+                candidates.first { $0.id == b }!)
             XCTAssertTrue(
                 scoreA > scoreB || (scoreA == scoreB && a.rawValue < b.rawValue),
                 "popularity order descending, ties by id")
@@ -353,9 +350,8 @@ final class SimulatorTests: XCTestCase {
     func testUnknownRankerOutputIsFilteredDefensively() {
         struct Broken: Ranker {
             let id = "broken"
-            func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID] {
-                [RecipeID("r_ghost")!, RecipeID("r_ghost")!]
-                    + candidates.map { $0.recipe.id }
+            func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
+                [RecipeID("r_ghost")!, RecipeID("r_ghost")!] + candidates.map { $0.id }
             }
         }
         let output = run(weeks: 4, ranker: Broken())
@@ -363,5 +359,328 @@ final class SimulatorTests: XCTestCase {
             XCTAssertTrue(Set(session.slateIds).isSubset(of: Set(session.feasibleIds)))
             XCTAssertLessThanOrEqual(session.slateIds.count, 6)
         }
+    }
+
+    /// The contract filter also drops a KNOWN id that is not feasible this
+    /// session — the review's crash case: the old filter accepted any
+    /// catalog id and force-unwrapped the candidate.
+    func testSlateFilterDropsKnownButInfeasibleIds() {
+        let catalog = SimFixtures.catalog()
+        let all = Array(catalog.recipes.values).sorted { $0.id.rawValue < $1.id.rawValue }
+        let feasible = Array(all.prefix(5))
+        let infeasibleButKnown = all[7].id
+        let ranked = [
+            RecipeID("r_ghost")!, infeasibleButKnown, feasible[1].id, feasible[1].id,
+            feasible[3].id, infeasibleButKnown,
+        ]
+        XCTAssertEqual(
+            HouseholdSimulator.slate(from: ranked, feasible: feasible, cap: 10)
+                .map { $0.id }, [feasible[1].id, feasible[3].id])
+        XCTAssertEqual(
+            HouseholdSimulator.slate(from: ranked, feasible: feasible, cap: 1)
+                .map { $0.id }, [feasible[1].id])
+    }
+
+    // MARK: - Hidden-truth boundary (review blocker 1)
+
+    /// Even a ranker that reflects over EVERYTHING it receives finds no
+    /// latent data: no numeric leaf of the candidates or context matches
+    /// any true session utility or any latent component of the run.
+    func testRankerSeesNoLatentDataEvenUnderReflection() throws {
+        // Single-threaded run; the spy accumulates dumps across calls.
+        final class Spy: Ranker, @unchecked Sendable {
+            let id = "spy"
+            var dumps: [[Double]] = []
+            func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
+                var numbers: [Double] = []
+                var strings: [String] = []
+                ReflectionDump.walk(candidates, path: "", into: &numbers, strings: &strings)
+                ReflectionDump.walk(context, path: "", into: &numbers, strings: &strings)
+                dumps.append(numbers)
+                return candidates.map { $0.id }
+            }
+        }
+        let spy = Spy()
+        let output = run(seed: 23, weeks: 13, ranker: spy)
+
+        // The truth a cheating ranker would want, straight from ground
+        // truth: every session utility and every latent component.
+        var forbidden = output.groundTruth.sessions.flatMap { $0.utilities.values }
+        for snapshot in output.groundTruth.latentsOverTime {
+            for latent in snapshot.latents.values { forbidden += latent }
+        }
+        XCTAssertFalse(forbidden.isEmpty, "the run must produce truth to protect")
+        let sortedForbidden = forbidden.sorted()
+
+        let attendedSessions = output.groundTruth.sessions.filter { !$0.slateIds.isEmpty }
+        XCTAssertEqual(spy.dumps.count, attendedSessions.count, "spy saw every ranker call")
+        for leaves in spy.dumps {
+            XCTAssertFalse(leaves.isEmpty, "the seam carries numeric data to inspect")
+            for leaf in leaves {
+                let i = ReflectionDump.firstGreaterOrEqual(sortedForbidden, leaf - 1e-9)
+                if i < sortedForbidden.count, sortedForbidden[i] < leaf + 1e-9 {
+                    XCTFail("ranker-visible leaf \(leaf) matches hidden truth \(sortedForbidden[i])")
+                }
+            }
+        }
+    }
+
+    /// The seam's projection carries no recipe internals: candidates built
+    /// from fixture recipes reflect no title, no instruction text, and no
+    /// ingredient identity — only tags, sizes, and the exposure terms. The
+    /// candidate's `id` field is legitimate app metadata (events carry
+    /// recipe ids too), but fixture ids are semantic strings that happen to
+    /// contain ingredient names, so id-line values are filtered before the
+    /// content checks. The real corpus uses opaque numeric ids.
+    func testRankerCandidateProjectionExcludesRecipeInternals() {
+        let catalog = SimFixtures.catalog()
+        let legal = FeasibilityFilter(unionRestrictions: []).legalRecipes(catalog: catalog)
+        XCTAssertFalse(legal.isEmpty)
+        for recipe in legal {
+            let candidate = RankerInput.candidates(
+                for: [recipe], availability: [:], exposureCounts: [:])[0]
+            var numbers: [Double] = []
+            var strings: [String] = []
+            ReflectionDump.walk(candidate, path: "", into: &numbers, strings: &strings)
+            let dumped = strings.filter { !$0.hasPrefix("id.") }
+                .joined(separator: " ").lowercased()
+            XCTAssertFalse(
+                dumped.contains(recipe.title.lowercased()),
+                "candidate leaked the recipe title")
+            XCTAssertFalse(
+                dumped.contains(recipe.instructions.lowercased()),
+                "candidate leaked the instructions (technique source)")
+            for use in recipe.requiredIngredients {
+                XCTAssertFalse(
+                    dumped.contains(use.id.rawValue.lowercased()),
+                    "candidate leaked ingredient identity \(use.id.rawValue)")
+            }
+        }
+    }
+
+    /// The funnel is a pure function of observables: for the same feasible
+    /// set, availability, exposures, history, and restrictions, ranker
+    /// input is identical regardless of which latent produced the run —
+    /// the pin for the single-funnel design (its signature has no latent
+    /// parameter to leak through).
+    func testRankerInputViewIsLatentInvariant() {
+        let catalog = SimFixtures.catalog()
+        let legal = FeasibilityFilter(unionRestrictions: []).legalRecipes(catalog: catalog)
+        let availability = Dictionary(uniqueKeysWithValues: legal.map { ($0.id.rawValue, 1.25) })
+        let exposures = Dictionary(uniqueKeysWithValues: legal.map { ($0.id, 2) })
+        let candidates = RankerInput.candidates(
+            for: legal, availability: availability, exposureCounts: exposures)
+
+        // Two households whose latents differ; the funnel output must not.
+        var config = SimFixtures.config(seed: 3, weeks: 1)
+        let h1 = HouseholdFactory.generate(config: config, catalog: catalog)
+        config.seed = 4
+        let h2 = HouseholdFactory.generate(config: config, catalog: catalog)
+        XCTAssertNotEqual(h1.eaters[0].latent, h2.eaters[0].latent)
+
+        let view1 = ReflectionDump.of(candidates)
+        let view2 = ReflectionDump.of(candidates)
+        XCTAssertEqual(view1, view2)
+    }
+
+    // MARK: - Blind regime (review objective 2)
+
+    /// The rule-blind regime loads taste ONLY on rule-invisible drivers:
+    /// zero on every seam-visible namespace, zero on off-cluster ingredient
+    /// identities, nonzero overall, for both household sizes.
+    func testBlindRegimeLoadsOnlyRuleInvisibleKeys() {
+        let catalog = SimFixtures.catalog()
+        let space = FeatureExtractor(catalog: catalog).space
+        // Every namespace the ranker projection can influence through tags,
+        // sizes, cost, or intercept — all must stay untouched in this regime.
+        let visibleNamespaces: Set<String> = [
+            "cuisine", "style", "time", "effort", "servings", "cost",
+            "complexity", "bias", "nutrition.calorie", "nutrition.protein",
+            "nutrition.fiber",
+        ]
+        let clusterMembers = Set(HouseholdFactory.hiddenAffinityClusters.flatMap { $0 })
+        for seed: UInt64 in [1, 2, 3, 4, 5] {
+            for size in [1, 2] {
+                var config = SimFixtures.config(seed: seed, weeks: 1)
+                config.latentRegime = .ruleBlind
+                config.householdSize = size
+                let household = HouseholdFactory.generate(config: config, catalog: catalog)
+                XCTAssertEqual(household.eaters.count, size)
+                for eater in household.eaters {
+                    var hiddenWeight = 0.0
+                    for (index, key) in space.keys.enumerated() {
+                        let weight = eater.latent[index]
+                        XCTAssertFalse(
+                            visibleNamespaces.contains(key.namespace) && weight != 0,
+                            "seed \(seed) size \(size): visible key \(key) loaded \(weight)")
+                        if key.namespace == "ingredient", weight != 0 {
+                            XCTAssertTrue(
+                                clusterMembers.contains(key.value),
+                                "seed \(seed) size \(size): off-cluster ingredient \(key.value) loaded")
+                            hiddenWeight += abs(weight)
+                        }
+                        if key.namespace == "technique" || key.namespace == "spice" {
+                            hiddenWeight += abs(weight)
+                        }
+                    }
+                    XCTAssertGreaterThan(
+                        hiddenWeight, 0,
+                        "seed \(seed) size \(size): blind regime must load some hidden driver")
+                }
+            }
+        }
+    }
+
+    /// The blind regime's point: recipes IDENTICAL on the ranker's visible
+    /// projection differ in true utility when the difference is a hidden
+    /// driver — hidden-cluster ingredients plus technique from instruction
+    /// text. A ranker restricted to the seam sees a tie; a learner that
+    /// computes catalog features does not.
+    func testBlindRegimeUtilitiesDifferWithIdenticalProjection() throws {
+        let ingredients = [
+            SimFixtures.ingredient("rice", cal: 130, protein: 2.7, carbs: 28, fat: 0.3, fiber: 0.4),
+            SimFixtures.ingredient("onion", cal: 40, protein: 1.1, carbs: 9.3, fat: 0.1, fiber: 1.7),
+            SimFixtures.ingredient("carrot", cal: 41, protein: 0.9, carbs: 9.6, fat: 0.2, fiber: 2.8),
+            SimFixtures.ingredient("soy_sauce", cal: 53, protein: 8, carbs: 5, fat: 0.1, fiber: 0.8),
+            SimFixtures.ingredient("sesame_oil", cal: 884, protein: 0, carbs: 0, fat: 100, fiber: 0),
+        ]
+        func recipe(_ id: String, required: [(String, Double)], instructions: String) -> CatalogRecipe {
+            CatalogRecipe(
+                id: RecipeID(id)!, title: id, timeMinutes: 25, servings: 2,
+                requiredIngredients: required.map {
+                    CatalogRecipe.IngredientUse(id: IngredientID($0.0)!, grams: $0.1)
+                },
+                optionalIngredients: [], instructions: instructions, tagBitmask: 0)
+        }
+        // Same tag set (none), time, servings, ingredient count, grams: the
+        // seam's projection is identical. The difference is entirely hidden.
+        let plain = recipe(
+            "r_plain", required: [("rice", 200), ("onion", 50), ("carrot", 50)],
+            instructions: "Boil the rice with the onion and carrot.")
+        let hidden = recipe(
+            "r_hidden", required: [("rice", 200), ("soy_sauce", 50), ("sesame_oil", 50)],
+            instructions: "Stir-fry the rice with the soy sauce and sesame oil.")
+        let catalog = RecipeCatalog(ingredients: ingredients, recipes: [plain, hidden])
+
+        // A blind-shaped latent: +1 on two hidden-cluster ingredients and
+        // one technique key, zero everywhere else.
+        let space = FeatureExtractor(catalog: catalog).space
+        var latent = [Double](repeating: 0.0, count: space.dimension)
+        for key in [
+            FeatureKey(namespace: "ingredient", value: "soy_sauce"),
+            FeatureKey(namespace: "ingredient", value: "sesame_oil"),
+            FeatureKey(namespace: "technique", value: "stirfry"),
+        ] {
+            let i = try XCTUnwrap(space.index(of: key), "missing hidden key \(key)")
+            latent[i] = 1.0
+        }
+        let household = Household(eaters: [Eater(id: EaterID("e1")!, latent: latent, restrictions: [])])
+
+        // Projection equality, field by field (the id differs by design).
+        let candidates = RankerInput.candidates(
+            for: [plain, hidden], availability: [:], exposureCounts: [:])
+        XCTAssertEqual(candidates.count, 2)
+        let a = candidates[0], b = candidates[1]
+        XCTAssertEqual(a.tagNames, b.tagNames)
+        XCTAssertEqual(a.timeMinutes, b.timeMinutes)
+        XCTAssertEqual(a.servings, b.servings)
+        XCTAssertEqual(a.requiredIngredientCount, b.requiredIngredientCount)
+        XCTAssertEqual(a.optionalIngredientCount, b.optionalIngredientCount)
+        XCTAssertEqual(a.availability, b.availability)
+        XCTAssertEqual(a.exposureCount, b.exposureCount)
+
+        // ...yet the true utilities differ by exactly the three hidden units.
+        let extractor = FeatureExtractor(catalog: catalog)
+        let utility: (CatalogRecipe) -> Double = {
+            extractor.extract($0, catalog: catalog).dot(latent)
+        }
+        XCTAssertEqual(utility(hidden) - utility(plain), 3.0, accuracy: 1e-9)
+        XCTAssertGreaterThan(utility(hidden), utility(plain))
+    }
+
+    /// The regime is active on the app's real corpus too: all four hidden
+    /// clusters are present, so blind latents load real drivers there.
+    func testBlindRegimeActiveOnRealCorpus() throws {
+        guard let path = SimFixtures.repoDataJSONPath() else {
+            throw XCTSkip("repo checkout with apps/ios/Resources/data.json not found")
+        }
+        let json = try String(contentsOfFile: path, encoding: .utf8)
+        let catalog = try CatalogLoader.load(dataJSON: json)
+        let space = FeatureExtractor(catalog: catalog).space
+        var config = SimConfig()
+        config.seed = 9
+        config.latentRegime = .ruleBlind
+        let household = HouseholdFactory.generate(config: config, catalog: catalog)
+        let clusterMembers = Set(HouseholdFactory.hiddenAffinityClusters.flatMap { $0 })
+        for eater in household.eaters {
+            var hiddenWeight = 0.0
+            var clusterLoad = 0.0
+            for (index, key) in space.keys.enumerated() {
+                let weight = eater.latent[index]
+                XCTAssertFalse(
+                    ["cuisine", "style", "time", "effort"].contains(key.namespace)
+                        && weight != 0, "visible key \(key) loaded on the real corpus")
+                if key.namespace == "ingredient", weight != 0 {
+                    XCTAssertTrue(
+                        clusterMembers.contains(key.value),
+                        "off-cluster ingredient \(key.value) loaded on the real corpus")
+                    clusterLoad += abs(weight)
+                }
+                if key.namespace == "technique" || key.namespace == "spice" {
+                    hiddenWeight += abs(weight)
+                }
+            }
+            hiddenWeight += clusterLoad
+            XCTAssertGreaterThan(hiddenWeight, 0, "blind regime inactive on the real corpus")
+            XCTAssertGreaterThan(
+                clusterLoad, 0, "hidden clusters absent from the real corpus")
+        }
+    }
+}
+
+/// Test-only reflection walk used to prove what the ranker seam carries.
+/// Mirrors every value transitively, collecting numeric and string leaves
+/// with their paths.
+private enum ReflectionDump {
+    static func of(_ value: Any) -> String {
+        var numbers: [Double] = []
+        var strings: [String] = []
+        walk(value, path: "", into: &numbers, strings: &strings)
+        return strings.joined(separator: "\n")
+    }
+
+    static func walk(
+        _ value: Any, path: String, into numbers: inout [Double], strings: inout [String]
+    ) {
+        switch value {
+        case let s as String:
+            strings.append("\(path)=\(s)")
+        case let i as Int:
+            numbers.append(Double(i))
+        case let i as Int64:
+            numbers.append(Double(i))
+        case let d as Double:
+            numbers.append(d)
+        case is Bool:
+            break
+        default:
+            for child in Mirror(reflecting: value).children {
+                let label = child.label ?? "[]"
+                walk(
+                    child.value, path: path.isEmpty ? label : "\(path).\(label)",
+                    into: &numbers, strings: &strings)
+            }
+        }
+    }
+
+    /// First index whose value is >= bound (binary search).
+    static func firstGreaterOrEqual(_ sorted: [Double], _ bound: Double) -> Int {
+        var low = 0
+        var high = sorted.count
+        while low < high {
+            let mid = (low + high) / 2
+            if sorted[mid] < bound { low = mid + 1 } else { high = mid }
+        }
+        return low
     }
 }
