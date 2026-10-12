@@ -50,6 +50,22 @@ def parse_json_file(path: str) -> Any:
         fail(f"invalid JSON in {path}: {error}")
 
 
+def check_evidence(evidence: dict | None, where: str) -> None:
+    """Evidence completeness: known kind, non-blank ref and note — mirrors the
+    Swift loader (Dataset.swift validateFact) so all three implementations
+    reject the same malformed data."""
+    if evidence is None:
+        fail(f"{where}: fact lacks evidence")
+    if evidence.get("kind") not in EVIDENCE_KINDS:
+        fail(f"{where}: bad evidence kind '{evidence.get('kind')}'")
+    ref = evidence.get("ref")
+    note = evidence.get("note")
+    if not isinstance(ref, str) or not ref.strip():
+        fail(f"{where}: evidence ref must be a non-empty string")
+    if not isinstance(note, str) or not note.strip():
+        fail(f"{where}: evidence note must be a non-empty string")
+
+
 def check_evidence_state(state: str, evidence: dict | None, where: str) -> None:
     """State vocabulary and the absence-evidence rule (pinned)."""
     if state not in FACT_STATES:
@@ -58,10 +74,7 @@ def check_evidence_state(state: str, evidence: dict | None, where: str) -> None:
         if state == "unknown":
             return
         fail(f"{where}: {state} fact lacks evidence")
-    if evidence.get("kind") not in EVIDENCE_KINDS:
-        fail(f"{where}: bad evidence kind '{evidence.get('kind')}'")
-    if not isinstance(evidence.get("ref"), str) or not isinstance(evidence.get("note"), str):
-        fail(f"{where}: evidence must carry ref and note")
+    check_evidence(evidence, where)
     if state in ("free", "allowed") and evidence.get("kind") in ("usda", "recipe"):
         fail(f"{where}: absence state '{state}' may not use '{evidence.get('kind')}' evidence")
 
@@ -154,6 +167,10 @@ class Dataset:
                     fail(f"{key}: bad certainty '{component['certainty']}'")
                 if component["certainty"] != "unknown" and not component.get("evidence"):
                     fail(f"{key}: component '{component['key']}' lacks evidence")
+                if component.get("evidence"):
+                    check_evidence(
+                        component.get("evidence"), f"{key}.components.{component['key']}",
+                    )
 
     def resolve_fact_key(self, name: str) -> tuple[str, str | None] | None:
         folded = normalized(name)

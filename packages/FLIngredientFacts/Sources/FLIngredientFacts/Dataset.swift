@@ -236,6 +236,12 @@ struct FLDataset: Sendable {
                     throw FLDatasetError.invalid(
                         "\(key): component '\(component.key)' lacks evidence")
                 }
+                if let evidence = component.evidence,
+                    evidence.ref.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+                    evidence.note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    throw FLDatasetError.invalid(
+                        "\(key): component '\(component.key)' evidence ref and note must be non-empty")
+                }
             }
         }
     }
@@ -249,6 +255,10 @@ struct FLDataset: Sendable {
         guard let evidence = fact.evidence else {
             if fact.state == "unknown" { return }   // unknown facts may be unsourced
             throw FLDatasetError.invalid("\(where_): \(fact.state) fact lacks evidence")
+        }
+        if evidence.ref.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+            evidence.note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            throw FLDatasetError.invalid("\(where_): evidence ref and note must be non-empty")
         }
         // Absence never rests on catalog or recipe evidence: a nutrient-catalog
         // mapping or a recipe occurrence is not proof an allergen is absent.

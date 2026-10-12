@@ -83,18 +83,29 @@ function parseJsonFile(path: string): any {
 }
 
 // Absence never rests on catalog or recipe evidence.
+// Evidence completeness: kind must be a known kind and ref/note must be
+// non-blank — mirrors the Swift loader (Dataset.swift validateFact) so the
+// three implementations reject the same malformed data.
+function checkEvidence(evidence: Evidence | undefined, where: string): void {
+  if (!evidence) fail(`${where}: fact lacks evidence`);
+  if (!EVIDENCE_KINDS.includes(evidence.kind as any)) {
+    fail(`${where}: bad evidence kind '${evidence.kind}'`);
+  }
+  if (typeof evidence.ref !== "string" || evidence.ref.trim() === "") {
+    fail(`${where}: evidence ref must be a non-empty string`);
+  }
+  if (typeof evidence.note !== "string" || evidence.note.trim() === "") {
+    fail(`${where}: evidence note must be a non-empty string`);
+  }
+}
+
 function checkEvidenceState(state: string, evidence: Evidence | undefined, where: string): void {
   if (!FACT_STATES.includes(state as any)) fail(`${where}: bad state '${state}'`);
   if (!evidence) {
     if (state === "unknown") return;
     fail(`${where}: ${state} fact lacks evidence`);
   }
-  if (!EVIDENCE_KINDS.includes(evidence.kind as any)) {
-    fail(`${where}: bad evidence kind '${evidence.kind}'`);
-  }
-  if (typeof evidence.ref !== "string" || typeof evidence.note !== "string") {
-    fail(`${where}: evidence must carry ref and note`);
-  }
+  checkEvidence(evidence, where);
   if ((state === "free" || state === "allowed") &&
       (evidence.kind === "usda" || evidence.kind === "recipe")) {
     fail(`${where}: absence state '${state}' may not use '${evidence.kind}' evidence`);
@@ -195,6 +206,9 @@ class Dataset {
         }
         if (component.certainty !== "unknown" && !component.evidence) {
           fail(`${key}: component '${component.key}' lacks evidence`);
+        }
+        if (component.evidence) {
+          checkEvidence(component.evidence, `${key}.components.${component.key}`);
         }
       }
     }

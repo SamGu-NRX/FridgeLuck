@@ -145,7 +145,13 @@ All three commands run from the repository root:
 swift build --package-path packages/FLIngredientFacts && swift test --package-path packages/FLIngredientFacts
 bun data/ingredient-facts/conformance/runners/typescript/run_conformance.ts
 python3 data/ingredient-facts/conformance/runners/python/run_conformance.py
+bash data/ingredient-facts/conformance/runners/negative_checks.sh
 ```
 
-All three must exit 0; the Swift test suite runs every conformance case through the real
-store.
+All three runners must exit 0 on the clean dataset, and `negative_checks.sh` must exit 0
+too: it replays malformed-data mutations (stripped/blank evidence `ref`, empty `note`,
+unknown evidence kinds, deleted evidence) against all three implementations and fails if
+any of them accepts a mutation. Evidence completeness — a known `kind` plus non-blank
+`ref` and `note` on every evidence object, fact-level and component-level — is enforced
+identically by the Swift loader and both runners. The Swift test suite additionally runs
+every conformance case through the real store.

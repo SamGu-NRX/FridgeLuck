@@ -102,6 +102,11 @@ and both runners enforce this and reject violations at load time.
 
 - A variable or unsourced property is `unknown`, never `false`.
 - Every non-unknown fact carries evidence.
+- Evidence is complete: every evidence object — fact-level and component-level — carries
+  a known `kind` and non-blank `ref` and `note`. The generator, the Swift loader and both
+  runners reject violations at load time
+  (`bash data/ingredient-facts/conformance/runners/negative_checks.sh` replays the
+  mutations as a check).
 - Evidence must be real: cite the catalog row, document, recipe corpus entry or label
   claim it came from. Never invent an fdc id or URL.
 - **Wheat and gluten are independent axes.** Wheat is one of the nine FDA major

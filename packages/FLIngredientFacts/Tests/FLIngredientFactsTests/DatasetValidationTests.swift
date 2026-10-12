@@ -107,6 +107,30 @@ final class DatasetValidationTests: XCTestCase {
         }
     }
 
+    func testEmptyEvidenceRefRejected() throws {
+        try assertRejected("empty evidence ref") { _, facts in
+            facts["facts", "soy-sauce", "allergens", "soy", "evidence", "ref"] = "   "
+        }
+    }
+
+    func testEmptyEvidenceNoteRejected() throws {
+        try assertRejected("empty evidence note") { _, facts in
+            facts["facts", "soy-sauce", "allergens", "soy", "evidence", "note"] = ""
+        }
+    }
+
+    func testComponentEvidenceMissingRefRejected() throws {
+        try assertRejected("component evidence missing ref") { _, facts in
+            facts["facts", "pesto", "components", 0, "evidence", "ref"] = NSNull()
+        }
+    }
+
+    func testComponentEvidenceEmptyRefRejected() throws {
+        try assertRejected("component evidence empty ref") { _, facts in
+            facts["facts", "pesto", "components", 0, "evidence", "ref"] = ""
+        }
+    }
+
     // MARK: identity integrity
 
     func testDuplicateSynonymRejected() throws {
