@@ -53,15 +53,16 @@ Self-test (SCORECARD.md): a planted-failure battery plus passing controls.
 Passing controls first: a 400-recipe synthetic corpus with complete rights
 records and every canonical doneness pattern (poultry 165F, ground poultry
 165F, whole cuts 145F + 3-minute rest, fish 145F, egg 160F, reheat/casserole
-165F) must derive ALL FIVE metrics as pass. Then 17 plants re-introduce the
+165F) must derive ALL FIVE metrics as pass. Then 19 plants re-introduce the
 PR #88 BLOCK defects one at a time (uncited conversions, flipped labels, a
 lying emitter, denied permissions, coverage holes, wrong-class/lower-temp/
 restless doneness checks, an oven setting passing as the internal reading,
-metadata-only doneness with a too-short rest,
+metadata-only doneness with a too-short rest, a rest_minutes metadata value
+overriding the rest the cook reads in the text,
 no-canon escapes, unclassified proteins, an invalid canonical rulebook,
 unknown-composition claims, mislabeled `weighed`, scoring the suite's own
 fixtures, and identity drift) and each must flip the
-derived status to fail. Prints `caught k/17 planted failures` +
+derived status to fail. Prints `caught k/19 planted failures` +
 `controls m/2 held` and exits 0 only when every plant is caught and every
 control holds. Real corpus files are never mutated.
 
@@ -1018,6 +1019,47 @@ def self_test() -> int:
                                   "source": _fsis_source()}}]
     st, _ = derived(*_planted_mini(_d1e))
     plant("D1e poultry check clears on an oven setting in the same sentence",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # D1f (reviewer-reproduced at 393b5de by calling rs.py directly): the
+    # rest the cook reads is the rest in the instruction text — 'Rest 1
+    # minute' — but _stated_rest returned the check metadata's rest_minutes
+    # before ever reading the text, so metadata rest_minutes: 3 silently
+    # cleared a whole-cut check against a 1-minute stated rest. The text's
+    # rest is what counts, and metadata disagreeing with the text must be
+    # flagged, never silently preferred.
+    def _d1f(r: dict[str, Any]) -> None:
+        r["ingredients"][0] = {"name": "pork loin",
+                               "qty": {"kind": "source_grams", "grams": 300}}
+        r["steps"] = [{"text": "Roast the pork loin until a thermometer inserted "
+                               "in the thickest part registers 145°F. Rest 1 "
+                               "minute, then carve.",
+                       "safety": {"class": "meat_whole_cut_pork", "temp_f": 145,
+                                  "rest_minutes": 3, "method": "thermometer",
+                                  "source": _fsis_source()}}]
+    st, _ = derived(*_planted_mini(_d1f))
+    plant("D1f whole-cut rest clears on rest_minutes metadata over the text's 1-minute rest",
+          st["food_safety_linter_pass"] == "fail",
+          f"food_safety_linter_pass={st['food_safety_linter_pass']}")
+
+    # D1g (reviewer-reproduced at 393b5de by calling rs.py directly): a whole
+    # cut whose instruction text states NO rest at all, while the check
+    # metadata claims rest_minutes: 3. The metadata alone never told the cook
+    # to rest the food — with no rest stated where the class requires one,
+    # the check must fail. (Old behavior returned the metadata's 3.0 and the
+    # recipe passed.)
+    def _d1g(r: dict[str, Any]) -> None:
+        r["ingredients"][0] = {"name": "beef steak",
+                               "qty": {"kind": "source_grams", "grams": 300}}
+        r["steps"] = [{"text": "Roast the beef steak until a thermometer inserted "
+                               "in the thickest part registers 145°F, then carve "
+                               "and serve immediately.",
+                       "safety": {"class": "meat_whole_cut_red", "temp_f": 145,
+                                  "rest_minutes": 3, "method": "thermometer",
+                                  "source": _fsis_source()}}]
+    st, _ = derived(*_planted_mini(_d1g))
+    plant("D1g whole-cut rest clears on rest_minutes metadata with no rest in the text",
           st["food_safety_linter_pass"] == "fail",
           f"food_safety_linter_pass={st['food_safety_linter_pass']}")
 
