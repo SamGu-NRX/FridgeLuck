@@ -42,9 +42,15 @@ import sys
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import rights_evidence  # noqa: E402
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CORPUS = REPO_ROOT / "data/recipes/corpus.jsonl"
 MANIFEST = REPO_ROOT / "data/recipes/rights_manifest.json"
+QUARANTINE = REPO_ROOT / "data/recipes/quarantine.jsonl"
+BUNDLED = REPO_ROOT / "apps/ios/Resources/data.json"
 CORPUS_CONVERSIONS = REPO_ROOT / "data/recipes/conversions.json"
 
 ID_SCHEME = re.compile(r"^fl-[a-z0-9]+-\d{4}$")
@@ -52,6 +58,54 @@ ID_SCHEME = re.compile(r"^fl-[a-z0-9]+-\d{4}$")
 
 def fail(msg: str) -> None:
     print(f"  FAIL {msg}")
+
+
+def quarantine_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
+                      entries: list[dict[str, Any]]) -> list[str]:
+    """A quarantined recipe has a recorded reason and ships nowhere."""
+    errors: list[str] = []
+    corpus_ids = {r.get("id") for r in recipes}
+    seen: set[str] = set()
+    for n, e in enumerate(entries, start=1):
+        rid = e.get("id")
+        where = f"quarantine.jsonl line {n} ({rid})"
+        if not isinstance(rid, str) or not rid:
+            errors.append(f"{where}: missing id")
+            continue
+        if rid in seen:
+            errors.append(f"{where}: id quarantined twice")
+        seen.add(rid)
+        if not str(e.get("reason", "")).strip() or not str(e.get("stage", "")).strip():
+            errors.append(f"{where}: quarantine needs a stage and a reason")
+        recipe = e.get("recipe")
+        if not isinstance(recipe, dict) or recipe.get("id") != rid:
+            errors.append(f"{where}: the quarantined recipe record is missing or has another id")
+        if rid in corpus_ids:
+            errors.append(f"{where}: quarantined recipe is still in corpus.jsonl")
+        ref = recipe.get("source_ref") if isinstance(recipe, dict) else None
+        if ref in records and ref not in {r.get("source_ref") for r in recipes}:
+            errors.append(f"{where}: rights_manifest.json still holds a record for it")
+    return errors
+
+
+def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
+                        bundled: dict[str, Any]) -> list[str]:
+    """The corpus-side gates the suite linter does not enforce.
+
+    Rights: every shipped recipe carries affirmative rights evidence
+    (rights_evidence.rights_violations), and FridgeLuck-original text does not
+    reuse the bundled catalog's wording (rights_evidence.overlap_violation).
+    """
+    errors: list[str] = []
+    ref = rights_evidence.reference_ngrams(rights_evidence.bundled_texts(bundled))
+    for r in recipes:
+        rec = records.get(r.get("source_ref"))
+        errors.extend(rights_evidence.rights_violations(r, rec))
+        if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
+            hit = rights_evidence.overlap_violation(r, ref)
+            if hit:
+                errors.append(hit)
+    return errors
 
 
 def load_corpus_conversions(path: Path) -> tuple[dict[str, dict[str, Any]], list[str]]:
@@ -218,6 +272,27 @@ def main() -> int:
             clear.append(r)
     print(f"rights: {len(clear)} rights-clear, "
           f"{len(recipes) - len(clear)} quarantined-in-corpus (must be 0)")
+
+    # ---- quarantine + release gates --------------------------------------
+    quarantined: list[dict[str, Any]] = []
+    if QUARANTINE.exists():
+        quarantined = [json.loads(l) for l in QUARANTINE.read_text(encoding="utf-8").splitlines()
+                       if l.strip()]
+    records = manifest.get("records", {})
+    q_errors = quarantine_errors(recipes, records, quarantined)
+    gate_errors = release_gate_errors(recipes, records,
+                                      json.loads(BUNDLED.read_text(encoding="utf-8")))
+    for e in q_errors + gate_errors:
+        fail(e)
+    errors.extend(q_errors + gate_errors)
+    by_stage: dict[str, int] = {}
+    for e in quarantined:
+        by_stage[str(e.get("stage"))] = by_stage.get(str(e.get("stage")), 0) + 1
+    print(f"accepted: {len(recipes)} recipes in corpus.jsonl; quarantined: "
+          f"{len(quarantined)} in quarantine.jsonl "
+          f"({', '.join(f'{k} {v}' for k, v in sorted(by_stage.items())) or 'none'})")
+    print(f"release gates: {len(gate_errors)} violation(s) "
+          "(rights evidence, original-text overlap)")
 
     # ---- lint (same pipeline as suite.py evaluate_corpus) -----------------
     work = copy.deepcopy(clear)

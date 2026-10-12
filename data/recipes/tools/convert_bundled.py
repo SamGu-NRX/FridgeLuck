@@ -30,19 +30,23 @@ Sources of truth, and what this tool does with them:
   tuna = fish) are invisible to the scan, so the per-recipe allowlist below
   blocks claims those ingredients would falsify. Every emitted claim is
   verified against the scanner at build time; a mismatch fails the build.
-- Rights: one record per recipe (``source_ref`` = the recipe id), completed per
-  the brief: origin "FridgeLuck seed", license in-house (SCHEMA.md section 5's
-  ``LicenseRef-FL-Original``), license_evidence the audit's keep verdict; all
-  six permissions true except ``images: false`` while no image ships.
+- Rights: none. This tool first wrote the 25 seeds into corpus.jsonl with
+  ``LicenseRef-FL-Original`` records whose only evidence was missing
+  attribution (no Source line, present since the initial commit, title absent
+  from the BBC scrape cache). That proves neither authorship nor permission,
+  so the seeds now sit in ``data/recipes/quarantine.jsonl`` (stage
+  ``rights``, moved by ``quarantine.py --rights``). The tool no longer writes
+  the corpus or the manifest; it writes converted records to ``--out`` for
+  whoever obtains an affirmative authorship or permission record.
 - Dedupe: normalized titles must be unique and required-line ingredient sets
   must not collide (SCHEMA.md section 7) — asserted at build time.
 
-Output: ``data/recipes/corpus.jsonl`` (RS v1, UTF-8, LF, one object per line)
-and ``data/recipes/rights_manifest.json``.
+Output: ``--out`` (RS v1 JSONL, UTF-8, LF, one object per line). Never
+``corpus.jsonl`` or ``rights_manifest.json``.
 
 Usage:
     python3 data/recipes/tools/convert_bundled.py \
-        --suite-dir <extracted evaluation/suites/recipes>
+        --suite-dir <extracted evaluation/suites/recipes> --out <review.jsonl>
 """
 
 from __future__ import annotations
@@ -265,6 +269,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--suite-dir", required=True,
                     help="extracted evaluation/suites/recipes (eval/scorecard-runner)")
+    ap.add_argument("--out", required=True,
+                    help="review file for the converted seeds (never the corpus)")
     args = ap.parse_args()
     suite_dir = Path(args.suite_dir)
     sys.path.insert(0, str(suite_dir))
@@ -379,42 +385,20 @@ def main() -> int:
         print(f"note: core-ingredient twins (distinct titles, allowed by "
               f"section 7): {sorted(twins)}")
 
-    # rights manifest: one completed record per recipe (SCHEMA.md section 5)
-    records: dict[str, dict[str, Any]] = {}
-    for recipe, row in zip(recipes_out, [r for r in bundled["recipes"] if r[0] in KEEP_IDS]):
-        rid = row[0]
-        records[recipe["source_ref"]] = {
-            "source_id": "frideluck_original",
-            "source_type": "original",
-            "origin": (
-                f"FridgeLuck seed (bundled recipe id {rid}, '{row[1]}'; in-house "
-                "authorship traced through git history to initial commit 69f0286)"),
-            "license": "LicenseRef-FL-Original",
-            "access_date": BUILD_DATE,
-            "license_evidence": (
-                f"{AUDIT_PATH} keep verdict for bundled recipe id {rid} "
-                f"(branch {AUDIT_BRANCH} at {AUDIT_HEAD}): no Source line; in repo "
-                "since 69f0286 (2026-02-08, initial commit); carried unchanged "
-                "through b6eaf3c; title not in the BBC scrape cache"),
-            "permissions": {
-                "text": True, "images": False, "modification": True,
-                "attribution": True, "caching": True, "offline_use": True,
-            },
-        }
-
-    OUT_CORPUS.parent.mkdir(parents=True, exist_ok=True)
-    with OUT_CORPUS.open("w", encoding="utf-8", newline="\n") as f:
+    # No rights records: the seeds have no affirmative authorship or
+    # permission evidence (see the module docstring).
+    out = Path(args.out).resolve()
+    if out in (OUT_CORPUS.resolve(), OUT_MANIFEST.resolve()):
+        raise SystemExit(f"--out {out} is a corpus file; the seeds are quarantined "
+                         "for rights and must not be written there")
+    with out.open("w", encoding="utf-8", newline="\n") as f:
         for recipe in recipes_out:
             f.write(json.dumps(recipe, ensure_ascii=False) + "\n")
-    OUT_MANIFEST.write_text(
-        json.dumps({"records": records}, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8")
 
     n_lines = sum(len(r["ingredients"]) for r in recipes_out)
     n_claims = sum(len(r["claims"]) for r in recipes_out)
     print(f"wrote {len(recipes_out)} recipes / {n_lines} ingredient lines / "
-          f"{n_claims} verified claims to {OUT_CORPUS}")
-    print(f"wrote {len(records)} rights records to {OUT_MANIFEST}")
+          f"{n_claims} verified claims to {out} (not the corpus)")
     print(f"unaliased ingredient names (no allergen classes; scanned as absent): "
           f"{sorted(unaliased) or 'none'}")
     return 0
