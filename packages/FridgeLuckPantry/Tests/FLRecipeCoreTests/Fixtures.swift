@@ -1,6 +1,7 @@
 import XCTest
 import FLDomain
 import FLInventoryCore
+import FLIngredientFacts
 @testable import FLRecipeCore
 
 /// Shared synthetic fixtures for the feasibility tests. Recipes are built
@@ -124,4 +125,80 @@ enum RecipeFixtures {
             XCTFail("expected \(expected), got \(error)", file: file, line: line)
         }
     }
+
+    // MARK: Composition facts (Review round 2)
+
+    /// A deterministic in-memory facts source: each entry states the
+    /// allergens an ingredient carries and the diet tags it fails, in the
+    /// facts package's own axis vocabulary. An ingredient with no entry is
+    /// unknown — exactly the case the seam must refuse, never pass.
+    struct FixtureFacts: FLIngredientFactsEvaluating {
+        struct Entry {
+            var allergens: Set<FLAllergen> = []
+            var dietTags: Set<FLDiet> = []
+        }
+
+        var entries: [String: Entry]
+
+        init(entries: [String: Entry]) {
+            self.entries = entries
+        }
+
+        func evaluate(ingredient: String, restrictions: FLRestrictions) -> FLEvaluation {
+            let key = ingredient.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            guard let entry = entries[key] else {
+                let axis: FLRestriction
+                if let allergen = restrictions.allergens.first {
+                    axis = .allergen(allergen)
+                } else if let diet = restrictions.diets.first {
+                    axis = .diet(diet)
+                } else {
+                    axis = .allergen(.milk)
+                }
+                return .unknown(FLUnknown(
+                    ingredient: key,
+                    restriction: axis,
+                    missing: ["no facts entry for '\(key)'"],
+                    reason: "facts do not settle the restricted properties"
+                ))
+            }
+            let violatedAllergens = entry.allergens.intersection(restrictions.allergens)
+            let violatedDiets = entry.dietTags.intersection(restrictions.diets)
+            for allergen in violatedAllergens.sorted(by: { $0.rawValue < $1.rawValue }) {
+                return .violated(FLViolation(
+                    ingredient: key,
+                    restriction: .allergen(allergen),
+                    reason: "'\(key)' is not '\(allergen.rawValue)'-free",
+                    evidence: []
+                ))
+            }
+            for diet in violatedDiets.sorted(by: { $0.rawValue < $1.rawValue }) {
+                return .violated(FLViolation(
+                    ingredient: key,
+                    restriction: .diet(diet),
+                    reason: "'\(key)' does not satisfy '\(diet.rawValue)'",
+                    evidence: []
+                ))
+            }
+            return .allowed([])
+        }
+    }
+
+    /// Every fixture ingredient resolves to known, property-free composition:
+    /// the pre-fix behavior for everything except what a test declares.
+    static let allKnownEmpty = FixtureFacts(entries: [:])
+
+    /// Fixture facts for the round-2 regressions: cream cheese carries milk
+    /// and fails vegan; butter fails vegan. Absent entries (like stock cube's
+    /// brand-dependent composition in the real dataset) stay unknown.
+    static let round2Fixtures = FixtureFacts(entries: [
+        "cream cheese": FixtureFacts.Entry(allergens: [.milk], dietTags: [.vegan, .dairyFree]),
+        "butter": FixtureFacts.Entry(dietTags: [.vegan, .dairyFree]),
+        // Known-clean: the entry exists and settles every axis as free.
+        "olive oil": FixtureFacts.Entry(),
+        // Known-clean AND not an assumed staple, so a refused swap falls
+        // through to missing instead of the staple assumption.
+        "tahini": FixtureFacts.Entry(),
+    ])
+
 }

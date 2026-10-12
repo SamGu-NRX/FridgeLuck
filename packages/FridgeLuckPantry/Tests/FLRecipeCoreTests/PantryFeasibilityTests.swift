@@ -26,6 +26,7 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p2", ingredient: milk, grams: 500),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .complete)
@@ -46,6 +47,7 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .partial)
@@ -64,6 +66,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: milk, grams: 100)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .short)
@@ -85,6 +88,7 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p2", ingredient: milk, grams: 500),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .satisfied)
@@ -104,6 +108,7 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p1", ingredient: milk, grams: nil, preparation: nil),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .uncertainStock, "present but uncounted stock is evidence of presence, not of sufficiency")
@@ -130,6 +135,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: try FLStockFold.fold(events: events + [consumed]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .missing, "zero left is 'not on the shelf', not 'short'")
@@ -148,6 +154,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: flour, grams: 320)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(enough.outcome, .complete, "310 g covers 300 + 20 only when the two lines do not each see the full shelf")
@@ -156,6 +163,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p2", ingredient: flour, grams: 310)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(notEnough.lines[0].state, .satisfied)
@@ -177,6 +185,7 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p2", ingredient: chicken, grams: 200),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .satisfied)
@@ -195,6 +204,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .complete, "optional garnish is not required")
@@ -212,6 +222,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: flour, grams: 310)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .satisfied)
@@ -233,6 +244,7 @@ final class PantryFeasibilityTests: XCTestCase {
                 RecipeFixtures.purchase("p2", ingredient: peanutButter, grams: 500),
             ]),
             restriction: try Restriction(customExclusions: ["peanut butter"]),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .blocked)
@@ -249,6 +261,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: [],
             restriction: try Restriction(customExclusions: ["peanut butter"]),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].state, .blockedByRestriction, "the restriction is judged before the shelf")
@@ -264,6 +277,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: flour, grams: 1000)]),
             restriction: try Restriction(customExclusions: ["peanut butter"]),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.outcome, .complete, "a forbidden garnish is shown as forbidden, not allowed to block dinner")
@@ -295,7 +309,7 @@ final class PantryFeasibilityTests: XCTestCase {
             RecipeFixtures.makeLine("l2", ingredient: localMilk, grams: 30),
         ])
         let report = try FLPantryFeasibility.evaluate(
-            recipe: recipe, stock: [], restriction: Restriction()
+            recipe: recipe, stock: [], restriction: Restriction(), facts: RecipeFixtures.allKnownEmpty
         )
         // fdc:746778 and local:42 are distinct identities — both listed, order preserved.
         XCTAssertEqual(report.missingIngredients.count, 2)
@@ -310,6 +324,7 @@ final class PantryFeasibilityTests: XCTestCase {
             recipe: recipe,
             stock: RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: milk, grams: 100)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         let data = try FLJSON.canonicalData(report)
@@ -319,5 +334,157 @@ final class PantryFeasibilityTests: XCTestCase {
         let raw = String(decoding: data, as: UTF8.self)
         XCTAssertTrue(raw.contains("\"outcome\" : \"partial\""), "canonical wire shape changed: \(raw)")
         XCTAssertTrue(raw.contains("\"state\" : \"short\""), "canonical wire shape changed: \(raw)")
+    }
+
+    // MARK: Review round 2 — composition truth fails closed
+
+    /// A milk-allergic household must not be served a complete cream-cheese
+    /// recipe: the original check now takes the allergen facts, and a known
+    /// violation blocks, exactly like a named exclusion.
+    func testOriginalCheckRefusesKnownAllergenComposition() throws {
+        let creamCheese = RecipeFixtures.ingredient("cream cheese", fdc: 1017)
+        let recipe = try RecipeFixtures.makeRecipe([
+            RecipeFixtures.makeLine("l1", ingredient: creamCheese, grams: 200),
+        ])
+        let report = try FLPantryFeasibility.evaluate(
+            recipe: recipe,
+            stock: RecipeFixtures.stock([
+                RecipeFixtures.purchase("p1", ingredient: creamCheese, grams: 1000),
+            ]),
+            restriction: try Restriction(allergens: [.milk]),
+            facts: RecipeFixtures.round2Fixtures,
+            reconfirmWindow: nil
+        )
+        XCTAssertEqual(report.lines[0].state, .blockedByRestriction)
+        XCTAssertEqual(report.lines[0].availableGrams, nil, "a refused line reserves nothing")
+        XCTAssertEqual(report.outcome, .blocked)
+    }
+
+    /// Same defect class on the diet axis: cream cheese fails vegan, so a
+    /// vegan household sees the line blocked, not silently served.
+    func testOriginalCheckRefusesKnownDietComposition() throws {
+        let creamCheese = RecipeFixtures.ingredient("cream cheese", fdc: 1017)
+        let recipe = try RecipeFixtures.makeRecipe([
+            RecipeFixtures.makeLine("l1", ingredient: creamCheese, grams: 200),
+        ])
+        let report = try FLPantryFeasibility.evaluate(
+            recipe: recipe,
+            stock: RecipeFixtures.stock([
+                RecipeFixtures.purchase("p1", ingredient: creamCheese, grams: 1000),
+            ]),
+            restriction: try Restriction(dietExclusions: [.vegan]),
+            facts: RecipeFixtures.round2Fixtures,
+            reconfirmWindow: nil
+        )
+        XCTAssertEqual(report.lines[0].state, .blockedByRestriction)
+        XCTAssertEqual(report.outcome, .blocked)
+    }
+
+    /// An ingredient whose composition the facts source cannot decide is a
+    /// refusal (needsConfirmation), never a pass — even fully stocked.
+    func testUnknownCompositionBecomesNeedsConfirmationNotAPass() throws {
+        let stockCube = RecipeFixtures.ingredient("stock cube", fdc: nil, local: 907)
+        let recipe = try RecipeFixtures.makeRecipe([
+            RecipeFixtures.makeLine("l1", ingredient: stockCube, grams: 50),
+        ])
+        let report = try FLPantryFeasibility.evaluate(
+            recipe: recipe,
+            stock: RecipeFixtures.stock([
+                RecipeFixtures.purchase("p1", ingredient: stockCube, grams: 1000),
+            ]),
+            restriction: try Restriction(allergens: [.milk]),
+            facts: RecipeFixtures.allKnownEmpty,
+            reconfirmWindow: nil
+        )
+        XCTAssertEqual(report.lines[0].state, .needsConfirmation)
+        XCTAssertEqual(report.lines[0].availableGrams, nil, "an undecided line reserves nothing")
+        XCTAssertNotEqual(report.outcome, .complete)
+        XCTAssertEqual(report.missingIngredients.map { FLStockFold.groupKey(for: $0) }, [FLStockFold.groupKey(for: stockCube)], "an unresolved line is listed among the unmet ingredients")
+    }
+
+    /// A vegan household lacks tahini; the accepted swap substitutes cream
+    /// cheese — a dairy food the facts source knows. The swap is void; the
+    /// line reports missing and shops for a vegan alternative. (The
+    /// original must itself be known-acceptable — a forbidden original is
+    /// caught earlier, by the original-composition gate — and must not be
+    /// an assumed staple, or the refused swap would resolve as assumed
+    /// instead of missing.)
+    func testSwapRefusesSubstituteWithKnownViolatedDiet() throws {
+        let tahini = RecipeFixtures.ingredient("tahini", fdc: nil, local: 911)
+        let creamCheese = RecipeFixtures.ingredient("cream cheese", fdc: 1017)
+        let recipe = try RecipeFixtures.makeRecipe([
+            RecipeFixtures.makeLine("l1", ingredient: tahini, grams: 100),
+        ])
+        let report = try FLPantryFeasibility.evaluate(
+            recipe: recipe,
+            stock: RecipeFixtures.stock([
+                RecipeFixtures.purchase("p1", ingredient: creamCheese, grams: 10_000),
+            ]),
+            restriction: try Restriction(dietExclusions: [.vegan]),
+            facts: RecipeFixtures.round2Fixtures,
+            swaps: [
+                try FLPantryFeasibility.FLAcceptedSwap(
+                    replacesGroupKey: FLStockFold.groupKey(for: tahini),
+                    substitute: creamCheese,
+                    gramsFactor: 1.0
+                )
+            ],
+            reconfirmWindow: nil
+        )
+        XCTAssertEqual(report.lines[0].state, .missing)
+        XCTAssertEqual(report.lines[0].viaSwap, false)
+        XCTAssertEqual(report.outcome, .partial)
+    }
+
+    /// The stale-rescue pattern applied to composition: a missing line whose
+    /// only rescue is a stocked-but-unknown substitute downgrades to
+    /// needsConfirmation — nothing is reserved, nothing is claimed.
+    func testSwapToUnknownCompositionDowngradesToNeedsConfirmation() throws {
+        let oliveOil = RecipeFixtures.ingredient("olive oil", fdc: 171413)
+        let stockCube = RecipeFixtures.ingredient("stock cube", fdc: nil, local: 907)
+        let recipe = try RecipeFixtures.makeRecipe([
+            RecipeFixtures.makeLine("l1", ingredient: oliveOil, grams: 100),
+        ])
+        let report = try FLPantryFeasibility.evaluate(
+            recipe: recipe,
+            stock: RecipeFixtures.stock([
+                RecipeFixtures.purchase("p1", ingredient: stockCube, grams: 10_000),
+            ]),
+            restriction: try Restriction(allergens: [.milk]),
+            facts: RecipeFixtures.round2Fixtures,
+            swaps: [
+                try FLPantryFeasibility.FLAcceptedSwap(
+                    replacesGroupKey: FLStockFold.groupKey(for: oliveOil),
+                    substitute: stockCube,
+                    gramsFactor: 1.0
+                )
+            ],
+            reconfirmWindow: nil
+        )
+        XCTAssertEqual(report.lines[0].state, .needsConfirmation)
+        XCTAssertEqual(report.lines[0].viaSwap, false)
+        XCTAssertTrue(report.lines[0].reason.contains("stock cube"), "the reason names the undecided substitute: \(report.lines[0].reason)")
+        XCTAssertEqual(report.outcome, .partial)
+    }
+
+    /// The fail-closed gate answers the household's restriction question;
+    /// with no restrictions there is nothing to fail, and an unfactored
+    /// ingredient proceeds to ordinary quantity logic.
+    func testUnfactoredIngredientWithNoRestrictionsStillEvaluates() throws {
+        let exotic = RecipeFixtures.ingredient("unicorn berry", fdc: nil, local: 999)
+        let recipe = try RecipeFixtures.makeRecipe([
+            RecipeFixtures.makeLine("l1", ingredient: exotic, grams: 100),
+        ])
+        let report = try FLPantryFeasibility.evaluate(
+            recipe: recipe,
+            stock: RecipeFixtures.stock([
+                RecipeFixtures.purchase("p1", ingredient: exotic, grams: 500),
+            ]),
+            restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
+            reconfirmWindow: nil
+        )
+        XCTAssertEqual(report.lines[0].state, .satisfied)
+        XCTAssertEqual(report.outcome, .complete)
     }
 }

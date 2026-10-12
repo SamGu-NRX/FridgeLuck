@@ -66,6 +66,10 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
         UniverseMember(name: "garlic", fdc: 170_108, local: nil),
         UniverseMember(name: "parsley", fdc: nil, local: 905),
         UniverseMember(name: "black pepper", fdc: nil, local: 906),
+        // Review round 2: the unknown-composition class. Stock cube's
+        // flavourings vary by brand — no facts entry, so every line drawn
+        // for it must refuse (needsConfirmation), never pass.
+        UniverseMember(name: "stock cube", fdc: nil, local: 907),
     ]
     private static let stapleNames: Set<String> = ["salt", "olive oil", "black pepper"]
     private static let swapMargarine: (UniverseMember, UniverseMember, Double) =
@@ -83,6 +87,7 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
         var recipe: RecipeRevision
         var stock: [FLItemStock]
         var restriction: Restriction
+        var facts: RecipeFixtures.FixtureFacts
         var swaps: [FLPantryFeasibility.FLAcceptedSwap]
         var staples: Set<String>
         var targetServings: Int?
@@ -217,6 +222,18 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
             staples.insert(rng.pick(Self.universe).name)
         }
 
+        // Composition facts (Review round 2): every classic universe member
+        // is known property-free; the stock cube has no entry. The audit's
+        // restrictions are axis-free (name exclusions or empty), so the
+        // facts gate never arms here — composition refusals have their own
+        // dedicated round-2 suites, and this audit stays a quantity-
+        // mechanics harness over an honestly-declared world.
+        var factEntries: [String: RecipeFixtures.FixtureFacts.Entry] = [:]
+        for member in Self.universe where member.name != "stock cube" {
+            factEntries[member.name] = RecipeFixtures.FixtureFacts.Entry()
+        }
+        let facts = RecipeFixtures.FixtureFacts(entries: factEntries)
+
         return Scenario(
             recipe: try RecipeRevision(
                 key: RecipeKey(source: .user, sourceRecipeID: "property-\(seed)", revision: 1),
@@ -228,6 +245,7 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
             ),
             stock: stock,
             restriction: restriction,
+            facts: facts,
             swaps: swaps,
             staples: staples,
             targetServings: rng.bool(2, of: 5) ? rng.pick([2, 3, 4]) : nil,
@@ -300,9 +318,38 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
             }
         }
 
+        // Composition judgment (Review round 2): the custom-exclusion layer
+        // is name-based and absolute; composition comes from the scenario's
+        // facts store, where an absent entry is unknown — and unknown is a
+        // refusal, never a pass. Normalization mirrors the SPEC text
+        // (trim + case-fold), not Restriction.swift.
+        func excludes(_ name: String) -> Bool {
+            scenario.restriction.customExclusions.contains(
+                name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            )
+        }
+        func compositionUnknown(_ name: String) -> Bool {
+            scenario.facts.entries[name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()] == nil
+        }
+        // The facts consult arms only when the household's restrictions
+        // name allergen or diet axes — the same gate as the engine's
+        // question order; a name-only or empty restriction leaves the
+        // facts source nothing to settle (Review round 2).
+        func factAxesActive() -> Bool {
+            !scenario.restriction.allergens.isEmpty
+                || !scenario.restriction.dietExclusions.isEmpty
+        }
+
         func swapRescue(line: IngredientLine, key: String, required: Double?, doesReserve: Bool) -> ExpectedLine? {
             guard let swap = scenario.swaps.first(where: { $0.replacesGroupKey == key }),
-                  scenario.restriction.permits(canonicalName: swap.substitute.canonicalName) else { return nil }
+                  !excludes(swap.substitute.canonicalName) else { return nil }
+            // A forbidden substitute never rescues. An unknown-composition
+            // substitute is undecided safety: the refusal reserves nothing
+            // and outranks the staple assumption, matching the engine's
+            // question order.
+            if factAxesActive() && compositionUnknown(swap.substitute.canonicalName) {
+                return ExpectedLine(state: .needsConfirmation, viaSwap: false)
+            }
             let substituteKey = FLStockFold.groupKey(for: swap.substitute)
             guard let required,
                   let lots = pool[substituteKey], !lots.isEmpty else { return nil }
@@ -323,17 +370,25 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
             let key = FLStockFold.groupKey(for: line.ingredient)
             let required = line.quantity.gramsIfKnown.map { $0.grams * scale }
 
-            // Hard restrictions are absolute.
-            guard scenario.restriction.permits(canonicalName: line.ingredient.canonicalName) else {
+            // Hard restrictions are absolute, and composition comes from the
+            // facts store (Review round 2): excluded → blocked, unknown →
+            // needsConfirmation, never a pass.
+            if excludes(line.ingredient.canonicalName) {
                 return ExpectedLine(state: .blockedByRestriction, viaSwap: false)
             }
+            if factAxesActive() && compositionUnknown(line.ingredient.canonicalName) {
+                return ExpectedLine(state: .needsConfirmation, viaSwap: false)
+            }
             guard let lots = pool[key], !lots.isEmpty else {
+                // Composition first: an unknown-composition ingredient is a
+                // refusal even when the kitchen keeps it as a staple — the
+                // safety question precedes the assumption.
+                if let swapped = swapRescue(line: line, key: key, required: required, doesReserve: doesReserve) {
+                    return swapped
+                }
                 // A staple with no record at all is assumed, never evidence.
                 if scenario.staples.contains(line.ingredient.canonicalName.lowercased()) {
                     return ExpectedLine(state: .assumedStaple, viaSwap: false)
-                }
-                if let swapped = swapRescue(line: line, key: key, required: required, doesReserve: doesReserve) {
-                    return swapped
                 }
                 return ExpectedLine(state: .missing, viaSwap: false)
             }
@@ -361,7 +416,12 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
             // An accepted swap may cover a line the asked-for identity cannot.
             if asked == .missing,
                let swap = scenario.swaps.first(where: { $0.replacesGroupKey == key }),
-               scenario.restriction.permits(canonicalName: swap.substitute.canonicalName) {
+               !excludes(swap.substitute.canonicalName) {
+                // An unknown-composition substitute cannot rescue a line
+                // (Review round 2): the refusal reserves nothing.
+                if compositionUnknown(swap.substitute.canonicalName) {
+                    return ExpectedLine(state: .needsConfirmation, viaSwap: false)
+                }
                 let substituteKey = FLStockFold.groupKey(for: swap.substitute)
                 let substituteLots = pool[substituteKey] ?? []
                 let substituteRequired = required.map { $0 * swap.gramsFactor }
@@ -522,6 +582,7 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
                 recipe: scenario.recipe,
                 stock: scenario.stock,
                 restriction: scenario.restriction,
+                facts: scenario.facts,
                 staples: scenario.staples,
                 swaps: scenario.swaps,
                 targetServings: scenario.targetServings,
@@ -557,6 +618,7 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
             recipe: scenario.recipe,
             stock: scenario.stock,
             restriction: scenario.restriction,
+            facts: scenario.facts,
             staples: scenario.staples,
             swaps: scenario.swaps,
             targetServings: scenario.targetServings,
@@ -584,6 +646,7 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
                 recipe: scenario.recipe,
                 stock: scenario.stock,
                 restriction: scenario.restriction,
+                facts: scenario.facts,
                 staples: scenario.staples,
                 swaps: scenario.swaps,
                 targetServings: scenario.targetServings,
@@ -638,6 +701,7 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
                 recipe: scenario.recipe,
                 stock: scenario.stock,
                 restriction: scenario.restriction,
+                facts: scenario.facts,
                 staples: scenario.staples,
                 swaps: scenario.swaps,
                 targetServings: scenario.targetServings,
@@ -679,6 +743,7 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
                 recipe: scenario.recipe,
                 stock: scenario.stock,
                 restriction: scenario.restriction,
+                facts: scenario.facts,
                 staples: scenario.staples,
                 swaps: scenario.swaps,
                 targetServings: scenario.targetServings,
@@ -710,6 +775,7 @@ final class PantryFeasibilityPropertyTests: XCTestCase {
                     recipe: scenario.recipe,
                     stock: scenario.stock,
                     restriction: scenario.restriction,
+                    facts: scenario.facts,
                     staples: scenario.staples,
                     swaps: scenario.swaps,
                     targetServings: scenario.targetServings,

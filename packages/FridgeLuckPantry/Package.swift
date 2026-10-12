@@ -28,6 +28,9 @@ let package = Package(
     dependencies: [
         // Part 1: domain contracts and GRDB persistence foundation.
         .package(path: "../FridgeLuckCore"),
+        // Canonical composition truth (Review round 2): restriction checks
+        // take allergen and diet facts from here, fail closed on unknown.
+        .package(path: "../FLIngredientFacts"),
         // Same GRDB requirement as FridgeLuckCore; SwiftPM resolves one copy.
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0"),
     ],
@@ -50,11 +53,18 @@ let package = Package(
             dependencies: [
                 .product(name: "FLDomain", package: "FridgeLuckCore"),
                 .product(name: "FLPersistence", package: "FridgeLuckCore"),
+                .product(name: "FLIngredientFacts", package: "FLIngredientFacts"),
                 .product(name: "GRDB", package: "GRDB.swift"),
                 "FLInventoryCore",
             ]
         ),
         .testTarget(name: "FLInventoryCoreTests", dependencies: ["FLInventoryCore"]),
-        .testTarget(name: "FLRecipeCoreTests", dependencies: ["FLRecipeCore"]),
+        .testTarget(
+            name: "FLRecipeCoreTests",
+            dependencies: [
+                "FLRecipeCore",
+                .product(name: "FLIngredientFacts", package: "FLIngredientFacts"),
+            ]
+        ),
     ]
 )

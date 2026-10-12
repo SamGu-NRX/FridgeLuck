@@ -17,10 +17,10 @@ final class RestrictionAndRightsTests: XCTestCase {
 
     func testUntrimmedExclusionBlocksCanonicalName() throws {
         let restriction = try Restriction(customExclusions: [" buckwheat "])
-        XCTAssertFalse(restriction.permits(canonicalName: "buckwheat"), "an exclusion stored with padding must still block the canonical name")
-        XCTAssertFalse(restriction.permits(canonicalName: "Buckwheat"))
-        XCTAssertFalse(restriction.permits(canonicalName: "  buckwheat "))
-        XCTAssertTrue(restriction.permits(canonicalName: "buckwheat flour"), "matching is canonical-name equality after normalization, not prefix matching")
+        XCTAssertFalse(restriction.permits(canonicalName: "buckwheat", allergens: [], dietTags: []), "an exclusion stored with padding must still block the canonical name")
+        XCTAssertFalse(restriction.permits(canonicalName: "Buckwheat", allergens: [], dietTags: []))
+        XCTAssertFalse(restriction.permits(canonicalName: "  buckwheat ", allergens: [], dietTags: []))
+        XCTAssertTrue(restriction.permits(canonicalName: "buckwheat flour", allergens: [], dietTags: []), "matching is canonical-name equality after normalization, not prefix matching")
     }
 
     func testDecodedExclusionsAreNormalized() throws {

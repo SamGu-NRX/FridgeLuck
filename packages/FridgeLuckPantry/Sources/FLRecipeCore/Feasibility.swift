@@ -13,10 +13,12 @@ import FLInventoryCore
 ///
 /// The five SPEC 3.2 states are `satisfied`, `short`, `missing` (quantity
 /// unknown for an unrecorded shelf), `assumedStaple`, and `needsReconfirming`
-/// (stale evidence). `uncertainStock` and `blockedByRestriction` keep the
-/// operational distinctions the fit line needs: unknown-but-present stock is
-/// a different action from absent stock, and a restricted line is a hard
-/// stop, not a shopping trip.
+/// (stale evidence). The operational distinctions the fit line needs keep
+/// their own states: unknown-but-present stock is a different action from
+/// absent stock (`uncertainStock`), a restricted line is a hard stop, not a
+/// shopping trip (`blockedByRestriction`), and composition the facts source
+/// cannot decide is a refusal to serve, not a pass (`needsConfirmation`,
+/// Review round 2).
 public enum FLFeasibilityLineState: String, Codable, Sendable, CaseIterable {
     /// Known stock covers the line. Only reachable when both the requirement
     /// and the covering stock are known amounts.
@@ -40,6 +42,11 @@ public enum FLFeasibilityLineState: String, Codable, Sendable, CaseIterable {
     case needsReconfirming
     /// The household's hard restrictions forbid this ingredient.
     case blockedByRestriction
+    /// The composition facts cannot decide this line against the
+    /// household's restrictions (Review round 2). Unknown is never
+    /// allowed: the line reserves nothing and the app asks for
+    /// confirmation instead of serving it.
+    case needsConfirmation
 }
 
 /// Evidence for one ingredient line: its state, the numbers behind the state
