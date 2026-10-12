@@ -1,10 +1,10 @@
 # FridgeLuck overhaul scorecard
 
-Generated 2026-10-11T23:34:29Z · run `r-20261011T233416Z-9da0d87e` (started 2026-10-11T23:34:16Z) · git `80c4f1de223d` (eval/scorecard-runner) · python 3.13.14 · linux
+Generated 2026-10-12T03:02:53Z · run `r-20261012T030131Z-83c68ad8` (started 2026-10-12T03:01:31Z) · git `f5fe7f1826b7` (eval/scorecard-runner) · python 3.13.14 · linux
 
 **1 pass · 4 fail · 9 not-run** — a suite whose inputs are missing reports not-run, never pass.
 
-## A. Pantry truth `pantry-truth` (run, 13.6s)
+## A. Pantry truth `pantry-truth` (run, 82.3s)
 
 | metric | value | interval | bar | status | reason |
 | --- | --- | --- | --- | --- | --- |
@@ -19,7 +19,7 @@ Generated 2026-10-11T23:34:29Z · run `r-20261011T233416Z-9da0d87e` (started 202
 | --- | --- | --- | --- | --- | --- |
 | B. Learning | — | — | — | not-run | suite not yet delivered by fl-learning-lab-f1 (no evaluation/suites/learning/) |
 
-## C. Recipe corpus quality and rights `recipes` (run, 0.1s)
+## C. Recipe corpus quality and rights `recipes` (run, 0.4s)
 
 | metric | value | interval | bar | status | reason |
 | --- | --- | --- | --- | --- | --- |
@@ -53,4 +53,4 @@ Generated 2026-10-11T23:34:29Z · run `r-20261011T233416Z-9da0d87e` (started 202
 | --- | --- | --- | --- | --- | --- |
 | G. Journeys | — | — | — | not-run | committed results refused (macos-import rule): imported results carry no git.sha — the macos-import rule (SCORECARD.md) requires the producing run's full SHA |
 
-*Bars are the lead's choices, owned by `evaluation/registry.json` from PLAN.md ("The scorecard"); a suite cannot add, drop or re-bar a metric. Every result is bound to this run (run id, git `80c4f1de223d`, start time). Suites B, D and E are delivered by the learning, LeChef and community tasks (see SCORECARD.md for their file contract).*
+*Bars are the lead's choices, owned by `evaluation/registry.json` from PLAN.md ("The scorecard"); a suite cannot add, drop or re-bar a metric, and bars that require intervals apply to the interval's low end. Suite results must carry this run's identity as their producer binding (passed to the suite, verified by the runner, never overwritten); imported native results keep their producing CI run's identity, re-verified against GitHub's REST API; anything without a verifiable binding reports not-run, never pass (head f5fe7f1826b7). Suites B, D and E are delivered by the learning, LeChef and community tasks (see SCORECARD.md for their file contract).*

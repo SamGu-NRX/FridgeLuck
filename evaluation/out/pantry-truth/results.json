@@ -2,7 +2,7 @@
   "suite": "pantry-truth",
   "letter": "A",
   "title": "Pantry truth",
-  "run_at": "2026-10-11T23:34:29Z",
+  "run_at": "2026-10-12T03:02:53Z",
   "toolchain": {
     "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
     "python": "3.13.14",
@@ -11,7 +11,7 @@
     "probe_cache_key": "98b3c5b81e33caa66d074c93"
   },
   "revision": {
-    "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a"
+    "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee"
   },
   "grounding": {
     "corpus": "apps/ios/Resources/data.json",
@@ -405,7 +405,12 @@
       "status": "pass"
     }
   ],
+  "run": {
+    "run_id": "r-20261012T030131Z-83c68ad8",
+    "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+    "started_at": "2026-10-12T03:01:31Z"
+  },
   "source": "run",
-  "duration_ms": 13642,
+  "duration_ms": 82278,
   "timeout_s": 1800
 }

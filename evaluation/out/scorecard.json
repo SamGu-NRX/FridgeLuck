@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-11T23:34:29Z",
+  "generated_at": "2026-10-12T03:02:53Z",
   "run": {
-    "run_id": "r-20261011T233416Z-9da0d87e",
-    "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
-    "started_at": "2026-10-11T23:34:16Z"
+    "run_id": "r-20261012T030131Z-83c68ad8",
+    "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+    "started_at": "2026-10-12T03:01:31Z"
   },
   "git": {
-    "sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
+    "sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
     "branch": "eval/scorecard-runner",
     "dirty": false
   },
@@ -27,7 +27,7 @@
       "suite": "pantry-truth",
       "letter": "A",
       "title": "Pantry truth",
-      "run_at": "2026-10-11T23:34:29Z",
+      "run_at": "2026-10-12T03:02:53Z",
       "toolchain": {
         "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
         "python": "3.13.14",
@@ -36,7 +36,7 @@
         "probe_cache_key": "98b3c5b81e33caa66d074c93"
       },
       "revision": {
-        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a"
+        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee"
       },
       "grounding": {
         "corpus": "apps/ios/Resources/data.json",
@@ -430,14 +430,14 @@
           "status": "pass"
         }
       ],
-      "source": "run",
-      "duration_ms": 13642,
-      "timeout_s": 1800,
       "run": {
-        "run_id": "r-20261011T233416Z-9da0d87e",
-        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
-        "started_at": "2026-10-11T23:34:16Z"
-      }
+        "run_id": "r-20261012T030131Z-83c68ad8",
+        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+        "started_at": "2026-10-12T03:01:31Z"
+      },
+      "source": "run",
+      "duration_ms": 82278,
+      "timeout_s": 1800
     },
     {
       "suite": "learning",
@@ -455,16 +455,16 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T233416Z-9da0d87e",
-        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
-        "started_at": "2026-10-11T23:34:16Z"
+        "run_id": "r-20261012T030131Z-83c68ad8",
+        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+        "started_at": "2026-10-12T03:01:31Z"
       }
     },
     {
       "suite": "recipes",
       "letter": "C",
       "title": "Recipe corpus quality and rights",
-      "run_at": "2026-10-11T23:34:29Z",
+      "run_at": "2026-10-12T03:02:53Z",
       "toolchain": {
         "python": "3.13.14"
       },
@@ -477,7 +477,7 @@
             "op": ">=",
             "value": 400
           },
-          "detail": "0 rights-clear; 166 quarantined (fail-closed; see quarantined.json). Scored input: BUNDLED BASELINE (no data/recipes/corpus.jsonl on this tree): apps/ios/Resources/data.json, 166 positional recipes; no per-recipe rights evidence in data. Bundled-catalog audit: see bundled_rights_audit.json.",
+          "detail": "0 rights-clear; 166 quarantined (fail-closed; see quarantined.json). Scored input: BUNDLED BASELINE (neither product source on this tree): apps/ios/Resources/data.json, 166 positional recipes; no per-recipe rights evidence in data. Bundled-catalog audit: see bundled_rights_audit.json.",
           "evidence": {
             "path": "quarantined.json",
             "note": "per-recipe manifest validation by rights.record_status; every needed permission must be affirmative"
@@ -525,14 +525,14 @@
           }
         }
       ],
-      "source": "run",
-      "duration_ms": 57,
-      "timeout_s": 1800,
       "run": {
-        "run_id": "r-20261011T233416Z-9da0d87e",
-        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
-        "started_at": "2026-10-11T23:34:16Z"
-      }
+        "run_id": "r-20261012T030131Z-83c68ad8",
+        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+        "started_at": "2026-10-12T03:01:31Z"
+      },
+      "source": "run",
+      "duration_ms": 392,
+      "timeout_s": 1800
     },
     {
       "suite": "lechef",
@@ -550,9 +550,9 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T233416Z-9da0d87e",
-        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
-        "started_at": "2026-10-11T23:34:16Z"
+        "run_id": "r-20261012T030131Z-83c68ad8",
+        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+        "started_at": "2026-10-12T03:01:31Z"
       }
     },
     {
@@ -571,9 +571,9 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T233416Z-9da0d87e",
-        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
-        "started_at": "2026-10-11T23:34:16Z"
+        "run_id": "r-20261012T030131Z-83c68ad8",
+        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+        "started_at": "2026-10-12T03:01:31Z"
       }
     },
     {
@@ -592,9 +592,9 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T233416Z-9da0d87e",
-        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
-        "started_at": "2026-10-11T23:34:16Z"
+        "run_id": "r-20261012T030131Z-83c68ad8",
+        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+        "started_at": "2026-10-12T03:01:31Z"
       }
     },
     {
@@ -613,11 +613,11 @@
       ],
       "duration_ms": 0,
       "run": {
-        "run_id": "r-20261011T233416Z-9da0d87e",
-        "git_sha": "80c4f1de223dc2c42ef4e0f444fbb4347377118a",
-        "started_at": "2026-10-11T23:34:16Z"
+        "run_id": "r-20261012T030131Z-83c68ad8",
+        "git_sha": "f5fe7f1826b7d39d9ef42a7414f137b24811cdee",
+        "started_at": "2026-10-12T03:01:31Z"
       }
     }
   ],
-  "runner_duration_ms": 13774
+  "runner_duration_ms": 82940
 }
