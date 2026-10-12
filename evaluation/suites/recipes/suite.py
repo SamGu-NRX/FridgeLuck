@@ -595,10 +595,12 @@ def _ctl_recipe(i: int, cuisine: str, slot: str, minutes: int) -> dict[str, Any]
     source = _fsis_source()
 
     if p_rest:
-        protein_text = (f"Roast the {protein} to temperature, checking with a "
-                        "thermometer, then rest for at least 3 minutes before serving.")
+        protein_text = (f"Roast the {protein} until a thermometer inserted in the "
+                        f"thickest part registers {p_temp}°F, then rest for at least "
+                        "3 minutes before serving.")
     else:
-        protein_text = f"Cook the {protein}, checking with a thermometer before serving."
+        protein_text = (f"Cook the {protein} until a thermometer inserted in the "
+                        f"thickest part registers {p_temp}°F.")
     steps: list[dict[str, Any]] = [
         {"text": protein_text,
          "safety": {"class": p_cls, "temp_f": p_temp, "method": "thermometer",
@@ -608,11 +610,11 @@ def _ctl_recipe(i: int, cuisine: str, slot: str, minutes: int) -> dict[str, Any]
     title = f"Control Dish {i:04d}"
     if i % 7 == 0:  # casserole-titled: combination dishes must reach 165 F
         title = f"{cuisine.title()} {protein.title()} Casserole"
-        steps.append({"text": "Bake the dish and verify the centre with a thermometer.",
+        steps.append({"text": "Bake the dish until a thermometer in the centre registers 165°F.",
                       "safety": {"class": "leftovers", "temp_f": 165,
                                  "method": "thermometer", "source": source}})
     if i % 5 == 0:  # reheat step: leftovers must reach 165 F with a thermometer
-        steps.append({"text": "Next day, reheat a portion, checking with a thermometer.",
+        steps.append({"text": "Next day, reheat a portion until a thermometer registers 165°F.",
                       "reheat": True,
                       "safety": {"class": "leftovers", "temp_f": 165,
                                  "method": "thermometer", "source": source}})
