@@ -40,8 +40,8 @@ public struct FLFitMeter: View {
         HStack(spacing: 8) {
             squares
             Text(countText)
-                .flType(.fitCount)
                 .flTracking(.fitCount)
+                .flType(.fitCount)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
             if let swapsText {
                 Text(swapsText)

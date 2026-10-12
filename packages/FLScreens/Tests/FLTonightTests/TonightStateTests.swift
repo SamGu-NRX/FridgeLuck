@@ -11,8 +11,37 @@ final class TonightStateTests: XCTestCase {
 
     // MARK: Fixtures (synthetic copy — no real user data)
 
+    /// Builds a fit with `total - sufficient` shortfalls named in display
+    /// order (eggs, oil, butter, lemon, cycling). `swapsNeeded` asks for
+    /// the host's VALIDATED coverage: one swap per shortfall, in order —
+    /// so `swapsNeeded: 2` on two shortfalls is a complete-after-swaps
+    /// result. For coverage the validation must REJECT, use the `swaps:`
+    /// overload.
     private func fit(
         sufficient: Int, total: Int, swapsNeeded: Int = 0, shortfall: TonightFit.LineState = .short(amount: "1")
+    ) -> TonightFit {
+        var lines: [TonightFit.Line] = (0..<sufficient).map {
+            .init(name: "have-\($0)", state: .sufficient)
+        }
+        let shortfallNames = ["eggs", "oil", "butter", "lemon"]
+        var shortfallLineNames: [String] = []
+        for index in 0..<(total - sufficient) {
+            let name = shortfallNames[index % shortfallNames.count]
+            shortfallLineNames.append(name)
+            lines.append(.init(name: name, state: shortfall))
+        }
+        return TonightFit(
+            lines: lines,
+            swaps: shortfallLineNames.prefix(swapsNeeded).map { .init(coversLine: $0) }
+        )
+    }
+
+    /// A fit whose swaps are exactly the given coverage — for the cases
+    /// where the validation must reject it (unrelated swaps, partial
+    /// coverage, duplicates).
+    private func fit(
+        sufficient: Int, total: Int, swaps: [TonightFit.SwapCoverage],
+        shortfall: TonightFit.LineState = .short(amount: "1")
     ) -> TonightFit {
         var lines: [TonightFit.Line] = (0..<sufficient).map {
             .init(name: "have-\($0)", state: .sufficient)
@@ -21,7 +50,7 @@ final class TonightStateTests: XCTestCase {
         for index in 0..<(total - sufficient) {
             lines.append(.init(name: shortfallNames[index % shortfallNames.count], state: shortfall))
         }
-        return TonightFit(lines: lines, swapsNeeded: swapsNeeded)
+        return TonightFit(lines: lines, swaps: swaps)
     }
 
     private func pick(fit: TonightFit, servings: Int = 2) -> TonightViewState.Pick {
@@ -193,6 +222,9 @@ final class TonightStateTests: XCTestCase {
     func testChooseTomorrowIsAlwaysAvailable() {
         let contents: [TonightViewState.Content] = [
             .unknownKitchen(reason: .neverScanned, example: nil),
+            // The example-carrying state too: the state promise covers
+            // every decision state, with or without a sample pick.
+            .unknownKitchen(reason: .recognitionFailed, example: pick(fit: fit(sufficient: 9, total: 10, swapsNeeded: 1))),
             .pick(pick(fit: fit(sufficient: 9, total: 10, swapsNeeded: 1))),
             .sparse(pick: pick(fit: fit(sufficient: 2, total: 10)), youdNeed: ["rice noodles"]),
             .nothingFeasible(pick: pick(fit: fit(sufficient: 3, total: 10))),
@@ -261,5 +293,209 @@ final class TonightStateTests: XCTestCase {
             TonightViewState.MealMeta(minutes: 15, servings: 1).display,
             "15 min · 1 servings"
         )
+    }
+
+    // MARK: FIX review (1) — fit pending under servings changes
+
+    func testServingsChangeVoidsTheFitBillUntilTheHostRecalculates() {
+        var s = state(.pick(pick(fit: fit(sufficient: 10, total: 10))))
+        XCTAssertEqual(s.carriedPick?.fitStanding, .current)
+
+        let billBefore = s.carriedPick?.fit
+        s.apply(.setServings(4))
+
+        XCTAssertEqual(s.carriedPick?.meta.servings, 4)
+        XCTAssertEqual(
+            s.carriedPick?.fitStanding, .pendingRecalc,
+            "a servings change withdraws the bill until the host returns a recalculated one"
+        )
+        XCTAssertEqual(
+            s.carriedPick?.fit, billBefore,
+            "the bill is withdrawn, not edited — the host recomputes it"
+        )
+    }
+
+    func testPendingFitWithholdsTheSufficiencyClaimAndNamesTheRecalculation() {
+        var s = state(.pick(pick(fit: fit(sufficient: 10, total: 10))))
+        XCTAssertEqual(s.carriedPick?.fitDisplay, "10 of 10")
+
+        s.apply(.setServings(4))
+
+        let pending = s.carriedPick?.fitDisplay ?? ""
+        XCTAssertFalse(pending.contains("of"), "a pending bill asserts no count: \(pending)")
+        XCTAssertTrue(pending.contains("4"), "the pending line names the servings it recalculates for: \(pending)")
+    }
+
+    func testServingsNoOpKeepsTheCurrentBill() {
+        var s = state(.pick(pick(fit: fit(sufficient: 10, total: 10))))
+        s.apply(.setServings(2)) // already 2: clamped back to the shown value
+        XCTAssertEqual(s.carriedPick?.meta.servings, 2)
+        XCTAssertEqual(s.carriedPick?.fitStanding, .current, "no change, no claim to withdraw")
+        XCTAssertEqual(s.primaryAction, .cookThis)
+    }
+
+    func testServingsChangeVoidsTheBillInEveryContentCase() {
+        let full = fit(sufficient: 10, total: 10)
+        let contents: [(String, TonightViewState.Content)] = [
+            ("unknownKitchen with example", .unknownKitchen(reason: .neverScanned, example: pick(fit: full))),
+            ("pick", .pick(pick(fit: full))),
+            (
+                "sparse",
+                .sparse(pick: pick(fit: fit(sufficient: 2, total: 10)), youdNeed: ["rice noodles"])
+            ),
+            ("nothingFeasible", .nothingFeasible(pick: pick(fit: fit(sufficient: 3, total: 10)))),
+        ]
+        for (name, content) in contents {
+            var s = state(content)
+            s.apply(.setServings(6))
+            XCTAssertEqual(s.carriedPick?.fitStanding, .pendingRecalc, "\(name) withdraws the bill too")
+        }
+    }
+
+    func testHostReplacementRestoresACurrentBill() {
+        var s = state(.pick(pick(fit: fit(sufficient: 10, total: 10))))
+        s.apply(.setServings(4))
+        XCTAssertEqual(s.carriedPick?.fitStanding, .pendingRecalc)
+
+        // The host's answer is a whole-pick replacement carrying the
+        // recalculated bill for the new servings. A current standing is
+        // the default — nothing in this layer un-pends in place.
+        s = state(.pick(pick(fit: fit(sufficient: 10, total: 10), servings: 4)))
+        XCTAssertEqual(s.carriedPick?.fitStanding, .current)
+        XCTAssertEqual(s.primaryAction, .cookThis)
+    }
+
+    // MARK: FIX review (2) — the decision-state action contract
+
+    func testActionContractMatchesWhatEachStateKnows() {
+        // An unknown kitchen never earns a cook — the example is a
+        // carried pick, not a claim; scan and manual entry lead.
+        let example = pick(fit: fit(sufficient: 10, total: 10))
+        XCTAssertEqual(
+            state(.unknownKitchen(reason: .neverScanned, example: example)).primaryAction,
+            .enterKitchen,
+            "the unknown-kitchen example must not resurface as 'Cook this'"
+        )
+        XCTAssertEqual(
+            state(.unknownKitchen(reason: .cameraRefused, example: nil)).primaryAction,
+            .enterKitchen
+        )
+        // Known kitchen, current bill: the unconditional cook is earned.
+        XCTAssertEqual(
+            state(.pick(pick(fit: fit(sufficient: 10, total: 10)))).primaryAction,
+            .cookThis
+        )
+        // Sparse knows what you'd need — not a validated swap count.
+        XCTAssertEqual(
+            state(
+                .sparse(pick: pick(fit: fit(sufficient: 2, total: 10)), youdNeed: ["rice noodles"])
+            ).primaryAction,
+            .shoppingList
+        )
+        // Nothing feasible with validated coverage: the swap wording.
+        XCTAssertEqual(
+            state(
+                .nothingFeasible(pick: pick(fit: fit(sufficient: 8, total: 10, swapsNeeded: 2)))
+            ).primaryAction,
+            .cookWithSwaps(count: 2)
+        )
+    }
+
+    func testNothingFeasibleWithoutValidatedCoverageHasNoSwapWording() {
+        // Two shortages, no swaps: nothing claims completion.
+        XCTAssertEqual(
+            state(.nothingFeasible(pick: pick(fit: fit(sufficient: 8, total: 10)))).primaryAction,
+            .shoppingList
+        )
+        // One real swap for two shortages is not coverage either.
+        let partial = TonightFit(
+            lines: [
+                .init(name: "eggs", state: .sufficient),
+                .init(name: "oil", state: .short(amount: "2 tbsp")),
+                .init(name: "butter", state: .short(amount: "50 g")),
+            ],
+            swaps: [.init(coversLine: "oil")]
+        )
+        XCTAssertEqual(
+            state(.nothingFeasible(pick: pick(fit: partial))).primaryAction,
+            .shoppingList
+        )
+        // A shortfall that is not a plain short (quantity unknown) never
+        // earns the swap grammar either.
+        XCTAssertEqual(
+            state(
+                .nothingFeasible(
+                    pick: pick(fit: fit(sufficient: 8, total: 10, swapsNeeded: 2, shortfall: .quantityUnknown))
+                )
+            ).primaryAction,
+            .shoppingList
+        )
+    }
+
+    func testPendingFitDisablesTheCookPrimaryInEveryCookingState() {
+        var full = state(.pick(pick(fit: fit(sufficient: 10, total: 10))))
+        full.apply(.setServings(4))
+        XCTAssertEqual(full.primaryAction, .cookPendingRecalc)
+
+        // The swap count was validated for other servings: it is
+        // withdrawn with the claim, not re-asserted.
+        var swaps = state(
+            .nothingFeasible(pick: pick(fit: fit(sufficient: 8, total: 10, swapsNeeded: 2)))
+        )
+        swaps.apply(.setServings(6))
+        XCTAssertEqual(swaps.primaryAction, .cookPendingRecalc)
+    }
+
+    func testPrimaryActionStatesSwapsTracksTheContract() {
+        XCTAssertTrue(
+            state(
+                .nothingFeasible(pick: pick(fit: fit(sufficient: 8, total: 10, swapsNeeded: 2)))
+            ).primaryActionStatesSwaps
+        )
+        XCTAssertFalse(state(.pick(pick(fit: fit(sufficient: 10, total: 10)))).primaryActionStatesSwaps)
+        XCTAssertFalse(
+            state(.sparse(pick: pick(fit: fit(sufficient: 2, total: 10)), youdNeed: ["x"]))
+                .primaryActionStatesSwaps
+        )
+        XCTAssertFalse(
+            state(.unknownKitchen(reason: .neverScanned, example: nil)).primaryActionStatesSwaps
+        )
+    }
+
+    // MARK: FIX review (3b) — swap coverage is validated per shortfall
+
+    func testSwapGrammarFiresOnlyWhenEveryShortfallHasAValidatedSwap() {
+        let f = fit(sufficient: 8, total: 10, swapsNeeded: 2)
+        XCTAssertEqual(f.completingSwapCount, 2)
+        XCTAssertEqual(f.lineText, "8 of 10 · 2 swaps")
+    }
+
+    func testTwoShortagesPlusOneUnrelatedSwapNeverReadCompleteWithSwap() {
+        // The old bug: any positive swap count covered every shortfall.
+        let f = fit(sufficient: 8, total: 10, swaps: [.init(coversLine: "eggs")])
+        XCTAssertEqual(f.lineText, "8 recorded · check eggs and oil")
+        XCTAssertNil(f.completingSwapCount)
+        XCTAssertFalse(f.lineText.contains("swap"), "an uncovered shortfall never gets swap grammar: \(f.lineText)")
+    }
+
+    func testSwapsAimedAtLinesThatAreNotShortfallsEarnNothing() {
+        let f = fit(sufficient: 9, total: 10, swaps: [.init(coversLine: "have-0")])
+        XCTAssertEqual(f.lineText, "9 recorded · check eggs")
+        XCTAssertNil(f.completingSwapCount)
+    }
+
+    func testDuplicateCoverageLeavesTheOtherShortfallUncovered() {
+        let f = fit(
+            sufficient: 8, total: 10,
+            swaps: [.init(coversLine: "eggs"), .init(coversLine: "eggs")]
+        )
+        XCTAssertEqual(f.lineText, "8 recorded · check eggs and oil")
+        XCTAssertNil(f.completingSwapCount)
+    }
+
+    func testAllSufficientBillNeverCarriesSwapGrammar() {
+        let f = fit(sufficient: 10, total: 10, swapsNeeded: 0)
+        XCTAssertEqual(f.lineText, "10 of 10")
+        XCTAssertNil(f.completingSwapCount)
     }
 }

@@ -96,10 +96,15 @@ public struct TonightView: View {
         case .sparse(let pick, let youdNeed):
             VStack(alignment: .leading, spacing: CGFloat(Density.deciding.blockGap)) {
                 pickCard(pick)
-                Text("You'd need: \(youdNeed.joined(separator: ", "))")
-                    .flType(.body)
-                    .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
-                    .accessibilityIdentifier("fl.tonight.youdNeed")
+                // The "You'd need" list is the bill's shortfall detail; a
+                // pending bill (servings changed) withdraws it with the
+                // claim until the host recalculates.
+                if pick.fitStanding == .current {
+                    Text("You'd need: \(youdNeed.joined(separator: ", "))")
+                        .flType(.body)
+                        .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
+                        .accessibilityIdentifier("fl.tonight.youdNeed")
+                }
             }
         case .nothingFeasible(let pick):
             VStack(alignment: .leading, spacing: CGFloat(Density.deciding.blockGap)) {
@@ -132,7 +137,7 @@ public struct TonightView: View {
                 Spacer()
                 servingsControl(servings: pick.meta.servings)
             }
-            fitBlock(pick.fit)
+            fitBlock(pick)
             if let why = pick.why {
                 Button {
                     onIntent(.openWhy)
@@ -191,18 +196,22 @@ public struct TonightView: View {
     }
 
     /// The honest fit line: the meter is the count, the sentence is the
-    /// story. The meter never shows for a state without a real count.
-    private func fitBlock(_ fit: TonightFit) -> some View {
+    /// story. The meter never shows for a state without a real count —
+    /// and never while a servings change holds the bill pending: the
+    /// claim is withdrawn, so only the recalculation line shows.
+    private func fitBlock(_ pick: TonightViewState.Pick) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(fit.lineText)
+            Text(pick.fitDisplay)
                 .flType(.body)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .accessibilityIdentifier("fl.tonight.fit")
-            FLFitMeter(
-                have: fit.sufficientCount,
-                total: fit.lines.count,
-                swaps: fit.swapsNeeded > 0 ? fit.swapsNeeded : nil
-            )
+            if pick.fitStanding == .current {
+                FLFitMeter(
+                    have: pick.fit.sufficientCount,
+                    total: pick.fit.lines.count,
+                    swaps: pick.fit.completingSwapCount
+                )
+            }
         }
     }
 
@@ -299,13 +308,16 @@ public struct TonightView: View {
 
     private var actions: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if let resume = state.resumeDraft {
+            // A cook in progress replaces the hero with a resume bar. The
+            // state field is `activeCook` (CookResume); the view previously
+            // read a `resumeDraft` that never existed.
+            if let resume = state.activeCook {
                 Button {
                     onIntent(.resumeCook)
                 } label: {
                     HStack {
                         Image(systemName: "timer")
-                        Text("Resume cooking: \(resume.recipeTitle)")
+                        Text("Resume cooking: \(resume.dish)")
                             .flType(.body)
                             .foregroundStyle(Theme.swiftColor(.yolkInk, in: scheme))
                         Spacer()
@@ -321,26 +333,37 @@ public struct TonightView: View {
                 .accessibilityIdentifier("fl.tonight.resumeCook")
             }
 
-            if let pick = state.carriedPick {
-                FLButton(.primary, "Cook this", haptic: .mediumCommit) {
+            // The actions render the state's primaryAction contract
+            // verbatim — the view never keys a cook claim off
+            // `carriedPick` (an unknown-kitchen example is a carried pick
+            // and earns no cook), and no state is offered an action its
+            // knowledge doesn't back.
+            switch state.primaryAction {
+            case .cookThis:
+                cookButton(enabled: true)
+            case .cookPendingRecalc:
+                // The bill is out for recalculation: the cook is
+                // disabled, and the fit line above explains why.
+                cookButton(enabled: false)
+            case .cookWithSwaps(let count):
+                FLButton(
+                    .primary,
+                    "Cook with \(count) \(count == 1 ? "swap" : "swaps")",
+                    haptic: .mediumCommit
+                ) {
                     onIntent(.cookThis)
                 }
                 .accessibilityIdentifier("fl.tonight.cookThis")
-
-                FLButton(.secondary, "Choose tomorrow") {
-                    onIntent(.chooseTomorrow)
+            case .shoppingList:
+                // Sparse: what the state knows is what you'd need.
+                FLButton(.primary, "Shopping list") {
+                    onIntent(.shoppingList)
                 }
-                .accessibilityIdentifier("fl.tonight.chooseTomorrow")
-
-                FLButton(.text, "Something else") {
-                    onIntent(.somethingElse)
-                }
-                .frame(minHeight: 44, alignment: .center)
-                .frame(maxWidth: .infinity)
-                .accessibilityIdentifier("fl.tonight.somethingElse")
-            } else {
-                // The kitchen is unknown: the two entry actions rank equal,
-                // 44 pt or taller, side by side (never stacked favourites).
+                .accessibilityIdentifier("fl.tonight.shoppingList")
+            case .enterKitchen:
+                // The kitchen is unknown: the two entry actions rank
+                // equal, 44 pt or taller, side by side (never stacked
+                // favourites), and no cook claim is offered.
                 HStack(spacing: 12) {
                     FLButton(.secondary, "Scan groceries") {
                         onIntent(.scanKitchen)
@@ -353,6 +376,24 @@ public struct TonightView: View {
                 }
             }
 
+            // SPEC 2: "never taken away" — bound to the state's promise
+            // so no decision state can quietly lose it.
+            if state.canChooseTomorrow {
+                FLButton(.secondary, "Choose tomorrow") {
+                    onIntent(.chooseTomorrow)
+                }
+                .accessibilityIdentifier("fl.tonight.chooseTomorrow")
+            }
+
+            if state.carriedPick != nil {
+                FLButton(.text, "Something else") {
+                    onIntent(.somethingElse)
+                }
+                .frame(minHeight: 44, alignment: .center)
+                .frame(maxWidth: .infinity)
+                .accessibilityIdentifier("fl.tonight.somethingElse")
+            }
+
             if state.constraintsOffered {
                 constraintsOffer
             }
@@ -360,6 +401,19 @@ public struct TonightView: View {
                 tasteQuestionRow(question)
             }
         }
+    }
+
+    /// The unconditional cook, renderable only where the state's contract
+    /// allows it. Disabled while the bill is out for recalculation: the
+    /// button keeps its label, the claim is withdrawn, and the hint says
+    /// why.
+    private func cookButton(enabled: Bool) -> some View {
+        FLButton(.primary, "Cook this", haptic: .mediumCommit) {
+            onIntent(.cookThis)
+        }
+        .disabled(!enabled)
+        .accessibilityIdentifier("fl.tonight.cookThis")
+        .accessibilityHint(enabled ? "" : "Servings changed — waiting for a recalculated fit")
     }
 
     /// After the third "Something else" — and never before — the four

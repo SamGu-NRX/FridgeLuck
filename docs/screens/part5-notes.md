@@ -72,7 +72,8 @@ and one test target (`FLLeChefTests`), inside `packages/FLScreens`.
   renders a "not built in this release" row (lint-tested: the built
   candidate must be push-to-look).
 - **A look never yields a verdict.** `LookResult` carries
-  `observedLines` (host-verbatim observations) and nothing else. The
+  `observedLines` (filtered free-text observations — see the
+  review-fix addendum at the end of these notes) and nothing else. The
   struct has no field a doneness, safety, temperature or confidence claim
   could arrive in — the raw-source lint slices the declaration range and
   fails if one grows. Every result the display grammar renders is paired
@@ -200,12 +201,96 @@ verified natively: rendered pixels for either theme — see native gaps.
 
 ## Tests
 
-`cd packages/FLScreens && swift test`: 279 test cases, 0 failures
-(199 baseline + 80 new: stage 10, steps 7, timers 8, proposals 10, look
-8, voice 6, remember 8, offline 1, persistence 6, display 6, Part 5 lint
-10). `packages/FLDesignTokens`: 27 tests, 0 failures (unchanged).
+`cd packages/FLScreens && swift test`: 312 test cases, 0 failures
+(199 baseline + 113 new: stage 10, steps 7, timers 13, proposals 19,
+look 8, voice 6, remember 8, offline 1, persistence 6, display 6,
+filter 9, allergen 6, Part 5 lint 14). `packages/FLDesignTokens`: 27
+tests, 0 failures (unchanged).
 `packages/FLDesignSystem`: builds on Linux. The three failures the first
 run exposed are recorded above (the clock rule, the
 restore-without-duration decision, and the look-pairing lint binding to
 the actual rendering path) — all three are model-first fixes, not
 test-first ones.
+
+## Review fix (PR #121, BLOCK item 4)
+
+The reviewer was right that the timer clock could start at zero: the
+sentence above ("any intent that carries a timestamp (`enter`, …)
+updates that clock") described the intent contract, but the code did not
+honour it — `.enter` built its fresh state with `lastKnownNow` at the
+default zero, so a timer set before the next timestamped intent got an
+epoch-zero deadline and the on-screen tile rendered expired (0:00)
+immediately. Fixed at the source: `.enter` now seeds `lastKnownNow` from
+the host's clock reading, and the persisted-restore hydration runs the
+timer machine's one firing rule (`resolvingExpiredTimers`, shared with
+the reducer's `tick`) so an already-passed deadline resolves to the
+expired/ringing state — check line earned once — instead of a silent
+zero, while a still-counting deadline shows deadline − now and a timer
+with no persisted deadline is left untouched. Seeding is initialization,
+not an intent: the reducer stays the timers' only authority, and no
+state-layer path reads a wall clock — every `now` is host-supplied (the
+Part 6 host-clock convention). Five seeding tests added
+(`LeChefTimerSeedingTests`); the suite is 284 test cases, 0 failures.
+## Review-fix addendum: the look-line filter (SPEC §3.1)
+
+The review BLOCK on PR #121 named the last gap in the "look never
+yields a verdict" contract: `observedLines` is host free text, so a
+malformed host pipeline could put a verdict-shaped sentence inside a
+line even though the type has no verdict field. The fix is a
+state-layer filter — `LookLineFilter` in `LeChefViewState.swift`, the
+vocabulary's single auditable home, with a doc comment pointing at
+SPEC §3.1. It matches a fixed list of verdict-shaped phrases (doneness
+assertions, safety claims, doneness-by-colour, ready-verbs,
+thermometer claims) plus a thermometer-reading pattern,
+word-boundary and case-insensitive, dropping the whole line — when in
+doubt, drop. The reducer's `.lookResultArrived` ingress runs every
+result through it before state holds the lines, so no consumer —
+display, transcript, a future persistence or voice read-out — can see
+a verdict; the display grammar filters again as the last gate before
+the view's text, so state built by hand still cannot render one. The
+lint pins the invariant: the view must never touch `observedLines` or
+`LookResult` (it renders through `proposalDisplay(proposal)` only),
+`observedLines` is readable in exactly the two filtered touch points
+(state file, intent file), and the filter's audit documentation must
+keep pointing at SPEC §3.1 with the brief's named examples. Behavior
+pins: the brief's MUST-DROP lines ("fully cooked", "cooked through",
+"undercooked", "raw in the middle", "safe to eat", "not safe",
+"food-safe", "this is done", "ready to eat", temperature-read
+conclusions) drop; the MUST-PASS lines ("two pans on the burner",
+"steam from the left pot", "the sauce is reducing") and other
+appearance observations survive, order kept, filter idempotent.
+Counts after the fix: `cd packages/FLScreens && swift test` → 291 test
+cases (279 baseline + 12 new: 9 filter behavior in FLLeChefTests, 3
+Part 5 lint), 0 failures; `packages/FLDesignTokens` 27 tests, 0
+failures; `packages/FLDesignSystem` builds on Linux.
+## Review fix addendum: receipt provenance and fail-closed allergens
+
+The Part 5 review blocked two points in the proposal path, both fixed
+in place. First, a delivered proposal used to manufacture its own
+success: approving a mutation set `isApplied` in the reducer, and the
+panel rendered "Done" on the screen's word alone. Receipts are the
+phone's word (SPEC §4), so the screen layer now never creates one.
+Approval (`.approveProposal`) is consent, not success: it marks the
+proposal `isAwaitingReceipt` — handed to the phone's authority layer,
+which is the host-injected intent stream every other LeChef host
+service already uses — and the panel shows "Waiting on the phone…"
+until the new host-fed `.mutationReceipt` intent returns the applied
+receipt. That intent is the ONLY path that sets `isApplied`; failure
+receipts (`.mutationFailed`) end the wait and return the proposal to
+pending, re-approvable. Second, allergen display did not fail closed:
+a substitution's recheck line rendered verbatim, so an absent, empty
+or blank recheck would read as no warning. The display mapping now has
+an explicit unknown case — unusable input maps to
+`AllergenRecheckStatus.unknown` and renders the check affordance
+("Allergen check unavailable — check with everyone before you swap."),
+never blank and never clearance — and the reducer's delivery default
+normalizes unusable rechecks to that line before anything renders,
+while supplied lines pass through verbatim. Receipt-backed swaps alone
+ride the persisted snapshot (`appliedSwapIds`). Tests: 294 test cases,
+0 failures (279 baseline + 15 new: nine receipt-provenance cases in
+`LeChefProposalTests`, six fail-closed cases in the new
+`LeChefAllergenFailClosedTests`). `packages/FLDesignTokens`: 27 tests,
+0 failures (unchanged). `packages/FLDesignSystem`: builds on Linux.
+The SwiftUI branch of the wait/applied rendering is UNVERIFIED-NATIVE
+like the rest of `LeChefViews.swift`; the state contract behind it is
+the tested part.

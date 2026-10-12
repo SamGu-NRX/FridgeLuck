@@ -87,8 +87,8 @@ public struct TasteProfileView: View {
                 .accessibilityAddTraits(.isHeader)
             if let cooks = state.cooksCountDisplay {
                 Text(cooks)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                     .accessibilityIdentifier("fl.taste.cooks")
             }
@@ -143,8 +143,8 @@ public struct TasteProfileView: View {
                 // use-soon, Kitchen's leftover) is Capsule at 8/4 — one
                 // tag grammar now: Capsule, the family padding.
                 Text(sentence.evidenceDisplay)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.yolkInk, in: scheme))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
@@ -311,8 +311,8 @@ public struct TasteProfileView: View {
                     .accessibilityIdentifier("fl.taste.memoriesLabel")
                 Spacer()
                 Text(state.memoriesCountDisplay)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                     .accessibilityIdentifier("fl.taste.memoriesCount")
             }

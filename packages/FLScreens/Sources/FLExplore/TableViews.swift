@@ -66,7 +66,11 @@ public struct TableView: View {
         .sheet(isPresented: shareBinding) {
             SharePreviewSheet(
                 preview: state.sharePreview,
-                onConfirm: { if let id = state.sharePreview?.cookID { onIntent(.confirmShare(cookID: id)) } },
+                onConfirm: {
+                    // Submit the FROZEN payload the cook just reviewed —
+                    // never a re-derivation at send time.
+                    if let preview = state.sharePreview { onIntent(.confirmShare(preview)) }
+                },
                 onDismiss: { onIntent(.dismissSharePreview) }
             )
             .flScheme(scheme)
@@ -217,8 +221,8 @@ public struct TableView: View {
                 }
                 if let rate = cook.rateDisplay {
                     Text(rate)
-                        .flType(.fitCount)
                         .flTracking(.fitCount)
+                        .flType(.fitCount)
                         .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                 }
                 FLFitMeter(
@@ -351,6 +355,10 @@ private struct SharePreviewSheet: View {
             if let preview {
                 VStack(alignment: .leading, spacing: 8) {
                     previewRow("Recipe", preview.recipeDisplay)
+                    previewRow("Revision", preview.revisionDisplay)
+                    // The day-only when: the SAME typed field the card
+                    // renders — an exact time cannot enter a preview.
+                    previewRow("Cooked", preview.when.display)
                     previewRow("Servings", preview.servingsDisplay)
                     if let swaps = preview.swapsDisplay { previewRow("Swaps", swaps) }
                     if let rating = preview.ratingDisplay { previewRow("Rating", rating) }

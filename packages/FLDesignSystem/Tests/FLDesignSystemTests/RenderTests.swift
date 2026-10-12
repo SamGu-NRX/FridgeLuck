@@ -27,6 +27,9 @@ import AppKit
 @testable import FLDesignSystem
 import FLDesignTokens
 
+// ImageRenderer and the components are MainActor-isolated, so every render
+// runs on the main actor — same shape as HitRegionTests.
+@MainActor
 final class RenderTests: XCTestCase {
 
     // MARK: Output plumbing
@@ -48,7 +51,7 @@ final class RenderTests: XCTestCase {
 
     /// Platform renderer → PNG data: ImageRenderer.uiImage on iOS,
     /// ImageRenderer.nsImage (via TIFF rep) on macOS.
-    private func pngData(from renderer: ImageRenderer, name: String) throws -> Data {
+    private func pngData<Content: View>(from renderer: ImageRenderer<Content>, name: String) throws -> Data {
         #if canImport(AppKit)
         let image = try XCTUnwrap(renderer.nsImage, "ImageRenderer produced no NSImage for \(name)")
         let tiff = try XCTUnwrap(image.tiffRepresentation, "no TIFF for \(name)")
@@ -70,7 +73,45 @@ final class RenderTests: XCTestCase {
         let url = rendersDir.appendingPathComponent("fl-\(name).png")
         try png.write(to: url)
         XCTAssertTrue(FileManager.default.fileExists(atPath: url.path), "missing render \(url.lastPathComponent)")
-        XCTAssertGreaterThan(png.count, 1000, "suspiciously small PNG for \(name)")
+        try assertRendersContent(png, name: name)
+    }
+
+    /// Decodes PNG data and counts distinct pixel colours. A blank render
+    /// is exactly one flat colour; anything drawn adds antialiasing or a
+    /// second tone, so the content guard asks for at least two.
+    private func distinctPixelValues(in png: Data, name: String) throws -> Int {
+        #if canImport(AppKit)
+        let nsImage = try XCTUnwrap(NSImage(data: png), "undecodable PNG for \(name)")
+        let cgImage = try XCTUnwrap(nsImage.cgImage(forProposedRect: nil, context: nil, hints: nil), "no CGImage for \(name)")
+        #elseif canImport(UIKit)
+        let uiImage = try XCTUnwrap(UIImage(data: png), "undecodable PNG for \(name)")
+        let cgImage = try XCTUnwrap(uiImage.cgImage, "no CGImage for \(name)")
+        #endif
+        let width = cgImage.width
+        let height = cgImage.height
+        var pixels = [UInt32](repeating: 0, count: width * height)
+        let context = try XCTUnwrap(
+            CGContext(
+                data: &pixels,
+                width: width,
+                height: height,
+                bitsPerComponent: 8,
+                bytesPerRow: width * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            ),
+            "no bitmap context for \(name)"
+        )
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        return Set(pixels).count
+    }
+
+    private func assertRendersContent(_ png: Data, name: String) throws {
+        let distinct = try distinctPixelValues(in: png, name: name)
+        XCTAssertGreaterThanOrEqual(
+            distinct, 2,
+            "blank render for \(name): \(distinct) distinct pixel colour; a drawn component has at least two"
+        )
     }
 
     // MARK: Surfaces
@@ -154,10 +195,14 @@ final class RenderTests: XCTestCase {
         try renderPNG("fit-meter-dark", size: CGSize(width: 320, height: 80), dark(fitMeter()))
         try renderPNG("fit-meter-xxl", size: CGSize(width: 360, height: 120), xxl(paper(fitMeter())))
 
-        // Quantity rows: three states + XXL.
+        // Quantity rows: the seven stock states + XXL.
         try renderPNG("quantity-row-have", size: CGSize(width: 360, height: 56), paper(quantityRow(.have)))
+        try renderPNG("quantity-row-short", size: CGSize(width: 360, height: 56), paper(quantityRow(.short)))
         try renderPNG("quantity-row-missing", size: CGSize(width: 360, height: 56), paper(quantityRow(.missing)))
         try renderPNG("quantity-row-unconfirmed", size: CGSize(width: 360, height: 56), paper(quantityRow(.unconfirmed)))
+        try renderPNG("quantity-row-unknown-quantity", size: CGSize(width: 360, height: 56), paper(quantityRow(.quantityUnknown)))
+        try renderPNG("quantity-row-assumed", size: CGSize(width: 360, height: 56), paper(quantityRow(.assumed)))
+        try renderPNG("quantity-row-stale", size: CGSize(width: 360, height: 56), paper(quantityRow(.stale)))
         try renderPNG("quantity-row-xxl", size: CGSize(width: 420, height: 96), xxl(paper(quantityRow(.unconfirmed))))
 
         // Timer tile: native hob, ambient paper (tile stays hob), paused, XXL.
@@ -216,7 +261,7 @@ final class RenderTests: XCTestCase {
         try renderPNG(
             "empty-loading-line-reduced-motion",
             size: CGSize(width: 320, height: 16),
-            paper(FLEmptyLoadingLine(isLoading: true).environment(\.accessibilityReduceMotion, true))
+            paper(FLEmptyLoadingLine(isLoading: true).environment(\.flReduceMotion, true))
         )
         try renderPNG("empty-loading-line-idle", size: CGSize(width: 320, height: 16), paper(FLEmptyLoadingLine(isLoading: false)))
     }
@@ -320,6 +365,20 @@ final class RenderTests: XCTestCase {
         #else
         throw XCTSkip("Contact sheets assemble on macOS only; the render matrix still ran.")
         #endif
+    }
+
+    /// Teeth for the content guard: a deliberately blank view must FAIL
+    /// the check. The expected-failure wrapper records the trip; if the
+    /// guard ever stopped detecting blanks, this test fails instead.
+    func testBlankRenderTripsTheContentCheck() throws {
+        let blank = ImageRenderer(content: Color.white.frame(width: 32, height: 32))
+        blank.scale = 2
+        let png = try pngData(from: blank, name: "blank-control")
+        let distinct = try distinctPixelValues(in: png, name: "blank-control")
+        XCTAssertEqual(distinct, 1, "the blank control should be one flat colour")
+        try XCTExpectFailure("the content check must reject the blank control") {
+            try assertRendersContent(png, name: "blank-control")
+        }
     }
 }
 #endif

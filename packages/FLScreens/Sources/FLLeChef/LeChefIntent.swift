@@ -13,8 +13,12 @@
 //
 // The contract lines the reducer enforces:
 //
-// - A mutation proposal is applied ONLY by `.approveProposal` — an
-//   explicit approval action. Delivery never applies one; a voice
+// - A mutation proposal is applied ONLY by the phone's authority layer
+//   returning a receipt (`.mutationReceipt`) — the receipt is the
+//   phone's word, and nothing in this layer manufactures one.
+//   Approval (`.approveProposal`) is consent, not success: it marks
+//   the proposal waiting on the authority seam (the host routes it)
+//   and the UI waits with it. Delivery never applies one; a voice
 //   command never reaches one (the five-word grammar maps to the coach
 //   surface only).
 // - Timers are phone-controlled: set, pause and complete are local
@@ -88,12 +92,25 @@ public enum LeChefIntent: Equatable, Sendable {
     /// mutations wait for approval.
     case deliver([LeChefViewState.Proposal])
     /// The explicit approval action. Mutations only; the model cannot
-    /// manufacture approval.
+    /// manufacture approval. Approval is consent, not a receipt: the
+    /// proposal is handed to the phone's authority layer (the host
+    /// routes it through the same intent stream every other host
+    /// service uses) and the state shows waiting until that layer
+    /// returns a receipt. Reads are already applied — approving one is
+    /// a no-op.
     case approveProposal(id: String)
     /// Decline a proposal (mutation or read) — it leaves the queue.
     case declineProposal(id: String)
-    /// An approved mutation failed to execute host-side: the proposal
-    /// returns to pending, a quiet line explains.
+    /// The phone's authority layer returned the APPLIED receipt for an
+    /// approved mutation — the ONLY path that sets `isApplied`. The
+    /// receipt is the phone's word; the screen layer renders it, never
+    /// creates it. Read receipts arriving later update the state (the
+    /// seam is async by design). Unknown, read, and already-departed
+    /// ids are no-ops.
+    case mutationReceipt(id: String)
+    /// The phone's authority layer returned a failure receipt: an
+    /// approved mutation did not execute. The proposal returns to
+    /// pending, a quiet line explains.
     case mutationFailed(id: String)
     /// The timer suggestion's chip ("Set 2 min timer"): creates the
     /// timer through the LOCAL timer path and consumes the suggestion.
@@ -177,6 +194,25 @@ public enum LeChefReducer {
     /// specific one.
     private static let voiceTimerLabel = "Timer"
 
+    /// Delivery's default is the FAILING-CLOSED one: a substitution
+    /// whose allergen recheck did not arrive — absent, empty, or blank —
+    /// carries the explicit unknown line, never a blank (which would
+    /// read as clear). Recheck lines the host did supply are untouched.
+    private static func failClosedAllergens(
+        _ proposal: LeChefViewState.Proposal
+    ) -> LeChefViewState.Proposal {
+        guard case .substitution(let name, let difference, let recheck) = proposal.payload,
+              case .unknown = LeChefViewState.allergenRecheckStatus(recheck)
+        else { return proposal }
+        var closed = proposal
+        closed.payload = .substitution(
+            name: name,
+            difference: difference,
+            allergenRecheck: LeChefViewState.unknownAllergenCheckLine
+        )
+        return closed
+    }
+
     public static func reduced(_ state: LeChefViewState, by intent: LeChefIntent) -> LeChefViewState {
         var next = state
         switch intent {
@@ -186,7 +222,13 @@ public enum LeChefReducer {
         case .enter(let recipe, let now):
             guard next.stage == .idle else { break }
             next = LeChefViewState(
-                link: next.link, recipe: recipe, startedAt: now, steps: recipe.steps
+                link: next.link, recipe: recipe, startedAt: now, steps: recipe.steps,
+                // Enter is a clock reading: the deadline base seeds
+                // from the host's now, so the first timer — set before
+                // any other timestamped intent — counts from the real
+                // clock instead of an epoch-zero deadline that rendered
+                // expired at once (review BLOCK item 4).
+                lastKnownNow: now
             )
             next.stage = .cooking
 
@@ -296,15 +338,13 @@ public enum LeChefReducer {
 
         case .tick(let now):
             next.lastKnownNow = now
-            for index in next.timers.indices {
-                let timer = next.timers[index]
-                guard timer.isRunning, let endAt = timer.endAt, now >= endAt else { continue }
-                next.timers[index].fired = true
-                next.timers[index].endAt = nil
-                if let line = timer.onDoneLine, !line.isEmpty {
-                    next.checkLines.append(line)
-                }
-            }
+            // The one firing rule, shared with the persisted restore's
+            // hydration — same condition, same check line, same order.
+            let resolved = LeChefViewState.resolvingExpiredTimers(
+                timers: next.timers, checkLines: next.checkLines, at: now
+            )
+            next.timers = resolved.timers
+            next.checkLines = resolved.checkLines
 
         // MARK: Proposals
 
@@ -312,25 +352,46 @@ public enum LeChefReducer {
             var known = Set(next.proposals.map { $0.id })
             for proposal in incoming where !known.contains(proposal.id) {
                 known.insert(proposal.id)
-                next.proposals.append(proposal)
+                next.proposals.append(Self.failClosedAllergens(proposal))
             }
             next.mutationFailureLine = nil
 
         case .approveProposal(let id):
-            // The ONE path that applies a mutation. Reads are already
-            // applied without ceremony — approving one is a no-op.
+            // Consent, not a receipt. The proposal is handed to the
+            // phone's authority layer (the host routes the intent) and
+            // waits; the applied state arrives ONLY as that layer's
+            // returned receipt — never here. Reads are already applied
+            // without ceremony — approving one is a no-op.
             guard let index = next.proposals.firstIndex(where: { $0.id == id }) else { break }
             guard !next.proposals[index].isRead else { break }
-            next.proposals[index].isApplied = true
+            guard !next.proposals[index].isApplied,
+                  !next.proposals[index].isAwaitingReceipt
+            else { break }
+            next.proposals[index].isAwaitingReceipt = true
             next.mutationFailureLine = nil
 
         case .declineProposal(let id):
             next.proposals.removeAll { $0.id == id }
             next.mutationFailureLine = nil
 
+        case .mutationReceipt(let id):
+            // The phone's word: the authority layer executed the
+            // mutation and returned the applied receipt. This — not the
+            // approval, not the delivery — is what the screen renders
+            // as done. A receipt for a read id does not exist.
+            guard let index = next.proposals.firstIndex(where: { $0.id == id }) else { break }
+            guard !next.proposals[index].isRead else { break }
+            next.proposals[index].isApplied = true
+            next.proposals[index].isAwaitingReceipt = false
+            next.mutationFailureLine = nil
+
         case .mutationFailed(let id):
+            // The phone's word: the mutation did not execute. The wait
+            // ends, nothing was applied — the proposal returns to
+            // pending and can be approved again.
             guard let index = next.proposals.firstIndex(where: { $0.id == id }) else { break }
             next.proposals[index].isApplied = false
+            next.proposals[index].isAwaitingReceipt = false
             next.mutationFailureLine = "That change didn't go through. Nothing was altered."
 
         case .applyTimerSuggestion(let id):
@@ -396,12 +457,18 @@ public enum LeChefReducer {
             guard next.lookStage == .uploading else { break }
             // The result is a READ: applied without ceremony, and it
             // can never carry a safety verdict — the payload has no
-            // field for one.
+            // field for one, and the free-text lines are filtered at
+            // ingress (`LookLineFilter`, SPEC §3.1): state never holds
+            // a verdict-shaped line, so no consumer of this state —
+            // display, transcript, a future persistence or voice
+            // read-out — can ever see one.
             var known = Set(next.proposals.map { $0.id })
             if !known.contains(proposalId) {
                 known.insert(proposalId)
                 next.proposals.append(
-                    LeChefViewState.Proposal(id: proposalId, job: .coach, payload: .lookResult(result))
+                    LeChefViewState.Proposal(
+                        id: proposalId, job: .coach,
+                        payload: .lookResult(LookLineFilter.enforced(result)))
                 )
             }
             next.lookStage = .none

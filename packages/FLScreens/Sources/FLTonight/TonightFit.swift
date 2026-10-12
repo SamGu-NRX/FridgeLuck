@@ -6,8 +6,11 @@
 // lines. Never a percentage; never "you have everything" unless every line
 // is sufficient.
 //
-// The host's fit engine supplies the line states and the swap count; this
-// type derives the display strings under those rules and nothing else.
+// The host's fit engine supplies the line states and the validated swap
+// coverage; this type derives the display strings under those rules and
+// nothing else. Two shortages plus one unrelated swap is not coverage:
+// the count grammar is earned by a validated complete-after-swaps
+// result, never by an unbound integer.
 
 /// The ingredient bill's fit, line by line, with the display rules the
 /// pantry-truth contract requires.
@@ -25,6 +28,13 @@ public struct TonightFit: Equatable, Sendable {
         case assumedStaple
         /// Stale evidence; needs reconfirming.
         case needsReconfirming
+
+        /// True for the plain `.short` state — the only shortfall a
+        /// swap grammar may cover.
+        var isShort: Bool {
+            if case .short = self { return true }
+            return false
+        }
     }
 
     /// One ingredient line.
@@ -38,19 +48,33 @@ public struct TonightFit: Equatable, Sendable {
         }
     }
 
+    /// A swap the host's fit engine validated against one specific
+    /// shortfall: `coversLine` names the short line the swap covers. A
+    /// swap that names no shortfall — or coverage that misses one —
+    /// buys no claim anywhere in this type.
+    public struct SwapCoverage: Equatable, Sendable {
+        /// The short line this swap covers (matches `Line.name`).
+        public var coversLine: String
+
+        public init(coversLine: String) {
+            self.coversLine = coversLine
+        }
+    }
+
     public var lines: [Line]
 
-    /// Real swaps that would complete the dish, as computed by the host's
-    /// fit engine. Never inferred here from line counts.
-    public var swapsNeeded: Int
+    /// Real swaps validated per shortfall by the host's fit engine, each
+    /// naming the one short line it covers. Never inferred here from
+    /// line counts, and never an unbound integer.
+    public var swaps: [SwapCoverage]
 
     /// Explanatory sentences for the shortfall, e.g.
     /// "Everything except lime." / "Swap in a lemon, you have two."
     public var notes: [String]
 
-    public init(lines: [Line], swapsNeeded: Int = 0, notes: [String] = []) {
+    public init(lines: [Line], swaps: [SwapCoverage] = [], notes: [String] = []) {
         self.lines = lines
-        self.swapsNeeded = swapsNeeded
+        self.swaps = swaps
         self.notes = notes
     }
 
@@ -73,12 +97,31 @@ public struct TonightFit: Equatable, Sendable {
     /// the screen may say the kitchen covers the dish.
     public var allSufficient: Bool { shortfallLines.isEmpty }
 
+    /// The validated complete-after-swaps result: the count of real
+    /// swaps, but only when every shortfall line is a plain short line
+    /// and every one of those lines is covered by the validated swaps —
+    /// the swaps then complete the dish. Any uncovered shortfall, any
+    /// swap aimed at a line that is not a shortfall, and this is nil:
+    /// the grammar then names the problem lines instead of claiming a
+    /// swap count that would not finish the job.
+    public var completingSwapCount: Int? {
+        let shortfalls = shortfallLines
+        guard !shortfalls.isEmpty else { return nil }
+        guard shortfalls.allSatisfy({ $0.state.isShort }) else { return nil }
+        let covered = Set(swaps.map(\.coversLine))
+        guard covered == Set(shortfalls.map(\.name)), swaps.count == shortfalls.count else {
+            return nil
+        }
+        return swaps.count
+    }
+
     // MARK: Display strings (the honesty rules live here)
 
     /// The fit line itself.
     ///
     /// - Every line sufficient: "10 of 10".
-    /// - Every shortfall a real swap covers: "9 of 10 · 1 swap".
+    /// - Every shortfall a validated swap covers: "9 of 10 · 1 swap" —
+    ///   the count is the validated coverage, never an unbound integer.
     /// - Anything else: "7 recorded · check eggs and oil" — naming up to
     ///   two problem lines, then counting the rest.
     ///
@@ -88,12 +131,13 @@ public struct TonightFit: Equatable, Sendable {
         let shortfalls = shortfallLines
         guard !shortfalls.isEmpty else { return "\(total) of \(total)" }
 
-        let everyShortfallIsShort = shortfalls.allSatisfy { line in
-            if case .short = line.state { return true } else { return false }
-        }
-        if everyShortfallIsShort, swapsNeeded > 0 {
-            let swapWord = swapsNeeded == 1 ? "swap" : "swaps"
-            return "\(sufficientCount) of \(total) · \(swapsNeeded) \(swapWord)"
+        // The swap grammar is earned only by a validated
+        // complete-after-swaps result: every shortfall short, every one
+        // covered. Two shortages plus one unrelated swap say "check eggs
+        // and oil", never "complete with swap".
+        if let swaps = completingSwapCount {
+            let swapWord = swaps == 1 ? "swap" : "swaps"
+            return "\(sufficientCount) of \(total) · \(swaps) \(swapWord)"
         }
 
         let names = shortfalls.map(\.name)
