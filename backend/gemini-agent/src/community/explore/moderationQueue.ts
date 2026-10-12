@@ -6,10 +6,16 @@
  * Enqueueing hides the publication pending review (SPEC 3.4: "reports hide
  * it pending review") — except author appeals, which target already-hidden
  * publications. The hide lands before the queue item, so a report can never
- * leave a live publication behind. Resolving is guarded: exactly one
- * moderator decision lands, the registered decision handler fires exactly
- * once per decision, and the audit trail records the submission and the
- * decision.
+ * leave a live publication behind. Resolving is ONE atomic transaction (PR
+ * #104 review blocker 5): the decision, its audit entry, and the
+ * publication's visibility transition — the moderation-state change
+ * visibility derives from — commit together or not at all, so no reader
+ * (concurrent, or after a crash) can observe a decision whose visibility
+ * did not move with it. Exactly one decision lands per item: a losing
+ * concurrent resolve aborts on the commit, retries, re-reads the resolved
+ * item, and surfaces conflict. The registered decision handler is notified
+ * exactly once per decision, after the commit — it can no longer gate the
+ * decision or land a second write beside it.
  *
  * No LLM anywhere: submissions arrive from deterministic screening stages or
  * users; decisions come only from a human moderator via the server-held
@@ -36,12 +42,26 @@ import {
   type AccountId,
   type ModerationItemId,
 } from "../shared/ids.js";
-import { hidePublicationForModeration } from "./publications.js";
+import {
+  approvalRefusal,
+  hidePublicationForModeration,
+  parsePublicationDoc,
+  publicationVisibility,
+} from "./publications.js";
 
 export interface ModerationQueueDeps {
   readonly items: CommunityStore["moderationItems"];
   readonly publications: CommunityStore["publications"];
   readonly clock: Clock;
+  /**
+   * Test-only fault injection: when set, resolve() calls it inside the
+   * decision transaction right after the visibility write is queued and
+   * before the decision write is queued. The thrown error aborts the
+   * transaction, letting tests observe that both writes roll back together.
+   * Production wiring never sets it — a mid-transaction failure cannot be
+   * provoked from outside the transaction.
+   */
+  readonly throwInsideResolveForTests?: () => void;
 }
 
 type ModerationItemDoc = {
@@ -204,29 +224,55 @@ export class FirestoreModerationQueue {
 
   async resolve(itemId: ModerationItemId, decision: ModerationDecisionKind, moderator: AccountId, note: string | null): Promise<ModerationQueueItem> {
     const doc = this.deps.items.doc(itemId);
-    const existing = parseModerationItemDoc(await doc.get());
-    if (existing === null) {
-      throw errNotFound("moderation item not found");
-    }
-    if (existing.status !== "open") {
-      throw errConflict("moderation item is already resolved");
-    }
-
-    // The publication transition first (guarded: only queued moves, so a
-    // re-fired decision is a no-op and a concurrent withdrawal wins), then
-    // the item transition under a transaction that only lands once — a
-    // losing concurrent resolve throws conflict from the guard below.
-    if (this.decisionHandler !== null) {
-      await this.decisionHandler(existing.target, decision, note ?? "");
-    }
     const nowIso = toIso(this.deps.clock.now());
+    let resolved: ModerationQueueItem;
     try {
-      await this.deps.items.firestore.runTransaction(async (tx: Transaction) => {
+      resolved = await this.deps.items.firestore.runTransaction(async (tx: Transaction): Promise<ModerationQueueItem> => {
         const snap = await tx.get(doc);
         const current = parseModerationItemDoc(snap);
-        if (current === null || current.status !== "open") {
+        if (current === null) {
+          throw errNotFound("moderation item not found");
+        }
+        if (current.status !== "open") {
           throw errConflict("moderation item is already resolved");
         }
+        // ONE transaction for the decision and the visibility transition
+        // (review blocker 5): the publication's guarded state change — the
+        // same guards as publications.ts's transitionOnDecision, whose own
+        // transaction this replaces because it could not join this one —
+        // reads and writes this same snapshot. Both writes commit together
+        // or not at all: no reader, concurrent or after a crash, can see a
+        // decision whose visibility did not move with it. Only a queued
+        // publication at the item's revision moves (a re-fired decision is
+        // a no-op, a concurrent withdrawal wins), and a losing concurrent
+        // resolve aborts on the commit, retries, re-reads the resolved
+        // item, and surfaces the conflict below.
+        const pubDoc = this.deps.publications.doc(current.target.publicationId);
+        const pubSnap = await tx.get(pubDoc);
+        const publication = parsePublicationDoc(pubSnap);
+        if (
+          publication !== null &&
+          publicationVisibility(publication.status).inModerationQueue &&
+          publication.revisionId === current.target.revisionId
+        ) {
+          if (decision === "approved") {
+            // Blocker 1's refusal keeps guarding approval (fail closed,
+            // 409): it throws before anything is written, so the
+            // transaction aborts with the item open and visibility
+            // untouched.
+            const refusal = approvalRefusal(publication);
+            if (refusal !== null) {
+              throw errConflict(refusal);
+            }
+            tx.update(pubDoc, { status: "published", publishedAtIso: nowIso });
+          } else {
+            tx.update(pubDoc, { status: "rejected", rejectedAtIso: nowIso });
+          }
+        }
+        // Test-only fault injection (see ModerationQueueDeps): force the
+        // abort between the two queued writes so tests can observe the
+        // rollback of both.
+        this.deps.throwInsideResolveForTests?.();
         const audit = [...current.audit, { at: nowIso, actor: moderator, action: `decision:${decision}`, detail: note }].slice(-MAX_AUDIT_ENTRIES);
         tx.update(doc, {
           status: "resolved",
@@ -235,6 +281,7 @@ export class FirestoreModerationQueue {
           resolvedAt: nowIso,
           audit,
         });
+        return { ...current, status: "resolved", decision, resolvedBy: moderator, resolvedAt: nowIso, audit };
       });
     } catch (error) {
       if (error instanceof Error && error.message === "moderation item is already resolved") {
@@ -242,9 +289,13 @@ export class FirestoreModerationQueue {
       }
       throw error;
     }
-    const resolved = parseModerationItemDoc(await doc.get());
-    if (resolved === null) {
-      throw errNotFound("moderation item vanished during resolve");
+    // The registered handler fires exactly once per decision, after the
+    // commit: it can no longer gate the decision or land a second write
+    // beside it. Production registers publications.ts's guarded transition,
+    // which is now a no-op — the publication already moved in this very
+    // transaction.
+    if (this.decisionHandler !== null) {
+      await this.decisionHandler(resolved.target, decision, note ?? "");
     }
     return resolved;
   }
