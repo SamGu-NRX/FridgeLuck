@@ -29,11 +29,16 @@ Mappings and decisions (each documented in sessions/README.md):
 - Timers, step advances and notes are marked userInitiated: every
   action in this corpus follows a direct user command (or a spoken
   "Save it." approval -- the scripted approval turns stay in the
-  corpus for the scorer). Timers then run device-auto; step advances
-  and notes are explicit and get a scripted approve action right after
-  the following user turn -- approvals sort before same-turn device
-  actions so a proposal never sits pending across a kill's clock jump
-  (it would pass its TTL and expire unexecuted).
+  corpus for the scorer). Under the joined layer userInitiated is
+  device-derived: dictated timers run device-auto and execute at
+  submit, so they take no approve action. Every other explicit
+  proposal executes only where the session DECLARES consent -- the
+  next user turn after the proposal must carry a `consents` list
+  naming the call id (a `refusals` list rejects; no declaration --
+  silence, a bare "Ok." filler, or no user turn at all -- leaves the
+  proposal unanswered on the phone). Approvals sort before same-turn
+  device actions so a proposal never sits pending across a kill's
+  clock jump (it would pass its TTL and expire unexecuted).
 - proposeMealLog / proposeInventoryCorrection are the runtime's plan
 - and swap/adaptation application forms; the corpus scripts them directly
   Part 1 runtime's dispatch registry has no such tools yet, so they
@@ -80,9 +85,13 @@ EXPLICIT_TOOLS = frozenset({
 
 READ_TOOL_RENAMES = {"cameraLook": "requestCameraLook"}
 
+# Timer tools are device-auto when dictated (a valid device event backs
+# them), so they never take a scripted approve/reject action.
+TIMER_TOOLS = frozenset({"proposeTimerStart", "proposeTimerAdjust"})
+
 # Action ordering within one afterTurn: approvals before device actions
 # so a proposal never waits across a kill's clock jump.
-ORDER_APPROVE = -1
+ORDER_APPROVE, ORDER_REJECT = -1, -1
 ORDER_KILL, ORDER_KILL_ADVANCE, ORDER_RESUME = 0, 1, 2
 ORDER_OFFLINE_ADVANCE, ORDER_RECONNECT_ADVANCE = 3, 4
 ORDER_FINAL_ADVANCE = 5
@@ -107,6 +116,14 @@ def convert(session: dict) -> dict:
             args = dict(c["args"])
             if c["name"] == "checkFoodSafety" and "target" in args:
                 args["product"] = args.pop("target")
+            if name in TIMER_TOOLS:
+                # Dictated timers: the marker must sit in ARGS. The session
+                # player's prepareDictatedCall reads args.userInitiated,
+                # records the user command as a phone device event at the
+                # current revision, and injects the deviceEventId citation
+                # the runtime accepts; a bare call-level flag is script
+                # material only and never authorizes anything (SPEC 4).
+                args["userInitiated"] = True
             out.append({
                 "id": c["id"], "name": name, "args": args,
                 "userInitiated": name in USER_COMMAND_TOOLS,
@@ -159,11 +176,18 @@ def convert(session: dict) -> dict:
             plan_advance(min(anchor_last + 1, len(turns) - 1),
                          round((res[0] - offs[0]) / 60, 3), ORDER_RECONNECT_ADVANCE)
 
-    # Explicit proposals get an approve right after the following user
-    # turn (the spoken consent), never across a scripted rejection.
-    # Cancelled calls never produce a proposal (the replay throws on an
-    # approve for one), and same-turn duplicate calls dedupe to ONE
-    # proposal -- approve the first of each group only.
+    # Explicit proposals execute only where the session DECLARES the
+    # consent (review fix S3): the next user turn after the model turn
+    # must carry a `consents` list naming the call id -- the converter
+    # carries real consent events only, never an inferred one. A
+    # `refusals` list emits a reject; a turn with neither declaration
+    # (silence, a bare "Ok." filler) or no user turn at all leaves the
+    # proposal unanswered on the phone. Cancelled calls never produce a
+    # proposal, and same-turn duplicate calls dedupe to ONE proposal --
+    # the first of each group is the one the declarations name.
+    # Dictated timers are device-auto under the joined layer (they
+    # execute at submit against a valid device event) and take no
+    # approve/reject action.
     for ti, (turn, calls) in enumerate(zip(turns, conv_calls)):
         cancelled = set(turn.get("cancelledToolCallIds", []))
         seen_payloads: list[str] = []
@@ -176,14 +200,25 @@ def convert(session: dict) -> dict:
                 continue
             seen_payloads.append(key)
             pending.append(c)
+        pending = [c for c in pending
+                   if not (c["userInitiated"] and c["name"] in TIMER_TOOLS)]
         if not pending:
             continue
-        following = turns[ti + 1] if ti + 1 < len(turns) else None
-        if following is not None and following.get("replayNote") == "rejection":
-            continue
-        after = ti + 1 if (following is not None and following["role"] == "user") else ti
+        following_j = next((j for j in range(ti + 1, len(turns))
+                            if turns[j]["role"] == "user"
+                            and turns[j].get("replayNote") != "oov"), None)
+        if following_j is None:
+            continue  # unanswered: no user turn that can act follows
+        following = turns[following_j]
+        consents = set(following.get("consents", []))
+        refusals = set(following.get("refusals", []))
         for c in pending:
-            actions.append((after, {"kind": "approve", "callId": c["id"]}, ORDER_APPROVE))
+            if c["id"] in consents:
+                actions.append((following_j, {"kind": "approve", "callId": c["id"]},
+                                ORDER_APPROVE))
+            elif c["id"] in refusals:
+                actions.append((following_j, {"kind": "reject", "callId": c["id"]},
+                                ORDER_REJECT))
 
     # Every timer must fire at its deadline: without a kill, nothing else
     # moves the clock, so a final advance carries it past the last

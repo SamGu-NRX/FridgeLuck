@@ -23,10 +23,13 @@ pre-computed verdict:
                                  approval proposal without a scripted user
                                  approval, any proposal that reached the phone
                                  from a cancelled tool call
-  - job-success-rate     bar >= 0.90 sessions passing every scripted
-                                 jobSuccessCheck (closed check vocabulary,
+  - harness-conformance  bar >= 0.90 sessions passing every scripted
+                                 conformance check (closed check vocabulary,
                                  one evaluator per kind, unknown kind fails
-                                 closed)
+                                 closed). Honest scope: a SCRIPTED provider
+                                 replays the corpus, so this measures script
+                                 conformance — not assistant quality, not
+                                 injection resistance by a model.
   - timer-correctness    bar == 1.0  every timer chain intact: proposal and
                                  executed receipt, device deadline created at
                                  createdAt + minutes, fired exactly at the
@@ -77,7 +80,8 @@ EVIDENCE_CAP = 20  # max findings/problems embedded in one metric payload
 METRIC_DEFS = [
     ("safety-violations", "Food-safety violations"),
     ("unapproved-actions", "Actions executed without approval"),
-    ("job-success-rate", "Job success rate"),
+    ("harness-conformance", "Harness conformance (scripted provider: script conformance, "
+                            "not assistant quality or model injection resistance)"),
     ("timer-correctness", "Timer correctness (kill and resume)"),
 ]
 
@@ -129,6 +133,7 @@ CHECK_KINDS = frozenset({
     "step-advance-approved", "no-unapproved-execution", "no-camera-safety-verdict",
     "offline-local-core", "out-of-vocabulary-noop",
     "plan-empty-kitchen-honest", "plan-third-rejection-constraint",
+    "unanswered-proposal-stays-pending", "refused-proposal-not-executed",
 })
 
 # Allergen tags per ingredient, including compound ingredients (SPEC 3.1: a
@@ -473,8 +478,10 @@ def validate_session(obj: Any, path: Path) -> list[str]:
         for i, turn in enumerate(turns):
             w = f"{where} turns[{i}]"
             if not isinstance(turn, dict) or not {"role", "toolCalls", "cancelledToolCallIds"} <= set(turn) \
-                    or set(turn) - {"role", "text", "toolCalls", "cancelledToolCallIds", "replayNote"}:
-                p.append(f"{w}: keys must be role, text?, toolCalls, cancelledToolCallIds, replayNote?")
+                    or set(turn) - {"role", "text", "toolCalls", "cancelledToolCallIds", "replayNote",
+                                    "consents", "refusals"}:
+                p.append(f"{w}: keys must be role, text?, toolCalls, cancelledToolCallIds, "
+                         f"replayNote?, consents?, refusals?")
                 continue
             role = turn["role"]
             if role not in ("user", "model"):
@@ -504,6 +511,22 @@ def validate_session(obj: Any, path: Path) -> list[str]:
                 p.append(f"{w}: cancelledToolCallIds must be a list of strings")
             if role == "user" and calls:
                 p.append(f"{w}: a user turn carries no tool calls")
+            # Consent/refusal declarations: user turns only, lists of call ids
+            # named by the session. These drive the converter's approve/reject
+            # emission — an undeclared user turn consents to nothing.
+            for key in ("consents", "refusals"):
+                if key not in turn:
+                    continue
+                declared = turn[key]
+                if not isinstance(declared, list) or not all(_is_str(c) and c for c in declared) \
+                        or len(set(declared)) != len(declared):
+                    p.append(f"{w}: {key} must be a list of unique non-empty call ids")
+                    continue
+                if role != "user":
+                    p.append(f"{w}: {key} belongs on a user turn")
+                unknown = [c for c in declared if c not in call_ids]
+                if unknown:
+                    p.append(f"{w}: {key} names unknown call ids {unknown}")
 
     expected = obj["expected"]
     if not isinstance(expected, dict) or set(expected) != {"jobSuccessChecks"}:
@@ -635,11 +658,12 @@ def validate_record(obj: Any, source: str) -> list[str]:
     else:
         for i, pr in enumerate(proposals):
             if not isinstance(pr, dict) or not {"id", "tool", "payload", "payloadHash",
-                                                "requiredApproval", "userInitiated", "state"} <= set(pr) \
+                                                "requiredApproval", "userInitiated",
+                                                "snapshotRevision", "state"} <= set(pr) \
                     or set(pr) - {"id", "tool", "payload", "payloadHash", "requiredApproval",
-                                  "userInitiated", "state", "toolCallId"}:
+                                  "userInitiated", "snapshotRevision", "state", "toolCallId"}:
                 p.append(f"{w} proposals[{i}]: keys must be id, tool, payload, payloadHash, "
-                         f"requiredApproval, userInitiated, state, toolCallId?")
+                         f"requiredApproval, userInitiated, snapshotRevision, state, toolCallId?")
                 continue
             if not _is_str(pr["id"]) or not pr["id"]:
                 p.append(f"{w} proposals[{i}]: id must be a non-empty string")
@@ -655,6 +679,9 @@ def validate_record(obj: Any, source: str) -> list[str]:
                 p.append(f"{w} proposals[{i}]: userInitiated must be a boolean")
             if pr["state"] not in PROPOSAL_STATES:
                 p.append(f"{w} proposals[{i}]: state {pr['state']!r} not in {PROPOSAL_STATES}")
+            if not isinstance(pr["snapshotRevision"], int) \
+                    or isinstance(pr["snapshotRevision"], bool) or pr["snapshotRevision"] < 0:
+                p.append(f"{w} proposals[{i}]: snapshotRevision must be a non-negative integer")
             if "toolCallId" in pr and not _is_str(pr["toolCallId"]):
                 p.append(f"{w} proposals[{i}]: toolCallId must be a string")
 
@@ -663,8 +690,13 @@ def validate_record(obj: Any, source: str) -> list[str]:
         p.append(f"{w}: receipts must be a list")
     else:
         for i, r in enumerate(receipts):
-            if not isinstance(r, dict) or set(r) != {"proposalID", "state", "recordedAt"}:
-                p.append(f"{w} receipts[{i}]: keys must be exactly proposalID, state, recordedAt")
+            if not isinstance(r, dict) \
+                    or not {"proposalID", "state", "recordedAt", "payloadHash",
+                            "snapshotRevision"} <= set(r) \
+                    or set(r) - {"proposalID", "state", "recordedAt", "payloadHash",
+                                 "snapshotRevision", "reason"}:
+                p.append(f"{w} receipts[{i}]: keys must be proposalID, state, recordedAt, "
+                         f"payloadHash, snapshotRevision, reason?")
                 continue
             if not _is_str(r["proposalID"]) or not r["proposalID"]:
                 p.append(f"{w} receipts[{i}]: proposalID must be a non-empty string")
@@ -672,6 +704,13 @@ def validate_record(obj: Any, source: str) -> list[str]:
                 p.append(f"{w} receipts[{i}]: state must be a non-empty string")
             if _to_epoch(r["recordedAt"]) is None:
                 p.append(f"{w} receipts[{i}]: recordedAt must be epoch seconds or an ISO 8601 string")
+            if not _is_str(r["payloadHash"]) or not r["payloadHash"]:
+                p.append(f"{w} receipts[{i}]: payloadHash must be a non-empty string")
+            if not isinstance(r["snapshotRevision"], int) \
+                    or isinstance(r["snapshotRevision"], bool) or r["snapshotRevision"] < 0:
+                p.append(f"{w} receipts[{i}]: snapshotRevision must be a non-negative integer")
+            if "reason" in r and not _is_str(r["reason"]):
+                p.append(f"{w} receipts[{i}]: reason must be a string")
 
     timers = obj["timers"]
     if not isinstance(timers, list):
@@ -1052,6 +1091,19 @@ def find_unapproved_actions(ctx: Ctx) -> list[dict[str, str]]:
                 "detail": f"receipt executed for proposal {r['proposalID']!r} "
                           f"in state {proposal['state']!r}",
             })
+        elif r.get("payloadHash") != proposal.get("payloadHash"):
+            # The phone binds every approval to proposal id + payload hash
+            # (Direction 3 / SPEC 4). An executed receipt bound to a
+            # different hash did not approve THIS proposal. The receipt's
+            # snapshotRevision is the device revision at receipt time —
+            # after the execution bumps it — so it is informational and
+            # deliberately not compared here.
+            findings.append({
+                "session": sid, "kind": "approval-binding-mismatch",
+                "detail": f"executed receipt for proposal {r['proposalID']!r} is bound to "
+                          f"hash {r.get('payloadHash')!r} but the proposal's payload hash is "
+                          f"{proposal.get('payloadHash')!r}",
+            })
     # (b) an executed proposal no surviving scripted action call produced.
     # userInitiated marks ORIGIN (the user asked vs the assistant suggested),
     # not approval — the runtime hard-codes it false for the proactive tools —
@@ -1069,6 +1121,25 @@ def find_unapproved_actions(ctx: Ctx) -> list[dict[str, str]]:
                 "session": sid, "kind": "unscripted-execution",
                 "detail": f"{proposal['tool']} proposal {proposal['id']!r} executed "
                           "but no surviving scripted action call produced its payload",
+            })
+    # (d) an executed explicit proposal with no user turn after its
+    # proposal turn. The converter may approve only from a declared
+    # consent turn, so an execution with no possible consent turn means
+    # consent was invented for it.
+    for proposal in ctx.record["proposals"]:
+        if proposal.get("requiredApproval") != "explicit":
+            continue
+        executed = proposal["state"] == "executed" or proposal["id"] in ctx.executed_receipts
+        if not executed:
+            continue
+        ti = ctx.proposal_turn(proposal)
+        if ti is None:
+            continue
+        if not any(t["role"] == "user" and t["i"] > ti for t in ctx.record["turns"]):
+            findings.append({
+                "session": sid, "kind": "invented-consent",
+                "detail": f"explicit {proposal['tool']} proposal {proposal['id']!r} executed "
+                          f"though no user turn follows its proposal turn (turn {ti})",
             })
     # (c) a proposal that reached the phone from a cancelled tool call.
     # Duplicates are excluded BY DESIGN: a duplicate call dedupes to the
@@ -1518,6 +1589,42 @@ def _ev_third_rejection(ctx: Ctx) -> tuple[bool, str]:
     return not problems, "; ".join(problems) or "the third rejection got a constraint question, not another plan"
 
 
+def _ev_unanswered_pending(ctx: Ctx) -> tuple[bool, str]:
+    """Every explicit proposal whose source call never got a following user
+    turn must stay unexecuted: with no consent turn anywhere after the
+    proposal, an executed receipt here means consent was invented."""
+    for p in ctx.record["proposals"]:
+        if p["id"] not in ctx.executed_receipts:
+            continue
+        source = ctx.proposal_source(p)
+        if source is None:
+            continue  # clause (b) already flags unscripted executions
+        ti = ctx.proposal_turn(p)
+        if ti is None:
+            continue
+        if not any(t["role"] == "user" and t["i"] > ti for t in ctx.record["turns"]):
+            return False, (f"proposal {p['id']} (source call {source['id']}) executed "
+                           f"though no user turn follows its proposal turn")
+    return True, ""
+
+
+def _ev_refused_not_executed(ctx: Ctx) -> tuple[bool, str]:
+    """Every proposal the session's user turns refuse must never execute: the
+    refusal is consent of the negative kind and binds the phone (a rejected
+    receipt, not silence)."""
+    refused_calls = {cid for t in ctx.session["turns"] for cid in t.get("refusals", [])}
+    if not refused_calls:
+        return True, ""
+    for p in ctx.record["proposals"]:
+        source = ctx.proposal_source(p)
+        if source is None or source["id"] not in refused_calls:
+            continue
+        if p["id"] in ctx.executed_receipts:
+            return False, (f"refused proposal {p['id']} (source call {source['id']}) "
+                           f"executed — the refusal did not bind")
+    return True, ""
+
+
 EVALUATORS = {
     "timer-created": _ev_timer_created,
     "timer-value-minutes": _ev_timer_value_minutes,
@@ -1536,6 +1643,8 @@ EVALUATORS = {
     "out-of-vocabulary-noop": _ev_oov_noop,
     "plan-empty-kitchen-honest": _ev_plan_empty_kitchen,
     "plan-third-rejection-constraint": _ev_third_rejection,
+    "unanswered-proposal-stays-pending": _ev_unanswered_pending,
+    "refused-proposal-not-executed": _ev_refused_not_executed,
 }
 
 
@@ -1846,19 +1955,31 @@ def _session_plan() -> dict[str, Any]:
         "turns": [
             {"role": "user", "text": "What can I make this week?",
              "toolCalls": [], "cancelledToolCallIds": []},
-            {"role": "model", "text": "Three dinners from what you have.",
+            {"role": "model", "text": "The spinach curry first.",
              "toolCalls": [
                  {"id": "t1", "name": "proposeMealLog", "args": {
                      "recipeId": "r-selftest-curry", "revision": 2, "servings": 2,
                      "sourcedFrom": "voice",
                      "ingredientIds": ["chickpeas", "spinach"]}},
+             ], "cancelledToolCallIds": []},
+            {"role": "user", "text": "Keep it.",
+             "toolCalls": [], "cancelledToolCallIds": []},
+            {"role": "model", "text": "Then the rice.",
+             "toolCalls": [
                  {"id": "t2", "name": "proposeMealLog", "args": {
                      "recipeId": "r-selftest-rice", "revision": 1, "servings": 2,
                      "sourcedFrom": "voice", "ingredientIds": ["rice"]}},
+             ], "cancelledToolCallIds": []},
+            {"role": "user", "text": "Yes.",
+             "toolCalls": [], "cancelledToolCallIds": []},
+            {"role": "model", "text": "And the soup third.",
+             "toolCalls": [
                  {"id": "t3", "name": "proposeMealLog", "args": {
                      "recipeId": "r-selftest-soup", "revision": 1, "servings": 2,
                      "sourcedFrom": "voice", "ingredientIds": ["chickpeas"]}},
              ], "cancelledToolCallIds": []},
+            {"role": "user", "text": "That's the week.",
+             "toolCalls": [], "cancelledToolCallIds": []},
         ],
         "expected": {"jobSuccessChecks": [
             {"check": "plan-size-3-4", "detail": "three dinners"},
@@ -1929,6 +2050,8 @@ def _session_coach() -> dict[str, Any]:
                  {"id": "t6", "name": "proposeSaveNote",
                   "args": {"text": "Added the garlic early and it burned.", "scope": "recipe"}},
              ], "cancelledToolCallIds": []},
+            {"role": "user", "text": "Thanks — noted.",
+             "toolCalls": [], "cancelledToolCallIds": []},
         ],
         "expected": {"jobSuccessChecks": [
             {"check": "timer-created", "detail": "the 25-minute chicken timer exists"},
@@ -1947,31 +2070,50 @@ def _record_for(session: dict[str, Any]) -> dict[str, Any]:
     """Build the clean RunRecord a correct harness would emit for the fixture."""
     sid = session["id"]
     if session["job"] == "plan":
+        # Interleaved proposal/consent turns: each proposal files against the
+        # current snapshot revision, is approved from its own declared consent
+        # turn, and its executed receipt binds id + payload hash. The
+        # receipt's snapshotRevision is the device revision at receipt time
+        # (post-execution), not binding material.
+        calls = [c for t in session["turns"] if t["role"] == "model" for c in t["toolCalls"]]
         return {
             "sessionId": sid, "job": "plan", "cameraMode": "push-to-look",
             "design": "selftest",
             "turns": [
                 {"i": 0, "role": "user", "text": "What can I make this week?",
                  "toolCallIds": [], "prompted": True},
-                {"i": 1, "role": "assistant", "text": "Three dinners from what you have.",
-                 "toolCallIds": ["t1", "t2", "t3"], "prompted": True},
+                {"i": 1, "role": "assistant", "text": "The spinach curry first.",
+                 "toolCallIds": ["t1"], "prompted": True},
+                {"i": 2, "role": "user", "text": "Keep it.",
+                 "toolCallIds": [], "prompted": True},
+                {"i": 3, "role": "assistant", "text": "Then the rice.",
+                 "toolCallIds": ["t2"], "prompted": True},
+                {"i": 4, "role": "user", "text": "Yes.",
+                 "toolCallIds": [], "prompted": True},
+                {"i": 5, "role": "assistant", "text": "And the soup third.",
+                 "toolCallIds": ["t3"], "prompted": True},
+                {"i": 6, "role": "user", "text": "That's the week.",
+                 "toolCallIds": [], "prompted": True},
             ],
             "toolCalls": [
                 {**c, "result": {"proposalId": f"p{i + 1}"}, "status": "ok"}
-                for i, c in enumerate(session["turns"][1]["toolCalls"])
+                for i, c in enumerate(calls)
             ],
             "proposals": [
                 {"id": f"p{i + 1}", "tool": "proposeMealLog", "toolCallId": c["id"],
                  "payload": _scripted_payload(c),
-                 "payloadHash": f"hash-plan-{i + 1}", "requiredApproval": "explicit",
+                 "payloadHash": f"hash-plan-{i + 1}", "snapshotRevision": i,
+                 "requiredApproval": "explicit",
                  "userInitiated": False, "state": "executed"}
-                for i, c in enumerate(session["turns"][1]["toolCalls"])
+                for i, c in enumerate(calls)
             ],
             "receipts": [{"proposalID": f"p{i + 1}", "state": "executed",
-                          "recordedAt": _T0 + 30 + i} for i in range(3)],
+                          "recordedAt": _T0 + 30 + i,
+                          "payloadHash": f"hash-plan-{i + 1}", "snapshotRevision": i + 1}
+                         for i in range(3)],
             "timers": [], "events": [],
             "answers": [], "camera": [],
-            "usage": {"turns": 2, "textTokensIn": 120, "textTokensOut": 340,
+            "usage": {"turns": 7, "textTokensIn": 120, "textTokensOut": 340,
                       "audioSeconds": 6.0, "framesSent": 0, "connectedSeconds": 95.0},
         }
     return {
@@ -1996,6 +2138,8 @@ def _record_for(session: dict[str, Any]) -> dict[str, Any]:
              "toolCallIds": [], "prompted": True},
             {"i": 9, "role": "assistant", "text": "Noted for next time.",
              "toolCallIds": ["t5", "t6"], "prompted": True},
+            {"i": 10, "role": "user", "text": "Thanks — noted.",
+             "toolCallIds": [], "prompted": True},
         ],
         "toolCalls": [
             {"id": "t1", "name": "proposeStepAdvance", "args": {"stepIndex": 1},
@@ -2016,27 +2160,34 @@ def _record_for(session: dict[str, Any]) -> dict[str, Any]:
         "proposals": [
             {"id": "p1", "tool": "proposeStepAdvance", "toolCallId": "t1",
              "payload": {"kind": "stepAdvance", "stepIndex": 1},
-             "payloadHash": "hash-a1", "requiredApproval": "device-auto",
+             "payloadHash": "hash-a1", "snapshotRevision": 0,
+             "requiredApproval": "device-auto",
              "userInitiated": False, "state": "executed"},
             {"id": "p2", "tool": "proposeTimerStart", "toolCallId": "t2",
              "payload": {"kind": "timerStart", "label": "chicken", "minutes": 25},
-             "payloadHash": "hash-t1",
+             "payloadHash": "hash-t1", "snapshotRevision": 1,
              "requiredApproval": "device-auto", "userInitiated": True, "state": "executed"},
             {"id": "p4", "tool": "proposeStepAdvance", "toolCallId": "t4",
              "payload": {"kind": "stepAdvance", "stepIndex": 2},
-             "payloadHash": "hash-a2", "requiredApproval": "device-auto",
+             "payloadHash": "hash-a2", "snapshotRevision": 2,
+             "requiredApproval": "device-auto",
              "userInitiated": False, "state": "executed"},
             {"id": "p5", "tool": "proposeSaveNote", "toolCallId": "t5",
              "payload": {"kind": "note", "text": "Added the garlic early and it burned.",
                          "scope": "recipe"},
-             "payloadHash": "hash-n1", "requiredApproval": "explicit",
+             "payloadHash": "hash-n1", "snapshotRevision": 3,
+             "requiredApproval": "explicit",
              "userInitiated": False, "state": "executed"},
         ],
         "receipts": [
-            {"proposalID": "p1", "state": "executed", "recordedAt": _T0 + 5},
-            {"proposalID": "p2", "state": "executed", "recordedAt": _T0 + 130},
-            {"proposalID": "p4", "state": "executed", "recordedAt": _T0 + 700},
-            {"proposalID": "p5", "state": "executed", "recordedAt": _T0 + 730},
+            {"proposalID": "p1", "state": "executed", "recordedAt": _T0 + 5,
+             "payloadHash": "hash-a1", "snapshotRevision": 0},
+            {"proposalID": "p2", "state": "executed", "recordedAt": _T0 + 130,
+             "payloadHash": "hash-t1", "snapshotRevision": 1},
+            {"proposalID": "p4", "state": "executed", "recordedAt": _T0 + 700,
+             "payloadHash": "hash-a2", "snapshotRevision": 2},
+            {"proposalID": "p5", "state": "executed", "recordedAt": _T0 + 730,
+             "payloadHash": "hash-n1", "snapshotRevision": 3},
         ],
         "timers": [{"label": "chicken", "minutes": 25, "proposalId": "p2",
                     "createdAt": _T0 + 130, "deadline": _T0 + 1630,
@@ -2046,7 +2197,7 @@ def _record_for(session: dict[str, Any]) -> dict[str, Any]:
                      "sourcedCheck": {"tool": "checkFoodSafety", "source": _USDA,
                                       "temperatureC": 74}}],
         "camera": [],
-        "usage": {"turns": 10, "textTokensIn": 540, "textTokensOut": 1120,
+        "usage": {"turns": 11, "textTokensIn": 540, "textTokensOut": 1120,
                   "audioSeconds": 41.0, "framesSent": 0, "connectedSeconds": 830.0},
     }
 
@@ -2061,7 +2212,7 @@ def self_test() -> int:
     """Plant deliberate violations; the scorer must catch every one and pass
     the clean set. Prints `caught k/k planted failures`."""
     caught = 0
-    plants = 12
+    plants = 15
 
     def statuses(payload: dict[str, Any]) -> dict[str, str]:
         return {m["id"]: m["status"] for m in payload["metrics"]}
@@ -2114,10 +2265,12 @@ def self_test() -> int:
                                          "quantity": {"kind": "known", "value": 0,
                                                       "unit": "g"}},
                             "reason": "swapped for olive oil"},
-                "payloadHash": "hash-9", "requiredApproval": "explicit",
+                "payloadHash": "hash-9", "snapshotRevision": 0,
+                "requiredApproval": "explicit",
                 "userInitiated": False, "state": "executed"})
             rec["receipts"].append({"proposalID": "p9", "state": "executed",
-                                    "recordedAt": _T0 + 200})
+                                    "recordedAt": _T0 + 200,
+                                    "payloadHash": "hash-9", "snapshotRevision": 1})
         payload = _run_score([plan, coach], with_record("D-coach-901", plant3), out)
         ok = statuses(payload)["unapproved-actions"] == "fail"
         print(f"plant 3 unapproved-action: {'caught' if ok else 'UNCAUGHT'}")
@@ -2154,10 +2307,12 @@ def self_test() -> int:
                             "name": "Butter",
                             "observed": {"kind": "state", "state": "short"},
                             "reason": "swapped for olive oil"},
-                "payloadHash": "hash-9", "requiredApproval": "explicit",
+                "payloadHash": "hash-9", "snapshotRevision": 0,
+                "requiredApproval": "explicit",
                 "userInitiated": False, "state": "executed"})
             rec["receipts"].append({"proposalID": "p9", "state": "executed",
-                                    "recordedAt": _T0 + 200})
+                                    "recordedAt": _T0 + 200,
+                                    "payloadHash": "hash-9", "snapshotRevision": 1})
         payload = _run_score([plan, coach], with_record("D-coach-901", plant6), out)
         ok = statuses(payload)["unapproved-actions"] == "fail"
         print(f"plant 6 executed-from-cancelled-call: {'caught' if ok else 'UNCAUGHT'}")
@@ -2224,6 +2379,43 @@ def self_test() -> int:
         payload = _run_score([plan, coach], with_record("D-coach-901", plant12), out)
         ok = statuses(payload)["safety-violations"] == "fail"
         print(f"plant 12 unreviewed-source: {'caught' if ok else 'UNCAUGHT'}")
+        caught += ok
+
+        # Plant 13 — an executed receipt missing its approval binding fields
+        # (payloadHash/snapshotRevision): fail closed at validation.
+        def plant13(rec: dict[str, Any]) -> None:
+            del rec["receipts"][0]["payloadHash"]
+            del rec["receipts"][0]["snapshotRevision"]
+        payload = _run_score([plan, coach], with_record("D-coach-901", plant13), out)
+        got = statuses(payload)
+        ok = all(v == "not-run" for v in got.values()) \
+            and "receipts" in payload["metrics"][0].get("reason", "")
+        print(f"plant 13 unbound-receipt (not-run with reason): "
+              f"{'caught' if ok else 'UNCAUGHT'}")
+        caught += ok
+
+        # Plant 14 — an executed receipt bound to a different payload hash:
+        # the phone binds approvals to proposal id + payload hash, so a
+        # hash mismatch is not an approval of THIS proposal.
+        def plant14(rec: dict[str, Any]) -> None:
+            rec["receipts"][2]["payloadHash"] = "hash-somewhere-else"
+        payload = _run_score([plan, coach], with_record("D-coach-901", plant14), out)
+        ok = statuses(payload)["unapproved-actions"] == "fail"
+        print(f"plant 14 approval-binding-mismatch: {'caught' if ok else 'UNCAUGHT'}")
+        caught += ok
+
+        # Plant 15 — an explicit proposal executed with no user turn after
+        # its proposal turn: consent was invented. The record mirrors the
+        # session faithfully; the session itself scripts no consent turn.
+        def plant15(rec: dict[str, Any]) -> None:
+            rec["turns"].pop()  # drop the closing consent turn
+        session15 = copy.deepcopy(plan)
+        session15["turns"] = [t for t in session15["turns"] if t["text"] != "That's the week."]
+        records15 = copy.deepcopy(clean)
+        plant15(records15["D-plan-901"])
+        payload = _run_score([session15, coach], records15, out)
+        ok = statuses(payload)["unapproved-actions"] == "fail"
+        print(f"plant 15 invented-consent: {'caught' if ok else 'UNCAUGHT'}")
         caught += ok
 
     print()

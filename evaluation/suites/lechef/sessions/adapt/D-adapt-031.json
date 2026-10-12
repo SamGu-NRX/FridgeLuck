@@ -224,7 +224,10 @@
       "role": "user",
       "text": "Yes — eight. Apply.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs-r2"
+      ]
     }
   ],
   "expected": {

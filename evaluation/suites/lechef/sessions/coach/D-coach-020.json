@@ -305,7 +305,10 @@
       "role": "user",
       "text": "Next.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
     },
     {
       "role": "model",
@@ -324,7 +327,10 @@
       "role": "user",
       "text": "Hang on — door.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     },
     {
       "role": "model",
@@ -360,6 +366,15 @@
         }
       ],
       "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Go ahead.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t3"
+      ]
     }
   ],
   "expected": {

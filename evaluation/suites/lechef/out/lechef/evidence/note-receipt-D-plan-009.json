@@ -16,16 +16,14 @@
       "role": "assistant",
       "text": "",
       "toolCallIds": [
-        "ml0",
-        "ml1",
-        "ml2"
+        "ml0"
       ],
       "prompted": false
     },
     {
       "i": 2,
       "role": "user",
-      "text": "Add that starter list to my shopping list.",
+      "text": "Good \u2014 keep that one.",
       "toolCallIds": [],
       "prompted": false
     },
@@ -34,12 +32,44 @@
       "role": "assistant",
       "text": "",
       "toolCallIds": [
-        "t2"
+        "ml0-r2"
       ],
       "prompted": false
     },
     {
       "i": 4,
+      "role": "user",
+      "text": "Shakshuka works too.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 5,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "ml0-r3"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 6,
+      "role": "user",
+      "text": "Add that starter list to my shopping list.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 7,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "t2"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 8,
       "role": "user",
       "text": "Saved \u2014 thanks.",
       "toolCallIds": [],
@@ -72,7 +102,7 @@
       "status": "ok"
     },
     {
-      "id": "ml1",
+      "id": "ml0-r2",
       "name": "proposeMealLog",
       "args": {
         "recipeId": "r-shakshuka",
@@ -96,7 +126,7 @@
       "status": "ok"
     },
     {
-      "id": "ml2",
+      "id": "ml0-r3",
       "name": "proposeMealLog",
       "args": {
         "recipeId": "r-salmon",
@@ -149,6 +179,7 @@
       "payloadHash": "f9392f11ef96f9179f941169e3bfc8ce5b826c6da9752ba0c7aa37425e8c08bf",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 1,
       "state": "executed"
     },
     {
@@ -165,6 +196,7 @@
       "payloadHash": "ba720764022767d290403442276290b17602cd205436775abc80b2f592405cb5",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 2,
       "state": "executed"
     },
     {
@@ -181,6 +213,7 @@
       "payloadHash": "61dad4d6b1de572193b2b73a8c3d26102bfa1a9a3bd19c8c2ce624af6cd471e1",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 3,
       "state": "executed"
     },
     {
@@ -194,6 +227,7 @@
       "payloadHash": "4215565d93c4b7313cbae4cd68fcf1fa9e4c404ac240d22941eb245629c863d4",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 4,
       "state": "executed"
     }
   ],
@@ -201,22 +235,30 @@
     {
       "proposalID": "proposal-0001",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "f9392f11ef96f9179f941169e3bfc8ce5b826c6da9752ba0c7aa37425e8c08bf",
+      "snapshotRevision": 2
     },
     {
       "proposalID": "proposal-0002",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "ba720764022767d290403442276290b17602cd205436775abc80b2f592405cb5",
+      "snapshotRevision": 3
     },
     {
       "proposalID": "proposal-0003",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "61dad4d6b1de572193b2b73a8c3d26102bfa1a9a3bd19c8c2ce624af6cd471e1",
+      "snapshotRevision": 4
     },
     {
       "proposalID": "proposal-0004",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "4215565d93c4b7313cbae4cd68fcf1fa9e4c404ac240d22941eb245629c863d4",
+      "snapshotRevision": 5
     }
   ],
   "timers": [],
@@ -273,8 +315,8 @@
   "answers": [],
   "camera": [],
   "usage": {
-    "turns": 5,
-    "textTokensIn": 43,
+    "turns": 9,
+    "textTokensIn": 54,
     "textTokensOut": 0,
     "audioSeconds": 0,
     "framesSent": 0,

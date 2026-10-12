@@ -186,7 +186,10 @@
       "role": "user",
       "text": "Yes, and hold it for when we're back.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",

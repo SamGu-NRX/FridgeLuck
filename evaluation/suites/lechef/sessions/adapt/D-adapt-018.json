@@ -282,7 +282,10 @@
       "role": "user",
       "text": "Apply it offline.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
     }
   ],
   "expected": {

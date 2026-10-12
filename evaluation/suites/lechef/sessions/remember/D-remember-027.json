@@ -189,7 +189,11 @@
       "role": "user",
       "text": "Yes — the right one, once.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2",
+        "t3"
+      ]
     }
   ],
   "expected": {

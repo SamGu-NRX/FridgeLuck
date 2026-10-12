@@ -267,6 +267,15 @@
         }
       ],
       "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Go ahead.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
     }
   ],
   "expected": {

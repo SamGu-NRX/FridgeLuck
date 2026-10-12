@@ -183,7 +183,10 @@
       "role": "user",
       "text": "Yes.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",

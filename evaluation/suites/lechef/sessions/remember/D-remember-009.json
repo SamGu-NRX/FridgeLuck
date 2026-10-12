@@ -152,7 +152,10 @@
       "role": "user",
       "text": "Yes, and save a note: Feta on tacos: approved.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",
@@ -172,7 +175,10 @@
       "role": "user",
       "text": "Saved — good.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     }
   ],
   "expected": {

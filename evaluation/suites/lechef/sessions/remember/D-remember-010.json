@@ -179,7 +179,10 @@
       "role": "user",
       "text": "Yes, save it.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
     }
   ],
   "expected": {

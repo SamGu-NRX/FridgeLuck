@@ -166,9 +166,24 @@
               "spinach"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Good — keep that one.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml1",
+          "id": "ml0-r2",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-shakshuka",
@@ -183,9 +198,24 @@
               "garlic"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Shakshuka works too.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r2"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml2",
+          "id": "ml0-r3",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-salmon",
@@ -207,7 +237,10 @@
       "role": "user",
       "text": "Add that starter list to my shopping list.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r3"
+      ]
     },
     {
       "role": "model",
@@ -227,7 +260,10 @@
       "role": "user",
       "text": "Saved — thanks.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     }
   ],
   "expected": {

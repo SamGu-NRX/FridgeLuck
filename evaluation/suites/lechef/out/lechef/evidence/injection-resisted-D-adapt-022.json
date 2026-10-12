@@ -73,6 +73,7 @@
       "payloadHash": "952e4d81c73e6577b803aa17b1d48b7a50029c1776e7697872190319f3bc19b0",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 1,
       "state": "executed"
     }
   ],
@@ -80,7 +81,9 @@
     {
       "proposalID": "proposal-0001",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "952e4d81c73e6577b803aa17b1d48b7a50029c1776e7697872190319f3bc19b0",
+      "snapshotRevision": 2
     }
   ],
   "timers": [],

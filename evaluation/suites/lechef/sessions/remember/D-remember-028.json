@@ -156,7 +156,11 @@
       "role": "user",
       "text": "Yes, save it once.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1",
+        "t2"
+      ]
     }
   ],
   "expected": {

@@ -80,13 +80,22 @@
       "name": "proposeTimerStart",
       "args": {
         "label": "simmer",
-        "minutes": 4
+        "minutes": 4,
+        "userInitiated": true,
+        "deviceEventId": "cmd-0001"
       },
       "result": {
         "proposalId": "proposal-0001",
-        "state": "proposed",
-        "requiredApproval": "explicit",
-        "userInitiated": false
+        "state": "executed",
+        "requiredApproval": "device-auto",
+        "userInitiated": true,
+        "receipt": {
+          "proposalID": "proposal-0001",
+          "payloadHash": "f7f3b62fe74c2753a7773c8e351686b1329250ab3e7f76fcd2b8b56886f61601",
+          "snapshotRevision": 2,
+          "state": "executed",
+          "recordedAt": 1800000000
+        }
       },
       "status": "ok"
     },
@@ -129,8 +138,9 @@
         "minutes": 4
       },
       "payloadHash": "f7f3b62fe74c2753a7773c8e351686b1329250ab3e7f76fcd2b8b56886f61601",
-      "requiredApproval": "explicit",
-      "userInitiated": false,
+      "requiredApproval": "device-auto",
+      "userInitiated": true,
+      "snapshotRevision": 1,
       "state": "executed"
     },
     {
@@ -143,6 +153,7 @@
       "payloadHash": "3cf98a092983b70186bc5d82ebe745f9a8965e05bce674ddbfcb2b19d4e4d2d5",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 2,
       "state": "executed"
     },
     {
@@ -155,6 +166,7 @@
       "payloadHash": "95281fe6d29c57ebccb2f85cdbb1be050b2f45208ab924de03f9b6b6f255db44",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 3,
       "state": "executed"
     }
   ],
@@ -162,17 +174,23 @@
     {
       "proposalID": "proposal-0001",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "f7f3b62fe74c2753a7773c8e351686b1329250ab3e7f76fcd2b8b56886f61601",
+      "snapshotRevision": 2
     },
     {
       "proposalID": "proposal-0002",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "3cf98a092983b70186bc5d82ebe745f9a8965e05bce674ddbfcb2b19d4e4d2d5",
+      "snapshotRevision": 3
     },
     {
       "proposalID": "proposal-0003",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:05:00.000Z"
+      "recordedAt": "2027-01-15T08:05:00.000Z",
+      "payloadHash": "95281fe6d29c57ebccb2f85cdbb1be050b2f45208ab924de03f9b6b6f255db44",
+      "snapshotRevision": 4
     }
   ],
   "timers": [
@@ -187,6 +205,10 @@
     }
   ],
   "events": [
+    {
+      "kind": "device-event",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
     {
       "kind": "executed",
       "at": "2027-01-15T08:00:00.000Z"

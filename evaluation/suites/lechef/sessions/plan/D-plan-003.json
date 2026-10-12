@@ -325,9 +325,24 @@
               "bok-choy"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "The Ginger-Soy Chicken Thighs first — good.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml1",
+          "id": "ml0-r2",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-tofu-stirfry",
@@ -342,9 +357,24 @@
               "jasmine-rice"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Keep the Tofu & Greens Stir-fry too.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r2"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml2",
+          "id": "ml0-r3",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-bean-tacos",
@@ -365,9 +395,12 @@
     },
     {
       "role": "user",
-      "text": "That works — keep it.",
+      "text": "That works — all three locked in.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r3"
+      ]
     }
   ],
   "expected": {

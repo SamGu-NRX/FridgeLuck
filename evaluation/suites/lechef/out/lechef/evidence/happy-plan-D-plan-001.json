@@ -16,16 +16,46 @@
       "role": "assistant",
       "text": "",
       "toolCallIds": [
-        "ml0",
-        "ml1",
-        "ml2"
+        "ml0"
       ],
       "prompted": false
     },
     {
       "i": 2,
       "role": "user",
-      "text": "That works \u2014 keep it.",
+      "text": "The Chickpea Coconut Curry first \u2014 good.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "ml0-r2"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 4,
+      "role": "user",
+      "text": "Keep the Black Bean Tacos too.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 5,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "ml0-r3"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 6,
+      "role": "user",
+      "text": "That works \u2014 all three locked in.",
       "toolCallIds": [],
       "prompted": false
     }
@@ -56,7 +86,7 @@
       "status": "ok"
     },
     {
-      "id": "ml1",
+      "id": "ml0-r2",
       "name": "proposeMealLog",
       "args": {
         "recipeId": "r-bean-tacos",
@@ -80,7 +110,7 @@
       "status": "ok"
     },
     {
-      "id": "ml2",
+      "id": "ml0-r3",
       "name": "proposeMealLog",
       "args": {
         "recipeId": "r-tofu-stirfry",
@@ -119,6 +149,7 @@
       "payloadHash": "f9392f11ef96f9179f941169e3bfc8ce5b826c6da9752ba0c7aa37425e8c08bf",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 1,
       "state": "executed"
     },
     {
@@ -135,6 +166,7 @@
       "payloadHash": "323f7cd5ef605dbbb4e8b55e116dface07da133b16e6401deeb45d3af81c8102",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 2,
       "state": "executed"
     },
     {
@@ -151,6 +183,7 @@
       "payloadHash": "ff21b06d25fdc58c0d54e4eeecdd3bf121420d505ab20a486473737f60aa93dc",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 3,
       "state": "executed"
     }
   ],
@@ -158,17 +191,23 @@
     {
       "proposalID": "proposal-0001",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "f9392f11ef96f9179f941169e3bfc8ce5b826c6da9752ba0c7aa37425e8c08bf",
+      "snapshotRevision": 2
     },
     {
       "proposalID": "proposal-0002",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "323f7cd5ef605dbbb4e8b55e116dface07da133b16e6401deeb45d3af81c8102",
+      "snapshotRevision": 3
     },
     {
       "proposalID": "proposal-0003",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "ff21b06d25fdc58c0d54e4eeecdd3bf121420d505ab20a486473737f60aa93dc",
+      "snapshotRevision": 4
     }
   ],
   "timers": [],
@@ -213,8 +252,8 @@
   "answers": [],
   "camera": [],
   "usage": {
-    "turns": 3,
-    "textTokensIn": 21,
+    "turns": 7,
+    "textTokensIn": 42,
     "textTokensOut": 0,
     "audioSeconds": 0,
     "framesSent": 0,

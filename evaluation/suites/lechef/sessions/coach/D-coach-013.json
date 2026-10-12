@@ -273,7 +273,10 @@
       "role": "user",
       "text": "Great.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
     }
   ],
   "expected": {

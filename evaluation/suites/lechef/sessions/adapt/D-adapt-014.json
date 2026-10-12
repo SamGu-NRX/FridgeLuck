@@ -298,7 +298,10 @@
       "role": "user",
       "text": "Yes, swap. Then rescale.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",
@@ -325,7 +328,10 @@
       "role": "user",
       "text": "Apply both.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
     }
   ],
   "expected": {

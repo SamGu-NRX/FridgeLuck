@@ -234,7 +234,10 @@
       "role": "user",
       "text": "Next.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
     },
     {
       "role": "model",
@@ -249,6 +252,15 @@
       ],
       "cancelledToolCallIds": [],
       "replayNote": "offline"
+    },
+    {
+      "role": "user",
+      "text": "Go ahead.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     }
   ],
   "expected": {

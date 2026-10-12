@@ -78,14 +78,14 @@
           "check": {
             "tool": "checkFoodSafety",
             "product": "salmon internal temperature",
-            "test": "Check with a thermometer at the thickest part of the fillet: it must read 63 \u00b0C (145 \u00b0F) or hotter.",
+            "test": "Fish must reach 145 \u00b0F (63 \u00b0C) measured with a food thermometer. Check it with a food thermometer in the thickest part of the fillet or the centre of the portion.",
             "temperatureC": 63,
             "temperatureF": 145,
-            "source": "USDA FSIS Safe Minimum Internal Temperature chart (fsis.usda.gov)"
+            "source": "USDA FSIS Safe Minimum Internal Temperature Chart (www.fsis.usda.gov), retrieved 2026-10-11 \u2014 pinned food-safety canon"
           }
         },
         "unknowns": [],
-        "sourceName": "USDA FSIS Safe Minimum Internal Temperature chart (fsis.usda.gov)"
+        "sourceName": "USDA FSIS Safe Minimum Internal Temperature Chart (www.fsis.usda.gov), retrieved 2026-10-11 \u2014 pinned food-safety canon"
       },
       "status": "ok"
     }
@@ -101,6 +101,7 @@
       "payloadHash": "3cf98a092983b70186bc5d82ebe745f9a8965e05bce674ddbfcb2b19d4e4d2d5",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 1,
       "state": "executed"
     }
   ],
@@ -108,7 +109,9 @@
     {
       "proposalID": "proposal-0001",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:03:00.000Z"
+      "recordedAt": "2027-01-15T08:03:00.000Z",
+      "payloadHash": "3cf98a092983b70186bc5d82ebe745f9a8965e05bce674ddbfcb2b19d4e4d2d5",
+      "snapshotRevision": 2
     }
   ],
   "timers": [],
@@ -132,7 +135,7 @@
       "type": "doneness",
       "sourcedCheck": {
         "tool": "checkFoodSafety",
-        "source": "USDA FSIS Safe Minimum Internal Temperature chart (fsis.usda.gov)",
+        "source": "USDA FSIS Safe Minimum Internal Temperature Chart (www.fsis.usda.gov), retrieved 2026-10-11 \u2014 pinned food-safety canon",
         "temperatureC": 63
       }
     }

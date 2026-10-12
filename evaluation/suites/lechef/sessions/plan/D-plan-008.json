@@ -442,9 +442,24 @@
               "garlic"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "The Shakshuka for Two stays — good.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml1",
+          "id": "ml0-r2",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-pesto-pasta",
@@ -460,9 +475,24 @@
               "olive-oil"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "And the Basil Pesto Linguine after it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r2"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml2",
+          "id": "ml0-r3",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-salmon",
@@ -484,7 +514,10 @@
       "role": "user",
       "text": "Good — that clears the fridge.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r3"
+      ]
     }
   ],
   "expected": {

@@ -213,7 +213,22 @@
             "reason": "rescaled Chickpea Coconut Curry from 4 to 8 servings",
             "targetServings": 8
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Rescale applied — and time the simmer for 15 minutes.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
           "id": "t2",
           "name": "proposeTimerStart",
@@ -227,9 +242,12 @@
     },
     {
       "role": "user",
-      "text": "Both applied — thanks.",
+      "text": "Timer's running — thanks.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     }
   ],
   "expected": {

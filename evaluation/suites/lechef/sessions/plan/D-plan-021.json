@@ -259,9 +259,24 @@
               "bok-choy"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "The Ginger-Soy Chicken Thighs looks good.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml1",
+          "id": "ml0-r2",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-shakshuka",
@@ -276,9 +291,24 @@
               "garlic"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Shakshuka next.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r2"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml2",
+          "id": "ml0-r3",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-chickpea-curry",
@@ -301,7 +331,10 @@
       "role": "user",
       "text": "Looks good.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r3"
+      ]
     }
   ],
   "expected": {

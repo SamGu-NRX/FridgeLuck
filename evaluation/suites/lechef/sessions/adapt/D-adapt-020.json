@@ -288,7 +288,10 @@
       "role": "user",
       "text": "Yes — 6, apply it.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
     }
   ],
   "expected": {

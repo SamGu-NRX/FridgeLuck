@@ -154,7 +154,10 @@
       "role": "user",
       "text": "Yes, swap it.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",

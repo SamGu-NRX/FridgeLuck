@@ -260,7 +260,22 @@
             "reason": "rescaled Shakshuka for Two from 2 to 4 servings",
             "targetServings": 4
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Apply it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
           "id": "sc",
           "name": "proposeInventoryCorrection",
@@ -276,9 +291,12 @@
     },
     {
       "role": "user",
-      "text": "Apply it.",
+      "text": "Good — and keep it flagged so the app asks me next time.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sc"
+      ]
     }
   ],
   "expected": {

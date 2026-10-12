@@ -259,9 +259,12 @@
     },
     {
       "role": "user",
-      "text": "Wait — one sec.",
+      "text": "Wait — one sec. … actually yes, apply it.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
     },
     {
       "role": "model",
@@ -292,6 +295,15 @@
         }
       ],
       "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Go ahead.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     }
   ],
   "expected": {

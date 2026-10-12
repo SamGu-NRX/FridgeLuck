@@ -54,12 +54,17 @@ export interface RunRecord {
     readonly payloadHash: string;
     readonly requiredApproval: "device-auto" | "explicit";
     readonly userInitiated: boolean;
+    readonly snapshotRevision: number;
     readonly state: "proposed" | "approved" | "executed" | "rejected" | "cancelled" | "expired";
   }[];
   readonly receipts: readonly {
     readonly proposalID: string;
     readonly state: "executed" | "rejected" | "expired" | "cancelled";
     readonly recordedAt: string;
+    /** Approval binding (authority phone rules): id + revision + hash. */
+    readonly payloadHash: string;
+    readonly snapshotRevision: number;
+    readonly reason?: string;
   }[];
   readonly timers: readonly {
     readonly label: string;
@@ -140,13 +145,17 @@ export function runSession(script: SessionScript, world?: SessionWorld): RunReco
     payloadHash: p.payloadHash,
     requiredApproval: p.requiredApproval,
     userInitiated: p.userInitiated,
+    snapshotRevision: p.snapshotRevision,
     state: runtime.proposals.stateOf(p.id)
   }));
 
   const receipts = phone.receipts().map((r) => ({
     proposalID: r.proposalID,
     state: r.state,
-    recordedAt: iso(r.recordedAt)
+    recordedAt: iso(r.recordedAt),
+    payloadHash: r.payloadHash,
+    snapshotRevision: r.snapshotRevision,
+    ...(r.reason !== undefined ? { reason: r.reason } : {})
   }));
 
   const timers = phone.timerRecords().map((t) => ({

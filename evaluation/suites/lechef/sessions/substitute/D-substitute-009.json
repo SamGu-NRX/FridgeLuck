@@ -166,7 +166,10 @@
       "role": "user",
       "text": "Yes — and remember I never want wheat.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",

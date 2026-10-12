@@ -308,9 +308,25 @@
               "lime"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": [],
+      "replayNote": "offline"
+    },
+    {
+      "role": "user",
+      "text": "The Black Bean Tacos first, even offline.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml1",
+          "id": "ml0-r2",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-shakshuka",
@@ -325,9 +341,25 @@
               "garlic"
             ]
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": [],
+      "replayNote": "offline"
+    },
+    {
+      "role": "user",
+      "text": "Shakshuka too — still no signal needed.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r2"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
-          "id": "ml2",
+          "id": "ml0-r3",
           "name": "proposeMealLog",
           "args": {
             "recipeId": "r-salmon",
@@ -350,7 +382,10 @@
       "role": "user",
       "text": "Thanks — that works without signal.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "ml0-r3"
+      ]
     }
   ],
   "expected": {

@@ -183,7 +183,7 @@
       },
       "result": {
         "proposalId": "proposal-0001",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -207,7 +207,7 @@
       },
       "result": {
         "proposalId": "proposal-0002",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -230,7 +230,7 @@
       },
       "result": {
         "proposalId": "proposal-0003",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -255,7 +255,7 @@
       },
       "result": {
         "proposalId": "proposal-0001",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -279,7 +279,7 @@
       },
       "result": {
         "proposalId": "proposal-0002",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -302,7 +302,7 @@
       },
       "result": {
         "proposalId": "proposal-0003",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -327,7 +327,7 @@
       },
       "result": {
         "proposalId": "proposal-0001",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -351,7 +351,7 @@
       },
       "result": {
         "proposalId": "proposal-0002",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -374,7 +374,7 @@
       },
       "result": {
         "proposalId": "proposal-0003",
-        "state": "proposed",
+        "state": "rejected",
         "note": "identical payload already proposed \u2014 no second proposal was created"
       },
       "status": "duplicate",
@@ -396,7 +396,8 @@
       "payloadHash": "365f38f67c882e86f431aeef7790a6f703412f40cc1d129655a86d29fc877856",
       "requiredApproval": "explicit",
       "userInitiated": false,
-      "state": "executed"
+      "snapshotRevision": 1,
+      "state": "rejected"
     },
     {
       "id": "proposal-0002",
@@ -412,7 +413,8 @@
       "payloadHash": "ba720764022767d290403442276290b17602cd205436775abc80b2f592405cb5",
       "requiredApproval": "explicit",
       "userInitiated": false,
-      "state": "executed"
+      "snapshotRevision": 1,
+      "state": "rejected"
     },
     {
       "id": "proposal-0003",
@@ -428,41 +430,36 @@
       "payloadHash": "61dad4d6b1de572193b2b73a8c3d26102bfa1a9a3bd19c8c2ce624af6cd471e1",
       "requiredApproval": "explicit",
       "userInitiated": false,
-      "state": "executed"
+      "snapshotRevision": 1,
+      "state": "rejected"
     }
   ],
   "receipts": [
     {
       "proposalID": "proposal-0001",
-      "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "state": "rejected",
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "365f38f67c882e86f431aeef7790a6f703412f40cc1d129655a86d29fc877856",
+      "snapshotRevision": 1
     },
     {
       "proposalID": "proposal-0002",
-      "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "state": "rejected",
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "ba720764022767d290403442276290b17602cd205436775abc80b2f592405cb5",
+      "snapshotRevision": 1
     },
     {
       "proposalID": "proposal-0003",
-      "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "state": "rejected",
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "61dad4d6b1de572193b2b73a8c3d26102bfa1a9a3bd19c8c2ce624af6cd471e1",
+      "snapshotRevision": 1
     }
   ],
   "timers": [],
   "events": [
     {
-      "kind": "executed",
-      "at": "2027-01-15T08:00:00.000Z"
-    },
-    {
-      "kind": "executed",
-      "at": "2027-01-15T08:00:00.000Z"
-    },
-    {
-      "kind": "executed",
-      "at": "2027-01-15T08:00:00.000Z"
-    },
-    {
       "kind": "proposal-submitted",
       "at": "2027-01-15T08:00:00.000Z"
     },
@@ -475,15 +472,15 @@
       "at": "2027-01-15T08:00:00.000Z"
     },
     {
-      "kind": "revision-bumped",
+      "kind": "rejected",
       "at": "2027-01-15T08:00:00.000Z"
     },
     {
-      "kind": "revision-bumped",
+      "kind": "rejected",
       "at": "2027-01-15T08:00:00.000Z"
     },
     {
-      "kind": "revision-bumped",
+      "kind": "rejected",
       "at": "2027-01-15T08:00:00.000Z"
     }
   ],

@@ -230,7 +230,10 @@
       "role": "user",
       "text": "Next.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
     },
     {
       "role": "model",
@@ -249,7 +252,10 @@
       "role": "user",
       "text": "Next.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     },
     {
       "role": "model",
@@ -268,7 +274,10 @@
       "role": "user",
       "text": "Repeat that.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t3"
+      ]
     },
     {
       "role": "model",
@@ -293,6 +302,15 @@
         }
       ],
       "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Go ahead.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t4"
+      ]
     }
   ],
   "expected": {

@@ -344,7 +344,10 @@
       "role": "user",
       "text": "Next.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
     },
     {
       "role": "model",
@@ -363,7 +366,10 @@
       "role": "user",
       "text": "…",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     },
     {
       "role": "model",
@@ -394,7 +400,10 @@
       "role": "user",
       "text": "Thanks.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t4"
+      ]
     }
   ],
   "expected": {

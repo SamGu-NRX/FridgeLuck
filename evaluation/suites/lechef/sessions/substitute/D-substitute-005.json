@@ -152,7 +152,10 @@
       "role": "user",
       "text": "Yes, do that.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",

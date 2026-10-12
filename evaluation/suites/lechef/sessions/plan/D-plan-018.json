@@ -218,7 +218,12 @@
       "text": "No — not this one.",
       "toolCalls": [],
       "cancelledToolCallIds": [],
-      "replayNote": "rejection"
+      "replayNote": "rejection",
+      "refusals": [
+        "ml0",
+        "ml1",
+        "ml2"
+      ]
     },
     {
       "role": "model",
@@ -281,7 +286,12 @@
       "text": "Still no.",
       "toolCalls": [],
       "cancelledToolCallIds": [],
-      "replayNote": "rejection"
+      "replayNote": "rejection",
+      "refusals": [
+        "ml0-r2",
+        "ml1-r2",
+        "ml2-r2"
+      ]
     },
     {
       "role": "model",
@@ -344,7 +354,12 @@
       "text": "No. Stop guessing.",
       "toolCalls": [],
       "cancelledToolCallIds": [],
-      "replayNote": "rejection"
+      "replayNote": "rejection",
+      "refusals": [
+        "ml0-r3",
+        "ml1-r3",
+        "ml2-r3"
+      ]
     },
     {
       "role": "model",

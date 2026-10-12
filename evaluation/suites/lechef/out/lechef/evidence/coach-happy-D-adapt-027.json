@@ -16,15 +16,30 @@
       "role": "assistant",
       "text": "",
       "toolCallIds": [
-        "rs",
-        "t2"
+        "rs"
       ],
       "prompted": false
     },
     {
       "i": 2,
       "role": "user",
-      "text": "Both applied \u2014 thanks.",
+      "text": "Rescale applied \u2014 and time the simmer for 15 minutes.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "t2"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 4,
+      "role": "user",
+      "text": "Timer's running \u2014 thanks.",
       "toolCallIds": [],
       "prompted": false
     }
@@ -57,13 +72,22 @@
       "name": "proposeTimerStart",
       "args": {
         "label": "simmer",
-        "minutes": 15
+        "minutes": 15,
+        "userInitiated": true,
+        "deviceEventId": "cmd-0001"
       },
       "result": {
         "proposalId": "proposal-0002",
-        "state": "proposed",
-        "requiredApproval": "explicit",
-        "userInitiated": false
+        "state": "executed",
+        "requiredApproval": "device-auto",
+        "userInitiated": true,
+        "receipt": {
+          "proposalID": "proposal-0002",
+          "payloadHash": "123da54bd3aec76cebaa814f2c2ffe314bddf8bedb89b8093dbbf6ce7c100178",
+          "snapshotRevision": 3,
+          "state": "executed",
+          "recordedAt": 1800000000
+        }
       },
       "status": "ok"
     }
@@ -89,6 +113,7 @@
       "payloadHash": "6707a4d76790598ea5e11cfd6f1d8676100ed81e4e52c2b54cb8ac4bb5b41c4d",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 1,
       "state": "executed"
     },
     {
@@ -100,8 +125,9 @@
         "minutes": 15
       },
       "payloadHash": "123da54bd3aec76cebaa814f2c2ffe314bddf8bedb89b8093dbbf6ce7c100178",
-      "requiredApproval": "explicit",
-      "userInitiated": false,
+      "requiredApproval": "device-auto",
+      "userInitiated": true,
+      "snapshotRevision": 2,
       "state": "executed"
     }
   ],
@@ -109,12 +135,16 @@
     {
       "proposalID": "proposal-0001",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "6707a4d76790598ea5e11cfd6f1d8676100ed81e4e52c2b54cb8ac4bb5b41c4d",
+      "snapshotRevision": 2
     },
     {
       "proposalID": "proposal-0002",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "123da54bd3aec76cebaa814f2c2ffe314bddf8bedb89b8093dbbf6ce7c100178",
+      "snapshotRevision": 3
     }
   ],
   "timers": [
@@ -129,6 +159,10 @@
     }
   ],
   "events": [
+    {
+      "kind": "device-event",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
     {
       "kind": "executed",
       "at": "2027-01-15T08:00:00.000Z"
@@ -161,8 +195,8 @@
   "answers": [],
   "camera": [],
   "usage": {
-    "turns": 3,
-    "textTokensIn": 20,
+    "turns": 5,
+    "textTokensIn": 35,
     "textTokensOut": 0,
     "audioSeconds": 0,
     "framesSent": 0,

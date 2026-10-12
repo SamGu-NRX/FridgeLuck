@@ -259,7 +259,22 @@
             "reason": "rescaled Chickpea Coconut Curry from 4 to 8 servings",
             "targetServings": 8
           }
-        },
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Apply it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
         {
           "id": "sc",
           "name": "proposeInventoryCorrection",
@@ -275,9 +290,12 @@
     },
     {
       "role": "user",
-      "text": "Apply it.",
+      "text": "Good — and keep it flagged so the app asks me next time.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sc"
+      ]
     }
   ],
   "expected": {

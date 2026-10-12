@@ -223,7 +223,10 @@
       "role": "user",
       "text": "Apply it.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
     }
   ],
   "expected": {

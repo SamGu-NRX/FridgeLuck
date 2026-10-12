@@ -145,7 +145,10 @@
       "role": "user",
       "text": "Yes, and save a note: Olive oil baste is our default now.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",
@@ -165,7 +168,10 @@
       "role": "user",
       "text": "Saved — good.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     }
   ],
   "expected": {

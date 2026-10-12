@@ -197,7 +197,10 @@
       "role": "user",
       "text": "Is it done?",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
     },
     {
       "role": "model",

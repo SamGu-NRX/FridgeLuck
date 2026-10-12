@@ -164,7 +164,10 @@
       "role": "user",
       "text": "Yes, and save a note: Seed pesto passed the taste test.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw"
+      ]
     },
     {
       "role": "model",
@@ -184,7 +187,10 @@
       "role": "user",
       "text": "Saved — good.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     }
   ],
   "expected": {

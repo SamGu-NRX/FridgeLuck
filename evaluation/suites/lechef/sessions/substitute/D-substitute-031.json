@@ -235,7 +235,11 @@
       "role": "user",
       "text": "Yes — the seed pesto, not tahini.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "sw-r2",
+        "sw-r3"
+      ]
     },
     {
       "role": "model",

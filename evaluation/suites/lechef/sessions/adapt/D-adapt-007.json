@@ -336,7 +336,10 @@
       "role": "user",
       "text": "Yes, apply.",
       "toolCalls": [],
-      "cancelledToolCallIds": []
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
     },
     {
       "role": "user",
@@ -356,6 +359,15 @@
         }
       ],
       "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Go ahead.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
     }
   ],
   "expected": {

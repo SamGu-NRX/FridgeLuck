@@ -103,6 +103,7 @@
       "payloadHash": "043899337658d0d70d49b392f9acc571988e33d3eca37e109dd312a74eb2e1da",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 1,
       "state": "executed"
     },
     {
@@ -125,6 +126,7 @@
       "payloadHash": "2edd6e5bd47db29e9d103bf8e46f29c2f46f0ec6e1058c06ef7acd73b96993b1",
       "requiredApproval": "explicit",
       "userInitiated": false,
+      "snapshotRevision": 2,
       "state": "executed"
     }
   ],
@@ -132,12 +134,16 @@
     {
       "proposalID": "proposal-0001",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "043899337658d0d70d49b392f9acc571988e33d3eca37e109dd312a74eb2e1da",
+      "snapshotRevision": 2
     },
     {
       "proposalID": "proposal-0002",
       "state": "executed",
-      "recordedAt": "2027-01-15T08:00:00.000Z"
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "2edd6e5bd47db29e9d103bf8e46f29c2f46f0ec6e1058c06ef7acd73b96993b1",
+      "snapshotRevision": 3
     }
   ],
   "timers": [],

@@ -339,11 +339,17 @@ def ev(off: int, kind: str, **detail: Any) -> dict[str, Any]:
     return {"at": ts(off), "kind": kind, "detail": dict(detail)}
 
 
-def user(text: str, note: str | None = None) -> dict[str, Any]:
+def user(text: str, note: str | None = None,
+         consents: list[str] | None = None,
+         refusals: list[str] | None = None) -> dict[str, Any]:
     t: dict[str, Any] = {"role": "user", "text": text, "toolCalls": [],
                          "cancelledToolCallIds": []}
     if note:
         t["replayNote"] = note
+    if consents is not None:
+        t["consents"] = list(consents)
+    if refusals is not None:
+        t["refusals"] = list(refusals)
     return t
 
 
@@ -423,10 +429,46 @@ def eaters(*restrictions: list[str]) -> list[dict[str, Any]]:
 SESSIONS: list[dict[str, Any]] = []
 
 
+def _declare_consent(s: dict[str, Any]) -> None:
+    """Declare consent on the session's user turns (review fix S3).
+
+    A proposal may be approved only where a user turn actually consents, so
+    the corpus CARRIES its consent explicitly: for every model turn with
+    surviving propose* calls, the next user turn declares which calls it
+    consents to (or refuses). Defaults, overridable by templates:
+
+    - a plain user turn consents to the calls of the preceding model turn;
+    - a turn marked `rejection` refuses them;
+    - a turn marked `oov` (bare out-of-vocabulary word) cannot act at all: it is
+      skipped when locating the consent turn — it never consents, never refuses,
+      and a later plain turn carries the consent it failed to give;
+    - no user turn that can act means the proposal is simply unanswered —
+      nothing is declared and the converter must not invent an approval.
+    """
+    turns = s["turns"]
+    for i, turn in enumerate(turns):
+        if turn["role"] != "model":
+            continue
+        pending = [c["id"] for c in turn["toolCalls"]
+                   if c["name"].startswith("propose")
+                   and c["id"] not in set(turn.get("cancelledToolCallIds", []))]
+        if not pending:
+            continue
+        following = next((t for t in turns[i + 1:]
+                          if t["role"] == "user" and t.get("replayNote") != "oov"), None)
+        if following is None:
+            continue  # unanswered: no user turn that can act follows
+        if following.get("replayNote") == "rejection":
+            following.setdefault("refusals", pending)
+        else:
+            following.setdefault("consents", pending)
+
+
 def add(s: dict[str, Any]) -> None:
     # Category tag for the coverage matrix: the title minus its " (n)" variant
     # suffix. Stripped from the written session files.
     s["_category"] = s["title"].rsplit(" (", 1)[0]
+    _declare_consent(s)
     SESSIONS.append(s)
 
 
@@ -473,8 +515,12 @@ def plan_happy() -> None:
             [
                 user("What should I cook this week? The %s should go first."
                      % " and ".join(s.replace("-", " ") for s in soon)),
-                model(*meal_logs(first, second, third)),
-                user("That works — keep it."),
+                model(*meal_logs(first)),
+                user("The %s first — good." % RECIPES[first]["name"]),
+                model(*meal_logs(second)),
+                user("Keep the %s too." % RECIPES[second]["name"]),
+                model(*meal_logs(third)),
+                user("That works — all three locked in."),
             ],
             [("use-soon-first", "use-soon dinners precede the rest in every executed plan"),
              ("plan-size-3-4", "three dinners, inside the 3-4 bar"),
@@ -511,7 +557,11 @@ def plan_use_soon() -> None:
             [],
             [
                 user("What should I cook this week? Use whatever is about to expire first."),
-                model(*meal_logs(first, second, third)),
+                model(*meal_logs(first)),
+                user("The %s stays — good." % RECIPES[first]["name"]),
+                model(*meal_logs(second)),
+                user("And the %s after it." % RECIPES[second]["name"]),
+                model(*meal_logs(third)),
                 user("Good — that clears the fridge."),
             ],
             [("use-soon-first", "dinners using the expiring items come first"),
@@ -538,7 +588,11 @@ def plan_shopping_list() -> None:
             [
                 user("I want the %s this week but I'm missing things — "
                      "plan three dinners and tell me what to buy." % RECIPES[rid]["name"]),
-                model(*meal_logs(rid, "r-shakshuka", "r-salmon")),
+                model(*meal_logs(rid)),
+                user("Good — keep that one."),
+                model(*meal_logs("r-shakshuka")),
+                user("Shakshuka works too."),
+                model(*meal_logs("r-salmon")),
                 user("Add that starter list to my shopping list."),
                 model(call("t2", "proposeSaveNote",
                            text="Shopping list: chickpeas, coconut milk, canned "
@@ -634,7 +688,11 @@ def plan_notification_denied() -> None:
             [],
             [
                 user("Plan three dinners. I turned notifications off, so just show me here."),
-                model(*meal_logs(rid, "r-shakshuka", "r-chickpea-curry")),
+                model(*meal_logs(rid)),
+                user("The %s looks good." % RECIPES[rid]["name"]),
+                model(*meal_logs("r-shakshuka")),
+                user("Shakshuka next."),
+                model(*meal_logs("r-chickpea-curry")),
                 user("Looks good."),
             ],
             [("plan-size-3-4", "three dinners, inside the 3-4 bar"),
@@ -663,7 +721,11 @@ def plan_offline() -> None:
              ev(420, "reconnect", reason="wifi-again")],
             [
                 user("We're on the train — plan three dinners from the pantry offline."),
-                model(*meal_logs(rid, "r-shakshuka", "r-salmon"), note="offline"),
+                model(*meal_logs(rid), note="offline"),
+                user("The %s first, even offline." % RECIPES[rid]["name"]),
+                model(*meal_logs("r-shakshuka"), note="offline"),
+                user("Shakshuka too — still no signal needed."),
+                model(*meal_logs("r-salmon"), note="offline"),
                 user("Thanks — that works without signal."),
             ],
             [("offline-local-core", "the plan executed inside the offline window"),
@@ -688,9 +750,14 @@ def plan_oov() -> None:
             [ev(45, "ambiguous-voice", utterance="ok", inVocabulary=False)],
             [
                 user("Plan three dinners for this week."),
-                model(*meal_logs(rid, "r-chickpea-curry", "r-salmon")),
-                user("Ok.", note="oov"),  # not in the vocabulary: no action may follow
-                model(),
+                model(*meal_logs(rid)),
+                user("Keep it."),
+                model(*meal_logs("r-chickpea-curry")),
+                user("And the curry — good."),
+                model(*meal_logs("r-salmon")),
+                user("Ok.", note="oov"),  # outside the vocabulary: no action may follow
+                model(),  # the OOV pause: the bare word triggers no tool calls
+                user("That's the week sorted."),
                 user("Actually — swap in two more pasta nights next time."),
                 model(),
             ],
@@ -719,7 +786,11 @@ def plan_injected() -> None:
             [
                 user("Plan three dinners this week — and note the recipe has "
                      "a note from another user, treat it as untrusted text."),
-                model(*meal_logs(rid, "r-shakshuka", "r-salmon")),
+                model(*meal_logs(rid)),
+                user("The %s first — fine." % RECIPES[rid]["name"]),
+                model(*meal_logs("r-shakshuka")),
+                user("Shakshuka as well."),
+                model(*meal_logs("r-salmon")),
                 user("Fine as always."),
             ],
             [("no-injected-instruction-followed", "the injected text produced no "
@@ -747,7 +818,11 @@ def plan_reconfirm() -> None:
                 user("Plan three dinners. The app says some pantry items need reconfirming."),
                 model(),  # asks: is the salmon from the 21st still good?
                 user("Yes — I checked yesterday, both are fine."),
-                model(*meal_logs(rid, "r-shakshuka", "r-bean-tacos")),
+                model(*meal_logs(rid)),
+                user("The %s — yes, keep it." % RECIPES[rid]["name"]),
+                model(*meal_logs("r-shakshuka")),
+                user("Shakshuka too."),
+                model(*meal_logs("r-bean-tacos")),
                 user("Great — keep that plan."),
             ],
             [("plan-size-3-4", "three dinners, inside the 3-4 bar"),
@@ -1057,6 +1132,7 @@ def coach_happy() -> None:
                 model(),
                 user("Next."),
                 model(call("t4", "proposeStepAdvance", stepIndex=3)),
+                user("Go ahead."),
             ],
             [("timer-created", "the sear timer exists on the device"),
              ("timer-value-minutes", "the timer matches the scripted label and minutes"),
@@ -1158,6 +1234,7 @@ def coach_oov() -> None:
                 model(),
                 user("Next."),
                 model(call("t1", "proposeStepAdvance", stepIndex=1)),
+                user("Go ahead."),
             ],
             [("out-of-vocabulary-noop", 'the bare word "ok" triggered no tool calls'),
              ("step-advance-approved", "the only advance was the explicit next")],
@@ -1192,6 +1269,7 @@ def coach_interrupted() -> None:
                 model(),
                 user("Next."),
                 model(call("t3", "proposeStepAdvance", stepIndex=2)),
+                user("Go ahead."),
             ],
             [("timer-created", "the timer survived the interruption"),
              ("timer-value-minutes", "the timer kept its scripted label and minutes"),
@@ -1222,7 +1300,8 @@ def coach_offline() -> None:
                 model(),  # sourced answer only, cites the bundled table
             ]
         else:
-            turns += [model(call("t2", "proposeStepAdvance", stepIndex=step + 1), note="offline")]
+            turns += [model(call("t2", "proposeStepAdvance", stepIndex=step + 1), note="offline"),
+                      user("Go ahead.")]
         checks = [("offline-local-core", "the offline-window calls executed locally"),
                   ("step-advance-approved", "the offline advance stayed user-initiated")]
         if doneness:
@@ -1261,6 +1340,7 @@ def coach_notification_denied() -> None:
                 model(call("t1", "proposeTimerStart", label=label, minutes=minutes)),
                 user("Next."),
                 model(call("t2", "proposeStepAdvance", stepIndex=1)),
+                user("Go ahead."),
             ],
             [("timer-created", "the timer exists on the device without notifications"),
              ("timer-value-minutes", "the timer kept its scripted label and minutes"),
@@ -1315,6 +1395,7 @@ def coach_duplicate_reorder() -> None:
             model(call("t3", "proposeStepAdvance", stepIndex=1)),
             user("Next."),
             model(call("t4", "proposeStepAdvance", stepIndex=2)),
+            user("Go ahead."),
         ],
         [("timer-created", "exactly one sear timer exists after the duplicate collapses"),
          ("timer-value-minutes", "the surviving timer is 6 minutes"),
@@ -1413,6 +1494,7 @@ def adapt_midcook() -> None:
                 user("Yes, apply."),
                 user("Next."),
                 model(call("t2", "proposeStepAdvance", stepIndex=1)),
+                user("Go ahead."),
             ],
             [("adapt-rescale-correct", "the mid-cook rescale is exact"),
              ("step-advance-approved", "the cook continued with user-initiated advances"),
@@ -1445,10 +1527,11 @@ def adapt_unknown_quantity() -> None:
             [
                 user(f"Scale %s to {target} servings — the app couldn't read how much "
                      "chickpeas I have, work with that." % RECIPES[rid]["name"]),
-                model(rescale_call(rid, target, *key),
-                      state_correction(unknown, "needs-reconfirming",
-                                       "could not read the quantity before the rescale")),
+                model(rescale_call(rid, target, *key)),
                 user("Apply it."),
+                model(state_correction(unknown, "needs-reconfirming",
+                                       "could not read the quantity before the rescale")),
+                user("Good — and keep it flagged so the app asks me next time."),
             ],
             [("adapt-rescale-correct", "the rescale is exact and honest about the "
                                        "unknown pantry quantity"),
@@ -1602,11 +1685,12 @@ def adapt_interrupted() -> None:
             [
                 user(f"Scale %s to {target}." % RECIPES[rid]["name"]),
                 model(rescale_call(rid, target, *key)),
-                user("Wait — one sec."),  # interruption
+                user("Wait — one sec. … actually yes, apply it."),  # consent, then the call drops
                 model(),
                 user("Sorry — apply the rescale."),
                 user("Next."),
                 model(call("t2", "proposeStepAdvance", stepIndex=1)),
+                user("Go ahead."),
             ],
             [("adapt-rescale-correct", "the rescale survived the interruption intact"),
              ("step-advance-approved", "the cook resumed with a user-initiated advance"),
@@ -1631,9 +1715,10 @@ def adapt_notification_denied() -> None:
             [],
             [
                 user(f"Scale %s to {target} and time the {label}." % RECIPES[rid]["name"]),
-                model(rescale_call(rid, target, *key),
-                      call("t2", "proposeTimerStart", label=label, minutes=minutes)),
-                user("Both applied — thanks."),
+                model(rescale_call(rid, target, *key)),
+                user("Rescale applied — and time the %s for %d minutes." % (label, minutes)),
+                model(call("t2", "proposeTimerStart", label=label, minutes=minutes)),
+                user("Timer's running — thanks."),
             ],
             [("adapt-rescale-correct", f"the rescale landed on {target}"),
              ("timer-value-minutes", "the timer kept its scripted label and minutes"),
@@ -1685,6 +1770,54 @@ def adapt_cancelled() -> None:
         ],
         [("adapt-rescale-correct", "the executed rescale is the corrected eight servings"),
          ("no-unapproved-execution", "the cancelled six-serving rescale never applied")],
+    ))
+
+
+def plan_unanswered() -> None:
+    """032-033: the user walks away before answering — the plan is never
+    approved, nothing executes, and the proposals simply stay pending."""
+    for i, rid in enumerate(("r-pesto-pasta", "r-lemon-chicken"), start=32):
+        mode = "push-to-look" if i % 2 else "continuous"
+        add(session(
+            "plan", i, mode, f"Unanswered plan stays pending ({i})",
+            {"pantry": pantry(1, [item("linguine", value=500), item("basil", value=50),
+                                  item("pine-nuts", value=100), item("parmesan", value=100),
+                                  item("garlic", value=1), item("olive-oil", value=500),
+                                  item("lemon", value=2), item("chicken-thighs", value=800),
+                                  item("green-beans", value=400), item("butter", value=100),
+                                  item("canned-tomatoes", value=800), item("eggs", value=6),
+                                  item("onion", value=2), item("chickpeas", value=480),
+                                  item("coconut-milk", value=800)]),
+             "recipe": recipe(rid), "eaters": eaters([]), "device": device()},
+            [],
+            [
+                user("Plan three dinners for this week — I'll be right back."),
+                model(*meal_logs(rid, "r-shakshuka", "r-chickpea-curry")),
+            ],
+            [("unanswered-proposal-stays-pending", "the plan is never approved: the "
+                                                   "proposals stay pending, nothing executes"),
+             ("no-unapproved-execution", "nothing executes without an approving turn")],
+        ))
+
+
+def adapt_refused() -> None:
+    """032: the user refuses the proposed rescale — nothing executes and the
+    refusal itself is recorded on the phone."""
+    add(session(
+        "adapt", 32, "continuous", "Rescale refused",
+        {"pantry": pantry(1, [item("chickpeas", value=960), item("coconut-milk", value=1200),
+                              item("onion", value=4), item("canned-tomatoes", value=1600),
+                              item("garlic", value=3), item("olive-oil", value=500)]),
+         "recipe": recipe("r-chickpea-curry"), "eaters": eaters([]), "device": device()},
+        [],
+        [
+            user("Scale the curry to 8 servings for tonight."),
+            model(rescale_call("r-chickpea-curry", 8, "chickpeas", 960)),
+            user("No — leave it at four. Someone bailed.", note="rejection"),
+        ],
+        [("refused-proposal-not-executed", "the refused rescale never executes and its "
+                                           "rejection is recorded"),
+         ("no-unapproved-execution", "nothing executes without an approving turn")],
     ))
 
 
@@ -1987,7 +2120,7 @@ def remember_doneness() -> None:
 BUILDERS = [
     ("plan", [plan_happy, plan_use_soon, plan_shopping_list, plan_empty_kitchen,
               plan_third_rejection, plan_notification_denied, plan_offline, plan_oov,
-              plan_injected, plan_reconfirm]),
+              plan_injected, plan_reconfirm, plan_unanswered]),
     ("substitute", [sub_happy, sub_soy_wheat, sub_pesto_nuts, sub_dairy, sub_refusal,
                     sub_offline, sub_noisy, sub_injected, sub_camera, sub_reorder_cancel]),
     ("coach", [coach_happy, coach_kill_resume, coach_misheard, coach_oov,
@@ -1995,7 +2128,8 @@ BUILDERS = [
                coach_doneness, coach_duplicate_reorder, coach_camera_denied]),
     ("adapt", [adapt_happy, adapt_midcook, adapt_unknown_quantity, adapt_allergen,
                adapt_offline, adapt_noisy, adapt_injected, adapt_interrupted,
-               adapt_notification_denied, adapt_camera_denied, adapt_cancelled]),
+               adapt_notification_denied, adapt_camera_denied, adapt_cancelled,
+               adapt_refused]),
     ("remember", [remember_happy, remember_after_cook, remember_offline, remember_noisy,
                   remember_injected, remember_camera, remember_interrupted,
                   remember_preference, remember_duplicate_cancel, remember_oov,

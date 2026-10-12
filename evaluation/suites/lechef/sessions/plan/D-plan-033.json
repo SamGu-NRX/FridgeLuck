@@ -1,0 +1,364 @@
+{
+  "id": "D-plan-033",
+  "job": "plan",
+  "cameraMode": "push-to-look",
+  "title": "Unanswered plan stays pending (33)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "linguine",
+          "name": "linguine",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "basil",
+          "name": "basil",
+          "quantity": {
+            "kind": "known",
+            "value": 50,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "pine-nuts",
+          "name": "pine nuts",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "parmesan",
+          "name": "parmesan",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "chicken-thighs",
+          "name": "chicken thighs",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "kind": "known",
+            "value": 400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "butter",
+          "name": "butter",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "known",
+            "value": 6,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "known",
+            "value": 480,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-lemon-chicken",
+      "revision": 1,
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredientId": "chicken-breast",
+          "name": "chicken breast",
+          "quantity": {
+            "value": 350,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 2,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 30,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Pound the breasts to even thickness and season."
+        },
+        {
+          "index": 1,
+          "text": "Sear until golden.",
+          "timerMinutes": 5,
+          "safetyCheckTarget": "chicken breast internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Cook the green beans in the same pan.",
+          "timerMinutes": 4
+        },
+        {
+          "index": 3,
+          "text": "Rest, then squeeze over the lemon."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Plan three dinners for this week — I'll be right back.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "ml0",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-lemon-chicken",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chicken-breast",
+              "lemon",
+              "garlic",
+              "olive-oil",
+              "green-beans"
+            ]
+          }
+        },
+        {
+          "id": "ml1",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-shakshuka",
+            "revision": 1,
+            "servings": 2,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "eggs",
+              "canned-tomatoes",
+              "onion",
+              "bell-pepper",
+              "garlic"
+            ]
+          }
+        },
+        {
+          "id": "ml2",
+          "name": "proposeMealLog",
+          "args": {
+            "recipeId": "r-chickpea-curry",
+            "revision": 1,
+            "servings": 4,
+            "sourcedFrom": "voice",
+            "ingredientIds": [
+              "chickpeas",
+              "coconut-milk",
+              "onion",
+              "canned-tomatoes",
+              "spinach"
+            ]
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "unanswered-proposal-stays-pending",
+        "detail": "the plan is never approved: the proposals stay pending, nothing executes"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "nothing executes without an approving turn"
+      }
+    ]
+  }
+}
