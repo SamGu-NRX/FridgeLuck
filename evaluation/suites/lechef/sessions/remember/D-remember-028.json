@@ -1,0 +1,178 @@
+{
+  "id": "D-remember-028",
+  "job": "remember",
+  "cameraMode": "continuous",
+  "title": "Duplicated and cancelled notes (28)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "tofu",
+          "name": "firm tofu",
+          "quantity": {
+            "kind": "known",
+            "value": 300,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": {
+            "kind": "known",
+            "value": 250,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-tofu-stirfry",
+      "revision": 1,
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredientId": "tofu",
+          "name": "firm tofu",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "bok-choy",
+          "name": "bok choy",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": {
+            "value": 30,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "sesame-oil",
+          "name": "sesame oil",
+          "quantity": {
+            "value": 15,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "jasmine-rice",
+          "name": "jasmine rice",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Press and cube the tofu."
+        },
+        {
+          "index": 1,
+          "text": "Stir-fry the tofu until crisp.",
+          "timerMinutes": 6
+        },
+        {
+          "index": 2,
+          "text": "Add greens and sauce; steam the rice.",
+          "timerMinutes": 12
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Remember: Kids prefer the tofu version.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposeSaveNote",
+          "args": {
+            "text": "Kids prefer the tofu version",
+            "scope": "cook"
+          }
+        },
+        {
+          "id": "t2",
+          "name": "proposeSaveNote",
+          "args": {
+            "text": "Kids prefer the tofu version",
+            "scope": "cook"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Yes, save it once.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1",
+        "t2"
+      ]
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the note was saved exactly once with a receipt"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the cancelled wrong note never reached the phone"
+      }
+    ]
+  }
+}

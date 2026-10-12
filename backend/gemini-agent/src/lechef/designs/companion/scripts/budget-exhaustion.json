@@ -1,0 +1,22 @@
+{
+  "sessionId": "companion-budget-001",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "session": { "recipeId": "spinach-eggs", "state": "cooking", "currentStepIndex": 0 }
+  },
+  "turns": [
+    { "i": 0, "role": "assistant", "text": "[check-in] How's it going in there?" },
+    { "i": 1, "role": "user", "text": "Fine — just stirring the sauce.", "audioSeconds": 2.0 },
+    { "i": 2, "role": "assistant", "text": "Good — taste it before the basil goes in.", "prompted": true },
+    { "i": 3, "role": "assistant", "text": "[check-in] Still doing okay?" },
+    { "i": 4, "role": "user", "text": "Yep.", "audioSeconds": 0.8 },
+    { "i": 5, "role": "assistant", "text": "Shout if the sauce catches.", "prompted": true },
+    { "i": 6, "role": "assistant", "text": "[check-in] Anything you need from me?" },
+    { "i": 7, "role": "user", "text": "All good.", "audioSeconds": 0.8 },
+    { "i": 8, "role": "assistant", "text": "Then I'll leave you to it.", "prompted": true },
+    { "i": 9, "role": "assistant", "text": "[check-in] I'm right here if you need me." }
+  ]
+}

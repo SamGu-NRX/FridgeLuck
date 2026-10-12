@@ -1,0 +1,56 @@
+{
+  "sessionId": "companion-gating-001",
+  "job": "remember",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "pantry": [
+      { "ingredientId": "pasta", "name": "Pasta", "quantity": { "kind": "known", "value": 400, "unit": "g" }, "state": "sufficient", "source": "scan" },
+      { "ingredientId": "lemon", "name": "Lemon", "quantity": { "kind": "known", "value": 1, "unit": "piece" }, "state": "sufficient", "source": "scan" }
+    ],
+    "session": { "recipeId": "lemon-pasta", "state": "cooking", "currentStepIndex": 1 },
+    "recipes": [
+      {
+        "id": "lemon-pasta",
+        "revision": 2,
+        "title": "Lemon pasta",
+        "servings": 2,
+        "ingredientBill": [
+          { "ingredientId": "pasta", "name": "Pasta", "quantity": { "kind": "known", "value": 200, "unit": "g" } },
+          { "ingredientId": "lemon", "name": "Lemon", "quantity": { "kind": "known", "value": 1, "unit": "piece" } }
+        ],
+        "steps": [
+          { "index": 0, "text": "Boil the pasta", "timerMinutes": 10 },
+          { "index": 1, "text": "Zest and juice the lemon into the pan" },
+          { "index": 2, "text": "Toss with pasta water and butter" }
+        ]
+      }
+    ]
+  },
+  "turns": [
+    {
+      "i": 0,
+      "role": "assistant",
+      "text": "[check-in] How's it going? I went ahead and logged the cook for you —",
+      "toolCalls": [
+        { "id": "g-ml1", "name": "proposeMealLog", "args": { "recipeId": "lemon-pasta", "revision": 2, "servings": 2, "sourcedFrom": "voice" } },
+        { "id": "g-nt1", "name": "proposeSaveNote", "args": { "text": "cooked lemon pasta", "scope": "cook" } }
+      ]
+    },
+    { "i": 1, "role": "user", "text": "It's going fine. Log it as cooked, two servings — and note that I cut the lemon in half.", "audioSeconds": 4.0 },
+    {
+      "i": 2,
+      "role": "assistant",
+      "text": "Logged, and the note is on the recipe.",
+      "toolCalls": [
+        { "id": "g-ml2", "name": "proposeMealLog", "args": { "recipeId": "lemon-pasta", "revision": 2, "servings": 2, "sourcedFrom": "voice" } },
+        { "id": "g-nt2", "name": "proposeSaveNote", "args": { "text": "cut the lemon in half", "scope": "recipe" } }
+      ],
+      "prompted": true
+    }
+  ],
+  "userActions": [
+    { "afterTurn": 2, "action": { "kind": "approve", "callId": "g-ml2" } }
+  ]
+}

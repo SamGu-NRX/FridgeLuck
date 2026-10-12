@@ -1,0 +1,29 @@
+{
+  "sessionId": "companion-timer-001",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "pantry": [
+      { "ingredientId": "rice", "name": "Rice", "quantity": { "kind": "known", "value": 500, "unit": "g" }, "state": "sufficient", "source": "scan" }
+    ],
+    "session": { "recipeId": "lemon-pasta", "state": "cooking", "currentStepIndex": 0 }
+  },
+  "turns": [
+    { "i": 0, "role": "assistant", "text": "[check-in] How's it going in there?" },
+    { "i": 1, "role": "user", "text": "The rice might be catching — I totally lost track of time.", "audioSeconds": 3.0 },
+    { "i": 2, "role": "assistant", "text": "Lid off, fork through it — save what you can.", "prompted": true },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "[timer-offer] Want a fresh eight minutes on the rice so it doesn't sneak up on you?",
+      "toolCalls": [{ "id": "t-of1", "name": "proposeTimerStart", "args": { "label": "rice", "minutes": 8, "userInitiated": false } }]
+    },
+    { "i": 4, "role": "user", "text": "Yes please.", "audioSeconds": 0.8 },
+    { "i": 5, "role": "assistant", "text": "Done — eight minutes, ticking.", "prompted": true }
+  ],
+  "userActions": [
+    { "afterTurn": 4, "action": { "kind": "approve", "callId": "t-of1" } }
+  ]
+}

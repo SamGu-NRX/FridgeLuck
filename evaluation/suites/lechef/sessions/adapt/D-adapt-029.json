@@ -1,0 +1,272 @@
+{
+  "id": "D-adapt-029",
+  "job": "adapt",
+  "cameraMode": "push-to-look",
+  "title": "Rescale with camera denied (29)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "salmon-fillet",
+          "name": "salmon fillet",
+          "quantity": {
+            "kind": "known",
+            "value": 600,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "kind": "known",
+            "value": 400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "linguine",
+          "name": "linguine",
+          "quantity": {
+            "kind": "known",
+            "value": 600,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "basil",
+          "name": "basil",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "pine-nuts",
+          "name": "pine nuts",
+          "quantity": {
+            "kind": "known",
+            "value": 60,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "parmesan",
+          "name": "parmesan",
+          "quantity": {
+            "kind": "known",
+            "value": 80,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "butter",
+          "name": "butter",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-salmon",
+      "revision": 1,
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredientId": "salmon-fillet",
+          "name": "salmon fillet",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "butter",
+          "name": "butter",
+          "quantity": {
+            "value": 20,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Pat the fillets dry and season the skin."
+        },
+        {
+          "index": 1,
+          "text": "Sear skin-side down without moving.",
+          "timerMinutes": 4,
+          "safetyCheckTarget": "salmon internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Flip, add butter and beans, and baste.",
+          "timerMinutes": 5
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000030,
+      "kind": "camera-denied",
+      "detail": {
+        "reason": "permission-denied"
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Camera's off, sorry. Scale Pan-Seared Salmon to 4 anyway.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "salmon-fillet",
+            "name": "salmon fillet",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 0.0,
+              "unit": "g"
+            },
+            "reason": "rescaled Pan-Seared Salmon from 2 to 4 servings",
+            "targetServings": 4
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Apply it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "no-camera-safety-verdict",
+        "detail": "no look existed, so no verdict could be issued"
+      },
+      {
+        "check": "adapt-rescale-correct",
+        "detail": "the rescale is exact without the camera"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the rescale applied only after approval"
+      }
+    ]
+  }
+}

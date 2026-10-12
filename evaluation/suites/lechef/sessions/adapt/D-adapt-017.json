@@ -1,0 +1,314 @@
+{
+  "id": "D-adapt-017",
+  "job": "adapt",
+  "cameraMode": "push-to-look",
+  "title": "Offline rescale to 6 (17)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "chickpeas",
+          "name": "chickpeas",
+          "quantity": {
+            "kind": "known",
+            "value": 960,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "coconut-milk",
+          "name": "coconut milk",
+          "quantity": {
+            "kind": "known",
+            "value": 1200,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "black-beans",
+          "name": "black beans",
+          "quantity": {
+            "kind": "known",
+            "value": 800,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "tortillas",
+          "name": "tortillas",
+          "quantity": {
+            "kind": "known",
+            "value": 12,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "pork-loin",
+          "name": "pork loin",
+          "quantity": {
+            "kind": "known",
+            "value": 1400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "kind": "known",
+            "value": 4,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "kind": "known",
+            "value": 1600,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "cheddar",
+          "name": "cheddar",
+          "quantity": {
+            "kind": "known",
+            "value": 200,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "lime",
+          "name": "lime",
+          "quantity": {
+            "kind": "known",
+            "value": 3,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 3,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "rosemary",
+          "name": "rosemary",
+          "quantity": {
+            "kind": "known",
+            "value": 10,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-bean-tacos",
+      "revision": 1,
+      "servings": 3,
+      "ingredients": [
+        {
+          "ingredientId": "tortillas",
+          "name": "tortillas",
+          "quantity": {
+            "value": 6,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "black-beans",
+          "name": "black beans",
+          "quantity": {
+            "value": 400,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "cheddar",
+          "name": "cheddar",
+          "quantity": {
+            "value": 80,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lime",
+          "name": "lime",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Warm the beans with the onion.",
+          "timerMinutes": 6
+        },
+        {
+          "index": 1,
+          "text": "Char the tortillas in a dry pan.",
+          "timerMinutes": 2
+        },
+        {
+          "index": 2,
+          "text": "Assemble with cheese and lime."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "offline"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000150,
+      "kind": "offline",
+      "detail": {
+        "reason": "basement-kitchen",
+        "recognition": "offline"
+      }
+    },
+    {
+      "at": 1800000600,
+      "kind": "reconnect",
+      "detail": {
+        "reason": "mesh-repeater"
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "No wifi down here — scale Black Bean Tacos to 6 servings anyway.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "rs",
+          "name": "proposeInventoryCorrection",
+          "args": {
+            "ingredientId": "black-beans",
+            "name": "black beans",
+            "observedQuantity": {
+              "kind": "known",
+              "value": 0.0,
+              "unit": "g"
+            },
+            "reason": "rescaled Black Bean Tacos from 3 to 6 servings",
+            "targetServings": 6
+          }
+        }
+      ],
+      "cancelledToolCallIds": [],
+      "replayNote": "offline"
+    },
+    {
+      "role": "user",
+      "text": "Apply it offline.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "rs"
+      ]
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "offline-local-core",
+        "detail": "the rescale executed inside the offline window"
+      },
+      {
+        "check": "adapt-rescale-correct",
+        "detail": "the offline rescale is exact"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the rescale applied only after approval"
+      }
+    ]
+  }
+}

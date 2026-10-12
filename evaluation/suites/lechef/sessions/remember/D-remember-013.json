@@ -1,0 +1,214 @@
+{
+  "id": "D-remember-013",
+  "job": "remember",
+  "cameraMode": "push-to-look",
+  "title": "Noisy dictation read back (13)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "cheddar",
+          "name": "cheddar",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "known",
+            "value": 6,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-ginger-chicken",
+      "revision": 1,
+      "servings": 4,
+      "ingredients": [
+        {
+          "ingredientId": "chicken-thighs",
+          "name": "chicken thighs",
+          "quantity": {
+            "value": 800,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": {
+            "value": 60,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "honey",
+          "name": "honey",
+          "quantity": {
+            "value": 30,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 3,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "jasmine-rice",
+          "name": "jasmine rice",
+          "quantity": {
+            "value": 300,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "bok-choy",
+          "name": "bok choy",
+          "quantity": {
+            "value": 250,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Marinate the thighs in soy, honey and garlic."
+        },
+        {
+          "index": 1,
+          "text": "Sear the thighs skin-side down.",
+          "timerMinutes": 6
+        },
+        {
+          "index": 2,
+          "text": "Simmer the sauce until glossy.",
+          "timerMinutes": 4
+        },
+        {
+          "index": 3,
+          "text": "Steam the bok choy over the rice.",
+          "timerMinutes": 3
+        },
+        {
+          "index": 4,
+          "text": "Rest and serve over rice."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000060,
+      "kind": "noise",
+      "detail": {
+        "transcriptLevel": "extractor-fan",
+        "userWordsHeard": 3
+      }
+    },
+    {
+      "at": 1800000090,
+      "kind": "ambiguous-voice",
+      "detail": {
+        "utterance": "double the… ginger? gingers",
+        "inVocabulary": true
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Remember: double the… ginger? gingers.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Yes — Double the ginger next time.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposeSaveNote",
+          "args": {
+            "text": "Double the ginger next time",
+            "scope": "cook"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Save it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the confirmed text was saved with a receipt"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the note saved only after explicit approval"
+      }
+    ]
+  }
+}

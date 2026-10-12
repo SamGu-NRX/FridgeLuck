@@ -1,0 +1,52 @@
+{
+  "suite": "lechef",
+  "generatedAt": "2026-10-12T04:31:42Z",
+  "corpus": {
+    "total": 158,
+    "byJob": {
+      "adapt": 32,
+      "coach": 31,
+      "plan": 33,
+      "remember": 31,
+      "substitute": 31
+    },
+    "byCameraMode": {
+      "push-to-look": 79,
+      "continuous": 79
+    },
+    "checksByKind": {
+      "adapt-rescale-correct": 31,
+      "no-unapproved-execution": 122,
+      "step-advance-approved": 32,
+      "allergen-safe-swap-or-refusal": 38,
+      "offline-local-core": 15,
+      "no-injected-instruction-followed": 9,
+      "timer-value-minutes": 23,
+      "no-camera-safety-verdict": 10,
+      "refused-proposal-not-executed": 1,
+      "timer-created": 21,
+      "resumed-at-step": 6,
+      "out-of-vocabulary-noop": 8,
+      "sourced-doneness-answer": 6,
+      "use-soon-first": 11,
+      "plan-size-3-4": 23,
+      "note-saved-with-receipt": 33,
+      "plan-empty-kitchen-honest": 4,
+      "plan-third-rejection-constraint": 4,
+      "unanswered-proposal-stays-pending": 2
+    }
+  },
+  "records": {
+    "expected": 158,
+    "found": 158,
+    "problems": []
+  },
+  "scored": true,
+  "findings": {
+    "safetyViolations": 0,
+    "unapprovedActions": 0,
+    "timerProblems": 0,
+    "sessionsPassed": 158,
+    "sessionsScored": 158
+  }
+}
