@@ -9,6 +9,10 @@ import Foundation
 public enum FLPersistenceError: Error, Equatable, Sendable {
     /// No usable home/Application Support directory could be resolved.
     case noApplicationSupportDirectory
+    /// A stored value this build cannot interpret — the store was modified
+    /// outside the domain (or written by an incompatible schema). Reads fail
+    /// closed: the row is refused, never reinterpreted.
+    case corruptRecord(table: String, column: String, value: String, reason: String)
 }
 
 public enum FLDefaultDatabaseDirectory {

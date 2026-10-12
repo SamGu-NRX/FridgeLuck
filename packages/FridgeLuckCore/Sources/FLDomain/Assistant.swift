@@ -109,21 +109,12 @@ extension ActionPayload: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         switch try container.decode(Kind.self, forKey: .kind) {
         case .stepAdvance:
-            let index = try container.decode(Int.self, forKey: .stepIndex)
-            guard index >= 0 else {
-                throw FLDomainError.validation(target: "ActionPayload.stepAdvance.stepIndex", reason: "must be >= 0 (got \(index))")
-            }
-            self = .stepAdvance(stepIndex: index)
+            self = .stepAdvance(stepIndex: try container.decode(Int.self, forKey: .stepIndex))
         case .timerCreate:
-            let label = try container.decode(String.self, forKey: .label)
-            let seconds = try container.decode(Int.self, forKey: .seconds)
-            guard !label.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                throw FLDomainError.validation(target: "ActionPayload.timerCreate.label", reason: "must not be empty")
-            }
-            guard seconds > 0 else {
-                throw FLDomainError.validation(target: "ActionPayload.timerCreate.seconds", reason: "must be > 0 (got \(seconds))")
-            }
-            self = .timerCreate(label: label, seconds: seconds)
+            self = .timerCreate(
+                label: try container.decode(String.self, forKey: .label),
+                seconds: try container.decode(Int.self, forKey: .seconds)
+            )
         case .pantryCorrection:
             self = .pantryCorrection(
                 canonicalName: try container.decode(String.self, forKey: .canonicalName),
@@ -132,6 +123,9 @@ extension ActionPayload: Codable {
         case .mealLog:
             self = .mealLog(cook: try container.decode(Cook.self, forKey: .cook))
         }
+        // Review round 2, item 3: the decoded form obeys the same value rules
+        // as a payload built in code — one rule, no separate fast path.
+        try self.validate()
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -151,6 +145,35 @@ extension ActionPayload: Codable {
         case let .mealLog(cook):
             try container.encode(Kind.mealLog, forKey: .kind)
             try container.encode(cook, forKey: .cook)
+        }
+    }
+}
+
+public extension ActionPayload {
+    /// The one value-rule for every payload, whether it was decoded off the
+    /// wire or built in code (review round 2, item 3: no separate fast path).
+    /// Error targets are frozen — receipts and the backend may match on them.
+    /// `mealLog` adds no check here: Cook validated itself at construction
+    /// and at decode, and internal types are trusted (boundary discipline).
+    func validate() throws {
+        switch self {
+        case let .stepAdvance(stepIndex):
+            guard stepIndex >= 0 else {
+                throw FLDomainError.validation(target: "ActionPayload.stepAdvance.stepIndex", reason: "must be >= 0 (got \(stepIndex))")
+            }
+        case let .timerCreate(label, seconds):
+            guard !label.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                throw FLDomainError.validation(target: "ActionPayload.timerCreate.label", reason: "must not be empty")
+            }
+            guard seconds > 0 else {
+                throw FLDomainError.validation(target: "ActionPayload.timerCreate.seconds", reason: "must be > 0 (got \(seconds))")
+            }
+        case let .pantryCorrection(canonicalName, _):
+            guard !canonicalName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                throw FLDomainError.validation(target: "ActionPayload.pantryCorrection.canonicalName", reason: "must not be empty")
+            }
+        case .mealLog:
+            break
         }
     }
 }
@@ -203,6 +226,10 @@ public struct ActionProposal: Hashable, Sendable {
         guard snapshotRevision >= 1 else {
             throw FLDomainError.validation(target: "ActionProposal.snapshotRevision", reason: "must be >= 1 (got \(snapshotRevision))")
         }
+        // Review round 2, item 3: a payload built in code passes through the
+        // same validation as a decoded payload — this init is the boundary
+        // where a payload becomes an approvable action.
+        try payload.validate()
         if let expiresAt {
             guard expiresAt >= createdAt else {
                 throw FLDomainError.validation(target: "ActionProposal.expiresAt", reason: "must be at or after createdAt")
