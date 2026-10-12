@@ -87,6 +87,12 @@ public struct SharedCook: Hashable, Sendable {
 
     /// Build the shareable shape from a finished cook.
     ///
+    /// Constructing one is an export: the revision text embeds here, so the
+    /// `RecipeExportGate` runs first — a forbidden or quarantined revision
+    /// (LeChef draft, forbidden text/offline rights, unknown rights,
+    /// non-permitted caching, required attribution missing) is refused, the
+    /// same policy as recipe sharing (SPEC 3.5).
+    ///
     /// - Parameters:
     ///   - cook: the finished cook. Only its shareable fields are read; its
     ///     `startedAt` instant and any local identifiers stay behind.
@@ -95,6 +101,10 @@ public struct SharedCook: Hashable, Sendable {
     ///   - completedOn: the calendar day, "yyyy-MM-dd", computed by the host
     ///     in the household's time zone (this library never guesses a zone).
     public init(cook: Cook, revision: RecipeRevision, completedOn: String) throws {
+        // Export gate first: rights are judged before anything else about
+        // the payload — the cook's own fields never rehabilitate a revision
+        // that may not leave the phone.
+        try RecipeExportGate.validateExportable(revision, target: "SharedCook.recipeRevision")
         guard cook.recipeRevision == revision.key else {
             throw FLDomainError.validation(
                 target: "SharedCook.recipeRevision",
@@ -114,6 +124,20 @@ public struct SharedCook: Hashable, Sendable {
         self.rating = cook.rating
         self.note = cook.note
         self.completedOn = trimmedDay
+    }
+
+    /// Builds the shareable shape without the export policy. Internal (not
+    /// private) so tests can hand-build cooks a non-policy sender's app
+    /// might produce — the same assumption the recipe-payload tests make.
+    /// The boundary still refuses such a payload: decode and encode both
+    /// run the gate, so unvalidated text cannot enter or leave.
+    init(checkedCook cook: Cook, uncheckedRevision revision: RecipeRevision, completedOn: String) {
+        self.recipeRevision = revision
+        self.servings = cook.servings
+        self.swaps = cook.substitutions.map(SharedCookSwap.init)
+        self.rating = cook.rating
+        self.note = cook.note
+        self.completedOn = completedOn
     }
 
     /// Strict "yyyy-MM-dd" validation: four-digit year 2000...2100, real
@@ -169,6 +193,12 @@ extension SharedCook: Codable {
             self.note = nil
         }
         self.recipeRevision = try container.decode(RecipeRevision.self, forKey: .recipeRevision)
+        // Inbound gate (review round 2): every revision entering the phone
+        // passes the same policy as construction and encoding. A shared cook
+        // embeds full text, so a forbidden or quarantined revision must not
+        // arrive via decode either — the check fails closed on missing or
+        // unknown rights.
+        try RecipeExportGate.validateExportable(self.recipeRevision, target: "SharedCook.recipeRevision")
         self.servings = servings
         self.swaps = try container.decodeIfPresent([SharedCookSwap].self, forKey: .swaps) ?? []
         self.rating = rating
@@ -183,6 +213,10 @@ extension SharedCook: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
+        // Outgoing boundary (review round 2): encoding revalidates the
+        // embedded revision — no payload leaves the phone unchecked, even
+        // one assembled by a path that skipped the checked constructor.
+        try RecipeExportGate.validateExportable(recipeRevision, target: "SharedCook.recipeRevision")
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(recipeRevision, forKey: .recipeRevision)
         try container.encode(servings, forKey: .servings)

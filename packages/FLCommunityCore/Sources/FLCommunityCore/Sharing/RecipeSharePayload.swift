@@ -96,36 +96,17 @@ public struct RecipeSharePayload: Hashable, Sendable {
     ///   offline use, and — mirroring the tightened FLDomain rights rule of
     ///   2026-10-11 — unknown or forbidden caching: caching must be
     ///   explicitly `.permitted`);
-    /// - a revision whose text or offline-use right is explicitly forbidden.
+    /// - a revision whose text or offline-use right is explicitly forbidden;
+    /// - a revision whose license requires attribution that the revision
+    ///   does not carry (review round 2: the export gate fails closed on
+    ///   missing required attribution, whitespace included).
     /// The declaration is mandatory: sharing always carries it (SPEC 3.4).
     public init(revision: RecipeRevision, declaration: RecipeRightsDeclaration, sharedAt: Date) throws {
-        guard revision.key.source != .lechef else {
-            throw FLDomainError.validation(
-                target: "RecipeSharePayload.revision",
-                reason: "LeChef drafts are private ('Made for your fridge') and cannot be shared; nominate via review instead"
-            )
-        }
-        let license = revision.source.license
-        guard license.textRedistribution != .forbidden, license.offlineUseAllowed != .forbidden else {
-            throw FLDomainError.validation(
-                target: "RecipeSharePayload.revision",
-                reason: "sharing redistributes the text for offline use, and that right is forbidden for this revision"
-            )
-        }
-        // Quarantine set mirrors the tightened FLDomain rights rule
-        // (2026-10-11): unknown rights on text, modification or offline use
-        // quarantine, and offline caching requires cachingAllowed == .permitted
-        // explicitly, so unknown or forbidden caching quarantines too.
-        let cachingQuarantines = license.cachingAllowed != .permitted
-        let unknownRights = license.textRedistribution == .unknown
-            || license.modificationAllowed == .unknown
-            || license.offlineUseAllowed == .unknown
-        guard !unknownRights, !cachingQuarantines else {
-            throw FLDomainError.validation(
-                target: "RecipeSharePayload.revision",
-                reason: "revision is quarantined (unknown rights mean quarantine, SPEC 3.5; caching must be explicitly permitted); record the rights before sharing"
-            )
-        }
+        // One export gate for both payload types that embed revision text —
+        // this one and SharedCook. Its rights checks byte-match the inline
+        // checks this init used before review round 2; the gate adds the
+        // required-attribution rule so no export path can skip it.
+        try RecipeExportGate.validateExportable(revision, target: "RecipeSharePayload.revision")
         self = RecipeSharePayload(checkedRevision: revision, declaration: declaration, sharedAt: sharedAt)
     }
 
