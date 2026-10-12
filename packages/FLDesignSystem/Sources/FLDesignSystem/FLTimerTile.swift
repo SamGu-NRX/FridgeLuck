@@ -85,16 +85,20 @@ public struct FLTimerTile: View {
     private var digits: some View {
         VStack(spacing: 2) {
             Text(timeText)
-                .flType(.timer)
                 .flTracking(.timer)
+                .flType(.timer)
                 .foregroundStyle(Theme.swiftColor(.yolk, in: .hob))
             if paused {
+                // ink2, never ink3, and no dimming opacity over it: the
+                // Paused label is meaningful small text on the hob ground,
+                // held to the 4.5:1 floor by the component-role contrast
+                // test. The state is cued by the label and the ring
+                // stopping — not by dimming the digits.
                 Text("Paused")
                     .flType(.caption)
-                    .foregroundStyle(Theme.swiftColor(.ink3, in: .hob))
+                    .foregroundStyle(Theme.swiftColor(.ink2, in: .hob))
             }
         }
-        .opacity(paused ? 0.7 : 1)
         .animation(.fl(.fade), value: paused)
     }
 

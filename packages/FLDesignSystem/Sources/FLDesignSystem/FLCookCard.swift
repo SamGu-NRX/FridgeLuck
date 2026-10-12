@@ -74,7 +74,7 @@ public struct FLCookCard: View {
 
                 Text("\(who) · \(when)")
                     .flType(.caption)
-                    .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                    .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
 
                 if let note {
                     // The quote device: one ink rule at the leading edge,

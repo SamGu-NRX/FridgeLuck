@@ -19,6 +19,10 @@ public enum TableIntent: Equatable, Sendable {
     case showSharePreview(cookID: String)
     /// The preview was dismissed without sharing.
     case dismissSharePreview
+    /// "Share" on the preview — submits the FROZEN preview payload. The
+    /// host publishes exactly what was previewed; nothing is re-derived
+    /// at send time, so what the cook approved is what leaves.
+    case confirmShare(TableViewState.SharePreview)
 
     // Navigation / effects (host-routed; reducer is identity)
 
@@ -34,9 +38,6 @@ public enum TableIntent: Equatable, Sendable {
     case cookTonight(cookID: String)
     /// A card's dish, or a notes row — pushes the Recipe screen.
     case openRecipe(recipeID: String)
-    /// The share preview's confirm. The preview stays up until the host
-    /// commits and returns new state.
-    case confirmShare(cookID: String)
     case joinChallenge
     /// "Retry" after a failed fetch.
     case retryFetch
@@ -53,15 +54,21 @@ public enum TableReducer {
         switch intent {
 
         case .showSharePreview(let cookID):
-            // Freeze the preview from the cook's recorded fields only.
-            // A cook that is not on the table (stale id, other device)
-            // opens no preview — nothing is invented to fill one.
+            // Freeze the preview from the cook's typed record fields
+            // only: the dish title AND its revision identity, the
+            // day-only when, the recorded substitutions as the typed
+            // swap list. `detailDisplay` never feeds the share (it may
+            // describe duration, not a substitution). A cook that is not
+            // on the table (stale id, other device) opens no preview —
+            // nothing is invented to fill one.
             guard let cook = next.cooks.first(where: { $0.id == cookID }) else { break }
             next.sharePreview = TableViewState.SharePreview(
                 cookID: cook.id,
                 recipeDisplay: cook.dishTitle,
+                revisionDisplay: cook.recipeRevisionKey,
+                when: cook.when,
                 servingsDisplay: "for \(cook.servings)",
-                swapsDisplay: cook.detailDisplay,
+                swaps: cook.swaps,
                 ratingDisplay: cook.ratingDisplay,
                 noteDisplay: cook.note
             )

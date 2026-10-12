@@ -2,7 +2,8 @@
 //
 // The correctable sentence: a sentence in body, the evidence count in mono
 // caption (a real count — hidden under ten per the direction), Right /
-// Wrong as two small secondary buttons. On Wrong the row greys and reads
+// Wrong as two small secondary buttons. On Wrong the row greys (ink → ink2,
+// never an opacity dim — small text stays above the 4.5:1 floor) and reads
 // "Won't use this" with Undo. The correction is always recoverable — taste
 // data is correctable memory, not a score, and there are no percentages.
 //
@@ -45,9 +46,11 @@ public struct FLTasteSentence: View {
                 .foregroundStyle(rejected ? Theme.swiftColor(.ink2, in: scheme) : Theme.swiftColor(.ink, in: scheme))
 
             Text("\(evidenceCount) seen")
-                .flType(.evidence)
                 .flTracking(.evidence)
-                .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
+                .flType(.evidence)
+                // ink2, not ink3: the count is meaningful small text and the
+                // component-role contrast test holds it to 4.5:1.
+                .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
 
             if rejected {
                 wrongState
@@ -56,7 +59,8 @@ public struct FLTasteSentence: View {
             }
         }
         .padding(.vertical, 4)
-        .opacity(rejected ? 0.75 : 1)
+        // No opacity dim on the rejected state: the ink → ink2 swap already
+        // de-emphasises, and a dim would drag body-size text below 4.5:1.
         .animation(.fl(.fade), value: rejected)
         .accessibilityElement(children: .contain)
     }
@@ -64,10 +68,10 @@ public struct FLTasteSentence: View {
     @ViewBuilder
     private var judgementButtons: some View {
         HStack(spacing: 16) {
-            smallSecondary("Right") {
+            FLJudgementButton(title: "Right") {
                 onRight()
             }
-            smallSecondary("Wrong") {
+            FLJudgementButton(title: "Wrong") {
                 rejected = true
                 onWrong()
             }
@@ -80,15 +84,31 @@ public struct FLTasteSentence: View {
             Text("Won't use this")
                 .flType(.body)
                 .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
-            smallSecondary("Undo") {
+            FLJudgementButton(title: "Undo") {
                 rejected = false
                 onUndo()
             }
         }
         .transition(.opacity)
     }
+}
 
-    private func smallSecondary(_ title: String, action: @escaping () -> Void) -> some View {
+/// The small outlined judgement button ("Right", "Wrong", "Undo") under the
+/// taste sentence. Its paddings are visual only — the frame enforces the
+/// 44 pt hit-target floor in both axes, because the bare look sits far
+/// below it. Internal so the hit-region tests can measure it in isolation.
+struct FLJudgementButton: View {
+    let title: String
+    let action: () -> Void
+
+    @Environment(\.flScheme) private var scheme
+
+    init(title: String, action: @escaping () -> Void) {
+        self.title = title
+        self.action = action
+    }
+
+    var body: some View {
         Button {
             FLHaptics.fire(.lightConfirm)
             action()
@@ -99,6 +119,10 @@ public struct FLTasteSentence: View {
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
+                .frame(
+                    minWidth: CGFloat(Theme.minimumHitTarget),
+                    minHeight: CGFloat(Theme.minimumHitTarget)
+                )
                 .overlay(
                     RoundedRectangle(cornerRadius: CGFloat(Radius.buttonOrChip.rawValue), style: .continuous)
                         .stroke(Theme.swiftColor(.rule2, in: scheme), lineWidth: 1)

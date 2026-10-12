@@ -3,7 +3,8 @@
 // Quiet toggles for filters and tags. Selected: yolk-soft background with
 // yolk-ink text — the only chromatic state a chip may take. Unselected:
 // hairline outline, ink2 text. Radius is buttonOrChip (10); chips are never
-// pills and never colour-coded beyond the one selected state.
+// pills and never colour-coded beyond the one selected state. The paddings
+// shape the look; the frame below shapes the touch area (44 pt floor).
 #if canImport(UIKit) || canImport(AppKit)
 import SwiftUI
 import FLDesignTokens
@@ -30,6 +31,10 @@ public struct FLChip: View {
                 .flType(.secondary)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
+                .frame(
+                    minWidth: CGFloat(Theme.minimumHitTarget),
+                    minHeight: CGFloat(Theme.minimumHitTarget)
+                )
                 .background(
                     RoundedRectangle(cornerRadius: CGFloat(Radius.buttonOrChip.rawValue), style: .continuous)
                         .fill(isSelected ? Theme.swiftColor(.yolkSoft, in: scheme) : Color.clear)

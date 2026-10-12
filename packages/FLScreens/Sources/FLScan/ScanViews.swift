@@ -317,8 +317,8 @@ private struct AnalysingSurface: View {
                 .fill(Theme.swiftColor(.pillGone, in: scheme))
             if let caption = state.photoCaption {
                 Text(caption)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
                     .padding(12)
             }
@@ -396,8 +396,8 @@ private struct ReviewSurface: View {
             Spacer()
             if let count = state.headerCountDisplay {
                 Text(count)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                     .accessibilityIdentifier("fl.scan.count")
             }
@@ -416,8 +416,8 @@ private struct ReviewSurface: View {
                     .accessibilityIdentifier("fl.scan.needsYouLabel")
                 Spacer()
                 Text("\(state.needsALookCount)")
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                     .accessibilityIdentifier("fl.scan.needsYouCount")
             }
@@ -483,8 +483,8 @@ private struct ReviewSurface: View {
                     .accessibilityIdentifier("fl.scan.looksRightLabel")
                 Spacer()
                 Text("\(state.sureCount)")
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                     .accessibilityIdentifier("fl.scan.looksRightCount")
             }
@@ -515,8 +515,8 @@ private struct ReviewSurface: View {
 
             if let line = item.receiptLine {
                 Text(line)
-                    .flType(.evidence)
                     .flTracking(.evidence)
+                    .flType(.evidence)
                     .foregroundStyle(Theme.swiftColor(.ink3, in: scheme))
                     .accessibilityIdentifier("fl.scan.receiptLine.\(item.id)")
             }

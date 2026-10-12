@@ -126,3 +126,37 @@ branches on it, per the round constraints.
 - `docs/screens/a11y-identifiers.md`: extended (still a PROPOSAL) with
   `fl.explore.*`, `fl.table.*`, `fl.recipe.*` tables drawn from the
   identifiers the views actually set.
+
+## Addendum — honesty fixes after the cf792e9 review (this working copy)
+
+Five review fixes landed on top of the Part 3 delivery, all in
+Foundation state/intent/reducer code (no redesigns; FLDesignSystem and
+the ThemeBridge call-chains in FLRecipe/RecipeViews and
+FLExplore/TableViews untouched). **Servings honesty:** changing
+`targetServings` now invalidates the fit pending recomputation — typed
+pending state, `statsDisplay` says "checking your kitchen for N"
+instead of stale stock claims, and a host `fitRecomputed` result applies
+only when its serving count matches the current target (stale results
+are dropped). **Validated swap coverage:** `FLFitSummary` carries
+per-shortfall accepted coverage (`swapCoveredNames`) and a host-validated
+`isCompleteAfterSwaps`; the numeric "N of 10 · M swaps" form and the
+Table's "Cook with swap" button are now earned only by validated
+coverage, otherwise the grammar states what is known ("1 swap accepted,
+2 items still to check"). **Skip vs Next and safety checks:** step
+outcomes are recorded distinctly (`StepOutcome.completed`/`.skipped`),
+skipping the final step closes the flow WITHOUT opening a completed
+record, required safety checks (`thermometerDoneness`, `timedRest`) are
+explicit state on Step, and a completed cook is assertable only when
+every step was completed and every required check was reviewed — the
+record state is constructed from what actually happened, not from the
+host callback alone. **Share-contract time precision:** the cook day is
+now a typed day-only value (`TableCookedDay`, renders "Mon") on the
+record and the preview alike — no exact times can leak through the share
+contract. **Typed freeze fields:** the preview freezes the recipe
+revision key and a typed swap list (duration copy in `detailDisplay` can
+no longer masquerade as a substitution), and confirm submits the frozen
+payload. Tests: FLDesignTokens 27/27; FLScreens 138 executed, 0
+failures — the 120-test baseline intact (grammar tests adapted
+only where a finding changed the contract) plus 18 new tests covering
+fit invalidation, validated coverage, skip/next recording, safety-check
+gating, and the typed share preview. FLDesignSystem builds unchanged.

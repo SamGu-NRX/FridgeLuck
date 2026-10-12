@@ -16,15 +16,21 @@ final class TableStateTests: XCTestCase {
 
     private func cook(
         id: String = "c-1", name: String = "Maya", own: Bool = false,
-        when: String = "Mon 21:40", servings: Int = 2, dish: String = "Ginger noodles",
+        when: TableCookedDay = .monday, servings: Int = 2, dish: String = "Ginger noodles",
         note: String? = nil, rating: String? = "5 of 5", detail: String? = nil,
-        photo: String? = nil, have: Int = 10, total: Int = 10, swaps: Int = 0
+        photo: String? = nil, have: Int = 10, total: Int = 10, swaps: Int = 0,
+        shortfallNames: [String] = [], covered: [String] = [],
+        swapList: [TableViewState.Swap] = []
     ) -> TableViewState.Cook {
         TableViewState.Cook(
-            id: id, cookName: name, isOwn: own, whenDisplay: when,
-            servings: servings, recipeID: "r-1", dishTitle: dish, note: note,
+            id: id, cookName: name, isOwn: own, when: when,
+            servings: servings, recipeID: "r-1",
+            recipeRevisionKey: "prawn-linguine-v4", dishTitle: dish, note: note,
             ratingDisplay: rating, detailDisplay: detail, photoCaption: photo,
-            fit: FLFitSummary(have: have, total: total, swapsNeeded: swaps)
+            swaps: swapList,
+            fit: FLFitSummary(
+                have: have, total: total, swapsNeeded: swaps,
+                shortfallNames: shortfallNames, swapCoveredNames: covered)
         )
     }
 
@@ -51,9 +57,19 @@ final class TableStateTests: XCTestCase {
         XCTAssertTrue(card.buttonIsPrimary)
     }
 
-    func testSwapCoveredShortfallOffersCookWithSwapQuietly() {
-        let card = cook(have: 9, total: 10, swaps: 1)
+    func testValidatedSwapCoverageOffersCookWithSwapQuietly() {
+        let card = cook(have: 9, total: 10, swaps: 1,
+                        shortfallNames: ["eggs"], covered: ["eggs"])
         XCTAssertEqual(card.buttonTitle, "Cook with swap")
+        XCTAssertFalse(card.buttonIsPrimary)
+    }
+
+    func testBareSwapCountNeverPromisesACookWithSwap() {
+        // A positive swap count that covers no named shortfall promises
+        // nothing: "Open recipe" states what the kitchen can do today.
+        let card = cook(have: 7, total: 10, swaps: 1,
+                        shortfallNames: ["eggs", "oil", "butter"])
+        XCTAssertEqual(card.buttonTitle, "Open recipe")
         XCTAssertFalse(card.buttonIsPrimary)
     }
 
@@ -79,12 +95,15 @@ final class TableStateTests: XCTestCase {
     func testSharePreviewFreezesOnlyTheRecordedFields() {
         var state = state(cooks: [
             cook(id: "c-1", servings: 2, note: "Worked at 2 servings",
-                 rating: "5 of 5", detail: "swapped spinach for kale"),
+                 rating: "5 of 5", detail: "18 min",
+                 swapList: [TableViewState.Swap(replaces: "spinach", with: "kale")]),
         ])
         state.apply(.showSharePreview(cookID: "c-1"))
         let preview = state.sharePreview
         XCTAssertEqual(preview?.recipeDisplay, "Ginger noodles")
         XCTAssertEqual(preview?.servingsDisplay, "for 2")
+        // Swaps come from the TYPED list: the card's detail line ("18
+        // min", a duration) never masquerades as a substitution.
         XCTAssertEqual(preview?.swapsDisplay, "swapped spinach for kale")
         XCTAssertEqual(preview?.ratingDisplay, "5 of 5")
         XCTAssertEqual(preview?.noteDisplay, "Worked at 2 servings")
@@ -100,6 +119,16 @@ final class TableStateTests: XCTestCase {
         XCTAssertNil(state.sharePreview?.swapsDisplay)
         XCTAssertNil(state.sharePreview?.ratingDisplay)
         XCTAssertNil(state.sharePreview?.noteDisplay)
+    }
+
+    func testSharePreviewCarriesRevisionIdentityAndTheDayOnlyWhen() {
+        var state = state(cooks: [cook(id: "c-1", when: .thursday)])
+        state.apply(.showSharePreview(cookID: "c-1"))
+        // The revision key travels with the dish title, and the cook day
+        // is the typed day-only value — no exact time can hide in it.
+        XCTAssertEqual(state.sharePreview?.revisionDisplay, "prawn-linguine-v4")
+        XCTAssertEqual(state.sharePreview?.when, .thursday)
+        XCTAssertEqual(state.sharePreview?.when.display, "Thu")
     }
 
     func testSharePreviewForAnUnknownCookOpensNothing() {
@@ -165,9 +194,13 @@ final class TableStateTests: XCTestCase {
     func testNavigationIntentsLeaveStateUntouched() {
         var state = state(cooks: [cook()])
         let before = state
+        let frozen = TableViewState.SharePreview(
+            cookID: "c-1", recipeDisplay: "Ginger noodles",
+            revisionDisplay: "prawn-linguine-v4", when: .monday,
+            servingsDisplay: "for 2")
         let effects: [TableIntent] = [
             .invite, .startTable, .joinWithCode, .cookTonight(cookID: "c-1"),
-            .openRecipe(recipeID: "r-1"), .confirmShare(cookID: "c-1"),
+            .openRecipe(recipeID: "r-1"), .confirmShare(frozen),
             .joinChallenge, .retryFetch, .leaveTable,
         ]
         for intent in effects {
