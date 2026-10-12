@@ -13,7 +13,7 @@ import FLDesignTokens
 
 public struct FLEmptyLoadingLine: View {
     @Environment(\.flScheme) private var scheme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.flReduceMotion) private var reduceMotion
 
     /// In determinate contexts a caller may want the line to pause; the
     /// sweep only runs when this is true.
