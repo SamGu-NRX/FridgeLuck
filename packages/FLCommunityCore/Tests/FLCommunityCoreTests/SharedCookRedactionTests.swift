@@ -203,6 +203,89 @@ final class SharedCookRedactionTests: XCTestCase {
         let cook = try TestSupport.cook(id: "cook-1", key: revision.key, completedAt: Date(timeIntervalSince1970: 0))
         XCTAssertNoThrow(try SharedCook(cook: cook, revision: revision, completedOn: "2026-10-11"))
     }
+
+    // MARK: Every inbound and outbound revision passes the gate (review
+    // round 2, blocker 2: decode and re-encode)
+
+    /// Wire JSON for a shared cook whose embedded license is rewritten after
+    /// encoding. The sending app may not enforce any policy, so the fixture
+    /// bypasses the checked constructor the same way non-policy sender bytes
+    /// would.
+    private func incomingSharedCookJSON(mutateLicense: (inout [String: Any]) -> Void) throws -> Data {
+        let revision = try TestSupport.revision(license: TestSupport.license())
+        let cook = try TestSupport.cook(id: "cook-1", key: revision.key, completedAt: Date(timeIntervalSince1970: 0))
+        let shared = try SharedCook(cook: cook, revision: revision, completedOn: "2026-10-11")
+        var object = try JSONSerialization.jsonObject(with: try FLJSON.canonicalData(shared)) as! [String: Any]
+        var revisionDict = try XCTUnwrap(object["recipeRevision"] as? [String: Any])
+        var sourceDict = try XCTUnwrap(revisionDict["source"] as? [String: Any])
+        var licenseDict = try XCTUnwrap(sourceDict["license"] as? [String: Any])
+        mutateLicense(&licenseDict)
+        sourceDict["license"] = licenseDict
+        revisionDict["source"] = sourceDict
+        object["recipeRevision"] = revisionDict
+        return try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys])
+    }
+
+    private func assertRefusesDecode(
+        _ json: Data,
+        reasonContains expected: String? = nil,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) throws {
+        XCTAssertThrowsError(try FLJSON.canonicalDecoder().decode(SharedCook.self, from: json), file: file, line: line) { error in
+            guard case let FLDomainError.validation(target, reason) = error else {
+                return XCTFail("wrong error: \(error)", file: file, line: line)
+            }
+            XCTAssertEqual(target, "SharedCook.recipeRevision", file: file, line: line)
+            if let expected {
+                XCTAssertTrue(reason.contains(expected), "unexpected reason: \(reason)", file: file, line: line)
+            }
+        }
+    }
+
+    func testIncomingSharedCookRefusesForbiddenTextRevision() throws {
+        // A shared cook embeds full recipe text, so decoding is inbound
+        // redistribution: every revision entering the phone passes the same
+        // gate as construction and encoding. Forbidden text never decodes.
+        let json = try incomingSharedCookJSON { license in license["textRedistribution"] = "forbidden" }
+        try assertRefusesDecode(json, reasonContains: "forbidden")
+    }
+
+    func testIncomingSharedCookRefusesQuarantinedRevision() throws {
+        // Unknown rights mean quarantine, and quarantined revisions are not
+        // re-shareable or shippable — decode refuses rather than holding the
+        // text (fail closed on missing/unknown rights).
+        let json = try incomingSharedCookJSON { license in license["cachingAllowed"] = "unknown" }
+        try assertRefusesDecode(json)
+    }
+
+    func testIncomingSharedCookRefusesMissingAttribution() throws {
+        // Attribution the license requires must be recorded before the
+        // payload may be held, exactly as before it may leave.
+        let json = try incomingSharedCookJSON { license in license["attributionRequired"] = true }
+        try assertRefusesDecode(json, reasonContains: "attribution")
+    }
+
+    func testIncomingPermittedSharedCookDecodesAndReExports() throws {
+        // Control: a fully permitted shared cook crosses both boundaries —
+        // decode and re-encode — so the gates block rights, not sharing.
+        let json = try incomingSharedCookJSON { _ in }
+        let incoming = try FLJSON.canonicalDecoder().decode(SharedCook.self, from: json)
+        XCTAssertNoThrow(try FLJSON.canonicalData(incoming))
+    }
+
+    func testSharedCookEncodeRevalidatesWithoutPolicyConstruction() throws {
+        // No pass-through: encoding revalidates even a payload built
+        // without the checked constructor.
+        let forbidden = try TestSupport.revision(license: TestSupport.license(text: .forbidden))
+        let cook = try TestSupport.cook(id: "cook-1", key: forbidden.key, completedAt: Date(timeIntervalSince1970: 0))
+        let unvalidated = SharedCook(checkedCook: cook, uncheckedRevision: forbidden, completedOn: "2026-10-11")
+        XCTAssertThrowsError(try FLJSON.canonicalData(unvalidated)) { error in
+            guard case let FLDomainError.validation(t, r) = error else { return XCTFail("wrong: \(error)") }
+            XCTAssertEqual(t, "SharedCook.recipeRevision")
+            XCTAssertTrue(r.contains("forbidden"), "reason: \(r)")
+        }
+    }
 }
 
 /// Local helper so the redaction tests read cleanly.

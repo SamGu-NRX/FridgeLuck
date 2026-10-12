@@ -6,7 +6,10 @@ import FLDomain
 // payload types that embed the full revision text — `RecipeSharePayload`
 // and `SharedCook` — enforce this gate at construction, because an
 // unauthorized export cannot be undone by any recipient-side import check.
-// Every check fails closed: missing or unknown rights block the export
+// `SharedCook` additionally gates its decode and its outgoing `encode(to:)`:
+// every embedded revision passes the policy entering the phone, leaving it,
+// and being built — no unvalidated pass-through in either direction.
+// Every check fails closed: missing or unknown rights block the payload
 // rather than pass it.
 
 /// The export policy every outgoing payload passes: LeChef drafts are
