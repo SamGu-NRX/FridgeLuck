@@ -30,10 +30,12 @@ move a bar with a recorded reason."*
   decision. A suite cannot move a bar from its own code.
 
 Registry metric fields: `label` (exact human label the suite must emit),
-`bar` (`{"op": "<=|>=|==", "value": n}`), and `source` or `reason`
-(recorded provenance — PLAN row or operator decision). Suite fields:
-`id`, `letter`, `title`, `owner_task`, `platform` (`any`|`macos`),
-optional `timeout_s` (default 1800 s).
+`bar` (`{"op": "<=|>=|==", "value": n}`), optional `interval_required`
+(`true`: the bar applies to the metric's 95% interval low end — a point
+estimate without an interval cannot pass; suite B's NDCG bars set it),
+and `source` or `reason` (recorded provenance — PLAN row or operator
+decision). Suite fields: `id`, `letter`, `title`, `owner_task`,
+`platform` (`any`|`macos`), optional `timeout_s` (default 1800 s).
 
 ## 2. Suite file contract (how B, D and E wire in — defect 6)
 
@@ -78,12 +80,19 @@ quality.
       "id": "<registry metric id>",
       "metric": "<registry label>",
       "value": 55,                         // for measurable metrics
-      "interval": [0.22, 0.35],            // optional; required sense for >=/<= bars
+      "interval": [0.22, 0.35],            // required where the registry sets
+                                           // interval_required; otherwise optional
       "bar": {"op": "==", "value": 200},   // optional; NEVER trusted (evidence only)
       "status": "not-run",                 // only allowed value: "not-run"
       "reason": "why not-run"              // required for not-run
     }
-  ]
+  ],
+  "run": {"run_id": "...", "git_sha": "...", "started_at": "..."},
+                                       // REQUIRED: the producer binding, copied
+                                       // from the FL_RUN_BINDING env var (section 4)
+  "run_status": "ok"                   // OPTIONAL: omit, or "ok"; any failure value
+                                       // (e.g. "infrastructure-failure") refuses the
+                                       // emission (section 4)
 }
 ```
 
@@ -96,19 +105,37 @@ Rules:
 - A `status` of `pass`/`fail` emitted by the suite is **stripped and
   re-derived** by the runner from the registry bar. Only `not-run` (with a
   reason) is honoured as declared.
-- Do **not** emit a `run` binding — the runner stamps it (section 4).
+- **Stamp the `run` binding yourself**: the runner passes this run's
+  identity to the suite as the `FL_RUN_BINDING` environment variable
+  (JSON: `run_id`, `git_sha`, `started_at`); a conforming suite writes
+  `results["run"] = json.loads(os.environ["FL_RUN_BINDING"])`. The runner
+  **verifies** the emitted producer binding instead of overwriting it —
+  a result bound to another run (a stale copy from an old `out/`
+  directory) or written without a binding is rejected to `not-run` with
+  the mismatch named (section 4).
 
-## 4. Run binding and fresh output (defect 4)
+## 4. Run binding, fresh output, and failed-run admission (defect 4)
 
-Every admitted result is bound to **this run**. The runner stamps
+Every admitted result is bound to **its producing run**, and suite
+results are bound to **this run**:
 
-```json
-"run": {"run_id": "r-YYYYMMDDTHHMMSSZ-xxxxxxxx", "git_sha": "<head>", "started_at": "...Z"}
-```
-
-onto every suite result (run, imported, and not-run) and re-validates the
-stamp before admission. Results that lack or contradict the binding fail
-closed to `not-run` with the reason — never `pass`.
+- The runner hands its identity —
+  `{"run_id": "r-YYYYMMDDTHHMMSSZ-xxxxxxxx", "git_sha": "<head>", "started_at": "...Z"}`
+  — to every suite as the `FL_RUN_BINDING` environment variable. The
+  suite stamps it as the producer binding on its results, and the runner
+  **preserves and verifies** the emitted binding instead of overwriting
+  it: a result whose binding names another run, or an output written
+  without one, is rejected to `not-run` with the reason naming the
+  mismatch. A suite that copies cached passing results from an old
+  `out/` directory therefore cannot relabel them with a fresh binding.
+- Rows the runner authors itself (a `not-run` refusal, a registry-
+  mismatch report, an admitted-import record) are bound to this run by
+  the runner.
+- **Explicit failed-run admission**: a result whose own `run_status`
+  reports an infrastructure failure — or that otherwise lacks verifiable
+  run provenance — lands `not-run` with the reason, never as a
+  zero-issues pass. A dead simulator or a crashed audit cannot be scored
+  as a clean run.
 
 Fresh output per run: the runner **removes `out/<id>/` before executing a
 suite**, so an exit-zero suite that emits nothing cannot reuse a previous
@@ -125,13 +152,22 @@ proves itself**:
 
 - `git.sha` — the **full SHA of the producing run**, equal to the current
   head;
-- `run_url` — the URL of the CI run that produced it (`https://…`);
-- `run.run_id`, `run.started_at` — the producing run's identity.
+- `run_url` — **this repository's GitHub Actions URL for the run**
+  (`https://github.com/SamGu-NRX/FridgeLuck/actions/runs/<id>`);
+- `run.run_id` (numeric), `run.started_at` — the producing run's identity.
 
-Anything missing or contradicting the current head is refused:
-**not-run** with the reason, never `pass`. An admitted import is marked
-`"source": "imported"` and keeps the producing run's identity under
-`native_run` alongside this run's binding.
+The runner then **re-verifies the run against GitHub's REST API**
+(`GET /repos/SamGu-NRX/FridgeLuck/actions/runs/<id>`, token from
+`GITHUB_TOKEN`/`SECRET_GITHUB_TOKEN`): the run must exist and its
+recorded `head_sha` must be the current head. A synthetic URL
+(`ci.example.test` and friends) is **not provenance**; a fabricated run
+id, a foreign head behind a real run id, or a network that blocks
+verification each fail closed to **not-run** with the reason — live-
+reachability checks that could not run are labeled `UNVERIFIED-NATIVE`
+in the refusal. An admitted import is marked `"source": "imported"`,
+keeps the producing run's identity under `native_run`, and records the
+verification evidence (`verified_via: "github-rest"`, run id, head,
+`checked_at`) under `import_provenance`.
 
 ## 6. Planted-failure self-tests
 
@@ -141,12 +177,19 @@ one is caught; it exits **0 only when every planted failure is caught**
 
 1. **Runner-owned cases** (`RUNNER_CASES` in `run.py`): the minimum set —
    dropped metric, weakened bar, extra metric, stale-result reuse attempt,
-   missing binding fields, unbound imported result, head-mismatched
-   import, absent suite dir, missing/wrong `letter`/`title` identity, plus
-   the legacy honesty cases (crash, honest fail, honest pass, liar,
+   stale-result copies carrying an old or no producer binding, missing
+   binding fields, unbound imported result, head-mismatched import,
+   synthetic-URL import (`ci.example.test`), forged-head import behind a
+   real run id, network-unreachable import, infrastructure-failure
+   zero-issues emission, a learning point estimate without the required
+   interval, absent suite dir, missing/wrong `letter`/`title` identity,
+   plus the legacy honesty cases (crash, honest fail, honest pass, liar,
    missing inputs, interval on an `==` bar) and B/D/E wiring cases against
    the real registry. Each case plants a synthetic suite (or import
-   payload) in a temp tree and asserts the exact reported rows.
+   payload) in a temp tree and asserts the exact reported rows. Runner
+   cases assert the **entire expected row set**: a positive control must
+   not be "caught" while an extra identity-contract failure hides beside
+   it.
 2. **Per-suite planted cases** — the convention other sub-threads use to
    add cases from their own directories: put JSON case files in
    `evaluation/suites/<id>/selftest/*.json`. Schema (same keys as the
@@ -156,6 +199,13 @@ one is caught; it exits **0 only when every planted failure is caught**
    `{"id", "status", "reason_contains"}`), optional `expect_source`,
    `forbid_ids`, `expect_file_absent`, `skip_on_macos`. Cases run against
    the real registry; the runner reports `caught`/`UNCAUGHT` per case.
+   Per-suite `expect_rows` names the rows under test — honest rows may sit
+   alongside them (the runner's own cases, by contrast, assert the exact
+   row set).
+   `evaluation/tests/planted_failures.py` replays the review plants
+   directly against any runner (`--run-py <path>`, `--expect-green` to
+   enforce) — see `evidence-base-plants.txt` (red at base 9e04af4) and
+   `evidence-branch-plants.txt` (all caught on the branch).
 3. **Suite-internal `--self-test`**: every present suite must also catch
    its own planted failures (exit 0), and the runner runs it as part of
    `--self-test`.
