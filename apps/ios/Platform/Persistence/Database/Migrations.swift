@@ -528,10 +528,240 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - V19: Explicit allergen group selection
+
+    // Group intent gets its own explicit record: `allergen_selected_groups` stores the
+    // canonical group identifiers the user actually chose, and
+    // `allergen_preferences_version` marks whether allergen preferences were ever
+    // explicitly confirmed (0 = never reviewed).
+    //
+    // Deliberately NO backfill: a legacy profile's `allergen_ingredient_ids` cannot show
+    // whether the user picked groups, which groups, or nothing on purpose — the saved
+    // IDs only reflect individual ingredient exclusions (group toggles used to persist
+    // their keyword-matched ingredient IDs). Reconstructing group intent from those IDs
+    // would be wrong in both directions (an individually excluded soy sauce is not a
+    // Soy+Gluten choice; an old Gluten choice can leave no core-ID trace), so legacy
+    // rows keep version 0, keep their explicit ingredient exclusions untouched, and are
+    // asked to reconfirm their groups. An empty legacy ID list is also NOT read as "no
+    // allergies" — only an explicit confirmation marks that.
+    migrator.registerMigration("v19_explicit_allergen_groups") { db in
+      try db.alter(table: "health_profile") { t in
+        t.add(column: "allergen_selected_groups", .text).notNull().defaults(to: "[]")
+        t.add(column: "allergen_preferences_version", .integer).notNull().defaults(to: 0)
+      }
+    }
+
+    // MARK: - V20: Historical nutrition snapshots
+    //
+    // A logged meal keeps the nutrition it had when it was cooked. Two tables
+    // freeze the meal's nutrition inputs at capture (or upgrade) time:
+    //
+    // - `cooking_history_nutrition_snapshots`: per meal — recipe servings at
+    //   capture, an explicit format version, and a provenance label.
+    // - `cooking_history_nutrition_lines`: per required recipe ingredient —
+    //   effective ingredient values (substitute applied), quantity, swap
+    //   ratio, and all seven nutrient columns, in a stable line order
+    //   (ascending original ingredient id at capture time).
+    //
+    // The v20 backfill labels existing meals 'upgrade_backfill': those values
+    // are what the catalog said when the app upgraded, NOT recovered
+    // measurements of the original meal. Meals logged after the upgrade are
+    // captured in the logging transaction with provenance
+    // 'logged_at_capture'. Either way, later catalog corrections cannot
+    // rewrite what was logged.
+    //
+    // One transaction covers schema + backfill: a meal reports only through a
+    // completed snapshot, so a partially-migrated database is impossible.
+    // Reporting refuses to fall back to the mutable catalog.
+    migrator.registerMigration("v20_historical_nutrition_snapshots") { db in
+      try db.create(table: "cooking_history_nutrition_snapshots") { t in
+        t.column("history_id", .integer)
+          .notNull()
+          .references("cooking_history", onDelete: .cascade)
+        t.column("recipe_servings", .integer).notNull()
+        t.column("snapshot_version", .integer).notNull().defaults(to: 1)
+        t.column("provenance", .text)
+          .notNull()
+          .check(
+            sql:
+              "provenance IN ('logged_at_capture', 'upgrade_backfill')")
+        t.primaryKey(["history_id"])
+      }
+
+      try db.create(table: "cooking_history_nutrition_lines") { t in
+        t.column("history_id", .integer)
+          .notNull()
+          .references("cooking_history_nutrition_snapshots", onDelete: .cascade)
+        t.column("line_index", .integer).notNull()
+        t.column("original_ingredient_id", .integer).notNull()
+        t.column("substitute_ingredient_id", .integer)
+        t.column("swap_ratio", .double).notNull()
+        t.column("quantity_grams", .double).notNull()
+        // Nutrients are the EFFECTIVE per-100g values (substitute applied).
+        // NULL means the effective ingredient row was unavailable at capture
+        // time; the line then contributes nothing to reports, matching the
+        // catalog join it replaced.
+        t.column("calories", .double)
+        t.column("protein", .double)
+        t.column("carbs", .double)
+        t.column("fat", .double)
+        t.column("fiber", .double)
+        t.column("sugar", .double)
+        t.column("sodium", .double)
+        t.primaryKey(["history_id", "line_index"])
+      }
+
+      // Backfill meal headers from the catalog as it exists during the
+      // upgrade. Meals whose recipe row is gone (legacy orphaned history)
+      // get no snapshot and stay excluded from dated reports, matching the
+      // recipes join those reports have always used.
+      try db.execute(
+        sql: """
+          INSERT INTO cooking_history_nutrition_snapshots (
+            history_id, recipe_servings, snapshot_version, provenance
+          )
+          SELECT ch.id, r.servings, 1, 'upgrade_backfill'
+          FROM cooking_history ch
+          JOIN recipes r ON r.id = ch.recipe_id
+          """
+      )
+
+      // Backfill per-line values from the catalog as it exists during the
+      // upgrade. line_index is a dense index over required lines ordered by
+      // recipe_ingredients rowid (insertion order): the plan the journal and
+      // Health folds ran on (idx_ri_recipe) visits equal-recipe entries by
+      // rowid, so this reproduces their exact accumulation order at cutover.
+      // Missing substitute ingredients (pre-foreign-key legacy rows) freeze
+      // NULL nutrients instead of failing the upgrade.
+      try db.execute(
+        sql: """
+          INSERT INTO cooking_history_nutrition_lines (
+            history_id, line_index, original_ingredient_id, substitute_ingredient_id,
+            swap_ratio, quantity_grams, calories, protein, carbs, fat, fiber, sugar, sodium
+          )
+          SELECT
+            s.history_id,
+            (SELECT COUNT(*) FROM recipe_ingredients ri2
+             WHERE ri2.recipe_id = ch.recipe_id
+               AND ri2.is_required = 1
+               AND ri2.rowid < ri.rowid),
+            ri.ingredient_id, sw.substitute_ingredient_id,
+            COALESCE(sw.ratio, 1.0), ri.quantity_grams,
+            i.calories, i.protein, i.carbs, i.fat, i.fiber, i.sugar, i.sodium
+          FROM cooking_history_nutrition_snapshots s
+          JOIN cooking_history ch ON ch.id = s.history_id
+          JOIN recipe_ingredients ri
+            ON ri.recipe_id = ch.recipe_id AND ri.is_required = 1
+          LEFT JOIN cooking_history_swaps sw
+            ON sw.history_id = s.history_id
+            AND sw.original_ingredient_id = ri.ingredient_id
+          LEFT JOIN ingredients i
+            ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
+          """
+      )
+    }
+
+    // MARK: - V21: Bundle row ownership + refresh diagnostics
+
+    // Registration ORDER: the registry ends at v21 for fresh installs and for
+    // databases already inside the v16+ era. A database still at the
+    // last-shipped (v15) schema defers v21 to the ownership refresh stream,
+    // which applies it through applyBundleOwnershipSchemaIfNeeded before its
+    // first pass — so an upgrade applies exactly the v16-v20 schema migrations
+    // at setup. MigrationUpgradeTests pins the upgraded suffix;
+    // MigrationSnapshotTests pins the fresh registry bound.
+    if try lastAppliedMigration(in: db) != lastShippedSchema {
+      registerBundleOwnershipMigration(on: &migrator)
+    }
+
     if let target {
       try migrator.migrate(db, upTo: target)
     } else {
       try migrator.migrate(db)
+    }
+  }
+
+  /// The schema the last shipped app release left on disk; upgrading from it is
+  /// the one path that defers v21 to the ownership refresh stream.
+  private static let lastShippedSchema = "v15_notification_rules_and_opportunities"
+
+  /// The bundle-ownership migration's registry identifier.
+  static let bundleOwnershipMigration = "v21_bundle_ownership"
+
+  private static func registerBundleOwnershipMigration(on migrator: inout DatabaseMigrator) {
+    migrator.registerMigration(bundleOwnershipMigration) { db in
+      try applyBundleOwnershipSchema(db)
+    }
+  }
+
+  /// The v21 body: bundle-ownership columns, their partial unique indexes, and
+  /// the refresh diagnostics table.
+  ///
+  /// The bundle refresh needs two things hydration history never recorded: which
+  /// installed rows came from the bundled data at all, and what the bundle last
+  /// wrote to them. Ownership keys name the bundle entry a row came from (stable
+  /// across bundle content versions); canonical hashes capture the bundle-written
+  /// columns so a later refresh can tell untouched rows from user-modified ones.
+  /// Diagnostics record anything the refresh could not silently resolve.
+  private static func applyBundleOwnershipSchema(_ db: Database) throws {
+    try db.alter(table: "recipes") { t in
+      t.add(column: "ownership_key", .text)
+      t.add(column: "bundle_content_hash", .text)
+    }
+    try db.alter(table: "ingredients") { t in
+      t.add(column: "ownership_key", .text)
+      t.add(column: "bundle_content_hash", .text)
+    }
+
+    // One bundle entry can adopt at most one installed row per kind; partial
+    // indexes keep NULL (not-yet-adopted) rows free to coexist.
+    try db.execute(
+      sql: """
+        CREATE UNIQUE INDEX idx_recipes_ownership_key ON recipes(ownership_key)
+        WHERE ownership_key IS NOT NULL
+        """)
+    try db.execute(
+      sql: """
+        CREATE UNIQUE INDEX idx_ingredients_ownership_key ON ingredients(ownership_key)
+        WHERE ownership_key IS NOT NULL
+        """)
+
+    try db.create(table: "bundle_refresh_diagnostics") { t in
+      t.autoIncrementedPrimaryKey("id")
+      t.column("entity_type", .text).notNull()
+      t.column("entity_ref", .text).notNull()
+      t.column("code", .text).notNull()
+      t.column("detail", .text).notNull().defaults(to: "{}")
+      t.column("created_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+    }
+    // Unique on (entity_type, entity_ref, code): the refresher upserts diagnostics
+    // with ON CONFLICT so repeated passes refresh one row per problem.
+    try db.execute(
+      sql: """
+        CREATE UNIQUE INDEX idx_bundle_refresh_diagnostics_entity
+        ON bundle_refresh_diagnostics(entity_type, entity_ref, code)
+        """)
+    try db.create(
+      index: "idx_bundle_refresh_diagnostics_code",
+      on: "bundle_refresh_diagnostics",
+      columns: ["code"])
+  }
+
+  /// Applies the bundle-ownership schema to databases that deferred v21 to the
+  /// ownership refresh stream. Idempotent: GRDB skips an already-applied
+  /// migration.
+  static func applyBundleOwnershipSchemaIfNeeded(_ db: DatabaseQueue) throws {
+    var migrator = DatabaseMigrator()
+    registerBundleOwnershipMigration(on: &migrator)
+    try migrator.migrate(db)
+  }
+
+  /// The most recent migration the database applied, or nil before the first.
+  private static func lastAppliedMigration(in db: DatabaseQueue) throws -> String? {
+    try db.read { database in
+      guard try database.tableExists("grdb_migrations") else { return nil }
+      return try String.fetchOne(
+        database, sql: "SELECT identifier FROM grdb_migrations ORDER BY rowid DESC")
     }
   }
 }

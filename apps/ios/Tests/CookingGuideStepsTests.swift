@@ -72,4 +72,20 @@ final class CookingGuideStepsTests: XCTestCase {
   func testNumberOnlyLinesAreDropped() {
     XCTAssertEqual(CookingGuideSteps(instructions: "1. \n2. Stir.").steps, ["Stir."])
   }
+
+  // MARK: - Zero-step inputs
+
+  func testAttributionOnlyInstructionsProduceNoSteps() {
+    let guide = CookingGuideSteps(instructions: "Source: https://example.org/recipe")
+
+    XCTAssertEqual(guide.steps, [])
+    XCTAssertEqual(guide.attribution?.label, "example.org")
+  }
+
+  func testEmptyInstructionsProduceNoSteps() {
+    let guide = CookingGuideSteps(instructions: "")
+
+    XCTAssertEqual(guide.steps, [])
+    XCTAssertNil(guide.attribution)
+  }
 }

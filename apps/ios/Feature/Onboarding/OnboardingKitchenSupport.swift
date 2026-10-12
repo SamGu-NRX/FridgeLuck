@@ -100,6 +100,7 @@ struct OnboardingKitchenCaptureStep: View {
           Image(systemName: configuration.heroIcon)
             .font(.system(size: 28, weight: .semibold))
             .foregroundStyle(configuration.heroIconTint)
+            .accessibilityHidden(true)
         }
         .inventoryStagger(index: 0, appeared: appeared)
 
@@ -108,6 +109,7 @@ struct OnboardingKitchenCaptureStep: View {
             .font(.system(.title2, design: .serif, weight: .bold))
             .foregroundStyle(AppTheme.textPrimary)
             .multilineTextAlignment(.center)
+            .accessibilityAddTraits(.isHeader)
             .inventoryStagger(index: 1, appeared: appeared)
 
           Text(configuration.subtitle)
@@ -164,6 +166,8 @@ struct OnboardingKitchenCaptureStep: View {
             HStack(spacing: AppTheme.Space.sm) {
               ForEach(thumbnailItems) { item in
                 ZStack(alignment: .topTrailing) {
+                  let thumbnailLabel =
+                    "\(configuration.photoName) \(item.index + 1) of \(configuration.maxPhotos)"
                   Image(uiImage: item.image)
                     .resizable()
                     .scaledToFill()
@@ -175,6 +179,7 @@ struct OnboardingKitchenCaptureStep: View {
                       RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
                         .stroke(AppTheme.sage.opacity(0.30), lineWidth: 1)
                     )
+                    .accessibilityLabel(thumbnailLabel)
 
                   Button {
                     withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -199,11 +204,12 @@ struct OnboardingKitchenCaptureStep: View {
             }
             .padding(.horizontal, AppTheme.Space.xs)
           }
-          .transition(.opacity.combined(with: .scale(scale: 0.95)))
+          .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.95)))
 
           Text("\(photos.count) of \(configuration.maxPhotos) photos")
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.sage)
+            .accessibilityAddTraits(.updatesFrequently)
         }
 
         Text("You can skip this step and add items later from the scan orb.")
