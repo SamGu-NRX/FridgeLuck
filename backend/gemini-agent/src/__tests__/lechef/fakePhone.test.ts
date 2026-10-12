@@ -172,7 +172,6 @@ describe("fake phone: offline and reconnect", () => {
     expect(snap.items[0].state).toBe("short");
   });
 });
-\n
 describe("fake phone: the phone owns approval policy (review fix 2)", () => {
   /** Craft a proposal directly, bypassing the model layer — the forgery path. */
   function craft(proposal: ActionProposal): ActionProposal {
