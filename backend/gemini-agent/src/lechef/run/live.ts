@@ -219,6 +219,8 @@ async function runLive(env: Readonly<Record<string, string | undefined>>, args: 
   const armSummaries: ArmSummary[] = [];
   let capAbort: CapAbortError | undefined;
   let runExit = 0;
+  let completedTotal = 0;
+  let attemptedTotal = 0;
 
   for (const { arm, design } of ARMS) {
     if (capAbort !== undefined) {
@@ -292,6 +294,8 @@ async function runLive(env: Readonly<Record<string, string | undefined>>, args: 
       }
     }
 
+    completedTotal += completed;
+    attemptedTotal += completed + aborted;
     armSummaries.push({
       arm: design.id,
       design: design.title,
@@ -325,6 +329,10 @@ async function runLive(env: Readonly<Record<string, string | undefined>>, args: 
   console.log(`  ledger: ${ledger.state().requestsSent} requests sent, $${ledger.state().committedSpendUsd.toFixed(6)} committed of $${cfg.caps.maxSpendUsd}`);
   if (capAbort !== undefined) {
     console.error(`live run aborted cleanly at the cap: ${capAbort.detail}`);
+    runExit = 1;
+  }
+  if (attemptedTotal > 0 && completedTotal === 0) {
+    console.error(`live run produced no completed sessions (${attemptedTotal} attempted) — inspect the logs under ${join(outDir, runId)}`);
     runExit = 1;
   }
   process.exit(runExit);
