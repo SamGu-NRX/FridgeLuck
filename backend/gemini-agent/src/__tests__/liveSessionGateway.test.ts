@@ -41,6 +41,7 @@ function makeHarness(opts?: {
   liveClientMessagesPerMinute?: number;
   breakSessionStore?: boolean;
   withModel?: boolean;
+  failFirstLedgerApply?: boolean;
 }) {
   const config: any = {
     port: 0,
@@ -110,6 +111,29 @@ function makeHarness(opts?: {
     : realStore;
 
   const ledgers = new SessionLedgers(config.idempotencyTtlSeconds);
+  if (opts?.failFirstLedgerApply) {
+    // Transient ledger outage: the first addItems/decrementItems CALL on a
+    // ledger throws once and then the real write path takes over. Used to
+    // prove that a failed apply surfaces failed/ledger_error, leaves the
+    // proposal pending (confirmable again), and never burns the confirm.
+    const innerGet = ledgers.get.bind(ledgers);
+    let armed = false;
+    (ledgers as any).get = (sessionId: string) => {
+      const ledger = innerGet(sessionId);
+      if (!armed) {
+        armed = true;
+        for (const method of ["addItems", "decrementItems"] as const) {
+          const real = ledger[method].bind(ledger);
+          (ledger as any)[method] = (...args: unknown[]) => {
+            // Transient: restore before throwing so the retry commits.
+            (ledger as any)[method] = real;
+            throw new Error("simulated ledger outage");
+          };
+        }
+      }
+      return ledger;
+    };
+  }
   const proposals = new MutationProposalStore();
   const confidenceService = new ConfidenceService();
 
@@ -377,6 +401,63 @@ describe("live gateway authority boundaries", () => {
     const afterCancel = h.ledgers.get(sessionId).snapshot();
     const onion = afterCancel.find((i: any) => i.ingredientName === "Onion");
     expect(onion.quantityGrams).toBe(120); // untouched by the cancelled proposal
+  });
+
+  it("a failed ledger apply surfaces failed/ledger_error and keeps the proposal confirmable", async () => {
+    const h = await makeHarness({ failFirstLedgerApply: true });
+    cleanupFns.push(h.close);
+
+    const ws = await openSocket(h.url);
+    const [opened] = await receive(ws, 1);
+    const sessionId = opened.sessionId as string;
+
+    const { result } = await dispatchToolCall(
+      "propose_inventory_mutation",
+      {
+        operation: "add",
+        items: [{ ingredientName: "Onion", quantityGrams: 120 }]
+      },
+      buildToolRegistry(),
+      toolDeps(h),
+      sessionId
+    );
+    const proposalId = (result as any).proposalId as string;
+
+    // First confirm: the ledger write throws BEFORE the store resolves, so
+    // the client sees the existing failed/ledger_error contract.
+    ws.send(
+      JSON.stringify({ type: "confirm_mutation", payload: { proposalId } })
+    );
+    const failed = await nextMessage(ws);
+    expect(failed.type).toBe("mutation_result");
+    expect(failed.payload.status).toBe("failed");
+    expect(failed.payload.reason).toBe("ledger_error");
+
+    // The execution stayed UNRESOLVED: the proposal is still pending and the
+    // ledger is untouched. (Before the reorder, this confirm was burned as
+    // executed and the mutation was silently lost.)
+    expect(h.proposals.pendingCount(sessionId)).toBe(1);
+    expect(h.ledgers.get(sessionId).snapshot()).toHaveLength(0);
+
+    // The user confirms again; the retried apply commits the effect.
+    ws.send(
+      JSON.stringify({ type: "confirm_mutation", payload: { proposalId } })
+    );
+    const retried = await nextMessage(ws);
+    expect(retried.payload.status).toBe("executed");
+    expect(retried.payload.committed).toBe(true);
+    const committed = h.ledgers.get(sessionId).snapshot();
+    expect(committed.some((i: any) => i.ingredientName === "Onion")).toBe(
+      true
+    );
+
+    // And the idempotent door closes: a third confirm is already_resolved.
+    ws.send(
+      JSON.stringify({ type: "confirm_mutation", payload: { proposalId } })
+    );
+    const again = await nextMessage(ws);
+    expect(again.payload.status).toBe("rejected");
+    expect(again.payload.reason).toBe("already_resolved");
   });
 
   it("enforces the per-connection message budget", async () => {

@@ -10,7 +10,10 @@ import type WebSocket from "ws";
 import type { AppConfig } from "../config.js";
 import type { SessionLedgers } from "../inventory/sessionLedgers.js";
 import type { ConfidenceService } from "../services/confidenceService.js";
-import type { ConfidenceAssessResponse } from "../types/contracts.js";
+import type {
+  ConfidenceAssessResponse,
+  InventoryMutationResponse
+} from "../types/contracts.js";
 import { SYSTEM_PROMPT, TOOL_DECLARATIONS } from "../agent/systemPrompt.js";
 import {
   applyApprovedProposal,
@@ -29,7 +32,10 @@ import type {
   StoredRecipeContext,
   StoredIngredientContext,
 } from "../session/liveSessionStore.js";
-import type { MutationProposalStore } from "../authority/mutationAuthority.js";
+import type {
+  MutationProposalStore,
+  ProposalConfirmOutcome
+} from "../authority/mutationAuthority.js";
 
 // Live session gateway.
 //
@@ -510,51 +516,36 @@ export function attachLiveSessionGateway(
         return;
       }
 
-      const outcome =
-        action === "confirm"
-          ? proposals.confirm(sessionId, proposalId)
-          : proposals.cancel(sessionId, proposalId);
-
-      if (!outcome.ok) {
-        sendMutationResult({
-          status: "rejected",
-          reason: outcome.reason,
-          proposalId
-        });
-        return;
-      }
-
       if (action === "cancel") {
+        const cancelOutcome = proposals.cancel(sessionId, proposalId);
+        if (!cancelOutcome.ok) {
+          sendMutationResult({
+            status: "rejected",
+            reason: cancelOutcome.reason,
+            proposalId
+          });
+          return;
+        }
         sendMutationResult({
           status: "cancelled",
           proposalId,
-          operation: outcome.proposal.operation,
-          itemCount: outcome.proposal.items.length
+          operation: cancelOutcome.proposal.operation,
+          itemCount: cancelOutcome.proposal.items.length
         });
         return;
       }
 
-      // Approved. Execute once — the proposal id is the ledger idempotency
-      // key — then audit against the session-scoped ledger.
+      // Approved. The store applies the operation FIRST and marks the
+      // execution resolved only once the effect commits: if the ledger
+      // write throws, the proposal stays pending (the user can confirm
+      // again) and the error reaches this catch — the existing
+      // failed/ledger_error contract. The proposal id is the ledger
+      // idempotency key, so a retried confirm still applies at most once.
+      let outcome: ProposalConfirmOutcome<InventoryMutationResponse>;
       try {
-        const result = applyApprovedProposal(
-          outcome.proposal,
-          ledgers.get(sessionId)
+        outcome = proposals.confirm(sessionId, proposalId, (proposal) =>
+          applyApprovedProposal(proposal, ledgers.get(sessionId))
         );
-        await sessionStore.appendMutationAudit(sessionId, {
-          operation: outcome.proposal.operation,
-          idempotencyKey: outcome.proposal.id,
-          itemCount: outcome.proposal.items.length,
-          committed: result.committed,
-          createdAt: new Date().toISOString()
-        });
-        sendMutationResult({
-          status: "executed",
-          proposalId,
-          operation: outcome.proposal.operation,
-          itemCount: outcome.proposal.items.length,
-          committed: result.committed
-        });
       } catch (err) {
         console.error(
           JSON.stringify({
@@ -569,7 +560,50 @@ export function attachLiveSessionGateway(
           reason: "ledger_error",
           proposalId
         });
+        return;
       }
+
+      if (!outcome.ok) {
+        sendMutationResult({
+          status: "rejected",
+          reason: outcome.reason,
+          proposalId
+        });
+        return;
+      }
+
+      // Here only because the effect committed — the store resolved the
+      // execution strictly after the apply returned. Audit the committed
+      // mutation; an audit failure is logged and does not flip the client
+      // ack to failed: the write is committed and the proposal id is spent,
+      // so a "failed" ack would only invite a confirm that can never
+      // re-execute.
+      try {
+        await sessionStore.appendMutationAudit(sessionId, {
+          operation: outcome.proposal.operation,
+          idempotencyKey: outcome.proposal.id,
+          itemCount: outcome.proposal.items.length,
+          committed: outcome.applied.committed,
+          createdAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.error(
+          JSON.stringify({
+            severity: "ERROR",
+            message: "mutation_audit_failed",
+            errorName: err instanceof Error ? err.name : typeof err,
+            sessionId
+          })
+        );
+      }
+
+      sendMutationResult({
+        status: "executed",
+        proposalId,
+        operation: outcome.proposal.operation,
+        itemCount: outcome.proposal.items.length,
+        committed: outcome.applied.committed
+      });
     };
 
     socket.on("message", (raw: Buffer) => {
