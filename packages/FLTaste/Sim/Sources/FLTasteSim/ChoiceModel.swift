@@ -1,6 +1,20 @@
 import Foundation
 import FLTaste
 
+/// Internal truth carrier for the choice model: the recipe, the
+/// household's TRUE mean utility, and the contamination terms. This type
+/// never reaches a ranker — it exists only between the simulator's
+/// truth computation and `ChoiceModel`, and its contents are exported to
+/// the ground-truth layer (PR #105 review blocker 1: keep truth inside
+/// the choice/scoring code).
+struct ChoiceCandidate: Sendable {
+    let recipe: CatalogRecipe
+    /// Household-mean latent utility (mean over eaters of `x·theta`).
+    let utility: Double
+    let availability: Double
+    let exposureCount: Int
+}
+
 /// The household's choice process: softmax over a contaminated score.
 ///
 /// The score is true utility plus three contamination terms (position,
@@ -31,14 +45,15 @@ public enum ChoiceModel {
     }
 
     /// Choice probabilities over an ordered slate, in slate order.
-    /// Normalized; every entry strictly positive.
-    public static func probabilities(
-        slate: [Candidate], config: SimConfig
+    /// Normalized; every entry strictly positive. Internal: the choice
+    /// layer is the simulator's truth side, not part of the public seam.
+    static func probabilities(
+        slate: [ChoiceCandidate], config: SimConfig
     ) -> [Double] {
         guard !slate.isEmpty else { return [] }
         let scores = slate.enumerated().map { index, candidate in
             score(
-                utility: candidate.householdUtility, availability: candidate.availability,
+                utility: candidate.utility, availability: candidate.availability,
                 exposureCount: candidate.exposureCount, position: index,
                 slateCount: slate.count, config: config)
         }

@@ -40,6 +40,27 @@ public struct HouseholdSimulator {
         self.ranker = ranker
     }
 
+    // MARK: - Ranker-output contract filter
+
+    /// Defensive contract filter for ranker output: dedupes, keeps ONLY
+    /// ids in the current feasible set — an unknown id AND a known but
+    /// infeasible id are both contract violations and are dropped rather
+    /// than trusted — and caps at `cap`. Pure and order-preserving.
+    public static func slate(
+        from rankedIds: [RecipeID], feasible: [CatalogRecipe], cap: Int
+    ) -> [CatalogRecipe] {
+        let byId = Dictionary(uniqueKeysWithValues: feasible.map { ($0.id, $0) })
+        var seen: Set<RecipeID> = []
+        var slate: [CatalogRecipe] = []
+        for id in rankedIds {
+            guard !seen.contains(id), let recipe = byId[id] else { continue }
+            seen.insert(id)
+            slate.append(recipe)
+            if slate.count == cap { break }
+        }
+        return slate
+    }
+
     // MARK: - Timeline constants
 
     private static let weekMillis: Int64 = 7 * 24 * 3_600_000
@@ -207,36 +228,38 @@ public struct HouseholdSimulator {
             var probabilities: [Double] = []
 
             if attended {
-                let candidates = zip(feasible, utilities).map { recipe, utility in
-                    Candidate(
-                        recipe: recipe, householdUtility: utility,
+                // Truth for the choice layer — computed here and never
+                // shown to the ranker (PR #105 review blocker 1).
+                let choiceCandidates = zip(feasible, utilities).map { recipe, utility in
+                    ChoiceCandidate(
+                        recipe: recipe, utility: utility,
                         availability: availability[recipe.id.rawValue] ?? 1,
                         exposureCount: exposureCounts[recipe.id] ?? 0)
                 }
+                let candidates = RankerInput.candidates(
+                    for: feasible, availability: availability,
+                    exposureCounts: exposureCounts)
                 let rankedIds = ranker.rank(
                     candidates,
                     context: RankingContext(
-                        week: week, slateSize: config.slateSize, sessionIndex: cookIndex))
-                // Defensive contract filter: dedupe, keep known candidates,
-                // cap at slateSize.
-                var seen: Set<RecipeID> = []
-                slateRecipes = rankedIds.compactMap { id -> CatalogRecipe? in
-                    guard !seen.contains(id) else { return nil }
-                    seen.insert(id)
-                    return world.catalog.recipes[id]
-                }.prefix(config.slateSize).map { $0 }
+                        week: week, slateSize: config.slateSize, sessionIndex: cookIndex,
+                        history: events, restrictions: household.restrictionUnion))
+                // Defensive contract filter: dedupe, keep only feasible
+                // candidates, cap at slateSize.
+                slateRecipes = HouseholdSimulator.slate(
+                    from: rankedIds, feasible: feasible, cap: config.slateSize)
                 if slateRecipes.isEmpty {
                     // A ranker returned nothing usable: fall back to the
                     // feasible order so the household still sees a surface.
                     slateRecipes = Array(feasible.prefix(config.slateSize))
                 }
-                let slateCandidates = slateRecipes.map { recipe in
-                    candidates.first { $0.recipe.id == recipe.id }!
-                }
-                probabilities = ChoiceModel.probabilities(slate: slateCandidates, config: config)
+                let choiceById = Dictionary(
+                    uniqueKeysWithValues: choiceCandidates.map { ($0.recipe.id, $0) })
+                let slateChoice = slateRecipes.compactMap { choiceById[$0.id] }
+                probabilities = ChoiceModel.probabilities(slate: slateChoice, config: config)
                 sessionRecord.choiceProbabilities = Dictionary(
                     uniqueKeysWithValues: zip(
-                        slateCandidates.map { $0.recipe.id.rawValue }, probabilities))
+                        slateChoice.map { $0.recipe.id.rawValue }, probabilities))
                 sessionRecord.slateIds = slateRecipes.map { $0.id.rawValue }
                 for recipe in slateRecipes {
                     exposureCounts[recipe.id, default: 0] += 1
