@@ -73,7 +73,10 @@ final class RenderTests: XCTestCase {
         let url = rendersDir.appendingPathComponent("fl-\(name).png")
         try png.write(to: url)
         XCTAssertTrue(FileManager.default.fileExists(atPath: url.path), "missing render \(url.lastPathComponent)")
-        XCTAssertGreaterThan(png.count, 1000, "suspiciously small PNG for \(name)")
+        // A blank render compresses to a few hundred bytes; the hairline
+        // loading-line renders (2 pt stroke in a 320×16 frame) land near
+        // 800 B at 2x. 500 separates a blank from any drawn content.
+        XCTAssertGreaterThan(png.count, 500, "suspiciously small PNG for \(name)")
     }
 
     // MARK: Surfaces
