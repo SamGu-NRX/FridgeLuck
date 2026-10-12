@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import copy
 import json
+import os
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -18,10 +20,49 @@ from pathlib import Path
 TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
 
+import composition  # noqa: E402
 import corpus_io  # noqa: E402
 import food_safety  # noqa: E402
 import rights_evidence  # noqa: E402
 import validate_corpus  # noqa: E402
+
+# suite C allergens.json as validate_corpus reads it (eval/scorecard-runner
+# at 26c7004; unchanged at 9e04af4). Set FL_SUITE_DIR to use an extracted copy.
+SUITE_PIN = "26c7004e6068f70115dba27bc5b3fc94ce90f4d6"
+
+
+def suite_allergens() -> dict:
+    env = os.environ.get("FL_SUITE_DIR")
+    if env:
+        return json.loads((Path(env) / "allergens.json").read_text(encoding="utf-8"))
+    out = subprocess.run(
+        ["git", "-C", str(corpus_io.REPO_ROOT), "show",
+         f"{SUITE_PIN}:evaluation/suites/recipes/allergens.json"],
+        capture_output=True, text=True)
+    if out.returncode:
+        raise RuntimeError(f"suite C allergens.json at {SUITE_PIN} is not in this clone "
+                           f"({out.stderr.strip()}); run `git fetch origin "
+                           "eval/scorecard-runner` or set FL_SUITE_DIR")
+    return json.loads(out.stdout)
+
+
+# A slice of allergens.json, enough for the planted recipes.
+MINI_ALLERGENS = {
+    "ingredient_aliases": {"vegetable oil": "vegetable_oil", "red lentils": "lentils",
+                           "butter": "butter", "vegetable stock": "veg_stock",
+                           "parmesan": "parmesan", "rice": "white_rice", "soy sauce": "soy_sauce"},
+    "ingredients": {"vegetable_oil": {"classes": []}, "lentils": {"classes": []},
+                    "butter": {"classes": ["dairy", "animal_product"]},
+                    "veg_stock": {"classes": []},
+                    "parmesan": {"classes": ["dairy", "animal_product"]},
+                    "white_rice": {"classes": []},
+                    "soy_sauce": {"classes": ["soy", "gluten"]}},
+    "claims": {"vegetarian": {"forbids": ["meat_poultry", "flesh_fish"]},
+               "vegan": {"forbids": ["meat_poultry", "flesh_fish", "dairy", "egg", "honey"]},
+               "gluten-free": {"forbids": ["gluten"]},
+               "dairy-free": {"forbids": ["dairy"]},
+               "nut-free": {"forbids": ["tree_nut", "peanut"]}},
+}
 
 ORIGINAL_RECORD = {
     "source_id": "fl-original-9001",
@@ -77,7 +118,7 @@ class RightsGate(unittest.TestCase):
     def test_validator_refuses_the_planted_seed(self):
         r = recipe("fl-seed-9001")
         errors = validate_corpus.release_gate_errors(
-            [r], {"fl-seed-9001": self.SEED_RECORD}, {"recipes": []})
+            [r], {"fl-seed-9001": self.SEED_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS)
         self.assertTrue(errors)
 
     def test_original_with_its_authoring_record_passes(self):
@@ -248,7 +289,7 @@ class DonenessEndpoints(unittest.TestCase):
         bad = recipe(title="Breakfast Casserole", ingredients=ing("eggs"), steps=[
             {"text": "Bake until a thermometer reads 160 °F.", "safety": chk("egg", 160)}])
         errors = validate_corpus.release_gate_errors(
-            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []})
+            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS)
         self.assertTrue(any("casserole" in e or "title" in e for e in errors), errors)
 
 
@@ -294,8 +335,71 @@ class CookFacingText(unittest.TestCase):
             {"text": "Reduce heat, cover, simmer 18-20 min",
              "safety": chk("meat_poultry", 165)}])
         errors = validate_corpus.release_gate_errors(
-            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []})
+            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS)
         self.assertTrue(any("metadata only" in e for e in errors), errors)
+
+
+def claim(name: str) -> dict:
+    return {"claim": name, "evidence": {"conflicts": []}}
+
+
+class ClaimComposition(unittest.TestCase):
+    """Finding 4: unknown composition blocks a claim; it never means allowed."""
+
+    def test_unknown_alternative_blocks_dairy_free(self):
+        # fl-original-0065 at 4b6e163: "ghee or vegetable oil", dairy-free
+        bad = recipe(ingredients=ing("red lentils", "ghee or vegetable oil"),
+                     claims=[claim("dairy-free")])
+        problems = composition.claim_problems(bad, MINI_ALLERGENS)
+        self.assertIn("dairy-free", problems)
+        self.assertTrue(any("ghee" in p for p in problems["dairy-free"]), problems)
+
+    def test_alternatives_carry_every_option(self):
+        # both options known, one of them dairy: the line is not dairy-free
+        r = recipe(ingredients=ing("red lentils", "butter or vegetable oil"),
+                   claims=[claim("dairy-free")])
+        problems = composition.claim_problems(r, MINI_ALLERGENS)["dairy-free"]
+        self.assertTrue(any("forbidden classes ['dairy']" in p for p in problems), problems)
+
+    def test_unrecognised_name_blocks_every_claim(self):
+        r = recipe(ingredients=ing("red lentils", "sour cream"),
+                   claims=[claim("nut-free"), claim("gluten-free")])
+        self.assertEqual(set(composition.claim_problems(r, MINI_ALLERGENS)),
+                         {"nut-free", "gluten-free"})
+
+    def test_compound_ingredients(self):
+        # stock may contain milk or wheat; cheese may use animal rennet
+        r = recipe(ingredients=ing("red lentils", "vegetable stock"),
+                   claims=[claim("dairy-free"), claim("gluten-free"), claim("nut-free")])
+        self.assertEqual(set(composition.claim_problems(r, MINI_ALLERGENS)),
+                         {"dairy-free", "gluten-free"})
+        r = recipe(ingredients=ing("red lentils", "parmesan"), claims=[claim("vegetarian")])
+        self.assertIn("vegetarian", composition.claim_problems(r, MINI_ALLERGENS))
+        # soy sauce contains wheat, recorded or not
+        r = recipe(ingredients=ing("rice", "soy sauce"), claims=[claim("gluten-free")])
+        self.assertIn("gluten-free", composition.claim_problems(r, MINI_ALLERGENS))
+
+    def test_food_named_only_in_a_step_blocks_the_claim(self):
+        r = recipe(ingredients=ing("red lentils", "vegetable oil"),
+                   steps=[{"text": "Serve with a spoon of sour cream."}],
+                   claims=[claim("dairy-free")])
+        self.assertIn("dairy-free", composition.claim_problems(r, MINI_ALLERGENS))
+        ok = recipe(ingredients=ing("red lentils", "vegetable oil"),
+                    steps=[{"text": "Stir in coconut milk and a little nutmeg."}],
+                    claims=[claim("dairy-free")])
+        self.assertEqual(composition.claim_problems(ok, MINI_ALLERGENS), {})
+
+    def test_known_composition_keeps_the_claim(self):
+        ok = recipe(ingredients=ing("red lentils", "vegetable oil"),
+                    claims=[claim("dairy-free"), claim("vegan")])
+        self.assertEqual(composition.claim_problems(ok, MINI_ALLERGENS), {})
+
+    def test_validator_refuses_the_planted_claim(self):
+        bad = recipe(ingredients=ing("red lentils", "ghee or vegetable oil"),
+                     claims=[claim("dairy-free")])
+        errors = validate_corpus.release_gate_errors(
+            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []}, allergens=MINI_ALLERGENS)
+        self.assertTrue(any("'dairy-free' is not proven" in e for e in errors), errors)
 
 
 class CommittedCorpus(unittest.TestCase):
@@ -307,10 +411,11 @@ class CommittedCorpus(unittest.TestCase):
         cls.records = corpus_io.read_manifest()["records"]
         cls.quarantine = [l.obj for l in corpus_io.read_jsonl(corpus_io.QUARANTINE)]
         cls.bundled = json.loads(validate_corpus.BUNDLED.read_text(encoding="utf-8"))
+        cls.allergens = suite_allergens()
 
     def test_release_gates(self):
         errors = validate_corpus.release_gate_errors(
-            copy.deepcopy(self.recipes), self.records, self.bundled)
+            copy.deepcopy(self.recipes), self.records, self.bundled, allergens=self.allergens)
         self.assertEqual(errors, [], "\n".join(errors[:20]))
 
     def test_quarantine_file(self):

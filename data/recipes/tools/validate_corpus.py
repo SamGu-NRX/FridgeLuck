@@ -44,6 +44,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import composition  # noqa: E402
 import food_safety  # noqa: E402
 import rights_evidence  # noqa: E402
 
@@ -90,7 +91,7 @@ def quarantine_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
 
 
 def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
-                        bundled: dict[str, Any]) -> list[str]:
+                        bundled: dict[str, Any], *, allergens: dict[str, Any]) -> list[str]:
     """The corpus-side gates the suite linter does not enforce.
 
     Rights: every shipped recipe carries affirmative rights evidence
@@ -99,11 +100,16 @@ def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
     Food safety: every food reaches its FSIS endpoint and the step text the
     cook reads names the thermometer and the temperature
     (food_safety.safety_violations).
+    Claims: every allergen or diet claim rests on known composition of every
+    ingredient (composition.claim_problems, with suite C's allergens.json).
     """
     errors: list[str] = []
     ref = rights_evidence.reference_ngrams(rights_evidence.bundled_texts(bundled))
     for r in recipes:
         errors.extend(food_safety.safety_violations(r))
+        for cname, reasons in composition.claim_problems(r, allergens).items():
+            errors.append(f"{r.get('id', '?')}: claim {cname!r} is not proven: "
+                          + "; ".join(reasons))
         rec = records.get(r.get("source_ref"))
         errors.extend(rights_evidence.rights_violations(r, rec))
         if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
@@ -286,7 +292,8 @@ def main() -> int:
     records = manifest.get("records", {})
     q_errors = quarantine_errors(recipes, records, quarantined)
     gate_errors = release_gate_errors(recipes, records,
-                                      json.loads(BUNDLED.read_text(encoding="utf-8")))
+                                      json.loads(BUNDLED.read_text(encoding="utf-8")),
+                                      allergens=allergens)
     for e in q_errors + gate_errors:
         fail(e)
     errors.extend(q_errors + gate_errors)
@@ -297,7 +304,9 @@ def main() -> int:
           f"{len(quarantined)} in quarantine.jsonl "
           f"({', '.join(f'{k} {v}' for k, v in sorted(by_stage.items())) or 'none'})")
     print(f"release gates: {len(gate_errors)} violation(s) "
-          "(rights evidence, original-text overlap, FSIS endpoints, thermometer in step text)")
+          "(rights evidence, original-text overlap, FSIS endpoints, thermometer in step text, "
+          "claim composition)")
+    print(f"claims shipped: {sum(len(r.get('claims', [])) for r in recipes)}")
 
     # ---- lint (same pipeline as suite.py evaluate_corpus) -----------------
     work = copy.deepcopy(clear)
