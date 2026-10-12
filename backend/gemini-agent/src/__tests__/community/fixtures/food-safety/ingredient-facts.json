@@ -1,14 +1,233 @@
 {
   "schema": "fridgeluck/ingredient-facts@v1",
   "source": "fixture standing in for overhaul/ingredient-facts (FLIngredientFacts lineage); allergen knowledge with compound contributions, loaded in test setup while the real package is not in this repo",
-  "allergens": ["milk", "egg", "peanut", "tree-nut", "wheat-gluten", "soy", "fish", "shellfish", "sesame"],
+  "allergens": [
+    "milk",
+    "egg",
+    "peanut",
+    "tree-nut",
+    "wheat-gluten",
+    "soy",
+    "fish",
+    "shellfish",
+    "sesame"
+  ],
   "ingredients": [
-    { "id": "tahini", "match": ["tahini"], "allergens": ["sesame"] },
-    { "id": "soy-sauce", "match": ["soy sauce", "shoyu", "tamari"], "allergens": ["soy", "wheat-gluten"] },
-    { "id": "teriyaki-sauce", "match": ["teriyaki"], "allergens": ["soy", "wheat-gluten"] },
-    { "id": "pesto", "match": ["pesto"], "allergens": ["tree-nut", "milk"] },
-    { "id": "mayonnaise", "match": ["mayonnaise", "mayo"], "allergens": ["egg"] },
-    { "id": "worcestershire", "match": ["worcestershire"], "allergens": ["fish"] },
-    { "id": "butter", "match": ["butter"], "allergens": ["milk"] }
-  ]
+    {
+      "id": "tahini",
+      "match": [
+        "tahini"
+      ],
+      "allergens": [
+        "sesame"
+      ]
+    },
+    {
+      "id": "soy-sauce",
+      "match": [
+        "soy sauce",
+        "shoyu",
+        "tamari"
+      ],
+      "allergens": [
+        "soy",
+        "wheat-gluten"
+      ]
+    },
+    {
+      "id": "teriyaki-sauce",
+      "match": [
+        "teriyaki"
+      ],
+      "allergens": [
+        "soy",
+        "wheat-gluten"
+      ]
+    },
+    {
+      "id": "pesto",
+      "match": [
+        "pesto"
+      ],
+      "allergens": [
+        "tree-nut",
+        "milk"
+      ]
+    },
+    {
+      "id": "mayonnaise",
+      "match": [
+        "mayonnaise",
+        "mayo"
+      ],
+      "allergens": [
+        "egg"
+      ]
+    },
+    {
+      "id": "worcestershire",
+      "match": [
+        "worcestershire"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "butter",
+      "match": [
+        "butter"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "beef",
+      "match": [
+        "beef",
+        "ground beef"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "beet",
+      "match": [
+        "beet"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "carrot",
+      "match": [
+        "carrot",
+        "carrots"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "chickpeas",
+      "match": [
+        "chickpea",
+        "chickpeas"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "chicken",
+      "match": [
+        "chicken"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "cola",
+      "match": [
+        "cola"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "curry-paste",
+      "match": [
+        "curry paste"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "cucumber",
+      "match": [
+        "cucumber",
+        "cucumbers"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "egg",
+      "match": [
+        "egg",
+        "eggs"
+      ],
+      "allergens": [
+        "egg"
+      ]
+    },
+    {
+      "id": "flour",
+      "match": [
+        "flour"
+      ],
+      "allergens": [
+        "wheat-gluten"
+      ]
+    },
+    {
+      "id": "lemon",
+      "match": [
+        "lemon"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "onion",
+      "match": [
+        "onion",
+        "onions"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "pea",
+      "match": [
+        "pea",
+        "peas"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "potato",
+      "match": [
+        "potato",
+        "potatoes"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "rice",
+      "match": [
+        "rice"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "salt",
+      "match": [
+        "salt"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "tomato",
+      "match": [
+        "tomato",
+        "tomatoes"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "water",
+      "match": [
+        "water"
+      ],
+      "allergens": []
+    }
+  ],
+  "provenance": {
+    "sourceBranch": "test fixture standing in for overhaul/ingredient-facts (authored in this repository)",
+    "sourceFile": "src/__tests__/community/fixtures/food-safety/ingredient-facts.json",
+    "sourceCommit": "fixture — curated in-repo, not byte-derived from the canonical branch",
+    "sourceFileHash": "sha256:9cbc3e121010a624f4569ccd2112d52e321b5b058481003829d0f9557d2bbac3",
+    "copiedBlobHash": "sha256:5550f2dfdd4ca032fc3a447902c2acfcc0c759fc8ecc7c4124b9b39bb891ac18",
+    "extracted": "Test fixture curated for the joined community suite. Allergen semantics align with the canonical dataset at overhaul/ingredient-facts commit b0deecce36bf6ee91e6f5933e746d75466165288 (sourceFileHash pins that alignment reference); entries were chosen in-repo, not copied. EMPTY allergen lists are reviewed known-free ingredients (deliberately NOT unknown); an ingredient absent from this file is unknown and fails the gate closed. Coverage additions serve the joined suites' recipes (rice, tomato, chicken, lemon, beef, water, carrot, cucumber, potato, egg, peas, salt, beet, cola, onion, chickpeas, curry paste, flour)."
+  }
 }

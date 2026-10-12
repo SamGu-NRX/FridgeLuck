@@ -32,7 +32,7 @@ import { createExploreRoutes } from "../../community/explore/exploreRoutes.js";
 import { FirestoreModerationQueue } from "../../community/explore/moderationQueue.js";
 import { stubBlockDirectory, stubModerationQueue } from "../../community/shared/testing/stubs.js";
 import { createFoodSafetyGate } from "../../community/foodSafety/gate.js";
-import { FOOD_SAFETY_CANON_SCHEMA, INGREDIENT_FACTS_SCHEMA, loadFoodSafetyCatalog, resolveFoodSafetyCatalogPaths } from "../../community/foodSafety/catalog.js";
+import { FOOD_SAFETY_CANON_SCHEMA, INGREDIENT_FACTS_SCHEMA, loadFoodSafetyCatalog, resolveFoodSafetyCatalogPaths, sha256Hex, stableIngredientFactsString } from "../../community/foodSafety/catalog.js";
 import { FOOD_SAFETY_FIXTURE_DIR, closedFoodSafetyGate, fixtureFoodSafetyGate } from "./foodSafetyGate.js";
 
 const KID = "test-key-1";
@@ -277,6 +277,31 @@ describe("the mandatory lint and allergen-claim checks block unsound recipes", (
     expect(created.screeningFailures.map((f) => f.stage)).toContain("compound-allergens");
     expect(created.screeningFailures.some((f) => f.reasons.some((r) => r.includes("wheat-gluten")))).toBe(true);
   });
+
+  test("an unknown ingredient fails the compound-allergen stage into the queue, hidden — never silently allowed", async () => {
+    const alice = await signInAs(openUrl, "gate-unknown-alice");
+    const res = await publish(openUrl, alice, publishBody({
+      source: { recipeId: "recipes/test-gate-unknown", recipeRevision: "rev-000008" },
+      recipe: {
+        title: "Mystery powder drink",
+        summary: "An exotic blend.",
+        ingredientLines: ["200 g rice", "1 cup flurb"],
+        steps: ["Blend and drink."],
+      },
+      campus: "gate-unknown",
+    }));
+    expect(res.status).toBe(201);
+    const created = (await json(res)) as unknown as PublicationJson;
+    // Unknown composition is not allowed: the publication queues with the
+    // uncovered line cited (blocker 3).
+    expect(created.status).toBe("queued");
+    expect(created.screeningFailures.map((f) => f.stage)).toContain("compound-allergens");
+    expect(created.screeningFailures.some((f) => f.reasons.some((r) => r.includes("1 cup flurb") && r.includes("unknown")))).toBe(true);
+
+    const bob = await signInAs(openUrl, "gate-unknown-bob");
+    const feed = (await json(await fetch(`${openUrl}/v1/community/explore/gate-unknown`, { headers: { authorization: `Bearer ${bob.accessToken}` } }))) as unknown as FeedJson;
+    expect(feed.items).toHaveLength(0);
+  });
 });
 
 describe("a clean publication passes with compound-allergen tags persisted and returned", () => {
@@ -341,6 +366,18 @@ describe("the loader fails closed on every kind of bad data", () => {
     return loadFoodSafetyCatalog({ canon: canon ?? "", facts: facts ?? "" });
   }
 
+  /** A provenance block over the given entries whose blob hash verifies at load. */
+  function provenanceFor(entries: Array<{ id: string; match: string[]; allergens: string[] }>) {
+    return {
+      sourceBranch: "test fixture (authored in this repository)",
+      sourceFile: "src/__tests__/community/fixtures/food-safety/ingredient-facts.json",
+      sourceCommit: "fixture",
+      sourceFileHash: `sha256:${"0".repeat(64)}`,
+      copiedBlobHash: `sha256:${sha256Hex(stableIngredientFactsString(entries))}`,
+      extracted: "minimal test facts",
+    };
+  }
+
   test("valid packages open the catalog", () => {
     const catalog = loaderCase(validCanon, validFacts);
     expect(catalog.loaded).toBe(true);
@@ -371,7 +408,8 @@ describe("the loader fails closed on every kind of bad data", () => {
     const dir = mkdtempSync(join(tmpdir(), "fl-schema-canon-"));
     const canonPath = join(dir, "canon.json");
     const factsPath = join(dir, "facts.json");
-    writeFileSync(factsPath, JSON.stringify({ schema: INGREDIENT_FACTS_SCHEMA, source: "x", allergens: ["sesame"], ingredients: [{ id: "tahini", match: ["tahini"], allergens: ["sesame"] }] }), "utf8");
+    const entries = [{ id: "tahini", match: ["tahini"], allergens: ["sesame"] }];
+    writeFileSync(factsPath, JSON.stringify({ schema: INGREDIENT_FACTS_SCHEMA, source: "x", allergens: ["sesame"], ingredients: entries, provenance: provenanceFor(entries) }), "utf8");
     writeFileSync(canonPath, JSON.stringify({ schema: "some/other@v9", source: "x", rules: [{ kind: "forbidden-terms", id: "r", terms: ["x"], message: "y" }] }), "utf8");
     expect(loaderCase(canonPath, factsPath).loaded).toBe(false);
     writeFileSync(canonPath, JSON.stringify({ schema: FOOD_SAFETY_CANON_SCHEMA, source: "x", rules: [] }), "utf8");

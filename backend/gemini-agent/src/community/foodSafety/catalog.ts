@@ -16,6 +16,14 @@
  * publishing is refused outright (error envelope, nothing persisted). A
  * publication is never created on absent safety data.
  *
+ * Both packages carry provenance (PR #104 review blockers 2 and 3): the
+ * reviewed branch, commit and file hash the data was copied or derived from,
+ * plus a `copiedBlobHash` over the copied data that the loader recomputes at
+ * load — a drifted local copy never loads at all. The facts file encodes a
+ * review boundary: an ingredient absent from it has UNKNOWN composition, and
+ * the gate must treat unknown composition as a screening failure, never as
+ * allowed.
+ *
  * Locations, in precedence order (documented contract for the packages when
  * they land):
  *   1. explicit paths passed to the loader;
@@ -84,6 +92,22 @@ export interface MinCookingTempRule {
   readonly provenance: MinCookingTempProvenance;
 }
 
+/** Lineage of the ingredient → allergen facts derived from the canonical dataset (blocker 3). */
+export interface IngredientFactsProvenance {
+  /** The reviewed branch the facts were derived from. */
+  readonly sourceBranch: string;
+  /** The data file inside that branch the facts were derived from. */
+  readonly sourceFile: string;
+  /** The commit of that branch the copy was made at. */
+  readonly sourceCommit: string;
+  /** sha256 of the source file at that commit (`sha256:<hex>`). */
+  readonly sourceFileHash: string;
+  /** sha256 over the copied entries blob (stableIngredientFactsString), rechecked at load. */
+  readonly copiedBlobHash: string;
+  /** What was copied — and what was deliberately left unknown — in prose. */
+  readonly extracted: string;
+}
+
 /** A rulebook rule: forbid terms outright, or require evidence when a trigger appears. */
 export type FoodSafetyRule =
   | { readonly kind: "forbidden-terms"; readonly id: string; readonly terms: readonly string[]; readonly message: string }
@@ -124,6 +148,16 @@ export function sha256Hex(text: string): string {
   return createHash("sha256").update(text).digest("hex");
 }
 
+/**
+ * The canonical serialization the facts provenance hash is computed over
+ * (blocker 3): entries in file order, per-entry keys in a fixed order, no
+ * whitespace. The loader recomputes it and refuses facts whose hash differs
+ * from `provenance.copiedBlobHash`.
+ */
+export function stableIngredientFactsString(entries: readonly IngredientFactsEntry[]): string {
+  return JSON.stringify(entries.map((entry) => ({ id: entry.id, match: [...entry.match], allergens: [...entry.allergens] })));
+}
+
 export interface FoodSafetyRulebook {
   readonly schema: string;
   /** Where the rulebook came from (the package should name its reviewed source). */
@@ -135,7 +169,12 @@ export interface IngredientFactsEntry {
   readonly id: string;
   /** Lowercase names/phrases this ingredient goes by; multi-word phrases are matched as such. */
   readonly match: readonly string[];
-  /** Allergen slugs (from the file's own vocabulary), already including compound contributions. */
+  /**
+   * Allergen slugs (from the file's own vocabulary), already including
+   * compound contributions. EMPTY means the reviewed dataset established the
+   * ingredient allergen-free — a known-free ingredient, not an unknown one.
+   * An ingredient with no entry here at all is UNKNOWN (never allowed).
+   */
   readonly allergens: readonly string[];
 }
 
@@ -145,6 +184,8 @@ export interface IngredientFacts {
   /** The closed allergen vocabulary every entry must draw from. */
   readonly allergens: readonly string[];
   readonly ingredients: readonly IngredientFactsEntry[];
+  /** Where these facts came from; the blob hash is rechecked at load (blocker 3). */
+  readonly provenance: IngredientFactsProvenance;
 }
 
 /**
@@ -242,6 +283,29 @@ function provenanceField(provenance: Record<string, unknown>, name: string, what
   return value;
 }
 
+/**
+ * The six-field provenance block both packages carry (blockers 2 and 3):
+ * the reviewed branch/commit/file the data was copied or derived from, plus
+ * a copiedBlobHash the caller rechecks over the copied data at load.
+ */
+function parseProvenanceBlock(entry: Record<string, unknown>, what: string, problems: string[]): IngredientFactsProvenance | null {
+  const provRaw = entry["provenance"];
+  if (!isRecord(provRaw)) {
+    problems.push(`${what}.provenance must record where the data was copied from`);
+    return null;
+  }
+  const sourceBranch = provenanceField(provRaw, "sourceBranch", what, null, problems);
+  const sourceFile = provenanceField(provRaw, "sourceFile", what, null, problems);
+  const sourceCommit = provenanceField(provRaw, "sourceCommit", what, null, problems);
+  const sourceFileHash = provenanceField(provRaw, "sourceFileHash", what, SHA256_HASH, problems);
+  const copiedBlobHash = provenanceField(provRaw, "copiedBlobHash", what, SHA256_HASH, problems);
+  const extracted = provenanceField(provRaw, "extracted", what, null, problems);
+  if (sourceBranch === null || sourceFile === null || sourceCommit === null || sourceFileHash === null || copiedBlobHash === null || extracted === null) {
+    return null;
+  }
+  return { sourceBranch, sourceFile, sourceCommit, sourceFileHash, copiedBlobHash, extracted };
+}
+
 function parseMinCookingTempRule(entry: Record<string, unknown>, id: string, message: string, index: number, problems: string[]): MinCookingTempRule | null {
   const what = `rulebook.rules[${index}]`;
   const minimumsRaw = parseClassMap(entry["minimumsF"], `${what}.minimumsF`, problems);
@@ -269,36 +333,19 @@ function parseMinCookingTempRule(entry: Record<string, unknown>, id: string, mes
     }
     classKeywords[cls] = keywords;
   }
-  const provRaw = entry["provenance"];
-  if (!isRecord(provRaw)) {
-    problems.push(`${what}.provenance must record where the minimums were copied from`);
-    return null;
-  }
-  const sourceBranch = provenanceField(provRaw, "sourceBranch", what, null, problems);
-  const sourceFile = provenanceField(provRaw, "sourceFile", what, null, problems);
-  const sourceCommit = provenanceField(provRaw, "sourceCommit", what, null, problems);
-  const sourceFileHash = provenanceField(provRaw, "sourceFileHash", what, SHA256_HASH, problems);
-  const copiedBlobHash = provenanceField(provRaw, "copiedBlobHash", what, SHA256_HASH, problems);
-  const extracted = provenanceField(provRaw, "extracted", what, null, problems);
-  if (sourceBranch === null || sourceFile === null || sourceCommit === null || sourceFileHash === null || copiedBlobHash === null || extracted === null) {
+  const provenance = parseProvenanceBlock(entry, what, problems);
+  if (provenance === null) {
     return null;
   }
   // Load-time integrity: the copied numbers must hash to the recorded blob
   // hash. A loosened or drifted local copy never loads — the gate fails
   // closed instead of enforcing looser floors (blocker 2).
   const actualHash = `sha256:${sha256Hex(stableCookingTempString({ classKeywords, minimumsF }))}`;
-  if (actualHash !== copiedBlobHash) {
-    problems.push(`${what}.minimumsF/classKeywords do not match the recorded provenance hash — a drifted local copy must not load; re-copy from ${sourceBranch} at ${sourceCommit}`);
+  if (actualHash !== provenance.copiedBlobHash) {
+    problems.push(`${what}.minimumsF/classKeywords do not match the recorded provenance hash — a drifted local copy must not load; re-copy from ${provenance.sourceBranch} at ${provenance.sourceCommit}`);
     return null;
   }
-  return {
-    kind: "min-cooking-temp",
-    id,
-    message,
-    minimumsF,
-    classKeywords,
-    provenance: { sourceBranch, sourceFile, sourceCommit, sourceFileHash, copiedBlobHash, extracted },
-  };
+  return { kind: "min-cooking-temp", id, message, minimumsF, classKeywords, provenance };
 }
 
 function readNonEmptyStrings(value: unknown, what: string, problems: string[]): string[] {
@@ -449,17 +496,29 @@ function validateFacts(raw: unknown, problems: string[]): IngredientFacts | null
     }
     const id = entryRaw["id"];
     const match = readNonEmptyStrings(entryRaw["match"], `ingredient facts ingredients[${i}].match`, problems);
-    const allergens = readNonEmptyStrings(entryRaw["allergens"], `ingredient facts ingredients[${i}].allergens`, problems);
-    if (typeof id !== "string" || id.trim().length === 0 || match.length === 0 || allergens.length === 0) {
-      return null;
-    }
-    if (allergens.some((a) => !known.has(a))) {
-      problems.push(`ingredient facts ingredients[${i}].allergens must draw from the file's own allergens vocabulary`);
+    // allergens may be EMPTY — a reviewed, known allergen-free ingredient.
+    // It may not be missing, malformed, or draw outside the vocabulary.
+    const allergensRaw = entryRaw["allergens"];
+    const allergens = Array.isArray(allergensRaw) ? [...(allergensRaw as string[])] : null;
+    if (typeof id !== "string" || id.trim().length === 0 || match.length === 0 || allergens === null || allergens.some((a) => typeof a !== "string" || a.trim().length === 0 || !known.has(a))) {
+      problems.push(`ingredient facts ingredients[${i}] must carry an id, a non-empty match list, and an allergens array (possibly empty) drawn from the file's own vocabulary`);
       return null;
     }
     entries.push({ id, match, allergens });
   }
-  return { schema: INGREDIENT_FACTS_SCHEMA, source: raw["source"] as string, allergens: vocabulary, ingredients: entries };
+  // Provenance + load-time integrity (blocker 3, mirroring blocker 2): the
+  // copied entries must hash to the recorded blob hash, so a drifted local
+  // copy never loads — the gate cannot tag from data nobody reviewed.
+  const provenance = parseProvenanceBlock(raw, "ingredient facts", problems);
+  if (provenance === null) {
+    return null;
+  }
+  const actualHash = `sha256:${sha256Hex(stableIngredientFactsString(entries))}`;
+  if (actualHash !== provenance.copiedBlobHash) {
+    problems.push(`ingredient facts ingredients do not match the recorded provenance hash — a drifted local copy must not load; re-derive from ${provenance.sourceBranch} at ${provenance.sourceCommit}`);
+    return null;
+  }
+  return { schema: INGREDIENT_FACTS_SCHEMA, source: raw["source"] as string, allergens: vocabulary, ingredients: entries, provenance };
 }
 
 function readJsonFile(path: string): { ok: true; value: unknown } | { ok: false; reason: string } {

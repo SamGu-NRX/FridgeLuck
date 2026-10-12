@@ -1,0 +1,1498 @@
+{
+  "schema": "fridgeluck/ingredient-facts@v1",
+  "source": "derived from the canonical FLIngredientFacts dataset (overhaul/ingredient-facts); allergen presence per ingredient, compound contributions already resolved",
+  "allergens": [
+    "crustacean-shellfish",
+    "egg",
+    "fish",
+    "milk",
+    "peanuts",
+    "sesame",
+    "soy",
+    "tree-nuts",
+    "wheat"
+  ],
+  "ingredients": [
+    {
+      "id": "achiote-paste",
+      "match": [
+        "achiote",
+        "achiote paste",
+        "recado rojo"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "aioli",
+      "match": [
+        "aioli"
+      ],
+      "allergens": [
+        "egg"
+      ]
+    },
+    {
+      "id": "all-purpose-flour",
+      "match": [
+        "all-purpose flour",
+        "flour",
+        "plain flour",
+        "white flour"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "almonds",
+      "match": [
+        "almonds"
+      ],
+      "allergens": [
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "anchovies",
+      "match": [
+        "anchovies",
+        "anchovy fillets",
+        "canned anchovies"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "apple",
+      "match": [
+        "apple",
+        "apples"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "apple-cider-vinegar",
+      "match": [
+        "apple cider vinegar",
+        "cider vinegar"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "avocado",
+      "match": [
+        "avocado"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "bacon",
+      "match": [
+        "bacon",
+        "bacon rashers",
+        "streaky bacon"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "balsamic-vinegar",
+      "match": [
+        "balsamic",
+        "balsamic vinegar"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "banana",
+      "match": [
+        "banana",
+        "bananas"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "barley",
+      "match": [
+        "barley",
+        "pearl barley",
+        "pearled barley"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "bechamel",
+      "match": [
+        "bechamel"
+      ],
+      "allergens": [
+        "milk",
+        "wheat"
+      ]
+    },
+    {
+      "id": "beef",
+      "match": [
+        "beef"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "beef-stock",
+      "match": [
+        "beef broth",
+        "beef stock"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "bell-pepper",
+      "match": [
+        "bell pepper",
+        "bell peppers",
+        "green bell pepper",
+        "peppers",
+        "red bell peppers"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "black-beans",
+      "match": [
+        "black bean",
+        "black beans",
+        "cooked black beans"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "broccoli",
+      "match": [
+        "broccoli"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "bulgur",
+      "match": [
+        "bulgur",
+        "bulgur wheat"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "butter",
+      "match": [
+        "butter"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "canned-tuna",
+      "match": [
+        "canned light tuna",
+        "canned tuna",
+        "canned tuna in water",
+        "tinned tuna",
+        "tuna in water"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "carrot",
+      "match": [
+        "carrot",
+        "carrots"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "cashews",
+      "match": [
+        "cashew nuts",
+        "cashews",
+        "raw cashews"
+      ],
+      "allergens": [
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "celery",
+      "match": [
+        "celery"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "chicken-breast",
+      "match": [
+        "chicken",
+        "chicken breast",
+        "chicken breasts"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "chicken-liver",
+      "match": [
+        "chicken liver",
+        "livers"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "chicken-thighs",
+      "match": [
+        "boneless chicken thighs",
+        "chicken thigh",
+        "chicken thighs"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "chickpeas",
+      "match": [
+        "chickpea",
+        "chickpeas",
+        "cooked chickpeas",
+        "garbanzo beans"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "chipotle-in-adobo",
+      "match": [
+        "chipotle in adobo",
+        "chipotle in adobo sauce",
+        "chipotle peppers in adobo",
+        "chipotles in adobo"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "cilantro",
+      "match": [
+        "cilantro",
+        "coriander leaves",
+        "fresh coriander"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "clam",
+      "match": [
+        "clam",
+        "clams"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "coconut-milk",
+      "match": [
+        "coconut milk"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "cod",
+      "match": [
+        "cod"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "condensed-milk",
+      "match": [
+        "condensed milk",
+        "sweetened condensed milk"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "corn",
+      "match": [
+        "corn",
+        "corn kernels",
+        "sweet corn"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "corn-tortillas",
+      "match": [
+        "corn tortilla",
+        "corn tortillas"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "cotija",
+      "match": [
+        "cotija",
+        "cotija cheese"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "couscous",
+      "match": [
+        "couscous",
+        "giant couscous",
+        "giant couscous salad",
+        "pearl couscous"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "crab",
+      "match": [
+        "crab",
+        "crab meat"
+      ],
+      "allergens": [
+        "crustacean-shellfish"
+      ]
+    },
+    {
+      "id": "cream-cheese",
+      "match": [
+        "cream cheese",
+        "philadelphia cheese",
+        "soft cheese"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "cucumber",
+      "match": [
+        "cucumber"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "cumin",
+      "match": [
+        "cumin",
+        "cumin seed",
+        "cumin seeds",
+        "ground cumin"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "doenjang",
+      "match": [
+        "doenjang"
+      ],
+      "allergens": [
+        "soy"
+      ]
+    },
+    {
+      "id": "dried-egg-noodles",
+      "match": [
+        "dried egg noodles",
+        "dried noodles",
+        "egg noodles"
+      ],
+      "allergens": [
+        "egg",
+        "wheat"
+      ]
+    },
+    {
+      "id": "duck",
+      "match": [
+        "duck",
+        "duck breast"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "duck-fat",
+      "match": [
+        "duck fat",
+        "rendered duck fat"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "edamame",
+      "match": [
+        "edamame",
+        "green soybeans"
+      ],
+      "allergens": [
+        "soy"
+      ]
+    },
+    {
+      "id": "egg",
+      "match": [
+        "boiled eggs",
+        "egg",
+        "eggs",
+        "eggs (whole)",
+        "fried eggs"
+      ],
+      "allergens": [
+        "egg"
+      ]
+    },
+    {
+      "id": "farro",
+      "match": [
+        "emmer wheat",
+        "farro",
+        "farro grain"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "feta",
+      "match": [
+        "feta",
+        "feta cheese"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "fish-fillet",
+      "match": [
+        "fish fillet",
+        "fish fillets",
+        "white fish fillet",
+        "white fish fillets"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "fish-sauce",
+      "match": [
+        "fish sauce",
+        "nam pla",
+        "nuoc mam",
+        "thai fish sauce",
+        "vietnamese fish sauce"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "fish-stock",
+      "match": [
+        "fish broth",
+        "fish stock",
+        "fumet"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "flank-steak",
+      "match": [
+        "beef flank",
+        "flank",
+        "flank steak"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "fresh-pasta",
+      "match": [
+        "fresh pasta"
+      ],
+      "allergens": [
+        "egg",
+        "wheat"
+      ]
+    },
+    {
+      "id": "frozen-peas",
+      "match": [
+        "frozen peas",
+        "garden peas",
+        "green peas",
+        "peas"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "garlic",
+      "match": [
+        "garlic"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "gelatin",
+      "match": [
+        "gelatin",
+        "gelatine",
+        "granulated gelatin",
+        "unflavored gelatin"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "ghee",
+      "match": [
+        "clarified butter",
+        "ghee"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "ginger",
+      "match": [
+        "fresh ginger",
+        "ginger",
+        "ginger root"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "greek-yogurt",
+      "match": [
+        "greek style yogurt",
+        "greek yoghurt",
+        "greek yogurt"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "green-onion",
+      "match": [
+        "green onion",
+        "green onions",
+        "scallion",
+        "scallions"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "gremolata",
+      "match": [
+        "gremolata"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "ground-beef",
+      "match": [
+        "beef mince",
+        "ground beef",
+        "minced beef"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "ground-chicken",
+      "match": [
+        "chicken mince",
+        "ground chicken",
+        "minced chicken"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "ground-lamb",
+      "match": [
+        "ground lamb",
+        "lamb mince",
+        "minced lamb"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "ground-pork",
+      "match": [
+        "ground pork",
+        "minced pork",
+        "pork mince"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "ground-turkey",
+      "match": [
+        "ground turkey",
+        "minced turkey",
+        "turkey mince"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "gyoza-skins",
+      "match": [
+        "dumpling skins",
+        "dumpling wrappers",
+        "gyoza skins",
+        "potsticker wrappers"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "halibut",
+      "match": [
+        "halibut"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "halloumi",
+      "match": [
+        "halloumi"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "harissa",
+      "match": [
+        "harissa",
+        "harissa paste",
+        "rose harissa"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "hazelnut",
+      "match": [
+        "cobnuts",
+        "filberts",
+        "hazelnut",
+        "hazelnuts"
+      ],
+      "allergens": [
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "hollandaise",
+      "match": [
+        "hollandaise"
+      ],
+      "allergens": [
+        "egg",
+        "milk"
+      ]
+    },
+    {
+      "id": "honey",
+      "match": [
+        "honey"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "hummus",
+      "match": [
+        "hummus"
+      ],
+      "allergens": [
+        "sesame"
+      ]
+    },
+    {
+      "id": "khoya",
+      "match": [
+        "khoa",
+        "khoya",
+        "mawa"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "lamb",
+      "match": [
+        "lamb",
+        "lamb leg",
+        "lamb shoulder"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "lard",
+      "match": [
+        "lard"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "lemon",
+      "match": [
+        "lemon",
+        "lemons"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "lettuce",
+      "match": [
+        "lettuce",
+        "lettuce leaves",
+        "romaine lettuce"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "lime",
+      "match": [
+        "lime",
+        "limes"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "lobster",
+      "match": [
+        "lobster"
+      ],
+      "allergens": [
+        "crustacean-shellfish"
+      ]
+    },
+    {
+      "id": "macadamia",
+      "match": [
+        "macadamia",
+        "macadamia nuts",
+        "macadamias"
+      ],
+      "allergens": [
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "mackerel",
+      "match": [
+        "mackerel"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "masa-harina",
+      "match": [
+        "masa harina"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "milk",
+      "match": [
+        "2% milk",
+        "cow's milk",
+        "milk",
+        "whole milk"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "mirin",
+      "match": [
+        "aji-mirin",
+        "hon mirin",
+        "mirin",
+        "sweet mirin"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "monterey-jack",
+      "match": [
+        "monterey jack",
+        "monterey jack cheese"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "mung-bean-sprouts",
+      "match": [
+        "bean sprouts",
+        "beansprouts",
+        "mung bean sprouts"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "mushroom",
+      "match": [
+        "chestnut mushrooms",
+        "mushroom",
+        "mushrooms",
+        "white mushrooms"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "mussel",
+      "match": [
+        "mussel",
+        "mussels"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "oats",
+      "match": [
+        "oatmeal",
+        "oats",
+        "porridge oats",
+        "rolled oats"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "olive-oil",
+      "match": [
+        "olive oil"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "onion",
+      "match": [
+        "onion",
+        "onions",
+        "red onion",
+        "shallot",
+        "shallots"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "orzo",
+      "match": [
+        "orzo",
+        "risoni"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "paneer",
+      "match": [
+        "paneer"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "parmesan",
+      "match": [
+        "grana padano",
+        "parmesan",
+        "parmesan cheese",
+        "parmigiano reggiano",
+        "parmigiano-reggiano"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "pasta",
+      "match": [
+        "dried pasta",
+        "fusilli",
+        "macaroni",
+        "pasta",
+        "penne",
+        "spaghetti"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "peanut-butter",
+      "match": [
+        "peanut butter"
+      ],
+      "allergens": [
+        "peanuts"
+      ]
+    },
+    {
+      "id": "peanut-oil",
+      "match": [
+        "peanut oil"
+      ],
+      "allergens": [
+        "peanuts"
+      ]
+    },
+    {
+      "id": "peanut-sauce",
+      "match": [
+        "peanut sauce"
+      ],
+      "allergens": [
+        "peanuts",
+        "soy",
+        "wheat"
+      ]
+    },
+    {
+      "id": "peanuts",
+      "match": [
+        "peanuts",
+        "roasted peanuts",
+        "salted peanuts"
+      ],
+      "allergens": [
+        "peanuts"
+      ]
+    },
+    {
+      "id": "pecan",
+      "match": [
+        "pecan",
+        "pecan nuts",
+        "pecans"
+      ],
+      "allergens": [
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "pesto",
+      "match": [
+        "basil pesto",
+        "pesto",
+        "pesto alla genovese",
+        "pesto sauce"
+      ],
+      "allergens": [
+        "milk",
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "pine-nuts",
+      "match": [
+        "pine nuts"
+      ],
+      "allergens": [
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "pistachio",
+      "match": [
+        "pistachio",
+        "pistachios"
+      ],
+      "allergens": [
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "polenta",
+      "match": [
+        "corn meal",
+        "cornmeal",
+        "polenta"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "pork-chop",
+      "match": [
+        "pork chop",
+        "pork chops"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "pork-shoulder",
+      "match": [
+        "pork shoulder",
+        "pork shoulder roast"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "pork-tenderloin",
+      "match": [
+        "pork tenderloin"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "potato",
+      "match": [
+        "potato",
+        "potatoes",
+        "russet potatoes"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "queso-fresco",
+      "match": [
+        "queso fresco"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "quinoa",
+      "match": [
+        "quinoa"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "raita",
+      "match": [
+        "raita"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "red-pepper-flakes",
+      "match": [
+        "chili flakes",
+        "crushed red pepper",
+        "red pepper flakes"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "red-wine-vinegar",
+      "match": [
+        "red wine vinegar"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "rice",
+      "match": [
+        "cooked rice",
+        "rice",
+        "steamed rice",
+        "uncooked basmati rice",
+        "uncooked jasmine rice",
+        "uncooked white rice",
+        "white rice"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "rice-noodles",
+      "match": [
+        "cooked rice noodles",
+        "dried rice noodles",
+        "flat rice noodles",
+        "rice noodle",
+        "rice noodles"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "rice-vinegar",
+      "match": [
+        "rice vinegar",
+        "rice wine vinegar",
+        "seasoned rice vinegar"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "ricotta",
+      "match": [
+        "ricotta",
+        "ricotta cheese"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "salmon",
+      "match": [
+        "salmon",
+        "salmon fillet",
+        "salmon fillets"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "sardine",
+      "match": [
+        "sardine",
+        "sardines"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "sausage",
+      "match": [
+        "sausage"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "scallop",
+      "match": [
+        "scallop",
+        "scallop meat",
+        "scallops"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "semolina",
+      "match": [
+        "semolina"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "sesame-oil",
+      "match": [
+        "sesame oil",
+        "toasted sesame oil"
+      ],
+      "allergens": [
+        "sesame"
+      ]
+    },
+    {
+      "id": "sesame-seeds",
+      "match": [
+        "sesame seed",
+        "sesame seeds"
+      ],
+      "allergens": [
+        "sesame"
+      ]
+    },
+    {
+      "id": "shrimp",
+      "match": [
+        "king prawns",
+        "prawn",
+        "prawns",
+        "shrimp"
+      ],
+      "allergens": [
+        "crustacean-shellfish"
+      ]
+    },
+    {
+      "id": "shrimp-paste",
+      "match": [
+        "shrimp paste"
+      ],
+      "allergens": [
+        "crustacean-shellfish"
+      ]
+    },
+    {
+      "id": "shrimp-stock",
+      "match": [
+        "shrimp broth",
+        "shrimp stock"
+      ],
+      "allergens": [
+        "crustacean-shellfish"
+      ]
+    },
+    {
+      "id": "smoked-salmon",
+      "match": [
+        "gravlax",
+        "smoked salmon"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "sour-cream",
+      "match": [
+        "crema",
+        "mexican crema",
+        "sour cream"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "soy-milk",
+      "match": [
+        "soy milk",
+        "soya milk"
+      ],
+      "allergens": [
+        "soy"
+      ]
+    },
+    {
+      "id": "soy-sauce",
+      "match": [
+        "dark soy sauce",
+        "light soy sauce",
+        "shoyu",
+        "soy sauce",
+        "soy_sauce"
+      ],
+      "allergens": [
+        "soy",
+        "wheat"
+      ]
+    },
+    {
+      "id": "spelt",
+      "match": [
+        "dinkel wheat",
+        "spelt",
+        "spelt flour"
+      ],
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "spinach",
+      "match": [
+        "spinach"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "sriracha",
+      "match": [
+        "sriracha"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "steak",
+      "match": [
+        "beef steak",
+        "rump steak",
+        "sirloin",
+        "steak"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "sweet-potato",
+      "match": [
+        "sweet potato",
+        "sweet potatoes"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "taco-shells",
+      "match": [
+        "corn taco shells",
+        "hard taco shells",
+        "taco shells"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "tahini",
+      "match": [
+        "sesame paste",
+        "tahina",
+        "tahini"
+      ],
+      "allergens": [
+        "sesame"
+      ]
+    },
+    {
+      "id": "tempeh",
+      "match": [
+        "tempeh"
+      ],
+      "allergens": [
+        "soy"
+      ]
+    },
+    {
+      "id": "tofu",
+      "match": [
+        "bean curd",
+        "firm tofu",
+        "silken tofu",
+        "tofu"
+      ],
+      "allergens": [
+        "soy"
+      ]
+    },
+    {
+      "id": "tomato",
+      "match": [
+        "tomato",
+        "tomatoes"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "tomato-paste",
+      "match": [
+        "tomato concentrate",
+        "tomato paste",
+        "tomato puree",
+        "tomato purée"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "tomato-sauce",
+      "match": [
+        "canned tomato sauce",
+        "passata",
+        "tomato sauce"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "trout",
+      "match": [
+        "trout"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "tuna",
+      "match": [
+        "tuna",
+        "tuna steak"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "turkey",
+      "match": [
+        "turkey",
+        "turkey breast"
+      ],
+      "allergens": []
+    },
+    {
+      "id": "walnuts",
+      "match": [
+        "walnuts"
+      ],
+      "allergens": [
+        "tree-nuts"
+      ]
+    },
+    {
+      "id": "whey",
+      "match": [
+        "whey"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "whitefish",
+      "match": [
+        "white fish",
+        "whitefish"
+      ],
+      "allergens": [
+        "fish"
+      ]
+    },
+    {
+      "id": "yogurt",
+      "match": [
+        "natural yogurt",
+        "plain yogurt",
+        "yogurt"
+      ],
+      "allergens": [
+        "milk"
+      ]
+    },
+    {
+      "id": "zucchini",
+      "match": [
+        "courgette",
+        "courgettes",
+        "zucchini",
+        "zucchinis"
+      ],
+      "allergens": []
+    }
+  ],
+  "provenance": {
+    "sourceBranch": "overhaul/ingredient-facts",
+    "sourceFile": "data/ingredient-facts/facts.json",
+    "sourceCommit": "b0deecce36bf6ee91e6f5933e746d75466165288",
+    "sourceFileHash": "sha256:9cbc3e121010a624f4569ccd2112d52e321b5b058481003829d0f9557d2bbac3",
+    "copiedBlobHash": "sha256:366dec2761fc7446a858e5964e86993404b6caefdb0ce2d2e10bcc022572cdb4",
+    "extracted": "Derived by scripts/derive-ingredient-facts.ts from data/ingredient-facts/facts.json and data/ingredient-facts/identities.json at b0deecce36bf6ee91e6f5933e746d75466165288: 155 ingredients kept; left out — 36 open compounds, 1 ingredients with an unknown allergen axis, 68 component-only facts without an identity (they stay unknown at the gate and fail closed, as do ingredients absent from this file). The seam asserts presence only: an allergen missing from an entry is not a reviewed absence — absence claims are governed by the rulebook's allergen-claim rules and the gate's fail-closed unknown-composition check."
+  }
+}

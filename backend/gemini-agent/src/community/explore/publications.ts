@@ -83,9 +83,12 @@ export interface PublicationRecord {
    * Compound-allergen tags derived by the mandatory food-safety gate's
    * allergen stage at publish time (from the ingredient-facts package).
    * Persisted with the publication — never recomputed at read time, so the
-   * response always reflects the evaluation that admitted it.
+   * response always reflects the evaluation that admitted it. NULL on
+   * records from before the gate existed: their allergen state is UNKNOWN,
+   * never clean — an unknown tag set must not vacuously clear
+   * compound-allergen checks (PR #104 review blocker 3).
    */
-  readonly allergenTags: readonly string[];
+  readonly allergenTags: readonly string[] | null;
   readonly campus: string | null;
   readonly status: PublicationStatus;
   readonly screeningFailures: readonly ScreeningFailure[];
@@ -204,12 +207,15 @@ function readScreeningFailures(data: Record<string, unknown>): ScreeningFailure[
 
 /**
  * Allergen tags written by the publish gate. Documents from before the gate
- * existed may lack the field; they read as untagged rather than invalid.
+ * existed may lack the field; they read as UNKNOWN (null), never as untagged-
+ * and-clean — a legacy record without the field must not vacuously clear
+ * compound-allergen checks (PR #104 review blocker 3). A PRESENT but
+ * malformed field is still invalid, like any other malformed field.
  */
-function readAllergenTags(data: Record<string, unknown>): string[] {
+function readAllergenTags(data: Record<string, unknown>): string[] | null {
   const value = data["allergenTags"];
   if (value === undefined || value === null) {
-    return [];
+    return null;
   }
   return stringArray(value, "allergenTags");
 }
@@ -533,6 +539,14 @@ export function approvalRefusal(record: PublicationRecord): string | null {
     if (!outcome.passed) {
       return `approval refused: the mandatory food-safety stage "${stageName}" does not pass at this revision`;
     }
+  }
+  // Blocker 3: a record with UNKNOWN allergen tags (the field absent — a
+  // legacy record from before the compound-allergen stage existed) cannot
+  // prove that stage's output at this revision, whatever a recorded
+  // evaluation claims. It must be re-screened by the current gate, not
+  // grandfathered in as allergen-clean.
+  if (record.allergenTags === null) {
+    return "approval refused: the record's compound-allergen tags are unknown (it predates the mandatory gate), so the compound-allergens stage cannot be verified at this revision";
   }
   return null;
 }

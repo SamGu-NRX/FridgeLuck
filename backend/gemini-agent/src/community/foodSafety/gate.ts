@@ -6,10 +6,13 @@
  * Two screening stages are REQUIRED on the publication path — the canonical
  * rulebook lint and compound-allergen tagging derived from the ingredient
  * facts — before anything leaves the author's private view. The gate is
- * fail-closed: while the canon/ingredient-facts packages are not loaded
- * (absent, empty, unparsable, or off-schema), `requiredStages` is null and
- * the publish route must refuse with an error envelope — never queue, never
- * publish. There is no mode in which a publication is created unevaluated.
+ * fail-closed both ways: while the canon/ingredient-facts packages are not
+ * loaded (absent, empty, unparsable, or off-schema), `requiredStages` is null
+ * and the publish route must refuse with an error envelope — never queue,
+ * never publish; and an ingredient the loaded facts do not cover has UNKNOWN
+ * composition, which fails the publication into the human queue — never
+ * silently allowed (PR #104 review blocker 3). There is no mode in which a
+ * publication is created unevaluated.
  */
 import type { ScreenablePublication, ScreeningStage, ScreeningVerdict } from "../shared/contracts.js";
 import {
@@ -344,12 +347,30 @@ export function minCookingTempReasons(rule: MinCookingTempRule, fields: Readonly
  * matched against the facts' names (multi-word compounds matched as phrases,
  * single words as tokens) and the matched entries' full allergen sets —
  * compound contributions included — are unioned into tags.
+ *
+ * The tagging is TOTAL (PR #104 review blocker 3): an ingredient line that
+ * matches no reviewed fact is reported in `unknownLines` — its composition
+ * is UNKNOWN, and unknown is never allowed. The caller (the stage below)
+ * fails the publication on it.
  */
-export function deriveAllergenTags(facts: IngredientFacts, ingredientLines: readonly string[]): readonly string[] {
+export function deriveAllergenTagging(facts: IngredientFacts, ingredientLines: readonly string[]): { tags: readonly string[]; unknownLines: readonly string[] } {
   const tags = new Set<string>();
+  const unknownLines: string[] = [];
   for (const line of ingredientLines) {
     const lineLower = line.toLowerCase();
     const lineTokens = new Set(tokens(line));
+    const covered = facts.ingredients.some((entry) =>
+      entry.match.some((phrase) => {
+        const phraseLower = phrase.toLowerCase();
+        return phraseLower.includes(" ") ? lineLower.includes(phraseLower) : lineTokens.has(phraseLower);
+      }),
+    );
+    if (!covered) {
+      // Cite the line verbatim: the facts cannot say what it is, and the
+      // refusal must say so honestly instead of inventing a name for it.
+      unknownLines.push(line);
+      continue;
+    }
     for (const entry of facts.ingredients) {
       const hit = entry.match.some((phrase) => {
         const phraseLower = phrase.toLowerCase();
@@ -362,7 +383,7 @@ export function deriveAllergenTags(facts: IngredientFacts, ingredientLines: read
       }
     }
   }
-  return [...tags].sort();
+  return { tags: [...tags].sort(), unknownLines };
 }
 
 /**
@@ -370,14 +391,29 @@ export function deriveAllergenTags(facts: IngredientFacts, ingredientLines: read
  * Tagging annotates every clean publication; an allergen-free CLAIM the
  * derived tags contradict is an unsupported claim and fails the publication
  * (PLAN C: "0 unchecked allergen or diet claims").
+ *
+ * Fail closed on unknown composition (PR #104 review blocker 3): an
+ * ingredient line the reviewed facts do not cover has UNKNOWN composition —
+ * it fails the publication into the human queue with the uncovered line
+ * cited, and no claim can be supported over it. Unknown is never allowed,
+ * and an empty tag set is never read as allergen-free.
  */
 export function compoundAllergenStage(facts: IngredientFacts, rulebook: FoodSafetyRulebook): ScreeningStage {
   return {
     name: "compound-allergens",
     async run(publication: ScreenablePublication): Promise<ScreeningVerdict> {
-      const tags = deriveAllergenTags(facts, publication.ingredientLines);
+      const { tags, unknownLines } = deriveAllergenTagging(facts, publication.ingredientLines);
       const wholeTokens = tokens([publication.title, publication.summary ?? "", ...publication.ingredientLines, ...publication.steps].join("\n"));
       const reasons: string[] = [];
+      // Unknown composition first, and independently of any claim: the
+      // facts cannot establish what the recipe contains, so no allergen
+      // claim over it can be supported either. Each reason cites the
+      // uncovered line verbatim.
+      for (const [i, line] of publication.ingredientLines.entries()) {
+        if (unknownLines.includes(line)) {
+          reasons.push(`ingredient-facts: ingredient line ${i + 1} ("${line}") is not covered by the reviewed facts — its composition is unknown, so allergen tagging cannot be trusted and no allergen-free claim over it can be supported (fail closed)`);
+        }
+      }
       for (const rule of rulebook.rules) {
         if (rule.kind !== "allergen-claim") {
           continue;

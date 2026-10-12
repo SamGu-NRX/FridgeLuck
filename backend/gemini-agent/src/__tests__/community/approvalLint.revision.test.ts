@@ -374,6 +374,46 @@ describe("approval requires a passing food-safety lint at the exact revision", (
     await expectAuthorSees(created.publicationId, author, "published");
     await expectInOpenQueue(created.publicationId, mod, false);
   });
+
+  test("(4) approving a publication whose compound-allergens stage failed on unknown composition refuses — unknown is never allowed", async () => {
+    const mod = await makeModerator("apr-mod-unknown");
+    const author = await signInAs("apr-unknown-author");
+    const bob = await signInAs("apr-unknown-bob");
+
+    // "1 cup flurb" matches no reviewed fact: the compound-allergens stage
+    // fails on the unknown composition (blocker 3) and the publication
+    // queues at creation.
+    const res = await publish(openUrl, author, publishBody({
+      source: { recipeId: "recipes/apr-unknown", recipeRevision: "rev-000005" },
+      recipe: {
+        title: "Mystery powder drink",
+        summary: "An exotic blend.",
+        ingredientLines: ["200 g rice", "1 cup flurb"],
+        steps: ["Blend and drink."],
+      },
+      campus: "apr-unknown",
+    }));
+    expect(res.status).toBe(201);
+    const created = (await json(res)) as unknown as PublicationJson;
+    expect(created.status).toBe("queued");
+
+    // Evidence the failure is the unknown composition itself.
+    const stored = await harness.store.publications.doc(created.publicationId).get();
+    const failures = stored.get("screeningFailures") as Array<{ stage: string }>;
+    expect(failures.some((f) => f.stage === "compound-allergens")).toBe(true);
+
+    // Approval still refuses (blocker 1 composes with blocker 3): the
+    // decision does not land, the item stays open, nothing publishes.
+    const approve = await resolveItemRaw(mod, (await openItemFor(mod, created.publicationId)).itemId, "approved");
+    expect(approve.status).toBe(409);
+    const approveBody = (await approve.json()) as { code: string; error: string };
+    expect(approveBody.code).toBe("conflict");
+    expect(approveBody.error).toContain('food-safety stage "compound-allergens" does not pass');
+
+    await expectReaderSurface(created.publicationId, bob, "apr-unknown", false);
+    await expectAuthorSees(created.publicationId, author, "queued");
+    await expectInOpenQueue(created.publicationId, mod, true);
+  });
 });
 
 describe("the pure approval refusal check", () => {
