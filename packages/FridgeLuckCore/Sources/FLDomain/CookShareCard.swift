@@ -120,3 +120,61 @@ public struct CookShareCard: Hashable, Codable, Sendable {
         return String(format: "%04d-%02d-%02d", components.year ?? 0, components.month ?? 0, components.day ?? 0)
     }
 }
+
+// MARK: Validated Codable (review round 2, item 2)
+//
+// The synthesized decode bypassed the validated inits: a received share could
+// carry an exact timestamp in `day`, zero servings, an out-of-range rating, a
+// multiline note, or blank swap names. Explicit decoding routes through the
+// same throwing inits construction uses — one rule on every path; encoding is
+// explicit to keep the frozen key set (round 1, item 6) hand-checked.
+
+extension CookShareSwap {
+    private enum CodingKeys: String, CodingKey {
+        case fromName, toName, necessity
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            fromName: try container.decode(String.self, forKey: .fromName),
+            toName: try container.decode(String.self, forKey: .toName),
+            necessity: try container.decode(CookSubstitution.Necessity.self, forKey: .necessity)
+        )
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(fromName, forKey: .fromName)
+        try container.encode(toName, forKey: .toName)
+        try container.encode(necessity, forKey: .necessity)
+    }
+}
+
+extension CookShareCard {
+    private enum CodingKeys: String, CodingKey {
+        case recipeRevision, day, servings, swaps, rating, note
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            recipeRevision: try container.decode(RecipeKey.self, forKey: .recipeRevision),
+            servings: try container.decode(Int.self, forKey: .servings),
+            swaps: try container.decode([CookShareSwap].self, forKey: .swaps),
+            rating: try container.decode(Int.self, forKey: .rating),
+            note: try container.decodeIfPresent(String.self, forKey: .note),
+            day: try container.decode(String.self, forKey: .day)
+        )
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(recipeRevision, forKey: .recipeRevision)
+        try container.encode(day, forKey: .day)
+        try container.encode(servings, forKey: .servings)
+        try container.encode(swaps, forKey: .swaps)
+        try container.encode(rating, forKey: .rating)
+        try container.encodeIfPresent(note, forKey: .note)
+    }
+}
