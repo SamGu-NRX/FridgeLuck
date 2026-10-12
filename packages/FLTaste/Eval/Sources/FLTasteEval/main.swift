@@ -240,8 +240,15 @@ func main() throws {
                 meanKendallTau: bySeed.compactMap { $0.meanKendallTau }.mean,
                 repeatRate: bySeed.compactMap { $0.repeatRate }.mean,
                 meanFairnessGap: bySeed.compactMap { $0.meanFairnessGap }.mean,
-                medianRecoveryCooks: bySeed.compactMap { $0.medianRecoveryCooks }.mean,
+                // Household-pooled median from raw observations, censored
+                // shifts sorting last (nil = censored median = bar fails).
+                medianRecoveryCooks: pooledMedianRecovery(
+                    observations: bySeed.flatMap { $0.recoveryObservations },
+                    censored: bySeed.reduce(0) { $0 + $1.recoveryCensored }),
                 restrictionViolations: bySeed.reduce(0) { $0 + $1.restrictionViolations },
+                independentRestrictionViolations: bySeed.reduce(0) {
+                    $0 + $1.independentRestrictionViolations
+                },
                 coverageFailures: bySeed.reduce(0) { $0 + $1.coverageFailures },
                 perRegimeMeanNDCG: regimes))
     }

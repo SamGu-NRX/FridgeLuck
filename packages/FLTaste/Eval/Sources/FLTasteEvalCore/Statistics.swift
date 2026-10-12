@@ -20,6 +20,7 @@ public struct ArmSeedAccumulator {
     public var regretSum = 0.0
     public var exposureRegretSum = 0.0
     public var restrictionViolations = 0
+    public var independentRestrictionViolations = 0
     public var coverageFailures = 0
     public var recoveryCooks: [Int] = []
     public var recoveryCensored = 0
@@ -27,7 +28,7 @@ public struct ArmSeedAccumulator {
     public var tauCount = 0
     public var repeats = 0
     public var fairnessGaps: [Double] = []
-    public var perRegime: [String: (ndcgSum: Double, ndcgCount: Int, regretSum: Double, cooked: Int, violations: Int)] = [:]
+    public var perRegime: [String: (ndcgSum: Double, ndcgCount: Int, regretSum: Double, cooked: Int, violations: Int, independentViolations: Int)] = [:]
 
     public init() {}
 
@@ -43,6 +44,7 @@ public struct ArmSeedAccumulator {
         regretSum += household.regretSum
         exposureRegretSum += household.exposureRegretSum
         restrictionViolations += household.restrictionViolations
+        independentRestrictionViolations += household.independentRestrictionViolations
         coverageFailures += household.coverageFailures
         recoveryCooks.append(contentsOf: household.recoveryCooks)
         recoveryCensored += household.recoveryCensored
@@ -50,13 +52,14 @@ public struct ArmSeedAccumulator {
         tauCount += household.tauCount
         repeats += household.repeats
         if let gap = household.fairnessGap { fairnessGaps.append(gap) }
-        let regimeEntry = perRegime[regime] ?? (0, 0, 0, 0, 0)
+        let regimeEntry = perRegime[regime] ?? (0, 0, 0, 0, 0, 0)
         perRegime[regime] = (
             regimeEntry.ndcgSum + household.ndcgSum,
             regimeEntry.ndcgCount + household.rankedSessions,
             regimeEntry.regretSum + household.regretSum,
             regimeEntry.cooked + household.cookedSessions,
-            regimeEntry.violations + household.restrictionViolations
+            regimeEntry.violations + household.restrictionViolations,
+            regimeEntry.independentViolations + household.independentRestrictionViolations
         )
     }
 }
@@ -76,9 +79,15 @@ public struct ArmSeedResult: Codable {
     public var meanRegret: Double?
     public var meanExposureRegret: Double?
     public var restrictionViolations: Int
+    /// Independent fail-closed slate violations (RestrictionExpectations).
+    public var independentRestrictionViolations: Int
     public var coverageFailures: Int
     public var medianRecoveryCooks: Double?
     public var recoveryDistribution: [String: Int]
+    /// Raw per-shift cooks-to-recovery for every household in this
+    /// (arm, seed) cell — the evidence the household-pooled median derives
+    /// from. Exactly one observation per shift that started.
+    public var recoveryObservations: [Int]
     public var recoveryCensored: Int
     public var meanKendallTau: Double?
     public var repeatRate: Double?
@@ -92,6 +101,7 @@ public struct RegimeSummary: Codable {
     public var rankedSessions: Int
     public var cookedSessions: Int
     public var restrictionViolations: Int
+    public var independentRestrictionViolations: Int
 }
 
 public func summarize(
@@ -120,9 +130,11 @@ public func summarize(
         meanRegret: accumulator.cookedSessions == 0 ? nil : accumulator.regretSum / Double(accumulator.cookedSessions),
         meanExposureRegret: accumulator.cookedSessions == 0 ? nil : accumulator.exposureRegretSum / Double(accumulator.cookedSessions),
         restrictionViolations: accumulator.restrictionViolations,
+        independentRestrictionViolations: accumulator.independentRestrictionViolations,
         coverageFailures: accumulator.coverageFailures,
         medianRecoveryCooks: median(accumulator.recoveryCooks),
         recoveryDistribution: distribution,
+        recoveryObservations: accumulator.recoveryCooks,
         recoveryCensored: accumulator.recoveryCensored,
         meanKendallTau: accumulator.tauCount == 0 ? nil : accumulator.tauSum / Double(accumulator.tauCount),
         repeatRate: accumulator.cookedSessions == 0 ? nil : Double(accumulator.repeats) / Double(accumulator.cookedSessions),
@@ -132,7 +144,8 @@ public func summarize(
                 meanNDCG: $0.ndcgCount == 0 ? nil : $0.ndcgSum / Double($0.ndcgCount),
                 meanRegret: $0.cooked == 0 ? nil : $0.regretSum / Double($0.cooked),
                 rankedSessions: $0.ndcgCount, cookedSessions: $0.cooked,
-                restrictionViolations: $0.violations)
+                restrictionViolations: $0.violations,
+                independentRestrictionViolations: $0.independentViolations)
         })
 }
 
@@ -153,6 +166,7 @@ public struct ArmStats: Codable {
     public var meanFairnessGap: Double?
     public var medianRecoveryCooks: Double?
     public var restrictionViolations: Int
+    public var independentRestrictionViolations: Int
     public var coverageFailures: Int
     public var perRegimeMeanNDCG: [String: Double]
 
@@ -160,7 +174,8 @@ public struct ArmStats: Codable {
         arm: String, family: String, seeds: Int, bootstrapResamples: Int, meanNDCG: Double,
         ndcgCI: [Double], meanRegret: Double?, regretCI: [Double]?, meanKendallTau: Double?,
         repeatRate: Double?, meanFairnessGap: Double?, medianRecoveryCooks: Double?,
-        restrictionViolations: Int, coverageFailures: Int, perRegimeMeanNDCG: [String: Double]
+        restrictionViolations: Int, independentRestrictionViolations: Int,
+        coverageFailures: Int, perRegimeMeanNDCG: [String: Double]
     ) {
         self.arm = arm
         self.family = family
@@ -175,6 +190,7 @@ public struct ArmStats: Codable {
         self.meanFairnessGap = meanFairnessGap
         self.medianRecoveryCooks = medianRecoveryCooks
         self.restrictionViolations = restrictionViolations
+        self.independentRestrictionViolations = independentRestrictionViolations
         self.coverageFailures = coverageFailures
         self.perRegimeMeanNDCG = perRegimeMeanNDCG
     }
@@ -199,10 +215,33 @@ public struct GateVerdict: Codable {
     public var versusRule: LiftStats
     public var versusProfileOnly: LiftStats
     public var restrictionViolations: Int
+    public var independentRestrictionViolations: Int
+    public var coverageFailures: Int
+    /// Household-pooled median cooks-to-recovery (nil when the median
+    /// falls in the censored bucket — reported as a fail, never a pass).
     public var medianRecoveryCooks: Double?
+    public var recoveryObservationCount: Int
+    public var recoveryCensoredHouseholds: Int
     public var recoveryBarMet: Bool
     public var noViolations: Bool
     public var activationGateMet: Bool
+}
+
+/// Household-pooled median cooks-to-recovery: every shift contributes one
+/// observation (its first-recovery cook count); shifts that never recovered
+/// inside the horizon are censored and sort last. Returns nil when the
+/// median lands in the censored bucket or no shift ever started — the bar
+/// then fails, because "never recovered" is not a passing recovery time.
+public func pooledMedianRecovery(observations: [Int], censored: Int) -> Double? {
+    let n = observations.count + censored
+    guard n > 0 else { return nil }
+    let sorted = observations.sorted()
+    let mid = n / 2
+    if n % 2 == 1 {
+        return mid < sorted.count ? Double(sorted[mid]) : nil
+    }
+    guard mid - 1 < sorted.count, mid < sorted.count else { return nil }
+    return (Double(sorted[mid - 1]) + Double(sorted[mid])) / 2.0
 }
 
 /// Deterministic bootstrap: resample seed indices with a seeded RNG.
@@ -269,14 +308,24 @@ public func gateVerdict(
 
     let engineResults = results.filter { $0.arm == engineArm }
     let violations = engineResults.reduce(0) { $0 + $1.restrictionViolations }
-    let recoveries = engineResults.compactMap { $0.medianRecoveryCooks }
-    let medianRecovery = recoveries.mean  // median of per-seed medians
+    let independent = engineResults.reduce(0) { $0 + $1.independentRestrictionViolations }
+    let coverage = engineResults.reduce(0) { $0 + $1.coverageFailures }
+    // Household-pooled recovery: raw per-shift observations across all of
+    // the engine arm's seeds, censored shifts sorting last. Not a mean of
+    // per-seed medians — the stated bar is the household median.
+    let observations = engineResults.flatMap { $0.recoveryObservations }
+    let censored = engineResults.reduce(0) { $0 + $1.recoveryCensored }
+    let medianRecovery = pooledMedianRecovery(observations: observations, censored: censored)
     let recoveryBarMet = (medianRecovery ?? .infinity) <= 6.0
-    let noViolations = violations == 0
+    // Zero tolerance covers all three failure modes: membership violations,
+    // independent fail-closed safety violations, and coverage failures.
+    let noViolations = violations == 0 && independent == 0 && coverage == 0
 
     return GateVerdict(
         engineArm: engineArm, versusRule: versusRule, versusProfileOnly: versusProfile,
-        restrictionViolations: violations, medianRecoveryCooks: medianRecovery,
+        restrictionViolations: violations, independentRestrictionViolations: independent,
+        coverageFailures: coverage, medianRecoveryCooks: medianRecovery,
+        recoveryObservationCount: observations.count, recoveryCensoredHouseholds: censored,
         recoveryBarMet: recoveryBarMet, noViolations: noViolations,
         activationGateMet: versusRule.gateLowMet && versusProfile.gateLowMet
             && noViolations && recoveryBarMet)

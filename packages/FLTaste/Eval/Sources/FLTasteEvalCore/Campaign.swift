@@ -183,7 +183,8 @@ public enum Campaign {
         guard let run = finalRun else {
             fatalError("campaign staging produced no final run")
         }
-        let metrics = scoreHousehold(groundTruth: run.groundTruth, rankLog: finalLog.entries)
+        let metrics = scoreHousehold(
+            groundTruth: run.groundTruth, catalog: catalog, rankLog: finalLog.entries)
         return (metrics, regime)
     }
 }

@@ -60,10 +60,19 @@ final class EvalCampaignTests: XCTestCase {
         // coverage failures, nonempty finite metrics.
         for result in results {
             XCTAssertEqual(result.restrictionViolations, 0, "\(result.arm): zero hard-restriction violations")
+            XCTAssertEqual(
+                result.independentRestrictionViolations, 0,
+                "\(result.arm): zero independent (fail-closed) slate violations")
             XCTAssertEqual(result.coverageFailures, 0, "\(result.arm): every ranked week has ground truth")
             XCTAssertGreaterThan(result.rankedSessions, 0, "\(result.arm): ranked something")
             let ndcg = try XCTUnwrap(result.meanNDCG, "\(result.arm): NDCG measurable")
             XCTAssertTrue(ndcg.isFinite && ndcg >= 0 && ndcg <= 1, "\(result.arm): NDCG in [0, 1]")
+            // Recovery observations are one per started shift: every value
+            // is a positive cook count inside the horizon.
+            XCTAssertTrue(
+                result.recoveryObservations.allSatisfy { $0 >= 1 && $0 <= 100 }
+                    && result.recoveryCensored >= 0,
+                "\(result.arm): recovery observations sane")
         }
     }
 
@@ -160,8 +169,10 @@ final class EvalCampaignTests: XCTestCase {
                     arm: arm, family: family, seed: seed, households: 2, sessions: 10,
                     rankedSessions: 10, cookedSessions: 8, meanNDCG: ndcg, bestInSlateRate: nil,
                     meanChoiceRank: nil, meanRegret: 0.1, meanExposureRegret: nil,
-                    restrictionViolations: 0, coverageFailures: 0, medianRecoveryCooks: 3,
-                    recoveryDistribution: [:], recoveryCensored: 0, meanKendallTau: nil,
+                    restrictionViolations: 0, independentRestrictionViolations: 0,
+                    coverageFailures: 0, medianRecoveryCooks: 3,
+                    recoveryDistribution: [:], recoveryObservations: [3], recoveryCensored: 0,
+                    meanKendallTau: nil,
                     repeatRate: nil, meanFairnessGap: nil, perRegime: [:])
             }
             var results: [ArmSeedResult] = []
@@ -221,5 +232,115 @@ final class EvalCampaignTests: XCTestCase {
             problems.contains { $0.contains("missing arm results") },
             "a missing arm fails close")
         XCTAssertEqual(planted[0].restrictionViolations, 3, "the plant stays planted (no normalization)")
+
+        // Independent fail-closed violations gate the activation too (three
+        // seeds so the paired lift exists and only the zero-field flips it).
+        var unsafe: [ArmSeedResult] = []
+        for i in 0..<3 {
+            func makeOne(_ arm: String, _ family: String, _ seed: UInt64, _ ndcg: Double) -> ArmSeedResult {
+                ArmSeedResult(
+                    arm: arm, family: family, seed: seed, households: 2, sessions: 10,
+                    rankedSessions: 10, cookedSessions: 8, meanNDCG: ndcg, bestInSlateRate: nil,
+                    meanChoiceRank: nil, meanRegret: 0.1, meanExposureRegret: nil,
+                    restrictionViolations: 0, independentRestrictionViolations: arm == "engine" ? 1 : 0,
+                    coverageFailures: 0, medianRecoveryCooks: 3,
+                    recoveryDistribution: [:], recoveryObservations: [3], recoveryCensored: 0,
+                    meanKendallTau: nil, repeatRate: nil, meanFairnessGap: nil, perRegime: [:])
+            }
+            unsafe.append(makeOne("engine", "family-2", UInt64(300 + i), 0.60))
+            unsafe.append(makeOne("rule-port", "baseline", UInt64(300 + i), 0.50))
+            unsafe.append(makeOne("profile-only", "baseline", UInt64(300 + i), 0.48))
+        }
+        let unsafeVerdict = gateVerdict(
+            results: unsafe, engineArm: "engine", ruleArm: "rule-port",
+            profileArm: "profile-only", resamples: 200)
+        XCTAssertEqual(
+            try XCTUnwrap(unsafeVerdict).activationGateMet, false,
+            "one unsafe slate suggestion fails the gate")
+    }
+
+    // MARK: Review-rework integrity fixes
+
+    func testNDCGIdealUsesFullFeasibleUniverse() {
+        let utilities = ["a": 1.0, "b": 0.5, "c": 0.1]
+        // An arm that drops the best feasible recipe must NOT score 1.0.
+        let dropping = ndcg10(ordered: ["b", "c"], feasible: ["a", "b", "c"], utilities: utilities)
+        let complete = ndcg10(ordered: ["a", "b", "c"], feasible: ["a", "b", "c"], utilities: utilities)
+        XCTAssertEqual(complete, 1.0, accuracy: 1e-12)
+        XCTAssertLessThan(dropping, 1.0, "omitting the best feasible recipe costs NDCG")
+    }
+
+    func testPooledMedianRecoveryCensoredConventions() {
+        // Plain odd/even medians over observations.
+        XCTAssertEqual(pooledMedianRecovery(observations: [3, 2, 9], censored: 0), 3.0)
+        XCTAssertEqual(pooledMedianRecovery(observations: [3, 2], censored: 0), 2.5)
+        // Censored shifts sort last; a median landing on them is nil (fail).
+        XCTAssertEqual(pooledMedianRecovery(observations: [2, 4], censored: 1), 4.0)
+        XCTAssertNil(pooledMedianRecovery(observations: [2], censored: 1), "median falls on a censored shift")
+        XCTAssertNil(pooledMedianRecovery(observations: [], censored: 2), "all censored")
+        XCTAssertNil(pooledMedianRecovery(observations: [], censored: 0), "no shifts ever started")
+    }
+
+    func testRestrictionExpectationsFailClosedAndCompound() throws {
+        let catalog = try loadCatalog()
+
+        // Allergy whose target resolves only through the head-token net:
+        // any recipe using a peanut-headed compound (e.g. peanut_butter)
+        // is unsafe under a "peanuts" allergy even if the exact-id
+        // expansion misses it.
+        let peanutRecipe = try XCTUnwrap(
+            catalog.recipes.values.first { recipe in
+                (recipe.requiredIngredients + recipe.optionalIngredients)
+                    .contains { $0.id.rawValue.lowercased().contains("peanut") }
+            },
+            "corpus has a peanut-using recipe for the compound test")
+        let peanutAllergy = RestrictionExpectations(
+            rules: [RestrictionExpectations.Rule(startWeek: 0, kind: .allergy, target: "peanuts")],
+            catalog: catalog)
+        XCTAssertGreaterThan(
+            peanutAllergy.violations(week: 1, slate: [peanutRecipe.id], neverSuggest: []), 0,
+            "an allergen-headed compound is flagged, not just the exact id")
+
+        // Unresolvable restriction target: fail closed — every slate entry
+        // is unverifiable and counts.
+        let unknown = RestrictionExpectations(
+            rules: [RestrictionExpectations.Rule(startWeek: 0, kind: .allergy, target: "dragonfruit_extract")],
+            catalog: catalog)
+        XCTAssertEqual(
+            unknown.violations(week: 1, slate: [peanutRecipe.id], neverSuggest: []), 1,
+            "an unknown allergy target makes every suggestion unverifiable")
+
+        // Diet re-verified from the recipe's own tag bitmask.
+        let untagged = try XCTUnwrap(
+            catalog.recipes.values.first { !$0.hasTag(.vegetarian) },
+            "corpus has a non-vegetarian recipe")
+        let tagged = try XCTUnwrap(
+            catalog.recipes.values.first { $0.hasTag(.vegetarian) },
+            "corpus has a vegetarian recipe")
+        let vegetarian = RestrictionExpectations(
+            rules: [RestrictionExpectations.Rule(startWeek: 0, kind: .diet, target: "vegetarian")],
+            catalog: catalog)
+        XCTAssertGreaterThan(
+            vegetarian.violations(week: 0, slate: [untagged.id], neverSuggest: []), 0)
+        XCTAssertEqual(
+            vegetarian.violations(week: 0, slate: [tagged.id], neverSuggest: []), 0)
+
+        // A diet shift binds only from its week on.
+        XCTAssertEqual(
+            vegetarian.violations(week: -1, slate: [untagged.id], neverSuggest: []), 0,
+            "before the shift week the diet is not yet binding")
+
+        // Never-suggest is an exact-id preference edit: use an actual
+        // ingredient of the picked recipe as the never-suggest target.
+        let anyRecipe = try XCTUnwrap(catalog.recipes.values.first, "corpus has recipes")
+        let targetUse = try XCTUnwrap(
+            (anyRecipe.requiredIngredients + anyRecipe.optionalIngredients).first,
+            "the recipe uses at least one ingredient")
+        let blockedID = try XCTUnwrap(IngredientID(targetUse.id.rawValue), "the id parses")
+        let noRules = RestrictionExpectations(rules: [], catalog: catalog)
+        XCTAssertEqual(noRules.violations(week: 1, slate: [anyRecipe.id], neverSuggest: []), 0)
+        XCTAssertGreaterThan(
+            noRules.violations(week: 1, slate: [anyRecipe.id], neverSuggest: [blockedID]),
+            0, "a never-suggested ingredient in the slate is flagged")
     }
 }
