@@ -402,6 +402,60 @@ class ClaimComposition(unittest.TestCase):
         self.assertTrue(any("'dairy-free' is not proven" in e for e in errors), errors)
 
 
+class NhsSafetyConversion(unittest.TestCase):
+    """Finding 5: the NHS conversion applies the same endpoints as the gate."""
+
+    @classmethod
+    def setUpClass(cls):
+        import ingest_nhs
+        cls.build = staticmethod(ingest_nhs.build_steps)
+
+    def checks(self, steps: list) -> list:
+        return [(s["safety"]["class"], s["safety"]["temp_f"]) for s in steps if "safety" in s]
+
+    def test_ground_poultry_no_longer_pink_is_165(self):
+        # 4b6e163 rewrote every "no longer pink" to 160 F ground meat
+        steps, problems = self.build(["Cook until no longer pink, about 10 minutes."],
+                                     ["turkey mince", "onion"], "Turkey burgers")
+        self.assertEqual(problems, [])
+        self.assertEqual(self.checks(steps), [("meat_poultry", 165)])
+        self.assertIn("165 °F", steps[0]["text"])
+
+    def test_pork_cooked_through_states_the_rest(self):
+        steps, problems = self.build(["Fry until the pork is cooked through."],
+                                     ["pork loin steaks"], "Pork and apple")
+        self.assertEqual(problems, [])
+        self.assertIn("rest it for at least 3 minutes", steps[0]["text"])
+
+    def test_reheat_check_survives_an_earlier_check(self):
+        # 4b6e163 skipped the reheat check once any earlier step had a check
+        steps, problems = self.build(
+            ["Cook until the chicken is cooked through.", "Reheat leftovers until piping hot."],
+            ["chicken breast"], "Chicken rice")
+        self.assertEqual(problems, [])
+        self.assertEqual(self.checks(steps), [("meat_poultry", 165), ("leftovers", 165)])
+        self.assertTrue(steps[1].get("reheat"))
+        self.assertIn("thermometer", steps[1]["text"])
+
+    def test_mixed_poultry_and_egg_take_the_poultry_endpoint(self):
+        # 4b6e163's fallback chose egg (160 F) before poultry
+        steps, problems = self.build(["Mix everything and cook for 20 minutes."],
+                                     ["eggs", "chicken breast"], "Chicken and egg skillet")
+        self.assertEqual(problems, [])
+        self.assertEqual(max(t for _, t in self.checks(steps)), 165)
+
+    def test_casserole_reaches_165(self):
+        steps, problems = self.build(["Bake until the fish flakes easily with a fork."],
+                                     ["cod fillets", "potatoes"], "Fish pie")
+        self.assertEqual(problems, [])
+        self.assertEqual(self.checks(steps), [("leftovers", 165)])
+
+    def test_html_entities_are_decoded(self):
+        import ingest_nhs
+        html = "<h2>Method</h2><ol><li>Don&#x27;t let them burn!</li></ol></section>"
+        self.assertEqual(ingest_nhs.method_steps_from_html(html), ["Don't let them burn!"])
+
+
 class CommittedCorpus(unittest.TestCase):
     """The committed corpus passes every gate."""
 

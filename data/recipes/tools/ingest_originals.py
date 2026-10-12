@@ -43,6 +43,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import composition  # noqa: E402
+import food_safety  # noqa: E402
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CORPUS = REPO_ROOT / "data/recipes/corpus.jsonl"
 MANIFEST = REPO_ROOT / "data/recipes/rights_manifest.json"
@@ -169,6 +174,13 @@ def main() -> int:
             continue
         if "claims" in rec and rec["claims"] != work["claims"]:
             stopped.append(f"{rid}: claims changed under scanner recomputation")
+            continue
+        # the corpus gates the suite linter does not enforce
+        gate = food_safety.safety_violations(rec) + [
+            f"claim {c!r} not proven: {'; '.join(r)}"
+            for c, r in composition.claim_problems(rec, allergens).items()]
+        if gate:
+            stopped.extend(f"{rid}: {g}" for g in gate)
             continue
 
         clean = copy.deepcopy(rec)

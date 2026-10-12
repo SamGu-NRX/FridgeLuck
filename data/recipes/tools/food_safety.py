@@ -119,7 +119,7 @@ _CLASS_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
 # breads are not casseroles; their ingredients set their endpoints.
 MIXED_DISH_TITLE = re.compile(
     r"\b(?:casserole|gratin|lasagn[ae]|strata|hotdish|shepherd'?s pie|cottage pie|"
-    r"pot pie|moussaka|stuffing|bake)\b", re.IGNORECASE)
+    r"fish pie|pot pie|moussaka|stuffing|bake)\b", re.IGNORECASE)
 
 # Words in an ingredient name that a step uses to refer to that food.
 _PROTEIN_WORDS = re.compile(
@@ -269,7 +269,6 @@ def endpoint_violations(recipe: dict[str, Any]) -> list[str]:
     rid = recipe.get("id", "?")
     out: list[str] = []
     steps = [s if isinstance(s, dict) else {} for s in recipe.get("steps", [])]
-    need = required_classes(recipe)
     mention = _mention_words(recipe)
     mixed = is_mixed_dish(recipe.get("title", ""))
     groups = mixtures(steps, mention)
@@ -328,28 +327,46 @@ def endpoint_violations(recipe: dict[str, Any]) -> list[str]:
                 out.append(f"{rid}: step[{i}] describes reheating but is not flagged reheat")
 
     # rule 2: every required class is covered
-    for cls, why in sorted(need.items()):
+    for cls, why in sorted(uncovered_classes(recipe).items()):
+        out.append(f"{rid}: {cls} ({', '.join(why)}) needs a thermometer check at "
+                   f"{MIN_F[cls]} °F or above and none covers it")
+    return out
+
+
+def uncovered_classes(recipe: dict[str, Any]) -> dict[str, list[str]]:
+    """Rule 2: {class: why it is required} for each required class no check covers."""
+    steps = [s if isinstance(s, dict) else {} for s in recipe.get("steps", [])]
+    mention = _mention_words(recipe)
+    mixed = is_mixed_dish(recipe.get("title", ""))
+    groups = mixtures(steps, mention)
+    checks = _checks(recipe, [])
+    out: dict[str, list[str]] = {}
+    for cls, why in required_classes(recipe).items():
         casserole = any(w.startswith("title ") for w in why)
         covered = False
         for i, chk in checks:
             ccls, temp = chk.get("class"), chk.get("temp_f")
             if ccls not in MIN_F or not _is_num(temp) or temp < MIN_F[cls]:
                 continue
-            text = str(steps[i].get("text", ""))
+            finished_dish = mixed and ccls == "leftovers" and not steps[i].get("reheat")
             if cls == "leftovers":
                 # a casserole needs its finished-dish check; reheated cooked
                 # meat is covered by any leftovers check
-                covered = dish_check(i, chk) if casserole else ccls == "leftovers"
+                covered = finished_dish if casserole else ccls == "leftovers"
             else:
+                text = str(steps[i].get("text", ""))
                 cooked_here = _with_mixtures(i, classes_in_text(text, mention) | {ccls}, groups)
-                covered = cls in cooked_here or dish_check(i, chk)
+                covered = cls in cooked_here or finished_dish
             if covered:
                 break
         if not covered:
-            what = ", ".join(why)
-            out.append(f"{rid}: {cls} ({what}) needs a thermometer check at "
-                       f"{MIN_F[cls]} °F or above and none covers it")
+            out[cls] = why
     return out
+
+
+def food_words(name: str) -> list[str]:
+    """The words of an ingredient name a step would use for the food."""
+    return _PROTEIN_WORDS.findall(str(name).lower())
 
 
 def text_violations(recipe: dict[str, Any]) -> list[str]:

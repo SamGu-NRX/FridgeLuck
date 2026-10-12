@@ -59,17 +59,6 @@ COOKBOOK_CREDITS = (
     "stay young at heart",
 )
 
-PROTEIN_TEMP = {"meat_poultry": 165, "meat_ground": 160,
-                "meat_red": 145, "seafood": 145, "egg": 160}
-PROTEIN_WORDS = {
-    "meat_poultry": r"chicken|turkey",
-    "meat_ground": r"ground\s+(?:beef|turkey|chicken|pork)|\bground\b",
-    "meat_red": r"\bbeef\b|\bpork\b|\blamb\b",
-    "seafood": r"\bfish\b|salmon|tilapia|cod|shrimp|scallops|tuna|halibut",
-    "egg": r"\beggs?\b",
-}
-COOK_VERB = re.compile(
-    r"\b(cook|bake|saut|simmer|grill|broil|fry|roast|poach|heat|steam)\w*", re.I)
 OZ_PER_GRAM = 28.3495
 LB_PER_GRAM = 453.592
 
@@ -345,36 +334,11 @@ def parse_ingredient_line(line: str) -> dict[str, Any] | None:
     return unknown(ingredient_name(text))
 
 
-def build_steps(directions: list[str], classes: set[str],
-                raw_directions_text: str) -> list[dict[str, Any]]:
-    """Steps with timers; protein-corrected doneness; no fabricated reheat."""
-    has_reheat = bool(re.search(
-        r"\bre-?heat|heat(?:s|ing)?\s+(?:it\s+)?through|piping hot\b",
-        raw_directions_text, re.I))
-    steps = N.build_steps(directions, classes, has_reheat)
-
-    # Protein-corrected + appended thermometer checks. ingest_nhs's generic
-    # else-branch maps every non-egg/seafood class to poultry 165 F; for NHLBI
-    # pick the class's actual FSIS minimum and target the step that cooks it.
-    protein_classes = classes & set(PROTEIN_TEMP)
-    if protein_classes and not any(s.get("safety") for s in steps):
-        for cls in ("meat_poultry", "meat_ground", "meat_red", "seafood", "egg"):
-            if cls not in protein_classes:
-                continue
-            word_rx = re.compile(PROTEIN_WORDS[cls], re.I)
-            for s in reversed(steps):
-                text = str(s.get("text", ""))
-                if word_rx.search(text) and COOK_VERB.search(text):
-                    temp = PROTEIN_TEMP[cls]
-                    s["text"] = (text.rstrip(".")
-                                 + f"; cook until it reaches {temp} °F on a "
-                                 "food thermometer.")
-                    s["safety"] = {"class": cls, "temp_f": temp,
-                                   "method": "thermometer", "source": N.FSIS_SOURCE}
-                    break
-            if any(s.get("safety") for s in steps):
-                break
-    return steps
+def build_steps(directions: list[str], ingredient_names: list[str], title: str
+                ) -> tuple[list[dict[str, Any]], list[str]]:
+    """The NHS conversion (ingest_nhs.build_steps): FSIS endpoints from the
+    recipe's own ingredients, reheat checks per step, gate-checked."""
+    return N.build_steps(directions, ingredient_names, title)
 
 
 # Verified NHLBI-food extensions to the shared spoon-name map: added ONLY
@@ -497,18 +461,20 @@ def main() -> int:
             skipped.append((parsed_page["slug"], title, "time unparseable"))
             continue
 
-        probe: list[dict[str, Any]] = [{"name": p["name"]} for p in parsed]
-        classes = set(scanner.classes_for({"ingredients": probe}))
-        steps = build_steps(parsed_page["directions"], classes,
-                            " ".join(parsed_page["directions"]))
+        steps, safety_problems = build_steps(parsed_page["directions"],
+                                             [p["name"] for p in parsed], title)
         if not steps:
             skipped.append((parsed_page["slug"], title, "no directions parsed"))
+            continue
+        if safety_problems:
+            skipped.append((parsed_page["slug"], title, "food-safety conversion incomplete: "
+                            + "; ".join(safety_problems)))
             continue
 
         cuisine, slots = N.judge(title, [])
         ingredients = [{"name": p["name"], "qty": p["qty"]} for p in parsed]
         claims = N.decide_claims([{"name": p["name"]} for p in parsed],
-                                 raw_lines, scanner)
+                                 raw_lines, scanner, allergens, steps)
         unaliased = [p["name"] for p in parsed if p["name"] not in alias_keys]
 
         oz_lines = [x for x in raw_lines

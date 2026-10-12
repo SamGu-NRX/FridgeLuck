@@ -32,10 +32,13 @@ denylists over the raw NHS line text — e.g. paneer is invisible to the alias
 table but is dairy). This is the same scanner-verification bar as the seeds
 plus a recognition guard for scale.
 
-Doneness: NHS colour/time doneness clauses on animal-protein steps are
-rephrased to thermometer language (adaptation, OGL) and FSIS-cited safety
-checks attach to the step where doneness is established (rulebook citation
-string from data/food-safety/rules.json rs_alignment).
+Doneness (build_steps): NHS colour/time doneness clauses are rephrased to a
+thermometer check at the strictest FSIS endpoint of the foods they cover,
+taken from the recipe's own ingredients through food_safety.py (ground
+poultry 165 F, whole-cut pork 145 F plus a 3-minute rest). Every step that
+reheats carries its own 165 F check. Any required food still unchecked gets
+a closing check that names it (165 F for a casserole). A page whose
+converted steps fail food_safety.safety_violations is skipped, not ingested.
 
 Modes:
     --measure  parse + classify + print selection and judgments; write nothing
@@ -52,19 +55,22 @@ import json
 import re
 import sys
 import unicodedata
+from html import unescape as html_unescape
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import composition  # noqa: E402
+import food_safety  # noqa: E402
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CORPUS = REPO_ROOT / "data/recipes/corpus.jsonl"
+C_FOR_F = {145: 63, 160: 71, 165: 74}  # Celsius as FoodSafety.gov rounds them
 MANIFEST = REPO_ROOT / "data/recipes/rights_manifest.json"
 
 BUILD_DATE = "2026-10-11"
-FSIS_SOURCE = (
-    "USDA FSIS Safe Minimum Internal Temperature Chart, "
-    "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/"
-    "food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
-)
+FSIS_SOURCE = food_safety.FSIS_SOURCE
 NHS_TERMS_URL = "https://www.nhs.uk/our-policies/terms-and-conditions/"
 ID_TAG = "nhs"  # source-tag for fl-<source-tag>-<4 digits>; source_id is nhs_website
 MIN_RESOLVE = 0.95
@@ -660,38 +666,68 @@ def parse_quantity(line: str) -> dict[str, Any] | None:
 # ---------------------------------------------------------------------------
 # steps: split, rephrase doneness, attach safety
 # ---------------------------------------------------------------------------
-DONENESS_RULES: list[tuple[re.Pattern[str], str, str, int]] = [
-    # (regex, replacement, safety class, min temp)
-    (re.compile(r"until the (?:chicken|turkey) juices run clear", re.I),
-     "until the chicken reaches 165 °F on a food thermometer at its thickest point",
-     "meat_poultry", 165),
-    (re.compile(r"until the (?:chicken|turkey) is (?:cooked through|no longer pink|white and cooked through)", re.I),
-     "until the chicken reaches 165 °F on a food thermometer at its thickest point",
-     "meat_poultry", 165),
-    (re.compile(r"(?:cook|cook|cook) until no longer pink", re.I),
-     "cook until the meat reaches 160 °F on a food thermometer",
-     "meat_ground", 160),
-    (re.compile(r"until (?:the (?:fish|salmon|cod|haddock)) (?:is cooked through|flakes? (?:easily )?(?:with a fork|apart))", re.I),
-     "until the fish reaches 145 °F on a food thermometer",
-     "flesh_fish", 145),
+# Doneness clauses in NHS method text, and the foods each one is about. The
+# endpoint comes from the recipe's own ingredients through food_safety (turkey
+# mince is ground poultry, 165 F; pork loin is a whole cut, 145 F plus rest),
+# never from the clause: the old table gave every "no longer pink" 160 F,
+# including ground poultry, and gave pork no rest.
+DONENESS_CLAUSES: list[tuple[re.Pattern[str], re.Pattern[str]]] = [
+    (re.compile(r"until the (?:chicken|turkey)(?: juices run clear| is (?:white and )?"
+                r"(?:cooked through|no longer pink))", re.I),
+     re.compile(r"\b(?:chicken|turkey)\b")),
+    (re.compile(r"until (?:the )?(?:fish|salmon|cod|haddock) (?:is cooked through|"
+                r"flakes? (?:easily )?(?:with a fork|apart))", re.I),
+     re.compile(r"\b(?:fish|salmon|cod|haddock|pollock|trout|mackerel)\b")),
     (re.compile(r"until the (?:eggs?|egg whites?) (?:are|is) (?:just )?set\b", re.I),
-     "until the eggs are fully set", "egg", 160),
-    (re.compile(r"until the saus?ages? are (?:cooked through|no longer pink|browned and cooked through)", re.I),
-     "until the sausages reach 160 °F on a food thermometer", "meat_pork", 160),
-    (re.compile(r"until (?:the (?:pork|bacon|ham)) is cooked through", re.I),
-     "until the pork reaches 145 °F on a food thermometer (160 °F if it is ground, minced or sectioned pork)",
-     "meat_pork", 145),
+     re.compile(r"\beggs?\b")),
+    (re.compile(r"until the saus?ages? are (?:browned and )?(?:cooked through|no longer pink)",
+                re.I),
+     re.compile(r"\bsausages?\b")),
+    (re.compile(r"until (?:the )?(?:pork|bacon|ham) is cooked through", re.I),
+     re.compile(r"\b(?:pork|bacon|ham|gammon)\b")),
+    # generic: any meat in the recipe
+    (re.compile(r"until (?:the meat is )?no longer pink(?: in the (?:middle|centre))?", re.I),
+     re.compile(r".")),
 ]
+_REHEAT_SOURCE = re.compile(r"\bre-?heat|\bre-?warm|\bpiping hot\b|\bheat(?:s|ing)? "
+                            r"(?:it |them )?through\b", re.I)
 
 
-def build_steps(method_items: list[str], classes: set[str], has_leftovers: bool
-                ) -> list[dict[str, Any]]:
+def _endpoint(classes: set[str]) -> tuple[str, int]:
+    """The strictest (class, temp) among classes; whole cuts lose ties."""
+    ranked = sorted(classes, key=lambda c: (food_safety.MIN_F[c], c not in food_safety.REST_MIN))
+    cls = ranked[-1]
+    return cls, food_safety.MIN_F[cls]
+
+
+def _check_clause(cls: str, temp: int, where: str = "in the thickest part") -> str:
+    c = C_FOR_F[temp]
+    rest = (f", then rest it for at least {food_safety.REST_MIN[cls]} minutes"
+            if cls in food_safety.REST_MIN else "")
+    return f"until a food thermometer {where} reads {temp} °F ({c} °C){rest}"
+
+
+def _safety(cls: str, temp: int) -> dict[str, Any]:
+    return {"class": cls, "temp_f": temp, "method": "thermometer", "source": FSIS_SOURCE}
+
+
+def build_steps(method_items: list[str], ingredient_names: list[str], title: str
+                ) -> tuple[list[dict[str, Any]], list[str]]:
+    """(steps, safety problems). Problems non-empty means the page is skipped.
+
+    Each doneness clause becomes a thermometer check at the strictest
+    endpoint of the foods it covers; each reheating step carries its own
+    165 F leftovers check, whatever was checked before it; any required food
+    still unchecked gets one closing check that names it, at the strictest
+    endpoint of what is left (165 F for a casserole). The result must pass
+    food_safety.safety_violations.
+    """
+    ing_classes = {n: food_safety.ingredient_class(n) for n in ingredient_names}
+    meat = {c for c in ing_classes.values()
+            if c and c not in ("egg", "flesh_fish", "flesh_shellfish", "leftovers")}
     steps: list[dict[str, Any]] = []
-    safety: dict[str, Any] | None = None
     for raw in method_items:
         text = re.sub(r"\s+", " ", raw).strip()
-        if not text:
-            continue
         text = re.sub(r"^Information:.*$", "", text).strip()
         if not text:
             continue
@@ -704,34 +740,54 @@ def build_steps(method_items: list[str], classes: set[str], has_leftovers: bool
                 val /= 60.0
             if 0 < val <= 240:
                 step["timer_min"] = val
-        for rx, repl, sclass, temp in DONENESS_RULES:
-            if rx.search(text):
-                step["text"] = rx.sub(repl, text)
-                step["safety"] = {"class": sclass, "temp_f": temp,
-                                  "method": "thermometer", "source": FSIS_SOURCE}
-                safety = step["safety"]
+        if _REHEAT_SOURCE.search(text):
+            # reheating overrides the product class
+            step["reheat"] = True
+            step["safety"] = _safety("leftovers", 165)
+            if "thermometer" not in text.lower():
+                step["text"] = (f"{text.rstrip('.')}. Check with a food thermometer: it must "
+                                f"read 165 °F ({C_FOR_F[165]} °C).")
+        else:
+            for clause, foods in DONENESS_CLAUSES:
+                m = clause.search(text)
+                if not m:
+                    continue
+                classes = {c for n, c in ing_classes.items() if c and foods.search(n.lower())}
+                if foods.pattern == ".":
+                    classes = set(meat)
+                if not classes:
+                    continue  # the clause names a food this recipe does not list
+                cls, temp = _endpoint(classes)
+                if food_safety.is_mixed_dish(title):
+                    cls, temp = "leftovers", 165  # the casserole endpoint
+                    where = "in the centre"
+                else:
+                    where = "in the thickest part"
+                step["text"] = text[:m.start()] + _check_clause(cls, temp, where) + text[m.end():]
+                step["safety"] = _safety(cls, temp)
                 break
         steps.append(step)
 
-    needs = bool(classes & {"meat_poultry", "meat_red", "meat_ground",
-                            "seafood", "egg"}) or has_leftovers
-    if needs and safety is None:
-        # append an explicit check step (adapted wording, OGL)
-        if has_leftovers:
-            steps.append({"text": "Before serving, reheat leftovers until they "
-                                  "reach 165 °F (74 °C) all the way through on a "
-                                  "food thermometer.", "reheat": True,
-                          "safety": {"class": "leftovers", "temp_f": 165,
-                                     "method": "thermometer", "source": FSIS_SOURCE}})
-        else:
-            cls = "egg" if "egg" in classes else (
-                "seafood" if "seafood" in classes else "meat_poultry")
-            temp = 160 if cls == "egg" else (145 if cls == "seafood" else 165)
-            steps.append({"text": "Before serving, check the dish with a food "
-                                  f"thermometer; it is done at {temp} °F.",
-                          "safety": {"class": cls, "temp_f": temp,
-                                     "method": "thermometer", "source": FSIS_SOURCE}})
-    return steps
+    stub = {"id": "nhs-page", "title": title, "steps": steps,
+            "ingredients": [{"name": n} for n in ingredient_names]}
+    uncovered = set(food_safety.uncovered_classes(stub))
+    # the closing check is about cooking the dish, so it goes before any
+    # step that reheats leftovers
+    if uncovered:
+        cls, temp = _endpoint(uncovered)
+        if "leftovers" in uncovered:
+            cls, temp = "leftovers", 165
+        # one word per food: "chicken breast" is "chicken"
+        words = sorted({food_safety.food_words(n)[0] for n, c in ing_classes.items()
+                        if c in uncovered and food_safety.food_words(n)})
+        foods = " and ".join(words) if words else "dish"
+        check_step = {"text": f"Before serving, cook the {foods} "
+                              f"{_check_clause(cls, temp, 'in the centre of the thickest piece')}.",
+                      "safety": _safety(cls, temp)}
+        at = next((i for i, s in enumerate(steps) if s.get("reheat")), len(steps))
+        steps.insert(at, check_step)
+    problems = food_safety.safety_violations(stub)
+    return steps, problems
 
 
 # ---------------------------------------------------------------------------
@@ -749,8 +805,10 @@ CLAIM_DENYLIST["vegan"] = CLAIM_DENYLIST["vegetarian"] + r"|\b(egg|dairy|cheese|
 
 
 def decide_claims(recipe_ingredients: list[dict[str, Any]], raw_lines: list[str],
-                  scanner: Any) -> list[dict[str, Any]]:
-    """Scanner-verified claims, guarded against unrecognized allergens."""
+                  scanner: Any, allergens: dict[str, Any],
+                  steps: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Claims the scanner verifies and the composition gate proves
+    (composition.claim_problems: unknown composition blocks every claim)."""
     names = " | ".join(raw_lines).lower()
     blocked: list[tuple[str, str]] = []
     claims: list[dict[str, Any]] = []
@@ -761,10 +819,15 @@ def decide_claims(recipe_ingredients: list[dict[str, Any]], raw_lines: list[str]
             continue
         claim = {"claim": claim_name, "evidence": {"conflicts": []}}
         verdict = scanner.verify_claim({"ingredients": recipe_ingredients}, claim)
-        if verdict is True:
-            claims.append(claim)
-        else:
+        if verdict is not True:
             blocked.append((claim_name, f"scanner: {verdict}"))
+            continue
+        problems = composition.claim_problems(
+            {"ingredients": recipe_ingredients, "steps": steps, "claims": [claim]}, allergens)
+        if problems:
+            blocked.append((claim_name, "; ".join(problems[claim_name])))
+            continue
+        claims.append(claim)
     return claims
 
 
@@ -796,7 +859,7 @@ def method_steps_from_html(html: str) -> list[str]:
         return []
     items = []
     for li in re.findall(r"<li[^>]*>(.*?)</li>", mm.group(1), re.S):
-        txt = re.sub(r"<[^>]+>", "", li)
+        txt = html_unescape(re.sub(r"<[^>]+>", "", li))
         txt = re.sub(r"\s+", " ", txt).strip()
         if txt:
             items.append(txt)
@@ -941,24 +1004,23 @@ def main() -> int:
             categories = [categories]
         cuisine, slots = judge(it.get("name", ""), categories)
 
-        # classes for safety decisions (from normalized names)
-        probe: list[dict[str, Any]] = [{"name": p["name"]} for p in parsed]
-        classes = set(scanner.classes_for({"ingredients": probe}))
-        # Reheat evidence is the source's own reheating instruction. Storage
-        # tips ("any leftovers will keep for 2 days") and mixing phrases
-        # ("stir in the remaining") are NOT: flagging them would append a
-        # fabricated reheat workflow to cold dishes.
-        has_leftovers = bool(re.search(
-            r"\bre-?heat|heat(?:s|ing)?\s+(?:it\s+)?through|piping hot\b",
-            " ".join(method_steps_from_html(html)), re.I))
-        steps = build_steps(method_steps_from_html(html), classes, has_leftovers)
+        # Reheat evidence is the source's own reheating instruction, on the
+        # step that gives it; storage tips are not reheating.
+        title_for_safety = re.sub(r"\s+recipe$", "", it.get("name", "").strip())
+        steps, safety_problems = build_steps(method_steps_from_html(html),
+                                             [p["name"] for p in parsed], title_for_safety)
         if not steps:
             skipped.append((slug, it.get("name", "?"), "no method steps found in HTML"))
+            continue
+        if safety_problems:
+            skipped.append((slug, it.get("name", "?"),
+                            "food-safety conversion incomplete: " + "; ".join(safety_problems)))
             continue
 
         ingredients = [{"name": p["name"], "qty": p["qty"]} for p in parsed]
         unaliased = [p["name"] for p in parsed if p["name"] not in alias_keys]
-        claims = decide_claims([{"name": p["name"]} for p in parsed], raw_lines, scanner)
+        claims = decide_claims([{"name": p["name"]} for p in parsed], raw_lines, scanner,
+                               allergens, steps)
 
         title = re.sub(r"\s+recipe$", "", it.get("name", "").strip())
         fl_id = f"fl-{ID_TAG}-{next_num:04d}"
