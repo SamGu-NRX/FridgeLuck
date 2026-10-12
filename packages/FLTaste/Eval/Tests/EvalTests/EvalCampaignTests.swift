@@ -1,5 +1,5 @@
 import FLTaste
-import FLTasteSim
+@testable import FLTasteSim
 import XCTest
 
 @testable import FLTasteEvalCore
@@ -433,5 +433,49 @@ final class EvalCampaignTests: XCTestCase {
         XCTAssertGreaterThan(
             noRules.violations(week: 1, slate: [anyRecipe.id], neverSuggest: [blockedID]),
             0, "a never-suggested ingredient in the slate is flagged")
+    }
+
+    /// Regression for the never-suggest cutoff (metrics v3): a session's
+    /// own mute must apply from the NEXT session on. Sim ranked the
+    /// emitting session's slate before the preference existed, so counting
+    /// it same-session flagged slates that were legal when shown — the
+    /// abrupt-shift regime's post-shift mute spike made this visible as
+    /// inflated violation counts on every arm.
+    func testNeverSuggestAppliesFromNextSession() throws {
+        let catalog = try loadCatalog()
+
+        let anyRecipe = try XCTUnwrap(catalog.recipes.values.first, "corpus has recipes")
+        let targetUse = try XCTUnwrap(
+            (anyRecipe.requiredIngredients + anyRecipe.optionalIngredients).first,
+            "the recipe uses at least one ingredient")
+        let mutedID = try XCTUnwrap(IngredientID(targetUse.id.rawValue), "the id parses")
+
+        func session(cookIndex: Int, mutes: String?) -> GroundTruth.Session {
+            GroundTruth.Session(
+                week: 0, atMillis: 0, cookIndex: cookIndex, actorId: "eater-0",
+                feasibleIds: [anyRecipe.id.rawValue], slateIds: [anyRecipe.id.rawValue],
+                choiceId: anyRecipe.id.rawValue, outcome: .cooked,
+                trueRanking: [anyRecipe.id.rawValue],
+                utilities: [anyRecipe.id.rawValue: 1.0],
+                choiceProbabilities: [anyRecipe.id.rawValue: 1.0],
+                availability: [anyRecipe.id.rawValue: 1.0], rating: nil, skip: nil,
+                substitution: nil, neverSuggestIngredient: mutes)
+        }
+
+        // Session 0 emits a mute for an ingredient its own slate uses;
+        // session 1's slate contains it too. Only session 1 counts.
+        let groundTruth = GroundTruth(
+            rankerId: "test", seed: 0, weeks: 1, latentRegime: .standard,
+            householdInitial: Household(eaters: []), raterBias: [:], shifts: [],
+            latentsOverTime: [], sessions: [session(cookIndex: 0, mutes: mutedID.rawValue),
+                                             session(cookIndex: 1, mutes: nil)],
+            ratingNoiseDraws: [], missedCooks: 0, eventCount: 0)
+
+        let metrics = scoreHousehold(
+            groundTruth: groundTruth, catalog: catalog,
+            rankLog: [(week: 0, ordered: [anyRecipe.id]), (week: 0, ordered: [anyRecipe.id])])
+        XCTAssertEqual(
+            metrics.independentRestrictionViolations, 1,
+            "the emitting session's slate is not flagged; the next session's is")
     }
 }

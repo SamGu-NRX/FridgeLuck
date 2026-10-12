@@ -126,11 +126,16 @@ public func scoreHousehold(
         metrics.tauSum += kendallTau(ordered: scoredOrder, utilities: session.utilities)
         metrics.tauCount += 1
 
-        // Independent fail-closed safety check over the shown slate: the
-        // running never-suggest set accumulates as sessions walk forward.
+        // Independent fail-closed safety check over the shown slate. The
+        // mute emitted by THIS session applies from the NEXT session on:
+        // Sim ranked this slate before the preference existed, so counting
+        // it here would flag slates that were legal when shown (the
+        // abrupt-shift regime's post-shift mute spike made this visible).
         // An unparseable id is unverifiable — count it, never drop it.
         let slate = session.slateIds.compactMap(RecipeID.init)
         metrics.independentRestrictionViolations += session.slateIds.count - slate.count
+        metrics.independentRestrictionViolations += expectations.violations(
+            week: session.week, slate: slate, neverSuggest: neverSuggest)
         if let raw = session.neverSuggestIngredient {
             if let id = IngredientID(raw) {
                 neverSuggest.insert(id)
@@ -138,8 +143,6 @@ public func scoreHousehold(
                 metrics.independentRestrictionViolations += 1
             }
         }
-        metrics.independentRestrictionViolations += expectations.violations(
-            week: session.week, slate: slate, neverSuggest: neverSuggest)
 
         guard session.outcome == .cooked, let choice = session.choiceId,
               let chosenUtility = session.utilities[choice],

@@ -91,7 +91,10 @@ public enum SHA256 {
 /// stale checkpoints (older semantics) must never silently resume.
 /// v2: one recovery observation per shift, full-universe NDCG ideal,
 /// independent fail-closed restriction violations.
-public let metricsVersion = "2"
+/// v3: never-suggest cutoff fix — the mute emitted by a session applies
+/// from the NEXT session on (Sim ranked the slate before the preference
+/// existed); counting it same-session falsely flagged post-shift slates.
+public let metricsVersion = "3"
 
 /// The resume fingerprint stamped into every checkpoint and compared on
 /// resume: a checkpoint with any mismatched field is stale and rejected.
