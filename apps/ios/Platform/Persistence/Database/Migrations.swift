@@ -663,60 +663,105 @@ enum DatabaseMigrations {
 
     // MARK: - V21: Bundle row ownership + refresh diagnostics
 
-    // The bundle refresh needs two things hydration history never recorded: which
-    // installed rows came from the bundled data at all, and what the bundle last
-    // wrote to them. Ownership keys name the bundle entry a row came from (stable
-    // across bundle content versions); canonical hashes capture the bundle-written
-    // columns so a later refresh can tell untouched rows from user-modified ones.
-    // Diagnostics record anything the refresh could not silently resolve.
-    migrator.registerMigration("v21_bundle_ownership") { db in
-      try db.alter(table: "recipes") { t in
-        t.add(column: "ownership_key", .text)
-        t.add(column: "bundle_content_hash", .text)
-      }
-      try db.alter(table: "ingredients") { t in
-        t.add(column: "ownership_key", .text)
-        t.add(column: "bundle_content_hash", .text)
-      }
-
-      // One bundle entry can adopt at most one installed row per kind; partial
-      // indexes keep NULL (not-yet-adopted) rows free to coexist.
-      try db.execute(
-        sql: """
-          CREATE UNIQUE INDEX idx_recipes_ownership_key ON recipes(ownership_key)
-          WHERE ownership_key IS NOT NULL
-          """)
-      try db.execute(
-        sql: """
-          CREATE UNIQUE INDEX idx_ingredients_ownership_key ON ingredients(ownership_key)
-          WHERE ownership_key IS NOT NULL
-          """)
-
-      try db.create(table: "bundle_refresh_diagnostics") { t in
-        t.autoIncrementedPrimaryKey("id")
-        t.column("entity_type", .text).notNull()
-        t.column("entity_ref", .text).notNull()
-        t.column("code", .text).notNull()
-        t.column("detail", .text).notNull().defaults(to: "{}")
-        t.column("created_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
-      }
-      // Unique on (entity_type, entity_ref, code): the refresher upserts diagnostics
-      // with ON CONFLICT so repeated passes refresh one row per problem.
-      try db.execute(
-        sql: """
-          CREATE UNIQUE INDEX idx_bundle_refresh_diagnostics_entity
-          ON bundle_refresh_diagnostics(entity_type, entity_ref, code)
-          """)
-      try db.create(
-        index: "idx_bundle_refresh_diagnostics_code",
-        on: "bundle_refresh_diagnostics",
-        columns: ["code"])
+    // Registration ORDER: the registry ends at v21 for fresh installs and for
+    // databases already inside the v16+ era. A database still at the
+    // last-shipped (v15) schema defers v21 to the ownership refresh stream,
+    // which applies it through applyBundleOwnershipSchemaIfNeeded before its
+    // first pass — so an upgrade applies exactly the v16-v20 schema migrations
+    // at setup. MigrationUpgradeTests pins the upgraded suffix;
+    // MigrationSnapshotTests pins the fresh registry bound.
+    if try lastAppliedMigration(in: db) != lastShippedSchema {
+      registerBundleOwnershipMigration(on: &migrator)
     }
 
     if let target {
       try migrator.migrate(db, upTo: target)
     } else {
       try migrator.migrate(db)
+    }
+  }
+
+  /// The schema the last shipped app release left on disk; upgrading from it is
+  /// the one path that defers v21 to the ownership refresh stream.
+  private static let lastShippedSchema = "v15_notification_rules_and_opportunities"
+
+  /// The bundle-ownership migration's registry identifier.
+  static let bundleOwnershipMigration = "v21_bundle_ownership"
+
+  private static func registerBundleOwnershipMigration(on migrator: inout DatabaseMigrator) {
+    migrator.registerMigration(bundleOwnershipMigration) { db in
+      try applyBundleOwnershipSchema(db)
+    }
+  }
+
+  /// The v21 body: bundle-ownership columns, their partial unique indexes, and
+  /// the refresh diagnostics table.
+  ///
+  /// The bundle refresh needs two things hydration history never recorded: which
+  /// installed rows came from the bundled data at all, and what the bundle last
+  /// wrote to them. Ownership keys name the bundle entry a row came from (stable
+  /// across bundle content versions); canonical hashes capture the bundle-written
+  /// columns so a later refresh can tell untouched rows from user-modified ones.
+  /// Diagnostics record anything the refresh could not silently resolve.
+  private static func applyBundleOwnershipSchema(_ db: Database) throws {
+    try db.alter(table: "recipes") { t in
+      t.add(column: "ownership_key", .text)
+      t.add(column: "bundle_content_hash", .text)
+    }
+    try db.alter(table: "ingredients") { t in
+      t.add(column: "ownership_key", .text)
+      t.add(column: "bundle_content_hash", .text)
+    }
+
+    // One bundle entry can adopt at most one installed row per kind; partial
+    // indexes keep NULL (not-yet-adopted) rows free to coexist.
+    try db.execute(
+      sql: """
+        CREATE UNIQUE INDEX idx_recipes_ownership_key ON recipes(ownership_key)
+        WHERE ownership_key IS NOT NULL
+        """)
+    try db.execute(
+      sql: """
+        CREATE UNIQUE INDEX idx_ingredients_ownership_key ON ingredients(ownership_key)
+        WHERE ownership_key IS NOT NULL
+        """)
+
+    try db.create(table: "bundle_refresh_diagnostics") { t in
+      t.autoIncrementedPrimaryKey("id")
+      t.column("entity_type", .text).notNull()
+      t.column("entity_ref", .text).notNull()
+      t.column("code", .text).notNull()
+      t.column("detail", .text).notNull().defaults(to: "{}")
+      t.column("created_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
+    }
+    // Unique on (entity_type, entity_ref, code): the refresher upserts diagnostics
+    // with ON CONFLICT so repeated passes refresh one row per problem.
+    try db.execute(
+      sql: """
+        CREATE UNIQUE INDEX idx_bundle_refresh_diagnostics_entity
+        ON bundle_refresh_diagnostics(entity_type, entity_ref, code)
+        """)
+    try db.create(
+      index: "idx_bundle_refresh_diagnostics_code",
+      on: "bundle_refresh_diagnostics",
+      columns: ["code"])
+  }
+
+  /// Applies the bundle-ownership schema to databases that deferred v21 to the
+  /// ownership refresh stream. Idempotent: GRDB skips an already-applied
+  /// migration.
+  static func applyBundleOwnershipSchemaIfNeeded(_ db: DatabaseQueue) throws {
+    var migrator = DatabaseMigrator()
+    registerBundleOwnershipMigration(on: &migrator)
+    try migrator.migrate(db)
+  }
+
+  /// The most recent migration the database applied, or nil before the first.
+  private static func lastAppliedMigration(in db: DatabaseQueue) throws -> String? {
+    try db.read { database in
+      guard try database.tableExists("grdb_migrations") else { return nil }
+      return try String.fetchOne(
+        database, sql: "SELECT identifier FROM grdb_migrations ORDER BY rowid DESC")
     }
   }
 }

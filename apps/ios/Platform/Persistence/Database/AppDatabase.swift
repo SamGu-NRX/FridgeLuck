@@ -29,14 +29,20 @@ final class AppDatabase: Sendable {
 
   /// Loads bundled recipes and USDA catalog data if needed.
   ///
-  /// `readiness` is the historical-snapshot readiness contract consumed by the
-  /// ownership refresh; the default `.historicalNutrition` delegates to
+  /// The zero-argument form is the launch contract; it runs the ownership
+  /// refresh under the `.historicalNutrition` readiness policy, delegating to
   /// `NutritionSnapshotService.verifyHistoricalSnapshotReadiness(in:)`, so a
   /// refresh may only write when every logged meal carries a current-version
   /// snapshot. Tests pass `.pending` to simulate the pre-provider stream or
   /// `.ready` to bypass the snapshot check.
+  func warmBundledContentIfNeeded() async throws {
+    try await warmBundledContentIfNeeded(readiness: .historicalNutrition)
+  }
+
+  /// The readiness-injectable form of the warm pass; `readiness` is the
+  /// historical-snapshot readiness contract consumed by the ownership refresh.
   func warmBundledContentIfNeeded(
-    readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .historicalNutrition
+    readiness: BundledDataRefresher.HistoricalSnapshotReadiness
   ) async throws {
     let dbQueue = self.dbQueue
 
@@ -77,6 +83,9 @@ final class AppDatabase: Sendable {
     readiness: BundledDataRefresher.HistoricalSnapshotReadiness = .historicalNutrition
   ) async {
     do {
+      // Databases upgraded from the last-shipped schema deferred v21 to this
+      // stream; make sure the ownership schema exists before the pass writes.
+      try DatabaseMigrations.applyBundleOwnershipSchemaIfNeeded(dbQueue)
       guard let dataUrl = Bundle.main.url(forResource: "data", withExtension: "json") else {
         return
       }

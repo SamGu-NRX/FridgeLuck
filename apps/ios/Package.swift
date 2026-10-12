@@ -53,7 +53,8 @@ let package = Package(
       ],
       path: "Tests",
       sources: [
-        "InventoryInvariants"
+        "InventoryInvariants",
+        "MigrationOrderReplayTests.swift",
       ]
     ),
   ]
