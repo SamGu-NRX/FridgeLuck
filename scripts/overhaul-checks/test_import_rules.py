@@ -82,6 +82,34 @@ class ImportRulesTests(unittest.TestCase):
         self.assertIn("'Firebase'", result.stdout)
         self.assertIn("declare new dependencies here first", result.stdout)
 
+    def test_multiple_imports_on_one_line_are_all_checked(self):
+        # Sam, review round 3: the old matcher anchored at the line start,
+        # so "import Foundation; import SwiftUI" reported only Foundation.
+        # Every import statement on a line must be checked.
+        make_package(self.root, "FridgeLuckCore", {
+            "FLDomain": "import Foundation; import SwiftUI\n",
+        })
+        result = run_checker(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("UI framework", result.stdout)
+
+    def test_exported_import_after_semicolon_is_checked(self):
+        # The @_exported attribute form must be found anywhere on a line.
+        make_package(self.root, "FridgeLuckCore", {
+            "FLDomain": "import Foundation; @_exported import UIKit\n",
+        })
+        result = run_checker(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("UI framework", result.stdout)
+
+    def test_leading_exported_import_is_checked(self):
+        make_package(self.root, "FridgeLuckCore", {
+            "FLDomain": "@_exported import SwiftUI\n",
+        })
+        result = run_checker(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("UI framework", result.stdout)
+
     def test_commented_import_is_not_an_import(self):
         make_package(self.root, "FridgeLuckCore", {
             "FLDomain": "// import SwiftUI is banned here\nimport Foundation\n",

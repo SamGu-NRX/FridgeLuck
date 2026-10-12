@@ -25,9 +25,10 @@ property of shipped targets. .build/ and .git/ are skipped, so vendored or
 checked-out third-party sources inside a build directory cannot pollute the
 scan.
 
-Limitation: imports are matched after stripping `//` line comments; a module
-name quoted inside a string literal at the start of a line would produce a
-false positive. No such pattern exists in this repo.
+Limitation: every semicolon-separated statement on a line is matched after
+stripping `//` line comments; an import-looking token sequence inside a
+string literal that follows a `;` would produce a false positive. No such
+pattern exists in this repo.
 
 Usage:
     python3 scripts/overhaul-checks/import_rules.py            # scan repo
@@ -91,9 +92,15 @@ def imports_in_file(path: Path):
         yield (1, f"<unreadable file: {exc}>")
         return
     for number, raw_line in enumerate(text.splitlines(), start=1):
-        match = IMPORT_RE.match(strip_line_comment(raw_line))
-        if match:
-            yield (number, match.group(1))
+        code = strip_line_comment(raw_line)
+        # Check EVERY import statement on the line: statements after `;`
+        # (import Foundation; import SwiftUI) and attributed forms
+        # (@_exported import) anywhere on the line are matched too — the
+        # first-import-only matcher let those through.
+        for segment in code.split(";"):
+            match = IMPORT_RE.match(segment)
+            if match:
+                yield (number, match.group(1))
 
 
 def swift_sources_under(directory: Path):
