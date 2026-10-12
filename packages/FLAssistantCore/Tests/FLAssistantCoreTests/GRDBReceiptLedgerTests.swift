@@ -109,13 +109,15 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         XCTAssertTrue(try appDatabase.tableExists("fl_assistant_receipt"), "the assistant table was appended")
     }
 
-    func testMigrationRegistryRecordsBothVersions() throws {
+    func testMigrationRegistryRecordsAllThreeVersions() throws {
         let ledger = try GRDBReceiptLedger.inMemory()
         let applied = try ledger.database.read { db in
             try String.fetchAll(db, sql: "SELECT identifier FROM grdb_migrations")
         }
         XCTAssertTrue(applied.contains("v1-baseline"))
         XCTAssertTrue(applied.contains("v2-assistant-receipts"))
+        // Round 2, item 3: the durable exactly-once claim.
+        XCTAssertTrue(applied.contains("v3-assistant-receipt-executed-once"))
     }
 
     // MARK: Receipt round-trips
@@ -365,5 +367,64 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         )
         let states = try await ledger.allReceipts().map(\.state)
         XCTAssertEqual(states, [.pendingApproval, .executed])
+    }
+
+    // MARK: Review round 2, item 3 — exactly-once execution (durable half)
+
+    /// RED-FIRST (round 2, item 3, durable half): a second atomic execution
+    /// of the same proposal must refuse INSIDE the transaction — the first
+    /// execution's receipt is already durable — and apply nothing. Against
+    /// pre-fix code the second call re-applies the effect: this test failed
+    /// with `2` effect rows where exactly-once demands `1`.
+    func testSecondAtomicExecutionRefusesInsideTheTransactionAndAppliesNothing() async throws {
+        let ledger = try makeLedger()
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-recheck")
+        let proposal = try await authority.propose(
+            tool: .proposeTimer,
+            payload: .timerCreate(label: "Boil water", seconds: 90),
+            against: try makeSnapshot(),
+            now: t0
+        )
+        _ = try await ledger.executeAndRecord(
+            proposal: proposal, executor: InsertExecutor(), recordedAt: t0.addingTimeInterval(2)
+        )
+        XCTAssertEqual(try effectCount(ledger), 1)
+        await expectError(.alreadyDecided(proposalID: proposal.id)) {
+            _ = try await ledger.executeAndRecord(
+                proposal: proposal, executor: InsertExecutor(), recordedAt: t0.addingTimeInterval(3)
+            )
+        }
+        XCTAssertEqual(try effectCount(ledger), 1, "the refused second execution applied nothing")
+        let receipts = try await ledger.allReceipts()
+        XCTAssertEqual(receipts.map(\.state), [.pendingApproval, .executed], "no duplicate executed receipt")
+    }
+
+    /// RED-FIRST (round 2, item 3, storage half): the DURABLE claim backs the
+    /// in-transaction recheck — a UNIQUE index refuses a second executed
+    /// receipt per proposal against any code path that skips the recheck.
+    /// Against pre-fix code the duplicate insert succeeded: this test failed
+    /// on `XCTAssertThrowsError` before the index existed.
+    func testDurableExecutedClaimIsUniquePerProposal() async throws {
+        let ledger = try GRDBReceiptLedger.inMemory()
+        let hash = String(repeating: "ab", count: 32)
+        try await ledger.record(try ActionReceipt(
+            proposalID: "p-dup",
+            state: .executed,
+            payloadHash: hash,
+            snapshotRevision: 1,
+            recordedAt: t0
+        ))
+        XCTAssertThrowsError(
+            try ledger.database.write { db in
+                try db.execute(sql: """
+                    INSERT INTO fl_assistant_receipt
+                        (proposalID, state, payloadHash, snapshotRevision, recordedAt)
+                    VALUES ('p-dup', 'executed', NULL, NULL, '2026-10-11T12:00:05.000Z')
+                    """)
+            },
+            "a second executed receipt for one proposal violates the unique durable claim"
+        )
+        let rows = try await ledger.allReceipts()
+        XCTAssertEqual(rows.count, 1, "only the first executed receipt stands")
     }
 }

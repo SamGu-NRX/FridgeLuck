@@ -535,4 +535,137 @@ final class AuthorityInvariantsTests: XCTestCase {
         XCTAssertEqual(receipt.state, .executed)
         XCTAssertEqual(try effectCount(ledger), 1)
     }
+
+    // MARK: Review round 2, item 3 — exactly-once under concurrent approvals
+
+    /// Round 2, item 3: two concurrent approvals of one proposal execute
+    /// EXACTLY ONCE — deterministically interleaved. Approval 1 parks inside
+    /// its validation holding a pre-decision view of the ledger (as if
+    /// nothing had moved); while it is parked, approval 2 runs to
+    /// completion. Against pre-fix code approval 2 also executed — this
+    /// test failed with 2 effect rows and approval 2 returning `.executed`
+    /// instead of refusing as in flight.
+    func testConcurrentApprovalsExecuteExactlyOnce() async throws {
+        let ledger = try makeLedger()
+        let gate = GatedLedger(inner: ledger)
+        let made = try makeAuthorityWithClock(ledger: gate)
+        let proposal = try await made.authority.propose(
+            tool: .proposeTimer, payload: timerPayload(),
+            against: makeSnapshot(revision: 1), now: t0
+        )
+        gate.gate(proposalID: proposal.id)
+        // Approval 1 parks inside its validation, holding a pre-decision
+        // view of the ledger.
+        let parkedApproval = try makeApproval(for: proposal)
+        let parkedNow = t0  // shadow the instance property: no `self` in the sending closure
+        let approval1 = Task {
+            try await made.authority.approve(
+                parkedApproval, executor: RowExecutor(),
+                sessionID: "s1", now: parkedNow
+            )
+        }
+        XCTAssertEqual(gate.waitUntilParked(timeout: .now() + 5), .success)
+        // While approval 1 is parked, approval 2 arrives and must refuse —
+        // the proposal is claimed by the decision in flight.
+        await expectError(.proposalInFlight(proposalID: proposal.id)) {
+            try await made.authority.approve(
+                self.makeApproval(for: proposal), executor: RowExecutor(),
+                sessionID: "s1", now: self.t0
+            )
+        }
+        XCTAssertEqual(try effectCount(ledger), 0, "the refused approval applied nothing")
+        // Release approval 1: it resumes with its pre-decision view — the
+        // exactly-once backstops (the claim + the in-transaction recheck)
+        // decide what happens, not the stale view.
+        gate.releaseGate()
+        let receipt = try await approval1.value
+        XCTAssertEqual(receipt.state, .executed)
+        XCTAssertEqual(try effectCount(ledger), 1, "exactly one execution despite the race")
+        let states = try await ledger.allReceipts().map(\.state)
+        XCTAssertEqual(states, [.pendingApproval, .executed], "no duplicate executed receipt")
+    }
+
+    /// A ledger that parks the first validation read for one proposal AFTER
+    /// capturing its pre-decision view — a deterministic model of the
+    /// production race: one approval's validation read lands before the
+    /// other's execution commits, and its continuation runs after. Used by
+    /// the round 2, item 3 interleave test.
+    private final class GatedLedger: ReceiptLedger, @unchecked Sendable {
+        private let inner: GRDBReceiptLedger
+        private let lock = NSLock()
+        private var gateProposalID: String?
+        private var parked = false
+        private var capturedView: ActionReceipt?
+        private var parkedContinuation: CheckedContinuation<ActionReceipt?, Never>?
+        private let parkedSignal = DispatchSemaphore(value: 0)
+
+        init(inner: GRDBReceiptLedger) {
+            self.inner = inner
+        }
+
+        /// The proposal whose first validation read parks.
+        func gate(proposalID: String) {
+            lock.lock()
+            gateProposalID = proposalID
+            lock.unlock()
+        }
+
+        func record(_ receipt: ActionReceipt) async throws {
+            try await inner.record(receipt)
+        }
+
+        func latestReceipt(proposalID: String) async throws -> ActionReceipt? {
+            let captured = try await inner.latestReceipt(proposalID: proposalID)
+            guard tryCapturePark(proposalID, captured: captured) else { return captured }
+            return await withCheckedContinuation { continuation in
+                registerContinuation(continuation)
+                parkedSignal.signal()
+            }
+        }
+
+        /// Synchronous park decision (Swift 6: no NSLock in async context).
+        private func tryCapturePark(_ proposalID: String, captured: ActionReceipt?) -> Bool {
+            lock.lock()
+            defer { lock.unlock() }
+            let shouldPark = !parked && proposalID == gateProposalID
+            if shouldPark {
+                parked = true
+                capturedView = captured
+            }
+            return shouldPark
+        }
+
+        /// Synchronous registration (Swift 6: no NSLock in async context).
+        private func registerContinuation(_ continuation: CheckedContinuation<ActionReceipt?, Never>) {
+            lock.lock()
+            defer { lock.unlock() }
+            parkedContinuation = continuation
+        }
+
+        func executeAndRecord(
+            proposal: ActionProposal,
+            executor: any GRDBActionExecutor,
+            recordedAt: Date
+        ) async throws -> ActionReceipt {
+            try await inner.executeAndRecord(
+                proposal: proposal, executor: executor, recordedAt: recordedAt
+            )
+        }
+
+        func waitUntilParked(timeout: DispatchTime) -> DispatchTimeoutResult {
+            parkedSignal.wait(timeout: timeout)
+        }
+
+        /// Release the parked read with the view it captured — resuming the
+        /// first approval as if nothing had moved since its read.
+        func releaseGate() {
+            lock.lock()
+            let continuation = parkedContinuation
+            parkedContinuation = nil
+            let view = capturedView
+            capturedView = nil
+            lock.unlock()
+            continuation?.resume(returning: view)
+        }
+    }
 }

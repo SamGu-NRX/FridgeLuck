@@ -58,6 +58,13 @@ public enum FLAssistantError: Error, Equatable, Sendable, CustomStringConvertibl
     /// second approval never re-executes the action.
     case alreadyDecided(proposalID: String)
 
+    /// Another approval or decline holds this proposal's claim and is being
+    /// decided right now. Round 2, item 3: a concurrent decision must refuse
+    /// instead of also executing — exactly-once execution under concurrency.
+    /// The in-flight decision may still legitimately finish; the caller can
+    /// re-read the proposal's receipt.
+    case proposalInFlight(proposalID: String)
+
     /// A receipt row in the durable ledger could not be rebuilt as a valid
     /// `ActionReceipt` (unknown state, undecodable timestamp). Corruption is
     /// surfaced, never skipped.
@@ -93,6 +100,8 @@ public enum FLAssistantError: Error, Equatable, Sendable, CustomStringConvertibl
             return "FLAssistant refused: proposal '\(id)' has expired"
         case let .alreadyDecided(id):
             return "FLAssistant refused: proposal '\(id)' was already decided; the earlier receipt stands"
+        case let .proposalInFlight(id):
+            return "FLAssistant refused: proposal '\(id)' is being decided by another approval"
         case let .corruptLedgerRow(detail):
             return "FLAssistant refused: corrupt receipt row in the ledger: \(detail)"
         case .ledgerCannotExecuteAtomically:

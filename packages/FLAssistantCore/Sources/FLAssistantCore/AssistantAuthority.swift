@@ -18,19 +18,38 @@ import FLDomain
 // 5. Transcript-only authorization is structurally impossible: no API accepts
 //    model bytes and produces an executed receipt. An ActionApproval value is
 //    minted only by the host's approval UI, never from model output.
+// 6. Exactly-once under concurrency (round 2, item 3): a proposal is CLAIMED
+//    — removed from the open table synchronously, before the authority's
+//    first suspension — so two concurrent approvals cannot both validate and
+//    execute; the durable ledger re-checks the decision inside the
+//    transaction and storage refuses a second executed receipt outright.
 
-/// Records the receipt lifecycle. The GRDB-backed production ledger lands
-/// with its own milestone; `InMemoryReceiptLedger` serves tests and previews.
+/// Records the receipt lifecycle. Atomic execution (effects and the executed
+/// receipt in one transaction) is a REQUIREMENT of every ledger: the
+/// authority offers no non-transactional path, so a ledger that cannot pair
+/// writes honestly refuses `executeAndRecord` with
+/// `.ledgerCannotExecuteAtomically` instead of approximating.
 /// Requirements are async so implementations may be actors or locked classes.
 public protocol ReceiptLedger: Sendable {
     /// Append one receipt row.
     func record(_ receipt: ActionReceipt) async throws
     /// The most recent receipt for a proposal, if any.
     func latestReceipt(proposalID: String) async throws -> ActionReceipt?
+    /// Execute the proposal's effects and persist the executed receipt in
+    /// ONE transaction (round 2, item 4). A ledger that cannot pair the
+    /// writes throws `.ledgerCannotExecuteAtomically` — it never applies the
+    /// effects unpaired.
+    func executeAndRecord(
+        proposal: ActionProposal,
+        executor: any GRDBActionExecutor,
+        recordedAt: Date
+    ) async throws -> ActionReceipt
 }
 
 /// Thread-safe in-memory ledger. Receipt rows are kept in arrival order per
-/// proposal.
+/// proposal. It records receipts (proposals, declines, refusals) but cannot
+/// execute: there is no database for a `GRDBActionExecutor` to join and no
+/// transaction to pair with, so execution refuses honestly.
 public actor InMemoryReceiptLedger: ReceiptLedger {
     private var receipts: [String: [ActionReceipt]] = [:]
 
@@ -42,6 +61,14 @@ public actor InMemoryReceiptLedger: ReceiptLedger {
 
     public func latestReceipt(proposalID: String) throws -> ActionReceipt? {
         receipts[proposalID]?.last
+    }
+
+    public func executeAndRecord(
+        proposal: ActionProposal,
+        executor: any GRDBActionExecutor,
+        recordedAt: Date
+    ) throws -> ActionReceipt {
+        throw FLAssistantError.ledgerCannotExecuteAtomically
     }
 
     /// All rows, in insertion order — test and diagnostics convenience.
@@ -137,19 +164,11 @@ public actor AssistantAuthority {
     /// a session mismatch records nothing — the proposal stays open for the
     /// session it belongs to.
     private func validateForExecution(
-        _ approval: ActionApproval,
+        _ entry: OpenProposal,
+        approval: ActionApproval,
         callerSessionID: String,
         now: Date
     ) async throws -> OpenProposal {
-        guard let entry = openProposals[approval.proposalID] else {
-            // Not open: either it never existed here, or it was decided and
-            // closed. The ledger decides which refusal is true — a receipt
-            // means the proposal was minted and the earlier receipt stands.
-            if (try await ledger.latestReceipt(proposalID: approval.proposalID)) != nil {
-                throw FLAssistantError.alreadyDecided(proposalID: approval.proposalID)
-            }
-            throw FLAssistantError.unknownProposal(proposalID: approval.proposalID)
-        }
         // A decided proposal never re-executes. The earlier receipt stands;
         // this attempt is refused and leaves no new row.
         if let latest = try await ledger.latestReceipt(proposalID: entry.proposal.id),
@@ -221,6 +240,24 @@ public actor AssistantAuthority {
         }
     }
 
+    /// The proposal is not open to claim: the durable record classifies why.
+    /// A pending receipt with no open entry means a decision is in flight
+    /// right now (round 2, item 3) or a pending proposal predates this run
+    /// (a restart) — either way this attempt must not execute and nothing is
+    /// recorded here. A terminal receipt refuses as already decided; no
+    /// receipt at all means the proposal never existed on this device.
+    private func refuseDecidedOrInFlight(_ proposalID: String) async throws -> Never {
+        if let latest = try await ledger.latestReceipt(proposalID: proposalID) {
+            switch latest.state {
+            case .pendingApproval:
+                throw FLAssistantError.proposalInFlight(proposalID: proposalID)
+            default:
+                throw FLAssistantError.alreadyDecided(proposalID: proposalID)
+            }
+        }
+        throw FLAssistantError.unknownProposal(proposalID: proposalID)
+    }
+
     /// Apply an approval presented by session `sessionID`. Runs the broker's
     /// full rule against the caller's session (ID + hash + revision + expiry
     /// + session), re-checks the CURRENT revision at the execution gate, then
@@ -238,8 +275,9 @@ public actor AssistantAuthority {
     ///
     /// There is no non-transactional approval path: every propose* tool
     /// mutates device state, so every approval requires the durable
-    /// effect/receipt pairing. Requires a `GRDBReceiptLedger`; any other
-    /// ledger refuses with `.ledgerCannotExecuteAtomically` and nothing runs.
+    /// effect/receipt pairing. The configured ledger performs the paired
+    /// write; one that cannot pair effects with their receipt refuses with
+    /// `.ledgerCannotExecuteAtomically` and nothing runs.
     @discardableResult
     public func approve(
         _ approval: ActionApproval,
@@ -247,45 +285,56 @@ public actor AssistantAuthority {
         sessionID: String,
         now: Date
     ) async throws -> ActionReceipt {
-        let entry = try await validateForExecution(
-            approval, callerSessionID: sessionID, now: now
-        )
-        try await refuseIfSnapshotAdvanced(entry.proposal, now: now)
-        guard let grdbLedger = ledger as? GRDBReceiptLedger else {
-            throw FLAssistantError.ledgerCannotExecuteAtomically
+        // Round 2, item 3 — THE CLAIM. The proposal leaves the open table
+        // synchronously: this runs in the actor before any suspension, so by
+        // the time this approval first awaits, no concurrent approval can
+        // still find the proposal open. The claim is restored on any
+        // failure, so the durable record arbitrates every later attempt.
+        guard let entry = openProposals.removeValue(forKey: approval.proposalID) else {
+            try await refuseDecidedOrInFlight(approval.proposalID)
         }
-        let receipt = try await grdbLedger.executeAndRecord(
-            proposal: entry.proposal,
-            executor: executor,
-            recordedAt: now
-        )
-        openProposals[entry.proposal.id] = nil
-        return receipt
+        do {
+            let validated = try await validateForExecution(
+                entry, approval: approval, callerSessionID: sessionID, now: now
+            )
+            try await refuseIfSnapshotAdvanced(validated.proposal, now: now)
+            return try await ledger.executeAndRecord(
+                proposal: validated.proposal,
+                executor: executor,
+                recordedAt: now
+            )
+        } catch {
+            openProposals[approval.proposalID] = entry
+            throw error
+        }
     }
 
-    /// Record an explicit user decline for an open proposal.
+    /// Record an explicit user decline for an open proposal. Claims the
+    /// proposal exactly like `approve` (round 2, item 3): one decision at a
+    /// time, and the claim is restored if the decline cannot be recorded.
     @discardableResult
     public func decline(proposalID: String, now: Date) async throws -> ActionReceipt {
-        guard let entry = openProposals[proposalID] else {
-            if (try await ledger.latestReceipt(proposalID: proposalID)) != nil {
+        guard let entry = openProposals.removeValue(forKey: proposalID) else {
+            try await refuseDecidedOrInFlight(proposalID)
+        }
+        do {
+            if let latest = try await ledger.latestReceipt(proposalID: proposalID),
+               latest.state != .pendingApproval {
                 throw FLAssistantError.alreadyDecided(proposalID: proposalID)
             }
-            throw FLAssistantError.unknownProposal(proposalID: proposalID)
+            let receipt = try ActionReceipt(
+                proposalID: proposalID,
+                state: .rejected,
+                payloadHash: entry.proposal.payloadHash,
+                snapshotRevision: entry.proposal.snapshotRevision,
+                recordedAt: now
+            )
+            try await ledger.record(receipt)
+            return receipt
+        } catch {
+            openProposals[proposalID] = entry
+            throw error
         }
-        if let latest = try await ledger.latestReceipt(proposalID: proposalID),
-           latest.state != .pendingApproval {
-            throw FLAssistantError.alreadyDecided(proposalID: proposalID)
-        }
-        let receipt = try ActionReceipt(
-            proposalID: proposalID,
-            state: .rejected,
-            payloadHash: entry.proposal.payloadHash,
-            snapshotRevision: entry.proposal.snapshotRevision,
-            recordedAt: now
-        )
-        try await ledger.record(receipt)
-        openProposals[proposalID] = nil
-        return receipt
     }
 
     /// Expire every open proposal past its validity window at `now` and
