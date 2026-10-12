@@ -177,6 +177,7 @@ public struct HouseholdSimulator {
                 rankerId: ranker.id,
                 seed: config.seed,
                 weeks: config.weeks,
+                latentRegime: config.latentRegime,
                 householdInitial: householdInitial,
                 raterBias: raterBias,
                 shifts: shiftRecords,

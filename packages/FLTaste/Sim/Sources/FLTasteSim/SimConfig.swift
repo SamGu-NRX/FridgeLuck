@@ -124,6 +124,12 @@ public struct SimConfig: Sendable, Equatable {
     /// their week, in the order listed.
     public var shifts: [ShiftSpec]
 
+    // MARK: Latent regime
+
+    /// How household latents are drawn. Default `.standard`; see
+    /// SIM-ASSUMPTIONS.md §12 for the rule-blind design.
+    public var latentRegime: LatentRegime
+
     // MARK: Setup restrictions
 
     /// Probability each eater carries one hard restriction drawn at setup
@@ -164,6 +170,7 @@ public struct SimConfig: Sendable, Equatable {
         self.neverSuggestUtility = -1.0
         self.driftPerWeek = 0.02
         self.shifts = []
+        self.latentRegime = .standard
         self.restrictionProbability = 0.6
     }
 
@@ -214,6 +221,21 @@ public struct SimConfig: Sendable, Equatable {
             throw ConfigError.shiftsOutOfWeekOrder
         }
     }
+}
+
+// MARK: - Regimes
+
+/// How household latents are drawn. See SIM-ASSUMPTIONS.md §12.
+public enum LatentRegime: String, Sendable, Equatable {
+    /// The calibrated default: loads across ingredient, cuisine, style,
+    /// technique, spice, time, and effort keys.
+    case standard
+    /// Rule-blind: loads ONLY on rule-invisible drivers — hidden
+    /// ingredient-affinity clusters, technique keys from instruction text,
+    /// and spice affinity — so a ranker restricted to the seam's visible
+    /// projection cannot track utility, while a learner that ingests the
+    /// event history can. Used to demonstrate learning beats a rule port.
+    case ruleBlind
 }
 
 /// One planned mid-history change, applied at the start of its week.

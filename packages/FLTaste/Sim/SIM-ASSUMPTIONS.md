@@ -39,6 +39,7 @@ changed.
 |---|---|---|---|
 | `householdSize` | 2 | [A] | FridgeLuck serves one- and two-eater households; 2 exercises the union path. Sweep 1/2. |
 | `restrictionProbability` | 0.6 | [A] | Per-eater chance of one hard restriction at setup (allergy or diet). High enough that hard filters bind in most runs; sweep 0…1. |
+| `latentRegime` | `.standard` | [A] | How latents are drawn. `.standard` is the taste shape above. `.ruleBlind` loads taste only on rule-invisible drivers — see §12 — for the learning-vs-rules comparison. |
 | `cooksPerWeek` | 3.0 (Poisson mean) | **[F8]** | "Three cooks a week" is the finding's anchor number. Poisson draws are capped at 7 days/week. |
 | `shopMealsPerWeek` | 4 | [A] | One more than the mean cook rate: the pantry *usually* covers the week but not always, so availability genuinely binds. 3 would starve; 6 would never bind. |
 | `weeklyBudget` | 18.0 | [A] | Prices are synthetic (see §3); this buys four planned meals with slack. Sweep to stress feasibility. |
@@ -168,3 +169,68 @@ rankings, rating anatomy, shift records, missed-cook counts.
 - Shift scenarios are part of the campaign design, not the simulator's
   defaults: run arms with and without `.diet`/`.budgetChange`/
   `.lostCapability` to separate adaptation from steady-state ranking.
+- Compare arms on both latent regimes (`.standard` and `.ruleBlind`): the
+  rule port should stay competitive on `.standard` and lose on `.ruleBlind`
+  — that gap is the learning signal this suite exists to measure.
+
+## 12. The ranker seam and the rule-blind regime
+
+**The seam.** A ranker never sees latent truth. Its only input funnel is
+`RankerInput.candidates(for:availability:exposureCounts:)`, which projects
+each feasible recipe onto observable quantities (`RankerCandidate`): recipe
+id, tag names, time, servings, required/optional ingredient counts,
+availability, and exposure count. No titles, no instructions, no ingredient
+identities, no nutrition, no prices, and no latent utility. The context
+(`RankingContext`) carries the week, slate size, session index, the emitted
+event history so far, and the household's declared restriction union —
+things a real app could show a ranker. Latent truth (the mean utility in
+`ChoiceCandidate`, the ground-truth layer) exists only on the choice and
+scoring side of that boundary.
+
+Proofs in `SimulatorTests`:
+- `testRankerSeesNoLatentDataEvenUnderReflection` — a ranker that reflects
+  over everything it receives finds no numeric leaf matching any session
+  utility or latent component of the run.
+- `testRankerCandidateProjectionExcludesRecipeInternals` — the projection
+  carries no recipe title, instruction text, or ingredient identity.
+- `testRankerInputViewIsLatentInvariant` — ranker input is a pure function
+  of observables, not of the household that produced the run.
+- `testSlateFilterDropsKnownButInfeasibleIds` — the simulator drops unknown
+  AND known-but-infeasible ranker output instead of trusting it.
+
+**The blind regime.** In `.ruleBlind` the latent is exactly zero on every
+seam-visible namespace (cuisine, style, time, effort, servings, cost,
+complexity, nutrition, bias) and loads instead on:
+
+- **hidden ingredient-affinity clusters** — cuisine-like groupings over
+  ingredient identities (`HouseholdFactory.hiddenAffinityClusters`: an umami
+  pantry, a curry plate, a bright/fresh set, a soffritto set). They are not
+  tags and not on the seam; one cluster is liked (+0.6…+1.8 per member),
+  and when possible another is disliked (−0.6…−1.6).
+- **technique keys** — derived from instruction text by the catalog's
+  feature space, which the seam does not expose; drawn like the standard
+  regime's technique taste.
+- **spice affinity** — as in the standard regime (also ingredient-derived,
+  also off-seam).
+
+A rule ranker restricted to the seam's projection is structurally blind to
+these drivers — projection-identical recipes can differ in true utility by
+whole temperature units — so it degenerates toward exposure and popularity
+behaviour in this regime. A learner that computes catalog features from the
+event history can learn them. That is the regime's job: on `.standard`, a
+decent rule port is a fair baseline; on `.ruleBlind`, only genuine learning
+separates from it. Everything else in the run — world, feasibility, choice,
+exposure, events, ground truth — is identical, so Part 3 can compare arms
+across regimes with paired seeds. Ground truth records `latentRegime`
+(schema v2) so a scorer knows which comparison it is reading.
+
+Proofs: `testBlindRegimeLoadsOnlyRuleInvisibleKeys` (zero on visible
+namespaces and off-cluster ingredients, nonzero on hidden drivers, seeds
+1…5, both household sizes), `testBlindRegimeUtilitiesDifferWithIdenticalProjection`
+(projection-identical recipes with a three-unit true-utility gap), and
+`testBlindRegimeActiveOnRealCorpus` (the regime is live on the
+app's 166-recipe corpus — all four clusters are present there).
+
+Hidden-cluster membership is **[A]**: the four groupings are plausible
+pantry clusters, not measured preferences; the weights reuse the standard
+regime's ingredient scales for comparability.

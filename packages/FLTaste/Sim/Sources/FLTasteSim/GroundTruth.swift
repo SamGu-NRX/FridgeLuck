@@ -95,6 +95,10 @@ public struct GroundTruth: Sendable {
     public let rankerId: String
     public let seed: UInt64
     public let weeks: Int
+    /// Which latent regime produced the household latents (a scorer needs
+    /// to know whether the run is rule-blind; a learning model never reads
+    /// ground truth at all).
+    public let latentRegime: LatentRegime
     /// Setup truth: initial latents and setup restrictions.
     public let householdInitial: Household
     /// Per-eater rater bias fixed at setup (a rating model term, not taste).

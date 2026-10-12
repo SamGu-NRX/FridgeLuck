@@ -9,10 +9,11 @@ extension GroundTruth {
     public func json() -> JSONValue {
         .object([
             "kind": .string("fltaste-sim-ground-truth"),
-            "version": .int(1),
+            "version": .int(2),
             "ranker": .string(rankerId),
             "seed": .int(Int64(bitPattern: seed)),
             "weeks": .int(Int64(weeks)),
+            "latentRegime": .string(latentRegime.rawValue),
             "householdInitial": Self.household(householdInitial, raterBias: raterBias),
             "shifts": .array(shifts.map(Self.shift)),
             "latentsOverTime": .array(latentsOverTime.map(Self.latentSnapshot)),
