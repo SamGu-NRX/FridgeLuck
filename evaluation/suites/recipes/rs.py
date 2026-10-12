@@ -22,9 +22,11 @@ SPEC 3.5 rule "structured or not shipped":
   overhaul/food-safety-canon), never colour or time alone. Every required
   class must be covered at or above the class minimum, every check must be
   cook-visible (the step text itself names a thermometer reading of the class
-  minimum), whole cuts must state the required 3-minute rest, an ingredient
-  whose class cannot be established fails closed, and every reheat step must
-  carry its own 165 F ``leftovers`` check;
+  minimum), whole cuts must state the required 3-minute rest in the
+  instruction text (a ``rest_minutes`` metadata value never substitutes for
+  what the cook reads, and one disagreeing with the text is flagged), an
+  ingredient whose class cannot be established fails closed, and every reheat
+  step must carry its own 165 F ``leftovers`` check;
 - every allergen/diet claim carries machine evidence (a recomputed allergen
   scan) or is stripped by the linter and counted (SPEC 3.5 / suite C bar).
   An ingredient whose composition no table resolves makes the claim UNCHECKED
@@ -689,7 +691,7 @@ def _r3_safety(recipe: dict[str, Any], rid: str, allergen_scan: "AllergenScanner
                      "citations (data/food-safety/rules.json)")
         req_rest = canon.class_rest_min.get(cls, 0)
         if req_rest:
-            stated = _stated_rest(step, chk)
+            stated = _stated_rest(step)
             if stated is None:
                 v.append(f"{rid}: R3 safety check for {cls} must state the required "
                          f"{req_rest:.0f}-minute rest (USDA FSIS: whole cuts rest at least "
@@ -699,6 +701,16 @@ def _r3_safety(recipe: dict[str, Any], rid: str, allergen_scan: "AllergenScanner
                          f"rest, below the required {req_rest:.0f}-minute minimum "
                          "(USDA FSIS: whole cuts rest at least 3 minutes before carving "
                          "or consuming)")
+            # rest-metadata disagreement (second 393b5de repro): when the check
+            # ALSO names a rest in its metadata, it must agree with the rest the
+            # cook reads — neither value is silently preferred over the other.
+            meta_rest = chk.get("rest_minutes")
+            if (stated is not None and _is_num(meta_rest) and meta_rest > 0
+                    and float(meta_rest) != stated):
+                v.append(f"{rid}: R3 step[{i}] check metadata rest_minutes "
+                         f"{float(meta_rest):.0f} disagrees with the {stated:.0f}-minute "
+                         "rest stated in the instruction text — the cook reads the "
+                         "text, not the metadata; state the same rest in both")
 
     # -- every REQUIRED class is covered by a check naming it ----------------
     for cls, need in sorted(required.items()):
@@ -745,11 +757,12 @@ def _text_internal_reading_f(text: str) -> float | None:
     return None
 
 
-def _stated_rest(step: dict[str, Any], chk: dict[str, Any]) -> float | None:
-    """The rest the check communicates: from the check dict or the step text."""
-    rm = chk.get("rest_minutes")
-    if _is_num(rm) and rm > 0:
-        return float(rm)
+def _stated_rest(step: dict[str, Any]) -> float | None:
+    """The rest the cook reads: what the instruction text states ("then rest
+    for at least 3 minutes"). The check metadata never substitutes — the
+    cook reads the text, not the metadata (the same cook-visibility
+    principle as the internal reading; the second 393b5de defect returned
+    the metadata's rest_minutes before looking at the text)."""
     m = _REST_TEXT.search(str(step.get("text", "")))
     if m:
         return float(m.group(1))
