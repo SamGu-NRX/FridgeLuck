@@ -31,8 +31,9 @@ Endpoint rules (`endpoint_violations`):
    member of that mixture must reach the mixture's highest minimum.
 4. Reheating overrides the product class: every step that reheats carries
    its own leftovers check at 165 F.
-5. Whole cuts state the rest of at least 3 minutes, in the check's step or
-   the next one. A temperature in a step's text below its endpoint fails.
+5. Whole cuts state the rest of at least 3 minutes in the check's own step
+   (suite C at 9e04af4 reads it there too). A temperature in a step's text
+   below its endpoint fails.
 
 Cook-facing text rules (`text_violations`):
 
@@ -299,12 +300,10 @@ def endpoint_violations(recipe: dict[str, Any]) -> list[str]:
             out.append(f"{rid}: step[{i}] step text states {low} °F, below the step's "
                        f"{int(temp)} °F endpoint")
         if cls in REST_MIN:
-            nxt = str(steps[i + 1].get("text", "")) if i + 1 < len(steps) else ""
-            rests = [r for r in (stated_rest(text), stated_rest(nxt)) if r is not None]
-            if not rests or max(rests) < REST_MIN[cls]:
-                out.append(f"{rid}: step[{i}] whole-cut {cls} check must tell the cook to "
-                           f"rest the meat at least {REST_MIN[cls]} minutes (this step or "
-                           "the next)")
+            rest = stated_rest(text)
+            if rest is None or rest < REST_MIN[cls]:
+                out.append(f"{rid}: step[{i}] whole-cut {cls} check must tell the cook, in "
+                           f"the same step, to rest the meat at least {REST_MIN[cls]} minutes")
         # rule 3: foods cooked or mixed together reach the strictest endpoint
         together = _with_mixtures(i, classes_in_text(text, mention) | {cls}, groups)
         if dish_check(i, chk):

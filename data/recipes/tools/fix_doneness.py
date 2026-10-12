@@ -20,6 +20,7 @@ the thermometer, the temperature in F and C, and the rest for whole cuts.
 from __future__ import annotations
 
 import argparse
+import copy
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -42,6 +43,9 @@ class Edit:
     # (class, temp_f) to set the step's check, REMOVE to drop it, None to keep it
     safety: tuple[str, int] | str | None = None
     reheat: bool | None = None
+    # earlier outputs of this edit that were committed and then superseded;
+    # accepted as input so the corpus at any of those commits converges
+    was: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -131,10 +135,12 @@ ENDPOINT_EDITS: tuple[Edit, ...] = (
          check("leftovers", 165)),
     Edit("fl-original-0225", 2,
          "Cover the pot and let it murmur in a low oven, turning the roast once, until the meat relaxes when pressed and a food thermometer in the thick end reads 145 °F.",
-         "Cover the pot and let it murmur in a low oven, turning the roast once, until the meat relaxes when pressed and a food thermometer in the thick end reads at least 145 °F (63 °C)."),
+         "Cover the pot and let it murmur in a low oven, turning the roast once, until the meat relaxes when pressed and a food thermometer in the thick end reads at least 145 °F (63 °C), then lift it out to rest for at least 3 minutes.",
+         was=("Cover the pot and let it murmur in a low oven, turning the roast once, until the meat relaxes when pressed and a food thermometer in the thick end reads at least 145 °F (63 °C).",)),
     Edit("fl-original-0225", 3,
          "Rest the roast under foil while the braising liquid reduces to a sauce, then serve in wide bowls with the vegetables tucked alongside.",
-         "Rest the roast under foil for at least 3 minutes while the braising liquid reduces to a sauce, then serve in wide bowls with the vegetables tucked alongside."),
+         "Rest the roast under foil while the braising liquid reduces to a sauce, then serve in wide bowls with the vegetables tucked alongside.",
+         was=("Rest the roast under foil for at least 3 minutes while the braising liquid reduces to a sauce, then serve in wide bowls with the vegetables tucked alongside.",)),
     Edit("fl-original-0231", 2,
          "Keep the pot at a shiver, half-covered, for the long haul, topping up when the sauce sinks below the meat, until the chuck shreds under a fork's pull.",
          "Keep the pot at a shiver, half-covered, for the long haul, topping up when the sauce sinks below the meat, until the chuck shreds under a fork's pull and a food thermometer in the thickest part reads well past 145 °F (63 °C). Rest the meat at least 3 minutes before you break it up into the sauce."),
@@ -151,16 +157,20 @@ ENDPOINT_EDITS: tuple[Edit, ...] = (
          "Squeeze the orange and lime over, tuck the squashed halves into the pot, add a cup of water, cover, and braise low until the pork collapses when shouldered with a fork and a food thermometer in the thickest part reads well past 145 °F (63 °C). Rest it at least 3 minutes before shredding."),
     Edit("fl-original-0240", 2,
          "Simmer covered until the pork shreds under pressure from a spoon and the broth has gone pale green and rich.",
-         "Simmer covered until the pork shreds under pressure from a spoon, a food thermometer in a thick cube reads well past 145 °F (63 °C), and the broth has gone pale green and rich."),
+         "Simmer covered until the pork shreds under pressure from a spoon, a food thermometer in a thick cube reads well past 145 °F (63 °C), and the broth has gone pale green and rich. Let the pork rest 3 minutes off the heat before the beans go in.",
+         was=("Simmer covered until the pork shreds under pressure from a spoon, a food thermometer in a thick cube reads well past 145 °F (63 °C), and the broth has gone pale green and rich.",)),
     Edit("fl-original-0240", 3,
          "Add the beans for the last stretch, then finish with cilantro and lime and eat with rice or tortillas.",
-         "Add the beans for the last stretch, then take the pot off the heat, let it rest 3 minutes, and finish with cilantro and lime; eat with rice or tortillas."),
+         "Add the beans for the last stretch, then finish with cilantro and lime and eat with rice or tortillas.",
+         was=("Add the beans for the last stretch, then take the pot off the heat, let it rest 3 minutes, and finish with cilantro and lime; eat with rice or tortillas.",)),
     Edit("fl-original-0243", 1,
          "Brown the shanks in a little oil, add a cup of water, cover tightly, and braise very gently, turning once, until the meat retreats from the bone.",
-         "Brown the shanks in a little oil, add a cup of water, cover tightly, and braise very gently, turning once, until the meat retreats from the bone and a food thermometer in the thickest part, away from the bone, reads well past 145 °F (63 °C)."),
+         "Brown the shanks in a little oil, add a cup of water, cover tightly, and braise very gently, turning once, until the meat retreats from the bone and a food thermometer in the thickest part, away from the bone, reads well past 145 °F (63 °C). Rest the shanks 3 minutes off the heat.",
+         was=("Brown the shanks in a little oil, add a cup of water, cover tightly, and braise very gently, turning once, until the meat retreats from the bone and a food thermometer in the thickest part, away from the bone, reads well past 145 °F (63 °C).",)),
     Edit("fl-original-0243", 2,
          "Uncover and reduce the sauce until it clings to the shanks and the oil splits at the edges.",
-         "Uncover and reduce the sauce until it clings to the shanks and the oil splits at the edges, then rest the shanks 3 minutes off the heat."),
+         "Uncover and reduce the sauce until it clings to the shanks and the oil splits at the edges.",
+         was=("Uncover and reduce the sauce until it clings to the shanks and the oil splits at the edges, then rest the shanks 3 minutes off the heat.",)),
     Edit("fl-original-0247", 2,
          "Cook uncovered on the lowest heat, stirring from the bottom now and then, for a long time — until the coconut oil has fried the beef dark and the sauce is almost dry.",
          "Cook uncovered on the lowest heat, stirring from the bottom now and then, for a long time — until the coconut oil has fried the beef dark, the sauce is almost dry, and a food thermometer in a thick piece of beef reads well past 145 °F (63 °C). Let it rest 3 minutes off the heat."),
@@ -173,35 +183,45 @@ ENDPOINT_EDITS: tuple[Edit, ...] = (
          check("meat_ground", 160)),
     Edit("fl-original-0275", 2,
          "Bake with the lid on, checking once to top up water, until the sauce has gone deep mahogany and thick enough to coat a spoon.",
-         "Bake with the lid on, checking once to top up water, until the sauce has gone deep mahogany and thick enough to coat a spoon, and a food thermometer in a cube of salt pork reads at least 145 °F (63 °C).",
-         check("meat_whole_cut_pork", 145)),
+         "Bake with the lid on, checking once to top up water, until the sauce has gone deep mahogany and thick enough to coat a spoon, and a food thermometer in a cube of salt pork reads at least 145 °F (63 °C). Rest the pot 3 minutes.",
+         check("meat_whole_cut_pork", 145),
+         was=("Bake with the lid on, checking once to top up water, until the sauce has gone deep mahogany and thick enough to coat a spoon, and a food thermometer in a cube of salt pork reads at least 145 °F (63 °C).",)),
     Edit("fl-original-0275", 3,
          "Season at the end only — the pork has been salting the pot all along — and serve with brown bread or toast.",
-         "Rest the pot 3 minutes, then season at the end only — the pork has been salting the pot all along — and serve with brown bread or toast."),
+         "Season at the end only — the pork has been salting the pot all along — and serve with brown bread or toast.",
+         was=("Rest the pot 3 minutes, then season at the end only — the pork has been salting the pot all along — and serve with brown bread or toast.",)),
     Edit("fl-original-0276", 1,
          "Roast it low in a covered pan with a splash of water, fat cap up, until the bone pulls free and a food thermometer reads 145 °F with the meat slack and giving.",
-         "Roast it low in a covered pan with a splash of water, fat cap up, until the bone pulls free and a food thermometer in the thickest part reads well past 145 °F (63 °C) with the meat slack and giving."),
+         "Roast it low in a covered pan with a splash of water, fat cap up, until the bone pulls free and a food thermometer in the thickest part reads well past 145 °F (63 °C) with the meat slack and giving. Rest it at least 3 minutes.",
+         was=("Roast it low in a covered pan with a splash of water, fat cap up, until the bone pulls free and a food thermometer in the thickest part reads well past 145 °F (63 °C) with the meat slack and giving.",)),
     Edit("fl-original-0276", 2,
          "While it rests, shred the cabbage and dress it with the yogurt, a slug of the vinegar, salt and pepper.",
-         "While it rests for at least 3 minutes, shred the cabbage and dress it with the yogurt, a slug of the vinegar, salt and pepper."),
+         "While it rests, shred the cabbage and dress it with the yogurt, a slug of the vinegar, salt and pepper.",
+         was=("While it rests for at least 3 minutes, shred the cabbage and dress it with the yogurt, a slug of the vinegar, salt and pepper.",)),
     Edit("fl-original-0277", 2,
          "Return everything to the pot with the carrot batons, cover, and braise at a tremble until the meat gives under a spoon.",
-         "Return everything to the pot with the carrot batons, cover, and braise at a tremble until the meat gives under a spoon and a food thermometer in the thickest piece reads well past 145 °F (63 °C)."),
+         "Return everything to the pot with the carrot batons, cover, and braise at a tremble until the meat gives under a spoon and a food thermometer in the thickest piece reads well past 145 °F (63 °C). Rest the meat at least 3 minutes.",
+         was=("Return everything to the pot with the carrot batons, cover, and braise at a tremble until the meat gives under a spoon and a food thermometer in the thickest piece reads well past 145 °F (63 °C).",)),
     Edit("fl-original-0277", 3,
          "Rest, taste the sauce for depth, and serve with the carrots and something plain — potatoes or wide noodles — beside.",
-         "Rest the meat at least 3 minutes, taste the sauce for depth, and serve with the carrots and something plain — potatoes or wide noodles — beside."),
+         "Taste the sauce for depth, and serve with the carrots and something plain — potatoes or wide noodles — beside.",
+         was=("Rest the meat at least 3 minutes, taste the sauce for depth, and serve with the carrots and something plain — potatoes or wide noodles — beside.",)),
     Edit("fl-original-0278", 1,
          "Add the chipotle and tomatoes, cook down dark, then return the pork with water to cover and simmer until the cubes loosen at the edges.",
-         "Add the chipotle and tomatoes, cook down dark, then return the pork with water to cover and simmer until the cubes loosen at the edges and a food thermometer in a thick cube reads well past 145 °F (63 °C)."),
+         "Add the chipotle and tomatoes, cook down dark, then return the pork with water to cover and simmer until the cubes loosen at the edges and a food thermometer in a thick cube reads well past 145 °F (63 °C). Let it rest 3 minutes off the heat.",
+         was=("Add the chipotle and tomatoes, cook down dark, then return the pork with water to cover and simmer until the cubes loosen at the edges and a food thermometer in a thick cube reads well past 145 °F (63 °C).",)),
     Edit("fl-original-0278", 2,
          "Add the hominy and warm through so it drinks the broth.",
-         "Add the hominy and warm through so it drinks the broth, then let the pot rest 3 minutes off the heat."),
+         "Add the hominy and warm through so it drinks the broth.",
+         was=("Add the hominy and warm through so it drinks the broth, then let the pot rest 3 minutes off the heat.",)),
     Edit("fl-original-0284", 1,
          "Sear the chuck on every side in a Dutch oven, pour the sauce over with water to cover, and braise covered in a low oven until the beef falls when nudged.",
-         "Sear the chuck on every side in a Dutch oven, pour the sauce over with water to cover, and braise covered in a low oven until the beef falls when nudged and a food thermometer in the thickest part reads well past 145 °F (63 °C)."),
+         "Sear the chuck on every side in a Dutch oven, pour the sauce over with water to cover, and braise covered in a low oven until the beef falls when nudged and a food thermometer in the thickest part reads well past 145 °F (63 °C). Rest the beef at least 3 minutes.",
+         was=("Sear the chuck on every side in a Dutch oven, pour the sauce over with water to cover, and braise covered in a low oven until the beef falls when nudged and a food thermometer in the thickest part reads well past 145 °F (63 °C).",)),
     Edit("fl-original-0284", 2,
          "Skim the fat from the broth, shred the beef, and keep both warm.",
-         "Rest the beef at least 3 minutes, skim the fat from the broth, shred the beef, and keep both warm."),
+         "Skim the fat from the broth, shred the beef, and keep both warm.",
+         was=("Rest the beef at least 3 minutes, skim the fat from the broth, shred the beef, and keep both warm.",)),
     # eggs were pulled early to finish in the wrap, then frozen
     Edit("fl-original-0287", 1,
          "Scramble the eggs gently in the same pan, off the heat early — they finish inside the wrap.",
@@ -370,15 +390,16 @@ def _new_text(e: Edit | Replace, text: str) -> str:
             raise SystemExit(f"{where}: fragment must occur exactly once\n"
                              f"  found: {text!r}\n  fragment: {e.find!r}")
         return text.replace(e.find, e.repl)
-    if text not in (e.old, e.new):
+    if text not in (e.old, e.new, *e.was):
         raise SystemExit(f"{where}: text no longer matches the edit\n"
                          f"  found: {text!r}\n  expected: {e.old!r}")
     return e.new
 
 
 def apply(recipes: dict[str, dict[str, Any]], edits: tuple[Edit | Replace, ...]) -> list[str]:
-    """Apply edits in place; return the ids changed. Raises on a stale edit."""
-    changed: list[str] = []
+    """Apply edits in place; return the ids whose final record differs from
+    the input (later edits may undo earlier ones). Raises on a stale edit."""
+    before_all = copy.deepcopy(recipes)
     for e in edits:
         r = recipes.get(e.rid)
         if r is None:
@@ -387,7 +408,6 @@ def apply(recipes: dict[str, dict[str, Any]], edits: tuple[Edit | Replace, ...])
         if e.step >= len(steps):
             raise SystemExit(f"{e.rid} step[{e.step}]: recipe has {len(steps)} steps")
         step = steps[e.step]
-        before = dict(step)
         step["text"] = _new_text(e, step["text"])
         if e.safety == REMOVE:
             step.pop("safety", None)
@@ -398,9 +418,7 @@ def apply(recipes: dict[str, dict[str, Any]], edits: tuple[Edit | Replace, ...])
                 step["reheat"] = True
             else:
                 step.pop("reheat", None)
-        if step != before and e.rid not in changed:
-            changed.append(e.rid)
-    return changed
+    return [rid for rid, r in recipes.items() if r != before_all[rid]]
 
 
 def main() -> int:

@@ -234,6 +234,10 @@ class DonenessEndpoints(unittest.TestCase):
              "safety": chk("meat_whole_cut_pork", 145)},
             {"text": "Shred and serve."}])
         self.assertTrue(any("rest" in e for e in endpoint_errors(bad)))
+        # a rest in the following step is not read with the check
+        later = copy.deepcopy(bad)
+        later["steps"][1]["text"] = "Rest it 3 minutes, then shred and serve."
+        self.assertTrue(any("rest" in e for e in endpoint_errors(later)))
         good = copy.deepcopy(bad)
         good["steps"][0]["text"] += " Rest it 3 minutes."
         self.assertEqual(endpoint_errors(good), [])
@@ -471,6 +475,22 @@ class CommittedCorpus(unittest.TestCase):
         errors = validate_corpus.release_gate_errors(
             copy.deepcopy(self.recipes), self.records, self.bundled, allergens=self.allergens)
         self.assertEqual(errors, [], "\n".join(errors[:20]))
+
+    def test_safety_edits_reproduce_the_corpus_from_the_ingested_originals(self):
+        # fix_doneness.py applied to the originals as ingested at 4b6e163
+        # yields exactly the committed steps, and a second pass changes nothing
+        import fix_doneness
+        out = subprocess.run(["git", "-C", str(corpus_io.REPO_ROOT), "show",
+                              "4b6e163:data/recipes/corpus.jsonl"],
+                             capture_output=True, text=True, check=True).stdout
+        ingested = {r["id"]: r for r in map(json.loads, out.splitlines())
+                    if r["id"].startswith("fl-original-")}
+        fix_doneness.apply(ingested, fix_doneness.EDITS)
+        self.assertEqual(fix_doneness.apply(ingested, fix_doneness.EDITS), [])
+        committed = {r["id"]: r for r in self.recipes}
+        mismatched = [rid for rid, r in ingested.items()
+                      if r["steps"] != committed[rid]["steps"]]
+        self.assertEqual(mismatched, [])
 
     def test_quarantine_file(self):
         errors = validate_corpus.quarantine_errors(self.recipes, self.records, self.quarantine)
