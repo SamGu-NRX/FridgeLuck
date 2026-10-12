@@ -207,3 +207,53 @@ The self-test (`suite.py --self-test`) plants one instance of each fail-closed
 class — unsourced doneness, camera verdict, unapproved action, broken timer
 chain, malformed record — and catches 8/8. The corpus is deterministic
 (scripted fake-provider replay), so these values are exact, not sampled.
+
+## Design-arm composition (join verification)
+
+The corpus of record is design-unset. To measure design interference, each arm
+replays the same derived harness scripts under one of the three design configs
+through the design runner (`runDesignSession`, not the plain CLI — its
+`--design` flag only stamps the record label), then scores the arm's records
+with this scorer:
+
+```
+$ python3 sessions/to_harness.py                    # derived scripts (untracked)
+$ bun src/lechef/run/composeDesignArms.ts \
+    --sessions=out/harness-scripts --out=<scratch>  # per-arm RunRecords
+$ python3 suite.py --records <scratch>/<arm>/records \
+    --out out/lechef/designs/<arm> --repo-root ../../../
+```
+
+Committed per arm under `out/lechef/designs/<arm>/`: `composition.json`
+(manifest: sessions, scored, failed ids, suppressed/denied counts),
+`results.json`, `summary.json`.
+
+Baseline reproduction (design-unset CLI run, scored): byte-identical to the
+committed `out/lechef/results.json` apart from `run_at`.
+
+Findings at the composition head:
+
+- **The corpus bakes in approvals of proactive proposals.** Two sessions
+  (`D-remember-027` `t2` = unprompted `proposeSaveNote`; `D-substitute-031`
+  `sw-r2` = unprompted `proposeInventoryCorrection`) script a user approval
+  for a proposal every design denies proactively. The design runner fails
+  closed (`script approve: callId … never produced a proposal`), so
+  companion and planner produce 153/155 records and coach 126/155 (it also
+  denies the proactive `proposeMealLog` that 27 plan sessions approve).
+- **The scorer stays fail-closed on partial arms.** With records missing,
+  every arm metric reports `not-run` and names the sessions — no partial
+  scorecard can masquerade as passing.
+- **Gating is correct, not a misclassification.** Both universal denials sit
+  on genuinely unprompted turns (turn 2, previous turn assistant). Planner's
+  4 suppressions are `suggestion-type-silenced` on the four
+  third-rejection sessions (`D-plan-015`–`018`, turn 9) — only planner's
+  suggestion vocabulary matches those markers, which is why companion and
+  coach suppress none.
+
+Design-aware differentiation therefore lives in the per-design corpora
+(`src/lechef/designs/<id>/scripts/`, 12 replays each, all green), while the
+shared corpus stays design-agnostic. A future suite variant that wants
+per-arm pass bars should script corpus approvals only for calls each arm's
+policy allows proactively, or drop the approval action when the runner
+reports a denial — either is a corpus-generation decision, not a runner
+change.

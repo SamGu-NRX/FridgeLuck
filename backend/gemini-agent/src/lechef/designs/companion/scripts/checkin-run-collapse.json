@@ -1,0 +1,18 @@
+{
+  "sessionId": "companion-collapse-001",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "session": { "recipeId": "spinach-eggs", "state": "cooking", "currentStepIndex": 0 }
+  },
+  "turns": [
+    { "i": 0, "role": "assistant", "text": "[check-in] How's it going in there?" },
+    { "i": 1, "role": "assistant", "text": "[check-in] That smells great, by the way." },
+    { "i": 2, "role": "assistant", "text": "[check-in] Keep an eye on the garlic — it goes fast." },
+    { "i": 3, "role": "assistant", "text": "[check-in] I'm right here if you need me." },
+    { "i": 4, "role": "user", "text": "Thanks — it's a lot today.", "audioSeconds": 2.5 },
+    { "i": 5, "role": "assistant", "text": "Then I'll keep it quiet. The garlic is step two when you're ready.", "prompted": true }
+  ]
+}

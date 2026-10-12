@@ -194,3 +194,175 @@ describe("fit: fit-line text comes from per-line states only", () => {
     expect(fit.allSufficient).toBe(false);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Review fix 6 — fit keeps unit dimensions and uncertainty.
+//
+// Red at base 41597b1: base sumBill/resolveLine collapse everything to bare
+// numbers (100 ml "satisfies" a 100 g demand; an unknown bill line followed
+// by a known one becomes numeric; an unknown pantry lot reads as zero), and
+// buildFit counts assumed staples in its "n of m" form.
+// ---------------------------------------------------------------------------
+
+describe("fit: dimensions are preserved (review fix 6)", () => {
+  it("never lets volume stock satisfy a mass demand of the same magnitude", () => {
+    const r = recipe({
+      id: "pan",
+      ingredientBill: [{ ingredientId: "stock", name: "Stock", quantity: { kind: "known", value: 100, unit: "g" } }]
+    });
+    const snap = pantry(pantryLine({ ingredientId: "stock", name: "Stock", quantity: { kind: "known", value: 100, unit: "ml" } }));
+    const line = fits([r], snap).get("pan")!.fit.required[0];
+    expect(line.state).toBe("short");
+    expect(line.state).not.toBe("sufficient");
+  });
+
+  it("never lets converted volumes satisfy a converted mass demand", () => {
+    const r = recipe({
+      id: "pan",
+      ingredientBill: [{ ingredientId: "stock", name: "Stock", quantity: { kind: "known", value: 1, unit: "kg" } }]
+    });
+    const snap = pantry(pantryLine({ ingredientId: "stock", name: "Stock", quantity: { kind: "known", value: 1000, unit: "ml" } }));
+    const line = fits([r], snap).get("pan")!.fit.required[0];
+    expect(line.state).toBe("short");
+  });
+
+  it("keeps a mixed-dimension demand honest when only one dimension is stocked", () => {
+    const r = recipe({
+      id: "batter",
+      ingredientBill: [
+        { ingredientId: "butter", name: "Butter", quantity: { kind: "known", value: 50, unit: "g" } },
+        { ingredientId: "butter", name: "Butter", quantity: { kind: "known", value: 2, unit: "tbsp" } }
+      ]
+    });
+    const snap = pantry(pantryLine({ ingredientId: "butter", name: "Butter", quantity: { kind: "known", value: 100, unit: "g" } }));
+    const line = fits([r], snap).get("batter")!.fit.required[0];
+    // 50 g is covered, the 2 tbsp (volume) is not — the line is short, not satisfied.
+    expect(line.state).toBe("short");
+  });
+
+  it("never covers a mass demand with a volume swap target", () => {
+    const r = recipe({ id: "stew", ingredientBill: [{ ingredientId: "butter", name: "Butter", quantity: { kind: "known", value: 50, unit: "g" } }] });
+    const snap = pantry(pantryLine({ ingredientId: "olive-oil", name: "Olive oil", quantity: { kind: "known", value: 100, unit: "ml" } }));
+    const fit = fits([r], snap, { acceptedSwaps: [{ from: "butter", to: "olive oil" }] }).get("stew")!.fit;
+    // 100 ml cannot stand in for 50 g: the line stays missing, not swap-covered.
+    expect(fit.required[0].state).toBe("missing");
+  });
+
+  it("still covers a same-dimension swap", () => {
+    const r = recipe({ id: "stew", ingredientBill: [{ ingredientId: "butter", name: "Butter", quantity: { kind: "known", value: 50, unit: "g" } }] });
+    const snap = pantry(pantryLine({ ingredientId: "ghee", name: "Ghee", quantity: { kind: "known", value: 100, unit: "g" } }));
+    const fit = fits([r], snap, { acceptedSwaps: [{ from: "butter", to: "ghee" }] }).get("stew")!.fit;
+    expect(fit.required[0].state).toBe("swap-covered");
+  });
+});
+
+describe("fit: uncertainty is preserved (review fix 6)", () => {
+  it("keeps an unknown bill line unknown even when a later line is known", () => {
+    const r = recipe({
+      id: "pasta",
+      ingredientBill: [
+        { ingredientId: "egg", name: "Eggs", quantity: { kind: "unknown" } },
+        { ingredientId: "egg", name: "Eggs", quantity: { kind: "known", value: 2, unit: "piece" } }
+      ]
+    });
+    const snap = pantry(pantryLine({ ingredientId: "egg", name: "Eggs", quantity: { kind: "known", value: 5, unit: "piece" } }));
+    const fit = fits([r], snap).get("pasta")!.fit;
+    // The unknown line must not collapse to 0 and let "2 of 5" pass.
+    expect(fit.required[0].state).toBe("quantity-unknown");
+    expect(fit.allSufficient).toBe(false);
+    expect(fit.fitLine).toBe("0 recorded · check eggs");
+  });
+
+  it("keeps an unknown pantry lot unknown even when another lot is known", () => {
+    const r = recipe({
+      id: "pasta",
+      ingredientBill: [{ ingredientId: "egg", name: "Eggs", quantity: { kind: "known", value: 3, unit: "piece" } }]
+    });
+    const snap = pantry(
+      pantryLine({ ingredientId: "egg", name: "Eggs", quantity: { kind: "known", value: 3, unit: "piece" } }),
+      pantryLine({ ingredientId: "egg", name: "Eggs", quantity: { kind: "unknown" }, state: "quantity-unknown" })
+    );
+    const fit = fits([r], snap).get("pasta")!.fit;
+    // An unknown lot could hold the needed eggs: the line cannot become numeric.
+    expect(fit.required[0].state).toBe("quantity-unknown");
+  });
+
+  it("cannot verify a demand against a pantry line with an unknown quantity", () => {
+    const r = recipe({
+      id: "pasta",
+      ingredientBill: [{ ingredientId: "egg", name: "Eggs", quantity: { kind: "known", value: 3, unit: "piece" } }]
+    });
+    const snap = pantry(pantryLine({ ingredientId: "egg", name: "Eggs", quantity: { kind: "unknown" }, state: "quantity-unknown" }));
+    const fit = fits([r], snap).get("pasta")!.fit;
+    expect(fit.required[0].state).toBe("quantity-unknown");
+  });
+
+  it("keeps a swap target with an unknown quantity unknown, not missing", () => {
+    const r = recipe({
+      id: "stew",
+      ingredientBill: [{ ingredientId: "butter", name: "Butter", quantity: { kind: "known", value: 50, unit: "g" } }]
+    });
+    const snap = pantry(
+      pantryLine({ ingredientId: "ghee", name: "Ghee", quantity: { kind: "unknown" }, state: "quantity-unknown" })
+    );
+    const fit = fits([r], snap, { acceptedSwaps: [{ from: "butter", to: "ghee" }] }).get("stew")!.fit;
+    // The swap could cover it, but the target's quantity is unknown: the
+    // strictest state wins, and "missing" would claim certainty it lacks.
+    expect(fit.required[0].state).toBe("quantity-unknown");
+  });
+});
+
+describe("fit: assumed staples are named, never counted (review fix 6)", () => {
+  it("does not describe an assumed staple as verified stock", () => {
+    const r = recipe({
+      id: "salad",
+      ingredientBill: [
+        { ingredientId: "egg", name: "Eggs", quantity: { kind: "known", value: 3, unit: "piece" } },
+        { ingredientId: "salt", name: "Salt", quantity: { kind: "unknown" } }
+      ]
+    });
+    const snap = pantry(
+      pantryLine({ ingredientId: "egg", name: "Eggs", quantity: { kind: "known", value: 3, unit: "piece" } }),
+      pantryLine({ ingredientId: "salt", name: "Salt", quantity: { kind: "unknown" }, state: "assumed-staple" })
+    );
+    const fit = fits([r], snap).get("salad")!.fit;
+    // No "1 of 2" and no numeric claim about the staple: name the assumption.
+    expect(fit.fitLine).toBe("1 recorded · salt assumed");
+    expect(fit.allSufficient).toBe(false);
+  });
+
+  it("names assumptions instead of counting them when only staples are unverified", () => {
+    const r = recipe({
+      id: "dressing",
+      ingredientBill: [
+        { ingredientId: "salt", name: "Salt", quantity: { kind: "unknown" } },
+        { ingredientId: "pepper", name: "Pepper", quantity: { kind: "unknown" } }
+      ]
+    });
+    const snap = pantry(
+      pantryLine({ ingredientId: "salt", name: "Salt", quantity: { kind: "unknown" }, state: "assumed-staple" }),
+      pantryLine({ ingredientId: "pepper", name: "Pepper", quantity: { kind: "unknown" }, state: "assumed-staple" })
+    );
+    const fit = fits([r], snap).get("dressing")!.fit;
+    expect(fit.fitLine).toBe("salt and pepper assumed");
+    expect(fit.allSufficient).toBe(false);
+  });
+
+  it("keeps assumption wording next to the check list", () => {
+    const r = recipe({
+      id: "omelette",
+      ingredientBill: [
+        { ingredientId: "egg", name: "Eggs", quantity: { kind: "known", value: 3, unit: "piece" } },
+        { ingredientId: "oil", name: "Oil", quantity: { kind: "unknown" } }
+      ]
+    });
+    const snap = pantry(
+      pantryLine({ ingredientId: "oil", name: "Oil", quantity: { kind: "unknown" }, state: "quantity-unknown" })
+    );
+    const fit = fits([r], snap).get("omelette")!.fit;
+    // Eggs are missing, oil is a recorded-but-unknown line: neither counts
+    // as verified evidence, and both belong in the check list.
+    expect(fit.fitLine).toBe("0 recorded · check eggs and oil");
+  });
+});
+

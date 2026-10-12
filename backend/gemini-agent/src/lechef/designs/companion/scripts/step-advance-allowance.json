@@ -1,0 +1,44 @@
+{
+  "sessionId": "companion-step-001",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "session": { "recipeId": "spinach-eggs", "state": "cooking", "currentStepIndex": 0 },
+    "recipes": [
+      {
+        "id": "spinach-eggs",
+        "revision": 1,
+        "title": "Spinach and eggs on toast",
+        "servings": 2,
+        "ingredientBill": [
+          { "ingredientId": "egg", "name": "Eggs", "quantity": { "kind": "known", "value": 4, "unit": "piece" } },
+          { "ingredientId": "spinach", "name": "Spinach", "quantity": { "kind": "known", "value": 150, "unit": "g" } }
+        ],
+        "steps": [
+          { "index": 0, "text": "Boil the eggs", "timerMinutes": 9 },
+          { "index": 1, "text": "Toast the bread", "timerMinutes": 3 },
+          { "index": 2, "text": "Wilt the spinach" },
+          { "index": 3, "text": "Assemble and eat" }
+        ]
+      }
+    ]
+  },
+  "turns": [
+    { "i": 0, "role": "assistant", "text": "[check-in] How's it going in there?" },
+    { "i": 1, "role": "user", "text": "Eggs are boiled — I'm ready for the next bit.", "audioSeconds": 2.0 },
+    { "i": 2, "role": "assistant", "text": "You're ahead of the script — nice.", "prompted": true },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "[step-offer] Ready for step two, toasting the bread?",
+      "toolCalls": [{ "id": "s-a1", "name": "proposeStepAdvance", "args": { "stepIndex": 1 } }]
+    },
+    { "i": 4, "role": "user", "text": "Yes.", "audioSeconds": 0.6 },
+    { "i": 5, "role": "assistant", "text": "Step two — toast the bread. Three minutes on the timer if you want it.", "prompted": true }
+  ],
+  "userActions": [
+    { "afterTurn": 4, "action": { "kind": "approve", "callId": "s-a1" } }
+  ]
+}

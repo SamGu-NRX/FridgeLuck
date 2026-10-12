@@ -1,0 +1,24 @@
+{
+  "sessionId": "companion-silence-001",
+  "job": "remember",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T18:00:00.000Z",
+    "pantry": [
+      { "ingredientId": "spinach", "name": "Spinach", "quantity": { "kind": "known", "value": 150, "unit": "g" }, "state": "sufficient", "source": "scan", "useSoon": true, "expiresAt": 1767732000 },
+      { "ingredientId": "egg", "name": "Eggs", "quantity": { "kind": "known", "value": 6, "unit": "piece" }, "state": "sufficient", "source": "scan" }
+    ],
+    "session": { "recipeId": "spinach-eggs", "state": "cooking", "currentStepIndex": 0 }
+  },
+  "turns": [
+    { "i": 0, "role": "assistant", "text": "[use-soon] The spinach is a day from its date — want me to find it a job?" },
+    { "i": 1, "role": "user", "text": "No.", "audioSeconds": 0.6 },
+    { "i": 2, "role": "assistant", "text": "[use-soon] It really is on its last legs — one quick win with eggs?", "prompted": true },
+    { "i": 3, "role": "user", "text": "Not interested.", "audioSeconds": 1.0 },
+    { "i": 4, "role": "assistant", "text": "Understood — moving on.", "prompted": true },
+    { "i": 5, "role": "assistant", "text": "[use-soon] Last thought: the spinach won't keep till Tuesday." },
+    { "i": 6, "role": "user", "text": "Thank you.", "audioSeconds": 0.8 },
+    { "i": 7, "role": "assistant", "text": "[check-in] How's the rice coming along?", "prompted": true }
+  ]
+}

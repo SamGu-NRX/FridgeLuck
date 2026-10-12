@@ -1,0 +1,23 @@
+{
+  "sessionId": "companion-focus-001",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T19:00:00.000Z",
+    "session": { "recipeId": "lemon-pasta", "state": "cooking", "currentStepIndex": 1 }
+  },
+  "turns": [
+    { "i": 0, "role": "assistant", "text": "[check-in] How's it going in there?" },
+    { "i": 1, "role": "user", "text": "Ok.", "audioSeconds": 0.5 },
+    { "i": 2, "role": "assistant", "text": "Good.", "prompted": true },
+    { "i": 3, "role": "assistant", "text": "[check-in] Want company while the onions soften?" },
+    { "i": 4, "role": "assistant", "text": "[check-in] The onions smell perfect, for the record." },
+    { "i": 5, "role": "user", "text": "Busy.", "audioSeconds": 0.5 },
+    { "i": 6, "role": "assistant", "text": "Quiet from me.", "prompted": true },
+    { "i": 7, "role": "assistant", "text": "[check-in] Still here if you need me." },
+    { "i": 8, "role": "user", "text": "Thanks.", "audioSeconds": 0.5 },
+    { "i": 9, "role": "assistant", "text": "Any time.", "prompted": true },
+    { "i": 10, "role": "assistant", "text": "[check-in] How's it all looking?" }
+  ]
+}
