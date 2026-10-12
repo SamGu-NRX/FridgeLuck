@@ -66,12 +66,30 @@ LABEL_DEPENDENT: tuple[tuple[re.Pattern[str], frozenset[str], str], ...] = (
     (re.compile(r"\bsugar\b"), frozenset({"vegan"}), "cane sugar may be refined with bone char"),
 )
 
-# Phrases removed before scanning step text, so they do not read as the
-# food they contain a word of.
-_NOT_THE_FOOD = re.compile(
-    r"\b(?:coconut milk|coconut cream|oat milk|almond milk|soy milk|peanut butter|"
-    r"butter beans?|butternut|nutmeg|rice noodles|rice flour|corn ?flour|chickpea flour|"
-    r"eggplants?|cream of tartar)\b")
+# Phrases that contain a conflicting word but are not that food, removed
+# only for the claim they do not contradict: "peanut butter" is not dairy,
+# so it is exempt from the dairy-free scan, and it stays in the nut-free scan.
+_NOT_DAIRY = (r"(?:coconut|oat|almond|soy|rice|cashew) (?:milk|cream)|peanut butter|"
+              r"almond butter|cashew butter|butter beans?|butternut|cream of tartar")
+STEP_EXEMPT: dict[str, re.Pattern[str]] = {
+    "dairy-free": re.compile(rf"\b(?:{_NOT_DAIRY})\b"),
+    "vegan": re.compile(rf"\b(?:{_NOT_DAIRY}|eggplants?)\b"),
+    "gluten-free": re.compile(r"\b(?:rice noodles|rice flour|corn ?flour|chickpea flour)\b"),
+    "nut-free": re.compile(r"\b(?:nutmeg|butternut|doughnuts?)\b"),
+}
+
+# Compound foods a step can name, and the claims each one contradicts.
+STEP_COMPOUNDS: tuple[tuple[re.Pattern[str], frozenset[str]], ...] = (
+    (re.compile(r"\bpesto\b"),
+     frozenset({"nut-free", "dairy-free", "vegan", "vegetarian"})),  # nuts, parmesan
+    (re.compile(r"\b(?:mayonnaise|mayo|aioli)\b"), frozenset({"vegan"})),  # egg
+    (re.compile(r"\bworcestershire\b"),
+     frozenset({"vegetarian", "vegan", "gluten-free"})),  # anchovy, malt vinegar
+    (re.compile(r"\b(?:fish|oyster) sauce\b"), frozenset({"vegetarian", "vegan"})),
+    (re.compile(r"\b(?:teriyaki|hoisin|miso|gochujang)\b"), frozenset({"gluten-free"})),
+    (re.compile(r"\bcustard\b"), frozenset({"dairy-free", "vegan"})),
+    (re.compile(r"\b(?:nutella|praline|marzipan|frangipane)\b"), frozenset({"nut-free"})),
+)
 
 # Foods a step can name that contradict a claim.
 STEP_CONFLICTS: dict[str, re.Pattern[str]] = {
@@ -131,7 +149,6 @@ def claim_problems(recipe: dict[str, Any], table: dict[str, Any]) -> dict[str, l
         unknown += u
     steps_text = " ".join(str(s.get("text", "")) for s in recipe.get("steps", [])
                           if isinstance(s, dict)).lower()
-    steps_text = _NOT_THE_FOOD.sub(" ", steps_text)
 
     for claim in recipe.get("claims", []):
         cname = claim.get("claim") if isinstance(claim, dict) else None
@@ -151,9 +168,16 @@ def claim_problems(recipe: dict[str, Any], table: dict[str, Any]) -> dict[str, l
                     reasons.append(f"{name!r}: {why}")
         conflict = STEP_CONFLICTS.get(cname)
         if conflict:
-            hit = conflict.search(steps_text)
+            exempt = STEP_EXEMPT.get(cname)
+            scanned = exempt.sub(" ", steps_text) if exempt else steps_text
+            hit = conflict.search(scanned)
             if hit:
                 reasons.append(f"a step names {hit.group(0)!r}")
+        for pattern, blocked in STEP_COMPOUNDS:
+            hit = pattern.search(steps_text)
+            if hit and cname in blocked:
+                reasons.append(f"a step names {hit.group(0)!r}, a compound food that "
+                               f"contradicts {cname}")
         forbid = set(claim_defs[cname].get("forbids", []))
         conflicts = sorted(classes & forbid)
         evidence = claim.get("evidence")

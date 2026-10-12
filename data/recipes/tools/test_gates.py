@@ -439,6 +439,28 @@ class ClaimComposition(unittest.TestCase):
                     claims=[claim("dairy-free")])
         self.assertEqual(composition.claim_problems(ok, MINI_ALLERGENS), {})
 
+    def test_exempt_phrases_only_for_the_claim_they_do_not_contradict(self):
+        # second review: peanut butter was erased from every scan
+        nut = recipe(ingredients=ing("red lentils", "vegetable oil"),
+                     steps=[{"text": "Serve with peanut butter."}],
+                     claims=[claim("nut-free"), claim("dairy-free")])
+        problems = composition.claim_problems(nut, MINI_ALLERGENS)
+        self.assertIn("nut-free", problems)
+        self.assertNotIn("dairy-free", problems)
+        almond = recipe(ingredients=ing("red lentils", "vegetable oil"),
+                        steps=[{"text": "Loosen with almond milk."}],
+                        claims=[claim("nut-free"), claim("dairy-free")])
+        problems = composition.claim_problems(almond, MINI_ALLERGENS)
+        self.assertIn("nut-free", problems)
+        self.assertNotIn("dairy-free", problems)
+
+    def test_compound_food_in_a_step_blocks_each_affected_claim(self):
+        r = recipe(ingredients=ing("red lentils", "vegetable oil"),
+                   steps=[{"text": "Spoon pesto over each bowl."}],
+                   claims=[claim("nut-free"), claim("dairy-free"), claim("gluten-free")])
+        self.assertEqual(set(composition.claim_problems(r, MINI_ALLERGENS)),
+                         {"nut-free", "dairy-free"})
+
     def test_known_composition_keeps_the_claim(self):
         ok = recipe(ingredients=ing("red lentils", "vegetable oil"),
                     claims=[claim("dairy-free"), claim("vegan")])
