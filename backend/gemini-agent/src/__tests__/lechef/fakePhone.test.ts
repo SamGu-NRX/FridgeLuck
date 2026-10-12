@@ -58,19 +58,26 @@ describe("fake phone: device-owned timer deadlines", () => {
     expect(phone.timerRecords()[0].deadline).toBeGreaterThan(0);
   });
 
-  it("adjusts a live timer by delta and by set", () => {
+  it("adjusts a live timer by delta and by set — elapsed time counts for delta only (review fix 7)", () => {
     const { clock, phone, layer } = harness();
     const start = Math.floor(clock.nowMs() / 1000);
     const cmdStart = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
     const out = layer.proposeTimerStart({ callId: "c1", label: "sauce", minutes: 10, userInitiation: { eventId: cmdStart.id } });
+    clock.advanceMs(4 * 60 * 1000); // four minutes of cooking elapse before the user speaks
     const timerId = phone.activeTimers()[0].timerId;
     const cmdDelta = phone.recordUserCommand({ command: "proposeTimerAdjust", source: "voice", detail: "add five minutes" });
     const adj = layer.proposeTimerAdjust({ callId: "c2", timerId, deltaMinutes: 5, userInitiation: { eventId: cmdDelta.id } });
     expect(adj.state).toBe("executed");
+    // The device-owned deadline extends from where the timer actually was
+    // (start + 10 min), not from now — the four elapsed minutes still count.
     expect(phone.timerRecords()[0].deadline).toBe(start + 15 * 60);
+    expect(phone.timerRecords()[0].minutes).toBe(15);
+    const now = Math.floor(clock.nowMs() / 1000);
     const cmdSet = phone.recordUserCommand({ command: "proposeTimerAdjust", source: "touch" });
     const set = layer.proposeTimerAdjust({ callId: "c3", timerId, newMinutes: 2, userInitiation: { eventId: cmdSet.id } });
     expect(set.state).toBe("executed");
+    // A set is a fresh start: now + the new duration.
+    expect(phone.timerRecords()[0].deadline).toBe(now + 2 * 60);
     expect(phone.timerRecords()[0].minutes).toBe(2);
     expect(out.proposal).not.toBeNull();
   });
@@ -263,6 +270,21 @@ describe("fake phone: the phone owns approval policy (review fix 2)", () => {
     expect(receipt.reason).toMatch(/revision|superseded/i);
     expect(phone.noteRecords()).toHaveLength(1); // the stale proposal never executed
     expect(phone.pendingProposalIds()).toHaveLength(0);
+  });
+
+  it("a delta adjustment on a nearly-done timer extends the true deadline, never restarts the clock (review fix 7)", () => {
+    const { clock, phone, layer } = harness();
+    const start = Math.floor(clock.nowMs() / 1000);
+    const cmdStart = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
+    layer.proposeTimerStart({ callId: "c1", label: "rest", minutes: 10, userInitiation: { eventId: cmdStart.id } });
+    clock.advanceMs(9 * 60 * 1000); // nine of ten minutes gone — one minute left
+    const timerId = phone.activeTimers()[0].timerId;
+    const cmdAdj = phone.recordUserCommand({ command: "proposeTimerAdjust", source: "touch" });
+    const adj = layer.proposeTimerAdjust({ callId: "c2", timerId, deltaMinutes: 5, userInitiation: { eventId: cmdAdj.id } });
+    expect(adj.state).toBe("executed");
+    // "add five minutes" to a timer with one minute left leaves six minutes:
+    // start + 10 + 5 — not now + 15 (which would gift nine uncooked minutes).
+    expect(phone.timerRecords()[0].deadline).toBe(start + 15 * 60);
   });
 
   it("a replayed approval for a consumed proposal is refused with a receipt that says why", () => {
