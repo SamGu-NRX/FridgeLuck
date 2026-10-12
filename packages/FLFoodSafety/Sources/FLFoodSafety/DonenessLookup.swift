@@ -102,6 +102,18 @@ public struct DonenessLookup {
         return 2
     }
 
+    /// Doneness keywords that are bare cooking-verb forms — "bake" in the
+    /// casserole list names dishes like an egg bake, not the imperative. A
+    /// bare verb binds a protein class only when the text also names a
+    /// protein, so "Bake the bread at 400 °F" cannot fabricate one.
+    static let bareVerbKeywordPattern = "^(?:bake|roast|grill|broil|fry|heat|cook)(?:s|ed|ing)?$"
+
+    static func isBareCookingVerbKeyword(_ keyword: String) -> Bool {
+        guard let regex = try? NSRegularExpression(pattern: bareVerbKeywordPattern) else { return false }
+        let range = NSRange(keyword.startIndex..., in: keyword)
+        return regex.firstMatch(in: keyword, range: range) != nil
+    }
+
     /// Species whose processed form keeps the poultry minimum (165 °F), not
     /// the generic ground-meat 160 °F.
     static let poultrySpecies: Set<String> = ["chicken", "turkey", "duck", "goose", "quail", "hen"]
@@ -110,11 +122,62 @@ public struct DonenessLookup {
         poultrySpecies.contains { matches(keyword: $0, in: foldedText) }
     }
 
+    /// All rules whose keywords match the text, most specific first (tier,
+    /// then longer keyword, then rulebook order). Includes the ground-poultry
+    /// override when the text names poultry processed as mince. Deterministic.
+    public func matches(text: String) -> [DonenessMatch] {
+        let folded = Self.neutraliseCompounds(text.lowercased())
+        var candidates: [(match: DonenessMatch, order: Int)] = []
+        for (order, rule) in donenessRules.enumerated() {
+            for keyword in rule.matchKeywords ?? [] where Self.matches(keyword: keyword, in: folded) {
+                candidates.append((DonenessMatch(rule: rule, matchedKeyword: keyword, matchTier: Self.tier(for: keyword)), order))
+            }
+        }
+        // Poultry processed as mince keeps the poultry minimum: add the
+        // ground-poultry rule when a ground match and a poultry species both
+        // appear (the same override `check(text:)` applies).
+        if candidates.contains(where: { $0.match.rule.foodClass == .meatGround }),
+           Self.matchesPoultrySpecies(folded),
+           let groundPoultry = donenessRules.first(where: { $0.id == "ground-poultry-165" }) {
+            candidates.append((DonenessMatch(rule: groundPoultry, matchedKeyword: "ground poultry", matchTier: 0), -1))
+        }
+        return candidates.sorted { lhs, rhs in
+            if lhs.match.matchTier != rhs.match.matchTier { return lhs.match.matchTier < rhs.match.matchTier }
+            if lhs.match.matchedKeyword.count != rhs.match.matchedKeyword.count { return lhs.match.matchedKeyword.count > rhs.match.matchedKeyword.count }
+            return lhs.order < rhs.order
+        }.map { $0.match }
+    }
+
+    /// Generic protein words beyond the class keywords — meats, seafood and
+    /// processed meats the rulebook may not classify. A cooking step naming
+    /// one of these with no resolvable class is flagged for review, never
+    /// passed (contract clause 6).
+    static let genericProteinWords: Set<String> = [
+        "meat", "meats", "seafood", "offal", "rabbit", "hare", "venison",
+        "bison", "buffalo", "boar", "ostrich", "emu", "kangaroo", "crocodile",
+        "alligator", "frog", "snail", "snails", "escargot", "liver", "kidney",
+        "tongue", "tripe", "sweetbread", "sweetbreads", "sausage", "sausages",
+        "bratwurst", "kielbasa", "chorizo", "salami", "pepperoni", "prosciutto",
+        "pancetta", "mortadella", "bologna", "frankfurter", "frankfurters",
+        "hot dog", "hot dogs", "deli meat", "deli meats", "lunch meat",
+        "cold cuts", "pheasant", "partridge", "grouse", "pigeon", "squab",
+        "moose", "elk", "caribou", "reindeer", "squirrel",
+    ]
+
+    /// Whole-word protein mention (species or generic words), with pantry
+    /// compounds neutralised so "fish sauce" never reads as fish.
+    static func mentionsProtein(_ text: String) -> Bool {
+        let folded = neutraliseCompounds(text.lowercased())
+        let words = genericProteinWords.union(speciesWords)
+        return words.contains { matches(keyword: $0, in: folded) }
+    }
+
     /// Pantry compounds where the food word names a product, not the protein
     /// being cooked — matching them would fabricate a doneness class.
     static let compoundExclusions = [
         "fish sauce", "fish stock", "chicken stock", "beef stock", "beef broth",
         "bone broth", "ham stock", "meat tenderiser", "meat tenderizer",
+        "meat thermometer", "meat thermometre",
     ]
 
     static func neutraliseCompounds(_ text: String) -> String {
