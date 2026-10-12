@@ -11,7 +11,7 @@
 import Foundation
 
 public final class FLIngredientFactsStore: @unchecked Sendable {
-    private let dataset: FLDataset
+    let dataset: FLDataset
 
     /// - Parameter dataDirectory: the data/ingredient-facts directory holding
     ///   identities.json and facts.json.

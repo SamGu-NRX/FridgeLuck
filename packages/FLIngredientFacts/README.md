@@ -13,13 +13,14 @@ rechecks all eaters' allergens, including compound ingredients. Restriction chec
 
 | Path | Contents | State |
 | --- | --- | --- |
-| `packages/FLIngredientFacts` | SwiftPM package: types, loader, evaluate API, tests | **PLANNED** until the sources and tests land on this branch |
-| `data/ingredient-facts` | Dataset: identities, sourced composition, conformance kit | identities.json, facts.json, generator and coverage exist; conformance kit **PLANNED** |
+| `packages/FLIngredientFacts` | SwiftPM package: types, loader, evaluate API, tests | exists — library + `flfacts-conformance` executable + 33 XCTests (Linux `swift test` green) |
+| `data/ingredient-facts` | Dataset: identities, sourced composition, conformance kit | identities.json, facts.json, generator, coverage and the conformance kit (cases + both runners) exist |
 | `docs/audits/ingredient-facts` | Per-PR integration fix lists (owned by the parent task) | exists (parent-owned) |
 
 Anything not yet in the tree is **PLANNED**, not shipped. Present-tense claims below
 describe the pinned contract the implementations must match; they become "tested" only
-when the tests exist at the pushed head.
+when the tests exist at the pushed head. Nothing in this file is currently PLANNED: the
+types, tests, cases and runners named below all exist at this head.
 
 ## API contract (pinned for this branch)
 
