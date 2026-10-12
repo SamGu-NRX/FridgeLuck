@@ -9,7 +9,7 @@
  * - mealLog ALWAYS requires `explicit` — a voice transcript alone never
  *   authorizes a meal log.
  * - Timer proposals are `device-auto` only when they replay a direct user
- *   command (userInitiated = true); anything the model does on its own
+ *   command the device recorded (a cited device event); anything the model does on its own
  *   initiative is `explicit`.
  * - payloadHash = sha256 over canonical JSON of the payload (wire.ts).
  * - Idempotency: duplicate tool-call ids, or identical payloads, never
@@ -68,7 +68,8 @@ export interface ProposalLayer {
     callId: string;
     label: string;
     minutes: number;
-    userInitiated: boolean;
+    /** Device event the runtime validated as user initiation — never an asserted flag. */
+    userInitiation?: { eventId: string };
     abort?: AbortCheck;
   }): ProposalOutcome;
   proposeTimerAdjust(input: {
@@ -77,7 +78,8 @@ export interface ProposalLayer {
     label?: string;
     newMinutes?: number;
     deltaMinutes?: number;
-    userInitiated: boolean;
+    /** Device event the runtime validated as user initiation — never an asserted flag. */
+    userInitiation?: { eventId: string };
     abort?: AbortCheck;
   }): ProposalOutcome;
   proposeStepAdvance(input: { callId: string; stepIndex: number; abort?: AbortCheck }): ProposalOutcome;
@@ -92,7 +94,8 @@ export interface ProposalLayer {
   }): ProposalOutcome;
   proposeMealLog(input: {
     callId: string;
-    userInitiated: boolean;
+    /** Device event the runtime validated (a "log this meal" command) — recorded fact, never authority. */
+    userInitiation?: { eventId: string };
     recipeId: string;
     revision: number;
     servings: number;
@@ -132,6 +135,12 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
   /** proposal id → last known state. */
   const states = new Map<string, ProposalOutcome["state"]>();
 
+  /**
+   * Advisory only: what the built proposal CLAIMS. The phone decides approval
+   * from its own policy and its own evidence (the cited device event), and
+   * never executes on this field's say-so. userInitiated here is derived from
+   * a validated device-event citation, not from tool arguments.
+   */
   function approvalFor(tool: ProposalTool, payload: ProposalPayload, userInitiated: boolean): RequiredApproval {
     if (payload.kind === "mealLog") return "explicit"; // a voice transcript alone never authorizes a meal log
     if (payload.kind === "timerStart" || payload.kind === "timerAdjust") {
@@ -157,7 +166,7 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
   function buildProposal(
     tool: ProposalTool,
     payload: ProposalPayload,
-    userInitiated: boolean
+    userInitiation?: { eventId: string }
   ): ActionProposal {
     const nowS = epochSeconds(clock.nowMs());
     return {
@@ -168,8 +177,9 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
       snapshotRevision: phone.revision(),
       createdAt: nowS,
       expiresAt: epochSeconds(clock.nowMs() + PROPOSAL_TTL_SECONDS * 1000),
-      requiredApproval: approvalFor(tool, payload, userInitiated),
-      userInitiated
+      requiredApproval: approvalFor(tool, payload, userInitiation !== undefined),
+      userInitiated: userInitiation !== undefined,
+      ...(userInitiation !== undefined ? { userInitiation } : {})
     };
   }
 
@@ -182,9 +192,9 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
   function propose(
     tool: ProposalTool,
     payload: ProposalPayload,
-    args: { callId: string; userInitiated: boolean; abort?: AbortCheck }
+    args: { callId: string; userInitiation?: { eventId: string }; abort?: AbortCheck }
   ): ProposalOutcome {
-    const { callId, userInitiated } = args;
+    const { callId, userInitiation } = args;
 
     // 1. Dedupe by tool-call id: this exact call already produced a proposal.
     const sameCall = byCallId.get(callId);
@@ -228,7 +238,7 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
       };
     }
 
-    const proposal = buildProposal(tool, payload, userInitiated);
+    const proposal = buildProposal(tool, payload, userInitiation);
 
     // 4. Cancellation at the point of no return: after hashing, before submit.
     if (args.abort?.aborted()) {
@@ -285,7 +295,7 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
       }
       return propose("proposeTimerStart", { kind: "timerStart", label: input.label, minutes: input.minutes }, {
         callId: input.callId,
-        userInitiated: input.userInitiated,
+        userInitiation: input.userInitiation,
         ...(input.abort ? { abort: input.abort } : {})
       });
     },
@@ -299,13 +309,13 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
       return propose(
         "proposeTimerAdjust",
         { kind: "timerAdjust", timerId: resolved.timerId, target },
-        { callId: input.callId, userInitiated: input.userInitiated, ...(input.abort ? { abort: input.abort } : {}) }
+        { callId: input.callId, userInitiation: input.userInitiation, ...(input.abort ? { abort: input.abort } : {}) }
       );
     },
     proposeStepAdvance(input) {
       return propose("proposeStepAdvance", { kind: "stepAdvance", stepIndex: input.stepIndex }, {
         callId: input.callId,
-        userInitiated: false,
+        userInitiation: undefined,
         ...(input.abort ? { abort: input.abort } : {})
       });
     },
@@ -323,7 +333,7 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
           observed,
           reason: input.reason
         },
-        { callId: input.callId, userInitiated: false, ...(input.abort ? { abort: input.abort } : {}) }
+        { callId: input.callId, userInitiation: undefined, ...(input.abort ? { abort: input.abort } : {}) }
       );
     },
     proposeMealLog(input) {
@@ -338,13 +348,13 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
           sourcedFrom: input.sourcedFrom,
           ...(input.note !== undefined ? { note: input.note } : {})
         },
-        { callId: input.callId, userInitiated: input.userInitiated, ...(input.abort ? { abort: input.abort } : {}) }
+        { callId: input.callId, userInitiation: input.userInitiation, ...(input.abort ? { abort: input.abort } : {}) }
       );
     },
     proposeSaveNote(input) {
       return propose("proposeSaveNote", { kind: "note", text: input.text, scope: input.scope }, {
         callId: input.callId,
-        userInitiated: false,
+        userInitiation: undefined,
         ...(input.abort ? { abort: input.abort } : {})
       });
     },

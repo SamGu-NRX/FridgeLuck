@@ -26,11 +26,13 @@ import type {
   ActionReceipt,
   ActiveTimer,
   CookSessionSnapshot,
+  DeviceEvent,
   EpochSeconds,
   Eater,
   PantryLine,
   PantrySnapshot,
   ProposalState,
+  ProposalTool,
   ReceiptState,
   StepHistoryEntry
 } from "./types.js";
@@ -56,6 +58,12 @@ interface TimerRecord {
   survivedKill: boolean;
 }
 
+/** Internal device-event ledger entry: the event plus when it was consumed. */
+interface DeviceEventRecord extends DeviceEvent {
+  /** Set the first time the phone accepts the event as initiation evidence. */
+  consumedAt?: EpochSeconds;
+}
+
 interface MealLogRecord {
   readonly recipeId: string;
   readonly revision: number;
@@ -73,7 +81,7 @@ export interface CookNoteRecord {
 }
 
 export interface PhoneEvents {
-  readonly kind: "proposal-submitted" | "executed" | "rejected" | "expired" | "timer-fired" | "revision-bumped" | "kill" | "resume" | "offline" | "reconnect";
+  readonly kind: "proposal-submitted" | "executed" | "rejected" | "expired" | "timer-fired" | "revision-bumped" | "kill" | "resume" | "offline" | "reconnect" | "device-event";
   readonly at: EpochSeconds;
   readonly detail: string;
 }
@@ -109,6 +117,13 @@ export class FakePhone {
   private readonly pending = new Map<string, ActionProposal>();
   private readonly receiptLog: ActionReceipt[] = [];
   private readonly eventLog: PhoneEvents[] = [];
+  /**
+   * Phone-authored device events (user commands observed on the device).
+   * Only the phone writes here; the model layer can read them through
+   * session snapshots and cite them — nothing else.
+   */
+  private readonly deviceEvents = new Map<string, DeviceEventRecord>();
+  private deviceEventSeq = 0;
   private online = true;
   private killed = false;
   private timerSeq = 0;
@@ -163,8 +178,47 @@ export class FakePhone {
       eaters: this.eaters.map((e) => ({ ...e, restrictions: [...e.restrictions] })),
       activeTimers: this.activeTimers(),
       cameraMode: this.camera,
-      stepHistory: this.stepHistory.map((h) => ({ ...h }))
+      stepHistory: this.stepHistory.map((h) => ({ ...h })),
+      deviceEvents: this.liveDeviceEvents()
     };
+  }
+
+  /**
+   * Record a user command the DEVICE observed — a touch on a control, or a
+   * voice command transcribed with the transcript toggle on. This is the
+   * only way user initiation enters the system: the event is phone-authored,
+   * stamped with the current snapshot revision, and citable exactly once as
+   * initiation evidence. The model layer never calls this; the device does.
+   */
+  recordUserCommand(input: { command: ProposalTool; source?: "voice" | "touch"; detail?: string }): DeviceEvent {
+    this.deviceEventSeq += 1;
+    const event: DeviceEvent = {
+      id: `cmd-${String(this.deviceEventSeq).padStart(4, "0")}`,
+      kind: "user-command",
+      command: input.command,
+      source: input.source ?? "touch",
+      ...(input.detail !== undefined ? { detail: input.detail } : {}),
+      at: this.now(),
+      revision: this.revisionCounter
+    };
+    this.deviceEvents.set(event.id, { ...event });
+    this.eventLog.push({ kind: "device-event", at: event.at, detail: `${event.id} ${event.command} (${event.source})` });
+    return { ...event };
+  }
+
+  /** All device events ever recorded, with consumption state — for tests. */
+  deviceEventRecords(): readonly DeviceEventRecord[] {
+    return [...this.deviceEvents.values()].map((r) => ({ ...r }));
+  }
+
+  /** Live (unconsumed) device events, in recording order — what snapshots expose. */
+  private liveDeviceEvents(): DeviceEvent[] {
+    return [...this.deviceEvents.values()]
+      .filter((r) => r.consumedAt === undefined)
+      .map((r) => {
+        const { consumedAt: _consumedAt, ...event } = r;
+        return { ...event };
+      });
   }
 
   activeTimers(): readonly ActiveTimer[] {
