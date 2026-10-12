@@ -143,13 +143,18 @@ export interface RecipeGenerationResponse {
  * ingredient-facts fix list (issue comment 6115055871) with the two
  * restriction-conformance outcomes: `violates_dietary_restriction` and
  * `unverified_ingredient_facts` (fail closed: unknown composition is never
- * allowed through).
+ * allowed through), and per the PR #94 safety-lint review finding with the
+ * two cooking-advice safety outcomes: `violates_food_safety` and
+ * `unverified_advice_safety` (fail closed: advice that cannot be classified
+ * safe against the canonical rulebook is never served).
  */
 export type RecipeRejectionReason =
   | "uses_avoided_ingredient"
   | "uses_unlisted_ingredient"
   | "violates_dietary_restriction"
-  | "unverified_ingredient_facts";
+  | "unverified_ingredient_facts"
+  | "violates_food_safety"
+  | "unverified_advice_safety";
 
 /**
  * Static, public-safe rejection messages, keyed exhaustively by reason so a
@@ -164,7 +169,11 @@ const REJECTION_MESSAGES: Record<RecipeRejectionReason, string> = {
   violates_dietary_restriction:
     "Recipe rejected: an ingredient conflicts with the household's dietary restrictions.",
   unverified_ingredient_facts:
-    "Recipe rejected: an ingredient could not be verified against known ingredient facts."
+    "Recipe rejected: an ingredient could not be verified against known ingredient facts.",
+  violates_food_safety:
+    "Recipe rejected: the cooking advice conflicts with the food-safety rulebook.",
+  unverified_advice_safety:
+    "Recipe rejected: cooking-advice safety could not be verified."
 };
 
 /**

@@ -6,6 +6,8 @@ import type { GoogleGenAI } from "@google/genai";
 import { createApp, type AppDeps, type HttpServices } from "../http/app.js";
 import { PublicApiError } from "../http/errors.js";
 import { RecipeRejectedError } from "../types/contracts.js";
+import { generateRecipe } from "../services/recipeService.js";
+import type { SafetyLint } from "../services/safetyLint.js";
 import { WebhookAuthError, type WebhookOidcVerifier } from "../api/webhookAuth.js";
 import { PHOTO_BASE64_MAX_CHARS, WS_MAX_PAYLOAD_BYTES } from "../http/limits.js";
 import { ConfidenceService } from "../services/confidenceService.js";
@@ -217,10 +219,28 @@ describe("fail-safe boot without model credentials", () => {
   });
 });
 
+/**
+ * The REAL generateRecipe pipeline with the safety-lint seam stubbed safe:
+ * until the canonical rulebook lands, the bound placeholder refuses every
+ * generated advice (fail closed), so app-level pipeline tests inject a safe
+ * verdict here. Lint behavior itself is proven in recipeService.test.ts.
+ */
+function appServicesWithSafeLint(): Partial<HttpServices> {
+  const safeLint: SafetyLint = {
+    lint: () => ({ kind: "safe", evidence: ["stub-rulebook"] })
+  };
+  return {
+    generateRecipe: (ai, config, request, facts) =>
+      generateRecipe(ai, config, request, facts, safeLint)
+  };
+}
+
 describe("recipes/generate validation", () => {
   it("accepts a minimal valid request, calls the model once, returns the recipe", async () => {
     const deps = minimalValidDeps();
-    const started = await startApp(createApp(deps));
+    const started = await startApp(
+      createApp({ ...deps, services: appServicesWithSafeLint() })
+    );
     try {
       const { status, json } = await postJSON(started.url, "/v1/recipes/generate", {
         ingredientNames: ["tomato", "salt"]
@@ -277,7 +297,9 @@ describe("recipes/generate validation", () => {
 
   it("drops unknown fields and never feeds them toward prompts", async () => {
     const deps = minimalValidDeps();
-    const started = await startApp(createApp(deps));
+    const started = await startApp(
+      createApp({ ...deps, services: appServicesWithSafeLint() })
+    );
     try {
       const sentinel = "UNKNOWN_FIELD_SENTINEL";
       const { status } = await postJSON(started.url, "/v1/recipes/generate", {
@@ -380,6 +402,31 @@ describe("recipe policy rejections map to the frozen 422 contract", () => {
       });
       expect(status).toBe(422);
       expect(json.error).toBe("uses_avoided_ingredient");
+    } finally {
+      await started.close();
+    }
+  });
+
+  it("maps the safety-lint refusal unverified_advice_safety to 422", async () => {
+    const deps = minimalValidDeps();
+    const started = await startApp(
+      createApp({
+        ...deps,
+        services: {
+          generateRecipe: async () => {
+            throw new RecipeRejectedError("unverified_advice_safety");
+          }
+        }
+      })
+    );
+    try {
+      const { status, json } = await postJSON(started.url, "/v1/recipes/generate", {
+        ingredientNames: ["garlic"]
+      });
+      // A safety-lint refusal is a client-visible contract outcome, not a
+      // provider failure: 422 with the frozen reason, never a 500.
+      expect(status).toBe(422);
+      expect(json.error).toBe("unverified_advice_safety");
     } finally {
       await started.close();
     }
@@ -908,7 +955,9 @@ describe("per-IP rate limiting on paid-model routes", () => {
       },
       async () => {
         const deps = minimalValidDeps();
-        const started = await startApp(createApp(deps));
+        const started = await startApp(
+          createApp({ ...deps, services: appServicesWithSafeLint() })
+        );
         try {
           const body = { ingredientNames: ["salt"] };
 

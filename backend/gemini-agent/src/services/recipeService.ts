@@ -11,6 +11,7 @@ import {
   parseRestrictions,
   type Restrictions
 } from "./ingredientFacts.js";
+import { type SafetyLint, safetyLint } from "./safetyLint.js";
 
 /**
  * Staple allowances the model may use even when they were not in the scan.
@@ -276,6 +277,31 @@ function screenIngredientPolicy(
   }
 }
 
+/**
+ * Safety-lint screen over the decoded generated advice, at the last gate
+ * before any advice leaves the service. The canonical rulebook (cooking,
+ * reheating, cooling, storage, thawing) owns the safety rules through the
+ * lint seam:
+ * - unsafe  -> rejected (violates_food_safety).
+ * - unknown -> REJECTED (fail closed): advice that cannot be classified
+ *   safe is never served. Until the rulebook lands, the bound linter has
+ *   no rules, so every generated advice fails closed by design — no
+ *   unvalidated advice can leave the service.
+ * - safe    -> passes.
+ */
+function screenSafetyLint(
+  recipe: RecipeGenerationResponse,
+  lint: SafetyLint
+): void {
+  const verdict = lint.lint(recipe);
+  if (verdict.kind === "safe") return;
+  if (verdict.kind === "unsafe") {
+    throw new RecipeRejectedError("violates_food_safety");
+  }
+  // Fail closed: the advice could not be classified safe.
+  throw new RecipeRejectedError("unverified_advice_safety");
+}
+
 function requiredNonEmptyString(
   field: Record<string, unknown>,
   key: string
@@ -375,18 +401,22 @@ function toInlineImagePart(photoBase64JPEG?: string) {
 
 /**
  * Generates a recipe grounded in the supplied foods and enforces the
- * ingredient policy on the decoded result.
+ * ingredient policy and the safety lint on the decoded result.
  *
  * `facts` is the ingredient-facts conformance seam (compounds, diets,
- * fail-closed unknowns). The default binding is the fail-closed placeholder
- * until data/ingredient-facts lands; tests inject stubs, and the
- * package-backed evaluator drops in without touching this call site.
+ * fail-closed unknowns). `lint` is the safety-lint seam: generated advice
+ * is returned ONLY when the lint classifies it safe — unsafe or unknown
+ * (including the fail-closed placeholder bound until the canonical
+ * rulebook lands) refuses the recipe. Both default to the fail-closed
+ * placeholder bindings; tests inject stubs, and the package-backed
+ * implementations drop in without touching this call site.
  */
 export async function generateRecipe(
   ai: GoogleGenAI,
   config: AppConfig,
   request: RecipeGenerationRequest,
-  facts: IngredientFactsEvaluator = ingredientFactsEvaluator
+  facts: IngredientFactsEvaluator = ingredientFactsEvaluator,
+  lint: SafetyLint = safetyLint
 ): Promise<RecipeGenerationResponse> {
   const dietaryRestrictions = request.dietaryRestrictions ?? [];
   const restrictionsText = dietaryRestrictions.length > 0 ? dietaryRestrictions.join(", ") : "none";
@@ -461,5 +491,6 @@ export async function generateRecipe(
 
   const recipe = decodeRecipeJson(response.text);
   screenIngredientPolicy(recipe, ingredientPolicyFor(request), facts);
+  screenSafetyLint(recipe, lint);
   return recipe;
 }

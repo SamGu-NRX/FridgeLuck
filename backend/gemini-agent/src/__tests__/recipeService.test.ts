@@ -11,6 +11,10 @@ import type {
   IngredientFactsEvaluator
 } from "../services/ingredientFacts.js";
 import {
+  type SafetyLint,
+  type SafetyLintVerdict
+} from "../services/safetyLint.js";
+import {
   RecipeRejectedError,
   type RecipeGenerationRequest,
   type RecipeGenerationResponse,
@@ -58,6 +62,22 @@ function stubEvaluator(
   verdictFor: (ingredient: string) => IngredientFactsEvaluation
 ): IngredientFactsEvaluator {
   return { evaluate: (ingredient) => verdictFor(ingredient) };
+}
+
+/**
+ * Stub safety linter with a scripted verdict: proves the SERVICE enforces
+ * the lint seam (safe passes, unsafe rejects, unknown/unavailable fails
+ * closed) without any rulebook data.
+ */
+function stubSafetyLint(
+  verdictFor: (advice: RecipeGenerationResponse) => SafetyLintVerdict
+): SafetyLint {
+  return { lint: (advice) => verdictFor(advice) };
+}
+
+/** A linter that classifies everything safe: wires the happy path. */
+function safeLint(): SafetyLint {
+  return stubSafetyLint(() => ({ kind: "safe", evidence: ["stub-rulebook"] }));
 }
 
 function recipePayload(overrides: Record<string, unknown> = {}): string {
@@ -136,7 +156,7 @@ describe("generateRecipe — grounded behavior", () => {
     const calls: unknown[] = [];
     const ai = fakeAi(recipePayload(), calls);
 
-    const result = await generateRecipe(ai, config, baseRequest());
+    const result = await generateRecipe(ai, config, baseRequest(), undefined, safeLint());
 
     expect(result).toEqual({
       title: "Tofu Rice Bowl",
@@ -153,7 +173,9 @@ describe("generateRecipe — grounded behavior", () => {
     await generateRecipe(
       fakeAi(recipePayload(), calls),
       config,
-      baseRequest()
+      baseRequest(),
+      undefined,
+      safeLint()
     );
 
     const text = promptText(calls[0]);
@@ -172,7 +194,8 @@ describe("generateRecipe — grounded behavior", () => {
       baseRequest({ avoidIngredients: ["garlic", "onion"] }),
       // Prompt construction is independent of conformance: clear every
       // ingredient so the request survives the fail-closed screen.
-      stubEvaluator(() => ({ kind: "allowed", evidence: ["stub-known"] }))
+      stubEvaluator(() => ({ kind: "allowed", evidence: ["stub-known"] })),
+      safeLint()
     );
 
     const text = promptText(calls[0]);
@@ -192,7 +215,7 @@ describe("generateRecipe — grounded behavior", () => {
 
   it("does not require exclusions and reports none when absent", async () => {
     const calls: unknown[] = [];
-    await generateRecipe(fakeAi(recipePayload(), calls), config, baseRequest());
+    await generateRecipe(fakeAi(recipePayload(), calls), config, baseRequest(), undefined, safeLint());
     expect(promptText(calls[0])).toContain("avoid_ingredients: none");
   });
 
@@ -201,7 +224,9 @@ describe("generateRecipe — grounded behavior", () => {
     await generateRecipe(
       fakeAi(recipePayload(), calls),
       config,
-      baseRequest({ photoBase64JPEG: "aGVsbG8=" })
+      baseRequest({ photoBase64JPEG: "aGVsbG8=" }),
+      undefined,
+      safeLint()
     );
 
     const parts = (calls[0] as {
@@ -230,7 +255,9 @@ describe("generateRecipe — grounded behavior", () => {
     const result = await generateRecipe(
       ai,
       config,
-      baseRequest({ ingredientNames: ["tofu"] })
+      baseRequest({ ingredientNames: ["tofu"] }),
+      undefined,
+      safeLint()
     );
     expect(result.ingredientsUsed).toEqual([
       "tofu",
@@ -244,7 +271,7 @@ describe("generateRecipe — grounded behavior", () => {
   it("does not clamp or fall back on valid low values", async () => {
     const calls: unknown[] = [];
     const ai = fakeAi(recipePayload({ timeMinutes: 3, servings: 1 }), calls);
-    const result = await generateRecipe(ai, config, baseRequest());
+    const result = await generateRecipe(ai, config, baseRequest(), undefined, safeLint());
     expect(result.timeMinutes).toBe(3);
     expect(result.servings).toBe(1);
   });
@@ -403,7 +430,8 @@ describe("generateRecipe — egg versus eggplant (word boundaries)", () => {
       stubEvaluator(() => ({
         kind: "allowed",
         evidence: ["eggplant is a vegetable, not egg"]
-      }))
+      })),
+      safeLint()
     );
     expect(result.ingredientsUsed).toEqual(["eggplant"]);
   });
@@ -442,7 +470,8 @@ describe("generateRecipe — ingredient-facts conformance screen (compounds, die
         avoidIngredients: ["peanut"],
         dietaryRestrictions: ["vegan"]
       }),
-      stubEvaluator(() => ({ kind: "allowed", evidence: ["facts: verified"] }))
+      stubEvaluator(() => ({ kind: "allowed", evidence: ["facts: verified"] })),
+      safeLint()
     );
     expect(result.ingredientsUsed).toEqual(["rice", "tofu"]);
   });
@@ -587,6 +616,147 @@ describe("generateRecipe — ingredient-facts conformance screen (compounds, die
       ),
       "unverified_ingredient_facts"
     );
+  });
+});
+
+describe("generateRecipe — safety-lint screen (fail closed)", () => {
+  it("returns generated advice only when the lint classifies it safe", async () => {
+    const calls: unknown[] = [];
+    const seen: RecipeGenerationResponse[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    const result = await generateRecipe(
+      ai,
+      config,
+      baseRequest(),
+      undefined,
+      stubSafetyLint((advice) => {
+        seen.push(advice);
+        return { kind: "safe", evidence: ["stub-rulebook: verified"] };
+      })
+    );
+
+    expect(result).toEqual({
+      title: "Tofu Rice Bowl",
+      timeMinutes: 25,
+      servings: 2,
+      instructions: "Cook the rice, then add the tofu.",
+      estimatedCaloriesPerServing: 400,
+      ingredientsUsed: ["rice", "tofu"]
+    });
+    // The seam hands the linter the decoded advice — exactly the value the
+    // canonical rulebook will screen when it lands.
+    expect(seen).toEqual([
+      {
+        title: "Tofu Rice Bowl",
+        timeMinutes: 25,
+        servings: 2,
+        instructions: "Cook the rice, then add the tofu.",
+        estimatedCaloriesPerServing: 400,
+        ingredientsUsed: ["rice", "tofu"]
+      }
+    ]);
+  });
+
+  it("refuses advice the lint classifies unsafe", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    const error = await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest(),
+        undefined,
+        stubSafetyLint(() => ({
+          kind: "unsafe",
+          violatedRules: ["cooling:max-3h"]
+        }))
+      ),
+      "violates_food_safety"
+    );
+    // Public error hygiene: the refusal is static — no generated advice and
+    // no rulebook ids leak into the client-visible message.
+    expect(error.message.toLowerCase()).not.toContain("tofu");
+    expect(error.message.toLowerCase()).not.toContain("cooling:max-3h");
+  });
+
+  it("fails closed while the canonical rulebook is not bound (default lint)", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    // No lint argument: the default binding is the fail-closed placeholder,
+    // so NO generated advice can leave the service until the rulebook lands.
+    const error = await expectRecipeRejected(
+      generateRecipe(ai, config, baseRequest()),
+      "unverified_advice_safety"
+    );
+    expect(error.message.toLowerCase()).not.toContain("tofu");
+    expect(error.message.toLowerCase()).not.toContain("cook the rice");
+  });
+
+  it("fails closed when the lint cannot classify the advice (unknown)", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest(),
+        undefined,
+        stubSafetyLint(() => ({
+          kind: "unknown",
+          missing: ["safety class for the advice"]
+        }))
+      ),
+      "unverified_advice_safety"
+    );
+  });
+
+  it("refuses with the frozen public contract, never partial advice", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    const error = await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest(),
+        undefined,
+        stubSafetyLint(() => ({ kind: "unsafe", violatedRules: ["r1"] }))
+      ),
+      "violates_food_safety"
+    );
+    // The error is the whole refusal: a static public-safe message with the
+    // frozen status — no RecipeGenerationResponse fragment travels with it.
+    expect(error.name).toBe("RecipeRejectedError");
+    expect(error.status).toBe(422);
+    expect(error.message.startsWith("Recipe rejected:")).toBe(true);
+  });
+
+  it("never returns advice when the linter itself is broken (throws)", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    let resolved: RecipeGenerationResponse | undefined;
+    let caught: unknown;
+    try {
+      resolved = await generateRecipe(
+        ai,
+        config,
+        baseRequest(),
+        undefined,
+        stubSafetyLint(() => {
+          throw new Error("broken linter deployment");
+        })
+      );
+    } catch (error) {
+      caught = error;
+    }
+    expect(resolved).toBeUndefined();
+    expect(caught).toBeInstanceOf(Error);
+    expect(caught).not.toBeInstanceOf(RecipeRejectedError);
   });
 });
 
