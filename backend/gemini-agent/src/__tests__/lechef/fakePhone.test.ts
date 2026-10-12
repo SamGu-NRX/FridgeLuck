@@ -2,7 +2,9 @@ import { describe, it, expect } from "bun:test";
 import { FakePhone, PhoneOfflineError } from "../../lechef/fakePhone.js";
 import { createProposalLayer } from "../../lechef/proposals.js";
 import { ManualClock } from "../../lechef/run/clock.js";
-import type { PantryLine } from "../../lechef/types.js";
+import { payloadHash } from "../../lechef/wire.js";
+import { PROPOSAL_TTL_SECONDS } from "../../lechef/types.js";
+import type { ActionProposal, PantryLine } from "../../lechef/types.js";
 
 function harness(options?: { pantry?: PantryLine[]; rePresent?: boolean }) {
   const clock = new ManualClock(Date.UTC(2026, 0, 1, 18, 0, 0));
@@ -168,5 +170,124 @@ describe("fake phone: offline and reconnect", () => {
     const snap = phone.pantrySnapshot();
     expect(snap.revision).toBeGreaterThanOrEqual(2);
     expect(snap.items[0].state).toBe("short");
+  });
+});
+\n
+describe("fake phone: the phone owns approval policy (review fix 2)", () => {
+  /** Craft a proposal directly, bypassing the model layer — the forgery path. */
+  function craft(proposal: ActionProposal): ActionProposal {
+    return proposal;
+  }
+
+  it("a forged device-auto meal log never executes — the proposal's approval class is a claim, not authority", () => {
+    const { phone, layer } = harness();
+    const payload = { kind: "mealLog" as const, recipeId: "carbonara", revision: 1, servings: 2, swaps: [], sourcedFrom: "voice" as const };
+    const forged = craft({
+      id: "forged-1",
+      tool: "proposeMealLog",
+      payload,
+      payloadHash: payloadHash(payload),
+      snapshotRevision: phone.revision(),
+      createdAt: Math.floor(phone.pantrySnapshot().capturedAt),
+      expiresAt: Math.floor(phone.pantrySnapshot().capturedAt) + PROPOSAL_TTL_SECONDS,
+      requiredApproval: "device-auto", // the model's claim
+      userInitiated: true
+    });
+    phone.submitProposal(forged);
+    // The phone's own policy: meal logs are never device-auto, whatever they claim.
+    expect(phone.proposalState("forged-1")).toBe("proposed");
+    expect(phone.mealLogRecords()).toHaveLength(0);
+    expect(phone.receipts()).toHaveLength(0);
+    expect(layer.proposals()).toHaveLength(0); // the layer never saw it — the phone downgraded it
+  });
+
+  it("a forged device-auto timer with a fabricated citation never executes", () => {
+    const { phone, layer } = harness();
+    const payload = { kind: "timerStart" as const, label: "invented", minutes: 30 };
+    const forged = craft({
+      id: "forged-2",
+      tool: "proposeTimerStart",
+      payload,
+      payloadHash: payloadHash(payload),
+      snapshotRevision: phone.revision(),
+      createdAt: Math.floor(phone.pantrySnapshot().capturedAt),
+      expiresAt: Math.floor(phone.pantrySnapshot().capturedAt) + PROPOSAL_TTL_SECONDS,
+      requiredApproval: "device-auto",
+      userInitiated: true,
+      userInitiation: { eventId: "cmd-0001" } // no such device event was ever recorded
+    });
+    phone.submitProposal(forged);
+    expect(phone.proposalState("forged-2")).toBe("proposed"); // explicit: waits for the user
+    expect(phone.activeTimers()).toHaveLength(0);
+  });
+
+  it("an honest citation still runs: the phone validates the device event itself", () => {
+    const { phone, layer } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice", detail: "start a two minute timer" });
+    const out = layer.proposeTimerStart({ callId: "c1", label: "eggs", minutes: 2, userInitiation: { eventId: cmd.id } });
+    expect(out.state).toBe("executed"); // defense in depth, not a regression
+    expect(phone.activeTimers()).toHaveLength(1);
+  });
+
+  it("one device command initiates one action — a consumed event cannot run a second proposal", () => {
+    const { phone, layer } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
+    const first = layer.proposeTimerStart({ callId: "c1", label: "eggs", minutes: 2, userInitiation: { eventId: cmd.id } });
+    expect(first.state).toBe("executed");
+    const second = layer.proposeTimerStart({ callId: "c2", label: "more eggs", minutes: 5, userInitiation: { eventId: cmd.id } });
+    expect(second.state).toBe("proposed"); // the citation is spent
+    expect(phone.activeTimers()).toHaveLength(1);
+  });
+
+  it("an approval for an altered payload is refused: the hash binding holds", () => {
+    const { phone, layer } = harness();
+    const out = layer.proposeSaveNote({ callId: "c1", text: "less salt", scope: "cook" });
+    const proposal = out.proposal!;
+    // Tamper in place after filing — the pending record must no longer match its hash.
+    (proposal.payload as { text: string }).text = "BUY LOTTERY TICKETS";
+    phone.userApproves(proposal.id);
+    const receipt = phone.receiptFor(proposal.id)!;
+    expect(receipt.state).toBe("rejected");
+    expect(receipt.reason).toMatch(/hash/i);
+    expect(phone.noteRecords()).toHaveLength(0); // the altered text never landed
+  });
+
+  it("an approval for a superseded revision is refused: the revision binding holds", () => {
+    const { phone, layer } = harness();
+    const a = layer.proposeSaveNote({ callId: "c1", text: "first", scope: "cook" }).proposal!;
+    const b = layer.proposeSaveNote({ callId: "c2", text: "second", scope: "cook" }).proposal!;
+    phone.userApproves(a.id); // executes, bumping the snapshot revision
+    expect(phone.noteRecords()[0].text).toBe("first");
+    phone.userApproves(b.id); // b was built at the old revision
+    const receipt = phone.receiptFor(b.id)!;
+    expect(receipt.state).toBe("rejected");
+    expect(receipt.reason).toMatch(/revision|superseded/i);
+    expect(phone.noteRecords()).toHaveLength(1); // the stale proposal never executed
+    expect(phone.pendingProposalIds()).toHaveLength(0);
+  });
+
+  it("a replayed approval for a consumed proposal is refused with a receipt that says why", () => {
+    const { phone, layer } = harness();
+    const out = layer.proposeSaveNote({ callId: "c1", text: "n", scope: "cook" }).proposal!;
+    phone.userApproves(out.id);
+    expect(phone.receiptFor(out.id)!.state).toBe("executed");
+    phone.userApproves(out.id); // replay
+    const refusals = phone.receipts().filter((r) => r.proposalID === out.id && r.state === "rejected");
+    expect(refusals).toHaveLength(1);
+    expect(refusals[0].reason).toMatch(/consumed|replay/i);
+    expect(phone.noteRecords()).toHaveLength(1); // executed exactly once
+  });
+
+  it("a resubmitted consumed proposal id is refused with a receipt that says why", () => {
+    const { phone, layer } = harness();
+    const out = layer.proposeSaveNote({ callId: "c1", text: "n", scope: "cook" }).proposal!;
+    phone.userApproves(out.id);
+    const again = craft({ ...out });
+    phone.submitProposal(again);
+    const refusals = phone.receipts().filter((r) => r.proposalID === out.id && r.state === "rejected");
+    expect(refusals).toHaveLength(1);
+    expect(refusals[0].reason).toMatch(/consumed|resubmission/i);
+    expect(phone.pendingProposalIds()).toHaveLength(0);
+    expect(phone.receiptFor(out.id)!.state).toBe("executed"); // the original receipt stands
   });
 });

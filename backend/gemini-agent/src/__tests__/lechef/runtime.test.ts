@@ -274,6 +274,18 @@ describe("runtime: user initiation is derived from device events only (SPEC 4)",
     expect(phone.mealLogRecords()).toHaveLength(0);
   });
 
+  it("one device command initiates one action end-to-end — a spent citation is explicit", () => {
+    const { runtime, phone } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
+    const first = runtime.dispatch({ id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 2, deviceEventId: cmd.id } });
+    expect((first.result as { state: string }).state).toBe("executed");
+    const second = runtime.dispatch({ id: "c2", name: "proposeTimerStart", args: { label: "more", minutes: 5, deviceEventId: cmd.id } });
+    const result = second.result as { userInitiated?: boolean; state: string };
+    expect(result.userInitiated).toBe(false); // the event is consumed — gone from the snapshot
+    expect(result.state).toBe("proposed");
+    expect(phone.activeTimers()).toHaveLength(1);
+  });
+
   it("an explicit userInitiated:false does not veto a valid device-event citation", () => {
     const { runtime, phone } = harness();
     const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "touch" });
