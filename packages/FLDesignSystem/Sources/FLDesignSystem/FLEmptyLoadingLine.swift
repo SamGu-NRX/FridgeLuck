@@ -13,11 +13,17 @@ import FLDesignTokens
 
 public struct FLEmptyLoadingLine: View {
     @Environment(\.flScheme) private var scheme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
 
     /// In determinate contexts a caller may want the line to pause; the
     /// sweep only runs when this is true.
     public var isLoading: Bool
+
+    /// Test seam: forces the reduce-motion branch without the environment.
+    /// accessibilityReduceMotion is get-only on this SDK (its key path never
+    /// forms a WritableKeyPath), so a subtree override via the environment
+    /// modifier is unavailable; render tests set this through @testable.
+    var reduceMotionOverride: Bool?
 
     public init(isLoading: Bool = true) {
         self.isLoading = isLoading
@@ -25,6 +31,7 @@ public struct FLEmptyLoadingLine: View {
 
     public var body: some View {
         GeometryReader { proxy in
+            let reduceMotion = reduceMotionOverride ?? systemReduceMotion
             let track = Theme.swiftColor(.rule2, in: scheme)
             let segment = Theme.swiftColor(.ink3, in: scheme)
             ZStack(alignment: .leading) {

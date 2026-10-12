@@ -219,17 +219,13 @@ final class RenderTests: XCTestCase {
         )
 
         // Empty/loading line: sweeping, reduced motion (static), idle.
+        var reducedMotionLine = FLEmptyLoadingLine(isLoading: true)
+        reducedMotionLine.reduceMotionOverride = true
         try renderPNG("empty-loading-line-sweep", size: CGSize(width: 320, height: 16), paper(FLEmptyLoadingLine(isLoading: true)))
         try renderPNG(
             "empty-loading-line-reduced-motion",
             size: CGSize(width: 320, height: 16),
-            paper(
-                FLEmptyLoadingLine(isLoading: true)
-                    // This SDK only forms a read-only key path for
-                    // accessibilityReduceMotion, so set the preference via
-                    // transformEnvironment instead of .environment(_:,_:).
-                    .transformEnvironment(\.accessibilityReduceMotion) { $0 = true }
-            )
+            paper(reducedMotionLine)
         )
         try renderPNG("empty-loading-line-idle", size: CGSize(width: 320, height: 16), paper(FLEmptyLoadingLine(isLoading: false)))
     }
