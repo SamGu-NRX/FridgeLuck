@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "name": "Unnumbered instruction text never escapes the linter",
+  "description": "Every instruction line the user reads must be linted. Cases here pin that instruction text without step numbers is linted as instruction text - a lone unnumbered doneness claim is a finding, an unnumbered preamble line is linted before the numbered steps, and instruction text that cannot be parsed into lintable lines at all fails closed instead of passing clean (canon clause 7).",
+  "cases": [
+    {
+      "id": "unnumbered-single-line-lints-unclean",
+      "record": {
+        "file": "conformance/cases-unnumbered-instruction-refusal.json",
+        "id": "cx-unnumbered-lone-line",
+        "kind": "recipe",
+        "title": "Chicken dinner",
+        "ingredients": "2 chicken breasts, salt, pepper",
+        "instructions": "Cook chicken until done."
+      },
+      "expect": {
+        "kinds": ["missingInternalTemperature"],
+        "rewrite_contains": ["165 °F"]
+      }
+    },
+    {
+      "id": "unnumbered-preamble-is-linted",
+      "record": {
+        "file": "conformance/cases-unnumbered-instruction-refusal.json",
+        "id": "cx-unnumbered-preamble",
+        "kind": "recipe",
+        "title": "Chicken dinner",
+        "ingredients": "2 chicken breasts, salt, pepper",
+        "instructions": "The chicken is done when the juices run clear and the meat is no longer pink.\n1. Transfer the chicken to a clean cutting board."
+      },
+      "expect": {
+        "kinds": ["appearanceDoneness"]
+      }
+    },
+    {
+      "id": "unnumbered-blank-instructions-fail-closed",
+      "record": {
+        "file": "conformance/cases-unnumbered-instruction-refusal.json",
+        "id": "cx-unnumbered-blank",
+        "kind": "recipe",
+        "title": "Chicken dinner",
+        "ingredients": "2 chicken breasts, salt, pepper",
+        "instructions": "   "
+      },
+      "expect": {
+        "kinds": ["failClosed"],
+        "detail_contains": ["no lintable step lines"]
+      }
+    }
+  ]
+}
