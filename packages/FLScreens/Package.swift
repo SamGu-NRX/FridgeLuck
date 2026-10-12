@@ -26,6 +26,8 @@ let package = Package(
         .library(name: "FLKitchen", targets: ["FLKitchen"]),
         .library(name: "FLExplore", targets: ["FLExplore"]),
         .library(name: "FLRecipe", targets: ["FLRecipe"]),
+        .library(name: "FLScan", targets: ["FLScan"]),
+        .library(name: "FLTasteProfile", targets: ["FLTasteProfile"]),
     ],
     dependencies: [
         .package(path: "../FLDesignTokens"),
@@ -84,6 +86,30 @@ let package = Package(
                 .product(name: "FLDesignSystem", package: "FLDesignSystem"),
             ]
         ),
+        // Scan: the grocery capture-and-review flow (Part 4). A destination
+        // flow — camera capture, recognition, review, commit — wired into
+        // the existing shell's search-role tab slot; the camera preview and
+        // recognition are host seams.
+        .target(
+            name: "FLScan",
+            dependencies: [
+                "FLScreenSupport",
+                .product(name: "FLDesignTokens", package: "FLDesignTokens"),
+                .product(name: "FLDesignSystem", package: "FLDesignSystem"),
+            ]
+        ),
+        // Taste profile: the on-device taste editor (Part 4). A settings-style
+        // ledger document reached from profile/setup contexts. Named
+        // FLTasteProfile — FLTaste is the taste-learning domain package, and
+        // two modules must not share a name at link time.
+        .target(
+            name: "FLTasteProfile",
+            dependencies: [
+                "FLScreenSupport",
+                .product(name: "FLDesignTokens", package: "FLDesignTokens"),
+                .product(name: "FLDesignSystem", package: "FLDesignSystem"),
+            ]
+        ),
         .testTarget(
             name: "FLScreenSupportTests",
             dependencies: ["FLScreenSupport", .product(name: "FLDesignTokens", package: "FLDesignTokens")]
@@ -92,6 +118,8 @@ let package = Package(
         .testTarget(name: "FLKitchenTests", dependencies: ["FLKitchen"]),
         .testTarget(name: "FLExploreTests", dependencies: ["FLExplore", "FLScreenSupport"]),
         .testTarget(name: "FLRecipeTests", dependencies: ["FLRecipe", "FLScreenSupport"]),
+        .testTarget(name: "FLScanTests", dependencies: ["FLScan", "FLScreenSupport"]),
+        .testTarget(name: "FLTasteProfileTests", dependencies: ["FLTasteProfile", "FLScreenSupport"]),
         // The no-hardcoded-style lint: scans this package's sources for hex
         // colour literals and font names. Needs no module dependency.
         .testTarget(name: "FLScreensLintTests", dependencies: []),
