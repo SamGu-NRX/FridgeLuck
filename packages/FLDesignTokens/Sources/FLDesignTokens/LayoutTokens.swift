@@ -30,6 +30,14 @@ extension Theme {
     )
 }
 
+extension Theme {
+    /// Minimum interactive hit target in points. Chips, text buttons and the
+    /// small judgement buttons frame up to at least this in both axes,
+    /// whatever their visual padding suggests — the Apple 44 pt floor, and
+    /// the same measure as the dense row grid (`Density.dense.rowHeight`).
+    public static let minimumHitTarget: Double = 44
+}
+
 extension DirectionH {
     /// Direction H's layout — same shell/photo rules today; the swap unit
     /// is the struct, so a direction-specific geometry changes only here.

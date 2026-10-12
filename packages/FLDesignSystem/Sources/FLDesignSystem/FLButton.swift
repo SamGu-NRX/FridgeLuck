@@ -6,8 +6,9 @@
 //
 // Press feedback lives in FLButtonStyle so every button in the system — and
 // any custom control that adopts the style — behaves the same: scale 0.97
-// over 120 ms, back with snap. Reduce motion keeps the press scale (120 ms
-// confirms the tap); it only turns the larger transitions into fades.
+// over 120 ms, back with snap. Under Reduce Motion the scale and spring are
+// replaced by the direction's opacity-only fade (reducedMotionPressOpacity
+// over reducedMotionFadeMs) — no transform, feedback still perceptible.
 #if canImport(UIKit) || canImport(AppKit)
 import SwiftUI
 import FLDesignTokens
@@ -79,27 +80,58 @@ public struct FLButton: View {
                 .flType(.body)
                 .fontWeight(.semibold)
                 .foregroundStyle(Theme.swiftColor(.ink, in: scheme))
+                // Text buttons carry no chrome, so nothing else enforces a
+                // size: frame up to the hit-target floor in both axes.
+                .frame(
+                    minWidth: CGFloat(Theme.minimumHitTarget),
+                    minHeight: CGFloat(Theme.minimumHitTarget)
+                )
                 .contentShape(Rectangle())
         }
     }
 }
 
 /// The system's only button style. Press: scale to 0.97 in 120 ms; release:
-/// back with snap (0.22 s, bounce 0). Reduce motion does not remove press
-/// feedback — the direction is explicit that the 120 ms scale confirms the tap.
+/// back with snap (0.22 s, bounce 0). Under Reduce Motion the transform is
+/// replaced by an opacity-only fade to `reducedMotionPressOpacity` over
+/// `reducedMotionFadeMs` — the direction's alternative for transforms; the
+/// scale/spring pair never runs while the setting is on.
 public struct FLButtonStyle: ButtonStyle {
     public init() {}
 
     public func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? Theme.pressScale : 1)
-            .animation(
-                configuration.isPressed
-                    ? .spring(duration: Double(Theme.pressDurationMs) / 1000.0, bounce: 0)
-                    : .fl(.snap),
-                value: configuration.isPressed
-            )
+        PressFeedback(configuration: configuration)
             .accessibilityElement(children: .contain)
+    }
+}
+
+/// Reads Reduce Motion and applies the matching press feedback: the
+/// scale/spring pair, or the opacity-only fade the direction defines as its
+/// alternative. A ButtonStyle cannot read the environment itself, so the
+/// body is a small view that can.
+private struct PressFeedback: View {
+    let configuration: ButtonStyle.Configuration
+    @Environment(\.flReduceMotion) private var reduceMotion
+
+    var body: some View {
+        let pressed = configuration.isPressed
+        if reduceMotion {
+            configuration.label
+                .opacity(pressed ? Theme.reducedMotionPressOpacity : 1)
+                .animation(
+                    .linear(duration: Double(Theme.reducedMotionFadeMs) / 1000.0),
+                    value: pressed
+                )
+        } else {
+            configuration.label
+                .scaleEffect(pressed ? Theme.pressScale : 1)
+                .animation(
+                    pressed
+                        ? .spring(duration: Double(Theme.pressDurationMs) / 1000.0, bounce: 0)
+                        : .fl(.snap),
+                    value: pressed
+                )
+        }
     }
 }
 #endif

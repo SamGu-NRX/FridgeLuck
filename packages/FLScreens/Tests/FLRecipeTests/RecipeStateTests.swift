@@ -25,10 +25,12 @@ final class RecipeStateTests: XCTestCase {
 
     private func step(
         id: String = "s-1", title: String = "Brown the butter", body: String = "Four minutes, no further.",
-        photo: String? = nil, note: String? = nil
+        photo: String? = nil, note: String? = nil,
+        checks: [RecipeViewState.Step.SafetyCheck] = []
     ) -> RecipeViewState.Step {
         RecipeViewState.Step(
-            id: id, title: title, body: body, photoCaption: photo, cookNote: note
+            id: id, title: title, body: body, photoCaption: photo, cookNote: note,
+            requiredChecks: checks
         )
     }
 
@@ -37,13 +39,15 @@ final class RecipeStateTests: XCTestCase {
         ingredients: [RecipeViewState.Ingredient] = [],
         steps: [RecipeViewState.Step] = [],
         minutes: Int = 35, have: Int = 10, total: Int = 10, swaps: Int = 0,
-        names: [String] = []
+        names: [String] = [], covered: [String] = []
     ) -> RecipeViewState {
         RecipeViewState(
             recipeID: "r-1", title: "Ginger chicken udon noodles",
             publisherDisplay: "Maya", revisionDisplay: "rev 2",
             minutes: minutes,
-            fit: FLFitSummary(have: have, total: total, swapsNeeded: swaps, shortfallNames: names),
+            fit: FLFitSummary(
+                have: have, total: total, swapsNeeded: swaps,
+                shortfallNames: names, swapCoveredNames: covered),
             baseServings: 2, targetServings: servings,
             ingredients: ingredients, steps: steps
         )
@@ -62,6 +66,68 @@ final class RecipeStateTests: XCTestCase {
     func testScaleFactorTracksTheTargetServings() {
         let s = state(servings: 4)
         XCTAssertEqual(s.scaleFactor, 2.0, accuracy: 0.0001)
+    }
+
+    // MARK: Servings change — the fit goes pending, honestly
+
+    func testServingsChangeInvalidatesTheFitPendingRecomputation() {
+        var s = state(servings: 2, have: 9, total: 10, swaps: 1, names: ["eggs"])
+        s.apply(.setServings(4))
+        XCTAssertEqual(s.targetServings, 4)
+        XCTAssertTrue(s.fitIsPending)
+        XCTAssertFalse(s.primaryActionIsFitBacked)
+    }
+
+    func testPendingFitStatesTheCheckInsteadOfStaleClaims() {
+        var s = state(servings: 2, have: 10, total: 10)
+        s.apply(.setServings(4))
+        XCTAssertTrue(s.statsDisplay.contains("checking your kitchen for 4"), s.statsDisplay)
+        XCTAssertFalse(s.statsDisplay.contains("10 of 10"))
+    }
+
+    func testSetServingsToTheSameValueKeepsTheFitCurrent() {
+        var s = state(servings: 2, have: 10, total: 10)
+        s.apply(.setServings(2))
+        XCTAssertFalse(s.fitIsPending)
+        XCTAssertEqual(s.statsDisplay, "10 of 10 · 35 min")
+    }
+
+    func testFitRecomputedForTheCurrentTargetRestoresTheFit() {
+        var s = state(servings: 2, have: 10, total: 10)
+        s.apply(.setServings(4))
+        let doubled = FLFitSummary(
+            have: 9, total: 10, swapsNeeded: 1,
+            shortfallNames: ["eggs"], swapCoveredNames: ["eggs"])
+        s.apply(.fitRecomputed(fit: doubled, forServings: 4))
+        XCTAssertFalse(s.fitIsPending)
+        XCTAssertTrue(s.primaryActionIsFitBacked)
+        XCTAssertEqual(s.statsDisplay, "9 of 10 · 1 swap · 35 min")
+    }
+
+    func testStaleFitRecomputationIsDropped() {
+        var s = state(servings: 2, have: 10, total: 10)
+        s.apply(.setServings(4))
+        // A result for the OLD target arrives late: stale, never shown.
+        s.apply(.fitRecomputed(fit: FLFitSummary(have: 3, total: 10), forServings: 2))
+        XCTAssertTrue(s.fitIsPending)
+        XCTAssertEqual(s.statsDisplay, "checking your kitchen for 4 · 35 min")
+        // The current target's result still applies afterwards.
+        s.apply(.fitRecomputed(fit: FLFitSummary(have: 6, total: 10), forServings: 4))
+        XCTAssertFalse(s.fitIsPending)
+        XCTAssertEqual(s.statsDisplay, "6 recorded · 35 min")
+    }
+
+    func testPresenceIsNotASufficiencyClaimWhilePending() {
+        // Doubling keeps ingredient identities, but the pending state
+        // asserts nothing about the doubled amounts.
+        var s = state(servings: 2,
+                      ingredients: [ingredient(inKitchen: true)],
+                      have: 10, total: 10)
+        s.apply(.setServings(4))
+        XCTAssertTrue(s.fitIsPending)
+        XCTAssertFalse(s.primaryActionIsFitBacked)
+        // isInKitchen itself is untouched — it is presence, not fit.
+        XCTAssertTrue(s.ingredients[0].isInKitchen)
     }
 
     // MARK: Scaling — every line moves
@@ -97,9 +163,14 @@ final class RecipeStateTests: XCTestCase {
 
     func testStatsLineJoinsTheFitAndMinutes() {
         XCTAssertEqual(state().statsDisplay, "10 of 10 · 35 min")
-        // A swap-covered shortfall with named lines earns the numeric form.
-        let half = state(have: 8, total: 10, swaps: 2, names: ["eggs", "oil"])
-        XCTAssertEqual(half.statsDisplay, "8 of 10 · 2 swaps · 35 min")
+        // The numeric form needs VALIDATED coverage of every named
+        // shortfall — a bare swap count proves no line's coverage.
+        let validated = state(have: 8, total: 10, swaps: 2,
+                              names: ["eggs", "oil"], covered: ["eggs", "oil"])
+        XCTAssertEqual(validated.statsDisplay, "8 of 10 · 2 swaps · 35 min")
+        // Without accepted swaps, the line states what is known.
+        let bare = state(have: 8, total: 10, swaps: 2, names: ["eggs", "oil"])
+        XCTAssertEqual(bare.statsDisplay, "8 recorded · check eggs and oil · 35 min")
         // Without names, the summary stays in the recorded form.
         let unnamed = state(have: 8, total: 10, swaps: 2)
         XCTAssertEqual(unnamed.statsDisplay, "8 recorded · 35 min")
@@ -141,11 +212,18 @@ final class RecipeStateTests: XCTestCase {
         XCTAssertFalse(s.showsStepNotes, "notes hide once the record opens")
     }
 
-    func testSkipMovesOnLikeNext() {
+    func testSkipAdvancesLikeNextButRecordsSkipped() {
         var s = state(steps: [step(id: "s-1"), step(id: "s-2")])
         s.apply(.beginCook)
         s.apply(.skipStep)
         XCTAssertEqual(s.currentStepIndex, 1)
+        XCTAssertEqual(s.stepOutcomes[0], .skipped)
+        XCTAssertNil(s.stepOutcomes[1])
+        // And Next records completed, distinctly.
+        var t = state(steps: [step(id: "s-1"), step(id: "s-2")])
+        t.apply(.beginCook)
+        t.apply(.nextStep)
+        XCTAssertEqual(t.stepOutcomes[0], .completed)
     }
 
     func testNextWithoutCookingDoesNothing() {
@@ -161,6 +239,105 @@ final class RecipeStateTests: XCTestCase {
         s.apply(.exitCook)
         XCTAssertNil(s.currentStepIndex)
         XCTAssertFalse(s.isCooking)
+        XCTAssertFalse(s.showsRecord)
+    }
+
+    // MARK: Skip vs Next — the record reflects what actually happened
+
+    func testSkippingTheFinalStepDoesNotOpenTheRecord() {
+        var s = state(steps: [step(id: "s-1"), step(id: "s-2")])
+        s.apply(.beginCook)
+        s.apply(.skipStep)
+        s.apply(.skipStep)   // the FINAL step is skipped
+        XCTAssertNil(s.currentStepIndex)
+        XCTAssertFalse(s.showsRecord, "a skipped final step must not produce a record")
+        XCTAssertFalse(s.completedCookIsAssertable)
+    }
+
+    func testCompletingEveryStepOpensTheRecordAndCompletes() {
+        var s = state(steps: [step(id: "s-1"), step(id: "s-2")])
+        s.apply(.beginCook)
+        s.apply(.nextStep)
+        s.apply(.nextStep)
+        XCTAssertTrue(s.showsRecord)
+        XCTAssertEqual(s.recordCompletion, .completed)
+        XCTAssertTrue(s.completedCookIsAssertable)
+    }
+
+    func testASkippedMiddleStepLeavesTheRecordIncomplete() {
+        var s = state(steps: [step(id: "s-1"), step(id: "s-2")])
+        s.apply(.beginCook)
+        s.apply(.skipStep)
+        s.apply(.nextStep)   // the final step IS completed
+        XCTAssertTrue(s.showsRecord)
+        XCTAssertEqual(
+            s.recordCompletion,
+            .incomplete(skippedSteps: 1, unreviewedChecks: 0))
+        XCTAssertFalse(s.completedCookIsAssertable)
+    }
+
+    func testRecordCompletionIsNilUntilEveryStepWasReached() {
+        var s = state(steps: [step(id: "s-1"), step(id: "s-2")])
+        XCTAssertNil(s.recordCompletion)
+        s.apply(.beginCook)
+        XCTAssertNil(s.recordCompletion)
+        s.apply(.nextStep)
+        XCTAssertNil(s.recordCompletion, "step 2 not reached yet")
+        s.apply(.nextStep)
+        XCTAssertNotNil(s.recordCompletion)
+    }
+
+    func testACompletedCookRequiresEveryRequiredSafetyCheckReviewed() {
+        // The canon binds the RECORD: doneness requires a reviewed
+        // thermometer check; timers only say when to check.
+        let thermometer = step(
+            id: "s-1", title: "Roast the thighs", body: "Until done.",
+            checks: [.thermometerDoneness])
+        var s = state(steps: [thermometer])
+        s.apply(.beginCook)
+        s.apply(.nextStep)   // completed the step, check unreviewed
+        XCTAssertTrue(s.showsRecord)
+        XCTAssertEqual(
+            s.recordCompletion,
+            .incomplete(skippedSteps: 0, unreviewedChecks: 1))
+        XCTAssertFalse(
+            s.completedCookIsAssertable,
+            "a completed cook cannot be asserted while a required check never ran")
+        s.apply(.safetyCheckReviewed(stepID: "s-1", check: .thermometerDoneness))
+        XCTAssertEqual(s.recordCompletion, .completed)
+        XCTAssertTrue(s.completedCookIsAssertable)
+    }
+
+    func testTimedRestIsASafetyCheckLikeAnyOther() {
+        let rest = step(id: "s-1", title: "Rest the roast", body: "Ten minutes.",
+                        checks: [.timedRest, .thermometerDoneness])
+        var s = state(steps: [rest])
+        s.apply(.beginCook)
+        s.apply(.nextStep)
+        XCTAssertEqual(
+            s.recordCompletion,
+            .incomplete(skippedSteps: 0, unreviewedChecks: 2))
+        s.apply(.safetyCheckReviewed(stepID: "s-1", check: .timedRest))
+        XCTAssertEqual(
+            s.recordCompletion,
+            .incomplete(skippedSteps: 0, unreviewedChecks: 1))
+        s.apply(.safetyCheckReviewed(stepID: "s-1", check: .thermometerDoneness))
+        XCTAssertEqual(s.recordCompletion, .completed)
+    }
+
+    func testBeginCookResetsOutcomesAndReviewedChecks() {
+        let thermometer = step(id: "s-1", checks: [.thermometerDoneness])
+        var s = state(steps: [thermometer])
+        s.apply(.beginCook)
+        s.apply(.nextStep)
+        XCTAssertEqual(s.recordCompletion, .incomplete(skippedSteps: 0, unreviewedChecks: 1))
+        s.apply(.safetyCheckReviewed(stepID: "s-1", check: .thermometerDoneness))
+        XCTAssertEqual(s.recordCompletion, .completed)
+        // A fresh cook session starts with no outcomes and no reviews.
+        s.apply(.beginCook)
+        XCTAssertEqual(s.stepOutcomes, [nil])
+        XCTAssertTrue(s.reviewedChecks.isEmpty)
+        XCTAssertNil(s.recordCompletion)
         XCTAssertFalse(s.showsRecord)
     }
 

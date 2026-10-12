@@ -10,6 +10,10 @@ packages:
   GRDB:
     url: https://github.com/groue/GRDB.swift.git
     from: 7.10.0
+  FLDesignTokens:
+    path: packages/FLDesignTokens
+  FLDesignSystem:
+    path: packages/FLDesignSystem
 
 targets:
   FLFeatureLogic:
@@ -37,11 +41,14 @@ targets:
     deploymentTarget: "26.0"
     sources:
       - path: apps/ios/Tests
+      - path: packages/FLDesignSystem/Tests/FLDesignSystemTests
     dependencies:
       - target: FridgeLuck
       - target: FLFeatureLogic
       - package: GRDB
         product: GRDB
+      - package: FLDesignTokens
+      - package: FLDesignSystem
     settings:
       base:
         CODE_SIGN_STYLE: Automatic

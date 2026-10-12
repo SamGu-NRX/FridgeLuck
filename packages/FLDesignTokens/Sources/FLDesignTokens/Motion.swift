@@ -56,9 +56,16 @@ extension Theme {
     /// …over 120 ms, and back with snap.
     public static let pressDurationMs: Int = 120
 
+    /// Reduced-motion press feedback: while Reduce Motion is on, the press
+    /// scale and spring are replaced by an opacity-only fade to this level —
+    /// the direction's alternative for transforms. Transient by construction:
+    /// the control returns to full opacity on release.
+    public static let reducedMotionPressOpacity: Double = 0.6
+
     /// Reduced motion: transforms become opacity-only fades at this length;
     /// stagger goes to 0; the timer ring still moves because it is
-    /// information; press scale stays (120 ms confirms the tap).
+    /// information; press feedback joins the fade — no scale or spring while
+    /// the setting is on (`reducedMotionPressOpacity`).
     public static let reducedMotionFadeMs: Int = 150
 
     /// Stagger 40 ms, capped at 6 items, never blocking input. Beyond 6,
