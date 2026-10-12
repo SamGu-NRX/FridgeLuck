@@ -6,6 +6,7 @@ import FLAssistantCore
 import FLInventoryCore
 import FLRecipeCore
 import FLCommunityCore
+import FLIngredientFacts
 import GRDB
 
 // MARK: - Compressed, injectable time
@@ -78,6 +79,10 @@ public final class HouseholdWorld {
     public let catalog: FLRecipeCatalog
     public let receiptLedger: GRDBReceiptLedger
     public let revisionClock: AssistantRevisionClock
+    /// The canonical ingredient-composition store (PR #127). The scenario
+    /// week's swap gate, feasibility calls, and recipe claims all resolve
+    /// composition through this one instance — the phone's shipped dataset.
+    public let facts: FLIngredientFactsStore
 
     /// Deterministic counter for scenario-visible IDs (no randomness).
     public private(set) var idCounter = 0
@@ -94,6 +99,37 @@ public final class HouseholdWorld {
         self.catalog = try FLRecipeCatalog(dbWriter: db.dbWriter)
         self.receiptLedger = try GRDBReceiptLedger(database: db)
         self.revisionClock = try AssistantRevisionClock()
+        self.facts = try FLIngredientFactsStore(dataDirectory: Self.ingredientFactsDirectory)
+        // The device layer's own store: the phone's timer table that an
+        // executed approval writes through the ledger's open transaction
+        // (SPEC 3.6 — a timer exists only after the authority executed the
+        // approved proposal, and together with its executed receipt). The
+        // join owns this schema because the device layer is not a package
+        // in the overhaul graph.
+        try db.dbWriter.write { db in
+            try db.execute(sql: """
+                CREATE TABLE IF NOT EXISTS fl_scenario_device_timer (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    proposalID TEXT NOT NULL,
+                    label TEXT NOT NULL,
+                    seconds INTEGER NOT NULL,
+                    createdAtEpochSeconds INTEGER NOT NULL
+                )
+                """)
+        }
+    }
+
+    /// The shipped dataset lives at the repository root's
+    /// `data/ingredient-facts`. The ScenarioJoin package is a path dependency
+    /// inside that same repository, so the anchor from this source file to
+    /// the root (`Sources/FLScenarioKit` → repo root, four levels) is stable
+    /// per checkout — no bundle resource, no copy to drift.
+    private static var ingredientFactsDirectory: URL {
+        let sourceFile = URL(fileURLWithPath: #filePath)
+        let repoRoot = sourceFile
+            .deletingLastPathComponent()            // Sources/FLScenarioKit
+            .appendingPathComponent("../../../..")  // → repository root
+        return repoRoot.appendingPathComponent("data/ingredient-facts")
     }
 
     public func nextID(_ prefix: String) -> String {
@@ -157,6 +193,177 @@ public final class HouseholdWorld {
             try FLJSON.canonicalDecoder().decode(Cook.self, from: Data(payload.utf8))
         }
     }
+
+    /// The device's armed timers: rows the executor wrote through the
+    /// ledger's transaction, so a row exists ONLY where an executed approval
+    /// committed — the atomic effect+receipt pairing read from the device
+    /// side.
+    public func createdDeviceTimers() throws -> [(proposalID: String, label: String, seconds: Int)] {
+        try db.read { db in
+            try Row.fetchAll(db, sql: "SELECT proposalID, label, seconds FROM fl_scenario_device_timer ORDER BY id")
+                .map { row -> (proposalID: String, label: String, seconds: Int) in
+                    (proposalID: row["proposalID"] ?? "", label: row["label"] ?? "", seconds: row["seconds"] ?? 0)
+                }
+        }
+    }
+
+    // MARK: Facts-backed recipe claims (round 2, join blocker 2)
+    // The claims this join feeds Tonight: composition resolved through the
+    // canonical facts store, never defaulted. A line the facts cannot settle
+    // stays ABSENT from the allergen map — unresolved, which the fixed
+    // flow-level restriction check fails closed on — unless the household
+    // has explicitly confirmed it (the app asks the cook, the cook checks
+    // the label; the confirmation is recorded evidence, not a default).
+    //
+    // Claims are computed against the household's own axes and recomputed
+    // per restriction rather than stored as a global table: the dataset
+    // remains the single source of composition truth, and the same
+    // (revision, restriction, confirmations) triple always yields the same
+    // claims — a pure, deterministic function.
+    public func claims(
+        for revision: RecipeRevision,
+        restriction: Restriction,
+        householdConfirmed: Set<String> = []
+    ) throws -> RecipeClaims {
+        let axes = restriction.factsRestrictions
+        var allergensByIngredient: [String: Set<Allergen>] = [:]
+        var failingDietTags: Set<DietExclusion> = []
+        // Per diet axis: has EVERY line of this revision settled?
+        var dietAxisUnresolved: Set<FLDiet> = []
+
+        var checked = Set<String>()
+        for line in revision.ingredientLines {
+            let name = line.ingredient.canonicalName
+            guard checked.insert(name).inserted else { continue }
+
+            // Allergen axes: declare only what the facts settle for this
+            // household's armed allergens. An unknown verdict leaves the
+            // line's key absent (unresolved) unless the household confirmed
+            // the label.
+            if !axes.allergens.isEmpty {
+                switch facts.evaluate(
+                    ingredient: name,
+                    restrictions: FLRestrictions(allergens: axes.allergens, diets: [])
+                ) {
+                case .allowed:
+                    allergensByIngredient[name] = allergensByIngredient[name] ?? []
+                case .violated(let violation):
+                    if case .allergen(let factAllergen) = violation.restriction,
+                       let domain = factAllergen.domainAllergen {
+                        allergensByIngredient[name, default: []].insert(domain)
+                    }
+                    // A violation the join cannot map back to a domain
+                    // allergen is not evidence of safety: the key stays
+                    // absent — unresolved, fails closed.
+                case .unknown:
+                    if householdConfirmed.contains(name) {
+                        allergensByIngredient[name] = allergensByIngredient[name] ?? []
+                    }
+                    // else: key stays absent — unresolved, fails closed.
+                }
+            }
+
+            // Diet axes: a line's verdict settles or fails the whole
+            // revision's evaluation of that axis.
+            for dietAxis in axes.diets {
+                let verdict = facts.evaluate(
+                    ingredient: name,
+                    restrictions: FLRestrictions(allergens: [], diets: [dietAxis])
+                )
+                // The domain's gluten ALLERGEN rides the dataset's glutenFree
+                // DIET axis (RestrictionFacts' forward map), so its verdict
+                // settles back into the allergen claims: allowed → the
+                // ingredient's allergen set is settled and empty; violated →
+                // the claim carries .gluten; unknown → confirmed label
+                // settles it, otherwise the key stays absent (unresolved,
+                // fails closed).
+                if dietAxis == .glutenFree {
+                    switch verdict {
+                    case .allowed:
+                        allergensByIngredient[name] = allergensByIngredient[name] ?? []
+                    case .violated:
+                        allergensByIngredient[name, default: []].insert(.gluten)
+                    case .unknown:
+                        if householdConfirmed.contains(name) {
+                            allergensByIngredient[name] = allergensByIngredient[name] ?? []
+                        }
+                    }
+                    continue
+                }
+                switch verdict {
+                case .allowed:
+                    continue
+                case .violated(let violation):
+                    if case .diet(let factDiet) = violation.restriction,
+                       let domain = factDiet.domainDietExclusion {
+                        failingDietTags.insert(domain)
+                    } else {
+                        dietAxisUnresolved.insert(dietAxis)
+                    }
+                case .unknown:
+                    if householdConfirmed.contains(name) { continue }
+                    dietAxisUnresolved.insert(dietAxis)
+                }
+            }
+        }
+
+        // A diet axis every line settled (allowed everywhere) counts as
+        // evaluated for the revision; any unsettled line leaves the axis
+        // unevaluated, which the fixed restriction check fails closed on.
+        var evaluatedDietTags: Set<DietExclusion> = failingDietTags
+        for dietAxis in axes.diets where !dietAxisUnresolved.contains(dietAxis) {
+            if let domain = dietAxis.domainDietExclusion {
+                evaluatedDietTags.insert(domain)
+            }
+        }
+        return RecipeClaims(
+            allergensByIngredient: allergensByIngredient,
+            failingDietTags: failingDietTags,
+            evaluatedDietTags: evaluatedDietTags,
+            // The join's deterministic kitchen-pace estimate, unchanged
+            // from the reviewed join (lines × 300 s).
+            estimatedSeconds: revision.ingredientLines.count * 300
+        )
+    }
+}
+
+// MARK: - Facts ⇄ domain axis mapping (the inverse of RestrictionFacts)
+// RestrictionFacts maps the household's domain restrictions ONTO the facts
+// dataset's axes; these helpers map a facts verdict's axis BACK to the domain
+// value the claims declare. Total over the dataset's case lists; unknown
+// cases return nil and every caller treats nil as unresolved (never safe).
+
+extension FLAllergen {
+    var domainAllergen: Allergen? {
+        switch self {
+        case .milk: return .milk
+        case .egg: return .eggs
+        case .fish: return .fish
+        case .crustaceanShellfish: return .shellfish
+        case .treeNuts: return .treeNuts
+        case .peanuts: return .peanuts
+        case .wheat: return .wheat
+        case .soy: return .soy
+        case .sesame: return .sesame
+        }
+    }
+}
+
+extension FLDiet {
+    /// The facts diet axis → the domain exclusion it vouches for. The
+    /// glutenFree axis is NOT here: the domain carries gluten as an
+    /// ALLERGEN (RestrictionFacts maps Allergen.gluten onto it in the
+    /// forward direction), so `claims` settles it back into the allergen
+    /// claims instead.
+    var domainDietExclusion: DietExclusion? {
+        switch self {
+        case .vegetarian: return .vegetarian
+        case .vegan: return .vegan
+        case .pescatarian: return .pescatarian
+        case .glutenFree: return nil // carried as Allergen.gluten — see claims(_:)
+        case .dairyFree: return .lactoseFree
+        }
+    }
 }
 
 // MARK: - Deterministic fixture builders
@@ -204,7 +411,10 @@ public enum Fixtures {
         )
     }
 
-    /// Unknown rights → quarantine (SPEC 3.5) for negative scenarios.
+    /// Unknown rights → quarantine (SPEC 3.5) for negative scenarios. The
+    /// recorded evidence is honest: the rights statement was READ and found
+    /// unreadable — every right stays `.unknown`, so construction succeeds
+    /// and downstream gates quarantine the recipe.
     public static func unknownRightsLicense() -> RecipeLicense {
         try! RecipeLicense(
             textRedistribution: .unknown,
@@ -213,7 +423,7 @@ public enum Fixtures {
             attributionRequired: false,
             cachingAllowed: .unknown,
             offlineUseAllowed: .unknown,
-            evidence: ""
+            evidence: "scenario: rights statement present but unreadable — every right unrecorded"
         )
     }
 
@@ -343,31 +553,86 @@ public enum Fixtures {
 // "Every substitution rechecks all eaters' allergens, including compound
 // ingredients." The pantry engine models the swap's effect on feasibility;
 // the app-side gate (this pure function) is what the join exercises before a
-// swap may be accepted, against each eater's declared allergens.
+// swap may be accepted.
+//
+// Review round 2, join blocker 1: the gate used to take each eater's
+// allergens as caller-supplied arguments — whoever composed the call decided
+// what "safe" meant. It now resolves composition itself through the
+// canonical facts source (FLIngredientFacts, PR #127) and fails closed: a
+// violation refuses, and composition the facts cannot settle needs the
+// household's explicit confirmation — unknown never reads as safe.
 
 public enum SwapGate {
-    public struct Verdict: Equatable, Sendable {
-        public let allowed: Bool
-        public let explanation: String
+    /// The gate's decision. `refused` and `needsConfirmation` are distinct
+    /// so the app can ask the cook ("check the label") instead of merely
+    /// rejecting — the same UX the pantry engine's fail-closed verdicts use.
+    public enum Outcome: Equatable, Sendable {
+        case allowed(String)
+        case needsConfirmation(String)
+        case refused(String)
+
+        public var explanation: String {
+            switch self {
+            case .allowed(let text), .needsConfirmation(let text), .refused(let text):
+                return text
+            }
+        }
     }
 
-    public static func recheck(
+    /// One household member's stakes in the swap: their name and the
+    /// restriction set the household maintains for them.
+    public struct Eater: Sendable {
+        public let name: String
+        public let restriction: Restriction
+        public init(name: String, restriction: Restriction) {
+            self.name = name
+            self.restriction = restriction
+        }
+    }
+
+    public static func decide(
         substitute: IngredientReference,
-        substituteAllergens: Set<Allergen>,
-        eaterAllergens: [(name: String, allergens: Set<Allergen>)]
-    ) -> Verdict {
-        for eater in eaterAllergens {
-            let clash = substituteAllergens.intersection(eater.allergens)
-            if !clash.isEmpty {
-                return Verdict(
-                    allowed: false,
-                    explanation: "swapping in '\(substitute.canonicalName)' is not safe for \(eater.name): \(clash.map { $0.rawValue }.sorted().joined(separator: ", "))"
+        eaters: [Eater],
+        facts: FLIngredientFactsEvaluating,
+        householdConfirmed: Set<String> = []
+    ) -> Outcome {
+        var confirmations: [String] = []
+        for eater in eaters {
+            let restriction = eater.restriction
+            // Name-based custom exclusions are known and absolute: the
+            // household named the ingredient itself, no facts needed.
+            if restriction.excludes(canonicalName: substitute.canonicalName) {
+                return .refused(
+                    "swapping in '\(substitute.canonicalName)' is not safe for \(eater.name): the household excludes it by name"
+                )
+            }
+            let axes = restriction.factsRestrictions
+            // A restriction with no allergen or diet axes leaves the facts
+            // source nothing to settle for this eater.
+            if axes.allergens.isEmpty && axes.diets.isEmpty { continue }
+            switch facts.evaluate(ingredient: substitute.canonicalName, restrictions: axes) {
+            case .allowed:
+                continue
+            case .violated(let violation):
+                return .refused(
+                    "swapping in '\(substitute.canonicalName)' is not safe for \(eater.name): \(violation.reason)"
+                )
+            case .unknown(let unknown):
+                // A violation is never confirmable, but an UNSETTLED
+                // composition is exactly what the ask-the-cook path exists
+                // for: the household's recorded label-check resolves the
+                // open question for their own axes.
+                if householdConfirmed.contains(substitute.canonicalName) { continue }
+                confirmations.append(
+                    "composition of '\(substitute.canonicalName)' could not be settled for \(eater.name): \(unknown.reason)"
                 )
             }
         }
-        return Verdict(
-            allowed: true,
-            explanation: "swapping in '\(substitute.canonicalName)' rechecked against every eater: no allergen clash"
+        if !confirmations.isEmpty {
+            return .needsConfirmation(confirmations.joined(separator: "; "))
+        }
+        return .allowed(
+            "swapping in '\(substitute.canonicalName)' rechecked against every eater through the canonical facts: no violation"
         )
     }
 }

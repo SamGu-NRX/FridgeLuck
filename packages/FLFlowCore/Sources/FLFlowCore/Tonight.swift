@@ -751,7 +751,7 @@ public enum DinnerDecisionService {
                 violations.append("'\(name)' needs confirmation: composition unresolved")
                 continue
             }
-            if !restriction.permits(canonicalName: name, allergens: allergens) {
+            if !restriction.permits(canonicalName: name, allergens: allergens, dietTags: []) {
                 violations.append("'\(name)' conflicts with a hard restriction")
             }
         }

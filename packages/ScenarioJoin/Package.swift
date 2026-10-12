@@ -37,6 +37,11 @@ let package = Package(
         .package(path: "../FLAssistantCore"),
         .package(path: "../FridgeLuckPantry"),
         .package(path: "../FLCommunityCore"),
+        // The canonical ingredient-composition dataset (PR #127): the join's
+        // swap gate and feasibility calls resolve composition through it and
+        // fail closed on what it cannot settle. FridgeLuckPantry depends on
+        // the same path, so SPM unifies one FLIngredientFacts node.
+        .package(path: "../FLIngredientFacts"),
         // Declared directly because FridgeLuckCore does not re-export GRDB as
         // a product; SPM resolves one shared version for the graph.
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0"),
@@ -56,6 +61,7 @@ let package = Package(
                 .product(name: "FLInventoryCore", package: "FridgeLuckPantry"),
                 .product(name: "FLRecipeCore", package: "FridgeLuckPantry"),
                 .product(name: "FLCommunityCore", package: "FLCommunityCore"),
+                .product(name: "FLIngredientFacts", package: "FLIngredientFacts"),
                 .product(name: "GRDB", package: "GRDB.swift"),
             ]
         ),

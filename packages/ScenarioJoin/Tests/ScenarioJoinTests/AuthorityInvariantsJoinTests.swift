@@ -3,6 +3,7 @@ import Foundation
 import FLDomain
 import FLFlowCore
 import FLAssistantCore
+import GRDB
 @testable import FLScenarioKit
 
 // S4 — assistant authority invariants at the join (SPEC 3.6): proposals are
@@ -10,20 +11,28 @@ import FLAssistantCore
 // receipts ledger is durable and restart-replay is idempotent. A stale,
 // forged, or replayed approval is refused and leaves a decision receipt.
 
-private actor SilentTimerExecutor: ActionExecutor {
-    func apply(_ payload: ActionPayload, proposal: ActionProposal) async throws {}
+/// A device with no observable side effects: the fixed GRDBActionExecutor
+/// writes its effect through the ledger's open transaction connection, so a
+/// no-op apply is the honest stand-in for hardware that records nothing of
+/// its own. The atomic effect+receipt pairing is the ledger's job.
+private struct SilentTimerExecutor: GRDBActionExecutor {
+    func apply(_ payload: ActionPayload, proposal: ActionProposal, in db: Database) throws {}
 }
 
 @Suite("S4 · Assistant authority invariants at the join")
 struct AuthorityInvariantsJoinTests {
-    private func makeSnapshot(sessionID: String, revision: Int, at: Date) async throws -> AssistantContextSnapshot {
+    /// A snapshot built against the WORLD's live revision clock: the fixed
+    /// authority stamps proposals with the live revision and validates the
+    /// approval's snapshot revision against it, so a snapshot minted from a
+    /// detached clock can never approve.
+    private func makeSnapshot(_ world: HouseholdWorld, sessionID: String, at: Date) async throws -> AssistantContextSnapshot {
         try await AssistantContextBuilder(
             stateSource: WorldStateSource(
                 lines: [AssistantPantryLine(canonicalName: "broccoli", quantity: Fixtures.grams(400), lastConfirmedAt: at)],
                 recipe: try RecipeKey(source: .catalog, sourceRecipeID: "r-stir", revision: 1),
                 step: 1
             ),
-            revisionClock: try AssistantRevisionClock(revision: revision)
+            revisionClock: world.revisionClock
         ).buildSnapshot(sessionID: sessionID, now: at)
     }
 
@@ -57,15 +66,15 @@ struct AuthorityInvariantsJoinTests {
     func forgedHashRefusal() async throws {
         let world = try HouseholdWorld()
         let clock = WeekClock(startingAt: Week.day(2, hour: 18))
-        let authority = AssistantAuthority(ledger: world.receiptLedger)
-        let snapshot = try await makeSnapshot(sessionID: "cook-forgery", revision: 7, at: clock.now)
+        let authority = AssistantAuthority(ledger: world.receiptLedger, revisionClock: world.revisionClock)
+        let snapshot = try await makeSnapshot(world, sessionID: "cook-forgery", at: clock.now)
         let payload = try makePayload()
         let p = try await proposeTimer(authority, snapshot, payload, clock.now)
 
         // Forged: the approval claims a hash the proposed payload never had.
-        let forged = try approval(makePayload(seconds: 1), proposal: p, revision: 7, now: clock.now)
+        let forged = try approval(makePayload(seconds: 1), proposal: p, revision: snapshot.revision, now: clock.now)
         await #expect(throws: FLAssistantError.self) {
-            try await authority.approve(forged, executor: SilentTimerExecutor(), now: clock.now)
+            try await authority.approve(forged, executor: SilentTimerExecutor(), sessionID: "cook-forgery", now: clock.now)
         }
         let receipt = try await world.receiptLedger.latestReceipt(proposalID: p.id)
         #expect(receipt?.state == .rejected, "the refusal is durable: a decision receipt, not silence")
@@ -73,9 +82,9 @@ struct AuthorityInvariantsJoinTests {
         // A recorded refusal is terminal: the tampered attempt decided the
         // proposal, so even the honest approval is already-decided. The
         // durable receipt is the evidence that nothing was executed.
-        let honest = try approval(payload, proposal: p, revision: 7, now: clock.now)
+        let honest = try approval(payload, proposal: p, revision: snapshot.revision, now: clock.now)
         await #expect(throws: FLAssistantError.self) {
-            try await authority.approve(honest, executor: SilentTimerExecutor(), now: clock.now)
+            try await authority.approve(honest, executor: SilentTimerExecutor(), sessionID: "cook-forgery", now: clock.now)
         }
         let final = try await world.receiptLedger.latestReceipt(proposalID: p.id)
         #expect(final?.state == .rejected, "the refusal receipt stands; the proposal is closed")
@@ -85,8 +94,8 @@ struct AuthorityInvariantsJoinTests {
     func staleRevisionRefusal() async throws {
         let world = try HouseholdWorld()
         let clock = WeekClock(startingAt: Week.day(2, hour: 18))
-        let authority = AssistantAuthority(ledger: world.receiptLedger)
-        let snapshot = try await makeSnapshot(sessionID: "cook-stale", revision: 21, at: clock.now)
+        let authority = AssistantAuthority(ledger: world.receiptLedger, revisionClock: world.revisionClock)
+        let snapshot = try await makeSnapshot(world, sessionID: "cook-stale", at: clock.now)
         let payload = try makePayload()
         let p = try await proposeTimer(authority, snapshot, payload, clock.now)
 
@@ -94,7 +103,7 @@ struct AuthorityInvariantsJoinTests {
         // names a revision the snapshot never had.
         let stale = try approval(payload, proposal: p, revision: snapshot.revision + 1, now: clock.now)
         await #expect(throws: FLAssistantError.self) {
-            try await authority.approve(stale, executor: SilentTimerExecutor(), now: clock.now)
+            try await authority.approve(stale, executor: SilentTimerExecutor(), sessionID: "cook-stale", now: clock.now)
         }
         let receipt = try await world.receiptLedger.latestReceipt(proposalID: p.id)
         #expect(receipt?.state == .staleRevision)
@@ -104,8 +113,8 @@ struct AuthorityInvariantsJoinTests {
     func expirySweep() async throws {
         let world = try HouseholdWorld()
         let clock = WeekClock(startingAt: Week.day(2, hour: 18))
-        let authority = AssistantAuthority(ledger: world.receiptLedger)
-        let snapshot = try await makeSnapshot(sessionID: "cook-expiry", revision: 3, at: clock.now)
+        let authority = AssistantAuthority(ledger: world.receiptLedger, revisionClock: world.revisionClock)
+        let snapshot = try await makeSnapshot(world, sessionID: "cook-expiry", at: clock.now)
         let payload = try makePayload()
         let p = try await proposeTimer(authority, snapshot, payload, clock.now)
 
@@ -117,9 +126,9 @@ struct AuthorityInvariantsJoinTests {
         let receipt = try await world.receiptLedger.latestReceipt(proposalID: p.id)
         #expect(receipt?.state == .expired)
         // Approval after expiry: the proposal is decided — refused again.
-        let late = try approval(payload, proposal: p, revision: 3, now: later.now)
+        let late = try approval(payload, proposal: p, revision: snapshot.revision, now: later.now)
         await #expect(throws: FLAssistantError.self) {
-            try await authority.approve(late, executor: SilentTimerExecutor(), now: later.now)
+            try await authority.approve(late, executor: SilentTimerExecutor(), sessionID: "cook-expiry", now: later.now)
         }
     }
 
@@ -127,17 +136,17 @@ struct AuthorityInvariantsJoinTests {
     func declineIsTerminal() async throws {
         let world = try HouseholdWorld()
         let clock = WeekClock(startingAt: Week.day(2, hour: 18))
-        let authority = AssistantAuthority(ledger: world.receiptLedger)
-        let snapshot = try await makeSnapshot(sessionID: "cook-decline", revision: 3, at: clock.now)
+        let authority = AssistantAuthority(ledger: world.receiptLedger, revisionClock: world.revisionClock)
+        let snapshot = try await makeSnapshot(world, sessionID: "cook-decline", at: clock.now)
         let payload = try makePayload()
         let p = try await proposeTimer(authority, snapshot, payload, clock.now)
         try await authority.decline(proposalID: p.id, now: clock.now)
         let receipt = try await world.receiptLedger.latestReceipt(proposalID: p.id)
         #expect(receipt?.state == .rejected)
         // Replay of the same approval after a decline: already decided.
-        let replay = try approval(payload, proposal: p, revision: 3, now: clock.now)
+        let replay = try approval(payload, proposal: p, revision: snapshot.revision, now: clock.now)
         await #expect(throws: FLAssistantError.self) {
-            try await authority.approve(replay, executor: SilentTimerExecutor(), now: clock.now)
+            try await authority.approve(replay, executor: SilentTimerExecutor(), sessionID: "cook-decline", now: clock.now)
         }
     }
 
@@ -145,19 +154,19 @@ struct AuthorityInvariantsJoinTests {
     func restartReplayIdempotent() async throws {
         let world = try HouseholdWorld()
         let clock = WeekClock(startingAt: Week.day(2, hour: 18))
-        let authority = AssistantAuthority(ledger: world.receiptLedger)
-        let snapshot = try await makeSnapshot(sessionID: "cook-restart", revision: 5, at: clock.now)
+        let authority = AssistantAuthority(ledger: world.receiptLedger, revisionClock: world.revisionClock)
+        let snapshot = try await makeSnapshot(world, sessionID: "cook-restart", at: clock.now)
         let payload = try makePayload()
         let p = try await proposeTimer(authority, snapshot, payload, clock.now)
-        let good = try approval(payload, proposal: p, revision: 5, now: clock.now)
+        let good = try approval(payload, proposal: p, revision: snapshot.revision, now: clock.now)
         let exec = SilentTimerExecutor()
-        _ = try await authority.approve(good, executor: exec, now: clock.now)
+        _ = try await authority.approve(good, executor: exec, sessionID: "cook-restart", now: clock.now)
 
         // The app restarts: a new authority over the same durable ledger.
-        let freshAuthority = AssistantAuthority(ledger: world.receiptLedger)
-        let replay = try approval(payload, proposal: p, revision: 5, now: clock.now)
+        let freshAuthority = AssistantAuthority(ledger: world.receiptLedger, revisionClock: world.revisionClock)
+        let replay = try approval(payload, proposal: p, revision: snapshot.revision, now: clock.now)
         await #expect(throws: FLAssistantError.self) {
-            try await freshAuthority.approve(replay, executor: exec, now: clock.now)
+            try await freshAuthority.approve(replay, executor: exec, sessionID: "cook-restart", now: clock.now)
         }
         #expect(try await world.receiptLedger.latestReceipt(proposalID: p.id)?.state == .executed)
 
@@ -171,8 +180,8 @@ struct AuthorityInvariantsJoinTests {
     func readToolCannotPropose() async throws {
         let world = try HouseholdWorld()
         let clock = WeekClock(startingAt: Week.day(2, hour: 18))
-        let authority = AssistantAuthority(ledger: world.receiptLedger)
-        let snapshot = try await makeSnapshot(sessionID: "cook-read", revision: 2, at: clock.now)
+        let authority = AssistantAuthority(ledger: world.receiptLedger, revisionClock: world.revisionClock)
+        let snapshot = try await makeSnapshot(world, sessionID: "cook-read", at: clock.now)
         let reads: [ToolInvocation] = [
             try ToolInvocation(tool: .readPantry, payload: nil),
             try ToolInvocation(tool: .readRecipeContext, payload: nil),
@@ -183,5 +192,37 @@ struct AuthorityInvariantsJoinTests {
             }
         }
         #expect(try await world.receiptLedger.allReceipts().isEmpty, "reads write no receipts")
+    }
+
+    @Test("An approval presented from another session is refused and the proposal stays open for its own session")
+    func wrongSessionApprovalRefused() async throws {
+        let world = try HouseholdWorld()
+        let clock = WeekClock(startingAt: Week.day(2, hour: 18))
+        let authority = AssistantAuthority(ledger: world.receiptLedger, revisionClock: world.revisionClock)
+        let sessionID = "cook-session-a"
+        let snapshot = try await makeSnapshot(world, sessionID: sessionID, at: clock.now)
+        let payload = try makePayload()
+        let p = try await proposeTimer(authority, snapshot, payload, clock.now)
+        let honest = try approval(payload, proposal: p, revision: snapshot.revision, now: clock.now)
+
+        // The identical, correctly-hashed approval reaches the authority
+        // from a DIFFERENT cook session: refused, and nothing is recorded —
+        // a session mismatch is a refusal, not a decision.
+        await #expect(throws: FLAssistantError.self) {
+            try await authority.approve(
+                honest, executor: SilentTimerExecutor(),
+                sessionID: "cook-session-b", now: clock.now
+            )
+        }
+        let afterWrongSession = try await world.receiptLedger.latestReceipt(proposalID: p.id)
+        #expect(afterWrongSession?.state == .pendingApproval, "a session mismatch records nothing")
+
+        // The very same approval presented by its own session then executes:
+        // the binding is to the caller session, not to the payload alone.
+        let receipt = try await authority.approve(
+            honest, executor: SilentTimerExecutor(),
+            sessionID: sessionID, now: clock.now
+        )
+        #expect(receipt.state == .executed)
     }
 }

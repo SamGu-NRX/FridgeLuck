@@ -42,6 +42,7 @@ struct DeterminismJoinTests {
             recipe: soup,
             stock: stock,
             restriction: Fixtures.restriction(allergens: [], diets: []),
+            facts: world.facts,
             now: clock.now
         )
         trace.record("fit", "soup outcome: \(report.outcome == .complete ? "complete" : "incomplete")")
@@ -70,14 +71,24 @@ struct DeterminismJoinTests {
             eaters: [Eater(name: "Aiko", restriction: Fixtures.restriction(allergens: [.peanuts], diets: []))],
             servings: 2
         )
-        let candidates = [
-            (revision: Fixtures.revision("r-soup", title: "Tomato soup", lines: [
-                Fixtures.line("l1", "tomatoes", 500),
-                Fixtures.line("l2", "whole milk", 100),
-            ]), claims: RecipeClaims(allergensByIngredient: [:], failingDietTags: [], estimatedSeconds: 900)),
-            (revision: Fixtures.revision("r-curry", title: "Chickpea curry", lines: [
-                Fixtures.line("l1", "chickpeas", 400),
-            ]), claims: RecipeClaims(allergensByIngredient: [:], failingDietTags: [], estimatedSeconds: 600)),
+        // Claims are built through the canonical facts store (join blocker
+        // 2): composition the dataset settles is resolved, and the
+        // household's explicit label checks settle tomatoes, whole milk,
+        // and chickpeas — the dataset does not carry those three. The
+        // peanut-free context fails nothing here; the exclusion path is
+        // exercised by the full arc.
+        let restriction = Fixtures.restriction(allergens: [.peanuts], diets: [])
+        let confirmed: Set<String> = ["tomatoes", "whole milk", "chickpeas"]
+        let soup = Fixtures.revision("r-soup", title: "Tomato soup", lines: [
+            Fixtures.line("l1", "tomatoes", 500),
+            Fixtures.line("l2", "whole milk", 100),
+        ])
+        let curry = Fixtures.revision("r-curry", title: "Chickpea curry", lines: [
+            Fixtures.line("l1", "chickpeas", 400),
+        ])
+        let candidates = try [
+            (revision: soup, claims: world.claims(for: soup, restriction: restriction, householdConfirmed: confirmed)),
+            (revision: curry, claims: world.claims(for: curry, restriction: restriction, householdConfirmed: confirmed)),
         ]
 
         let a = try DinnerDecisionService.propose(
