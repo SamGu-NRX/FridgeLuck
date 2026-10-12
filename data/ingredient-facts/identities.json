@@ -26,16 +26,18 @@
         "plain flour",
         "white flour"
       ],
-      "usdaFdcId": "169761",
-      "usdaFdcRef": "fdc 169761 'All-Purpose Wheat Flour' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 169761,
+      "usdaRef": "All-Purpose Wheat Flour",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "almonds",
       "display": "Almonds",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "170568",
-      "usdaFdcRef": "fdc 170568 'Blanched Almonds' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row"
+      "usdaFdcId": 170568,
+      "usdaRef": "Blanched Almonds",
+      "usdaNote": "closest catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "anchovies",
@@ -54,7 +56,7 @@
         "apples"
       ],
       "appLocalIds": [
-        "40"
+        40
       ]
     },
     {
@@ -78,7 +80,7 @@
       "kind": "simple",
       "synonyms": [],
       "appLocalIds": [
-        "26"
+        26
       ]
     },
     {
@@ -106,7 +108,7 @@
         "bananas"
       ],
       "appLocalIds": [
-        "20"
+        20
       ]
     },
     {
@@ -151,10 +153,11 @@
         "peppers",
         "red bell peppers"
       ],
-      "usdaFdcId": "2258590",
-      "usdaFdcRef": "fdc 2258590 'Bell Pepper (Red, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row (red bell pepper)",
+      "usdaFdcId": 2258590,
+      "usdaRef": "Bell Pepper (Red, Raw)",
+      "usdaNote": "closest catalog row (red bell pepper) — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "8"
+        8
       ]
     },
     {
@@ -172,10 +175,11 @@
         "black bean",
         "cooked black beans"
       ],
-      "usdaFdcId": "173735",
-      "usdaFdcRef": "fdc 173735 'Black Beans (Cooked, No Salt)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 173735,
+      "usdaRef": "Black Beans (Cooked, No Salt)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "27"
+        27
       ]
     },
     {
@@ -189,7 +193,7 @@
         "white bread"
       ],
       "appLocalIds": [
-        "15"
+        15
       ],
       "note": "generic bread; enriched sandwich bread is the typical form"
     },
@@ -207,10 +211,11 @@
       "display": "Broccoli",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "170379",
-      "usdaFdcRef": "fdc 170379 'Broccoli (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170379,
+      "usdaRef": "Broccoli (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "24"
+        24
       ]
     },
     {
@@ -220,8 +225,9 @@
       "synonyms": [
         "bulgur wheat"
       ],
-      "usdaFdcId": "170688",
-      "usdaFdcRef": "fdc 170688 'Bulgur (Dry)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170688,
+      "usdaRef": "Bulgur (Dry)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "butter",
@@ -229,7 +235,7 @@
       "kind": "simple",
       "synonyms": [],
       "appLocalIds": [
-        "14"
+        14
       ],
       "note": "butter is churned cream; contains no salt in its unsalted form"
     },
@@ -243,10 +249,11 @@
         "tinned tuna",
         "tuna in water"
       ],
-      "usdaFdcId": "171986",
-      "usdaFdcRef": "fdc 171986 'Canned Light Tuna (Water-Packed)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 171986,
+      "usdaRef": "Canned Light Tuna (Water-Packed)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "43"
+        43
       ]
     },
     {
@@ -256,10 +263,11 @@
       "synonyms": [
         "carrots"
       ],
-      "usdaFdcId": "170393",
-      "usdaFdcRef": "fdc 170393 'Carrots (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170393,
+      "usdaRef": "Carrots (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "11"
+        11
       ]
     },
     {
@@ -270,18 +278,20 @@
         "cashew nuts",
         "raw cashews"
       ],
-      "usdaFdcId": "170162",
-      "usdaFdcRef": "fdc 170162 'Cashew Nuts (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170162,
+      "usdaRef": "Cashew Nuts (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "celery",
       "display": "Celery",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "169988",
-      "usdaFdcRef": "fdc 169988 'Celery (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 169988,
+      "usdaRef": "Celery (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "44"
+        44
       ]
     },
     {
@@ -301,7 +311,7 @@
         "shredded cheese"
       ],
       "appLocalIds": [
-        "12"
+        12
       ],
       "note": "generic cheese; coagulant varies, so vegetarian status is unknown (parmesan is a separate entry)"
     },
@@ -313,10 +323,11 @@
         "chicken",
         "chicken breasts"
       ],
-      "usdaFdcId": "171052",
-      "usdaFdcRef": "fdc 171052 'Chicken (Meat Only, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 171052,
+      "usdaRef": "Chicken (Meat Only, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "4"
+        4
       ]
     },
     {
@@ -345,8 +356,9 @@
         "boneless chicken thighs",
         "chicken thigh"
       ],
-      "usdaFdcId": "171052",
-      "usdaFdcRef": "fdc 171052 'Chicken (Meat Only, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 171052,
+      "usdaRef": "Chicken (Meat Only, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "chickpeas",
@@ -357,10 +369,11 @@
         "cooked chickpeas",
         "garbanzo beans"
       ],
-      "usdaFdcId": "2644282",
-      "usdaFdcRef": "fdc 2644282 'Chickpeas (Dry)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 2644282,
+      "usdaRef": "Chickpeas (Dry)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "35"
+        35
       ]
     },
     {
@@ -406,10 +419,11 @@
         "coriander leaves",
         "fresh coriander"
       ],
-      "usdaFdcId": "169997",
-      "usdaFdcRef": "fdc 169997 'Coriander Leaves (Cilantro)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 169997,
+      "usdaRef": "Coriander Leaves (Cilantro)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "48"
+        48
       ]
     },
     {
@@ -433,10 +447,11 @@
       "display": "Coconut milk",
       "kind": "compound",
       "synonyms": [],
-      "usdaFdcId": "170172",
-      "usdaFdcRef": "fdc 170172 'Coconut Milk (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170172,
+      "usdaRef": "Coconut Milk (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "49"
+        49
       ]
     },
     {
@@ -452,8 +467,9 @@
       "synonyms": [
         "sweetened condensed milk"
       ],
-      "usdaFdcId": "167945",
-      "usdaFdcRef": "fdc 167945 'Sweetened Condensed Milk (Canned)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 167945,
+      "usdaRef": "Sweetened Condensed Milk (Canned)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "corn",
@@ -463,10 +479,11 @@
         "corn kernels",
         "sweet corn"
       ],
-      "usdaFdcId": "168538",
-      "usdaFdcRef": "fdc 168538 'Corn (Sweet White, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row for sweet corn",
+      "usdaFdcId": 168538,
+      "usdaRef": "Corn (Sweet White, Raw)",
+      "usdaNote": "closest catalog row for sweet corn — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "34"
+        34
       ]
     },
     {
@@ -494,8 +511,9 @@
         "giant couscous salad",
         "pearl couscous"
       ],
-      "usdaFdcId": "169700",
-      "usdaFdcRef": "fdc 169700 'Couscous (Cooked)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 169700,
+      "usdaRef": "Couscous (Cooked)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "crab",
@@ -504,8 +522,9 @@
       "synonyms": [
         "crab meat"
       ],
-      "usdaFdcId": "2684537",
-      "usdaFdcRef": "fdc 2684537 'Crab (Blue, Canned)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row for crab meat"
+      "usdaFdcId": 2684537,
+      "usdaRef": "Crab (Blue, Canned)",
+      "usdaNote": "closest catalog row for crab meat — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "cream-cheese",
@@ -515,18 +534,20 @@
         "philadelphia cheese",
         "soft cheese"
       ],
-      "usdaFdcId": "169079",
-      "usdaFdcRef": "fdc 169079 'Cheese (Cream, Low Fat)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row (low-fat cream cheese)"
+      "usdaFdcId": 169079,
+      "usdaRef": "Cheese (Cream, Low Fat)",
+      "usdaNote": "closest catalog row (low-fat cream cheese) — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "cucumber",
       "display": "Cucumber",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "168409",
-      "usdaFdcRef": "fdc 168409 'Cucumber (With Peel, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 168409,
+      "usdaRef": "Cucumber (With Peel, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "25"
+        25
       ]
     },
     {
@@ -538,10 +559,11 @@
         "cumin seeds",
         "ground cumin"
       ],
-      "usdaFdcId": "170923",
-      "usdaFdcRef": "fdc 170923 'Cumin Seed' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170923,
+      "usdaRef": "Cumin Seed",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "47"
+        47
       ]
     },
     {
@@ -549,8 +571,9 @@
       "display": "Curry powder",
       "kind": "compound",
       "synonyms": [],
-      "usdaFdcId": "170924",
-      "usdaFdcRef": "fdc 170924 'Curry Powder' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170924,
+      "usdaRef": "Curry Powder",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "doenjang",
@@ -574,8 +597,9 @@
         "dried noodles",
         "egg noodles"
       ],
-      "usdaFdcId": "169731",
-      "usdaFdcRef": "fdc 169731 'Egg Noodles (Dry, Enriched)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 169731,
+      "usdaRef": "Egg Noodles (Dry, Enriched)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "duck",
@@ -600,8 +624,9 @@
       "synonyms": [
         "green soybeans"
       ],
-      "usdaFdcId": "169282",
-      "usdaFdcRef": "fdc 169282 'Green Soybeans (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; catalog alt name 'edamame raw'"
+      "usdaFdcId": 169282,
+      "usdaRef": "Green Soybeans (Raw)",
+      "usdaNote": "catalog alt name 'edamame raw' — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "egg",
@@ -614,7 +639,7 @@
         "fried eggs"
       ],
       "appLocalIds": [
-        "1"
+        1
       ]
     },
     {
@@ -710,10 +735,11 @@
         "green peas",
         "peas"
       ],
-      "usdaFdcId": "170419",
-      "usdaFdcRef": "fdc 170419 'Green Peas (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row for green peas",
+      "usdaFdcId": 170419,
+      "usdaRef": "Green Peas (Raw)",
+      "usdaNote": "closest catalog row for green peas — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "42"
+        42
       ]
     },
     {
@@ -727,10 +753,11 @@
       "display": "Garlic",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "169230",
-      "usdaFdcRef": "fdc 169230 'Garlic (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 169230,
+      "usdaRef": "Garlic (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "6"
+        6
       ]
     },
     {
@@ -760,10 +787,11 @@
         "fresh ginger",
         "ginger root"
       ],
-      "usdaFdcId": "169231",
-      "usdaFdcRef": "fdc 169231 'Ginger Root (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 169231,
+      "usdaRef": "Ginger Root (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "30"
+        30
       ]
     },
     {
@@ -810,10 +838,11 @@
         "scallion",
         "scallions"
       ],
-      "usdaFdcId": "170005",
-      "usdaFdcRef": "fdc 170005 'Green Onions (Scallions, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170005,
+      "usdaRef": "Green Onions (Scallions, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "21"
+        21
       ]
     },
     {
@@ -830,10 +859,11 @@
         "beef mince",
         "minced beef"
       ],
-      "usdaFdcId": "168608",
-      "usdaFdcRef": "fdc 168608 'Ground Beef (Grass-Fed, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row for ground beef",
+      "usdaFdcId": 168608,
+      "usdaRef": "Ground Beef (Grass-Fed, Raw)",
+      "usdaNote": "closest catalog row for ground beef — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "38"
+        38
       ]
     },
     {
@@ -913,8 +943,9 @@
         "filberts",
         "hazelnuts"
       ],
-      "usdaFdcId": "170589",
-      "usdaFdcRef": "fdc 170589 'Hazelnuts (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170589,
+      "usdaRef": "Hazelnuts (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "hoisin",
@@ -936,7 +967,7 @@
       "kind": "simple",
       "synonyms": [],
       "appLocalIds": [
-        "33"
+        33
       ]
     },
     {
@@ -963,8 +994,9 @@
         "baechu kimchi",
         "chinese cabbage kimchi"
       ],
-      "usdaFdcId": "170392",
-      "usdaFdcRef": "fdc 170392 'Cabbage (Kimchi)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170392,
+      "usdaRef": "Cabbage (Kimchi)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "lamb",
@@ -988,10 +1020,11 @@
       "synonyms": [
         "lemons"
       ],
-      "usdaFdcId": "167746",
-      "usdaFdcRef": "fdc 167746 'Lemons (Without Peel, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row (peeled lemon flesh)",
+      "usdaFdcId": 167746,
+      "usdaRef": "Lemons (Without Peel, Raw)",
+      "usdaNote": "closest catalog row (peeled lemon flesh) — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "17"
+        17
       ]
     },
     {
@@ -1002,10 +1035,11 @@
         "lettuce leaves",
         "romaine lettuce"
       ],
-      "usdaFdcId": "169247",
-      "usdaFdcRef": "fdc 169247 'Lettuce (Romaine)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 169247,
+      "usdaRef": "Lettuce (Romaine)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "39"
+        39
       ]
     },
     {
@@ -1015,10 +1049,11 @@
       "synonyms": [
         "limes"
       ],
-      "usdaFdcId": "168155",
-      "usdaFdcRef": "fdc 168155 'Limes (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 168155,
+      "usdaRef": "Limes (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "29"
+        29
       ]
     },
     {
@@ -1035,8 +1070,9 @@
         "macadamia nuts",
         "macadamias"
       ],
-      "usdaFdcId": "170586",
-      "usdaFdcRef": "fdc 170586 'Macadamia Nuts (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170586,
+      "usdaRef": "Macadamia Nuts (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "mackerel",
@@ -1049,8 +1085,9 @@
       "display": "Masa harina",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "169696",
-      "usdaFdcRef": "fdc 169696 'Masa Harina (White Corn Flour)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 169696,
+      "usdaRef": "Masa Harina (White Corn Flour)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "mayonnaise",
@@ -1060,8 +1097,9 @@
         "mayo",
         "real mayonnaise"
       ],
-      "usdaFdcId": "171009",
-      "usdaFdcRef": "fdc 171009 'Mayonnaise Dressing' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; catalog alt name 'mayonnaise'"
+      "usdaFdcId": 171009,
+      "usdaRef": "Mayonnaise Dressing",
+      "usdaNote": "catalog alt name 'mayonnaise' — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "milk",
@@ -1072,10 +1110,11 @@
         "cow's milk",
         "whole milk"
       ],
-      "usdaFdcId": "170871",
-      "usdaFdcRef": "fdc 170871 'Milk (2% Reduced Fat)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row for plain milk",
+      "usdaFdcId": 170871,
+      "usdaRef": "Milk (2% Reduced Fat)",
+      "usdaNote": "closest catalog row for plain milk — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "13"
+        13
       ]
     },
     {
@@ -1114,8 +1153,9 @@
       "synonyms": [
         "monterey jack cheese"
       ],
-      "usdaFdcId": "170844",
-      "usdaFdcRef": "fdc 170844 'Cheese (Monterey)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170844,
+      "usdaRef": "Cheese (Monterey)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "mung-bean-sprouts",
@@ -1125,8 +1165,9 @@
         "bean sprouts",
         "beansprouts"
       ],
-      "usdaFdcId": "169957",
-      "usdaFdcRef": "fdc 169957 'Mung Bean Sprouts (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 169957,
+      "usdaRef": "Mung Bean Sprouts (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "mushroom",
@@ -1137,10 +1178,11 @@
         "mushrooms",
         "white mushrooms"
       ],
-      "usdaFdcId": "169251",
-      "usdaFdcRef": "fdc 169251 'Mushrooms (White, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 169251,
+      "usdaRef": "Mushrooms (White, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "18"
+        18
       ]
     },
     {
@@ -1172,12 +1214,13 @@
         "rolled oats"
       ],
       "appLocalIds": [
-        "31"
+        31
       ],
       "forms": [
         {
-          "name": "certified-gluten-free",
-          "matchNames": [
+          "key": "certified-gluten-free",
+          "display": "Oats (certified gluten free)",
+          "synonyms": [
             "certified gluten free oats",
             "certified gluten-free oats",
             "gf oats",
@@ -1193,10 +1236,11 @@
       "display": "Olive oil",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "171413",
-      "usdaFdcRef": "fdc 171413 'Olive Oil' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 171413,
+      "usdaRef": "Olive Oil",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "16"
+        16
       ]
     },
     {
@@ -1209,10 +1253,11 @@
         "shallot",
         "shallots"
       ],
-      "usdaFdcId": "170000",
-      "usdaFdcRef": "fdc 170000 'Onions (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170000,
+      "usdaRef": "Onions (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "5"
+        5
       ]
     },
     {
@@ -1249,8 +1294,9 @@
         "parmigiano reggiano",
         "parmigiano-reggiano"
       ],
-      "usdaFdcId": "170848",
-      "usdaFdcRef": "fdc 170848 'Cheese (Parmesan, Hard)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170848,
+      "usdaRef": "Cheese (Parmesan, Hard)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "pasta",
@@ -1264,7 +1310,7 @@
         "spaghetti"
       ],
       "appLocalIds": [
-        "9"
+        9
       ],
       "note": "dried pasta; fresh egg pasta is a distinct form (dried egg noodles are a separate entry)"
     },
@@ -1273,10 +1319,11 @@
       "display": "Peanut butter",
       "kind": "compound",
       "synonyms": [],
-      "usdaFdcId": "169869",
-      "usdaFdcRef": "fdc 169869 'Peanut Butter (Reduced Sodium)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 169869,
+      "usdaRef": "Peanut Butter (Reduced Sodium)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "41"
+        41
       ],
       "note": "peanuts are legumes, not tree nuts; typical brands contain no other major allergen"
     },
@@ -1311,8 +1358,9 @@
         "pecan nuts",
         "pecans"
       ],
-      "usdaFdcId": "170182",
-      "usdaFdcRef": "fdc 170182 'Pecans (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170182,
+      "usdaRef": "Pecans (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "pesto",
@@ -1329,8 +1377,9 @@
       "display": "Pine nuts",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "170591",
-      "usdaFdcRef": "fdc 170591 'Pine Nuts (Dried)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170591,
+      "usdaRef": "Pine Nuts (Dried)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "pistachio",
@@ -1339,8 +1388,9 @@
       "synonyms": [
         "pistachios"
       ],
-      "usdaFdcId": "170183",
-      "usdaFdcRef": "fdc 170183 'Pistachios (Roasted)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170183,
+      "usdaRef": "Pistachios (Roasted)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "pitta",
@@ -1391,10 +1441,11 @@
         "potatoes",
         "russet potatoes"
       ],
-      "usdaFdcId": "170026",
-      "usdaFdcRef": "fdc 170026 'Potatoes (Raw, Flesh and Skin)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170026,
+      "usdaRef": "Potatoes (Raw, Flesh and Skin)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "10"
+        10
       ]
     },
     {
@@ -1408,8 +1459,9 @@
       "display": "Quinoa",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "168874",
-      "usdaFdcRef": "fdc 168874 'Quinoa (Uncooked)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 168874,
+      "usdaRef": "Quinoa (Uncooked)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "raita",
@@ -1425,10 +1477,11 @@
         "chili flakes",
         "crushed red pepper"
       ],
-      "usdaFdcId": "170932",
-      "usdaFdcRef": "fdc 170932 'Red Pepper (Cayenne / Flakes)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170932,
+      "usdaRef": "Red Pepper (Cayenne / Flakes)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "46"
+        46
       ]
     },
     {
@@ -1449,10 +1502,11 @@
         "uncooked white rice",
         "white rice"
       ],
-      "usdaFdcId": "168877",
-      "usdaFdcRef": "fdc 168877 'White Rice (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 168877,
+      "usdaRef": "White Rice (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "2"
+        2
       ]
     },
     {
@@ -1465,8 +1519,9 @@
         "flat rice noodles",
         "rice noodle"
       ],
-      "usdaFdcId": "169742",
-      "usdaFdcRef": "fdc 169742 'Rice Noodles (Dry)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 169742,
+      "usdaRef": "Rice Noodles (Dry)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "rice-vinegar",
@@ -1484,8 +1539,9 @@
       "synonyms": [
         "ricotta cheese"
       ],
-      "usdaFdcId": "170851",
-      "usdaFdcRef": "fdc 170851 'Cheese (Ricotta, Whole Milk)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170851,
+      "usdaRef": "Cheese (Ricotta, Whole Milk)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "salmon",
@@ -1495,10 +1551,11 @@
         "salmon fillet",
         "salmon fillets"
       ],
-      "usdaFdcId": "2684441",
-      "usdaFdcRef": "fdc 2684441 'Salmon (Atlantic, Farmed, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 2684441,
+      "usdaRef": "Salmon (Atlantic, Farmed, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "36"
+        36
       ]
     },
     {
@@ -1538,8 +1595,9 @@
       "display": "Semolina",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "168933",
-      "usdaFdcRef": "fdc 168933 'Semolina (Unenriched)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 168933,
+      "usdaRef": "Semolina (Unenriched)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "sesame-oil",
@@ -1548,10 +1606,11 @@
       "synonyms": [
         "toasted sesame oil"
       ],
-      "usdaFdcId": "171016",
-      "usdaFdcRef": "fdc 171016 'Sesame Oil' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 171016,
+      "usdaRef": "Sesame Oil",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "22"
+        22
       ]
     },
     {
@@ -1561,8 +1620,9 @@
       "synonyms": [
         "sesame seed"
       ],
-      "usdaFdcId": "170150",
-      "usdaFdcRef": "fdc 170150 'Sesame Seeds (Whole, Dried)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170150,
+      "usdaRef": "Sesame Seeds (Whole, Dried)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "shrimp",
@@ -1607,10 +1667,11 @@
         "crema",
         "mexican crema"
       ],
-      "usdaFdcId": "173443",
-      "usdaFdcRef": "fdc 173443 'Sour Cream (Light)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row (light sour cream)",
+      "usdaFdcId": 173443,
+      "usdaRef": "Sour Cream (Light)",
+      "usdaNote": "closest catalog row (light sour cream) — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "50"
+        50
       ]
     },
     {
@@ -1632,10 +1693,11 @@
         "shoyu",
         "soy_sauce"
       ],
-      "usdaFdcId": "174278",
-      "usdaFdcRef": "fdc 174278 'Soy Sauce (Tamari)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; catalog alt name 'soy sauce'",
+      "usdaFdcId": 174278,
+      "usdaRef": "Soy Sauce (Tamari)",
+      "usdaNote": "catalog alt name 'soy sauce' — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "3"
+        3
       ],
       "note": "generic brewed soy sauce carries soy and wheat"
     },
@@ -1660,10 +1722,11 @@
       "display": "Spinach",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "168462",
-      "usdaFdcRef": "fdc 168462 'Spinach (Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 168462,
+      "usdaRef": "Spinach (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "19"
+        19
       ]
     },
     {
@@ -1709,7 +1772,7 @@
         "sweet potatoes"
       ],
       "appLocalIds": [
-        "37"
+        37
       ]
     },
     {
@@ -1729,8 +1792,9 @@
         "sesame paste",
         "tahina"
       ],
-      "usdaFdcId": "170191",
-      "usdaFdcRef": "fdc 170191 'Sesame Butter (Tahini)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170191,
+      "usdaRef": "Sesame Butter (Tahini)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "tamari",
@@ -1740,12 +1804,14 @@
         "japanese tamari",
         "tamari soy sauce"
       ],
-      "usdaFdcId": "174278",
-      "usdaFdcRef": "fdc 174278 'Soy Sauce (Tamari)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; catalog display name 'Soy Sauce (Tamari)'",
+      "usdaFdcId": 174278,
+      "usdaRef": "Soy Sauce (Tamari)",
+      "usdaNote": "catalog display name 'Soy Sauce (Tamari)' — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "forms": [
         {
-          "name": "certified-gluten-free",
-          "matchNames": [
+          "key": "certified-gluten-free",
+          "display": "Tamari (certified gluten free)",
+          "synonyms": [
             "certified gluten free tamari",
             "certified gluten-free tamari",
             "gluten free tamari",
@@ -1787,7 +1853,7 @@
         "silken tofu"
       ],
       "appLocalIds": [
-        "23"
+        23
       ]
     },
     {
@@ -1797,10 +1863,11 @@
       "synonyms": [
         "tomatoes"
       ],
-      "usdaFdcId": "170457",
-      "usdaFdcRef": "fdc 170457 'Tomatoes (Red, Ripe, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row",
+      "usdaFdcId": 170457,
+      "usdaRef": "Tomatoes (Red, Ripe, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "7"
+        7
       ]
     },
     {
@@ -1821,8 +1888,9 @@
         "canned tomato sauce",
         "passata"
       ],
-      "usdaFdcId": "170054",
-      "usdaFdcRef": "fdc 170054 'Tomato Sauce (Canned)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170054,
+      "usdaRef": "Tomato Sauce (Canned)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "tortilla",
@@ -1833,7 +1901,7 @@
         "tortillas"
       ],
       "appLocalIds": [
-        "28"
+        28
       ],
       "note": "generic tortilla; corn and flour forms are separate entries"
     },
@@ -1875,8 +1943,9 @@
       "display": "Walnuts",
       "kind": "simple",
       "synonyms": [],
-      "usdaFdcId": "170187",
-      "usdaFdcRef": "fdc 170187 'English Walnuts' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; matched catalog row"
+      "usdaFdcId": 170187,
+      "usdaRef": "English Walnuts",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
     },
     {
       "key": "whey",
@@ -1918,7 +1987,7 @@
         "plain yogurt"
       ],
       "appLocalIds": [
-        "32"
+        32
       ]
     },
     {
@@ -1930,10 +1999,11 @@
         "courgettes",
         "zucchinis"
       ],
-      "usdaFdcId": "168565",
-      "usdaFdcRef": "fdc 168565 'Zucchini (Baby, Raw)' — apps/ios/Resources/usda_ingredient_catalog.sqlite row; closest catalog row",
+      "usdaFdcId": 168565,
+      "usdaRef": "Zucchini (Baby, Raw)",
+      "usdaNote": "closest catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
-        "45"
+        45
       ]
     }
   ]

@@ -54,8 +54,8 @@ def ev(kind, ref=None, note=None):
 
 
 def usda(fdc, row, note="matched catalog row"):
-    return ev("usda", f"fdc {fdc} '{row}'",
-              f"apps/ios/Resources/usda_ingredient_catalog.sqlite row; {note}")
+    # structured carrier; build_identities emits the pinned usdaFdcId/usdaRef/usdaNote fields
+    return {"id": int(fdc), "row": row, "note": note}
 
 
 def f(state, kind, ref=None, note=None):
@@ -1249,6 +1249,8 @@ def diet_implication(key: str) -> dict[str, str]:
 
 def derive(entry: dict) -> dict:
     facts: dict = {}
+    if entry["cls"] is not None:
+        facts["class"] = entry["cls"]
     if entry["components"] is not None:
         facts["components"] = list(entry["components"])
     if entry["composition_complete"] is not None:
@@ -1398,13 +1400,18 @@ def build_identities() -> dict:
             "synonyms": sorted(set(e["synonyms"])),
         }
         if e["fdc"] is not None:
-            identity["usdaFdcId"] = e["fdc"]["ref"].split(" ")[1]
-            identity["usdaFdcRef"] = e["fdc"]["ref"] + " — " + (e["fdc"]["note"] or "")
+            identity["usdaFdcId"] = e["fdc"]["id"]
+            identity["usdaRef"] = e["fdc"]["row"]
+            identity["usdaNote"] = (e["fdc"]["note"]
+                                    + " — apps/ios/Resources/usda_ingredient_catalog.sqlite")
         if e["key"] in APP_LOCAL_IDS:
-            identity["appLocalIds"] = [str(APP_LOCAL_IDS[e["key"]])]
+            identity["appLocalIds"] = [int(APP_LOCAL_IDS[e["key"]])]
         if e["forms"]:
             identity["forms"] = [
-                {"name": fm["name"], "matchNames": sorted(set(fm["matchNames"]))} for fm in e["forms"]
+                {"key": fm["name"],
+                 "display": f"{e['display']} ({fm['name'].replace('-', ' ')})",
+                 "synonyms": sorted(set(fm["matchNames"]))}
+                for fm in e["forms"]
             ]
         if e["note"]:
             identity["note"] = e["note"]
@@ -1436,15 +1443,15 @@ def validate(identities: dict, facts: dict) -> list[str]:
         for syn in ing["synonyms"]:
             claim(syn.lower(), key)
         for form in ing.get("forms", []):
-            for mn in form["matchNames"]:
+            for mn in form["synonyms"]:
                 claim(mn.lower(), key)
         if key not in fact_keys:
             if key != "artisan-granola-bar":   # deliberate fail-closed exemplar
                 problems.append(f"identity {key} has no facts entry")
+        fkey = fact_keys.get(key, {})
         for form in ing.get("forms", []):
-            fkey = fact_keys.get(key, {})
-            if form["name"] not in fkey.get("forms", {}):
-                problems.append(f"identity {key} form {form['name']} has no facts override")
+            if form["key"] not in fkey.get("forms", {}):
+                problems.append(f"identity {key} form {form['key']} has no facts override")
 
     def check_fact(state_obj: dict, where: str) -> None:
         state = state_obj["state"]
@@ -1667,7 +1674,7 @@ def main() -> int:
         for syn in ing["synonyms"]:
             claim_name(syn.replace("_", " "), ing["key"])
         for form in ing.get("forms", []):
-            for mn in form["matchNames"]:
+            for mn in form["synonyms"]:
                 claim_name(mn, ing["key"])
 
     covered: dict[str, list[str]] = {}

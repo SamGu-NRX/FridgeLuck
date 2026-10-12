@@ -279,6 +279,7 @@
       }
     },
     "all-purpose-flour": {
+      "class": "plant",
       "allergens": {
         "wheat": {
           "state": "contains",
@@ -341,6 +342,7 @@
       }
     },
     "almonds": {
+      "class": "plant",
       "allergens": {
         "treeNuts": {
           "state": "contains",
@@ -387,6 +389,7 @@
       }
     },
     "anchovies": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -425,6 +428,7 @@
       }
     },
     "anchovy": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -463,6 +467,7 @@
       }
     },
     "animal-collagen": {
+      "class": "animal-derived",
       "note": "gelatin source species (pork or beef) varies by product",
       "diets": {
         "vegetarian": {
@@ -492,6 +497,7 @@
       }
     },
     "animal-rennet": {
+      "class": "animal-derived",
       "note": "traditional hard cheeses such as Parmigiano-Reggiano require calf rennet",
       "diets": {
         "vegetarian": {
@@ -521,6 +527,7 @@
       }
     },
     "annatto": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -557,6 +564,7 @@
       }
     },
     "anti-caking-agent": {
+      "class": "mineral",
       "note": "jarred spice blends may add anti-caking agents; composition varies by brand",
       "diets": {
         "vegetarian": {
@@ -594,6 +602,7 @@
       }
     },
     "apple": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -630,6 +639,7 @@
       }
     },
     "apple-cider-vinegar": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -666,6 +676,7 @@
       }
     },
     "artisan-granola-bar": {
+      "class": "plant",
       "note": "identity without facts: demonstrates fail-closed unknown for a resolvable key",
       "diets": {
         "vegetarian": {
@@ -703,6 +714,7 @@
       }
     },
     "avocado": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -739,6 +751,7 @@
       }
     },
     "bacon": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -767,6 +780,7 @@
       }
     },
     "balsamic-vinegar": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -803,6 +817,7 @@
       }
     },
     "banana": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -839,6 +854,7 @@
       }
     },
     "barley": {
+      "class": "plant",
       "note": "barley carries gluten but is not wheat",
       "gluten": {
         "state": "contains",
@@ -892,6 +908,7 @@
       }
     },
     "barley-malt": {
+      "class": "plant",
       "note": "malt syrup and malt vinegar derive from barley",
       "gluten": {
         "state": "contains",
@@ -945,6 +962,7 @@
       }
     },
     "basil": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -1112,6 +1130,7 @@
       }
     },
     "beef": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -1140,6 +1159,7 @@
       }
     },
     "beef-stock": {
+      "class": "meat",
       "note": "beef stock is beef-based by definition",
       "diets": {
         "vegetarian": {
@@ -1169,6 +1189,7 @@
       }
     },
     "bell-pepper": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -1279,6 +1300,7 @@
       }
     },
     "black-beans": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -1464,6 +1486,7 @@
       "compositionComplete": false
     },
     "broccoli": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -1500,6 +1523,7 @@
       }
     },
     "bulgur": {
+      "class": "plant",
       "allergens": {
         "wheat": {
           "state": "contains",
@@ -1562,6 +1586,7 @@
       }
     },
     "butter": {
+      "class": "dairy",
       "note": "butter is churned cream; contains no salt in its unsalted form",
       "allergens": {
         "milk": {
@@ -1609,6 +1634,7 @@
       }
     },
     "canned-tuna": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -1647,6 +1673,7 @@
       }
     },
     "caramel-colour": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -1683,6 +1710,7 @@
       }
     },
     "carrot": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -1719,6 +1747,7 @@
       }
     },
     "cashews": {
+      "class": "plant",
       "allergens": {
         "treeNuts": {
           "state": "contains",
@@ -1765,6 +1794,7 @@
       }
     },
     "celery": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -1801,6 +1831,7 @@
       }
     },
     "celery-part": {
+      "class": "plant",
       "note": "celery is an EU-declared allergen but not one of the nine FDA major allergens",
       "diets": {
         "vegetarian": {
@@ -1913,6 +1944,7 @@
       }
     },
     "chicken": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -1941,6 +1973,7 @@
       }
     },
     "chicken-breast": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -1969,6 +2002,7 @@
       }
     },
     "chicken-liver": {
+      "class": "meat",
       "note": "offal: animal flesh for diet purposes",
       "diets": {
         "vegetarian": {
@@ -2038,6 +2072,7 @@
       "compositionComplete": false
     },
     "chicken-thighs": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -2066,6 +2101,7 @@
       }
     },
     "chickpeas": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -2102,6 +2138,7 @@
       }
     },
     "chili-peppers": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -2438,6 +2475,7 @@
       }
     },
     "cilantro": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -2474,6 +2512,7 @@
       }
     },
     "clam": {
+      "class": "shellfish",
       "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it",
       "diets": {
         "vegetarian": {
@@ -2503,6 +2542,7 @@
       }
     },
     "cocoa": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -2539,6 +2579,7 @@
       }
     },
     "coconut": {
+      "class": "plant",
       "note": "botanically a fruit; confirm with the user when their nut allergy excludes coconut",
       "allergens": {
         "treeNuts": {
@@ -2708,6 +2749,7 @@
       }
     },
     "cod": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -2746,6 +2788,7 @@
       }
     },
     "condensed-milk": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -2792,6 +2835,7 @@
       }
     },
     "corn": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -2828,6 +2872,7 @@
       }
     },
     "corn-starch-modified": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -2994,6 +3039,7 @@
       }
     },
     "cotija": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -3040,6 +3086,7 @@
       }
     },
     "couscous": {
+      "class": "plant",
       "allergens": {
         "wheat": {
           "state": "contains",
@@ -3102,6 +3149,7 @@
       }
     },
     "crab": {
+      "class": "shellfish",
       "allergens": {
         "crustaceanShellfish": {
           "state": "contains",
@@ -3140,6 +3188,7 @@
       }
     },
     "cream": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -3317,6 +3366,7 @@
       }
     },
     "cucumber": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -3353,6 +3403,7 @@
       }
     },
     "cumin": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -3412,6 +3463,7 @@
       "compositionComplete": false
     },
     "distilled-spirit": {
+      "class": "plant",
       "note": "distillation removes gluten protein even when brewed from barley",
       "diets": {
         "vegetarian": {
@@ -3449,6 +3501,7 @@
       }
     },
     "distilled-vinegar": {
+      "class": "plant",
       "note": "distilled spirit vinegar; distillation removes gluten protein",
       "diets": {
         "vegetarian": {
@@ -3806,6 +3859,7 @@
       }
     },
     "duck": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -3834,6 +3888,7 @@
       }
     },
     "duck-fat": {
+      "class": "animal-derived",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -3862,6 +3917,7 @@
       }
     },
     "durum-wheat-flour": {
+      "class": "plant",
       "note": "dried pasta is milled durum wheat and water",
       "allergens": {
         "wheat": {
@@ -3925,6 +3981,7 @@
       }
     },
     "edamame": {
+      "class": "plant",
       "allergens": {
         "soy": {
           "state": "contains",
@@ -3971,6 +4028,7 @@
       }
     },
     "egg": {
+      "class": "egg",
       "allergens": {
         "egg": {
           "state": "contains",
@@ -4009,6 +4067,7 @@
       }
     },
     "farro": {
+      "class": "plant",
       "note": "farro is emmer (Triticum dicoccum) or related Triticum species, all wheat",
       "allergens": {
         "wheat": {
@@ -4072,6 +4131,7 @@
       }
     },
     "fat-source-varies": {
+      "class": "plant",
       "note": "stock cube fat may be vegetable or animal, including lard in some brands",
       "diets": {
         "vegetarian": {
@@ -4109,6 +4169,7 @@
       }
     },
     "feta": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -4155,6 +4216,7 @@
       }
     },
     "fish-extract": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -4193,6 +4255,7 @@
       }
     },
     "fish-fillet": {
+      "class": "fish",
       "note": "generic fillet: species varies",
       "allergens": {
         "fish": {
@@ -4362,6 +4425,7 @@
       }
     },
     "fish-sauce-part": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -4400,6 +4464,7 @@
       }
     },
     "fish-stock": {
+      "class": "fish",
       "note": "fish stock is fish-based by definition",
       "allergens": {
         "fish": {
@@ -4439,6 +4504,7 @@
       }
     },
     "flank-steak": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -4507,6 +4573,7 @@
       }
     },
     "flavourings-unknown": {
+      "class": "mineral",
       "note": "commercial stock cubes list unspecific flavourings; sources vary by brand",
       "diets": {
         "vegetarian": {
@@ -4627,6 +4694,7 @@
       }
     },
     "food-acid": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -4787,6 +4855,7 @@
       }
     },
     "frozen-peas": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -4846,6 +4915,7 @@
       "compositionComplete": false
     },
     "garlic": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -4996,6 +5066,7 @@
       }
     },
     "ghee": {
+      "class": "dairy",
       "note": "clarified butter: milk fat; lactose reduced but still a milk product",
       "allergens": {
         "milk": {
@@ -5043,6 +5114,7 @@
       }
     },
     "ginger": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -5148,6 +5220,7 @@
       }
     },
     "glutinous-rice": {
+      "class": "plant",
       "note": "sweet rice used for koji and gochujang",
       "diets": {
         "vegetarian": {
@@ -5253,6 +5326,7 @@
       }
     },
     "gochugaru": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -5347,6 +5421,7 @@
       }
     },
     "gochujang-meju": {
+      "class": "plant",
       "note": "gochujang is fermented with meju, a soybean paste",
       "allergens": {
         "soy": {
@@ -5394,6 +5469,7 @@
       }
     },
     "greek-yogurt": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -5440,6 +5516,7 @@
       }
     },
     "green-onion": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -5605,6 +5682,7 @@
       }
     },
     "ground-beef": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -5633,6 +5711,7 @@
       }
     },
     "ground-chicken": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -5661,6 +5740,7 @@
       }
     },
     "ground-lamb": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -5689,6 +5769,7 @@
       }
     },
     "ground-pork": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -5717,6 +5798,7 @@
       }
     },
     "ground-turkey": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -5875,6 +5957,7 @@
       }
     },
     "halibut": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -5913,6 +5996,7 @@
       }
     },
     "halloumi": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -6105,6 +6189,7 @@
       }
     },
     "hazelnut": {
+      "class": "plant",
       "allergens": {
         "treeNuts": {
           "state": "contains",
@@ -6373,6 +6458,7 @@
       }
     },
     "honey": {
+      "class": "insect-product",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -6563,6 +6649,7 @@
       }
     },
     "hydrolysed-plant-protein": {
+      "class": "plant",
       "note": "may derive from soy, wheat, maize or rice depending on brand",
       "diets": {
         "vegetarian": {
@@ -6600,6 +6687,7 @@
       }
     },
     "khoya": {
+      "class": "dairy",
       "note": "reduced milk solids used in indian sweets",
       "allergens": {
         "milk": {
@@ -6712,6 +6800,7 @@
       }
     },
     "lactic-cultures": {
+      "class": "fungus",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -6748,6 +6837,7 @@
       }
     },
     "lamb": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -6890,6 +6980,7 @@
       }
     },
     "lemon": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -6926,6 +7017,7 @@
       }
     },
     "lemon-juice": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -6962,6 +7054,7 @@
       }
     },
     "lemon-zest": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -6998,6 +7091,7 @@
       }
     },
     "lettuce": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -7034,6 +7128,7 @@
       }
     },
     "lime": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -7070,6 +7165,7 @@
       }
     },
     "lime-juice": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -7106,6 +7202,7 @@
       }
     },
     "lobster": {
+      "class": "shellfish",
       "allergens": {
         "crustaceanShellfish": {
           "state": "contains",
@@ -7144,6 +7241,7 @@
       }
     },
     "macadamia": {
+      "class": "plant",
       "allergens": {
         "treeNuts": {
           "state": "contains",
@@ -7190,6 +7288,7 @@
       }
     },
     "mackerel": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -7228,6 +7327,7 @@
       }
     },
     "malt-vinegar": {
+      "class": "plant",
       "note": "malt vinegar is brewed from barley; UK Worcestershire recipes use it, US ones distilled vinegar",
       "gluten": {
         "state": "contains",
@@ -7281,6 +7381,7 @@
       }
     },
     "masa-harina": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -7384,6 +7485,7 @@
       }
     },
     "milk": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -7430,6 +7532,7 @@
       }
     },
     "milk-derivatives": {
+      "class": "dairy",
       "note": "some stock cube and bread brands include whey or lactose",
       "allergens": {
         "milk": {
@@ -7477,6 +7580,7 @@
       }
     },
     "milk-powder": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -7523,6 +7627,7 @@
       }
     },
     "mint": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -7748,6 +7853,7 @@
       }
     },
     "molasses": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -7868,6 +7974,7 @@
       }
     },
     "monosodium-glutamate": {
+      "class": "mineral",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -7904,6 +8011,7 @@
       }
     },
     "monterey-jack": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -7950,6 +8058,7 @@
       }
     },
     "mung-bean-sprouts": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -7986,6 +8095,7 @@
       }
     },
     "mushroom": {
+      "class": "fungus",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -8022,6 +8132,7 @@
       }
     },
     "mussel": {
+      "class": "shellfish",
       "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it",
       "diets": {
         "vegetarian": {
@@ -8051,6 +8162,7 @@
       }
     },
     "mustard": {
+      "class": "plant",
       "note": "mustard is an EU-declared allergen but not one of the nine FDA major allergens",
       "diets": {
         "vegetarian": {
@@ -8203,6 +8315,7 @@
       }
     },
     "napa-cabbage": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -8239,6 +8352,7 @@
       }
     },
     "oats": {
+      "class": "plant",
       "note": "oats are gluten-free by nature but routinely cross-contacted; certification varies",
       "gluten": {
         "state": "unknown",
@@ -8322,6 +8436,7 @@
       }
     },
     "olive-oil": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -8358,6 +8473,7 @@
       }
     },
     "onion": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -8509,6 +8625,7 @@
       }
     },
     "oyster": {
+      "class": "shellfish",
       "note": "oysters are molluscs, not crustaceans; US FALCPA requires crustacean labelling only",
       "diets": {
         "vegetarian": {
@@ -8619,6 +8736,7 @@
       }
     },
     "palm-oil": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -8655,6 +8773,7 @@
       }
     },
     "paneer": {
+      "class": "dairy",
       "note": "acid-set with lemon juice or vinegar; standard paneer contains no rennet",
       "allergens": {
         "milk": {
@@ -8833,6 +8952,7 @@
       }
     },
     "parsley": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -9132,6 +9252,7 @@
       }
     },
     "peanut-oil": {
+      "class": "plant",
       "note": "unrefined peanut oil contains peanut protein; refined peanut oil is FDA-exempt — kept 'contains' because unrefined forms exist",
       "allergens": {
         "peanuts": {
@@ -9326,6 +9447,7 @@
       }
     },
     "peanuts": {
+      "class": "plant",
       "allergens": {
         "peanuts": {
           "state": "contains",
@@ -9372,6 +9494,7 @@
       }
     },
     "peanuts-part": {
+      "class": "plant",
       "allergens": {
         "peanuts": {
           "state": "contains",
@@ -9418,6 +9541,7 @@
       }
     },
     "pecan": {
+      "class": "plant",
       "allergens": {
         "treeNuts": {
           "state": "contains",
@@ -9619,6 +9743,7 @@
       }
     },
     "pine-nuts": {
+      "class": "plant",
       "allergens": {
         "treeNuts": {
           "state": "contains",
@@ -9665,6 +9790,7 @@
       }
     },
     "pistachio": {
+      "class": "plant",
       "allergens": {
         "treeNuts": {
           "state": "contains",
@@ -9801,6 +9927,7 @@
       }
     },
     "polenta": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -9837,6 +9964,7 @@
       }
     },
     "pork": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -9865,6 +9993,7 @@
       }
     },
     "pork-chop": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -9893,6 +10022,7 @@
       }
     },
     "pork-fat": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -9921,6 +10051,7 @@
       }
     },
     "pork-shoulder": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -9949,6 +10080,7 @@
       }
     },
     "pork-tenderloin": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -9977,6 +10109,7 @@
       }
     },
     "potato": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -10013,6 +10146,7 @@
       }
     },
     "queso-fresco": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -10059,6 +10193,7 @@
       }
     },
     "quinoa": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -10232,6 +10367,7 @@
       }
     },
     "rapeseed-oil": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -10268,6 +10404,7 @@
       }
     },
     "red-pepper-flakes": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -10304,6 +10441,7 @@
       }
     },
     "red-wine-vinegar": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -10340,6 +10478,7 @@
       }
     },
     "rice": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -10376,6 +10515,7 @@
       }
     },
     "rice-flour": {
+      "class": "plant",
       "note": "rice contains no gluten grain",
       "gluten": {
         "state": "free",
@@ -10429,6 +10569,7 @@
       }
     },
     "rice-koji": {
+      "class": "fungus",
       "note": "standard koji is grown on rice; barley koji (mugi) is a variant",
       "diets": {
         "vegetarian": {
@@ -10587,6 +10728,7 @@
       }
     },
     "rice-vinegar": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -10623,6 +10765,7 @@
       }
     },
     "ricotta": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -10669,6 +10812,7 @@
       }
     },
     "rye-flour": {
+      "class": "plant",
       "note": "rye carries gluten but is not wheat",
       "gluten": {
         "state": "contains",
@@ -10722,6 +10866,7 @@
       }
     },
     "salmon": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -10760,6 +10905,7 @@
       }
     },
     "salt": {
+      "class": "mineral",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -10796,6 +10942,7 @@
       }
     },
     "sardine": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -10877,6 +11024,7 @@
       }
     },
     "sausage": {
+      "class": "meat",
       "note": "generic sausage: meat species and fillers vary by product",
       "diets": {
         "vegetarian": {
@@ -10906,6 +11054,7 @@
       }
     },
     "scallop": {
+      "class": "shellfish",
       "note": "molluscan bivalve: FALCPA does not list molluscs among the nine major allergens, but shellfish allergy covers them; declared unknown pending user confirmation",
       "diets": {
         "vegetarian": {
@@ -10935,6 +11084,7 @@
       }
     },
     "semolina": {
+      "class": "plant",
       "allergens": {
         "wheat": {
           "state": "contains",
@@ -10997,6 +11147,7 @@
       }
     },
     "sesame-oil": {
+      "class": "plant",
       "allergens": {
         "sesame": {
           "state": "contains",
@@ -11043,6 +11194,7 @@
       }
     },
     "sesame-seeds": {
+      "class": "plant",
       "allergens": {
         "sesame": {
           "state": "contains",
@@ -11089,6 +11241,7 @@
       }
     },
     "shrimp": {
+      "class": "shellfish",
       "allergens": {
         "crustaceanShellfish": {
           "state": "contains",
@@ -11127,6 +11280,7 @@
       }
     },
     "shrimp-part": {
+      "class": "shellfish",
       "allergens": {
         "crustaceanShellfish": {
           "state": "contains",
@@ -11288,6 +11442,7 @@
       }
     },
     "shrimp-stock": {
+      "class": "shellfish",
       "note": "shrimp stock is shellfish-based by definition",
       "allergens": {
         "crustaceanShellfish": {
@@ -11327,6 +11482,7 @@
       }
     },
     "smoked-salmon": {
+      "class": "fish",
       "note": "curing/serving temperature is a food-safety question, not an allergen one",
       "allergens": {
         "fish": {
@@ -11366,6 +11522,7 @@
       }
     },
     "sour-cream": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -11412,6 +11569,7 @@
       }
     },
     "sour-orange-juice": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -11710,6 +11868,7 @@
       }
     },
     "soya-flour": {
+      "class": "plant",
       "allergens": {
         "soy": {
           "state": "contains",
@@ -11756,6 +11915,7 @@
       }
     },
     "soybean-oil-refined": {
+      "class": "plant",
       "note": "refined soybean oil is exempt from US soy allergen labeling (FDA FALCPA exemption; protein removed)",
       "diets": {
         "vegetarian": {
@@ -11793,6 +11953,7 @@
       }
     },
     "soybeans": {
+      "class": "plant",
       "allergens": {
         "soy": {
           "state": "contains",
@@ -11839,6 +12000,7 @@
       }
     },
     "spelt": {
+      "class": "plant",
       "note": "spelt is Triticum aestivum subsp. spelta, a wheat species",
       "allergens": {
         "wheat": {
@@ -11902,6 +12064,7 @@
       }
     },
     "spices": {
+      "class": "plant",
       "note": "whole or ground single spices; anti-caking agents in jarred blends are the variable part",
       "diets": {
         "vegetarian": {
@@ -11961,6 +12124,7 @@
       "compositionComplete": false
     },
     "spinach": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -12191,6 +12355,7 @@
       }
     },
     "steak": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -12219,6 +12384,7 @@
       }
     },
     "stock-additives": {
+      "class": "mineral",
       "note": "commercial stocks list unspecific additives; sources vary by brand",
       "diets": {
         "vegetarian": {
@@ -12316,6 +12482,7 @@
       }
     },
     "sugar": {
+      "class": "plant",
       "note": "sucrose from cane or beet; vegan-ingredient-wise, though some refining uses bone char filtration",
       "diets": {
         "vegetarian": {
@@ -12353,6 +12520,7 @@
       }
     },
     "sunflower-oil": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -12389,6 +12557,7 @@
       }
     },
     "sweet-potato": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -12556,6 +12725,7 @@
       }
     },
     "tahini": {
+      "class": "plant",
       "allergens": {
         "sesame": {
           "state": "contains",
@@ -12985,6 +13155,7 @@
       }
     },
     "tomato": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -13306,6 +13477,7 @@
       }
     },
     "trout": {
+      "class": "fish",
       "allergens": {
         "fish": {
           "state": "contains",
@@ -13344,6 +13516,7 @@
       }
     },
     "tuna": {
+      "class": "fish",
       "note": "generic tuna covers fresh steaks and canned; canned tuna is a separate entry",
       "allergens": {
         "fish": {
@@ -13383,6 +13556,7 @@
       }
     },
     "turkey": {
+      "class": "meat",
       "diets": {
         "vegetarian": {
           "state": "violated",
@@ -13411,6 +13585,7 @@
       }
     },
     "urad-flour": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -13447,6 +13622,7 @@
       }
     },
     "vegetable-oil-blend": {
+      "class": "plant",
       "note": "blend of seed oils; specific blend varies by brand (refined oils are FDA-exempt from soy labeling)",
       "diets": {
         "vegetarian": {
@@ -13516,6 +13692,7 @@
       "note": "homemade vegetable stock is vegan; commercial cubes vary, so diet facts stay unknown"
     },
     "vegetables-mixed": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -13552,6 +13729,7 @@
       }
     },
     "vinegar": {
+      "class": "plant",
       "note": "generic vinegar: distilled/spirit vinegar is gluten-free, malt vinegar is not; variety varies by product",
       "gluten": {
         "state": "unknown",
@@ -13603,6 +13781,7 @@
       }
     },
     "walnuts": {
+      "class": "plant",
       "allergens": {
         "treeNuts": {
           "state": "contains",
@@ -13649,6 +13828,7 @@
       }
     },
     "water": {
+      "class": "mineral",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -13685,6 +13865,7 @@
       }
     },
     "wheat": {
+      "class": "plant",
       "note": "wheat grain: FDA major allergen wheat, and a gluten source",
       "allergens": {
         "wheat": {
@@ -13748,6 +13929,7 @@
       }
     },
     "wheat-flour": {
+      "class": "plant",
       "allergens": {
         "wheat": {
           "state": "contains",
@@ -13810,6 +13992,7 @@
       }
     },
     "wheat-starch": {
+      "class": "plant",
       "note": "wheat-derived and processed to remove gluten; FDA permits it in gluten-free-labeled foods, but a wheat allergy still avoids it (declared wheat ingredient)",
       "allergens": {
         "wheat": {
@@ -13871,6 +14054,7 @@
       }
     },
     "whey": {
+      "class": "dairy",
       "note": "milk-derived protein",
       "allergens": {
         "milk": {
@@ -13918,6 +14102,7 @@
       }
     },
     "whitefish": {
+      "class": "fish",
       "note": "generic white-fleshed fish; species varies",
       "allergens": {
         "fish": {
@@ -14098,6 +14283,7 @@
       }
     },
     "yeast": {
+      "class": "fungus",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -14134,6 +14320,7 @@
       }
     },
     "yogurt": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -14180,6 +14367,7 @@
       }
     },
     "yogurt-part": {
+      "class": "dairy",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -14226,6 +14414,7 @@
       }
     },
     "zucchini": {
+      "class": "plant",
       "diets": {
         "vegetarian": {
           "state": "allowed",
