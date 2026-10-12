@@ -817,7 +817,7 @@ def self_test() -> int:
     every plant is caught; a planted failure that goes uncaught is a defect
     again, so the battery fails.
     """
-    conversions, allergens = _tables()
+    _, allergens = _tables()  # fixture conversions are build-time material only
     book = _canon()
 
     def derived(corpus: list[dict[str, Any]], manifest: dict[str, Any],
@@ -1098,7 +1098,10 @@ def self_test() -> int:
         return rs.lint_recipe(
             copy.deepcopy(corpus)[0], cuisines=bands.CUISINE_SET,
             meal_slots=bands.SLOT_SET,
-            conversions=conversions.get("conversions", conversions),
+            # no harness-internal table at score time: records carry their
+            # own conversion-evidence rows (the fixture table is inert here
+            # anyway — part-A plants use source_grams lines)
+            conversion_rows={},
             allergen_scan=scanner, canon=canon_book)
 
     def a_protein_recipe(name: str, text: str,
@@ -1134,7 +1137,7 @@ def self_test() -> int:
     a2 = a_protein_recipe("chicken thighs",
                           "Sear the chicken thighs in a hot pan and serve.", None)
     a2_v = a_lint(a2, canon_book=None)
-    a2_ev = evaluate_corpus(copy.deepcopy(a2), _mini_fixtures()[1], conversions,
+    a2_ev = evaluate_corpus(copy.deepcopy(a2), _mini_fixtures()[1], {},
                             allergens, canon=None)
     a2_st = {m["id"]: suite_contract.derive_status(m)
              for m in metric_list(a2_ev, Path("/tmp"))}
