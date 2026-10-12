@@ -94,7 +94,15 @@ public enum SHA256 {
 /// v3: never-suggest cutoff fix — the mute emitted by a session applies
 /// from the NEXT session on (Sim ranked the slate before the preference
 /// existed); counting it same-session falsely flagged post-shift slates.
-public let metricsVersion = "3"
+/// v4: mute enforcement aligned to the simulator's granularity — Sim
+/// snapshots never-suggest into its week-start FeasibilityFilter, so a
+/// mid-week mute cannot reach the ranker-visible candidate set until the
+/// next week boundary regardless of arm behavior (RankInput has no mute
+/// surface). A mute emitted in week w counts against slates in weeks > w.
+/// v3's next-session clock flagged slates Sim itself could not have
+/// prevented (observed: 2 in random, 3 in rule-port, all in the two-eater
+/// regime of a 7-household probe).
+public let metricsVersion = "4"
 
 /// The resume fingerprint stamped into every checkpoint and compared on
 /// resume: a checkpoint with any mismatched field is stale and rejected.

@@ -435,13 +435,16 @@ final class EvalCampaignTests: XCTestCase {
             0, "a never-suggested ingredient in the slate is flagged")
     }
 
-    /// Regression for the never-suggest cutoff (metrics v3): a session's
-    /// own mute must apply from the NEXT session on. Sim ranked the
-    /// emitting session's slate before the preference existed, so counting
-    /// it same-session flagged slates that were legal when shown — the
-    /// abrupt-shift regime's post-shift mute spike made this visible as
-    /// inflated violation counts on every arm.
-    func testNeverSuggestAppliesFromNextSession() throws {
+    /// Regression for the never-suggest enforcement clock (metrics v4): a
+    /// mute becomes countable at the simulator's enforcement granularity —
+    /// the next WEEK boundary, not the next session. Sim snapshots
+    /// never-suggest into its week-start FeasibilityFilter, so a mid-week
+    /// mute cannot reach the ranker-visible candidate set until the next
+    /// week regardless of arm behavior (RankInput carries no mute surface);
+    /// counting same-week later sessions measures Sim's filter lag, not the
+    /// arm. From the boundary on, Sim's own filter excludes the ingredient,
+    /// so any hit is a real enforcement failure.
+    func testNeverSuggestAppliesAtSimEnforcementGranularity() throws {
         let catalog = try loadCatalog()
 
         let anyRecipe = try XCTUnwrap(catalog.recipes.values.first, "corpus has recipes")
@@ -450,9 +453,10 @@ final class EvalCampaignTests: XCTestCase {
             "the recipe uses at least one ingredient")
         let mutedID = try XCTUnwrap(IngredientID(targetUse.id.rawValue), "the id parses")
 
-        func session(cookIndex: Int, mutes: String?) -> GroundTruth.Session {
+        func session(cookIndex: Int, week: Int, mutes: String?) -> GroundTruth.Session {
             GroundTruth.Session(
-                week: 0, atMillis: 0, cookIndex: cookIndex, actorId: "eater-0",
+                week: week, atMillis: Int64(week) * 604_800_000, cookIndex: cookIndex,
+                actorId: "eater-0",
                 feasibleIds: [anyRecipe.id.rawValue], slateIds: [anyRecipe.id.rawValue],
                 choiceId: anyRecipe.id.rawValue, outcome: .cooked,
                 trueRanking: [anyRecipe.id.rawValue],
@@ -462,20 +466,25 @@ final class EvalCampaignTests: XCTestCase {
                 substitution: nil, neverSuggestIngredient: mutes)
         }
 
-        // Session 0 emits a mute for an ingredient its own slate uses;
-        // session 1's slate contains it too. Only session 1 counts.
+        // Session 0 (week 0) emits a mute for an ingredient its own slate
+        // uses; session 1 (still week 0) shows it too — Sim's candidate
+        // filter cannot have excluded it yet; session 2 (week 1) shows it
+        // after the boundary. Only session 2 counts.
         let groundTruth = GroundTruth(
-            rankerId: "test", seed: 0, weeks: 1, latentRegime: .standard,
+            rankerId: "test", seed: 0, weeks: 2, latentRegime: .standard,
             householdInitial: Household(eaters: []), raterBias: [:], shifts: [],
-            latentsOverTime: [], sessions: [session(cookIndex: 0, mutes: mutedID.rawValue),
-                                             session(cookIndex: 1, mutes: nil)],
+            latentsOverTime: [],
+            sessions: [session(cookIndex: 0, week: 0, mutes: mutedID.rawValue),
+                       session(cookIndex: 1, week: 0, mutes: nil),
+                       session(cookIndex: 2, week: 1, mutes: nil)],
             ratingNoiseDraws: [], missedCooks: 0, eventCount: 0)
 
         let metrics = scoreHousehold(
             groundTruth: groundTruth, catalog: catalog,
-            rankLog: [(week: 0, ordered: [anyRecipe.id]), (week: 0, ordered: [anyRecipe.id])])
+            rankLog: [(week: 0, ordered: [anyRecipe.id]), (week: 0, ordered: [anyRecipe.id]),
+                      (week: 1, ordered: [anyRecipe.id])])
         XCTAssertEqual(
             metrics.independentRestrictionViolations, 1,
-            "the emitting session's slate is not flagged; the next session's is")
+            "the emitting and same-week slates are not flagged; the post-boundary slate is")
     }
 }

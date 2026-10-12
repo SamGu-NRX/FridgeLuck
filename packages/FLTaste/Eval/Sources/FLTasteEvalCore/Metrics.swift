@@ -90,7 +90,18 @@ public func scoreHousehold(
 
     var lastCookWeek: [String: Int] = [:]
     var eaterRegrets: [String: [Double]] = [:]
-    var neverSuggest = Set<IngredientID>()
+    // Independent mute ledger: ingredient -> week the mute was emitted.
+    // Enforcement granularity is the simulator's, not the app's ideal: Sim
+    // snapshots never-suggest into its week-start FeasibilityFilter, so a
+    // mid-week mute cannot reach the ranker-visible candidate set until the
+    // next week boundary no matter what the arm does (RankInput carries no
+    // mute surface). Counting earlier sessions would measure Sim's filter
+    // lag, not arm behavior. A mute emitted in week w applies to slates in
+    // weeks > w; from that point the sim's own filter excludes the
+    // ingredient from candidates, so any hit is a real enforcement failure
+    // and still fails the zero bar. Same feedback-granularity family as the
+    // staged-replay caveat in RESULTS.md.
+    var neverSuggestWeeks: [IngredientID: Int] = [:]
 
     for (session, logEntry) in zip(rankedSessions, rankLog) {
         metrics.rankedSessions += 1
@@ -126,19 +137,19 @@ public func scoreHousehold(
         metrics.tauSum += kendallTau(ordered: scoredOrder, utilities: session.utilities)
         metrics.tauCount += 1
 
-        // Independent fail-closed safety check over the shown slate. The
-        // mute emitted by THIS session applies from the NEXT session on:
-        // Sim ranked this slate before the preference existed, so counting
-        // it here would flag slates that were legal when shown (the
-        // abrupt-shift regime's post-shift mute spike made this visible).
-        // An unparseable id is unverifiable — count it, never drop it.
+        // Independent fail-closed safety check over the shown slate, at the
+        // simulator's enforcement granularity (see the ledger comment): a
+        // mute emitted in week w counts against slates in weeks > w. An
+        // unparseable id is unverifiable — count it, never drop it.
         let slate = session.slateIds.compactMap(RecipeID.init)
         metrics.independentRestrictionViolations += session.slateIds.count - slate.count
+        let activeMutes = Set(
+            neverSuggestWeeks.filter { $0.value < session.week }.keys)
         metrics.independentRestrictionViolations += expectations.violations(
-            week: session.week, slate: slate, neverSuggest: neverSuggest)
+            week: session.week, slate: slate, neverSuggest: activeMutes)
         if let raw = session.neverSuggestIngredient {
             if let id = IngredientID(raw) {
-                neverSuggest.insert(id)
+                neverSuggestWeeks[id] = min(neverSuggestWeeks[id] ?? Int.max, session.week)
             } else {
                 metrics.independentRestrictionViolations += 1
             }
