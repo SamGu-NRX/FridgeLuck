@@ -28,6 +28,10 @@ Design rules (see SCORECARD.md for the full document):
 from __future__ import annotations
 
 import json
+import os
+import urllib.error
+import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +39,9 @@ VALID_STATUS = ("pass", "fail", "not-run")
 VALID_OPS = ("<=", ">=", "==")
 
 RUN_BINDING_FIELDS = ("run_id", "git_sha", "started_at")
+
+# The repository whose CI runs can produce imported results.
+GITHUB_REPO = "SamGu-NRX/FridgeLuck"
 
 
 class ContractError(ValueError):
@@ -117,6 +124,16 @@ def _bars_differ(a: dict[str, Any], b: dict[str, Any]) -> bool:
     return a.get("op") != b.get("op") or a.get("value") != b.get("value")
 
 
+def _has_interval(m: dict[str, Any]) -> bool:
+    """True when the metric carries a well-formed [low, high] interval."""
+    interval = m.get("interval")
+    return (
+        isinstance(interval, list)
+        and len(interval) == 2
+        and all(isinstance(b, (int, float)) and not isinstance(b, bool) for b in interval)
+    )
+
+
 def _enforce_registry(
     metrics: list[dict[str, Any]], suite_id: str, registry_metrics: dict[str, dict[str, Any]]
 ) -> tuple[list[dict[str, Any]], list[str]]:
@@ -173,6 +190,16 @@ def _enforce_registry(
                         f"value {emitted_bar.get('value')!r}}} differs from the "
                         f"registry bar {{op {reg_bar['op']!r}, value "
                         f"{reg_bar['value']!r}}} — emitter bars are never trusted"
+                    )
+                if (
+                    spec.get("interval_required")
+                    and m.get("status") != "not-run"
+                    and not _has_interval(m)
+                ):
+                    mismatches.append(
+                        f"metric {mid!r}: the registry requires this bar on the "
+                        "95% interval's low end — a point estimate without an "
+                        "interval cannot pass; emit the measured interval"
                     )
 
         if m.get("status") == "not-run":
@@ -312,17 +339,24 @@ def validate_results(
 
 
 def validate_run_binding(result: dict[str, Any], expected_run: dict[str, str]) -> None:
-    """Fail closed unless the result carries exactly this run's binding.
+    """Fail closed unless the result is bound to this run by its producer.
 
-    Every result the runner admits — run, imported or not-run — must carry
-    `run` = {run_id, git_sha, started_at} equal to the stamping run. Anything
-    lacking or contradicting them is not evidence of this run.
+    Every result the runner admits carries `run` = {run_id, git_sha,
+    started_at}. For suite runs the SUITE stamps it — the runner passes this
+    run's identity to the suite (`FL_RUN_BINDING`) and verifies the emitted
+    producer binding instead of overwriting it — so a result whose binding
+    names another run (a stale copy from an old out/ directory) or that was
+    written without a binding is not evidence of this run. Imported results
+    keep their producing identity and are verified separately (see
+    validate_import_provenance).
     """
     run = result.get("run")
     if not isinstance(run, dict):
         raise ContractError(
-            "result carries no run binding — expected run.run_id, run.git_sha, "
-            "run.started_at stamped by the runner"
+            "result carries no run binding — the runner passed this run's "
+            "identity to the suite (FL_RUN_BINDING: run_id, git_sha, "
+            "started_at) and the suite must stamp it as its producer binding; "
+            "an output written without one is not evidence of this run"
         )
     for field in RUN_BINDING_FIELDS:
         value = run.get(field)
@@ -335,16 +369,132 @@ def validate_run_binding(result: dict[str, Any], expected_run: dict[str, str]) -
             )
 
 
-def validate_import_provenance(payload: dict[str, Any], expected_sha: str | None) -> None:
+def _http_get_default(url: str, token: str | None) -> tuple[int, str]:
+    """The production transport: one authenticated GET to the GitHub REST API."""
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "fridgeluck-scorecard-runner",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        return int(resp.status), resp.read().decode("utf-8")
+
+
+# Transport seam at the network boundary: production uses the real GET; the
+# runner's self-tests install a deterministic fixture transport here.
+HTTP_GET = _http_get_default
+
+
+def _github_token() -> str | None:
+    return (
+        os.environ.get("GITHUB_TOKEN")
+        or os.environ.get("SECRET_GITHUB_TOKEN")
+        or os.environ.get("GH_TOKEN")
+    )
+
+
+def verify_github_ci_run(
+    run_id: str,
+    expected_sha: str,
+    run_url: str,
+    *,
+    repo: str = GITHUB_REPO,
+    http_get=None,
+) -> dict[str, str]:
+    """Re-verify a producing CI run against GitHub's REST API.
+
+    The run must exist in this repository and its recorded head_sha must be
+    the current head. Returns evidence the runner keeps on the admitted
+    import. Raises ContractError — the caller fails closed to not-run — when
+    the id is not a GitHub Actions run id, the URL is not this repository's
+    Actions URL, the run does not exist, another head produced it, or the
+    network blocks verification (labeled UNVERIFIED-NATIVE).
+    """
+    if not run_id.isdigit():
+        raise ContractError(
+            f"run_id {run_id!r} is not the numeric id of a GitHub Actions run — "
+            "synthetic run identities are not provenance"
+        )
+    expected_url = f"https://github.com/{repo}/actions/runs/{run_id}"
+    if run_url != expected_url:
+        raise ContractError(
+            f"run_url {run_url!r} is not this repository's CI run URL "
+            f"({expected_url}) — synthetic or foreign URLs are not provenance"
+        )
+    get = http_get or HTTP_GET
+    api = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}"
+    try:
+        status, body = get(api, _github_token())
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            raise ContractError(
+                f"GitHub has no Actions run {run_id} — the claimed producing "
+                "run does not exist; live-reachability check: run id "
+                "unverifiable"
+            ) from exc
+        raise ContractError(
+            f"GitHub refused verification of run {run_id} (HTTP {exc.code}) — "
+            "import fails closed; live-reachability check UNVERIFIED-NATIVE"
+        ) from exc
+    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        raise ContractError(
+            f"GitHub API unreachable while verifying run {run_id} ({exc}) — "
+            "import fails closed; live-reachability check UNVERIFIED-NATIVE"
+        ) from exc
+    if status != 200:
+        raise ContractError(
+            f"GitHub returned HTTP {status} for run {run_id} — import fails "
+            "closed; live-reachability check UNVERIFIED-NATIVE"
+        )
+    try:
+        head = json.loads(body).get("head_sha")
+    except json.JSONDecodeError as exc:
+        raise ContractError(
+            f"GitHub's response for run {run_id} is not JSON — import fails "
+            "closed; live-reachability check UNVERIFIED-NATIVE"
+        ) from exc
+    if not head or not isinstance(head, str):
+        raise ContractError(
+            f"GitHub's response for run {run_id} carries no head_sha — import "
+            "fails closed; live-reachability check UNVERIFIED-NATIVE"
+        )
+    if head != expected_sha:
+        raise ContractError(
+            f"GitHub run {run_id} was produced at {head[:12]}, not the current "
+            f"head {expected_sha[:12]} — the payload's git.sha is a forgery; "
+            "refusing"
+        )
+    return {
+        "verified_via": "github-rest",
+        "run_id": run_id,
+        "head_sha": head,
+        "run_url": expected_url,
+        "checked_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+
+
+def validate_import_provenance(
+    payload: dict[str, Any],
+    expected_sha: str | None,
+    *,
+    repo: str = GITHUB_REPO,
+    http_get=None,
+) -> dict[str, str]:
     """The macos-import rule: committed native results must prove themselves.
 
     An import is only evidence when it was produced by a CI run at the
-    current head. The payload must carry:
-      - `git.sha`: the full SHA of the producing run, equal to the runner's HEAD;
-      - `run_url`: the URL of the CI run that produced the results;
-      - `run.run_id` and `run.started_at`: the producing run's identity.
-    Anything missing or contradicting fails closed (the runner reports
-    not-run with this reason) — never pass.
+    current head that GitHub's REST API confirms. The payload must carry:
+      - `git.sha`: the full SHA of the producing run, equal to the runner's head;
+      - `run_url`: this repository's GitHub Actions URL for that run;
+      - `run.run_id` (numeric) and `run.started_at`: the producing run's identity.
+    The runner then re-verifies run id + head SHA against the GitHub REST API
+    (token from GITHUB_TOKEN / SECRET_GITHUB_TOKEN). A synthetic URL
+    (ci.example.test and friends), a fabricated run id, a foreign head, or a
+    network that blocks verification each fail closed — not-run, never pass.
+    Returns the verification evidence recorded on the admitted import.
     """
     git = payload.get("git")
     sha = git.get("sha") if isinstance(git, dict) else None
@@ -370,10 +520,15 @@ def validate_import_provenance(payload: dict[str, Any], expected_sha: str | None
             "imported results carry no run binding — expected run.run_id and "
             "run.started_at of the producing run"
         )
-    for field in ("run_id", "started_at"):
-        value = run.get(field)
-        if not value or not isinstance(value, str):
-            raise ContractError(f"imported results' run binding is missing {field!r}")
+    run_id = run.get("run_id")
+    started_at = run.get("started_at")
+    if not run_id or not isinstance(run_id, str):
+        raise ContractError("imported results' run binding is missing 'run_id'")
+    if not started_at or not isinstance(started_at, str):
+        raise ContractError("imported results' run binding is missing 'started_at'")
+    return verify_github_ci_run(
+        run_id, expected_sha or sha, run_url, repo=repo, http_get=http_get
+    )
 
 
 def write_results(out_dir: Path, payload: dict[str, Any]) -> Path:
