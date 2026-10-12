@@ -85,16 +85,16 @@ final class NutritionAndRestrictionTests: XCTestCase {
 
     func testRestrictionPermitsHardFilter() throws {
         let allergy = try Restriction(allergens: [.peanuts])
-        XCTAssertTrue(allergy.permits(canonicalName: "rice"))
-        XCTAssertFalse(allergy.permits(canonicalName: "pad thai", allergens: [.peanuts]))
+        XCTAssertTrue(allergy.permits(canonicalName: "rice", allergens: [], dietTags: []))
+        XCTAssertFalse(allergy.permits(canonicalName: "pad thai", allergens: [.peanuts], dietTags: []))
         // A custom exclusion matches exactly by canonical name.
         let custom = try Restriction(customExclusions: ["monosodium glutamate"])
-        XCTAssertFalse(custom.permits(canonicalName: "monosodium glutamate"))
-        XCTAssertTrue(custom.permits(canonicalName: "msg"))
+        XCTAssertFalse(custom.permits(canonicalName: "monosodium glutamate", allergens: [], dietTags: []))
+        XCTAssertTrue(custom.permits(canonicalName: "msg", allergens: [], dietTags: []))
         // Diet tags.
         let diet = try Restriction(dietExclusions: [.vegan])
-        XCTAssertFalse(diet.permits(canonicalName: "omelette", dietTags: [.vegan]))
-        XCTAssertTrue(diet.permits(canonicalName: "omelette"))
+        XCTAssertFalse(diet.permits(canonicalName: "omelette", allergens: [], dietTags: [.vegan]))
+        XCTAssertTrue(diet.permits(canonicalName: "omelette", allergens: [], dietTags: []))
     }
 
     func testRestrictionUnionAcrossEaters() throws {

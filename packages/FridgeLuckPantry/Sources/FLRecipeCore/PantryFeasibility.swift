@@ -57,7 +57,12 @@ public struct FLPreparationTransforms: Hashable, Sendable {
 // of the same ingredient see the true remainder.
 //
 // Line-state order of questions, each with a test:
-// 1. Does a hard restriction forbid it? → blockedByRestriction
+// 1. Does the facts source settle the composition against the household's
+//    hard restrictions? violated → blockedByRestriction, unknown →
+//    needsConfirmation (Review round 2: unknown is a refusal, not a pass).
+//    The gate arms only when the household's restrictions name allergen or
+//    diet axes; name-based exclusions are checked first, and axis-free
+//    restrictions leave the facts source nothing to answer.
 // 2. Is there a stock group for the identity at all? → missing
 // 3. Do any of its lots come in a usable form? → missing (form reason)
 // 4. Is the required amount known? → uncertainStock
@@ -115,6 +120,7 @@ public enum FLPantryFeasibility {
         recipe: RecipeRevision,
         stock: [FLItemStock],
         restriction: Restriction,
+        facts: FLIngredientFactsEvaluating,
         transforms: FLPreparationTransforms = .standard,
         staples: Set<String> = FLPantryFeasibility.defaultStaples,
         swaps: [FLAcceptedSwap] = [],
@@ -280,16 +286,35 @@ public enum FLPantryFeasibility {
 
             // 1. Hard restrictions are absolute (SPEC 3.1): the union of the
             // household's restrictions filters candidates; stock, staples
-            // and swaps never matter for a forbidden ingredient.
-            guard restriction.permits(canonicalName: line.ingredient.canonicalName) else {
+            // and swaps never matter for a forbidden ingredient. Composition
+            // comes from the facts source (Review round 2): a name check
+            // alone cannot see compound allergens, and an unknown verdict is
+            // a refusal (needsConfirmation), never a pass.
+            switch restrictionVerdict(
+                restriction: restriction,
+                facts: facts,
+                canonicalName: line.ingredient.canonicalName
+            ) {
+            case .blocked(let reason):
                 return try buildLine(
                     line.lineID,
                     ingredient: line.ingredient,
                     state: .blockedByRestriction,
                     availableGrams: nil,
                     requiredGrams: line.quantity.gramsIfKnown.map { $0.grams * servingsScale },
-                    reason: "'\(line.ingredient.canonicalName)' is excluded by this household's hard restrictions"
+                    reason: reason
                 )
+            case .needsConfirmation(let reason):
+                return try buildLine(
+                    line.lineID,
+                    ingredient: line.ingredient,
+                    state: .needsConfirmation,
+                    availableGrams: nil,
+                    requiredGrams: line.quantity.gramsIfKnown.map { $0.grams * servingsScale },
+                    reason: reason
+                )
+            case .proceed:
+                break
             }
 
             // Servings (SPEC 3.2): lines are written for the revision's
@@ -312,36 +337,56 @@ public enum FLPantryFeasibility {
 
             // An accepted swap may cover a line the asked-for identity
             // cannot. Only a full rescue counts, the substitute must pass
-            // the same hard restrictions (a swap never feeds the household
-            // a forbidden food), and a failed probe reserves nothing.
+            // the same facts-based restriction check as the asked-for
+            // identity (a swap never feeds the household a forbidden food,
+            // and an unknown substitute composition cannot rescue a line —
+            // Review round 2), and a failed probe reserves nothing.
             if asked.state == .missing,
-               let swap = swaps.first(where: { $0.replacesGroupKey == key }),
-               restriction.permits(canonicalName: swap.substitute.canonicalName) {
-                let substituteRequired = scaledRequired.map { $0 * swap.gramsFactor }
-                let substitute = assess(ingredient: swap.substitute, requiredGrams: substituteRequired, preparation: line.preparation)
-                if substitute.state == .satisfied {
-                    // A stale rescue never reserves: the cook must confirm
-                    // the substitute's evidence before it is used.
-                    if !substitute.stale {
-                        reserve(FLStockFold.groupKey(for: swap.substitute), usableIDs: substitute.usableLotIDs, satisfiedGrams: substituteRequired)
-                    }
-                    let covered: FLFeasibilityLineState = substitute.stale
-                        ? .needsReconfirming
-                        : .satisfied
+               let swap = swaps.first(where: { $0.replacesGroupKey == key }) {
+                switch restrictionVerdict(restriction: restriction, facts: facts, canonicalName: swap.substitute.canonicalName) {
+                case .blocked:
+                    // No rescue; the asked-for identity's own evidence
+                    // decides below (it stays .missing here).
+                    break
+                case .needsConfirmation(let reason):
+                    // The stale-rescue pattern, applied to composition: the
+                    // substitute is on the shelf but its safety is undecided.
+                    // Reserve nothing; the app asks for confirmation.
                     return try buildLine(
                         line.lineID,
                         ingredient: line.ingredient,
-                        state: covered,
-                        availableGrams: substitute.availableGrams,
-                        requiredGrams: substituteRequired,
-                        reason: substitute.stale
-                            ? "'\(line.ingredient.canonicalName)' is covered by '\(swap.substitute.canonicalName)' through an accepted swap, but the shelf evidence is stale — reconfirm"
-                            : "'\(line.ingredient.canonicalName)' is covered by '\(swap.substitute.canonicalName)' through an accepted swap; you have \(gramsLabel(substitute.availableGrams ?? 0))",
-                        viaSwap: !substitute.stale
+                        state: .needsConfirmation,
+                        availableGrams: nil,
+                        requiredGrams: scaledRequired,
+                        reason: "'\(line.ingredient.canonicalName)' is not on the shelf, and the accepted swap to '\(swap.substitute.canonicalName)' cannot be relied on: \(reason)"
                     )
+                case .proceed:
+                    let substituteRequired = scaledRequired.map { $0 * swap.gramsFactor }
+                    let substitute = assess(ingredient: swap.substitute, requiredGrams: substituteRequired, preparation: line.preparation)
+                    if substitute.state == .satisfied {
+                        // A stale rescue never reserves: the cook must confirm
+                        // the substitute's evidence before it is used.
+                        if !substitute.stale {
+                            reserve(FLStockFold.groupKey(for: swap.substitute), usableIDs: substitute.usableLotIDs, satisfiedGrams: substituteRequired)
+                        }
+                        let covered: FLFeasibilityLineState = substitute.stale
+                            ? .needsReconfirming
+                            : .satisfied
+                        return try buildLine(
+                            line.lineID,
+                            ingredient: line.ingredient,
+                            state: covered,
+                            availableGrams: substitute.availableGrams,
+                            requiredGrams: substituteRequired,
+                            reason: substitute.stale
+                                ? "'\(line.ingredient.canonicalName)' is covered by '\(swap.substitute.canonicalName)' through an accepted swap, but the shelf evidence is stale — reconfirm"
+                                : "'\(line.ingredient.canonicalName)' is covered by '\(swap.substitute.canonicalName)' through an accepted swap; you have \(gramsLabel(substitute.availableGrams ?? 0))",
+                            viaSwap: !substitute.stale
+                        )
+                    }
+                    // The substitute could not cover the line; the asked-for
+                    // identity's own evidence decides below.
                 }
-                // The substitute could not cover the line; the asked-for
-                // identity's own evidence decides below.
             }
 
             // 4. A staple with no record at all is assumed (SPEC 3.2

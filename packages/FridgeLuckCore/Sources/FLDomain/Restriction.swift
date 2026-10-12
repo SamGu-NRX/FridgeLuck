@@ -95,8 +95,23 @@ public struct Restriction: Hashable, Sendable {
         return merged
     }
 
+    /// The custom-exclusion layer alone: does this person exclude the
+    /// ingredient by name? The household named the ingredient itself, so
+    /// this layer needs no composition facts. Shared by `permits` and by
+    /// callers that judge composition separately through a facts source.
+    public func excludes(canonicalName: String) -> Bool {
+        customExclusions.contains(Self.normalized(canonicalName))
+    }
+
     /// The hard-filter question: may this person eat something with these
     /// declared properties?
+    ///
+    /// Composition is explicit — there are no defaults. Review round 2:
+    /// defaulting `allergens` and `dietTags` to empty sets let a caller
+    /// that only knew a canonical name pass unknown composition as safe
+    /// (a milk-allergic household was served cream cheese; a swap to any
+    /// unnamed substitute rescued a line). Declaring the composition is
+    /// now the caller's job, and a caller without facts refuses instead.
     ///
     /// - Parameters:
     ///   - canonicalName: the ingredient or dish's canonical name; a custom
@@ -109,10 +124,10 @@ public struct Restriction: Hashable, Sendable {
     ///   - dietTags: diet tags it fails to satisfy.
     public func permits(
         canonicalName: String,
-        allergens: Set<Allergen> = [],
-        dietTags: Set<DietExclusion> = []
+        allergens: Set<Allergen>,
+        dietTags: Set<DietExclusion>
     ) -> Bool {
-        if customExclusions.contains(Self.normalized(canonicalName)) { return false }
+        if excludes(canonicalName: canonicalName) { return false }
         if !allergens.isDisjoint(with: self.allergens) { return false }
         if !dietTags.isDisjoint(with: dietExclusions) { return false }
         return true

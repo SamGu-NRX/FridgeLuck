@@ -34,7 +34,7 @@ final class FeasibilityContractTests: XCTestCase {
             RecipeFixtures.purchase("p2", ingredient: milk, grams: 400),
         ])
         let doubled = try FLPantryFeasibility.evaluate(
-            recipe: recipe, stock: stock, restriction: Restriction(), targetServings: 4,
+            recipe: recipe, stock: stock, restriction: Restriction(), facts: RecipeFixtures.allKnownEmpty, targetServings: 4,
             reconfirmWindow: nil
         )
         XCTAssertEqual(doubled.lines[0].requiredGrams, 600)
@@ -44,7 +44,7 @@ final class FeasibilityContractTests: XCTestCase {
         XCTAssertEqual(doubled.outcome, .partial)
 
         let basis = try FLPantryFeasibility.evaluate(
-            recipe: recipe, stock: stock, restriction: Restriction(), targetServings: 2,
+            recipe: recipe, stock: stock, restriction: Restriction(), facts: RecipeFixtures.allKnownEmpty, targetServings: 2,
             reconfirmWindow: nil
         )
         XCTAssertEqual(basis.lines.map(\.state), [.satisfied, .satisfied])
@@ -59,6 +59,7 @@ final class FeasibilityContractTests: XCTestCase {
             recipe: recipe,
             stock: try RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: milk, grams: 300)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.lines[0].requiredGrams, 250, "no target means the basis, unscaled")
@@ -72,7 +73,7 @@ final class FeasibilityContractTests: XCTestCase {
             RecipeFixtures.makeLine("l1", ingredient: salt, grams: 5),
         ])
         let report = try FLPantryFeasibility.evaluate(
-            recipe: recipe, stock: [], restriction: Restriction()
+            recipe: recipe, stock: [], restriction: Restriction(), facts: RecipeFixtures.allKnownEmpty
         )
         XCTAssertEqual(report.lines[0].state, .assumedStaple)
         XCTAssertEqual(report.outcome, .partial, "an assumption is not evidence; the recipe is not complete on it")
@@ -88,6 +89,7 @@ final class FeasibilityContractTests: XCTestCase {
             recipe: recipe,
             stock: try RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: salt, grams: 50)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(stocked.lines[0].state, .satisfied)
@@ -98,6 +100,7 @@ final class FeasibilityContractTests: XCTestCase {
             recipe: recipe,
             stock: try RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: salt, grams: 50), RecipeFixtures.consume("c1", ingredient: salt, grams: 50, timestamp: Self.t0)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(emptied.lines[0].state, .missing, "a recorded empty is a shopping trip, not an assumption")
@@ -109,7 +112,7 @@ final class FeasibilityContractTests: XCTestCase {
         ])
         let restriction = try Restriction(customExclusions: ["salt"])
         let report = try FLPantryFeasibility.evaluate(
-            recipe: recipe, stock: [], restriction: restriction
+            recipe: recipe, stock: [], restriction: restriction, facts: RecipeFixtures.allKnownEmpty
         )
         XCTAssertEqual(report.lines[0].state, .blockedByRestriction, "food safety outranks the staple assumption")
         XCTAssertEqual(report.outcome, .blocked)
@@ -127,6 +130,7 @@ final class FeasibilityContractTests: XCTestCase {
                 RecipeFixtures.purchase("p1", ingredient: milk, grams: 500, timestamp: Self.t0),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             now: Self.t0.addingTimeInterval(20 * Self.day),
             reconfirmWindow: 14 * Self.day
         )
@@ -148,6 +152,7 @@ final class FeasibilityContractTests: XCTestCase {
                 RecipeFixtures.purchase("p2", ingredient: milk, grams: 100, timestamp: Self.t0.addingTimeInterval(19 * Self.day)),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             now: Self.t0.addingTimeInterval(20 * Self.day),
             reconfirmWindow: 14 * Self.day
         )
@@ -166,6 +171,7 @@ final class FeasibilityContractTests: XCTestCase {
                 RecipeFixtures.purchase("p2", ingredient: egg, grams: 300, timestamp: Self.t0),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             now: Self.t0.addingTimeInterval(20 * Self.day),
             reconfirmWindow: 14 * Self.day
         )
@@ -183,6 +189,7 @@ final class FeasibilityContractTests: XCTestCase {
                 RecipeFixtures.purchase("p1", ingredient: milk, grams: 500, timestamp: Self.t0),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             now: Self.t0.addingTimeInterval(365 * Self.day),
             reconfirmWindow: nil
         )
@@ -200,6 +207,7 @@ final class FeasibilityContractTests: XCTestCase {
             recipe: recipe,
             stock: try RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: margarine, grams: 200)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             swaps: [swap],
             reconfirmWindow: nil
         )
@@ -219,6 +227,7 @@ final class FeasibilityContractTests: XCTestCase {
             recipe: recipe,
             stock: try RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: margarine, grams: 60)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             swaps: [swap],
             reconfirmWindow: nil
         )
@@ -229,6 +238,7 @@ final class FeasibilityContractTests: XCTestCase {
             recipe: recipe,
             stock: try RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: margarine, grams: 40)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             swaps: [swap],
             reconfirmWindow: nil
         )
@@ -246,6 +256,7 @@ final class FeasibilityContractTests: XCTestCase {
             recipe: recipe,
             stock: try RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: margarine, grams: 200)]),
             restriction: restriction,
+            facts: RecipeFixtures.allKnownEmpty,
             swaps: [swap]
         )
         XCTAssertEqual(report.lines[0].state, .missing, "a restricted substitute would feed the household a forbidden food; the swap is void")
@@ -261,6 +272,7 @@ final class FeasibilityContractTests: XCTestCase {
             recipe: recipe,
             stock: try RecipeFixtures.stock([RecipeFixtures.purchase("p1", ingredient: margarine, grams: 200, timestamp: Self.t0)]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             swaps: [swap],
             now: Self.t0.addingTimeInterval(20 * Self.day),
             reconfirmWindow: 14 * Self.day
@@ -284,6 +296,7 @@ final class FeasibilityContractTests: XCTestCase {
                 RecipeFixtures.purchase("p2", ingredient: margarine, grams: 500),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             swaps: [swap],
             reconfirmWindow: nil
         )
@@ -307,6 +320,7 @@ final class FeasibilityContractTests: XCTestCase {
                 RecipeFixtures.purchase("p4", ingredient: parsley, grams: 1000),
             ]),
             restriction: Restriction(),
+            facts: RecipeFixtures.allKnownEmpty,
             reconfirmWindow: nil
         )
         XCTAssertEqual(report.fitLine, "1 recorded · check whole milk, egg and all-purpose flour")
