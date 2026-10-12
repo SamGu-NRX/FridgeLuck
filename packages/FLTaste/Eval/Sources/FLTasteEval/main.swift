@@ -30,12 +30,16 @@ struct Provenance: Codable {
     var gitSHA: String
     var producedAt: String
     var dirtyFiles: Int
+    /// Per-dirty-file content hashes, so uncommitted code that produced
+    /// evidence is identifiable and re-identifiable, not just counted.
+    var dirtyFileHashes: [String: String]
     var note: String
 
     enum CodingKeys: String, CodingKey {
         case gitSHA = "git_sha"
         case producedAt = "produced_at"
         case dirtyFiles = "dirty_files"
+        case dirtyFileHashes = "dirty_file_hashes"
         case note
     }
 }
@@ -64,11 +68,17 @@ func runProvenance() -> Provenance {
 
     let sha = git(["rev-parse", "HEAD"]) ?? ""
     let status = git(["status", "--porcelain"]) ?? ""
-    let dirty = status.split(separator: "\n").count
+    var hashes: [String: String] = [:]
+    for entry in status.split(separator: "\n") {
+        let raw = entry.dropFirst(3)
+        let path = raw.contains(" -> ") ? raw.components(separatedBy: " -> ")[1] : String(raw)
+        if let hash = SHA256.hex(fileAt: path) { hashes[path] = hash }
+    }
     return Provenance(
         gitSHA: sha,
         producedAt: ISO8601String(Date()),
-        dirtyFiles: dirty,
+        dirtyFiles: status.split(separator: "\n").count,
+        dirtyFileHashes: hashes,
         note: sha.isEmpty
             ? "empty git_sha: producing commit unknown — NOT publishable"
             : "produced by the commit named in git_sha"
@@ -153,6 +163,18 @@ func main() throws {
         config.armIDs.map { $0.contains(arm.id) } ?? true
     }
 
+    // Hash-bound resume identity: config, corpus bytes, code (git SHA +
+    // dirty-tree content hashes), and the metrics-schema version.
+    let fingerprint = ResumeFingerprint(
+        configHash: SHA256.hex(
+            canonicalConfigString(
+                householdsPerSeed: config.householdsPerSeed, weeks: config.weeks,
+                bootstrapResamples: config.bootstrapResamples, seeds: config.seeds,
+                armIDs: config.armIDs)),
+        corpusHash: SHA256.hex(dataJSON),
+        codeHash: codeVersionHash(),
+        metricsVersion: metricsVersion)
+
     let fileManager = FileManager.default
     let checkpointDir = URL(fileURLWithPath: "\(outDir)/checkpoints")
     try fileManager.createDirectory(at: checkpointDir, withIntermediateDirectories: true)
@@ -175,10 +197,20 @@ func main() throws {
                 .appendingPathComponent("seed-\(seed)")
                 .appendingPathComponent("arm-\(arm.id).json")
             if fileManager.fileExists(atPath: checkpoint.path) {
-                let saved = try JSONDecoder().decode(ArmSeedResult.self, from: Data(contentsOf: checkpoint))
-                allResults.append(saved)
-                print("[resume] \(arm.id) seed \(seed): checkpoint exists, skipping")
-                continue
+                let saved =
+                    try? JSONDecoder()
+                    .decode(ArmSeedResult.self, from: Data(contentsOf: checkpoint))
+                if let saved, checkpointAcceptable(saved: saved.resumeFingerprint, current: fingerprint) {
+                    allResults.append(saved)
+                    print("[resume] \(arm.id) seed \(seed): checkpoint accepted (fingerprint match)")
+                    continue
+                }
+                // Stale, unfingerprinted, or schema-old evidence: never
+                // silently resume. Loudly reject, delete, recompute.
+                print(
+                    "[resume] REJECTED \(arm.id) seed \(seed): checkpoint fingerprint missing or "
+                        + "mismatched with the current config/corpus/code — recomputing")
+                try? fileManager.removeItem(at: checkpoint)
             }
 
             let armSeed = SeedDeriver.child(seed, "arm-\(arm.id)", armIndex)
@@ -200,11 +232,13 @@ func main() throws {
             let result = summarize(
                 arm: arm.id, family: arm.family, seed: seed,
                 households: householdsPerSeed, accumulator: box.value())
+            var stamped = result
+            stamped.resumeFingerprint = fingerprint
             try fileManager.createDirectory(
                 at: checkpoint.deletingLastPathComponent(), withIntermediateDirectories: true)
-            let encoded = try JSONEncoder().encode(result)
+            let encoded = try JSONEncoder().encode(stamped)
             try encoded.write(to: checkpoint)
-            allResults.append(result)
+            allResults.append(stamped)
             print(
                 "[run] \(arm.id) seed \(seed): NDCG \(result.meanNDCG.map { String(format: "%.4f", $0) } ?? "n/a"), violations \(result.restrictionViolations)"
             )

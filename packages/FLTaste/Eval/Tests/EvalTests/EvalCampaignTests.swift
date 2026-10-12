@@ -198,6 +198,63 @@ final class EvalCampaignTests: XCTestCase {
         XCTAssertEqual(try XCTUnwrap(unmet).activationGateMet, false, "a losing engine fails the gate")
     }
 
+    // MARK: Hash-bound resume
+
+    func testSHA256KnownVectors() {
+        XCTAssertEqual(
+            SHA256.hex(""),
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+        XCTAssertEqual(
+            SHA256.hex("abc"),
+            "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
+        XCTAssertEqual(
+            SHA256.hex("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"),
+            "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1")
+    }
+
+    func testCanonicalConfigOrderIndependent() {
+        let a = canonicalConfigString(
+            householdsPerSeed: 5, weeks: 12, bootstrapResamples: 1_000,
+            seeds: [3, 1, 2], armIDs: ["engine", "random"])
+        let b = canonicalConfigString(
+            householdsPerSeed: 5, weeks: 12, bootstrapResamples: 1_000,
+            seeds: [1, 2, 3], armIDs: ["random", "engine"])
+        XCTAssertEqual(a, b, "set-equal configs hash equal")
+        XCTAssertNotEqual(
+            a,
+            canonicalConfigString(
+                householdsPerSeed: 6, weeks: 12, bootstrapResamples: 1_000,
+                seeds: [1, 2, 3], armIDs: ["engine", "random"]),
+            "a household change changes the config hash")
+    }
+
+    func testCheckpointFingerprintRejection() {
+        let current = ResumeFingerprint(
+            configHash: "c", corpusHash: "d", codeHash: "e", metricsVersion: "2")
+        XCTAssertTrue(checkpointAcceptable(saved: current, current: current))
+        XCTAssertFalse(
+            checkpointAcceptable(saved: nil, current: current),
+            "unfingerprinted (schema-old) checkpoints are stale")
+        XCTAssertFalse(
+            checkpointAcceptable(
+                saved: ResumeFingerprint(
+                    configHash: "OTHER", corpusHash: "d", codeHash: "e", metricsVersion: "2"),
+                current: current),
+            "a config change rejects resume")
+        XCTAssertFalse(
+            checkpointAcceptable(
+                saved: ResumeFingerprint(
+                    configHash: "c", corpusHash: "OTHER", codeHash: "e", metricsVersion: "2"),
+                current: current),
+            "a corpus change rejects resume")
+        XCTAssertFalse(
+            checkpointAcceptable(
+                saved: ResumeFingerprint(
+                    configHash: "c", corpusHash: "d", codeHash: "e", metricsVersion: "1"),
+                current: current),
+            "a metrics-version bump rejects resume")
+    }
+
     // MARK: Fail-close contract (planted failure)
 
     func testPlantedFailureIsRejected() throws {

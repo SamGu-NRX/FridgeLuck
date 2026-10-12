@@ -93,6 +93,10 @@ public struct ArmSeedResult: Codable {
     public var repeatRate: Double?
     public var meanFairnessGap: Double?
     public var perRegime: [String: RegimeSummary]
+    /// Hash identity of the run that produced this row (config, corpus,
+    /// code, metrics version). Resume rejects checkpoints whose fingerprint
+    /// does not match the current run — stale evidence is recomputed.
+    public var resumeFingerprint: ResumeFingerprint?
 }
 
 public struct RegimeSummary: Codable {
