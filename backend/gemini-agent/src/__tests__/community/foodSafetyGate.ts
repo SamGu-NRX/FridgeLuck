@@ -14,7 +14,7 @@ export const FOOD_SAFETY_FIXTURE_DIR = fileURLToPath(new URL("fixtures/food-safe
 export function fixtureFoodSafetyGate(): FoodSafetyGate {
   return createFoodSafetyGate({
     canonPath: `${FOOD_SAFETY_FIXTURE_DIR}/canon.json`,
-    factsPath: `${FOOD_SAFETY_FIXTURE_DIR}/ingredient-facts.json`,
+    factsPath: `${FOOD_SAFETY_FIXTURE_DIR}/ingredient-facts/facts.json`,
   });
 }
 
@@ -22,6 +22,6 @@ export function fixtureFoodSafetyGate(): FoodSafetyGate {
 export function closedFoodSafetyGate(): FoodSafetyGate {
   return createFoodSafetyGate({
     canonPath: "/nonexistent/food-safety-canon.json",
-    factsPath: "/nonexistent/ingredient-facts.json",
+    factsPath: "/nonexistent/ingredient-facts/facts.json",
   });
 }

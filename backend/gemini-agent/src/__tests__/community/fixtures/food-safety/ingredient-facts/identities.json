@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "ingredients": [
+    {
+      "key": "rice",
+      "display": "Rice",
+      "synonyms": [
+        "white rice",
+        "brown rice"
+      ]
+    },
+    {
+      "key": "tomato",
+      "display": "Tomato",
+      "synonyms": [
+        "tomatoes"
+      ]
+    },
+    {
+      "key": "cucumber",
+      "display": "Cucumber",
+      "synonyms": [
+        "cucumbers"
+      ]
+    },
+    {
+      "key": "onion",
+      "display": "Onion",
+      "synonyms": [
+        "onions"
+      ]
+    },
+    {
+      "key": "carrot",
+      "display": "Carrot",
+      "synonyms": [
+        "carrots"
+      ]
+    },
+    {
+      "key": "potato",
+      "display": "Potato",
+      "synonyms": [
+        "potatoes"
+      ]
+    },
+    {
+      "key": "beet",
+      "display": "Beet"
+    },
+    {
+      "key": "pea",
+      "display": "Pea",
+      "synonyms": [
+        "peas"
+      ]
+    },
+    {
+      "key": "lemon",
+      "display": "Lemon"
+    },
+    {
+      "key": "salt",
+      "display": "Salt"
+    },
+    {
+      "key": "water",
+      "display": "Water"
+    },
+    {
+      "key": "chickpeas",
+      "display": "Chickpeas",
+      "synonyms": [
+        "chickpea"
+      ]
+    },
+    {
+      "key": "curry-paste",
+      "display": "Curry paste",
+      "synonyms": [
+        "curry paste"
+      ]
+    },
+    {
+      "key": "cola",
+      "display": "Cola"
+    },
+    {
+      "key": "chicken",
+      "display": "Chicken",
+      "synonyms": [
+        "chicken thigh",
+        "chicken breast"
+      ]
+    },
+    {
+      "key": "beef",
+      "display": "Beef",
+      "synonyms": [
+        "ground beef"
+      ]
+    },
+    {
+      "key": "butter",
+      "display": "Butter"
+    },
+    {
+      "key": "egg",
+      "display": "Egg",
+      "synonyms": [
+        "eggs"
+      ]
+    },
+    {
+      "key": "mayonnaise",
+      "display": "Mayonnaise",
+      "synonyms": [
+        "mayo"
+      ]
+    },
+    {
+      "key": "tahini",
+      "display": "Tahini"
+    },
+    {
+      "key": "soy-sauce",
+      "display": "Soy sauce",
+      "synonyms": [
+        "shoyu"
+      ]
+    },
+    {
+      "key": "teriyaki-sauce",
+      "display": "Teriyaki sauce",
+      "synonyms": [
+        "teriyaki"
+      ]
+    },
+    {
+      "key": "worcestershire",
+      "display": "Worcestershire sauce"
+    },
+    {
+      "key": "pesto",
+      "display": "Pesto"
+    },
+    {
+      "key": "wheat-flour",
+      "display": "Wheat flour",
+      "synonyms": [
+        "flour"
+      ]
+    },
+    {
+      "key": "tamari",
+      "display": "Tamari",
+      "forms": [
+        {
+          "key": "certified-gluten-free",
+          "display": "Certified gluten-free tamari",
+          "synonyms": [
+            "certified gluten-free tamari",
+            "certified wheat-free tamari"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "barley",
+      "display": "Barley",
+      "synonyms": [
+        "pearl barley"
+      ]
+    },
+    {
+      "key": "beef-stock",
+      "display": "Beef stock",
+      "synonyms": [
+        "beef broth"
+      ]
+    }
+  ]
+}

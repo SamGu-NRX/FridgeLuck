@@ -65,7 +65,7 @@ const CANONICAL_MINIMUMS_F: Record<FoodSafetyClass, number> = {
   leftovers: 165,
 };
 
-const FIXTURE_FACTS = `${FOOD_SAFETY_FIXTURE_DIR}/ingredient-facts.json`;
+const FIXTURE_FACTS = `${FOOD_SAFETY_FIXTURE_DIR}/ingredient-facts/facts.json`;
 
 function fixtureCatalog() {
   return loadFoodSafetyCatalog({ canon: `${FOOD_SAFETY_FIXTURE_DIR}/canon.json`, facts: FIXTURE_FACTS });

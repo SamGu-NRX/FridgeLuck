@@ -32,7 +32,7 @@ import { createExploreRoutes } from "../../community/explore/exploreRoutes.js";
 import { FirestoreModerationQueue } from "../../community/explore/moderationQueue.js";
 import { stubBlockDirectory, stubModerationQueue } from "../../community/shared/testing/stubs.js";
 import { createFoodSafetyGate } from "../../community/foodSafety/gate.js";
-import { FOOD_SAFETY_CANON_SCHEMA, INGREDIENT_FACTS_SCHEMA, loadFoodSafetyCatalog, resolveFoodSafetyCatalogPaths, sha256Hex, stableIngredientFactsString } from "../../community/foodSafety/catalog.js";
+import { FOOD_SAFETY_CANON_SCHEMA, loadFoodSafetyCatalog, resolveFoodSafetyCatalogPaths } from "../../community/foodSafety/catalog.js";
 import { FOOD_SAFETY_FIXTURE_DIR, closedFoodSafetyGate, fixtureFoodSafetyGate } from "./foodSafetyGate.js";
 
 const KID = "test-key-1";
@@ -173,7 +173,7 @@ beforeAll(async () => {
   writeFileSync(join(emptyDir, "canon.json"), "", "utf8");
   const emptyCanonGate = createFoodSafetyGate({
     canonPath: join(emptyDir, "canon.json"),
-    factsPath: `${FOOD_SAFETY_FIXTURE_DIR}/ingredient-facts.json`,
+    factsPath: `${FOOD_SAFETY_FIXTURE_DIR}/ingredient-facts/facts.json`,
   });
   openUrl = await startApp({ ...base, screeningStages: [], foodSafetyGate: fixtureFoodSafetyGate() });
   closedUrl = await startApp({ ...base, screeningStages: [], foodSafetyGate: closedFoodSafetyGate(), moderation: stubModerationQueue() });
@@ -275,7 +275,7 @@ describe("the mandatory lint and allergen-claim checks block unsound recipes", (
     const created = (await json(res)) as unknown as PublicationJson;
     expect(created.status).toBe("queued");
     expect(created.screeningFailures.map((f) => f.stage)).toContain("compound-allergens");
-    expect(created.screeningFailures.some((f) => f.reasons.some((r) => r.includes("wheat-gluten")))).toBe(true);
+    expect(created.screeningFailures.some((f) => f.reasons.some((r) => r.includes("gluten")))).toBe(true);
   });
 
   test("an unknown ingredient fails the compound-allergen stage into the queue, hidden — never silently allowed", async () => {
@@ -321,14 +321,14 @@ describe("a clean publication passes with compound-allergen tags persisted and r
     const created = (await json(res)) as unknown as PublicationJson;
     expect(created.status).toBe("published");
     expect(created.screeningFailures).toHaveLength(0);
-    expect(created.allergenTags).toEqual(["allergen-sesame", "allergen-soy", "allergen-wheat-gluten"]);
+    expect(created.allergenTags).toEqual(["allergen-gluten", "allergen-sesame", "allergen-soy", "allergen-wheat"]);
 
     // Persisted: the author's own view returns the same evaluation.
     const mine = await fetch(`${openUrl}/v1/community/publications/${created.publicationId}`, {
       headers: { authorization: `Bearer ${alice.accessToken}` },
     });
     expect(mine.status).toBe(200);
-    expect(((await json(mine)) as unknown as PublicationJson).allergenTags).toEqual(["allergen-sesame", "allergen-soy", "allergen-wheat-gluten"]);
+    expect(((await json(mine)) as unknown as PublicationJson).allergenTags).toEqual(["allergen-gluten", "allergen-sesame", "allergen-soy", "allergen-wheat"]);
 
     // Persisted: another reader's public view and the Explore feed return
     // the stored tags, not a recomputation.
@@ -337,11 +337,11 @@ describe("a clean publication passes with compound-allergen tags persisted and r
       headers: { authorization: `Bearer ${bob.accessToken}` },
     });
     expect(direct.status).toBe(200);
-    expect(((await json(direct)) as unknown as PublicationJson).allergenTags).toEqual(["allergen-sesame", "allergen-soy", "allergen-wheat-gluten"]);
+    expect(((await json(direct)) as unknown as PublicationJson).allergenTags).toEqual(["allergen-gluten", "allergen-sesame", "allergen-soy", "allergen-wheat"]);
 
     const feed = (await json(await fetch(`${openUrl}/v1/community/explore/gate-clean`, { headers: { authorization: `Bearer ${bob.accessToken}` } }))) as unknown as FeedJson;
     expect(feed.items).toHaveLength(1);
-    expect(feed.items[0]?.allergenTags).toEqual(["allergen-sesame", "allergen-soy", "allergen-wheat-gluten"]);
+    expect(feed.items[0]?.allergenTags).toEqual(["allergen-gluten", "allergen-sesame", "allergen-soy", "allergen-wheat"]);
   });
 
   test("an allergen-free recipe publishes with no tags", async () => {
@@ -359,23 +359,11 @@ describe("a clean publication passes with compound-allergen tags persisted and r
 });
 
 describe("the loader fails closed on every kind of bad data", () => {
-  const validFacts = `${FOOD_SAFETY_FIXTURE_DIR}/ingredient-facts.json`;
+  const validFacts = `${FOOD_SAFETY_FIXTURE_DIR}/ingredient-facts/facts.json`;
   const validCanon = `${FOOD_SAFETY_FIXTURE_DIR}/canon.json`;
 
   function loaderCase(canon: string | null, facts: string | null): ReturnType<typeof loadFoodSafetyCatalog> {
     return loadFoodSafetyCatalog({ canon: canon ?? "", facts: facts ?? "" });
-  }
-
-  /** A provenance block over the given entries whose blob hash verifies at load. */
-  function provenanceFor(entries: Array<{ id: string; match: string[]; allergens: string[] }>) {
-    return {
-      sourceBranch: "test fixture (authored in this repository)",
-      sourceFile: "src/__tests__/community/fixtures/food-safety/ingredient-facts.json",
-      sourceCommit: "fixture",
-      sourceFileHash: `sha256:${"0".repeat(64)}`,
-      copiedBlobHash: `sha256:${sha256Hex(stableIngredientFactsString(entries))}`,
-      extracted: "minimal test facts",
-    };
   }
 
   test("valid packages open the catalog", () => {
@@ -404,26 +392,32 @@ describe("the loader fails closed on every kind of bad data", () => {
     rmSync(dir, { recursive: true, force: true });
   });
 
-  test("off-schema or empty rules/facts documents are not loaded", () => {
+  test("off-schema or empty canon documents are not loaded", () => {
     const dir = mkdtempSync(join(tmpdir(), "fl-schema-canon-"));
     const canonPath = join(dir, "canon.json");
-    const factsPath = join(dir, "facts.json");
-    const entries = [{ id: "tahini", match: ["tahini"], allergens: ["sesame"] }];
-    writeFileSync(factsPath, JSON.stringify({ schema: INGREDIENT_FACTS_SCHEMA, source: "x", allergens: ["sesame"], ingredients: entries, provenance: provenanceFor(entries) }), "utf8");
     writeFileSync(canonPath, JSON.stringify({ schema: "some/other@v9", source: "x", rules: [{ kind: "forbidden-terms", id: "r", terms: ["x"], message: "y" }] }), "utf8");
-    expect(loaderCase(canonPath, factsPath).loaded).toBe(false);
+    expect(loaderCase(canonPath, validFacts).loaded).toBe(false);
     writeFileSync(canonPath, JSON.stringify({ schema: FOOD_SAFETY_CANON_SCHEMA, source: "x", rules: [] }), "utf8");
-    expect(loaderCase(canonPath, factsPath).loaded).toBe(false);
+    expect(loaderCase(canonPath, validFacts).loaded).toBe(false);
     writeFileSync(canonPath, JSON.stringify({ schema: FOOD_SAFETY_CANON_SCHEMA, source: "x", rules: [{ kind: "claim-requires-evidence", id: "r", triggers: ["t"], requireAny: ["([unclosed"], message: "y" }] }), "utf8");
-    const badRegex = loaderCase(canonPath, factsPath);
+    const badRegex = loaderCase(canonPath, validFacts);
     expect(badRegex.loaded).toBe(false);
     if (!badRegex.loaded) {
       expect(badRegex.reason).toContain("invalid regular expression");
     }
     // A rulebook allergen reference outside the facts vocabulary is bad data.
     writeFileSync(canonPath, JSON.stringify({ schema: FOOD_SAFETY_CANON_SCHEMA, source: "x", rules: [{ kind: "allergen-claim", id: "r", claims: [{ phrases: ["gluten free"], allergen: "wheat-gluten" }], message: "y" }] }), "utf8");
-    expect(loaderCase(canonPath, factsPath).loaded).toBe(false);
+    expect(loaderCase(canonPath, validFacts).loaded).toBe(false);
     rmSync(dir, { recursive: true, force: true });
+  });
+
+  test("an absent facts package is not loaded, with a stated reason", () => {
+    const closed = loaderCase(validCanon, "/nonexistent/ingredient-facts/facts.json");
+    expect(closed.loaded).toBe(false);
+    if (!closed.loaded) {
+      expect(closed.reason).toContain("ingredient facts");
+      expect(closed.reason).toContain("provenance");
+    }
   });
 
   test("path resolution honours explicit env vars and the data-root convention", () => {
@@ -432,10 +426,10 @@ describe("the loader fails closed on every kind of bad data", () => {
     expect(paths.facts).toBe("/b/facts.json");
     const rooted = resolveFoodSafetyCatalogPaths({ env: {}, dataRoot: "/srv/fl" });
     expect(rooted.canon).toBe("/srv/fl/data/food-safety/canon.json");
-    expect(rooted.facts).toBe("/srv/fl/data/food-safety/ingredient-facts.json");
+    expect(rooted.facts).toBe("/srv/fl/data/ingredient-facts/facts.json");
     // The default location walks up from the working directory to the nearest
     // ancestor holding a data/ directory (the repo root when run from
-    // backend/gemini-agent with the packages landed at data/food-safety).
+    // backend/gemini-agent with the packages landed under data/).
     const dir = mkdtempSync(join(tmpdir(), "fl-data-root-"));
     try {
       mkdirSync(join(dir, "data"), { recursive: true });
@@ -443,7 +437,7 @@ describe("the loader fails closed on every kind of bad data", () => {
       mkdirSync(deep, { recursive: true });
       const walked = resolveFoodSafetyCatalogPaths({ env: {}, cwd: deep });
       expect(walked.canon).toBe(join(dir, "data", "food-safety", "canon.json"));
-      expect(walked.facts).toBe(join(dir, "data", "food-safety", "ingredient-facts.json"));
+      expect(walked.facts).toBe(join(dir, "data", "ingredient-facts", "facts.json"));
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

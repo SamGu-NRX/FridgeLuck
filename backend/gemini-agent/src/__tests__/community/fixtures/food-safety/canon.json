@@ -41,13 +41,13 @@
           "phrases": [
             "gluten free"
           ],
-          "allergen": "wheat-gluten"
+          "allergen": "gluten"
         },
         {
           "phrases": [
             "nut free"
           ],
-          "allergen": "tree-nut"
+          "allergen": "tree-nuts"
         },
         {
           "phrases": [
