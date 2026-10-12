@@ -24,6 +24,8 @@ let package = Package(
         .library(name: "FLScreenSupport", targets: ["FLScreenSupport"]),
         .library(name: "FLTonight", targets: ["FLTonight"]),
         .library(name: "FLKitchen", targets: ["FLKitchen"]),
+        .library(name: "FLExplore", targets: ["FLExplore"]),
+        .library(name: "FLRecipe", targets: ["FLRecipe"]),
     ],
     dependencies: [
         .package(path: "../FLDesignTokens"),
@@ -59,12 +61,37 @@ let package = Package(
                 .product(name: "FLDesignSystem", package: "FLDesignSystem"),
             ]
         ),
+        // Explore: the community feed AND the Table screen (Part 3). Table
+        // is not a tab — it lives inside Explore behind its beta flag, its
+        // entry row is Explore state, so both screens share one target.
+        // Same split as Tonight: state/intents ungated, views gated.
+        .target(
+            name: "FLExplore",
+            dependencies: [
+                "FLScreenSupport",
+                .product(name: "FLDesignTokens", package: "FLDesignTokens"),
+                .product(name: "FLDesignSystem", package: "FLDesignSystem"),
+            ]
+        ),
+        // Recipe: the detail document (Part 3). A shared destination pushed
+        // from Tonight, Explore rows and Table cards, so it is its own
+        // target rather than any one caller's submodule.
+        .target(
+            name: "FLRecipe",
+            dependencies: [
+                "FLScreenSupport",
+                .product(name: "FLDesignTokens", package: "FLDesignTokens"),
+                .product(name: "FLDesignSystem", package: "FLDesignSystem"),
+            ]
+        ),
         .testTarget(
             name: "FLScreenSupportTests",
             dependencies: ["FLScreenSupport", .product(name: "FLDesignTokens", package: "FLDesignTokens")]
         ),
         .testTarget(name: "FLTonightTests", dependencies: ["FLTonight"]),
         .testTarget(name: "FLKitchenTests", dependencies: ["FLKitchen"]),
+        .testTarget(name: "FLExploreTests", dependencies: ["FLExplore", "FLScreenSupport"]),
+        .testTarget(name: "FLRecipeTests", dependencies: ["FLRecipe", "FLScreenSupport"]),
         // The no-hardcoded-style lint: scans this package's sources for hex
         // colour literals and font names. Needs no module dependency.
         .testTarget(name: "FLScreensLintTests", dependencies: []),
