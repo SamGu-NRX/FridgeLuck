@@ -169,4 +169,32 @@ final class MealLogTests: XCTestCase {
         XCTAssertEqual(try MealLog.cooks(db: db).count, 1)
         XCTAssertEqual(try MealLog.cookCompletedEvents(db: db).count, 1)
     }
+
+    // MARK: Accepted substitutions
+
+    func testAcceptedSwapIsLoggedOnTheCook() throws {
+        // SPEC 3.3: the cook records what was swapped and why. A swap the
+        // user accepted mid-cook is part of the meal record, not discarded
+        // at the hand-off.
+        let swap = try CookSubstitution(
+            from: try IngredientReference(canonicalName: "butter"),
+            to: try IngredientReference(canonicalName: "olive oil"),
+            necessity: .necessary
+        )
+        let started = try CookSession.start(
+            sessionID: "sess-1",
+            revision: TestBuilders.revision(
+                "galette",
+                lines: [TestBuilders.line("l1", "flour", TestBuilders.grams(250))],
+                steps: [TestBuilders.step("s1"), TestBuilders.step("s2")]
+            ),
+            now: t0
+        )
+        let afterFirst = try started.completeStep(now: t0.addingTimeInterval(600))
+        let finished = try afterFirst
+            .accept(substitution: swap)
+            .completeStep(now: t0.addingTimeInterval(1200))
+        let handoff = try makeHandoff(session: finished)
+        XCTAssertEqual(handoff.cook.substitutions, [swap])
+    }
 }
