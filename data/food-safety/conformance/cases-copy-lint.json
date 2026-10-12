@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "name": "Copy-lint spoilage and use-it-up patterns (COPY.md policy)",
+  "description": "Each case is one synthetic copy record (a recipe tip or note) whose text matches exactly the declared CopyLint pattern id. Expectations pin the full pattern sequence; the runner additionally requires the rewrite to cite its policy source.",
+  "cases": [
+    {
+      "id": "salvage-spoiled-food",
+      "record": {
+        "file": "conformance/cases-copy-lint.json",
+        "id": "cx-copy-salvage",
+        "kind": "copy",
+        "field": "tip",
+        "text": "That bag of salad is looking slimy — blend it into a smoothie anyway, don't waste it."
+      },
+      "expect": {
+        "kinds": ["salvage-spoiled"]
+      }
+    },
+    {
+      "id": "leafy-greens-too-far-gone",
+      "record": {
+        "file": "conformance/cases-copy-lint.json",
+        "id": "cx-copy-greens",
+        "kind": "copy",
+        "field": "note",
+        "text": "The spinach has gone slimy but it's still fine to use in a curry."
+      },
+      "expect": {
+        "kinds": ["salvage-spoiled", "leafy-greens-too-far-gone"]
+      }
+    },
+    {
+      "id": "cook-decayed-or-sprouted-produce",
+      "record": {
+        "file": "conformance/cases-copy-lint.json",
+        "id": "cx-copy-sprouted",
+        "kind": "copy",
+        "field": "tip",
+        "text": "Those potatoes have sprouted but just boil them, they're perfectly fine to eat."
+      },
+      "expect": {
+        "kinds": ["cook-decayed-or-sprouted"]
+      }
+    },
+    {
+      "id": "fish-curing-rescue",
+      "record": {
+        "file": "conformance/cases-copy-lint.json",
+        "id": "cx-copy-fish-cure",
+        "kind": "copy",
+        "field": "tip",
+        "text": "The raw salmon for ceviche is fine — the lime juice effectively cooks the fish and makes it safe to eat."
+      },
+      "expect": {
+        "kinds": ["fish-curing-rescue"]
+      }
+    },
+    {
+      "id": "smell-is-not-a-safety-test",
+      "record": {
+        "file": "conformance/cases-copy-lint.json",
+        "id": "cx-copy-smell",
+        "kind": "copy",
+        "field": "tip",
+        "text": "If it smells fine it's still good to eat — trust your nose."
+      },
+      "expect": {
+        "kinds": ["smell-safety-test"]
+      }
+    }
+  ]
+}

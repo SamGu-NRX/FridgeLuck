@@ -6,6 +6,7 @@ let package = Package(
     products: [
         .library(name: "FLFoodSafety", targets: ["FLFoodSafety"]),
         .executable(name: "flfoodsafety-audit", targets: ["flfoodsafety-audit"]),
+        .executable(name: "fl-safety-lint", targets: ["fl-safety-lint"]),
     ],
     targets: [
         // Foundation-only so it builds and tests on Linux (SPEC 3.1 reviewed rulebook).
@@ -16,9 +17,17 @@ let package = Package(
             dependencies: ["FLFoodSafety"],
             path: "Sources/flfoodsafety-audit"
         ),
+        // fl-safety-lint — the canon conformance CLI: lints records files and
+        // replays data/food-safety/conformance/ as a self-test of the canon.
+        // A thin driver over the FLFoodSafety linters (no rules of its own).
+        .executableTarget(
+            name: "fl-safety-lint",
+            dependencies: ["FLFoodSafety"],
+            path: "Sources/fl-safety-lint"
+        ),
         .testTarget(
             name: "FLFoodSafetyTests",
-            dependencies: ["FLFoodSafety"],
+            dependencies: ["FLFoodSafety", "fl-safety-lint"],
             path: "Tests/FLFoodSafetyTests"
         ),
     ]
