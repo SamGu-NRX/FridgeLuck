@@ -427,4 +427,41 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         let rows = try await ledger.allReceipts()
         XCTAssertEqual(rows.count, 1, "only the first executed receipt stands")
     }
+
+    /// Round 2, item 3 (lesser-finding semantics, red-first against the
+    /// pre-claim head: the approval was mislabeled `.alreadyDecided` while
+    /// nothing had been decided): a proposal minted but undecided before the
+    /// process ended refuses fail-closed as unresumable-in-flight. It never
+    /// silently becomes "already decided", and it never executes from a
+    /// stale in-memory table. Full proposal recovery is the documented PR
+    /// Handoff follow-up.
+    func testUndecidedProposalAfterRestartRefusesFailClosed() async throws {
+        let url = tempDatabaseURL()
+        let first = try GRDBReceiptLedger.open(at: url)
+        try first.database.write { db in
+            try db.execute(sql: "CREATE TABLE fl_test_effects (proposalID TEXT NOT NULL)")
+        }
+        let authority1 = try makeAuthority(ledger: first, id: "proposal-orphan")
+        let orphan = try await authority1.propose(
+            tool: .proposeStepAdvance,
+            payload: .stepAdvance(stepIndex: 2),
+            against: try makeSnapshot(),
+            now: t0
+        )  // minted, never decided
+        // Process restart: a fresh authority over the same ledger.
+        let second = try GRDBReceiptLedger.open(at: url)
+        try second.database.write { db in
+            try db.execute(sql: "CREATE TABLE IF NOT EXISTS fl_test_effects (proposalID TEXT NOT NULL)")
+        }
+        let authority2 = try makeAuthority(ledger: second, id: "proposal-orphan")
+        await expectError(.proposalInFlight(proposalID: "proposal-orphan")) {
+            try await authority2.approve(
+                try makeApproval(for: orphan),
+                executor: InsertExecutor(),
+                sessionID: "s1",
+                now: t0.addingTimeInterval(4)
+            )
+        }
+        XCTAssertEqual(try effectCount(second), 0, "an unresumable proposal never executes")
+    }
 }

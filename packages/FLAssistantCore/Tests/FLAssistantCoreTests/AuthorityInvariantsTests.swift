@@ -585,6 +585,68 @@ final class AuthorityInvariantsTests: XCTestCase {
         XCTAssertEqual(states, [.pendingApproval, .executed], "no duplicate executed receipt")
     }
 
+    /// The reviewer's second required race: approval vs decline. While an
+    /// approval is in flight, a concurrent decline must refuse instead of
+    /// deciding a claimed proposal. Against pre-claim code both decisions
+    /// landed (receipts [pending, rejected, executed]).
+    func testConcurrentDeclineWhileApprovalInFlightIsRefused() async throws {
+        let ledger = try makeLedger()
+        let gate = GatedLedger(inner: ledger)
+        let made = try makeAuthorityWithClock(ledger: gate)
+        let proposal = try await made.authority.propose(
+            tool: .proposeTimer, payload: timerPayload(),
+            against: makeSnapshot(revision: 1), now: t0
+        )
+        gate.gate(proposalID: proposal.id)
+        let parkedApproval = try makeApproval(for: proposal)
+        let parkedNow = t0  // shadow the instance property: no `self` in the sending closure
+        let approval1 = Task {
+            try await made.authority.approve(
+                parkedApproval, executor: RowExecutor(), sessionID: "s1", now: parkedNow
+            )
+        }
+        XCTAssertEqual(gate.waitUntilParked(timeout: .now() + 5), .success)
+        await expectError(.proposalInFlight(proposalID: proposal.id)) {
+            try await made.authority.decline(proposalID: proposal.id, now: self.t0)
+        }
+        gate.releaseGate()
+        let receipt = try await approval1.value
+        XCTAssertEqual(receipt.state, .executed)
+        let states = try await ledger.allReceipts().map(\.state)
+        XCTAssertEqual(states, [.pendingApproval, .executed], "the decline never decided the claimed proposal")
+    }
+
+    /// The mirror race: while a decline is in flight, a concurrent approval
+    /// must refuse. Against pre-claim code the approval executed while the
+    /// decline was mid-flight.
+    func testConcurrentApprovalWhileDeclineInFlightIsRefused() async throws {
+        let ledger = try makeLedger()
+        let gate = GatedLedger(inner: ledger)
+        let made = try makeAuthorityWithClock(ledger: gate)
+        let proposal = try await made.authority.propose(
+            tool: .proposeTimer, payload: timerPayload(),
+            against: makeSnapshot(revision: 1), now: t0
+        )
+        gate.gate(proposalID: proposal.id)
+        let declineNow = t0  // shadow the instance property: no `self` in the sending closure
+        let decline1 = Task {
+            try await made.authority.decline(proposalID: proposal.id, now: declineNow)
+        }
+        XCTAssertEqual(gate.waitUntilParked(timeout: .now() + 5), .success)
+        let racingApproval = try makeApproval(for: proposal)
+        await expectError(.proposalInFlight(proposalID: proposal.id)) {
+            try await made.authority.approve(
+                racingApproval, executor: RowExecutor(), sessionID: "s1", now: self.t0
+            )
+        }
+        XCTAssertEqual(try effectCount(ledger), 0, "the refused approval applied nothing")
+        gate.releaseGate()
+        let receipt = try await decline1.value
+        XCTAssertEqual(receipt.state, .rejected)
+        let states = try await ledger.allReceipts().map(\.state)
+        XCTAssertEqual(states, [.pendingApproval, .rejected], "the approval never executed the claimed proposal")
+    }
+
     /// A ledger that parks the first validation read for one proposal AFTER
     /// capturing its pre-decision view — a deterministic model of the
     /// production race: one approval's validation read lands before the
