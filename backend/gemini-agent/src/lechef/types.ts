@@ -346,6 +346,12 @@ export interface ActionReceipt {
   readonly snapshotRevision: number;
   readonly state: ReceiptState;
   readonly recordedAt: EpochSeconds;
+  /**
+   * Why a refusal happened (hash mismatch, superseded revision, replayed
+   * approval, resubmitted consumed id). In-module refusals only — the wire
+   * serializer emits the fixture's five fields, so this never crosses the wire.
+   */
+  readonly reason?: string;
 }
 
 /** Proposals whose TTL (expiresAt) has passed without execution die as `expired`. */

@@ -132,6 +132,14 @@ export function createProposalLayer(options: ProposalLayerOptions): ProposalLaye
   const byCallId = new Map<string, string>();
   /** (tool, payloadHash) → proposal id, for payload dedupe (call id checked first). */
   const byPayload = new Map<string, string>();
+  /**
+   * Dedupe scope disclosure (review fix 2): these maps are in-memory per
+   * proposal-layer session — a layer restart forgets them. The authority
+   * against re-execution is the phone: it refuses replayed approvals and
+   * resubmitted consumed proposal ids with receipts (approve/submitProposal),
+   * and a real phone client persists its receipt log across sessions, so a
+   * replayed id is refused at the phone even when the layer's maps reset.
+   */
   /** proposal id → last known state. */
   const states = new Map<string, ProposalOutcome["state"]>();
 
