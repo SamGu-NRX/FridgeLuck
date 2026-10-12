@@ -1,0 +1,11 @@
+runner under test: /home/user/work/fl-eval-d-r3/evaluation/run.py
+  caught    i-old-binding-stale-copy: selftest-stalecopy_suite: not-run — suite results failed contract validation: run binding run_id is 'r-20260101T000000Z-oldrun01', contradicting this run's 'r-plant-00000000'
+  caught    i-no-binding-stale-copy: selftest-stalecopy2_suite: not-run — suite results failed contract validation: result carries no run binding — the runner passed this run's identity to the suite (FL_RUN_BINDING: run_id, git_sha, started_at) and the suite must stamp it a
+  caught    ii-bar-mismatch: m1: fail — metric 'm1': suite bar {op '<=', value 10} differs from the registry bar {op '<=', value 0} — emitter bars are never trusted
+  caught    iii-synthetic-url-import: selftest-import-synth_suite: not-run — committed results refused (macos-import rule): run_url 'https://ci.example.test/FridgeLuck/actions/runs/424242' is not this repository's CI run URL (https://github.com/SamGu-NRX/FridgeLuck/actions/run
+  caught    iv-point-estimate-no-interval: ndcg10_vs_rule_ranker_pct: fail — metric 'ndcg10_vs_rule_ranker_pct': the registry requires this bar on the 95% interval's low end — a point estimate without an interval cannot pass; emit the measured interval
+  caught    v-infra-failure-zero-issues: selftest-infra_suite: not-run — suite results failed contract validation: explicit failed-run admission: the suite declared run_status 'infrastructure-failure' (planted: xcrun could not boot the simulator; the audit app never launch
+  caught    vi-forged-sha-import: selftest-import-forged_suite: not-run — committed results refused (macos-import rule): GitHub run 38184946729 was produced at 000000000000, not the current head 111111111111 — the payload's git.sha is a forgery; refusing
+  caught    vii-unreachable-import: selftest-import-unreach_suite: not-run — committed results refused (macos-import rule): GitHub API unreachable while verifying run 38184946729 (<urlopen error planted: network unreachable>) — import fails closed; live-reachability check UNVE
+
+report only: 8 plants run (re-run with --expect-green to enforce)

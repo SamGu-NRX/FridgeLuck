@@ -1,5 +1,5 @@
 {
-  "_comment": "The expected suite spine AND the runner-owned bars for the FridgeLuck overhaul scorecard. Suites A-G and their owners come from PLAN.md 'The scorecard (evals first)' on docs/spec-overhaul-20261011 (revision 2, 2026-10-11). The bars are the lead's choice, not measured optima: a suite can only move a bar with a recorded reason (a change to this registry citing PLAN.md or an operator decision). Suites must emit metric ids and labels that match this registry exactly; they may omit bars (the runner injects the registered bar) and their own bars are never trusted: a missing metric, an extra metric, or a different label/op/value FAILS with a reason naming the exact mismatch. platform: 'any' runs on any host; 'macos' suites run only on macOS and are imported from committed out/<id>/results.json elsewhere (matching head + CI-run provenance required - see SCORECARD.md).",
+  "_comment": "The expected suite spine AND the runner-owned bars for the FridgeLuck overhaul scorecard. Suites A-G and their owners come from PLAN.md 'The scorecard (evals first)' on docs/spec-overhaul-20261011 (revision 2, 2026-10-11). The bars are the lead's choice, not measured optima: a suite can only move a bar with a recorded reason (a change to this registry citing PLAN.md or an operator decision). Suites must emit metric ids and labels that match this registry exactly; they may omit bars (the runner injects the registered bar) and their own bars are never trusted: a missing metric, an extra metric, or a different label/op/value FAILS with a reason naming the exact mismatch. interval_required: true marks a bar that applies to the metric's 95% interval low end; a point estimate without an interval cannot pass. platform: 'any' runs on any host; 'macos' suites run only on macOS and are imported from committed out/<id>/results.json elsewhere (matching head + CI-run provenance required - see SCORECARD.md).",
   "suites": [
     {
       "id": "pantry-truth",
@@ -56,7 +56,8 @@
             "value": 10
           },
           "source": "PLAN.md row B: engine beats the current rule ranker on NDCG@10 with the 95% interval above 0 and at least +10% relative",
-          "note": "The contract applies >= bars to the interval's low end, so a low end >= +10 also keeps the 95% interval above 0."
+          "note": "The contract applies >= bars to the interval's low end, so a low end >= +10 also keeps the 95% interval above 0.",
+          "interval_required": true
         },
         "ndcg10_vs_profile_only_pct": {
           "label": "NDCG@10 vs explicit-profile-only: relative gain (95% interval low, %)",
@@ -65,7 +66,8 @@
             "value": 10
           },
           "source": "PLAN.md row B: engine beats explicit-profile-only on NDCG@10 with the 95% interval above 0 and at least +10% relative",
-          "note": "The contract applies >= bars to the interval's low end, so a low end >= +10 also keeps the 95% interval above 0."
+          "note": "The contract applies >= bars to the interval's low end, so a low end >= +10 also keeps the 95% interval above 0.",
+          "interval_required": true
         },
         "restriction_violations": {
           "label": "Restriction violations",

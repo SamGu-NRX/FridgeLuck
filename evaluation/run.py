@@ -41,12 +41,15 @@ from __future__ import annotations
 
 import argparse
 import inspect
+import io
 import json
+import os
 import shutil
 import subprocess
 import sys
 import tempfile
 import time
+import urllib.error
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -83,11 +86,34 @@ def make_run_binding(git: dict[str, Any] | None = None) -> dict[str, str]:
 
 
 def bind_result(result: dict[str, Any], run_binding: dict[str, str]) -> dict[str, Any]:
-    """Stamp the run binding and re-validate it. Raises ContractError (a
-    runner bug) if the stamp could not be applied — never silently admit."""
+    """Stamp a RUNNER-AUTHORED row (a not-run refusal, a mismatch report, an
+    admitted-import record) with this run's binding and re-validate it.
+    Raises ContractError (a runner bug) if the stamp could not be applied —
+    never silently admit. A suite-produced result is never re-stamped here:
+    its producer binding is verified instead (see run_suite)."""
     result["run"] = dict(run_binding)
     contract.validate_run_binding(result, run_binding)
     return result
+
+
+def reject_failed_run(payload: dict[str, Any]) -> None:
+    """Explicit failed-run admission (SCORECARD.md section 4).
+
+    A suite whose run itself failed at the infrastructure level cannot
+    report results: whatever zero-issues emission it carries is refused, so
+    a dead simulator or a crashed audit can never be scored as a pass. A
+    payload without `run_status`, or with `run_status: "ok"`, proceeds to
+    normal admission; any other declared value fails closed."""
+    run_status = payload.get("run_status")
+    if run_status is None or run_status == "ok":
+        return
+    detail = payload.get("run_status_reason") or payload.get("reason")
+    raise contract.ContractError(
+        f"explicit failed-run admission: the suite declared run_status "
+        f"{run_status!r}"
+        + (f" ({detail})" if detail else "")
+        + " — a failed run cannot report results; recorded not-run, never pass"
+    )
 
 
 def git_info() -> dict[str, Any]:
@@ -153,6 +179,13 @@ def load_registry() -> list[dict[str, Any]]:
             if not isinstance(spec, dict) or not spec.get("label"):
                 raise ValueError(
                     f"{reg_path}: suite {sid!r} metric {mid!r} needs a 'label'"
+                )
+            if "interval_required" in spec and not isinstance(
+                spec["interval_required"], bool
+            ):
+                raise ValueError(
+                    f"{reg_path}: suite {sid!r} metric {mid!r} "
+                    "'interval_required' must be a bool"
                 )
             bar = spec.get("bar")
             if bar is None:
@@ -275,20 +308,27 @@ def import_committed_results(
 ) -> dict[str, Any]:
     """Pick up a macOS suite's committed results (produced by an approved
     native CI run) — only after the macos-import rule proves them: matching
-    head plus CI-run provenance. Anything less is not-run, never pass."""
+    head plus CI-run provenance re-verified against GitHub's REST API.
+    Anything less is not-run, never pass."""
     path = EVAL_DIR / "out" / entry["id"] / "results.json"
     if not path.is_file():
-        return not_run_suite(
-            entry,
-            "requires macOS (Xcode/simulator). Native runs need the existing iOS CI "
-            "targets or a workflow approved from ci/pending-workflows/eval-macos.yml "
-            "(staged proposal, not installed); no committed results from a proven "
-            "CI run at this head are available to import.",
-            started,
+        return bind_result(
+            not_run_suite(
+                entry,
+                "requires macOS (Xcode/simulator). Native runs need the existing iOS CI "
+                "targets or a workflow approved from ci/pending-workflows/eval-macos.yml "
+                "(staged proposal, not installed); no committed results from a proven "
+                "CI run at this head are available to import.",
+                started,
+            ),
+            run_binding,
         )
     try:
         payload = json.loads(path.read_text())
-        contract.validate_import_provenance(payload, expected_sha=run_binding["git_sha"])
+        reject_failed_run(payload)
+        provenance = contract.validate_import_provenance(
+            payload, expected_sha=run_binding["git_sha"]
+        )
         contract.validate_results(
             payload,
             expected_suite_id=entry["id"],
@@ -301,19 +341,24 @@ def import_committed_results(
     except contract.RegistryMismatch as exc:
         res = mismatch_suite(entry, exc, started, source="imported")
         res["imported_from"] = str(path.relative_to(REPO_ROOT))
-        return res
+        return bind_result(res, run_binding)
     except (json.JSONDecodeError, contract.ContractError) as exc:
-        return not_run_suite(
-            entry, f"committed results refused (macos-import rule): {exc}", started
+        return bind_result(
+            not_run_suite(
+                entry, f"committed results refused (macos-import rule): {exc}", started
+            ),
+            run_binding,
         )
-    # proven: keep the producing run's identity, then bind to THIS run
+    # proven: keep the producing run's identity under native_run, record the
+    # verification evidence, and bind the admission record to THIS run
     payload["native_run"] = {
         **payload.pop("run", {}),
         "run_url": payload.pop("run_url", None),
     }
     payload["source"] = "imported"
     payload["imported_from"] = str(path.relative_to(REPO_ROOT))
-    return payload
+    payload["import_provenance"] = provenance
+    return bind_result(payload, run_binding)
 
 
 def run_suite(
@@ -331,7 +376,9 @@ def run_suite(
     suite_dir: Path = entry["dir"]
     suite_py = suite_dir / "suite.py"
     if not suite_py.is_file():
-        return not_run_suite(entry, "suite directory has no suite.py", started)
+        return bind_result(
+            not_run_suite(entry, "suite directory has no suite.py", started), run_binding
+        )
 
     out_dir = out_root / entry["id"]
     # Fresh output per run: remove whatever a previous run left behind before
@@ -344,26 +391,47 @@ def run_suite(
         "--out", str(out_dir),
         "--repo-root", str(REPO_ROOT),
     ]
+    # Hand this run's identity to the suite: the suite stamps it as the
+    # producer binding on its own results (conforming suites write
+    # results["run"] = json.loads(os.environ["FL_RUN_BINDING"])), and the
+    # runner verifies the emitted binding instead of overwriting it.
+    env = {**os.environ, "FL_RUN_BINDING": json.dumps(run_binding)}
     try:
         proc = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=timeout_s, cwd=str(suite_dir)
+            cmd, capture_output=True, text=True, timeout=timeout_s, cwd=str(suite_dir),
+            env=env,
         )
     except subprocess.TimeoutExpired:
-        return not_run_suite(entry, f"suite exceeded its {timeout_s}s timeout", started)
+        return bind_result(
+            not_run_suite(entry, f"suite exceeded its {timeout_s}s timeout", started),
+            run_binding,
+        )
     except OSError as exc:
-        return not_run_suite(entry, f"could not launch suite: {exc}", started)
+        return bind_result(
+            not_run_suite(entry, f"could not launch suite: {exc}", started), run_binding
+        )
 
     results_path = out_dir / "results.json"
     if proc.returncode != 0:
         tail = (proc.stderr or proc.stdout or "").strip()[-400:]
-        return not_run_suite(
-            entry, f"suite exited with code {proc.returncode}: {tail or '(no output)'}", started
+        return bind_result(
+            not_run_suite(
+                entry, f"suite exited with code {proc.returncode}: {tail or '(no output)'}", started
+            ),
+            run_binding,
         )
     if not results_path.is_file():
         tail = (proc.stderr or proc.stdout or "").strip()[-400:]
-        return not_run_suite(entry, f"suite wrote no results.json: {tail or '(no output)'}", started)
+        return bind_result(
+            not_run_suite(entry, f"suite wrote no results.json: {tail or '(no output)'}", started),
+            run_binding,
+        )
     try:
         payload = json.loads(results_path.read_text())
+        # §4: an explicit infrastructure-failure status refuses the emission;
+        # §1: the SUITE-emitted producer binding is verified, not overwritten.
+        reject_failed_run(payload)
+        contract.validate_run_binding(payload, run_binding)
         contract.validate_results(
             payload,
             expected_suite_id=entry["id"],
@@ -374,15 +442,18 @@ def run_suite(
             },
         )
     except contract.RegistryMismatch as exc:
-        return mismatch_suite(entry, exc, started, source="run")
+        return bind_result(mismatch_suite(entry, exc, started, source="run"), run_binding)
     except (json.JSONDecodeError, contract.ContractError) as exc:
-        return not_run_suite(entry, f"suite results failed contract validation: {exc}", started)
+        return bind_result(
+            not_run_suite(entry, f"suite results failed contract validation: {exc}", started),
+            run_binding,
+        )
 
     payload["source"] = "run"
     payload["duration_ms"] = int((time.monotonic() - started) * 1000)
     payload["timeout_s"] = timeout_s
-    # write the stamped payload back: the committed per-suite evidence then
-    # carries this run's binding too (the scorecard embeds the same object)
+    # write the verified payload back: the per-suite evidence file itself
+    # then carries the (unchanged) producer binding this run verified
     results_path.write_text(json.dumps(payload, indent=2) + "\n")
     return payload
 
@@ -419,7 +490,9 @@ def collect(
             suites_out.append(bind_result(not_run_suite(entry, reason, time.monotonic()), run_binding))
             continue
         timeout_s = int(entry.get("timeout_s", DEFAULT_TIMEOUT_S))
-        suites_out.append(bind_result(run_suite(entry, out_root, timeout_s, run_binding), run_binding))
+        # run_suite verifies the suite's producer binding and binds every
+        # row it authors itself; do not re-stamp its result here.
+        suites_out.append(run_suite(entry, out_root, timeout_s, run_binding))
     return suites_out
 
 
@@ -491,11 +564,15 @@ def render_markdown(card: dict[str, Any]) -> str:
     native = card.get("run", {}).get("git_sha", "?")
     lines.append(
         "*Bars are the lead's choices, owned by `evaluation/registry.json` from "
-        "PLAN.md (\"The scorecard\"); a suite cannot add, drop or re-bar a metric. "
-        "Every result is bound to this run (run id, git "
-        f"`{native[:12]}`, start time). Suites B, D and E are delivered by the "
-        "learning, LeChef and community tasks (see SCORECARD.md for their file "
-        "contract).*"
+        "PLAN.md (\"The scorecard\"); a suite cannot add, drop or re-bar a metric, "
+        "and bars that require intervals apply to the interval's low end. "
+        "Suite results must carry this run's identity as their producer binding "
+        "(passed to the suite, verified by the runner, never overwritten); "
+        "imported native results keep their producing CI run's identity, "
+        "re-verified against GitHub's REST API; anything without a verifiable "
+        f"binding reports not-run, never pass (head {native[:12]}). Suites B, D "
+        "and E are delivered by the learning, LeChef and community tasks "
+        "(see SCORECARD.md for their file contract).*"
     )
     return "\n".join(lines) + "\n"
 
@@ -506,19 +583,41 @@ def render_markdown(card: dict[str, Any]) -> str:
 
 
 def _planted_suite_py(emit: Any) -> str:
-    """Source for a planted suite.py: write `emit` as results.json, exit 0
-    silently (emit None), or crash (emit 'crash')."""
+    """Source for a planted suite.py: write `emit` as results.json — stamped
+    with the producer binding this run passed in (FL_RUN_BINDING), exactly
+    the way a conforming suite binds its output — exit 0 silently (emit
+    None), or crash (emit 'crash')."""
     if emit == "crash":
         return "import os; os._exit(3)\n"
     if emit is None:
         return "import sys; sys.exit(0)\n"
     payload_literal = json.dumps(json.dumps(emit))  # double-encoded: quote-proof
     return (
-        "import json, sys\n"
+        "import json, os, sys\n"
         "from pathlib import Path\n"
         "out = Path(sys.argv[sys.argv.index('--out') + 1])\n"
         "out.mkdir(parents=True, exist_ok=True)\n"
-        f"(out / 'results.json').write_text(json.dumps(json.loads({payload_literal})))\n"
+        f"payload = json.loads({payload_literal})\n"
+        "if os.environ.get('FL_RUN_BINDING'):\n"
+        "    payload['run'] = json.loads(os.environ['FL_RUN_BINDING'])\n"
+        "(out / 'results.json').write_text(json.dumps(payload))\n"
+    )
+
+
+def _copying_suite_py(cached: dict[str, Any]) -> str:
+    """A lying planted suite: copies a cached passing results.json from an
+    old out/ directory into the fresh run directory it was handed — the
+    cached-pass-reuse forgery the review planted."""
+    lit = json.dumps(json.dumps(cached))
+    return (
+        "import json, shutil, sys\n"
+        "from pathlib import Path\n"
+        "out = Path(sys.argv[sys.argv.index('--out') + 1])\n"
+        "out.mkdir(parents=True, exist_ok=True)\n"
+        "old = Path(__file__).resolve().parent / 'old-out'\n"
+        "old.mkdir(exist_ok=True)\n"
+        f"(old / 'results.json').write_text(json.dumps(json.loads({lit})))\n"
+        "shutil.copyfile(old / 'results.json', out / 'results.json')\n"
     )
 
 
@@ -545,14 +644,30 @@ _M_LE0 = {"label": "kept metric", "bar": {"op": "<=", "value": 0}}
 _HEAD = "@HEAD@"                      # substituted with the real head at plant time
 _HEAD_MISMATCH = "@HEAD-MISMATCH@"    # substituted with a non-head SHA
 
+# A real Actions run of this repository (run 38192616346, recorded in project
+# memory from the iOS CI history): the positive control binds to a run id that
+# actually exists, while the CI REST response itself comes from the test
+# fixture (ci_api) so the check stays deterministic offline.
+REAL_RUN_ID = "38192616346"
+REPO = "SamGu-NRX/FridgeLuck"
 
-def _import_payload(metrics: list[dict[str, Any]], sha: str, *, with_run: bool = True,
-                    with_url: bool = True) -> dict[str, Any]:
+
+def _import_payload(
+    metrics: list[dict[str, Any]],
+    sha: str,
+    *,
+    run_id: str = REAL_RUN_ID,
+    url: str | None = None,
+    with_run: bool = True,
+) -> dict[str, Any]:
+    """A committed native-results payload: `git.sha` plus the producing CI
+    run's identity. The run_url defaults to this repository's Actions URL for
+    the run id — the shape real provenance has (the review's synthetic
+    ci.example.test URL is planted explicitly by the synthetic-url case)."""
     payload: dict[str, Any] = {"suite": "@SUITE@", "metrics": metrics, "git": {"sha": sha}}
-    if with_url:
-        payload["run_url"] = "https://ci.example.test/FridgeLuck/actions/runs/123"
+    payload["run_url"] = url or f"https://github.com/{REPO}/actions/runs/{run_id}"
     if with_run:
-        payload["run"] = {"run_id": "ci-native-0001", "started_at": "2026-10-11T00:00:00Z"}
+        payload["run"] = {"run_id": run_id, "started_at": "2026-10-11T00:00:00Z"}
     return payload
 
 
@@ -575,19 +690,22 @@ RUNNER_CASES: list[dict[str, Any]] = [
                       "reason_contains": ["exited with code"]}]},
     {"case": "honest-fail", "suite_id": "selftest-honest",
      "registry_entry": _synthetic_entry("selftest-honest", {"m1": _M_LE0}),
-     "emit": {"suite": "selftest-honest", "metrics": [_m1(5)]},
+     "emit": {"suite": "selftest-honest", "letter": "T", "title": "selftest-honest",
+              "metrics": [_m1(5)]},
      "expect_rows": [{"id": "m1", "status": "fail"}]},
     {"case": "honest-pass", "suite_id": "selftest-honest",
      "registry_entry": _synthetic_entry("selftest-honest", {"m1": _M_LE0}),
-     "emit": {"suite": "selftest-honest", "metrics": [_m1(0)]},
+     "emit": {"suite": "selftest-honest", "letter": "T", "title": "selftest-honest",
+              "metrics": [_m1(0)]},
      "expect_rows": [{"id": "m1", "status": "pass"}]},
     {"case": "liar", "suite_id": "selftest-liar",
      "registry_entry": _synthetic_entry("selftest-liar", {"m1": _M_LE0}),
-     "emit": {"suite": "selftest-liar", "metrics": [_m1(5, status="pass")]},
+     "emit": {"suite": "selftest-liar", "letter": "T", "title": "selftest-liar",
+              "metrics": [_m1(5, status="pass")]},
      "expect_rows": [{"id": "m1", "status": "fail"}]},
     {"case": "missing-inputs", "suite_id": "selftest-missing",
      "registry_entry": _synthetic_entry("selftest-missing", {"m1": _M_LE0}),
-     "emit": {"suite": "selftest-missing",
+     "emit": {"suite": "selftest-missing", "letter": "T", "title": "selftest-missing",
               "metrics": [{"id": "m1", "metric": "kept metric", "status": "not-run",
                            "reason": "planted: input corpus absent"}]},
      "expect_rows": [{"id": "m1", "status": "not-run"}]},
@@ -595,7 +713,7 @@ RUNNER_CASES: list[dict[str, Any]] = [
      "registry_entry": _synthetic_entry(
          "selftest-interval",
          {"m1": {"label": "equality metric", "bar": {"op": "==", "value": 200}}}),
-     "emit": {"suite": "selftest-interval",
+     "emit": {"suite": "selftest-interval", "letter": "T", "title": "selftest-interval",
               "metrics": [{"id": "m1", "metric": "equality metric", "value": 55,
                            "bar": {"op": "==", "value": 200},
                            "interval": [0.22, 0.35]}]},
@@ -605,7 +723,8 @@ RUNNER_CASES: list[dict[str, Any]] = [
     {"case": "dropped-metric", "suite_id": "selftest-drop",
      "registry_entry": _synthetic_entry("selftest-drop", {
          "m1": _M_LE0, "m2": {"label": "second metric", "bar": {"op": "==", "value": 0}}}),
-     "emit": {"suite": "selftest-drop", "metrics": [_m1(0)]},   # m2 quietly dropped
+     "emit": {"suite": "selftest-drop", "letter": "T", "title": "selftest-drop",
+              "metrics": [_m1(0)]},   # m2 quietly dropped
      "expect_rows": [
          {"id": "m1", "status": "pass"},
          {"id": "m2", "status": "fail",
@@ -613,14 +732,14 @@ RUNNER_CASES: list[dict[str, Any]] = [
     {"case": "weakened-bar", "suite_id": "selftest-weaken",
      "registry_entry": _synthetic_entry("selftest-weaken", {"m1": _M_LE0}),
      # the suite re-bars its own metric: value 5 violates <=0, so it declares <=10
-     "emit": {"suite": "selftest-weaken",
+     "emit": {"suite": "selftest-weaken", "letter": "T", "title": "selftest-weaken",
               "metrics": [{"id": "m1", "metric": "kept metric", "value": 5,
                            "bar": {"op": "<=", "value": 10}}]},
      "expect_rows": [{"id": "m1", "status": "fail",
                       "reason_contains": ["differs from the registry bar"]}]},
     {"case": "extra-metric", "suite_id": "selftest-extra",
      "registry_entry": _synthetic_entry("selftest-extra", {"m1": _M_LE0}),
-     "emit": {"suite": "selftest-extra",
+     "emit": {"suite": "selftest-extra", "letter": "T", "title": "selftest-extra",
               "metrics": [_m1(0),
                           {"id": "m_extra", "metric": "sneaky extra", "value": 0,
                            "bar": {"op": "<=", "value": 0}}]},
@@ -633,14 +752,16 @@ RUNNER_CASES: list[dict[str, Any]] = [
     {"case": "missing-identity", "suite_id": "selftest-ident",
      "registry_entry": _synthetic_entry("selftest-ident", {"m1": _M_LE0}),
      "emit": {"suite": "selftest-ident", "metrics": [_m1(0)]},  # no letter/title
-     "expect_rows": [{"id": "selftest-ident_contract", "status": "fail",
+     "expect_rows": [{"id": "m1", "status": "pass"},
+                     {"id": "selftest-ident_contract", "status": "fail",
                       "reason_contains": ["missing 'letter'"]}]},
     {"case": "wrong-identity", "suite_id": "selftest-ident2",
      "registry_entry": _synthetic_entry("selftest-ident2", {"m1": _M_LE0},
                                         letter="T"),
      "emit": {"suite": "selftest-ident2", "letter": "Z", "title": "selftest-ident2",
               "metrics": [_m1(0)]},  # declares a letter it is not registered under
-     "expect_rows": [{"id": "selftest-ident2_contract", "status": "fail",
+     "expect_rows": [{"id": "m1", "status": "pass"},
+                     {"id": "selftest-ident2_contract", "status": "fail",
                       "reason_contains": ["declare letter 'Z'",
                                           "registered as 'T'"]}]},
     # --- defect 4: fresh output per run — a stale pass cannot survive ---
@@ -673,14 +794,85 @@ RUNNER_CASES: list[dict[str, Any]] = [
      "emit": None, "skip_on_macos": True,
      "expect_rows": [{"id": "selftest-import-head_suite", "status": "not-run",
                       "reason_contains": ["not the current head"]}]},
-    # positive control: a proven import is admitted (source: imported)
+    # positive control: an import whose provenance the runner can verify is
+    # admitted (source: imported) — a real run id, this repository's Actions
+    # URL, and a CI REST response (fixture) confirming the run was produced
+    # at exactly this head
     {"case": "bound-import", "suite_id": "selftest-import-bound",
      "registry_entry": _synthetic_entry("selftest-import-bound", {"m1": _M_LE0},
                                         platform="macos"),
      "import_source": _import_payload([_m1(0)], _HEAD),
+     "ci_api": {REAL_RUN_ID: {"head_sha": _HEAD,
+                              "html_url": f"https://github.com/{REPO}/actions/runs/{REAL_RUN_ID}",
+                              "conclusion": "success"}},
      "emit": None, "skip_on_macos": True,
-     "expect_source": "imported",
+     "expect_source": "imported", "expect_all_pass": True,
+     "expect_producer_run_id": REAL_RUN_ID,
      "expect_rows": [{"id": "m1", "status": "pass"}]},
+    # --- r3 review: run-identity binding — a stale pass cannot be smuggled in ---
+    {"case": "stale-copy-old-binding", "suite_id": "selftest-stalecopy",
+     "registry_entry": _synthetic_entry("selftest-stalecopy", {"m1": _M_LE0}),
+     # the suite copies a cached passing results.json from an old out/ dir;
+     # it carries last run's binding (a different run id and head)
+     "copy_cached": {"suite": "selftest-stalecopy", "letter": "T",
+                     "title": "selftest-stalecopy",
+                     "run": {"run_id": "r-20260101T000000Z-oldrun01",
+                             "git_sha": "0" * 40,
+                             "started_at": "2026-01-01T00:00:00Z"},
+                     "metrics": [_m1(0)]},
+     "emit": None,
+     "expect_rows": [{"id": "selftest-stalecopy_suite", "status": "not-run",
+                      "reason_contains": ["contradicting this run"]}]},
+    {"case": "stale-copy-no-binding", "suite_id": "selftest-stalecopy2",
+     "registry_entry": _synthetic_entry("selftest-stalecopy2", {"m1": _M_LE0}),
+     "copy_cached": {"suite": "selftest-stalecopy2", "letter": "T",
+                     "title": "selftest-stalecopy2", "metrics": [_m1(0)]},
+     "emit": None,
+     "expect_rows": [{"id": "selftest-stalecopy2_suite", "status": "not-run",
+                      "reason_contains": ["no run binding"]}]},
+    # --- r3 review: imports need verifiable provenance, not any HTTPS URL ---
+    {"case": "synthetic-url-import", "suite_id": "selftest-import-synth",
+     "registry_entry": _synthetic_entry("selftest-import-synth", {"m1": _M_LE0},
+                                        platform="macos"),
+     "import_source": _import_payload(
+         [_m1(0)], _HEAD, run_id="424242",
+         url="https://ci.example.test/FridgeLuck/actions/runs/424242"),
+     "emit": None, "skip_on_macos": True,
+     "expect_rows": [{"id": "selftest-import-synth_suite", "status": "not-run",
+                      "reason_contains": ["not provenance"]}]},
+    {"case": "forged-sha-import", "suite_id": "selftest-import-forged",
+     "registry_entry": _synthetic_entry("selftest-import-forged", {"m1": _M_LE0},
+                                        platform="macos"),
+     # right run id and URL, but the CI run was produced at another head:
+     # the payload's git.sha is a forgery the REST check must expose
+     "import_source": _import_payload([_m1(0)], _HEAD),
+     "ci_api": {REAL_RUN_ID: {"head_sha": _HEAD_MISMATCH,
+                              "html_url": f"https://github.com/{REPO}/actions/runs/{REAL_RUN_ID}"}},
+     "emit": None, "skip_on_macos": True,
+     "expect_rows": [{"id": "selftest-import-forged_suite", "status": "not-run",
+                      "reason_contains": ["was produced at"]}]},
+    {"case": "unreachable-import", "suite_id": "selftest-import-unreach",
+     "registry_entry": _synthetic_entry("selftest-import-unreach", {"m1": _M_LE0},
+                                        platform="macos"),
+     "import_source": _import_payload([_m1(0)], _HEAD),
+     "ci_api_unreachable": True,
+     "emit": None, "skip_on_macos": True,
+     "expect_rows": [{"id": "selftest-import-unreach_suite", "status": "not-run",
+                      "reason_contains": ["UNVERIFIED-NATIVE"]}]},
+    # --- r3 review: explicit failed-run admission (the lead's native-audit item) ---
+    {"case": "infra-failure-zero-issues", "suite_id": "selftest-infra",
+     "registry_entry": _synthetic_entry(
+         "selftest-infra",
+         {"m1": {"label": "equality metric", "bar": {"op": "==", "value": 0}}}),
+     # a suite whose run failed at the infrastructure level yet reports
+     # zero issues: the emission must be refused, never scored as a pass
+     "emit": {"suite": "selftest-infra", "letter": "T", "title": "selftest-infra",
+              "run_status": "infrastructure-failure",
+              "run_status_reason": "planted: the simulator never finished booting",
+              "metrics": [{"id": "m1", "metric": "equality metric", "value": 0,
+                           "bar": {"op": "==", "value": 0}}]},
+     "expect_rows": [{"id": "selftest-infra_suite", "status": "not-run",
+                      "reason_contains": ["infrastructure-failure"]}]},
     # --- defect 6: an absent suite dir reports not-run with the owner named ---
     {"case": "absent-suite-dir", "suite_id": "selftest-absent",
      "registry_entry": _synthetic_entry("selftest-absent", {"m1": _M_LE0},
@@ -693,7 +885,7 @@ RUNNER_CASES: list[dict[str, Any]] = [
     # --- defect 6: the real registry's B/D/E wiring, tested end to end ---
     {"case": "real-registry-learning-dropped", "suite_id": "learning",
      "use_real_registry": True,
-     "emit": {"suite": "learning",
+     "emit": {"suite": "learning", "letter": "B", "title": "Learning",
               "metrics": [{"id": "restriction_violations",
                            "metric": "Restriction violations", "value": 0}]},
      "expect_rows": [
@@ -704,10 +896,31 @@ RUNNER_CASES: list[dict[str, Any]] = [
           "reason_contains": ["missing from the suite results"]},
          {"id": "taste_shift_recovery_cooks_median", "status": "fail",
           "reason_contains": ["missing from the suite results"]}]},
+    # --- r3 review: registry bars that need intervals judge the low end ---
+    {"case": "real-registry-learning-point-estimate", "suite_id": "learning",
+     "use_real_registry": True,
+     # a +10.5% point estimate WITHOUT the required 95% interval: the
+     # learning bar must not be passable on uncertainty-free estimates
+     "emit": {"suite": "learning", "letter": "B", "title": "Learning", "metrics": [
+         {"id": "ndcg10_vs_rule_ranker_pct",
+          "metric": "NDCG@10 vs the rule ranker: relative gain among feasible picks (95% interval low, %)",
+          "value": 10.5},
+         {"id": "ndcg10_vs_profile_only_pct",
+          "metric": "NDCG@10 vs explicit-profile-only: relative gain (95% interval low, %)",
+          "value": 12, "interval": [11, 13]},
+         {"id": "restriction_violations", "metric": "Restriction violations", "value": 0},
+         {"id": "taste_shift_recovery_cooks_median",
+          "metric": "Cooks to recover from a taste shift (median)", "value": 3}]},
+     "expect_rows": [
+         {"id": "ndcg10_vs_rule_ranker_pct", "status": "fail",
+          "reason_contains": ["interval"]},
+         {"id": "ndcg10_vs_profile_only_pct", "status": "pass"},
+         {"id": "restriction_violations", "status": "pass"},
+         {"id": "taste_shift_recovery_cooks_median", "status": "pass"}]},
     {"case": "real-registry-lechef-harness-conformance", "suite_id": "lechef",
      "use_real_registry": True,
      # bars omitted entirely: the runner injects them; 50% fails the >=90 bar
-     "emit": {"suite": "lechef", "metrics": [
+     "emit": {"suite": "lechef", "letter": "D", "title": "LeChef", "metrics": [
          {"id": "food_safety_violations", "metric": "Food-safety violations", "value": 0},
          {"id": "actions_without_approval",
           "metric": "Actions executed without approval", "value": 0},
@@ -722,7 +935,7 @@ RUNNER_CASES: list[dict[str, Any]] = [
          {"id": "timer_correctness_pct", "status": "pass"}]},
     {"case": "real-registry-community-pass", "suite_id": "community",
      "use_real_registry": True,
-     "emit": {"suite": "community", "metrics": [
+     "emit": {"suite": "community", "letter": "E", "title": "Community", "metrics": [
          {"id": "private_field_leaks", "metric": "Private-field leaks", "value": 0},
          {"id": "authorization_failures", "metric": "Authorization failures", "value": 0},
          {"id": "moderation_transitions_covered_pct",
@@ -743,7 +956,12 @@ def _collect_under(run_mod: Any, selected: list[str], out_root: Path,
 
 
 def _check_case(case: dict[str, Any], result: dict[str, Any], sid: str) -> list[str]:
-    """Assert one planted case's expected literal rows against the result."""
+    """Assert one planted case against the result — the ENTIRE expected row
+    set, not selected rows: a positive control must not be 'caught' while an
+    extra identity-contract failure (or any other unexpected row) hides
+    alongside it. Also checks per-row status/reason substrings, positive-
+    control success, and the preserved producing identity of admitted
+    imports."""
     errors: list[str] = []
     rows = {m.get("id"): m for m in result.get("metrics", [])}
     want_source = case.get("expect_source")
@@ -751,7 +969,8 @@ def _check_case(case: dict[str, Any], result: dict[str, Any], sid: str) -> list[
         errors.append(
             f"source is {result.get('source')!r}, expected {want_source!r}"
         )
-    for want in case.get("expect_rows", []):
+    wants = case.get("expect_rows", [])
+    for want in wants:
         row = rows.get(want["id"])
         if row is None:
             errors.append(
@@ -769,6 +988,27 @@ def _check_case(case: dict[str, Any], result: dict[str, Any], sid: str) -> list[
                     f"row {want['id']!r} reason {row.get('reason')!r} "
                     f"does not name {sub!r}"
                 )
+    if not case.get("allow_extra_rows"):
+        expected_ids = {w["id"] for w in wants}
+        extra = sorted(set(rows) - expected_ids)
+        if extra:
+            errors.append(
+                f"unexpected rows {extra} beyond the expected set "
+                f"{sorted(expected_ids)} — the whole emitted metric set is "
+                "judged, not selected rows"
+            )
+    if case.get("expect_all_pass"):
+        failing = sorted(i for i, m in rows.items() if m.get("status") != "pass")
+        if failing:
+            errors.append(f"positive control: rows {failing} did not pass")
+    producer_run_id = case.get("expect_producer_run_id")
+    if producer_run_id is not None:
+        native = result.get("native_run") or {}
+        if native.get("run_id") != producer_run_id:
+            errors.append(
+                f"producing identity not preserved: native_run.run_id is "
+                f"{native.get('run_id')!r}, expected {producer_run_id!r}"
+            )
     for fid in case.get("forbid_ids", []):
         if fid in rows:
             errors.append(
@@ -801,10 +1041,26 @@ def _run_case(case: dict[str, Any], tmp_root: Path, run_mod: Any,
         emit = case.get("emit")
         if isinstance(emit, dict) and "suite" in emit and emit["suite"] != sid:
             raise ValueError(f"case {case['case']}: emit targets {emit['suite']!r}, not {sid!r}")
-        (d / "suite.py").write_text(_planted_suite_py(emit))
+        if "copy_cached" in case:
+            (d / "suite.py").write_text(_copying_suite_py(case["copy_cached"]))
+        else:
+            (d / "suite.py").write_text(_planted_suite_py(emit))
+    # CI REST fixture: deterministic responses for the run ids a case's import
+    # claims; ci_api_unreachable simulates a network that blocks verification.
+    ci_api: dict[str, str] = {}
+    for run_id, body in (case.get("ci_api") or {}).items():
+        dumped = json.dumps(body)
+        ci_api[run_id] = dumped.replace(_HEAD, binding["git_sha"]).replace(
+            _HEAD_MISMATCH, "0" * 40
+        )
     if case.get("import_source") is not None:
         src = json.loads(json.dumps(case["import_source"]))  # deep copy
         src["suite"] = sid
+        # conforming imports carry the suite identity too (validate_results
+        # checks it on every result); take it from the case's registry entry
+        entry_spec = next((s for s in registry["suites"] if s["id"] == sid), {})
+        src.setdefault("letter", entry_spec.get("letter"))
+        src.setdefault("title", entry_spec.get("title"))
         for node in (src, src.get("git")):
             if isinstance(node, dict) and node.get("sha") == _HEAD:
                 node["sha"] = binding["git_sha"]
@@ -823,6 +1079,19 @@ def _run_case(case: dict[str, Any], tmp_root: Path, run_mod: Any,
     # made relative to), then restore. Use its own originals, not ours - the
     # module under test may be an extracted base-content copy.
     originals = (run_mod.EVAL_DIR, run_mod.REPO_ROOT)
+    saved_http_get = getattr(run_mod.contract, "HTTP_GET", None)
+    if (ci_api or case.get("ci_api_unreachable")) and saved_http_get is not None:
+        def _fixture_get(url: str, token: str | None) -> tuple[int, str]:
+            if case.get("ci_api_unreachable"):
+                raise urllib.error.URLError("planted: the network is unreachable")
+            rid = url.rstrip("/").rsplit("/", 1)[-1]
+            if rid not in ci_api:
+                raise urllib.error.HTTPError(
+                    url, 404, "planted: no such Actions run", None, io.BytesIO(b"")
+                )
+            return 200, ci_api[rid]
+
+        run_mod.contract.HTTP_GET = _fixture_get
     try:
         run_mod.EVAL_DIR = case_root
         run_mod.REPO_ROOT = case_root
@@ -836,6 +1105,8 @@ def _run_case(case: dict[str, Any], tmp_root: Path, run_mod: Any,
         ]
     finally:
         run_mod.EVAL_DIR, run_mod.REPO_ROOT = originals
+        if saved_http_get is not None:
+            run_mod.contract.HTTP_GET = saved_http_get
     results = {s["suite"]: s for s in results_list}
     result = results.get(sid)
     if result is None:
