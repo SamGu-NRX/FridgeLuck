@@ -19,6 +19,7 @@ TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
 
 import corpus_io  # noqa: E402
+import food_safety  # noqa: E402
 import rights_evidence  # noqa: E402
 import validate_corpus  # noqa: E402
 
@@ -117,6 +118,138 @@ class RightsGate(unittest.TestCase):
         self.assertTrue(any("still in corpus.jsonl" in e for e in errors), errors)
         errors = validate_corpus.quarantine_errors([], {}, [dict(entry, reason="")])
         self.assertTrue(any("needs a stage and a reason" in e for e in errors), errors)
+
+
+def ing(*names: str) -> list:
+    return [{"name": n, "qty": {"kind": "unknown"}} for n in names]
+
+
+def chk(cls: str, temp: int) -> dict:
+    return {"class": cls, "temp_f": temp, "method": "thermometer",
+            "source": food_safety.FSIS_SOURCE}
+
+
+def endpoint_errors(r: dict) -> list[str]:
+    return food_safety.endpoint_violations(r)
+
+
+class IngredientClasses(unittest.TestCase):
+    """One correct class per name, from the FSIS chart rows."""
+
+    def test_classes(self):
+        cases = {
+            "ground turkey": "meat_poultry",       # Ground Poultry 165 F
+            "ground chicken": "meat_poultry",
+            "chicken mince": "meat_poultry",
+            "boneless chicken thighs": "meat_poultry",
+            "ground beef": "meat_ground",          # Ground Meats 160 F
+            "ground pork": "meat_ground",
+            "good sausages": "meat_ground",
+            "pork chops": "meat_whole_cut_pork",   # whole cuts 145 F + rest
+            "bacon, chopped": "meat_whole_cut_pork",
+            "beef chuck roast": "meat_whole_cut_red",
+            "lamb shanks": "meat_whole_cut_red",
+            "cod fillets": "flesh_fish",
+            "raw prawns, peeled": "flesh_shellfish",
+            "eggs": "egg",
+            "cooked chicken breast, shredded": "leftovers",
+            "roast turkey, sliced": "leftovers",
+            "chicken stock": None,
+            "fish sauce": None,
+            "canned tuna, drained": None,
+            "burger buns": None,
+            "egg noodles": None,
+            "eggplant": None,
+        }
+        for name, want in cases.items():
+            self.assertEqual(food_safety.ingredient_class(name), want, name)
+
+    def test_casserole_titles(self):
+        for title in ("Hash-Brown Breakfast Casserole", "Tuna Pasta Gratin",
+                      "Chicken and Vegetable Pasta Bake", "Beef Lasagne"):
+            self.assertTrue(food_safety.is_mixed_dish(title), title)
+        for title in ("Quick Sausage Traybake", "Stuffed Peppers", "Baked Beans"):
+            self.assertFalse(food_safety.is_mixed_dish(title), title)
+
+
+class DonenessEndpoints(unittest.TestCase):
+    """Finding 1: FSIS endpoints, strictest applicable, reheating at 165 F."""
+
+    def test_casserole_at_egg_temperature_is_refused(self):
+        # fl-original-0008 at 4b6e163: egg 160 F on a breakfast casserole
+        bad = recipe(title="Breakfast Casserole", ingredients=ing("eggs", "potatoes"), steps=[
+            {"text": "Bake until a thermometer in the centre reads 160 °F.",
+             "safety": chk("egg", 160)}])
+        self.assertTrue(any("casserole" in e or "title" in e for e in endpoint_errors(bad)))
+        good = copy.deepcopy(bad)
+        good["steps"][0] = {"text": "Bake until a thermometer in the centre reads 165 °F.",
+                            "safety": chk("leftovers", 165)}
+        self.assertEqual(endpoint_errors(good), [])
+
+    def test_whole_cut_without_rest_is_refused(self):
+        # fl-original-0094 at 4b6e163: pork at 145 F, no rest
+        bad = recipe(ingredients=ing("boneless pork chops"), steps=[
+            {"text": "Braise until the pork reads 145 °F with a thermometer.",
+             "safety": chk("meat_whole_cut_pork", 145)},
+            {"text": "Shred and serve."}])
+        self.assertTrue(any("rest" in e for e in endpoint_errors(bad)))
+        good = copy.deepcopy(bad)
+        good["steps"][0]["text"] += " Rest it 3 minutes."
+        self.assertEqual(endpoint_errors(good), [])
+
+    def test_gratin_with_fish_endpoint_is_refused(self):
+        # fl-original-0102 at 4b6e163: tuna gratin checked at the fish 145 F
+        bad = recipe(title="Tuna Pasta Gratin", ingredients=ing("canned tuna", "pasta"),
+                     steps=[{"text": "Fold the tuna into the pasta."},
+                            {"text": "Bake until the edges bubble.",
+                             "safety": chk("flesh_fish", 145)}])
+        self.assertTrue(endpoint_errors(bad))
+
+    def test_ground_poultry_at_ground_meat_temperature_is_refused(self):
+        bad = recipe(ingredients=ing("ground turkey"), steps=[
+            {"text": "Brown the turkey until a thermometer reads 160 °F.",
+             "safety": chk("meat_ground", 160)}])
+        self.assertTrue(any("meat_poultry" in e for e in endpoint_errors(bad)))
+
+    def test_raw_egg_mixed_into_fish_lifts_the_endpoint(self):
+        # fl-original-0343 at 4b6e163: raw egg folded into cod cakes, 145 F
+        bad = recipe(ingredients=ing("cod fillets", "eggs"), steps=[
+            {"text": "Mix the flaked cod with the egg and shape cakes."},
+            {"text": "Fry the cakes until a thermometer reads 145 °F.",
+             "safety": chk("flesh_fish", 145)}])
+        errors = endpoint_errors(bad)
+        self.assertTrue(any("strictest applicable is 160" in e for e in errors), errors)
+
+    def test_fish_cooked_before_the_egg_is_added_keeps_its_endpoint(self):
+        ok = recipe(ingredients=ing("cod fillets", "eggs"), steps=[
+            {"text": "Poach the cod until a thermometer reads 145 °F.",
+             "safety": chk("flesh_fish", 145)},
+            {"text": "Mix the flaked cod with the egg and shape cakes."},
+            {"text": "Fry the cakes until a thermometer reads 160 °F.",
+             "safety": chk("egg", 160)}])
+        self.assertEqual(endpoint_errors(ok), [])
+
+    def test_reheat_needs_its_own_leftovers_check(self):
+        bad = recipe(ingredients=ing("eggs"), steps=[
+            {"text": "Reheat the rice, then scramble the eggs to 160 °F on a thermometer.",
+             "safety": chk("egg", 160)}])
+        errors = endpoint_errors(bad)
+        self.assertTrue(any("reheats food" in e for e in errors), errors)
+        self.assertTrue(any("not flagged reheat" in e for e in errors), errors)
+
+    def test_carryover_below_the_minimum_is_refused(self):
+        # fl-original-0023 at 4b6e163: steak pulled at 140 F
+        bad = recipe(ingredients=ing("flank steak"), steps=[
+            {"text": "Take the steak off at 140 °F on a thermometer; it climbs to 145 °F "
+                     "as it rests 5 minutes.", "safety": chk("meat_whole_cut_red", 145)}])
+        self.assertTrue(any("below the step's" in e for e in endpoint_errors(bad)))
+
+    def test_validator_refuses_a_planted_casserole(self):
+        bad = recipe(title="Breakfast Casserole", ingredients=ing("eggs"), steps=[
+            {"text": "Bake until a thermometer reads 160 °F.", "safety": chk("egg", 160)}])
+        errors = validate_corpus.release_gate_errors(
+            [bad], {bad["id"]: ORIGINAL_RECORD}, {"recipes": []})
+        self.assertTrue(any("casserole" in e or "title" in e for e in errors), errors)
 
 
 class CommittedCorpus(unittest.TestCase):

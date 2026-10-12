@@ -26,9 +26,12 @@ class Line:
         self.obj = obj
 
     def dumps(self) -> str:
-        if self.raw is not None and json.loads(self.raw) == self.obj:
+        if self.raw is None:
+            return json.dumps(self.obj, ensure_ascii=False)
+        if json.loads(self.raw) == self.obj:
             return self.raw
-        return json.dumps(self.obj, ensure_ascii=False)
+        # keep the escaping style the line was written in
+        return json.dumps(self.obj, ensure_ascii=self.raw.isascii())
 
 
 def read_jsonl(path: Path) -> list[Line]:

@@ -44,6 +44,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import food_safety  # noqa: E402
 import rights_evidence  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -95,10 +96,13 @@ def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
     Rights: every shipped recipe carries affirmative rights evidence
     (rights_evidence.rights_violations), and FridgeLuck-original text does not
     reuse the bundled catalog's wording (rights_evidence.overlap_violation).
+    Food safety: every food reaches its FSIS endpoint
+    (food_safety.endpoint_violations).
     """
     errors: list[str] = []
     ref = rights_evidence.reference_ngrams(rights_evidence.bundled_texts(bundled))
     for r in recipes:
+        errors.extend(food_safety.endpoint_violations(r))
         rec = records.get(r.get("source_ref"))
         errors.extend(rights_evidence.rights_violations(r, rec))
         if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
@@ -292,7 +296,7 @@ def main() -> int:
           f"{len(quarantined)} in quarantine.jsonl "
           f"({', '.join(f'{k} {v}' for k, v in sorted(by_stage.items())) or 'none'})")
     print(f"release gates: {len(gate_errors)} violation(s) "
-          "(rights evidence, original-text overlap)")
+          "(rights evidence, original-text overlap, FSIS endpoints)")
 
     # ---- lint (same pipeline as suite.py evaluate_corpus) -----------------
     work = copy.deepcopy(clear)
