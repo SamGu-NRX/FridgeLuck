@@ -12,15 +12,16 @@ import FLSubstitutions
 
 struct UsageError: Error, CustomStringConvertible {
     var description: String {
-        "usage: flsub-report --table <pairs.json> --recipes <data.json> [--facts <ingredient-facts-dir>]"
+        "usage: flsub-report --table <pairs.json> --recipes <data.json> [--facts <ingredient-facts-dir>] [--originals <originals.jsonl>]"
     }
 }
 
-func parseArgs() throws -> (table: String, recipes: String, facts: String?) {
+func parseArgs() throws -> (table: String, recipes: String, facts: String?, originals: String?) {
     var args = Array(CommandLine.arguments.dropFirst())
     var table: String?
     var recipes: String?
     var facts: String?
+    var originals: String?
     while !args.isEmpty {
         let flag = args.removeFirst()
         switch flag {
@@ -33,6 +34,9 @@ func parseArgs() throws -> (table: String, recipes: String, facts: String?) {
         case "--facts":
             guard !args.isEmpty else { throw UsageError() }
             facts = args.removeFirst()
+        case "--originals":
+            guard !args.isEmpty else { throw UsageError() }
+            originals = args.removeFirst()
         default:
             throw UsageError()
         }
@@ -45,7 +49,7 @@ func parseArgs() throws -> (table: String, recipes: String, facts: String?) {
         .appendingPathComponent("ingredient-facts")
     let factsDir = facts
         ?? (FileManager.default.fileExists(atPath: factsDefault.path) ? factsDefault.path : nil)
-    return (tablePath, recipesPath, factsDir)
+    return (tablePath, recipesPath, factsDir, originals)
 }
 
 // MARK: - data.json reading (positional arrays, JSONSerialization)
@@ -86,6 +90,33 @@ func loadRecipes(path: String) throws -> (names: [String: String], lines: [Recip
     return (names, lines)
 }
 
+// MARK: - Originals corpus (JSONL, one recipe object per line)
+
+struct OriginalsCorpus {
+    var recipeCount = 0
+    var ingredientNames: [String] = []
+}
+
+/// Reads `data/recipes/originals/originals.jsonl` from branch
+/// `overhaul/original-recipes`, materialized read-only with `git show`
+/// (the branch is never checked out or pushed): one JSON object per line,
+/// `ingredients` an array of `{name, qty}` entries.
+func loadOriginals(path: String) throws -> OriginalsCorpus {
+    var corpus = OriginalsCorpus()
+    let text = try String(contentsOfFile: path, encoding: .utf8)
+    for line in text.split(separator: "\n", omittingEmptySubsequences: true) {
+        guard let object = try JSONSerialization.jsonObject(with: Data(line.utf8)) as? [String: Any] else { continue }
+        corpus.recipeCount += 1
+        guard let ingredients = object["ingredients"] as? [[String: Any]] else { continue }
+        for entry in ingredients {
+            if let name = entry["name"] as? String, !name.isEmpty {
+                corpus.ingredientNames.append(name)
+            }
+        }
+    }
+    return corpus
+}
+
 // MARK: - Report body
 
 func main() throws {
@@ -108,9 +139,12 @@ func main() throws {
     emit("`packages/FLSubstitutions` from the committed table and the bundled recipe data.")
     emit("Regenerate from the repository root:")
     emit("")
+    emit("    git fetch origin overhaul/original-recipes")
+    emit("    git show origin/overhaul/original-recipes:data/recipes/originals/originals.jsonl > /tmp/originals.jsonl")
     emit("    swift run -c release --package-path packages/FLSubstitutions flsub-report \\")
     emit("      --table data/substitutions/pairs.json \\")
     emit("      --recipes apps/ios/Resources/data.json \\")
+    emit("      --originals /tmp/originals.jsonl \\")
     emit("      > data/substitutions/REPORT.md")
     emit("")
     emit("Two runs are byte-identical. A line counts as covered when its ingredient")
@@ -269,6 +303,95 @@ func main() throws {
         emit("| \(pair.id) | \(originalDisplay) → \(substituteDisplay) | \(pair.role.rawValue) | \(verdict) | \(whyOneLine) |")
     }
     emit("")
+
+
+    // Top-30 composition-unknown entries by recipe-line frequency (operator
+    // ruling, review round 2): the FLIngredientFacts coverage task (PR #127)
+    // reviews the head of this list first. Emitted only when an originals
+    // corpus is supplied, so the older invocation keeps its exact output.
+    if let originalsPath = paths.originals {
+        let originals = try loadOriginals(path: originalsPath)
+        let unknownKeys = Set(unknownComposition)
+
+        // The table's own resolution rule, mirrored for originals names:
+        // exact, case-insensitive match on key, display, or alias, with the
+        // app data's underscore-for-space fallback as the second candidate.
+        func tableKey(for name: String) -> String? {
+            let candidates = [name, name.replacingOccurrences(of: "_", with: " ")]
+            var tried = Set<String>()
+            for candidate in candidates where tried.insert(candidate).inserted {
+                if let key = try? table.resolveIngredientKey(candidate) { return key }
+            }
+            return nil
+        }
+
+        var bundledUnknown: [String: Int] = [:]
+        var bundledUnknownLines = 0
+        for recipe in corpus.lines {
+            for ref in recipe.refs {
+                if let key = appToKey[ref.id], unknownKeys.contains(key) {
+                    bundledUnknown[key, default: 0] += 1
+                    bundledUnknownLines += 1
+                }
+            }
+        }
+
+        var originalUnknown: [String: Int] = [:]
+        var originalMatched = 0
+        for name in originals.ingredientNames {
+            if let key = tableKey(for: name) {
+                originalMatched += 1
+                if unknownKeys.contains(key) { originalUnknown[key, default: 0] += 1 }
+            }
+        }
+
+        var ranked: [(key: String, bundled: Int, original: Int, total: Int)] = []
+        for key in unknownKeys {
+            let bundledCount = bundledUnknown[key] ?? 0
+            let originalCount = originalUnknown[key] ?? 0
+            if bundledCount + originalCount > 0 {
+                ranked.append((key, bundledCount, originalCount, bundledCount + originalCount))
+            }
+        }
+        ranked.sort { lhs, rhs in
+            if lhs.total != rhs.total { return lhs.total > rhs.total }
+            return lhs.key < rhs.key
+        }
+
+        emit("## Composition-unknown entries seen most often")
+        emit("")
+        emit("For the FLIngredientFacts coverage task (PR #127): the table entries whose")
+        emit("composition is unknown in the canonical facts store, ranked by how often the")
+        emit("ingredient appears in the recipe corpora, so reviewing the facts for the head")
+        emit("of this list covers the most recipe lines first. Fail-closed semantics do not")
+        emit("depend on this list: an unknown entry is never offered as a verified swap and")
+        emit("shows as a check to the user.")
+        emit("")
+        emit("Occurrences are recipe ingredient lines. Bundled lines come from")
+        emit("`apps/ios/Resources/data.json` (required + optional refs, the same line")
+        emit("semantics as the Corpus section). Original lines come from")
+        emit("`data/recipes/originals/originals.jsonl` on `origin/overhaul/original-recipes`,")
+        emit("materialized read-only with `git show` (the branch is never checked out or")
+        emit("pushed). A corpus ingredient counts toward a table entry when the table's own")
+        emit("resolution matches it: an exact, case-insensitive match on the entry's key,")
+        emit("display name, or a recorded alias (plus the app data's")
+        emit("underscore-for-space fallback for snake_case ids). Corpus names that match no")
+        emit("table entry, or that match a composition-reviewed entry, are not listed here,")
+        emit("so every count below is a lower bound on the ingredient's true frequency.")
+        emit("")
+        emit("Originals corpus: \(originals.recipeCount) recipes, \(originals.ingredientNames.count) ingredient lines, \(originalMatched) resolved to a table entry. Bundled lines resolved to an unknown-composition entry: \(bundledUnknownLines).")
+        emit("")
+        emit("| # | Table entry | Bundled lines | Original lines | Total |")
+        emit("| --- | --- | --- | --- | --- |")
+        for (index, row) in ranked.prefix(30).enumerated() {
+            let display = table.ingredient(row.key)?.display ?? row.key
+            let safeDisplay = display.replacingOccurrences(of: "|", with: "\\|")
+            emit("| \(index + 1) | \(safeDisplay) | \(row.bundled) | \(row.original) | \(row.total) |")
+        }
+        emit("")
+        emit("First 30 of the \(ranked.count) composition-unknown entries with at least one occurrence; the remaining \(unknownComposition.count - ranked.count) of \(unknownComposition.count) have zero occurrences in both corpora.")
+        emit("")
+    }
 
     print(out.joined(separator: "\n"))
 }

@@ -4,9 +4,12 @@ Regenerated deterministically by the `flsub-report` executable in
 `packages/FLSubstitutions` from the committed table and the bundled recipe data.
 Regenerate from the repository root:
 
+    git fetch origin overhaul/original-recipes
+    git show origin/overhaul/original-recipes:data/recipes/originals/originals.jsonl > /tmp/originals.jsonl
     swift run -c release --package-path packages/FLSubstitutions flsub-report \
       --table data/substitutions/pairs.json \
       --recipes apps/ios/Resources/data.json \
+      --originals /tmp/originals.jsonl \
       > data/substitutions/REPORT.md
 
 Two runs are byte-identical. A line counts as covered when its ingredient
@@ -125,4 +128,62 @@ Evenly spaced across the sorted pair ids; verdicts recomputed by
 | whole-grain-mustard-liquid-to-dijon | whole-grain mustard → Dijon mustard | liquid | plausible | Convention. |
 | whole-milk-liquid-to-rice-milk | whole milk → rice milk | liquid | verified | Wyoming row verbatim. |
 | yogurt-liquid-to-coconut-milk | plain yogurt → canned coconut milk | liquid | unknown | PR #49 32-49: extension guidance covers yogurt-for-sour-cream, not yogurt-to-coconut milk; the 0.9 ratio is unsupported. |
+
+## Composition-unknown entries seen most often
+
+For the FLIngredientFacts coverage task (PR #127): the table entries whose
+composition is unknown in the canonical facts store, ranked by how often the
+ingredient appears in the recipe corpora, so reviewing the facts for the head
+of this list covers the most recipe lines first. Fail-closed semantics do not
+depend on this list: an unknown entry is never offered as a verified swap and
+shows as a check to the user.
+
+Occurrences are recipe ingredient lines. Bundled lines come from
+`apps/ios/Resources/data.json` (required + optional refs, the same line
+semantics as the Corpus section). Original lines come from
+`data/recipes/originals/originals.jsonl` on `origin/overhaul/original-recipes`,
+materialized read-only with `git show` (the branch is never checked out or
+pushed). A corpus ingredient counts toward a table entry when the table's own
+resolution matches it: an exact, case-insensitive match on the entry's key,
+display name, or a recorded alias (plus the app data's
+underscore-for-space fallback for snake_case ids). Corpus names that match no
+table entry, or that match a composition-reviewed entry, are not listed here,
+so every count below is a lower bound on the ingredient's true frequency.
+
+Originals corpus: 401 recipes, 2829 ingredient lines, 2165 resolved to a table entry. Bundled lines resolved to an unknown-composition entry: 0.
+
+| # | Table entry | Bundled lines | Original lines | Total |
+| --- | --- | --- | --- | --- |
+| 1 | salt | 0 | 91 | 91 |
+| 2 | crushed tomatoes | 0 | 79 | 79 |
+| 3 | vegetable oil | 0 | 43 | 43 |
+| 4 | smoked paprika | 0 | 37 | 37 |
+| 5 | turmeric | 0 | 28 | 28 |
+| 6 | dried oregano | 0 | 24 | 24 |
+| 7 | black pepper | 0 | 18 | 18 |
+| 8 | ground ginger | 0 | 16 | 16 |
+| 9 | fresh basil | 0 | 15 | 15 |
+| 10 | brown sugar (packed) | 0 | 12 | 12 |
+| 11 | lentils (cooked) | 0 | 12 | 12 |
+| 12 | green cabbage | 0 | 10 | 10 |
+| 13 | cornstarch | 0 | 9 | 9 |
+| 14 | heavy cream | 0 | 9 | 9 |
+| 15 | maple syrup | 0 | 9 | 9 |
+| 16 | fresh parsley | 0 | 8 | 8 |
+| 17 | eggplant | 0 | 7 | 7 |
+| 18 | fresh thyme | 0 | 7 | 7 |
+| 19 | mozzarella | 0 | 6 | 6 |
+| 20 | wheat noodles | 0 | 6 | 6 |
+| 21 | cauliflower | 0 | 5 | 5 |
+| 22 | Dijon mustard | 0 | 5 | 5 |
+| 23 | granulated sugar | 0 | 5 | 5 |
+| 24 | baking powder | 0 | 4 | 4 |
+| 25 | canned diced tomatoes | 0 | 3 | 3 |
+| 26 | dried thyme | 0 | 3 | 3 |
+| 27 | ground beef (90% lean) | 0 | 3 | 3 |
+| 28 | rigatoni | 0 | 3 | 3 |
+| 29 | toasted sesame seeds | 0 | 3 | 3 |
+| 30 | apple cider | 0 | 2 | 2 |
+
+First 30 of the 50 composition-unknown entries with at least one occurrence; the remaining 207 of 257 have zero occurrences in both corpora.
 
