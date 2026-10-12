@@ -1,7 +1,7 @@
 import { describe, it, expect, afterAll } from "bun:test";
 import { mkdirSync, rmSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
-import { runSession } from "../../lechef/run/harness.js";
+import { runSession, buildSessionWorld } from "../../lechef/run/harness.js";
 import { main as cliMain } from "../../lechef/run/cli.js";
 import { estimateTokens } from "../../lechef/fakeModel.js";
 import type { SessionScript } from "../../lechef/fakeModel.js";
@@ -52,8 +52,8 @@ const SCRIPT: SessionScript = {
       toolCalls: [
         { id: "call-1", name: "getRecipeCandidates", args: { goal: "eggs on toast" } },
         { id: "call-1", name: "getRecipeCandidates", args: { goal: "eggs on toast" } }, // replayed id
-        { id: "call-2", name: "proposeTimerStart", args: { label: "eggs", minutes: 9, userInitiated: true } },
-        { id: "call-2", name: "proposeTimerStart", args: { label: "eggs", minutes: 9, userInitiated: true } }, // replayed id
+        { id: "call-2", name: "proposeTimerStart", args: { label: "eggs", minutes: 9, deviceEventId: "cmd-0001" } },
+        { id: "call-2", name: "proposeTimerStart", args: { label: "eggs", minutes: 9, deviceEventId: "cmd-0001" } }, // replayed id
         { id: "call-3", name: "proposeSaveNote", args: { text: "liked the toast very dark", scope: "cook" } },
         { id: "call-4", name: "proposeSaveNote", args: { text: "cancelled mid-flight", scope: "cook" } }
       ],
@@ -99,7 +99,11 @@ const RUN_KEYS = [
 ] as const;
 
 describe("harness: RunRecord assembly", () => {
-  const record = runSession(SCRIPT);
+  // The timer call cites the device event the phone recorded before the run —
+  // a bare userInitiated flag in tool arguments is never trusted (SPEC 4).
+  const world = buildSessionWorld(SCRIPT);
+  world.phone.recordUserCommand({ command: "proposeTimerStart", source: "voice", detail: "start a nine minute egg timer" });
+  const record = runSession(SCRIPT, world);
 
   it("emits exactly the pinned top-level keys, nothing scored", () => {
     expect(Object.keys(record).sort()).toEqual([...RUN_KEYS].sort());

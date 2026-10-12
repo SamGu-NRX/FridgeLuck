@@ -22,7 +22,9 @@ describe("fake phone: device-owned timer deadlines", () => {
   it("executes an approved user timer with an absolute deadline", () => {
     const { clock, phone, layer } = harness();
     const start = Math.floor(clock.nowMs() / 1000);
-    const out = layer.proposeTimerStart({ callId: "c1", label: "boil eggs", minutes: 9, userInitiated: true });
+    // User initiation is a device event the phone recorded (SPEC 4), cited by the proposal.
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice", detail: "start a nine minute egg timer" });
+    const out = layer.proposeTimerStart({ callId: "c1", label: "boil eggs", minutes: 9, userInitiation: { eventId: cmd.id } });
     const timer = phone.activeTimers()[0];
     expect(timer.deadline).toBe(start + 9 * 60);
     expect(timer.proposalId).toBe(out.proposal!.id);
@@ -32,7 +34,8 @@ describe("fake phone: device-owned timer deadlines", () => {
   it("fires timers by absolute deadline even when the tick is late (kill-app resume)", () => {
     const { clock, phone, layer } = harness();
     const start = Math.floor(clock.nowMs() / 1000);
-    layer.proposeTimerStart({ callId: "c1", label: "boil eggs", minutes: 10, userInitiated: true });
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
+    layer.proposeTimerStart({ callId: "c1", label: "boil eggs", minutes: 10, userInitiation: { eventId: cmd.id } });
     clock.advanceMs(5 * 60 * 1000); // halfway
     phone.killApp(); // the app dies
     clock.advanceMs(10 * 60 * 1000); // deadline passes while dead
@@ -46,7 +49,8 @@ describe("fake phone: device-owned timer deadlines", () => {
 
   it("records a killed timer as survivedKill with its deadline intact", () => {
     const { phone, layer } = harness();
-    layer.proposeTimerStart({ callId: "c1", label: "rest steak", minutes: 3, userInitiated: true });
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
+    layer.proposeTimerStart({ callId: "c1", label: "rest steak", minutes: 3, userInitiation: { eventId: cmd.id } });
     phone.killApp();
     expect(phone.timerRecords()[0].survivedKill).toBe(true);
     expect(phone.timerRecords()[0].deadline).toBeGreaterThan(0);
@@ -55,12 +59,15 @@ describe("fake phone: device-owned timer deadlines", () => {
   it("adjusts a live timer by delta and by set", () => {
     const { clock, phone, layer } = harness();
     const start = Math.floor(clock.nowMs() / 1000);
-    const out = layer.proposeTimerStart({ callId: "c1", label: "sauce", minutes: 10, userInitiated: true });
+    const cmdStart = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
+    const out = layer.proposeTimerStart({ callId: "c1", label: "sauce", minutes: 10, userInitiation: { eventId: cmdStart.id } });
     const timerId = phone.activeTimers()[0].timerId;
-    const adj = layer.proposeTimerAdjust({ callId: "c2", timerId, deltaMinutes: 5, userInitiated: true });
+    const cmdDelta = phone.recordUserCommand({ command: "proposeTimerAdjust", source: "voice", detail: "add five minutes" });
+    const adj = layer.proposeTimerAdjust({ callId: "c2", timerId, deltaMinutes: 5, userInitiation: { eventId: cmdDelta.id } });
     expect(adj.state).toBe("executed");
     expect(phone.timerRecords()[0].deadline).toBe(start + 15 * 60);
-    const set = layer.proposeTimerAdjust({ callId: "c3", timerId, newMinutes: 2, userInitiated: true });
+    const cmdSet = phone.recordUserCommand({ command: "proposeTimerAdjust", source: "touch" });
+    const set = layer.proposeTimerAdjust({ callId: "c3", timerId, newMinutes: 2, userInitiation: { eventId: cmdSet.id } });
     expect(set.state).toBe("executed");
     expect(phone.timerRecords()[0].minutes).toBe(2);
     expect(out.proposal).not.toBeNull();
@@ -68,8 +75,11 @@ describe("fake phone: device-owned timer deadlines", () => {
 
   it("adjusting an unknown timer is rejected, not executed", () => {
     const { phone, layer } = harness();
-    const out = layer.proposeTimerAdjust({ callId: "c1", timerId: "nope", newMinutes: 5, userInitiated: true });
-    expect(out.state).toBe("rejected");
+    const out = layer.proposeTimerAdjust({ callId: "c1", timerId: "nope", newMinutes: 5 });
+    expect(out.state).toBe("proposed"); // explicit: the well-formed proposal waits for the user
+    phone.userApproves(out.proposal!.id);
+    // The phone refuses at execution time — an unknown timer never silently no-ops.
+    expect(phone.receiptFor(out.proposal!.id)!.state).toBe("rejected");
     expect(phone.activeTimers()).toHaveLength(0);
   });
 });

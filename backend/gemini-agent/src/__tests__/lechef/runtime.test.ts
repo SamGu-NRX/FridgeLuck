@@ -80,7 +80,7 @@ describe("runtime: dispatch statuses", () => {
   it("cancelled dispatches produce status cancelled and nothing on the phone", () => {
     const { runtime, phone } = harness();
     const r = runtime.dispatch(
-      { id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 5, userInitiated: true } },
+      { id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 5 } },
       { aborted: () => true }
     );
     expect(r.status).toBe("cancelled");
@@ -96,9 +96,12 @@ describe("runtime: reorder tolerance", () => {
     // Step advances are explicit-approval proposals: approve them as a scripted user would.
     const advanceA = a.runtime.dispatch({ id: "a1", name: "proposeStepAdvance", args: { stepIndex: 2 } });
     a.phone.userApproves((advanceA.result as { proposalId: string }).proposalId);
-    a.runtime.dispatch({ id: "a2", name: "proposeTimerStart", args: { label: "eggs", minutes: 9, userInitiated: true } });
+    // User initiation is a device event the phone recorded (SPEC 4), cited by the proposal.
+    const cmdA = a.phone.recordUserCommand({ command: "proposeTimerStart", source: "voice", detail: "start a nine minute egg timer" });
+    a.runtime.dispatch({ id: "a2", name: "proposeTimerStart", args: { label: "eggs", minutes: 9, deviceEventId: cmdA.id } });
     // Session B: timer first, then advance.
-    b.runtime.dispatch({ id: "b1", name: "proposeTimerStart", args: { label: "eggs", minutes: 9, userInitiated: true } });
+    const cmdB = b.phone.recordUserCommand({ command: "proposeTimerStart", source: "voice", detail: "start a nine minute egg timer" });
+    b.runtime.dispatch({ id: "b1", name: "proposeTimerStart", args: { label: "eggs", minutes: 9, deviceEventId: cmdB.id } });
     const advanceB = b.runtime.dispatch({ id: "b2", name: "proposeStepAdvance", args: { stepIndex: 2 } });
     b.phone.userApproves((advanceB.result as { proposalId: string }).proposalId);
 
@@ -197,5 +200,86 @@ describe("runtime: camera and safety surfaces", () => {
     const r = runtime.dispatch({ id: "c1", name: "requestCameraLook", args: {} });
     const result = r.result as { safetyVerdict: unknown };
     expect(result.safetyVerdict).toBeNull();
+  });
+});
+
+describe("runtime: user initiation is derived from device events only (SPEC 4)", () => {
+  it("an honest device-event citation makes a timer user-initiated (device-auto)", () => {
+    const { runtime, phone } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice", detail: "start a two minute timer" });
+    const r = runtime.dispatch({ id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 2, deviceEventId: cmd.id } });
+    expect(r.status).toBe("ok");
+    const result = r.result as { userInitiated?: boolean; requiredApproval?: string; state: string };
+    expect(result.userInitiated).toBe(true);
+    expect(result.requiredApproval).toBe("device-auto");
+    expect(result.state).toBe("executed"); // the phone's timer rule ran it
+    expect(phone.activeTimers()).toHaveLength(1);
+  });
+
+  it("a bare userInitiated flag in tool arguments is never trusted", () => {
+    const { runtime, phone } = harness();
+    const r = runtime.dispatch({ id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 2, userInitiated: true } });
+    expect(r.status).toBe("ok");
+    const result = r.result as { userInitiated?: boolean; state: string };
+    expect(result.userInitiated).toBe(false); // no device event was cited — the flag is not evidence
+    expect(result.state).toBe("proposed"); // explicit: waits for a scripted user action
+    expect(phone.activeTimers()).toHaveLength(0); // nothing executed
+    expect(phone.receipts()).toHaveLength(0);
+  });
+
+  it("an unknown device event id is not user initiation", () => {
+    const { runtime, phone } = harness();
+    const r = runtime.dispatch({ id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 2, deviceEventId: "cmd-9999" } });
+    const result = r.result as { userInitiated?: boolean; state: string };
+    expect(result.userInitiated).toBe(false);
+    expect(result.state).toBe("proposed");
+    expect(phone.activeTimers()).toHaveLength(0);
+  });
+
+  it("a device event recorded before the current revision is stale and is not user initiation", () => {
+    const { runtime, phone } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
+    // The world moves: one executed proposal bumps the snapshot revision.
+    const adv = runtime.dispatch({ id: "c0", name: "proposeStepAdvance", args: { stepIndex: 1 } });
+    phone.userApproves((adv.result as { proposalId: string }).proposalId);
+    const r = runtime.dispatch({ id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 2, deviceEventId: cmd.id } });
+    const result = r.result as { userInitiated?: boolean; state: string };
+    expect(result.userInitiated).toBe(false); // the citation is stale
+    expect(result.state).toBe("proposed");
+    expect(phone.activeTimers()).toHaveLength(0);
+  });
+
+  it("a device event for another tool is mismatched and is not user initiation", () => {
+    const { runtime, phone } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeMealLog", source: "voice", detail: "log this meal" });
+    const r = runtime.dispatch({ id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 2, deviceEventId: cmd.id } });
+    const result = r.result as { userInitiated?: boolean; state: string };
+    expect(result.userInitiated).toBe(false);
+    expect(result.state).toBe("proposed");
+    expect(phone.activeTimers()).toHaveLength(0);
+  });
+
+  it("a meal log with a genuine log-the-meal command is recorded as initiated yet stays explicit", () => {
+    const { runtime, phone } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeMealLog", source: "voice", detail: "log this meal" });
+    const r = runtime.dispatch({
+      id: "c1",
+      name: "proposeMealLog",
+      args: { recipeId: "eggs-on-toast", revision: 1, servings: 2, sourcedFrom: "voice", deviceEventId: cmd.id }
+    });
+    const result = r.result as { userInitiated?: boolean; requiredApproval?: string; state: string };
+    expect(result.userInitiated).toBe(true); // recorded fact: the user said it
+    expect(result.requiredApproval).toBe("explicit"); // SPEC 4: a voice transcript never authorizes a meal log
+    expect(result.state).toBe("proposed");
+    expect(phone.mealLogRecords()).toHaveLength(0);
+  });
+
+  it("an explicit userInitiated:false does not veto a valid device-event citation", () => {
+    const { runtime, phone } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "touch" });
+    const r = runtime.dispatch({ id: "c1", name: "proposeTimerStart", args: { label: "eggs", minutes: 2, userInitiated: false, deviceEventId: cmd.id } });
+    const result = r.result as { userInitiated?: boolean; requiredApproval?: string };
+    expect(result.userInitiated).toBe(true); // the citation decides, not the flag
+    expect(result.requiredApproval).toBe("device-auto");
   });
 });
