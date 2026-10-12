@@ -1,0 +1,8 @@
+{
+  "case": "pantry-truth-crashed-battery",
+  "emit": "crash",
+  "expect_rows": [
+    {"id": "pantry-truth_suite", "status": "not-run",
+     "reason_contains": ["exited with code"]}
+  ]
+}
