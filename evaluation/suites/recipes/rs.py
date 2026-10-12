@@ -15,9 +15,11 @@ SPEC 3.5 rule "structured or not shipped":
   derived from each ingredient's ACTUAL class through the canonical
   food-safety rulebook (`data/food-safety/rules.json`, branch
   overhaul/food-safety-canon), never colour or time alone. Every required
-  class must be covered at or above the class minimum, whole cuts must state
-  the required 3-minute rest, and every reheat step must carry its own
-  165 F ``leftovers`` check;
+  class must be covered at or above the class minimum, every check must be
+  cook-visible (the step text itself names a thermometer reading of the class
+  minimum), whole cuts must state the required 3-minute rest, an ingredient
+  whose class cannot be established fails closed, and every reheat step must
+  carry its own 165 F ``leftovers`` check;
 - every allergen/diet claim carries machine evidence (a recomputed allergen
   scan) or is stripped by the linter and counted (SPEC 3.5 / suite C bar).
   An ingredient whose composition no table resolves makes the claim UNCHECKED
@@ -34,7 +36,9 @@ Canonical sources and fail-closed behavior:
   (`CanonRulebook.load`: the scored tree's ``data/food-safety/rules.json``
   when present, else the pinned snapshot in ``canon/rules.json``).
 - When the rulebook cannot be loaded or fails validation, doneness validation
-  fails closed: every recipe with any safety-relevant signal is a violation.
+  fails closed: every recipe is a violation, because its ingredient
+  classification is unresolved. An INVALID present rules.json fails closed
+  naming the invalid source — it never falls back to the pinned snapshot.
   The linter never substitutes its own temperature table.
 - Ingredient composition for allergen/diet claim verdicts comes ONLY from
   FLIngredientFacts data (``data/ingredient-facts``, branch
@@ -92,6 +96,16 @@ _REHEAT_TEXT = re.compile(r"\b(?:reheat|re-heat|rewarm|re-warm|warm up|warming u
 # Rest language in step text: "then rest for at least 3 minutes before
 # carving" — rest word, then a minute count within the same sentence.
 _REST_TEXT = re.compile(r"\brest\w*\b[^.]{0,60}?\b(\d+)\s*min", re.IGNORECASE)
+
+# Cook-visible doneness (PR #88 r3 review BLOCK 1): the instruction text
+# itself must name thermometer language AND an internal-temperature reading
+# of the class minimum — the safety metadata alone never tells the cook what
+# internal temperature to look for.
+_THERMOMETER_TEXT = re.compile(
+    r"\bthermometer\b|\binstant-read\b|\btemperature probe\b|\binternal temperature\b",
+    re.IGNORECASE)
+_TEXT_TEMP_F = re.compile(r"(\d{2,3})\s*(?:°\s*)?F\b|(\d{2,3})\s*degrees\b",
+                          re.IGNORECASE)
 
 REQUIRED_RECIPE_FIELDS = (
     "rs_version", "id", "title", "cuisine", "meal_slots", "minutes",
@@ -218,8 +232,10 @@ class CanonRulebook:
 
         Precedence: the scored tree's ``data/food-safety/rules.json`` when
         ``repo_root`` carries one, else the suite's pinned snapshot
-        (``canon/rules.json``, see canon/PROVENANCE.md). Any parse or
-        validation failure returns (None, reason) — callers must fail closed.
+        (``canon/rules.json``, see canon/PROVENANCE.md). The snapshot is
+        used only when the scored tree carries NO rulebook: an INVALID
+        present file fails closed — (None, a reason naming the invalid
+        source) — it never falls back. Callers must fail closed on None.
         """
         candidates: list[tuple[Path, str]] = []
         if repo_root is not None:
@@ -238,7 +254,11 @@ class CanonRulebook:
                 book = cls(data, desc)
                 return book, f"canon rulebook: {desc}"
             except (json.JSONDecodeError, ValueError) as exc:
-                tried.append(f"{desc}: invalid ({exc})")
+                # An INVALID present rulebook fails closed — it never falls
+                # back to a lower-precedence source (BLOCK 2: the snapshot
+                # fallback hid an invalid canonical input).
+                return None, (f"canon rulebook INVALID — {desc}: invalid ({exc}); "
+                              "failing closed, no fallback")
         return None, "canon rulebook UNAVAILABLE — " + "; ".join(tried)
 
 
@@ -377,6 +397,20 @@ def _r3_safety(recipe: dict[str, Any], rid: str, allergen_scan: "AllergenScanner
                 require(cls)
         for cls in canon.classes_for_title(recipe.get("title", "")):
             require(cls)
+        # a reheat step pulls the reheat class itself: leftovers must reach
+        # 165 F whatever product class the food belonged to before chilling
+        for s in steps:
+            if s.get("reheat"):
+                require("leftovers")
+        # unresolved classification fails closed (BLOCK 2): an ingredient the
+        # canon cannot classify and the allergen table does not know (e.g.
+        # venison) is an animal protein we cannot judge — never silently safe
+        unresolved = sorted({n for n in unknown_names if not canon.classes_for_name(n)})
+        if unresolved:
+            v.append(f"{rid}: R3 unresolved safety classification for ingredient(s) "
+                     f"{', '.join(repr(n) for n in unresolved[:6])}: no canon doneness "
+                     "class and no allergen-table entry — an ingredient whose protein "
+                     "class cannot be established never passes safety lint")
 
     # -- collect the checks the recipe declares ------------------------------
     checks: list[tuple[int, dict[str, Any]]] = []
@@ -385,12 +419,20 @@ def _r3_safety(recipe: dict[str, Any], rid: str, allergen_scan: "AllergenScanner
             checks.append((i, step["safety"]))
 
     # -- fail closed when the canon is unavailable ---------------------------
-    safety_signal = bool(required) or any(s.get("reheat") or _REHEAT_TEXT.search(str(s.get("text", "")))
-                                          for s in steps) or bool(checks)
+    # Unresolved safety classification (BLOCK 2): without the canonical
+    # rulebook no ingredient's doneness class can be established and no class
+    # minimum exists to check against — every recipe fails closed naming its
+    # ingredients. (A chicken recipe with no safety metadata used to escape
+    # here because `required` stayed empty and no other signal existed.)
     if canon is None:
-        if safety_signal:
-            v.append(f"{rid}: R3 canon rulebook unavailable — doneness cannot be validated, "
-                     "failing closed (no safety judgment may pass without the canon)")
+        names = sorted({str(line.get("name", "")).strip().lower()
+                        for line in recipe.get("ingredients", [])
+                        if isinstance(line, dict) and str(line.get("name", "")).strip()})
+        shown = ", ".join(repr(n) for n in names[:6]) or "(no named ingredients)"
+        v.append(f"{rid}: R3 canon rulebook unavailable — unresolved safety classification "
+                 f"for ingredient(s) {shown}: doneness classes and class minimums come "
+                 "only from the canonical rulebook data/food-safety/rules.json, "
+                 "failing closed")
         return v
 
     # -- every reheat step carries its own 165 F leftovers check -------------
@@ -429,6 +471,16 @@ def _r3_safety(recipe: dict[str, Any], rid: str, allergen_scan: "AllergenScanner
         if temp < canon.class_min_f[cls]:
             v.append(f"{rid}: R3 safety temp_f {temp} below the FSIS minimum "
                      f"{canon.class_min_f[cls]:.0f} F for {cls}")
+        # cook-visible reading (BLOCK 1): the step text itself must name a
+        # thermometer reading of the class minimum — metadata alone never
+        # told the cook what internal temperature to look for
+        step = steps[i]
+        reading = _text_internal_reading_f(str(step.get("text", "")))
+        if reading is None or reading < canon.class_min_f[cls]:
+            v.append(f"{rid}: R3 step[{i}] check for {cls} is not cook-visible: the "
+                     "instruction text must name a thermometer reading of at least the "
+                     f"{cls} minimum {canon.class_min_f[cls]:.0f} F (the safety metadata "
+                     "alone never tells the cook the internal temperature to look for)")
         if chk.get("method") != "thermometer":
             v.append(f"{rid}: R3 safety check method must be 'thermometer'")
         source = chk.get("source")
@@ -439,12 +491,16 @@ def _r3_safety(recipe: dict[str, Any], rid: str, allergen_scan: "AllergenScanner
                      "citations (data/food-safety/rules.json)")
         req_rest = canon.class_rest_min.get(cls, 0)
         if req_rest:
-            step = steps[i]
             stated = _stated_rest(step, chk)
             if stated is None:
                 v.append(f"{rid}: R3 safety check for {cls} must state the required "
                          f"{req_rest:.0f}-minute rest (USDA FSIS: whole cuts rest at least "
                          "3 minutes before carving or consuming)")
+            elif stated < req_rest:
+                v.append(f"{rid}: R3 safety check for {cls} states a {stated:.0f}-minute "
+                         f"rest, below the required {req_rest:.0f}-minute minimum "
+                         "(USDA FSIS: whole cuts rest at least 3 minutes before carving "
+                         "or consuming)")
 
     # -- every REQUIRED class is covered by a check naming it ----------------
     for cls, need in sorted(required.items()):
@@ -467,6 +523,21 @@ def _r3_safety(recipe: dict[str, Any], rid: str, allergen_scan: "AllergenScanner
                 and not isinstance(step.get("safety"), dict)):
             v.append(f"{rid}: R3 step[{i}] states doneness by colour/time without a thermometer check")
     return v
+
+
+def _text_internal_reading_f(text: str) -> float | None:
+    """The cook-visible internal reading: the highest temperature (°F) named
+    in a sentence that also names thermometer language. None when no sentence
+    pairs the two (an oven number in a sentence without thermometer language
+    is not an internal reading)."""
+    for sentence in re.split(r"[.;\n]", text):
+        if not _THERMOMETER_TEXT.search(sentence):
+            continue
+        temps = [float(m.group(1) or m.group(2))
+                 for m in _TEXT_TEMP_F.finditer(sentence)]
+        if temps:
+            return max(temps)
+    return None
 
 
 def _stated_rest(step: dict[str, Any], chk: dict[str, Any]) -> float | None:
