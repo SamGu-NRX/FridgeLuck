@@ -49,10 +49,11 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         )
     }
 
-    private func makeAuthority(ledger: any ReceiptLedger, id: String) -> AssistantAuthority {
-        AssistantAuthority(
+    private func makeAuthority(ledger: any ReceiptLedger, id: String) throws -> AssistantAuthority {
+        try AssistantAuthority(
             engine: ActionProposalEngine(idSource: { id }),
-            ledger: ledger
+            ledger: ledger,
+            revisionClock: AssistantRevisionClock(revision: 1)
         )
     }
 
@@ -189,7 +190,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
 
     func testAtomicApproveCommitsEffectsAndReceiptTogether() async throws {
         let ledger = try makeLedger()
-        let authority = makeAuthority(ledger: ledger, id: "proposal-atomic")
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-atomic")
         let proposal = try await authority.propose(
             tool: .proposeTimer,
             payload: .timerCreate(label: "Boil water", seconds: 90),
@@ -199,6 +200,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         let receipt = try await authority.approve(
             try makeApproval(for: proposal),
             executor: InsertExecutor(),
+            sessionID: "s1",
             now: t0.addingTimeInterval(2)
         )
         XCTAssertEqual(receipt.state, .executed)
@@ -209,7 +211,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
 
     func testAtomicApproveRollsBackEffectsAndReceiptWhenExecutorThrows() async throws {
         let ledger = try makeLedger()
-        let authority = makeAuthority(ledger: ledger, id: "proposal-rollback")
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-rollback")
         let proposal = try await authority.propose(
             tool: .proposeTimer,
             payload: .timerCreate(label: "Boil water", seconds: 90),
@@ -220,6 +222,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
             try await authority.approve(
                 try self.makeApproval(for: proposal),
                 executor: InsertExecutor(shouldThrow: true),
+                sessionID: "s1",
                 now: t0.addingTimeInterval(2)
             )
         }
@@ -236,7 +239,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         try first.database.write { db in
             try db.execute(sql: "CREATE TABLE fl_test_effects (proposalID TEXT NOT NULL)")
         }
-        let authority1 = makeAuthority(ledger: first, id: "proposal-restart")
+        let authority1 = try makeAuthority(ledger: first, id: "proposal-restart")
         let proposal = try await authority1.propose(
             tool: .proposeStepAdvance,
             payload: .stepAdvance(stepIndex: 2),
@@ -244,16 +247,16 @@ final class GRDBReceiptLedgerTests: XCTestCase {
             now: t0
         )
         let approval = try makeApproval(for: proposal)
-        _ = try await authority1.approve(approval, executor: InsertExecutor(), now: t0.addingTimeInterval(2))
+        _ = try await authority1.approve(approval, executor: InsertExecutor(), sessionID: "s1", now: t0.addingTimeInterval(2))
 
         // Process 2: fresh authority over the same database, empty open set.
         let second = try GRDBReceiptLedger.open(at: url)
         try second.database.write { db in
             try db.execute(sql: "CREATE TABLE IF NOT EXISTS fl_test_effects (proposalID TEXT NOT NULL)")
         }
-        let authority2 = makeAuthority(ledger: second, id: "proposal-restart")
+        let authority2 = try makeAuthority(ledger: second, id: "proposal-restart")
         await expectError(.alreadyDecided(proposalID: "proposal-restart")) {
-            try await authority2.approve(approval, executor: InsertExecutor(), now: t0.addingTimeInterval(4))
+            try await authority2.approve(approval, executor: InsertExecutor(), sessionID: "s1", now: t0.addingTimeInterval(4))
         }
         let receipts = try await second.allReceipts()
         XCTAssertEqual(receipts.map(\.state), [.pendingApproval, .executed], "the earlier receipt stands; no duplicate row")
@@ -262,7 +265,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
 
     func testAtomicApproveRefusesNonTransactionalLedger() async throws {
         let ledger = InMemoryReceiptLedger()
-        let authority = makeAuthority(ledger: ledger, id: "proposal-notx")
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-notx")
         let proposal = try await authority.propose(
             tool: .proposePantryCorrection,
             payload: .pantryCorrection(canonicalName: "Milk", quantity: .unknown),
@@ -273,6 +276,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
             try await authority.approve(
                 try makeApproval(for: proposal),
                 executor: InsertExecutor(),
+                sessionID: "s1",
                 now: t0.addingTimeInterval(2)
             )
         }
@@ -299,7 +303,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
     /// the effect a second time: nothing survived the failed attempt.
     func testInjectedFailureBetweenEffectAndReceiptPersistsNeither() async throws {
         let ledger = try makeLedger()
-        let authority = makeAuthority(ledger: ledger, id: "proposal-seam-fail")
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-seam-fail")
         let proposal = try await authority.propose(
             tool: .proposeTimer,
             payload: .timerCreate(label: "Boil water", seconds: 90),
@@ -325,6 +329,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
         let receipt = try await authority.approve(
             try makeApproval(for: proposal),
             executor: InsertExecutor(),
+            sessionID: "s1",
             now: t0.addingTimeInterval(3)
         )
         XCTAssertEqual(receipt.state, .executed)
@@ -337,7 +342,7 @@ final class GRDBReceiptLedgerTests: XCTestCase {
     /// not disturb the pairing — both writes persist.
     func testNonThrowingInjectionBetweenEffectAndReceiptPersistsBoth() async throws {
         let ledger = try makeLedger()
-        let authority = makeAuthority(ledger: ledger, id: "proposal-seam-ok")
+        let authority = try makeAuthority(ledger: ledger, id: "proposal-seam-ok")
         let proposal = try await authority.propose(
             tool: .proposeTimer,
             payload: .timerCreate(label: "Boil water", seconds: 90),

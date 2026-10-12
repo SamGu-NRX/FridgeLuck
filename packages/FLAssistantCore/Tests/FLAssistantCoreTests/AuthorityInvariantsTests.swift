@@ -97,17 +97,29 @@ final class AuthorityInvariantsTests: XCTestCase {
         }
     }
 
-    private func makeAuthority(
+    private func makeAuthorityWithClock(
         ledger: any ReceiptLedger = InMemoryReceiptLedger(),
-        ttl: TimeInterval = 300
-    ) throws -> AssistantAuthority {
-        AssistantAuthority(
+        ttl: TimeInterval = 300,
+        revision: Int = 1
+    ) throws -> (authority: AssistantAuthority, clock: AssistantRevisionClock) {
+        let clock = try AssistantRevisionClock(revision: revision)
+        let authority = AssistantAuthority(
             engine: ActionProposalEngine(
                 idSource: { "proposal-" + String(FLDeterministicCounter.next()) },
                 ttl: ttl
             ),
-            ledger: ledger
+            ledger: ledger,
+            revisionClock: clock
         )
+        return (authority, clock)
+    }
+
+    private func makeAuthority(
+        ledger: any ReceiptLedger = InMemoryReceiptLedger(),
+        ttl: TimeInterval = 300,
+        revision: Int = 1
+    ) throws -> AssistantAuthority {
+        try makeAuthorityWithClock(ledger: ledger, ttl: ttl, revision: revision).authority
     }
 
     private func makeApproval(for proposal: ActionProposal) throws -> ActionApproval {
@@ -191,13 +203,13 @@ final class AuthorityInvariantsTests: XCTestCase {
 
     func testMatchingApprovalExecutesAndRecordsExecutedReceipt() async throws {
         let ledger = try makeLedger()
-        let authority = try makeAuthority(ledger: ledger)
+        let authority = try makeAuthority(ledger: ledger, revision: 3)
         let executor = RowExecutor()
         let snapshot = try makeSnapshot(revision: 3)
         let proposal = try await authority.propose(
             tool: .proposeTimer, payload: timerPayload(), against: snapshot, now: t0
         )
-        let receipt = try await authority.approve(makeApproval(for: proposal), executor: executor, now: t0)
+        let receipt = try await authority.approve(makeApproval(for: proposal), executor: executor, sessionID: "s1", now: t0)
         XCTAssertEqual(receipt.state, .executed)
         XCTAssertEqual(receipt.proposalID, proposal.id)
         XCTAssertEqual(receipt.payloadHash, proposal.payloadHash)
@@ -234,7 +246,7 @@ final class AuthorityInvariantsTests: XCTestCase {
             approvedAt: t0
         )
         await expectError(.payloadHashMismatch(proposalID: proposal.id)) {
-            try await authority.approve(forged, executor: executor, now: self.t0)
+            try await authority.approve(forged, executor: executor, sessionID: "s1", now: self.t0)
         }
         XCTAssertEqual(try effectCount(ledger), 0, "a refused approval never runs effects")
         let latest = try await authority.latestReceipt(proposalID: proposal.id)
@@ -243,7 +255,7 @@ final class AuthorityInvariantsTests: XCTestCase {
 
     func testStaleRevisionApprovalRefusesAndRecordsStaleRevision() async throws {
         let ledger = try makeLedger()
-        let authority = try makeAuthority(ledger: ledger)
+        let authority = try makeAuthority(ledger: ledger, revision: 3)
         let executor = RowExecutor()
         let proposal = try await authority.propose(
             tool: .proposeTimer, payload: timerPayload(), against: makeSnapshot(revision: 3), now: t0
@@ -257,7 +269,7 @@ final class AuthorityInvariantsTests: XCTestCase {
         await expectError(
             .snapshotRevisionMismatch(proposalID: proposal.id, approved: 4, actual: 3)
         ) {
-            try await authority.approve(stale, executor: executor, now: self.t0)
+            try await authority.approve(stale, executor: executor, sessionID: "s1", now: self.t0)
         }
         XCTAssertEqual(try effectCount(ledger), 0)
         let latest = try await authority.latestReceipt(proposalID: proposal.id)
@@ -273,7 +285,7 @@ final class AuthorityInvariantsTests: XCTestCase {
         )
         let approval = try makeApproval(for: proposal)
         await expectError(.proposalExpired(proposalID: proposal.id)) {
-            try await authority.approve(approval, executor: executor, now: self.t0.addingTimeInterval(61))
+            try await authority.approve(approval, executor: executor, sessionID: "s1", now: self.t0.addingTimeInterval(61))
         }
         XCTAssertEqual(try effectCount(ledger), 0)
         let latest = try await authority.latestReceipt(proposalID: proposal.id)
@@ -288,7 +300,7 @@ final class AuthorityInvariantsTests: XCTestCase {
             tool: .proposeTimer, payload: timerPayload(), against: makeSnapshot(), now: t0
         )
         let receipt = try await authority.approve(
-            makeApproval(for: proposal), executor: RowExecutor(), now: t0.addingTimeInterval(60)
+            makeApproval(for: proposal), executor: RowExecutor(), sessionID: "s1", now: t0.addingTimeInterval(60)
         )
         XCTAssertEqual(receipt.state, .executed)
     }
@@ -304,7 +316,7 @@ final class AuthorityInvariantsTests: XCTestCase {
             approvedAt: t0
         )
         await expectError(.unknownProposal(proposalID: "never-minted")) {
-            try await authority.approve(approval, executor: executor, now: self.t0)
+            try await authority.approve(approval, executor: executor, sessionID: "s1", now: self.t0)
         }
         XCTAssertEqual(try effectCount(ledger), 0)
         let rows = try await ledger.allReceipts()
@@ -338,9 +350,9 @@ final class AuthorityInvariantsTests: XCTestCase {
         let proposal = try await authority.propose(
             tool: .proposeTimer, payload: timerPayload(), against: makeSnapshot(), now: t0
         )
-        _ = try await authority.approve(makeApproval(for: proposal), executor: executor, now: t0)
+        _ = try await authority.approve(makeApproval(for: proposal), executor: executor, sessionID: "s1", now: t0)
         await expectError(.alreadyDecided(proposalID: proposal.id)) {
-            try await authority.approve(self.makeApproval(for: proposal), executor: executor, now: self.t0)
+            try await authority.approve(self.makeApproval(for: proposal), executor: executor, sessionID: "s1", now: self.t0)
         }
         XCTAssertEqual(try effectCount(ledger), 1, "replay approval must not re-execute")
         let rows = try await ledger.allReceipts().filter { $0.proposalID == proposal.id }
@@ -376,10 +388,10 @@ final class AuthorityInvariantsTests: XCTestCase {
         // not that it never existed.
         let executor = RowExecutor()
         await expectError(.alreadyDecided(proposalID: past.id)) {
-            try await authority.approve(self.makeApproval(for: past), executor: executor, now: self.t0.addingTimeInterval(610))
+            try await authority.approve(self.makeApproval(for: past), executor: executor, sessionID: "s1", now: self.t0.addingTimeInterval(610))
         }
         // The still-open proposal approves normally.
-        let receipt = try await authority.approve(makeApproval(for: stillOpen), executor: executor, now: t0.addingTimeInterval(610))
+        let receipt = try await authority.approve(makeApproval(for: stillOpen), executor: executor, sessionID: "s1", now: t0.addingTimeInterval(610))
         XCTAssertEqual(receipt.state, .executed)
     }
 
@@ -416,7 +428,7 @@ final class AuthorityInvariantsTests: XCTestCase {
             tool: .proposeTimer, payload: timerPayload(), against: makeSnapshot(), now: t0
         )
         await expectError(.malformedReply(detail: "executor failure injected by test")) {
-            try await authority.approve(self.makeApproval(for: proposal), executor: executor, now: self.t0)
+            try await authority.approve(self.makeApproval(for: proposal), executor: executor, sessionID: "s1", now: self.t0)
         }
         let latest = try await authority.latestReceipt(proposalID: proposal.id)
         XCTAssertEqual(
@@ -425,8 +437,102 @@ final class AuthorityInvariantsTests: XCTestCase {
         )
         XCTAssertEqual(try effectCount(ledger), 0, "the failed attempt applied no committed effects")
         // A retry with a healthy executor succeeds: the receipt then reads executed.
-        let receipt = try await authority.approve(makeApproval(for: proposal), executor: executor, now: t0)
+        let receipt = try await authority.approve(makeApproval(for: proposal), executor: executor, sessionID: "s1", now: t0)
         XCTAssertEqual(receipt.state, .executed)
         XCTAssertEqual(try effectCount(ledger), 1, "the failed attempt applied no effects")
+    }
+
+    // MARK: Review round 2, item 1 — the caller's session is the one checked
+
+    /// The proposal was minted for session s1. The app has since switched to
+    /// session s2, and the approval UI presents the caller's CURRENT session.
+    /// Round-1's guard compared the stored session with itself, so this call
+    /// executed whatever was presented (the canary proves it). The authority
+    /// must refuse — and must NOT record a decision receipt: the ledger is
+    /// device-wide, and a wrong-session call must not decide a proposal its
+    /// own session may still approve.
+    func testApprovalPresentedFromAnotherSessionIsRefusedByTheAuthority() async throws {
+        let ledger = try makeLedger()
+        let authority = try makeAuthority(ledger: ledger)
+        let executor = RowExecutor()
+        let proposal = try await authority.propose(
+            tool: .proposeTimer, payload: timerPayload(),
+            against: makeSnapshot(sessionID: "s1"), now: t0
+        )
+        await expectError(.sessionMismatch(proposalID: proposal.id)) {
+            try await authority.approve(
+                self.makeApproval(for: proposal), executor: executor,
+                sessionID: "s2", now: self.t0
+            )
+        }
+        XCTAssertEqual(try effectCount(ledger), 0, "a refused approval never runs effects")
+        let latest = try await authority.latestReceipt(proposalID: proposal.id)
+        XCTAssertEqual(
+            latest?.state, .pendingApproval,
+            "a session mismatch is not a decision — the proposal stays open in its own session"
+        )
+    }
+
+    func testApprovalPresentedFromTheProposalsOwnSessionExecutes() async throws {
+        // The control: the caller presenting the proposal's own session is
+        // the correct flow and must keep working.
+        let ledger = try makeLedger()
+        let authority = try makeAuthority(ledger: ledger)
+        let proposal = try await authority.propose(
+            tool: .proposeTimer, payload: timerPayload(),
+            against: makeSnapshot(sessionID: "s1"), now: t0
+        )
+        let receipt = try await authority.approve(
+            makeApproval(for: proposal), executor: RowExecutor(),
+            sessionID: "s1", now: t0
+        )
+        XCTAssertEqual(receipt.state, .executed)
+        XCTAssertEqual(try effectCount(ledger), 1)
+    }
+
+    // MARK: Review round 2, item 2 — the current revision is checked at the execution gate
+
+    /// An approval granted against revision N must refuse at the gate when
+    /// the snapshot has advanced SINCE — even though the approval was valid
+    /// when granted (the approval-time check passed; the state moved after).
+    func testStaleApprovalRefusesAtExecutionGateWhenCurrentStateAdvanced() async throws {
+        let ledger = try makeLedger()
+        let made = try makeAuthorityWithClock(ledger: ledger, revision: 1)
+        let executor = RowExecutor()
+        let proposal = try await made.authority.propose(
+            tool: .proposeTimer, payload: timerPayload(),
+            against: makeSnapshot(revision: 1), now: t0
+        )
+        let approval = try makeApproval(for: proposal)  // granted while the revision is still 1
+        // State moves AFTER the approval was granted.
+        let bumped = await made.clock.bump()
+        XCTAssertEqual(bumped, 2)
+        await expectError(
+            .snapshotRevisionMismatch(proposalID: proposal.id, approved: 1, actual: 2)
+        ) {
+            try await made.authority.approve(
+                approval, executor: executor, sessionID: "s1", now: self.t0
+            )
+        }
+        XCTAssertEqual(try effectCount(ledger), 0, "a stale approval never runs effects")
+        let latest = try await made.authority.latestReceipt(proposalID: proposal.id)
+        XCTAssertEqual(latest?.state, .staleRevision, "the stale-approval refusal is on the record")
+    }
+
+    func testApprovalAgainstCurrentRevisionStillExecutes() async throws {
+        // The gate's control: it refuses only ADVANCED state. An approval
+        // granted against the revision the clock still holds executes.
+        let ledger = try makeLedger()
+        let made = try makeAuthorityWithClock(ledger: ledger, revision: 5)
+        let proposal = try await made.authority.propose(
+            tool: .proposeTimer, payload: timerPayload(),
+            against: makeSnapshot(revision: 5), now: t0
+        )
+        let receipt = try await made.authority.approve(
+            makeApproval(for: proposal), executor: RowExecutor(),
+            sessionID: "s1", now: t0
+        )
+        XCTAssertEqual(receipt.state, .executed)
+        XCTAssertEqual(try effectCount(ledger), 1)
     }
 }

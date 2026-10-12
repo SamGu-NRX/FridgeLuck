@@ -63,11 +63,23 @@ private struct OpenProposal: Sendable {
 public actor AssistantAuthority {
     private let engine: ActionProposalEngine
     private let ledger: any ReceiptLedger
+    private let revisionClock: AssistantRevisionClock
     private var openProposals: [String: OpenProposal] = [:]
 
-    public init(engine: ActionProposalEngine = ActionProposalEngine(), ledger: any ReceiptLedger) {
+    /// - Parameters:
+    ///   - revisionClock: the live source of snapshot revisions. Round 2,
+    ///     item 2: the authority re-reads it immediately before executing an
+    ///     approval, so an approval granted against a snapshot that has since
+    ///     advanced refuses at the execution gate. Required — without the
+    ///     live clock the authority could not tell current from stale state.
+    public init(
+        engine: ActionProposalEngine = ActionProposalEngine(),
+        ledger: any ReceiptLedger,
+        revisionClock: AssistantRevisionClock
+    ) {
         self.engine = engine
         self.ledger = ledger
+        self.revisionClock = revisionClock
     }
 
     // MARK: Proposing
@@ -115,12 +127,18 @@ public actor AssistantAuthority {
 
     // MARK: Deciding
 
-    /// Shared pre-execution validation for both approve paths: the proposal
-    /// must be open (or decided, which refuses with `alreadyDecided`), and
-    /// the approval must pass the broker's full rule. A broker refusal records
-    /// its receipt (`rejected` / `staleRevision` / `expired`) before throwing.
+    /// Shared pre-execution validation for approval: the proposal must be
+    /// open (or decided, which refuses with `alreadyDecided`), and the
+    /// approval must pass the broker's full rule — checked against the
+    /// CALLER's session (round 2, item 1: the stored session was once passed
+    /// as both broker arguments, so a wrong-session call passed the guard by
+    /// comparing the stored session with itself). A broker refusal records
+    /// its receipt (`rejected` / `staleRevision` / `expired`) before throwing;
+    /// a session mismatch records nothing — the proposal stays open for the
+    /// session it belongs to.
     private func validateForExecution(
         _ approval: ActionApproval,
+        callerSessionID: String,
         now: Date
     ) async throws -> OpenProposal {
         guard let entry = openProposals[approval.proposalID] else {
@@ -142,7 +160,7 @@ public actor AssistantAuthority {
             try ApprovalBroker.authorize(
                 proposal: entry.proposal,
                 approval: approval,
-                inSession: entry.sessionID,
+                inSession: callerSessionID,
                 proposalSessionID: entry.sessionID,
                 now: now
             )
@@ -155,9 +173,14 @@ public actor AssistantAuthority {
                 state = .staleRevision
             case .proposalExpired:
                 state = .expired
+            case .sessionMismatch:
+                // Round 2, item 1: a wrong-session call does not get to
+                // decide the proposal either way — the ledger is device-wide
+                // and the proposal's own session may still approve it.
+                throw error
             default:
-                // Hash mismatch, session mismatch — a user-facing refusal of
-                // the presented approval.
+                // Hash mismatch — a user-facing refusal of the presented
+                // approval.
                 state = .rejected
             }
             try await ledger.record(try ActionReceipt(
@@ -172,16 +195,46 @@ public actor AssistantAuthority {
         return entry
     }
 
-    /// Apply an approval. Runs the broker's full rule (ID + hash + revision +
-    /// expiry + session), executes the effects, and records the `.executed`
-    /// receipt — the effects and the receipt commit in ONE transaction, so a
-    /// failure in either rolls both back (review round 2, item 4: a receipt
-    /// failure after the effect can never be retried into a second mutation,
-    /// because no effect survives without its receipt). A refused approval
-    /// records the refusal receipt (`rejected` / `staleRevision` / `expired`)
-    /// and throws. An executor failure propagates without recording — the
-    /// proposal stays pending and can be retried; "executed" is only claimed
-    /// for work that actually happened and committed.
+    /// Round 2, item 2 — the execution gate: the CURRENT revision, read here,
+    /// after every other check and immediately before effects run. An
+    /// approval granted against a snapshot that has since advanced refuses
+    /// at this gate with a stale-revision receipt, even though the
+    /// approval-time binding still held when it was granted.
+    private func refuseIfSnapshotAdvanced(
+        _ proposal: ActionProposal,
+        now: Date
+    ) async throws {
+        let currentRevision = await revisionClock.current()
+        guard currentRevision == proposal.snapshotRevision else {
+            try await ledger.record(try ActionReceipt(
+                proposalID: proposal.id,
+                state: .staleRevision,
+                payloadHash: proposal.payloadHash,
+                snapshotRevision: proposal.snapshotRevision,
+                recordedAt: now
+            ))
+            throw FLAssistantError.snapshotRevisionMismatch(
+                proposalID: proposal.id,
+                approved: proposal.snapshotRevision,
+                actual: currentRevision
+            )
+        }
+    }
+
+    /// Apply an approval presented by session `sessionID`. Runs the broker's
+    /// full rule against the caller's session (ID + hash + revision + expiry
+    /// + session), re-checks the CURRENT revision at the execution gate, then
+    /// executes the effects and records the `.executed` receipt — the effects
+    /// and the receipt commit in ONE transaction, so a failure in either
+    /// rolls both back (review round 2, item 4: a receipt failure after the
+    /// effect can never be retried into a second mutation, because no effect
+    /// survives without its receipt). A refused approval records the refusal
+    /// receipt (`rejected` / `staleRevision` / `expired`) and throws — except
+    /// a session mismatch, which records nothing and leaves the proposal
+    /// open for its own session. An executor failure propagates without
+    /// recording — the proposal stays pending and can be retried;
+    /// "executed" is only claimed for work that actually happened and
+    /// committed.
     ///
     /// There is no non-transactional approval path: every propose* tool
     /// mutates device state, so every approval requires the durable
@@ -191,9 +244,13 @@ public actor AssistantAuthority {
     public func approve(
         _ approval: ActionApproval,
         executor: any GRDBActionExecutor,
+        sessionID: String,
         now: Date
     ) async throws -> ActionReceipt {
-        let entry = try await validateForExecution(approval, now: now)
+        let entry = try await validateForExecution(
+            approval, callerSessionID: sessionID, now: now
+        )
+        try await refuseIfSnapshotAdvanced(entry.proposal, now: now)
         guard let grdbLedger = ledger as? GRDBReceiptLedger else {
             throw FLAssistantError.ledgerCannotExecuteAtomically
         }
