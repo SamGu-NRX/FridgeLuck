@@ -44,7 +44,8 @@ enum CanonFinding {
     var line: String {
         switch self {
         case .step(let finding, let file, let recordID, let field):
-            return "[\(finding.kind.rawValue)] " + finding.findingLine(file: file, recordID: recordID, field: field)
+            // findingLine already prefixes "[kind] "; do not add a second one.
+            return finding.findingLine(file: file, recordID: recordID, field: field)
         case .copy(let finding):
             return "[\(finding.patternID)] " + finding.canonicalLine
         }
