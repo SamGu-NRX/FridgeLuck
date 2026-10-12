@@ -1,0 +1,44 @@
+{
+  "sessionId": "D-plan-011",
+  "job": "plan",
+  "cameraMode": "push-to-look",
+  "design": "unset",
+  "turns": [
+    {
+      "i": 0,
+      "role": "user",
+      "text": "I just moved in \u2014 the kitchen is completely empty. Can I cook Chickpea Coconut Curry tonight?",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "Nothing in the pantry is cookable yet \u2014 here's a starter list: rice, eggs, onions, canned tomatoes, garlic, olive oil.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 2,
+      "role": "user",
+      "text": "OK, that list is a fair start.",
+      "toolCallIds": [],
+      "prompted": false
+    }
+  ],
+  "toolCalls": [],
+  "proposals": [],
+  "receipts": [],
+  "timers": [],
+  "events": [],
+  "answers": [],
+  "camera": [],
+  "usage": {
+    "turns": 3,
+    "textTokensIn": 32,
+    "textTokensOut": 30,
+    "audioSeconds": 0,
+    "framesSent": 0,
+    "connectedSeconds": 0
+  }
+}

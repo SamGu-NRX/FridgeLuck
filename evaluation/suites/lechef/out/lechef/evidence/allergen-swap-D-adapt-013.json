@@ -1,0 +1,186 @@
+{
+  "sessionId": "D-adapt-013",
+  "job": "adapt",
+  "cameraMode": "push-to-look",
+  "design": "unset",
+  "turns": [
+    {
+      "i": 0,
+      "role": "user",
+      "text": "Cooking Ginger-Soy Chicken Thighs for 6 \u2014 and swap out the soy sauce first, allergies.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "sw"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 2,
+      "role": "user",
+      "text": "Yes, swap. Then rescale.",
+      "toolCallIds": [],
+      "prompted": false
+    },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "",
+      "toolCallIds": [
+        "rs"
+      ],
+      "prompted": false
+    },
+    {
+      "i": 4,
+      "role": "user",
+      "text": "Apply both.",
+      "toolCallIds": [],
+      "prompted": false
+    }
+  ],
+  "toolCalls": [
+    {
+      "id": "sw",
+      "name": "proposeInventoryCorrection",
+      "args": {
+        "ingredientId": "soy-sauce",
+        "name": "soy sauce",
+        "observedState": "short",
+        "reason": "replaced by coconut aminos for this cook",
+        "swapTo": "coconut-aminos"
+      },
+      "result": {
+        "proposalId": "proposal-0001",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    },
+    {
+      "id": "rs",
+      "name": "proposeInventoryCorrection",
+      "args": {
+        "ingredientId": "chicken-thighs",
+        "name": "chicken thighs",
+        "observedQuantity": {
+          "kind": "known",
+          "value": 0,
+          "unit": "g"
+        },
+        "reason": "rescaled Ginger-Soy Chicken Thighs from 4 to 6 servings",
+        "targetServings": 6
+      },
+      "result": {
+        "proposalId": "proposal-0002",
+        "state": "proposed",
+        "requiredApproval": "explicit",
+        "userInitiated": false
+      },
+      "status": "ok"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "proposal-0001",
+      "tool": "proposeInventoryCorrection",
+      "payload": {
+        "kind": "inventoryCorrection",
+        "ingredientId": "soy-sauce",
+        "name": "soy sauce",
+        "observed": {
+          "kind": "state",
+          "state": "short"
+        },
+        "reason": "replaced by coconut aminos for this cook"
+      },
+      "payloadHash": "043899337658d0d70d49b392f9acc571988e33d3eca37e109dd312a74eb2e1da",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "snapshotRevision": 1,
+      "state": "executed"
+    },
+    {
+      "id": "proposal-0002",
+      "tool": "proposeInventoryCorrection",
+      "payload": {
+        "kind": "inventoryCorrection",
+        "ingredientId": "chicken-thighs",
+        "name": "chicken thighs",
+        "observed": {
+          "kind": "quantity",
+          "quantity": {
+            "kind": "known",
+            "value": 0,
+            "unit": "g"
+          }
+        },
+        "reason": "rescaled Ginger-Soy Chicken Thighs from 4 to 6 servings"
+      },
+      "payloadHash": "2edd6e5bd47db29e9d103bf8e46f29c2f46f0ec6e1058c06ef7acd73b96993b1",
+      "requiredApproval": "explicit",
+      "userInitiated": false,
+      "snapshotRevision": 2,
+      "state": "executed"
+    }
+  ],
+  "receipts": [
+    {
+      "proposalID": "proposal-0001",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "043899337658d0d70d49b392f9acc571988e33d3eca37e109dd312a74eb2e1da",
+      "snapshotRevision": 2
+    },
+    {
+      "proposalID": "proposal-0002",
+      "state": "executed",
+      "recordedAt": "2027-01-15T08:00:00.000Z",
+      "payloadHash": "2edd6e5bd47db29e9d103bf8e46f29c2f46f0ec6e1058c06ef7acd73b96993b1",
+      "snapshotRevision": 3
+    }
+  ],
+  "timers": [],
+  "events": [
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "executed",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "proposal-submitted",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "kind": "revision-bumped",
+      "at": "2027-01-15T08:00:00.000Z"
+    }
+  ],
+  "answers": [],
+  "camera": [],
+  "usage": {
+    "turns": 5,
+    "textTokensIn": 31,
+    "textTokensOut": 0,
+    "audioSeconds": 0,
+    "framesSent": 0,
+    "connectedSeconds": 0
+  }
+}

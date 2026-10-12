@@ -1,0 +1,3 @@
+# LeChef live-run outputs are evaluation artifacts, never committed:
+# they carry raw model transcripts and are only meaningful with their run id.
+evaluation/lechef-live-runs/

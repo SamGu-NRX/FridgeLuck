@@ -1,0 +1,61 @@
+{
+  "sessionId": "companion-remember-001",
+  "job": "remember",
+  "cameraMode": "push-to-look",
+  "design": "companion",
+  "fixture": {
+    "nowIso": "2026-01-05T19:30:00.000Z",
+    "session": { "recipeId": "lemon-pasta", "state": "cooking", "currentStepIndex": 2 },
+    "recipes": [
+      {
+        "id": "lemon-pasta",
+        "revision": 2,
+        "title": "Lemon pasta",
+        "servings": 2,
+        "ingredientBill": [
+          { "ingredientId": "pasta", "name": "Pasta", "quantity": { "kind": "known", "value": 200, "unit": "g" } },
+          { "ingredientId": "lemon", "name": "Lemon", "quantity": { "kind": "known", "value": 1, "unit": "piece" } }
+        ],
+        "steps": [
+          { "index": 0, "text": "Boil the pasta", "timerMinutes": 10 },
+          { "index": 1, "text": "Zest and juice the lemon into the pan" },
+          { "index": 2, "text": "Toss with pasta water and butter" }
+        ]
+      }
+    ]
+  },
+  "turns": [
+    { "i": 0, "role": "user", "text": "That was really good — less salt next time, though.", "audioSeconds": 3.0 },
+    {
+      "i": 1,
+      "role": "assistant",
+      "text": "Saving that — it matters.",
+      "toolCalls": [{ "id": "n-1", "name": "proposeSaveNote", "args": { "text": "less salt next time", "scope": "recipe" } }],
+      "prompted": true
+    },
+    { "i": 2, "role": "user", "text": "And write down that the lemon trick worked.", "audioSeconds": 2.0 },
+    {
+      "i": 3,
+      "role": "assistant",
+      "text": "On the recipe note.",
+      "toolCalls": [{ "id": "n-2", "name": "proposeSaveNote", "args": { "text": "the lemon trick worked", "scope": "recipe" } }],
+      "prompted": true
+    },
+    { "i": 4, "role": "user", "text": "Log the meal too — two servings.", "audioSeconds": 1.5 },
+    {
+      "i": 5,
+      "role": "assistant",
+      "text": "Two servings, logged as cooked.",
+      "toolCalls": [{ "id": "n-3", "name": "proposeMealLog", "args": { "recipeId": "lemon-pasta", "revision": 2, "servings": 2, "sourcedFrom": "voice" } }],
+      "prompted": true
+    },
+    { "i": 6, "role": "assistant", "text": "[check-in] Anything else before you sit down?" },
+    { "i": 7, "role": "user", "text": "No, that's everything. Thanks, LeChef.", "audioSeconds": 2.0 },
+    { "i": 8, "role": "assistant", "text": "Enjoy — you earned it.", "prompted": true }
+  ],
+  "userActions": [
+    { "afterTurn": 1, "action": { "kind": "approve", "callId": "n-1" } },
+    { "afterTurn": 3, "action": { "kind": "approve", "callId": "n-2" } },
+    { "afterTurn": 5, "action": { "kind": "approve", "callId": "n-3" } }
+  ]
+}

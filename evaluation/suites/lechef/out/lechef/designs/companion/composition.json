@@ -1,0 +1,12 @@
+{
+  "arm": "companion",
+  "design": "companion",
+  "sessions": 155,
+  "scored": 153,
+  "failedSessionIds": [
+    "D-remember-027",
+    "D-substitute-031"
+  ],
+  "suppressedTurns": 0,
+  "policyDeniedCalls": 0
+}

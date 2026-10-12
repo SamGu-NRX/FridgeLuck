@@ -1,0 +1,240 @@
+{
+  "id": "D-coach-031",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "title": "Camera denied, coaching continues",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "chicken-breast",
+          "name": "chicken breast",
+          "quantity": {
+            "kind": "known",
+            "value": 350,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "kind": "known",
+            "value": 400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-lemon-chicken",
+      "revision": 1,
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredientId": "chicken-breast",
+          "name": "chicken breast",
+          "quantity": {
+            "value": 350,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 2,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 30,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "value": 200,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Pound the breasts to even thickness and season."
+        },
+        {
+          "index": 1,
+          "text": "Sear until golden.",
+          "timerMinutes": 5,
+          "safetyCheckTarget": "chicken breast internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Cook the green beans in the same pan.",
+          "timerMinutes": 4
+        },
+        {
+          "index": 3,
+          "text": "Rest, then squeeze over the lemon."
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000045,
+      "kind": "camera-denied",
+      "detail": {
+        "reason": "permission-denied"
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Can you watch the pan?",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Fine — next then.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposeStepAdvance",
+          "args": {
+            "stepIndex": 1
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Is it done?",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t2",
+          "name": "checkFoodSafety",
+          "args": {
+            "target": "chicken breast internal temperature"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "no-camera-safety-verdict",
+        "detail": "no camera look existed, so no verdict could be issued"
+      },
+      {
+        "check": "sourced-doneness-answer",
+        "detail": "the doneness answer stays sourced"
+      },
+      {
+        "check": "step-advance-approved",
+        "detail": "the advance was user-initiated"
+      }
+    ]
+  }
+}

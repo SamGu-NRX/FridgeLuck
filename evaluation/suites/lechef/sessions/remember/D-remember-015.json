@@ -1,0 +1,199 @@
+{
+  "id": "D-remember-015",
+  "job": "remember",
+  "cameraMode": "push-to-look",
+  "title": "Noisy dictation read back (15)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "cheddar",
+          "name": "cheddar",
+          "quantity": {
+            "kind": "known",
+            "value": 100,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "kind": "known",
+            "value": 6,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-shakshuka",
+      "revision": 1,
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredientId": "eggs",
+          "name": "eggs",
+          "quantity": {
+            "value": 4,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "canned-tomatoes",
+          "name": "canned tomatoes",
+          "quantity": {
+            "value": 400,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "onion",
+          "name": "onion",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "bell-pepper",
+          "name": "bell pepper",
+          "quantity": {
+            "value": 1,
+            "unit": "piece"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 2,
+            "unit": "clove"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Soften the onion and pepper.",
+          "timerMinutes": 5
+        },
+        {
+          "index": 1,
+          "text": "Simmer the tomato sauce.",
+          "timerMinutes": 10
+        },
+        {
+          "index": 2,
+          "text": "Poach the eggs in wells of the sauce.",
+          "timerMinutes": 6,
+          "safetyCheckTarget": "egg dish internal temperature"
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "online"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000060,
+      "kind": "noise",
+      "detail": {
+        "transcriptLevel": "extractor-fan",
+        "userWordsHeard": 3
+      }
+    },
+    {
+      "at": 1800000090,
+      "kind": "ambiguous-voice",
+      "detail": {
+        "utterance": "use the… small… pan",
+        "inVocabulary": true
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Remember: use the… small… pan.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Yes — Use the small pan.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposeSaveNote",
+          "args": {
+            "text": "Use the small pan",
+            "scope": "cook"
+          }
+        }
+      ],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "user",
+      "text": "Save it.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "note-saved-with-receipt",
+        "detail": "the confirmed text was saved with a receipt"
+      },
+      {
+        "check": "no-unapproved-execution",
+        "detail": "the note saved only after explicit approval"
+      }
+    ]
+  }
+}

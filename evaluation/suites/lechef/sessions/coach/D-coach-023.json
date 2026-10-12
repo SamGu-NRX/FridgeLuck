@@ -1,0 +1,266 @@
+{
+  "id": "D-coach-023",
+  "job": "coach",
+  "cameraMode": "push-to-look",
+  "title": "Offline coaching (23)",
+  "scenario": {
+    "pantry": {
+      "revision": 1,
+      "items": [
+        {
+          "ingredientId": "chicken-breast",
+          "name": "chicken breast",
+          "quantity": {
+            "kind": "known",
+            "value": 350,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "pork-loin",
+          "name": "pork loin",
+          "quantity": {
+            "kind": "known",
+            "value": 700,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "salmon-fillet",
+          "name": "salmon fillet",
+          "quantity": {
+            "kind": "known",
+            "value": 300,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "green-beans",
+          "name": "green beans",
+          "quantity": {
+            "kind": "known",
+            "value": 400,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "lemon",
+          "name": "lemon",
+          "quantity": {
+            "kind": "known",
+            "value": 2,
+            "unit": "piece"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "kind": "known",
+            "value": 1,
+            "unit": "clove"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "kind": "known",
+            "value": 500,
+            "unit": "ml"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        },
+        {
+          "ingredientId": "rosemary",
+          "name": "rosemary",
+          "quantity": {
+            "kind": "known",
+            "value": 10,
+            "unit": "g"
+          },
+          "state": "sufficient",
+          "lastConfirmedAt": 1799913600,
+          "source": "scan",
+          "useSoon": false
+        }
+      ]
+    },
+    "recipe": {
+      "id": "r-pork-loin",
+      "revision": 1,
+      "servings": 4,
+      "ingredients": [
+        {
+          "ingredientId": "pork-loin",
+          "name": "pork loin",
+          "quantity": {
+            "value": 700,
+            "unit": "g"
+          }
+        },
+        {
+          "ingredientId": "olive-oil",
+          "name": "olive oil",
+          "quantity": {
+            "value": 30,
+            "unit": "ml"
+          }
+        },
+        {
+          "ingredientId": "garlic",
+          "name": "garlic",
+          "quantity": {
+            "value": 3,
+            "unit": "clove"
+          }
+        },
+        {
+          "ingredientId": "rosemary",
+          "name": "rosemary",
+          "quantity": {
+            "value": 5,
+            "unit": "g"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "text": "Season and sear the loin on all sides."
+        },
+        {
+          "index": 1,
+          "text": "Roast until the centre reads done.",
+          "timerMinutes": 35,
+          "safetyCheckTarget": "pork loin internal temperature"
+        },
+        {
+          "index": 2,
+          "text": "Rest under foil before slicing.",
+          "timerMinutes": 10
+        }
+      ]
+    },
+    "eaters": [
+      {
+        "restrictions": []
+      }
+    ],
+    "device": {
+      "notifications": "enabled",
+      "audioRoute": "speaker",
+      "recognition": "offline"
+    }
+  },
+  "events": [
+    {
+      "at": 1800000180,
+      "kind": "offline",
+      "detail": {
+        "reason": "dead-zone",
+        "recognition": "offline"
+      }
+    },
+    {
+      "at": 1800000600,
+      "kind": "reconnect",
+      "detail": {
+        "reason": "back-home"
+      }
+    }
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Signal's gone — keep coaching me on Roast Pork Loin offline.",
+      "toolCalls": [],
+      "cancelledToolCallIds": []
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t1",
+          "name": "proposeStepAdvance",
+          "args": {
+            "stepIndex": 1
+          }
+        }
+      ],
+      "cancelledToolCallIds": [],
+      "replayNote": "offline"
+    },
+    {
+      "role": "user",
+      "text": "Next.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t1"
+      ]
+    },
+    {
+      "role": "model",
+      "toolCalls": [
+        {
+          "id": "t2",
+          "name": "proposeStepAdvance",
+          "args": {
+            "stepIndex": 2
+          }
+        }
+      ],
+      "cancelledToolCallIds": [],
+      "replayNote": "offline"
+    },
+    {
+      "role": "user",
+      "text": "Go ahead.",
+      "toolCalls": [],
+      "cancelledToolCallIds": [],
+      "consents": [
+        "t2"
+      ]
+    }
+  ],
+  "expected": {
+    "jobSuccessChecks": [
+      {
+        "check": "offline-local-core",
+        "detail": "the offline-window calls executed locally"
+      },
+      {
+        "check": "step-advance-approved",
+        "detail": "the offline advance stayed user-initiated"
+      }
+    ]
+  }
+}
