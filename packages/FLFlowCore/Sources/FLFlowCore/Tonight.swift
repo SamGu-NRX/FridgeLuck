@@ -534,7 +534,13 @@ public enum DinnerDecisionService {
     ///
     /// - Parameters:
     ///   - reservations: stock already promised to earlier dinners in this
-    ///     plan; the evaluation reserves newly sufficient stock on top.
+    ///     plan. Scoring never reserves: every candidate is scored against
+    ///     this same state, because the candidates are alternatives until
+    ///     one is chosen (review round 2, blocker 3 — iterating candidates
+    ///     must not deplete pantry stock). Reserve the chosen option's stock
+    ///     on selection with FeasibilityEngine.evaluateAndReserve — the
+    ///     reservation then follows the reported state at selection time,
+    ///     never the proposal's.
     ///   - acceptedSwapCounts: per revision, the number of swaps the user
     ///     already accepted (shown as "· N swaps" on the fit line).
     ///   - resume: the in-progress session's card, when Tonight should lead
@@ -612,17 +618,20 @@ public enum DinnerDecisionService {
             passing.append(candidate)
         }
 
-        // Feasibility with plan reservation, in a deterministic order: ready
+        // Feasibility, scored read-only in a deterministic order: ready
         // picks first, then more sufficient lines, then fewer required, then
-        // the key — so the same inputs always rank the same way.
-        var ledger = reservations
+        // the key — so the same inputs always rank the same way. Scoring
+        // never reserves: the candidates are alternatives until one is
+        // chosen, and stock is reserved only on selection (review round 2,
+        // blocker 3) — the caller reserves the chosen option with
+        // FeasibilityEngine.evaluateAndReserve at selection time.
         var scored: [(revision: RecipeRevision, result: FeasibilityResult)] = []
         for candidate in passing {
-            let result = try FeasibilityEngine.evaluateAndReserve(
+            let result = try FeasibilityEngine.evaluate(
                 revision: candidate.revision,
                 servings: context.servings,
                 pantry: pantry,
-                ledger: &ledger
+                ledger: reservations
             )
             scored.append((candidate.revision, result))
         }

@@ -304,11 +304,13 @@ final class DinnerDecisionTests: XCTestCase {
         XCTAssertThrowsError(try FitLine(requiredCount: 3, sufficientCount: 5, checkNames: []))
     }
 
-    // MARK: Plan reservation across options
+    // MARK: Reservation only on selection
 
-    func testPlanReservesStockAcrossOptions() throws {
-        // Both dinners want 200 g rice; only 300 g exist. The first (by key
-        // order) is ready; the second honestly reports a shortage.
+    func testAlternativesAreScoredAgainstTheSameStock() throws {
+        // Two alternatives each want 200 g rice; 300 g exist. They are
+        // alternatives until one is chosen: scoring one must not consume
+        // stock from the other (review round 2, blocker 3 — the old
+        // testPlanReservesStockAcrossOptions pinned the defect).
         let riceA = TestBuilders.revision("a-rice", lines: [TestBuilders.line("l1", "rice", TestBuilders.grams(200))])
         let riceB = TestBuilders.revision("b-rice", lines: [TestBuilders.line("l1", "rice", TestBuilders.grams(200))])
         let candidates = [
@@ -324,11 +326,58 @@ final class DinnerDecisionTests: XCTestCase {
             now: t0
         )
         XCTAssertEqual(proposal.options.count, 2)
-        let first = try XCTUnwrap(proposal.options.first)
-        XCTAssertTrue(first.fit.isReady, "\(first.recipeRevision) is evaluated first and is ready")
-        let second = proposal.options[1]
-        XCTAssertFalse(second.fit.isReady)
-        XCTAssertEqual(second.fit.display, "0 recorded · check rice")
+        for option in proposal.options {
+            XCTAssertTrue(option.fit.isReady, "\(option.recipeRevision) is scored against the full shelf, not the remainder after another alternative")
+        }
+    }
+
+    func testPlanReservationCarriesThroughSelectionOnly() throws {
+        // The plan-level contract, honestly this time: dinner 1's propose
+        // reserves NOTHING (alternatives, not a sequence); when the caller
+        // SELECTS an option it reserves via the engine, and only then does
+        // dinner 2's propose see the remainder (review round 2, blocker 3).
+        let riceA = TestBuilders.revision("a-rice", lines: [TestBuilders.line("l1", "rice", TestBuilders.grams(200))])
+        let riceB = TestBuilders.revision("b-rice", lines: [TestBuilders.line("l1", "rice", TestBuilders.grams(200))])
+        let candidates = [
+            (revision: riceB, claims: RecipeClaims()),
+            (revision: riceA, claims: RecipeClaims()),
+        ]
+        let view = pantry([TestBuilders.pantryLine("rice", TestBuilders.grams(300), confirmedAt: t0)])
+
+        // Dinner 1: both alternatives ready on the same shelf.
+        let dinner1 = try DinnerDecisionService.propose(
+            candidates: candidates,
+            context: context(),
+            pantry: view,
+            reservations: StockLedger(pantry: view),
+            now: t0
+        )
+        XCTAssertTrue(dinner1.options.allSatisfy { $0.fit.isReady })
+
+        // Selection: the caller reserves the chosen option's stock.
+        var planLedger = StockLedger(pantry: view)
+        _ = try FeasibilityEngine.evaluateAndReserve(
+            revision: riceA,
+            servings: 2,
+            pantry: view,
+            ledger: &planLedger
+        )
+        guard case .known(let remaining)? = planLedger.entry(for: "rice") else {
+            return XCTFail("the selection must record the reserved remainder")
+        }
+        XCTAssertEqual(remaining.grams, 100, accuracy: 0.001, "300 - 200 reserved for the chosen dinner")
+
+        // Dinner 2 now sees the remainder — through the caller's ledger,
+        // never through dinner 1's propose.
+        let dinner2 = try DinnerDecisionService.propose(
+            candidates: [(revision: riceB, claims: RecipeClaims())],
+            context: context(),
+            pantry: view,
+            reservations: planLedger,
+            now: t0
+        )
+        let option = try XCTUnwrap(dinner2.options.first)
+        XCTAssertFalse(option.fit.isReady, "dinner 2 sees what the selected dinner reserved")
     }
 
     // MARK: Tonight states
