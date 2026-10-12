@@ -9,8 +9,15 @@
 //    thrown by provider SDKs) NEVER authorize their messages to be exposed.
 // 2. Everything unrecognized collapses to a generic 500 plus a request id.
 
-/** The only public typed error codes a client can ever see as a 422. */
-export type PublicErrorCode = "uses_avoided_ingredient" | "uses_unlisted_ingredient";
+import type { RecipeRejectionReason } from "../types/contracts.js";
+
+/**
+ * The only public typed error codes a client can ever see as a 422.
+ * Derived from the recipe rejection contract: the recipe screen's reasons
+ * ARE public codes, so deriving one union from the other makes drift between
+ * the two allowlists a compile error instead of a runtime surprise.
+ */
+export type PublicErrorCode = RecipeRejectionReason;
 
 /** Stable error codes used in response bodies and (only these) in logs. */
 export type StableErrorCode =

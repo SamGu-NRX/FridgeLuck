@@ -46,7 +46,7 @@ import {
 //   400 invalid_json      — malformed JSON body (no echo of the body)
 //   400 invalid_request   — schema validation failure (+ static field path)
 //   413 payload_too_large — parser limit or photo-field limit exceeded
-//   422 <public code>     — only the two recognized PublicApiError codes
+//   422 <public code>     — only recognized PublicApiError codes
 //   429 rate_limited      — per-IP token bucket on paid-model routes
 //   500 internal_error    — anything else (generic, with requestId)
 //

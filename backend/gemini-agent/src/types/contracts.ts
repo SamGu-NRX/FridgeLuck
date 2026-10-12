@@ -103,6 +103,12 @@ export interface ToolCallTrace {
 
 export interface RecipeGenerationRequest {
   ingredientNames: string[];
+  /**
+   * Dietary restrictions enforced by the ingredient-facts conformance
+   * screen, not just the prompt: an ingredient that conflicts with a
+   * restriction, or whose composition cannot be verified against the active
+   * restrictions, fails closed (the recipe is rejected, never served).
+   */
   dietaryRestrictions?: string[];
   /**
    * Ingredients the recipe must not use. Matched case-insensitively on word
@@ -133,17 +139,40 @@ export interface RecipeGenerationResponse {
 
 /**
  * Public rejection reasons for the recipe ingredient-policy screen.
- * Frozen shared error contract (packet023).
+ * Frozen shared error contract (packet023), extended per the PR #94
+ * ingredient-facts fix list (issue comment 6115055871) with the two
+ * restriction-conformance outcomes: `violates_dietary_restriction` and
+ * `unverified_ingredient_facts` (fail closed: unknown composition is never
+ * allowed through).
  */
 export type RecipeRejectionReason =
   | "uses_avoided_ingredient"
-  | "uses_unlisted_ingredient";
+  | "uses_unlisted_ingredient"
+  | "violates_dietary_restriction"
+  | "unverified_ingredient_facts";
 
 /**
- * Frozen shared error contract (packet023):
+ * Static, public-safe rejection messages, keyed exhaustively by reason so a
+ * new union member fails to compile until its message exists. Messages never
+ * contain generated text, request contents or photos, or provider messages.
+ */
+const REJECTION_MESSAGES: Record<RecipeRejectionReason, string> = {
+  uses_avoided_ingredient:
+    "Recipe rejected: the recipe uses an ingredient that must be avoided.",
+  uses_unlisted_ingredient:
+    "Recipe rejected: the recipe uses an ingredient that was not supplied or allowed.",
+  violates_dietary_restriction:
+    "Recipe rejected: an ingredient conflicts with the household's dietary restrictions.",
+  unverified_ingredient_facts:
+    "Recipe rejected: an ingredient could not be verified against known ingredient facts."
+};
+
+/**
+ * Frozen shared error contract (packet023, extended per the PR #94
+ * ingredient-facts fix list):
  * - `status` is 422; the API layer maps it to the HTTP status code.
- * - `reason` is the only machine-readable detail: "uses_avoided_ingredient"
- *   or "uses_unlisted_ingredient".
+ * - `reason` is the only machine-readable detail: one of the
+ *   RecipeRejectionReason union members.
  * - `message` is static and public-safe. It never contains generated text,
  *   request contents or photos, or provider messages.
  */
@@ -152,11 +181,7 @@ export class RecipeRejectedError extends Error {
   readonly reason: RecipeRejectionReason;
 
   constructor(reason: RecipeRejectionReason) {
-    super(
-      reason === "uses_avoided_ingredient"
-        ? "Recipe rejected: the recipe uses an ingredient that must be avoided."
-        : "Recipe rejected: the recipe uses an ingredient that was not supplied or allowed."
-    );
+    super(REJECTION_MESSAGES[reason]);
     this.name = "RecipeRejectedError";
     this.reason = reason;
   }

@@ -6,6 +6,10 @@ import {
   RECIPE_STAPLE_INGREDIENTS,
   RECIPE_RECOGNIZED_FOOD_LEXICON
 } from "../services/recipeService.js";
+import type {
+  IngredientFactsEvaluation,
+  IngredientFactsEvaluator
+} from "../services/ingredientFacts.js";
 import {
   RecipeRejectedError,
   type RecipeGenerationRequest,
@@ -43,6 +47,17 @@ function fakeAi(
       }
     }
   } as unknown as GoogleGenAI;
+}
+
+/**
+ * Stub ingredient-facts evaluator with scripted per-ingredient verdicts:
+ * proves the SERVICE enforces the seam (allowed passes, violated rejects,
+ * unknown fails closed) without any ingredient-facts data.
+ */
+function stubEvaluator(
+  verdictFor: (ingredient: string) => IngredientFactsEvaluation
+): IngredientFactsEvaluator {
+  return { evaluate: (ingredient) => verdictFor(ingredient) };
 }
 
 function recipePayload(overrides: Record<string, unknown> = {}): string {
@@ -154,7 +169,10 @@ describe("generateRecipe — grounded behavior", () => {
     await generateRecipe(
       fakeAi(recipePayload(), calls),
       config,
-      baseRequest({ avoidIngredients: ["garlic", "onion"] })
+      baseRequest({ avoidIngredients: ["garlic", "onion"] }),
+      // Prompt construction is independent of conformance: clear every
+      // ingredient so the request survives the fail-closed screen.
+      stubEvaluator(() => ({ kind: "allowed", evidence: ["stub-known"] }))
     );
 
     const text = promptText(calls[0]);
@@ -335,7 +353,36 @@ describe("generateRecipe — avoided-ingredient rejections", () => {
 });
 
 describe("generateRecipe — egg versus eggplant (word boundaries)", () => {
-  it("accepts eggplant when egg is avoided", async () => {
+  it("rejects eggplant fail-closed when egg is avoided (literal matcher still does not fire)", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(
+      recipePayload({
+        title: "Grilled Eggplant",
+        instructions: "Grill the eggplant slices.",
+        ingredientsUsed: ["eggplant"]
+      }),
+      calls
+    );
+
+    // The literal screen must NOT match "egg" inside "eggplant": if it had,
+    // the reason would be uses_avoided_ingredient. Without ingredient facts
+    // the composition is unverifiable, so the conformance screen fails
+    // closed instead of serving an unverified ingredient.
+    const error = await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest({
+          ingredientNames: ["eggplant"],
+          avoidIngredients: ["egg"]
+        })
+      ),
+      "unverified_ingredient_facts"
+    );
+    expect(error.message.toLowerCase()).not.toContain("eggplant");
+  });
+
+  it("accepts eggplant when egg is avoided once the facts evaluator clears it", async () => {
     const calls: unknown[] = [];
     const ai = fakeAi(
       recipePayload({
@@ -352,7 +399,11 @@ describe("generateRecipe — egg versus eggplant (word boundaries)", () => {
       baseRequest({
         ingredientNames: ["eggplant"],
         avoidIngredients: ["egg"]
-      })
+      }),
+      stubEvaluator(() => ({
+        kind: "allowed",
+        evidence: ["eggplant is a vegetable, not egg"]
+      }))
     );
     expect(result.ingredientsUsed).toEqual(["eggplant"]);
   });
@@ -374,6 +425,167 @@ describe("generateRecipe — egg versus eggplant (word boundaries)", () => {
         })
       ),
       "uses_avoided_ingredient"
+    );
+  });
+});
+
+describe("generateRecipe — ingredient-facts conformance screen (compounds, diets, fail-closed)", () => {
+  it("accepts a recipe when the evaluator clears every ingredient (known-allowed)", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    const result = await generateRecipe(
+      ai,
+      config,
+      baseRequest({
+        ingredientNames: ["rice", "tofu"],
+        avoidIngredients: ["peanut"],
+        dietaryRestrictions: ["vegan"]
+      }),
+      stubEvaluator(() => ({ kind: "allowed", evidence: ["facts: verified"] }))
+    );
+    expect(result.ingredientsUsed).toEqual(["rice", "tofu"]);
+  });
+
+  it("rejects when the evaluator reports a violated exclusion the literal screen cannot see", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    // "tofu" never names the avoided substance; only the seam can know.
+    await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest({ avoidIngredients: ["peanut"] }),
+        stubEvaluator((ingredient) =>
+          ingredient === "tofu"
+            ? {
+                kind: "violated",
+                by: "allergen",
+                reason: "composition matches the excluded substance",
+                component: "peanut"
+              }
+            : { kind: "allowed", evidence: ["facts: verified"] }
+        )
+      ),
+      "uses_avoided_ingredient"
+    );
+  });
+
+  it("rejects a compound whose composition contains the excluded substance", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(
+      recipePayload({ ingredientsUsed: ["rice", "satay sauce"] }),
+      calls
+    );
+
+    // "satay sauce" never names peanut: the literal text screen passes it,
+    // and because it is SUPPLIED the unlisted screen passes it too. Only the
+    // facts seam sees the composition conflict.
+    await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest({
+          ingredientNames: ["rice", "satay sauce"],
+          avoidIngredients: ["peanut"]
+        }),
+        stubEvaluator((ingredient) =>
+          ingredient === "satay sauce"
+            ? {
+                kind: "violated",
+                by: "allergen",
+                reason: "composition contains the excluded substance",
+                component: "peanut"
+              }
+            : { kind: "allowed", evidence: ["facts: verified"] }
+        )
+      ),
+      "uses_avoided_ingredient"
+    );
+  });
+
+  it("fails closed: unverifiable composition is rejected while an exclusion is active", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    // Default (placeholder) evaluator: no composition data, so with an
+    // exclusion active nothing is verifiable — nothing may pass as allowed.
+    const error = await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest({ avoidIngredients: ["peanut"] })
+      ),
+      "unverified_ingredient_facts"
+    );
+    // Static public-safe message: no ingredient names.
+    expect(error.message.toLowerCase()).not.toContain("peanut");
+    expect(error.message.toLowerCase()).not.toContain("tofu");
+  });
+
+  it("fails closed when only dietary restrictions are active", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(recipePayload(), calls);
+
+    await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest({ dietaryRestrictions: ["vegetarian"] })
+      ),
+      "unverified_ingredient_facts"
+    );
+  });
+
+  it("rejects a supplied ingredient conflicting with a dietary restriction", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(
+      recipePayload({ ingredientsUsed: ["rice", "chicken"] }),
+      calls
+    );
+
+    // "chicken" is supplied, so the unlisted screen would allow it; the
+    // conformance screen runs first and enforces the diet.
+    await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest({
+          ingredientNames: ["rice", "chicken"],
+          dietaryRestrictions: ["vegetarian"]
+        }),
+        stubEvaluator((ingredient) =>
+          ingredient === "chicken"
+            ? {
+                kind: "violated",
+                by: "diet",
+                reason: "conflicts with the vegetarian restriction",
+                component: "chicken"
+              }
+            : { kind: "allowed", evidence: ["facts: verified"] }
+        )
+      ),
+      "violates_dietary_restriction"
+    );
+  });
+
+  it("fails closed before the unlisted screen when restrictions are active", async () => {
+    const calls: unknown[] = [];
+    const ai = fakeAi(
+      recipePayload({ ingredientsUsed: ["rice", "mango"] }),
+      calls
+    );
+
+    // "mango" is unlisted AND restrictions are active: safety comes first —
+    // the fail-closed conformance outcome wins over uses_unlisted_ingredient.
+    await expectRecipeRejected(
+      generateRecipe(
+        ai,
+        config,
+        baseRequest({ avoidIngredients: ["peanut"] })
+      ),
+      "unverified_ingredient_facts"
     );
   });
 });

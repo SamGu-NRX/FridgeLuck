@@ -5,6 +5,12 @@ import {
   type RecipeGenerationRequest,
   type RecipeGenerationResponse
 } from "../types/contracts.js";
+import {
+  type IngredientFactsEvaluator,
+  ingredientFactsEvaluator,
+  parseRestrictions,
+  type Restrictions
+} from "./ingredientFacts.js";
 
 /**
  * Staple allowances the model may use even when they were not in the scan.
@@ -101,6 +107,8 @@ function termMatcher(term: string): RegExp {
 interface IngredientPolicy {
   avoided: string[];
   allowed: string[];
+  /** Active restrictions for the conformance screen (avoid terms + diets). */
+  restrictions: Restrictions;
 }
 
 /**
@@ -118,6 +126,14 @@ function ingredientPolicyFor(request: RecipeGenerationRequest): IngredientPolicy
     .map(normalizeTerm)
     .filter((term) => term.length > 0);
 
+  const rawDiets = Array.isArray(request.dietaryRestrictions)
+    ? request.dietaryRestrictions
+    : [];
+  const diets = rawDiets
+    .filter((term): term is string => typeof term === "string")
+    .map(normalizeTerm)
+    .filter((term) => term.length > 0);
+
   const rawSupplied = Array.isArray(request.ingredientNames)
     ? request.ingredientNames
     : [];
@@ -128,7 +144,8 @@ function ingredientPolicyFor(request: RecipeGenerationRequest): IngredientPolicy
 
   return {
     avoided,
-    allowed: [...supplied, ...RECIPE_STAPLE_INGREDIENTS.map(normalizeTerm)]
+    allowed: [...supplied, ...RECIPE_STAPLE_INGREDIENTS.map(normalizeTerm)],
+    restrictions: parseRestrictions(avoided, diets)
   };
 }
 
@@ -164,16 +181,76 @@ function firstUnlistedFoodMention(
 }
 
 /**
+ * Ingredient-facts conformance screen over every ingredient channel the
+ * recipe touches: declared ingredientsUsed entries, supplied foods, staple
+ * allowances, and recognized-food mentions in the title or instructions.
+ *
+ * Each subject is evaluated against the active restrictions through the
+ * ingredient-facts seam (compound- and diet-aware):
+ * - violated -> rejected (an excluded substance in the composition, or a
+ *   dietary-restriction conflict).
+ * - unknown  -> REJECTED (fail closed): composition that cannot be verified
+ *   is never allowed through. Until data/ingredient-facts lands the
+ *   evaluator has no composition data, so any active restriction fails
+ *   closed by design; unknown is never counted as allowed.
+ * - allowed  -> passes.
+ *
+ * Skipped entirely when no restriction is active: there is nothing to
+ * enforce.
+ */
+function screenRestrictionConformance(
+  recipe: RecipeGenerationResponse,
+  policy: IngredientPolicy,
+  facts: IngredientFactsEvaluator
+): void {
+  const { restrictions } = policy;
+  if (restrictions.allergens.size === 0 && restrictions.diets.size === 0) {
+    return;
+  }
+
+  const subjects = new Set<string>();
+  for (const entry of recipe.ingredientsUsed) {
+    subjects.add(normalizeTerm(entry));
+  }
+  for (const allowed of policy.allowed) {
+    subjects.add(allowed);
+  }
+  for (const text of [recipe.title, recipe.instructions]) {
+    for (const food of RECIPE_RECOGNIZED_FOOD_LEXICON) {
+      if (termMatcher(food).test(text)) subjects.add(food);
+    }
+  }
+
+  for (const subject of subjects) {
+    if (subject.length === 0) continue;
+    const evaluation = facts.evaluate(subject, restrictions);
+    if (evaluation.kind === "allowed") continue;
+    if (evaluation.kind === "violated") {
+      throw new RecipeRejectedError(
+        evaluation.by === "diet"
+          ? "violates_dietary_restriction"
+          : "uses_avoided_ingredient"
+      );
+    }
+    // Fail closed: the composition could not be verified.
+    throw new RecipeRejectedError("unverified_ingredient_facts");
+  }
+}
+
+/**
  * Ingredient-policy screen over every text surface the model returns:
  * each ingredientsUsed entry, the title, and the instructions.
  * 1. Any avoided mention -> uses_avoided_ingredient (exclusions override).
- * 2. Any declared entry not covered by supplied foods/staples
+ * 2. Ingredient-facts conformance (restrictions, compounds, diets) via the
+ *    seam: violated or unknown -> rejected; allowed -> pass.
+ * 3. Any declared entry not covered by supplied foods/staples
  *    -> uses_unlisted_ingredient.
- * 3. Limited recognized-food text screen -> uses_unlisted_ingredient.
+ * 4. Limited recognized-food text screen -> uses_unlisted_ingredient.
  */
 function screenIngredientPolicy(
   recipe: RecipeGenerationResponse,
-  policy: IngredientPolicy
+  policy: IngredientPolicy,
+  facts: IngredientFactsEvaluator
 ): void {
   const surfaces: string[] = [
     ...recipe.ingredientsUsed,
@@ -186,6 +263,7 @@ function screenIngredientPolicy(
       throw new RecipeRejectedError("uses_avoided_ingredient");
     }
   }
+  screenRestrictionConformance(recipe, policy, facts);
   for (const entry of recipe.ingredientsUsed) {
     if (!isAllowedFood(entry, policy)) {
       throw new RecipeRejectedError("uses_unlisted_ingredient");
@@ -295,10 +373,20 @@ function toInlineImagePart(photoBase64JPEG?: string) {
   ];
 }
 
+/**
+ * Generates a recipe grounded in the supplied foods and enforces the
+ * ingredient policy on the decoded result.
+ *
+ * `facts` is the ingredient-facts conformance seam (compounds, diets,
+ * fail-closed unknowns). The default binding is the fail-closed placeholder
+ * until data/ingredient-facts lands; tests inject stubs, and the
+ * package-backed evaluator drops in without touching this call site.
+ */
 export async function generateRecipe(
   ai: GoogleGenAI,
   config: AppConfig,
-  request: RecipeGenerationRequest
+  request: RecipeGenerationRequest,
+  facts: IngredientFactsEvaluator = ingredientFactsEvaluator
 ): Promise<RecipeGenerationResponse> {
   const dietaryRestrictions = request.dietaryRestrictions ?? [];
   const restrictionsText = dietaryRestrictions.length > 0 ? dietaryRestrictions.join(", ") : "none";
@@ -323,6 +411,7 @@ export async function generateRecipe(
             `You are a practical smart-fridge cooking assistant. Use ONLY the supplied foods from ingredients_from_scan, plus these staple allowances: ${staplesText}. ` +
             "Staple allowances mean you may use these staples; they do not assert that the kitchen currently stocks them. " +
             "The avoid_ingredients list overrides staple allowances and supplied foods: never use an avoided ingredient in any form. " +
+            "Ingredients that conflict with the dietary restrictions or that cannot be verified against known ingredient facts are rejected by a downstream screen, so never include them. " +
             "Do not invent, add, or imply any other ingredients. Be concise and keep calories realistic. " +
             "List every ingredient you actually use, including staples and seasonings, in ingredients_used."
         },
@@ -371,6 +460,6 @@ export async function generateRecipe(
   });
 
   const recipe = decodeRecipeJson(response.text);
-  screenIngredientPolicy(recipe, ingredientPolicyFor(request));
+  screenIngredientPolicy(recipe, ingredientPolicyFor(request), facts);
   return recipe;
 }
