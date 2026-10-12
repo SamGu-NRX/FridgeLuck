@@ -34,6 +34,12 @@ final class RenderTests: XCTestCase {
 
     // MARK: Output plumbing
 
+    /// The reduce-motion key path with its type pinned. The environment
+    /// modifier needs a WritableKeyPath, but the bare literal infers as the
+    /// existential KeyPath on this toolchain and refuses to convert inside
+    /// the generic call.
+    private static let reduceMotion: WritableKeyPath<EnvironmentValues, Bool> = \.accessibilityReduceMotion
+
     /// Destination directory: FL_RENDERS_DIR when set (macOS / CI), otherwise
     /// a tmp dir. Created when missing. Writable on iOS simulators too.
     private var rendersDir: URL {
@@ -223,7 +229,7 @@ final class RenderTests: XCTestCase {
         try renderPNG(
             "empty-loading-line-reduced-motion",
             size: CGSize(width: 320, height: 16),
-            paper(FLEmptyLoadingLine(isLoading: true).environment(\.accessibilityReduceMotion, true))
+            paper(FLEmptyLoadingLine(isLoading: true).environment(Self.reduceMotion, true))
         )
         try renderPNG("empty-loading-line-idle", size: CGSize(width: 320, height: 16), paper(FLEmptyLoadingLine(isLoading: false)))
     }
