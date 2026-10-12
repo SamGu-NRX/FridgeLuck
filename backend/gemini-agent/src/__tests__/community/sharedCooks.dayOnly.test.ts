@@ -179,7 +179,7 @@ async function publishRecipe(tokens: TokenPair, campus: string, title: string): 
     tags: ["quick"],
     campus,
     note: null,
-    declarations: { ownRights: true, noPersonalData: true },
+    declarations: { ownRights: true, noPersonalData: true, sourceRights: { textRedistribution: "permitted", attributionRequired: false } },
   });
   expect(res.status).toBe(201);
   return ((await res.json()) as { publicationId: string }).publicationId;

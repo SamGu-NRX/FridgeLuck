@@ -107,7 +107,7 @@ function publishBody(overrides: Record<string, unknown> = {}): Record<string, un
     tags: ["quick"],
     campus: "vis-clean",
     note: null,
-    declarations: { ownRights: true, noPersonalData: true },
+    declarations: { ownRights: true, noPersonalData: true, sourceRights: { textRedistribution: "permitted", attributionRequired: false } },
     ...overrides,
   };
 }

@@ -484,7 +484,7 @@ describe("the canonical minimums hold end to end on the publish path", () => {
       },
       campus: "min-temp-low",
       note: null,
-      declarations: { ownRights: true, noPersonalData: true },
+      declarations: { ownRights: true, noPersonalData: true, sourceRights: { textRedistribution: "permitted", attributionRequired: false } },
     });
     expect(res.status).toBe(201);
     const created = (await res.json()) as unknown as PublicationJson;
@@ -509,7 +509,7 @@ describe("the canonical minimums hold end to end on the publish path", () => {
       },
       campus: "min-temp-ok",
       note: null,
-      declarations: { ownRights: true, noPersonalData: true },
+      declarations: { ownRights: true, noPersonalData: true, sourceRights: { textRedistribution: "permitted", attributionRequired: false } },
     });
     expect(res.status).toBe(201);
     expect(((await res.json()) as unknown as PublicationJson).status).toBe("published");

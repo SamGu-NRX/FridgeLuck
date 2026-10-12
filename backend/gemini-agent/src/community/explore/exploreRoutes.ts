@@ -15,6 +15,7 @@
  * hygiene always, optional stages via deps) runs before visibility; failing
  * stages enqueue the publication for a human moderator — no LLM anywhere.
  */
+import type { DocumentSnapshot } from "@google-cloud/firestore";
 import { Router, type Router as ExpressRouter } from "express";
 import type { CommunityDeps } from "../index.js";
 import type { CommunityRuntime } from "../index.js";
@@ -29,6 +30,7 @@ import {
   getPublication,
   listOwnPublications,
   listPublishedByCampus,
+  parsePublicationDoc,
   publicationVisibility,
   transitionOnDecision,
   withdrawPublication,
@@ -72,6 +74,105 @@ function parseNote(raw: unknown, field: string): string | null {
   return note ?? null;
 }
 
+/** The states a source's right can be declared in (SPEC 3.5 rights vocabulary). */
+type SourceRightState = "permitted" | "forbidden" | "unknown";
+
+/**
+ * The source-rights block of the declaration: what the recipe's source
+ * permits for exactly the things community publication does — it
+ * redistributes the recipe's text, and carries the source's attribution
+ * when the source requires it (SPEC 3.5; the iOS RecipeExportGate's license
+ * model speaks the same axes).
+ */
+export interface SourceRightsDeclaration {
+  readonly textRedistribution: SourceRightState;
+  readonly attributionRequired: boolean;
+  readonly attribution: string | null;
+}
+
+function parseSourceRights(raw: Record<string, unknown>): SourceRightsDeclaration {
+  const textRedistribution = expectOneOf(
+    raw["textRedistribution"],
+    "declarations.sourceRights.textRedistribution",
+    ["permitted", "forbidden", "unknown"] as const,
+  );
+  const attributionRequired = expectBoolean(raw["attributionRequired"], "declarations.sourceRights.attributionRequired");
+  const attribution = attributionRequired
+    ? expectString(raw["attribution"], "declarations.sourceRights.attribution", { min: 1, max: 500 })
+    : (expectOptionalString(raw["attribution"], "declarations.sourceRights.attribution", { min: 1, max: 500 }) ?? null);
+  return { textRedistribution, attributionRequired, attribution };
+}
+
+const DECLARATION_MAX_CHARS = 4000;
+
+function isScalar(value: unknown): boolean {
+  return value === null || typeof value === "string" || typeof value === "number" || typeof value === "boolean";
+}
+
+/**
+ * Bounds the verbatim declaration kept on the publication document: scalar
+ * leaves at most two levels deep (the source-rights map plus any extra
+ * rights the author declared, for future exports to honor). The bound is
+ * part of the contract, not hostility — the declaration rides on the same
+ * document as the recipe, so unbounded client shapes would get to size the
+ * publication record itself.
+ */
+function verbatimDeclarationOrThrow(value: unknown, field: string): Record<string, unknown> {
+  const record = expectRecord(value, field);
+  for (const [key, top] of Object.entries(record)) {
+    if (isScalar(top)) {
+      continue;
+    }
+    for (const [innerKey, inner] of Object.entries(expectRecord(top, `${field}.${key}`))) {
+      if (!isScalar(inner)) {
+        throw errValidation(`${field}.${key}.${innerKey} must be a scalar value`);
+      }
+    }
+  }
+  const serialized = JSON.stringify(record);
+  if (serialized === undefined || serialized.length > DECLARATION_MAX_CHARS) {
+    throw errValidation(`${field} must serialize to at most ${DECLARATION_MAX_CHARS} characters`);
+  }
+  return record;
+}
+
+/**
+ * What community publication does with the recipe decides what the source
+ * must permit (SPEC 3.5: rights apply to user recipes exactly as to the
+ * catalog, and unknown rights mean quarantine). Publication redistributes
+ * the recipe's text and carries the source's attribution, so a source that
+ * forbids redistribution — or whose redistribution right is unknown —
+ * cannot be published, and a required attribution must actually be carried.
+ * Returns null when the declared rights permit publication.
+ */
+export function publicationRightsRefusal(sourceRights: SourceRightsDeclaration): string | null {
+  if (sourceRights.textRedistribution === "forbidden") {
+    return "the source's rights declare text redistribution forbidden, and community publication redistributes the recipe text";
+  }
+  if (sourceRights.textRedistribution === "unknown") {
+    return "the source's text-redistribution right is unknown, and unknown rights mean quarantine; record the rights before publishing";
+  }
+  if (sourceRights.attributionRequired && (sourceRights.attribution ?? "").trim().length === 0) {
+    return "the source's rights require attribution, and the submission carries none";
+  }
+  return null;
+}
+
+/**
+ * The verbatim declaration stored on a publication document (blocker 4).
+ * Absent — a record from before declarations were kept, or a store write
+ * that did not complete — reads as null: rights unknown, honored as such
+ * (fail closed), never fabricated into a clearance. A present-but-malformed
+ * field is invalid like any other malformed field.
+ */
+function readStoredDeclarations(snap: DocumentSnapshot): Record<string, unknown> | null {
+  const stored = snap.get("declarations");
+  if (stored === undefined) {
+    return null;
+  }
+  return verbatimDeclarationOrThrow(stored, "declarations");
+}
+
 interface PublishBody {
   readonly sourceRecipeId: string;
   readonly sourceRecipeRevision: string;
@@ -82,6 +183,9 @@ interface PublishBody {
   readonly tags: string[];
   readonly campus: string | null;
   readonly note: string | null;
+  readonly sourceRights: SourceRightsDeclaration;
+  /** The declaration exactly as submitted, kept verbatim on the record. */
+  readonly declarations: Record<string, unknown>;
 }
 
 function parsePublishBody(raw: Record<string, unknown>): PublishBody {
@@ -94,6 +198,8 @@ function parsePublishBody(raw: Record<string, unknown>): PublishBody {
   if (!expectBoolean(declarations["noPersonalData"], "declarations.noPersonalData")) {
     throw errValidation("declarations.noPersonalData must be true: the publication confirms it holds no personal data");
   }
+  const sourceRights = parseSourceRights(expectRecord(declarations["sourceRights"], "declarations.sourceRights"));
+  const verbatimDeclarations = verbatimDeclarationOrThrow(declarations, "declarations");
   const campusRaw = expectOptionalString(raw["campus"], "campus", { min: 1, max: 64 });
   const campus = campusRaw === undefined ? null : campusRaw.toLowerCase();
   if (campus !== null && !CAMPUS_PATTERN.test(campus)) {
@@ -121,6 +227,8 @@ function parsePublishBody(raw: Record<string, unknown>): PublishBody {
     tags: raw["tags"] === undefined ? [] : parseTagList(raw["tags"], "tags"),
     campus,
     note: parseNote(raw["note"], "note"),
+    sourceRights,
+    declarations: verbatimDeclarations,
   };
 }
 
@@ -153,7 +261,7 @@ function authorDisplayName(name: unknown): string | null {
   return expectOptionalString(name, "displayName", { max: 64 }) ?? null;
 }
 
-function selfView(record: PublicationRecord): Record<string, unknown> {
+function selfView(record: PublicationRecord, declarations: Record<string, unknown> | null): Record<string, unknown> {
   return {
     publicationId: record.publicationId,
     revisionId: record.revisionId,
@@ -171,6 +279,10 @@ function selfView(record: PublicationRecord): Record<string, unknown> {
     screeningFailures: record.screeningFailures,
     createdAtIso: record.createdAtIso,
     publishedAtIso: record.publishedAtIso,
+    // The rights declaration the record was published under, verbatim.
+    // Null on records that predate it — rights unknown, never fabricated
+    // into a clearance.
+    declarations,
   };
 }
 
@@ -254,6 +366,15 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
       }
       await requireAttested18Plus(deps, ctx.accountId);
       const body = parsePublishBody(expectRecord(req.body ?? {}, "body"));
+      // Blocker 4: enforce what the source permits BEFORE anything is
+      // persisted — publication redistributes the recipe text, so the
+      // declaration must actually permit that. Fail closed on "forbidden"
+      // and on "unknown" (quarantine), with the reason naming the
+      // restriction.
+      const rightsRefusal = publicationRightsRefusal(body.sourceRights);
+      if (rightsRefusal !== null) {
+        throw errForbidden(`publication refused: ${rightsRefusal}`);
+      }
       const created = await createPublication(pubDeps, {
         authorId: ctx.accountId,
         sourceRecipeId: body.sourceRecipeId,
@@ -267,6 +388,15 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
         campus: body.campus,
         screeningStages: [...deps.screeningStages, ...safetyStages],
       });
+      // Blocker 4: the rights declaration is kept WITH the revision —
+      // written verbatim onto the publication document at submission,
+      // before the record can reach moderation, so approval/moderation and
+      // future exports can honor it. publications.ts is untouched (its
+      // record shape and single-write semantics are owned by review
+      // blockers 1-3): the declaration is an additional field its parser
+      // ignores, and a record found without one is rights-unknown, honored
+      // fail-closed, never rights-clear.
+      await pubDeps.publications.doc(created.record.publicationId).update({ declarations: body.declarations });
       if (created.outcome === "queued") {
         await deps.moderation.submit(
           { publicationId: created.record.publicationId, revisionId: created.record.revisionId },
@@ -275,7 +405,7 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
           created.failures.map((f) => `${f.stage}: ${f.reasons.join("; ")}`).join(" | "),
         );
       }
-      res.status(201).json(selfView(created.record));
+      res.status(201).json(selfView(created.record, body.declarations));
     }),
   );
 
@@ -285,7 +415,17 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
     route(async (req, res) => {
       const ctx = mustCommunity(req);
       const mine = await listOwnPublications(pubDeps, ctx.accountId);
-      res.status(200).json({ items: mine.map(selfView) });
+      // listOwnPublications returns parsed records only; the verbatim
+      // declaration lives on the raw document and publications.ts' read
+      // semantics are not ours to change (review blockers 1-3 own that
+      // file), so the declarations come from one bounded second query
+      // keyed by id.
+      const declarationSnaps = await pubDeps.publications.where("authorId", "==", ctx.accountId).get();
+      const declarationsById = new Map<string, Record<string, unknown> | null>();
+      for (const doc of declarationSnaps.docs) {
+        declarationsById.set(doc.id, readStoredDeclarations(doc));
+      }
+      res.status(200).json({ items: mine.map((record) => selfView(record, declarationsById.get(record.publicationId) ?? null)) });
     }),
   );
 
@@ -295,10 +435,15 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
     route(async (req, res) => {
       const ctx = mustCommunity(req);
       const publicationId = parsePublicationId.parse(req.params["publicationId"], "publication path id");
-      const record = await getPublication(pubDeps, publicationId);
+      // One read carries both the parsed record and the verbatim declaration
+      // stored beside it (blocker 4); publications.ts' parser stays the only
+      // reader of its record shape.
+      const snap = await pubDeps.publications.doc(publicationId).get();
+      const record = parsePublicationDoc(snap);
       if (record === null) {
         throw errNotFound("publication not found");
       }
+      const declarations = readStoredDeclarations(snap);
       const visibility = publicationVisibility(record.status);
       if (record.authorId === ctx.accountId) {
         // SPEC 3.4: the author sees their own record whatever its moderation
@@ -307,7 +452,7 @@ export function createExploreRoutes(deps: CommunityDeps, runtime: CommunityRunti
         if (!visibility.visibleToAuthor) {
           throw errNotFound("publication not found");
         }
-        res.status(200).json(selfView(record));
+        res.status(200).json(selfView(record, declarations));
         return;
       }
       await deps.blocks.assertCanInteract(ctx.accountId, record.authorId);

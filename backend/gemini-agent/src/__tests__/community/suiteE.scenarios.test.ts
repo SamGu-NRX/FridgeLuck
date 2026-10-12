@@ -142,7 +142,7 @@ async function publish(tokens: TokenPair, campus: string, title: string, slug: s
     tags: ["suite-e"],
     campus,
     note: null,
-    declarations: { ownRights: true, noPersonalData: true },
+    declarations: { ownRights: true, noPersonalData: true, sourceRights: { textRedistribution: "permitted", attributionRequired: false } },
   });
   expect(status, `publish ${title}`).toBe(201);
   return (body as { publicationId: string }).publicationId;
