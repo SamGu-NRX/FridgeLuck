@@ -111,7 +111,7 @@ public struct FLButtonStyle: ButtonStyle {
 /// body is a small view that can.
 private struct PressFeedback: View {
     let configuration: ButtonStyle.Configuration
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.flReduceMotion) private var reduceMotion
 
     var body: some View {
         let pressed = configuration.isPressed

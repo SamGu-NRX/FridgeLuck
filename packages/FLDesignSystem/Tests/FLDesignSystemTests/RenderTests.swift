@@ -219,13 +219,11 @@ final class RenderTests: XCTestCase {
         )
 
         // Empty/loading line: sweeping, reduced motion (static), idle.
-        var reducedMotionLine = FLEmptyLoadingLine(isLoading: true)
-        reducedMotionLine.reduceMotionOverride = true
         try renderPNG("empty-loading-line-sweep", size: CGSize(width: 320, height: 16), paper(FLEmptyLoadingLine(isLoading: true)))
         try renderPNG(
             "empty-loading-line-reduced-motion",
             size: CGSize(width: 320, height: 16),
-            paper(reducedMotionLine)
+            paper(FLEmptyLoadingLine(isLoading: true).environment(\.flReduceMotion, true))
         )
         try renderPNG("empty-loading-line-idle", size: CGSize(width: 320, height: 16), paper(FLEmptyLoadingLine(isLoading: false)))
     }
