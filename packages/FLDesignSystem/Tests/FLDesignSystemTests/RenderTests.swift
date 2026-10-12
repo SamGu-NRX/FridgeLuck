@@ -27,6 +27,9 @@ import AppKit
 @testable import FLDesignSystem
 import FLDesignTokens
 
+// ImageRenderer and the components are MainActor-isolated, so every render
+// runs on the main actor — same shape as HitRegionTests.
+@MainActor
 final class RenderTests: XCTestCase {
 
     // MARK: Output plumbing
