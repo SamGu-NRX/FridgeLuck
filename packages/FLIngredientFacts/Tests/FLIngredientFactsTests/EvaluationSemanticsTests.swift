@@ -129,6 +129,65 @@ final class EvaluationSemanticsTests: XCTestCase {
         }
     }
 
+    // MARK: incomplete composition blocks every clear
+
+    func testIncompleteCompositionBlocksDietClears() throws {
+        // The chilli-sauce shape: no entry-level diet fact, and every listed
+        // certain component is vegan — but the composition is not complete, so
+        // an unlisted component (a brand's thickeners, preservatives) could
+        // violate the diet. The compound stays unknown.
+        let directory = try Self.syntheticDietDataset(compositionComplete: false)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let synthetic = try FLIngredientFactsStore(dataDirectory: directory)
+        let evaluation = synthetic.evaluate(
+            ingredient: "test-compound", restrictions: FLRestrictions(diets: [.vegan]))
+        guard case .unknown(let unknown) = evaluation else {
+            return XCTFail("incomplete composition must not clear a diet, got \(evaluation)")
+        }
+        XCTAssertTrue(unknown.missing.contains { $0.contains("is incomplete") },
+                      "missing must name the incomplete composition: \(unknown.missing)")
+    }
+
+    func testCompleteCompositionAllowsDietViaComponents() throws {
+        // Same shape with the component list closed: the certain vegan
+        // component may settle the diet.
+        let directory = try Self.syntheticDietDataset(compositionComplete: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let synthetic = try FLIngredientFactsStore(dataDirectory: directory)
+        let evaluation = synthetic.evaluate(
+            ingredient: "test-compound", restrictions: FLRestrictions(diets: [.vegan]))
+        guard case .allowed = evaluation else {
+            return XCTFail("complete composition may clear the diet via components, got \(evaluation)")
+        }
+    }
+
+    /// Minimal vegan compound: a single certain component whose own diet fact
+    /// is vegan-allowed; compositionComplete is caller-controlled.
+    private static func syntheticDietDataset(compositionComplete: Bool) throws -> URL {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("flfacts-synthetic-diet-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let identities = """
+        {"version":1,"ingredients":[
+          {"key":"test-compound","display":"Test compound","kind":"compound","synonyms":[]},
+          {"key":"test-plant","display":"Test plant","kind":"simple","synonyms":[]}
+        ]}
+        """
+        let facts = """
+        {"version":1,"facts":{
+          "test-compound":{"key":"test-compound","class":"compound","components":[
+            {"key":"test-plant","certainty":"certain",
+             "evidence":{"kind":"standard","ref":"synthetic","note":"certain component"}}],
+           "compositionComplete":\(compositionComplete)},
+          "test-plant":{"key":"test-plant","class":"plant","diets":{"vegan":
+            {"state":"allowed","evidence":{"kind":"standard","ref":"synthetic","note":"plant food"}}}}
+        }}
+        """
+        try Data(identities.utf8).write(to: directory.appendingPathComponent("identities.json"))
+        try Data(facts.utf8).write(to: directory.appendingPathComponent("facts.json"))
+        return directory
+    }
+
     func testViolatedBeatsUnknownAndUnknownBeatsAllowed() throws {
         // Violated > unknown: soy sauce vs soy+wheat — soy violated even though
         // another fact may be unknown.

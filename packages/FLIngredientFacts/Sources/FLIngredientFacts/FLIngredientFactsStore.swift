@@ -4,6 +4,8 @@
 //  * violated > unknown > allowed;
 //  * unresolvable or unfactored ingredients are unknown, never allowed;
 //  * compounds propagate component outcomes;
+//  * composition not known complete clears nothing — an unlisted component
+//    could carry an allergen or violate a diet;
 //  * a variable or unsourced property is unknown, never false;
 //  * wheat (an FDA allergen) and gluten (a separate property) are independent
 //    axes — evidence for one never settles the other.
@@ -253,11 +255,11 @@ public final class FLIngredientFactsStore: @unchecked Sendable {
                         reason: "compound composition leaves restrictions undecided"
                     ))
                 }
-                // Every component settled allowed. Diet compatibility is
-                // component-class-based, so diet unknowns are settled;
-                // allergen absence additionally requires the composition to be
-                // known complete (an unlisted component could carry one).
-                if unknownAllergens.isEmpty || entry.compositionComplete == true {
+                // Every component settled allowed. Clearing still requires the
+                // composition to be known complete: an unlisted component could
+                // carry an allergen or violate a diet, so incomplete composition
+                // blocks every clear — allergens and diets alike.
+                if entry.compositionComplete == true {
                     return .allowed(allowedEvidence)
                 }
                 return .unknown(FLUnknown(
@@ -265,7 +267,7 @@ public final class FLIngredientFactsStore: @unchecked Sendable {
                     restriction: unknownRestriction
                         ?? restrictions.orderedRestrictions.first ?? .allergen(.milk),
                     missing: unknownMissing + ["composition of '\(entry.key)' is incomplete"],
-                    reason: "composition is not known to be complete"
+                    reason: "composition is not known to be complete; incomplete composition clears nothing"
                 ))
             }
 

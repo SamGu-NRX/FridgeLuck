@@ -13,7 +13,7 @@ rechecks all eaters' allergens, including compound ingredients. Restriction chec
 
 | Path | Contents | State |
 | --- | --- | --- |
-| `packages/FLIngredientFacts` | SwiftPM package: types, loader, evaluate API, tests | exists — library + `flfacts-conformance` executable + 33 XCTests (Linux `swift test` green) |
+| `packages/FLIngredientFacts` | SwiftPM package: types, loader, evaluate API, tests | exists — library + `flfacts-conformance` executable + 39 XCTests (Linux `swift test` green) |
 | `data/ingredient-facts` | Dataset: identities, sourced composition, conformance kit | identities.json, facts.json, generator, coverage and the conformance kit (cases + both runners) exist |
 | `docs/audits/ingredient-facts` | Per-PR integration fix lists (owned by the parent task) | exists (parent-owned) |
 

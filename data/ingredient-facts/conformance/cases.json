@@ -145,8 +145,12 @@
       "id": "worcestershire-vs-pescatarian",
       "ingredient": "Worcestershire sauce",
       "restrictions": { "diets": ["pescatarian"] },
-      "expected": { "result": "allowed" },
-      "note": "pescatarians eat fish"
+      "expected": {
+        "result": "unknown",
+        "reasonContains": ["incomplete composition clears nothing"],
+        "missingMention": ["composition of 'worcestershire-sauce' is incomplete"]
+      },
+      "note": "pescatarians eat fish and every listed component is pescatarian-safe, but the generic product's component list is not closed: incomplete composition clears nothing, diets included"
     },
     {
       "id": "fish-sauce-vs-fish",

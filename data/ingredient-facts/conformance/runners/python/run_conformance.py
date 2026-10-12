@@ -318,13 +318,17 @@ def evaluate(
                 "missing": unknown_missing + component_unknowns,
                 "reason": "compound composition leaves restrictions undecided",
             }}
-        if not unknown_allergens or entry.get("compositionComplete") is True:
+        # Every component settled allowed. Clearing still requires the
+        # composition to be known complete: an unlisted component could carry
+        # an allergen or violate a diet — incomplete composition blocks every
+        # clear.
+        if entry.get("compositionComplete") is True:
             return {"result": "allowed", "evidence": allowed_evidence}
         return {"result": "unknown", "unknown": {
             "ingredient": ingredient_label,
             "restriction": restriction_payload(fallback),
             "missing": unknown_missing + [f"composition of '{entry['key']}' is incomplete"],
-            "reason": "composition is not known to be complete",
+            "reason": "composition is not known to be complete; incomplete composition clears nothing",
         }}
 
     if not unknown_missing:

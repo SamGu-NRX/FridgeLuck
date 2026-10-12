@@ -352,7 +352,10 @@ function evaluate(
         },
       };
     }
-    if (!unknownAllergens.size || entry.compositionComplete === true) {
+    // Every component settled allowed. Clearing still requires the composition
+    // to be known complete: an unlisted component could carry an allergen or
+    // violate a diet — incomplete composition blocks every clear.
+    if (entry.compositionComplete === true) {
       return { result: "allowed", evidence: allowedEvidence };
     }
     return {
@@ -361,7 +364,7 @@ function evaluate(
         ingredient: ingredientLabel,
         restriction: fallbackRestriction,
         missing: [...unknownMissing, `composition of '${entry.key}' is incomplete`],
-        reason: "composition is not known to be complete",
+        reason: "composition is not known to be complete; incomplete composition clears nothing",
       },
     };
   }
