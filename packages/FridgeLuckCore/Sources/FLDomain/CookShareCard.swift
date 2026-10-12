@@ -97,7 +97,10 @@ public struct CookShareCard: Hashable, Codable, Sendable {
     }
 
     /// The one day rule: exactly four digits, dash, two digits, dash, two
-    /// digits — a plain "YYYY-MM-DD", never a timestamp.
+    /// digits — a plain "YYYY-MM-DD", never a timestamp — AND a real UTC
+    /// calendar day. The shape alone admits "2026-99-99"; the round-trip
+    /// through the calendar rejects impossible months, impossible days and
+    /// non-leap Februaries, while accepting real leap days.
     private static func isValidDay(_ day: String) -> Bool {
         let bytes = Array(day.utf8)
         guard bytes.count == 10 else { return false }
@@ -108,7 +111,15 @@ public struct CookShareCard: Hashable, Codable, Sendable {
             default: guard isDigit(byte) else { return false }
             }
         }
-        return true
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC") ?? .current
+        var components = DateComponents()
+        components.year = Int(day.prefix(4))
+        components.month = Int(day.dropFirst(5).prefix(2))
+        components.day = Int(day.suffix(2))
+        guard let date = calendar.date(from: components) else { return false }
+        let back = calendar.dateComponents([.year, .month, .day], from: date)
+        return back.year == components.year && back.month == components.month && back.day == components.day
     }
 
     /// The day component of a cook timestamp in UTC — the shared form knows

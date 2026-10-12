@@ -61,6 +61,22 @@ final class ShareCardDecodeValidationTests: XCTestCase {
         XCTAssertThrowsError(try decode(try cardData(day: "2026-10-12T18:44")))
     }
 
+    func testDecodeRejectsShapeValidButImpossibleCalendarDays() throws {
+        // Review round 2, lesser finding: the shape check alone let
+        // "2026-99-99" through. A day must survive the UTC calendar.
+        XCTAssertThrowsError(try decode(try cardData(day: "2026-99-99")), "month 99 is not a calendar month")
+        XCTAssertThrowsError(try decode(try cardData(day: "2026-02-30")), "February 30 does not exist")
+        XCTAssertThrowsError(try decode(try cardData(day: "2025-02-29")), "2025 is not a leap year")
+        XCTAssertThrowsError(try decode(try cardData(day: "2026-00-10")), "month zero is not a calendar month")
+        XCTAssertThrowsError(try decode(try cardData(day: "2026-13-01")), "month thirteen is not a calendar month")
+    }
+
+    func testDecodeAcceptsLeapDayAndPlainCalendarDay() throws {
+        // The calendar check must not over-reject: a real leap day decodes.
+        XCTAssertEqual(try decode(try cardData(day: "2024-02-29")).day, "2024-02-29")
+        XCTAssertEqual(try decode(try cardData(day: "2026-10-11")).day, "2026-10-11")
+    }
+
     func testDecodeRejectsZeroServings() throws {
         XCTAssertThrowsError(try decode(try cardData(servings: 0))) { error in
             XCTAssertEqual(error as? FLDomainError, FLDomainError.validation(target: "CookShareCard.servings", reason: "must be >= 1 (got 0)"))
@@ -205,6 +221,11 @@ final class ConstructedPayloadValidationTests: XCTestCase {
         }
         XCTAssertEqual(label, "Tea")
         XCTAssertEqual(seconds, 180)
+        // The name says round-trips: prove the constructed payload survives
+        // the canonical wire boundary, not just pattern matching.
+        let wire = try FLJSON.canonicalEncoder().encode(proposal.payload)
+        let decoded = try FLJSON.canonicalDecoder().decode(ActionPayload.self, from: wire)
+        XCTAssertEqual(decoded, proposal.payload)
     }
 
     func testDecodedPayloadsKeepTheirExistingValidation() throws {
