@@ -103,14 +103,43 @@ _REHEAT_TEXT = re.compile(r"\b(?:reheat|re-heat|rewarm|re-warm|warm up|warming u
 _REST_TEXT = re.compile(r"\brest\w*\b[^.]{0,60}?\b(\d+)\s*min", re.IGNORECASE)
 
 # Cook-visible doneness (PR #88 r3 review BLOCK 1): the instruction text
-# itself must name thermometer language AND an internal-temperature reading
-# of the class minimum — the safety metadata alone never tells the cook what
-# internal temperature to look for.
-_THERMOMETER_TEXT = re.compile(
-    r"\bthermometer\b|\binstant-read\b|\btemperature probe\b|\binternal temperature\b",
+# itself must name an internal-temperature reading of the class minimum —
+# the safety metadata alone never tells the cook what internal temperature
+# to look for. The reading must be BOUND TO THE FOOD: a number counts only
+# when a reading clause states what a probe registers or reads on the food
+# (or an explicit internal temperature of the food); an appliance setting
+# never counts, even inside a sentence that also names a thermometer (the
+# 393b5de defect: 'Heat the oven to 350°F and check the chicken with a
+# thermometer.' handed the oven's 350 F to a poultry check).
+# A Fahrenheit number in instruction text: "165°F", "165 F", "165 degrees".
+# The number is captured as group ``t`` — named, so the composite binding
+# patterns below read it back whatever their own group layout.
+_TEMP_F_TAIL = r"(?P<t>\d{2,3})\s*(?:°\s*)?(?:F\b|degrees\b)"
+
+# The reading clause: a measurement verb (or an explicit internal
+# temperature) followed by the number — "registers 165°F", "reads 165°F in
+# the thickest part", "an internal temperature of 165°F".
+_READING_BOUND_F = re.compile(
+    r"\b(?:regist(?:ers?|ering)|read(?:s|ing)?|reach(?:es|ing)?"
+    r"|indicat(?:es|ing)|show(?:s|ing)|measur(?:es|ing)"
+    r"|internal\s+temp(?:erature)?(?:\s+(?:of|at|is))?)\b"
+    r"[^.;\n]{0,60}?" + _TEMP_F_TAIL,
     re.IGNORECASE)
-_TEXT_TEMP_F = re.compile(r"(\d{2,3})\s*(?:°\s*)?F\b|(\d{2,3})\s*degrees\b",
-                          re.IGNORECASE)
+
+# An appliance SETTING: a number dialled on equipment or a heating medium —
+# "preheat the oven to 425°F", "heat the oil until it reaches 350°F", "the
+# oven reads 350°F". These are never internal readings.
+_APPLIANCE_SETTING_F = re.compile(
+    r"(?:\b(?:pre)?heat\w*[^.;\n]{0,40}?\b(?:to|until)\b[^\n.;]{0,15}?"
+    r"|\b(?:(?:dutch|toaster|combination)\s+oven|(?:air|deep)\s*fryer"
+    r"|slow\s+cooker|pressure\s+cooker|instant\s+pot|oven|toaster|pan"
+    r"|skillet|griddle|grill|wok|pot|saucepan|broiler|fryer|microwave"
+    r"|barbecue|smoker|oil|fat|water|broth|stock|milk|syrup)\b"
+    r"\s*(?:temp(?:erature)?\s*)?"
+    r"(?:\b(?:up\s+to|to|at|on|over|registers?|reads?|reaches?)\b\s*)"
+    r"(?:about\s+|around\s+|approx(?:\.)?\s*)?)"
+    + _TEMP_F_TAIL,
+    re.IGNORECASE)
 
 REQUIRED_RECIPE_FIELDS = (
     "rs_version", "id", "title", "cuisine", "meal_slots", "minutes",
@@ -694,18 +723,25 @@ def _r3_safety(recipe: dict[str, Any], rid: str, allergen_scan: "AllergenScanner
     return v
 
 
+def _pattern_temps_f(pattern: "re.Pattern[str]", sentence: str) -> set[float]:
+    """The temperatures (°F) ``pattern`` binds in the sentence, as values."""
+    return {float(m.group("t")) for m in pattern.finditer(sentence)}
+
+
 def _text_internal_reading_f(text: str) -> float | None:
-    """The cook-visible internal reading: the highest temperature (°F) named
-    in a sentence that also names thermometer language. None when no sentence
-    pairs the two (an oven number in a sentence without thermometer language
-    is not an internal reading)."""
+    """The cook-visible internal reading: the highest temperature (°F) the
+    text binds to a thermometer clause about the FOOD itself — what a probe
+    registers or reads on the food ("until the thickest part registers
+    165°F", "reads 165°F in the thickest part") or an explicit internal
+    temperature of the food. An appliance setting ("preheat the oven to
+    425°F", "the oven reads 350°F") never counts, even inside a sentence
+    that also names a thermometer; None when the text states no such
+    reading."""
     for sentence in re.split(r"[.;\n]", text):
-        if not _THERMOMETER_TEXT.search(sentence):
-            continue
-        temps = [float(m.group(1) or m.group(2))
-                 for m in _TEXT_TEMP_F.finditer(sentence)]
-        if temps:
-            return max(temps)
+        bound = (_pattern_temps_f(_READING_BOUND_F, sentence)
+                 - _pattern_temps_f(_APPLIANCE_SETTING_F, sentence))
+        if bound:
+            return max(bound)
     return None
 
 
