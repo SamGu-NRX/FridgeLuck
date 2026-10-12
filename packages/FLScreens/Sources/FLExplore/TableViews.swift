@@ -219,8 +219,8 @@ public struct TableView: View {
                 }
                 if let rate = cook.rateDisplay {
                     Text(rate)
-                        .flType(.fitCount)
                         .flTracking(.fitCount)
+                        .flType(.fitCount)
                         .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                 }
                 FLFitMeter(

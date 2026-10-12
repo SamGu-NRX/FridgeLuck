@@ -150,8 +150,8 @@ public struct ExploreView: View {
                         .lineLimit(1)
                     HStack(spacing: 8) {
                         Text(row.fit.lineText)
-                            .flType(.fitCount)
                             .flTracking(.fitCount)
+                            .flType(.fitCount)
                             .foregroundStyle(Theme.swiftColor(.ink2, in: scheme))
                         Text(row.minutesDisplay)
                             .flType(.caption)

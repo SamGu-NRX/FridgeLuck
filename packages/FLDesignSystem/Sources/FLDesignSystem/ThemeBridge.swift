@@ -149,7 +149,9 @@ extension View {
 
 extension Text {
     /// Kerning for roles that carry tracking (display roles, numerals),
-    /// chained after `flType`. SwiftUI only offers kerning on Text, not View,
+    /// chained BEFORE `flType`: kerning exists only on Text, while `flType`
+    /// wraps into an opaque view via FLTypeModifier. SwiftUI only offers
+    /// kerning on Text, not View,
     /// and kerning cannot read the scaled metric — so it applies at the
     /// role's nominal size. At accessibility sizes the em error stays
     /// sub-point for |t| ≤ 0.02, and body-size roles carry none at all.
@@ -176,7 +178,7 @@ public enum FLHaptics {
         }
         #elseif canImport(AppKit)
         // macOS has no per-style impact generator; one coarse feedback hit.
-        NSHapticFeedbackManager.defaultPerformer.perform(.alignmentHit, performanceTime: .now)
+        NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
         #endif
     }
 }
