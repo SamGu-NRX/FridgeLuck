@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "soy-sauce-vs-soy",
+      "ingredient": "soy sauce",
+      "restrictions": { "allergens": ["soy"] },
+      "expected": { "result": "violated", "reasonContains": ["soy"] },
+      "note": "soy sauce is brewed from soybeans"
+    },
+    {
+      "id": "soy-sauce-vs-wheat",
+      "ingredient": "soy sauce",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "violated", "reasonContains": ["wheat"] },
+      "note": "soy sauce is brewed with wheat"
+    },
+    {
+      "id": "tamari-vs-soy",
+      "ingredient": "tamari",
+      "restrictions": { "allergens": ["soy"] },
+      "expected": { "result": "violated", "reasonContains": ["soy"] },
+      "note": "tamari is a soy product regardless of wheat status"
+    },
+    {
+      "id": "tamari-vs-wheat",
+      "ingredient": "tamari",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "unknown", "missingMention": ["wheat"] },
+      "note": "classic tamari is wheat-free but commercial products vary; no product evidence here"
+    },
+    {
+      "id": "tamari-vs-glutenfree",
+      "ingredient": "tamari",
+      "restrictions": { "diets": ["glutenFree"] },
+      "expected": { "result": "unknown", "missingMention": ["wheat"] },
+      "note": "no product evidence: gluten-free status cannot be inferred"
+    },
+    {
+      "id": "tamari-certified-gf-vs-glutenfree",
+      "ingredient": "gluten-free tamari",
+      "restrictions": { "diets": ["glutenFree"] },
+      "expected": { "result": "allowed", "evidenceMention": ["label"] },
+      "note": "the certified gluten-free product form carries label evidence"
+    },
+    {
+      "id": "tamari-certified-gf-vs-soy",
+      "ingredient": "gluten-free tamari",
+      "restrictions": { "allergens": ["soy"] },
+      "expected": { "result": "violated", "reasonContains": ["soy"] },
+      "note": "certified gluten-free does not remove the soy allergen"
+    },
+    {
+      "id": "tamari-certified-gf-vs-wheat",
+      "ingredient": "gluten-free tamari",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "unknown", "missingMention": ["wheat"] },
+      "note": "a gluten-free label never establishes wheat absence (FDA 21 CFR 101.100): unknown, not allowed"
+    },
+    {
+      "id": "gluten-free-bread-vs-wheat",
+      "ingredient": "gluten-free bread",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "violated", "reasonContains": ["wheat"] },
+      "note": "exactly the FDA case: a declared wheat-derived component (wheat starch) violates wheat avoidance even in a gluten-free product"
+    },
+    {
+      "id": "gluten-free-bread-vs-glutenfree",
+      "ingredient": "gluten-free bread",
+      "restrictions": { "diets": ["glutenFree"] },
+      "expected": { "result": "allowed", "evidenceMention": ["label"] },
+      "note": "the same product is gluten-free per its label evidence"
+    },
+    {
+      "id": "spelt-vs-wheat",
+      "ingredient": "spelt",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "violated", "reasonContains": ["wheat"] },
+      "note": "spelt is a wheat subspecies: wheat avoidance catches it"
+    },
+    {
+      "id": "oats-certified-gf-vs-wheat",
+      "ingredient": "gluten-free oats",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "allowed", "evidenceMention": ["label"] },
+      "note": "certified gluten-free oats are produced without wheat; label evidence"
+    },
+    {
+      "id": "oats-generic-vs-glutenfree",
+      "ingredient": "oats",
+      "restrictions": { "diets": ["glutenFree"] },
+      "expected": { "result": "unknown", "missingMention": ["gluten"] },
+      "note": "without label evidence, variety and cross-contact variability leave gluten undecided"
+    },
+    {
+      "id": "cream-cheese-vs-milk",
+      "ingredient": "cream cheese",
+      "restrictions": { "allergens": ["milk"] },
+      "expected": { "result": "violated", "reasonContains": ["milk"] },
+      "note": "cream cheese is a milk product"
+    },
+    {
+      "id": "cream-cheese-vs-dairyfree",
+      "ingredient": "cream cheese",
+      "restrictions": { "diets": ["dairyFree"] },
+      "expected": { "result": "violated", "reasonContains": ["dairyfree"] },
+      "note": "cream cheese is not dairy-free"
+    },
+    {
+      "id": "cream-cheese-vs-vegetarian",
+      "ingredient": "cream cheese",
+      "restrictions": { "diets": ["vegetarian"] },
+      "expected": { "result": "allowed" },
+      "note": "dairy is compatible with a vegetarian diet"
+    },
+    {
+      "id": "lard-vs-vegetarian",
+      "ingredient": "lard",
+      "restrictions": { "diets": ["vegetarian"] },
+      "expected": { "result": "violated", "reasonContains": ["vegetarian"] },
+      "note": "lard is rendered pork fat"
+    },
+    {
+      "id": "lard-vs-vegan",
+      "ingredient": "lard",
+      "restrictions": { "diets": ["vegan"] },
+      "expected": { "result": "violated", "reasonContains": ["vegan"] },
+      "note": "lard is an animal product"
+    },
+    {
+      "id": "worcestershire-vs-fish",
+      "ingredient": "Worcestershire sauce",
+      "restrictions": { "allergens": ["fish"] },
+      "expected": { "result": "violated", "reasonContains": ["fish"] },
+      "note": "Worcestershire sauce contains anchovy"
+    },
+    {
+      "id": "worcestershire-vs-vegetarian",
+      "ingredient": "Worcestershire sauce",
+      "restrictions": { "diets": ["vegetarian"] },
+      "expected": { "result": "violated", "reasonContains": ["vegetarian"] },
+      "note": "anchovy makes it non-vegetarian"
+    },
+    {
+      "id": "worcestershire-vs-pescatarian",
+      "ingredient": "Worcestershire sauce",
+      "restrictions": { "diets": ["pescatarian"] },
+      "expected": { "result": "allowed" },
+      "note": "pescatarians eat fish"
+    },
+    {
+      "id": "fish-sauce-vs-fish",
+      "ingredient": "fish sauce",
+      "restrictions": { "allergens": ["fish"] },
+      "expected": { "result": "violated", "reasonContains": ["fish"] },
+      "note": "fish sauce is fish"
+    },
+    {
+      "id": "miso-vs-soy",
+      "ingredient": "miso",
+      "restrictions": { "allergens": ["soy"] },
+      "expected": { "result": "violated", "reasonContains": ["soy"] },
+      "note": "miso is fermented soybeans"
+    },
+    {
+      "id": "miso-vs-glutenfree",
+      "ingredient": "miso",
+      "restrictions": { "diets": ["glutenFree"] },
+      "expected": { "result": "unknown", "missingMention": ["gluten"] },
+      "note": "some miso includes barley: gluten status varies and no product evidence is present"
+    },
+    {
+      "id": "pesto-vs-treenuts",
+      "ingredient": "pesto",
+      "restrictions": { "allergens": ["treeNuts"] },
+      "expected": { "result": "violated", "reasonContains": ["treenuts"] },
+      "note": "pesto contains pine nuts"
+    },
+    {
+      "id": "pesto-vs-milk",
+      "ingredient": "pesto",
+      "restrictions": { "allergens": ["milk"] },
+      "expected": { "result": "violated", "reasonContains": ["milk"] },
+      "note": "pesto contains parmesan, which carries milk"
+    },
+    {
+      "id": "pesto-vs-vegan",
+      "ingredient": "pesto",
+      "restrictions": { "diets": ["vegan"] },
+      "expected": { "result": "violated", "reasonContains": ["vegan"] },
+      "note": "parmesan (dairy, animal rennet) makes pesto non-vegan"
+    },
+    {
+      "id": "stock-cube-vs-milk",
+      "ingredient": "stock cube",
+      "restrictions": { "allergens": ["milk"] },
+      "expected": { "result": "unknown", "missingMention": ["milk"] },
+      "note": "milk derivatives vary by brand"
+    },
+    {
+      "id": "stock-cube-vs-soy",
+      "ingredient": "stock cube",
+      "restrictions": { "allergens": ["soy"] },
+      "expected": { "result": "unknown", "missingMention": ["soy"] },
+      "note": "hydrolysed plant protein varies by brand"
+    },
+    {
+      "id": "stock-cube-vs-wheat",
+      "ingredient": "stock cube",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "unknown", "missingMention": ["wheat"] },
+      "note": "flavourings vary by brand"
+    },
+    {
+      "id": "bread-vs-wheat",
+      "ingredient": "bread",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "violated", "reasonContains": ["wheat"] },
+      "note": "bread is wheat-based"
+    },
+    {
+      "id": "bread-vs-glutenfree",
+      "ingredient": "bread",
+      "restrictions": { "diets": ["glutenFree"] },
+      "expected": { "result": "violated", "reasonContains": ["glutenfree"] },
+      "note": "ordinary bread is not gluten-free"
+    },
+    {
+      "id": "pasta-vs-wheat",
+      "ingredient": "pasta",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "violated", "reasonContains": ["wheat"] },
+      "note": "pasta is wheat-based"
+    },
+    {
+      "id": "pasta-vs-glutenfree",
+      "ingredient": "pasta",
+      "restrictions": { "diets": ["glutenFree"] },
+      "expected": { "result": "violated", "reasonContains": ["glutenfree"] },
+      "note": "ordinary pasta is not gluten-free"
+    },
+    {
+      "id": "gelatin-vs-vegetarian",
+      "ingredient": "gelatin",
+      "restrictions": { "diets": ["vegetarian"] },
+      "expected": { "result": "violated", "reasonContains": ["vegetarian"] },
+      "note": "gelatin is animal collagen"
+    },
+    {
+      "id": "gelatin-vs-vegan",
+      "ingredient": "gelatin",
+      "restrictions": { "diets": ["vegan"] },
+      "expected": { "result": "violated", "reasonContains": ["vegan"] },
+      "note": "gelatin is animal collagen"
+    },
+    {
+      "id": "parmesan-vs-milk",
+      "ingredient": "parmesan",
+      "restrictions": { "allergens": ["milk"] },
+      "expected": { "result": "violated", "reasonContains": ["milk"] },
+      "note": "parmesan is a milk cheese"
+    },
+    {
+      "id": "parmesan-vs-vegetarian",
+      "ingredient": "parmesan",
+      "restrictions": { "diets": ["vegetarian"] },
+      "expected": { "result": "violated", "reasonContains": ["vegetarian"] },
+      "note": "authentic parmesan uses animal rennet"
+    },
+    {
+      "id": "parmesan-vs-vegan",
+      "ingredient": "parmesan",
+      "restrictions": { "diets": ["vegan"] },
+      "expected": { "result": "violated", "reasonContains": ["vegan"] },
+      "note": "parmesan is dairy"
+    },
+    {
+      "id": "no-facts-vs-restriction",
+      "ingredient": "artisan granola bar",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "unknown", "missingMention": ["no facts"] },
+      "note": "a resolvable identity with no fact entry: fail closed, never allowed"
+    },
+    {
+      "id": "unresolved-name-vs-restriction",
+      "ingredient": "vogelzang flour",
+      "restrictions": { "allergens": ["wheat"] },
+      "expected": { "result": "unknown", "missingMention": ["not in the dataset"] },
+      "note": "an unknown name: fail closed, never allowed"
+    },
+    {
+      "id": "meal-union-soy-and-milk",
+      "ingredient": "soy sauce",
+      "restrictions": { "allergens": ["soy", "milk"] },
+      "expected": { "result": "violated", "reasonContains": ["soy"] },
+      "note": "eater A avoids soy, eater B avoids milk: the union applied in one evaluation still violates"
+    },
+    {
+      "id": "meal-union-vegetarian-and-dairyfree",
+      "ingredient": "pesto",
+      "restrictions": { "diets": ["vegetarian", "dairyFree"] },
+      "expected": { "result": "violated", "reasonContains": ["vegetarian"] },
+      "note": "union of eater A's vegetarian and eater B's dairy-free restrictions"
+    }
+  ]
+}

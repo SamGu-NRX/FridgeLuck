@@ -2,13 +2,15 @@
   "version": 1,
   "facts": {
     "achiote-paste": {
+      "key": "achiote-paste",
       "components": [
         {
           "key": "annatto",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "recado rojo composition"
+            "ref": "recado rojo composition",
+            "note": "recado rojo composition"
           }
         },
         {
@@ -16,7 +18,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "recado rojo composition"
+            "ref": "recado rojo composition",
+            "note": "recado rojo composition"
           }
         },
         {
@@ -24,7 +27,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "recado rojo composition"
+            "ref": "recado rojo composition",
+            "note": "recado rojo composition"
           }
         },
         {
@@ -32,7 +36,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "recado rojo composition"
+            "ref": "recado rojo composition",
+            "note": "recado rojo composition"
           }
         },
         {
@@ -40,7 +45,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "recado rojo composition"
+            "ref": "recado rojo composition",
+            "note": "recado rojo composition"
           }
         }
       ],
@@ -128,6 +134,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -147,6 +177,7 @@
       }
     },
     "aioli": {
+      "key": "aioli",
       "components": [
         {
           "key": "garlic",
@@ -162,7 +193,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "aioli composition"
+            "ref": "aioli composition",
+            "note": "aioli composition"
           }
         },
         {
@@ -260,6 +292,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -279,6 +335,7 @@
       }
     },
     "all-purpose-flour": {
+      "key": "all-purpose-flour",
       "class": "plant",
       "allergens": {
         "wheat": {
@@ -342,6 +399,7 @@
       }
     },
     "almonds": {
+      "key": "almonds",
       "class": "plant",
       "allergens": {
         "treeNuts": {
@@ -389,6 +447,7 @@
       }
     },
     "anchovies": {
+      "key": "anchovies",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -428,6 +487,7 @@
       }
     },
     "anchovy": {
+      "key": "anchovy",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -467,6 +527,7 @@
       }
     },
     "animal-collagen": {
+      "key": "animal-collagen",
       "class": "animal-derived",
       "note": "gelatin source species (pork or beef) varies by product",
       "diets": {
@@ -497,6 +558,7 @@
       }
     },
     "animal-rennet": {
+      "key": "animal-rennet",
       "class": "animal-derived",
       "note": "traditional hard cheeses such as Parmigiano-Reggiano require calf rennet",
       "diets": {
@@ -527,6 +589,7 @@
       }
     },
     "annatto": {
+      "key": "annatto",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -564,6 +627,7 @@
       }
     },
     "anti-caking-agent": {
+      "key": "anti-caking-agent",
       "class": "mineral",
       "note": "jarred spice blends may add anti-caking agents; composition varies by brand",
       "diets": {
@@ -602,6 +666,7 @@
       }
     },
     "apple": {
+      "key": "apple",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -639,45 +704,8 @@
       }
     },
     "apple-cider-vinegar": {
+      "key": "apple-cider-vinegar",
       "class": "plant",
-      "diets": {
-        "vegetarian": {
-          "state": "allowed",
-          "evidence": {
-            "kind": "standard",
-            "ref": "diet composition standard",
-            "note": "plant food: no animal-derived components (diet fact: allowed)"
-          }
-        },
-        "vegan": {
-          "state": "allowed",
-          "evidence": {
-            "kind": "standard",
-            "ref": "diet composition standard",
-            "note": "plant food: no animal-derived components (diet fact: allowed)"
-          }
-        },
-        "pescatarian": {
-          "state": "allowed",
-          "evidence": {
-            "kind": "standard",
-            "ref": "diet composition standard",
-            "note": "plant food: no animal-derived components (diet fact: allowed)"
-          }
-        },
-        "dairyFree": {
-          "state": "allowed",
-          "evidence": {
-            "kind": "standard",
-            "ref": "diet composition standard",
-            "note": "plant food: no animal-derived components (no milk component)"
-          }
-        }
-      }
-    },
-    "artisan-granola-bar": {
-      "class": "plant",
-      "note": "identity without facts: demonstrates fail-closed unknown for a resolvable key",
       "diets": {
         "vegetarian": {
           "state": "allowed",
@@ -714,6 +742,7 @@
       }
     },
     "avocado": {
+      "key": "avocado",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -751,6 +780,7 @@
       }
     },
     "bacon": {
+      "key": "bacon",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -780,6 +810,7 @@
       }
     },
     "balsamic-vinegar": {
+      "key": "balsamic-vinegar",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -817,6 +848,7 @@
       }
     },
     "banana": {
+      "key": "banana",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -854,6 +886,7 @@
       }
     },
     "barley": {
+      "key": "barley",
       "class": "plant",
       "note": "barley carries gluten but is not wheat",
       "gluten": {
@@ -908,6 +941,7 @@
       }
     },
     "barley-malt": {
+      "key": "barley-malt",
       "class": "plant",
       "note": "malt syrup and malt vinegar derive from barley",
       "gluten": {
@@ -962,6 +996,7 @@
       }
     },
     "basil": {
+      "key": "basil",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -999,6 +1034,7 @@
       }
     },
     "bechamel": {
+      "key": "bechamel",
       "components": [
         {
           "key": "milk",
@@ -1014,7 +1050,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "bechamel composition"
+            "ref": "bechamel composition",
+            "note": "bechamel composition"
           }
         },
         {
@@ -1022,7 +1059,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "bechamel composition"
+            "ref": "bechamel composition",
+            "note": "bechamel composition"
           }
         }
       ],
@@ -1111,6 +1149,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -1130,6 +1192,7 @@
       }
     },
     "beef": {
+      "key": "beef",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -1159,6 +1222,7 @@
       }
     },
     "beef-stock": {
+      "key": "beef-stock",
       "class": "meat",
       "note": "beef stock is beef-based by definition",
       "diets": {
@@ -1189,6 +1253,7 @@
       }
     },
     "bell-pepper": {
+      "key": "bell-pepper",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -1226,6 +1291,7 @@
       }
     },
     "black-bean-sauce": {
+      "key": "black-bean-sauce",
       "components": [
         {
           "key": "soybeans",
@@ -1250,7 +1316,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "black bean sauce composition"
+            "ref": "black bean sauce composition",
+            "note": "black bean sauce composition"
           }
         },
         {
@@ -1258,7 +1325,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "black bean sauce composition"
+            "ref": "black bean sauce composition",
+            "note": "black bean sauce composition"
           }
         },
         {
@@ -1266,7 +1334,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "black bean sauce composition"
+            "ref": "black bean sauce composition",
+            "note": "black bean sauce composition"
           }
         },
         {
@@ -1274,7 +1343,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "black bean sauce composition"
+            "ref": "black bean sauce composition",
+            "note": "black bean sauce composition"
           }
         }
       ],
@@ -1300,6 +1370,7 @@
       }
     },
     "black-beans": {
+      "key": "black-beans",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -1337,6 +1408,7 @@
       }
     },
     "bread": {
+      "key": "bread",
       "components": [
         {
           "key": "wheat-flour",
@@ -1352,7 +1424,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "bread composition"
+            "ref": "bread composition",
+            "note": "bread composition"
           }
         },
         {
@@ -1360,7 +1433,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "bread composition"
+            "ref": "bread composition",
+            "note": "bread composition"
           }
         },
         {
@@ -1368,7 +1442,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "bread composition"
+            "ref": "bread composition",
+            "note": "bread composition"
           }
         },
         {
@@ -1385,7 +1460,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "enriched sandwich bread"
+            "ref": "enriched sandwich bread",
+            "note": "enriched sandwich bread"
           }
         },
         {
@@ -1453,6 +1529,14 @@
         }
       },
       "diets": {
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -1472,6 +1556,7 @@
       }
     },
     "breadcrumbs": {
+      "key": "breadcrumbs",
       "components": [
         {
           "key": "bread",
@@ -1483,9 +1568,62 @@
           }
         }
       ],
-      "compositionComplete": false
+      "compositionComplete": false,
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'bread' is a certain or typical ingredient"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'bread' is a certain or typical ingredient"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
+          }
+        },
+        "dairyFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'bread' is a certain or typical ingredient"
+          }
+        }
+      }
     },
     "broccoli": {
+      "key": "broccoli",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -1523,6 +1661,7 @@
       }
     },
     "bulgur": {
+      "key": "bulgur",
       "class": "plant",
       "allergens": {
         "wheat": {
@@ -1586,6 +1725,7 @@
       }
     },
     "butter": {
+      "key": "butter",
       "class": "dairy",
       "note": "butter is churned cream; contains no salt in its unsalted form",
       "allergens": {
@@ -1634,6 +1774,7 @@
       }
     },
     "canned-tuna": {
+      "key": "canned-tuna",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -1673,6 +1814,7 @@
       }
     },
     "caramel-colour": {
+      "key": "caramel-colour",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -1710,6 +1852,7 @@
       }
     },
     "carrot": {
+      "key": "carrot",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -1747,6 +1890,7 @@
       }
     },
     "cashews": {
+      "key": "cashews",
       "class": "plant",
       "allergens": {
         "treeNuts": {
@@ -1794,6 +1938,7 @@
       }
     },
     "celery": {
+      "key": "celery",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -1831,6 +1976,7 @@
       }
     },
     "celery-part": {
+      "key": "celery-part",
       "class": "plant",
       "note": "celery is an EU-declared allergen but not one of the nine FDA major allergens",
       "diets": {
@@ -1869,6 +2015,7 @@
       }
     },
     "chaat-masala": {
+      "key": "chaat-masala",
       "components": [
         {
           "key": "spices",
@@ -1892,6 +2039,7 @@
       "compositionComplete": false
     },
     "cheese": {
+      "key": "cheese",
       "components": [
         {
           "key": "milk",
@@ -1907,7 +2055,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "cheese composition"
+            "ref": "cheese composition",
+            "note": "cheese composition"
           }
         },
         {
@@ -1933,6 +2082,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "dairyFree": {
           "state": "violated",
           "evidence": {
@@ -1944,6 +2117,7 @@
       }
     },
     "chicken": {
+      "key": "chicken",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -1973,6 +2147,7 @@
       }
     },
     "chicken-breast": {
+      "key": "chicken-breast",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -2002,6 +2177,7 @@
       }
     },
     "chicken-liver": {
+      "key": "chicken-liver",
       "class": "meat",
       "note": "offal: animal flesh for diet purposes",
       "diets": {
@@ -2032,6 +2208,7 @@
       }
     },
     "chicken-stock": {
+      "key": "chicken-stock",
       "components": [
         {
           "key": "chicken",
@@ -2056,7 +2233,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "stock composition"
+            "ref": "stock composition",
+            "note": "stock composition"
           }
         },
         {
@@ -2069,9 +2247,36 @@
           }
         }
       ],
-      "compositionComplete": false
+      "compositionComplete": false,
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
+      }
     },
     "chicken-thighs": {
+      "key": "chicken-thighs",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -2101,6 +2306,7 @@
       }
     },
     "chickpeas": {
+      "key": "chickpeas",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -2138,6 +2344,7 @@
       }
     },
     "chili-peppers": {
+      "key": "chili-peppers",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -2175,13 +2382,15 @@
       }
     },
     "chilli-sauce": {
+      "key": "chilli-sauce",
       "components": [
         {
           "key": "chili-peppers",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "chilli sauce composition"
+            "ref": "chilli sauce composition",
+            "note": "chilli sauce composition"
           }
         },
         {
@@ -2189,7 +2398,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "chilli sauce composition"
+            "ref": "chilli sauce composition",
+            "note": "chilli sauce composition"
           }
         },
         {
@@ -2197,7 +2407,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "chilli sauce composition"
+            "ref": "chilli sauce composition",
+            "note": "chilli sauce composition"
           }
         },
         {
@@ -2205,7 +2416,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "chilli sauce composition"
+            "ref": "chilli sauce composition",
+            "note": "chilli sauce composition"
           }
         }
       ],
@@ -2213,6 +2425,7 @@
       "note": "generic chilli sauce: thickeners and preservatives vary by brand"
     },
     "chipotle-in-adobo": {
+      "key": "chipotle-in-adobo",
       "components": [
         {
           "key": "chili-peppers",
@@ -2228,7 +2441,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "canned chipotle in adobo"
+            "ref": "canned chipotle in adobo",
+            "note": "canned chipotle in adobo"
           }
         },
         {
@@ -2236,7 +2450,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "canned chipotle in adobo"
+            "ref": "canned chipotle in adobo",
+            "note": "canned chipotle in adobo"
           }
         },
         {
@@ -2244,7 +2459,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "canned chipotle in adobo"
+            "ref": "canned chipotle in adobo",
+            "note": "canned chipotle in adobo"
           }
         },
         {
@@ -2252,7 +2468,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "canned chipotle in adobo"
+            "ref": "canned chipotle in adobo",
+            "note": "canned chipotle in adobo"
           }
         },
         {
@@ -2260,7 +2477,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "canned chipotle in adobo"
+            "ref": "canned chipotle in adobo",
+            "note": "canned chipotle in adobo"
           }
         },
         {
@@ -2268,7 +2486,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "canned chipotle in adobo"
+            "ref": "canned chipotle in adobo",
+            "note": "canned chipotle in adobo"
           }
         }
       ],
@@ -2356,6 +2575,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -2375,6 +2618,7 @@
       }
     },
     "chocolate": {
+      "key": "chocolate",
       "components": [
         {
           "key": "cocoa",
@@ -2390,7 +2634,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "chocolate composition"
+            "ref": "chocolate composition",
+            "note": "chocolate composition"
           }
         },
         {
@@ -2414,9 +2659,20 @@
             "note": "component 'milk' is variable: some products carry this allergen, some do not"
           }
         }
+      },
+      "diets": {
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
       }
     },
     "chorizo": {
+      "key": "chorizo",
       "components": [
         {
           "key": "pork",
@@ -2441,7 +2697,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "chorizo composition"
+            "ref": "chorizo composition",
+            "note": "chorizo composition"
           }
         }
       ],
@@ -2475,6 +2732,7 @@
       }
     },
     "cilantro": {
+      "key": "cilantro",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -2512,6 +2770,7 @@
       }
     },
     "clam": {
+      "key": "clam",
       "class": "shellfish",
       "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it",
       "diets": {
@@ -2542,6 +2801,7 @@
       }
     },
     "cocoa": {
+      "key": "cocoa",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -2579,6 +2839,7 @@
       }
     },
     "coconut": {
+      "key": "coconut",
       "class": "plant",
       "note": "botanically a fruit; confirm with the user when their nut allergy excludes coconut",
       "allergens": {
@@ -2627,6 +2888,7 @@
       }
     },
     "coconut-milk": {
+      "key": "coconut-milk",
       "components": [
         {
           "key": "coconut",
@@ -2642,7 +2904,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "coconut milk composition"
+            "ref": "coconut milk composition",
+            "note": "coconut milk composition"
           }
         }
       ],
@@ -2730,6 +2993,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -2749,6 +3036,7 @@
       }
     },
     "cod": {
+      "key": "cod",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -2788,6 +3076,7 @@
       }
     },
     "condensed-milk": {
+      "key": "condensed-milk",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -2835,6 +3124,7 @@
       }
     },
     "corn": {
+      "key": "corn",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -2872,6 +3162,7 @@
       }
     },
     "corn-starch-modified": {
+      "key": "corn-starch-modified",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -2909,6 +3200,7 @@
       }
     },
     "corn-tortillas": {
+      "key": "corn-tortillas",
       "components": [
         {
           "key": "masa-harina",
@@ -2924,7 +3216,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "corn tortilla composition"
+            "ref": "corn tortilla composition",
+            "note": "corn tortilla composition"
           }
         },
         {
@@ -2932,7 +3225,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "corn tortilla composition"
+            "ref": "corn tortilla composition",
+            "note": "corn tortilla composition"
           }
         }
       ],
@@ -3020,6 +3314,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -3039,6 +3357,7 @@
       }
     },
     "cotija": {
+      "key": "cotija",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -3086,6 +3405,7 @@
       }
     },
     "couscous": {
+      "key": "couscous",
       "class": "plant",
       "allergens": {
         "wheat": {
@@ -3149,6 +3469,7 @@
       }
     },
     "crab": {
+      "key": "crab",
       "class": "shellfish",
       "allergens": {
         "crustaceanShellfish": {
@@ -3188,6 +3509,7 @@
       }
     },
     "cream": {
+      "key": "cream",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -3235,6 +3557,7 @@
       }
     },
     "cream-cheese": {
+      "key": "cream-cheese",
       "components": [
         {
           "key": "milk",
@@ -3250,7 +3573,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "cream cheese composition"
+            "ref": "cream cheese composition",
+            "note": "cream cheese composition"
           }
         },
         {
@@ -3347,6 +3671,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -3366,6 +3714,7 @@
       }
     },
     "cucumber": {
+      "key": "cucumber",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -3403,6 +3752,7 @@
       }
     },
     "cumin": {
+      "key": "cumin",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -3440,6 +3790,7 @@
       }
     },
     "curry-powder": {
+      "key": "curry-powder",
       "components": [
         {
           "key": "spices",
@@ -3463,6 +3814,7 @@
       "compositionComplete": false
     },
     "distilled-spirit": {
+      "key": "distilled-spirit",
       "class": "plant",
       "note": "distillation removes gluten protein even when brewed from barley",
       "diets": {
@@ -3501,6 +3853,7 @@
       }
     },
     "distilled-vinegar": {
+      "key": "distilled-vinegar",
       "class": "plant",
       "note": "distilled spirit vinegar; distillation removes gluten protein",
       "diets": {
@@ -3539,6 +3892,7 @@
       }
     },
     "doenjang": {
+      "key": "doenjang",
       "components": [
         {
           "key": "soybeans",
@@ -3554,7 +3908,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "doenjang composition"
+            "ref": "doenjang composition",
+            "note": "doenjang composition"
           }
         },
         {
@@ -3652,6 +4007,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -3671,6 +4050,7 @@
       }
     },
     "doubanjiang": {
+      "key": "doubanjiang",
       "components": [
         {
           "key": "soybeans",
@@ -3686,7 +4066,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "doubanjiang composition"
+            "ref": "doubanjiang composition",
+            "note": "doubanjiang composition"
           }
         },
         {
@@ -3703,7 +4084,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "doubanjiang composition"
+            "ref": "doubanjiang composition",
+            "note": "doubanjiang composition"
           }
         }
       ],
@@ -3729,13 +4111,15 @@
       }
     },
     "dried-egg-noodles": {
+      "key": "dried-egg-noodles",
       "components": [
         {
           "key": "wheat-flour",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "egg noodle composition"
+            "ref": "egg noodle composition",
+            "note": "egg noodle composition"
           }
         },
         {
@@ -3752,7 +4136,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "egg noodle composition"
+            "ref": "egg noodle composition",
+            "note": "egg noodle composition"
           }
         }
       ],
@@ -3840,6 +4225,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -3859,6 +4268,7 @@
       }
     },
     "duck": {
+      "key": "duck",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -3888,6 +4298,7 @@
       }
     },
     "duck-fat": {
+      "key": "duck-fat",
       "class": "animal-derived",
       "diets": {
         "vegetarian": {
@@ -3917,6 +4328,7 @@
       }
     },
     "durum-wheat-flour": {
+      "key": "durum-wheat-flour",
       "class": "plant",
       "note": "dried pasta is milled durum wheat and water",
       "allergens": {
@@ -3981,6 +4393,7 @@
       }
     },
     "edamame": {
+      "key": "edamame",
       "class": "plant",
       "allergens": {
         "soy": {
@@ -4028,6 +4441,7 @@
       }
     },
     "egg": {
+      "key": "egg",
       "class": "egg",
       "allergens": {
         "egg": {
@@ -4067,6 +4481,7 @@
       }
     },
     "farro": {
+      "key": "farro",
       "class": "plant",
       "note": "farro is emmer (Triticum dicoccum) or related Triticum species, all wheat",
       "allergens": {
@@ -4131,6 +4546,7 @@
       }
     },
     "fat-source-varies": {
+      "key": "fat-source-varies",
       "class": "plant",
       "note": "stock cube fat may be vegetable or animal, including lard in some brands",
       "diets": {
@@ -4169,6 +4585,7 @@
       }
     },
     "feta": {
+      "key": "feta",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -4216,6 +4633,7 @@
       }
     },
     "fish-extract": {
+      "key": "fish-extract",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -4255,6 +4673,7 @@
       }
     },
     "fish-fillet": {
+      "key": "fish-fillet",
       "class": "fish",
       "note": "generic fillet: species varies",
       "allergens": {
@@ -4295,6 +4714,7 @@
       }
     },
     "fish-sauce": {
+      "key": "fish-sauce",
       "components": [
         {
           "key": "anchovy",
@@ -4310,7 +4730,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "fish sauce composition"
+            "ref": "fish sauce composition",
+            "note": "fish sauce composition"
           }
         },
         {
@@ -4318,7 +4739,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "fish sauce composition"
+            "ref": "fish sauce composition",
+            "note": "fish sauce composition"
           }
         }
       ],
@@ -4406,6 +4828,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -4425,6 +4871,7 @@
       }
     },
     "fish-sauce-part": {
+      "key": "fish-sauce-part",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -4464,6 +4911,7 @@
       }
     },
     "fish-stock": {
+      "key": "fish-stock",
       "class": "fish",
       "note": "fish stock is fish-based by definition",
       "allergens": {
@@ -4504,6 +4952,7 @@
       }
     },
     "flank-steak": {
+      "key": "flank-steak",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -4533,6 +4982,7 @@
       }
     },
     "flatbread": {
+      "key": "flatbread",
       "components": [],
       "compositionComplete": false,
       "allergens": {
@@ -4573,6 +5023,7 @@
       }
     },
     "flavourings-unknown": {
+      "key": "flavourings-unknown",
       "class": "mineral",
       "note": "commercial stock cubes list unspecific flavourings; sources vary by brand",
       "diets": {
@@ -4611,13 +5062,15 @@
       }
     },
     "flour-tortillas": {
+      "key": "flour-tortillas",
       "components": [
         {
           "key": "wheat-flour",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "flour tortilla composition"
+            "ref": "flour tortilla composition",
+            "note": "flour tortilla composition"
           }
         },
         {
@@ -4625,7 +5078,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "flour tortilla composition"
+            "ref": "flour tortilla composition",
+            "note": "flour tortilla composition"
           }
         },
         {
@@ -4633,7 +5087,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "flour tortilla composition"
+            "ref": "flour tortilla composition",
+            "note": "flour tortilla composition"
           }
         },
         {
@@ -4683,6 +5138,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -4694,6 +5173,7 @@
       }
     },
     "food-acid": {
+      "key": "food-acid",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -4731,6 +5211,7 @@
       }
     },
     "fresh-pasta": {
+      "key": "fresh-pasta",
       "components": [
         {
           "key": "durum-wheat-flour",
@@ -4836,6 +5317,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -4855,6 +5360,7 @@
       }
     },
     "frozen-peas": {
+      "key": "frozen-peas",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -4892,6 +5398,7 @@
       }
     },
     "garam-masala": {
+      "key": "garam-masala",
       "components": [
         {
           "key": "spices",
@@ -4915,6 +5422,7 @@
       "compositionComplete": false
     },
     "garlic": {
+      "key": "garlic",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -4952,6 +5460,7 @@
       }
     },
     "gelatin": {
+      "key": "gelatin",
       "components": [
         {
           "key": "animal-collagen",
@@ -5047,6 +5556,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -5066,6 +5599,7 @@
       }
     },
     "ghee": {
+      "key": "ghee",
       "class": "dairy",
       "note": "clarified butter: milk fat; lactose reduced but still a milk product",
       "allergens": {
@@ -5114,6 +5648,7 @@
       }
     },
     "ginger": {
+      "key": "ginger",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -5151,6 +5686,7 @@
       }
     },
     "gluten-free-bread": {
+      "key": "gluten-free-bread",
       "components": [
         {
           "key": "wheat-starch",
@@ -5209,6 +5745,14 @@
         }
       },
       "diets": {
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -5220,6 +5764,7 @@
       }
     },
     "glutinous-rice": {
+      "key": "glutinous-rice",
       "class": "plant",
       "note": "sweet rice used for koji and gochujang",
       "diets": {
@@ -5258,6 +5803,7 @@
       }
     },
     "gnocchi": {
+      "key": "gnocchi",
       "components": [
         {
           "key": "potato",
@@ -5273,7 +5819,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "gnocchi composition"
+            "ref": "gnocchi composition",
+            "note": "gnocchi composition"
           }
         },
         {
@@ -5315,6 +5862,14 @@
         }
       },
       "diets": {
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -5326,6 +5881,7 @@
       }
     },
     "gochugaru": {
+      "key": "gochugaru",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -5363,13 +5919,15 @@
       }
     },
     "gochujang": {
+      "key": "gochujang",
       "components": [
         {
           "key": "chili-peppers",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "gochujang composition"
+            "ref": "gochujang composition",
+            "note": "gochujang composition"
           }
         },
         {
@@ -5404,7 +5962,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "gochujang composition"
+            "ref": "gochujang composition",
+            "note": "gochujang composition"
           }
         }
       ],
@@ -5421,6 +5980,7 @@
       }
     },
     "gochujang-meju": {
+      "key": "gochujang-meju",
       "class": "plant",
       "note": "gochujang is fermented with meju, a soybean paste",
       "allergens": {
@@ -5469,6 +6029,7 @@
       }
     },
     "greek-yogurt": {
+      "key": "greek-yogurt",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -5516,6 +6077,7 @@
       }
     },
     "green-onion": {
+      "key": "green-onion",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -5553,13 +6115,15 @@
       }
     },
     "gremolata": {
+      "key": "gremolata",
       "components": [
         {
           "key": "parsley",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "gremolata composition"
+            "ref": "gremolata composition",
+            "note": "gremolata composition"
           }
         },
         {
@@ -5567,7 +6131,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "gremolata composition"
+            "ref": "gremolata composition",
+            "note": "gremolata composition"
           }
         },
         {
@@ -5575,7 +6140,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "gremolata composition"
+            "ref": "gremolata composition",
+            "note": "gremolata composition"
           }
         }
       ],
@@ -5663,6 +6229,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -5682,6 +6272,7 @@
       }
     },
     "ground-beef": {
+      "key": "ground-beef",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -5711,6 +6302,7 @@
       }
     },
     "ground-chicken": {
+      "key": "ground-chicken",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -5740,6 +6332,7 @@
       }
     },
     "ground-lamb": {
+      "key": "ground-lamb",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -5769,6 +6362,7 @@
       }
     },
     "ground-pork": {
+      "key": "ground-pork",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -5798,6 +6392,7 @@
       }
     },
     "ground-turkey": {
+      "key": "ground-turkey",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -5827,13 +6422,15 @@
       }
     },
     "gyoza-skins": {
+      "key": "gyoza-skins",
       "components": [
         {
           "key": "wheat-flour",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "gyoza skin composition"
+            "ref": "gyoza skin composition",
+            "note": "gyoza skin composition"
           }
         },
         {
@@ -5841,7 +6438,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "gyoza skin composition"
+            "ref": "gyoza skin composition",
+            "note": "gyoza skin composition"
           }
         },
         {
@@ -5849,7 +6447,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "gyoza skin composition"
+            "ref": "gyoza skin composition",
+            "note": "gyoza skin composition"
           }
         }
       ],
@@ -5938,6 +6537,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -5957,6 +6580,7 @@
       }
     },
     "halibut": {
+      "key": "halibut",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -5996,6 +6620,7 @@
       }
     },
     "halloumi": {
+      "key": "halloumi",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -6043,13 +6668,15 @@
       }
     },
     "harissa": {
+      "key": "harissa",
       "components": [
         {
           "key": "chili-peppers",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "harissa composition"
+            "ref": "harissa composition",
+            "note": "harissa composition"
           }
         },
         {
@@ -6057,7 +6684,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "harissa composition"
+            "ref": "harissa composition",
+            "note": "harissa composition"
           }
         },
         {
@@ -6074,7 +6702,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "harissa composition"
+            "ref": "harissa composition",
+            "note": "harissa composition"
           }
         },
         {
@@ -6082,7 +6711,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "harissa composition"
+            "ref": "harissa composition",
+            "note": "harissa composition"
           }
         }
       ],
@@ -6170,6 +6800,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -6189,6 +6843,7 @@
       }
     },
     "hazelnut": {
+      "key": "hazelnut",
       "class": "plant",
       "allergens": {
         "treeNuts": {
@@ -6236,6 +6891,7 @@
       }
     },
     "hoisin": {
+      "key": "hoisin",
       "components": [
         {
           "key": "soybeans",
@@ -6251,7 +6907,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "hoisin composition"
+            "ref": "hoisin composition",
+            "note": "hoisin composition"
           }
         },
         {
@@ -6259,7 +6916,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "hoisin composition"
+            "ref": "hoisin composition",
+            "note": "hoisin composition"
           }
         },
         {
@@ -6267,7 +6925,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "hoisin composition"
+            "ref": "hoisin composition",
+            "note": "hoisin composition"
           }
         },
         {
@@ -6275,7 +6934,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "hoisin composition"
+            "ref": "hoisin composition",
+            "note": "hoisin composition"
           }
         },
         {
@@ -6327,6 +6987,7 @@
       }
     },
     "hollandaise": {
+      "key": "hollandaise",
       "components": [
         {
           "key": "egg",
@@ -6342,7 +7003,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "hollandaise composition"
+            "ref": "hollandaise composition",
+            "note": "hollandaise composition"
           }
         },
         {
@@ -6350,7 +7012,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "hollandaise composition"
+            "ref": "hollandaise composition",
+            "note": "hollandaise composition"
           }
         }
       ],
@@ -6439,6 +7102,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -6458,6 +7145,7 @@
       }
     },
     "honey": {
+      "key": "honey",
       "class": "insect-product",
       "diets": {
         "vegetarian": {
@@ -6495,13 +7183,15 @@
       }
     },
     "hummus": {
+      "key": "hummus",
       "components": [
         {
           "key": "chickpeas",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "hummus composition"
+            "ref": "hummus composition",
+            "note": "hummus composition"
           }
         },
         {
@@ -6518,7 +7208,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "hummus composition"
+            "ref": "hummus composition",
+            "note": "hummus composition"
           }
         },
         {
@@ -6526,7 +7217,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "hummus composition"
+            "ref": "hummus composition",
+            "note": "hummus composition"
           }
         },
         {
@@ -6534,7 +7226,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "hummus composition"
+            "ref": "hummus composition",
+            "note": "hummus composition"
           }
         },
         {
@@ -6542,7 +7235,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "hummus composition"
+            "ref": "hummus composition",
+            "note": "hummus composition"
           }
         }
       ],
@@ -6630,6 +7324,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -6649,6 +7367,7 @@
       }
     },
     "hydrolysed-plant-protein": {
+      "key": "hydrolysed-plant-protein",
       "class": "plant",
       "note": "may derive from soy, wheat, maize or rice depending on brand",
       "diets": {
@@ -6687,6 +7406,7 @@
       }
     },
     "khoya": {
+      "key": "khoya",
       "class": "dairy",
       "note": "reduced milk solids used in indian sweets",
       "allergens": {
@@ -6735,13 +7455,15 @@
       }
     },
     "kimchi": {
+      "key": "kimchi",
       "components": [
         {
           "key": "napa-cabbage",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "kimchi composition"
+            "ref": "kimchi composition",
+            "note": "kimchi composition"
           }
         },
         {
@@ -6749,7 +7471,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "kimchi composition"
+            "ref": "kimchi composition",
+            "note": "kimchi composition"
           }
         },
         {
@@ -6757,7 +7480,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "kimchi composition"
+            "ref": "kimchi composition",
+            "note": "kimchi composition"
           }
         },
         {
@@ -6797,9 +7521,28 @@
             "note": "component 'shrimp-part' is variable: some products carry this allergen, some do not"
           }
         }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
       }
     },
     "lactic-cultures": {
+      "key": "lactic-cultures",
       "class": "fungus",
       "diets": {
         "vegetarian": {
@@ -6837,6 +7580,7 @@
       }
     },
     "lamb": {
+      "key": "lamb",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -6866,6 +7610,7 @@
       }
     },
     "lard": {
+      "key": "lard",
       "components": [
         {
           "key": "pork-fat",
@@ -6961,6 +7706,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -6980,6 +7749,7 @@
       }
     },
     "lemon": {
+      "key": "lemon",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7017,6 +7787,7 @@
       }
     },
     "lemon-juice": {
+      "key": "lemon-juice",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7054,6 +7825,7 @@
       }
     },
     "lemon-zest": {
+      "key": "lemon-zest",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7091,6 +7863,7 @@
       }
     },
     "lettuce": {
+      "key": "lettuce",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7128,6 +7901,7 @@
       }
     },
     "lime": {
+      "key": "lime",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7165,6 +7939,7 @@
       }
     },
     "lime-juice": {
+      "key": "lime-juice",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7202,6 +7977,7 @@
       }
     },
     "lobster": {
+      "key": "lobster",
       "class": "shellfish",
       "allergens": {
         "crustaceanShellfish": {
@@ -7241,6 +8017,7 @@
       }
     },
     "macadamia": {
+      "key": "macadamia",
       "class": "plant",
       "allergens": {
         "treeNuts": {
@@ -7288,6 +8065,7 @@
       }
     },
     "mackerel": {
+      "key": "mackerel",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -7327,6 +8105,7 @@
       }
     },
     "malt-vinegar": {
+      "key": "malt-vinegar",
       "class": "plant",
       "note": "malt vinegar is brewed from barley; UK Worcestershire recipes use it, US ones distilled vinegar",
       "gluten": {
@@ -7381,6 +8160,7 @@
       }
     },
     "masa-harina": {
+      "key": "masa-harina",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7418,6 +8198,7 @@
       }
     },
     "mayonnaise": {
+      "key": "mayonnaise",
       "components": [
         {
           "key": "egg",
@@ -7442,7 +8223,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "mayonnaise composition"
+            "ref": "mayonnaise composition",
+            "note": "mayonnaise composition"
           }
         },
         {
@@ -7468,7 +8250,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "mayonnaise composition"
+            "ref": "mayonnaise composition",
+            "note": "mayonnaise composition"
           }
         }
       ],
@@ -7482,9 +8265,20 @@
             "note": "component 'egg' is a certain or typical ingredient"
           }
         }
+      },
+      "diets": {
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
       }
     },
     "milk": {
+      "key": "milk",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -7532,6 +8326,7 @@
       }
     },
     "milk-derivatives": {
+      "key": "milk-derivatives",
       "class": "dairy",
       "note": "some stock cube and bread brands include whey or lactose",
       "allergens": {
@@ -7580,6 +8375,7 @@
       }
     },
     "milk-powder": {
+      "key": "milk-powder",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -7627,6 +8423,7 @@
       }
     },
     "mint": {
+      "key": "mint",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7664,13 +8461,15 @@
       }
     },
     "mirin": {
+      "key": "mirin",
       "components": [
         {
           "key": "glutinous-rice",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "hon mirin composition"
+            "ref": "hon mirin composition",
+            "note": "hon mirin composition"
           }
         },
         {
@@ -7678,7 +8477,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "hon mirin composition"
+            "ref": "hon mirin composition",
+            "note": "hon mirin composition"
           }
         },
         {
@@ -7704,7 +8504,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "aji-mirin style"
+            "ref": "aji-mirin style",
+            "note": "aji-mirin style"
           }
         }
       ],
@@ -7793,6 +8594,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -7812,6 +8637,7 @@
       }
     },
     "miso": {
+      "key": "miso",
       "components": [
         {
           "key": "soybeans",
@@ -7836,7 +8662,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "miso composition"
+            "ref": "miso composition",
+            "note": "miso composition"
           }
         }
       ],
@@ -7853,6 +8680,7 @@
       }
     },
     "molasses": {
+      "key": "molasses",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -7890,6 +8718,7 @@
       }
     },
     "mole": {
+      "key": "mole",
       "components": [
         {
           "key": "chili-peppers",
@@ -7932,7 +8761,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "mole composition"
+            "ref": "mole composition",
+            "note": "mole composition"
           }
         },
         {
@@ -7940,7 +8770,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "mole composition"
+            "ref": "mole composition",
+            "note": "mole composition"
           }
         }
       ],
@@ -7971,9 +8802,20 @@
             "note": "component 'sesame-seeds' is a certain or typical ingredient"
           }
         }
+      },
+      "diets": {
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
       }
     },
     "monosodium-glutamate": {
+      "key": "monosodium-glutamate",
       "class": "mineral",
       "diets": {
         "vegetarian": {
@@ -8011,6 +8853,7 @@
       }
     },
     "monterey-jack": {
+      "key": "monterey-jack",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -8058,6 +8901,7 @@
       }
     },
     "mung-bean-sprouts": {
+      "key": "mung-bean-sprouts",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -8095,6 +8939,7 @@
       }
     },
     "mushroom": {
+      "key": "mushroom",
       "class": "fungus",
       "diets": {
         "vegetarian": {
@@ -8132,6 +8977,7 @@
       }
     },
     "mussel": {
+      "key": "mussel",
       "class": "shellfish",
       "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it",
       "diets": {
@@ -8162,6 +9008,7 @@
       }
     },
     "mustard": {
+      "key": "mustard",
       "class": "plant",
       "note": "mustard is an EU-declared allergen but not one of the nine FDA major allergens",
       "diets": {
@@ -8200,13 +9047,15 @@
       }
     },
     "naan": {
+      "key": "naan",
       "components": [
         {
           "key": "wheat-flour",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "naan composition"
+            "ref": "naan composition",
+            "note": "naan composition"
           }
         },
         {
@@ -8223,7 +9072,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "naan composition"
+            "ref": "naan composition",
+            "note": "naan composition"
           }
         },
         {
@@ -8240,7 +9090,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "naan composition"
+            "ref": "naan composition",
+            "note": "naan composition"
           }
         },
         {
@@ -8248,7 +9099,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "naan composition"
+            "ref": "naan composition",
+            "note": "naan composition"
           }
         },
         {
@@ -8256,7 +9108,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "naan composition"
+            "ref": "naan composition",
+            "note": "naan composition"
           }
         }
       ],
@@ -8296,6 +9149,14 @@
         }
       },
       "diets": {
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -8315,6 +9176,7 @@
       }
     },
     "napa-cabbage": {
+      "key": "napa-cabbage",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -8352,13 +9214,15 @@
       }
     },
     "oats": {
+      "key": "oats",
       "class": "plant",
       "note": "oats are gluten-free by nature but routinely cross-contacted; certification varies",
       "gluten": {
         "state": "unknown",
         "evidence": {
           "kind": "standard",
-          "ref": "gluten status varies"
+          "ref": "gluten status varies",
+          "note": "gluten status varies"
         }
       },
       "diets": {
@@ -8390,7 +9254,8 @@
           "state": "unknown",
           "evidence": {
             "kind": "standard",
-            "ref": "gluten status varies"
+            "ref": "gluten status varies",
+            "note": "gluten status varies"
           }
         },
         "dairyFree": {
@@ -8403,14 +9268,15 @@
         }
       },
       "forms": {
-        "certified-gluten-free": {
+        "oats-certified-gluten-free": {
+          "key": "oats-certified-gluten-free",
           "allergens": {
             "wheat": {
               "state": "free",
               "evidence": {
-                "kind": "standard",
-                "ref": "oats composition",
-                "note": "oats are not a wheat species; certified gluten-free oats carry no wheat ingredient (independent of the gluten question)"
+                "kind": "label",
+                "ref": "certified gluten-free oats label claim",
+                "note": "oats are not a wheat species and the certification excludes wheat grains (independent of the gluten question)"
               }
             }
           },
@@ -8436,6 +9302,7 @@
       }
     },
     "olive-oil": {
+      "key": "olive-oil",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -8473,6 +9340,7 @@
       }
     },
     "onion": {
+      "key": "onion",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -8510,6 +9378,7 @@
       }
     },
     "orzo": {
+      "key": "orzo",
       "components": [
         {
           "key": "durum-wheat-flour",
@@ -8606,6 +9475,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -8625,6 +9518,7 @@
       }
     },
     "oyster": {
+      "key": "oyster",
       "class": "shellfish",
       "note": "oysters are molluscs, not crustaceans; US FALCPA requires crustacean labelling only",
       "diets": {
@@ -8655,6 +9549,7 @@
       }
     },
     "oyster-sauce": {
+      "key": "oyster-sauce",
       "components": [
         {
           "key": "oyster",
@@ -8670,7 +9565,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "oyster sauce composition"
+            "ref": "oyster sauce composition",
+            "note": "oyster sauce composition"
           }
         },
         {
@@ -8678,7 +9574,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "oyster sauce composition"
+            "ref": "oyster sauce composition",
+            "note": "oyster sauce composition"
           }
         },
         {
@@ -8686,7 +9583,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "oyster sauce composition"
+            "ref": "oyster sauce composition",
+            "note": "oyster sauce composition"
           }
         },
         {
@@ -8694,7 +9592,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "oyster sauce composition"
+            "ref": "oyster sauce composition",
+            "note": "oyster sauce composition"
           }
         },
         {
@@ -8702,7 +9601,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "oyster sauce composition"
+            "ref": "oyster sauce composition",
+            "note": "oyster sauce composition"
           }
         },
         {
@@ -8733,9 +9633,28 @@
             "note": "component 'wheat' is variable: some products carry this allergen, some do not"
           }
         }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
       }
     },
     "palm-oil": {
+      "key": "palm-oil",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -8773,6 +9692,7 @@
       }
     },
     "paneer": {
+      "key": "paneer",
       "class": "dairy",
       "note": "acid-set with lemon juice or vinegar; standard paneer contains no rennet",
       "allergens": {
@@ -8821,6 +9741,7 @@
       }
     },
     "parmesan": {
+      "key": "parmesan",
       "components": [
         {
           "key": "milk",
@@ -8845,7 +9766,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "parmesan composition"
+            "ref": "parmesan composition",
+            "note": "parmesan composition"
           }
         }
       ],
@@ -8933,6 +9855,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -8952,6 +9898,7 @@
       }
     },
     "parsley": {
+      "key": "parsley",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -8989,6 +9936,7 @@
       }
     },
     "pasta": {
+      "key": "pasta",
       "components": [
         {
           "key": "durum-wheat-flour",
@@ -9004,7 +9952,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "dried pasta composition"
+            "ref": "dried pasta composition",
+            "note": "dried pasta composition"
           }
         }
       ],
@@ -9093,6 +10042,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -9112,6 +10085,7 @@
       }
     },
     "peanut-butter": {
+      "key": "peanut-butter",
       "components": [
         {
           "key": "peanuts-part",
@@ -9136,7 +10110,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "commercial peanut butter"
+            "ref": "commercial peanut butter",
+            "note": "commercial peanut butter"
           }
         },
         {
@@ -9144,7 +10119,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "commercial peanut butter"
+            "ref": "commercial peanut butter",
+            "note": "commercial peanut butter"
           }
         }
       ],
@@ -9233,6 +10209,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -9252,6 +10252,7 @@
       }
     },
     "peanut-oil": {
+      "key": "peanut-oil",
       "class": "plant",
       "note": "unrefined peanut oil contains peanut protein; refined peanut oil is FDA-exempt — kept 'contains' because unrefined forms exist",
       "allergens": {
@@ -9300,13 +10301,15 @@
       }
     },
     "peanut-sauce": {
+      "key": "peanut-sauce",
       "components": [
         {
           "key": "peanuts-part",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "peanut sauce composition"
+            "ref": "peanut sauce composition",
+            "note": "peanut sauce composition"
           }
         },
         {
@@ -9314,7 +10317,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "peanut sauce composition"
+            "ref": "peanut sauce composition",
+            "note": "peanut sauce composition"
           }
         },
         {
@@ -9331,7 +10335,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "peanut sauce composition"
+            "ref": "peanut sauce composition",
+            "note": "peanut sauce composition"
           }
         },
         {
@@ -9339,7 +10344,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "peanut sauce composition"
+            "ref": "peanut sauce composition",
+            "note": "peanut sauce composition"
           }
         }
       ],
@@ -9395,19 +10401,19 @@
           }
         },
         "wheat": {
-          "state": "free",
+          "state": "contains",
           "evidence": {
             "kind": "standard",
             "ref": "compound composition",
-            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+            "note": "component 'soy-sauce' is a certain or typical ingredient"
           }
         },
         "soy": {
-          "state": "free",
+          "state": "contains",
           "evidence": {
             "kind": "standard",
             "ref": "compound composition",
-            "note": "closed composition from certain/typical components: peanuts-part, coconut-milk, soy-sauce, sugar, salt; no source of this allergen"
+            "note": "component 'soy-sauce' is a certain or typical ingredient"
           }
         },
         "sesame": {
@@ -9420,20 +10426,44 @@
         }
       },
       "gluten": {
-        "state": "free",
+        "state": "contains",
         "evidence": {
           "kind": "standard",
-          "ref": "gluten is the protein of wheat, barley and rye",
-          "note": "closed composition (peanuts-part, coconut-milk, soy-sauce, sugar, salt); no gluten grain"
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
         }
       },
       "diets": {
-        "glutenFree": {
+        "vegetarian": {
           "state": "allowed",
           "evidence": {
             "kind": "standard",
-            "ref": "gluten is the protein of wheat, barley and rye",
-            "note": "closed composition (peanuts-part, coconut-milk, soy-sauce, sugar, salt); no gluten grain"
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
           }
         },
         "dairyFree": {
@@ -9447,6 +10477,7 @@
       }
     },
     "peanuts": {
+      "key": "peanuts",
       "class": "plant",
       "allergens": {
         "peanuts": {
@@ -9494,6 +10525,7 @@
       }
     },
     "peanuts-part": {
+      "key": "peanuts-part",
       "class": "plant",
       "allergens": {
         "peanuts": {
@@ -9541,6 +10573,7 @@
       }
     },
     "pecan": {
+      "key": "pecan",
       "class": "plant",
       "allergens": {
         "treeNuts": {
@@ -9588,13 +10621,15 @@
       }
     },
     "pesto": {
+      "key": "pesto",
       "components": [
         {
           "key": "basil",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "pesto alla genovese"
+            "ref": "pesto alla genovese",
+            "note": "pesto alla genovese"
           }
         },
         {
@@ -9620,7 +10655,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "pesto alla genovese"
+            "ref": "pesto alla genovese",
+            "note": "pesto alla genovese"
           }
         },
         {
@@ -9628,7 +10664,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "pesto alla genovese"
+            "ref": "pesto alla genovese",
+            "note": "pesto alla genovese"
           }
         },
         {
@@ -9636,18 +10673,19 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "pesto alla genovese"
+            "ref": "pesto alla genovese",
+            "note": "pesto alla genovese"
           }
         }
       ],
       "compositionComplete": true,
       "allergens": {
         "milk": {
-          "state": "free",
+          "state": "contains",
           "evidence": {
             "kind": "standard",
             "ref": "compound composition",
-            "note": "closed composition from certain/typical components: basil, pine-nuts, parmesan, olive-oil, garlic, salt; no source of this allergen"
+            "note": "component 'parmesan' is a certain or typical ingredient"
           }
         },
         "egg": {
@@ -9724,6 +10762,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -9733,16 +10795,17 @@
           }
         },
         "dairyFree": {
-          "state": "allowed",
+          "state": "violated",
           "evidence": {
             "kind": "standard",
             "ref": "compound composition",
-            "note": "closed composition from certain/typical components: basil, pine-nuts, parmesan, olive-oil, garlic, salt; no source of this allergen"
+            "note": "component 'parmesan' is a certain or typical ingredient"
           }
         }
       }
     },
     "pine-nuts": {
+      "key": "pine-nuts",
       "class": "plant",
       "allergens": {
         "treeNuts": {
@@ -9790,6 +10853,7 @@
       }
     },
     "pistachio": {
+      "key": "pistachio",
       "class": "plant",
       "allergens": {
         "treeNuts": {
@@ -9837,13 +10901,15 @@
       }
     },
     "pitta": {
+      "key": "pitta",
       "components": [
         {
           "key": "wheat-flour",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "pitta composition"
+            "ref": "pitta composition",
+            "note": "pitta composition"
           }
         },
         {
@@ -9851,7 +10917,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "pitta composition"
+            "ref": "pitta composition",
+            "note": "pitta composition"
           }
         },
         {
@@ -9859,7 +10926,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "pitta composition"
+            "ref": "pitta composition",
+            "note": "pitta composition"
           }
         },
         {
@@ -9867,7 +10935,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "pitta composition"
+            "ref": "pitta composition",
+            "note": "pitta composition"
           }
         },
         {
@@ -9875,7 +10944,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "pitta composition"
+            "ref": "pitta composition",
+            "note": "pitta composition"
           }
         },
         {
@@ -9916,6 +10986,14 @@
         }
       },
       "diets": {
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -9927,6 +11005,7 @@
       }
     },
     "polenta": {
+      "key": "polenta",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -9964,6 +11043,7 @@
       }
     },
     "pork": {
+      "key": "pork",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -9993,6 +11073,7 @@
       }
     },
     "pork-chop": {
+      "key": "pork-chop",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -10022,6 +11103,7 @@
       }
     },
     "pork-fat": {
+      "key": "pork-fat",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -10051,6 +11133,7 @@
       }
     },
     "pork-shoulder": {
+      "key": "pork-shoulder",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -10080,6 +11163,7 @@
       }
     },
     "pork-tenderloin": {
+      "key": "pork-tenderloin",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -10109,6 +11193,7 @@
       }
     },
     "potato": {
+      "key": "potato",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -10146,6 +11231,7 @@
       }
     },
     "queso-fresco": {
+      "key": "queso-fresco",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -10193,6 +11279,7 @@
       }
     },
     "quinoa": {
+      "key": "quinoa",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -10230,13 +11317,15 @@
       }
     },
     "raita": {
+      "key": "raita",
       "components": [
         {
           "key": "yogurt-part",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "raita composition"
+            "ref": "raita composition",
+            "note": "raita composition"
           }
         },
         {
@@ -10244,7 +11333,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "raita composition"
+            "ref": "raita composition",
+            "note": "raita composition"
           }
         },
         {
@@ -10252,7 +11342,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "raita composition"
+            "ref": "raita composition",
+            "note": "raita composition"
           }
         },
         {
@@ -10260,7 +11351,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "raita composition"
+            "ref": "raita composition",
+            "note": "raita composition"
           }
         }
       ],
@@ -10348,6 +11440,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -10367,6 +11483,7 @@
       }
     },
     "rapeseed-oil": {
+      "key": "rapeseed-oil",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -10404,6 +11521,7 @@
       }
     },
     "red-pepper-flakes": {
+      "key": "red-pepper-flakes",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -10441,6 +11559,7 @@
       }
     },
     "red-wine-vinegar": {
+      "key": "red-wine-vinegar",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -10478,6 +11597,7 @@
       }
     },
     "rice": {
+      "key": "rice",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -10515,6 +11635,7 @@
       }
     },
     "rice-flour": {
+      "key": "rice-flour",
       "class": "plant",
       "note": "rice contains no gluten grain",
       "gluten": {
@@ -10569,6 +11690,7 @@
       }
     },
     "rice-koji": {
+      "key": "rice-koji",
       "class": "fungus",
       "note": "standard koji is grown on rice; barley koji (mugi) is a variant",
       "diets": {
@@ -10607,13 +11729,15 @@
       }
     },
     "rice-noodles": {
+      "key": "rice-noodles",
       "components": [
         {
           "key": "rice",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "rice noodle composition"
+            "ref": "rice noodle composition",
+            "note": "rice noodle composition"
           }
         },
         {
@@ -10621,7 +11745,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "rice noodle composition"
+            "ref": "rice noodle composition",
+            "note": "rice noodle composition"
           }
         }
       ],
@@ -10709,6 +11834,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -10728,6 +11877,7 @@
       }
     },
     "rice-vinegar": {
+      "key": "rice-vinegar",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -10765,6 +11915,7 @@
       }
     },
     "ricotta": {
+      "key": "ricotta",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -10812,6 +11963,7 @@
       }
     },
     "rye-flour": {
+      "key": "rye-flour",
       "class": "plant",
       "note": "rye carries gluten but is not wheat",
       "gluten": {
@@ -10866,6 +12018,7 @@
       }
     },
     "salmon": {
+      "key": "salmon",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -10905,6 +12058,7 @@
       }
     },
     "salt": {
+      "key": "salt",
       "class": "mineral",
       "diets": {
         "vegetarian": {
@@ -10942,6 +12096,7 @@
       }
     },
     "sardine": {
+      "key": "sardine",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -10981,6 +12136,7 @@
       }
     },
     "satay": {
+      "key": "satay",
       "components": [
         {
           "key": "peanuts-part",
@@ -11020,10 +12176,69 @@
             "ref": "compound composition",
             "note": "component 'peanuts-part' is a certain or typical ingredient"
           }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soy-sauce' is a certain or typical ingredient"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soy-sauce' is a certain or typical ingredient"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
+          }
         }
       }
     },
     "sausage": {
+      "key": "sausage",
       "class": "meat",
       "note": "generic sausage: meat species and fillers vary by product",
       "diets": {
@@ -11054,6 +12269,7 @@
       }
     },
     "scallop": {
+      "key": "scallop",
       "class": "shellfish",
       "note": "molluscan bivalve: FALCPA does not list molluscs among the nine major allergens, but shellfish allergy covers them; declared unknown pending user confirmation",
       "diets": {
@@ -11084,6 +12300,7 @@
       }
     },
     "semolina": {
+      "key": "semolina",
       "class": "plant",
       "allergens": {
         "wheat": {
@@ -11147,6 +12364,7 @@
       }
     },
     "sesame-oil": {
+      "key": "sesame-oil",
       "class": "plant",
       "allergens": {
         "sesame": {
@@ -11194,6 +12412,7 @@
       }
     },
     "sesame-seeds": {
+      "key": "sesame-seeds",
       "class": "plant",
       "allergens": {
         "sesame": {
@@ -11241,6 +12460,7 @@
       }
     },
     "shrimp": {
+      "key": "shrimp",
       "class": "shellfish",
       "allergens": {
         "crustaceanShellfish": {
@@ -11280,6 +12500,7 @@
       }
     },
     "shrimp-part": {
+      "key": "shrimp-part",
       "class": "shellfish",
       "allergens": {
         "crustaceanShellfish": {
@@ -11319,6 +12540,7 @@
       }
     },
     "shrimp-paste": {
+      "key": "shrimp-paste",
       "components": [
         {
           "key": "shrimp-part",
@@ -11334,7 +12556,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "shrimp paste composition"
+            "ref": "shrimp paste composition",
+            "note": "shrimp paste composition"
           }
         }
       ],
@@ -11423,6 +12646,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -11442,6 +12689,7 @@
       }
     },
     "shrimp-stock": {
+      "key": "shrimp-stock",
       "class": "shellfish",
       "note": "shrimp stock is shellfish-based by definition",
       "allergens": {
@@ -11482,6 +12730,7 @@
       }
     },
     "smoked-salmon": {
+      "key": "smoked-salmon",
       "class": "fish",
       "note": "curing/serving temperature is a food-safety question, not an allergen one",
       "allergens": {
@@ -11522,6 +12771,7 @@
       }
     },
     "sour-cream": {
+      "key": "sour-cream",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -11569,6 +12819,7 @@
       }
     },
     "sour-orange-juice": {
+      "key": "sour-orange-juice",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -11606,13 +12857,15 @@
       }
     },
     "soy-milk": {
+      "key": "soy-milk",
       "components": [
         {
           "key": "soybeans",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "soy milk composition"
+            "ref": "soy milk composition",
+            "note": "soy milk composition"
           }
         },
         {
@@ -11620,7 +12873,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "soy milk composition"
+            "ref": "soy milk composition",
+            "note": "soy milk composition"
           }
         }
       ],
@@ -11709,6 +12963,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -11728,6 +13006,7 @@
       }
     },
     "soy-sauce": {
+      "key": "soy-sauce",
       "components": [
         {
           "key": "soybeans",
@@ -11752,7 +13031,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "brine fermentation"
+            "ref": "brine fermentation",
+            "note": "brine fermentation"
           }
         },
         {
@@ -11760,7 +13040,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "brine fermentation"
+            "ref": "brine fermentation",
+            "note": "brine fermentation"
           }
         }
       ],
@@ -11849,6 +13130,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -11868,6 +13173,7 @@
       }
     },
     "soya-flour": {
+      "key": "soya-flour",
       "class": "plant",
       "allergens": {
         "soy": {
@@ -11915,6 +13221,7 @@
       }
     },
     "soybean-oil-refined": {
+      "key": "soybean-oil-refined",
       "class": "plant",
       "note": "refined soybean oil is exempt from US soy allergen labeling (FDA FALCPA exemption; protein removed)",
       "diets": {
@@ -11953,6 +13260,7 @@
       }
     },
     "soybeans": {
+      "key": "soybeans",
       "class": "plant",
       "allergens": {
         "soy": {
@@ -12000,6 +13308,7 @@
       }
     },
     "spelt": {
+      "key": "spelt",
       "class": "plant",
       "note": "spelt is Triticum aestivum subsp. spelta, a wheat species",
       "allergens": {
@@ -12064,6 +13373,7 @@
       }
     },
     "spices": {
+      "key": "spices",
       "class": "plant",
       "note": "whole or ground single spices; anti-caking agents in jarred blends are the variable part",
       "diets": {
@@ -12102,6 +13412,7 @@
       }
     },
     "spicy-mayo": {
+      "key": "spicy-mayo",
       "components": [
         {
           "key": "mayonnaise",
@@ -12117,13 +13428,35 @@
           "certainty": "typical",
           "evidence": {
             "kind": "recipe",
-            "ref": "bundled recipe step 'spicy mayo'"
+            "ref": "bundled recipe step 'spicy mayo'",
+            "note": "bundled recipe step 'spicy mayo'"
           }
         }
       ],
-      "compositionComplete": false
+      "compositionComplete": false,
+      "allergens": {
+        "egg": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'mayonnaise' is a certain or typical ingredient"
+          }
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
+      }
     },
     "spinach": {
+      "key": "spinach",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -12161,13 +13494,15 @@
       }
     },
     "sriracha": {
+      "key": "sriracha",
       "components": [
         {
           "key": "chili-peppers",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "sriracha composition"
+            "ref": "sriracha composition",
+            "note": "sriracha composition"
           }
         },
         {
@@ -12175,7 +13510,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "sriracha composition"
+            "ref": "sriracha composition",
+            "note": "sriracha composition"
           }
         },
         {
@@ -12183,7 +13519,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "sriracha composition"
+            "ref": "sriracha composition",
+            "note": "sriracha composition"
           }
         },
         {
@@ -12191,7 +13528,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "sriracha composition"
+            "ref": "sriracha composition",
+            "note": "sriracha composition"
           }
         },
         {
@@ -12199,7 +13537,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "sriracha composition"
+            "ref": "sriracha composition",
+            "note": "sriracha composition"
           }
         }
       ],
@@ -12287,6 +13626,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -12306,6 +13669,7 @@
       }
     },
     "ssamjang": {
+      "key": "ssamjang",
       "components": [
         {
           "key": "doenjang",
@@ -12321,7 +13685,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "ssamjang composition"
+            "ref": "ssamjang composition",
+            "note": "ssamjang composition"
           }
         },
         {
@@ -12329,7 +13694,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "ssamjang composition"
+            "ref": "ssamjang composition",
+            "note": "ssamjang composition"
           }
         },
         {
@@ -12337,13 +13703,22 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "ssamjang composition"
+            "ref": "ssamjang composition",
+            "note": "ssamjang composition"
           }
         }
       ],
       "compositionComplete": false,
       "note": "brand blends vary; some contain sugar or MSG",
       "allergens": {
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'doenjang' is a certain or typical ingredient"
+          }
+        },
         "sesame": {
           "state": "contains",
           "evidence": {
@@ -12355,6 +13730,7 @@
       }
     },
     "steak": {
+      "key": "steak",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -12384,6 +13760,7 @@
       }
     },
     "stock-additives": {
+      "key": "stock-additives",
       "class": "mineral",
       "note": "commercial stocks list unspecific additives; sources vary by brand",
       "diets": {
@@ -12422,6 +13799,7 @@
       }
     },
     "stock-cube": {
+      "key": "stock-cube",
       "components": [
         {
           "key": "salt",
@@ -12479,9 +13857,20 @@
             "note": "component 'milk-derivatives' is variable: some products carry this allergen, some do not"
           }
         }
+      },
+      "diets": {
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
       }
     },
     "sugar": {
+      "key": "sugar",
       "class": "plant",
       "note": "sucrose from cane or beet; vegan-ingredient-wise, though some refining uses bone char filtration",
       "diets": {
@@ -12520,6 +13909,7 @@
       }
     },
     "sunflower-oil": {
+      "key": "sunflower-oil",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -12557,6 +13947,7 @@
       }
     },
     "sweet-potato": {
+      "key": "sweet-potato",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -12594,6 +13985,7 @@
       }
     },
     "taco-shells": {
+      "key": "taco-shells",
       "components": [
         {
           "key": "masa-harina",
@@ -12618,7 +14010,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "taco shell composition"
+            "ref": "taco shell composition",
+            "note": "taco shell composition"
           }
         }
       ],
@@ -12706,6 +14099,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -12725,6 +14142,7 @@
       }
     },
     "tahini": {
+      "key": "tahini",
       "class": "plant",
       "allergens": {
         "sesame": {
@@ -12772,6 +14190,7 @@
       }
     },
     "tamari": {
+      "key": "tamari",
       "components": [
         {
           "key": "soybeans",
@@ -12804,8 +14223,35 @@
           }
         }
       },
+      "diets": {
+        "vegetarian": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
+      },
       "forms": {
-        "certified-gluten-free": {
+        "tamari-certified-gluten-free": {
+          "key": "tamari-certified-gluten-free",
           "allergens": {
             "wheat": {
               "state": "unknown",
@@ -12838,6 +14284,7 @@
       }
     },
     "tempeh": {
+      "key": "tempeh",
       "components": [
         {
           "key": "soybeans",
@@ -12934,6 +14381,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -12953,6 +14424,7 @@
       }
     },
     "teriyaki": {
+      "key": "teriyaki",
       "components": [
         {
           "key": "soy-sauce",
@@ -12968,7 +14440,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "teriyaki composition"
+            "ref": "teriyaki composition",
+            "note": "teriyaki composition"
           }
         },
         {
@@ -12976,21 +14449,60 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "teriyaki composition"
+            "ref": "teriyaki composition",
+            "note": "teriyaki composition"
           }
         }
       ],
       "compositionComplete": false,
-      "note": "thickeners (corn starch) vary; some bottled teriyaki contains sesame oil"
+      "note": "thickeners (corn starch) vary; some bottled teriyaki contains sesame oil",
+      "allergens": {
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soy-sauce' is a certain or typical ingredient"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'soy-sauce' is a certain or typical ingredient"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "standard",
+          "ref": "compound composition",
+          "note": "gluten via certain/typical component 'wheat'"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "gluten via certain/typical component 'wheat'"
+          }
+        }
+      }
     },
     "thai-curry-paste": {
+      "key": "thai-curry-paste",
       "components": [
         {
           "key": "chili-peppers",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "thai curry paste composition"
+            "ref": "thai curry paste composition",
+            "note": "thai curry paste composition"
           }
         },
         {
@@ -13007,7 +14519,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "thai curry paste composition"
+            "ref": "thai curry paste composition",
+            "note": "thai curry paste composition"
           }
         },
         {
@@ -13021,9 +14534,38 @@
         }
       ],
       "compositionComplete": false,
-      "note": "color and heat vary by curry type (red/green/yellow)"
+      "note": "color and heat vary by curry type (red/green/yellow)",
+      "allergens": {
+        "crustaceanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "component 'shrimp-paste' is a certain or typical ingredient"
+          }
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
+      }
     },
     "tofu": {
+      "key": "tofu",
       "components": [
         {
           "key": "soybeans",
@@ -13039,7 +14581,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "tofu composition"
+            "ref": "tofu composition",
+            "note": "tofu composition"
           }
         },
         {
@@ -13136,6 +14679,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -13155,6 +14722,7 @@
       }
     },
     "tomato": {
+      "key": "tomato",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -13192,6 +14760,7 @@
       }
     },
     "tomato-paste": {
+      "key": "tomato-paste",
       "components": [
         {
           "key": "tomato",
@@ -13296,6 +14865,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -13315,13 +14908,15 @@
       }
     },
     "tomato-sauce": {
+      "key": "tomato-sauce",
       "components": [
         {
           "key": "tomato",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "tomato sauce composition"
+            "ref": "tomato sauce composition",
+            "note": "tomato sauce composition"
           }
         },
         {
@@ -13329,7 +14924,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "tomato sauce composition"
+            "ref": "tomato sauce composition",
+            "note": "tomato sauce composition"
           }
         }
       ],
@@ -13417,6 +15013,30 @@
         }
       },
       "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "pescatarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "allowed",
           "evidence": {
@@ -13436,6 +15056,7 @@
       }
     },
     "tortilla": {
+      "key": "tortilla",
       "components": [],
       "compositionComplete": false,
       "note": "generic tortilla; corn and flour forms are separate entries",
@@ -13477,6 +15098,7 @@
       }
     },
     "trout": {
+      "key": "trout",
       "class": "fish",
       "allergens": {
         "fish": {
@@ -13516,6 +15138,7 @@
       }
     },
     "tuna": {
+      "key": "tuna",
       "class": "fish",
       "note": "generic tuna covers fresh steaks and canned; canned tuna is a separate entry",
       "allergens": {
@@ -13556,6 +15179,7 @@
       }
     },
     "turkey": {
+      "key": "turkey",
       "class": "meat",
       "diets": {
         "vegetarian": {
@@ -13585,6 +15209,7 @@
       }
     },
     "urad-flour": {
+      "key": "urad-flour",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -13622,6 +15247,7 @@
       }
     },
     "vegetable-oil-blend": {
+      "key": "vegetable-oil-blend",
       "class": "plant",
       "note": "blend of seed oils; specific blend varies by brand (refined oils are FDA-exempt from soy labeling)",
       "diets": {
@@ -13660,6 +15286,7 @@
       }
     },
     "vegetable-stock": {
+      "key": "vegetable-stock",
       "components": [
         {
           "key": "vegetables-mixed",
@@ -13675,7 +15302,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "stock composition"
+            "ref": "stock composition",
+            "note": "stock composition"
           }
         },
         {
@@ -13692,6 +15320,7 @@
       "note": "homemade vegetable stock is vegan; commercial cubes vary, so diet facts stay unknown"
     },
     "vegetables-mixed": {
+      "key": "vegetables-mixed",
       "class": "plant",
       "diets": {
         "vegetarian": {
@@ -13729,13 +15358,15 @@
       }
     },
     "vinegar": {
+      "key": "vinegar",
       "class": "plant",
       "note": "generic vinegar: distilled/spirit vinegar is gluten-free, malt vinegar is not; variety varies by product",
       "gluten": {
         "state": "unknown",
         "evidence": {
           "kind": "standard",
-          "ref": "gluten status varies"
+          "ref": "gluten status varies",
+          "note": "gluten status varies"
         }
       },
       "diets": {
@@ -13767,7 +15398,8 @@
           "state": "unknown",
           "evidence": {
             "kind": "standard",
-            "ref": "gluten status varies"
+            "ref": "gluten status varies",
+            "note": "gluten status varies"
           }
         },
         "dairyFree": {
@@ -13781,6 +15413,7 @@
       }
     },
     "walnuts": {
+      "key": "walnuts",
       "class": "plant",
       "allergens": {
         "treeNuts": {
@@ -13828,6 +15461,7 @@
       }
     },
     "water": {
+      "key": "water",
       "class": "mineral",
       "diets": {
         "vegetarian": {
@@ -13865,6 +15499,7 @@
       }
     },
     "wheat": {
+      "key": "wheat",
       "class": "plant",
       "note": "wheat grain: FDA major allergen wheat, and a gluten source",
       "allergens": {
@@ -13929,6 +15564,7 @@
       }
     },
     "wheat-flour": {
+      "key": "wheat-flour",
       "class": "plant",
       "allergens": {
         "wheat": {
@@ -13992,6 +15628,7 @@
       }
     },
     "wheat-starch": {
+      "key": "wheat-starch",
       "class": "plant",
       "note": "wheat-derived and processed to remove gluten; FDA permits it in gluten-free-labeled foods, but a wheat allergy still avoids it (declared wheat ingredient)",
       "allergens": {
@@ -14008,7 +15645,8 @@
         "state": "unknown",
         "evidence": {
           "kind": "standard",
-          "ref": "gluten status varies"
+          "ref": "gluten status varies",
+          "note": "gluten status varies"
         }
       },
       "diets": {
@@ -14040,7 +15678,8 @@
           "state": "unknown",
           "evidence": {
             "kind": "standard",
-            "ref": "gluten status varies"
+            "ref": "gluten status varies",
+            "note": "gluten status varies"
           }
         },
         "dairyFree": {
@@ -14054,6 +15693,7 @@
       }
     },
     "whey": {
+      "key": "whey",
       "class": "dairy",
       "note": "milk-derived protein",
       "allergens": {
@@ -14102,6 +15742,7 @@
       }
     },
     "whitefish": {
+      "key": "whitefish",
       "class": "fish",
       "note": "generic white-fleshed fish; species varies",
       "allergens": {
@@ -14142,13 +15783,15 @@
       }
     },
     "wonton-wrappers": {
+      "key": "wonton-wrappers",
       "components": [
         {
           "key": "wheat-flour",
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "wonton wrapper composition"
+            "ref": "wonton wrapper composition",
+            "note": "wonton wrapper composition"
           }
         },
         {
@@ -14156,7 +15799,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "wonton wrapper composition"
+            "ref": "wonton wrapper composition",
+            "note": "wonton wrapper composition"
           }
         },
         {
@@ -14173,7 +15817,8 @@
           "certainty": "certain",
           "evidence": {
             "kind": "standard",
-            "ref": "wonton wrapper composition"
+            "ref": "wonton wrapper composition",
+            "note": "wonton wrapper composition"
           }
         }
       ],
@@ -14206,6 +15851,14 @@
         }
       },
       "diets": {
+        "vegan": {
+          "state": "unknown",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
         "glutenFree": {
           "state": "violated",
           "evidence": {
@@ -14217,6 +15870,7 @@
       }
     },
     "worcestershire-sauce": {
+      "key": "worcestershire-sauce",
       "components": [
         {
           "key": "anchovy",
@@ -14250,7 +15904,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "Worcestershire sauce composition"
+            "ref": "Worcestershire sauce composition",
+            "note": "Worcestershire sauce composition"
           }
         },
         {
@@ -14258,7 +15913,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "Worcestershire sauce composition"
+            "ref": "Worcestershire sauce composition",
+            "note": "Worcestershire sauce composition"
           }
         },
         {
@@ -14266,7 +15922,8 @@
           "certainty": "typical",
           "evidence": {
             "kind": "standard",
-            "ref": "Worcestershire sauce composition"
+            "ref": "Worcestershire sauce composition",
+            "note": "Worcestershire sauce composition"
           }
         }
       ],
@@ -14280,9 +15937,28 @@
             "note": "component 'anchovy' is a certain or typical ingredient"
           }
         }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "standard",
+            "ref": "compound composition",
+            "note": "diet implication of the components (certainty-weighted)"
+          }
+        }
       }
     },
     "yeast": {
+      "key": "yeast",
       "class": "fungus",
       "diets": {
         "vegetarian": {
@@ -14320,6 +15996,7 @@
       }
     },
     "yogurt": {
+      "key": "yogurt",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -14367,6 +16044,7 @@
       }
     },
     "yogurt-part": {
+      "key": "yogurt-part",
       "class": "dairy",
       "allergens": {
         "milk": {
@@ -14414,6 +16092,7 @@
       }
     },
     "zucchini": {
+      "key": "zucchini",
       "class": "plant",
       "diets": {
         "vegetarian": {

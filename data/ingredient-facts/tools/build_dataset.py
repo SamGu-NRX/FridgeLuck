@@ -45,12 +45,12 @@ APP_LOCAL_IDS = {
 # Evidence constructors.
 
 def ev(kind, ref=None, note=None):
-    e = {"kind": kind}
-    if ref is not None:
-        e["ref"] = ref
-    if note is not None:
-        e["note"] = note
-    return e
+    # The pinned evidence payload always carries kind, ref and note.
+    if ref is None:
+        ref = kind
+    if note is None:
+        note = ref
+    return {"kind": kind, "ref": ref, "note": note}
 
 
 def usda(fdc, row, note="matched catalog row"):
@@ -286,9 +286,9 @@ simple("oats", "Oats", "plant", synonyms=["rolled oats", "porridge oats", "oatme
            "name": "certified-gluten-free",
            "matchNames": ["certified gluten-free oats", "gluten-free oats", "gluten free oats",
                           "certified gluten free oats", "gf oats"],
-           "allergens": {"wheat": f("free", "standard", "oats composition",
-                                    "oats are not a wheat species; certified gluten-free oats carry no "
-                                    "wheat ingredient (independent of the gluten question)")},
+           "allergens": {"wheat": f("free", "label", "certified gluten-free oats label claim",
+                                    "oats are not a wheat species and the certification excludes wheat "
+                                    "grains (independent of the gluten question)")},
            "gluten": f("free", "label", "certified gluten-free oats label claim",
                        "certified gluten-free: gluten below 20 ppm (21 CFR 101.100)"),
            "diets": {"glutenFree": f("allowed", "label", "certified gluten-free oats label claim",
@@ -870,7 +870,7 @@ compound("stock-cube", "Stock cube (bouillon)", [
     comp("fat-source-varies", "variable", ev("standard", "stock cube composition varies by brand",
           "the fat may be vegetable or animal (some brands use lard)")),
 ], composition_complete=False,
-    synonyms=["bouillon", "bouillon cube", "bouillon powder", "stock pot", "stock cubes"])
+    synonyms=["stock cube", "stock cubes", "bouillon", "bouillon cube", "bouillon powder", "stock pot"])
 
 # extra parts introduced above
 part("peanuts-part", "Peanuts", "plant", contains=["peanuts"])
@@ -1207,8 +1207,29 @@ for e in ENTRIES:
         CONTAINS_INDEX[e["key"]] = set(e["contains"])
 
 def carried_allergens(component_key: str) -> set[str]:
-    """Allergens a certain/typical component carries (directly)."""
-    return CONTAINS_INDEX.get(component_key, set())
+    """Allergens a component carries, transitively over certain/typical edges.
+
+    A compound component carries what its certain/typical components carry
+    (e.g. pesto -> parmesan -> milk), so allergen propagation never reads a
+    compound as allergen-free while a nested component still carries one.
+    """
+    if component_key in CARRIED_MEMO:
+        return CARRIED_MEMO[component_key]
+    if component_key in CARRIED_VISITING:
+        return set()  # cycle: validate() reports it separately
+    CARRIED_VISITING.add(component_key)
+    entry = ENTRY_INDEX.get(component_key)
+    result: set[str] = set(entry["contains"]) if entry else set()
+    for component in (entry["components"] if entry else None) or []:
+        if component["certainty"] in ("certain", "typical"):
+            result |= carried_allergens(component["key"])
+    CARRIED_VISITING.discard(component_key)
+    CARRIED_MEMO[component_key] = result
+    return result
+
+
+CARRIED_MEMO: dict[str, set[str]] = {}
+CARRIED_VISITING: set[str] = set()
 
 
 ENTRY_INDEX = {e["key"]: e for e in ENTRIES}
@@ -1232,14 +1253,14 @@ def diet_implication(key: str) -> dict[str, str]:
         ranks = {"allowed": 0, "unknown": 1, "violated": 2}
         best = {"vegetarian": "allowed", "vegan": "allowed", "pescatarian": "allowed"}
         for c in e["components"]:
-            if c["certainty"] == "unknown":
-                continue
             imp = diet_implication(c["key"])
             variable = c["certainty"] not in ("certain", "typical")
             for d in best:
                 state = imp[d]
-                if state == "allowed" and variable:
-                    state = "unknown"          # variable component: presence varies
+                if state == "violated" and variable:
+                    state = "unknown"          # only some products carry it
+                if c["certainty"] == "unknown" and ranks[state] < ranks["unknown"]:
+                    state = "unknown"          # presence itself unverified
                 if ranks[state] > ranks[best[d]]:
                     best[d] = state
         out = best
@@ -1249,6 +1270,7 @@ def diet_implication(key: str) -> dict[str, str]:
 
 def derive(entry: dict) -> dict:
     facts: dict = {}
+    facts["key"] = entry["key"]
     if entry["cls"] is not None:
         facts["class"] = entry["cls"]
     if entry["components"] is not None:
@@ -1347,7 +1369,18 @@ def derive(entry: dict) -> dict:
         for diet in ("vegetarian", "vegan", "pescatarian"):
             if diet in entry["diet_overrides"]:
                 diets[diet] = entry["diet_overrides"][diet]
-        # else: no diet facts -> evaluation fails closed
+        # Compounds: component classes imply the animal-product diets; emit the
+        # implied facts so consumers do not re-derive them (fail closed above
+        # when composition leaves the diet undecided).
+        implied = diet_implication(entry["key"])
+        for diet in ("vegetarian", "vegan", "pescatarian"):
+            if diet in diets:
+                continue
+            state = implied[diet]
+            if state == "allowed" and not entry["composition_complete"]:
+                continue  # incomplete composition: no component-free claim
+            diets[diet] = f(state, "standard", "compound composition",
+                            "diet implication of the components (certainty-weighted)")
 
     # glutenFree: derived from the gluten + wheat facts (never from the class)
     if "glutenFree" in entry["diet_overrides"]:
@@ -1382,7 +1415,10 @@ def derive(entry: dict) -> dict:
 
     if entry["forms"]:
         facts["forms"] = {
-            fm["name"]: {k: fm[k] for k in ("allergens", "gluten", "diets") if k in fm}
+            f"{entry['key']}-{fm['name']}": {
+                "key": f"{entry['key']}-{fm['name']}",
+                **{k: fm[k] for k in ("allergens", "gluten", "diets") if k in fm}
+            }
             for fm in entry["forms"]
         }
     return facts
@@ -1408,7 +1444,7 @@ def build_identities() -> dict:
             identity["appLocalIds"] = [int(APP_LOCAL_IDS[e["key"]])]
         if e["forms"]:
             identity["forms"] = [
-                {"key": fm["name"],
+                {"key": f"{e['key']}-{fm['name']}",
                  "display": f"{e['display']} ({fm['name'].replace('-', ' ')})",
                  "synonyms": sorted(set(fm["matchNames"]))}
                 for fm in e["forms"]
@@ -1422,6 +1458,8 @@ def build_identities() -> dict:
 def build_facts() -> dict:
     facts = {}
     for e in sorted(ENTRIES, key=lambda x: x["key"]):
+        if e["key"] == "artisan-granola-bar":
+            continue  # deliberate fail-closed exemplar: identity without facts
         facts[e["key"]] = derive(e)
     return {"version": 1, "facts": facts}
 

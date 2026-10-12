@@ -1218,7 +1218,7 @@
       ],
       "forms": [
         {
-          "key": "certified-gluten-free",
+          "key": "oats-certified-gluten-free",
           "display": "Oats (certified gluten free)",
           "synonyms": [
             "certified gluten free oats",
@@ -1760,6 +1760,7 @@
         "bouillon",
         "bouillon cube",
         "bouillon powder",
+        "stock cube",
         "stock cubes",
         "stock pot"
       ]
@@ -1809,7 +1810,7 @@
       "usdaNote": "catalog display name 'Soy Sauce (Tamari)' — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "forms": [
         {
-          "key": "certified-gluten-free",
+          "key": "tamari-certified-gluten-free",
           "display": "Tamari (certified gluten free)",
           "synonyms": [
             "certified gluten free tamari",
