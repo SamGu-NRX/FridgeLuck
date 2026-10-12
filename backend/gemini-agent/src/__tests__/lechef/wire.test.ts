@@ -102,7 +102,7 @@ describe("wire: timestamps decode from any ISO 8601 producer and encode canonica
   });
 
   it("decodes numeric UTC offsets, with and without a colon in the offset", () => {
-    // 14:00+02:00 and 06:30-05:30 are both 12:00 UTC.
+    // 14:00+02:00 is 12:00 UTC; 07:00-05:30 is 12:30 UTC, the receipt’s recordedAt.
     expect(parseActionProposalWire(proposalWith({ createdAt: "2026-10-11T14:00:00+02:00" })).createdAt).toBe(
       PROPOSAL_CREATED_AT
     );
@@ -112,7 +112,7 @@ describe("wire: timestamps decode from any ISO 8601 producer and encode canonica
     expect(
       parseActionReceiptWire({
         ...JSON.parse(RECEIPT_BYTES),
-        recordedAt: "2026-10-11T06:30:00-05:30"
+        recordedAt: "2026-10-11T07:00:00-05:30"
       }).recordedAt
     ).toBe(RECORDED_AT);
   });

@@ -296,6 +296,20 @@ describe("fit: uncertainty is preserved (review fix 6)", () => {
     const fit = fits([r], snap).get("pasta")!.fit;
     expect(fit.required[0].state).toBe("quantity-unknown");
   });
+
+  it("keeps a swap target with an unknown quantity unknown, not missing", () => {
+    const r = recipe({
+      id: "stew",
+      ingredientBill: [{ ingredientId: "butter", name: "Butter", quantity: { kind: "known", value: 50, unit: "g" } }]
+    });
+    const snap = pantry(
+      pantryLine({ ingredientId: "ghee", name: "Ghee", quantity: { kind: "unknown" }, state: "quantity-unknown" })
+    );
+    const fit = fits([r], snap, { acceptedSwaps: [{ from: "butter", to: "ghee" }] }).get("stew")!.fit;
+    // The swap could cover it, but the target's quantity is unknown: the
+    // strictest state wins, and "missing" would claim certainty it lacks.
+    expect(fit.required[0].state).toBe("quantity-unknown");
+  });
 });
 
 describe("fit: assumed staples are named, never counted (review fix 6)", () => {
@@ -346,8 +360,9 @@ describe("fit: assumed staples are named, never counted (review fix 6)", () => {
       pantryLine({ ingredientId: "oil", name: "Oil", quantity: { kind: "unknown" }, state: "quantity-unknown" })
     );
     const fit = fits([r], snap).get("omelette")!.fit;
-    // Eggs are missing, oil is a recorded-but-unknown line; neither is counted as verified.
-    expect(fit.fitLine).toBe("0 recorded · check eggs");
+    // Eggs are missing, oil is a recorded-but-unknown line: neither counts
+    // as verified evidence, and both belong in the check list.
+    expect(fit.fitLine).toBe("0 recorded · check eggs and oil");
   });
 });
 
