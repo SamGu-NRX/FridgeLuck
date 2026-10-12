@@ -53,12 +53,14 @@ Self-test (SCORECARD.md): a planted-failure battery plus passing controls.
 Passing controls first: a 400-recipe synthetic corpus with complete rights
 records and every canonical doneness pattern (poultry 165F, ground poultry
 165F, whole cuts 145F + 3-minute rest, fish 145F, egg 160F, reheat/casserole
-165F) must derive ALL FIVE metrics as pass. Then 13 plants re-introduce the
+165F) must derive ALL FIVE metrics as pass. Then 17 plants re-introduce the
 PR #88 BLOCK defects one at a time (uncited conversions, flipped labels, a
 lying emitter, denied permissions, coverage holes, wrong-class/lower-temp/
-restless doneness checks, unknown-composition claims, mislabeled `weighed`,
-scoring the suite's own fixtures, and identity drift) and each must flip the
-derived status to fail. Prints `caught k/13 planted failures` +
+restless doneness checks, metadata-only doneness with a too-short rest,
+no-canon escapes, unclassified proteins, an invalid canonical rulebook,
+unknown-composition claims, mislabeled `weighed`, scoring the suite's own
+fixtures, and identity drift) and each must flip the
+derived status to fail. Prints `caught k/17 planted failures` +
 `controls m/1 held` and exits 0 only when every plant is caught and every
 control holds. Real corpus files are never mutated.
 
@@ -712,10 +714,12 @@ def _ctl_recipe(i: int, cuisine: str, slot: str, minutes: int) -> dict[str, Any]
     source = _fsis_source()
 
     if p_rest:
-        protein_text = (f"Roast the {protein} to temperature, checking with a "
-                        "thermometer, then rest for at least 3 minutes before serving.")
+        protein_text = (f"Roast the {protein} until a thermometer inserted in the "
+                        f"thickest part registers {p_temp}°F, then rest for at least "
+                        "3 minutes before serving.")
     else:
-        protein_text = f"Cook the {protein}, checking with a thermometer before serving."
+        protein_text = (f"Cook the {protein} until a thermometer inserted in the "
+                        f"thickest part registers {p_temp}°F.")
     steps: list[dict[str, Any]] = [
         {"text": protein_text,
          "safety": {"class": p_cls, "temp_f": p_temp, "method": "thermometer",
@@ -725,11 +729,11 @@ def _ctl_recipe(i: int, cuisine: str, slot: str, minutes: int) -> dict[str, Any]
     title = f"Control Dish {i:04d}"
     if i % 7 == 0:  # casserole-titled: combination dishes must reach 165 F
         title = f"{cuisine.title()} {protein.title()} Casserole"
-        steps.append({"text": "Bake the dish and verify the centre with a thermometer.",
+        steps.append({"text": "Bake the dish until a thermometer in the centre registers 165°F.",
                       "safety": {"class": "leftovers", "temp_f": 165,
                                  "method": "thermometer", "source": source}})
     if i % 5 == 0:  # reheat step: leftovers must reach 165 F with a thermometer
-        steps.append({"text": "Next day, reheat a portion, checking with a thermometer.",
+        steps.append({"text": "Next day, reheat a portion until a thermometer registers 165°F.",
                       "reheat": True,
                       "safety": {"class": "leftovers", "temp_f": 165,
                                  "method": "thermometer", "source": source}})
@@ -1072,9 +1076,131 @@ def self_test() -> int:
           f"check_identity(stamped)={check_identity(stamped)}, "
           f"check_identity(missing)={check_identity({'suite': 'recipes'})}")
 
+    # ---- Part A plants (eval/scorecard-a-safety-lint): the r3 review BLOCK
+    # 1-2 — cook-visible doneness + rest minimums, fail-closed safety
+    # classification. Each plant below must be MISSED at base 9e04af4 and
+    # caught on the branch; the two part-A controls must hold on both. ----
+    import tempfile
+
+    a_plants = 0
+    a_caught = 0
+
+    def a_plant(label: str, ok: bool, detail: str) -> None:
+        nonlocal a_plants, a_caught
+        a_plants += 1
+        a_caught += ok
+        print(f"  plant {label}: {'caught' if ok else 'MISSED'} ({detail})")
+
+    def a_lint(corpus: list[dict[str, Any]], *,
+               canon_book: "rs.CanonRulebook | None") -> list[str]:
+        """Lint the one mini-fixture recipe directly (violations, not metrics)."""
+        scanner = rs.AllergenScanner(allergens)
+        return rs.lint_recipe(
+            copy.deepcopy(corpus)[0], cuisines=bands.CUISINE_SET,
+            meal_slots=bands.SLOT_SET,
+            conversions=conversions.get("conversions", conversions),
+            allergen_scan=scanner, canon=canon_book)
+
+    def a_protein_recipe(name: str, text: str,
+                         safety: dict[str, Any] | None) -> list[dict[str, Any]]:
+        """Mini fixture with its first ingredient replaced by `name` and one
+        protein step carrying (or omitting) the safety metadata."""
+        corpus, _manifest = _mini_fixtures()
+        corpus[0]["ingredients"][0] = {"name": name,
+                                       "qty": {"kind": "source_grams", "grams": 300}}
+        step: dict[str, Any] = {"text": text}
+        if safety is not None:
+            step["safety"] = safety
+        corpus[0]["steps"] = [step]
+        return corpus
+
+    # A1 (BLOCK 1): a whole-cut recipe whose instruction text omits the
+    # thermometer/temperature while metadata claims 165 F + rest_minutes: 1.
+    # A rest that merely EXISTS must not pass: the text must name a
+    # thermometer reading at the class minimum, and the stated rest must
+    # reach the class-required 3 minutes.
+    a1_v = a_lint(a_protein_recipe(
+        "pork loin", "Roast the pork loin until done to your liking.",
+        {"class": "meat_whole_cut_pork", "temp_f": 165, "rest_minutes": 1,
+         "method": "thermometer", "source": _fsis_source()}), canon_book=book)
+    a_plant("A1 whole-cut passes on metadata-only doneness and a 1-minute rest",
+            any("cook-visible" in x for x in a1_v)
+            and any("rest" in x.lower() for x in a1_v),
+            f"violations={a1_v[:2] or 'NONE'}")
+
+    # A2 (BLOCK 2): a chicken recipe with NO safety metadata and NO reheat
+    # flag, canon unavailable — must fail closed (no safety signal may
+    # escape), at lint level and on the derived metric.
+    a2 = a_protein_recipe("chicken thighs",
+                          "Sear the chicken thighs in a hot pan and serve.", None)
+    a2_v = a_lint(a2, canon_book=None)
+    a2_ev = evaluate_corpus(copy.deepcopy(a2), _mini_fixtures()[1], conversions,
+                            allergens, canon=None)
+    a2_st = {m["id"]: suite_contract.derive_status(m)
+             for m in metric_list(a2_ev, Path("/tmp"))}
+    a_plant("A2 chicken recipe with no safety signal escapes the no-canon "
+            "fail-closed check",
+            bool(a2_v)
+            and any("chicken thighs" in x and "canon rulebook unavailable" in x
+                    for x in a2_v)
+            and a2_st["food_safety_linter_pass"] == "fail",
+            f"violations={a2_v[:1] or 'NONE'}, "
+            f"food_safety_linter_pass={a2_st['food_safety_linter_pass']}")
+
+    # A3 (BLOCK 2): an invalid canonical rules.json — well-formed JSON,
+    # schema-invalid — must fail closed NAMING the scored-tree source, never
+    # fall back to the pinned snapshot.
+    with tempfile.TemporaryDirectory(prefix="suite-c-a3-") as td:
+        bad_root = Path(td) / "repo"
+        (bad_root / "data" / "food-safety").mkdir(parents=True)
+        (bad_root / "data" / "food-safety" / "rules.json").write_text(
+            json.dumps({"schema_version": 2, "citations": [], "rules": []}) + "\n")
+        a3_book, a3_reason = rs.CanonRulebook.load(bad_root)
+    a_plant("A3 invalid scored-tree rulebook falls back to the snapshot",
+            a3_book is None
+            and "scored tree data/food-safety/rules.json" in a3_reason
+            and "invalid" in a3_reason.lower(),
+            f"book={'None' if a3_book is None else 'LOADED (fallback)'}, "
+            f"reason={a3_reason[:140]}")
+
+    # A4 (BLOCK 2): venison — an ingredient neither the canon rulebook nor the
+    # allergen table can classify, carrying no claims — must fail R3 closed,
+    # with the reason naming the unresolved ingredient.
+    a4_v = a_lint(a_protein_recipe(
+        "venison", "Roast the venison until done to your liking.", None),
+        canon_book=book)
+    a_plant("A4 unclassified ingredient (venison) does not block safety lint",
+            bool(a4_v)
+            and any("venison" in x and "unresolved" in x.lower() for x in a4_v),
+            f"violations={a4_v[:1] or 'NONE'}")
+
+    # Part-A passing controls: the correct patterns must pass — a whole-cut
+    # recipe whose text states 145 F + the 3-minute rest, and a poultry
+    # recipe whose text states 165 F (satisfiability of A1/A2/A4).
+    ctlw_v = a_lint(a_protein_recipe(
+        "pork loin",
+        "Roast the pork loin until a thermometer inserted in the thickest part "
+        "registers 145°F, then rest for at least 3 minutes before serving.",
+        {"class": "meat_whole_cut_pork", "temp_f": 145, "method": "thermometer",
+         "source": _fsis_source()}), canon_book=book)
+    ctlp_v = a_lint(a_protein_recipe(
+        "chicken thighs",
+        "Cook the chicken thighs until a thermometer inserted in the thickest "
+        "part registers 165°F.",
+        {"class": "meat_poultry", "temp_f": 165, "method": "thermometer",
+         "source": _fsis_source()}), canon_book=book)
+    a_controls_ok = not ctlw_v and not ctlp_v
+    print(f"  part-A controls (whole-cut text 145F + 3-min rest; poultry text "
+          f"165F): {'held' if a_controls_ok else 'BROKEN'} "
+          f"(whole-cut={ctlw_v[:1] or 'clean'}, poultry={ctlp_v[:1] or 'clean'})")
+
+    a_all_green = a_caught == a_plants and a_controls_ok
     print(f"caught {caught}/{plants_total} planted failures; "
-          f"controls {controls_held}/2 held")
-    return 0 if (caught == plants_total and controls_held == 2) else 1
+          f"controls {controls_held}/2 held; part-A safety-lint battery: "
+          f"{a_caught}/{a_plants} plants, "
+          f"controls {'held' if a_controls_ok else 'BROKEN'}")
+    return 0 if (caught == plants_total and controls_held == 2
+                 and a_all_green) else 1
 
 
 # ---------------------------------------------------------------------------
