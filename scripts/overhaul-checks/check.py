@@ -59,13 +59,28 @@ def run(cmd, cwd=None):
 
 def print_header(suite: str):
     head = run_capture("git rev-parse HEAD")
-    swift_version = run_capture("swift --version --brief") or run_capture("swift --version")
+    swift_version = swift_toolchain_line()
     print("=" * 64)
     print(f"check.py — suite: {suite}")
     print(f"HEAD: {head}")
     print(f"toolchain: {swift_version.strip()}")
     print(f"platform: {platform.platform()}")
     print("=" * 64)
+
+
+def swift_toolchain_line() -> str:
+    """One-line toolchain identity; only a zero-exit, non-empty stdout counts."""
+    for cmd in ("swift --version --brief", "swift --version"):
+        try:
+            out = subprocess.run(
+                cmd, shell=True, cwd=REPO_ROOT, capture_output=True, text=True
+            )
+        except OSError:
+            continue
+        text = (out.stdout or "").strip()
+        if out.returncode == 0 and text:
+            return text
+    return "swift version unavailable"
 
 
 def run_capture(cmd: str):
