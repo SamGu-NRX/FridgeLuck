@@ -106,8 +106,8 @@ final class ConformanceTests: XCTestCase {
             report.ok,
             ConformanceKit.renderHuman(report)
         )
-        // 30 error-class cases + 12 true negatives. Update when the kit grows.
-        XCTAssertEqual(report.caseResults.count, 42, "the kit's case count changed; update this pin and the README inventory")
+        // Kit case-count pin. Update when the kit grows (see data/food-safety/conformance/README.md).
+        XCTAssertEqual(report.caseResults.count, 48, "the kit's case count changed; update this pin and the README inventory")
         XCTAssertTrue(report.replayProblems.isEmpty, "clean replay must produce zero findings")
         XCTAssertTrue(report.coverageProblems.isEmpty, "the kit must cover every finding class and copy pattern")
     }
