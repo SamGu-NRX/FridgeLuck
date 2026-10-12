@@ -18,7 +18,7 @@ import FLTasteSim
 /// scores it used (for the calibration metric).
 public protocol ArmState: AnyObject, Sendable {
     /// Ranks candidates best-first (the simulator's seam contract).
-    func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID]
+    func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID]
 
     /// Predicted score per candidate id from the most recent `rank` call.
     /// Calibration compares these against hidden true utilities. Default:
@@ -65,7 +65,7 @@ struct VersionedRanker: Ranker {
 
     var id: String { armID }
 
-    func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID] {
+    func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
         let index = min(context.week, states.count - 1)
         return states[index].rank(candidates, context: context)
     }
@@ -78,13 +78,13 @@ struct VersionedRanker: Ranker {
 /// (The simulator's true ranking breaks ties numerically; tied candidates
 /// have equal utilities, so no NDCG difference can be manufactured.)
 enum ArmOrdering {
-    static func ordered(_ candidates: [Candidate], score: (Candidate) -> Double) -> [RecipeID] {
+    static func ordered(_ candidates: [RankerCandidate], score: (RankerCandidate) -> Double) -> [RecipeID] {
         candidates
             .sorted { a, b in
                 let sa = score(a), sb = score(b)
                 if sa != sb { return sa > sb }
-                return a.recipe.id.rawValue < b.recipe.id.rawValue
+                return a.id.rawValue < b.id.rawValue
             }
-            .map { $0.recipe.id }
+            .map { $0.id }
     }
 }

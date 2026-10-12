@@ -9,10 +9,10 @@ final class PopularityArmState: ArmState, @unchecked Sendable {
     private let inner = PopularityProxyRanker()
     private var scores: [RecipeID: Double] = [:]
 
-    func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID] {
+    func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
         scores = Dictionary(
             uniqueKeysWithValues: candidates.map {
-                ($0.recipe.id, PopularityProxyRanker.popularityScore($0.recipe))
+                ($0.id, PopularityProxyRanker.popularityScore($0))
             })
         return inner.rank(candidates, context: context)
     }
@@ -44,7 +44,7 @@ final class RandomArmState: ArmState, @unchecked Sendable {
         inner = RandomRanker(seed: seed)
     }
 
-    func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID] {
+    func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
         let ids = inner.rank(candidates, context: context)
         // Position-derived pseudo-scores keep the calibration path uniform:
         // rank position 0 → highest score.
@@ -101,18 +101,18 @@ final class ProfileOnlyArmState: ArmState, @unchecked Sendable {
         }
     }
 
-    func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID] {
+    func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
         var rng = SeededRNG(
             seed: SeedDeriver.child(
                 armSeed, "profile-rank", context.week * 1_000_003 + context.sessionIndex))
         let input = RankInput(
-            candidates: candidates.map { $0.recipe.id },
+            candidates: candidates.map { $0.id },
             pantryFit: Dictionary(
                 uniqueKeysWithValues: candidates.map { candidate in
                     // Candidate.availability is a stock factor in [1, 2]
                     // (min required-grams coverage, capped); fit maps the
                     // surplus half into [0, 1].
-                    (candidate.recipe.id, min(1.0, max(0.0, candidate.availability - 1.0)))
+                    (candidate.id, min(1.0, max(0.0, candidate.availability - 1.0)))
                 }),
             context: RankContext(explore: false))
         let ranked = engine.rank(input, rng: &rng)

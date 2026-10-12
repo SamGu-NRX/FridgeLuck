@@ -94,12 +94,46 @@ final class EvalCampaignTests: XCTestCase {
 
     func testOracleBeatsRandom() throws {
         let catalog = try loadCatalog()
-        let oracle = OracleArm()
         let random = RandomArm()
-        let results = try runMicroCampaign(catalog: catalog, arms: [oracle, random])
-        let oracleNDCG = try XCTUnwrap(results.first { $0.arm == "oracle" }?.meanNDCG)
-        let randomNDCG = try XCTUnwrap(results.first { $0.arm == "random" }?.meanNDCG)
-        XCTAssertGreaterThan(oracleNDCG, 0.9, "oracle ranks the true best at the top")
+
+        // One household, run through the public simulator with a test-local
+        // capture. The oracle is POST-HOC: the post-seam ranker input is a
+        // proven-latent-free projection, so the "oracle" is the ground
+        // truth's own per-session trueRanking, scored through the same
+        // scoreHousehold every arm goes through. Same assurance as the old
+        // seam-level oracle arm, without touching the sealed seam.
+        final class CaptureBox: @unchecked Sendable {
+            var log: [(week: Int, ordered: [RecipeID])] = []
+        }
+        struct CaptureRanker: Ranker {
+            let inner: RandomRanker
+            let box: CaptureBox
+            var id: String { inner.id }
+            func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
+                let ordered = inner.rank(candidates, context: context)
+                box.log.append((context.week, ordered))
+                return ordered
+            }
+        }
+
+        let seed: UInt64 = 101
+        let (config, _) = Regimes.config(seed: seed, householdIndex: 0, weeks: 5)
+        let armSeed = SeedDeriver.child(seed, "arm-random", 0)
+        let box = CaptureBox()
+        let ranker = CaptureRanker(
+            inner: RandomRanker(seed: SeedDeriver.child(armSeed, "random-rank", Int(config.seed % 1_000_003))),
+            box: box)
+        let run = HouseholdSimulator(config: config, catalog: catalog, ranker: ranker).run()
+        XCTAssertFalse(box.log.isEmpty, "the household ranked at least one session")
+
+        let randomMetrics = scoreHousehold(
+            groundTruth: run.groundTruth, catalog: catalog, rankLog: box.log)
+        let oracleMetrics = scoreHousehold(
+            groundTruth: run.groundTruth, catalog: catalog,
+            rankLog: oracleRankLog(groundTruth: run.groundTruth))
+        let randomNDCG = try XCTUnwrap(randomMetrics.meanNDCG)
+        let oracleNDCG = try XCTUnwrap(oracleMetrics.meanNDCG)
+        XCTAssertGreaterThan(oracleNDCG, 0.9, "the true ranking scores near the ceiling")
         XCTAssertGreaterThan(oracleNDCG, randomNDCG, "a correct ranking beats noise")
     }
 

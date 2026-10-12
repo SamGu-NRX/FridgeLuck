@@ -56,16 +56,16 @@ final class EngineArmState: ArmState, @unchecked Sendable {
         }
     }
 
-    func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID] {
+    func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
         var rng = SeededRNG(
             seed: SeedDeriver.child(
                 armSeed, "engine-rank", context.week * 1_000_003 + context.sessionIndex))
         let input = RankInput(
-            candidates: candidates.map { $0.recipe.id },
+            candidates: candidates.map { $0.id },
             pantryFit: Dictionary(
                 uniqueKeysWithValues: candidates.map { candidate in
                     // Stock factor [1, 2] → surplus fraction [0, 1].
-                    (candidate.recipe.id, min(1.0, max(0.0, candidate.availability - 1.0)))
+                    (candidate.id, min(1.0, max(0.0, candidate.availability - 1.0)))
                 }),
             context: RankContext(explore: armConfig.explore))
         let ranked = engine.rank(input, rng: &rng)

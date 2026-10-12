@@ -119,7 +119,7 @@ struct CapturingRanker: Ranker {
 
     var id: String { armID }
 
-    func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID] {
+    func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
         let index = min(context.week, states.count - 1)
         let ordered = states[index].rank(candidates, context: context)
         log.entries.append((context.week, ordered))

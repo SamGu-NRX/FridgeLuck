@@ -160,13 +160,13 @@ final class RuleRankerState: ArmState, @unchecked Sendable {
         self.scoreByRecipe = computed
     }
 
-    func rank(_ candidates: [Candidate], context: RankingContext) -> [RecipeID] {
+    func rank(_ candidates: [RankerCandidate], context: RankingContext) -> [RecipeID] {
         scores = Dictionary(
             uniqueKeysWithValues: candidates.compactMap { candidate in
-                scoreByRecipe[candidate.recipe.id].map { (candidate.recipe.id, $0) }
+                scoreByRecipe[candidate.id].map { (candidate.id, $0) }
             })
         return ArmOrdering.ordered(candidates) { candidate in
-            self.scoreByRecipe[candidate.recipe.id] ?? -Double.infinity
+            self.scoreByRecipe[candidate.id] ?? -Double.infinity
         }
     }
 
