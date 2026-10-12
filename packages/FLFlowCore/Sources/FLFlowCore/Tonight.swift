@@ -67,26 +67,47 @@ public struct MealContext: Sendable {
 }
 
 // MARK: - Recipe claims port
-// Restriction.permits(canonicalName:allergens:dietTags:) documents that the
-// caller resolves compound ingredients to their declared allergen set. The
-// recipe core (a parallel part) owns that resolution; this is the explicit
-// port it feeds. The flows never guess an allergen that was not declared.
+// Restriction checks run on composition evidence, never on its absence
+// (review round 2, blocker 1). The recipe core — the parallel part that
+// resolves ingredients, compound ones included, against the canonical
+// ingredient-facts source — owns that resolution and feeds this explicit
+// port, mirroring the facts evaluation's three-valued shape: a resolved
+// check is a value here, an unknown one is an ABSENT entry, and an unknown
+// check can never pass a restriction. The flows never guess a property
+// that was not declared; they refuse to decide on it.
 
-/// The declared restriction-relevant properties of one candidate revision.
+/// The restriction-relevant composition evidence of one candidate revision,
+/// as resolved by the recipe core from the canonical ingredient-facts
+/// source. Missing evidence fails closed at the decision: an included
+/// ingredient with no declared allergen composition, or an eater diet
+/// exclusion the resolution never evaluated, is unresolved — never safe.
 public struct RecipeClaims: Sendable {
-    /// Declared allergens per canonical ingredient name, compound ingredients
-    /// already resolved (soy sauce carries wheat, pesto carries nuts).
+    /// Resolved allergen composition per canonical ingredient name, compound
+    /// ingredients already resolved (soy sauce carries wheat, pesto carries
+    /// nuts). A set — possibly empty — is resolved evidence; an ABSENT key
+    /// is an unresolved composition and fails the restriction check.
     public var allergensByIngredient: [String: Set<Allergen>]
     /// Diet tags the revision fails to satisfy (e.g. a beef dish fails
     /// `vegetarian`). The flows refuse candidates failing any eater's diet.
     public var failingDietTags: Set<DietExclusion>
+    /// Diet tags the revision's composition was actually evaluated against.
+    /// An eater exclusion outside this set is unresolved and fails closed;
+    /// a failing tag is covered by construction (a tag can only fail because
+    /// its composition was evaluated).
+    public var evaluatedDietTags: Set<DietExclusion>
     /// Estimated active time in seconds, when the recipe declares one. Used
     /// only for the time-budget reason, never as a safety claim.
     public var estimatedSeconds: Int?
 
-    public init(allergensByIngredient: [String: Set<Allergen>] = [:], failingDietTags: Set<DietExclusion> = [], estimatedSeconds: Int? = nil) {
+    public init(
+        allergensByIngredient: [String: Set<Allergen>] = [:],
+        failingDietTags: Set<DietExclusion> = [],
+        evaluatedDietTags: Set<DietExclusion> = [],
+        estimatedSeconds: Int? = nil
+    ) {
         self.allergensByIngredient = allergensByIngredient
         self.failingDietTags = failingDietTags
+        self.evaluatedDietTags = evaluatedDietTags.union(failingDietTags)
         self.estimatedSeconds = estimatedSeconds
     }
 }
@@ -689,23 +710,53 @@ public enum DinnerDecisionService {
 
     /// The specific restriction violations of one candidate against the
     /// union restriction. Empty when the candidate is allowed.
+    ///
+    /// Fail closed (review round 2, blocker 1): a restriction check that
+    /// cannot be resolved — an included ingredient with no declared
+    /// composition, or a diet exclusion the recipe core never evaluated —
+    /// is a violation ("needs confirmation"), never a pass. Only checks
+    /// that actually run must resolve: a union with no allergen or diet
+    /// restrictions runs no composition check at all, while name-based
+    /// custom exclusions need no composition evidence and always run.
     static func restrictionViolations(
         revision: RecipeRevision,
         claims: RecipeClaims,
         restriction: Restriction
     ) -> [String]? {
         var violations: [String] = []
-        for line in revision.requiredIngredientLines {
+        let checksComposition = !restriction.allergens.isEmpty || !restriction.dietExclusions.isEmpty
+        // Every included line — required or optional garnish — reaches the
+        // plate, so every line is checked; repeated names resolve once.
+        var checked = Set<String>()
+        for line in revision.ingredientLines {
             let name = line.ingredient.canonicalName
-            let allergens = claims.allergensByIngredient[name] ?? []
+            guard checked.insert(name).inserted else { continue }
+            // Custom exclusions are name-based: with explicitly empty
+            // evidence sets, `permits` can only fail here on the name.
+            if !restriction.permits(canonicalName: name, allergens: [], dietTags: []) {
+                violations.append("'\(name)' is excluded by this household's custom exclusions")
+                continue
+            }
+            guard checksComposition else { continue }
+            guard let allergens = claims.allergensByIngredient[name] else {
+                violations.append("'\(name)' needs confirmation: composition unresolved")
+                continue
+            }
             if !restriction.permits(canonicalName: name, allergens: allergens) {
                 violations.append("'\(name)' conflicts with a hard restriction")
             }
         }
-        let failingTags = claims.failingDietTags.intersection(restriction.dietExclusions)
-        if !failingTags.isEmpty {
-            let tags = failingTags.map(\.rawValue).sorted().joined(separator: ", ")
-            violations.append("dish fails diet exclusions: \(tags)")
+        if checksComposition {
+            let failingTags = claims.failingDietTags.intersection(restriction.dietExclusions)
+            if !failingTags.isEmpty {
+                let tags = failingTags.map(\.rawValue).sorted().joined(separator: ", ")
+                violations.append("dish fails diet exclusions: \(tags)")
+            }
+            let unevaluated = restriction.dietExclusions.subtracting(claims.evaluatedDietTags)
+            if !unevaluated.isEmpty {
+                let tags = unevaluated.map(\.rawValue).sorted().joined(separator: ", ")
+                violations.append("'\(tags)' needs confirmation: diet composition unresolved")
+            }
         }
         return violations
     }
