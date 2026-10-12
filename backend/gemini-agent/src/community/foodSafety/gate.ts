@@ -13,12 +13,15 @@
  */
 import type { ScreenablePublication, ScreeningStage, ScreeningVerdict } from "../shared/contracts.js";
 import {
+  FOOD_SAFETY_CLASSES,
   loadFoodSafetyCatalog,
   resolveFoodSafetyCatalogPaths,
   type FoodSafetyCatalog,
   type FoodSafetyCatalogPaths,
+  type FoodSafetyClass,
   type FoodSafetyRulebook,
   type IngredientFacts,
+  type MinCookingTempRule,
 } from "./catalog.js";
 
 export interface FoodSafetyGate {
@@ -149,6 +152,13 @@ export function foodSafetyLintStage(rulebook: FoodSafetyRulebook): ScreeningStag
               reasons.push(`${rule.id}: ${rule.message} ("${trigger}" without thermometer evidence)`);
             }
           }
+        } else if (rule.kind === "min-cooking-temp") {
+          // The evidence rule above checks the FORM of a doneness claim;
+          // this rule checks the VALUE: a stated internal temperature must
+          // reach the reviewed minimum for its food class (blocker 2).
+          for (const reason of minCookingTempReasons(rule, fields)) {
+            reasons.push(reason);
+          }
         }
         // allergen-claim rules need the derived tags — enforced by the
         // compound-allergens stage below, which owns tag truth.
@@ -164,6 +174,169 @@ export function foodSafetyLintStage(rulebook: FoodSafetyRulebook): ScreeningStag
 /** Canonical tag for an allergen slug, matching the catalog's tag format. */
 function allergenTag(canonical: string): string {
   return `allergen-${canonical}`;
+}
+
+/** A numeric temperature stated in recipe text, normalized to °F. */
+export interface StatedTemperature {
+  /** The matched text, e.g. "74°C" — quoted in failure reasons. */
+  readonly raw: string;
+  /** The stated value converted to °F (Celsius converts exactly: ×9/5+32). */
+  readonly valueF: number;
+  /** The unit as stated. */
+  readonly unit: "F" | "C";
+}
+
+/**
+ * Unit-bearing temperature statements, e.g. "165°F", "74 °C", "160 degrees
+ * F". Boundaries on both ends so a digit inside a larger number or a unit
+ * letter inside a word never matches. Fahrenheit is matched with or
+ * without the degree marker ("165F" is a real doneness claim); Celsius
+ * requires the marker ("74°C", "74 degrees C") — a bare "74 c" is far more
+ * likely cup shorthand than Celsius, and a false temperature claim would
+ * wrongly fail honest recipes.
+ */
+const TEMPERATURE_F_PATTERN = /(?<![a-z0-9])(\d{1,3})(?:\.\d+)?\s*(?:°\s*|deg(?:rees)?\s+)?f(?:ahrenheit)?(?![a-z0-9])/gi;
+const TEMPERATURE_C_PATTERN = /(?<![a-z0-9])(\d{1,3})(?:\.\d+)?\s*(?:°\s*|deg(?:rees)?\s+)c(?:elsius)?(?![a-z0-9])/gi;
+
+/**
+ * Sentences whose topic is cooling, thawing or storage — a different
+ * rulebook topic with no class floors ("chill to 40°F" is correct guidance,
+ * not a doneness claim).
+ */
+const COOLING_CONTEXT =
+  /(?<![a-z0-9])(cool(?:ed|er|ing|s)?|chill(?:ed|s|ing)?|refrigerat(?:e|ed|es|ing|ion)|fridge|freez(?:e|es|ed|ing|er)|thaw(?:ed|ing|s)?|defrost(?:ed|ing|s)?|marinat(?:e|ed|es|ing)|stor(?:e|es|ed|ing|age)|room temperature)(?![a-z0-9])/i;
+
+/**
+ * Doneness-domain stated temperatures in a text: unit-bearing values below
+ * 200°F. At 200°F and above the number is a cooking-appliance setting
+ * ("preheat the oven to 425°F"), not an internal-temperature claim — and
+ * every reviewed class minimum sits far below it anyway.
+ */
+export function statedCookingTemperatures(text: string): readonly StatedTemperature[] {
+  const stated: StatedTemperature[] = [];
+  for (const pattern of [TEMPERATURE_F_PATTERN, TEMPERATURE_C_PATTERN]) {
+    for (const match of text.matchAll(pattern)) {
+      const value = Number.parseFloat(match[1] ?? "");
+      const celsius = match[0].toLowerCase().includes("c");
+      const valueF = celsius ? (value * 9) / 5 + 32 : value;
+      if (Number.isFinite(valueF) && valueF < 200) {
+        stated.push({ raw: match[0].trim(), valueF, unit: celsius ? "C" : "F" });
+      }
+    }
+  }
+  return stated;
+}
+
+/** One keyword hit in text, as a character span over the lowercased text. */
+interface ClassHit {
+  readonly cls: FoodSafetyClass;
+  readonly start: number;
+  readonly end: number;
+}
+
+/** A keyword matched as a whole token/phrase: boundaries, spaces flex. */
+function keywordPattern(keyword: string): RegExp {
+  const literal = keyword
+    .replace(/[.*+?^${}()|[\]\\]/g, (ch) => `\\${ch}`)
+    .replace(/\s+/g, "\\s+");
+  return new RegExp(`(?<![a-z0-9])${literal}(?![a-z0-9])`, "gi");
+}
+
+/**
+ * The food classes the text names, per the reviewed keywords. A longer
+ * keyword shadows a shorter one it contains — the rulebook is explicit
+ * that "ground poultry"/"turkey mince" keep the 165°F poultry minimum and
+ * must not fall into the 160°F ground-meat class via their "mince".
+ */
+export function attributedClasses(text: string, rule: MinCookingTempRule): ReadonlySet<FoodSafetyClass> {
+  const lower = text.toLowerCase();
+  const hits: ClassHit[] = [];
+  for (const cls of FOOD_SAFETY_CLASSES) {
+    for (const keyword of rule.classKeywords[cls]) {
+      for (const match of lower.matchAll(keywordPattern(keyword))) {
+        const start = match.index ?? 0;
+        hits.push({ cls, start, end: start + match[0].length });
+      }
+    }
+  }
+  const classes = new Set<FoodSafetyClass>();
+  for (const hit of hits) {
+    const shadowed = hits.some(
+      (other) => other.cls !== hit.cls && other.start <= hit.start && other.end >= hit.end && other.end - other.start > hit.end - hit.start,
+    );
+    if (!shadowed) {
+      classes.add(hit.cls);
+    }
+  }
+  return classes;
+}
+
+/** Sentence pieces of a field: split after sentence enders and newlines. */
+function sentences(text: string): readonly string[] {
+  return text
+    .split(/[.!?;\n]+/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+}
+
+/** Checkable label for a stated temperature, with the °F conversion for Celsius. */
+function statedLabel(temperature: StatedTemperature): string {
+  return temperature.unit === "C" ? `"${temperature.raw}" (=${temperature.valueF.toFixed(1)}°F)` : `"${temperature.raw}"`;
+}
+
+/**
+ * The numeric cooking-temperature check. Each stated doneness temperature
+ * is attributed the classes named in its own sentence, or, when the
+ * sentence names no food, the classes named anywhere in the publication; a
+ * class is satisfied when ONE stated temperature in the scope reaches its
+ * minimum ("the chicken to 165 and the steak to 145" passes; "the chicken
+ * to 145" does not). A stated temperature with no attributable class
+ * anywhere must still reach the lowest reviewed minimum — no canonical
+ * class is safe below it. Boundary stated honestly: this is a text lint;
+ * genuinely raw preparations (tartare, cured fish) fail into human review
+ * rather than publish silently.
+ */
+export function minCookingTempReasons(rule: MinCookingTempRule, fields: ReadonlyArray<readonly [string, string]>): readonly string[] {
+  const reasons: string[] = [];
+  const publicationClasses = new Set<FoodSafetyClass>();
+  for (const [, text] of fields) {
+    for (const cls of attributedClasses(text, rule)) {
+      publicationClasses.add(cls);
+    }
+  }
+  const lowestFloor = Math.min(...FOOD_SAFETY_CLASSES.map((cls) => rule.minimumsF[cls]));
+  for (const [field, text] of fields) {
+    for (const sentence of sentences(text)) {
+      if (COOLING_CONTEXT.test(sentence)) {
+        continue;
+      }
+      const stated = statedCookingTemperatures(sentence);
+      if (stated.length === 0) {
+        continue;
+      }
+      const sentenceClasses = attributedClasses(sentence, rule);
+      const scope = sentenceClasses.size > 0 ? sentenceClasses : publicationClasses;
+      if (scope.size === 0) {
+        for (const temperature of stated) {
+          if (temperature.valueF < lowestFloor) {
+            reasons.push(`${rule.id}: stated ${statedLabel(temperature)} is below the lowest reviewed class minimum of ${lowestFloor}°F (${statedLabel(temperature)} in ${field})`);
+          }
+        }
+        continue;
+      }
+      for (const cls of FOOD_SAFETY_CLASSES) {
+        if (!scope.has(cls)) {
+          continue;
+        }
+        const minimum = rule.minimumsF[cls];
+        if (!stated.some((temperature) => temperature.valueF >= minimum)) {
+          const statedList = stated.map(statedLabel).join(", ");
+          reasons.push(`${rule.id}: no stated temperature reaches the reviewed ${cls} minimum of ${minimum}°F from the canonical rulebook (stated ${statedList} in ${field})`);
+        }
+      }
+    }
+  }
+  return reasons;
 }
 
 /**

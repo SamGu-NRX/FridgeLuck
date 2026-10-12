@@ -5,28 +5,227 @@
     {
       "kind": "claim-requires-evidence",
       "id": "doneness-thermometer",
-      "triggers": ["no longer pink", "cooked through", "until done", "safely cooked", "safe to eat"],
-      "requireAny": ["\\d\\s*°\\s*[cf]([^a-z]|$)", "\\d\\s*deg(rees)?\\s*[cf]([^a-z]|$)", "thermometer", "internal temperature"],
+      "triggers": [
+        "no longer pink",
+        "cooked through",
+        "until done",
+        "safely cooked",
+        "safe to eat"
+      ],
+      "requireAny": [
+        "\\d\\s*°\\s*[cf]([^a-z]|$)",
+        "\\d\\s*deg(rees)?\\s*[cf]([^a-z]|$)",
+        "thermometer",
+        "internal temperature"
+      ],
       "message": "doneness must be a checkable thermometer test from a reviewed source, never colour or time alone"
     },
     {
       "kind": "forbidden-terms",
       "id": "no-safety-certainty",
-      "terms": ["guaranteed safe", "cannot go off", "never goes bad", "keeps forever", "100% safe", "impossible to undercook"],
+      "terms": [
+        "guaranteed safe",
+        "cannot go off",
+        "never goes bad",
+        "keeps forever",
+        "100% safe",
+        "impossible to undercook"
+      ],
       "message": "food-safety guidance is advisory and sourced; shelf-life claims never certify food is safe"
     },
     {
       "kind": "allergen-claim",
       "id": "allergen-claims-must-be-supported",
       "claims": [
-        { "phrases": ["gluten free"], "allergen": "wheat-gluten" },
-        { "phrases": ["nut free"], "allergen": "tree-nut" },
-        { "phrases": ["dairy free"], "allergen": "milk" },
-        { "phrases": ["soy free"], "allergen": "soy" },
-        { "phrases": ["fish free"], "allergen": "fish" },
-        { "phrases": ["egg free"], "allergen": "egg" }
+        {
+          "phrases": [
+            "gluten free"
+          ],
+          "allergen": "wheat-gluten"
+        },
+        {
+          "phrases": [
+            "nut free"
+          ],
+          "allergen": "tree-nut"
+        },
+        {
+          "phrases": [
+            "dairy free"
+          ],
+          "allergen": "milk"
+        },
+        {
+          "phrases": [
+            "soy free"
+          ],
+          "allergen": "soy"
+        },
+        {
+          "phrases": [
+            "fish free"
+          ],
+          "allergen": "fish"
+        },
+        {
+          "phrases": [
+            "egg free"
+          ],
+          "allergen": "egg"
+        }
       ],
       "message": "an allergen-free claim must be supported by the allergens derived from the ingredient facts"
+    },
+    {
+      "kind": "min-cooking-temp",
+      "id": "cooking-temp-class-minimums",
+      "message": "a stated internal cooking temperature must be at or above the reviewed per-class minimum from the canonical rulebook",
+      "minimumsF": {
+        "meat_poultry": 165,
+        "meat_ground": 160,
+        "meat_whole_cut_pork": 145,
+        "meat_whole_cut_red": 145,
+        "flesh_fish": 145,
+        "flesh_shellfish": 145,
+        "egg": 160,
+        "leftovers": 165
+      },
+      "classKeywords": {
+        "meat_poultry": [
+          "chicken",
+          "turkey",
+          "poultry",
+          "duck",
+          "goose",
+          "hen",
+          "quail",
+          "ground poultry",
+          "ground turkey",
+          "ground chicken",
+          "turkey mince",
+          "chicken mince",
+          "stuffed",
+          "stuffing"
+        ],
+        "meat_ground": [
+          "ground beef",
+          "ground pork",
+          "ground lamb",
+          "ground veal",
+          "hamburger",
+          "mince",
+          "minced beef",
+          "beef mince",
+          "meatballs",
+          "meatloaf",
+          "burger"
+        ],
+        "meat_whole_cut_red": [
+          "steak",
+          "beef roast",
+          "veal",
+          "lamb",
+          "lamb shank",
+          "lamb chop",
+          "beef chop"
+        ],
+        "meat_whole_cut_pork": [
+          "pork",
+          "pork loin",
+          "pork roast",
+          "pork tenderloin",
+          "pork chop",
+          "pork chops",
+          "pork belly",
+          "fresh ham",
+          "smoked ham (uncooked)",
+          "gammon"
+        ],
+        "flesh_fish": [
+          "fish",
+          "salmon",
+          "cod",
+          "tuna",
+          "tilapia",
+          "trout",
+          "haddock",
+          "pollock",
+          "catfish",
+          "bass"
+        ],
+        "flesh_shellfish": [
+          "shrimp",
+          "shrimps",
+          "prawn",
+          "prawns",
+          "lobster",
+          "crab",
+          "scallop",
+          "scallops",
+          "clam",
+          "clams",
+          "mussel",
+          "mussels",
+          "oyster",
+          "oysters",
+          "shellfish",
+          "squid",
+          "octopus",
+          "cockles"
+        ],
+        "egg": [
+          "frittata",
+          "quiche",
+          "egg casserole",
+          "strata",
+          "omelette bake",
+          "custard tart",
+          "carbonara",
+          "hollandaise",
+          "egg bake",
+          "egg",
+          "eggs",
+          "scrambled eggs",
+          "fried egg",
+          "boiled egg",
+          "poached egg",
+          "omelette",
+          "caesar",
+          "tiramisu",
+          "mayonnaise",
+          "eggnog",
+          "ice cream",
+          "mousse",
+          "cookie dough",
+          "raw egg",
+          "uncooked egg"
+        ],
+        "leftovers": [
+          "reheat",
+          "reheat leftovers",
+          "rewarm",
+          "re-warm",
+          "warm up",
+          "microwave",
+          "leftover",
+          "casserole",
+          "lasagne",
+          "lasagna",
+          "bake",
+          "gratin",
+          "shepherd's pie",
+          "hotdish",
+          "ham"
+        ]
+      },
+      "provenance": {
+        "sourceBranch": "overhaul/food-safety-canon",
+        "sourceFile": "data/food-safety/rules.json",
+        "sourceCommit": "a092c9a4aa8a5fbb7e62e88da26a1a3dce3970b7",
+        "sourceFileHash": "sha256:ba31ca0c868268f4cc3488afaa90d08033a42dbf1ea31ed807b61a1f60e4b01b",
+        "copiedBlobHash": "sha256:22f7d246c2dbd45d9d99acde412317a0d9c132bd03362c72f5d8720e95e74315",
+        "extracted": "rs_alignment.minimums_f (per-class minimum cooking temperatures) plus each doneness rule's match_keywords (food-to-class attribution), copied byte-for-byte from the reviewed rulebook"
+      }
     }
   ]
 }

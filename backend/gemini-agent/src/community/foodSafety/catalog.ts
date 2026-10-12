@@ -25,11 +25,64 @@
  *      working directory that has a `data` directory (the repo root when run
  *      from `backend/gemini-agent`).
  */
+import { createHash } from "node:crypto";
 import { readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 export const FOOD_SAFETY_CANON_SCHEMA = "fridgeluck/food-safety-canon@v1";
 export const INGREDIENT_FACTS_SCHEMA = "fridgeluck/ingredient-facts@v1";
+
+/**
+ * The closed food-class vocabulary of the canonical rulebook
+ * (overhaul/food-safety-canon, data/food-safety/rules.json): the FSIS class
+ * names its doneness rules and per-class cooking-temperature minimums use.
+ * A class outside this set is bad data and fails closed.
+ */
+export const FOOD_SAFETY_CLASSES = [
+  "meat_poultry",
+  "meat_ground",
+  "meat_whole_cut_pork",
+  "meat_whole_cut_red",
+  "flesh_fish",
+  "flesh_shellfish",
+  "egg",
+  "leftovers",
+] as const;
+
+export type FoodSafetyClass = (typeof FOOD_SAFETY_CLASSES)[number];
+
+/** Lineage of the numeric cooking-temperature data copied from the canonical rulebook. */
+export interface MinCookingTempProvenance {
+  /** The reviewed branch the numbers were copied from. */
+  readonly sourceBranch: string;
+  /** The data file inside that branch. */
+  readonly sourceFile: string;
+  /** The commit of that branch the copy was made at. */
+  readonly sourceCommit: string;
+  /** sha256 of the source file at that commit (`sha256:<hex>`). */
+  readonly sourceFileHash: string;
+  /** sha256 over the copied minimums+keywords blob (stableCookingTempString), rechecked at load. */
+  readonly copiedBlobHash: string;
+  /** What was copied, in prose. */
+  readonly extracted: string;
+}
+
+/**
+ * The reviewed per-class cooking-temperature floors (PR #104 review blocker
+ * 2). The numbers and the food→class keywords are copied from the canonical
+ * rulebook, never a looser local guess; `provenance.copiedBlobHash` is
+ * rechecked at load, so a drifted local copy cannot load at all.
+ */
+export interface MinCookingTempRule {
+  readonly kind: "min-cooking-temp";
+  readonly id: string;
+  readonly message: string;
+  /** Minimum internal cooking temperature per food class, °F. */
+  readonly minimumsF: Readonly<Record<FoodSafetyClass, number>>;
+  /** Reviewed food → class attribution keywords; a longer keyword that contains a shorter one wins. */
+  readonly classKeywords: Readonly<Record<FoodSafetyClass, readonly string[]>>;
+  readonly provenance: MinCookingTempProvenance;
+}
 
 /** A rulebook rule: forbid terms outright, or require evidence when a trigger appears. */
 export type FoodSafetyRule =
@@ -47,7 +100,29 @@ export type FoodSafetyRule =
       readonly id: string;
       readonly claims: ReadonlyArray<{ readonly phrases: readonly string[]; readonly allergen: string }>;
       readonly message: string;
-    };
+    }
+  | MinCookingTempRule;
+
+/**
+ * The canonical serialization the provenance hash is computed over: keys
+ * sorted, arrays in copied order, no whitespace. The loader recomputes it
+ * and refuses data whose hash differs from `provenance.copiedBlobHash`.
+ */
+export function stableCookingTempString(parts: {
+  readonly minimumsF: Readonly<Record<FoodSafetyClass, number>>;
+  readonly classKeywords: Readonly<Record<FoodSafetyClass, readonly string[]>>;
+}): string {
+  const sorted = FOOD_SAFETY_CLASSES.slice().sort();
+  return JSON.stringify({
+    classKeywords: Object.fromEntries(sorted.map((cls) => [cls, parts.classKeywords[cls]])),
+    minimumsF: Object.fromEntries(sorted.map((cls) => [cls, parts.minimumsF[cls]])),
+  });
+}
+
+/** sha256 hex of a string. */
+export function sha256Hex(text: string): string {
+  return createHash("sha256").update(text).digest("hex");
+}
 
 export interface FoodSafetyRulebook {
   readonly schema: string;
@@ -135,6 +210,96 @@ function closed(reason: string): FoodSafetyCatalog {
 
 /** Slug pattern for allergen vocabulary and rule references. */
 const ALLERGEN_SLUG = /^[a-z][a-z0-9-]{0,31}$/;
+
+/** Pattern for a recorded sha256 hash (`sha256:<hex>`). */
+const SHA256_HASH = /^sha256:[0-9a-f]{64}$/;
+
+/**
+ * Parses a class-keyed map whose keys are exactly the canonical classes —
+ * an unknown class or a missing floor both fail closed.
+ */
+function parseClassMap(value: unknown, what: string, problems: string[]): Record<string, unknown> | null {
+  if (!isRecord(value)) {
+    problems.push(`${what} must be a JSON object keyed by food class`);
+    return null;
+  }
+  const keys = Object.keys(value).sort();
+  const expected = FOOD_SAFETY_CLASSES.slice().map(String).sort();
+  if (keys.length !== expected.length || keys.some((k, i) => k !== expected[i])) {
+    problems.push(`${what} must carry exactly the canonical classes (${FOOD_SAFETY_CLASSES.join(", ")})`);
+    return null;
+  }
+  return value;
+}
+
+/** One provenance field: non-empty string, optionally hash-shaped. */
+function provenanceField(provenance: Record<string, unknown>, name: string, what: string, pattern: RegExp | null, problems: string[]): string | null {
+  const value = provenance[name];
+  if (typeof value !== "string" || value.trim().length === 0 || (pattern !== null && !pattern.test(value))) {
+    problems.push(`${what}.provenance.${name} must be a non-empty string${pattern === null ? "" : ` matching ${pattern.source}`}`);
+    return null;
+  }
+  return value;
+}
+
+function parseMinCookingTempRule(entry: Record<string, unknown>, id: string, message: string, index: number, problems: string[]): MinCookingTempRule | null {
+  const what = `rulebook.rules[${index}]`;
+  const minimumsRaw = parseClassMap(entry["minimumsF"], `${what}.minimumsF`, problems);
+  if (minimumsRaw === null) {
+    return null;
+  }
+  const minimumsF = {} as Record<FoodSafetyClass, number>;
+  for (const cls of FOOD_SAFETY_CLASSES) {
+    const value = minimumsRaw[cls];
+    if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
+      problems.push(`${what}.minimumsF.${cls} must be a positive temperature in °F`);
+      return null;
+    }
+    minimumsF[cls] = value;
+  }
+  const keywordsRaw = parseClassMap(entry["classKeywords"], `${what}.classKeywords`, problems);
+  if (keywordsRaw === null) {
+    return null;
+  }
+  const classKeywords = {} as Record<FoodSafetyClass, string[]>;
+  for (const cls of FOOD_SAFETY_CLASSES) {
+    const keywords = readNonEmptyStrings(keywordsRaw[cls], `${what}.classKeywords.${cls}`, problems);
+    if (keywords.length === 0) {
+      return null;
+    }
+    classKeywords[cls] = keywords;
+  }
+  const provRaw = entry["provenance"];
+  if (!isRecord(provRaw)) {
+    problems.push(`${what}.provenance must record where the minimums were copied from`);
+    return null;
+  }
+  const sourceBranch = provenanceField(provRaw, "sourceBranch", what, null, problems);
+  const sourceFile = provenanceField(provRaw, "sourceFile", what, null, problems);
+  const sourceCommit = provenanceField(provRaw, "sourceCommit", what, null, problems);
+  const sourceFileHash = provenanceField(provRaw, "sourceFileHash", what, SHA256_HASH, problems);
+  const copiedBlobHash = provenanceField(provRaw, "copiedBlobHash", what, SHA256_HASH, problems);
+  const extracted = provenanceField(provRaw, "extracted", what, null, problems);
+  if (sourceBranch === null || sourceFile === null || sourceCommit === null || sourceFileHash === null || copiedBlobHash === null || extracted === null) {
+    return null;
+  }
+  // Load-time integrity: the copied numbers must hash to the recorded blob
+  // hash. A loosened or drifted local copy never loads — the gate fails
+  // closed instead of enforcing looser floors (blocker 2).
+  const actualHash = `sha256:${sha256Hex(stableCookingTempString({ classKeywords, minimumsF }))}`;
+  if (actualHash !== copiedBlobHash) {
+    problems.push(`${what}.minimumsF/classKeywords do not match the recorded provenance hash — a drifted local copy must not load; re-copy from ${sourceBranch} at ${sourceCommit}`);
+    return null;
+  }
+  return {
+    kind: "min-cooking-temp",
+    id,
+    message,
+    minimumsF,
+    classKeywords,
+    provenance: { sourceBranch, sourceFile, sourceCommit, sourceFileHash, copiedBlobHash, extracted },
+  };
+}
 
 function readNonEmptyStrings(value: unknown, what: string, problems: string[]): string[] {
   if (!Array.isArray(value) || value.length === 0 || value.some((v) => typeof v !== "string" || v.trim().length === 0)) {
@@ -230,10 +395,25 @@ function validateRulebook(raw: unknown, factsVocabulary: ReadonlySet<string>, pr
         rules.push({ kind: "allergen-claim", id, claims, message });
         break;
       }
+      case "min-cooking-temp": {
+        const rule = parseMinCookingTempRule(entry, id, message, i, problems);
+        if (rule === null) {
+          return null;
+        }
+        rules.push(rule);
+        break;
+      }
       default:
-        problems.push(`rulebook.rules[${i}].kind must be one of forbidden-terms, claim-requires-evidence, allergen-claim`);
+        problems.push(`rulebook.rules[${i}].kind must be one of forbidden-terms, claim-requires-evidence, allergen-claim, min-cooking-temp`);
         return null;
     }
+  }
+  // The reviewed per-class cooking-temperature floors are mandatory data,
+  // not optional enrichment: a rulebook without them is not the canonical
+  // rulebook, and the gate fails closed rather than enforce no floors.
+  if (!rules.some((rule) => rule.kind === "min-cooking-temp")) {
+    problems.push("rulebook.rules must include a min-cooking-temp rule carrying the reviewed per-class cooking-temperature floors");
+    return null;
   }
   return { schema: FOOD_SAFETY_CANON_SCHEMA, source: raw["source"] as string, rules };
 }
