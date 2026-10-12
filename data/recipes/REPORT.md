@@ -13,43 +13,60 @@ plus this task's ingestion of the 401 originals (section 6), the
 substitution-table join (section 7), and the suite C criteria status with
 the honest resolution shortfall (section 8).
 
-## Totals (final combined corpus)
+Section 10 records the release-gate corrections made on 2026-10-11 after
+the review at `4b6e163`: the 25 seeds moved to quarantine for rights, FSIS
+doneness endpoints and thermometer wording corrected in 70 originals (84 steps),
+916 unproven claims removed, and the NHS conversion rebuilt on the same
+rules. The tables below are current. Sections 1–9 describe the work as it
+was done; where their numbers predate section 10, they say so.
+
+## Totals (current corpus)
 
 | Measure | Value |
 |---|---|
-| Recipes in `corpus.jsonl` | 428 (25 audited seed keepers + 2 NHS + 401 original) |
-| Rights records in `rights_manifest.json` | 428 (every `source_ref` resolves; 428/428 clear) |
-|   — originals split | 260 `original` + 141 `original-rewrite` (per `provenance.rewrite_of`) |
-| Ingredient lines | 2771 resolved / 2988 (92.74%) — see section 8 |
-| Quantity kinds | 2355 `household`, 416 `source_grams`, 217 `unknown`, 0 `weighed` |
-| Allergen/diet claims | 1050 (69 seed + 4 NHS + 977 original), all matching the suite AllergenScanner recomputation (0 unchecked, 0 stripped) |
-| Food-safety lint | 428/428 pass (0 violations) |
-| Cuisines | american 116, asian 63, indian 53, italian 68, mediterranean 69, mexican 59 (6/6) |
-| Meal slots | breakfast 54, lunch 169, dinner 279 |
-| Time bands | 0-15: 51, 16-30: 161, 31-45: 129, 46-60: 46, 61+: 41 |
+| Recipes in `corpus.jsonl` | 403 (2 NHS + 401 original) |
+| Recipes in `quarantine.jsonl` | 25 (the bundled seeds; reason: rights rest on missing attribution — section 10) |
+| Rights records in `rights_manifest.json` | 403 (every `source_ref` resolves; 403/403 clear and affirmative) |
+|   — by source type | 260 `original` + 141 `original-rewrite` + 2 `government` |
+| Ingredient lines | 2618 resolved / 2835 (92.35%) — see section 8 |
+| Quantity kinds | 2355 `household`, 263 `source_grams`, 217 `unknown`, 0 `weighed` |
+| Allergen/diet claims | 65 (nut-free 34, gluten-free 13, dairy-free 9, vegetarian 7, vegan 2), each on a recipe whose every ingredient has known composition (section 10) |
+| Thermometer checks | 261 steps; 25 reheat steps, each with its own 165 °F check |
+| Food-safety gate | 403/403 pass `food_safety.py`; 403/403 pass suite C `rs.py` at `26c7004` |
+| Cuisines | american 104, asian 59, indian 52, italian 65, mediterranean 67, mexican 56 (6/6) |
+| Meal slots | breakfast 46, lunch 149, dinner 263 |
+| Time bands | 0-15: 37, 16-30: 151, 31-45: 128, 46-60: 46, 61+: 41 |
 | Bands represented | 14/14 (all six cuisines, three slots, five time bands) |
-| Cross-product cells filled | 78/90 (informational) |
-| Dedupe (all 428) | 0 duplicate ids, 0 duplicate normalized titles, 0 (title, core-ingredient) collisions — re-run at ingestion |
+| Cross-product cells filled | 75/90 (informational) |
+| Dedupe (all 403) | 0 duplicate ids, 0 (title, core-ingredient) collisions |
 
-Validation loop (exact command in the PR Verification section): `rs.py` lint
-green over the full combined corpus, `rights.py` completeness green (no
-quarantined recipe in `corpus.jsonl`), `bands.py` counts above.
+Validation loop: `python3 -I data/recipes/tools/validate_corpus.py
+--suite-dir <suite at 26c7004>` plus `python3 -I -m unittest discover -s
+data/recipes/tools -p 'test_*.py'`. The validator runs suite C's `rs.py`,
+`rights.py` and `bands.py`, then this branch's gates (`food_safety.py`,
+`composition.py`, `rights_evidence.py`) and the quarantine check.
 
 ## Suite C criteria status (final corpus)
 
 | Suite C bar | Threshold | Measured | Verdict |
 |---|---|---|---|
-| Rights-clear recipes | >= 400 (target 1500) | 428/428 clear, 0 quarantined | **PASS** |
-| Food-safety linter | 100% pass | 428/428 pass | **PASS** |
-| Unchecked allergen/diet claims | 0 | 0 unchecked, 0 stripped | **PASS** |
+| Rights-clear recipes | >= 400 (target 1500) | 403/403 clear with affirmative evidence; 25 quarantined | **PASS** (3 over the bar) |
+| Food-safety linter | 100% pass | 403/403 (suite `rs.py` at `26c7004` and `food_safety.py`) | **PASS** |
+| Unchecked allergen/diet claims | 0 | 0 unchecked under suite C at `26c7004` and at `9e04af4` | **PASS** |
 | Declared bands covered | every band >= 1 recipe | 14/14 bands | **PASS** |
-| Lines resolved with quantity evidence | >= 95% | 2771/2988 = 92.74% | **FAIL — see section 8** |
+| Lines resolved with quantity evidence | >= 95% | 2618/2835 = 92.35% | **FAIL — see section 8** |
 
-One bar fails. The shortfall arithmetic, its exact size, and the fix path
-are in section 8; per the operator ruling, the gap closes corpus-side on
-this branch via cited conversion evidence in `data/recipes/`.
+One bar fails. Quarantining the seeds removed 153 fully resolved lines, so
+the gap grew: 0.95 × 2835 = 2693.25, the bar needs 2694 resolved lines,
+and the corpus has 2618, short by 76 (it was 68 at 428 recipes). The 217
+unresolved lines are unchanged; section 8 describes them.
 
-## 1. Bundled seed conversion — 25 recipes ingested
+## 1. Bundled seed conversion — 25 recipes, now quarantined
+
+**Status (2026-10-11, section 10):** all 25 moved to
+`data/recipes/quarantine.jsonl`. Their rights records below rest only on
+missing attribution, which shows neither authorship nor permission. The
+rest of this section describes the conversion as it was done.
 
 **Source:** the 25 rows the rights audit marked *keep* in the bundled catalog
 (`apps/ios/Resources/data.json`, branch `alpha`, 166 positional-array rows).
@@ -102,8 +119,11 @@ quantity-evidence-wise; nothing was weakened to raise the yield.
 
 **Claims:** 4 written on the 2 recipes; `raspberries` and `summer berries`
 are unaliased names (recorded, and claims that could rely on them are
-suppressed). One defect found and fixed pre-commit: the leftover heuristic
-previously fabricated a reheat step for a cold yogurt-berry dish; reheating
+suppressed). Section 10 removed all 4: an unaliased name has unknown
+composition, which blocks every claim on the recipe.
+
+One defect was found and fixed before the first commit: the leftover
+heuristic fabricated a reheat step for a cold yogurt-berry dish; reheating
 is now detected only from explicit source instructions.
 
 ## 3. NHLBI Healthy Eating Recipes — 0 recipes ingested of 54 parsed
@@ -209,8 +229,10 @@ against the 27, and within the batch). **401/401 accepted; 0 stopped.**
 top-level field — computed scanner state the originals task's validation
 injected and persisted. It is linter residue, not recipe content; ingestion
 strips it (the same rule validate_corpus.py follows: scanner classes are
-injected on a deep copy, never persisted). No other field was touched — no
-title, ingredient, step, quantity, or claim was edited, added, or removed.
+injected on a deep copy, never persisted). No other field was touched at
+ingestion. Section 10 later corrected 84 safety steps in 70 originals and
+removed unproven claims; those edits are listed in
+`tools/fix_doneness.py` and belong upstream in the originals too.
 
 **Rights records:** 401 new records in `data/recipes/rights_manifest.json`
 (428 total), one per recipe keyed by its id: `source_id` = the recipe id,
@@ -244,8 +266,10 @@ never for its `binder` primary role); `unknown` stays unknown;
 `unsupported` is never offered; lines whose names do not resolve in the
 table get nothing.
 
-**Result (measured):** 2087 verified (line, pair) annotations landed on
-**405 of 428** recipes, from **79 of 279 pairs**. Candidate verdicts
+**Result (measured on the 428):** 2087 verified (line, pair) annotations landed on
+**405 of 428** recipes, from **79 of 279 pairs**. On the current 403 the
+annotations number 1889 on 382 recipes, still from 79 pairs; the rest left
+with the quarantined seeds. Candidate verdicts
 evaluated over resolving lines: 2296 verified, 3631 plausible, 299 unknown,
 248 unsupported — the weaker verdicts are counted here and **not applied**.
 Per-role landings: acid 152, aromatic 435, binder 99, fat 447, garnish 167,
@@ -344,6 +368,11 @@ corpus validates green with the annotations in place.
 | whole-milk-liquid-to-yogurt | plain_yogurt | liquid | 25 | 25 |
 
 ## 8. Quantity-evidence resolution — the 95% bar fails, honestly
+
+**Current (403 recipes, after section 10):** 2618 of 2835 lines resolved =
+92.35%; the bar needs 2694, short by 76. The seeds' 153 lines were all
+resolved, so quarantining them widened the gap. The 217 unresolved lines
+below are unchanged. The rest of this section is the measurement on 428.
 
 **Measured:** 2771 of 2988 ingredient lines resolved = **92.74%**
 (27 from Part 1b: 159/159 = 100%; originals: 2612/2829 = 92.33%,
@@ -497,14 +526,125 @@ gate, unchanged).
 All three tools are deterministic, take no other inputs, and modify no
 repository file; re-running converges to the same reports.
 
+## 10. Release-gate corrections (2026-10-11)
+
+The review at `4b6e163` blocked on five findings that suite C's linter at
+`26c7004` did not catch. Each is now a gate in `validate_corpus.py`, with
+planted failures in `tools/test_gates.py`.
+
+**Rights (finding 3).** `rights_evidence.py` accepts a record only in an
+affirmative form for its `source_type`: an original cites its authoring
+record (`data/recipes/originals/rights_manifest.json record <id> (branch
+overhaul/original-recipes at <sha>)`) under its own id; a government source
+carries an open licence and links both the licence terms and the recipe
+page. Any other source type is refused until a form is added. Evidence that
+only lists absences (no Source line, present since the initial commit, not
+in the BBC scrape cache) is refused. The 25 seeds had nothing else, and
+SPEC 3.5 says the 25 non-BBC bundled recipes are not automatically clear,
+so `quarantine.py --rights` moved them to `quarantine.jsonl` with the
+reason and the old record. `scripts/generate_recipes.md` gives an LLM batch
+prompt for extending the catalog, but no record says how the 25 were
+written, so it is not authorship evidence. Original text is also checked
+against the bundled catalog: the 401 originals share at most 9 consecutive
+words with it, all stock phrases; the gate refuses 12.
+
+**Doneness endpoints (finding 1).** `food_safety.py` encodes the USDA FSIS
+Safe Minimum Internal Temperature Chart, fetched 2026-10-11 (page "Last
+Updated: Apr 14, 2025"; rows quoted in `FSIS_ROWS`). Each ingredient name
+maps to a class: poultry including ground poultry 165 °F; ground meat and
+raw sausage 160 °F; whole cuts of beef, pork, veal and lamb 145 °F with a
+3-minute rest stated in the check's step; fish and shellfish 145 °F; eggs
+160 °F; precooked poultry or meat 165 °F. Titles naming casseroles, bakes,
+gratins, lasagne, strata, stuffing or fish pie add the 165 °F casserole
+endpoint for the finished dish. Ready-to-eat products (stock, fish sauce,
+canned fish, anchovies, buns) carry no class. Foods cooked or mixed
+together reach the strictest minimum: a check whose step names several
+foods, or that cooks a mixture an earlier step made raw (egg folded into
+fish cakes), must reach the highest. Every reheating step carries its own
+165 °F check. `fix_doneness.py` applied 47 endpoint edits; the main
+groups: 7 casseroles and bakes raised to 165 °F (0008, 0102, 0149, 0200,
+0235, 0332, 0359); rests added to 20 whole-cut checks; egg coverage at
+160 °F or above in 6 recipes (0014, 0124, 0178, 0287, 0321, 0343; the cod
+cakes had relied on the 145 °F poach after raw egg went in, and the freezer
+burritos pulled the eggs early); a flank steak no longer pulled at
+140 °F on carryover (0023); missing checks added for sausages (0252, 0309)
+and reheated rice (0095).
+
+**Cook-facing text (finding 2).** Every step with a check now names the
+thermometer and the temperature in its text, and no step judges doneness by
+look or states an internal temperature without a check. 44 text edits; six
+checks that sat on browning or garnish steps moved to the step where the
+food finishes cooking (0137, 0146, 0171, 0227, 0377, 0396).
+`convert_bundled.py` now writes the check into the seed step it attaches
+to. Each edit is asserted against the exact text it replaces, and the test
+suite checks that the edits applied to the originals as ingested at
+`4b6e163` reproduce the committed steps.
+
+**Claims (finding 4).** `composition.py` refuses a claim when any
+ingredient name does not resolve in suite C's `allergens.json` (unknown
+composition), when a line offers alternatives that are not all known and
+allowed ("ghee or vegetable oil" on fl-original-0065), when a resolved
+ingredient varies by product (stock: meat, milk, wheat; cheese: animal
+rennet; tamari, curry powder, chaat masala, miso, chipotle in adobo,
+baking powder: wheat or barley; pasta and wheat noodles: egg; breads and
+tortillas: milk, egg, lard; oats: cross-contact; sugar: bone char for
+vegan), or when a step names a conflicting food the list omits.
+`strip_unproven_claims.py` removed 916 of 981 claims and never adds one.
+By reason, a claim counted under each that applies: unknown composition
+881, product-dependent composition 272, conflicting food in a step 88,
+alternatives 18. 362 of the 403 recipes contain at least one name the
+alias table cannot resolve (the commit message of `0f39ea8` says 342; 362
+is the measured count). Claims come back when a composition source covers
+those names: alias rows in `allergens.json` or the FLIngredientFacts
+package. The 65 kept claims also verify under suite C at `9e04af4`, which
+treats unresolved names as unchecked.
+
+**NHS conversion (finding 5).** `ingest_nhs.py` `build_steps` takes each
+doneness clause's endpoint from the recipe's ingredients through
+`food_safety.py` instead of the clause (turkey mince 165 °F, pork loin
+145 °F with rest), checks every reheating step at 165 °F whatever was
+checked before, adds one closing check naming any food still unchecked at
+the strictest remaining endpoint (165 °F for a casserole), and skips a
+page whose steps fail the gate. The old table used classes the schema does
+not have (`meat_pork`, `meat_red`, `seafood`). NHS and NHLBI claims now
+pass the composition gate, `ingest_originals.py` stops a recipe that fails
+either gate, and NHS method text is HTML-decoded. The NHS pages are not
+cached on this machine, so ingestion was not re-run; the two NHS recipes
+need no doneness check (a yogurt-berry chill and porridge), and their only
+change is "don&#x27;t" decoded to "don't".
+
+**What the gate does not know.** It classifies by ingredient name and finds
+foods cooked together by the words a step uses, so it is a floor, not a
+reading of the recipe. Known approximations: chorizo is always 160 °F
+(cured chorizo is ready to eat); bacon is a whole cut at 145 °F with rest
+(FSIS gives no bacon temperature; "Ham, Fresh or Smoked (Uncooked)" is the
+nearest row); stuffed vegetables and traybakes are not casseroles; any
+cheese may use animal rennet.
+
+**Suite C at `9e04af4`.** The newer suite adds a pinned FSIS canon. On the
+current corpus with that canon, 51 recipes still fail its R3 rule with 55
+violations, and none is a missed endpoint. The suite's keywords classify
+ready-to-eat products: "chicken stock" as poultry (13), canned tuna (10)
+and fish sauce (2) as fish, "burger buns" as ground meat (5), and "ground
+pork" as a whole cut (1). It also wants every class named by its own
+check, where this gate accepts a stricter check on the same food or
+mixture: egg in meatloaf, meatballs, breading and casseroles (6), poultry
+in a pasta bake checked at 165 °F as a casserole (1), fish and shellfish
+in egg-bound patties checked at 160 °F (2), and precooked poultry covered
+by its 165 °F reheat check (2). The last 13 are steps that say "warm
+through" for food that reached its endpoint earlier in the same cook,
+which the suite reads as reheating.
+The validator still pins `26c7004`, whose lint call takes no canon. Fixing
+the suite's keyword table belongs to the eval task (PR #88); the operator
+ruled no edits under `evaluation/`.
+
 ## Limits and handoff
 
-- **Release status (operator ruling recorded 2026-10-11):** the corpus is a
-  release candidate as shipped — 4/5 suite C bars pass on the full combined
-  428 (rights >= 400, 100% linter pass, 0 unchecked claims, 14/14 bands);
-  the >= 95% quantity-evidence bar honestly fails at 2771/2988 resolved
-  (92.74%), short exactly 68 resolved lines (0.95 x 2988 = 2838.6;
-  2838/2988 = 94.98%). The operator ruled HOLD: no edits to
+- **Release status:** 4/5 suite C bars pass on the current 403 (rights
+  >= 400 with three to spare, 100% linter pass, 0 unchecked claims, 14/14
+  bands); the >= 95% quantity-evidence bar fails at 2618/2835 resolved
+  (92.35%), short 76 lines. Before section 10 it was 2771/2988 (92.74%),
+  short 68. The operator ruled HOLD: no edits to
   `eval/scorecard-runner` or anything under `evaluation/` — the suite must
   not grade data its own task supplied, so the gap closes on this branch
   via properly cited household-to-grams conversion rows in `data/recipes/`
@@ -522,17 +662,26 @@ repository file; re-running converges to the same reports.
   documented here; SCHEMA.md does not describe it (not edited by this
   task). If the programme wants it normative, SCHEMA.md should gain a line
   (programme parent's call).
-- **Corpus size vs the 1500 target:** 428 rights-clear recipes; growth
-  beyond that continues through new originals or newly cleared sources
-  under the same evidence rules.
-- Cross-product cells 78/90 (informational; the suite counts bands over the
+- **Corpus size vs the 1500 target:** 403 rights-clear recipes, three over
+  the 400 bar; any further quarantine drops below it. Growth continues
+  through new originals or newly cleared sources under the same evidence
+  rules.
+- **The 25 seeds** come back only with an affirmative authorship or
+  permission record; then add its form to
+  `rights_evidence.AFFIRMATIVE_FORMS` and move them out of quarantine.
+- **Upstream:** the 84 safety-step corrections (`tools/fix_doneness.py`)
+  were made in the corpus because that is where the recipes ship. They
+  belong in `data/recipes/originals/` too, which `fl-original-recipes-f1`
+  owns; until then a re-ingest must run `fix_doneness.py`.
+- **Claims:** 65 survive. Most recipes lost theirs because an ingredient
+  name does not resolve in `allergens.json`; adding reviewed alias rows or
+  landing FLIngredientFacts restores them through the same gate.
+- Cross-product cells 75/90 (informational; the suite counts bands over the
   declared set, which is full: 14/14).
-- `fl-seed-0002`/`fl-seed-0018` remain core-ingredient twins (distinct
-  dishes, distinct titles) — allowed by SCHEMA.md §7, informational.
 - Nothing in `evaluation/`, `scripts/`, `apps/`, or `packages/` was
   modified; SCHEMA.md, SOURCES.md, RIGHTS-AUDIT.md, `data/recipes/originals/`,
   `data/substitutions/`, and the FLSubstitutions package were consumed
   read-only. Suite C fixtures were never copied or counted.
 - MyPlate retry and the BBC cache replacement (sections 4–5) remain
   follow-ups for their owning branches; unchanged by this integration.
-**Writer ruling (2026-10-11, operator).** `fl-original-recipes-f1` now owns PR #107, `overhaul/original-recipes`, and `data/recipes/originals/`; this programme has stopped writing that branch and directory. This programme's commits on `overhaul/original-recipes` — all authored Sam Gu <127461594+SamGu-NRX@users.noreply.github.com> with the obvious-autobuild[bot] co-author trailer, diffs confined to `data/recipes/originals/`, append-only — were: Part 5 (thread th_MzvPCFVg) `654afe2`, `47e9274`, `9b69c34`, `0b7a08b`; Part 5b continuation M4-M11 (thread th_lm6J9eSh) `1855545`, `0fc9b63`, `f484ebb`, `667b759`, `9bf12e5`, `dc3e6da`, `f04f508`, `607ef99`. Branch head at handoff: `607ef99`, still this programme's last commit — the new owner has not yet appended. The operator's 19:10Z instruction to fold #111 into #107 is voided by the same ruling and was never acted on here. The food-safety rulebook (#97) belongs to `fl-root-food-safety-f1`. This programme's scope stands: the rights audit, PR #43, licensed ingestion into `corpus.jsonl` (ingesting `data/recipes/originals` through the same validation as any source), and substitution table (#114). Open with the operator: the 68-line quantity-gap decision (upstream re-authoring vs accept 92.74% as shipped); any `data/recipes/originals/` re-authoring routes through `fl-original-recipes-f1`.
+**Writer ruling (2026-10-11, operator).** `fl-original-recipes-f1` now owns PR #107, `overhaul/original-recipes`, and `data/recipes/originals/`; this programme has stopped writing that branch and directory. This programme's commits on `overhaul/original-recipes` — all authored Sam Gu <127461594+SamGu-NRX@users.noreply.github.com> with the obvious-autobuild[bot] co-author trailer, diffs confined to `data/recipes/originals/`, append-only — were: Part 5 (thread th_MzvPCFVg) `654afe2`, `47e9274`, `9b69c34`, `0b7a08b`; Part 5b continuation M4-M11 (thread th_lm6J9eSh) `1855545`, `0fc9b63`, `f484ebb`, `667b759`, `9bf12e5`, `dc3e6da`, `f04f508`, `607ef99`. Branch head at handoff: `607ef99`, still this programme's last commit — the new owner has not yet appended. The operator's 19:10Z instruction to fold #111 into #107 is voided by the same ruling and was never acted on here. The food-safety rulebook (#97) belongs to `fl-root-food-safety-f1`. This programme's scope stands: the rights audit, PR #43, licensed ingestion into `corpus.jsonl` (ingesting `data/recipes/originals` through the same validation as any source), and substitution table (#114). Open with the operator: the quantity-gap decision, now 76 lines at 92.35% after the seed quarantine (upstream re-authoring vs accept as shipped); any `data/recipes/originals/` re-authoring routes through `fl-original-recipes-f1`.
