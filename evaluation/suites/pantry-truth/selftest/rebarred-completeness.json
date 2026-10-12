@@ -1,0 +1,19 @@
+{
+  "case": "pantry-truth-rebarred-completeness",
+  "emit": {
+    "suite": "pantry-truth",
+    "letter": "A",
+    "title": "Pantry truth",
+    "metrics": [
+      {"id": "stock_counted_twice", "metric": "Stock counted twice (plan battery)", "value": 0},
+      {"id": "sufficient_claimed_without_quantity_evidence", "metric": "Sufficient claimed without quantity evidence (line audit over 200 pairs)", "value": 0},
+      {"id": "fit_line_text_correct_200", "metric": "Fit-line text correct (200-pair audit)", "value": 200},
+      {"id": "plan_battery_rows_present", "metric": "Plan battery rows present (PLAN.md line 49)", "value": 2,
+       "bar": {"op": "==", "value": 2}}
+    ]
+  },
+  "expect_rows": [
+    {"id": "plan_battery_rows_present", "status": "fail",
+     "reason_contains": ["differs from the registry bar"]}
+  ]
+}
