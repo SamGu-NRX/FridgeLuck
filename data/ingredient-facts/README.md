@@ -18,12 +18,11 @@ independently by the TypeScript and Python conformance runners.
   branches). **Exists.**
 - `tools/build_dataset.py` — generates and validates the two JSON files. **Exists.**
 - `conformance/cases.json` — shared JSON cases (ingredient, restrictions, expected
-  result) that Swift, TypeScript and Python consumers each run. **PLANNED** (not yet in
-  the tree).
+  result) that Swift, TypeScript and Python consumers each run. **Exists** (43 cases).
 - `conformance/runners/typescript/run_conformance.ts` — Bun runner, no npm
-  dependencies. **PLANNED** (not yet in the tree).
+  dependencies. **Exists.**
 - `conformance/runners/python/run_conformance.py` — Python runner, stdlib only.
-  **PLANNED** (not yet in the tree).
+  **Exists.**
 
 ## identities.json schema (pinned)
 
