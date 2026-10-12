@@ -41,17 +41,17 @@ active_dry_yeast, agar, agave_syrup, allspice, almond_butter, almond_flour, almo
 | Eater scope | Lines covered | Share |
 | --- | --- | --- |
 | No restrictions | 299 | 38.3% |
-| dairy-free | 90 | 11.5% |
-| egg-free | 21 | 2.7% |
-| fish-free | 21 | 2.7% |
-| gluten-free | 24 | 3.1% |
-| nut-free | 21 | 2.7% |
-| peanut-free | 21 | 2.7% |
+| dairy-free | 58 | 7.4% |
+| egg-free | 0 | 0.0% |
+| fish-free | 0 | 0.0% |
+| gluten-free | 0 | 0.0% |
+| nut-free | 0 | 0.0% |
+| peanut-free | 0 | 0.0% |
 | pescatarian | 113 | 14.5% |
-| sesame-free | 21 | 2.7% |
-| shellfish-free | 21 | 2.7% |
+| sesame-free | 0 | 0.0% |
+| shellfish-free | 0 | 0.0% |
 | soy-free | 0 | 0.0% |
-| tree-nut-free | 21 | 2.7% |
+| tree-nut-free | 0 | 0.0% |
 | vegan | 90 | 11.5% |
 | vegetarian | 113 | 14.5% |
 

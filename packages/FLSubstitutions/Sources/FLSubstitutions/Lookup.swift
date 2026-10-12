@@ -91,27 +91,96 @@ extension SubstitutionTable {
         }
     }
 
+    /// The lookup's three-way verdict separation (PR #114 review round 2):
+    /// only candidates with NO confirmation requirement are usable swaps;
+    /// anything whose composition is unknown on either side of the recheck
+    /// is a question for the eater, never a usable swap; the remainder is
+    /// filtered from the offer.
+    public struct ClassifiedSwaps: Sendable {
+        /// Usable now: a `verified`/`plausible` verdict, no refusal, and no
+        /// confirmation requirement anywhere in the recheck. A swap whose
+        /// ORIGINAL is a known violation and whose substitute is known-safe
+        /// lives here — removing the violation is the point of the swap.
+        public let usable: [SwapCandidate]
+        /// Composition unknown on the original or the substitute side, with
+        /// no settled refusal in the way: surface as a question ("check the
+        /// bottle"), never as a usable swap.
+        public let needsConfirmation: [SwapCandidate]
+        /// Everything the offer filters: settled substitute violations,
+        /// conditional refusals, and context verdicts that are not evidence
+        /// (`unknown`/`unsupported`) — including candidates that also need
+        /// confirmation but are separately refused or evidence-less.
+        public let refused: [SwapCandidate]
+    }
+
+    /// Every candidate for the lookup, separated into `usable` swaps,
+    /// `needsConfirmation` questions, and the `refused` remainder. The
+    /// buckets are disjoint and together contain every candidate
+    /// `swapCandidates` returns; each bucket keeps the candidates'
+    /// deterministic rank order.
+    ///
+    /// A candidate needing confirmation lands in `needsConfirmation` unless
+    /// something else settles it first: a settled substitute violation or a
+    /// conditional refusal refuses it outright, and a non-evidence context
+    /// verdict keeps it filtered — confirming composition cannot promote
+    /// either. Buttermilk → whole milk under vegetarian is the canonical
+    /// first case: the original's composition is unknown, so the swap is a
+    /// question even though the replacement (milk) is known-safe.
+    public func classifiedSwaps(
+        for ingredientName: String,
+        role: Role,
+        restrictions: [String]
+    ) throws -> ClassifiedSwaps {
+        var usable: [SwapCandidate] = []
+        var needsConfirmation: [SwapCandidate] = []
+        var refused: [SwapCandidate] = []
+        for candidate in try swapCandidates(for: ingredientName, role: role, restrictions: restrictions) {
+            let settledSubstituteRefusal =
+                candidate.recheck.conditionalRefusal != nil
+                || { if case .violated = candidate.recheck.outcome { return true } else { return false } }()
+            let isEvidence = candidate.verdict == .verified || candidate.verdict == .plausible
+            if candidate.needsConfirmation {
+                // Unknown composition is a question, not a settled no —
+                // unless the substitute side is separately settled refused,
+                // or the context verdict carries no evidence to confirm for.
+                if !settledSubstituteRefusal && isEvidence {
+                    needsConfirmation.append(candidate)
+                } else {
+                    refused.append(candidate)
+                }
+            } else if candidate.isRefused || !isEvidence {
+                refused.append(candidate)
+            } else {
+                usable.append(candidate)
+            }
+        }
+        return ClassifiedSwaps(usable: usable, needsConfirmation: needsConfirmation, refused: refused)
+    }
+
     /// Ranked swaps that are usable in this context and safe for every eater:
     /// verdicts `verified` or `plausible` only — `unknown` stays unknown and
     /// is never offered as if it were evidence, `unsupported` is never
     /// offered at all — and candidates the recheck refuses (a settled
     /// violation, unknown composition, or a conditional refusal) are filtered.
-    /// Use `swapCandidates` for the full picture.
+    /// A candidate needing confirmation is never usable, including when only
+    /// the ORIGINAL ingredient's composition is unknown (buttermilk → whole
+    /// milk under vegetarian); those surface in
+    /// `classifiedSwaps(...).needsConfirmation`. Use `swapCandidates` for
+    /// the full picture and `classifiedSwaps` for the three-way split.
     public func swaps(
         for ingredientName: String,
         role: Role,
         restrictions: [String]
     ) throws -> [SwapCandidate] {
-        try swapCandidates(for: ingredientName, role: role, restrictions: restrictions)
-            .filter { candidate in
-                guard !candidate.isRefused else { return false }
-                return candidate.verdict == .verified || candidate.verdict == .plausible
-            }
+        try classifiedSwaps(for: ingredientName, role: role, restrictions: restrictions).usable
     }
 
     /// Verified swaps for an ingredient across every role its pairs support
     /// (primary plus `supported_also`), for coverage reporting. One entry per
     /// (pair, role) that verifies and is safe for the given restrictions.
+    /// A candidate needing confirmation is excluded here too — a coverage
+    /// report must not count an unconfirmed composition as verified evidence
+    /// (PR #114 review round 2).
     public func verifiedSwaps(
         for ingredientName: String,
         restrictions: [String]
@@ -140,7 +209,7 @@ extension SubstitutionTable {
                     table: self,
                     conditionalRefusal: conditionalRefusal(for: pair, role: role, set: restrictionSet)
                 )
-                guard !recheck.isRefused else { continue }
+                guard !recheck.isRefused && !recheck.needsConfirmation else { continue }
                 out.append(SwapCandidate(
                     pair: pair,
                     requestedRole: role,

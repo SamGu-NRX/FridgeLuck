@@ -137,14 +137,20 @@ public struct AllergenRecheck: Sendable {
     /// the swap is functionally fine but refused for those eaters).
     public let conditionalRefusal: String?
 
-    /// The substitute is not offerable: a settled violation, unknown
-    /// composition, or a conditional refusal for this eater.
+    /// The substitute is not offerable for this eater: a settled violation,
+    /// unknown composition, or a conditional refusal. Not the usable-swap
+    /// gate on its own — the lookup additionally excludes candidates that
+    /// need confirmation (PR #114 review round 2).
     public var isRefused: Bool {
         !outcome.isOfferable || conditionalRefusal != nil
     }
 
     /// Unknown composition anywhere in the recheck — surface as a question,
-    /// not as silence.
+    /// not as silence. A candidate with this set is NEVER a usable swap,
+    /// including when only the ORIGINAL's composition is unknown (buttermilk
+    /// → whole milk under vegetarian). A settled violation on the original
+    /// is a different case: it neither refuses nor requires confirmation,
+    /// because a known-safe replacement may still remove that violation.
     public var needsConfirmation: Bool {
         outcome.needsConfirmation || originalOutcome.needsConfirmation
     }
