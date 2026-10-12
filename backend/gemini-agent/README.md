@@ -123,6 +123,23 @@ For Cloud Run, set:
 - Firestore-backed live session state is the intended Cloud Run path. `LIVE_SESSION_STORE_MODE=auto` falls back to memory for local-only development.
 - Food-safety and freshness grounding are limited to Google Search backed questions; recipe, macro, and inventory truth remain FridgeLuck-context grounded.
 
+### Live session authority model (`/v1/live`)
+
+The client is an observer and confirmer, never a writer:
+
+- **Session ids are server-minted.** A `sessionId` in the upgrade URL is logged as ignored; there is no attach-to-existing-session path. Over-limit connections (more than `MAX_LIVE_SESSIONS`) are closed with code 1013, as are connections when no model client is configured (`session_error` `model_unavailable` first). Sessions end at `MAX_SESSION_SECONDS` with `session_close` reason `session_expired` (close 1000).
+- **Inventory mutations are propose-then-confirm.** The model calls `propose_inventory_mutation` (validated, bounded); the client then sends `confirm_mutation` with the proposal id to execute it (exactly once — the proposal id is the idempotency key) or `cancel_mutation` to withdraw it. Pending proposals expire after `MUTATION_PROPOSAL_TTL_SECONDS` (`unknown_proposal`). The phone's own ledger stays authoritative; the backend keeps a per-session shadow inventory (`inventory/sessionLedgers.ts`).
+- **Client-sent authority frames are rejected.** `tool_response` envelopes get `client_error` (tools execute server-side only), and `latestConfidence` in `session_context` is rejected with `latestConfidence_not_accepted` — the exact-mode confidence gate is computed server-side.
+- **Bounded input.** Each connection may send at most `LIVE_CLIENT_MESSAGES_PER_MINUTE` messages; the budget refills on a fixed 60-second timer. Over-budget messages get `client_error` `message_budget_exceeded` and are not forwarded upstream.
+- **Fail-closed responses.** If the server-side response guard cannot read session state, the upstream model message is withheld and replaced with `session_error` `response_guard_failed`.
+
+### Credential handling
+
+- `GEMINI_API_KEY` (Developer API mode) is a secret: it lives only in `.env` locally (git-ignored) and in Cloud Run secret bindings in production. Never commit it; rotate it in Secret Manager if exposed.
+- Vertex AI mode holds no API key at all — the runtime service account's Application Default Credentials authenticate to Vertex AI and Firestore (granted by `scripts/bootstrap-gcp.sh`).
+- `WEBHOOK_OIDC_AUDIENCE` and `WEBHOOK_ALLOWED_EMAILS` are configuration, not secrets; webhook routes fail closed (503) when they are missing or invalid.
+- The iOS app needs no AI credential for backend flows: it sets only `GEMINI_BACKEND_BASE_URL` (a public URL) and keeps `GEMINI_API_KEY` unset so the key is handled backend-side only.
+
 ## 8) Cloud Run deployment proof
 
 - Cloud Run deployment assets live alongside this service (`Dockerfile`, `cloudbuild.yaml`, `scripts/deploy-cloud-run.sh`).
