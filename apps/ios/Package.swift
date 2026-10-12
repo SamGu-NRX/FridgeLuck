@@ -28,7 +28,9 @@ let package = Package(
     // so the inventory invariant tests can run under `swift test` on Linux. Sources are listed
     // explicitly because the target's path is the package root. The app's Xcode target graph
     // from project.yml is untouched and keeps compiling the full source tree; Tools/ is not
-    // globbed by any Xcode target, so the shim never reaches an Apple build.
+    // globbed by any Xcode target, so the shim never reaches an Apple build. The
+    // allergen-exclusion policy files (Recipe, HealthProfile, AllergenGroupMembership) join
+    // the same slice so the fail-closed allergen-preference evaluation is testable on Linux.
     .target(
       name: "FLInventoryCore",
       dependencies: [
@@ -38,6 +40,9 @@ let package = Package(
       sources: [
         "Domain/Models/IngredientSwap.swift",
         "Domain/Models/Inventory.swift",
+        "Domain/Models/Recipe.swift",
+        "Domain/Models/HealthProfile.swift",
+        "Domain/Allergens/AllergenGroupMembership.swift",
         "Platform/Persistence/Database/Migrations.swift",
         "Platform/Persistence/Repository/InventoryRepository.swift",
         "Tools/InventoryCoreShim.swift",
@@ -55,6 +60,7 @@ let package = Package(
       sources: [
         "InventoryInvariants",
         "MigrationOrderReplayTests.swift",
+        "AllergenFailClosed",
       ]
     ),
   ]

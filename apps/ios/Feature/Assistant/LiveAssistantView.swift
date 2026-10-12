@@ -589,7 +589,7 @@ struct LiveAssistantView: View {
     }
   }
 
-  /// "Recipe from bbcgoodfood.com" on the dark live panel; links to the original page when the
+  /// "Recipe from example.org" on the dark live panel; links to the original page when the
   /// source is a web address.
   private func liveAttributionLine(_ attribution: RecipeAttribution) -> some View {
     let content = HStack(spacing: AppTheme.Space.xxs) {

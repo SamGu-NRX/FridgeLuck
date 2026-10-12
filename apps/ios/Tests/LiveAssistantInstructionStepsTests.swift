@@ -11,18 +11,20 @@ import XCTest
 /// `session_context` payload sent to the backend.
 @MainActor
 final class LiveAssistantInstructionStepsTests: XCTestCase {
-  /// The shape every bundled recipe with a source uses (data.json, 2026-10-07).
+  /// The shape every bundled recipe with a source uses: a `Source:` URL line
+  /// followed by the recipe's own numbered steps. Synthetic text — tests never
+  /// quote bundled recipe content.
   private let bundledInstructions = """
-    Source: https://www.bbcgoodfood.com/recipes/sichuan-smacked-cucumber-noodles
-    1. Toast the sichuan peppercorns.
-    2. Smack the cucumber.
-    3. Mix well to combine, then divide between two bowls.
+    Source: https://example.org/recipes/fixture-noodle-bowl
+    1. Toast the aromatics.
+    2. Toss the vegetables.
+    3. Plate and serve.
     """
 
   private func makeContext(instructions: String) -> LiveAssistantRecipeContext {
     LiveAssistantRecipeContext(
       recipeID: 42,
-      title: "Sichuan Smacked Cucumber Noodles",
+      title: "Fixture Noodle Bowl",
       timeMinutes: 15,
       servings: 2,
       instructions: instructions,
@@ -42,9 +44,9 @@ final class LiveAssistantInstructionStepsTests: XCTestCase {
     XCTAssertEqual(
       viewModel.instructionSteps,
       [
-        "Toast the sichuan peppercorns.",
-        "Smack the cucumber.",
-        "Mix well to combine, then divide between two bowls.",
+        "Toast the aromatics.",
+        "Toss the vegetables.",
+        "Plate and serve.",
       ])
     XCTAssertEqual(viewModel.totalSteps, 3)
     XCTAssertFalse(
@@ -52,10 +54,10 @@ final class LiveAssistantInstructionStepsTests: XCTestCase {
       "The Source URL must never appear as a cooking step.")
 
     let attribution = try XCTUnwrap(viewModel.recipeAttribution)
-    XCTAssertEqual(attribution.label, "bbcgoodfood.com")
+    XCTAssertEqual(attribution.label, "example.org")
     XCTAssertEqual(
       attribution.url,
-      URL(string: "https://www.bbcgoodfood.com/recipes/sichuan-smacked-cucumber-noodles"))
+      URL(string: "https://example.org/recipes/fixture-noodle-bowl"))
   }
 
   // MARK: - Numbered instructions
@@ -151,9 +153,9 @@ final class LiveAssistantInstructionStepsTests: XCTestCase {
     let instructions = try XCTUnwrap(selectedRecipe["instructions"] as? String)
     XCTAssertEqual(
       instructions,
-      "Toast the sichuan peppercorns.\nSmack the cucumber.\nMix well to combine, then divide between two bowls.")
+      "Toast the aromatics.\nToss the vegetables.\nPlate and serve.")
     XCTAssertFalse(
-      instructions.contains("bbcgoodfood"),
+      instructions.contains("example.org"),
       "The raw source URL must not reach the model as an instruction.")
     XCTAssertFalse(
       instructions.contains("1."),
@@ -161,7 +163,7 @@ final class LiveAssistantInstructionStepsTests: XCTestCase {
 
     XCTAssertEqual(
       selectedRecipe["sourceAttribution"] as? String,
-      "Recipe from bbcgoodfood.com (https://www.bbcgoodfood.com/recipes/sichuan-smacked-cucumber-noodles)")
+      "Recipe from example.org (https://example.org/recipes/fixture-noodle-bowl)")
 
     XCTAssertTrue(payload["confirmedIngredients"] is [[String: Any]])
     XCTAssertNil(payload["latestConfidence"], "The key is omitted when there is no confidence to send.")

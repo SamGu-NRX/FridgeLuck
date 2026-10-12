@@ -13,6 +13,8 @@ Checks, per pin:
   - the catalog export parses, carries the 14 canonical columns, and
     its row count matches expectedCatalogRowCount
   - the data payload parses as {tags, ingredients, recipes}
+  - the data payload carries no recipe entries (rights rule: the trunk
+    ships no recipe instruction text; re-export with --omit-recipes)
 
 Usage:
   python3 scripts/data/check_legacy_bundle_pins.py \
@@ -74,6 +76,11 @@ def check_pin(pin: dict, pins_dir: Path, errors: list[str]) -> dict:
       except (json.JSONDecodeError, KeyError, TypeError) as exc:
         errors.append(f"{slug}: pinned data payload does not match the data.json shape: {exc}")
       else:
+        if recipes:
+          errors.append(
+            f"{slug}: pinned data payload ships {len(recipes)} recipe entries; pins never "
+            "carry recipe instruction text (rights rule) — re-export with --omit-recipes"
+          )
         print(f"{slug}: data payload {data_file} sha256={actual} "
               f"ingredients={len(ingredients)} recipes={len(recipes)} tags={len(tags)}")
 
