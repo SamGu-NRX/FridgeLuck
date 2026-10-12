@@ -233,6 +233,13 @@ _DONENESS_ON_PROTEIN = re.compile(
     r"(?:done|set|firm)|fully set|are set|is set)\b", re.IGNORECASE)
 
 
+# A yolk served runny has not reached the egg endpoint, whatever the white
+# reads (FoodSafety.gov: raw eggs, "cook until yolk and white are firm").
+_SOFT_YOLK = re.compile(
+    r"\b(?:jammy|runny|soft|liquid|molten)\s+yolks?\b|"
+    r"\byolks?\b[^.;]{0,20}\b(?:jammy|runny|soft|liquid|molten)\b", re.IGNORECASE)
+
+
 def text_temps(text: str) -> list[int]:
     return [int(m.group(1)) for m in _INTERNAL_F.finditer(str(text))]
 
@@ -314,6 +321,14 @@ def endpoint_violations(recipe: dict[str, Any]) -> list[str]:
             out.append(f"{rid}: step[{i}] cooks {sorted(together)} together but its "
                        f"endpoint is {int(temp)} °F; the strictest applicable is "
                        f"{strictest} °F ({', '.join(worst)})")
+
+    # an egg served with a soft yolk misses the egg endpoint
+    if "egg" in required_classes(recipe):
+        for i, step in enumerate(steps):
+            m = _SOFT_YOLK.search(str(step.get("text", "")))
+            if m:
+                out.append(f"{rid}: step[{i}] serves the yolk {m.group(0)!r}; eggs reach "
+                           "160 °F with yolk and white firm")
 
     # rule 4: reheating overrides the product class
     for i, step in enumerate(steps):

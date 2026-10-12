@@ -125,6 +125,10 @@ ENDPOINT_EDITS: tuple[Edit, ...] = (
          "Tuck the chicken slices into the pasta, cover with mozzarella, and bake until the top blisters and bubbles and a food thermometer through a chicken slice in the centre reads 165 °F (74 °C).",
          check("leftovers", 165)),
     # salmon and prawn patties bound with raw egg: egg minimum, not fish
+    # the white read 160 F while the yolk stayed jammy
+    Edit("fl-original-0152", 3,
+         "Cover and cook until the whites are just set and a food thermometer through a white reads 160 °F with the yolk still jammy.",
+         "Cover and cook until the whites and yolks are firm and a food thermometer pushed into a yolk reads 160 °F (71 °C)."),
     Edit("fl-original-0178", 2,
          "Fry the patties in the oil, four or five minutes a side, until a food thermometer at the centre reads 145 °F.",
          "Fry the patties in the oil, four or five minutes a side, until a food thermometer at the centre reads 160 °F (71 °C), the minimum for the raw egg bound into the mix.",

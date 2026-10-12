@@ -274,6 +274,17 @@ class DonenessEndpoints(unittest.TestCase):
              "safety": chk("egg", 160)}])
         self.assertEqual(endpoint_errors(ok), [])
 
+    def test_jammy_yolk_is_refused(self):
+        # fl-original-0152 at 4b6e163: 160 F in the white, yolk still jammy
+        bad = recipe(ingredients=ing("eggs"), steps=[
+            {"text": "Cook until a food thermometer through a white reads 160 °F with the "
+                     "yolk still jammy.", "safety": chk("egg", 160)}])
+        self.assertTrue(any("yolk" in e for e in endpoint_errors(bad)))
+        good = recipe(ingredients=ing("eggs"), steps=[
+            {"text": "Cook until the yolks are firm and a food thermometer in a yolk reads "
+                     "160 °F.", "safety": chk("egg", 160)}])
+        self.assertEqual(endpoint_errors(good), [])
+
     def test_reheat_needs_its_own_leftovers_check(self):
         bad = recipe(ingredients=ing("eggs"), steps=[
             {"text": "Reheat the rice, then scramble the eggs to 160 °F on a thermometer.",
