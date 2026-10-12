@@ -10,13 +10,20 @@
  * - keys sorted recursively, ascending byte order;
  * - two-space indent per level;
  * - ` : ` between key and value (space on both sides of the colon);
- * - timestamps as integer epoch seconds;
+ * - timestamps as ISO 8601 UTC strings with millisecond precision
+ *   ("2026-10-11T12:00:00.000Z");
  * - file ends with `}` — no trailing newline.
  *
  * Decoding a fixture and re-encoding it must reproduce the file byte for
- * byte. Timestamps: the wire uses integer epoch seconds (see the fixtures);
- * ISO 8601 strings are used by the evaluation layer and reconciled in
- * lechef/README.md ("Timestamps").
+ * byte. Timestamps: the real fixtures carry ISO 8601 strings — the Swift
+ * canonical encoder emits "2026-10-11T12:00:00.000Z" (see
+ * packages/FridgeLuckCore/Fixtures and its README; an earlier version of
+ * this comment wrongly claimed integer epoch seconds from hand-copied
+ * samples). Decoders additionally accept every form the fixture contract
+ * names for ISO 8601 producers — fractional seconds or none, Z or numeric
+ * ±HH:MM/±HHMM offsets — plus integer epoch seconds (the evaluation
+ * layer's scripts); genuinely malformed timestamps are rejected. Canonical
+ * encoding always emits the fixture form.
  */
 
 import { createHash } from "node:crypto";
@@ -85,6 +92,75 @@ export function payloadHash(value: unknown): string {
 }
 
 // ---------------------------------------------------------------------------
+// Wire timestamps — ISO 8601, as the real core fixtures send them
+// ---------------------------------------------------------------------------
+
+// ISO 8601 calendar date, then a time of day in basic ("144500") or
+// extended ("14:45:00") form — the fixture contract reads any ISO 8601
+// producer — with an optional fractional second, and an optional zone (Z or
+// a numeric offset with or without a colon). Group order: year, month, day,
+// hour, minute, second, fraction, offset.
+const ISO_TIMESTAMP_PATTERN =
+  /^(\d{4})-(\d{2})-(\d{2})[Tt](\d{2})(?::?(\d{2}))(?::?(\d{2})(?:[.,](\d+))?)?([Zz]|[+-]\d{2}:?\d{2})?$/;
+
+const WIRE_TIMESTAMP_PROBLEM = "expected ISO 8601 timestamp string or integer epoch seconds";
+
+/**
+ * Decode one wire timestamp value. Accepts the canonical fixture form
+ * ("2026-10-11T12:00:00.000Z") and the forms the fixtures' contract says
+ * any ISO 8601 producer may send — fractional seconds or none, Z or a
+ * numeric offset, comma decimal marks — plus integer epoch seconds
+ * (epochSecondsFromWire). Returns null for anything genuinely malformed:
+ * date-only strings, calendar rollovers such as 2026-02-30, out-of-range
+ * components, digit strings, fractional epochs. Sub-second precision is
+ * floored — the domain unit is whole seconds (EpochSeconds).
+ */
+export function wireTimestampToEpochSeconds(value: unknown): EpochSeconds | null {
+  if (typeof value === "number") {
+    return Number.isInteger(value) ? epochSecondsFromWire(value) : null;
+  }
+  if (typeof value !== "string") return null;
+  const match = ISO_TIMESTAMP_PATTERN.exec(value);
+  if (!match) return null;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const hour = Number(match[4]);
+  const minute = Number(match[5]);
+  const second = match[6] !== undefined ? Number(match[6]) : 0;
+  if (month < 1 || month > 12) return null;
+  if (hour > 23 || minute > 59 || second > 59) return null;
+  let offsetSeconds = 0;
+  const offset = match[8];
+  if (offset !== undefined && offset !== "Z" && offset !== "z") {
+    const offsetHour = Number(offset.slice(1, 3));
+    const offsetMinute = Number(offset.slice(-2));
+    if (offsetHour > 23 || offsetMinute > 59) return null;
+    offsetSeconds = (offset[0] === "-" ? -1 : 1) * (offsetHour * 3600 + offsetMinute * 60);
+  }
+  // Reject calendar rollovers (2026-02-30 must not become March 2): the
+  // decoded components must round-trip through the UTC calendar.
+  const decoded = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+  if (
+    decoded.getUTCFullYear() !== year ||
+    decoded.getUTCMonth() !== month - 1 ||
+    decoded.getUTCDate() !== day
+  ) {
+    return null;
+  }
+  return epochSecondsFromWire(Math.floor(decoded.getTime() / 1000) - offsetSeconds);
+}
+
+/**
+ * Canonical wire form for a timestamp: ISO 8601 UTC with millisecond
+ * precision — exactly what the Swift canonical encoder emits
+ * ("2026-10-11T12:00:00.000Z").
+ */
+export function epochSecondsToWireTimestamp(epoch: EpochSeconds): string {
+  return new Date(epoch * 1000).toISOString();
+}
+
+// ---------------------------------------------------------------------------
 // Wire shapes
 // ---------------------------------------------------------------------------
 
@@ -119,8 +195,8 @@ export function serializeActionProposal(proposal: ActionProposalWire): string {
     payload: proposal.payload,
     payloadHash: proposal.payloadHash,
     snapshotRevision: proposal.snapshotRevision,
-    createdAt: proposal.createdAt,
-    expiresAt: proposal.expiresAt,
+    createdAt: epochSecondsToWireTimestamp(proposal.createdAt),
+    expiresAt: epochSecondsToWireTimestamp(proposal.expiresAt),
     ...(proposal.requiredApproval !== undefined ? { requiredApproval: proposal.requiredApproval } : {}),
     ...(proposal.userInitiated !== undefined ? { userInitiated: proposal.userInitiated } : {})
   });
@@ -133,7 +209,7 @@ export function serializeActionReceipt(receipt: ActionReceiptWire): string {
     payloadHash: receipt.payloadHash,
     snapshotRevision: receipt.snapshotRevision,
     state: receipt.state,
-    recordedAt: receipt.recordedAt
+    recordedAt: epochSecondsToWireTimestamp(receipt.recordedAt)
   });
 }
 
@@ -182,17 +258,15 @@ export function parseActionReceiptWire(value: unknown): ActionReceiptWire {
   if (typeof state !== "string" || !RECEIPT_STATES.includes(state as never)) {
     ctx.add("$.state", `expected one of ${RECEIPT_STATES.join("|")}`);
   }
-  const recordedAt = value["recordedAt"];
-  if (typeof recordedAt !== "number" || !Number.isInteger(recordedAt)) {
-    ctx.add("$.recordedAt", "expected integer epoch seconds");
-  }
+  const recordedAt = wireTimestampToEpochSeconds(value["recordedAt"]);
+  if (recordedAt === null) ctx.add("$.recordedAt", WIRE_TIMESTAMP_PROBLEM);
   if (ctx.any()) throw new WireParseError(ctx.issues);
   return {
     proposalID: proposalID as string,
     payloadHash: payloadHash as string,
     snapshotRevision: snapshotRevision as number,
     state: state as ActionReceiptWire["state"],
-    recordedAt: epochSecondsFromWire(recordedAt as number)
+    recordedAt: recordedAt as EpochSeconds
   };
 }
 
@@ -225,14 +299,10 @@ export function parseActionProposalWire(value: unknown): ActionProposalWire {
   if (typeof snapshotRevision !== "number" || !Number.isInteger(snapshotRevision)) {
     ctx.add("$.snapshotRevision", "expected integer");
   }
-  const createdAt = value["createdAt"];
-  if (typeof createdAt !== "number" || !Number.isInteger(createdAt)) {
-    ctx.add("$.createdAt", "expected integer epoch seconds");
-  }
-  const expiresAt = value["expiresAt"];
-  if (typeof expiresAt !== "number" || !Number.isInteger(expiresAt)) {
-    ctx.add("$.expiresAt", "expected integer epoch seconds");
-  }
+  const createdAt = wireTimestampToEpochSeconds(value["createdAt"]);
+  if (createdAt === null) ctx.add("$.createdAt", WIRE_TIMESTAMP_PROBLEM);
+  const expiresAt = wireTimestampToEpochSeconds(value["expiresAt"]);
+  if (expiresAt === null) ctx.add("$.expiresAt", WIRE_TIMESTAMP_PROBLEM);
   const requiredApproval = value["requiredApproval"];
   if (requiredApproval !== undefined && requiredApproval !== "device-auto" && requiredApproval !== "explicit") {
     ctx.add("$.requiredApproval", "expected device-auto or explicit");
@@ -248,8 +318,8 @@ export function parseActionProposalWire(value: unknown): ActionProposalWire {
     payload: payload as ProposalPayload,
     payloadHash: payloadHash as string,
     snapshotRevision: snapshotRevision as number,
-    createdAt: epochSecondsFromWire(createdAt as number),
-    expiresAt: epochSecondsFromWire(expiresAt as number),
+    createdAt: createdAt as EpochSeconds,
+    expiresAt: expiresAt as EpochSeconds,
     ...(requiredApproval === undefined ? {} : { requiredApproval: requiredApproval as RequiredApproval }),
     ...(typeof userInitiated === "boolean" ? { userInitiated } : {})
   };

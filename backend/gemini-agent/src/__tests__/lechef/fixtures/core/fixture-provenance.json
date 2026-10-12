@@ -1,0 +1,20 @@
+{
+  "source": {
+    "repository": "SamGu-NRX/FridgeLuck",
+    "branch": "overhaul/core-foundation",
+    "commit": "c4d53c9cf09dbfd0827fcdac4d6a1961fff12b9e",
+    "upstreamPath": "packages/FridgeLuckCore/Fixtures"
+  },
+  "pinLineage": "An earlier memory note pinned 5ec72a6f83ac91c51546701f04df4286c41c701f. The fixture files are byte-identical between 5ec72a6 and c4d53c9 (git diff 5ec72a6..c4d53c9 -- packages/FridgeLuckCore/Fixtures is empty), so c4d53c9 — the branch head these bytes were taken from — supersedes that pin with no content change.",
+  "note": "These are the REAL canonical fixture bytes (Swift JSONEncoder [.prettyPrinted, .sortedKeys], ISO 8601 UTC timestamps with millisecond precision, no trailing newline), vendored verbatim via git show. Never edit by hand; re-vendor from the pinned commit.",
+  "files": {
+    "action-proposal.json": {
+      "sha256": "4012872095c5ce458e9f42c865eb92b8ec59be4b753f0b3eb59fd4086d5de2ef",
+      "bytes": 331
+    },
+    "action-receipt.json": {
+      "sha256": "75ebeb02118907025febca485781b500ae20f372898f1326d02b2f2f1df28bfa",
+      "bytes": 218
+    }
+  }
+}
