@@ -75,6 +75,7 @@ import argparse
 import copy
 import itertools
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -557,6 +558,12 @@ def run(out_dir: Path, repo_root: Path | None) -> dict[str, Any]:
         "toolchain": {"python": sys.version.split()[0]},
         "metrics": [],
     }
+    # Producer binding (SCORECARD.md §3/§4): the runner hands this run's
+    # identity as FL_RUN_BINDING and the suite stamps it as its producer
+    # binding, so the runner can verify — not overwrite — the emitted one.
+    # Standalone runs (no runner) carry no binding.
+    if os.environ.get("FL_RUN_BINDING"):
+        results["run"] = json.loads(os.environ["FL_RUN_BINDING"])
 
     def _not_run(reason: str) -> list[dict[str, Any]]:
         rows = []

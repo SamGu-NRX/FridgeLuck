@@ -457,6 +457,20 @@ def audit_plans(manifest: dict, probe_out: dict) -> dict:
 # Suite entry point
 # ---------------------------------------------------------------------------
 
+def _stamp_run_binding(payload: dict) -> dict:
+    """Stamp the producer binding this runner handed us (SCORECARD.md §3/§4).
+
+    The runner passes this run's identity as FL_RUN_BINDING (JSON) and the
+    suite writes it as results["run"], so the runner can verify — not
+    overwrite — the emitted binding. Standalone runs (no runner) carry no
+    binding.
+    """
+    binding = os.environ.get("FL_RUN_BINDING")
+    if binding:
+        payload["run"] = json.loads(binding)
+    return payload
+
+
 def run_suite(repo_root: Path, out_dir: Path) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -465,7 +479,7 @@ def run_suite(repo_root: Path, out_dir: Path) -> dict:
         manifest = manifest_builder.build_manifest(repo_root)
     except manifest_builder.MissingInput as exc:
         payload = _all_not_run(f"grounding inputs unavailable: {exc}")
-        suite_contract.write_results(out_dir, payload)
+        suite_contract.write_results(out_dir, _stamp_run_binding(payload))
         return payload
 
     grounding = manifest["grounding"]
@@ -476,7 +490,7 @@ def run_suite(repo_root: Path, out_dir: Path) -> dict:
     if fail_reason is not None:
         payload = _all_not_run(fail_reason)
         payload["toolchain"] = {"swift": provenance.get("swift") if provenance else None}
-        suite_contract.write_results(out_dir, payload)
+        suite_contract.write_results(out_dir, _stamp_run_binding(payload))
         return payload
 
     pair_jobs = _pairs_job(manifest)
@@ -507,7 +521,7 @@ def run_suite(repo_root: Path, out_dir: Path) -> dict:
         if probe_fail is not None:
             payload = _all_not_run(probe_fail)
             payload["toolchain"] = {"swift": provenance["swift"]}
-            suite_contract.write_results(out_dir, payload)
+            suite_contract.write_results(out_dir, _stamp_run_binding(payload))
             return payload
 
     plans_audit = audit_plans(manifest, probe_out)
@@ -595,7 +609,7 @@ def run_suite(repo_root: Path, out_dir: Path) -> dict:
         },
         "metrics": enforce_battery_completeness(produced),
     }
-    suite_contract.write_results(out_dir, payload)
+    suite_contract.write_results(out_dir, _stamp_run_binding(payload))
 
     # ---- Evidence files (committed under evaluation/out/pantry-truth/) ----
     _write_evidence(out_dir, manifest, plans_audit, pairs_audit, verdicts, payload)
