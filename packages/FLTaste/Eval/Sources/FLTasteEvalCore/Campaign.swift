@@ -128,6 +128,45 @@ struct CapturingRanker: Ranker {
 }
 
 public enum Campaign {
+    /// Env-gated phase profiler for the campaign hot path (EVAL_PROFILE=1).
+    /// When disabled it costs one boolean check per phase; it never touches
+    /// metrics, ordering, or randomness — outputs stay byte-identical with
+    /// or without it (asserted by the test suite and the equivalence run).
+    public final class PhaseTimer: @unchecked Sendable {
+        public static let enabled =
+            ProcessInfo.processInfo.environment["EVAL_PROFILE"] == "1"
+
+        private let armID: String
+        private let householdSeed: UInt64
+        private var phases: [(name: String, seconds: Double)] = []
+        private var mark: Date?
+
+        public init(armID: String, householdSeed: UInt64) {
+            self.armID = armID
+            self.householdSeed = householdSeed
+        }
+
+        func begin(_ name: String) {
+            guard Self.enabled else { return }
+            mark = Date()
+        }
+
+        func end(_ name: String) {
+            guard Self.enabled, let started = mark else { return }
+            phases.append((name, Date().timeIntervalSince(started)))
+            self.mark = nil
+        }
+
+        /// One stderr line per household: cumulative seconds per phase.
+        func report() {
+            guard Self.enabled else { return }
+            let totals = Dictionary(phases.map({ ($0.name, $0.seconds) }), uniquingKeysWith: +)
+            let summary = totals.keys.sorted().map { "\($0)=\(String(format: "%.4f", totals[$0] ?? 0))" }.joined(separator: " ")
+            FileHandle.standardError.write(
+                Data("[profile] \(armID) household \(householdSeed): \(summary)\n".utf8))
+        }
+    }
+
     /// Runs one arm over one household: staged weekly replay for learning
     /// arms, single run for stateless arms. Returns metrics plus the regime.
     ///
@@ -145,28 +184,37 @@ public enum Campaign {
         var finalRun: HouseholdSimulator.Run?
         var finalLog = RankLog()
         let weekMillis: Int64 = 7 * 24 * 3_600 * 1_000
+        let profile = PhaseTimer(armID: arm.id, householdSeed: householdSeed)
 
         if arm.isStateless {
             // One run with one frozen state.
+            profile.begin("make")
             let state = arm.make(events: [], householdSeed: householdSeed, armSeed: armSeed)
+            profile.end("make")
             let log = RankLog()
+            profile.begin("simulate")
             finalRun = HouseholdSimulator(
                 config: config, catalog: catalog,
                 ranker: CapturingRanker(armID: arm.id, states: [state], log: log)
             ).run()
+            profile.end("simulate")
             finalLog = log
         } else {
             var states: [any ArmState] = []
             for week in 0..<weeks {
+                profile.begin("make")
                 states.append(
                     arm.make(events: accumulated, householdSeed: householdSeed, armSeed: armSeed))
+                profile.end("make")
                 var stageConfig = config
                 stageConfig.weeks = week + 1
                 let stageLog = RankLog()
+                profile.begin("simulate")
                 let stageRun = HouseholdSimulator(
                     config: stageConfig, catalog: catalog,
                     ranker: CapturingRanker(armID: arm.id, states: states, log: stageLog)
                 ).run()
+                profile.end("simulate")
                 if week == weeks - 1 {
                     finalRun = stageRun
                     finalLog = stageLog
@@ -183,8 +231,11 @@ public enum Campaign {
         guard let run = finalRun else {
             fatalError("campaign staging produced no final run")
         }
+        profile.begin("score")
         let metrics = scoreHousehold(
             groundTruth: run.groundTruth, catalog: catalog, rankLog: finalLog.entries)
+        profile.end("score")
+        profile.report()
         return (metrics, regime)
     }
 }
