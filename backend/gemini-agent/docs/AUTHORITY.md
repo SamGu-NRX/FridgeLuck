@@ -54,10 +54,15 @@ error, never a generic failure.
    `source` ∈ {scan, manual, restock}. Everything else is dropped.
 2. **Execution happens only after the matching client confirm.** The gateway
    executes a proposal at most once, only on `confirm` from the session's own
-   client connection, only while the proposal is pending (5-minute TTL). The
-   phone authorizes and executes; the backend records the outcome.
-   Proposals are memory-only by design — a process restart forgets them, which
-   is the safe direction (an unconfirmed proposal is only a draft).
+   client connection, only while the proposal is pending (5-minute TTL).
+   Resolution is committed-effect-ordered: the ledger write runs first and
+   the execution is marked resolved only once it commits — a failed write
+   leaves the proposal pending, so the user can confirm again, and the
+   ledger's proposal-id idempotency key still bounds a committed effect to
+   at most one application. The phone authorizes and executes; the backend
+   records the outcome. Proposals are memory-only by design — a process
+   restart forgets them, which is the safe direction (an unconfirmed
+   proposal is only a draft).
 3. **Webhook-driven background tasks** (scheduler/job callbacks) authenticate
    via OIDC with fail-closed behavior: misconfiguration → 503, missing/invalid
    credentials → 401 (#25). Unauthenticated callers cannot trigger task work.
@@ -94,6 +99,7 @@ Every refusal below is asserted with its specific error in the cited test.
 | Malformed proposal args | `MutationProposalError` naming the exact field (`operation`, `items`, `items[0].quantityGrams`, `items[0].source`, `items[0].expiresAt`), static message only | `authorityBoundaries.test.ts` › "refuses malformed proposal args with a specific field…" |
 | Confirm/cancel of unknown, other-session, cancelled, or already-resolved proposals | `{ ok: false, reason: "unknown_proposal" \| "already_resolved" }` | `authorityBoundaries.test.ts` › "confirm is refused…", "executes at most once…"; `liveSessionGateway.test.ts` › "executes a mutation only after confirm, at most once; cancel never writes" |
 | Unconfirmed proposals expire | Refused after the TTL (swept → `unknown_proposal`) | `authorityBoundaries.test.ts` › "an unconfirmed proposal dies at its TTL…" |
+| Resolution ordering vs the committed effect | Confirm applies the operation first and marks the execution resolved only after the write commits; a failed apply stays `pending` (confirmable again) and surfaces `failed`/`ledger_error` | `mutationResolutionOrdering.test.ts` (whole file); `liveSessionGateway.test.ts` › "a failed ledger apply surfaces failed/ledger_error…" |
 | Client forges tool results | Gateway rejects client `tool_response` messages (specific gateway error) | `liveSessionGateway.test.ts` › "never accepts a client tool_response" |
 | Client sets model confidence | Gateway rejects client-pushed `latestConfidence`; gate stays server-owned | `liveSessionGateway.test.ts` › "rejects client-pushed latestConfidence…" |
 | Client mints session identity | Server mints session ids, ignores client-supplied ones | `liveSessionGateway.test.ts` › "mints a server-side session id and ignores a client-supplied one" |

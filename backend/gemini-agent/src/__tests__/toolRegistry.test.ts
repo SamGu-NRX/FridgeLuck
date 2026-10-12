@@ -218,14 +218,16 @@ describe("dispatchToolCall — propose_inventory_mutation", () => {
     const proposalId = (result as any).proposalId as string;
 
     // Confirmation-shaped args on the MODEL side do nothing: the model can
-    // only propose. Execution is a separate, client-authority step.
-    const confirmed = deps.proposals.confirm("sess-exec", proposalId);
-    expect(confirmed.ok).toBe(true);
-
-    const applied = applyApprovedProposal(
-      (confirmed as { ok: true; proposal: any }).proposal,
-      deps.ledgers.get("sess-exec")
+    // only propose. Execution is a separate, client-authority step — confirm
+    // runs the apply and the store resolves the execution only once the
+    // effect has committed.
+    const confirmed = deps.proposals.confirm(
+      "sess-exec",
+      proposalId,
+      (proposal) => applyApprovedProposal(proposal, deps.ledgers.get("sess-exec"))
     );
+    expect(confirmed.ok).toBe(true);
+    const applied = (confirmed as { ok: true; applied: any }).applied;
     expect(applied.committed).toBe(true);
     expect(
       applied.snapshot.some((i: any) => i.ingredientName === "Tomato")
@@ -239,8 +241,11 @@ describe("dispatchToolCall — propose_inventory_mutation", () => {
     );
     expect(replay.committed).toBe(false);
 
-    // And a second confirm of the same id resolves as already_resolved.
-    const again = deps.proposals.confirm("sess-exec", proposalId);
+    // And a second confirm of the same id resolves as already_resolved,
+    // never re-applying (the callback would throw if it ran).
+    const again = deps.proposals.confirm("sess-exec", proposalId, () => {
+      throw new Error("apply must not run for an already-resolved execution");
+    });
     expect(again.ok).toBe(false);
     expect((again as { reason: string }).reason).toBe("already_resolved");
   });

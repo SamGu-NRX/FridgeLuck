@@ -124,10 +124,14 @@ describe("authority boundaries (AUTHORITY.md proof)", () => {
     const store = new MutationProposalStore({ now: clock.now });
     const { proposal } = store.create("session-1", validateProposalArgs(validArgs()));
 
-    const otherSession = store.confirm("session-2", proposal.id);
+    const otherSession = store.confirm("session-2", proposal.id, () => {
+      throw new Error("apply must not run for another session's proposal");
+    });
     expect(otherSession).toEqual({ ok: false, reason: "unknown_proposal" });
 
-    const wrongId = store.confirm("session-1", "not-a-real-proposal-id");
+    const wrongId = store.confirm("session-1", "not-a-real-proposal-id", () => {
+      throw new Error("apply must not run for an unknown proposal id");
+    });
     expect(wrongId).toEqual({ ok: false, reason: "unknown_proposal" });
   });
 
@@ -136,10 +140,14 @@ describe("authority boundaries (AUTHORITY.md proof)", () => {
     const store = new MutationProposalStore({ now: clock.now });
     const { proposal } = store.create("session-1", validateProposalArgs(validArgs()));
 
-    const first = store.confirm("session-1", proposal.id);
+    const first = store.confirm("session-1", proposal.id, () => ({
+      committed: true,
+    }));
     expect(first.ok).toBe(true);
 
-    const second = store.confirm("session-1", proposal.id);
+    const second = store.confirm("session-1", proposal.id, () => {
+      throw new Error("apply must not run for an already-resolved execution");
+    });
     expect(second).toEqual({ ok: false, reason: "already_resolved" });
 
     const { proposal: cancelProposal } = store.create(
@@ -148,7 +156,9 @@ describe("authority boundaries (AUTHORITY.md proof)", () => {
     );
     const cancelled = store.cancel("session-1", cancelProposal.id);
     expect(cancelled.ok).toBe(true);
-    const confirmAfterCancel = store.confirm("session-1", cancelProposal.id);
+    const confirmAfterCancel = store.confirm("session-1", cancelProposal.id, () => {
+      throw new Error("apply must not run after a cancel");
+    });
     expect(confirmAfterCancel).toEqual({ ok: false, reason: "already_resolved" });
   });
 
@@ -158,7 +168,9 @@ describe("authority boundaries (AUTHORITY.md proof)", () => {
     const { proposal } = store.create("session-1", validateProposalArgs(validArgs()));
 
     clock.advance(5 * 60 * 1000 + 1);
-    const outcome = store.confirm("session-1", proposal.id);
+    const outcome = store.confirm("session-1", proposal.id, () => {
+      throw new Error("apply must not run for an expired proposal");
+    });
     // Swept on the next resolve — the refusal is the safe direction, with a
     // stable code the client can act on.
     expect(outcome).toEqual({ ok: false, reason: "unknown_proposal" });

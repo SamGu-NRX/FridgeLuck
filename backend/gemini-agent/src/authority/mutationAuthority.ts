@@ -67,8 +67,12 @@ export interface ProposalCreateResult {
   duplicate: boolean;
 }
 
-export type ProposalConfirmOutcome =
-  | { ok: true; proposal: MutationProposal }
+/**
+ * Outcome of confirming a proposal. On success, `applied` is whatever the
+ * confirm's apply callback returned — the result of the committed effect.
+ */
+export type ProposalConfirmOutcome<V = unknown> =
+  | { ok: true; proposal: MutationProposal; applied: V }
   | { ok: false; reason: ProposalRejectionReason };
 
 export type ProposalCancelOutcome =
@@ -342,35 +346,65 @@ export class MutationProposalStore {
     return { proposal, duplicate: false };
   }
 
-  /** Client approval for a pending proposal (the only execution gate). */
-  confirm(sessionId: string, proposalId: string): ProposalConfirmOutcome {
-    return this.resolve(sessionId, proposalId, "executed");
-  }
-
-  /** Client cancellation of a pending proposal. */
-  cancel(sessionId: string, proposalId: string): ProposalCancelOutcome {
-    return this.resolve(sessionId, proposalId, "cancelled");
-  }
-
-  private resolve(
+  /**
+   * Client approval for a pending proposal (the only execution gate).
+   *
+   * `apply` performs the proposed operation and must COMMIT the effect
+   * before it returns — the ledger write path is synchronous and in-process,
+   * so the moment apply returns, the effect either committed or threw. The
+   * execution is marked resolved — the point past which a repeated confirm
+   * is refused with `already_resolved` — ONLY after apply returns. If apply
+   * throws, the store is untouched: the proposal stays pending and
+   * unresolved, and the error propagates to the caller, whose client can
+   * confirm again. A retried apply is still bounded to at most one
+   * committed effect per proposal id by the ledger's idempotency key.
+   */
+  confirm<V>(
     sessionId: string,
     proposalId: string,
-    outcome: "executed" | "cancelled"
-  ): ProposalConfirmOutcome {
+    apply: (proposal: MutationProposal) => V
+  ): ProposalConfirmOutcome<V> {
+    this.sweep();
+
+    const proposal = this.pending.get(sessionId)?.get(proposalId);
+    if (!proposal) {
+      return { ok: false, reason: this.notPendingReason(proposalId) };
+    }
+
+    // Apply FIRST — while the proposal is still pending and unresolved. A
+    // throw below leaves the store exactly as it was.
+    const applied = apply(proposal);
+
+    // The effect committed; only now may the execution resolve. Lookup,
+    // apply, and resolve run inside one synchronous section, so no
+    // interleaved confirm can observe the gap.
+    this.pending.get(sessionId)!.delete(proposalId);
+    this.rememberResolved(proposal, "executed");
+    return { ok: true, proposal, applied };
+  }
+
+  /**
+   * Client cancellation of a pending proposal. A cancel has no effect to
+   * commit — the withdrawal IS the effect — so it resolves immediately.
+   */
+  cancel(sessionId: string, proposalId: string): ProposalCancelOutcome {
     this.sweep();
 
     const proposal = this.pending.get(sessionId)?.get(proposalId);
     if (proposal) {
       this.pending.get(sessionId)!.delete(proposalId);
-      this.rememberResolved(proposal, outcome);
+      this.rememberResolved(proposal, "cancelled");
       return { ok: true, proposal };
     }
 
-    // Not pending. Distinguish the reasons the client can act on.
-    if (this.resolved.has(proposalId)) {
-      return { ok: false, reason: "already_resolved" };
-    }
-    return { ok: false, reason: "unknown_proposal" };
+    return { ok: false, reason: this.notPendingReason(proposalId) };
+  }
+
+  /** A not-pending proposal is either already resolved or unknown. */
+  private notPendingReason(proposalId: string): ProposalRejectionReason {
+    return this.resolved.has(proposalId)
+      ? "already_resolved"
+      : "unknown_proposal";
   }
 
   private rememberResolved(
