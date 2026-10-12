@@ -40,11 +40,13 @@ describe("proposal layer: proposing never executes", () => {
     expect(phone.sessionSnapshot().currentStepIndex).toBe(stepBefore);
   });
 
-  it("device-auto applies to user-initiated timers only; the phone executes them by its own rule", () => {
+  it("device-auto applies to device-initiated timers only; the phone executes them by its own rule", () => {
     const { phone, layer } = harness();
-    const out = layer.proposeTimerStart({ callId: "c1", label: "boil eggs", minutes: 9, userInitiated: true });
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice", detail: "start a nine minute egg timer" });
+    const out = layer.proposeTimerStart({ callId: "c1", label: "boil eggs", minutes: 9, userInitiation: { eventId: cmd.id } });
     expect(out.proposal!.requiredApproval).toBe("device-auto");
     expect(out.proposal!.userInitiated).toBe(true);
+    expect(out.proposal!.userInitiation?.eventId).toBe(cmd.id);
     // The PHONE's timer rule approved and executed it — the layer never did.
     expect(out.state).toBe("executed");
     expect(phone.receiptFor(out.proposal!.id)?.state).toBe("executed");
@@ -53,17 +55,20 @@ describe("proposal layer: proposing never executes", () => {
 
   it("a timer the model invented on its own is explicit, not device-auto", () => {
     const { phone, layer } = harness();
-    const out = layer.proposeTimerStart({ callId: "c1", label: "rest the steak", minutes: 5, userInitiated: false });
+    // No device event cited — a bare flag in the input would be an untrusted claim.
+    const out = layer.proposeTimerStart({ callId: "c1", label: "rest the steak", minutes: 5 });
     expect(out.proposal!.requiredApproval).toBe("explicit");
     expect(out.proposal!.userInitiated).toBe(false);
+    expect(out.proposal!.userInitiation).toBeUndefined();
     expect(phone.activeTimers()).toHaveLength(0); // nothing ran
   });
 
   it("meal logs always require explicit approval, even for a direct voice command", () => {
     const { phone, layer } = harness();
+    const cmd = phone.recordUserCommand({ command: "proposeMealLog", source: "voice", detail: "log this meal" });
     const out = layer.proposeMealLog({
       callId: "c1",
-      userInitiated: true, // "log this meal" — the user said it
+      userInitiation: { eventId: cmd.id }, // "log this meal" — the device recorded the user saying it
       recipeId: "carbonara",
       revision: 1,
       servings: 2,
@@ -156,7 +161,7 @@ describe("proposal layer: cancellation", () => {
 describe("proposal layer: receipts, hashing, expiry", () => {
   it("carries a canonical payloadHash and matches the wire hash helper", () => {
     const { layer } = harness();
-    const out = layer.proposeTimerStart({ callId: "c1", label: "eggs", minutes: 6, userInitiated: true });
+    const out = layer.proposeTimerStart({ callId: "c1", label: "eggs", minutes: 6 });
     expect(out.proposal!.payloadHash).toBe(payloadHash({ kind: "timerStart", label: "eggs", minutes: 6 }));
   });
 
@@ -169,7 +174,8 @@ describe("proposal layer: receipts, hashing, expiry", () => {
 
   it("executed receipts record the post-execution revision", () => {
     const { phone, layer } = harness();
-    const out = layer.proposeTimerStart({ callId: "c1", label: "eggs", minutes: 6, userInitiated: true });
+    const cmd = phone.recordUserCommand({ command: "proposeTimerStart", source: "voice" });
+    const out = layer.proposeTimerStart({ callId: "c1", label: "eggs", minutes: 6, userInitiation: { eventId: cmd.id } });
     const receipt = phone.receiptFor(out.proposal!.id)!;
     expect(receipt.state).toBe("executed");
     expect(receipt.snapshotRevision).toBe(2); // bumped by the timer creation

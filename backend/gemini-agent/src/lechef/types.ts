@@ -152,6 +152,28 @@ export interface StepHistoryEntry {
   readonly action: "advanced" | "moved-back" | "restarted";
 }
 
+/**
+ * A user command the DEVICE itself observed — a touch on a control, or a
+ * voice command transcribed with the transcript toggle on. Device events are
+ * phone-authored: the model cannot create, alter, or replay one. They are
+ * how user initiation reaches the tool layer: a proposal is user-initiated
+ * only when it cites a device event that still exists in the current
+ * snapshot (SPEC 4 — the model cannot manufacture approval).
+ */
+export interface DeviceEvent {
+  readonly id: string;
+  readonly kind: "user-command";
+  /** The proposal tool this command initiates (e.g. proposeTimerStart). */
+  readonly command: ProposalTool;
+  /** How the device observed the command. A voice source never upgrades mealLog — explicit always. */
+  readonly source: "voice" | "touch";
+  /** Raw command text for audit, e.g. "start a two minute timer". */
+  readonly detail?: string;
+  readonly at: EpochSeconds;
+  /** The snapshot revision at which the phone recorded the event. */
+  readonly revision: number;
+}
+
 export interface CookSessionSnapshot {
   /** The recipe this session cooks, when one is loaded (additive; phone-side). */
   readonly recipeId?: string;
@@ -162,6 +184,12 @@ export interface CookSessionSnapshot {
   readonly cameraMode: CameraMode;
   /** Phone-side record of recent step moves, for getStepContext. */
   readonly stepHistory?: readonly StepHistoryEntry[];
+  /**
+   * Live device events the phone has recorded (phone-authored user commands;
+   * see DeviceEvent). Only events still valid — consumed events drop out —
+   * and only these may be cited as user initiation.
+   */
+  readonly deviceEvents?: readonly DeviceEvent[];
 }
 
 // ---------------------------------------------------------------------------
@@ -279,10 +307,16 @@ export type ProposalState =
   | "expired";
 
 /**
- * The module's proposal record: the FLDomain wire shape plus two additive
- * fields the phone needs (`requiredApproval`, `userInitiated`). The wire
- * serializer emits the additive fields only when present, so a round-trip of
- * the frozen fixtures stays byte-identical (see wire.ts).
+ * The module's proposal record: the FLDomain wire shape plus additive fields
+ * the phone needs (`requiredApproval`, `userInitiated`, `userInitiation`).
+ * The wire serializer emits the additive fields only when present, so a
+ * round-trip of the frozen fixtures stays byte-identical (see wire.ts).
+ *
+ * Authority note (SPEC 4): `requiredApproval` and `userInitiated` on this
+ * record are CLAIMS for audit/display. Execution authority is decided by the
+ * phone from its own policy and its own evidence — for device-auto, the
+ * cited device event in `userInitiation`. The phone never executes on the
+ * strength of these fields alone.
  */
 export interface ActionProposal {
   readonly id: string;
@@ -294,6 +328,12 @@ export interface ActionProposal {
   readonly expiresAt: EpochSeconds;
   readonly requiredApproval: RequiredApproval;
   readonly userInitiated: boolean;
+  /**
+   * The device event cited as user initiation — present only when the
+   * proposal was user-initiated through a device event the runtime validated
+   * against the snapshot. A proposal without one is never device-auto.
+   */
+  readonly userInitiation?: { readonly eventId: string };
 }
 
 /** Receipt states, exactly as the FLDomain action-receipt.json fixture pins them. */
@@ -306,6 +346,12 @@ export interface ActionReceipt {
   readonly snapshotRevision: number;
   readonly state: ReceiptState;
   readonly recordedAt: EpochSeconds;
+  /**
+   * Why a refusal happened (hash mismatch, superseded revision, replayed
+   * approval, resubmitted consumed id). In-module refusals only — the wire
+   * serializer emits the fixture's five fields, so this never crosses the wire.
+   */
+  readonly reason?: string;
 }
 
 /** Proposals whose TTL (expiresAt) has passed without execution die as `expired`. */
