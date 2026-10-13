@@ -104,6 +104,13 @@ export interface ToolCallTrace {
 export interface RecipeGenerationRequest {
   ingredientNames: string[];
   dietaryRestrictions?: string[];
+  /**
+   * Ingredients the recipe must not use. Matched case-insensitively on word
+   * boundaries with simple plural forms (e.g. "egg" also matches "eggs",
+   * but never "eggplant"). Exclusions override staple allowances and
+   * supplied foods.
+   */
+  avoidIngredients?: string[];
   scanConfidenceScore?: number;
   photoBase64JPEG?: string;
 }
@@ -114,6 +121,45 @@ export interface RecipeGenerationResponse {
   servings: number;
   instructions: string;
   estimatedCaloriesPerServing: number;
+  /**
+   * Model-asserted list of ingredients the recipe uses, including staples.
+   * This is a model assertion, NOT independent evidence of grounding: the
+   * service additionally screens title/instructions text with a limited
+   * recognized-food check, but no lexical screen is an allergy-safety or
+   * complete grounding guarantee.
+   */
+  ingredientsUsed: string[];
+}
+
+/**
+ * Public rejection reasons for the recipe ingredient-policy screen.
+ * Frozen shared error contract (packet023).
+ */
+export type RecipeRejectionReason =
+  | "uses_avoided_ingredient"
+  | "uses_unlisted_ingredient";
+
+/**
+ * Frozen shared error contract (packet023):
+ * - `status` is 422; the API layer maps it to the HTTP status code.
+ * - `reason` is the only machine-readable detail: "uses_avoided_ingredient"
+ *   or "uses_unlisted_ingredient".
+ * - `message` is static and public-safe. It never contains generated text,
+ *   request contents or photos, or provider messages.
+ */
+export class RecipeRejectedError extends Error {
+  readonly status = 422;
+  readonly reason: RecipeRejectionReason;
+
+  constructor(reason: RecipeRejectionReason) {
+    super(
+      reason === "uses_avoided_ingredient"
+        ? "Recipe rejected: the recipe uses an ingredient that must be avoided."
+        : "Recipe rejected: the recipe uses an ingredient that was not supplied or allowed."
+    );
+    this.name = "RecipeRejectedError";
+    this.reason = reason;
+  }
 }
 
 export interface ReverseScanDetection {
