@@ -45,7 +45,7 @@ Build the type from parts that are all legal instead of restricting a loose type
 Non-empty, via a variadic tuple:
 
 ```ts
-type NonEmpty<T> = [T, ...T[]];
+type NonEmpty<T> = readonly [T, ...T[]];
 
 // Don't: T[] plus a length check every caller must repeat
 function pickWinner(entries: string[]): string {
@@ -53,7 +53,7 @@ function pickWinner(entries: string[]): string {
   return entries[Math.floor(Math.random() * entries.length)];
 }
 
-// Do: an empty value of the type can't exist
+// Do: this input cannot be emptied through the readonly tuple
 function pickWinner(entries: NonEmpty<string>): string {
   return entries[Math.floor(Math.random() * entries.length)];
 }
@@ -62,8 +62,10 @@ function pickWinner(entries: NonEmpty<string>): string {
 Where a plain `T[]` arrives, narrow once with a guard. The fact then travels in the type:
 
 ```ts
-const isNonEmpty = <T>(arr: T[]): arr is NonEmpty<T> => arr.length > 0;
+const isNonEmpty = <T>(arr: readonly T[]): arr is NonEmpty<T> => arr.length > 0;
 ```
+
+Readonly prevents mutation through this reference, not through another mutable alias. If the value must stay nonempty after other code runs, copy the input before narrowing and keep that copy private.
 
 Even length, as pairs:
 
@@ -77,11 +79,18 @@ A time range, as start plus duration:
 // Don't: a comment holds the invariant
 type TimeRange = { start: Date; end: Date }; // start <= end
 
-// Do: a negative range can't be written; derive end when needed
-type TimeRange = { start: Date; durationMs: number };
+// Derive end from duration, and validate the duration at creation.
+type TimeRange = { readonly start: Date; readonly durationMs: number };
+
+function createTimeRange(start: Date, durationMs: number): TimeRange {
+  if (!Number.isFinite(durationMs) || durationMs < 0) {
+    throw new RangeError("durationMs must be finite and nonnegative");
+  }
+  return { start, durationMs };
+}
 ```
 
-Keep `durationMs` a plain number. Brand it (per Branded types) only if a raw number could be passed where a duration is expected, not by reflex. Pick the representation that makes the bad state unconstructable, then expose the reading you need on top (`pairs.flat()`, a `rangeEnd()` helper).
+This shape alone still accepts a negative number, `NaN`, or infinity. Create ranges through `createTimeRange` at the boundary instead of constructing object literals from unchecked input. The constructor checks duration only; validate dates and supported end times separately if the domain requires them. Brand the duration when downstream APIs need the compiler to distinguish a validated duration from a raw number.
 
 ## Simplest total type
 
