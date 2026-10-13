@@ -11,16 +11,16 @@ Help users cook from a selected recipe, keep inventory trustworthy, and answer f
 1. You MUST NOT claim "exact macros" or "exact calories" unless the confidence_assessment returned by the tool has mode="exact" and deterministicReady=true.
 2. If mode="review_required", present results as "estimated" and ask the user to confirm ingredient amounts before finalising.
 3. If mode="estimate_only", never state specific gram amounts or macro totals. Use phrases like "roughly", "approximately", or "this looks like it could be".
-4. Inventory mutations (add/remove items) are FORBIDDEN until the user explicitly confirms the final ingredient list.
+4. Inventory mutations are TWO steps and you control only the first: call propose_inventory_mutation to REGISTER a proposal, then tell the user to approve it in the app. The mutation applies only after the user approves it there. There is no way — and no argument — for you to approve a mutation yourself.
 5. Always include the confidence rationale from the tool response in your reply so users understand certainty levels.
 
 ## Tool Usage Rules
 
 - Use get_recipe_context first when you need the selected recipe, confirmed ingredients, or prior confidence state.
 - Use assess_live_scene when you need grounded cooking guidance from the current kitchen camera frame.
-- Use ground_food_safety only for freshness, food-safety, or shelf-life questions that require external evidence.
-- Use mutate_inventory only AFTER the user has confirmed the ingredient list.
-- Use get_restock_plan when the user asks about expiring food or what to buy.
+- Use ground_food_safety only for freshness, food-safety, or shelf-life questions that require external evidence. If it returns grounded=false, say the answer is unverified.
+- Use propose_inventory_mutation to register add/remove changes as PENDING proposals (never as completed changes).
+- Use get_restock_plan for the CURRENT session's inventory snapshot when the user asks about expiring food or what to buy.
 
 ## Persona
 Be warm, practical, and concise. You are a kitchen-side cooking assistant, not a nutritionist. Avoid overwhelming detail. Prefer short, actionable next steps.
@@ -70,19 +70,15 @@ export const TOOL_DECLARATIONS: Tool[] = [
         }
       },
       {
-        name: "mutate_inventory",
+        name: "propose_inventory_mutation",
         description:
-          "Add or remove ingredients from the user's inventory ledger. Only call this AFTER the user has explicitly confirmed the ingredient list. Requires an idempotency key.",
+          "Register a PENDING proposal to add or remove ingredients from this session's inventory. This does NOT change anything by itself: the mutation is applied only after the user approves the proposal in the app. The server ignores confirmation flags and mints its own idempotency key.",
         parameters: {
           type: Type.OBJECT,
           properties: {
             operation: {
               type: Type.STRING,
               description: "'add' to add ingredients, 'decrement' to consume ingredients."
-            },
-            idempotencyKey: {
-              type: Type.STRING,
-              description: "Stable unique key for this mutation. Use a UUID or session+timestamp."
             },
             items: {
               type: Type.ARRAY,
@@ -96,10 +92,10 @@ export const TOOL_DECLARATIONS: Tool[] = [
                 },
                 required: ["ingredientName", "quantityGrams"]
               },
-              description: "Ingredients to add or decrement."
+              description: "Ingredients to add or decrement. At most 25 entries per proposal."
             }
           },
-          required: ["operation", "idempotencyKey", "items"]
+          required: ["operation", "items"]
         }
       },
       {

@@ -1,7 +1,12 @@
 import { describe, it, expect } from "bun:test";
-import { buildToolRegistry, dispatchToolCall } from "../agent/toolRegistry.js";
+import {
+  buildToolRegistry,
+  dispatchToolCall,
+  applyApprovedProposal,
+} from "../agent/toolRegistry.js";
 import type { ToolDeps } from "../agent/toolRegistry.js";
-import { InventoryLedger } from "../inventory/inventoryLedger.js";
+import { SessionLedgers } from "../inventory/sessionLedgers.js";
+import { MutationProposalStore } from "../authority/mutationAuthority.js";
 import { ConfidenceService } from "../services/confidenceService.js";
 import { createLiveSessionStore } from "../session/liveSessionStore.js";
 
@@ -55,7 +60,8 @@ function makeDeps(): ToolDeps {
       }
     } as any,
     config,
-    ledger: new InventoryLedger(config),
+    ledgers: new SessionLedgers(config.idempotencyTtlSeconds),
+    proposals: new MutationProposalStore(),
     confidenceService: new ConfidenceService(),
     sessionStore: createLiveSessionStore(config)
   };
@@ -68,7 +74,7 @@ describe("buildToolRegistry", () => {
     expect(registry.has("get_recipe_context")).toBe(true);
     expect(registry.has("assess_live_scene")).toBe(true);
     expect(registry.has("ground_food_safety")).toBe(true);
-    expect(registry.has("mutate_inventory")).toBe(true);
+    expect(registry.has("propose_inventory_mutation")).toBe(true);
     expect(registry.has("get_restock_plan")).toBe(true);
   });
 });
@@ -89,67 +95,65 @@ describe("dispatchToolCall — unknown tool", () => {
   });
 });
 
-describe("dispatchToolCall — mutate_inventory", () => {
-  it("returns error when idempotencyKey is missing", async () => {
+describe("dispatchToolCall — propose_inventory_mutation", () => {
+  it("returns error for unknown operation", async () => {
     const registry = buildToolRegistry();
     const deps = makeDeps();
     const { result, error } = await dispatchToolCall(
-      "mutate_inventory",
+      "propose_inventory_mutation",
       {
-        operation: "add",
-        // idempotencyKey intentionally missing
-        items: [{ ingredientName: "Garlic", quantityGrams: 50 }]
+        operation: "explode",
+        items: [{ ingredientName: "Sugar", quantityGrams: 100 }]
       },
       registry,
-      deps
+      deps,
+      "sess-op"
     );
     expect(result).toBeNull();
-    expect(error).toContain("idempotencyKey");
+    expect(error).toContain("operation");
   });
 
   it("returns error when items array is empty", async () => {
     const registry = buildToolRegistry();
     const deps = makeDeps();
     const { result, error } = await dispatchToolCall(
-      "mutate_inventory",
+      "propose_inventory_mutation",
       {
         operation: "add",
-        idempotencyKey: "test-001",
         items: []
       },
       registry,
-      deps
+      deps,
+      "sess-empty"
     );
     expect(result).toBeNull();
     expect(error).toContain("items");
   });
 
-  it("returns error for unknown operation", async () => {
+  it("returns error without a live session id", async () => {
     const registry = buildToolRegistry();
     const deps = makeDeps();
     const { result, error } = await dispatchToolCall(
-      "mutate_inventory",
+      "propose_inventory_mutation",
       {
-        operation: "explode",
-        idempotencyKey: "test-002",
-        items: [{ ingredientName: "Sugar", quantityGrams: 100 }]
+        operation: "add",
+        items: [{ ingredientName: "Garlic", quantityGrams: 50 }]
       },
       registry,
       deps
     );
     expect(result).toBeNull();
-    expect(error).toContain("explode");
+    expect(error).toContain("sessionId");
   });
 
-  it("successfully adds items to the ledger", async () => {
+  it("proposes without committing: nothing changes until the user confirms", async () => {
     const registry = buildToolRegistry();
     const deps = makeDeps();
     await deps.sessionStore.ensureSession("sess-1");
     const { result, error } = await dispatchToolCall(
-      "mutate_inventory",
+      "propose_inventory_mutation",
       {
         operation: "add",
-        idempotencyKey: "test-003",
         items: [{ ingredientName: "Tomato", quantityGrams: 300 }]
       },
       registry,
@@ -158,10 +162,87 @@ describe("dispatchToolCall — mutate_inventory", () => {
     );
     expect(error).toBeUndefined();
     const r = result as any;
-    expect(r.committed).toBe(true);
-    expect(r.snapshot.some((i: any) => i.ingredientName === "Tomato")).toBe(true);
-    const session = await deps.sessionStore.getSession("sess-1");
-    expect(session.mutationAudit).toHaveLength(1);
+    expect(r.status).toBe("pending_user_confirmation");
+    expect(typeof r.proposalId).toBe("string");
+    expect(r.committed).toBeUndefined();
+
+    // The ledger is untouched by the proposal itself.
+    const before = deps.ledgers.get("sess-1").snapshot();
+    expect(
+      before.some((i: any) => i.ingredientName === "Tomato")
+    ).toBe(false);
+  });
+
+  it("dedupes an identical repeated proposal", async () => {
+    const registry = buildToolRegistry();
+    const deps = makeDeps();
+    const args = {
+      operation: "add" as const,
+      items: [{ ingredientName: "Onion", quantityGrams: 120 }]
+    };
+    const first = await dispatchToolCall(
+      "propose_inventory_mutation",
+      args,
+      registry,
+      deps,
+      "sess-dup"
+    );
+    const second = await dispatchToolCall(
+      "propose_inventory_mutation",
+      args,
+      registry,
+      deps,
+      "sess-dup"
+    );
+    expect((first.result as any).duplicate).toBe(false);
+    expect((second.result as any).duplicate).toBe(true);
+    expect((second.result as any).proposalId).toBe(
+      (first.result as any).proposalId
+    );
+  });
+
+  it("applies only after client confirmation, exactly once", async () => {
+    const registry = buildToolRegistry();
+    const deps = makeDeps();
+    await deps.sessionStore.ensureSession("sess-exec");
+    const { result } = await dispatchToolCall(
+      "propose_inventory_mutation",
+      {
+        operation: "add",
+        items: [{ ingredientName: "Tomato", quantityGrams: 300 }]
+      },
+      registry,
+      deps,
+      "sess-exec"
+    );
+    const proposalId = (result as any).proposalId as string;
+
+    // Confirmation-shaped args on the MODEL side do nothing: the model can
+    // only propose. Execution is a separate, client-authority step.
+    const confirmed = deps.proposals.confirm("sess-exec", proposalId);
+    expect(confirmed.ok).toBe(true);
+
+    const applied = applyApprovedProposal(
+      (confirmed as { ok: true; proposal: any }).proposal,
+      deps.ledgers.get("sess-exec")
+    );
+    expect(applied.committed).toBe(true);
+    expect(
+      applied.snapshot.some((i: any) => i.ingredientName === "Tomato")
+    ).toBe(true);
+
+    // Replay of the same proposal id: idempotency key, second apply is a
+    // no-op on the ledger.
+    const replay = applyApprovedProposal(
+      (confirmed as { ok: true; proposal: any }).proposal,
+      deps.ledgers.get("sess-exec")
+    );
+    expect(replay.committed).toBe(false);
+
+    // And a second confirm of the same id resolves as already_resolved.
+    const again = deps.proposals.confirm("sess-exec", proposalId);
+    expect(again.ok).toBe(false);
+    expect((again as { reason: string }).reason).toBe("already_resolved");
   });
 });
 
@@ -170,8 +251,8 @@ describe("dispatchToolCall — get_restock_plan", () => {
     const registry = buildToolRegistry();
     const deps = makeDeps();
 
-    // Pre-populate inventory
-    deps.ledger.addItems({
+    // Pre-populate this session's shadow inventory only.
+    deps.ledgers.get("sess-restock").addItems({
       idempotencyKey: "setup",
       items: [
         {
@@ -186,7 +267,8 @@ describe("dispatchToolCall — get_restock_plan", () => {
       "get_restock_plan",
       {},
       registry,
-      deps
+      deps,
+      "sess-restock"
     );
     expect(error).toBeUndefined();
     const plan = result as any;
@@ -194,6 +276,34 @@ describe("dispatchToolCall — get_restock_plan", () => {
     expect(Array.isArray(plan.restockList)).toBe(true);
     expect(typeof plan.generatedAt).toBe("string");
     expect(plan.restockList).toContain("Spinach");
+  });
+
+  it("requires a session id and never reads another session's inventory", async () => {
+    const registry = buildToolRegistry();
+    const deps = makeDeps();
+
+    const noSession = await dispatchToolCall(
+      "get_restock_plan",
+      {},
+      registry,
+      deps
+    );
+    expect(noSession.result).toBeNull();
+    expect(noSession.error).toContain("sessionId");
+
+    // Inventory in one session is invisible to another.
+    deps.ledgers.get("sess-a").addItems({
+      idempotencyKey: "setup-a",
+      items: [{ ingredientName: "Spinach", quantityGrams: 20 }]
+    });
+    const { result } = await dispatchToolCall(
+      "get_restock_plan",
+      {},
+      registry,
+      deps,
+      "sess-b"
+    );
+    expect((result as any).restockList).not.toContain("Spinach");
   });
 });
 
