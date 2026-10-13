@@ -1,0 +1,1829 @@
+{
+  "identical": false,
+  "tables": {
+    "ingredient_aliases": {
+      "added_keys": [],
+      "changed": [],
+      "n_added": 0,
+      "n_changed": 0,
+      "n_new": 3998,
+      "n_old": 3998,
+      "n_removed": 0,
+      "removed_keys": []
+    },
+    "ingredient_catalog": {
+      "added_keys": [],
+      "changed": [
+        {
+          "167750": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167753": {
+            "carbs": {
+              "new": 17.4,
+              "old": 17.45
+            },
+            "sugar": {
+              "new": 16.4,
+              "old": 16.45
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167754": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167759": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167764": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167773": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167774": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167775": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167784": {
+            "carbs": {
+              "new": 16.2,
+              "old": 16.25
+            },
+            "sugar": {
+              "new": 13.0,
+              "old": 12.95
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167787": {
+            "sugar": {
+              "new": 12.6,
+              "old": 12.65
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167791": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167806": {
+            "carbs": {
+              "new": 79.6,
+              "old": 79.65
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167807": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167845": {
+            "protein": {
+              "new": 19.6,
+              "old": 19.55
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "167902": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168106": {
+            "sodium": {
+              "new": 1.74,
+              "old": 1.745
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168150": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168151": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168152": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168159": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168160": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168163": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168166": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168167": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168170": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168171": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168175": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168177": {
+            "carbs": {
+              "new": 10.6,
+              "old": 10.65
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168179": {
+            "sugar": {
+              "new": 17.4,
+              "old": 17.45
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168188": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168190": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168192": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168193": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168376": {
+            "protein": {
+              "new": 20.8,
+              "old": 20.85
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168385": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168391": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168393": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168418": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168419": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168427": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168438": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168459": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168472": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168478": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168489": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168490": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168491": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168553": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168560": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168565": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168572": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168573": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168579": {
+            "protein": {
+              "new": 12.4,
+              "old": 12.35
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168581": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168582": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168583": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168585": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168587": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168591": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168599": {
+            "fat": {
+              "new": 51.4,
+              "old": 51.45
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168614": {
+            "protein": {
+              "new": 19.0,
+              "old": 19.05
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168652": {
+            "protein": {
+              "new": 14.4,
+              "old": 14.35
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168870": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168874": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168879": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168883": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168888": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168891": {
+            "protein": {
+              "new": 10.4,
+              "old": 10.35
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168892": {
+            "protein": {
+              "new": 23.2,
+              "old": 23.15
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168900": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168901": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168907": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168909": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168911": {
+            "protein": {
+              "new": 13.4,
+              "old": 13.35
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168912": {
+            "carbs": {
+              "new": 26.2,
+              "old": 26.15
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168920": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168921": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168925": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168931": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168933": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168934": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "168937": {
+            "carbs": {
+              "new": 65.6,
+              "old": 65.65
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169055": {
+            "fat": {
+              "new": 57.8,
+              "old": 57.85
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169089": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169090": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169097": {
+            "carbs": {
+              "new": 11.8,
+              "old": 11.75
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169103": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169110": {
+            "sugar": {
+              "new": 14.2,
+              "old": 14.25
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169129": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169139": {
+            "carbs": {
+              "new": 13.0,
+              "old": 13.05
+            },
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169203": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169213": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169218": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169219": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169222": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169224": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169232": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169237": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169241": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        },
+        {
+          "169244": {
+            "verified_at_utc": {
+              "new": "2026-10-09T21:46:18Z",
+              "old": "2026-02-11T22:06:02Z"
+            }
+          }
+        }
+      ],
+      "n_added": 0,
+      "n_changed": 259,
+      "n_new": 800,
+      "n_old": 800,
+      "n_removed": 0,
+      "removed_keys": []
+    },
+    "ingredients": {
+      "added_keys": [],
+      "changed": [
+        {
+          "167750": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167753": {
+            "carbs": {
+              "new": 17.4,
+              "old": 17.45
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "sugar": {
+              "new": 16.4,
+              "old": 16.45
+            }
+          }
+        },
+        {
+          "167754": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167759": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167764": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167773": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167774": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167775": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167784": {
+            "carbs": {
+              "new": 16.2,
+              "old": 16.25
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "sugar": {
+              "new": 13.0,
+              "old": 12.95
+            }
+          }
+        },
+        {
+          "167787": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "sugar": {
+              "new": 12.6,
+              "old": 12.65
+            }
+          }
+        },
+        {
+          "167791": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167806": {
+            "carbs": {
+              "new": 79.6,
+              "old": 79.65
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167807": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "167845": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Pork Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Pork Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "protein": {
+              "new": 19.6,
+              "old": 19.55
+            }
+          }
+        },
+        {
+          "167902": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Pork Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Pork Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168106": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Legumes and Legume Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Legumes and Legume Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "sodium": {
+              "new": 1.74,
+              "old": 1.745
+            }
+          }
+        },
+        {
+          "168150": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168151": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168152": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168159": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168160": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168163": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168166": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168167": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168170": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168171": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168175": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168177": {
+            "carbs": {
+              "new": 10.6,
+              "old": 10.65
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168179": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "sugar": {
+              "new": 17.4,
+              "old": 17.45
+            }
+          }
+        },
+        {
+          "168188": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168190": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168192": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168193": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168376": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Pork Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Pork Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "protein": {
+              "new": 20.8,
+              "old": 20.85
+            }
+          }
+        },
+        {
+          "168385": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168391": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168393": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168418": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168419": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168427": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168438": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168459": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168472": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168478": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168489": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168490": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168491": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168553": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168560": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168565": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168572": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168573": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168579": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "protein": {
+              "new": 12.4,
+              "old": 12.35
+            }
+          }
+        },
+        {
+          "168581": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168582": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168583": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168585": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Nut and Seed Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Nut and Seed Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168587": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Nut and Seed Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Nut and Seed Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168591": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Nut and Seed Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Nut and Seed Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168599": {
+            "fat": {
+              "new": 51.4,
+              "old": 51.45
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Nut and Seed Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Nut and Seed Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168614": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Beef Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Beef Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "protein": {
+              "new": 19.0,
+              "old": 19.05
+            }
+          }
+        },
+        {
+          "168652": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Beef Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Beef Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "protein": {
+              "new": 14.4,
+              "old": 14.35
+            }
+          }
+        },
+        {
+          "168870": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168874": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168879": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168883": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168888": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168891": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "protein": {
+              "new": 10.4,
+              "old": 10.35
+            }
+          }
+        },
+        {
+          "168892": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "protein": {
+              "new": 23.2,
+              "old": 23.15
+            }
+          }
+        },
+        {
+          "168900": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168901": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168907": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168909": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168911": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "protein": {
+              "new": 13.4,
+              "old": 13.35
+            }
+          }
+        },
+        {
+          "168912": {
+            "carbs": {
+              "new": 26.2,
+              "old": 26.15
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168920": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168921": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168925": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168931": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168933": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168934": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "168937": {
+            "carbs": {
+              "new": 65.6,
+              "old": 65.65
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Cereal Grains and Pasta; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169055": {
+            "fat": {
+              "new": 57.8,
+              "old": 57.85
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fats and Oils; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fats and Oils; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169089": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169090": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169097": {
+            "carbs": {
+              "new": 11.8,
+              "old": 11.75
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169103": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169110": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            },
+            "sugar": {
+              "new": 14.2,
+              "old": 14.25
+            }
+          }
+        },
+        {
+          "169129": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Fruits and Fruit Juices; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169139": {
+            "carbs": {
+              "new": 13.0,
+              "old": 13.05
+            },
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169203": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169213": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169218": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169219": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169222": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169224": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169232": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169237": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169241": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        },
+        {
+          "169244": {
+            "notes": {
+              "new": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-10-09T21:46:18Z; source_system=USDA FoodData Central API",
+              "old": "source=SR Legacy; food_category=Vegetables and Vegetable Products; verified=2026-02-11T22:06:02Z; source_system=USDA FoodData Central API"
+            }
+          }
+        }
+      ],
+      "n_added": 0,
+      "n_changed": 259,
+      "n_new": 800,
+      "n_old": 800,
+      "n_removed": 0,
+      "removed_keys": []
+    }
+  }
+}

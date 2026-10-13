@@ -16,6 +16,7 @@ import copy
 import json
 import os
 import re
+import sys
 import threading
 import time
 import urllib.error
@@ -24,13 +25,22 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterable, List, Sequence
+from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence
 
 try:
     from usda_fdc import FdcApiError, FdcAuthError, FdcClient, FdcRateLimitError
 except Exception:
     FdcApiError = FdcAuthError = FdcRateLimitError = None
     FdcClient = None
+
+# Shared, tested nutrient-selection policy (presence-aware, unit-checked,
+# FDC energy precedence). The path bootstrap keeps this script runnable both
+# from the repo root and from scripts/data/.
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
+from usda_core.nutrients import MACRO_SPECS, collect_observations, select_energy, select_macro  # noqa: E402
 
 FDC_SEARCH_URL = "https://api.nal.usda.gov/fdc/v1/foods/search"
 FDC_FOOD_URL = "https://api.nal.usda.gov/fdc/v1/food"
@@ -51,7 +61,12 @@ SEARCH_DATA_TYPE_PASSES = [
 # For ingredient catalogs used by recipes, prefer USDA primary ingredient datasets.
 CATALOG_DATA_TYPES = ["Foundation", "SR Legacy", "Survey (FNDDS)"]
 NUTRIENT_TARGETS = {
-    "calories": {1008, 208},
+    # Energy: all FDC energy variants. Selection precedence (1008/208 kcal,
+    # then Atwater Specific 2048, Atwater General 2047, then kJ 1062/268) is
+    # implemented in usda_core.nutrients.select_energy; before the fix this
+    # set only contained {1008, 208}, which is why Atwater-only Foundation
+    # rows extracted as 0.0 kcal.
+    "calories": {1008, 208, 2047, 2048, 1062, 268},
     "protein_g": {1003, 203},
     "carbs_g": {1005, 205},
     "fat_g": {1004, 204},
@@ -59,6 +74,7 @@ NUTRIENT_TARGETS = {
     "sugar_g": {2000, 269},
     "sodium_g": {1093, 307},
 }
+_TARGET_TO_FIELD = {frozenset(ids): field for field, ids in NUTRIENT_TARGETS.items()}
 MILLIGRAM_UNITS = {"mg", "milligram", "milligrams"}
 MICROGRAM_UNITS = {"mcg", "ug", "µg", "microgram", "micrograms"}
 # Context7 docs: nutrient filters are supported, but payload shape is inconsistent across
@@ -865,6 +881,8 @@ def build_common_food_catalog(
             food_category = str(category_obj or "")
 
         macros = extract_macros(detail)
+        presence = extract_macros_presence(detail)
+        macro_gaps = sorted(field for field, value in presence.items() if value is None)
         macro_signal = (
             macros["calories"]
             + macros["protein_g"]
@@ -899,6 +917,9 @@ def build_common_food_catalog(
                 "brand_name": str(get_field(detail, "brandName", "brand_name", default=summary.get("brand_name", "")) or ""),
                 "ingredients_text": str(get_field(detail, "ingredients", default=summary.get("ingredients_text", "")) or ""),
                 **macros,
+                # Additive, decoder-safe: absent-field placeholders are named
+                # explicitly so 0.0 entries are never read as measured zeros.
+                "macro_gaps": macro_gaps,
             }
         )
 

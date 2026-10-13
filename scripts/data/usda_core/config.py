@@ -8,6 +8,8 @@ CACHE_DIR = DATA_DIR / ".cache"
 CATALOG_DIR = DATA_DIR / "catalog"
 REVIEW_BATCH_DIR = DATA_DIR / "review_batches"
 CANDIDATE_DIR = CACHE_DIR / "candidates"
+REFERENCE_DIR = DATA_DIR / "reference"
+AUDIT_DIR = DATA_DIR / "audit"
 
 CANONICAL_JSON = CATALOG_DIR / "usda_curated_ingredients.json"
 CACHE_DB = CACHE_DIR / "usda_http_cache.sqlite"

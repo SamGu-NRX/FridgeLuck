@@ -29,7 +29,7 @@ def load_batch(path: Path) -> BatchPayload:
 
 
 def save_batch(path: Path, batch: BatchPayload) -> None:
-    raw = _pretty_dumps(batch.model_dump(mode="json")) + b"\n"
+    raw = _pretty_dumps(batch.model_dump(mode="json", exclude_none=True)) + b"\n"
     atomic_write_bytes(path, raw)
 
 

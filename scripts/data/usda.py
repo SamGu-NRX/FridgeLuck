@@ -13,7 +13,7 @@ from usda_core.build_sqlite import build_sqlite
 from usda_core.cache_store import CacheStore
 from usda_core.candidates import fetch_candidates
 from usda_core.client_async import USDAAsyncClient
-from usda_core.config import CACHE_DB, CANONICAL_JSON, CANDIDATE_DIR, DEFAULT_REPORT_OUT, DEFAULT_SQLITE_OUT, REVIEW_BATCH_DIR
+from usda_core.config import AUDIT_DIR, CACHE_DB, CANONICAL_JSON, CANDIDATE_DIR, DEFAULT_REPORT_OUT, DEFAULT_SQLITE_OUT, REFERENCE_DIR, REVIEW_BATCH_DIR
 from usda_core.io import load_batch, load_canonical, save_batch, save_canonical, save_json
 from usda_core.migrate import migrate_from_clean_json
 from usda_core.promote import PromoteError, promote_batch
@@ -186,6 +186,132 @@ def cmd_report(
     report = build_report(catalog)
     write_report(out, report)
     typer.echo(f"Wrote report: {out}")
+
+
+@app.command("extract-reference")
+def cmd_extract_reference(
+    sr_zip: Annotated[Path, typer.Option("--sr-zip", help="Path to the SR Legacy bulk JSON zip")],
+    foundation_zip: Annotated[Path, typer.Option("--foundation-zip", help="Path to the Foundation Foods bulk JSON zip")],
+    canonical: Annotated[Path, typer.Option("--canonical")] = CANONICAL_JSON,
+    out_dir: Annotated[Path, typer.Option("--out-dir")] = REFERENCE_DIR,
+    sr_edition: Annotated[str, typer.Option("--sr-edition")] = "SR Legacy 2021-10-28",
+    sr_url: Annotated[str, typer.Option("--sr-url")] = "https://fdc.nal.usda.gov/fdc-datasets/foodDataCentral.srLegacyJson.2021-10-28.zip",
+    foundation_edition: Annotated[str, typer.Option("--foundation-edition")] = "Foundation Foods 2024-04-18",
+    foundation_url: Annotated[str, typer.Option("--foundation-url")] = "https://fdc.nal.usda.gov/fdc-datasets/foodDataCentral.foundationJson.2024-04-18.zip",
+) -> None:
+    from usda_core.reference_extract import ReferenceSource, sha256_file, write_reference_bundle
+
+    catalog = load_canonical(canonical)
+    sources = [
+        ReferenceSource(
+            dataset="sr_legacy",
+            edition=sr_edition,
+            url=sr_url,
+            path=sr_zip,
+            sha256=sha256_file(sr_zip),
+            bytes=sr_zip.stat().st_size,
+        ),
+        ReferenceSource(
+            dataset="foundation",
+            edition=foundation_edition,
+            url=foundation_url,
+            path=foundation_zip,
+            sha256=sha256_file(foundation_zip),
+            bytes=foundation_zip.stat().st_size,
+        ),
+    ]
+    manifest = write_reference_bundle(out_dir, [r.model_dump(mode="json") for r in catalog.records], sources)
+    typer.echo(f"Wrote extract: {out_dir / 'fdc_reference_extracts.json'}")
+    typer.echo(f"Records: {manifest['extract_record_count']}")
+    typer.echo(f"Missing fdc_ids: {len(manifest['missing_fdc_ids'])}")
+    typer.echo(f"Extract sha256: {manifest['extract_sha256']}")
+
+
+@app.command("audit-reference")
+def cmd_audit_reference(
+    canonical: Annotated[Path, typer.Option("--canonical")] = CANONICAL_JSON,
+    reference: Annotated[Path, typer.Option("--reference", help="Extract JSON or the directory containing it")] = REFERENCE_DIR,
+    out_dir: Annotated[Path, typer.Option("--out-dir")] = AUDIT_DIR / "reference_audit",
+) -> None:
+    from usda_core.reference_audit import audit_catalog, write_audit_csv
+
+    extract_path = reference if reference.is_file() else reference / "fdc_reference_extracts.json"
+    extract = orjson.loads(extract_path.read_bytes())
+    catalog = load_canonical(canonical)
+
+    archive_hashes = {
+        f"{'sr_legacy' if 'srLegacy' in s.get('url', '') else 'foundation'}": s.get("sha256", "")
+        for s in extract.get("sources", [])
+    }
+    result = audit_catalog(
+        [r.model_dump(mode="json") for r in catalog.records],
+        extract,
+        source_archive_sha256=archive_hashes,
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    audit_path = out_dir / "audit.json"
+    audit_path.write_bytes(orjson.dumps(result.to_json(), option=orjson.OPT_SORT_KEYS | orjson.OPT_INDENT_2) + b"\n")
+    csv_path = out_dir / "discrepancies.csv"
+    write_audit_csv(result.records, csv_path)
+    proposals_path = out_dir / "correction_proposals.json"
+    proposals_path.write_bytes(
+        orjson.dumps({"corrections": result.proposals}, option=orjson.OPT_SORT_KEYS | orjson.OPT_INDENT_2) + b"\n"
+    )
+    typer.echo(f"Audit written: {audit_path}")
+    typer.echo(f"Discrepancy table: {csv_path}")
+    for verdict, count in sorted(result.verdict_counts.items(), key=lambda kv: -kv[1]):
+        typer.echo(f"- {verdict}: {count}")
+    typer.echo(f"Correction proposals: {len(result.proposals)}")
+
+
+@app.command("apply-corrections")
+def cmd_apply_corrections(
+    corrections: Annotated[Path, typer.Option("--corrections", help="Reviewed corrections JSON")],
+    canonical: Annotated[Path, typer.Option("--canonical")] = CANONICAL_JSON,
+    reference: Annotated[Path, typer.Option("--reference", help="Extract JSON or the directory containing it")] = REFERENCE_DIR,
+    report: Annotated[Path, typer.Option("--report")] = AUDIT_DIR / "corrections_applied.json",
+) -> None:
+    from usda_core.apply_corrections import apply_reference_corrections
+
+    extract_path = reference if reference.is_file() else reference / "fdc_reference_extracts.json"
+    outcome = apply_reference_corrections(canonical, extract_path, corrections)
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_bytes(orjson.dumps(outcome, option=orjson.OPT_SORT_KEYS | orjson.OPT_INDENT_2) + b"\n")
+    typer.echo(f"Applied: {outcome['n_applied']}  Refused: {outcome['n_refused']}  Rows stamped: {outcome['n_rows_stamped']}")
+    for refused in outcome["refused"]:
+        typer.echo(f"- REFUSED fdc_id={refused.get('fdc_id')} field={refused.get('field')} reason={refused.get('reason')}")
+    typer.echo(f"Report: {report}")
+
+
+@app.command("rebuild-sqlite")
+def cmd_rebuild_sqlite(
+    canonical: Annotated[Path, typer.Option("--canonical")] = CANONICAL_JSON,
+    out: Annotated[Path, typer.Option("--out", help="Rebuilt DB path (never the installed app DB by accident)")] = AUDIT_DIR / "rebuilt_catalog.sqlite",
+) -> None:
+    catalog = load_canonical(canonical)
+    build_sqlite(catalog, out)
+    typer.echo(f"Rebuilt SQLite (standalone copy): {out}")
+    typer.echo(f"Rows: {len(catalog.records)}")
+
+
+@app.command("compare-sqlite")
+def cmd_compare_sqlite(
+    old: Annotated[Path, typer.Option("--old")],
+    new: Annotated[Path, typer.Option("--new")],
+    out: Annotated[Path, typer.Option("--out")] = AUDIT_DIR / "sqlite_compare.json",
+) -> None:
+    from usda_core.sqlite_compare import compare_sqlite, save_report
+
+    report = compare_sqlite(old, new)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    save_report(report, out)
+    for table, stats in report["tables"].items():
+        typer.echo(
+            f"{table}: old={stats['n_old']} new={stats['n_new']} "
+            f"added={stats['n_added']} removed={stats['n_removed']} changed={stats['n_changed']}"
+        )
+    typer.echo(f"Identical: {report['identical']}")
+    typer.echo(f"Report: {out}")
 
 
 def main() -> None:
