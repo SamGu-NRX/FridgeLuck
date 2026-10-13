@@ -1,0 +1,24 @@
+{
+  "capsules": [
+    {
+      "capsule": "usda-curation-catalog",
+      "counts": {},
+      "diagnostics": [],
+      "diagnostics_note": "informational comparisons only; cannot change the result",
+      "findings": [],
+      "origin_drift_informational": [],
+      "status": "verified"
+    },
+    {
+      "capsule": "usda-swift-static-export",
+      "counts": {},
+      "diagnostics": [],
+      "diagnostics_note": "informational comparisons only; cannot change the result",
+      "findings": [],
+      "origin_drift_informational": [],
+      "status": "verified"
+    }
+  ],
+  "capsules_dir": "tools/experiment-capsules/results",
+  "totals": {}
+}

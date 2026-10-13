@@ -1,0 +1,17 @@
+[
+  {
+    "dishes": 2,
+    "food_group": "dairy",
+    "kcal_total": 420
+  },
+  {
+    "dishes": 3,
+    "food_group": "produce",
+    "kcal_total": 610
+  },
+  {
+    "dishes": 1,
+    "food_group": "grains",
+    "kcal_total": 180
+  }
+]
