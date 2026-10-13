@@ -12,9 +12,25 @@ private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "VisionServ
 final class VisionService: Sendable {
   private let learningService: LearningService
   private let ingredientResolver: IngredientCatalogResolving
+  private let classificationRequest: @Sendable (CGImage) async throws -> [ClassificationResult]
+  private let textRequest: @Sendable (CGImage) async throws -> [RecognizedTextResult]
 
   enum VisionServiceError: LocalizedError {
-    case pipelineFailed(classificationError: Error?, ocrError: Error?)
+    case pipelineFailed(
+      classificationError: Error?, ocrError: Error?,
+      passErrors: [String], requestFailures: [ScanRequestFailure])
+
+    var passErrors: [String] {
+      switch self {
+      case .pipelineFailed(_, _, let passErrors, _): return passErrors
+      }
+    }
+
+    var requestFailures: [ScanRequestFailure] {
+      switch self {
+      case .pipelineFailed(_, _, _, let requestFailures): return requestFailures
+      }
+    }
 
     var errorDescription: String? {
       "Image recognition failed. Please try another photo."
@@ -46,23 +62,18 @@ final class VisionService: Sendable {
     let captureIndex: Int
   }
 
-  private struct ResolvedOCR {
-    let ingredientId: Int64
-    let confidence: Float
-    let originalText: String
-    let matchedToken: String
-    let kind: OCRMatchKind
-    let boundingBox: CGRect
-    let cropID: String
-    let captureIndex: Int
-  }
+  private typealias ResolvedOCR = IngredientOCRMatchAggregation.Match
 
   init(
     learningService: LearningService,
-    ingredientResolver: IngredientCatalogResolving
+    ingredientResolver: IngredientCatalogResolving,
+    classificationRequest: @escaping @Sendable (CGImage) async throws -> [ClassificationResult] = VisionService.classifyImage,
+    textRequest: @escaping @Sendable (CGImage) async throws -> [RecognizedTextResult] = VisionService.recognizeText
   ) {
     self.learningService = learningService
     self.ingredientResolver = ingredientResolver
+    self.classificationRequest = classificationRequest
+    self.textRequest = textRequest
   }
 
   // MARK: - Public API
@@ -83,6 +94,7 @@ final class VisionService: Sendable {
 
   /// Session API for multi-shot scan aggregation.
   func scan(inputs: [ScanInput]) async throws -> ScanResult {
+    try Task.checkCancellation()
     let startedAt = Date()
     logger.info("Starting scan session. captures=\(inputs.count, privacy: .public)")
     guard !inputs.isEmpty else {
@@ -108,6 +120,7 @@ final class VisionService: Sendable {
     var rawLabels: [String] = []
     var ocrStrings: [String] = []
     var passErrors: [String] = []
+    var requestFailures: [ScanRequestFailure] = []
     var cropCount = 0
     var firstClassificationError: Error?
     var firstOCRError: Error?
@@ -115,15 +128,17 @@ final class VisionService: Sendable {
     var hadOCRSuccess = false
 
     for input in inputs {
+      try Task.checkCancellation()
       let crops = ScanImagePreprocessor.deterministicCrops(for: input.image)
       logger.debug(
         "Capture index=\(input.captureIndex, privacy: .public), source=\(input.source.rawValue, privacy: .public), crops=\(crops.count, privacy: .public)"
       )
       for crop in crops {
+        try Task.checkCancellation()
         cropCount += 1
 
-        async let classPass = classifyImage(crop.image)
-        async let ocrPass = recognizeText(crop.image)
+        async let classPass = classificationRequest(crop.image)
+        async let ocrPass = textRequest(crop.image)
 
         let classifications: [ClassificationResult]
         let textObservations: [RecognizedTextResult]
@@ -137,6 +152,8 @@ final class VisionService: Sendable {
             "Classification pass succeeded. capture=\(input.captureIndex, privacy: .public), crop=\(crop.id, privacy: .public), labels=\(classifications.count, privacy: .public)"
           )
         } catch {
+          try Task.checkCancellation()
+          if Self.isCancellation(error) { throw CancellationError() }
           classifications = []
           classificationError = error
           if firstClassificationError == nil { firstClassificationError = error }
@@ -152,6 +169,8 @@ final class VisionService: Sendable {
             "OCR pass succeeded. capture=\(input.captureIndex, privacy: .public), crop=\(crop.id, privacy: .public), observations=\(textObservations.count, privacy: .public)"
           )
         } catch {
+          try Task.checkCancellation()
+          if Self.isCancellation(error) { throw CancellationError() }
           textObservations = []
           ocrError = error
           if firstOCRError == nil { firstOCRError = error }
@@ -160,24 +179,30 @@ final class VisionService: Sendable {
           )
         }
 
-        if let classificationError, let ocrError {
-          passErrors.append(
-            "capture=\(input.captureIndex),crop=\(crop.id):class=\(String(describing: classificationError)),ocr=\(String(describing: ocrError))"
-          )
-        }
+        try Task.checkCancellation()
+        requestFailures.append(contentsOf: ScanDiagnostics.requestFailures(
+          captureIndex: input.captureIndex,
+          cropID: crop.id,
+          classificationError: classificationError,
+          ocrError: ocrError
+        ))
+        passErrors.append(contentsOf: ScanDiagnostics.cropPassErrors(
+          captureIndex: input.captureIndex, cropID: crop.id,
+          classificationError: classificationError, ocrError: ocrError
+        ))
 
         for obs in classifications where obs.confidence > 0.1 {
           rawLabels.append(obs.identifier)
 
           let originalLabel = obs.identifier
-          var resolvedId = learningService.correctedIngredientId(for: originalLabel)
-          if resolvedId == nil {
-            resolvedId = ingredientResolver.resolve(originalLabel)
-          }
-          if resolvedId == nil {
-            resolvedId = IngredientLexicon.resolve(originalLabel)
-          }
-          guard let ingredientId = resolvedId else { continue }
+          guard
+            let ingredientId = IngredientIdentityResolution.resolveLabel(
+              originalLabel,
+              userCorrection: learningService.correctedIngredientId(for:),
+              curated: IngredientLexicon.resolve,
+              catalog: ingredientResolver.resolve
+            )
+          else { continue }
           resolvedClassifications.append(
             ResolvedClassification(
               ingredientId: ingredientId,
@@ -189,9 +214,13 @@ final class VisionService: Sendable {
           )
         }
 
-        for obs in textObservations {
-          guard let topText = obs.candidates.first else { continue }
-          ocrStrings.append(topText)
+        let ocrLines = textObservations.compactMap { obs -> IngredientOCRLineJoining.Line? in
+          guard let topText = obs.candidates.first else { return nil }
+          return .init(text: topText, boundingBox: obs.boundingBox)
+        }
+        ocrStrings.append(contentsOf: ocrLines.map(\.text))
+        for line in IngredientOCRLineJoining.joinAdjacent(ocrLines) {
+          let topText = line.text
           if let matched = IngredientLexicon.resolveFromTextDetailed(topText) {
             let confidence: Float =
               matched.kind == .exact
@@ -204,12 +233,18 @@ final class VisionService: Sendable {
                 originalText: topText,
                 matchedToken: matched.matchedToken,
                 kind: matched.kind,
-                boundingBox: obs.boundingBox,
+                boundingBox: line.boundingBox,
                 cropID: crop.id,
-                captureIndex: input.captureIndex
+                captureIndex: input.captureIndex,
+                isCatalogFallback: false,
+                joinedParts: line.joinedParts
               )
             )
-          } else if let resolvedId = ingredientResolver.resolveFromText(topText) {
+          } else if let resolvedId = IngredientIdentityResolution.resolveTextFromCatalog(
+            topText,
+            catalogName: { ingredientResolver.resolve($0, matching: .allowPrefix) },
+            catalogTokens: ingredientResolver.resolveFromText
+          ) {
             resolvedOCRMatches.append(
               ResolvedOCR(
                 ingredientId: resolvedId,
@@ -217,9 +252,11 @@ final class VisionService: Sendable {
                 originalText: topText,
                 matchedToken: topText,
                 kind: .fuzzy,
-                boundingBox: obs.boundingBox,
+                boundingBox: line.boundingBox,
                 cropID: crop.id,
-                captureIndex: input.captureIndex
+                captureIndex: input.captureIndex,
+                isCatalogFallback: true,
+                joinedParts: []
               )
             )
           }
@@ -227,6 +264,7 @@ final class VisionService: Sendable {
       }
     }
 
+    try Task.checkCancellation()
     var detections: [Detection] = []
 
     var bestByIngredient: [Int64: ResolvedClassification] = [:]
@@ -281,7 +319,7 @@ final class VisionService: Sendable {
         ))
     }
 
-    for ocr in resolvedOCRMatches {
+    for ocr in IngredientOCRMatchAggregation.suppressJoinedParts(resolvedOCRMatches) {
       detections.append(
         Detection(
           ingredientId: ocr.ingredientId,
@@ -319,13 +357,16 @@ final class VisionService: Sendable {
 
     let deduplicated = bestDetectionByIngredient.values.sorted { $0.confidence > $1.confidence }
 
+    try Task.checkCancellation()
     if deduplicated.isEmpty, !hadClassificationSuccess, !hadOCRSuccess {
       logger.error(
         "Scan session failed: no successful passes. classError=\(firstClassificationError?.localizedDescription ?? "nil", privacy: .public), ocrError=\(firstOCRError?.localizedDescription ?? "nil", privacy: .public)"
       )
       throw VisionServiceError.pipelineFailed(
         classificationError: firstClassificationError,
-        ocrError: firstOCRError
+        ocrError: firstOCRError,
+        passErrors: passErrors,
+        requestFailures: requestFailures
       )
     }
 
@@ -342,7 +383,8 @@ final class VisionService: Sendable {
         possible: categorized.possible.count
       ),
       passErrors: passErrors,
-      elapsedMs: elapsedMs
+      elapsedMs: elapsedMs,
+      requestFailures: requestFailures
     )
 
     logger.info(
@@ -352,6 +394,7 @@ final class VisionService: Sendable {
       logger.debug("Scan pass errors count=\(passErrors.count, privacy: .public)")
     }
 
+    try Task.checkCancellation()
     return ScanResult(
       detections: deduplicated,
       ocrText: ocrStrings,
@@ -360,27 +403,97 @@ final class VisionService: Sendable {
     )
   }
 
-  // MARK: - Vision Passes (synchronous, run on detached tasks)
+  // MARK: - Vision Passes
+
+  private static func isCancellation(_ error: Error) -> Bool {
+    let visionError = error as NSError
+    return error is CancellationError
+      || (visionError.domain == VNErrorDomain
+        && visionError.code == VNErrorCode.requestCancelled.rawValue)
+  }
+
+  /// The lock orders registration against cancellation, including cancellation before work starts.
+  final class VisionRequestCancellation: @unchecked Sendable {
+    private let lock = NSLock()
+    private var request: VNRequest?
+    private var cancelled = false
+
+    func cancel() {
+      lock.lock()
+      defer { lock.unlock() }
+      cancelled = true
+      // VNRequest.cancel() aborts in-flight work and reports VNErrorRequestCancelled.
+      request?.cancel()
+    }
+
+    func perform(
+      _ request: VNRequest, on image: CGImage,
+      using performRequest: (VNRequest, CGImage) throws -> Void = { request, image in
+        try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+      }
+    ) throws {
+      lock.lock()
+      if cancelled {
+        lock.unlock()
+        throw CancellationError()
+      }
+      self.request = request
+      lock.unlock()
+      defer {
+        lock.lock()
+        self.request = nil
+        lock.unlock()
+      }
+
+      try Task.checkCancellation()
+      try performRequest(request, image)
+      try Task.checkCancellation()
+    }
+  }
+
+  static func runVisionRequest<Result: Sendable>(
+    _ operation: @escaping @Sendable (VisionRequestCancellation) throws -> Result
+  ) async throws -> Result {
+    try Task.checkCancellation()
+    let cancellation = VisionRequestCancellation()
+    let worker = Task.detached(priority: .userInitiated) {
+      try Task.checkCancellation()
+      return try operation(cancellation)
+    }
+    return try await withTaskCancellationHandler {
+      do {
+        let result = try await worker.value
+        try Task.checkCancellation()
+        return result
+      } catch {
+        try Task.checkCancellation()
+        if isCancellation(error) { throw CancellationError() }
+        throw error
+      }
+    } onCancel: {
+      worker.cancel()
+      cancellation.cancel()
+    }
+  }
 
   /// Classify the image using VNClassifyImageRequest.
-  /// Runs synchronously on a background thread — no continuation needed.
-  private func classifyImage(_ image: CGImage) async throws -> [ClassificationResult] {
-    try await Task.detached(priority: .userInitiated) {
+  /// Runs synchronously on a detached worker with cancellation forwarded to Vision.
+  private static func classifyImage(_ image: CGImage) async throws -> [ClassificationResult] {
+    try await runVisionRequest { cancellation in
       let request = VNClassifyImageRequest()
-      let handler = VNImageRequestHandler(cgImage: image, options: [:])
-      try handler.perform([request])
+      try cancellation.perform(request, on: image)
 
       let observations = request.results ?? []
       return observations.map { obs in
         ClassificationResult(identifier: obs.identifier, confidence: obs.confidence)
       }
-    }.value
+    }
   }
 
   /// Recognize text in the image using VNRecognizeTextRequest.
-  /// Runs synchronously on a background thread — no continuation needed.
-  private func recognizeText(_ image: CGImage) async throws -> [RecognizedTextResult] {
-    try await Task.detached(priority: .userInitiated) {
+  /// Runs synchronously on a detached worker with cancellation forwarded to Vision.
+  private static func recognizeText(_ image: CGImage) async throws -> [RecognizedTextResult] {
+    try await runVisionRequest { cancellation in
       let request = VNRecognizeTextRequest()
       request.recognitionLevel = .accurate
       request.usesLanguageCorrection = true
@@ -389,15 +502,14 @@ final class VisionService: Sendable {
         "Calories", "Serving Size", "Servings per container", "kcal",
       ]
       request.minimumTextHeight = 0.01
-      let handler = VNImageRequestHandler(cgImage: image, options: [:])
-      try handler.perform([request])
+      try cancellation.perform(request, on: image)
 
       let observations = request.results ?? []
       return observations.map { obs in
         let strings = obs.topCandidates(3).map { $0.string }
         return RecognizedTextResult(candidates: strings, boundingBox: obs.boundingBox)
       }
-    }.value
+    }
   }
 
   private func sourcePriority(_ detection: Detection) -> Int {

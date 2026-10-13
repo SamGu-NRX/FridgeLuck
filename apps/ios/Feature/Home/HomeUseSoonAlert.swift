@@ -41,6 +41,7 @@ struct HomeUseSoonAlert: View {
     }
     .buttonStyle(FLPressableButtonStyle())
     .accessibilityLabel(
-      "\(ingredientName), \(daysRemaining) days until expiry. Tap to view in Kitchen.")
+      "\(ingredientName), \(daysRemaining) day\(daysRemaining == 1 ? "" : "s") until expiry. "
+        + "Tap to view in Kitchen.")
   }
 }

@@ -10,10 +10,22 @@ struct CookingHistory: Identifiable, Sendable, Codable {
   var rating: Int?  // 1-5 stars, nil if unrated
   var imagePath: String?  // relative path in app documents
   var servingsConsumed: Int?  // how many servings the user ate
+  var portionMultiplier: Double  // plate size relative to a full serving; 1.0 when not asked
 
-  init(recipeId: Int64, rating: Int? = nil, imagePath: String? = nil, servingsConsumed: Int? = nil)
-  {
+  /// `cookedAt` is set here because GRDB encodes a nil optional as SQL NULL, which bypasses the
+  /// column's CURRENT_TIMESTAMP default. NULL rows were counted in streaks but dropped from every
+  /// dated query (today's nutrition, weekly history).
+  init(
+    recipeId: Int64,
+    cookedAt: Date = Date(),
+    rating: Int? = nil,
+    imagePath: String? = nil,
+    servingsConsumed: Int? = nil,
+    portionMultiplier: Double = 1.0
+  ) {
     self.recipeId = recipeId
+    self.cookedAt = cookedAt
+    self.portionMultiplier = portionMultiplier
     self.rating = rating
     self.imagePath = imagePath
     self.servingsConsumed = servingsConsumed
@@ -26,6 +38,7 @@ struct CookingHistory: Identifiable, Sendable, Codable {
     case rating
     case imagePath = "image_path"
     case servingsConsumed = "servings_consumed"
+    case portionMultiplier = "portion_multiplier"
   }
 }
 
@@ -39,6 +52,7 @@ extension CookingHistory: FetchableRecord, PersistableRecord, TableRecord {
     case rating
     case imagePath = "image_path"
     case servingsConsumed = "servings_consumed"
+    case portionMultiplier = "portion_multiplier"
   }
 }
 

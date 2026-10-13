@@ -55,6 +55,7 @@ struct CookingGuideTopBar: View {
 }
 
 struct CookingGuideIngredientsPage: View {
+  @Environment(AppPreferencesStore.self) private var prefs
   let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
   @Binding var checkedIngredients: Set<Int64>
   @Binding var activeSubstitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
@@ -159,9 +160,14 @@ struct CookingGuideIngredientsPage: View {
 
           Spacer()
 
-          Text(quantity.displayQuantity)
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.textSecondary)
+          // A substitute uses its own amount (recipe grams × ratio), the amount that gets logged.
+          Text(
+            activeSub.map {
+              prefs.formatWeight(grams: quantity.quantityGrams * $0.substitution.ratio)
+            } ?? quantity.displayQuantity
+          )
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
         }
       }
       .buttonStyle(.plain)
@@ -206,6 +212,8 @@ struct CookingGuideStepPage: View {
   let index: Int
   let totalSteps: Int
   let step: String
+  /// Shown on the last step only, so the recipe's source stays visible without being a step.
+  let attribution: RecipeAttribution?
   @Binding var completedSteps: Set<Int>
   let pageAppeared: Bool
   let reduceMotion: Bool
@@ -268,11 +276,43 @@ struct CookingGuideStepPage: View {
       .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.14), value: pageAppeared)
 
       Spacer()
+
+      if let attribution {
+        CookingGuideAttributionLine(attribution: attribution)
+          .opacity(pageAppeared ? 1 : 0)
+          .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.2), value: pageAppeared)
+      }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding(.horizontal, contentHorizontalPadding)
     .padding(.top, AppTheme.Space.lg)
     .padding(.bottom, AppTheme.Space.xxl)
+  }
+}
+
+/// "Recipe from bbcgoodfood.com" at the end of the guide. Links to the original page when the
+/// source is a web address.
+struct CookingGuideAttributionLine: View {
+  let attribution: RecipeAttribution
+
+  var body: some View {
+    if let url = attribution.url {
+      Link(destination: url) {
+        HStack(spacing: AppTheme.Space.xxs) {
+          Image(systemName: "link")
+          Text("Recipe from \(attribution.label)")
+        }
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(AppTheme.textSecondary)
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
+      }
+      .accessibilityHint("Opens the original recipe in Safari")
+    } else {
+      Text("Recipe from \(attribution.label)")
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(AppTheme.textSecondary)
+    }
   }
 }
 
