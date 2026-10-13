@@ -1,0 +1,260 @@
+{
+  "description": "Pinned permitted manifests for the read-only lineage audit. Every entry pins the exact git blob SHA, file sha256, byte count, and last-modifying commit at the audit head. All inputs are files already committed in this repository; the audit reads nothing from the network, acquires no images, and performs no recognition.",
+  "audit_head": "148c6e7a4ee63d4b8c31433a74c643001c1e04b6",
+  "audit_branch": "obv/fl-l3-source-reuse-audit",
+  "manifests": [
+    {
+      "path": "apps/ios/Resources/benchmark_manifest.json",
+      "adapter": "bundled-demo",
+      "kind": "image",
+      "options": {
+        "asset_root": "apps/ios/Resources"
+      },
+      "git_blob_sha": "df4aa180a4e8b2a65d8cd3ba567ece5f43daef97",
+      "file_sha256": "a4fe7a9cc70248e9f405a7159c696c479625dd897fac22f2713a93b10950036c",
+      "bytes": 1822,
+      "last_modified_commit": "7af419d5aa8a6624cd0fec6347d13dc885b267ec",
+      "last_modified_subject": "feat: Implement AppPreferencesStore for user preferences management"
+    },
+    {
+      "path": "apps/ios/Resources/usda_ingredient_nutrition_compact.json",
+      "adapter": "nutrition-compact",
+      "kind": "product",
+      "git_blob_sha": "b4d60ad6b9c75a828ae008a405dbc047cb37923b",
+      "file_sha256": "7c80f8e909318f96cb2c3cc7227537f4a900d23bad5ab5041b77bb607c228f02",
+      "bytes": 31082,
+      "last_modified_commit": "e5f804dacb191bd9e9403919fa8198977028b042",
+      "last_modified_subject": "refactor(ios): move iOS sources into apps/ios and rewire tooling"
+    },
+    {
+      "path": "scripts/data/catalog/usda_curated_ingredients.json",
+      "adapter": "usda-catalog",
+      "kind": "product",
+      "git_blob_sha": "7dfe0398383b41f3e12952990bffdd51cdd36c17",
+      "file_sha256": "363bfad9ff10341b0258571f60b31741b8d18dcf2b3eff80d1acd6dd7e0fd7dc",
+      "bytes": 817990,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/usda_manual_overrides.json",
+      "adapter": "usda-manual-overrides",
+      "kind": "product",
+      "git_blob_sha": "473793dcf441167bc5e9f7a78bd72379513093e3",
+      "file_sha256": "d313885cee4b3e208353720c1c02ed37323d3e776939da7ab165ee6cc88fdd97",
+      "bytes": 22293,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_001.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "f282b4302717c5cf23686f34eb95d4d41e3fc6b6",
+      "file_sha256": "b7d8a8362a7543275437a1c599ba5f7ce6015e0acd3c186228f8d3c51f86cb87",
+      "bytes": 46978,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_002.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "cb7f925516262c0783d84484fb0423f24f352ddb",
+      "file_sha256": "b0bac1380720cacf18e21e5439d05cfa2bfcfd371ed57a0aa52a5585d1dc1790",
+      "bytes": 12038,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_003.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "5e730b8c8b21f8222b625eb8229c19d86beaa3c6",
+      "file_sha256": "00111680a271cfb82c77903556ab20b75dc556c8c9d089c06e814012a1292802",
+      "bytes": 61159,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_004.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "aa7b5ddad9dcf7055f79064721dbc3fb56250d3e",
+      "file_sha256": "7861da4dc54b7e3833752fe685bf5eaad83ee36f5581f935671a7cd749519ace",
+      "bytes": 62968,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_005.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "f696351b5e20b183d7db06216f64ca7247afc8ee",
+      "file_sha256": "4b8b7a35fa95eb7a8e8dc0bc767b300ebdd041520dd11d7f4cad19c0ceb7cee5",
+      "bytes": 62244,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_006.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "fc15aa9427935819b593e7fd7e25930b7f450770",
+      "file_sha256": "2d43080fc205e2d73c7aa4ee5da04f86fcbb095451ebcf211e98f50b3c0e872b",
+      "bytes": 63924,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_007.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "118c599372a21f96703d0d9e0a917abea82b4814",
+      "file_sha256": "a68d4074ee365f7a0ab1099f80546ffea07e741dea5ab9a9392f24b36460fb0b",
+      "bytes": 61887,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_008.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "10725d45eb8a326fe38bac1a4dd7281130a8919a",
+      "file_sha256": "920265cbc4c3be050be038e8e0fc2112108fcbb72f3ba595a755061bd05bf979",
+      "bytes": 61846,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_009.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "c7bdb87c0c294221661aec7562d0577ef36e49e3",
+      "file_sha256": "c4a44ef80f894c850d27359655a824e0fe9a72a2689b13ab9e9dd82b1fa90f43",
+      "bytes": 62777,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_010.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "a237c4185e7f5ded28c11194925d5df7e27093fc",
+      "file_sha256": "ce50eee48201d27d11b3e49b2e6ca9674bbe15e6f2838f41f517fb65a95b53de",
+      "bytes": 62120,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_011.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "efeffaba10a95d133e79e8a75cf6a42e26d109c6",
+      "file_sha256": "1f22d4a1a5132c91f82bda3cca7246d75b16818cbe8c2b45f3f5a7d1556e43c2",
+      "bytes": 62486,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_012.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "a564c3d5e96b7e76f1399443a2e2ffa180eaaf0a",
+      "file_sha256": "3444423a4e9fd86921abd4e37a8c7dda15d94b6d52dca337de034bf915a3b562",
+      "bytes": 62034,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_013.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "ff4c0392ff58c0798f9b3490e3f5dda2cf5a0f9a",
+      "file_sha256": "3f3ba06b404d36afa4f9d7cec41c8d1c233af0982e84e8fcde5b75d36b448d30",
+      "bytes": 61835,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_014.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "343f0921b8e4fe55786a4dfe4d15951dca69a392",
+      "file_sha256": "c80b9c6fbfde22ab2b53cf1c7b505de13bfbf71e8a0546493356bc3de7d4afec",
+      "bytes": 62759,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_015.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "8c60873d4117aad323155328845e75600a0a6170",
+      "file_sha256": "cd5388b432173a7f17cc71fd6ec02d5f001350dd234860777eb22d49ab39d6cd",
+      "bytes": 63077,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_016.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "d8a21de809c1e3ade67dd5bb7679e4dc82f33e41",
+      "file_sha256": "35a8594f3cbac4904773fcc9ab29ef295cca728fc130993ce83fce23bd124a55",
+      "bytes": 61894,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_017.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "0fa00cd0235d80f9ea7139646e59945eb737a2e3",
+      "file_sha256": "59bca745bae0beeff195e922ddb1dbff0dd58a06073d4ea9a02d5b0bca14ef08",
+      "bytes": 60562,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_018.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "9f8a0a5c08d470fc6f9fad90cac12c23c009f641",
+      "file_sha256": "cde3403e4269afe66c6fc6c1ad8d8dbdb81a6642a45e587275f2b90ad2ee0b1c",
+      "bytes": 60872,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_019.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "5fb44ef8f35fc6541e1482b33c3a55f862b9b2a4",
+      "file_sha256": "67301623da6b803fdb1eadeed1e941018877663ee733644da8c6597108b19ae8",
+      "bytes": 60967,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_020.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "e094b0008665f385a56f11e5b717778db2ffa000",
+      "file_sha256": "27489877396f6521e9276c2069b6be5942f2b0469bfb87e7f4a5d47279a54a78",
+      "bytes": 60818,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    },
+    {
+      "path": "scripts/data/review_batches/manual_batch_021.json",
+      "adapter": "usda-review-batches",
+      "kind": "product",
+      "git_blob_sha": "a13c5f477cfd2ae085bb24de093f4c3a18a71d69",
+      "file_sha256": "f46986c62a1c0e8c8444da3619c048fe3dbbcedc1acfbed99c61922bd5ae96ea",
+      "bytes": 36989,
+      "last_modified_commit": "da964d81f5a71f7dc5abe6d3c3d78a7cbe598582",
+      "last_modified_subject": "feat: Enhance ingredient data model and search functionality, clean up data and setup uv project for"
+    }
+  ]
+}

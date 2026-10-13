@@ -1,0 +1,14 @@
+{
+  "language": "en",
+  "notes": "synthetic fixture for the usda-manual-overrides adapter",
+  "overrides": {
+    "167599": {
+      "display_name": "Fixture Butter Override",
+      "alt_names": ["butter"],
+      "clarification": "synthetic clarification entry"
+    },
+    "999999": {
+      "display_name": "Fixture Phantom Override"
+    }
+  }
+}

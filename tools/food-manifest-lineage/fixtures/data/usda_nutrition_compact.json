@@ -1,0 +1,26 @@
+{
+  "catalog_file": "fixture-catalog",
+  "catalog_record_count": 1,
+  "generated_at_utc": "2026-01-01T00:00:00Z",
+  "source": "synthetic fixture for the nutrition-compact adapter",
+  "records": [
+    {
+      "ingredient_key": "1",
+      "ingredient_name": "egg",
+      "query_used": "egg",
+      "matched_fdc_id": 170893,
+      "matched_description": "Fixture egg product",
+      "matched_data_type": "SR Legacy",
+      "match_score": 0.9
+    },
+    {
+      "ingredient_key": "2",
+      "ingredient_name": "phantom",
+      "query_used": "phantom",
+      "matched_fdc_id": null,
+      "matched_description": null,
+      "matched_data_type": null,
+      "match_score": 0.0
+    }
+  ]
+}

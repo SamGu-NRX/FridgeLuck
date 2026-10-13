@@ -1,0 +1,8 @@
+{
+  "experiment": "nutrition5k-portion",
+  "dataset": {
+    "name": "Nutrition5k",
+    "fetched_on": "fixture",
+    "files_fetched": 2
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "name": "nonfood-rejection-fixture",
+    "source": "synthetic contract fixture (Open Images manifest shape)"
+  },
+  "images": [
+    {
+      "image_id": "affe000000000001",
+      "subset": "test",
+      "s3_url": "https://fixture.invalid/s3/test/affe000000000001.jpg",
+      "role": "negative",
+      "stratum": "kitchen_context",
+      "split": "test",
+      "match_key": "Kettle",
+      "sha256": "aa05050505050505050505050505050505050505050505050505050505050505"
+    },
+    {
+      "image_id": "affe000000000001",
+      "subset": "validation",
+      "s3_url": "https://fixture.invalid/s3/validation/affe000000000001.jpg",
+      "role": "negative",
+      "stratum": "kitchen_context",
+      "split": "dev",
+      "match_key": "Kettle",
+      "sha256": "aa05050505050505050505050505050505050505050505050505050505050505"
+    },
+    {
+      "image_id": "beef000000000002",
+      "subset": "test",
+      "s3_url": "https://fixture.invalid/s3/test/beef000000000002.jpg",
+      "role": "positive",
+      "stratum": "food_control",
+      "split": "test",
+      "match_key": "Apple",
+      "sha256": "aa06060606060606060606060606060606060606060606060606060606060606"
+    },
+    {
+      "image_id": "dead000000000004",
+      "subset": "test",
+      "s3_url": "https://fixture.invalid/s3/test/dead000000000004.jpg",
+      "role": "negative",
+      "stratum": "kitchen_context",
+      "split": "test",
+      "match_key": "Bowl",
+      "sha256": "aa09090909090909090909090909090909090909090909090909090909090909"
+    }
+  ]
+}

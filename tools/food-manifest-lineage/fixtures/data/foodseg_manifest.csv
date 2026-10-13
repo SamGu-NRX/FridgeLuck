@@ -1,0 +1,6 @@
+"split","image_id","sha256","width","height","classes_on_image","mask_class_ids","mask_consistent","dup_group"
+"validation","7","aa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0a","512","384","20,56","20,56","True","va-7"
+"test","77","aa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0aaa0a","512","384","20,56","20,56","True","te-77"
+"validation","8","aa0baa0baa0baa0baa0baa0baa0baa0baa0baa0baa0baa0baa0baa0baa0baa0b","512","384","35","35","True","va-8"
+"validation","9","","512","384","35","35","True","va-9"
+"test","10","","512","384","35","35","True","te-10"

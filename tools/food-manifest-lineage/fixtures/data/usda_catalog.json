@@ -1,0 +1,26 @@
+{
+  "generated_at_utc": "fixture",
+  "records": [
+    {
+      "display_name": "Fixture Butter (Raw)",
+      "fdc_id": 167599,
+      "category_label": "fat",
+      "sprite_group": "fat",
+      "source_meta": {"data_type": "SR Legacy"}
+    },
+    {
+      "display_name": "Fixture Butter (Frozen)",
+      "fdc_id": 167600,
+      "category_label": "fat",
+      "sprite_group": "fat",
+      "source_meta": {"data_type": "SR Legacy"}
+    },
+    {
+      "display_name": "Fixture Jam",
+      "fdc_id": 167601,
+      "category_label": "fruit",
+      "sprite_group": "fruit",
+      "source_meta": {"data_type": "SR Legacy"}
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "dish-ambiguity-sampling-v1",
+  "dataset": "food-101",
+  "seed": 20261011,
+  "split": "dev",
+  "sampling": "synthetic contract fixture",
+  "images": [
+    {
+      "path": "fx_images/alpha_pie/1001.jpg",
+      "class": "alpha_pie",
+      "split": "dev",
+      "sha256": "aa01010101010101010101010101010101010101010101010101010101010101",
+      "dhash": 1111000011110001
+    },
+    {
+      "path": "fx_images_renamed/alpha_pie/1001.jpg",
+      "class": "alpha_pie",
+      "split": "dev",
+      "sha256": "aa01010101010101010101010101010101010101010101010101010101010101"
+    },
+    {
+      "path": "fx_images/gamma_soup/4004.jpg",
+      "class": "gamma_soup",
+      "split": "dev",
+      "sha256": "aa04040404040404040404040404040404040404040404040404040404040404"
+    }
+  ]
+}

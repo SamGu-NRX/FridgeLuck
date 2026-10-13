@@ -1,0 +1,46 @@
+{
+  "description": "Contract fixtures for the lineage scanner: planted exact duplicates, renamed URLs and transitive source relationships, plus false-positive controls that share only surface features. All ids, hashes, and URLs are synthetic (RFC 2606 .invalid hosts, aa..-pattern sha256).",
+  "fixtures": [
+    {"name": "fx-dish-a", "adapter": "dish-ambiguity", "kind": "image", "file": "data/dish_manifest_a.json"},
+    {"name": "fx-dish-b", "adapter": "dish-ambiguity", "kind": "image", "file": "data/dish_manifest_b.json"},
+    {"name": "fx-nonfood", "adapter": "nonfood-rejection", "kind": "image", "file": "data/nonfood_manifest.json"},
+    {"name": "fx-multiplate", "adapter": "multiplate", "kind": "plate", "file": "data/multiplate_manifest.json", "declared_revision": "openimages-2018_04"},
+    {"name": "fx-foodseg", "adapter": "foodseg-csv", "kind": "image", "file": "data/foodseg_manifest.csv"},
+    {"name": "fx-usda-catalog", "adapter": "usda-catalog", "kind": "product", "file": "data/usda_catalog.json", "declared_revision": "SR Legacy"},
+    {"name": "fx-usda-review", "adapter": "usda-review-batches", "kind": "product", "file": "data/usda_review_batch.json"},
+    {"name": "fx-preparation", "adapter": "preparation-state", "kind": "product", "file": "data/preparation_manifest.json"},
+    {"name": "fx-n5k-summary", "adapter": "nutrition5k-summary", "kind": "plate", "file": "data/nutrition5k_summary.json"},
+    {"name": "fx-n5k-dishes", "adapter": "nutrition5k-dishes", "kind": "plate", "file": "data/nutrition5k_dishes.csv"},
+    {"name": "fx-demo", "adapter": "bundled-demo", "kind": "image", "file": "data/demo_manifest.json", "options": {"asset_root": "apps/ios/Resources"}}
+  ],
+  "expectations": {
+    "total_records": 32,
+    "multi_member_clusters": 7,
+    "exact_duplicate_clusters": 4,
+    "renamed_url_clusters": 3,
+    "source_reuse_clusters": 6,
+    "transitive_source_clusters": 1,
+    "cross_manifest_clusters": 5,
+    "cross_group_clusters": 7
+  },
+  "controls": {
+    "policy": "similar-but-distinct items (same class, same sprite group, same subdirectory, unknown or blank keys) must produce no finding; unknown never joins unknown",
+    "quiet_item_refs": [
+      "fx-dish-a:img-000001",
+      "fx-dish-a:img-000002",
+      "fx-dish-b:img-000002",
+      "fx-nonfood:img-000002",
+      "fx-multiplate:img-000000",
+      "fx-foodseg:row-000002",
+      "fx-foodseg:row-000003",
+      "fx-foodseg:row-000004",
+      "fx-usda-review:batch1-rec-000001",
+      "fx-n5k-summary:manifest-summary",
+      "fx-n5k-dishes:row-000000",
+      "fx-n5k-dishes:row-000001",
+      "fx-n5k-dishes:row-000002",
+      "fx-demo:fixture_breakfast",
+      "fx-demo:fixture_lunch"
+    ]
+  }
+}
