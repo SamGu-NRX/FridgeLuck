@@ -1,0 +1,281 @@
+[
+  {
+    "title": "Weeknight Barley Stew",
+    "source_url": "https://example.com/fixtures/synthetic-test-01",
+    "servings_original": 1,
+    "servings_target": 2,
+    "ingredients": [
+      {
+        "raw": "carrot to taste, diced",
+        "scaled_raw": "carrot to taste, diced",
+        "name": "carrot",
+        "amount_value": null,
+        "amount_unit": null,
+        "prep_actions": [
+          "diced"
+        ]
+      },
+      {
+        "raw": "150 g leek",
+        "scaled_raw": "300 g leek",
+        "name": "leek",
+        "amount_value": 150,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "250 g waxy potato",
+        "scaled_raw": "500 g waxy potato",
+        "name": "waxy potato",
+        "amount_value": 250,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "a pinch of sweet potato, torn",
+        "scaled_raw": "a pinch of sweet potato, torn",
+        "name": "sweet potato",
+        "amount_value": null,
+        "amount_unit": "pinch",
+        "prep_actions": [
+          "torn"
+        ]
+      },
+      {
+        "raw": "110 g yellow onion",
+        "scaled_raw": "220 g yellow onion",
+        "name": "yellow onion",
+        "amount_value": 110,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "garlic clove to taste",
+        "scaled_raw": "garlic clove to taste",
+        "name": "garlic clove",
+        "amount_value": null,
+        "amount_unit": null,
+        "prep_actions": []
+      },
+      {
+        "raw": "240 g canned chickpeas, cut into batons",
+        "scaled_raw": "480 g canned chickpeas, cut into batons",
+        "name": "canned chickpeas",
+        "amount_value": 240,
+        "amount_unit": "g",
+        "prep_actions": [
+          "cut into batons"
+        ]
+      },
+      {
+        "raw": "90 g green lentils",
+        "scaled_raw": "180 g green lentils",
+        "name": "green lentils",
+        "amount_value": 90,
+        "amount_unit": "g",
+        "prep_actions": []
+      }
+    ],
+    "steps": [
+      "Warm a wide pan over a steady medium heat and let the oil loosen before anything else goes in."
+    ],
+    "synthetic": true
+  },
+  {
+    "title": "Winterwindow Sweet Potato Warm Salad",
+    "source_url": "https://example.com/fixtures/synthetic-test-02",
+    "servings_original": 2,
+    "servings_target": 4,
+    "ingredients": [
+      {
+        "raw": "150 g leek",
+        "scaled_raw": "300 g leek",
+        "name": "leek",
+        "amount_value": 150,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "250 g waxy potato",
+        "scaled_raw": "500 g waxy potato",
+        "name": "waxy potato",
+        "amount_value": 250,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "a pinch of sweet potato, torn",
+        "scaled_raw": "a pinch of sweet potato, torn",
+        "name": "sweet potato",
+        "amount_value": null,
+        "amount_unit": "pinch",
+        "prep_actions": [
+          "torn"
+        ]
+      },
+      {
+        "raw": "110 g yellow onion",
+        "scaled_raw": "220 g yellow onion",
+        "name": "yellow onion",
+        "amount_value": 110,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "garlic clove to taste",
+        "scaled_raw": "garlic clove to taste",
+        "name": "garlic clove",
+        "amount_value": null,
+        "amount_unit": null,
+        "prep_actions": []
+      },
+      {
+        "raw": "240 g canned chickpeas, cut into batons",
+        "scaled_raw": "480 g canned chickpeas, cut into batons",
+        "name": "canned chickpeas",
+        "amount_value": 240,
+        "amount_unit": "g",
+        "prep_actions": [
+          "cut into batons"
+        ]
+      },
+      {
+        "raw": "90 g green lentils",
+        "scaled_raw": "180 g green lentils",
+        "name": "green lentils",
+        "amount_value": 90,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "80 g pearl barley",
+        "scaled_raw": "160 g pearl barley",
+        "name": "pearl barley",
+        "amount_value": 80,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "85 g buckwheat groats, rinsed",
+        "scaled_raw": "170 g buckwheat groats, rinsed",
+        "name": "buckwheat groats",
+        "amount_value": 85,
+        "amount_unit": "g",
+        "prep_actions": [
+          "rinsed"
+        ]
+      }
+    ],
+    "steps": [
+      "Stir once from the bottom, scraping any good stuck bits back into the sauce.",
+      "Taste for salt at the end of cooking rather than the start, when the liquid has reduced.",
+      "Pull the pan off the heat and let it sit for a few minutes so the grains drink the last of the liquid.",
+      "Toast the dry spices in the empty pan until they turn one shade darker, then set them aside."
+    ],
+    "synthetic": true
+  },
+  {
+    "title": "Amberlyn Tomato Pan Loaf",
+    "source_url": "https://example.com/fixtures/synthetic-test-03",
+    "servings_original": 3,
+    "servings_target": 2,
+    "ingredients": [
+      {
+        "raw": "250 g waxy potato",
+        "scaled_raw": "167 g waxy potato",
+        "name": "waxy potato",
+        "amount_value": 250,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "a pinch of sweet potato, torn",
+        "scaled_raw": "a pinch of sweet potato, torn",
+        "name": "sweet potato",
+        "amount_value": null,
+        "amount_unit": "pinch",
+        "prep_actions": [
+          "torn"
+        ]
+      },
+      {
+        "raw": "110 g yellow onion",
+        "scaled_raw": "73 g yellow onion",
+        "name": "yellow onion",
+        "amount_value": 110,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "garlic clove to taste",
+        "scaled_raw": "garlic clove to taste",
+        "name": "garlic clove",
+        "amount_value": null,
+        "amount_unit": null,
+        "prep_actions": []
+      },
+      {
+        "raw": "240 g canned chickpeas, cut into batons",
+        "scaled_raw": "160 g canned chickpeas, cut into batons",
+        "name": "canned chickpeas",
+        "amount_value": 240,
+        "amount_unit": "g",
+        "prep_actions": [
+          "cut into batons"
+        ]
+      },
+      {
+        "raw": "90 g green lentils",
+        "scaled_raw": "60 g green lentils",
+        "name": "green lentils",
+        "amount_value": 90,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "80 g pearl barley",
+        "scaled_raw": "53 g pearl barley",
+        "name": "pearl barley",
+        "amount_value": 80,
+        "amount_unit": "g",
+        "prep_actions": []
+      },
+      {
+        "raw": "85 g buckwheat groats, rinsed",
+        "scaled_raw": "57 g buckwheat groats, rinsed",
+        "name": "buckwheat groats",
+        "amount_value": 85,
+        "amount_unit": "g",
+        "prep_actions": [
+          "rinsed"
+        ]
+      },
+      {
+        "raw": "millet grain to taste",
+        "scaled_raw": "millet grain to taste",
+        "name": "millet grain",
+        "amount_value": null,
+        "amount_unit": null,
+        "prep_actions": []
+      },
+      {
+        "raw": "90 g spelt grains",
+        "scaled_raw": "60 g spelt grains",
+        "name": "spelt grains",
+        "amount_value": 90,
+        "amount_unit": "g",
+        "prep_actions": []
+      }
+    ],
+    "steps": [
+      "Turn the pieces when the undersides lift easily, and give them another minute on the second side.",
+      "Fold the soft ingredients through gently so they hold their shape.",
+      "Scatter the fresh herbs over at the table rather than the stove to keep them lively.",
+      "Finish with a squeeze of lemon and taste once more before serving.",
+      "Keep a kettle of hot water nearby so the pot never stops simmering when you top it up.",
+      "Blend half the soup and stir it back through to thicken the rest without cream.",
+      "Press the mixture firmly into the dish so it holds together when it cools slightly."
+    ],
+    "synthetic": true
+  }
+]
