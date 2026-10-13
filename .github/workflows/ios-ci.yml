@@ -2,17 +2,28 @@ name: iOS CI
 
 on:
   pull_request:
+    # `labeled` lets the dead-code advisory react to label changes. build-and-test
+    # skips label-change events via its `if` below, so its effective triggers stay
+    # opened/synchronize/reopened, exactly as before.
+    types: [opened, synchronize, reopened, labeled]
   push:
     branches:
       - main
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  # Label-change events run in their own group so adding a label never cancels an
+  # in-flight build-and-test run for the same ref. Every other event keeps the
+  # original group name and cancel-in-progress behavior.
+  group: ${{ github.workflow }}-${{ github.ref }}${{ github.event.action == 'labeled' && '-label' || '' }}
   cancel-in-progress: true
 
 jobs:
   build-and-test:
+    # Label-change events (added to the pull_request trigger so the advisory can
+    # react to them) must not rerun the build suite; every other event builds as
+    # before.
+    if: github.event.action != 'labeled'
     # The app targets iOS 26.0. macos-15 tops out at Xcode 16.4 and the iOS 18.5 simulator,
     # where the test launch hangs until GitHub's 6-hour default cancels the job.
     runs-on: macos-26
@@ -27,7 +38,22 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Xcode Version
-        run: xcodebuild -version
+        id: xcode
+        run: |
+          xcodebuild -version
+          echo "version=$(xcodebuild -version | head -n 1 | awk '{print $NF}')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache SwiftPM dependencies
+        uses: actions/cache@v4
+        with:
+          # xcodebuild's SwiftPM checkout cache (cloned package repositories), keyed
+          # on the committed Package.resolved and project.yml so dependency changes
+          # invalidate it, and on the pinned Xcode version so a cache never crosses
+          # incompatible toolchains. Derived build artifacts stay out of the cache.
+          path: ~/Library/Caches/org.swift.swiftpm
+          key: ${{ runner.os }}-swiftpm-xcode-${{ steps.xcode.outputs.version }}-${{ hashFiles('apps/ios/Package.resolved', 'project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-swiftpm-xcode-${{ steps.xcode.outputs.version }}-
 
       - name: Install XcodeGen
         env:
@@ -47,8 +73,24 @@ jobs:
         run: ./scripts/run_ios_tests.sh
 
   dead-code-advisory:
-    runs-on: macos-26
+    # Advisory only: run on pushes to main, manual dispatch, and pull requests that
+    # carry the `periphery` label. The `labeled` trigger type above makes adding
+    # that label request this job, and the label test checks the PR's full label
+    # list, so a PR that is opened or pushed while already labelled also gets a
+    # scan. `!cancelled()` lets this condition evaluate when build-and-test is
+    # skipped on label-change events; `needs.build-and-test.result == 'success'`
+    # keeps the original "only after a green build" dependency for every other
+    # event, including pushes to main where the build fails.
     needs: build-and-test
+    if: >-
+      ${{ !cancelled() && (
+        (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+        github.event_name == 'workflow_dispatch' ||
+        (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'periphery'))
+      ) && (
+        github.event.action == 'labeled' || needs.build-and-test.result == 'success'
+      ) }}
+    runs-on: macos-26
     timeout-minutes: 20
     env:
       DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
