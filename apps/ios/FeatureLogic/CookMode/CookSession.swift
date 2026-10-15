@@ -299,8 +299,16 @@ public enum CookSessionReducer {
     case .repeatStep:
       return reduce(session, .repeatStep)
     case .show:
+      // The camera is the most sensitive device surface (LeChef D3): like next/back/repeat,
+      // "show" acts only inside a live cook. Outside one it changes nothing.
+      guard session.phase == .cooking else {
+        return CookSessionTransition(session: session, effects: [])
+      }
       return CookSessionTransition(session: session, effects: [.requestCameraLook])
     case let .timer(seconds):
+      guard session.phase == .cooking else {
+        return CookSessionTransition(session: session, effects: [])
+      }
       return CookSessionTransition(session: session, effects: [.createTimer(seconds: seconds)])
     case let .unrecognized(phrase):
       return CookSessionTransition(

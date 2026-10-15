@@ -78,8 +78,10 @@ public struct CookTimerStore: Equatable, Sendable, Codable {
     return (timer, [.scheduleNotification(id: id, deadline: timer.deadline)])
   }
 
-  /// Moves the deadline to `now + durationSeconds` — an "add two minutes" on a running timer.
-  /// Returns nil when the timer is unknown, paused (adjust after resume), or not positive.
+  /// Sets the deadline to `now + durationSeconds`: the cook's adjustment replaces the remaining
+  /// time ("two minutes from now"), it does not add to it — consistent with the absolute-deadline
+  /// rule below (never re-derive from durations). Returns nil when the timer is unknown, paused
+  /// (adjust after resume), or not positive.
   public mutating func adjust(id: String, durationSeconds: Double, now: Date) -> [CookTimerEffect]? {
     guard let index = index(of: id), timers[index].pausedAt == nil, durationSeconds > 0 else { return nil }
     let deadline = now.addingTimeInterval(durationSeconds)
@@ -159,12 +161,15 @@ extension CookTimerStore {
 
   /// Pauses every running timer — the "ask" side of a backwards clock jump. The remainder is
   /// frozen as of `frozenAsOf` (the last clock the app trusted), not the jumped-back `now` —
-  /// freezing against the new clock would inflate it by the size of the jump. Paused timers
-  /// and already-fired timers keep their state; returns the notifications to cancel.
+  /// freezing against the new clock would inflate it by the size of the jump. "Fired" is judged
+  /// on the new clock: a timer whose deadline already passed the jumped-back `now` keeps
+  /// presenting as fired (the app asks about it); every timer whose deadline is still ahead
+  /// pauses — including one that had already fired at the trusted clock, which the jump must
+  /// not resurrect as running. Paused timers keep their state; returns the notifications to cancel.
   public mutating func pauseAll(now: Date, frozenAsOf: Date? = nil) -> [CookTimerEffect] {
     var effects: [CookTimerEffect] = []
     let freezeAt = frozenAsOf ?? now
-    for index in timers.indices where timers[index].pausedAt == nil && !timers[index].isFired(at: max(now, freezeAt)) {
+    for index in timers.indices where timers[index].pausedAt == nil && !timers[index].isFired(at: now) {
       timers[index].pausedAt = now
       timers[index].remainingWhenPausedSeconds = max(0, timers[index].deadline.timeIntervalSince(freezeAt))
       effects.append(.cancelNotification(id: timers[index].id))

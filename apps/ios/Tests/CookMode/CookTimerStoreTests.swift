@@ -189,4 +189,29 @@ final class CookTimerStoreTests: XCTestCase {
     XCTAssertTrue(a?.isPaused ?? false)
     XCTAssertEqual((a?.remainingSeconds(from: jumpedTo) ?? -1), 600, accuracy: 0.001, "the frozen remainder is kept")
   }
+
+  func testBackwardsJumpDoesNotResurrectAnOverdueFiredTimer() {
+    var store = CookTimerStore()
+    // "stew" fired before the trusted clock (deadline t0−400 s, unacknowledged);
+    // "soup" fired even earlier (deadline t0−2500 s), before the jumped-back clock too.
+    _ = store.create(id: "stew", sessionID: session, label: "Stew", durationSeconds: 600, now: t0.addingTimeInterval(-1000))
+    _ = store.create(id: "soup", sessionID: session, label: "Soup", durationSeconds: 600, now: t0.addingTimeInterval(-3100))
+    XCTAssertTrue(store.pendingFired(now: t0).map(\.id).contains("stew"))
+
+    // The clock jumps back an hour (jump lands at t0−3600 s, before both deadlines).
+    let jumpedTo = t0.addingTimeInterval(-2000)
+    let effects = store.pauseAll(now: jumpedTo, frozenAsOf: t0)
+
+    // "stew" must pause and ask with a 0 s frozen remainder — its deadline is ahead of the
+    // jumped clock, but freezing the remainder there would hand it 1600 s it never had.
+    XCTAssertEqual(effects, [.cancelNotification(id: "stew")])
+    let stew = store.active(now: jumpedTo).first { $0.id == "stew" }
+    XCTAssertTrue(stew?.isPaused ?? false, "an overdue fired timer must not return as running")
+    XCTAssertEqual((stew?.remainingSeconds(from: jumpedTo) ?? -1), 0, accuracy: 0.001, "the frozen remainder is 0 s, not inflated by the jump")
+
+    // "soup" fired before the jumped clock too: it keeps presenting as fired, unpaused.
+    let soup = store.active(now: jumpedTo).first { $0.id == "soup" }
+    XCTAssertFalse(soup?.isPaused ?? true)
+    XCTAssertTrue(soup?.isFired(at: jumpedTo) ?? false, "still presenting as fired — the app asks")
+  }
 }
