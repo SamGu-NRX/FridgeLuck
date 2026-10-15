@@ -10,6 +10,7 @@ pkg="$here/../.."          # apps/ios root
 
 copy() { # <real source> <dest>
   test -f "$pkg/$1" || { echo "missing real source: $pkg/$1" >&2; exit 1; }
+  chmod u+w "$2" 2>/dev/null || true
   cp "$pkg/$1" "$2"
 }
 
@@ -20,6 +21,7 @@ PROD=(
   FeatureLogic/Community/SharePreviewBuilder.swift
   FeatureLogic/Community/OutboxStateMachine.swift
   FeatureLogic/Community/AuthorModerationState.swift
+  FeatureLogic/Recipe/RecipeBundleV2.swift
   Platform/Persistence/Database/Migrations.swift
   Platform/Persistence/Database/Subsystems/RecipeCatalogMigrations.swift
   Platform/Persistence/Database/Subsystems/TasteMigrations.swift

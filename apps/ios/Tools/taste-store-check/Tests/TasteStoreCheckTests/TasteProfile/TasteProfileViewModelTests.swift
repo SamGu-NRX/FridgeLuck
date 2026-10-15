@@ -76,7 +76,7 @@ final class TasteProfileViewModelTests: XCTestCase {
   }
 
   func testHiddenInsightsAreExposedForTheEvidenceDetail() async {
-    let hidden = TasteHiddenStatement(
+    let hidden = TasteHiddenProfileItem(
       featureKey: "ingredient:101", claim: .lowRating, reason: .thinEvidence,
       numerator: 1, denominator: 2)
     service.nextPage = TasteProfilePage(statements: [], hidden: [hidden])

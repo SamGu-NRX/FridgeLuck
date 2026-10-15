@@ -29,9 +29,16 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "FLFeatureLogic",
+      name: "CryptoKit",
       dependencies: [
         .product(name: "Crypto", package: "swift-crypto"),
+      ],
+      path: "Sources/CryptoKitShim"
+    ),
+    .target(
+      name: "FLFeatureLogic",
+      dependencies: [
+        "CryptoKit",
       ],
       path: "Sources/FLFeatureLogic"
     ),

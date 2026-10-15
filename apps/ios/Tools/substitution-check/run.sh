@@ -9,7 +9,7 @@ TOOL_DIR="$(dirname "$(realpath "$0")")"
 IOS_DIR="$(realpath "$TOOL_DIR/../..")"
 RESOURCE="${1:-$IOS_DIR/Resources/Substitutions/substitutions-v1.json}"
 
-BUILD_DIR="$(mktemp -d /tmp/fl-tc/substitution-check/build.XXXXXX)"
+BUILD_DIR="$(mktemp -d "$(mkdir -p "$TOOL_DIR/../substitution-check/build" && echo "$TOOL_DIR/../substitution-check/build")/build.XXXXXX")"
 mkdir -p "$BUILD_DIR"
 trap 'rm -rf "$BUILD_DIR"' EXIT
 

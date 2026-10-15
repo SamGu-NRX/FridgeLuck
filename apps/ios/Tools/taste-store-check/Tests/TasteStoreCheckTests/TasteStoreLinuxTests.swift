@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import GRDB
 import XCTest
@@ -109,11 +110,11 @@ final class TasteStoreLinuxTests: XCTestCase {
     at: Date = Date(timeIntervalSince1970: 1_000_000),
     recipeId: String = "1",
     rating: Int? = 2
-  ) -> TasteEvent {
-    TasteEvent(
+  ) -> TasteEventRecord {
+    TasteEventRecord(
       id: id,
       at: at,
-      recipe: TasteRecipeRef(source: .catalog, id: recipeId),
+      recipe: TasteRecipeRef(id: recipeId, revision: 1, source: TasteRecipeSource.catalog.rawValue),
       surface: TasteSurface.cookComplete,
       payload: .cooked(
         TasteCookedPayload(
@@ -142,7 +143,7 @@ final class TasteStoreLinuxTests: XCTestCase {
 
     try store.append(event)
 
-    let stored = try store.events(recipe: TasteRecipeRef(source: .catalog, id: "1"))
+    let stored = try store.events(recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue))
     XCTAssertEqual(stored, [event])
     XCTAssertEqual(stored.first?.kind, .recipeCooked)
   }
@@ -226,13 +227,20 @@ final class TasteStoreLinuxTests: XCTestCase {
 
     let store = TasteEventStore(db: dbQueue)
     let events = try store.allEvents()
-    XCTAssertEqual(events.map(\.kind), [.recipeCooked, .recipeRated])
-    guard case .rated(let payload)? = events.last?.payload else {
+    // Cook and rate can tie on the stored timestamp; replay order then falls to the id
+    // tiebreak (SPEC §5), so assert the kinds present and pick the events by kind.
+    XCTAssertEqual(Set(events.map(\.kind)), [.recipeCooked, .recipeRated])
+    let ratedPayloads = events.compactMap { event -> TasteRatedPayload? in
+      if case .rated(let rated) = event.payload { return rated }
+      return nil
+    }
+    guard let rated = ratedPayloads.first else {
       return XCTFail("expected a recipe_rated event")
     }
-    XCTAssertEqual(payload.rating, 4)
+    XCTAssertEqual(rated.rating, 4)
+    let cookEvent = events.first { $0.kind == .recipeCooked }
     XCTAssertEqual(
-      payload.cookEventId, events.first?.cookEventId,
+      rated.cookEventId, cookEvent?.cookEventId,
       "the rating merges into the cook's transaction window")
   }
 
@@ -246,10 +254,10 @@ final class TasteStoreLinuxTests: XCTestCase {
 
     try store.append(cookedEvent(id: UUID().uuidString.lowercased(), at: early, recipeId: "1"))
     try store.append(
-      TasteEvent(
+      TasteEventRecord(
         id: UUID().uuidString.lowercased(),
         at: middle,
-        recipe: TasteRecipeRef(source: .catalog, id: "2"),
+        recipe: TasteRecipeRef(id: "2", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         ingredient: 101,
         surface: TasteSurface.cookIngredients,
         payload: .substituted(
@@ -258,9 +266,9 @@ final class TasteStoreLinuxTests: XCTestCase {
             substituteIngredientId: 105))))
     try store.append(cookedEvent(id: UUID().uuidString.lowercased(), at: late, recipeId: "1"))
 
-    XCTAssertEqual(try store.events(recipe: TasteRecipeRef(source: .catalog, id: "1")).count, 2)
+    XCTAssertEqual(try store.events(recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue)).count, 2)
     XCTAssertEqual(
-      try store.events(recipe: TasteRecipeRef(source: .user, id: "1")).count, 0,
+      try store.events(recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.user.rawValue)).count, 0,
       "recipe queries match on source and id")
     XCTAssertEqual(try store.events(ingredientId: 101).count, 1)
 
@@ -305,23 +313,21 @@ final class TasteStoreLinuxTests: XCTestCase {
 
   func testExposureRoundTripAndIdempotentRelog() throws {
     let store = try makeStore()
-    let exposure = TasteExposure(
+    let exposure = TasteExposureRecord(
       id: UUID().uuidString.lowercased(),
       at: Date(timeIntervalSince1970: 1_000_000),
       surface: TasteSurface.homeTonight,
       eater: nil,
       sessionId: "sess-1",
       slate: [
-        TasteExposureItem(
-          recipe: TasteRecipeRef(source: .catalog, id: "1"), position: 1),
-        TasteExposureItem(
-          recipe: TasteRecipeRef(source: .catalog, id: "2"), position: 2),
+        TasteSlateItem(position: 1, recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue)),
+        TasteSlateItem(position: 2, recipe: TasteRecipeRef(id: "2", revision: 1, source: TasteRecipeSource.catalog.rawValue)),
       ],
       feasible: [
-        TasteRecipeRef(source: .catalog, id: "1"),
-        TasteRecipeRef(source: .catalog, id: "2"),
-        TasteRecipeRef(source: .catalog, id: "3"),
-        TasteRecipeRef(source: .catalog, id: "4"),
+        TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue),
+        TasteRecipeRef(id: "2", revision: 1, source: TasteRecipeSource.catalog.rawValue),
+        TasteRecipeRef(id: "3", revision: 1, source: TasteRecipeSource.catalog.rawValue),
+        TasteRecipeRef(id: "4", revision: 1, source: TasteRecipeSource.catalog.rawValue),
       ],
       context: TasteExposureContext(
         kitchenIngredientCount: 6, householdSize: 2, mealContext: "weeknight"))
@@ -340,14 +346,14 @@ final class TasteStoreLinuxTests: XCTestCase {
     let service = PersonalizationService(db: dbQueue)
     let store = TasteEventStore(db: dbQueue)
     _ = try service.recordCooking(recipeId: 1, rating: 3, servingsConsumed: 2)
-    let exposure = TasteExposure(
+    let exposure = TasteExposureRecord(
       id: UUID().uuidString.lowercased(),
       at: Date(timeIntervalSince1970: 1_000_000),
       surface: TasteSurface.homeTonight,
       eater: nil,
       sessionId: nil,
-      slate: [TasteExposureItem(recipe: TasteRecipeRef(source: .catalog, id: "1"), position: 1)],
-      feasible: [TasteRecipeRef(source: .catalog, id: "1")],
+      slate: [TasteSlateItem(position: 1, recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue))],
+      feasible: [TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue)],
       context: TasteExposureContext(
         kitchenIngredientCount: 3, householdSize: 2, mealContext: nil))
     try store.logExposure(exposure)

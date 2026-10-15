@@ -144,10 +144,10 @@ final class TasteProfileRepositoryTests: XCTestCase {
     recipeId: Int64, rating: Int?, at: Date, cookEventId: String
   ) throws {
     try store.append(
-      TasteEvent(
+      TasteEventRecord(
         id: cookEventId,
         at: at,
-        recipe: TasteRecipeRef(source: .catalog, id: String(recipeId)),
+        recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: TasteRecipeSource.catalog.rawValue),
         surface: TasteSurface.cookComplete,
         payload: .cooked(
           TasteCookedPayload(
@@ -158,9 +158,9 @@ final class TasteProfileRepositoryTests: XCTestCase {
 
   private func appendRated(cookEventId: String, rating: Int, at: Date) throws {
     try store.append(
-      TasteEvent(
+      TasteEventRecord(
         at: at,
-        recipe: TasteRecipeRef(source: .catalog, id: "1"),
+        recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         surface: TasteSurface.tasteProfile,
         payload: .rated(TasteRatedPayload(cookEventId: cookEventId, rating: rating)),
         cookEventId: cookEventId))
@@ -170,9 +170,9 @@ final class TasteProfileRepositoryTests: XCTestCase {
     ingredientId: Int64, cookEventId: String, motivation: TasteSwapMotivation, at: Date
   ) throws {
     try store.append(
-      TasteEvent(
+      TasteEventRecord(
         at: at,
-        recipe: TasteRecipeRef(source: .catalog, id: "1"),
+        recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         ingredient: ingredientId,
         surface: TasteSurface.cookIngredients,
         payload: .substituted(
@@ -251,22 +251,22 @@ final class TasteProfileRepositoryTests: XCTestCase {
     try insertRecipe(1, ingredients: [10])
     // Views, opens, saves and skips only — no cook, no rating, no substitution.
     try store.append(
-      TasteEvent(
-        at: day(1), recipe: TasteRecipeRef(source: .catalog, id: "1"),
+      TasteEventRecord(
+        at: day(1), recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         surface: TasteSurface.homeTonight,
         payload: .viewed(TasteSlateInteractionPayload(exposureId: nil, slatePosition: 0))))
     try store.append(
-      TasteEvent(
-        at: day(1), recipe: TasteRecipeRef(source: .catalog, id: "1"),
+      TasteEventRecord(
+        at: day(1), recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         surface: TasteSurface.recipeDetail,
         payload: .opened(TasteSlateInteractionPayload(exposureId: nil, slatePosition: 0))))
     try store.append(
-      TasteEvent(
-        at: day(1), recipe: TasteRecipeRef(source: .catalog, id: "1"),
+      TasteEventRecord(
+        at: day(1), recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         surface: TasteSurface.recipeDetail, payload: .saved(TasteSavedPayload(exposureId: nil))))
     try store.append(
-      TasteEvent(
-        at: day(1), recipe: TasteRecipeRef(source: .catalog, id: "1"),
+      TasteEventRecord(
+        at: day(1), recipe: TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         surface: TasteSurface.homeTonight,
         payload: .skipped(TasteSkippedPayload(exposureId: nil, reason: "too_much_work"))))
     let page = try await repo.recomputeProfile(now: now)

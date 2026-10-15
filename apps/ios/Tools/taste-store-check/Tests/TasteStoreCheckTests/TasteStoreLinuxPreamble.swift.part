@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import GRDB
 import XCTest
@@ -109,11 +110,11 @@ final class TasteStoreLinuxTests: XCTestCase {
     at: Date = Date(timeIntervalSince1970: 1_000_000),
     recipeId: String = "1",
     rating: Int? = 2
-  ) -> TasteEvent {
-    TasteEvent(
+  ) -> TasteEventRecord {
+    TasteEventRecord(
       id: id,
       at: at,
-      recipe: TasteRecipeRef(source: .catalog, id: recipeId),
+      recipe: TasteRecipeRef(id: recipeId, revision: 1, source: TasteRecipeSource.catalog.rawValue),
       surface: TasteSurface.cookComplete,
       payload: .cooked(
         TasteCookedPayload(

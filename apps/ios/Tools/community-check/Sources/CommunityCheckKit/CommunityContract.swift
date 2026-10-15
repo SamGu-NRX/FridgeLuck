@@ -23,25 +23,11 @@ public enum CommunityContract {
 
 // MARK: - RecipeRef
 
-/// Where a referenced recipe came from (`common.schema.json` / RecipeRef).
-public enum RecipeRefSource: String, Codable, Sendable, CaseIterable {
-  case user
-  case catalog
-  case community
-}
-
-/// A pointer at one frozen revision of a recipe.
-public struct RecipeRef: Codable, Sendable, Equatable, Hashable {
-  public var source: RecipeRefSource
-  public var id: String
-  public var revision: Int
-
-  public init(source: RecipeRefSource, id: String, revision: Int) {
-    self.source = source
-    self.id = id
-    self.revision = revision
-  }
-}
+/// Recipe identity uses the shared `RecipeRef` contract ({source, id, revision}) from
+/// FeatureLogic/Recipe/RecipeBundleV2.swift — single definition, single source enum.
+/// Its enum is a superset of the community contract's (adds `generated`, which community
+/// recipes never reference), and raw values are unchanged, so `common.schema.json`
+/// decoding is unaffected.
 
 // MARK: - Recipe content (recipe-content.schema.json)
 

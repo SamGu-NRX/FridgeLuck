@@ -1,5 +1,14 @@
-import CoreFoundation
 import Foundation
+
+import FLFeatureLogic
+
+// The taste event and exposure models are the public contract types
+// (`FLFeatureLogic.TasteEvent`, `FLFeatureLogic.TasteExposure`): one event model, so
+// what the log persists replays through `TasteResidualEngine` unchanged. This file
+// keeps the store's typed vocabulary — the enum kinds, per-kind payload structs, and
+// canonical payload JSON — as a writer/reader view over the contract event, plus the
+// record wrappers that carry store-only fields (cook-transaction linkage, session and
+// context columns) the contract types deliberately omit.
 
 // MARK: - Surfaces
 
@@ -15,10 +24,12 @@ enum TasteSurface {
   public static let tasteProfile = "taste.profile"
 }
 
-// MARK: - RecipeRef
+// MARK: - Recipe source vocabulary
 
-/// Versioned recipe reference shared by every burst5 taste contract
-/// (docs/spec/taste/contracts/taste-event.schema.json).
+/// Versioned recipe source vocabulary of the burst5 taste contracts
+/// (docs/spec/taste/contracts/taste-event.schema.json). The contract event carries the
+/// source as its string form; this enum is the store's vocabulary for validating and
+/// mapping it.
 enum TasteRecipeSource: String, Codable, Sendable, CaseIterable {
   case catalog
   case user
@@ -32,18 +43,6 @@ enum TasteRecipeSource: String, Codable, Sendable, CaseIterable {
     case .user: self = .user
     case .aiGenerated: self = .generated
     }
-  }
-}
-
-struct TasteRecipeRef: Codable, Equatable, Hashable, Sendable {
-  var source: TasteRecipeSource
-  var id: String
-  var revision: Int
-
-  init(source: TasteRecipeSource, id: String, revision: Int = 1) {
-    self.source = source
-    self.id = id
-    self.revision = revision
   }
 }
 
@@ -203,27 +202,113 @@ enum TasteEventPayload: Equatable, Sendable {
     case .correctionApplied: return .correctionApplied
     }
   }
+
+  /// The payload as the contract event's dynamic JSON object. Built key by key (not by
+  /// re-encoding the typed struct) so building an event never throws; the store re-encodes
+  /// the typed payload canonically at the persistence boundary.
+  var dictionaryValue: [String: TasteJSONValue] {
+    func number(_ value: Int?) -> TasteJSONValue? {
+      value.map { .number(Double($0)) }
+    }
+    func number(_ value: Int64?) -> TasteJSONValue? {
+      value.map { .number(Double($0)) }
+    }
+    func number(_ value: Double?) -> TasteJSONValue? {
+      value.map { .number($0) }
+    }
+    func string(_ value: String?) -> TasteJSONValue? {
+      value.map { .string($0) }
+    }
+    func bool(_ value: Bool?) -> TasteJSONValue? {
+      value.map { .bool($0) }
+    }
+
+    var dict: [String: TasteJSONValue] = [:]
+    func put(_ values: (String, TasteJSONValue?)...) {
+      for (key, value) in values {
+        if let value { dict[key] = value }
+      }
+    }
+
+    switch self {
+    case .viewed(let payload), .opened(let payload):
+      put(("exposureId", string(payload.exposureId)), ("slatePosition", number(payload.slatePosition)))
+    case .saved(let payload):
+      put(("exposureId", string(payload.exposureId)))
+    case .unsaved:
+      break
+    case .skipped(let payload):
+      put(("exposureId", string(payload.exposureId)), ("reason", string(payload.reason)))
+    case .cooked(let payload):
+      put(
+        ("cookSessionId", string(payload.cookSessionId)),
+        ("exposureId", string(payload.exposureId)),
+        ("rating", number(payload.rating)),
+        ("servings", number(payload.servings)),
+        ("slatePosition", number(payload.slatePosition)),
+        ("wouldMakeAgain", bool(payload.wouldMakeAgain)))
+    case .rated(let payload):
+      put(("cookEventId", string(payload.cookEventId)), ("rating", number(payload.rating)))
+    case .substituted(let payload):
+      put(
+        ("cookEventId", string(payload.cookEventId)),
+        ("motivation", string(payload.motivation.rawValue)),
+        ("ratio", number(payload.ratio)),
+        ("substituteIngredientId", number(payload.substituteIngredientId)))
+    case .servingsEdited(let payload):
+      put(
+        ("cookEventId", string(payload.cookEventId)),
+        ("from", number(payload.from)),
+        ("to", number(payload.to)))
+    case .lechefFeedback(let payload):
+      put(
+        ("cookEventId", string(payload.cookEventId)),
+        ("tag", string(payload.tag)),
+        ("note", string(payload.note)))
+    case .profileEdited(let payload):
+      put(
+        ("featureKey", string(payload.featureKey)),
+        ("featureKind", string(payload.featureKind?.rawValue)),
+        ("op", string(payload.op)),
+        ("note", string(payload.note)))
+    case .correctionApplied(let payload):
+      put(
+        ("statementId", string(payload.statementId)),
+        ("action", string(payload.action)),
+        ("note", string(payload.note)))
+    }
+    return dict
+  }
 }
 
-// MARK: - Event
+// MARK: - Event record
 
-/// One observed taste-relevant action, shaped after
-/// docs/spec/taste/contracts/taste-event.schema.json. `id` is a stable UUID v4 string
-/// (lowercase); replaying an id is a no-op.
-struct TasteEvent: Equatable, Sendable {
-  var id: String
+/// The store's taste-event record: the public contract event — the one event model the
+/// log persists and the engine replays — plus the store-only cook-transaction linkage and
+/// the row's `at` instant. The contract event carries the same instant as an ISO-8601
+/// string; `at` is the typed form the row stores.
+struct TasteEventRecord: Equatable, Sendable {
+  /// The contract event (FLFeatureLogic): id, ISO-8601 `at`, `kind`, payload object.
+  var event: TasteEvent
   var at: Date
-  var eater: String?
-  var recipe: TasteRecipeRef?
-  var ingredient: Int64?
-  var surface: String
-  var payload: TasteEventPayload
-  /// Internal cook-transaction linkage, not part of the contract JSON: set on the cook
+  /// Store-only cook-transaction linkage, not part of the contract JSON: set on the cook
   /// event itself and on every event that merges into that cook's window.
   var cookEventId: String?
 
-  var kind: TasteEventKind { payload.kind }
+  private var kindValue: TasteEventKind
+  private var payloadValue: TasteEventPayload
 
+  /// The event kind (also carried by `event.kind` as its string form).
+  var kind: TasteEventKind { kindValue }
+  /// The store's typed payload view over the event's JSON payload.
+  var payload: TasteEventPayload { payloadValue }
+  /// Ingredient id for substitution events (the contract event carries it as a JSON
+  /// number).
+  var ingredientId: Int64? { event.ingredient?.intValue.map(Int64.init) }
+  var id: String { event.id }
+
+  /// Builds a record from the store's typed vocabulary — how writers (the meal log, the
+  /// corrections) construct events.
   init(
     id: String = UUID().uuidString.lowercased(),
     at: Date = Date(),
@@ -234,14 +319,35 @@ struct TasteEvent: Equatable, Sendable {
     payload: TasteEventPayload,
     cookEventId: String? = nil
   ) {
-    self.id = id
     self.at = at
-    self.eater = eater
-    self.recipe = recipe
-    self.ingredient = ingredient
-    self.surface = surface
-    self.payload = payload
     self.cookEventId = cookEventId
+    self.kindValue = payload.kind
+    self.payloadValue = payload
+    self.event = TasteEvent(
+      id: id,
+      at: TasteTimestamp.string(from: at),
+      kind: payload.kind.rawValue,
+      eater: eater,
+      recipe: recipe,
+      ingredient: ingredient.map { TasteJSONValue.number(Double($0)) },
+      surface: surface,
+      payload: payload.dictionaryValue)
+  }
+
+  /// Builds a record from a validated contract event — how the store hands loaded rows
+  /// back out. The kind and typed payload must decode from the event's own payload
+  /// object; the store validates before calling this.
+  init(event: TasteEvent, at: Date, cookEventId: String?) throws {
+    guard let kind = TasteEventKind(rawValue: event.kind) else {
+      throw TasteStoreError.unknownEventKind(event.kind)
+    }
+    let payloadData = try JSONEncoder().encode(event.payload)
+    let payload = try TasteEventPayloadJSON.decode(payloadData, kind: kind)
+    self.event = event
+    self.at = at
+    self.cookEventId = cookEventId
+    self.kindValue = kind
+    self.payloadValue = payload
   }
 }
 
@@ -298,89 +404,6 @@ enum TasteEventPayloadJSON {
   }
 }
 
-// MARK: - Export JSON
-
-/// Minimal JSON value tree so contract-shaped export JSON can embed an arbitrary payload
-/// object inside a Codable `Codable` container.
-enum TasteJSONValue: Equatable, Sendable {
-  case null
-  case bool(Bool)
-  case int(Int64)
-  case double(Double)
-  case string(String)
-  case array([TasteJSONValue])
-  case object([String: TasteJSONValue])
-}
-
-extension TasteJSONValue: Codable {
-  init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if container.decodeNil() {
-      self = .null
-    } else if let bool = try? container.decode(Bool.self) {
-      self = .bool(bool)
-    } else if let int = try? container.decode(Int64.self) {
-      self = .int(int)
-    } else if let double = try? container.decode(Double.self) {
-      self = .double(double)
-    } else if let string = try? container.decode(String.self) {
-      self = .string(string)
-    } else if let array = try? container.decode([TasteJSONValue].self) {
-      self = .array(array)
-    } else if let object = try? container.decode([String: TasteJSONValue].self) {
-      self = .object(object)
-    } else {
-      throw DecodingError.dataCorruptedError(
-        in: container, debugDescription: "unsupported JSON value")
-    }
-  }
-
-  func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .null: try container.encodeNil()
-    case .bool(let value): try container.encode(value)
-    case .int(let value): try container.encode(value)
-    case .double(let value): try container.encode(value)
-    case .string(let value): try container.encode(value)
-    case .array(let value): try container.encode(value)
-    case .object(let value): try container.encode(value)
-    }
-  }
-
-  /// Bridges a `JSONSerialization` tree into values (unused by the store; kept for tools
-  /// that export taste JSON through serialization APIs).
-  static func from(any: Any) -> TasteJSONValue {
-    switch any {
-    case is NSNull:
-      return .null
-    case let number as NSNumber:
-      if CFGetTypeID(number) == CFBooleanGetTypeID() {
-        return .bool(number.boolValue)
-      }
-      let encoding = String(cString: number.objCType)
-      switch encoding {
-      case "c", "i", "s", "l", "q", "B":
-        return .int(number.int64Value)
-      default:
-        return .double(number.doubleValue)
-      }
-    case let string as String:
-      return .string(string)
-    case let array as [Any]:
-      return .array(array.map { from(any: $0) })
-    case let dictionary as [String: Any]:
-      var mapped: [String: TasteJSONValue] = [:]
-      for (key, value) in dictionary {
-        mapped[key] = from(any: value)
-      }
-      return .object(mapped)
-    default:
-      return .string(String(describing: any))
-    }
-  }
-}
-
 /// ISO-8601 UTC with millisecond precision — the timestamp shape the taste contracts
 /// pin (`"2026-10-12T18:30:00.000Z"`).
 enum TasteTimestamp {
@@ -396,54 +419,21 @@ enum TasteTimestamp {
   static func string(from date: Date) -> String {
     iso8601Milliseconds.string(from: date)
   }
-}
 
-// MARK: - Event export shape
-
-extension TasteEvent: Codable {
-  private enum CodingKeys: String, CodingKey {
-    case id, at, kind, eater, recipe, ingredient, surface, payload
-  }
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    id = try container.decode(String.self, forKey: .id)
-    at = try container.decode(Date.self, forKey: .at)
-    eater = try container.decodeIfPresent(String.self, forKey: .eater)
-    recipe = try container.decodeIfPresent(TasteRecipeRef.self, forKey: .recipe)
-    ingredient = try container.decodeIfPresent(Int64.self, forKey: .ingredient)
-    surface = try container.decode(String.self, forKey: .surface)
-    let kindRaw = try container.decode(String.self, forKey: .kind)
-    guard let decodedKind = TasteEventKind(rawValue: kindRaw) else {
-      throw DecodingError.dataCorruptedError(
-        forKey: .kind, in: container, debugDescription: "unknown taste event kind: \(kindRaw)")
-    }
-    let payloadValue = try container.decode(TasteJSONValue.self, forKey: .payload)
-    let reencoded = try JSONEncoder().encode(payloadValue)
-    payload = try TasteEventPayloadJSON.decode(reencoded, kind: decodedKind)
-  }
-
-  func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(id, forKey: .id)
-    try container.encode(at, forKey: .at)
-    try container.encode(kind.rawValue, forKey: .kind)
-    try container.encodeIfPresent(eater, forKey: .eater)
-    try container.encodeIfPresent(recipe, forKey: .recipe)
-    try container.encodeIfPresent(ingredient, forKey: .ingredient)
-    try container.encode(surface, forKey: .surface)
-    let payloadData = try TasteEventPayloadJSON.encode(payload)
-    let payloadValue = try JSONDecoder().decode(TasteJSONValue.self, from: payloadData)
-    try container.encode(payloadValue, forKey: .payload)
+  static func date(from string: String) -> Date? {
+    iso8601Milliseconds.date(from: string)
   }
 }
+
+// MARK: - Export shape
 
 /// Result of "export everything": the full on-device taste log in one Codable value.
+/// Events are the contract events; exposures are the store records (they carry the
+/// store-only session and context columns alongside the contract fields).
 /// `deleteAll` is the counterpart.
 struct TasteExport: Codable, Equatable, Sendable {
   var exportedAt: Date
   var events: [TasteEvent]
-  var exposures: [TasteExposure]
+  var exposures: [TasteExposureRecord]
   var statements: [TasteProfileStatement]
 }
-
