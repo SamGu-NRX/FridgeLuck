@@ -146,7 +146,7 @@ final class LeChefPlanAllocatorTests: XCTestCase {
   func testMissingStapleIsStruckThroughOnTheList() {
     let recipe = candidate(1, lines: [line(10, name: "olive oil", grams: 20)])
     let plan = PlanAllocating.allocate(
-      request(candidates: [recipe], staples: [10], pool: StockPool(lots: [], now: now)))
+      request(candidates: [recipe], pool: StockPool(lots: [], now: now), staples: [10]))
     XCTAssertEqual(plan.dinners[0].lines[0].lineState, .assumedStaple)
     XCTAssertEqual(plan.shoppingList.first?.assumedStaple, true)
   }
@@ -182,8 +182,8 @@ final class LeChefPlanAllocatorTests: XCTestCase {
     let plan = PlanAllocating.allocate(
       request(
         candidates: [recipe],
-        substitutions: [PlanSubstitution(originalID: 10, substituteID: 11, substituteGramsPerOriginalGram: 1, note: "margarine", reviewed: true)],
-        pool: StockPool(lots: [lot(10, 200), lot(11, 300)], now: now)))
+        pool: StockPool(lots: [lot(10, 200), lot(11, 300)], now: now),
+        substitutions: [PlanSubstitution(originalID: 10, substituteID: 11, substituteGramsPerOriginalGram: 1, note: "margarine", reviewed: true)]))
     let swapped = plan.dinners[0].lines[0]
     XCTAssertEqual(swapped.lineState, .sufficient)
     XCTAssertEqual(swapped.swap?.substituteID, 11)
@@ -192,8 +192,8 @@ final class LeChefPlanAllocatorTests: XCTestCase {
     let second = PlanAllocating.allocate(
       request(
         dinners: 2, candidates: [recipe, candidate(2, lines: [line(11, name: "margarine", grams: 250)])],
-        substitutions: [PlanSubstitution(originalID: 10, substituteID: 11, substituteGramsPerOriginalGram: 1, note: "margarine", reviewed: true)],
-        pool: StockPool(lots: [lot(10, 200), lot(11, 300)], now: now)))
+        pool: StockPool(lots: [lot(10, 200), lot(11, 300)], now: now),
+        substitutions: [PlanSubstitution(originalID: 10, substituteID: 11, substituteGramsPerOriginalGram: 1, note: "margarine", reviewed: true)]))
     XCTAssertEqual(second.dinners[1].lines[0].lineState, .short)
   }
 
@@ -202,8 +202,8 @@ final class LeChefPlanAllocatorTests: XCTestCase {
     let plan = PlanAllocating.allocate(
       request(
         candidates: [recipe],
-        substitutions: [PlanSubstitution(originalID: 10, substituteID: 11, substituteGramsPerOriginalGram: 1, note: "margarine", reviewed: true)],
-        pool: StockPool(lots: [lot(10, 200), lot(11, 50)], now: now)))
+        pool: StockPool(lots: [lot(10, 200), lot(11, 50)], now: now),
+        substitutions: [PlanSubstitution(originalID: 10, substituteID: 11, substituteGramsPerOriginalGram: 1, note: "margarine", reviewed: true)]))
     XCTAssertEqual(plan.dinners[0].lines[0].lineState, .short)
     XCTAssertEqual(plan.dinners[0].lines[0].swap, nil)
   }
@@ -218,8 +218,8 @@ final class LeChefPlanAllocatorTests: XCTestCase {
     let plan = PlanAllocating.allocate(
       request(
         dinners: 1, candidates: [allergic, safe],
-        eaters: [PlanEater(id: "e1", blockedIngredientIDs: [10])],
-        pool: StockPool(lots: [lot(10, 100), lot(11, 100)], now: now)))
+        pool: StockPool(lots: [lot(10, 100), lot(11, 100)], now: now),
+        eaters: [PlanEater(id: "e1", blockedIngredientIDs: [10])]))
     XCTAssertEqual(plan.dinners.count, 1)
     XCTAssertEqual(plan.dinners[0].recipeDatabaseID, 2)
   }

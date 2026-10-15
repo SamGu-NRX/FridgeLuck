@@ -222,8 +222,9 @@ final class LeChefPlanPersistenceTests: XCTestCase {
     try dbQueue.write { db in try PlanDataAdapter.save(makePlan(lines: 3), in: db) }
     let loaded = try PlanDataAdapter(dbQueue: dbQueue, now: now).load(planID: "plan_replace")
     XCTAssertEqual(loaded?.dinners[0].lines.count, 3)
-    let count = try Int.fetchOne(
-      dbQueue, sql: "SELECT COUNT(*) FROM cook_plan WHERE id = 'plan_replace'")
+    let count = try dbQueue.read { db in
+      try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM cook_plan WHERE id = 'plan_replace'")
+    }
     XCTAssertEqual(count, 1)
   }
 
@@ -247,8 +248,14 @@ final class LeChefPlanPersistenceTests: XCTestCase {
     try dbQueue.write { db in
       try db.execute(sql: "DELETE FROM cook_plan WHERE id = 'plan_cascade'")
     }
-    XCTAssertEqual(try Int.fetchOne(dbQueue, sql: "SELECT COUNT(*) FROM cook_plan_dinner"), 0)
-    XCTAssertEqual(try Int.fetchOne(dbQueue, sql: "SELECT COUNT(*) FROM cook_plan_line"), 0)
+    let dinnerCount = try dbQueue.read { db in
+      try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM cook_plan_dinner")
+    }
+    let lineCount = try dbQueue.read { db in
+      try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM cook_plan_line")
+    }
+    XCTAssertEqual(dinnerCount, 0)
+    XCTAssertEqual(lineCount, 0)
   }
 
   // MARK: - Snapshot read
