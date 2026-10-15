@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-12T18:30:00Z",
+  "eater": "you",
+  "id": "3c4d5e6f-1111-4c00-8d00-000000000001",
+  "ingredient": null,
+  "kind": "recipe_rated",
+  "payload": {
+    "cookEventId": "2b3c4d5e-0001-4b00-9c00-000000000001",
+    "rating": 4
+  },
+  "recipe": {
+    "id": "1",
+    "revision": 1,
+    "source": "catalog"
+  },
+  "surface": "cook.complete"
+}
